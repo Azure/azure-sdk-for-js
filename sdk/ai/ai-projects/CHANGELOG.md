@@ -1,5 +1,15 @@
 # Release History
 
+## 2.6.0 (Unreleased)
+
+### Features Added
+
+- Add `project.beta.agentInsightMonitors` for creating and managing Agent Insights monitors, runs, and insights. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add `project.agents.generateAgent` and voice-agent configuration and realtime event models. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add Microsoft 365 publishing operations and digital-worker metadata to `project.agents`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add `project.beta.agentEndpointConversations` and `project.beta.voiceAgentWebSocket` routes for voice-agent conversations and realtime connections. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add hosted-agent session configuration and routine dispatch authorization options. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added

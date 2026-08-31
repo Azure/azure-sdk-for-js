@@ -253,6 +253,16 @@ Walk the remaining diff and apply these conventions (the emitter routinely undoe
 
 General principle: when the emitted code disagrees with the prior `src/` style, prefer the prior `src/` convention.
 
+Run the package autofix before manually correcting import declarations:
+
+```powershell
+pnpm lint:fix
+```
+
+This fixes the routine `import` versus `import type` drift. Review the resulting diff, then
+correct any compiler-only cases where a runtime function was incorrectly emitted under
+`import type`; alias a runtime import when needed to avoid shadowing an existing parameter.
+
 ### Step 5b: Sync renamed positional parameters in function bodies
 
 When the customization layer renames a positional parameter (e.g. spec `agentSessionId` → custom `sessionId`, or spec `name` → custom `toolboxName` for toolbox operations), the **signature** is updated by the customization but the **body** of the function and any helper invocations are not. You will see TS2304 `Cannot find name 'agentSessionId'` errors. Fix in lockstep with the signature.
@@ -323,6 +333,7 @@ If `temp/typespec-commit-descriptions.md` exists, also spot-check that the API r
 Finally:
 
 ```powershell
+pnpm lint
 npm run check-format
 ```
 

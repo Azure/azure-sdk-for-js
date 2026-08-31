@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../index.js";
+import type { AIProjectContext as Client } from "../../index.js";
 import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import type {
   _AgentsPagedResultVoiceConversation,
@@ -12,9 +12,9 @@ import type {
   _AgentsPagedResultRealtimeConversationItem,
   VoiceItemAudioResponse,
   VoiceRecordingResponse,
-  AgentEndpointConversationsGetAgentConversationAudioContentResponse,
-  AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
-} from "../../models/models.js";
+  BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse,
+  BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
+} from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
   _agentsPagedResultVoiceConversationDeserializer,
@@ -25,23 +25,23 @@ import {
   _agentsPagedResultRealtimeConversationItemDeserializer,
   voiceItemAudioResponseDeserializer,
   voiceRecordingResponseDeserializer,
-} from "../../models/models.js";
+} from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
-  AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
-  AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
-  AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
-  AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
-  AgentEndpointConversationsGetAgentConversationItemOptionalParams,
-  AgentEndpointConversationsListAgentConversationItemsOptionalParams,
-  AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
-  AgentEndpointConversationsGetAgentConversationResponseOptionalParams,
-  AgentEndpointConversationsListAgentConversationResponsesOptionalParams,
-  AgentEndpointConversationsDeleteAgentConversationOptionalParams,
-  AgentEndpointConversationsGetAgentConversationOptionalParams,
-  AgentEndpointConversationsListAgentConversationsOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams,
+  BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationsOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -50,7 +50,7 @@ export function _getAgentConversationAudioContentSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -78,8 +78,8 @@ export function _getAgentConversationAudioContentSend(
 
 export async function _getAgentConversationAudioContentDeserialize(
   result: PathUncheckedResponse &
-    AgentEndpointConversationsGetAgentConversationAudioContentResponse,
-): Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse> {
+    BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse,
+): Promise<BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -108,10 +108,10 @@ export async function getAgentConversationAudioContent(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams = {
     requestOptions: {},
   },
-): Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse> {
+): Promise<BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse> {
   const streamableMethod = _getAgentConversationAudioContentSend(
     context,
     agentName,
@@ -126,7 +126,7 @@ export function _getAgentConversationAudioSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationAudioOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -184,7 +184,7 @@ export async function getAgentConversationAudio(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationAudioOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams = {
     requestOptions: {},
   },
 ): Promise<VoiceRecordingResponse> {
@@ -197,7 +197,7 @@ export function _getAgentConversationItemAudioContentSend(
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -226,8 +226,8 @@ export function _getAgentConversationItemAudioContentSend(
 
 export async function _getAgentConversationItemAudioContentDeserialize(
   result: PathUncheckedResponse &
-    AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
-): Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse> {
+    BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
+): Promise<BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -253,10 +253,10 @@ export async function getAgentConversationItemAudioContent(
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams = {
     requestOptions: {},
   },
-): Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse> {
+): Promise<BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse> {
   const streamableMethod = _getAgentConversationItemAudioContentSend(
     context,
     agentName,
@@ -273,7 +273,7 @@ export function _getAgentConversationItemAudioSend(
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -329,7 +329,7 @@ export async function getAgentConversationItemAudio(
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams = {
     requestOptions: {},
   },
 ): Promise<VoiceItemAudioResponse> {
@@ -348,7 +348,7 @@ export function _getAgentConversationItemSend(
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -403,7 +403,7 @@ export async function getAgentConversationItem(
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams = {
     requestOptions: {},
   },
 ): Promise<RealtimeConversationItemUnion> {
@@ -421,7 +421,7 @@ export function _listAgentConversationItemsSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsListAgentConversationItemsOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -476,7 +476,7 @@ export function listAgentConversationItems(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsListAgentConversationItemsOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
@@ -494,7 +494,7 @@ export function _listAgentConversationResponseItemsSend(
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -552,7 +552,7 @@ export function listAgentConversationResponseItems(
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
@@ -577,7 +577,7 @@ export function _getAgentConversationResponseSend(
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: AgentEndpointConversationsGetAgentConversationResponseOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -629,7 +629,7 @@ export async function getAgentConversationResponse(
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: AgentEndpointConversationsGetAgentConversationResponseOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams = {
     requestOptions: {},
   },
 ): Promise<VoiceResponse> {
@@ -647,7 +647,7 @@ export function _listAgentConversationResponsesSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsListAgentConversationResponsesOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -702,7 +702,7 @@ export function listAgentConversationResponses(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsListAgentConversationResponsesOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<VoiceResponse> {
@@ -719,7 +719,9 @@ export function _deleteAgentConversationSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsDeleteAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
@@ -763,7 +765,9 @@ export async function deleteAgentConversation(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsDeleteAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<void> {
   const result = await _deleteAgentConversationSend(context, agentName, conversationId, options);
   return _deleteAgentConversationDeserialize(result);
@@ -773,7 +777,9 @@ export function _getAgentConversationSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsGetAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
@@ -821,7 +827,9 @@ export async function getAgentConversation(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsGetAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<VoiceConversation> {
   const result = await _getAgentConversationSend(context, agentName, conversationId, options);
   return _getAgentConversationDeserialize(result);
@@ -830,7 +838,9 @@ export async function getAgentConversation(
 export function _listAgentConversationsSend(
   context: Client,
   agentName: string,
-  options: AgentEndpointConversationsListAgentConversationsOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsListAgentConversationsOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
@@ -881,7 +891,9 @@ export async function _listAgentConversationsDeserialize(
 export function listAgentConversations(
   context: Client,
   agentName: string,
-  options: AgentEndpointConversationsListAgentConversationsOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsListAgentConversationsOptionalParams = {
+    requestOptions: {},
+  },
 ): PagedAsyncIterableIterator<VoiceConversation> {
   return buildPagedAsyncIterator(
     context,

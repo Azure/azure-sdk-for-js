@@ -4,6 +4,7 @@
 import type {
   RoutineTriggerUnion,
   RoutineActionUnion,
+  RoutineAuthorization,
   RoutineDispatchPayloadUnion,
 } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
@@ -88,4 +89,6 @@ export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptio
   triggers?: Record<string, RoutineTriggerUnion>;
   /** The action executed when the routine fires. */
   action?: RoutineActionUnion;
+  /** Optional authorization configuration for dispatching a newly created routine. Ignored when updating an existing routine. */
+  authorization?: RoutineAuthorization;
 }

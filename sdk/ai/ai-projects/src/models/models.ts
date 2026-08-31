@@ -33,6 +33,8 @@ export interface Agent {
   };
   /** The endpoint configuration for the agent */
   agent_endpoint?: AgentEndpointConfig;
+  /** (Preview) The type of digital worker (previously known as `autopilot`). If omitted, it is not a digital worker. */
+  digital_worker_type?: DigitalWorkerType;
   /** The instance identity of the agent */
   readonly instance_identity?: AgentIdentity;
   /** The blueprint for the agent */
@@ -53,6 +55,7 @@ export function agentDeserializer(item: any): Agent {
     agent_endpoint: !item["agent_endpoint"]
       ? item["agent_endpoint"]
       : agentEndpointConfigDeserializer(item["agent_endpoint"]),
+    digital_worker_type: item["digital_worker_type"],
     instance_identity: !item["instance_identity"]
       ? item["instance_identity"]
       : agentIdentityDeserializer(item["instance_identity"]),
@@ -5501,6 +5504,9 @@ export function botServiceTenantAuthorizationSchemeDeserializer(
   };
 }
 
+/** The type of digital worker. */
+export type DigitalWorkerType = "m365";
+
 /** model interface AgentCard */
 export interface AgentCard {
   /** The version of the agent card. */
@@ -6984,6 +6990,109 @@ export function sessionLogEventDeserializer(item: any): SessionLogEvent {
  */
 export type SessionLogEventType = "log";
 
+export function microsoft365PermissionScopesArraySerializer(
+  result: Array<Microsoft365PermissionScopes>,
+): any[] {
+  return result.map((item) => {
+    return microsoft365PermissionScopesSerializer(item);
+  });
+}
+
+/** A set of delegated permission scopes requested from a single resource application. */
+export interface Microsoft365PermissionScopes {
+  /** Application id of the resource that exposes the requested delegated scopes. */
+  resourceAppId: string;
+  /** Delegated scope names requested from the resource application. Must not be empty. */
+  scopes: string[];
+}
+
+export function microsoft365PermissionScopesSerializer(item: Microsoft365PermissionScopes): any {
+  return {
+    resourceAppId: item["resourceAppId"],
+    scopes: item["scopes"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** The publish scope for the generated Microsoft Teams app. */
+export type Microsoft365PublishScope = "Personal" | "Shared" | "Tenant";
+
+/** Response from publishing an agent to Microsoft 365 / Microsoft Teams. */
+export interface Microsoft365PublishResponse {
+  /** The Microsoft 365 title id of the published app. */
+  titleId?: string;
+  /** The Microsoft Teams app id of the published app. */
+  teamsAppId?: string;
+}
+
+export function microsoft365PublishResponseDeserializer(item: any): Microsoft365PublishResponse {
+  return {
+    titleId: item["titleId"],
+    teamsAppId: item["teamsAppId"],
+  };
+}
+
+/**
+ * Default and previously-published values used to pre-populate a Microsoft 365 publish request for a
+ * Foundry agent.
+ */
+export interface Microsoft365PublishDefaults {
+  /** The publish scope. */
+  appPublishScope?: Microsoft365PublishScope;
+  /** The agent name. */
+  agentName?: string;
+  /**
+   * The user-facing display name for the agent. Defaults to the agent name if not previously
+   * overridden.
+   */
+  agentDisplayName?: string;
+  /** The app-registration client id associated with the agent. */
+  appRegistrationClientId?: string;
+  /** ARM resource id of the Azure Bot Service associated with the previously-published app, if any. */
+  botServiceArmId?: string;
+  /** The most recently published app version. */
+  appVersion?: string;
+  /** The recommended next app version (the most recent app version, incremented). */
+  recommendedNextAppVersion?: string;
+  /** The Microsoft 365 title id of the previously-published app, if any. */
+  titleId?: string;
+  /** The Microsoft Teams app id of the previously-published app, if any. */
+  teamsAppId?: string;
+  /** Short, one-line description shown in the Teams app listing. */
+  shortDescription?: string;
+  /** Full description shown on the Teams app details page. */
+  fullDescription?: string;
+  /** Display name of the developer / publisher. */
+  developerName?: string;
+  /** Developer / publisher website URL. */
+  developerWebsiteUrl?: string;
+  /** Privacy policy URL. */
+  privacyUrl?: string;
+  /** Terms-of-use URL. */
+  termsOfUseUrl?: string;
+}
+
+export function microsoft365PublishDefaultsDeserializer(item: any): Microsoft365PublishDefaults {
+  return {
+    appPublishScope: item["appPublishScope"],
+    agentName: item["agentName"],
+    agentDisplayName: item["agentDisplayName"],
+    appRegistrationClientId: item["appRegistrationClientId"],
+    botServiceArmId: item["botServiceArmId"],
+    appVersion: item["appVersion"],
+    recommendedNextAppVersion: item["recommendedNextAppVersion"],
+    titleId: item["titleId"],
+    teamsAppId: item["teamsAppId"],
+    shortDescription: item["shortDescription"],
+    fullDescription: item["fullDescription"],
+    developerName: item["developerName"],
+    developerWebsiteUrl: item["developerWebsiteUrl"],
+    privacyUrl: item["privacyUrl"],
+    termsOfUseUrl: item["termsOfUseUrl"],
+  };
+}
+
 /** Response from uploading a file to a session sandbox. */
 export interface SessionFileWriteResponse {
   /** The path where the file was written, relative to the session home directory. */
@@ -7242,7 +7351,6 @@ export type ToolboxToolType =
   | "code_interpreter"
   | "file_search"
   | "web_search"
-  | "shell"
   | "mcp"
   | "azure_ai_search"
   | "openapi"
@@ -7253,8 +7361,9 @@ export type ToolboxToolType =
   | "fabric_iq_preview"
   | "toolbox_search"
   | "toolbox_search_preview"
-  | "web_iq_preview"
-  | "a2a";
+  | "a2a"
+  | "shell"
+  | "web_iq_preview";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -8069,6 +8178,284 @@ export function toolboxVersionObjectArrayDeserializer(result: Array<ToolboxVersi
   return result.map((item) => {
     return toolboxVersionObjectDeserializer(item);
   });
+}
+
+/** The trigger that started an agent insight run. */
+export type AgentInsightRunTrigger = "on_demand" | "scheduled";
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultAgentInsightRun {
+  /** The requested list of items. */
+  data: AgentInsightRun[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultAgentInsightRunDeserializer(
+  item: any,
+): _AgentsPagedResultAgentInsightRun {
+  return {
+    data: agentInsightRunArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function agentInsightRunArrayDeserializer(result: Array<AgentInsightRun>): any[] {
+  return result.map((item) => {
+    return agentInsightRunDeserializer(item);
+  });
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultAgentInsight {
+  /** The requested list of items. */
+  data: AgentInsight[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultAgentInsightDeserializer(
+  item: any,
+): _AgentsPagedResultAgentInsight {
+  return {
+    data: agentInsightArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function agentInsightArrayDeserializer(result: Array<AgentInsight>): any[] {
+  return result.map((item) => {
+    return agentInsightDeserializer(item);
+  });
+}
+
+/** A persisted issue discovered from an agent's traces. */
+export interface AgentInsight {
+  /** The insight identifier. */
+  readonly id: string;
+  /** The Agent Insights monitor this insight belongs to. */
+  readonly monitor_id: string;
+  /** The agent this insight belongs to. */
+  readonly agent_name: string;
+  /** The latest immutable agent version associated with this insight. */
+  readonly agent_version: string;
+  /** A short title for the issue. */
+  readonly title: string;
+  /** The severity of the issue. */
+  readonly severity: AgentInsightSeverity;
+  /** An open, service-generated category label for the issue. Clients must accept previously unseen values. */
+  readonly category: string;
+  /** The lifecycle status of the insight. */
+  readonly status: AgentInsightStatus;
+  /** The number of traces that provide evidence for this insight. */
+  readonly trace_count: number;
+  /** The time when this insight was created. */
+  readonly created_at: Date;
+  /** The time when this insight was last updated. */
+  readonly updated_at: Date;
+  /** The root-cause diagnosis for the issue. */
+  readonly description: string;
+  /** Additional insight details. Omitted unless details are requested. */
+  readonly details?: AgentInsightDetails;
+}
+
+export function agentInsightDeserializer(item: any): AgentInsight {
+  return {
+    id: item["id"],
+    monitor_id: item["monitor_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    title: item["title"],
+    severity: item["severity"],
+    category: item["category"],
+    status: item["status"],
+    trace_count: item["trace_count"],
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+    description: item["description"],
+    details: !item["details"] ? item["details"] : agentInsightDetailsDeserializer(item["details"]),
+  };
+}
+
+/** The severity of an agent insight. */
+export type AgentInsightSeverity = "high" | "medium" | "low";
+
+/** The lifecycle status of an agent insight. */
+export type AgentInsightStatus = "active" | "resolved" | "ignored";
+
+/** Additional insight details. Omitted unless details are requested. */
+export interface AgentInsightDetails {
+  /** Up to 5 highlighted traces that provide evidence for this insight. */
+  highlighted_traces: AgentInsightHighlightedTrace[];
+  /** Up to 200 most recent traces linked to this insight as supporting evidence. */
+  linked_traces: AgentInsightLinkedTrace[];
+  /** The recommended remediation for this insight. */
+  recommended_actions: AgentInsightRecommendedAction;
+}
+
+export function agentInsightDetailsDeserializer(item: any): AgentInsightDetails {
+  return {
+    highlighted_traces: agentInsightHighlightedTraceArrayDeserializer(item["highlighted_traces"]),
+    linked_traces: agentInsightLinkedTraceArrayDeserializer(item["linked_traces"]),
+    recommended_actions: agentInsightRecommendedActionDeserializer(item["recommended_actions"]),
+  };
+}
+
+export function agentInsightHighlightedTraceArrayDeserializer(
+  result: Array<AgentInsightHighlightedTrace>,
+): any[] {
+  return result.map((item) => {
+    return agentInsightHighlightedTraceDeserializer(item);
+  });
+}
+
+/** A highlighted trace that provides evidence for an agent insight. */
+export interface AgentInsightHighlightedTrace {
+  /** The trace identifier. */
+  readonly trace_id: string;
+  /** A short summary of the trace. */
+  summary: string;
+  /** The end-to-end duration of the trace in milliseconds. */
+  duration_ms: number;
+  /** Aggregate input and output tokens reported across all model inference calls in this trace, including calls to different models. Intended for relative usage comparison, not cost estimation. */
+  total_tokens?: number;
+  /** The time when the trace was recorded. */
+  timestamp: Date;
+}
+
+export function agentInsightHighlightedTraceDeserializer(item: any): AgentInsightHighlightedTrace {
+  return {
+    trace_id: item["trace_id"],
+    summary: item["summary"],
+    duration_ms: item["duration_ms"],
+    total_tokens: item["total_tokens"],
+    timestamp: new Date(item["timestamp"] * 1000),
+  };
+}
+
+export function agentInsightLinkedTraceArrayDeserializer(
+  result: Array<AgentInsightLinkedTrace>,
+): any[] {
+  return result.map((item) => {
+    return agentInsightLinkedTraceDeserializer(item);
+  });
+}
+
+/** A lightweight trace reference linked to an agent insight as supporting evidence. */
+export interface AgentInsightLinkedTrace {
+  /** The trace identifier. */
+  readonly trace_id: string;
+  /** The time when the trace was recorded. */
+  readonly timestamp: Date;
+}
+
+export function agentInsightLinkedTraceDeserializer(item: any): AgentInsightLinkedTrace {
+  return {
+    trace_id: item["trace_id"],
+    timestamp: new Date(item["timestamp"] * 1000),
+  };
+}
+
+/** The recommended remediation for an agent insight. */
+export interface AgentInsightRecommendedAction {
+  /** The single recommended fix for the issue represented by the insight. */
+  proposed_fix: AgentInsightProposedFix;
+}
+
+export function agentInsightRecommendedActionDeserializer(
+  item: any,
+): AgentInsightRecommendedAction {
+  return {
+    proposed_fix: agentInsightProposedFixDeserializer(item["proposed_fix"]),
+  };
+}
+
+/** A recommended fix for an agent insight. */
+export interface AgentInsightProposedFix {
+  /** The proposed-fix discriminator. */
+  kind: AgentInsightProposedFixKind;
+  /** The human-readable remediation guidance. */
+  text: string;
+  /** The concrete changes. Omitted for a prose-only fix. */
+  changes?: AgentInsightProposedFixChange[];
+}
+
+export function agentInsightProposedFixDeserializer(item: any): AgentInsightProposedFix {
+  return {
+    kind: item["kind"],
+    text: item["text"],
+    changes: !item["changes"]
+      ? item["changes"]
+      : agentInsightProposedFixChangeArrayDeserializer(item["changes"]),
+  };
+}
+
+/** The customer-renderable kind of an agent insight's proposed fix. */
+export type AgentInsightProposedFixKind = "prose" | "code_change" | "prompt_change";
+
+export function agentInsightProposedFixChangeArrayDeserializer(
+  result: Array<AgentInsightProposedFixChange>,
+): any[] {
+  return result.map((item) => {
+    return agentInsightProposedFixChangeDeserializer(item);
+  });
+}
+
+/** A customer-renderable change in a proposed fix. */
+export interface AgentInsightProposedFixChange {
+  /** The source path changed by a code change. */
+  path?: string;
+  /** The language of the changed source path. */
+  language?: string;
+  /** The unified diff for the changed source path. */
+  diff?: string;
+  /** The Prompt surface changed by a Prompt change. */
+  surface?: AgentInsightPromptSurface;
+  /** The user-visible target within a Prompt surface, when needed. */
+  target?: string;
+  /** The bounded Prompt value before the change. Present for Prompt changes, including when null. */
+  old_value?: any;
+  /** The bounded Prompt value after the change. Present for Prompt changes, including when null. */
+  new_value?: any;
+}
+
+export function agentInsightProposedFixChangeDeserializer(
+  item: any,
+): AgentInsightProposedFixChange {
+  return {
+    path: item["path"],
+    language: item["language"],
+    diff: item["diff"],
+    surface: item["surface"],
+    target: item["target"],
+    old_value: item["old_value"],
+    new_value: item["new_value"],
+  };
+}
+
+/** The Prompt surface changed by a proposed fix. */
+export type AgentInsightPromptSurface = "instructions" | "tool";
+
+/** Fields that can be updated on an agent insight. */
+export interface AgentInsightUpdate {
+  /** The lifecycle status to apply to the insight. */
+  status?: AgentInsightStatus;
+}
+
+export function agentInsightUpdateSerializer(item: AgentInsightUpdate): any {
+  return { status: item["status"] };
 }
 
 /** Evaluation Taxonomy Definition */
@@ -9322,6 +9709,362 @@ export function datasetEvaluatorGenerationJobSourceDeserializer(
     description: item["description"],
     name: item["name"],
     version: item["version"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultAgentInsightMonitorListItem {
+  /** The requested list of items. */
+  data: AgentInsightMonitorListItem[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultAgentInsightMonitorListItemDeserializer(
+  item: any,
+): _AgentsPagedResultAgentInsightMonitorListItem {
+  return {
+    data: agentInsightMonitorListItemArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function agentInsightMonitorListItemArrayDeserializer(
+  result: Array<AgentInsightMonitorListItem>,
+): any[] {
+  return result.map((item) => {
+    return agentInsightMonitorListItemDeserializer(item);
+  });
+}
+
+/** An Agent Insights monitor summary returned by list operations. */
+export interface AgentInsightMonitorListItem {
+  /** The monitor identifier. */
+  readonly id: string;
+  /** The agent this monitor analyzes. There can be only one monitor per agent. */
+  readonly agent_name: string;
+  /** Whether scheduled insight generation is armed for the monitor. */
+  readonly enabled: boolean;
+  /** Interval between scheduled insight runs, in hours. */
+  readonly run_interval_hours: number;
+  /** The model deployment to use for analyzing traces. Accepts either the deployment name alone or with the connection name as '{connectionName}/modelDeploymentName'. */
+  readonly model_deployment_name: string;
+  /** The next time a scheduled agent insight run will start. Omitted when scheduled generation is disabled. */
+  readonly next_scheduled_run_at?: Date;
+  /** Estimated cost accumulated by Agent Insights for this monitor. */
+  readonly estimated_cost?: AgentInsightEstimatedCost;
+  /** Why the system suspended scheduled generation. Null when the monitor is not suspended. */
+  readonly suspension: AgentInsightSuspension | null;
+  /** The time when this monitor was last updated. */
+  readonly updated_at: Date;
+}
+
+export function agentInsightMonitorListItemDeserializer(item: any): AgentInsightMonitorListItem {
+  return {
+    id: item["id"],
+    agent_name: item["agent_name"],
+    enabled: item["enabled"],
+    run_interval_hours: item["run_interval_hours"],
+    model_deployment_name: item["model_deployment_name"],
+    next_scheduled_run_at: !item["next_scheduled_run_at"]
+      ? item["next_scheduled_run_at"]
+      : new Date(item["next_scheduled_run_at"] * 1000),
+    estimated_cost: !item["estimated_cost"]
+      ? item["estimated_cost"]
+      : agentInsightEstimatedCostDeserializer(item["estimated_cost"]),
+    suspension: !item["suspension"]
+      ? item["suspension"]
+      : agentInsightSuspensionDeserializer(item["suspension"]),
+    updated_at: new Date(item["updated_at"] * 1000),
+  };
+}
+
+/** Estimated Agent Insights cost. */
+export interface AgentInsightEstimatedCost {
+  /** Estimated cost amount. */
+  amount: number;
+  /** Currency for the estimated cost amount. Agent Insights estimates are reported in US dollars. */
+  currency: "USD";
+}
+
+export function agentInsightEstimatedCostDeserializer(item: any): AgentInsightEstimatedCost {
+  return {
+    amount: item["amount"],
+    currency: item["currency"],
+  };
+}
+
+/** Structured reason why scheduled generation is suspended for a monitor. */
+export interface AgentInsightSuspension {
+  /** Stable, machine-readable suspension category. */
+  code: string;
+  /** Human-readable description of the suspension. */
+  message: string;
+  /** The time when the suspension occurred. */
+  occurred_at: Date;
+  /** Additional reason-specific suspension details. */
+  details?: Record<string, any>;
+}
+
+export function agentInsightSuspensionDeserializer(item: any): AgentInsightSuspension {
+  return {
+    code: item["code"],
+    message: item["message"],
+    occurred_at: new Date(item["occurred_at"] * 1000),
+    details: !item["details"]
+      ? item["details"]
+      : Object.fromEntries(Object.entries(item["details"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Fields accepted when creating an Agent Insights monitor for an agent. */
+export interface AgentInsightMonitorCreate {
+  /** The agent this monitor should analyze. */
+  agent_name: string;
+  /** Whether scheduled insight generation should be armed. Defaults to false. */
+  enabled?: boolean;
+  /** Interval between scheduled insight runs, in hours. Defaults to 6. */
+  run_interval_hours?: number;
+  /** The model deployment to use for analyzing traces. Accepts either the deployment name alone or with the connection name as '{connectionName}/modelDeploymentName'. */
+  model_deployment_name: string;
+}
+
+export function agentInsightMonitorCreateSerializer(item: AgentInsightMonitorCreate): any {
+  return {
+    agent_name: item["agent_name"],
+    enabled: item["enabled"],
+    run_interval_hours: item["run_interval_hours"],
+    model_deployment_name: item["model_deployment_name"],
+  };
+}
+
+/** A per-agent Agent Insights monitor that owns configuration, runs, and discovered insights. */
+export interface AgentInsightMonitor {
+  /** The monitor identifier. */
+  readonly id: string;
+  /** The agent this monitor analyzes. There can be only one monitor per agent. */
+  readonly agent_name: string;
+  /** Whether scheduled insight generation is armed for the monitor. */
+  readonly enabled: boolean;
+  /** Interval between scheduled insight runs, in hours. */
+  readonly run_interval_hours: number;
+  /** The model deployment to use for analyzing traces. Accepts either the deployment name alone or with the connection name as '{connectionName}/modelDeploymentName'. */
+  readonly model_deployment_name: string;
+  /** The next time a scheduled agent insight run will start. Omitted when scheduled generation is disabled. */
+  readonly next_scheduled_run_at?: Date;
+  /** Estimated cost accumulated by Agent Insights for this monitor. */
+  readonly estimated_cost?: AgentInsightEstimatedCost;
+  /** Why the system suspended scheduled generation. Null when the monitor is not suspended. */
+  readonly suspension: AgentInsightSuspension | null;
+  /** The effective overview, or null before an overview is available. */
+  readonly overview: AgentInsightsOverview | null;
+  /** The time when this monitor was last updated. */
+  readonly updated_at: Date;
+}
+
+export function agentInsightMonitorDeserializer(item: any): AgentInsightMonitor {
+  return {
+    id: item["id"],
+    agent_name: item["agent_name"],
+    enabled: item["enabled"],
+    run_interval_hours: item["run_interval_hours"],
+    model_deployment_name: item["model_deployment_name"],
+    next_scheduled_run_at: !item["next_scheduled_run_at"]
+      ? item["next_scheduled_run_at"]
+      : new Date(item["next_scheduled_run_at"] * 1000),
+    estimated_cost: !item["estimated_cost"]
+      ? item["estimated_cost"]
+      : agentInsightEstimatedCostDeserializer(item["estimated_cost"]),
+    suspension: !item["suspension"]
+      ? item["suspension"]
+      : agentInsightSuspensionDeserializer(item["suspension"]),
+    overview: !item["overview"]
+      ? item["overview"]
+      : agentInsightsOverviewDeserializer(item["overview"]),
+    updated_at: new Date(item["updated_at"] * 1000),
+  };
+}
+
+/** The effective overview for an Agent Insights monitor. */
+export interface AgentInsightsOverview {
+  /** The overview content. */
+  content: string;
+  /** Where the effective overview came from. */
+  source: AgentInsightOverviewSource;
+  /** The time when this overview was last updated. */
+  updated_at: Date;
+}
+
+export function agentInsightsOverviewDeserializer(item: any): AgentInsightsOverview {
+  return {
+    content: item["content"],
+    source: item["source"],
+    updated_at: new Date(item["updated_at"] * 1000),
+  };
+}
+
+/** Identifies where an Agent Insights overview came from. */
+export type AgentInsightOverviewSource = "generated" | "user_override";
+
+/** Fields that can be updated on an Agent Insights monitor. */
+export interface AgentInsightMonitorUpdate {
+  /** Whether scheduled insight generation is armed for the monitor. */
+  enabled?: boolean;
+  /** Interval between scheduled insight runs, in hours. */
+  run_interval_hours?: number;
+  /** The model deployment to use for analyzing traces. Accepts either the deployment name alone or with the connection name as '{connectionName}/modelDeploymentName'. */
+  model_deployment_name?: string;
+  /**
+   * Sets the effective user overview, or clears it when explicitly set to null. Omission leaves
+   * the overview unchanged. This field cannot be combined with other monitor updates.
+   */
+  overview_override?: AgentInsightsOverviewOverride;
+}
+
+export function agentInsightMonitorUpdateSerializer(item: AgentInsightMonitorUpdate): any {
+  return {
+    enabled: item["enabled"],
+    run_interval_hours: item["run_interval_hours"],
+    model_deployment_name: item["model_deployment_name"],
+    overview_override: !item["overview_override"]
+      ? item["overview_override"]
+      : agentInsightsOverviewOverrideSerializer(item["overview_override"]),
+  };
+}
+
+/** A user-provided overview that becomes effective immediately and seeds the next generation. */
+export interface AgentInsightsOverviewOverride {
+  /** The nonblank overview content, limited to 64 KiB when encoded as UTF-8. */
+  content: string;
+}
+
+export function agentInsightsOverviewOverrideSerializer(item: AgentInsightsOverviewOverride): any {
+  return { content: item["content"] };
+}
+
+/** Inputs used when creating an agent insight run. */
+export interface AgentInsightRunCreate {
+  /** Optional finite positive number of hours of trace history to analyze, up to 2,160. Defaults to 168. */
+  lookback_hours?: number;
+}
+
+export function agentInsightRunCreateSerializer(item: AgentInsightRunCreate): any {
+  return { lookback_hours: item["lookback_hours"] };
+}
+
+export function agentInsightRunCreateDeserializer(item: any): AgentInsightRunCreate {
+  return {
+    lookback_hours: item["lookback_hours"],
+  };
+}
+
+/** A long-running run that analyzes one agent's traces and updates that agent's insights. */
+export interface AgentInsightRun {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Caller-supplied inputs. */
+  inputs?: AgentInsightRunCreate;
+  /** Result produced on success. */
+  readonly result?: AgentInsightRunResult;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ErrorModel;
+  /** The Agent Insights monitor this run belongs to. */
+  readonly monitor_id: string;
+  /** The agent whose traces are analyzed by this run. */
+  readonly agent_name: string;
+  /** The trigger that started the run. */
+  readonly trigger: AgentInsightRunTrigger;
+  /** The time when this run was created. */
+  readonly created_at: Date;
+  /** The time when this run was last updated. */
+  readonly updated_at: Date;
+  /** The start of the trace window analyzed by this run. */
+  readonly window_start: Date;
+  /** The end of the trace window analyzed by this run. */
+  readonly window_end: Date;
+  /** The time when this run started processing. */
+  readonly started_at?: Date;
+  /** The time when this run reached a terminal status. */
+  readonly completed_at?: Date;
+  /** The model deployment used to analyze traces for this run. */
+  readonly model_deployment_name: string;
+}
+
+export function agentInsightRunDeserializer(item: any): AgentInsightRun {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"] ? item["inputs"] : agentInsightRunCreateDeserializer(item["inputs"]),
+    result: !item["result"] ? item["result"] : agentInsightRunResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    monitor_id: item["monitor_id"],
+    agent_name: item["agent_name"],
+    trigger: item["trigger"],
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+    window_start: new Date(item["window_start"] * 1000),
+    window_end: new Date(item["window_end"] * 1000),
+    started_at: !item["started_at"] ? item["started_at"] : new Date(item["started_at"] * 1000),
+    completed_at: !item["completed_at"]
+      ? item["completed_at"]
+      : new Date(item["completed_at"] * 1000),
+    model_deployment_name: item["model_deployment_name"],
+  };
+}
+
+/** Result statistics produced when an agent insight run succeeds. */
+export interface AgentInsightRunResult {
+  /** The number of traces in the analyzed time window. */
+  traces_in_window: number;
+  /** The number of traces analyzed by the run. */
+  traces_analyzed: number;
+  /** The number of insights created by the run. */
+  insights_created: number;
+  /** The number of insights updated by the run. */
+  insights_updated: number;
+  /** The number of insights reopened by the run. */
+  insights_reopened: number;
+  /** Token usage for the run's insight-generation analysis. */
+  token_usage: AgentInsightTokenUsage;
+}
+
+export function agentInsightRunResultDeserializer(item: any): AgentInsightRunResult {
+  return {
+    traces_in_window: item["traces_in_window"],
+    traces_analyzed: item["traces_analyzed"],
+    insights_created: item["insights_created"],
+    insights_updated: item["insights_updated"],
+    insights_reopened: item["insights_reopened"],
+    token_usage: agentInsightTokenUsageDeserializer(item["token_usage"]),
+  };
+}
+
+/** Token usage for an Agent Insights run. */
+export interface AgentInsightTokenUsage {
+  /** The number of input tokens used by the run. */
+  input_tokens: number;
+  /** The number of output tokens used by the run. */
+  output_tokens: number;
+  /** The number of input tokens served from cache. */
+  cached_tokens?: number;
+  /** The total number of tokens used by the run. */
+  total_tokens: number;
+}
+
+export function agentInsightTokenUsageDeserializer(item: any): AgentInsightTokenUsage {
+  return {
+    input_tokens: item["input_tokens"],
+    output_tokens: item["output_tokens"],
+    cached_tokens: item["cached_tokens"],
+    total_tokens: item["total_tokens"],
   };
 }
 
@@ -11426,6 +12169,19 @@ export function invokeAgentInvocationsApiRoutineActionDeserializer(
     session_id: item["session_id"],
   };
 }
+
+/** Optional authorization configuration for a routine dispatch. */
+export interface RoutineAuthorization {
+  /** The identity used when dispatching the routine. Defaults to agent when omitted; set to creator only when the customer opts in to creator identity dispatch. */
+  identity?: RoutineDispatchIdentity;
+}
+
+export function routineAuthorizationSerializer(item: RoutineAuthorization): any {
+  return { identity: item["identity"] };
+}
+
+/** The supported identities for routine dispatch authorization. */
+export type RoutineDispatchIdentity = "agent" | "creator";
 
 /** A routine definition returned by the service. */
 export interface Routine {
@@ -13813,12 +14569,14 @@ export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestTyp
 /** Type of AgentType */
 export type AgentType =
   "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
+
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
 export type AgentDefinitionOptInKeys =
   | "WorkflowAgents=V1Preview"
   | "ExternalAgents=V1Preview"
   | "DraftAgents=V1Preview"
-  | "VoiceAgents=V1Preview";
+  | "VoiceAgents=V1Preview"
+  | "DigitalWorker=V1Preview";
 
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
@@ -13829,6 +14587,7 @@ export type FoundryFeaturesOptInKeys =
   | "Schedules=V1Preview"
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
+  | "AgentInsights=V1Preview"
   | "MemoryStores=V1Preview"
   | "Routines=V1Preview"
   | "Routines=V2Preview"
@@ -13854,6 +14613,23 @@ export enum KnownApiVersions {
 }
 
 export type AgentsDownloadSessionFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type GetMicrosoft365PackageResponse = {
   /**
    * BROWSER ONLY
    *
@@ -13975,7 +14751,7 @@ export function specificProgrammaticToolCallingParamSerializer(
 export interface SessionConfiguration {
   /**
    * The idle duration, in seconds, before a session's sandbox is suspended. Optional — when
-   * unset, the server default of 900 seconds is used. Must be between 300 and 3600 seconds
+   * unset, the server default of 900 seconds is used. Must be between 120 and 3600 seconds
    * (inclusive).
    */
   idle_timeout_seconds?: number;
@@ -16214,7 +16990,7 @@ export function voiceResponseArrayDeserializer(result: Array<VoiceResponse>): an
  * (`GET .../responses/{response_id}/items`) for its output items. `created_at`/`completed_at` are Foundry
  * durable ordering extensions.
  */
-export interface VoiceResponse extends OmitPropertiesRealtimeResponse {
+export interface VoiceResponse extends VoiceResponseBase {
   /** The unique id of the response. */
   id: string;
   /** The output items produced by the response. May be omitted in list results; retrieve the full response (GET .../responses/{response_id}) or use the paged response-items route (GET .../responses/{response_id}/items) for its output items. Each item's `response_id` also links it back to this response in the conversation-level items list. */
@@ -16250,7 +17026,7 @@ export function voiceResponseDeserializer(item: any): VoiceResponse {
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _omitPropertiesMaxOutputTokensDeserializer(item["max_output_tokens"]),
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
     output: !item["output"]
       ? item["output"]
       : realtimeConversationItemUnionArrayDeserializer(item["output"]),
@@ -16672,7 +17448,7 @@ export function realtimeMCPToolCallDeserializer(item: any): RealtimeMCPToolCall 
 
 /** model interface RealtimeMCPError */
 export interface RealtimeMCPError {
-  type: RealtimeMcpErrorType;
+  type: RealtimeMCPErrorType;
 }
 
 export function realtimeMCPErrorSerializer(item: RealtimeMCPError): any {
@@ -16689,7 +17465,7 @@ export function realtimeMCPErrorDeserializer(item: any): RealtimeMCPError {
 export type RealtimeMCPErrorUnion =
   | RealtimeMCPProtocolError
   | RealtimeMCPToolExecutionError
-  | RealtimeMcphttpError
+  | RealtimeMCPHttpError
   | RealtimeMCPError;
 
 export function realtimeMCPErrorUnionSerializer(item: RealtimeMCPErrorUnion): any {
@@ -16701,7 +17477,7 @@ export function realtimeMCPErrorUnionSerializer(item: RealtimeMCPErrorUnion): an
       return realtimeMCPToolExecutionErrorSerializer(item as RealtimeMCPToolExecutionError);
 
     case "http_error":
-      return realtimeMcphttpErrorSerializer(item as RealtimeMcphttpError);
+      return realtimeMCPHttpErrorSerializer(item as RealtimeMCPHttpError);
 
     default:
       return realtimeMCPErrorSerializer(item);
@@ -16717,15 +17493,15 @@ export function realtimeMCPErrorUnionDeserializer(item: any): RealtimeMCPErrorUn
       return realtimeMCPToolExecutionErrorDeserializer(item as RealtimeMCPToolExecutionError);
 
     case "http_error":
-      return realtimeMcphttpErrorDeserializer(item as RealtimeMcphttpError);
+      return realtimeMCPHttpErrorDeserializer(item as RealtimeMCPHttpError);
 
     default:
       return realtimeMCPErrorDeserializer(item);
   }
 }
 
-/** Type of RealtimeMcpErrorType */
-export type RealtimeMcpErrorType = "protocol_error" | "tool_execution_error" | "http_error";
+/** Type of RealtimeMCPErrorType */
+export type RealtimeMCPErrorType = "protocol_error" | "tool_execution_error" | "http_error";
 
 /** model interface RealtimeMCPProtocolError */
 export interface RealtimeMCPProtocolError extends RealtimeMCPError {
@@ -16765,18 +17541,18 @@ export function realtimeMCPToolExecutionErrorDeserializer(
   };
 }
 
-/** model interface RealtimeMcphttpError */
-export interface RealtimeMcphttpError extends RealtimeMCPError {
+/** model interface RealtimeMCPHttpError */
+export interface RealtimeMCPHttpError extends RealtimeMCPError {
   type: "http_error";
   code: number;
   message: string;
 }
 
-export function realtimeMcphttpErrorSerializer(item: RealtimeMcphttpError): any {
+export function realtimeMCPHttpErrorSerializer(item: RealtimeMCPHttpError): any {
   return { type: item["type"], code: item["code"], message: item["message"] };
 }
 
-export function realtimeMcphttpErrorDeserializer(item: any): RealtimeMcphttpError {
+export function realtimeMCPHttpErrorDeserializer(item: any): RealtimeMCPHttpError {
   return {
     type: item["type"],
     code: item["code"],
@@ -16874,8 +17650,8 @@ export function voiceResponseAudioOutputDeserializer(item: any): VoiceResponseAu
   };
 }
 
-/** The template for omitting properties. */
-export interface OmitPropertiesRealtimeResponse {
+/** Properties shared by persisted voice responses. */
+export interface VoiceResponseBase {
   /** The unique ID of the response, will look like `resp_1234`. */
   id?: string;
   /** The object type, must be `realtime.response`. */
@@ -16916,9 +17692,7 @@ export interface OmitPropertiesRealtimeResponse {
   max_output_tokens?: number | "inf";
 }
 
-export function omitPropertiesRealtimeResponseDeserializer(
-  item: any,
-): OmitPropertiesRealtimeResponse {
+export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
   return {
     id: item["id"],
     object: item["object"],
@@ -16935,7 +17709,7 @@ export function omitPropertiesRealtimeResponseDeserializer(
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _omitPropertiesMaxOutputTokensDeserializer(item["max_output_tokens"]),
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
   };
 }
 
@@ -16989,18 +17763,18 @@ export function realtimeResponseStatusDetailsErrorDeserializer(
   };
 }
 
-/** Alias for _OmitPropertiesMaxOutputTokens */
-export type _OmitPropertiesMaxOutputTokens = number | "inf";
+/** Alias for _VoiceResponseBaseMaxOutputTokens */
+export type _VoiceResponseBaseMaxOutputTokens = number | "inf";
 
-export function _omitPropertiesMaxOutputTokensSerializer(
-  item: _OmitPropertiesMaxOutputTokens,
+export function _voiceResponseBaseMaxOutputTokensSerializer(
+  item: _VoiceResponseBaseMaxOutputTokens,
 ): any {
   return item;
 }
 
-export function _omitPropertiesMaxOutputTokensDeserializer(
+export function _voiceResponseBaseMaxOutputTokensDeserializer(
   item: any,
-): _OmitPropertiesMaxOutputTokens {
+): _VoiceResponseBaseMaxOutputTokens {
   return item;
 }
 
@@ -20676,7 +21450,7 @@ export function realtimeServerEventResponseCreatedDeserializer(
 }
 
 /** A live realtime response returned by the voice-agent service in both `response.created` and `response.done` events. */
-export interface VoiceAgentRealtimeResponse extends OmitPropertiesRealtimeResponse1 {
+export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
   /** The audio configuration used by the live response, including flat voice provider, locale, and format fields under `output`. */
   audio?: VoiceResponseAudio;
   /** The items produced by the live response. */
@@ -20701,7 +21475,7 @@ export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeRes
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _omitPropertiesMaxOutputTokensSerializer(item["max_output_tokens"]),
+      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioSerializer(item["audio"]),
     output: !item["output"]
       ? item["output"]
@@ -20727,7 +21501,7 @@ export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRea
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _omitPropertiesMaxOutputTokensDeserializer(item["max_output_tokens"]),
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
     output: !item["output"]
       ? item["output"]
@@ -21779,8 +22553,8 @@ export function voiceAgentServerEventResponseAnimationBlendshapesDeltaSerializer
     output_index: item["output_index"],
     content_index: item["content_index"],
     frames: item["frames"].map((p: any) => {
-      return p.map((p: any) => {
-        return p;
+      return p.map((p1: any) => {
+        return p1;
       });
     }),
     frame_index: item["frame_index"],
@@ -22007,8 +22781,8 @@ export function createTranscriptionResponseJsonUsageUnionDeserializer(
 /** Type of CreateTranscriptionResponseJsonUsageType */
 export type CreateTranscriptionResponseJsonUsageType = "tokens" | "duration";
 
-/** The template for omitting properties. */
-export interface OmitPropertiesRealtimeResponse1 {
+/** Properties shared by realtime responses returned by the voice-agent service. */
+export interface VoiceAgentRealtimeResponseBase {
   /** The unique ID of the response, will look like `resp_1234`. */
   id?: string;
   /** The object type, must be `realtime.response`. */
@@ -22050,8 +22824,8 @@ export interface OmitPropertiesRealtimeResponse1 {
   max_output_tokens?: number | "inf";
 }
 
-export function omitPropertiesRealtimeResponse1Serializer(
-  item: OmitPropertiesRealtimeResponse1,
+export function voiceAgentRealtimeResponseBaseSerializer(
+  item: VoiceAgentRealtimeResponseBase,
 ): any {
   return {
     id: item["id"],
@@ -22070,13 +22844,13 @@ export function omitPropertiesRealtimeResponse1Serializer(
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _omitPropertiesMaxOutputTokensSerializer(item["max_output_tokens"]),
+      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
   };
 }
 
-export function omitPropertiesRealtimeResponse1Deserializer(
+export function voiceAgentRealtimeResponseBaseDeserializer(
   item: any,
-): OmitPropertiesRealtimeResponse1 {
+): VoiceAgentRealtimeResponseBase {
   return {
     id: item["id"],
     object: item["object"],
@@ -22094,7 +22868,7 @@ export function omitPropertiesRealtimeResponse1Deserializer(
         }),
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _omitPropertiesMaxOutputTokensDeserializer(item["max_output_tokens"]),
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
   };
 }
 
@@ -22267,7 +23041,7 @@ export function voiceAgentWebSocketMessageDeserializer(item: any): VoiceAgentWeb
 /** The WebSocket subprotocol supported by a voice-agent connection. */
 export type VoiceAgentWebSocketSubprotocol = "realtime";
 
-export type AgentEndpointConversationsGetAgentConversationAudioContentResponse = {
+export type BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse = {
   /**
    * BROWSER ONLY
    *
@@ -22284,7 +23058,7 @@ export type AgentEndpointConversationsGetAgentConversationAudioContentResponse =
   readableStreamBody?: NodeReadableStream;
 };
 
-export type AgentEndpointConversationsGetAgentConversationItemAudioContentResponse = {
+export type BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse = {
   /**
    * BROWSER ONLY
    *
