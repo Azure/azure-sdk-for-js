@@ -28,6 +28,12 @@ function config(customConfigs?: FlatConfig.ConfigArray) {
   ];
 }
 
+/**
+ * Convenience helper mirroring {@link config}, but based on the
+ * **non-type-checked** `recommendedStrict` preset. Type-aware rules from
+ * `recommendedStrictTypeChecked` are intentionally not included — spread
+ * `configs.recommendedStrictTypeChecked` directly if you need those.
+ */
 function configStrict(customConfigs?: FlatConfig.ConfigArray) {
   return [
     ...configs.recommendedStrict,

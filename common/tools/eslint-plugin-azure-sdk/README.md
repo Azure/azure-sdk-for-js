@@ -70,7 +70,7 @@ export default azsdkEslint.config([
 
 The `recommendedStrict` and `recommendedStrictTypeChecked` presets layer additional maintainability and code-smell rules on top of `recommended`. They are intended for new packages or as part of an incremental cleanup effort. **These presets are intentionally noisy on existing code** — treat findings as a backlog rather than blocking CI until you've triaged them.
 
-> **Scope:** the strict delta only applies to JavaScript and TypeScript files under any `src/` directory (`**/src/**/*.{js,cjs,mjs,ts,cts,mts}`). Non-source files, tests, samples, perf/stress harnesses, and build scripts intentionally bend many of these rules (long test functions, parameter mutation in mocks, deep sample scenarios), so the strict preset deliberately leaves them alone and only the underlying `recommended` rules apply there.
+> **Scope:** the strict delta only applies to JavaScript and TypeScript source files — including their JSX/TSX variants — under any `src/` directory (`**/src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}`). Non-source files, tests, samples, perf/stress harnesses, and build scripts intentionally bend many of these rules (long test functions, parameter mutation in mocks, deep sample scenarios), so the strict preset deliberately leaves them alone and only the underlying `recommended` rules apply there.
 
 #### Usage
 
@@ -81,7 +81,7 @@ import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 export default [...azsdkEslint.configs.recommendedStrictTypeChecked];
 ```
 
-Alternatively, use the `configStrict()` convenience helper (mirrors `config()` but based on `recommendedStrict`):
+The `configStrict()` convenience helper mirrors `config()` — it adds the standard global ignores on top of the preset and accepts extra config objects — but it is based on the **non-type-checked** `recommendedStrict` preset. It is therefore _not_ equivalent to the example above: `configStrict()` omits every type-aware rule (`@typescript-eslint/no-deprecated`, `no-unnecessary-condition`, `switch-exhaustiveness-check`, `only-throw-error`, `return-await`, `prefer-readonly`, `consistent-return`, …). Use it when you don't want (or can't enable) type-aware linting:
 
 ```js
 // eslint.config.mjs
@@ -89,6 +89,8 @@ import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
 export default azsdkEslint.configStrict();
 ```
+
+To keep the type-aware rules while still getting the helper's global ignores, spread `recommendedStrictTypeChecked` yourself as shown in the first example.
 
 #### Peer dependency
 
