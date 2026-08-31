@@ -34,7 +34,7 @@ Use this phase order to avoid mixing unrelated decisions:
 | Phase          | Steps                            | Exit point                                                                                                                                         |
 | -------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Cleanup        | Step -1, Step 0, Step 1          | Upstream intent is known, conflict markers are gone, protected files are restored.                                                                 |
-| Public surface | Step 2, Step 2b, Step 3          | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
+| Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
 | Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                       |
 | Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                            |
 
@@ -60,7 +60,9 @@ Do not use the guide to keep extensive emitted-code changes that are unrelated t
 
 ### Step 0: Resolve diff3 conflict markers (if present)
 
-`dev-tool customization apply` may emit literal git-style conflict markers (`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`) into `src/` files when the spec and the customization layer diverge in the same hunk. **Always take the custom side** (the block between `=======` and `>>>>>>>`):
+`dev-tool customization apply` may emit literal git-style conflict markers (`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`) into `src/` files when the spec and the customization layer diverge in the same hunk. Use the custom side (the block between `=======` and `>>>>>>>`) as the structural starting point, then use Step 2 and Step 2a to restore additions made by the new generated side. The custom side preserves names and hand-written behavior, but it is not semantically complete when the generator added members in the same hunk.
+
+The cleanup below deliberately selects the custom side only as a first pass:
 
 ```powershell
 $conflicted = Get-ChildItem -Recurse -File src -Include *.ts |
@@ -79,7 +81,7 @@ Get-ChildItem -Recurse -File src -Include *.ts |
 
 If the custom side is missing a type that the spec side adds (common when the spec introduces a brand-new model type like `SessionLogEvent`), Step 2 will catch it. Don't try to merge sides by hand here.
 
-Treat custom-side conflict resolution as syntax cleanup, not proof that the file is semantically merged. A large diff3 conflict can retain duplicated model regions or remove existing exports even after all markers are gone. Immediately after resolving markers, run the duplicate scan from Step 2b and compare the exported names in `src/models/models.ts` with `HEAD`. If dozens of duplicates or removals appear, do not repair the merged file declaration by declaration: restore the affected additions-only file from `HEAD`, then use Step 2 to reapply only genuine generated additions.
+Treat custom-side conflict resolution as syntax cleanup, not proof that the file is semantically merged. A conflict can discard a newly generated interface member or request-body property while leaving the file compilable. Immediately after resolving markers, run the member-level check in Step 2a and the duplicate scan from Step 2b. Also compare the exported names in `src/models/models.ts` with `HEAD`. If dozens of duplicates or removals appear, do not repair the merged file declaration by declaration: restore the affected additions-only file from `HEAD`, then use Step 2 to reapply only genuine generated additions.
 
 ### Step 1: Pre-flight — verify protected files are intact
 
@@ -125,7 +127,7 @@ For each file in `generated/` that gained new exports in this regen, copy those 
 - `generated/api/<area>/operations.ts` → `src/api/<area>/operations.ts` (new operation methods)
 - `generated/classic/<area>/index.ts` → `src/classic/<area>/index.ts` (new operations on the classic surface)
 
-**Detection script** — list every type/function exported from `generated/` that is missing in `src/`:
+**Top-level detection script** — list every type/function exported from `generated/` that is missing in `src/`. This does not inspect members of declarations that already exist; Step 2a covers that gap.
 
 ```powershell
 $genFiles = Get-ChildItem -Recurse generated -Include *.ts -File
@@ -168,6 +170,29 @@ Then, for each genuine addition:
 **ApiError / ErrorModel compatibility**: preserve the public error shape from `@azure/ai-projects` 2.1.1. `ApiErrorResponse` and `ErrorModel` are public; a standalone `ApiError` model is not part of the public API surface. If the emitter adds `ApiError`, `apiErrorDeserializer`, or `apiErrorArrayDeserializer` under `generated/`, do **not** propagate those symbols into `src/` exports or API review output. Keep `ApiErrorResponse.error` and job/resource `error` properties typed as `ErrorModel`, and deserialize them with `errorDeserializer`. Do not edit `generated/` just to remove emitted `ApiError`; doing so creates churn for the next merge.
 
 If nothing is missing, this step is a no-op — confirm and move on.
+
+### Step 2a: Check additions inside existing declarations
+
+Run the package-local parity guard after conflict cleanup and top-level propagation:
+
+```powershell
+node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs
+```
+
+The guard has intentionally narrow scope. For TypeScript files changed under `generated/` relative to `HEAD`, it checks only:
+
+- direct members newly added to an existing interface;
+- properties newly added to a request `body` object in an existing `*Send` function.
+
+It compares those additions with the corresponding declaration in `src/` and accounts for the known customized agent declaration names such as `AgentsCreateAgentOptionalParams` → `AgentsCreateOptionalParams` and `_createAgentSend` → `_createSend`. It does not require broad generated/source equality and does not change either tree.
+
+If the guard reports a missing addition, inspect the generated declaration and copy the member or body mapping into the customized declaration, preserving its existing name, style, tracing, and behavior. If a declaration has a new customization rename, add that file-scoped symbol mapping to `symbolRenames` in the guard. Do not suppress a member merely because the custom side omitted it; require explicit upstream or compatibility evidence for any intentional omission.
+
+Rerun the guard until it passes. Validate the guard itself after editing it:
+
+```powershell
+node --test .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.test.mjs
+```
 
 #### Distinguish emitter additions from customization renames
 
@@ -350,4 +375,5 @@ Once the build is green, hand off to the `author-samples` skill.
 - Do **not** delegate the entire build-fix loop to a single subagent prompt with seven independent tasks — observed failure mode is the subagent stopping after 3 of N. Either run fixes inline or split into ≤3 fixes per subagent invocation.
 - Do **not** trust `npx dev-tool run extract-api` after a single source edit — it may pick up stale `dist/` artifacts. Run `npm run build` (which cleans first) before re-extracting if the API report still shows old symbols.
 - Do **not** trust a zero-result protected-file audit unless Git paths were normalized with `--relative`; repository-relative paths silently fail the package-relative comparison.
+- Do **not** treat matching top-level export names as member-level parity. Run Step 2a after resolving conflicts; TypeScript compilation cannot detect an omitted optional member and its omitted request mapping.
 - Do **not** repair a conflict-corrupted model file one duplicate at a time when the diff shows broad existing-export removals. Restore the clean committed customization baseline and propagate only verified additions.
