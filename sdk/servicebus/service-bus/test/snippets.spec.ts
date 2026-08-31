@@ -4,7 +4,7 @@
 import {
   ServiceBusAdministrationClient,
   ServiceBusClient,
-  type ServiceBusRetryOptions,
+  type RetryOptions,
 } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
@@ -22,7 +22,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleConfigureRetries", async () => {
-    const retryOptions: ServiceBusRetryOptions = {
+    const retryOptions: RetryOptions = {
       maxRetries: 5,
       retryDelayInMs: 1000,
       maxRetryDelayInMs: 60000,
