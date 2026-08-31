@@ -89,7 +89,10 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
   public hasMoreResults(): boolean {
     if (this.priorityQueueBufferSize === 0) return false;
-    return this.executionContext.hasMoreResults();
+    // Same terminal-state guard as NonStreamingOrderByEndpointComponent.hasMoreResults: once
+    // fetchMore has gone terminal, an underlying context stuck reporting `true` must not spin
+    // the caller's drain loop on the no-I/O `isCompleted` fast path. See #39626.
+    return !this.isCompleted && this.executionContext.hasMoreResults();
   }
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
@@ -127,11 +130,16 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         return { result: undefined, headers: resHeaders };
       }
 
-      if (
+      resHeaders = response.headers;
+      const pageIsEmpty =
         response.result === undefined ||
         !Array.isArray(response.result.buffer) ||
-        response.result.buffer.length === 0
-      ) {
+        response.result.buffer.length === 0;
+
+      // An empty page is terminal only once the underlying context is exhausted — an interim
+      // empty page can still carry a live continuation token, and completing here would skip
+      // every result behind it.
+      if (pageIsEmpty && !this.executionContext.hasMoreResults()) {
         this.isCompleted = true;
         if (this.aggregateMap.size() > 0) {
           await this.buildFinalResultArray();
@@ -139,21 +147,22 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
           return {
             result,
-            headers: response.headers,
+            headers: resHeaders,
           };
         }
-        return { result: undefined, headers: response.headers };
+        return { result: undefined, headers: resHeaders };
       }
-      resHeaders = response.headers;
 
-      const parallelResult = response.result as ParallelQueryResult;
-      const dataToProcess: NonStreamingOrderByResult[] =
-        parallelResult.buffer as NonStreamingOrderByResult[];
+      if (!pageIsEmpty) {
+        const parallelResult = response.result as ParallelQueryResult;
+        const dataToProcess: NonStreamingOrderByResult[] =
+          parallelResult.buffer as NonStreamingOrderByResult[];
 
-      for (const item of dataToProcess) {
-        if (item) {
-          const key = await hashObject(item?.payload);
-          this.aggregateMap.set(key, item);
+        for (const item of dataToProcess) {
+          if (item) {
+            const key = await hashObject(item?.payload);
+            this.aggregateMap.set(key, item);
+          }
         }
       }
 

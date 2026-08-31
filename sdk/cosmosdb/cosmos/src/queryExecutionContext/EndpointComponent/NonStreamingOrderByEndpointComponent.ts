@@ -53,13 +53,11 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
-    // `isCompleted` is the authoritative "done" signal: `fetchMore` already sets it the moment a
-    // page comes back empty and short-circuits every subsequent call to `{ result: undefined }`
-    // without touching `executionContext` again. Without this check, a caller that only consults
-    // `hasMoreResults()` never learns that — `executionContext.hasMoreResults()` can remain `true`
-    // indefinitely (e.g. a document producer re-queued after a zero-item page with a live
-    // continuation token), so the caller spins forever on an already-terminal, no-I/O `fetchMore()`,
-    // starving the event loop microtask-by-microtask with no macrotask ever getting a turn.
+    // `isCompleted` is the authoritative "done" signal: once `fetchMore` has gone terminal it
+    // short-circuits every later call to `{ result: undefined }` without touching
+    // `executionContext` again, whose own `hasMoreResults()` can keep reporting `true`. Without
+    // this check a caller driving `while (hasMoreResults()) { await fetchMore(); }` spins
+    // forever on that no-I/O fast path, starving the event loop. See #39626.
     return (
       !this.isCompleted &&
       this.priorityQueueBufferSize > 0 &&
@@ -100,11 +98,15 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       }
 
       resHeaders = response.headers;
-      if (
+      const pageIsEmpty =
         response.result === undefined ||
         !response.result.buffer ||
-        response.result.buffer.length === 0
-      ) {
+        response.result.buffer.length === 0;
+
+      // An empty page is terminal only once the underlying context is exhausted — an interim
+      // empty page can still carry a live continuation token, and completing here would skip
+      // every result behind it.
+      if (pageIsEmpty && !this.executionContext.hasMoreResults()) {
         this.isCompleted = true;
         if (!this.nonStreamingOrderByPQ.isEmpty()) {
           return this.buildFinalResultArray(resHeaders);
@@ -112,13 +114,15 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         return { result: undefined, headers: resHeaders };
       }
 
-      const parallelResult = response.result as ParallelQueryResult;
-      const dataToProcess: NonStreamingOrderByResult[] =
-        parallelResult.buffer as NonStreamingOrderByResult[];
+      if (!pageIsEmpty) {
+        const parallelResult = response.result as ParallelQueryResult;
+        const dataToProcess: NonStreamingOrderByResult[] =
+          parallelResult.buffer as NonStreamingOrderByResult[];
 
-      for (const item of dataToProcess) {
-        if (item !== undefined) {
-          this.nonStreamingOrderByPQ.enqueue(item);
+        for (const item of dataToProcess) {
+          if (item !== undefined) {
+            this.nonStreamingOrderByPQ.enqueue(item);
+          }
         }
       }
     }

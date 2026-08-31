@@ -72,30 +72,59 @@ describe("NonStreamingOrderByEndpointComponent", () => {
     }
   });
 
-  it("hasMoreResults() reports false once fetchMore() has completed, even if the underlying executionContext still claims otherwise", async () => {
-    // Regression test for a zero-hit query hanging indefinitely: fetchMore() already
-    // sets `isCompleted` the moment a page comes back empty, and every later fetchMore()
-    // call correctly short-circuits without touching executionContext again -- but
-    // hasMoreResults() previously consulted ONLY executionContext.hasMoreResults(), so a
-    // caller driving a `while (component.hasMoreResults())` loop never learned the query
-    // was done whenever the underlying context kept reporting true (e.g. a document
-    // producer re-queued after a zero-item page with a live continuation token, never
-    // revisited once the isCompleted short-circuit takes over above it). That produced a
-    // client-side infinite loop of already-terminal, no-I/O fetchMore() calls.
-    //
-    // Deliberately does NOT drive this via `while (component.hasMoreResults())` -- doing
-    // so would reproduce the exact hang in the test suite itself if this regressed.
-    // Asserting directly after a single fetchMore() call catches the same defect and
-    // fails fast instead of hanging CI.
+  it("terminates a zero-hit query even when an empty page arrives while the underlying context still reports more results", async () => {
+    // Regression test for a zero-hit query hanging indefinitely (#39626). An interim empty
+    // page must NOT complete the component -- an empty page can still carry a live
+    // continuation token -- but re-driving fetchMore() must reach the underlying context
+    // again (real I/O, not a no-op spin) and go terminal once that context exhausts.
     let fetchMoreCalls = 0;
-    const zombieExecutionContext: ExecutionContext = {
-      hasMoreResults: () => true, // never flips to false, even after the terminal page
+    const executionContext = {
+      hasMoreResults: () => fetchMoreCalls < 2,
       nextItem: async () => ({ result: {}, headers: {} }),
       fetchMore: async () => {
         fetchMoreCalls++;
-        return { result: { buffer: [] }, headers: {} }; // the terminal empty page
+        return { result: { buffer: [] }, headers: {} }; // every page is empty (zero hits)
       },
-    } as ExecutionContext;
+    } as unknown as ExecutionContext;
+
+    const component = new NonStreamingOrderByEndpointComponent(executionContext, ["Ascending"], 11);
+
+    // Interim empty page with a live continuation: not terminal, signals "more results".
+    const first = await component.fetchMore({} as any);
+    assert.deepStrictEqual(first.result.buffer, []);
+    assert.equal(fetchMoreCalls, 1);
+    assert.equal(component.hasMoreResults(), true);
+
+    // Re-driven: the underlying context exhausts -> terminal, zero rows.
+    const second = await component.fetchMore({} as any);
+    assert.equal(second.result, undefined);
+    assert.equal(fetchMoreCalls, 2);
+    assert.equal(component.hasMoreResults(), false);
+
+    // Later calls take the isCompleted fast path -- no further underlying calls.
+    const third = await component.fetchMore({} as any);
+    assert.equal(third.result, undefined);
+    assert.equal(fetchMoreCalls, 2);
+  });
+
+  it("hasMoreResults() reports false once fetchMore() has completed, even if the underlying executionContext still claims otherwise", async () => {
+    // The underlying context goes terminal (null response) but its hasMoreResults() never
+    // flips to false. hasMoreResults() previously consulted ONLY the underlying context, so
+    // a caller driving `while (component.hasMoreResults())` never learned the query was done
+    // and spun forever on the already-terminal, no-I/O fetchMore() fast path (#39626).
+    //
+    // Deliberately does NOT drive this via `while (component.hasMoreResults())` -- doing so
+    // would reproduce the exact hang in the test suite itself if this regressed. Asserting
+    // directly after a single fetchMore() call catches the same defect and fails fast.
+    let fetchMoreCalls = 0;
+    const zombieExecutionContext = {
+      hasMoreResults: () => true, // never flips to false, even after going terminal
+      nextItem: async () => ({ result: {}, headers: {} }),
+      fetchMore: async () => {
+        fetchMoreCalls++;
+        return undefined as any; // terminal null response
+      },
+    } as unknown as ExecutionContext;
 
     const component = new NonStreamingOrderByEndpointComponent(
       zombieExecutionContext,
@@ -118,5 +147,36 @@ describe("NonStreamingOrderByEndpointComponent", () => {
     const second = await component.fetchMore({} as any);
     assert.equal(second.result, undefined);
     assert.equal(fetchMoreCalls, 1);
+  });
+
+  it("does not skip rows that arrive after an interim empty page", async () => {
+    // Completing on the first empty page would silently drop every row behind it whenever a
+    // later page still holds data (an empty page with a live continuation token).
+    const pages = [
+      { result: { buffer: [] }, headers: {} },
+      {
+        result: { buffer: [{ orderByItems: [{ item: 1 }], payload: { id: "behind-empty-page" } }] },
+        headers: {},
+      },
+    ];
+    let call = 0;
+    const executionContext = {
+      hasMoreResults: () => call < pages.length,
+      nextItem: async () => ({ result: {}, headers: {} }),
+      fetchMore: async () => pages[call++],
+    } as unknown as ExecutionContext;
+
+    const component = new NonStreamingOrderByEndpointComponent(executionContext, ["Ascending"], 11);
+
+    const results: any[] = [];
+    let guard = 0;
+    while (component.hasMoreResults()) {
+      assert.isBelow(++guard, 10, "drain loop did not terminate");
+      const response = await component.fetchMore({} as any);
+      if (response.result?.buffer?.length) {
+        results.push(...response.result.buffer);
+      }
+    }
+    assert.deepStrictEqual(results, [{ id: "behind-empty-page" }]);
   });
 });
