@@ -72,7 +72,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.isDefined(error);
+    assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(error?.message, powerShellPublicErrorMessages.login);
   });
@@ -93,7 +93,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.isDefined(error);
+    assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(error?.message, powerShellPublicErrorMessages.installed);
   });
@@ -110,7 +110,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.isDefined(error);
+    assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -134,7 +134,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.isDefined(error);
+    assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -221,7 +221,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.isDefined(error);
+    assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -243,7 +243,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.isDefined(error);
+    assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -269,7 +269,7 @@ describe("AzurePowerShellCredential", function () {
         error = e;
       }
 
-      assert.isDefined(error);
+      assert.ok(error);
       assert.equal(error?.name, "CredentialUnavailableError");
       assert.equal(
         error?.message,
@@ -322,8 +322,8 @@ describe("AzurePowerShellCredential", function () {
   it.skip("authenticates without mocks", async function () {
     const credential = new AzurePowerShellCredential();
     const token = await credential.getToken(scope);
-    assert.isDefined(token?.token);
-    assert.isDefined(token?.expiresOnTimestamp!);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp!);
   });
 
   for (const tenantId of [

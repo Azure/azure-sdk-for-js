@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalBrowser from "@azure/msal-browser";
+import type * as msalBrowser from "@azure/msal-browser";
 
 import type { MsalBrowserFlowOptions } from "./msalBrowserOptions.js";
 import {
@@ -27,6 +27,7 @@ import {
   resolveTenantId,
 } from "../../util/tenantIdUtils.js";
 import { DefaultTenantId } from "../../constants.js";
+import { createStandardPublicClientApplication } from "@azure/msal-browser";
 
 // We keep a copy of the redirect hash.
 // Check if self and location object is defined.
@@ -113,7 +114,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   async function getApp(): Promise<msalBrowser.IPublicClientApplication> {
     if (!app) {
       // Prepare the MSAL application
-      app = await msalBrowser.createStandardPublicClientApplication(msalConfig);
+      app = await createStandardPublicClientApplication(msalConfig);
 
       // setting the account right after the app is created.
       if (account) {
@@ -174,7 +175,8 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   async function handleRedirect(): Promise<AuthenticationRecord | undefined> {
     const msalApp = await getApp();
     return handleBrowserResult(
-      (await msalApp.handleRedirectPromise({ hash: redirectHash })) || undefined,
+      (await msalApp.handleRedirectPromise(redirectHash ? { hash: redirectHash } : undefined)) ||
+        undefined,
     );
   }
 

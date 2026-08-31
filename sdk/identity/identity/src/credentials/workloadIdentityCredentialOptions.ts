@@ -21,8 +21,4 @@ export interface WorkloadIdentityCredentialOptions
    * The path to a file containing a Kubernetes service account token that authenticates the identity.
    */
   tokenFilePath?: string;
-  /**
-   * Enables the {@link https://learn.microsoft.com/azure/aks/identity-bindings-concepts | identity binding feature}.
-   */
-  enableAzureProxy?: boolean;
 }

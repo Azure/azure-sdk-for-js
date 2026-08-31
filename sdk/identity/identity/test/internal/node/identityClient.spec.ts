@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IdentityClient } from "$internal/client/identityClient.js";
-import { getAuthorityHost } from "$internal/util/authorityHost.js";
+import { IdentityClient, getIdentityClientAuthorityHost } from "$internal/client/identityClient.js";
 import { IdentityTestContext } from "./httpRequests.js";
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";
 import { ClientSecretCredential } from "@azure/identity";
 import { openIdConfigurationResponse, PlaybackTenantId } from "../../msalTestUtils.js";
 import { isExpectedError } from "../../authTestUtils.js";
-import { isNodeLike } from "@azure/core-util";
+import { isNode } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
 import type { HttpClient } from "@azure/core-rest-pipeline";
 import { createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -21,7 +20,7 @@ describe("IdentityClient", function () {
     testContext = new IdentityTestContext({ replaceLogger: true, logLevel: "verbose" });
   });
   afterEach(async function () {
-    if (isNodeLike) {
+    if (isNode) {
       delete process.env.AZURE_AUTHORITY_HOST;
     }
     await testContext.restore();
@@ -41,7 +40,7 @@ describe("IdentityClient", function () {
         }),
       ],
     });
-    if (isNodeLike) {
+    if (isNode) {
       assert.strictEqual(error!.name, "CredentialUnavailableError");
     } else {
       // The browser version of this credential uses a legacy approach.
@@ -79,7 +78,7 @@ describe("IdentityClient", function () {
       httpClient: mockHttpClient,
     });
 
-    if (isNodeLike) {
+    if (isNode) {
       await expect(credential.getToken(["scope"])).rejects.toThrow("This is a test error");
     } else {
       // The browser version of this credential uses a legacy approach.
@@ -106,37 +105,40 @@ describe("IdentityClient", function () {
     );
   });
 
-  it.skipIf(!isNodeLike)("parses authority host environment variable as expected", function () {
+  it("parses authority host environment variable as expected", function (ctx) {
+    if (!isNode) {
+      return ctx.skip();
+    }
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
-    assert.equal(getAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
+    assert.equal(getIdentityClientAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
     return;
   });
 
-  it.skipIf(!isNodeLike)(
-    "throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided",
-    async function () {
-      process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
-      assert.throws(
-        () => {
-          new IdentityClient();
-        },
-        Error,
-        "The authorityHost address must use the 'https' protocol.",
-      );
-      process.env.AZURE_AUTHORITY_HOST = "httpsomg.com";
-      assert.throws(
-        () => {
-          new IdentityClient();
-        },
-        Error,
-        "The authorityHost address must use the 'https' protocol.",
-      );
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function (ctx) {
+    if (!isNode) {
+      return ctx.skip();
+    }
+    process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
+    assert.throws(
+      () => {
+        new IdentityClient();
+      },
+      Error,
+      "The authorityHost address must use the 'https' protocol.",
+    );
+    process.env.AZURE_AUTHORITY_HOST = "httpsomg.com";
+    assert.throws(
+      () => {
+        new IdentityClient();
+      },
+      Error,
+      "The authorityHost address must use the 'https' protocol.",
+    );
 
-      // While we have the environment variable, ensure correct precedence
-      assert(new IdentityClient({ authorityHost: "https://correct.url" }));
-      return;
-    },
-  );
+    // While we have the environment variable, ensure correct precedence
+    assert(new IdentityClient({ authorityHost: "https://correct.url" }));
+    return;
+  });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
     const mockHttpClient: HttpClient = createDefaultHttpClient();
@@ -160,7 +162,7 @@ describe("IdentityClient", function () {
       httpClient: mockHttpClient,
     });
 
-    if (isNodeLike) {
+    if (isNode) {
       await expect(credential.getToken(["scope"])).rejects.toThrow(
         'Response had no "expiresOn" property.',
       );
@@ -172,9 +174,12 @@ describe("IdentityClient", function () {
     }
   });
 
-  it.skipIf(!isNodeLike)("parses authority host environment variable as expected", function () {
+  it("parses authority host environment variable as expected", function (ctx) {
+    if (!isNode) {
+      return ctx.skip();
+    }
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
-    assert.equal(getAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
+    assert.equal(getIdentityClientAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
     return;
   });
 

@@ -204,7 +204,7 @@ describe("AzureCliCredential (internal)", function () {
       error = e;
     }
 
-    assert.isDefined(error);
+    assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -229,7 +229,7 @@ describe("AzureCliCredential (internal)", function () {
       error = e;
     }
 
-    assert.isDefined(error);
+    assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
