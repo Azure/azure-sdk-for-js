@@ -41,7 +41,9 @@ export async function main(): Promise<void> {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  const openAIClient = project.getOpenAIClient({ azureConfig: { allowPreview: true, agentName: agent.name } });
+  const openAIClient = project.getOpenAIClient({
+    azureConfig: { allowPreview: true, agentName: agent.name },
+  });
 
   // Prompt user for input
   const rl = readline.createInterface({

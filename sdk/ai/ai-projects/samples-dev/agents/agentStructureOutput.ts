@@ -59,7 +59,9 @@ export async function main(): Promise<void> {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  const openAIClient = project.getOpenAIClient({ azureConfig: { allowPreview: true, agentName: agent.name } });
+  const openAIClient = project.getOpenAIClient({
+    azureConfig: { allowPreview: true, agentName: agent.name },
+  });
 
   // Create conversation with initial user message
   console.log("\nCreating conversation with initial user message...");
@@ -76,11 +78,9 @@ export async function main(): Promise<void> {
 
   // Generate response using the agent
   console.log("\nGenerating response...");
-  const response = await openAIClient.responses.create(
-    {
-      conversation: conversation.id,
-    },
-  );
+  const response = await openAIClient.responses.create({
+    conversation: conversation.id,
+  });
   console.log(`Response output: ${response.output_text}`);
 
   // Clean up

@@ -53,7 +53,9 @@ export async function main(): Promise<void> {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  const openAIClient = project.getOpenAIClient({ azureConfig: { allowPreview: true, agentName: agent.name } });
+  const openAIClient = project.getOpenAIClient({
+    azureConfig: { allowPreview: true, agentName: agent.name },
+  });
 
   // Prompt user for input
   const rl = readline.createInterface({
@@ -73,12 +75,10 @@ export async function main(): Promise<void> {
 
   // Send initial request that will trigger the Bing Custom Search tool
   console.log("\nSending request to Bing Custom Search agent with streaming...");
-  const streamResponse = await openAIClient.responses.create(
-    {
-      input: userInput || "Tell me more about foundry agent service",
-      stream: true,
-    },
-  );
+  const streamResponse = await openAIClient.responses.create({
+    input: userInput || "Tell me more about foundry agent service",
+    stream: true,
+  });
 
   // Process the streaming response
   for await (const event of streamResponse) {
