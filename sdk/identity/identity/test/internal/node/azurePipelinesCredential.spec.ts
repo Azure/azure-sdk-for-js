@@ -69,7 +69,7 @@ describe("AzurePipelinesCredential (internal)", function () {
     });
 
     it("includes status, body, and allow-listed headers but not request headers for a malformed (non-JSON) body", function () {
-      response.bodyAsText = "No service connection found with identifier frwerhq-241242-vsdkf-jw";
+      response.bodyAsText = "No service connection found with identifier fake-identifier";
       try {
         handleOidcResponse(response);
         assert.fail("Expected handleOidcResponse to throw");
