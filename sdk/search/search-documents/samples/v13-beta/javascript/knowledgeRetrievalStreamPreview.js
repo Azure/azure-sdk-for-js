@@ -60,7 +60,7 @@ async function consumeStream(client) {
           `activity.completed ${event.data.id} must have a matching activity.started event`,
         );
         activities.delete(event.data.id);
-        console.log(`Activity ${event.data.id} completed in ${event.data.elapsedMs ?? 0} ms`);
+        console.log(`Activity ${event.data.id} completed in ${event.data.elapsedInMs ?? 0} ms`);
         break;
       case "answer.completed":
         console.log(`Answer message ${event.data.messageIndex} completed`);

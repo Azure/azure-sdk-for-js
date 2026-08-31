@@ -170,6 +170,7 @@ export function listIndexStatsSummary(
       itemName: "indexesStatistics",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -414,6 +415,7 @@ export function listKnowledgeSourceFiles(
       itemName: "value",
       nextLinkName: "odataNextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -718,6 +720,7 @@ export function listKnowledgeSources(
       itemName: "value",
       nextLinkName: "odataNextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -1022,6 +1025,7 @@ export function listKnowledgeBases(
       itemName: "value",
       nextLinkName: "odataNextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -1324,6 +1328,7 @@ export function listAliases(
       itemName: "aliases",
       nextLinkName: "odataNextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -1741,6 +1746,7 @@ export function listIndexesWithSelectedProperties(
       itemName: "value",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -1807,6 +1813,7 @@ export function listIndexes(
       itemName: "indexes",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -2109,6 +2116,7 @@ export function getSynonymMaps(
       itemName: "synonymMaps",
       nextLinkName: "odataNextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }

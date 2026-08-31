@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { assert, describe, it } from "vitest";
-import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { AzureKeyCredential } from "../../../src/index.js";
 import { SearchIndexClient } from "../../../src/searchIndexClient.js";
 import { SearchIndexerClient } from "../../../src/searchIndexerClient.js";
@@ -42,6 +42,7 @@ function twoPageClient(
 function twoPageIndexerClient(
   bodies: Record<string, unknown>[],
   requestedUrls: string[],
+  requestedAbortSignals?: PipelineRequest["abortSignal"][],
 ): SearchIndexerClient {
   let page = 0;
   return new SearchIndexerClient(
@@ -55,6 +56,7 @@ function twoPageIndexerClient(
             name: "canned-indexer-pages",
             async sendRequest(request): Promise<PipelineResponse> {
               requestedUrls.push(request.url);
+              requestedAbortSignals?.push(request.abortSignal);
               const body = bodies[Math.min(page, bodies.length - 1)];
               page++;
               return {
@@ -274,6 +276,25 @@ describe("generated paging continuation", () => {
       ["indexer-1", "indexer-2"],
     );
     assert.equal(urls.length, 2);
+  });
+
+  it("forwards the abort signal to continuation requests", async () => {
+    const urls: string[] = [];
+    const abortSignals: PipelineRequest["abortSignal"][] = [];
+    const abortController = new AbortController();
+    const client = twoPageIndexerClient(
+      [
+        { value: [{ name: "indexer-1" }], "@odata.nextLink": NEXT_PAGE },
+        { value: [{ name: "indexer-2" }] },
+      ],
+      urls,
+      abortSignals,
+    );
+
+    await client.listIndexers({ abortSignal: abortController.signal });
+
+    assert.equal(urls.length, 2);
+    assert.deepEqual(abortSignals, [abortController.signal, abortController.signal]);
   });
 
   it("follows the continuation link across pages for data sources and skillsets", async () => {

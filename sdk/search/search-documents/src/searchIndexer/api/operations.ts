@@ -240,6 +240,7 @@ export function getSkillsets(
       itemName: "skillsets",
       nextLinkName: "odataNextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -602,6 +603,7 @@ export function getIndexers(
       itemName: "indexers",
       nextLinkName: "odataNextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -1136,6 +1138,7 @@ export function getDataSourceConnections(
       itemName: "dataSources",
       nextLinkName: "odataNextLink",
       apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      requestOptions: options,
     },
   );
 }

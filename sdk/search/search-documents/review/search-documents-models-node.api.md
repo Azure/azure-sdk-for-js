@@ -25,7 +25,7 @@ export enum KnownVersions {
     V20260801Preview = "2026-08-01-preview"
 }
 
-// @public (undocumented)
+// @public
 export type RetrieveStreamResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;

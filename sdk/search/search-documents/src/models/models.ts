@@ -73,6 +73,7 @@ export enum KnownVersions {
   V20260801Preview = "2026-08-01-preview",
 }
 
+/** Platform-specific raw response returned by the protocol streaming retrieval operation. */
 export type RetrieveStreamResponse = {
   /**
    * BROWSER ONLY
