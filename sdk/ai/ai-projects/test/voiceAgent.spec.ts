@@ -8,8 +8,7 @@ import { describe, it } from "vitest";
 describe("voice agent generation", function () {
   // TODO(voice-agent): unskip after recording added.
   it.skip("generates a voice agent", async function () {
-    const projectEndpoint =
-      process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
     const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
     const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 

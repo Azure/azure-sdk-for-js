@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VoiceAgentWebSocketSubprotocol } from "../../models/models.js";
+import type { VoiceAgentWebSocketSubprotocol } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface VoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "VoiceAgents=V1Preview";
   /**
