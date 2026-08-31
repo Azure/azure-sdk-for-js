@@ -130,17 +130,24 @@ graph TD
 
 > **Note:** Most packages should already be using the Asset Sync workflow. This section is only relevant for packages that still have recordings directly in the repository.
 
-If you have an existing package with recordings that need to be migrated, run the following command:
+If you have an existing package with recordings that need to be migrated, run the following commands:
 
 ```bash
-$ npx dev-tool test-proxy migrate --initial-push
+# 1. Generate an assets.json with an empty tag for the package
+$ npx dev-tool test-proxy init
+
+# 2. Run the package tests to generate the recordings
+$ npm run test:node
+
+# 3. Push the recordings to the assets repo and update the tag in assets.json
+$ npx dev-tool test-proxy push
 ```
 
-_Note: If you [install `dev-tool` globally], you don't need `npx` prefix in the above command_
+_Note: If you [install `dev-tool` globally], you don't need `npx` prefix in the above commands_
 
 Once this is done, validate that your recorded tests still pass, and create a PR with the changes. That's it!
 
-The above `migrate` command produces an `assets.json`, with a tag pointing to your recordings in the `Azure/azure-sdk-assets` repository.
+The `init` command produces an `assets.json`, and the `push` command uploads your recordings to the `Azure/azure-sdk-assets` repository and updates the tag in `assets.json` to point to them.
 
 
 ## Inspecting Recordings with Asset Sync enabled
@@ -176,7 +183,7 @@ A few commands have been added to `dev-tool` to facilitate pushing and fetching 
 - `dev-tool test-proxy push`: use this command to push recordings to the assets repo when you have finished re-recording. This command will push your changes to the assets repo and update the tag in `assets.json` to reference the newly pushed recordings. The change to `assets.json` must be checked in for the test proxy to use the new recordings outside of your local environment.
 - `dev-tool test-proxy restore`: this command will pull the recordings from the assets repo that are referenced in your `assets.json`. Typically this will be done automatically when you first run recorded tests if the recordings haven't been downloaded already, but you can run this command in advance if you'd like to download them earlier, for example for offline work.
 - `dev-tool test-proxy reset`: if you've made any changes to the recordings locally, you can use this to revert those local changes and reset to what is currently checked in to the assets repo. This is a destructive operation and if you have local changes it will prompt you before removing your work.
-- `dev-tool test-proxy migrate`: used for migrating existing recordings to the assets repo as described above.
+- `dev-tool test-proxy init`: generates an `assets.json` with an empty tag for a package that still has recordings in the repo. Follow it by running the tests and `dev-tool test-proxy push` to complete a first-time migration to the assets repo as described above.
 
 **Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/golden-testing-commands.md) guide if you need help on the commands to run during testing.**
 
