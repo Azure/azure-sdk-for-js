@@ -4,6 +4,10 @@
 import { LongIntervalStatsbeatMetrics } from "./longIntervalStatsbeatMetrics.js";
 import { NetworkStatsbeatMetrics } from "./networkStatsbeatMetrics.js";
 import type { StatsbeatOptions } from "./types.js";
+import { ONE_SETTINGS_FEATURE_SDK_STATS } from "../../Declarations/Constants.js";
+import type { ConfigurationChangeCallback } from "../../_configuration/configurationManager.js";
+import { ConfigurationManager } from "../../_configuration/configurationManager.js";
+import { evaluateFeature } from "../../_configuration/featureEvaluation.js";
 
 /**
  * Coordinates the process-wide internal Statsbeat providers.
@@ -16,6 +20,17 @@ export class StatsbeatManager {
   private longIntervalMetrics: LongIntervalStatsbeatMetrics | undefined;
   private shutdownPromise: Promise<void> | undefined;
   private shouldBeRunning = false;
+  private oneSettingsEnabled: boolean | undefined;
+  private configurationCallbackRegistered = false;
+  private readonly configurationCallback: ConfigurationChangeCallback = async (settings) => {
+    this.oneSettingsEnabled =
+      evaluateFeature(ONE_SETTINGS_FEATURE_SDK_STATS, settings) === true;
+    if (this.oneSettingsEnabled) {
+      this.initialize();
+    } else {
+      await this.shutdown();
+    }
+  };
 
   private constructor() {}
 
@@ -27,7 +42,6 @@ export class StatsbeatManager {
   }
 
   public initialize(options?: StatsbeatOptions): void {
-    this.shouldBeRunning = true;
     if (this.networkMetrics && this.longIntervalMetrics) {
       return;
     }
@@ -36,6 +50,12 @@ export class StatsbeatManager {
       this.options = { ...options };
     }
     if (!this.options) {
+      return;
+    }
+
+    this.registerConfigurationCallback();
+    this.shouldBeRunning = this.oneSettingsEnabled !== false;
+    if (!this.shouldBeRunning || (this.networkMetrics && this.longIntervalMetrics)) {
       return;
     }
     if (this.shutdownPromise) {
@@ -126,6 +146,14 @@ export class StatsbeatManager {
     }
     this.networkMetrics = NetworkStatsbeatMetrics.getInstance(this.options);
     this.longIntervalMetrics = LongIntervalStatsbeatMetrics.getInstance(this.options);
+  }
+
+  private registerConfigurationCallback(): void {
+    if (this.configurationCallbackRegistered) {
+      return;
+    }
+    this.configurationCallbackRegistered = true;
+    ConfigurationManager.getInstance().registerCallback(this.configurationCallback);
   }
 
   private async shutdownProviders(
