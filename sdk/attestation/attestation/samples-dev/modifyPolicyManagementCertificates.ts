@@ -21,6 +21,8 @@
  *      mode signing certificates.
  *  3) ATTESTATION_ISOLATED_SIGNING_KEY - A Base64 encoded DER RSA Private key which
  *      corresponds to the ATTESTATION_ISOLATED_SIGNING_CERTIFICATE.
+ *  4) ATTESTATION_NEW_SIGNING_CERTIFICATE - A Base64 encoded DER X.509 certificate
+ *      to add and then remove from the isolated instance.
  *
  * To authorize access to the service, this sample also depends on the following
  * environment variables:
@@ -31,8 +33,7 @@
 
 import { AttestationAdministrationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-import { createRSAKey, createX509Certificate, generateSha1Hash } from "./utils/cryptoUtils.js";
-import { X509 } from "jsrsasign";
+import { certificateToDer, generateSha1Hash } from "./utils/cryptoUtils.js";
 import { writeBanner } from "./utils/helpers.js";
 // Load environment from a .env file if it exists.
 import "dotenv/config";
@@ -57,17 +58,17 @@ async function modifyPolicyManagementCertificates(): Promise<void> {
   if (base64Certificate === undefined) {
     throw new Error("ATTESTATION_ISOLATED_SIGNING_CERTIFICATE must be provided.");
   }
+  const base64NewCertificate = process.env.ATTESTATION_NEW_SIGNING_CERTIFICATE;
+  if (base64NewCertificate === undefined) {
+    throw new Error("ATTESTATION_NEW_SIGNING_CERTIFICATE must be provided.");
+  }
 
   const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
-  const [rsaKey, rsaPubKey] = createRSAKey();
-  const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
-
-  // Decode the PEM encoded certificate for validation later.
-  const cert = new X509();
-  await cert.readCertPEM(rsaCertificate);
-
-  const expectedThumbprint = byteArrayToHex(generateSha1Hash(cert.hex)).toUpperCase();
+  const newCertificate = pemFromBase64(base64NewCertificate, "CERTIFICATE");
+  const expectedThumbprint = byteArrayToHex(
+    generateSha1Hash(certificateToDer(newCertificate)),
+  ).toUpperCase();
 
   // Add the new attestation signing certificate.
   //
@@ -80,7 +81,7 @@ async function modifyPolicyManagementCertificates(): Promise<void> {
   {
     // Add a new signing certificate.
     const setResult = await client.addPolicyManagementCertificate(
-      rsaCertificate,
+      newCertificate,
       privateKey,
       certificate,
     );
@@ -92,7 +93,7 @@ async function modifyPolicyManagementCertificates(): Promise<void> {
 
   {
     const removeResult = await client.removePolicyManagementCertificate(
-      rsaCertificate,
+      newCertificate,
       privateKey,
       certificate,
     );

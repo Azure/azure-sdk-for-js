@@ -81,7 +81,7 @@ describe("snippets", () => {
     const privateKey = "<Retrieve isolated mode private key from storage>";
     const certificate = "<Retrieve certificate associated with that private key>";
     // @ts-preserve-whitespace
-    const expectedPolicy = createAttestationPolicyToken(
+    const expectedPolicy = await createAttestationPolicyToken(
       `<Policy Document>`,
       privateKey,
       certificate,

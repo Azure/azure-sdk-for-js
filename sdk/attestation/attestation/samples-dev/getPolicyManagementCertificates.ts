@@ -26,7 +26,6 @@
 
 import { AttestationAdministrationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-import { X509 } from "jsrsasign";
 import { writeBanner } from "./utils/helpers.js";
 // Load environment from a .env file if it exists.
 import "dotenv/config";
@@ -45,12 +44,10 @@ async function getPolicyManagementCertificates(): Promise<void> {
   console.log(
     `Attestation Instance ${endpoint} has ${policyCertificates.body.length} certificates.`,
   );
-  // Now print the Key ID and certificate subject for each signer.
+  // Print the Key ID and certificate count for each signer.
   policyCertificates.body.forEach((element) => {
     console.log(`  Element Key ID: ${element.keyId};`);
-    const cert = new X509();
-    cert.readCertPEM(element.certificates[0]);
-    console.log(`    Certificate subject: ${cert.getSubjectString()}`);
+    console.log(`    Certificate count: ${element.certificates.length}`);
   });
 }
 

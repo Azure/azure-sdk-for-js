@@ -37,8 +37,7 @@ import {
 } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 import { writeBanner } from "./utils/helpers.js";
-import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils.js";
-import { X509 } from "jsrsasign";
+import { generateSha256Hash } from "./utils/cryptoUtils.js";
 // Load environment from a .env file if it exists.
 import "dotenv/config";
 
@@ -53,7 +52,6 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_AAD_URL must be defined.");
   }
-
   const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
   // This attestation policy blocks all non-debug SGX enclaves,
@@ -82,7 +80,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = createAttestationPolicyToken(newPolicy);
+  const expectedPolicy = await createAttestationPolicyToken(newPolicy);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
@@ -106,6 +104,14 @@ async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
   if (endpoint === undefined) {
     throw new Error("ATTESTATION_AAD_URL must be defined.");
   }
+  const base64PrivateKey = process.env.ATTESTATION_ISOLATED_SIGNING_KEY;
+  if (base64PrivateKey === undefined) {
+    throw new Error("ATTESTATION_ISOLATED_SIGNING_KEY must be provided.");
+  }
+  const base64Certificate = process.env.ATTESTATION_ISOLATED_SIGNING_CERTIFICATE;
+  if (base64Certificate === undefined) {
+    throw new Error("ATTESTATION_ISOLATED_SIGNING_CERTIFICATE must be provided.");
+  }
 
   const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
 
@@ -124,12 +130,8 @@ async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
 
   // Set the new attestation policy. Set the policy as an secured policy.
 
-  // Start by creating an RSA Key and Certificate (note: normally the key would
-  // be stored securely in Key Value or other location. For the purposes of this
-  // sample, an ephemeral key and self-signed certificate is sufficient).
-
-  const [privateKey, publicKey] = createRSAKey();
-  const certificate = createX509Certificate(privateKey, publicKey, "Test Certificate.");
+  const privateKey = pemFromBase64(base64PrivateKey, "PRIVATE KEY");
+  const certificate = pemFromBase64(base64Certificate, "CERTIFICATE");
 
   const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy, {
     privateKey: privateKey,
@@ -140,18 +142,13 @@ async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = createAttestationPolicyToken(newPolicy, privateKey, certificate);
+  const expectedPolicy = await createAttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
   console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.body.policyTokenHash));
 
-  // Also verify that the signer of the certificate recevied by the service was
-  // the certificate sent in the request.
-
-  const policySetCertificate = new X509();
-  await policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
-  console.log("Signer subject name: ", policySetCertificate.getSubjectString());
+  console.log("Policy signer key ID: ", setPolicyResult.body.policySigner?.keyId);
 
   // Now reset the policy to the default policy. Note that we use an unsecured
   // attestation token - that is because AAD instances do not require a signed
@@ -210,18 +207,13 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured(): Promise<void> {
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = createAttestationPolicyToken(newPolicy, privateKey, certificate);
+  const expectedPolicy = await createAttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
   console.log("Actual token hash: ", Uint8Array.from(setPolicyResult.body.policyTokenHash));
 
-  // Also verify that the signer of the certificate recevied by the service was
-  // the certificate sent in the request.
-
-  const policySetCertificate = new X509();
-  await policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
-  console.log("Signer subject name: ", policySetCertificate.getSubjectString());
+  console.log("Policy signer key ID: ", setPolicyResult.body.policySigner?.keyId);
 
   // Now reset the policy to the default policy.
   const resetPolicyResult = await client.resetPolicy(KnownAttestationType.SgxEnclave, {

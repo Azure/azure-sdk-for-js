@@ -29,15 +29,12 @@ import type { TokenCredential } from "@azure/core-auth";
 import { TypeDeserializer } from "./utils/typeDeserializer.js";
 import * as Mappers from "./generated/models/mappers.js";
 
-/// <reference path="../jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
-import { hexToBase64 } from "./utils/helpers.js";
 import { _policyResultFromGenerated } from "./models/policyResult.js";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
-import { verifyAttestationSigningKey } from "./utils/helpers.js";
 import { createAttestationResponse } from "./models/attestationResponse.js";
 import { AttestationTokenImpl } from "./models/attestationToken.js";
 import { tracingClient } from "./generated/tracing.js";
+import { certificateToBase64, keyTypeFromCertificate } from "./utils/jws.js";
 
 /**
  * Attestation Client Construction Options.
@@ -165,7 +162,7 @@ export class AttestationAdministrationClient {
         const token = new AttestationTokenImpl(getPolicyResult.token);
 
         // Validate the token returned from the service.
-        const problems = token.getTokenProblems(
+        const problems = await token.getTokenProblems(
           await this.signingKeys(),
           options.validationOptions ?? this._validationOptions,
         );
@@ -235,12 +232,8 @@ export class AttestationAdministrationClient {
           );
         }
 
-        if (options.privateKey && options.certificate) {
-          verifyAttestationSigningKey(options.privateKey, options.certificate);
-        }
-
         const storedAttestationPolicy = new StoredAttestationPolicy(newPolicyDocument).serialize();
-        const setPolicyToken = AttestationTokenImpl.create({
+        const setPolicyToken = await AttestationTokenImpl.create({
           body: storedAttestationPolicy,
           ...options,
         });
@@ -254,7 +247,7 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(setPolicyResult.token);
-        const problems = token.getTokenProblems(
+        const problems = await token.getTokenProblems(
           await this.signingKeys(),
           options.validationOptions ?? this._validationOptions,
         );
@@ -311,11 +304,7 @@ export class AttestationAdministrationClient {
           );
         }
 
-        if (options.privateKey && options.certificate) {
-          verifyAttestationSigningKey(options.privateKey, options.certificate);
-        }
-
-        const resetPolicyToken = AttestationTokenImpl.create({
+        const resetPolicyToken = await AttestationTokenImpl.create({
           privateKey: options.privateKey,
           certificate: options.certificate,
         });
@@ -329,7 +318,7 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(resetPolicyResult.token);
-        const problems = token.getTokenProblems(
+        const problems = await token.getTokenProblems(
           await this.signingKeys(),
           options.validationOptions ?? this._validationOptions,
         );
@@ -368,7 +357,7 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(getCertificatesResult.token);
-        const problems = token.getTokenProblems(
+        const problems = await token.getTokenProblems(
           await this.signingKeys(),
           options.validationOptions ?? this._validationOptions,
         );
@@ -432,24 +421,16 @@ export class AttestationAdministrationClient {
           );
         }
 
-        if (privateKey && certificate) {
-          verifyAttestationSigningKey(privateKey, certificate);
-        }
-
-        const cert = new jsrsasign.X509();
-        cert.readCertPEM(pemCertificate);
-        const kty = this.keyTypeFromCertificate(cert);
-
         const jwk: JsonWebKey = {
-          x5C: [hexToBase64(cert.hex)],
-          kty: kty,
+          x5C: [certificateToBase64(pemCertificate)],
+          kty: await keyTypeFromCertificate(pemCertificate),
         };
 
         const addBody: AttestationCertificateManagementBody = {
           policyCertificate: jwk,
         };
 
-        const addCertToken = AttestationTokenImpl.create({
+        const addCertToken = await AttestationTokenImpl.create({
           body: TypeDeserializer.serialize(
             addBody,
             {
@@ -469,7 +450,7 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(addCertificateResult.token);
-        const problems = token.getTokenProblems(
+        const problems = await token.getTokenProblems(
           await this.signingKeys(),
           options.validationOptions ?? this._validationOptions,
         );
@@ -491,25 +472,6 @@ export class AttestationAdministrationClient {
         return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
       },
     );
-  }
-
-  private keyTypeFromCertificate(cert: any): string {
-    let kty: string;
-    switch (cert.getSignatureAlgorithmName()) {
-      case "SHA256withRSA":
-      case "SHA384withRSA":
-      case "SHA512withRSA":
-        kty = "RSA";
-        break;
-      case "SHA256withECDSA":
-      case "SHA384withECDSA":
-        kty = "EC";
-        break;
-      default:
-        kty = "RSA";
-        break;
-    }
-    return kty;
   }
 
   /** Add a new certificate chain to the set of policy management certificates.
@@ -545,24 +507,16 @@ export class AttestationAdministrationClient {
           );
         }
 
-        if (privateKey && certificate) {
-          verifyAttestationSigningKey(privateKey, certificate);
-        }
-
-        const cert = new jsrsasign.X509();
-        cert.readCertPEM(pemCertificate);
-        const kty = this.keyTypeFromCertificate(cert);
-
         const jwk: JsonWebKey = {
-          x5C: [hexToBase64(cert.hex)],
-          kty: kty,
+          x5C: [certificateToBase64(pemCertificate)],
+          kty: await keyTypeFromCertificate(pemCertificate),
         };
 
         const addBody: AttestationCertificateManagementBody = {
           policyCertificate: jwk,
         };
 
-        const removeCertToken = AttestationTokenImpl.create({
+        const removeCertToken = await AttestationTokenImpl.create({
           body: TypeDeserializer.serialize(
             addBody,
             {
@@ -582,7 +536,7 @@ export class AttestationAdministrationClient {
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(removeCertificateResult.token);
-        const problems = token.getTokenProblems(
+        const problems = await token.getTokenProblems(
           await this.signingKeys(),
           options.validationOptions ?? this._validationOptions,
         );

@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
-
 import type { JsonWebKey } from "../generated/models/index.js";
 import { base64UrlDecodeString } from "../utils/base64.js";
 import { bytesToString } from "../utils/utf8.js";
@@ -13,7 +9,7 @@ import { _attestationSignerFromGenerated } from "./attestationSigner.js";
 
 import * as Mappers from "../generated/models/mappers.js";
 import { TypeDeserializer } from "../utils/typeDeserializer.js";
-import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers.js";
+import { createAttestationJws, verifyAttestationJws } from "../utils/jws.js";
 
 /**
  * Options used to validate attestation tokens.
@@ -114,7 +110,7 @@ export interface AttestationToken {
   getTokenProblems(
     possibleSigners?: AttestationSigner[],
     options?: AttestationTokenValidationOptions,
-  ): string[];
+  ): Promise<string[]>;
 
   /** ********* JSON WEB SIGNATURE (RFC 7515) PROPERTIES */
 
@@ -248,9 +244,6 @@ export class AttestationTokenImpl implements AttestationToken {
     this._header = safeJsonParse(bytesToString(this._headerBytes));
     this._bodyBytes = base64UrlDecodeString(pieces[1]);
     this._body = safeJsonParse(bytesToString(this._bodyBytes));
-    //      this._signature = base64UrlDecodeString(pieces[2]);
-
-    this._jwsVerifier = jsrsasign.KJUR.jws.JWS.parse(token);
   }
 
   private _token: string;
@@ -258,17 +251,13 @@ export class AttestationTokenImpl implements AttestationToken {
   private _header: any;
   private _bodyBytes: Uint8Array;
   private _body: any;
-  //    private _signature: Uint8Array;
-
-  private _jwsVerifier: any; // jsrsasign.KJUR.jws.JWS.JWSResult;
-
   /**
    * Returns the deserialized body of the AttestationToken object.
    *
    * @returns The body of the attestation token as an object.
    */
   public getBody(): unknown {
-    return this._jwsVerifier.payloadObj;
+    return this._body ?? null;
   }
 
   /**
@@ -288,16 +277,17 @@ export class AttestationTokenImpl implements AttestationToken {
    *
    * @param possibleSigners - the set of possible signers for this attestation token.
    * @param options - validation options
-   * @returns an array of string values. If there are no problems, returns an empty array.
+   * @returns a promise that resolves to an array of string values. If there are no problems,
+   * returns an empty array.
    */
-  public getTokenProblems(
+  public async getTokenProblems(
     possibleSigners?: AttestationSigner[],
     options: AttestationTokenValidationOptions = {
       validateExpirationTime: true,
       validateToken: true,
       validateNotBeforeTime: true,
     },
-  ): string[] {
+  ): Promise<string[]> {
     let problems = new Array<string>();
     if (!options.validateToken) {
       return problems;
@@ -307,16 +297,13 @@ export class AttestationTokenImpl implements AttestationToken {
     if (this.algorithm !== "none") {
       const signers = this.getCandidateSigners(possibleSigners);
 
-      signers.some((signer) => {
-        const cert = this.certFromSigner(signer);
-        //          const pubKeyObj = cert.getPublicKey();
-
-        const isValid = jsrsasign.KJUR.jws.JWS.verify(this._token, cert);
-
+      for (const signer of signers) {
+        const isValid = await verifyAttestationJws(this._token, this.certFromSigner(signer));
         if (isValid) {
           foundSigner = signer;
+          break;
         }
-      });
+      }
 
       if (foundSigner === undefined) {
         problems.push("Attestation Token is not properly signed.");
@@ -577,47 +564,21 @@ export class AttestationTokenImpl implements AttestationToken {
    * @param signer - Optional signing key used to sign the newly created token.
    * @returns an {@link AttestationToken | attestation token}
    */
-  public static create(params: {
+  public static async create(params: {
     body?: string;
     privateKey?: string;
     certificate?: string;
-  }): AttestationToken {
-    const header: {
-      alg: string;
-      [k: string]: any;
-    } = { alg: "none" };
-
+  }): Promise<AttestationToken> {
     if ((!params.privateKey && params.certificate) || (params.privateKey && !params.certificate)) {
       throw new Error(
         "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided.",
       );
     }
 
-    if (params.privateKey && params.certificate) {
-      verifyAttestationSigningKey(params.privateKey, params.certificate);
-    }
-
-    if (params.privateKey || params.certificate) {
-      const x5c = new jsrsasign.X509();
-      x5c.readCertPEM(params.certificate);
-      const pubKey = x5c.getPublicKey();
-      if (pubKey instanceof jsrsasign.RSAKey) {
-        header.alg = "RS256";
-      } else if (pubKey instanceof jsrsasign.KJUR.crypto.ECDSA) {
-        header.alg = "ES256";
-      } else {
-        throw new Error("Unknown public key type: " + typeof pubKey);
-      }
-      header.x5c = [hexToBase64(x5c.hex)];
-    } else {
-      header.alg = "none";
-    }
-
-    const encodedToken = jsrsasign.KJUR.jws.JWS.sign(
-      header.alg,
-      header,
+    const encodedToken = await createAttestationJws(
       params.body ?? "",
       params.privateKey,
+      params.certificate,
     );
     return new AttestationTokenImpl(encodedToken);
   }

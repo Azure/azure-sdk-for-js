@@ -120,7 +120,7 @@ export interface AttestationToken {
     critical?: boolean;
     expiresOn?: Date;
     getBody(): unknown;
-    getTokenProblems(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): string[];
+    getTokenProblems(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): Promise<string[]>;
     issuedAt?: Date;
     issuer?: string;
     keyId?: string;
@@ -171,7 +171,7 @@ export interface AttestTpmOptions extends AttestationClientOperationOptions {
 export type CertificateModification = string;
 
 // @public
-export function createAttestationPolicyToken(policy: string, privateKey?: string, certificate?: string): AttestationPolicyToken;
+export function createAttestationPolicyToken(policy: string, privateKey?: string, certificate?: string): Promise<AttestationPolicyToken>;
 
 export { isRestError }
 

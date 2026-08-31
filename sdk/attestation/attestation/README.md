@@ -294,7 +294,11 @@ import { createHash } from "node:crypto";
 const privateKey = "<Retrieve isolated mode private key from storage>";
 const certificate = "<Retrieve certificate associated with that private key>";
 
-const expectedPolicy = createAttestationPolicyToken(`<Policy Document>`, privateKey, certificate);
+const expectedPolicy = await createAttestationPolicyToken(
+  `<Policy Document>`,
+  privateKey,
+  certificate,
+);
 
 // Use your favorite SHA256 hash generator function to create a hash of the stringified JWS.
 const expectedHash = createHash("sha256").update(expectedPolicy.serialize()).digest("hex");

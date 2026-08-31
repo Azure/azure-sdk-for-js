@@ -1,29 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../src/jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
-import { Recorder } from "@azure-tools/test-recorder";
+import { base64UrlEncodeByteArray } from "../../src/utils/base64.js";
 import { bytesToString, stringToBytes } from "../../src/utils/utf8.js";
-import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils.js";
+import {
+  certificateToBase64,
+  createECDSKey,
+  createRSAKey,
+  createX509Certificate,
+} from "../utils/cryptoUtils.js";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
 import { AttestationTokenImpl } from "../../src/models/attestationToken.js";
-import { recorderOptions } from "../utils/recordedClient.js";
-import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 describe("AttestationTokenTests", () => {
-  let recorder: Recorder;
-
-  beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-  });
-
-  afterEach(async () => {
-    await recorder.stop();
-  });
-
   it("#testUtf8ConversionFunctions", async () => {
     const buffer = stringToBytes("ABCDEF");
     assert.equal(buffer[0], 65);
@@ -42,7 +32,7 @@ describe("AttestationTokenTests", () => {
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = verifyAttestationSigningKey(privKey, cert);
+    const signingKey = await verifyAttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
@@ -52,7 +42,7 @@ describe("AttestationTokenTests", () => {
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = verifyAttestationSigningKey(privKey, cert);
+    const signingKey = await verifyAttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
@@ -62,12 +52,39 @@ describe("AttestationTokenTests", () => {
     const [privKey, pubKey] = createECDSKey();
     const cert = createX509Certificate(privKey, pubKey, "testCert");
 
-    const [key2] = createECDSKey();
+    const [key2] = createECDSKey(1);
 
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    assert.throws(() => verifyAttestationSigningKey(key2, cert));
+    await expect(verifyAttestationSigningKey(key2, cert)).rejects.toThrow(
+      "Key does not match Certificate",
+    );
+  });
+
+  it("#createRsaSigningKeyWrongKey", async () => {
+    const [privateKey, publicKey] = createRSAKey();
+    const certificate = createX509Certificate(privateKey, publicKey, "testCert");
+    const [mismatchedKey] = createRSAKey(1);
+
+    await expect(verifyAttestationSigningKey(mismatchedKey, certificate)).rejects.toThrow(
+      "Key does not match Certificate",
+    );
+  });
+
+  it("#rejectMalformedSigningMaterial", async () => {
+    const [privateKey, publicKey] = createRSAKey();
+    const certificate = createX509Certificate(privateKey, publicKey, "testCert");
+
+    await expect(verifyAttestationSigningKey("not a key", certificate)).rejects.toThrow();
+    await expect(verifyAttestationSigningKey(privateKey, "not a certificate")).rejects.toThrow(
+      "Invalid PEM encoded certificate",
+    );
+
+    const truncatedCertificate = `-----BEGIN CERTIFICATE-----
+${certificateToBase64(certificate).slice(0, -4)}
+-----END CERTIFICATE-----`;
+    await expect(verifyAttestationSigningKey(privateKey, truncatedCertificate)).rejects.toThrow();
   });
 
   /**
@@ -75,7 +92,7 @@ describe("AttestationTokenTests", () => {
    */
   it("#createUnsecuredAttestationToken", async () => {
     const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
-    const token = AttestationTokenImpl.create({ body: sourceObject });
+    const token = await AttestationTokenImpl.create({ body: sourceObject });
 
     const body = token.getBody();
     assert.deepEqual(body, { foo: "foo", bar: 10 });
@@ -86,7 +103,7 @@ describe("AttestationTokenTests", () => {
    * Creates an unsecured empty attestation token.
    */
   it("#createUnsecuredEmptyAttestationToken", async () => {
-    const token = AttestationTokenImpl.create({});
+    const token = await AttestationTokenImpl.create({});
 
     // An empty unsecured attestation token has a well known value, check it.
     assert("eyJhbGciOiJub25lIn0..", token.serialize());
@@ -102,24 +119,18 @@ describe("AttestationTokenTests", () => {
     const [privKey, pubKey] = createRSAKey();
     const cert = createX509Certificate(privKey, pubKey, "certificate");
 
-    const token = AttestationTokenImpl.create({ privateKey: privKey, certificate: cert });
+    const token = await AttestationTokenImpl.create({ privateKey: privKey, certificate: cert });
 
     assert.notEqual(token.algorithm, "none");
     assert.equal(token.certificateChain?.certificates.length, 1);
     if (token.certificateChain) {
       const pemCert: string = token.certificateChain.certificates[0];
 
-      const expectedCert = new jsrsasign.X509();
-      expectedCert.readCertPEM(cert);
-
-      const actualCert = new jsrsasign.X509();
-      actualCert.readCertPEM(pemCert);
-
-      assert.equal(expectedCert.hex, actualCert.hex);
+      assert.equal(certificateToBase64(cert), certificateToBase64(pemCert));
     }
 
     // The token of course should validate.
-    assert.deepEqual(token.getTokenProblems(), []);
+    assert.deepEqual(await token.getTokenProblems(), []);
   });
 
   /**
@@ -142,7 +153,7 @@ describe("AttestationTokenTests", () => {
     };
 
     const sourceJson = JSON.stringify(sourceObject);
-    const token = AttestationTokenImpl.create({
+    const token = await AttestationTokenImpl.create({
       body: sourceJson,
       privateKey: privKey,
       certificate: cert,
@@ -161,14 +172,52 @@ describe("AttestationTokenTests", () => {
     expect(token.issuer).to.equal("this is an issuer");
   });
 
+  it("#createEcSecuredAttestationToken", async () => {
+    const [privateKey, publicKey] = createECDSKey();
+    const certificate = createX509Certificate(privateKey, publicKey, "certificate");
+    const token = await AttestationTokenImpl.create({
+      body: JSON.stringify({ foo: "bar" }),
+      privateKey,
+      certificate,
+    });
+
+    assert.equal(token.algorithm, "ES256");
+    assert.equal(token.certificateChain?.certificates.length, 1);
+    assert.deepEqual(await token.getTokenProblems([{ certificates: [certificate] }]), []);
+  });
+
+  it("#rejectTamperedRsaAndEcTokens", async () => {
+    for (const createKey of [createRSAKey, createECDSKey]) {
+      const [privateKey, publicKey] = createKey();
+      const certificate = createX509Certificate(privateKey, publicKey, "certificate");
+      const token = await AttestationTokenImpl.create({
+        body: JSON.stringify({ foo: "bar" }),
+        privateKey,
+        certificate,
+      });
+      const pieces = token.serialize().split(".");
+      pieces[1] = base64UrlEncodeByteArray(stringToBytes(JSON.stringify({ foo: "tampered" })));
+      const tamperedToken = new AttestationTokenImpl(pieces.join("."));
+      assert.deepEqual(await tamperedToken.getTokenProblems([{ certificates: [certificate] }]), [
+        "Attestation Token is not properly signed.",
+      ]);
+
+      const nonCanonicalToken = new AttestationTokenImpl(`${token.serialize()}=`);
+      assert.deepEqual(
+        await nonCanonicalToken.getTokenProblems([{ certificates: [certificate] }]),
+        ["Attestation Token is not properly signed."],
+      );
+    }
+  });
+
   it("#verifyAttestationTokenCallback", async () => {
     const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
 
-    const token = AttestationTokenImpl.create({ body: sourceObject });
+    const token = await AttestationTokenImpl.create({ body: sourceObject });
 
     assert.deepEqual(
       [],
-      token.getTokenProblems(undefined, {
+      await token.getTokenProblems(undefined, {
         validateToken: true,
         validateAttestationToken: (tokenToCheck) => {
           console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
@@ -178,15 +227,15 @@ describe("AttestationTokenTests", () => {
     );
 
     assert.isTrue(
-      token
-        .getTokenProblems(undefined, {
+      (
+        await token.getTokenProblems(undefined, {
           validateToken: true,
           validateAttestationToken: (tokenToCheck) => {
             console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
             return ["There was a validation failure"];
           },
         })
-        .find((s) => s.search("validation")) !== undefined,
+      ).find((s) => s.search("validation")) !== undefined,
     );
   });
 
@@ -203,11 +252,11 @@ describe("AttestationTokenTests", () => {
         bar: 10,
       });
 
-      const token = AttestationTokenImpl.create({ body: sourceObject });
+      const token = await AttestationTokenImpl.create({ body: sourceObject });
 
       assert.deepEqual(
         [],
-        token.getTokenProblems(undefined, {
+        await token.getTokenProblems(undefined, {
           validateToken: true,
           validateIssuer: true,
           expectedIssuer: "this is an issuer",
@@ -215,13 +264,13 @@ describe("AttestationTokenTests", () => {
       );
 
       assert.isTrue(
-        token
-          .getTokenProblems(undefined, {
+        (
+          await token.getTokenProblems(undefined, {
             validateToken: true,
             validateIssuer: true,
             expectedIssuer: "this is a different issuer",
           })
-          .find((s) => s.search("different issuer")) !== undefined,
+        ).find((s) => s.search("different issuer")) !== undefined,
       );
     }
   });
@@ -238,11 +287,11 @@ describe("AttestationTokenTests", () => {
         bar: 10,
       });
 
-      const token = AttestationTokenImpl.create({ body: sourceObject });
+      const token = await AttestationTokenImpl.create({ body: sourceObject });
 
       assert.deepEqual(
         [],
-        token.getTokenProblems(undefined, {
+        await token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
@@ -260,23 +309,23 @@ describe("AttestationTokenTests", () => {
         bar: 10,
       });
 
-      const token = AttestationTokenImpl.create({ body: sourceObject });
+      const token = await AttestationTokenImpl.create({ body: sourceObject });
 
       assert.isTrue(
-        token
-          .getTokenProblems(undefined, {
+        (
+          await token.getTokenProblems(undefined, {
             validateToken: true,
             validateExpirationTime: true,
             validateNotBeforeTime: true,
           })
-          .find((s) => s.search("expired")) !== undefined,
+        ).find((s) => s.search("expired")) !== undefined,
       );
 
       // Validate the token again, this time specifying a validation slack of
       // 10 seconds. The token should be fine with that slack.
       assert.deepEqual(
         [],
-        token.getTokenProblems(undefined, {
+        await token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
@@ -294,22 +343,22 @@ describe("AttestationTokenTests", () => {
         bar: 10,
       });
 
-      const token = AttestationTokenImpl.create({ body: sourceObject });
+      const token = await AttestationTokenImpl.create({ body: sourceObject });
       assert.isTrue(
-        token
-          .getTokenProblems(undefined, {
+        (
+          await token.getTokenProblems(undefined, {
             validateToken: true,
             validateExpirationTime: true,
             validateNotBeforeTime: true,
           })
-          .find((s) => s.search("not yet")) !== undefined,
+        ).find((s) => s.search("not yet")) !== undefined,
       );
 
       // Validate the token again, this time specifying a validation slack of
       // 10 seconds. The token should be fine with that slack.
       assert.deepEqual(
         [],
-        token.getTokenProblems(undefined, {
+        await token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,

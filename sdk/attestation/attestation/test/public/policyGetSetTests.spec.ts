@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../src/jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import type { EndpointType } from "../utils/recordedClient.js";
 import {
@@ -13,7 +10,12 @@ import {
 } from "../utils/recordedClient.js";
 import type { AttestationType } from "../../src/index.js";
 import { KnownAttestationType, createAttestationPolicyToken } from "../../src/index.js";
-import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils.js";
+import {
+  certificateToBase64,
+  createRSAKey,
+  createX509Certificate,
+  generateSha256Hash,
+} from "../utils/cryptoUtils.js";
 import { KnownPolicyModification } from "../../src/generated/index.js";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
@@ -52,7 +54,7 @@ describe("PolicyGetSetTests ", () => {
     const minimalPolicy = "version=1.0; authorizationrules{=> permit();}; issuancerules{};";
 
     const [rsaKey, rsapubKey] = createRSAKey();
-    const [rsaKey2] = createRSAKey();
+    const [rsaKey2] = createRSAKey(1);
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
@@ -77,7 +79,7 @@ describe("PolicyGetSetTests ", () => {
         privateKey: "BogusKey",
         certificate: rsaCertificate,
       }),
-    ).rejects.toThrow("not supported argument");
+    ).rejects.toThrow("Invalid PEM encoded private key");
 
     await adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy);
 
@@ -88,7 +90,7 @@ describe("PolicyGetSetTests ", () => {
     const adminClient = createRecordedAdminClient(recorder, "AAD");
 
     const [rsaKey, rsapubKey] = createRSAKey();
-    const [rsaKey2] = createRSAKey();
+    const [rsaKey2] = createRSAKey(1);
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
@@ -104,7 +106,7 @@ describe("PolicyGetSetTests ", () => {
         privateKey: "BogusKey",
         certificate: rsaCertificate,
       }),
-    ).rejects.toThrow("not supported argument");
+    ).rejects.toThrow("Invalid PEM encoded private key");
 
     await expect(
       adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
@@ -139,7 +141,7 @@ describe("PolicyGetSetTests ", () => {
     if (!isLiveMode()) ctx.skip(); // "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     const [rsaKey, rsaPubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
-    const signingKey = verifyAttestationSigningKey(rsaKey, rsaCertificate);
+    const signingKey = await verifyAttestationSigningKey(rsaKey, rsaCertificate);
     await testResetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
   });
 
@@ -174,7 +176,7 @@ describe("PolicyGetSetTests ", () => {
 
     assert.equal(KnownPolicyModification.Updated, policyResult.body.policyResolution);
 
-    const expectedPolicy = createAttestationPolicyToken(
+    const expectedPolicy = await createAttestationPolicyToken(
       minimalPolicy,
       signer?.privateKey,
       signer?.certificate,
@@ -194,14 +196,11 @@ describe("PolicyGetSetTests ", () => {
       assert.isNotNull(policyResult.body.policySigner);
 
       if (policyResult.body.policySigner) {
-        const expectedCert = new jsrsasign.X509();
-        expectedCert.readCertPEM(signer.certificate);
-
-        const actualCert = new jsrsasign.X509();
-        actualCert.readCertPEM(policyResult.body.policySigner.certificates[0]);
-
         // The signer in the response should match the signer we set in the request.
-        assert.equal(expectedCert.hex, actualCert.hex);
+        assert.equal(
+          certificateToBase64(signer.certificate),
+          certificateToBase64(policyResult.body.policySigner.certificates[0]),
+        );
       }
     } else {
       assert.isUndefined(policyResult.body.policySigner);

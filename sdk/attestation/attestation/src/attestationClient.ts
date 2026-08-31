@@ -276,7 +276,7 @@ export class AttestationClient {
         );
 
         const token = new AttestationTokenImpl(attestationResponse.token);
-        const problems = token.getTokenProblems(
+        const problems = await token.getTokenProblems(
           await this._signingKeys(),
           options.validationOptions ?? this._validationOptions,
         );
@@ -356,7 +356,7 @@ export class AttestationClient {
         );
 
         const token = new AttestationTokenImpl(attestationResponse.token);
-        const problems = token.getTokenProblems(
+        const problems = await token.getTokenProblems(
           await this._signingKeys(),
           options.validationOptions ?? this._validationOptions,
         );

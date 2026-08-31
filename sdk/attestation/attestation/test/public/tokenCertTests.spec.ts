@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../src/jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
 import { Recorder } from "@azure-tools/test-recorder";
 import {
   createRecordedClient,
@@ -12,6 +9,7 @@ import {
 } from "../utils/recordedClient.js";
 import type { AttestationClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { certificateToBase64 } from "../utils/cryptoUtils.js";
 
 describe("TokenCertTests", () => {
   let recorder: Recorder;
@@ -49,8 +47,7 @@ describe("TokenCertTests", () => {
       key.certificates.forEach((certBuffer) => {
         assert.isDefined(certBuffer);
 
-        const cert = new jsrsasign.X509();
-        cert.readCertPEM(certBuffer);
+        assert.isNotEmpty(certificateToBase64(certBuffer));
       });
     }
   }

@@ -1,0 +1,26 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AttestationTokenImpl } from "../../src/models/attestationToken.js";
+import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils.js";
+import { assert, describe, it } from "vitest";
+
+describe("Attestation token cryptography in browser", () => {
+  for (const [algorithm, createKey] of [
+    ["RS256", createRSAKey],
+    ["ES256", createECDSKey],
+  ] as const) {
+    it(`creates and validates ${algorithm} tokens`, async () => {
+      const [privateKey, publicKey] = createKey();
+      const certificate = createX509Certificate(privateKey, publicKey, "certificate");
+      const token = await AttestationTokenImpl.create({
+        body: JSON.stringify({ runtime: "browser" }),
+        privateKey,
+        certificate,
+      });
+
+      assert.equal(token.algorithm, algorithm);
+      assert.deepEqual(await token.getTokenProblems([{ certificates: [certificate] }]), []);
+    });
+  }
+});
