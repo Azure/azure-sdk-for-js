@@ -77,7 +77,7 @@ describe("AzurePipelinesCredential (internal)", function () {
         assertSafeErrorDetails(e);
         assert.include(
           e.message,
-          "No service connection found with identifier frwerhq-241242-vsdkf-jw",
+          "No service connection found with identifier fake-identifier",
         );
       }
     });
