@@ -531,6 +531,8 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
     agentEndpoint?: AgentEndpointConfig;
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
+    digitalWorkerType?: DigitalWorkerType;
+    draft?: boolean;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
     state?: AgentState;
@@ -549,6 +551,8 @@ export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOpti
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
+    digitalWorkerType?: DigitalWorkerType;
+    draft?: boolean;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
 }

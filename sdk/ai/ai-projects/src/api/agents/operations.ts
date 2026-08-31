@@ -1467,6 +1467,8 @@ export function _createVersionSend(
       blueprint_reference: !options?.blueprintReference
         ? options?.blueprintReference
         : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      digital_worker_type: options?.digitalWorkerType,
+      draft: options?.draft,
     },
   });
 }
@@ -1901,6 +1903,8 @@ export function _createSend(
       blueprint_reference: !options?.blueprintReference
         ? options?.blueprintReference
         : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      digital_worker_type: options?.digitalWorkerType,
+      draft: options?.draft,
       agent_endpoint: !options?.agentEndpoint
         ? options?.agentEndpoint
         : agentEndpointConfigSerializer(options?.agentEndpoint),

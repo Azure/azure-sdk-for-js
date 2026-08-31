@@ -11,6 +11,7 @@ import type {
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
+  DigitalWorkerType,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -336,6 +337,10 @@ export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   description?: string;
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
+  /** (Preview) The type of digital worker (previously known as `autopilot`). If omitted, it is not a digital worker. */
+  digitalWorkerType?: DigitalWorkerType;
+  /** (Preview) Whether this agent version is a draft (candidate) rather than a release. The service defaults to `false` if a value is not specified by the caller. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. */
+  draft?: boolean;
 }
 
 /** Optional parameters. */
@@ -443,6 +448,10 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
   description?: string;
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
+  /** (Preview) The type of digital worker (previously known as `autopilot`). If omitted, it is not a digital worker. */
+  digitalWorkerType?: DigitalWorkerType;
+  /** (Preview) Whether this agent version is a draft (candidate) rather than a release. The service defaults to `false` if a value is not specified by the caller. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. */
+  draft?: boolean;
   /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
   agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
