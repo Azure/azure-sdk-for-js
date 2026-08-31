@@ -46,6 +46,17 @@ describe("ContainerService test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers: [
+          {
+            target: "api-version=2026-06-01",
+            value: "api-version=2026-05-02-preview",
+          },
+        ],
+      },
+      ["playback"],
+    );
     subscriptionId = env.SUBSCRIPTION_ID || "";
     clientId = env.AZURE_CLIENT_ID || "";
     // This is an example of how the environment variables are used
