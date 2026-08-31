@@ -15,8 +15,6 @@ import {
   type Agent,
   type AgentDefinitionUnion,
   type VoiceAgentDefinition,
-  type VoiceAgentFunctionTool,
-  type VoiceAudioFormat,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -43,27 +41,6 @@ export async function main(): Promise<void> {
   let audioByteCount = 0;
 
   try {
-    // session.update merges into the existing session config; only the changed field needs to be sent.
-    const pcmFormat: VoiceAudioFormat = { type: "audio/pcm", rate: pcmSampleRate };
-    const weatherTool: VoiceAgentFunctionTool = {
-      type: "function",
-      name: "get_weather",
-      description: "Get the current weather for a city.",
-      parameters: {
-        type: "object",
-        properties: { city: { type: "string" } },
-        required: ["city"],
-      },
-    };
-    await connection.configureSession({
-      type: "realtime",
-      output_modalities: ["text", "audio"],
-      audio: {
-        output: { format: pcmFormat },
-      },
-      tools: [weatherTool],
-    });
-
     await connection.sendText("What is the weather in Seattle? Use the weather tool.");
 
     for await (const event of connection) {
@@ -153,6 +130,21 @@ async function getOrCreateVoiceAgent(
     model: modelName,
     instructions: "You are a helpful voice assistant. Use tools when appropriate.",
     output_modalities: ["text", "audio"],
+    audio: {
+      output: { format: { type: "audio/pcm", rate: pcmSampleRate } },
+    },
+    tools: [
+      {
+        type: "function",
+        name: "get_weather",
+        description: "Get the current weather for a city.",
+        parameters: {
+          type: "object",
+          properties: { city: { type: "string" } },
+          required: ["city"],
+        },
+      },
+    ],
   };
   const agent = await project.agents.create(agentName, definition, { foundryFeatures: preview });
   return { definition: getVoiceDefinition(agent), created: true };

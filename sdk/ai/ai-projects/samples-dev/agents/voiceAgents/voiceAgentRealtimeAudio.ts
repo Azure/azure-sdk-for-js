@@ -15,8 +15,6 @@ import {
   type Agent,
   type AgentDefinitionUnion,
   type VoiceAgentDefinition,
-  type VoiceAgentServerVadTurnDetection,
-  type VoiceAudioFormat,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -48,26 +46,6 @@ export async function main(): Promise<void> {
   let responseComplete = false;
 
   try {
-    // session.update merges into the existing session config; only the changed field needs to be sent.
-    const pcmFormat: VoiceAudioFormat = { type: "audio/pcm", rate: pcmSampleRate };
-    const turnDetection: VoiceAgentServerVadTurnDetection = {
-      type: "server_vad",
-      create_response: true,
-      interrupt_response: true,
-      silence_duration_ms: 500,
-    };
-    await connection.configureSession({
-      type: "realtime",
-      output_modalities: ["text", "audio"],
-      audio: {
-        input: {
-          format: pcmFormat,
-          turn_detection: turnDetection,
-        },
-        output: { format: pcmFormat },
-      },
-    });
-
     const consumeEvents = (async () => {
       for await (const event of connection) {
         switch (event.type) {
@@ -155,6 +133,18 @@ async function getOrCreateVoiceAgent(
     model: modelName,
     instructions: "Listen carefully and answer the user's request.",
     output_modalities: ["text", "audio"],
+    audio: {
+      input: {
+        format: { type: "audio/pcm", rate: pcmSampleRate },
+        turn_detection: {
+          type: "server_vad",
+          create_response: true,
+          interrupt_response: true,
+          silence_duration_ms: 500,
+        },
+      },
+      output: { format: { type: "audio/pcm", rate: pcmSampleRate } },
+    },
   };
   const agent = await project.agents.create(agentName, definition, { foundryFeatures: preview });
   return { definition: getVoiceDefinition(agent), created: true };

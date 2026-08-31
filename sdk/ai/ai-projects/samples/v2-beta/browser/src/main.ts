@@ -50,7 +50,6 @@ class VoiceAgentConsole {
   private readonly endpointInput = element<HTMLInputElement>("endpoint");
   private readonly agentSelect = element<HTMLSelectElement>("agentName");
   private readonly loadAgentsButton = element<HTMLButtonElement>("loadAgentsButton");
-  private readonly clientReferenceEc = element<HTMLInputElement>("clientReferenceEc");
   private readonly conversationIdInput = element<HTMLInputElement>("conversationId");
   private readonly conversationIdDisplay = element<HTMLElement>("conversationIdDisplay");
   private readonly fetchConversationButton = element<HTMLButtonElement>("fetchConversationButton");
@@ -110,8 +109,6 @@ class VoiceAgentConsole {
 
   public constructor() {
     this.endpointInput.value = import.meta.env["VITE_FOUNDRY_PROJECT_ENDPOINT"]?.trim() ?? "";
-    this.clientReferenceEc.checked =
-      import.meta.env["VITE_FOUNDRY_CLIENT_REFERENCE_EC"]?.trim().toLowerCase() === "true";
     this.resetAgentOptions();
     this.managementVersionsPanel.after(this.managementEditor);
     this.form.addEventListener("submit", (event) => {
@@ -723,7 +720,8 @@ class VoiceAgentConsole {
       const outputFormat = definition.audio?.output?.format;
       const outputIsPcm = outputFormat === undefined || outputFormat.type === "audio/pcm";
       const outputRate = outputFormat?.rate ?? 24_000;
-      this.clientReferenceEcActive = this.clientReferenceEc.checked;
+      this.clientReferenceEcActive =
+        definition.audio?.input?.echo_cancellation?.reference_source === "client";
       if (this.clientReferenceEcActive && !outputIsPcm) {
         throw new Error("Client-reference echo cancellation requires PCM agent audio output.");
       }
@@ -743,49 +741,13 @@ class VoiceAgentConsole {
         onConnectionStateChange: (state) => this.setSocketState(state),
       });
       this.eventTask = this.consumeEvents(this.connection);
-      await this.connection.configureSession({
-        type: "realtime",
-        output_modalities: outputIsPcm ? ["text", "audio"] : ["text"],
-        audio: {
-          input: {
-            format: { type: "audio/pcm", rate: 24_000 },
-            echo_cancellation: this.clientReferenceEcActive
-              ? {
-                  type: "server_echo_cancellation",
-                  reference_source: "client",
-                  channels: 2,
-                }
-              : {
-                  type: "server_echo_cancellation",
-                  reference_source: "server",
-                  channels: 1,
-                },
-            turn_detection: {
-              type: "server_vad",
-              create_response: true,
-              interrupt_response: true,
-              silence_duration_ms: 500,
-            },
-          },
-        },
-        tools: [
-          {
-            type: "function",
-            name: "get_local_time",
-            description: "Get the current local date, time, and time zone from the browser.",
-            parameters: { type: "object", properties: {} },
-          },
-        ],
-      });
 
       this.setConnected(true);
       this.recordEvent("Agent verified over REST");
       this.recordEvent("Voice WebSocket connected");
-      this.recordEvent(
-        this.clientReferenceEcActive
-          ? "Client-reference echo cancellation enabled (stereo mic/reference)"
-          : "Server-reference echo cancellation enabled (mono mic)",
-      );
+      if (this.clientReferenceEcActive) {
+        this.recordEvent("Client-reference echo cancellation enabled (stereo mic/reference)");
+      }
     } catch (error) {
       this.showError(error);
       await this.disconnect();
@@ -1171,7 +1133,6 @@ class VoiceAgentConsole {
     this.endpointInput.disabled = busy || connected;
     this.agentSelect.disabled = busy || connected || this.agentSelect.options.length <= 1;
     this.loadAgentsButton.disabled = busy || connected || !this.endpointInput.value.trim();
-    this.clientReferenceEc.disabled = busy || connected;
     this.conversationIdInput.disabled = busy || connected;
     this.fetchConversationButton.disabled =
       busy || connected || !this.agentSelect.value || !this.conversationIdInput.value.trim();

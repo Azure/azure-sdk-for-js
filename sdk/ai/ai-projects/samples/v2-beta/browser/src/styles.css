@@ -242,33 +242,6 @@ button:disabled {
   padding: 0 11px;
 }
 
-.configuration-form .checkbox-control {
-  min-height: 32px;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 9px;
-}
-
-.configuration-form .checkbox-control input {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-  padding: 0;
-}
-
-.configuration-form .checkbox-control span {
-  color: #3d4a42;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.configuration-help {
-  color: #68766d;
-  font-size: 11px;
-  line-height: 1.45;
-}
-
 .configuration-form select:disabled {
   color: #758078;
   background: #e9ece8;
@@ -617,26 +590,6 @@ button:disabled {
 
 .management-options[open] summary {
   margin-bottom: 8px;
-}
-
-.checkbox-control {
-  min-height: 42px;
-  align-self: end;
-  justify-content: flex-start !important;
-  gap: 9px !important;
-}
-
-.management-form .checkbox-control input {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-}
-
-.management-form .checkbox-control span {
-  color: #3d4a42;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .management-results {

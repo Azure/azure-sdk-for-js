@@ -29,7 +29,7 @@ const trailingSilenceDurationInMs = 1_000;
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const { definition, created } = await getOrCreateVoiceAgent(project);
+  const { created } = await getOrCreateVoiceAgent(project);
   const connection = await project.realtime.connect(agentName);
   const audioOutput = createWriteStream(audioOutputPath);
   let textCharacterCount = 0;
@@ -38,26 +38,6 @@ async function main() {
   let responseComplete = false;
 
   try {
-    await connection.configureSession({
-      type: "realtime",
-      output_modalities: ["text", "audio"],
-      audio: {
-        input: {
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-          turn_detection: {
-            type: "server_vad",
-            create_response: true,
-            interrupt_response: true,
-            silence_duration_ms: 500,
-          },
-        },
-        output: {
-          ...definition.audio?.output,
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-        },
-      },
-    });
-
     const consumeEvents = (async () => {
       for await (const event of connection) {
         switch (event.type) {
@@ -143,6 +123,18 @@ async function getOrCreateVoiceAgent(project) {
     model: modelName,
     instructions: "Listen carefully and answer the user's request.",
     output_modalities: ["text", "audio"],
+    audio: {
+      input: {
+        format: { type: "audio/pcm", rate: pcmSampleRate },
+        turn_detection: {
+          type: "server_vad",
+          create_response: true,
+          interrupt_response: true,
+          silence_duration_ms: 500,
+        },
+      },
+      output: { format: { type: "audio/pcm", rate: pcmSampleRate } },
+    },
   };
   const agent = await project.agents.create(agentName, definition, { foundryFeatures: preview });
   return { definition: getVoiceDefinition(agent), created: true };
