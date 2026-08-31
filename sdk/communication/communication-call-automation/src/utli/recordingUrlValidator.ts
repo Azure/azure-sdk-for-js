@@ -27,7 +27,7 @@ export function validateRecordingUrl(recordingUrl: string, parameterName: string
   try {
     parsedUrl = new URL(recordingUrl);
   } catch (error) {
-    throw new Error(`${parameterName} must be a valid absolute URI.`);
+    throw new Error(`${parameterName} must be a valid absolute URI.`, { cause: error });
   }
 
   // Ensure the URL is absolute and uses HTTPS

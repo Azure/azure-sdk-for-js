@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for exporting availability telemetry from OpenTelemetry log records with `microsoft.availability.*` attributes. [#39734](https://github.com/Azure/azure-sdk-for-js/pull/39734)
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -12,6 +14,7 @@
 
 ### Other Changes
 
+- Enabled process-wide OneSettings polling from exporter initialization and populated the standalone exporter profile for future feature targeting. Feature callbacks remain disabled. [#39764](https://github.com/Azure/azure-sdk-for-js/pull/39764)
 - Refactored internal Network and Long Interval Statsbeat lifecycle management behind a process-global manager. [#39693](https://github.com/Azure/azure-sdk-for-js/pull/39693)
 - Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, and semantic conventions to `^1.43.0`. [#39649](https://github.com/Azure/azure-sdk-for-js/pull/39649)
 - Centralized native process execution and hardened Windows system executable

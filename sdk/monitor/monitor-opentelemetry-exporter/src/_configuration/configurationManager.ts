@@ -14,6 +14,8 @@ import {
 import type { OneSettingsResponse } from "./utils.js";
 import { makeOneSettingsRequest } from "./utils.js";
 import { ConfigurationWorker } from "./configurationWorker.js";
+import type { ConfigurationProfileValues } from "./configurationProfile.js";
+import { ConfigurationProfile } from "./configurationProfile.js";
 
 interface ConfigurationState {
   etag?: string;
@@ -72,8 +74,12 @@ export class ConfigurationManager {
   /**
    * Start the OneSettings polling worker. Idempotent: safe to call from every exporter
    * constructor, since only the first call has any effect.
+   *
+   * @param profile - Running SDK attributes contributed by the caller. Existing profile fields
+   * remain unchanged.
    */
-  public initialize(): void {
+  public initialize(profile: Partial<ConfigurationProfileValues> = {}): void {
+    ConfigurationProfile.getInstance().fill(profile);
     if (this.worker) {
       return;
     }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkCreate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkCreate_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkCreateExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -602,7 +602,7 @@ async function virtualMachineBulkOperationsBulkCreateExample(): Promise<void> {
  * This sample demonstrates how to bulkCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkCreate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkCreate_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkCreateExampleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
