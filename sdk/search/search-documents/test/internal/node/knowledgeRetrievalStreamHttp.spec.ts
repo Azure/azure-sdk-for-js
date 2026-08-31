@@ -3,6 +3,7 @@
 
 import { assert, describe, expect, it } from "vitest";
 import { AzureKeyCredential } from "../../../src/index.js";
+import { KnowledgeBaseRetrievalClient as ProtocolKnowledgeBaseRetrievalClient } from "../../../src/knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
 import { KnowledgeRetrievalClient } from "../../../src/knowledgeRetrievalClient.js";
 import type { KnowledgeBaseRetrievalStreamEvent } from "../../../src/knowledgeBaseModels.js";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
@@ -79,6 +80,46 @@ describe("knowledge retrieval stream HTTP transport", () => {
         ),
       ]),
     }));
+
+    await expect(
+      client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
+    ).rejects.toMatchObject({
+      statusCode: 404,
+      code: "NotFound",
+      message: "Knowledge base not found",
+    });
+  });
+
+  it("preserves streamed errors from the raw protocol client", async () => {
+    const client = new ProtocolKnowledgeBaseRetrievalClient(
+      "https://example.search.windows.net",
+      new AzureKeyCredential("key"),
+      "base",
+      {
+        additionalPolicies: [
+          {
+            position: "perCall",
+            policy: {
+              name: "mock-response",
+              async sendRequest(request): Promise<PipelineResponse> {
+                return {
+                  request,
+                  status: 404,
+                  headers: request.headers,
+                  readableStreamBody: Readable.from([
+                    Buffer.from(
+                      JSON.stringify({
+                        error: { code: "NotFound", message: "Knowledge base not found" },
+                      }),
+                    ),
+                  ]),
+                };
+              },
+            },
+          },
+        ],
+      },
+    );
 
     await expect(
       client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),

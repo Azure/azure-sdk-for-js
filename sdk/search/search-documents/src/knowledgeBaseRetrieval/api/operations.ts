@@ -11,6 +11,7 @@ import {
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
 import { RetrieveStreamResponse } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { createSseStreamError } from "#platform/sseStreamError";
 import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
 import {
   StreamableMethod,
@@ -60,12 +61,7 @@ export async function _retrieveStreamDeserialize(
 ): Promise<RetrieveStreamResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
+    throw await createSseStreamError(result);
   }
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
