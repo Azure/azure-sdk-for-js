@@ -69,6 +69,7 @@ export async function _retrieveStreamDeserialize(
 
   return result.body;
 }
+
 /**
  * Retrieves relevant data from backing stores and streams progress and results as server-sent
  * events.
@@ -143,6 +144,7 @@ export async function _retrieveDeserialize(
 
   return knowledgeBaseRetrievalResponseDeserializer(result.body);
 }
+
 /** KnowledgeBase retrieves relevant data from backing stores. */
 export async function retrieve(
   context: Client,

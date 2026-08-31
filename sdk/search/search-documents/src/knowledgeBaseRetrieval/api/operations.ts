@@ -9,7 +9,7 @@ import {
   knowledgeBaseRetrievalResponseDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
-import { getBinaryResponse } from "#platform/static-helpers/serialization/get-binary-response";
+import { RetrieveStreamResponse } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
 import {
@@ -17,6 +17,7 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  getBinaryStreamResponse,
 } from "@azure-rest/core-client";
 
 export function _retrieveStreamSend(
@@ -55,8 +56,8 @@ export function _retrieveStreamSend(
 }
 
 export async function _retrieveStreamDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Uint8Array> {
+  result: PathUncheckedResponse & RetrieveStreamResponse,
+): Promise<RetrieveStreamResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -67,8 +68,9 @@ export async function _retrieveStreamDeserialize(
     throw error;
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
+
 /**
  * Retrieves relevant data from backing stores and streams progress and results as server-sent
  * events.
@@ -83,9 +85,9 @@ export async function retrieveStream(
   context: Client,
   retrievalRequest: KnowledgeBaseRetrievalRequest,
   options: RetrieveStreamOptionalParams = { requestOptions: {} },
-): Promise<Uint8Array> {
+): Promise<RetrieveStreamResponse> {
   const streamableMethod = _retrieveStreamSend(context, retrievalRequest, options);
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _retrieveStreamDeserialize(result);
 }
 
@@ -143,6 +145,7 @@ export async function _retrieveDeserialize(
 
   return knowledgeBaseRetrievalResponseDeserializer(result.body);
 }
+
 /** KnowledgeBase retrieves relevant data from backing stores. */
 export async function retrieve(
   context: Client,

@@ -4,6 +4,8 @@
 
 ```ts
 
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
+
 // @public
 export type AIFoundryModelCatalogName = string;
 

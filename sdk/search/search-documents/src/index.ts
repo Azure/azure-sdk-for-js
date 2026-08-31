@@ -8,7 +8,7 @@ export type {
   ContinuablePage,
 } from "./static-helpers/pagingHelpers.js";
 export type { FileContents } from "./static-helpers/multipartHelpers.js";
-export type { NodeReadableStream } from "#platform/static-helpers/platform-types";
+export type { NodeReadableStream } from "@azure/core-rest-pipeline";
 export {
   type AutocompleteItem,
   type AutocompleteMode,

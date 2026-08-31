@@ -20,6 +20,7 @@ import {
   KnowledgeBaseStreamErrorEvent,
   KnowledgeBaseResponseCompletedEvent,
 } from "./azure/search/documents/knowledgeBases/models.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesSelectedResult {
@@ -71,3 +72,20 @@ export enum KnownVersions {
   /** The 2026-08-01-preview API version. */
   V20260801Preview = "2026-08-01-preview",
 }
+
+export type RetrieveStreamResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};

@@ -4,6 +4,16 @@
 
 ```ts
 
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
+
+// @public
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
+    inputTokensCount?: number;
+    model?: KnowledgeBaseActivityRecordModel;
+    outputTokensCount?: number;
+    type: "modelWebSummarization";
+}
+
 // @public
 export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedEvent | KnowledgeBaseActivityStartedEvent | KnowledgeBaseActivityRecordUnion | KnowledgeBaseAnswerCompletedEvent | KnowledgeBaseReferenceUnion[] | KnowledgeBaseStreamErrorEvent | KnowledgeBaseResponseCompletedEvent;
 
@@ -14,6 +24,12 @@ export enum KnownVersions {
     V20260501Preview = "2026-05-01-preview",
     V20260801Preview = "2026-08-01-preview"
 }
+
+// @public (undocumented)
+export type RetrieveStreamResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
 
 // (No @packageDocumentation comment for this package)
 

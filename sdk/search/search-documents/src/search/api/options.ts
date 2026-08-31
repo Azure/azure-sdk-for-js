@@ -42,6 +42,7 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface AutocompleteGetOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -65,6 +66,7 @@ export interface AutocompleteGetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface IndexOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -72,6 +74,7 @@ export interface IndexOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface SuggestPostOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -97,6 +100,7 @@ export interface SuggestPostOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface SuggestGetOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -122,6 +126,7 @@ export interface SuggestGetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface GetDocumentOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -135,6 +140,7 @@ export interface GetDocumentOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface SearchPostOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -212,6 +218,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface SearchGetOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -283,6 +290,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface GetDocumentCountOptionalParams extends OperationOptions {
   /** The Accept header. */

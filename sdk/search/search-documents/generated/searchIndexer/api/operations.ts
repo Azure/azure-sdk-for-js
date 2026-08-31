@@ -109,6 +109,7 @@ export async function _resetSkillsDeserialize(result: PathUncheckedResponse): Pr
 
   return;
 }
+
 /** Reset an existing skillset in a search service. */
 export async function resetSkills(
   context: Client,
@@ -167,6 +168,7 @@ export async function _createSkillsetDeserialize(
 
   return searchIndexerSkillsetDeserializer(result.body);
 }
+
 /** Creates a new skillset in a search service. */
 export async function createSkillset(
   context: Client,
@@ -225,6 +227,7 @@ export async function _getSkillsetsDeserialize(
 
   return _listSkillsetsResultDeserializer(result.body);
 }
+
 /** List all skillsets in a search service. */
 export function getSkillsets(
   context: Client,
@@ -289,6 +292,7 @@ export async function _getSkillsetDeserialize(
 
   return searchIndexerSkillsetDeserializer(result.body);
 }
+
 /** Retrieves a skillset in a search service. */
 export async function getSkillset(
   context: Client,
@@ -345,6 +349,7 @@ export async function _deleteSkillsetDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** Deletes a skillset in a search service. */
 export async function deleteSkillset(
   context: Client,
@@ -409,6 +414,7 @@ export async function _createOrUpdateSkillsetDeserialize(
 
   return searchIndexerSkillsetDeserializer(result.body);
 }
+
 /** Creates a new skillset in a search service or updates the skillset if it already exists. */
 export async function createOrUpdateSkillset(
   context: Client,
@@ -466,6 +472,7 @@ export async function _getIndexerStatusDeserialize(
 
   return searchIndexerStatusDeserializer(result.body);
 }
+
 /** Returns the current status and execution history of an indexer. */
 export async function getIndexerStatus(
   context: Client,
@@ -523,6 +530,7 @@ export async function _createIndexerDeserialize(
 
   return searchIndexerDeserializer(result.body);
 }
+
 /** Creates a new indexer. */
 export async function createIndexer(
   context: Client,
@@ -581,6 +589,7 @@ export async function _getIndexersDeserialize(
 
   return _listIndexersResultDeserializer(result.body);
 }
+
 /** Lists all indexers available for a search service. */
 export function getIndexers(
   context: Client,
@@ -645,6 +654,7 @@ export async function _getIndexerDeserialize(
 
   return searchIndexerDeserializer(result.body);
 }
+
 /** Retrieves an indexer definition. */
 export async function getIndexer(
   context: Client,
@@ -701,6 +711,7 @@ export async function _deleteIndexerDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
+
 /** Deletes an indexer. */
 export async function deleteIndexer(
   context: Client,
@@ -765,6 +776,7 @@ export async function _createOrUpdateIndexerDeserialize(
 
   return searchIndexerDeserializer(result.body);
 }
+
 /** Creates a new indexer or updates an indexer if it already exists. */
 export async function createOrUpdateIndexer(
   context: Client,
@@ -820,6 +832,7 @@ export async function _runIndexerDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Runs an indexer on-demand. */
 export async function runIndexer(
   context: Client,
@@ -879,6 +892,7 @@ export async function _resetDocumentsDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** Resets specific documents in the datasource to be selectively re-ingested by the indexer. */
 export async function resetDocuments(
   context: Client,
@@ -936,6 +950,7 @@ export async function _resyncDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Resync selective options from the datasource to be re-ingested by the indexer." */
 export async function resync(
   context: Client,
@@ -991,6 +1006,7 @@ export async function _resetIndexerDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
+
 /** Resets the change tracking state associated with an indexer. */
 export async function resetIndexer(
   context: Client,
@@ -1048,6 +1064,7 @@ export async function _createDataSourceConnectionDeserialize(
 
   return searchIndexerDataSourceConnectionDeserializer(result.body);
 }
+
 /** Creates a new datasource. */
 export async function createDataSourceConnection(
   context: Client,
@@ -1106,6 +1123,7 @@ export async function _getDataSourceConnectionsDeserialize(
 
   return _listDataSourcesResultDeserializer(result.body);
 }
+
 /** Lists all datasources available for a search service. */
 export function getDataSourceConnections(
   context: Client,
@@ -1170,6 +1188,7 @@ export async function _getDataSourceConnectionDeserialize(
 
   return searchIndexerDataSourceConnectionDeserializer(result.body);
 }
+
 /** Retrieves a datasource definition. */
 export async function getDataSourceConnection(
   context: Client,
@@ -1228,6 +1247,7 @@ export async function _deleteDataSourceConnectionDeserialize(
 
   return;
 }
+
 /** Deletes a datasource. */
 export async function deleteDataSourceConnection(
   context: Client,
@@ -1291,6 +1311,7 @@ export async function _createOrUpdateDataSourceConnectionDeserialize(
 
   return searchIndexerDataSourceConnectionDeserializer(result.body);
 }
+
 /** Creates a new datasource or updates a datasource if it already exists. */
 export async function createOrUpdateDataSourceConnection(
   context: Client,

@@ -65,7 +65,7 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: Record<string, unknown>;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
@@ -458,6 +458,7 @@ export enum KnownQueryType {
  * **semantic**: Best suited for queries expressed in natural language as opposed to keywords. Improves precision of search results by re-ranking the top search results using a ranking model trained on the Web corpus.
  */
 export type QueryType = string;
+
 /** A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. The default is 'local'. Use 'global' to aggregate scoring statistics globally before scoring. Using global scoring statistics can increase latency of search queries. */
 export type ScoringStatistics = "local" | "global";
 
@@ -490,6 +491,7 @@ export enum KnownQueryDebugMode {
  * **all**: Turn on all debug options.
  */
 export type QueryDebugMode = string;
+
 /** Specifies whether any or all of the search terms must be matched in order to count the document as a match. */
 export type SearchMode = "any" | "all";
 
@@ -1146,7 +1148,7 @@ export function vectorizableTextQueryDeserializer(item: any): VectorizableTextQu
 /** The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided. */
 export interface VectorizableImageUrlQuery extends VectorQuery {
   /** The URL of an image to be vectorized to perform a vector search query. */
-  url?: string;
+  url: string;
   /** The kind of vector query being performed. */
   kind: "imageUrl";
 }

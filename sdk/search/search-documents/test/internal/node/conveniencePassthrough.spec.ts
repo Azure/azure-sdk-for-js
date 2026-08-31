@@ -40,7 +40,11 @@ function captureClient(
   });
 }
 
-function captureIndexerClient(body: unknown, captured: PipelineRequest[]): SearchIndexerClient {
+function captureIndexerClient(
+  body: unknown,
+  captured: PipelineRequest[],
+  status = 200,
+): SearchIndexerClient {
   return new SearchIndexerClient(
     "https://example.search.windows.net",
     new AzureKeyCredential("k"),
@@ -54,7 +58,7 @@ function captureIndexerClient(body: unknown, captured: PipelineRequest[]): Searc
               captured.push(request);
               return {
                 request,
-                status: 200,
+                status,
                 headers: request.headers,
                 bodyAsText: JSON.stringify(body),
               } as unknown as PipelineResponse;
@@ -166,6 +170,21 @@ describe("convenience layer carries generated fields", () => {
       assert.include(request.url, "searchType=prefix");
       assert.include(request.url, "api-version=2026-08-01-preview");
     }
+  });
+
+  it("forwards data source document IDs when resetting documents", async () => {
+    const captured: PipelineRequest[] = [];
+    const client = captureIndexerClient(undefined, captured, 204);
+
+    await client.resetDocuments("hotels-indexer", {
+      dataSourceDocumentIds: ["source-document-1", "source-document-2"],
+      overwrite: true,
+    });
+
+    assert.deepEqual(JSON.parse(captured[0].body as string), {
+      datasourceDocumentIds: ["source-document-1", "source-document-2"],
+    });
+    assert.include(captured[0].url, "overwrite=true");
   });
 
   it("forwards multipart file upload and update parameters", async () => {

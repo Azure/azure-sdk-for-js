@@ -155,6 +155,7 @@ export async function _listIndexStatsSummaryDeserialize(
 
   return _listIndexStatsSummaryDeserializer(result.body);
 }
+
 /** Retrieves a summary of statistics for all indexes in the search service. */
 export function listIndexStatsSummary(
   context: Client,
@@ -217,6 +218,7 @@ export async function _getServiceStatisticsDeserialize(
 
   return searchServiceStatisticsDeserializer(result.body);
 }
+
 /** Gets service level statistics for a search service. */
 export async function getServiceStatistics(
   context: Client,
@@ -273,6 +275,7 @@ export async function _updateKnowledgeSourceFileDeserialize(
 
   return knowledgeSourceFileDeserializer(result.body);
 }
+
 /** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
 export async function updateKnowledgeSourceFile(
   context: Client,
@@ -333,6 +336,7 @@ export async function _deleteKnowledgeSourceFileDeserialize(
 
   return;
 }
+
 /** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
 export async function deleteKnowledgeSourceFile(
   context: Client,
@@ -394,6 +398,7 @@ export async function _listKnowledgeSourceFilesDeserialize(
 
   return _listKnowledgeSourceFilesResultDeserializer(result.body);
 }
+
 /** Lists all files in a File knowledge source. */
 export function listKnowledgeSourceFiles(
   context: Client,
@@ -458,6 +463,7 @@ export async function _uploadKnowledgeSourceFileMultipartDeserialize(
 
   return knowledgeSourceFileDeserializer(result.body);
 }
+
 /** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
 export async function uploadKnowledgeSourceFileMultipart(
   context: Client,
@@ -516,6 +522,7 @@ export async function _uploadKnowledgeSourceFileDeserialize(
 
   return knowledgeSourceFileDeserializer(result.body);
 }
+
 /** Uploads a file to a File knowledge source for processing and indexing. */
 export async function uploadKnowledgeSourceFile(
   context: Client,
@@ -580,6 +587,7 @@ export async function _getKnowledgeSourceStatusDeserialize(
 
   return knowledgeSourceStatusDeserializer(result.body);
 }
+
 /** Retrieves the status of a knowledge source. */
 export async function getKnowledgeSourceStatus(
   context: Client,
@@ -637,6 +645,7 @@ export async function _createKnowledgeSourceDeserialize(
 
   return knowledgeSourceUnionDeserializer(result.body);
 }
+
 /** Creates a new knowledge source. */
 export async function createKnowledgeSource(
   context: Client,
@@ -694,6 +703,7 @@ export async function _listKnowledgeSourcesDeserialize(
 
   return _listKnowledgeSourcesResultDeserializer(result.body);
 }
+
 /** Lists all knowledge sources available for a search service. */
 export function listKnowledgeSources(
   context: Client,
@@ -758,6 +768,7 @@ export async function _getKnowledgeSourceDeserialize(
 
   return knowledgeSourceUnionDeserializer(result.body);
 }
+
 /** Retrieves a knowledge source definition. */
 export async function getKnowledgeSource(
   context: Client,
@@ -816,6 +827,7 @@ export async function _deleteKnowledgeSourceDeserialize(
 
   return;
 }
+
 /** Deletes an existing knowledge source. */
 export async function deleteKnowledgeSource(
   context: Client,
@@ -878,6 +890,7 @@ export async function _createOrUpdateKnowledgeSourceDeserialize(
 
   return knowledgeSourceUnionDeserializer(result.body);
 }
+
 /** Creates a new knowledge source or updates an knowledge source if it already exists. */
 export async function createOrUpdateKnowledgeSource(
   context: Client,
@@ -936,6 +949,7 @@ export async function _createKnowledgeBaseDeserialize(
 
   return knowledgeBaseDeserializer(result.body);
 }
+
 /** Creates a new knowledge base. */
 export async function createKnowledgeBase(
   context: Client,
@@ -993,6 +1007,7 @@ export async function _listKnowledgeBasesDeserialize(
 
   return _listKnowledgeBasesResultDeserializer(result.body);
 }
+
 /** Lists all knowledge bases available for a search service. */
 export function listKnowledgeBases(
   context: Client,
@@ -1057,6 +1072,7 @@ export async function _getKnowledgeBaseDeserialize(
 
   return knowledgeBaseDeserializer(result.body);
 }
+
 /** Retrieves a knowledge base definition. */
 export async function getKnowledgeBase(
   context: Client,
@@ -1115,6 +1131,7 @@ export async function _deleteKnowledgeBaseDeserialize(
 
   return;
 }
+
 /** Deletes a knowledge base. */
 export async function deleteKnowledgeBase(
   context: Client,
@@ -1177,6 +1194,7 @@ export async function _createOrUpdateKnowledgeBaseDeserialize(
 
   return knowledgeBaseDeserializer(result.body);
 }
+
 /** Creates a new knowledge base or updates a knowledge base if it already exists. */
 export async function createOrUpdateKnowledgeBase(
   context: Client,
@@ -1233,6 +1251,7 @@ export async function _createAliasDeserialize(result: PathUncheckedResponse): Pr
 
   return searchAliasDeserializer(result.body);
 }
+
 /** Creates a new search alias. */
 export async function createAlias(
   context: Client,
@@ -1290,6 +1309,7 @@ export async function _listAliasesDeserialize(
 
   return _listAliasesResultDeserializer(result.body);
 }
+
 /** Lists all aliases available for a search service. */
 export function listAliases(
   context: Client,
@@ -1352,6 +1372,7 @@ export async function _getAliasDeserialize(result: PathUncheckedResponse): Promi
 
   return searchAliasDeserializer(result.body);
 }
+
 /** Retrieves an alias definition. */
 export async function getAlias(
   context: Client,
@@ -1408,6 +1429,7 @@ export async function _deleteAliasDeserialize(result: PathUncheckedResponse): Pr
 
   return;
 }
+
 /** Deletes a search alias and its associated mapping to an index. This operation is permanent, with no recovery option. The mapped index is untouched by this operation. */
 export async function deleteAlias(
   context: Client,
@@ -1470,6 +1492,7 @@ export async function _createOrUpdateAliasDeserialize(
 
   return searchAliasDeserializer(result.body);
 }
+
 /** Creates a new search alias or updates an alias if it already exists. */
 export async function createOrUpdateAlias(
   context: Client,
@@ -1530,6 +1553,7 @@ export async function _analyzeTextDeserialize(
 
   return analyzeResultDeserializer(result.body);
 }
+
 /** Shows how an analyzer breaks text into tokens. */
 export async function analyzeText(
   context: Client,
@@ -1587,6 +1611,7 @@ export async function _getIndexStatisticsDeserialize(
 
   return getIndexStatisticsResultDeserializer(result.body);
 }
+
 /** Returns statistics for the given index, including a document count and storage usage. */
 export async function getIndexStatistics(
   context: Client,
@@ -1642,6 +1667,7 @@ export async function _createIndexDeserialize(result: PathUncheckedResponse): Pr
 
   return searchIndexDeserializer(result.body);
 }
+
 /** Creates a new search index. */
 export async function createIndex(
   context: Client,
@@ -1700,6 +1726,7 @@ export async function _listIndexesWithSelectedPropertiesDeserialize(
 
   return _listIndexesSelectedResultDeserializer(result.body);
 }
+
 /** Lists all indexes available for a search service. */
 export function listIndexesWithSelectedProperties(
   context: Client,
@@ -1765,6 +1792,7 @@ export async function _listIndexesDeserialize(
 
   return _listIndexesResultDeserializer(result.body);
 }
+
 /** Lists all indexes available for a search service. */
 export function listIndexes(
   context: Client,
@@ -1827,6 +1855,7 @@ export async function _getIndexDeserialize(result: PathUncheckedResponse): Promi
 
   return searchIndexDeserializer(result.body);
 }
+
 /** Retrieves an index definition. */
 export async function getIndex(
   context: Client,
@@ -1883,6 +1912,7 @@ export async function _deleteIndexDeserialize(result: PathUncheckedResponse): Pr
 
   return;
 }
+
 /** Deletes a search index and all the documents it contains. This operation is permanent, with no recovery option. Make sure you have a master copy of your index definition, data ingestion code, and a backup of the primary data source in case you need to re-build the index. */
 export async function deleteIndex(
   context: Client,
@@ -1946,6 +1976,7 @@ export async function _createOrUpdateIndexDeserialize(
 
   return searchIndexDeserializer(result.body);
 }
+
 /** Creates a new search index or updates an index if it already exists. */
 export async function createOrUpdateIndex(
   context: Client,
@@ -2004,6 +2035,7 @@ export async function _createSynonymMapDeserialize(
 
   return synonymMapDeserializer(result.body);
 }
+
 /** Creates a new synonym map. */
 export async function createSynonymMap(
   context: Client,
@@ -2062,6 +2094,7 @@ export async function _getSynonymMapsDeserialize(
 
   return _listSynonymMapsResultDeserializer(result.body);
 }
+
 /** Lists all synonym maps available for a search service. */
 export function getSynonymMaps(
   context: Client,
@@ -2126,6 +2159,7 @@ export async function _getSynonymMapDeserialize(
 
   return synonymMapDeserializer(result.body);
 }
+
 /** Retrieves a synonym map definition. */
 export async function getSynonymMap(
   context: Client,
@@ -2182,6 +2216,7 @@ export async function _deleteSynonymMapDeserialize(result: PathUncheckedResponse
 
   return;
 }
+
 /** Deletes a synonym map. */
 export async function deleteSynonymMap(
   context: Client,
@@ -2244,6 +2279,7 @@ export async function _createOrUpdateSynonymMapDeserialize(
 
   return synonymMapDeserializer(result.body);
 }
+
 /** Creates a new synonym map or updates a synonym map if it already exists. */
 export async function createOrUpdateSynonymMap(
   context: Client,

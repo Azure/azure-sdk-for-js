@@ -7,6 +7,7 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -36,7 +37,7 @@ export interface RetrieveOptionalParams extends OperationOptions {
 }
 
 // @public
-export function retrieveStream(context: KnowledgeBaseRetrievalContext, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<Uint8Array>;
+export function retrieveStream(context: KnowledgeBaseRetrievalContext, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<RetrieveStreamResponse>;
 
 // @public
 export interface RetrieveStreamOptionalParams extends OperationOptions {

@@ -8,6 +8,7 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
@@ -210,7 +211,7 @@ export interface BaseDataDeletionDetectionPolicy {
 // @public
 export interface BaseKnowledgeBaseActivityRecord {
     completedAt?: Date;
-    elapsedMs?: number;
+    elapsedInMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     startedAt?: Date;
@@ -233,7 +234,7 @@ export interface BaseKnowledgeBaseReference {
     activitySource: number;
     id: string;
     rerankerScore?: number;
-    sourceData?: Record<string, any>;
+    sourceData?: Record<string, unknown>;
     type: KnowledgeBaseReferenceType;
 }
 
@@ -1546,7 +1547,7 @@ export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
 
 // @public
 export interface KnowledgeBaseErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -3684,8 +3685,7 @@ export interface NoAuthAzureMachineLearningVectorizerParameters extends BaseAzur
     scoringUri: string;
 }
 
-// @public
-export type NodeReadableStream = NodeJS.ReadableStream;
+export { NodeReadableStream }
 
 // @public
 export type OcrLineEnding = string;

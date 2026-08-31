@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../../logger.js";
+import pkgJson from "@azure/search-documents/package.json" with { type: "json" };
 import { KnownVersions } from "../../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -29,7 +30,7 @@ export function createSearch(
 ): SearchContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-search-documents/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-search-documents/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;

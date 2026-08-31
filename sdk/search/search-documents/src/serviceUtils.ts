@@ -138,7 +138,11 @@ import type {
 } from "./serviceModels.js";
 import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import type { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
+import type {
+  KnowledgeSourceAzureOpenAIVectorizer as GeneratedKnowledgeSourceAzureOpenAIVectorizer,
+  KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters,
+  KnowledgeSourceVectorizerUnion as GeneratedKnowledgeSourceVectorizer,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 
 export const defaultServiceVersion = "2026-08-01-preview";
 
@@ -544,11 +548,10 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
 
 export function generatedKnowledgeSourceVectorizerToPublicVectorizer(): undefined;
 export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
-  generatedVectorizer: any,
+  generatedVectorizer: GeneratedKnowledgeSourceVectorizer,
 ): KnowledgeSourceVectorizer;
 export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  generatedVectorizer?: /* GeneratedKnowledgeSourceVectorizer */ any,
+  generatedVectorizer?: GeneratedKnowledgeSourceVectorizer,
 ): KnowledgeSourceVectorizer | undefined {
   if (!generatedVectorizer) {
     return generatedVectorizer;
@@ -559,11 +562,16 @@ export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
     () => KnowledgeSourceVectorizer
   > = {
     azureOpenAI: () => {
-      const { parameters } = generatedVectorizer as GeneratedAzureOpenAIVectorizer;
-      const authIdentity = convertSearchIndexerDataIdentityToPublic(parameters?.authIdentity);
-      const vectorizer: AzureOpenAIVectorizer = {
-        ...(generatedVectorizer as GeneratedAzureOpenAIVectorizer),
-        parameters: { ...parameters, authIdentity },
+      const { azureOpenAIParameters, ...vectorizerProperties } =
+        generatedVectorizer as GeneratedKnowledgeSourceAzureOpenAIVectorizer;
+      const vectorizer: KnowledgeSourceVectorizer = {
+        ...vectorizerProperties,
+        azureOpenAIParameters: azureOpenAIParameters && {
+          ...azureOpenAIParameters,
+          authIdentity: convertSearchIndexerDataIdentityToPublic(
+            azureOpenAIParameters.authIdentity,
+          ),
+        },
       };
       return vectorizer;
     },

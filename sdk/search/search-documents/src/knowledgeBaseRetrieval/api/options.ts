@@ -12,6 +12,7 @@ export interface RetrieveStreamOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface RetrieveOptionalParams extends OperationOptions {
   /** The Accept header. */

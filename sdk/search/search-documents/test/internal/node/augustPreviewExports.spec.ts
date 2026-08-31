@@ -44,6 +44,7 @@ import type {
   ServedImage,
   ServiceLimits,
 } from "../../../src/index.js";
+import type { KnowledgeBaseModelWebSummarizationActivityRecord } from "../../../src/models/index.js";
 
 // Keep concrete union members nameable through the package root.
 type ActivityMembers =
@@ -80,6 +81,10 @@ describe("August preview root exports", () => {
     assert.equal(KnownKnowledgeBaseRetrievalStatusCode.PartialContent, 206);
     assert.equal(KnownKnowledgeBaseActivityRecordType.SearchIndex, "searchIndex");
     assert.equal(KnownKnowledgeBaseReferenceType.File, "file");
+  });
+
+  it("preserves the GA web activity model import", () => {
+    expectTypeOf<KnowledgeBaseModelWebSummarizationActivityRecord>().not.toBeNever();
   });
 
   it("keeps new model families nameable from the root", () => {

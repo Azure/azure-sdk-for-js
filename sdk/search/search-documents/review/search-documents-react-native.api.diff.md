@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -649,9 +649,9 @@
+@@ -650,9 +650,9 @@
  // @public
  export type CreateSkillsetOptions = OperationOptions;
  
@@ -17,17 +17,6 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export type CreateSynonymMapOptions = OperationOptions;
- 
-@@ -3684,9 +3684,9 @@
-     scoringUri: string;
- }
- 
- // @public
--export type NodeReadableStream = NodeJS.ReadableStream;
-+export type NodeReadableStream = never;
- 
- // @public
- export type OcrLineEnding = string;
  
 
 ```

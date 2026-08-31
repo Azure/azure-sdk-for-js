@@ -103,6 +103,7 @@ export async function _autocompletePostDeserialize(
 
   return autocompleteResultDeserializer(result.body);
 }
+
 /** Autocompletes incomplete query terms based on input text and matching terms in the index. */
 export async function autocompletePost(
   context: Client,
@@ -173,6 +174,7 @@ export async function _autocompleteGetDeserialize(
 
   return autocompleteResultDeserializer(result.body);
 }
+
 /** Autocompletes incomplete query terms based on input text and matching terms in the index. */
 export async function autocompleteGet(
   context: Client,
@@ -230,6 +232,7 @@ export async function _indexDeserialize(
 
   return indexDocumentsResultDeserializer(result.body);
 }
+
 /** Sends a batch of document write actions to the index. */
 export async function index(
   context: Client,
@@ -299,6 +302,7 @@ export async function _suggestPostDeserialize(
 
   return suggestDocumentsResultDeserializer(result.body);
 }
+
 /** Suggests documents in the index that match the given partial query text. */
 export async function suggestPost(
   context: Client,
@@ -366,6 +370,7 @@ export async function _suggestGetDeserialize(
 
   return suggestDocumentsResultDeserializer(result.body);
 }
+
 /** Suggests documents in the index that match the given partial query text. */
 export async function suggestGet(
   context: Client,
@@ -429,6 +434,7 @@ export async function _getDocumentDeserialize(
 
   return lookupDocumentDeserializer(result.body);
 }
+
 /** Retrieves a document from the index. */
 export async function getDocument(
   context: Client,
@@ -548,6 +554,7 @@ export async function _searchPostDeserialize(
 
   return searchDocumentsResultDeserializer(result.body);
 }
+
 /** Searches for documents in the index. */
 export async function searchPost(
   context: Client,
@@ -652,6 +659,7 @@ export async function _searchGetDeserialize(
 
   return searchDocumentsResultDeserializer(result.body);
 }
+
 /** Searches for documents in the index. */
 export async function searchGet(
   context: Client,
@@ -702,6 +710,7 @@ export async function _getDocumentCountDeserialize(result: PathUncheckedResponse
 
   return result.body;
 }
+
 /** Queries the number of documents in the index. */
 export async function getDocumentCount(
   context: Client,

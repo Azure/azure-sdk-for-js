@@ -7,6 +7,7 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -16,7 +17,7 @@ export class KnowledgeBaseRetrievalClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, knowledgeBaseName: string, options?: KnowledgeBaseRetrievalClientOptionalParams);
     readonly pipeline: Pipeline;
     retrieve(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptionalParams): Promise<KnowledgeBaseRetrievalResponse>;
-    retrieveStream(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<Uint8Array>;
+    retrieveStream(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<RetrieveStreamResponse>;
 }
 
 // @public

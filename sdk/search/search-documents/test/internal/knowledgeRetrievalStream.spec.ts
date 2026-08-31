@@ -86,13 +86,13 @@ describe("knowledge retrieval stream", () => {
     const completed = events[1].data as {
       startedAt?: Date;
       completedAt?: Date;
-      elapsedMs?: number;
+      elapsedInMs?: number;
       imageServing?: { servedImages?: unknown[] };
       queryHintProcessing?: { generatedFilter?: string };
     };
     assert.deepEqual(completed.startedAt, new Date("2026-08-01T00:00:00Z"));
     assert.deepEqual(completed.completedAt, new Date("2026-08-01T00:00:01Z"));
-    assert.equal(completed.elapsedMs, 1000);
+    assert.equal(completed.elapsedInMs, 1000);
     assert.equal(completed.imageServing?.servedImages?.length, 1);
     assert.equal(completed.queryHintProcessing?.generatedFilter, "category eq 'manual'");
   });

@@ -82,7 +82,7 @@ export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
 // @public
 export interface KnowledgeBaseActivityRecord {
     completedAt?: Date;
-    elapsedMs?: number;
+    elapsedInMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     startedAt?: Date;
@@ -150,7 +150,7 @@ export interface KnowledgeBaseAzureBlobReference extends KnowledgeBaseReference 
 
 // @public
 export interface KnowledgeBaseErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -393,7 +393,7 @@ export interface KnowledgeBaseReference {
     activitySource: number;
     id: string;
     rerankerScore?: number;
-    sourceData?: Record<string, any>;
+    sourceData?: Record<string, unknown>;
     type: KnowledgeBaseReferenceType;
 }
 

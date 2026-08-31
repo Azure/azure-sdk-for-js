@@ -7,7 +7,7 @@ import {
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
-import { NodeReadableStream } from "./static-helpers/platform-types.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 export { SearchClient } from "./search/searchClient.js";
 export type { KnowledgeBaseRetrievalStreamEvents } from "./models/index.js";

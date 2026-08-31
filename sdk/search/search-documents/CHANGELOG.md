@@ -1,10 +1,10 @@
 # Release History
 
-## 13.1.0-beta.2 (2026-08-27)
+## 13.1.0-beta.2 (2026-08-31)
 
 ### Features Added
 
-- Regenerated from the `2026-08-01-preview` Search service API at commit `c195a3fe73b28cd90bf8a302944b2c0ec3d80def`.
+- Regenerated from the `2026-08-01-preview` Search service API at commit `9b7dfbd6ad0ba29c60142de066dc993433e3a8a7`.
 - Added typed server-sent event retrieval through `KnowledgeRetrievalClient.retrieveStream`, including typed start/activity/answer/reference/error/completion events and `200`/`206` completion status values.
 - Added File knowledge source CORS options, multipart upload and in-place update APIs, relative-path/custom metadata, prefix-filtered paging, and read-only parsing/extraction modes selected by the service.
 - Added `auto` retrieval reasoning, knowledge base `retrieveDefaults` and metadata-only `tags`, per-source `resultsProcessing`/`neverQuerySource`, and private ingestion `networkAccessMode`.
@@ -21,7 +21,7 @@
 - Renamed the root convenience property `McpServerKnowledgeSourceParameters.serverURL` to `serverUrl`; the raw protocol subpath retains the generated wire-oriented name.
 - Removed preview offset listing options (`top`, `skip`, and `count`) in favor of server-driven cursor pagination.
 - Removed `WorkIQAttribution`/`KnowledgeBaseWorkIQReference.attributions` and `McpServerToolInclusionMode`; use Work IQ sensitivity metadata and `resultsProcessing` respectively.
-- Renamed activity `elapsedInMs` to `elapsedMs`, replaced activity `modelName` with structured `model`, and renamed indexer status `totalSynchronizations` to `totalSynchronization`.
+- Replaced activity `modelName` with structured `model` metadata and renamed indexer status `totalSynchronizations` to `totalSynchronization`.
 - `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required.
 
 ### Bugs Fixed
