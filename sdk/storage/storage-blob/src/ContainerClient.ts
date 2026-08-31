@@ -2354,7 +2354,9 @@ export class ContainerClient extends StorageClient {
 
       return containerName;
     } catch (error: any) {
-      throw new Error("Unable to extract containerName with provided information.");
+      throw new Error("Unable to extract containerName with provided information.", {
+        cause: error,
+      });
     }
   }
 
