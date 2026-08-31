@@ -76,4 +76,87 @@ describe("NonStreamingOrderByDistinctEndpointComponent", () => {
       count++;
     }
   });
+
+  it("should continue after an empty page while the inner context has more results", async () => {
+    let fetchCount = 0;
+    let innerHasMoreResults = true;
+    const mockExecutionContext = {
+      hasMoreResults: () => innerHasMoreResults,
+      fetchMore: async () => {
+        fetchCount++;
+        if (fetchCount === 1) {
+          return {
+            result: { buffer: [] },
+            headers: {},
+          };
+        }
+        if (fetchCount === 2) {
+          return {
+            result: {
+              buffer: [
+                {
+                  orderByItems: [{ item: 1 }],
+                  payload: { id: "later-result" },
+                },
+              ],
+            },
+            headers: {},
+          };
+        }
+        innerHasMoreResults = false;
+        return {
+          result: { buffer: [] },
+          headers: {},
+        };
+      },
+    } as ExecutionContext;
+    const queryInfo = {
+      orderBy: ["Ascending"],
+    } as QueryInfo;
+    const component = new NonStreamingOrderByDistinctEndpointComponent(
+      mockExecutionContext,
+      queryInfo,
+      10,
+    );
+
+    const firstResponse = await component.fetchMore();
+    assert.deepStrictEqual(firstResponse.result.buffer, []);
+    assert.isTrue(component.hasMoreResults());
+
+    const secondResponse = await component.fetchMore();
+    assert.deepStrictEqual(secondResponse.result.buffer, []);
+    assert.isTrue(component.hasMoreResults());
+
+    const finalResponse = await component.fetchMore();
+    assert.deepStrictEqual(finalResponse.result.buffer, [{ id: "later-result" }]);
+    assert.equal(fetchCount, 3);
+    assert.isFalse(component.hasMoreResults());
+  });
+
+  it("should stop reporting results after local completion", async () => {
+    let fetchCount = 0;
+    const mockExecutionContext = {
+      hasMoreResults: () => true,
+      fetchMore: async () => {
+        fetchCount++;
+        return undefined as never;
+      },
+    } as ExecutionContext;
+    const queryInfo = {
+      orderBy: ["Ascending"],
+    } as QueryInfo;
+    const component = new NonStreamingOrderByDistinctEndpointComponent(
+      mockExecutionContext,
+      queryInfo,
+      10,
+    );
+
+    const response = await component.fetchMore();
+    assert.isUndefined(response.result);
+    assert.isFalse(component.hasMoreResults());
+
+    const responseAfterCompletion = await component.fetchMore();
+    assert.isUndefined(responseAfterCompletion.result);
+    assert.equal(fetchCount, 1);
+  });
 });
