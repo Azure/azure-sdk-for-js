@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByLocation, get } from "./operations.js";
-export {
-  type DnsPrivateViewsListByLocationOptionalParams,
-  type DnsPrivateViewsGetOptionalParams,
+export type {
+  DnsPrivateViewsListByLocationOptionalParams,
+  DnsPrivateViewsGetOptionalParams,
 } from "./options.js";

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to vM actions on DbNode of ExadbVmCluster by the provided filter
  *
  * @summary vM actions on DbNode of ExadbVmCluster by the provided filter
- * x-ms-original-file: 2025-09-01/ExascaleDbNodes_Action_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbNodes_Action_MaximumSet_Gen.json
  */
 async function exascaleDbNodesActionMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function exascaleDbNodesActionMaximumSet() {
  * This sample demonstrates how to vM actions on DbNode of ExadbVmCluster by the provided filter
  *
  * @summary vM actions on DbNode of ExadbVmCluster by the provided filter
- * x-ms-original-file: 2025-09-01/ExascaleDbNodes_Action_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbNodes_Action_MinimumSet_Gen.json
  */
 async function exascaleDbNodesActionMinimumSet() {
   const credential = new DefaultAzureCredential();

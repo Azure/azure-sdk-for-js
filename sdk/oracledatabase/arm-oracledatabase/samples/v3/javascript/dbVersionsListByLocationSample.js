@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list DbVersion resources by SubscriptionLocationResource
  *
  * @summary list DbVersion resources by SubscriptionLocationResource
- * x-ms-original-file: 2025-09-01/DbVersions_ListByLocation_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/DbVersions_ListByLocation_MaximumSet_Gen.json
  */
 async function dbVersionsListByLocationMaximumSet() {
   const credential = new DefaultAzureCredential();

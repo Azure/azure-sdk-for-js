@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a ExascaleDbStorageVault
  *
  * @summary delete a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbStorageVaults_Delete_MaximumSet_Gen.json
  */
 async function exascaleDbStorageVaultsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function exascaleDbStorageVaultsDeleteMaximumSet(): Promise<void> {
  * This sample demonstrates how to delete a ExascaleDbStorageVault
  *
  * @summary delete a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbStorageVaults_Delete_MinimumSet_Gen.json
  */
 async function exascaleDbStorageVaultsDeleteMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

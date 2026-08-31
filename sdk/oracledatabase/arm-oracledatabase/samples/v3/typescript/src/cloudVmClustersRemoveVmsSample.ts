@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to remove VMs from the VM Cluster
  *
  * @summary remove VMs from the VM Cluster
- * x-ms-original-file: 2025-09-01/CloudVmClusters_RemoveVms_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudVmClusters_RemoveVms_MaximumSet_Gen.json
  */
 async function removeVMsFromVMClusterGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function removeVMsFromVMClusterGeneratedByMaximumSetRule(): Promise<void> 
  * This sample demonstrates how to remove VMs from the VM Cluster
  *
  * @summary remove VMs from the VM Cluster
- * x-ms-original-file: 2025-09-01/CloudVmClusters_RemoveVms_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudVmClusters_RemoveVms_MinimumSet_Gen.json
  */
 async function removeVMsFromVMClusterGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function removeVMsFromVMClusterGeneratedByMinimumSetRule(): Promise<void> 
  * This sample demonstrates how to remove VMs from the VM Cluster
  *
  * @summary remove VMs from the VM Cluster
- * x-ms-original-file: 2025-09-01/vmClusters_removeVms.json
+ * x-ms-original-file: 2025-11-01-preview/vmClusters_removeVms.json
  */
 async function cloudVmClustersRemoveVms(): Promise<void> {
   const credential = new DefaultAzureCredential();

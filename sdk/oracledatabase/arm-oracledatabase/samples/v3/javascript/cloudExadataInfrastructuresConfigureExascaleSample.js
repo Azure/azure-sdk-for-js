@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to configures Exascale on Cloud exadata infrastructure resource
  *
  * @summary configures Exascale on Cloud exadata infrastructure resource
- * x-ms-original-file: 2025-09-01/CloudExadataInfrastructures_ConfigureExascale_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudExadataInfrastructures_ConfigureExascale_MaximumSet_Gen.json
  */
 async function cloudExadataInfrastructuresConfigureExascaleMaximumSetGenGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function cloudExadataInfrastructuresConfigureExascaleMaximumSetGenGenerate
  * This sample demonstrates how to configures Exascale on Cloud exadata infrastructure resource
  *
  * @summary configures Exascale on Cloud exadata infrastructure resource
- * x-ms-original-file: 2025-09-01/CloudExadataInfrastructures_ConfigureExascale_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudExadataInfrastructures_ConfigureExascale_MinimumSet_Gen.json
  */
 async function cloudExadataInfrastructuresConfigureExascaleMaximumSetGenGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

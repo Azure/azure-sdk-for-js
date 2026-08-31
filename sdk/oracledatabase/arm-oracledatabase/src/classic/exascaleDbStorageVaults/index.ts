@@ -37,11 +37,6 @@ export interface ExascaleDbStorageVaultsOperations {
     options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ExascaleDbStorageVault>;
   /** Delete a ExascaleDbStorageVault */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     exascaleDbStorageVaultName: string,

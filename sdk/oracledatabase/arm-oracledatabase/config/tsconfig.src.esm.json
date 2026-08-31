@@ -1,6 +1,37 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/dbVersions/index.ts",
+    "../src/api/dbSystems/index.ts",
+    "../src/api/resourceAnchors/index.ts",
+    "../src/api/networkAnchors/index.ts",
+    "../src/api/exascaleDbStorageVaults/index.ts",
+    "../src/api/exascaleDbNodes/index.ts",
+    "../src/api/exadbVmClusters/index.ts",
+    "../src/api/autonomousDatabaseVersions/index.ts",
+    "../src/api/autonomousDatabaseNationalCharacterSets/index.ts",
+    "../src/api/autonomousDatabaseCharacterSets/index.ts",
+    "../src/api/autonomousDatabaseBackups/index.ts",
+    "../src/api/autonomousDatabases/index.ts",
+    "../src/api/flexComponents/index.ts",
+    "../src/api/dnsPrivateZones/index.ts",
+    "../src/api/dnsPrivateViews/index.ts",
+    "../src/api/dbSystemShapes/index.ts",
+    "../src/api/giMinorVersions/index.ts",
+    "../src/api/giVersions/index.ts",
+    "../src/api/dbNodes/index.ts",
+    "../src/api/oracleSubscriptions/index.ts",
+    "../src/api/systemVersions/index.ts",
+    "../src/api/virtualNetworkAddresses/index.ts",
+    "../src/api/cloudVmClusters/index.ts",
+    "../src/api/dbServers/index.ts",
+    "../src/api/cloudExadataInfrastructures/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to perform switchover action on Autonomous Database
  *
  * @summary perform switchover action on Autonomous Database
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_Switchover_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_Switchover_MaximumSet_Gen.json
  */
 async function performSwitchoverActionOnAutonomousDatabaseGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function performSwitchoverActionOnAutonomousDatabaseGeneratedByMaximumSetR
  * This sample demonstrates how to perform switchover action on Autonomous Database
  *
  * @summary perform switchover action on Autonomous Database
- * x-ms-original-file: 2025-09-01/autonomousDatabase_switchover.json
+ * x-ms-original-file: 2025-11-01-preview/autonomousDatabase_switchover.json
  */
 async function autonomousDatabasesSwitchover(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list AutonomousDatabaseBackup resources by AutonomousDatabase
  *
  * @summary list AutonomousDatabaseBackup resources by AutonomousDatabase
- * x-ms-original-file: 2025-09-01/AutonomousDatabaseBackups_ListByParent_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabaseBackups_ListByParent_MaximumSet_Gen.json
  */
 async function listAutonomousDatabaseBackupsByAutonomousDatabaseGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

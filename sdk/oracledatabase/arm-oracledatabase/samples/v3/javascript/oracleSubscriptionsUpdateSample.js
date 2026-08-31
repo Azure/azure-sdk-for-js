@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a OracleSubscription
  *
  * @summary update a OracleSubscription
- * x-ms-original-file: 2025-09-01/OracleSubscriptions_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/OracleSubscriptions_Update_MaximumSet_Gen.json
  */
 async function patchOracleSubscriptionGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function patchOracleSubscriptionGeneratedByMaximumSetRule() {
  * This sample demonstrates how to update a OracleSubscription
  *
  * @summary update a OracleSubscription
- * x-ms-original-file: 2025-09-01/OracleSubscriptions_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/OracleSubscriptions_Update_MinimumSet_Gen.json
  */
 async function patchOracleSubscriptionGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function patchOracleSubscriptionGeneratedByMinimumSetRule() {
  * This sample demonstrates how to update a OracleSubscription
  *
  * @summary update a OracleSubscription
- * x-ms-original-file: 2025-09-01/oracleSubscriptions_patch.json
+ * x-ms-original-file: 2025-11-01-preview/oracleSubscriptions_patch.json
  */
 async function oracleSubscriptionsUpdate() {
   const credential = new DefaultAzureCredential();

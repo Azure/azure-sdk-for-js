@@ -33,7 +33,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -41,10 +41,7 @@ export function _listByLocationSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -54,7 +51,10 @@ export async function _listByLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -74,7 +74,11 @@ export function listByLocation(
     () => _listByLocationSend(context, location, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    },
   );
 }
 
@@ -82,9 +86,7 @@ export function _getSend(
   context: Client,
   location: string,
   adbsncharsetname: string,
-  options: AutonomousDatabaseNationalCharacterSetsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseNationalCharacterSetsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/autonomousDatabaseNationalCharacterSets/{adbsncharsetname}{?api%2Dversion}",
@@ -92,7 +94,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       adbsncharsetname: adbsncharsetname,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,10 +102,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -113,7 +112,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -125,9 +127,7 @@ export async function get(
   context: Client,
   location: string,
   adbsncharsetname: string,
-  options: AutonomousDatabaseNationalCharacterSetsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseNationalCharacterSetsGetOptionalParams = { requestOptions: {} },
 ): Promise<AutonomousDatabaseNationalCharacterSet> {
   const result = await _getSend(context, location, adbsncharsetname, options);
   return _getDeserialize(result);

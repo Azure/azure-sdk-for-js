@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByLocation, get } from "./operations.js";
-export {
-  type AutonomousDatabaseVersionsListByLocationOptionalParams,
-  type AutonomousDatabaseVersionsGetOptionalParams,
+export type {
+  AutonomousDatabaseVersionsListByLocationOptionalParams,
+  AutonomousDatabaseVersionsGetOptionalParams,
 } from "./options.js";

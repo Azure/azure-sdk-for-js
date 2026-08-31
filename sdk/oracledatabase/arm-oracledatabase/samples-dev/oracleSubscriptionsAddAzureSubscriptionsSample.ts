@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to add Azure Subscriptions
  *
  * @summary add Azure Subscriptions
- * x-ms-original-file: 2025-09-01/OracleSubscriptions_AddAzureSubscriptions_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/OracleSubscriptions_AddAzureSubscriptions_MaximumSet_Gen.json
  */
 async function addAzureSubscriptionsToTheOracleSubscriptionGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function addAzureSubscriptionsToTheOracleSubscriptionGeneratedByMaximumSet
  * This sample demonstrates how to add Azure Subscriptions
  *
  * @summary add Azure Subscriptions
- * x-ms-original-file: 2025-09-01/OracleSubscriptions_AddAzureSubscriptions_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/OracleSubscriptions_AddAzureSubscriptions_MinimumSet_Gen.json
  */
 async function addAzureSubscriptionsToTheOracleSubscriptionGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function addAzureSubscriptionsToTheOracleSubscriptionGeneratedByMinimumSet
  * This sample demonstrates how to add Azure Subscriptions
  *
  * @summary add Azure Subscriptions
- * x-ms-original-file: 2025-09-01/oracleSubscriptions_addAzureSubscriptions.json
+ * x-ms-original-file: 2025-11-01-preview/oracleSubscriptions_addAzureSubscriptions.json
  */
 async function oracleSubscriptionsAddAzureSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

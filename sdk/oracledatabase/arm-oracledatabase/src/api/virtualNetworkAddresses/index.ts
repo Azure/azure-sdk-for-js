@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { listByParent, $delete, get, createOrUpdate } from "./operations.js";
-export {
-  type VirtualNetworkAddressesListByParentOptionalParams,
-  type VirtualNetworkAddressesDeleteOptionalParams,
-  type VirtualNetworkAddressesGetOptionalParams,
-  type VirtualNetworkAddressesCreateOrUpdateOptionalParams,
+export type {
+  VirtualNetworkAddressesListByParentOptionalParams,
+  VirtualNetworkAddressesDeleteOptionalParams,
+  VirtualNetworkAddressesGetOptionalParams,
+  VirtualNetworkAddressesCreateOrUpdateOptionalParams,
 } from "./options.js";

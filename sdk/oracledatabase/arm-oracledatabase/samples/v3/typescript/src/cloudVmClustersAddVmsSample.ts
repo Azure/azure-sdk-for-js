@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to add VMs to the VM Cluster
  *
  * @summary add VMs to the VM Cluster
- * x-ms-original-file: 2025-09-01/CloudVmClusters_AddVms_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudVmClusters_AddVms_MaximumSet_Gen.json
  */
 async function addVMsToVMClusterGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function addVMsToVMClusterGeneratedByMaximumSetRule(): Promise<void> {
  * This sample demonstrates how to add VMs to the VM Cluster
  *
  * @summary add VMs to the VM Cluster
- * x-ms-original-file: 2025-09-01/CloudVmClusters_AddVms_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudVmClusters_AddVms_MinimumSet_Gen.json
  */
 async function addVMsToVMClusterGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function addVMsToVMClusterGeneratedByMinimumSetRule(): Promise<void> {
  * This sample demonstrates how to add VMs to the VM Cluster
  *
  * @summary add VMs to the VM Cluster
- * x-ms-original-file: 2025-09-01/vmClusters_addVms.json
+ * x-ms-original-file: 2025-11-01-preview/vmClusters_addVms.json
  */
 async function cloudVmClustersAddVms(): Promise<void> {
   const credential = new DefaultAzureCredential();

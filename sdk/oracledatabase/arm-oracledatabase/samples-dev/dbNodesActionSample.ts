@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to vM actions on DbNode of VM Cluster by the provided filter
  *
  * @summary vM actions on DbNode of VM Cluster by the provided filter
- * x-ms-original-file: 2025-09-01/DbNodes_Action_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/DbNodes_Action_MaximumSet_Gen.json
  */
 async function vmActionsOnDbNodesOfVMClusterGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function vmActionsOnDbNodesOfVMClusterGeneratedByMaximumSetRule(): Promise
  * This sample demonstrates how to vM actions on DbNode of VM Cluster by the provided filter
  *
  * @summary vM actions on DbNode of VM Cluster by the provided filter
- * x-ms-original-file: 2025-09-01/DbNodes_Action_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/DbNodes_Action_MinimumSet_Gen.json
  */
 async function vmActionsOnDbNodesOfVMClusterGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function vmActionsOnDbNodesOfVMClusterGeneratedByMinimumSetRule(): Promise
  * This sample demonstrates how to vM actions on DbNode of VM Cluster by the provided filter
  *
  * @summary vM actions on DbNode of VM Cluster by the provided filter
- * x-ms-original-file: 2025-09-01/dbNodes_action.json
+ * x-ms-original-file: 2025-11-01-preview/dbNodes_action.json
  */
 async function dbNodesAction(): Promise<void> {
   const credential = new DefaultAzureCredential();

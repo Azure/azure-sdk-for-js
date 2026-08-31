@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Saas Subscription Details
  *
  * @summary list Saas Subscription Details
- * x-ms-original-file: 2025-09-01/OracleSubscriptions_ListSaasSubscriptionDetails_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/OracleSubscriptions_ListSaasSubscriptionDetails_MaximumSet_Gen.json
  */
 async function listSaasSubscriptionDetailsForTheOracleSubscriptionGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function listSaasSubscriptionDetailsForTheOracleSubscriptionGeneratedByMax
  * This sample demonstrates how to list Saas Subscription Details
  *
  * @summary list Saas Subscription Details
- * x-ms-original-file: 2025-09-01/OracleSubscriptions_ListSaasSubscriptionDetails_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/OracleSubscriptions_ListSaasSubscriptionDetails_MinimumSet_Gen.json
  */
 async function listSaasSubscriptionDetailsForTheOracleSubscriptionGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function listSaasSubscriptionDetailsForTheOracleSubscriptionGeneratedByMin
  * This sample demonstrates how to list Saas Subscription Details
  *
  * @summary list Saas Subscription Details
- * x-ms-original-file: 2025-09-01/oracleSubscriptions_listSaasSubscriptionDetails.json
+ * x-ms-original-file: 2025-11-01-preview/oracleSubscriptions_listSaasSubscriptionDetails.json
  */
 async function oracleSubscriptionsListSaasSubscriptionDetails() {
   const credential = new DefaultAzureCredential();

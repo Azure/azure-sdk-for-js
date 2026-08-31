@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generate wallet action on Autonomous Database
  *
  * @summary generate wallet action on Autonomous Database
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_GenerateWallet_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_GenerateWallet_MaximumSet_Gen.json
  */
 async function generateWalletActionOnAutonomousDatabaseGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function generateWalletActionOnAutonomousDatabaseGeneratedByMaximumSetRule
  * This sample demonstrates how to generate wallet action on Autonomous Database
  *
  * @summary generate wallet action on Autonomous Database
- * x-ms-original-file: 2025-09-01/autonomousDatabase_generateWallet.json
+ * x-ms-original-file: 2025-11-01-preview/autonomousDatabase_generateWallet.json
  */
 async function autonomousDatabasesGenerateWallet(): Promise<void> {
   const credential = new DefaultAzureCredential();

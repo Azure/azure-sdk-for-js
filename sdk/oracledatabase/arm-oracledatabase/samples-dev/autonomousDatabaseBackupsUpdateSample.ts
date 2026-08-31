@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a AutonomousDatabaseBackup
  *
  * @summary update a AutonomousDatabaseBackup
- * x-ms-original-file: 2025-09-01/AutonomousDatabaseBackups_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabaseBackups_Update_MaximumSet_Gen.json
  */
 async function patchAutonomousDatabaseBackupGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function patchAutonomousDatabaseBackupGeneratedByMaximumSetRule(): Promise
  * This sample demonstrates how to update a AutonomousDatabaseBackup
  *
  * @summary update a AutonomousDatabaseBackup
- * x-ms-original-file: 2025-09-01/autonomousDatabaseBackup_patch.json
+ * x-ms-original-file: 2025-11-01-preview/autonomousDatabaseBackup_patch.json
  */
 async function autonomousDatabaseBackupsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

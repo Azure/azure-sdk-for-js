@@ -813,7 +813,7 @@
 # PRLabel: %Mgmt
 /sdk/operationsmanagement/arm-operations/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/oracledatabase/arm-oracledatabase/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

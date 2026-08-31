@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list VirtualNetworkAddress resources by CloudVmCluster
  *
  * @summary list VirtualNetworkAddress resources by CloudVmCluster
- * x-ms-original-file: 2025-09-01/VirtualNetworkAddresses_ListByParent_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/VirtualNetworkAddresses_ListByParent_MaximumSet_Gen.json
  */
 async function listVirtualNetworkAddressesByVMClusterGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function listVirtualNetworkAddressesByVMClusterGeneratedByMaximumSetRule()
  * This sample demonstrates how to list VirtualNetworkAddress resources by CloudVmCluster
  *
  * @summary list VirtualNetworkAddress resources by CloudVmCluster
- * x-ms-original-file: 2025-09-01/VirtualNetworkAddresses_ListByParent_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/VirtualNetworkAddresses_ListByParent_MinimumSet_Gen.json
  */
 async function listVirtualNetworkAddressesByVMClusterGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
