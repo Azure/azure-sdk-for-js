@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a storage account in Microsoft Azure.
  *
  * @summary deletes a storage account in Microsoft Azure.
- * x-ms-original-file: 2026-04-01/StorageAccountDelete.json
+ * x-ms-original-file: 2026-06-01/StorageAccountDelete.json
  */
 async function storageAccountDelete() {
   const credential = new DefaultAzureCredential();

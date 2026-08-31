@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** The list of available operations. */
 export interface _OperationListResult {
   /** List of operations supported by the resource provider. */
@@ -1560,6 +1560,7 @@ export enum KnownSkuName {
  * **PremiumV2_ZRS**
  */
 export type SkuName = string;
+
 /** The SKU tier. This is based on the SKU name. */
 export type SkuTier = "Standard" | "Premium";
 
@@ -1730,6 +1731,8 @@ export interface StorageAccount extends TrackedResource {
   allowSharedKeyAccessForServices?: StorageAccountSharedKeyAccessProperties;
   /** Data Collaboration policy for the storage account. */
   dataCollaborationPolicyProperties?: StorageDataCollaborationPolicyProperties;
+  /** Allow or disallow cross AAD tenant user delegation SAS (shared access signature). The default interpretation is false for this property. */
+  allowCrossTenantDelegationSas?: boolean;
 }
 
 export function storageAccountDeserializer(item: any): StorageAccount {
@@ -1854,6 +1857,8 @@ export interface StorageAccountProperties {
   allowSharedKeyAccessForServices?: StorageAccountSharedKeyAccessProperties;
   /** Data Collaboration policy for the storage account. */
   dataCollaborationPolicyProperties?: StorageDataCollaborationPolicyProperties;
+  /** Allow or disallow cross AAD tenant user delegation SAS (shared access signature). The default interpretation is false for this property. */
+  allowCrossTenantDelegationSas?: boolean;
 }
 
 export function storageAccountPropertiesDeserializer(item: any): StorageAccountProperties {
@@ -1945,6 +1950,7 @@ export function storageAccountPropertiesDeserializer(item: any): StorageAccountP
       : storageDataCollaborationPolicyPropertiesDeserializer(
           item["dataCollaborationPolicyProperties"],
         ),
+    allowCrossTenantDelegationSas: item["allowCrossTenantDelegationSas"],
   };
 }
 
@@ -2110,12 +2116,18 @@ export interface SasPolicy {
   sasExpirationPeriod: string;
   /** The SAS Expiration Action defines the action to be performed when sasPolicy.sasExpirationPeriod is violated. The 'Log' action can be used for audit purposes and the 'Block' action can be used to block and deny the usage of SAS tokens that do not adhere to the sas policy expiration period. */
   expirationAction: ExpirationAction;
+  /** Indicates whether user delegation SAS (shared access signature) tokens are required to be bound to a specific user. The default interpretation is false for this property. */
+  requireUserBoundUserDelegationSas?: boolean;
+  /** The action to perform when a user delegation SAS (shared access signature) token is not bound to a user as required by requireUserBoundUserDelegationSas. */
+  requireUserBoundUserDelegationSasAction?: PolicyViolationAction;
 }
 
 export function sasPolicySerializer(item: SasPolicy): any {
   return {
     sasExpirationPeriod: item["sasExpirationPeriod"],
     expirationAction: item["expirationAction"],
+    requireUserBoundUserDelegationSas: item["requireUserBoundUserDelegationSas"],
+    requireUserBoundUserDelegationSasAction: item["requireUserBoundUserDelegationSasAction"],
   };
 }
 
@@ -2123,6 +2135,8 @@ export function sasPolicyDeserializer(item: any): SasPolicy {
   return {
     sasExpirationPeriod: item["sasExpirationPeriod"],
     expirationAction: item["expirationAction"],
+    requireUserBoundUserDelegationSas: item["requireUserBoundUserDelegationSas"],
+    requireUserBoundUserDelegationSasAction: item["requireUserBoundUserDelegationSasAction"],
   };
 }
 
@@ -2143,6 +2157,27 @@ export enum KnownExpirationAction {
  * **Block**
  */
 export type ExpirationAction = string;
+
+/** The action to perform when a user delegation SAS (shared access signature) policy requirement is violated. */
+export enum KnownPolicyViolationAction {
+  /** No action is taken when the policy requirement is violated. */
+  None = "None",
+  /** The policy violation is logged for audit purposes. */
+  Log = "Log",
+  /** The request is blocked and denied when the policy requirement is violated. */
+  Block = "Block",
+}
+
+/**
+ * The action to perform when a user delegation SAS (shared access signature) policy requirement is violated. \
+ * {@link KnownPolicyViolationAction} can be used interchangeably with PolicyViolationAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No action is taken when the policy requirement is violated. \
+ * **Log**: The policy violation is logged for audit purposes. \
+ * **Block**: The request is blocked and denied when the policy requirement is violated.
+ */
+export type PolicyViolationAction = string;
 
 /** KeyPolicy assigned to the storage account. */
 export interface KeyPolicy {
@@ -3782,6 +3817,8 @@ export interface StorageAccountCreateParameters {
   allowSharedKeyAccessForServices?: StorageAccountSharedKeyAccessProperties;
   /** Data Collaboration policy for the storage account. */
   dataCollaborationPolicyProperties?: StorageDataCollaborationPolicyProperties;
+  /** Allow or disallow cross AAD tenant user delegation SAS (shared access signature). The default interpretation is false for this property. */
+  allowCrossTenantDelegationSas?: boolean;
 }
 
 export function storageAccountCreateParametersSerializer(
@@ -3831,6 +3868,7 @@ export function storageAccountCreateParametersSerializer(
       "geoPriorityReplicationStatus",
       "allowSharedKeyAccessForServices",
       "dataCollaborationPolicyProperties",
+      "allowCrossTenantDelegationSas",
     ])
       ? undefined
       : _storageAccountCreateParametersPropertiesSerializer(item),
@@ -3895,6 +3933,8 @@ export interface StorageAccountPropertiesCreateParameters {
   allowSharedKeyAccessForServices?: StorageAccountSharedKeyAccessProperties;
   /** Data Collaboration policy for the storage account. */
   dataCollaborationPolicyProperties?: StorageDataCollaborationPolicyProperties;
+  /** Allow or disallow cross AAD tenant user delegation SAS (shared access signature). The default interpretation is false for this property. */
+  allowCrossTenantDelegationSas?: boolean;
 }
 
 export function storageAccountPropertiesCreateParametersSerializer(
@@ -3951,6 +3991,7 @@ export function storageAccountPropertiesCreateParametersSerializer(
       : storageDataCollaborationPolicyPropertiesSerializer(
           item["dataCollaborationPolicyProperties"],
         ),
+    allowCrossTenantDelegationSas: item["allowCrossTenantDelegationSas"],
   };
 }
 
@@ -4020,6 +4061,8 @@ export interface StorageAccountUpdateParameters {
   allowSharedKeyAccessForServices?: StorageAccountSharedKeyAccessProperties;
   /** Data Collaboration policy for the storage account. */
   dataCollaborationPolicyProperties?: StorageDataCollaborationPolicyProperties;
+  /** Allow or disallow cross AAD tenant user delegation SAS (shared access signature). The default interpretation is false for this property. */
+  allowCrossTenantDelegationSas?: boolean;
 }
 
 export function storageAccountUpdateParametersSerializer(
@@ -4056,6 +4099,7 @@ export function storageAccountUpdateParametersSerializer(
       "geoPriorityReplicationStatus",
       "allowSharedKeyAccessForServices",
       "dataCollaborationPolicyProperties",
+      "allowCrossTenantDelegationSas",
     ])
       ? undefined
       : _storageAccountUpdateParametersPropertiesSerializer(item),
@@ -4123,6 +4167,8 @@ export interface StorageAccountPropertiesUpdateParameters {
   allowSharedKeyAccessForServices?: StorageAccountSharedKeyAccessProperties;
   /** Data Collaboration policy for the storage account. */
   dataCollaborationPolicyProperties?: StorageDataCollaborationPolicyProperties;
+  /** Allow or disallow cross AAD tenant user delegation SAS (shared access signature). The default interpretation is false for this property. */
+  allowCrossTenantDelegationSas?: boolean;
 }
 
 export function storageAccountPropertiesUpdateParametersSerializer(
@@ -4177,6 +4223,7 @@ export function storageAccountPropertiesUpdateParametersSerializer(
       : storageDataCollaborationPolicyPropertiesSerializer(
           item["dataCollaborationPolicyProperties"],
         ),
+    allowCrossTenantDelegationSas: item["allowCrossTenantDelegationSas"],
   };
 }
 
@@ -4370,6 +4417,7 @@ export enum KnownPermissions {
  * **p**
  */
 export type Permissions = string;
+
 /** The protocol permitted for a request made with the account SAS. */
 export type HttpProtocol = "https,http" | "https";
 
@@ -8580,6 +8628,493 @@ export function dataShareArrayDeserializer(result: Array<DataShare>): any[] {
   });
 }
 
+/** A Context Cache resource */
+export interface ContextCache extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties: ContextCacheProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentity;
+}
+
+export function contextCacheSerializer(item: ContextCache): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: contextCachePropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentitySerializer(item["identity"]),
+  };
+}
+
+export function contextCacheDeserializer(item: any): ContextCache {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: contextCachePropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityDeserializer(item["identity"]),
+  };
+}
+
+/** Details of the Context Cache. */
+export interface ContextCacheProperties {
+  /** The kind of account determining storage topology. */
+  accountKind: ContextCacheAccountKind;
+  /** Account description. */
+  description?: string;
+  /** The status of the last operation. */
+  readonly provisioningState?: ContextCacheProvisioningState;
+  /** Encryption settings for the account. */
+  encryption?: ArmEncryption;
+}
+
+export function contextCachePropertiesSerializer(item: ContextCacheProperties): any {
+  return {
+    accountKind: item["accountKind"],
+    description: item["description"],
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : armEncryptionSerializer(item["encryption"]),
+  };
+}
+
+export function contextCachePropertiesDeserializer(item: any): ContextCacheProperties {
+  return {
+    accountKind: item["accountKind"],
+    description: item["description"],
+    provisioningState: item["provisioningState"],
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : armEncryptionDeserializer(item["encryption"]),
+  };
+}
+
+/** The kind of context cache account, determining storage topology. */
+export enum KnownContextCacheAccountKind {
+  /** Single-region storage account */
+  Regional = "Regional",
+  /** Multi-region within a data zone */
+  DataZone = "DataZone",
+  /** All regions with global distribution */
+  Global = "Global",
+}
+
+/**
+ * The kind of context cache account, determining storage topology. \
+ * {@link KnownContextCacheAccountKind} can be used interchangeably with ContextCacheAccountKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regional**: Single-region storage account \
+ * **DataZone**: Multi-region within a data zone \
+ * **Global**: All regions with global distribution
+ */
+export type ContextCacheAccountKind = string;
+
+/** The status of the current operation. */
+export enum KnownContextCacheProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** Initial provisioning in progress */
+  Creating = "Creating",
+  /** Update in progress */
+  Updating = "Updating",
+  /** Deletion in progress */
+  Deleting = "Deleting",
+  /** Change accepted for processing */
+  Accepted = "Accepted",
+}
+
+/**
+ * The status of the current operation. \
+ * {@link KnownContextCacheProvisioningState} can be used interchangeably with ContextCacheProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: Initial provisioning in progress \
+ * **Updating**: Update in progress \
+ * **Deleting**: Deletion in progress \
+ * **Accepted**: Change accepted for processing
+ */
+export type ContextCacheProvisioningState = string;
+
+/** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+export interface ArmEncryption {
+  /** Values are enabled and disabled. */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /** All Customer-managed key encryption properties for the resource. */
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+}
+
+export function armEncryptionSerializer(item: ArmEncryption): any {
+  return {
+    infrastructureEncryption: item["infrastructureEncryption"],
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : customerManagedKeyEncryptionSerializer(item["customerManagedKeyEncryption"]),
+  };
+}
+
+export function armEncryptionDeserializer(item: any): ArmEncryption {
+  return {
+    infrastructureEncryption: item["infrastructureEncryption"],
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : customerManagedKeyEncryptionDeserializer(item["customerManagedKeyEncryption"]),
+  };
+}
+
+/** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+export enum KnownInfrastructureEncryption {
+  /** Encryption is enabled */
+  Enabled = "enabled",
+  /** Encryption is disabled */
+  Disabled = "disabled",
+}
+
+/**
+ * (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. \
+ * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: Encryption is enabled \
+ * **disabled**: Encryption is disabled
+ */
+export type InfrastructureEncryption = string;
+
+/** Customer-managed key encryption properties for the resource. */
+export interface CustomerManagedKeyEncryption {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+  /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyUrl?: string;
+}
+
+export function customerManagedKeyEncryptionSerializer(item: CustomerManagedKeyEncryption): any {
+  return {
+    keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
+      ? item["keyEncryptionKeyIdentity"]
+      : keyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+  };
+}
+
+export function customerManagedKeyEncryptionDeserializer(item: any): CustomerManagedKeyEncryption {
+  return {
+    keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
+      ? item["keyEncryptionKeyIdentity"]
+      : keyEncryptionKeyIdentityDeserializer(item["keyEncryptionKeyIdentity"]),
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+  };
+}
+
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface KeyEncryptionKeyIdentity {
+  /** The type of identity to use. Values can be systemAssignedIdentity, userAssignedIdentity, or delegatedResourceIdentity. */
+  identityType?: KeyEncryptionKeyIdentityType;
+  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity. */
+  userAssignedIdentityResourceId?: string;
+  /** application client identity to use for accessing key encryption key Url in a different tenant. Ex: f83c6b1b-4d34-47e4-bb34-9d83df58b540 */
+  federatedClientId?: string;
+  /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
+  delegatedIdentityClientId?: string;
+}
+
+export function keyEncryptionKeyIdentitySerializer(item: KeyEncryptionKeyIdentity): any {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+    federatedClientId: item["federatedClientId"],
+    delegatedIdentityClientId: item["delegatedIdentityClientId"],
+  };
+}
+
+export function keyEncryptionKeyIdentityDeserializer(item: any): KeyEncryptionKeyIdentity {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+    federatedClientId: item["federatedClientId"],
+    delegatedIdentityClientId: item["delegatedIdentityClientId"],
+  };
+}
+
+/** The type of identity to use. */
+export enum KnownKeyEncryptionKeyIdentityType {
+  /** System assigned identity */
+  SystemAssignedIdentity = "systemAssignedIdentity",
+  /** User assigned identity */
+  UserAssignedIdentity = "userAssignedIdentity",
+  /** Delegated identity */
+  DelegatedResourceIdentity = "delegatedResourceIdentity",
+}
+
+/**
+ * The type of identity to use. \
+ * {@link KnownKeyEncryptionKeyIdentityType} can be used interchangeably with KeyEncryptionKeyIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **systemAssignedIdentity**: System assigned identity \
+ * **userAssignedIdentity**: User assigned identity \
+ * **delegatedResourceIdentity**: Delegated identity
+ */
+export type KeyEncryptionKeyIdentityType = string;
+
+/** Managed service identity (either system assigned, or none) */
+export interface SystemAssignedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: SystemAssignedServiceIdentityType;
+}
+
+export function systemAssignedServiceIdentitySerializer(item: SystemAssignedServiceIdentity): any {
+  return { type: item["type"] };
+}
+
+export function systemAssignedServiceIdentityDeserializer(
+  item: any,
+): SystemAssignedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+  };
+}
+
+/** Type of managed service identity (either system assigned, or none). */
+export enum KnownSystemAssignedServiceIdentityType {
+  /** No managed system identity. */
+  None = "None",
+  /** System assigned managed system identity. */
+  SystemAssigned = "SystemAssigned",
+}
+
+/**
+ * Type of managed service identity (either system assigned, or none). \
+ * {@link KnownSystemAssignedServiceIdentityType} can be used interchangeably with SystemAssignedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed system identity. \
+ * **SystemAssigned**: System assigned managed system identity.
+ */
+export type SystemAssignedServiceIdentityType = string;
+
+/** The type used for update operations of the Context Cache. */
+export interface ContextCacheUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The managed service identity. */
+  identity?: SystemAssignedServiceIdentity;
+  /** The updatable properties of the Context Cache. */
+  properties?: ContextCachePropertiesUpdate;
+}
+
+export function contextCacheUpdateSerializer(item: ContextCacheUpdate): any {
+  return {
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentitySerializer(item["identity"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : contextCachePropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+/** Updatable properties of the Context Cache. */
+export interface ContextCachePropertiesUpdate {
+  /** Account description. */
+  description?: string;
+  /** Encryption settings for the account. */
+  encryption?: ArmEncryption;
+}
+
+export function contextCachePropertiesUpdateSerializer(item: ContextCachePropertiesUpdate): any {
+  return {
+    description: item["description"],
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : armEncryptionSerializer(item["encryption"]),
+  };
+}
+
+/** The response of a ContextCache list operation. */
+export interface _ContextCacheListResult {
+  /** The ContextCache items on this page */
+  value: ContextCache[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _contextCacheListResultDeserializer(item: any): _ContextCacheListResult {
+  return {
+    value: contextCacheArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function contextCacheArraySerializer(result: Array<ContextCache>): any[] {
+  return result.map((item) => {
+    return contextCacheSerializer(item);
+  });
+}
+
+export function contextCacheArrayDeserializer(result: Array<ContextCache>): any[] {
+  return result.map((item) => {
+    return contextCacheDeserializer(item);
+  });
+}
+
+/** A container resource within a Context Cache */
+export interface ContextCacheContainer extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties: ContextCacheContainerProperties;
+}
+
+export function contextCacheContainerSerializer(item: ContextCacheContainer): any {
+  return { properties: contextCacheContainerPropertiesSerializer(item["properties"]) };
+}
+
+export function contextCacheContainerDeserializer(item: any): ContextCacheContainer {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: contextCacheContainerPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of a container within a Context Cache. */
+export interface ContextCacheContainerProperties {
+  /** Container description. */
+  description?: string;
+  /** The model name associated with this container (e.g., gpt-4, claude-3). */
+  modelName: string;
+  /** The AI provider associated with this container. */
+  provider: AiProvider;
+  /** The Time to Live (TTL) in days (1–30) for this container. Blobs in the container that have not been accessed within this number of days will be automatically deleted. If not specified at creation time, it defaults to 1 day. */
+  timeToLive?: number;
+  /** The status of the last operation. */
+  readonly provisioningState?: ContextCacheProvisioningState;
+}
+
+export function contextCacheContainerPropertiesSerializer(
+  item: ContextCacheContainerProperties,
+): any {
+  return {
+    description: item["description"],
+    modelName: item["modelName"],
+    provider: item["provider"],
+    timeToLive: item["timeToLive"],
+  };
+}
+
+export function contextCacheContainerPropertiesDeserializer(
+  item: any,
+): ContextCacheContainerProperties {
+  return {
+    description: item["description"],
+    modelName: item["modelName"],
+    provider: item["provider"],
+    timeToLive: item["timeToLive"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The AI provider associated with a container. */
+export enum KnownAiProvider {
+  /** OpenAI provider. */
+  OpenAI = "OpenAI",
+}
+
+/**
+ * The AI provider associated with a container. \
+ * {@link KnownAiProvider} can be used interchangeably with AiProvider,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OpenAI**: OpenAI provider.
+ */
+export type AiProvider = string;
+
+/** The type used for update operations of the Context Cache Container. */
+export interface ContextCacheContainerUpdate {
+  /** The updatable properties of the Context Cache Container. */
+  properties?: ContextCacheContainerPropertiesUpdate;
+}
+
+export function contextCacheContainerUpdateSerializer(item: ContextCacheContainerUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : contextCacheContainerPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+/** Updatable properties of a container within a Context Cache. */
+export interface ContextCacheContainerPropertiesUpdate {
+  /** Container description. */
+  description?: string;
+  /** The Time to Live (TTL) in days (1–30) for this container. Blobs in the container that have not been accessed within this number of days will be automatically deleted. */
+  timeToLive?: number;
+}
+
+export function contextCacheContainerPropertiesUpdateSerializer(
+  item: ContextCacheContainerPropertiesUpdate,
+): any {
+  return { description: item["description"], timeToLive: item["timeToLive"] };
+}
+
+/** The response of a ContextCacheContainer list operation. */
+export interface _ContextCacheContainerListResult {
+  /** The ContextCacheContainer items on this page */
+  value: ContextCacheContainer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _contextCacheContainerListResultDeserializer(
+  item: any,
+): _ContextCacheContainerListResult {
+  return {
+    value: contextCacheContainerArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function contextCacheContainerArraySerializer(result: Array<ContextCacheContainer>): any[] {
+  return result.map((item) => {
+    return contextCacheContainerSerializer(item);
+  });
+}
+
+export function contextCacheContainerArrayDeserializer(
+  result: Array<ContextCacheContainer>,
+): any[] {
+  return result.map((item) => {
+    return contextCacheContainerDeserializer(item);
+  });
+}
+
 /** The advanced platform metrics rule for the storage account. */
 export interface AdvancedPlatformMetricsRule extends ProxyResource {
   /** Returns the advanced platform metrics rule. */
@@ -9916,6 +10451,7 @@ export enum KnownListContainersInclude {
 
 /** Type of ListContainersInclude */
 export type ListContainersInclude = string;
+
 /** Type of StorageAccountExpand */
 export type StorageAccountExpand = "geoReplicationStats" | "blobRestoreStatus";
 
@@ -9949,6 +10485,8 @@ export enum KnownVersions {
   V20250801 = "2025-08-01",
   /** The 2026-04-01 API version. */
   V20260401 = "2026-04-01",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
 }
 
 export function _operationOperationPropertiesDeserializer(item: any) {
@@ -10257,6 +10795,7 @@ export function _storageAccountPropertiesDeserializer(item: any) {
       : storageDataCollaborationPolicyPropertiesDeserializer(
           item["dataCollaborationPolicyProperties"],
         ),
+    allowCrossTenantDelegationSas: item["allowCrossTenantDelegationSas"],
   };
 }
 
@@ -10314,6 +10853,7 @@ export function _storageAccountCreateParametersPropertiesSerializer(
       : storageDataCollaborationPolicyPropertiesSerializer(
           item["dataCollaborationPolicyProperties"],
         ),
+    allowCrossTenantDelegationSas: item["allowCrossTenantDelegationSas"],
   };
 }
 
@@ -10369,6 +10909,7 @@ export function _storageAccountUpdateParametersPropertiesSerializer(
       : storageDataCollaborationPolicyPropertiesSerializer(
           item["dataCollaborationPolicyProperties"],
         ),
+    allowCrossTenantDelegationSas: item["allowCrossTenantDelegationSas"],
   };
 }
 

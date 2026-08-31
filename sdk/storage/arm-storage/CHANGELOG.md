@@ -1,14 +1,56 @@
 # Release History
 
-## 20.1.1 (Unreleased)
+## 20.2.0 (2026-08-31)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added operation group ContextCacheContainersOperations
+  - Added operation group ContextCachesOperations
+  - Added Interface ArmEncryption
+  - Added Interface ContextCache
+  - Added Interface ContextCacheContainer
+  - Added Interface ContextCacheContainerProperties
+  - Added Interface ContextCacheContainerPropertiesUpdate
+  - Added Interface ContextCacheContainersCreateOrUpdateOptionalParams
+  - Added Interface ContextCacheContainersDeleteOptionalParams
+  - Added Interface ContextCacheContainersGetOptionalParams
+  - Added Interface ContextCacheContainersListByContextCacheOptionalParams
+  - Added Interface ContextCacheContainersUpdateOptionalParams
+  - Added Interface ContextCacheContainerUpdate
+  - Added Interface ContextCacheProperties
+  - Added Interface ContextCachePropertiesUpdate
+  - Added Interface ContextCachesCreateOrUpdateOptionalParams
+  - Added Interface ContextCachesDeleteOptionalParams
+  - Added Interface ContextCachesGetOptionalParams
+  - Added Interface ContextCachesListByResourceGroupOptionalParams
+  - Added Interface ContextCachesListBySubscriptionOptionalParams
+  - Added Interface ContextCachesUpdateOptionalParams
+  - Added Interface ContextCacheUpdate
+  - Added Interface CustomerManagedKeyEncryption
+  - Added Interface KeyEncryptionKeyIdentity
+  - Added Interface SystemAssignedServiceIdentity
+  - Interface SasPolicy has a new optional parameter requireUserBoundUserDelegationSas
+  - Interface SasPolicy has a new optional parameter requireUserBoundUserDelegationSasAction
+  - Interface StorageAccount has a new optional parameter allowCrossTenantDelegationSas
+  - Interface StorageAccountCreateParameters has a new optional parameter allowCrossTenantDelegationSas
+  - Interface StorageAccountProperties has a new optional parameter allowCrossTenantDelegationSas
+  - Interface StorageAccountPropertiesCreateParameters has a new optional parameter allowCrossTenantDelegationSas
+  - Interface StorageAccountPropertiesUpdateParameters has a new optional parameter allowCrossTenantDelegationSas
+  - Interface StorageAccountUpdateParameters has a new optional parameter allowCrossTenantDelegationSas
+  - Added Type Alias AiProvider
+  - Added Type Alias ContextCacheAccountKind
+  - Added Type Alias ContextCacheProvisioningState
+  - Added Type Alias InfrastructureEncryption
+  - Added Type Alias KeyEncryptionKeyIdentityType
+  - Added Type Alias PolicyViolationAction
+  - Added Type Alias SystemAssignedServiceIdentityType
+  - Added Enum KnownAiProvider
+  - Added Enum KnownContextCacheAccountKind
+  - Added Enum KnownContextCacheProvisioningState
+  - Added Enum KnownInfrastructureEncryption
+  - Added Enum KnownKeyEncryptionKeyIdentityType
+  - Added Enum KnownPolicyViolationAction
+  - Added Enum KnownSystemAssignedServiceIdentityType
+  - Enum KnownVersions has a new value V20260601
 
 ## 20.1.0 (2026-06-26)
 
