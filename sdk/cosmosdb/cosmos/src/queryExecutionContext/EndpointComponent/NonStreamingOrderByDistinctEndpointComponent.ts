@@ -89,9 +89,6 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
   public hasMoreResults(): boolean {
     if (this.priorityQueueBufferSize === 0) return false;
-    // Same terminal-state guard as NonStreamingOrderByEndpointComponent.hasMoreResults: once
-    // fetchMore has gone terminal, an underlying context stuck reporting `true` must not spin
-    // the caller's drain loop on the no-I/O `isCompleted` fast path. See #39626.
     return !this.isCompleted && this.executionContext.hasMoreResults();
   }
 
@@ -136,9 +133,6 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         !Array.isArray(response.result.buffer) ||
         response.result.buffer.length === 0;
 
-      // An empty page is terminal only once the underlying context is exhausted — an interim
-      // empty page can still carry a live continuation token, and completing here would skip
-      // every result behind it.
       if (pageIsEmpty && !this.executionContext.hasMoreResults()) {
         this.isCompleted = true;
         if (this.aggregateMap.size() > 0) {

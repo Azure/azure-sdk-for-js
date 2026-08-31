@@ -53,11 +53,6 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
-    // `isCompleted` is the authoritative "done" signal: once `fetchMore` has gone terminal it
-    // short-circuits every later call to `{ result: undefined }` without touching
-    // `executionContext` again, whose own `hasMoreResults()` can keep reporting `true`. Without
-    // this check a caller driving `while (hasMoreResults()) { await fetchMore(); }` spins
-    // forever on that no-I/O fast path, starving the event loop. See #39626.
     return (
       !this.isCompleted &&
       this.priorityQueueBufferSize > 0 &&
@@ -103,9 +98,6 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         !response.result.buffer ||
         response.result.buffer.length === 0;
 
-      // An empty page is terminal only once the underlying context is exhausted — an interim
-      // empty page can still carry a live continuation token, and completing here would skip
-      // every result behind it.
       if (pageIsEmpty && !this.executionContext.hasMoreResults()) {
         this.isCompleted = true;
         if (!this.nonStreamingOrderByPQ.isEmpty()) {
