@@ -48,6 +48,8 @@ export type {
   BlobBackupRuleMode,
   BlobBackupPatternType,
   AdlsBlobBackupDatasourceParametersForAutoProtection,
+  PostgreSqlFlexibleServerBackupDatasourceParameters,
+  BackupSolutionType,
   ProtectionStatusDetails,
   UserFacingError,
   InnerError,
@@ -104,6 +106,8 @@ export type {
   AzureBackupRecoveryPointBasedRestoreRequestUnion,
   AzureBackupRestoreWithRehydrationRequest,
   AzureBackupRecoveryTimeBasedRestoreRequest,
+  ResumeProtectionRequest,
+  ResumeProtectionRequestObjectType,
   StopProtectionRequest,
   SuspendBackupRequest,
   SyncBackupInstanceRequest,
@@ -245,6 +249,7 @@ export {
   KnownAKSVolumeTypes,
   KnownBlobBackupRuleMode,
   KnownBlobBackupPatternType,
+  KnownBackupSolutionType,
   KnownStatus,
   KnownCurrentProtectionState,
   KnownSecretStoreType,
@@ -256,6 +261,7 @@ export {
   KnownExistingResourcePolicy,
   KnownRestoreTargetLocationType,
   KnownSourceDataStoreType,
+  KnownResumeProtectionRequestObjectType,
   KnownSyncType,
   KnownAlertsState,
   KnownProvisioningState,
@@ -401,3 +407,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

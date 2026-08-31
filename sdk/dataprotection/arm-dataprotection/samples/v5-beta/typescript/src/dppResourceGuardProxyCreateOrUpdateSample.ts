@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or Updates a ResourceGuardProxy
  *
  * @summary creates or Updates a ResourceGuardProxy
- * x-ms-original-file: 2026-03-01/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
+ * x-ms-original-file: 2026-04-01-preview/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
  */
 async function createResourceGuardProxy(): Promise<void> {
   const credential = new DefaultAzureCredential();

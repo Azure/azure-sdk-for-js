@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the operation result for a resource
  *
  * @summary gets the operation result for a resource
- * x-ms-original-file: 2026-03-01/GetOperationResult.json
+ * x-ms-original-file: 2026-04-01-preview/GetOperationResult.json
  */
 async function getOperationResult() {
   const credential = new DefaultAzureCredential();

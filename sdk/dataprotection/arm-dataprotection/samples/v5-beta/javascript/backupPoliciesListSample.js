@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns list of backup policies belonging to a backup vault
  *
  * @summary returns list of backup policies belonging to a backup vault
- * x-ms-original-file: 2026-03-01/PolicyCRUD/ListBackupPolicy.json
+ * x-ms-original-file: 2026-04-01-preview/PolicyCRUD/ListBackupPolicy.json
  */
 async function listBackupPolicy() {
   const credential = new DefaultAzureCredential();

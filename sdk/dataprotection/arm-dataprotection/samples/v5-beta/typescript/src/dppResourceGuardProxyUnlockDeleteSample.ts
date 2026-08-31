@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to unlockDelete call for ResourceGuardProxy, executed before one can delete it
  *
  * @summary unlockDelete call for ResourceGuardProxy, executed before one can delete it
- * x-ms-original-file: 2026-03-01/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
+ * x-ms-original-file: 2026-04-01-preview/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
  */
 async function unlockDeleteResourceGuardProxy(): Promise<void> {
   const credential = new DefaultAzureCredential();

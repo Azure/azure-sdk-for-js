@@ -23,7 +23,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -35,13 +35,21 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<BackupVaultResource> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<BackupVaultResource | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return backupVaultResourceDeserializer(result.body);
@@ -54,7 +62,7 @@ export async function get(
   vaultName: string,
   operationId: string,
   options: BackupVaultOperationResultsGetOptionalParams = { requestOptions: {} },
-): Promise<BackupVaultResource> {
+): Promise<BackupVaultResource | void> {
   const result = await _getSend(context, resourceGroupName, vaultName, operationId, options);
   return _getDeserialize(result);
 }

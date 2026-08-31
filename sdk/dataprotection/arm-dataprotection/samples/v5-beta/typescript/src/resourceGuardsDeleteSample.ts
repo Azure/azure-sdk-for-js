@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a ResourceGuard resource from the resource group.
  *
  * @summary deletes a ResourceGuard resource from the resource group.
- * x-ms-original-file: 2026-03-01/ResourceGuardCRUD/DeleteResourceGuard.json
+ * x-ms-original-file: 2026-04-01-preview/ResourceGuardCRUD/DeleteResourceGuard.json
  */
 async function deleteResourceGuard(): Promise<void> {
   const credential = new DefaultAzureCredential();

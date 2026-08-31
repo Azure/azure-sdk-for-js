@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.DataProtection": "2026-03-01"
+    "Microsoft.DataProtection": "2026-04-01-preview"
   },
-  "emitterVersion": "0.51.1",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DataProtection",
     "CrossLanguageDefinitionId": {
@@ -32,6 +32,7 @@
       "@azure/arm-dataprotection!BlobBackupAutoProtectionSettings:interface": "Microsoft.DataProtection.BlobBackupAutoProtectionSettings",
       "@azure/arm-dataprotection!AdlsBlobBackupDatasourceParameters:interface": "Microsoft.DataProtection.AdlsBlobBackupDatasourceParameters",
       "@azure/arm-dataprotection!AdlsBlobBackupDatasourceParametersForAutoProtection:interface": "Microsoft.DataProtection.AdlsBlobBackupDatasourceParametersForAutoProtection",
+      "@azure/arm-dataprotection!PostgreSqlFlexibleServerBackupDatasourceParameters:interface": "Microsoft.DataProtection.PostgreSqlFlexibleServerBackupDatasourceParameters",
       "@azure/arm-dataprotection!ProtectionStatusDetails:interface": "Microsoft.DataProtection.ProtectionStatusDetails",
       "@azure/arm-dataprotection!UserFacingError:interface": "Microsoft.DataProtection.UserFacingError",
       "@azure/arm-dataprotection!InnerError:interface": "Microsoft.DataProtection.InnerError",
@@ -71,6 +72,7 @@
       "@azure/arm-dataprotection!AzureBackupRecoveryPointBasedRestoreRequest:interface": "Microsoft.DataProtection.AzureBackupRecoveryPointBasedRestoreRequest",
       "@azure/arm-dataprotection!AzureBackupRestoreWithRehydrationRequest:interface": "Microsoft.DataProtection.AzureBackupRestoreWithRehydrationRequest",
       "@azure/arm-dataprotection!AzureBackupRecoveryTimeBasedRestoreRequest:interface": "Microsoft.DataProtection.AzureBackupRecoveryTimeBasedRestoreRequest",
+      "@azure/arm-dataprotection!ResumeProtectionRequest:interface": "Microsoft.DataProtection.ResumeProtectionRequest",
       "@azure/arm-dataprotection!StopProtectionRequest:interface": "Microsoft.DataProtection.StopProtectionRequest",
       "@azure/arm-dataprotection!SuspendBackupRequest:interface": "Microsoft.DataProtection.SuspendBackupRequest",
       "@azure/arm-dataprotection!SyncBackupInstanceRequest:interface": "Microsoft.DataProtection.SyncBackupInstanceRequest",
@@ -185,6 +187,7 @@
       "@azure/arm-dataprotection!KnownAKSVolumeTypes:enum": "Microsoft.DataProtection.AKSVolumeTypes",
       "@azure/arm-dataprotection!KnownBlobBackupRuleMode:enum": "Microsoft.DataProtection.BlobBackupRuleMode",
       "@azure/arm-dataprotection!KnownBlobBackupPatternType:enum": "Microsoft.DataProtection.BlobBackupPatternType",
+      "@azure/arm-dataprotection!KnownBackupSolutionType:enum": "Microsoft.DataProtection.BackupSolutionType",
       "@azure/arm-dataprotection!KnownStatus:enum": "Microsoft.DataProtection.Status",
       "@azure/arm-dataprotection!KnownCurrentProtectionState:enum": "Microsoft.DataProtection.CurrentProtectionState",
       "@azure/arm-dataprotection!KnownSecretStoreType:enum": "Microsoft.DataProtection.SecretStoreType",
@@ -197,6 +200,7 @@
       "@azure/arm-dataprotection!KnownExistingResourcePolicy:enum": "Microsoft.DataProtection.ExistingResourcePolicy",
       "@azure/arm-dataprotection!KnownRestoreTargetLocationType:enum": "Microsoft.DataProtection.RestoreTargetLocationType",
       "@azure/arm-dataprotection!KnownSourceDataStoreType:enum": "Microsoft.DataProtection.SourceDataStoreType",
+      "@azure/arm-dataprotection!KnownResumeProtectionRequestObjectType:enum": "Microsoft.DataProtection.ResumeProtectionRequestObjectType",
       "@azure/arm-dataprotection!KnownSyncType:enum": "Microsoft.DataProtection.SyncType",
       "@azure/arm-dataprotection!KnownAlertsState:enum": "Microsoft.DataProtection.AlertsState",
       "@azure/arm-dataprotection!KnownProvisioningState:enum": "Microsoft.DataProtection.ProvisioningState",

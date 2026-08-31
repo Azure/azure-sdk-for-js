@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns a ResourceGuard belonging to a resource group.
  *
  * @summary returns a ResourceGuard belonging to a resource group.
- * x-ms-original-file: 2026-03-01/ResourceGuardCRUD/GetResourceGuard.json
+ * x-ms-original-file: 2026-04-01-preview/ResourceGuardCRUD/GetResourceGuard.json
  */
 async function getResourceGuard() {
   const credential = new DefaultAzureCredential();

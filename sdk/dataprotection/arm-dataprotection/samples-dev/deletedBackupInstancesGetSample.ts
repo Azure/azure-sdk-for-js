@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a deleted backup instance with name in a backup vault
  *
  * @summary gets a deleted backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/DeletedBackupInstanceOperations/GetDeletedBackupInstance.json
+ * x-ms-original-file: 2026-04-01-preview/DeletedBackupInstanceOperations/GetDeletedBackupInstance.json
  */
 async function getDeletedBackupInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

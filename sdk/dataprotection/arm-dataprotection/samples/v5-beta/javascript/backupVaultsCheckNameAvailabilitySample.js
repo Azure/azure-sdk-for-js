@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to aPI to check for resource name availability
  *
  * @summary aPI to check for resource name availability
- * x-ms-original-file: 2026-03-01/VaultCRUD/CheckBackupVaultsNameAvailability.json
+ * x-ms-original-file: 2026-04-01-preview/VaultCRUD/CheckBackupVaultsNameAvailability.json
  */
 async function checkBackupVaultsNameAvailability() {
   const credential = new DefaultAzureCredential();

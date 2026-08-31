@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates if a feature is supported
  *
  * @summary validates if a feature is supported
- * x-ms-original-file: 2026-03-01/CheckfeatureSupport.json
+ * x-ms-original-file: 2026-04-01-preview/CheckfeatureSupport.json
  */
 async function checkAzureVmBackupFeatureSupport(): Promise<void> {
   const credential = new DefaultAzureCredential();
