@@ -8,10 +8,10 @@ import {
   routineActionUnionSerializer,
   Routine,
   routineDeserializer,
-  _AgentsPagedResultRoutine,
-  _agentsPagedResultRoutineDeserializer,
-  _AgentsPagedResultRoutineRun,
-  _agentsPagedResultRoutineRunDeserializer,
+  _PagedResultWithNextLinkRoutine,
+  _pagedResultWithNextLinkRoutineDeserializer,
+  _PagedResultWithNextLinkRoutineRun,
+  _pagedResultWithNextLinkRoutineRunDeserializer,
   RoutineRun,
   routineDispatchPayloadUnionSerializer,
   DispatchRoutineResponse,
@@ -106,13 +106,12 @@ export function _listRunsSend(
   options: BetaRoutinesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/routines/{routine_name}/runs{?filter,limit,after,before,order,api%2Dversion}",
+    "/routines/{routine_name}/runs{?filter,limit,after,order,api%2Dversion}",
     {
       routine_name: routineName,
       filter: options?.filter,
       limit: options?.limit,
       after: options?.after,
-      before: options?.before,
       order: options?.order,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -136,7 +135,7 @@ export function _listRunsSend(
 
 export async function _listRunsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultRoutineRun> {
+): Promise<_PagedResultWithNextLinkRoutineRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -147,7 +146,7 @@ export async function _listRunsDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultRoutineRunDeserializer(result.body);
+  return _pagedResultWithNextLinkRoutineRunDeserializer(result.body);
 }
 
 /** Returns prior runs recorded for the specified routine. */
@@ -161,7 +160,7 @@ export function listRuns(
     () => _listRunsSend(context, routineName, options),
     _listRunsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", nextLinkName: "next_link", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -208,11 +207,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified routine. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   routineName: string,
@@ -227,11 +221,10 @@ export function _listSend(
   options: BetaRoutinesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/routines{?limit,after,before,order,api%2Dversion}",
+    "/routines{?limit,after,order,api%2Dversion}",
     {
       limit: options?.limit,
       after: options?.after,
-      before: options?.before,
       order: options?.order,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -255,7 +248,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultRoutine> {
+): Promise<_PagedResultWithNextLinkRoutine> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -266,7 +259,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultRoutineDeserializer(result.body);
+  return _pagedResultWithNextLinkRoutineDeserializer(result.body);
 }
 
 /** Returns the routines available in the current project. */
@@ -279,7 +272,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", nextLinkName: "next_link", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 

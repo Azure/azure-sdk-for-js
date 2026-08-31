@@ -8,7 +8,7 @@ import {
   createOrUpdate,
   list,
   get,
-  $delete,
+  deleteSchedule,
 } from "../../../api/beta/schedules/operations.js";
 import {
   BetaSchedulesListRunsOptionalParams,
@@ -55,12 +55,7 @@ export interface BetaSchedulesOperations {
     options?: BetaSchedulesGetOptionalParams,
   ) => Promise<Schedule>;
   /** Deletes the specified schedule resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteSchedule: (
     scheduleId: string,
     foundryFeatures: "Schedules=V1Preview",
     options?: BetaSchedulesDeleteOptionalParams,
@@ -93,11 +88,11 @@ function _getBetaSchedules(context: AIProjectContext) {
       foundryFeatures: "Schedules=V1Preview",
       options?: BetaSchedulesGetOptionalParams,
     ) => get(context, scheduleId, foundryFeatures, options),
-    delete: (
+    deleteSchedule: (
       scheduleId: string,
       foundryFeatures: "Schedules=V1Preview",
       options?: BetaSchedulesDeleteOptionalParams,
-    ) => $delete(context, scheduleId, foundryFeatures, options),
+    ) => deleteSchedule(context, scheduleId, foundryFeatures, options),
   };
 }
 

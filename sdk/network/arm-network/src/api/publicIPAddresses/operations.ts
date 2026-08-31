@@ -127,7 +127,7 @@ export function _listCloudServicePublicIPAddressesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudServiceName: cloudServiceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,7 +170,7 @@ export function listCloudServicePublicIPAddresses(
       _listCloudServicePublicIPAddressesSend(context, resourceGroupName, cloudServiceName, options),
     _listCloudServicePublicIPAddressesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -189,7 +189,7 @@ export function _disassociateCloudServiceReservedPublicIpSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +245,7 @@ export function disassociateCloudServiceReservedPublicIp(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
 }
@@ -265,7 +265,7 @@ export function _reserveCloudServicePublicIpAddressSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -321,7 +321,7 @@ export function reserveCloudServicePublicIpAddress(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
 }
@@ -338,7 +338,7 @@ export function _ddosProtectionStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -382,7 +382,7 @@ export function ddosProtectionStatus(
     getInitialResponse: () =>
       _ddosProtectionStatusSend(context, resourceGroupName, publicIpAddressName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<PublicIpDdosProtectionStatusResult>,
     PublicIpDdosProtectionStatusResult
@@ -397,7 +397,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -435,7 +435,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -449,7 +449,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,7 +488,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -504,7 +504,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -540,7 +540,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, publicIpAddressName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -557,7 +557,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -618,7 +618,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -662,7 +662,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, publicIpAddressName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
 }
 
@@ -678,7 +678,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24expand": options?.expand,
     },
     {
@@ -891,7 +891,7 @@ export function _listCloudServiceRoleInstancePublicIPAddressesSend(
       roleInstanceName: roleInstanceName,
       networkInterfaceName: networkInterfaceName,
       ipConfigurationName: ipConfigurationName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -945,7 +945,7 @@ export function listCloudServiceRoleInstancePublicIPAddresses(
       ),
     _listCloudServiceRoleInstancePublicIPAddressesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -969,7 +969,7 @@ export function _getCloudServicePublicIPAddressSend(
       networkInterfaceName: networkInterfaceName,
       ipConfigurationName: ipConfigurationName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24expand": options?.expand,
     },
     {

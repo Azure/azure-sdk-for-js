@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all replications for a specified volume
  *
  * @summary list all replications for a specified volume
- * x-ms-original-file: 2026-05-15-preview/Volumes_ListReplications.json
+ * x-ms-original-file: 2026-06-15-preview/Volumes_ListReplications.json
  */
 async function volumesListReplications(): Promise<void> {
   const credential = new DefaultAzureCredential();

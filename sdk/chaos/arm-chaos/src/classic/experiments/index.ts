@@ -84,7 +84,7 @@ export interface ExperimentsOperations {
     experimentName: string,
     options?: ExperimentsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** The operation to update an experiment. */
+  /** Update an experiment. */
   update: (
     resourceGroupName: string,
     experimentName: string,
@@ -105,7 +105,6 @@ export interface ExperimentsOperations {
     options?: ExperimentsGetOptionalParams,
   ) => Promise<Experiment>;
 }
-
 function _getExperiments(context: ChaosManagementContext) {
   return {
     executionDetails: (
@@ -162,7 +161,6 @@ function _getExperiments(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, experimentName, options),
   };
 }
-
 export function _getExperimentsOperations(context: ChaosManagementContext): ExperimentsOperations {
   return {
     ..._getExperiments(context),
