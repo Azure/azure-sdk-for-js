@@ -30,7 +30,6 @@ import {
   decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
-import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { logger } from "./log.js";
@@ -46,6 +45,7 @@ import {
   storageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
+  storageRedirectRangeHeaderPolicy,
 } from "@azure/storage-common";
 
 import {
@@ -287,30 +287,11 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
       userAgentOptions: {
         userAgentPrefix,
       },
-      serializationOptions: {
-        stringifyXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
-      },
-      deserializationOptions: {
-        parseXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
-      },
     });
     corePipeline.removePolicy({ phase: "Retry" });
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
+    corePipeline.addPolicy(storageRedirectRangeHeaderPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());

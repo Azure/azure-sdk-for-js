@@ -30,7 +30,6 @@ import {
   decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
-import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
@@ -128,7 +127,15 @@ export function newPipeline(
   if (!credential) {
     credential = new AnonymousCredential();
   }
-  const pipeline = new Pipeline([], pipelineOptions);
+  const packageDetails = `azsdk-js-storagedatalake/${SDK_VERSION}`;
+  const userAgentPrefix = pipelineOptions?.userAgentOptions?.userAgentPrefix
+    ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
+    : `${packageDetails}`;
+
+  const pipeline = new Pipeline([], {
+    ...pipelineOptions,
+    userAgentOptions: { userAgentPrefix },
+  } as PipelineOptions);
   (pipeline as any)._credential = credential;
   return pipeline;
 }
@@ -186,26 +193,6 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
       },
       userAgentOptions: {
         userAgentPrefix,
-      },
-      serializationOptions: {
-        stringifyXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
-      },
-      deserializationOptions: {
-        parseXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
       },
     });
     corePipeline.removePolicy({ phase: "Retry" });
