@@ -24,14 +24,15 @@ const MAX_PARAMS = 7;
  * samples, perf/stress harnesses, and build/config scripts intentionally
  * bend many of these rules (long test functions, parameter mutation in
  * mocks, deeply nested sample scenarios), so the delta is limited to
- * files under any `src/` directory.
+ * JavaScript and TypeScript files under any `src/` directory.
  */
-const STRICT_FILES: readonly string[] = ["**/src/**"];
+const STRICT_FILES: readonly string[] = ["**/src/**/*.{js,cjs,mjs,ts,cts,mts}"];
 
 /**
- * Restrict a flat-config object so its rules only apply to files under
- * `src/`. Any existing `files` on the input is replaced — the strict
- * preset owns the scoping policy for every config object it emits.
+ * Restrict a flat-config object so its rules only apply to JavaScript and
+ * TypeScript files under `src/`. Any existing `files` on the input is
+ * replaced — the strict preset owns the scoping policy for every config
+ * object it emits.
  */
 function scopeToSrc(config: FlatConfig.Config): FlatConfig.Config {
   return { ...config, files: [...STRICT_FILES] };
@@ -41,9 +42,10 @@ function scopeToSrc(config: FlatConfig.Config): FlatConfig.Config {
  * Returns the strict-only delta config array — the additional rules that go
  * beyond the `recommended` / `recommendedTypeChecked` preset.
  *
- * Every returned config object is scoped to `**\/src/**`, so the strict
- * delta never fires for files under `test/`, `samples/`, `samples-dev/`,
- * etc., even when composed with a broader base preset.
+ * Every returned config object is scoped to JavaScript and TypeScript files
+ * under `src/`, so the strict delta never fires for non-source files or files
+ * under `test/`, `samples/`, `samples-dev/`, etc., even when composed with a
+ * broader base preset.
  *
  * @param options.typeChecked - When `true`, type-checked-only rules are included.
  *   When `false`, rules that require parser services are omitted.

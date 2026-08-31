@@ -337,8 +337,8 @@ importers:
         specifier: ^2.32.0
         version: 2.32.0(@typescript-eslint/parser@8.65.0(eslint@10.8.1)(typescript@6.0.3))(eslint@10.8.1)
       eslint-plugin-sonarjs:
-        specifier: ^3.0.2
-        version: 3.0.7(eslint@10.8.1)
+        specifier: ^4.2.0
+        version: 4.2.0(eslint@10.8.1)
       playwright:
         specifier: catalog:testing
         version: 1.62.1
@@ -36846,14 +36846,6 @@ packages:
     resolution: {integrity: sha1-wrnS43TuYsWG062+qHGZsdenpro=}
     engines: {node: '>=18.18'}
 
-  '@isaacs/balanced-match@4.0.1':
-    resolution: {integrity: sha1-MIHa28NGBmG3UedZHX+upd853Sk=}
-    engines: {node: 20 || >=22}
-
-  '@isaacs/brace-expansion@5.0.1':
-    resolution: {integrity: sha1-DvWpLZHy//KjdkbOVNqeX1mfbv8=}
-    engines: {node: 20 || >=22}
-
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha1-LVmuOrSzj7QnC/oj0w+OLobH/jI=}
     engines: {node: '>=18.0.0'}
@@ -38953,10 +38945,10 @@ packages:
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
 
-  eslint-plugin-sonarjs@3.0.7:
-    resolution: {integrity: sha1-wnh7GnpfkYtbkC2vZq8Fbepk4Dw=}
+  eslint-plugin-sonarjs@4.2.0:
+    resolution: {integrity: sha1-NPtnvjksP0mHXOVAXgLWLy+GAwQ=}
     peerDependencies:
-      eslint: ^8.0.0 || ^9.0.0
+      eslint: ^8.0.0 || ^9.0.0 || ^10.0.0
 
   eslint-plugin-tsdoc@0.5.2:
     resolution: {integrity: sha1-UUMhDnf//fDfCV9AkNfdP2SUpKI=}
@@ -40155,10 +40147,6 @@ packages:
   mimic-response@3.1.0:
     resolution: {integrity: sha1-LR1Zr5wbEpgVrMwsRqAipc4fo8k=}
     engines: {node: '>=10'}
-
-  minimatch@10.1.2:
-    resolution: {integrity: sha1-bD8on53mbWKPo/6xhCgEOWpD2Bw=}
-    engines: {node: 20 || >=22}
 
   minimatch@10.2.3:
     resolution: {integrity: sha1-wO9YLyEHGwEjpbvydSUuvakh+/Y=}
@@ -43248,12 +43236,6 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@isaacs/balanced-match@4.0.1': {}
-
-  '@isaacs/brace-expansion@5.0.1':
-    dependencies:
-      '@isaacs/balanced-match': 4.0.1
-
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
       minipass: 7.1.3
@@ -45744,19 +45726,22 @@ snapshots:
       '@eslint-community/eslint-utils': 4.10.1(eslint@10.8.1)
       eslint: 10.8.1
 
-  eslint-plugin-sonarjs@3.0.7(eslint@10.8.1):
+  eslint-plugin-sonarjs@4.2.0(eslint@10.8.1):
     dependencies:
       '@eslint-community/regexpp': 4.12.2
       builtin-modules: 3.3.0
       bytes: 3.1.2
       eslint: 10.8.1
       functional-red-black-tree: 1.0.1
+      globals: 17.11.0
       jsx-ast-utils-x: 0.1.0
       lodash.merge: 4.6.2
-      minimatch: 10.1.2
+      minimatch: 10.2.6
       scslre: 0.3.0
-      semver: 7.7.4
+      semver: 7.8.5
+      ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
+      yaml: 2.9.0
 
   eslint-plugin-tsdoc@0.5.2(eslint@10.8.1)(typescript@6.0.3):
     dependencies:
@@ -47181,10 +47166,6 @@ snapshots:
   mime@1.6.0: {}
 
   mimic-response@3.1.0: {}
-
-  minimatch@10.1.2:
-    dependencies:
-      '@isaacs/brace-expansion': 5.0.1
 
   minimatch@10.2.3:
     dependencies:

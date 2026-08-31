@@ -76,7 +76,7 @@
     "eslint-plugin-n": "^17.15.0",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-promise": "^7.3.0",
-    "eslint-plugin-sonarjs": "^3.0.2",
+    "eslint-plugin-sonarjs": "^4.2.0",
     "eslint-plugin-tsdoc": "^0.5.0"
   },
   "dependencies": {
@@ -102,7 +102,7 @@
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-sonarjs": "^3.0.2",
+    "eslint-plugin-sonarjs": "^4.2.0",
     "@microsoft/warp": "workspace:^",
     "playwright": "catalog:testing",
     "prettier": "^3.3.3",

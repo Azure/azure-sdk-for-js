@@ -70,7 +70,7 @@ export default azsdkEslint.config([
 
 The `recommendedStrict` and `recommendedStrictTypeChecked` presets layer additional maintainability and code-smell rules on top of `recommended`. They are intended for new packages or as part of an incremental cleanup effort. **These presets are intentionally noisy on existing code** — treat findings as a backlog rather than blocking CI until you've triaged them.
 
-> **Scope:** the strict delta only applies to files under any `src/` directory (`**/src/**`). Tests, samples, perf/stress harnesses, and build scripts intentionally bend many of these rules (long test functions, parameter mutation in mocks, deep sample scenarios), so the strict preset deliberately leaves them alone and only the underlying `recommended` rules apply there.
+> **Scope:** the strict delta only applies to JavaScript and TypeScript files under any `src/` directory (`**/src/**/*.{js,cjs,mjs,ts,cts,mts}`). Non-source files, tests, samples, perf/stress harnesses, and build scripts intentionally bend many of these rules (long test functions, parameter mutation in mocks, deep sample scenarios), so the strict preset deliberately leaves them alone and only the underlying `recommended` rules apply there.
 
 #### Usage
 
@@ -97,7 +97,7 @@ The strict preset requires `eslint-plugin-sonarjs` (peer dependency — add it e
 ```json
 {
   "devDependencies": {
-    "eslint-plugin-sonarjs": "^3.0.2"
+    "eslint-plugin-sonarjs": "^4.2.0"
   }
 }
 ```
