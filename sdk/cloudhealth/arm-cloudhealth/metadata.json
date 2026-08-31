@@ -2,9 +2,9 @@
   "apiVersions": {
     "Microsoft.CloudHealth": "2026-05-01-preview"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
-    "CrossLanguagePackageId": "Microsoft.CloudHealth",
+    "CrossLanguagePackageId": "Customizations",
     "CrossLanguageDefinitionId": {
       "@azure/arm-cloudhealth!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
       "@azure/arm-cloudhealth!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
@@ -79,8 +79,8 @@
       "@azure/arm-cloudhealth!ResourceGraphQuerySpecification:interface": "Microsoft.CloudHealth.ResourceGraphQuerySpecification",
       "@azure/arm-cloudhealth!ApplicationInsightsTopologySpecification:interface": "Microsoft.CloudHealth.ApplicationInsightsTopologySpecification",
       "@azure/arm-cloudhealth!DiscoveryError:interface": "Microsoft.CloudHealth.DiscoveryError",
-      "@azure/arm-cloudhealth!DiscoveryRuleResourceCreate:interface": "Microsoft.CloudHealth.DiscoveryRuleResourceCreate",
-      "@azure/arm-cloudhealth!DiscoveryRulePropertiesCreate:interface": "Microsoft.CloudHealth.DiscoveryRulePropertiesCreate",
+      "@azure/arm-cloudhealth!DiscoveryRuleResourceCreate:interface": "Customizations.DiscoveryRuleResourceCreate",
+      "@azure/arm-cloudhealth!DiscoveryRulePropertiesCreate:interface": "Customizations.DiscoveryRulePropertiesCreate",
       "@azure/arm-cloudhealth!DiscoveryRuleListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-cloudhealth!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-cloudhealth!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
@@ -108,7 +108,6 @@
       "@azure/arm-cloudhealth!KnownDiscoveryRuleRelationshipDiscoveryBehavior:enum": "Microsoft.CloudHealth.DiscoveryRuleRelationshipDiscoveryBehavior",
       "@azure/arm-cloudhealth!KnownDiscoveryRuleRecommendedSignalsBehavior:enum": "Microsoft.CloudHealth.DiscoveryRuleRecommendedSignalsBehavior",
       "@azure/arm-cloudhealth!KnownDiscoveryRuleKind:enum": "Microsoft.CloudHealth.DiscoveryRuleKind",
-      "@azure/arm-cloudhealth!KnownVersions:enum": "Microsoft.CloudHealth.Versions",
       "@azure/arm-cloudhealth!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
       "@azure/arm-cloudhealth!DiscoveryRulesOperations#listByHealthModel:member": "Microsoft.CloudHealth.DiscoveryRules.listByHealthModel",
       "@azure/arm-cloudhealth!DiscoveryRulesOperations#delete:member": "Microsoft.CloudHealth.DiscoveryRules.delete",

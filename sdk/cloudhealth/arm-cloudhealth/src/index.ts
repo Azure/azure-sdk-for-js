@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -20,9 +19,6 @@ export type {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  HealthModel,
-  HealthModelProperties,
-  HealthModelProvisioningState,
   ManagedServiceIdentity,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
@@ -31,6 +27,22 @@ export type {
   SystemData,
   CreatedByType,
   HealthModelUpdate,
+  ProxyResource,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownManagedServiceIdentityType,
+  KnownCreatedByType,
+} from "./models/index.js";
+export type {
+  DiscoveryRuleResourceCreate,
+  DiscoveryRulePropertiesCreate,
+} from "./models/customizations/index.js";
+export type {
+  HealthModel,
+  HealthModelProperties,
+  HealthModelProvisioningState,
   SignalDefinition,
   SignalDefinitionProperties,
   SignalDefinitionPropertiesUnion,
@@ -45,7 +57,6 @@ export type {
   MetricAggregationType,
   LogAnalyticsQuerySignalDefinitionProperties,
   PrometheusMetricsSignalDefinitionProperties,
-  ProxyResource,
   AuthenticationSetting,
   AuthenticationSettingProperties,
   AuthenticationSettingPropertiesUnion,
@@ -108,15 +119,9 @@ export type {
   ResourceGraphQuerySpecification,
   ApplicationInsightsTopologySpecification,
   DiscoveryError,
-  DiscoveryRuleResourceCreate,
-  DiscoveryRulePropertiesCreate,
-} from "./models/index.js";
+} from "./models/microsoft/cloudHealth/index.js";
 export {
-  KnownOrigin,
-  KnownActionType,
   KnownHealthModelProvisioningState,
-  KnownManagedServiceIdentityType,
-  KnownCreatedByType,
   KnownSignalKind,
   KnownRefreshInterval,
   KnownSignalOperator,
@@ -137,8 +142,7 @@ export {
   KnownDiscoveryRuleRelationshipDiscoveryBehavior,
   KnownDiscoveryRuleRecommendedSignalsBehavior,
   KnownDiscoveryRuleKind,
-  KnownVersions,
-} from "./models/index.js";
+} from "./models/microsoft/cloudHealth/index.js";
 export type { CloudHealthClientOptionalParams } from "./api/index.js";
 export type {
   AuthenticationSettingsListByHealthModelOptionalParams,
