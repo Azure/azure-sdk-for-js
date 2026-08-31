@@ -21,7 +21,6 @@ import {
   OutputKind,
 } from "./info.ts";
 import { processSources } from "./processor.ts";
-import devToolPackageJson from "../../../package.json" with { type: "json" };
 import instantiateSampleReadme from "../../templates/sampleReadme.md.ts";
 import { resolveModule } from "./transforms.ts";
 import type { Config } from "../resolveTsConfig.ts";
@@ -163,7 +162,7 @@ export async function makeSampleGenerationInfo(
     // If we are a beta package, use "beta", otherwise we will use "latest"
     [projectInfo.name]: projectInfo.version.includes("beta") ? "beta" : "latest",
     // We use this universally
-    dotenv: devToolPackageJson.dependencies["dotenv"],
+    dotenv: "latest",
   };
 
   const { packageJson } = projectInfo;
@@ -275,23 +274,14 @@ export async function makeSampleGenerationInfo(
               devDependencies: {
                 ...typesDependencies,
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
-                "cross-env": resolveDependencyVersion(
-                  "cross-env",
-                  devToolPackageJson.devDependencies["cross-env"],
-                ),
-                rimraf: resolveDependencyVersion(
-                  "rimraf",
-                  devToolPackageJson.devDependencies["rimraf"],
-                ),
+                "cross-env": "latest",
+                rimraf: "latest",
                 typescript: resolveDependencyVersion("typescript", "catalog:"),
               },
             }
           : {
               devDependencies: {
-                "cross-env": resolveDependencyVersion(
-                  "cross-env",
-                  devToolPackageJson.devDependencies["cross-env"],
-                ),
+                "cross-env": "latest",
               },
             }),
       };

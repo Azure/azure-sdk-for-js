@@ -172,8 +172,21 @@ describe("runTypeScript", () => {
     const result = await runTypeScript("tsconfig.json");
 
     expect(result).toBe(true);
-    // The fallback lookup must request the catalog `typescript` package.
-    expect(resolveNodeModuleBin).toHaveBeenCalledWith("typescript", "tsc", expect.any(String));
+    // The native TypeScript 7 compiler must be looked up before the catalog
+    // `typescript` fallback. Assert the call order explicitly because
+    // toHaveBeenCalledWith alone does not lock the order of the two lookups.
+    expect(resolveNodeModuleBin).toHaveBeenNthCalledWith(
+      1,
+      "@typescript/native",
+      "tsc",
+      expect.any(String),
+    );
+    expect(resolveNodeModuleBin).toHaveBeenNthCalledWith(
+      2,
+      "typescript",
+      "tsc",
+      expect.any(String),
+    );
     // runTypeScript must invoke the CLI resolved via the fallback. The executable
     // is normalized by @azure/core-process, but the argument list is passed through
     // unchanged, so assert the resolved CLI path is present there.

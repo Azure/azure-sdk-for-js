@@ -26,12 +26,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/simple@1.0.0-beta.1",
   "dependencies": {
     "simple@1.0.0-beta.1": "beta",
-    "dotenv": "^16.0.0"
+    "dotenv": "latest"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "cross-env": "^10.1.0",
-    "rimraf": "^6.1.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
     "typescript": "~7.0.2"
   }
 }
