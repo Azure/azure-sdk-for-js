@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const { FabricClient } = require("@azure/arm-fabric");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a FabricCapacity
  *
  * @summary get a FabricCapacity
- * x-ms-original-file: 2023-11-01/FabricCapacities_Get.json
+ * x-ms-original-file: 2026-08-01-preview/FabricCapacities_Get.json
  */
 async function getACapacity() {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function getACapacity() {
 }
 
 async function main() {
-  getACapacity();
+  await getACapacity();
 }
 
 main().catch(console.error);

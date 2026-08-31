@@ -1,0 +1,81 @@
+name: code-review-trigger-eval
+description: Trigger and anti-trigger tests for the code-review skill
+type: capability
+
+environment: azsdk-mcp-mock
+
+tags:
+  area: code-review
+  type: ci-gate
+
+defaults:
+  runs: 1
+  timeout: "90s"
+  model: claude-opus-4.6
+  executor: copilot-sdk
+
+scoring:
+  threshold: 0.8
+
+stimuli:
+  - name: trigger-review-pull-request
+    prompt: "Review this pull request for bugs and regressions."
+    graders:
+      - type: skill-invocation
+        config:
+          required: ["code-review"]
+  - name: trigger-review-current-diff
+    prompt: "Please do a code review of my current diff."
+    graders:
+      - type: skill-invocation
+        config:
+          required: ["code-review"]
+  - name: trigger-copilot-code-review
+    prompt: "Run GitHub Copilot code review on this PR and look for high-confidence issues."
+    graders:
+      - type: skill-invocation
+        config:
+          required: ["code-review"]
+  - name: trigger-cross-domain-sdk-review
+    prompt: "Review these Azure SDK changes for API compatibility, security, tests, and documentation."
+    graders:
+      - type: skill-invocation
+        config:
+          required: ["code-review"]
+  - name: trigger-find-introduced-correctness-issues
+    prompt: "Find correctness issues introduced by this pull request."
+    graders:
+      - type: skill-invocation
+        config:
+          required: ["code-review"]
+
+  - name: anti-trigger-implement-feature
+    prompt: "Implement a new listWidgets method in this SDK package."
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: ["code-review"]
+  - name: anti-trigger-fix-pipeline
+    prompt: "Fix the failing Azure SDK pipeline build 6447834."
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: ["code-review"]
+  - name: anti-trigger-resolve-apiview-feedback
+    prompt: "Resolve APIView feedback on my pull request."
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: ["code-review"]
+  - name: anti-trigger-release-package
+    prompt: "Release the @azure/storage-blob package."
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: ["code-review"]
+  - name: anti-trigger-run-package-tests
+    prompt: "Run the tests for sdk/storage/storage-blob."
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: ["code-review"]

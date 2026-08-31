@@ -60,11 +60,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let name: string;
   let baseType: string;
   let baseData:
-    | TelemetryEventData
-    | TelemetryExceptionData
-    | MessageData
-    | AvailabilityData
-    | PageViewData;
+    TelemetryEventData | TelemetryExceptionData | MessageData | AvailabilityData | PageViewData;
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
@@ -192,15 +188,13 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
   if (log.attributes) {
     for (const key of Object.keys(log.attributes)) {
       // Avoid duplication ignoring fields already mapped.
-      if (
-        !(
-          key.startsWith("_MS.") ||
-          key.startsWith("microsoft") ||
-          legacySemanticValues.includes(key) ||
-          httpSemanticValues.includes(key as any) ||
-          key === (KnownContextTagKeys.AiOperationName as string)
-        )
-      ) {
+      if (!(
+        key.startsWith("_MS.") ||
+        key.startsWith("microsoft") ||
+        legacySemanticValues.includes(key) ||
+        httpSemanticValues.includes(key as any) ||
+        key === (KnownContextTagKeys.AiOperationName as string)
+      )) {
         properties[key] = serializeAttribute(log.attributes[key]);
       }
     }

@@ -1,7 +1,7 @@
 {
   "name": "@azure/eventhubs-checkpointstore-table",
   "sdk-type": "client",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An Azure Storage Table solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -25,7 +25,7 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "files": [
     "dist/",
@@ -65,7 +65,6 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@rollup/plugin-inject": "catalog:testing",
     "@types/chai-as-promised": "catalog:testing",
     "@types/debug": "^4.1.4",
     "@types/node": "catalog:",

@@ -1,6 +1,14 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/models/index.ts",
+    "../src/models/common/index.ts",
+    "../src/models/microsoft/network/index.ts",
+    "../src/models/microsoft/network/connectionAnalyzerEndpointTypes/index.ts"
   ]
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient } from "../src/index.js";
 import { ShareFileClient } from "../src/index.js";
 import {
@@ -9,8 +9,7 @@ import {
   // compareBodyWithUint8Array,
   getBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -25,14 +24,12 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -98,6 +95,39 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
     assert.deepEqual(response.structuredBodyType, "XSM/1.0; properties=crc64");
   });
+
+  it("create with default StorageChecksumAlgorithm", async () => {
+    const content = "Hello, World";
+    const cResp = await fileClient.create(content.length, {
+      content: content,
+      contentLength: content.length,
+    });
+    assert.equal(cResp.errorCode, undefined);
+    assert.deepEqual(cResp.structuredBodyType, "XSM/1.0; properties=crc64");
+
+    const properties = await fileClient.getProperties();
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, properties.contentLength), content);
+  });
+
+  it("create with ContentMd5", async () => {
+    const content = "Hello, World";
+    try {
+      await fileClient.create(content.length, {
+        content: content,
+        contentLength: content.length,
+        contentChecksumAlgorithm: "Customized",
+        contentMD5: new Uint8Array([
+          0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
+          0x07,
+        ]),
+      });
+      assert.fail("Expected create to throw Md5Mismatch error");
+    } catch (err) {
+      assert.deepEqual((err as any).code, "Md5Mismatch");
+    }
+  });
 });
 
 describe("ContentChecksumValidation with client config - None", () => {
@@ -108,14 +138,12 @@ describe("ContentChecksumValidation with client config - None", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -161,5 +189,36 @@ describe("ContentChecksumValidation with client config - None", () => {
     const response = await fileClient.download(0, 8);
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
     assert.deepEqual(response.structuredBodyType, undefined);
+  });
+
+  it("create with default StorageChecksumAlgorithm", async () => {
+    const content = "Hello, World";
+    const cResp = await fileClient.create(content.length, {
+      content: content,
+      contentLength: content.length,
+    });
+    assert.equal(cResp.errorCode, undefined);
+    assert.deepEqual(cResp.structuredBodyType, undefined);
+
+    const properties = await fileClient.getProperties();
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, properties.contentLength), content);
+  });
+
+  it("create with CRC64 check", async () => {
+    const content = "Hello, World";
+    const cResp = await fileClient.create(content.length, {
+      content: content,
+      contentLength: content.length,
+      contentChecksumAlgorithm: "StorageCrc64",
+    });
+    assert.equal(cResp.errorCode, undefined);
+    assert.deepEqual(cResp.structuredBodyType, "XSM/1.0; properties=crc64");
+
+    const properties = await fileClient.getProperties();
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, properties.contentLength), content);
   });
 });

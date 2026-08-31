@@ -26,9 +26,9 @@ import type {
 } from "../../api/l3IsolationDomains/options.js";
 import type {
   UpdateAdministrativeState,
+  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
-  CommonPostActionResponseForDeviceUpdate,
   L3IsolationDomain,
   L3IsolationDomainPatch,
 } from "../../models/models.js";
@@ -85,15 +85,15 @@ export interface L3IsolationDomainsOperations {
     l3IsolationDomainName: string,
     options?: L3IsolationDomainsValidateConfigurationOptionalParams,
   ) => Promise<ValidateConfigurationResponse>;
-  /** Enables racks for this Isolation Domain. */
+  /** Updates the administrative state of the L3 Isolation Domain resource. */
   updateAdministrativeState: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: UpdateAdministrativeState,
     options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForDeviceUpdate>,
-    CommonPostActionResponseForDeviceUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -103,8 +103,8 @@ export interface L3IsolationDomainsOperations {
     options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForDeviceUpdate>,
-      CommonPostActionResponseForDeviceUpdate
+      OperationState<UpdateAdministrativeStateResponse>,
+      UpdateAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -113,7 +113,7 @@ export interface L3IsolationDomainsOperations {
     l3IsolationDomainName: string,
     body: UpdateAdministrativeState,
     options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
-  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
+  ) => Promise<UpdateAdministrativeStateResponse>;
   /** Displays L3IsolationDomains list by subscription GET method. */
   listBySubscription: (
     options?: L3IsolationDomainsListBySubscriptionOptionalParams,
@@ -124,11 +124,6 @@ export interface L3IsolationDomainsOperations {
     options?: L3IsolationDomainsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<L3IsolationDomain>;
   /** Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     l3IsolationDomainName: string,

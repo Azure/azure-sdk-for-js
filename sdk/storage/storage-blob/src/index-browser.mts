@@ -52,6 +52,7 @@ export {
   StorageOAuthScopes,
   type ServiceClientOptions,
 } from "./Pipeline.js";
+export * from "./sas/BlobSASPermissions.js";
 export type { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
 export { RestError };
@@ -64,6 +65,7 @@ export { logger } from "./log.js";
 
 // Re-export from @azure/storage-common for backward compatibility
 export {
+  StorageResponseFormat,
   BaseRequestPolicy,
   AnonymousCredential,
   Credential,

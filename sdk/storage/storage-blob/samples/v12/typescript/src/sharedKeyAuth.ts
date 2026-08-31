@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   let i = 1;

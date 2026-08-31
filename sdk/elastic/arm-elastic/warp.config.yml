@@ -1,5 +1,35 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/elasticVersions": "./src/api/elasticVersions/index.ts"
+  "./api/openAI": "./src/api/openAI/index.ts"
+  "./api/organizations": "./src/api/organizations/index.ts"
+  "./api/trafficFilters": "./src/api/trafficFilters/index.ts"
+  "./api/detachTrafficFilter": "./src/api/detachTrafficFilter/index.ts"
+  "./api/detachAndDeleteTrafficFilter": "./src/api/detachAndDeleteTrafficFilter/index.ts"
+  "./api/associateTrafficFilter": "./src/api/associateTrafficFilter/index.ts"
+  "./api/createAndAssociatePLFilter": "./src/api/createAndAssociatePLFilter/index.ts"
+  "./api/createAndAssociateIPFilter": "./src/api/createAndAssociateIPFilter/index.ts"
+  "./api/listAssociatedTrafficFilters": "./src/api/listAssociatedTrafficFilters/index.ts"
+  "./api/allTrafficFilters": "./src/api/allTrafficFilters/index.ts"
+  "./api/monitor": "./src/api/monitor/index.ts"
+  "./api/upgradableVersions": "./src/api/upgradableVersions/index.ts"
+  "./api/vMCollection": "./src/api/vMCollection/index.ts"
+  "./api/vMIngestion": "./src/api/vMIngestion/index.ts"
+  "./api/vMHost": "./src/api/vMHost/index.ts"
+  "./api/connectedPartnerResources": "./src/api/connectedPartnerResources/index.ts"
+  "./api/billingInfo": "./src/api/billingInfo/index.ts"
+  "./api/externalUser": "./src/api/externalUser/index.ts"
+  "./api/deploymentInfo": "./src/api/deploymentInfo/index.ts"
+  "./api/monitoredResources": "./src/api/monitoredResources/index.ts"
+  "./api/monitors": "./src/api/monitors/index.ts"
+  "./api/tagRules": "./src/api/tagRules/index.ts"
+  "./api/monitoredSubscriptions": "./src/api/monitoredSubscriptions/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

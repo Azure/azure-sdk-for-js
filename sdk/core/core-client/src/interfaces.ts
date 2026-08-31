@@ -284,14 +284,7 @@ export interface OperationSpec {
    * This value can be used to aide in serialization if it is provided.
    */
   readonly mediaType?:
-    | "json"
-    | "xml"
-    | "form"
-    | "binary"
-    | "multipart"
-    | "text"
-    | "unknown"
-    | string;
+    "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
   /**
    * The parameter that will be used to construct the HTTP request's body.
    */

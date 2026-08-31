@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-programenrollment": ["../src/index.ts"],
+      "@azure/arm-programenrollment/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

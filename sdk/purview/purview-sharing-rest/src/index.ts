@@ -15,3 +15,4 @@ export * from "./pollingHelper.js";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default PurviewSharing;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

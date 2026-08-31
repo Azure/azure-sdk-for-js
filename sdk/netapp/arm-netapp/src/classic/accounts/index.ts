@@ -3,6 +3,7 @@
 
 import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
+  refreshLdapBindPassword,
   changeKeyVault,
   getChangeKeyVaultInformation,
   transitionToCmk,
@@ -15,6 +16,7 @@ import {
   get,
 } from "../../api/accounts/operations.js";
 import type {
+  AccountsRefreshLdapBindPasswordOptionalParams,
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,
@@ -36,6 +38,12 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Accounts operations. */
 export interface AccountsOperations {
+  /** Refresh LDAP Bind DN password by fetching the latest password from Azure Key Vault. */
+  refreshLdapBindPassword: (
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsRefreshLdapBindPasswordOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault. */
   changeKeyVault: (
     resourceGroupName: string,
@@ -70,11 +78,6 @@ export interface AccountsOperations {
     options?: AccountsListOptionalParams,
   ) => PagedAsyncIterableIterator<NetAppAccount>;
   /** Delete the specified NetApp account */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -104,6 +107,11 @@ export interface AccountsOperations {
 
 function _getAccounts(context: NetAppManagementContext) {
   return {
+    refreshLdapBindPassword: (
+      resourceGroupName: string,
+      accountName: string,
+      options?: AccountsRefreshLdapBindPasswordOptionalParams,
+    ) => refreshLdapBindPassword(context, resourceGroupName, accountName, options),
     changeKeyVault: (
       resourceGroupName: string,
       accountName: string,

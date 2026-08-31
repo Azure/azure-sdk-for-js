@@ -21,17 +21,25 @@ import type {
   SendEventOptions,
   WebPubSubClientOptions,
   OnRejoinGroupFailedArgs,
+  OnGroupStatesChangedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
   InvokeEventOptions,
   InvokeEventResult,
-  StreamToGroupOptions,
-  SendStreamDataOptions,
-  SendStreamKeepaliveOptions,
-  EndStreamOptions,
-  OnGroupStreamArgs,
-  GroupStreamHandler,
-  StreamPublisher,
+  OpenGroupStreamOptions,
+  GroupStreamWriteOptions,
+  EndGroupStreamOptions,
+  AbortGroupStreamOptions,
+  GroupStream,
+  GroupStreamSubscription,
+  GroupStreamWriter,
+  OnGroupStreamOptions,
+  GroupState,
+  GroupStateRecord,
+  SetGroupStateOptions,
+  ClearGroupStateOptions,
+  SubscribeGroupStatesOptions,
+  UnsubscribeGroupStatesOptions,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -40,6 +48,7 @@ import type {
   GroupDataMessage,
   InvokeMessage,
   InvokeResponseMessage,
+  JSONTypes,
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
@@ -56,6 +65,12 @@ import type {
   StreamDataMessage,
   StreamEndMessage,
   StreamDataError,
+  StreamEndError,
+  SetGroupStateMessage,
+  SubscribeGroupStateMessage,
+  UnsubscribeGroupStateMessage,
+  GroupStateSnapshotMessage,
+  GroupStateUpdateMessage,
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
@@ -66,7 +81,8 @@ import type {
   WebSocketClientLike,
 } from "./websocket/websocketClientLike.js";
 import { AckManager } from "./ackManager.js";
-import { InboundStreamSession } from "./inboundStreamSession.js";
+import { GroupStateManager } from "./groupStateManager.js";
+import { InboundStreamDispatcher } from "./inboundStreamDispatcher.js";
 import { InvocationManager } from "./invocationManager.js";
 import { OutboundStreamSession } from "./outboundStreamSession.js";
 
@@ -81,11 +97,6 @@ enum WebPubSubClientState {
 const STREAM_PROTOCOL_VIOLATION = "ProtocolViolation";
 
 /**
- * Types which can be serialized and sent as JSON.
- */
-export type JSONTypes = string | number | boolean | object;
-
-/**
  * The WebPubSub client
  */
 export class WebPubSubClient {
@@ -93,7 +104,7 @@ export class WebPubSubClient {
   private readonly _credential: WebPubSubClientCredential;
   private readonly _options: WebPubSubClientOptions;
   private readonly _groupMap: Map<string, WebPubSubGroup>;
-  private readonly _inboundStreams: InboundStreamSession;
+  private readonly _inboundStreams: InboundStreamDispatcher;
   private readonly _outboundStreams: Map<string, OutboundStreamSession>;
   private readonly _ackManager: AckManager;
   private readonly _invocationManager: InvocationManager;
@@ -107,8 +118,6 @@ export class WebPubSubClient {
   private readonly _keepAliveIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
-  private readonly _groupStreamFactories: Array<(args: OnGroupStreamArgs) => GroupStreamHandler> =
-    [];
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _pingKeepaliveTask: AbortableTask | undefined;
@@ -154,10 +163,7 @@ export class WebPubSubClient {
 
     this._protocol = this._options.protocol!;
     this._groupMap = new Map<string, WebPubSubGroup>();
-    this._inboundStreams = new InboundStreamSession(
-      () => this._groupStreamFactories,
-      this._options.groupStreamOptions,
-    );
+    this._inboundStreams = new InboundStreamDispatcher();
     this._outboundStreams = new Map<string, OutboundStreamSession>();
     this._ackManager = new AckManager();
     this._invocationManager = new InvocationManager();
@@ -231,6 +237,7 @@ export class WebPubSubClient {
     this._connectionId = undefined;
     this._reconnectionToken = undefined;
     this._uri = undefined;
+    this._resetGroupStatesForNewConnection();
 
     if (typeof this._credential.getClientAccessUrl === "string") {
       this._uri = this._credential.getClientAccessUrl;
@@ -314,6 +321,12 @@ export class WebPubSubClient {
    * @param listener - The handler
    */
   public on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
+  /**
+   * Add handler for group state changes.
+   * @param event - The event name
+   * @param listener - The handler
+   */
+  public on(event: "group-states-changed", listener: (e: OnGroupStatesChangedArgs) => void): void;
   public on(
     event:
       | "connected"
@@ -321,22 +334,23 @@ export class WebPubSubClient {
       | "stopped"
       | "server-message"
       | "group-message"
-      | "rejoin-group-failed",
+      | "rejoin-group-failed"
+      | "group-states-changed",
     listener: (e: any) => void,
   ): void {
     this._emitter.on(event, listener);
   }
 
   /**
-   * Register a factory invoked once for each newly observed inbound group stream
-   * (across all groups). The factory receives a per-stream `OnGroupStreamArgs`
-   * value (`{ group, streamId }`) and must return a `GroupStreamHandler` whose
-   * callbacks consume that single stream. Returning a fresh closure per call
-   * gives every stream its own independent state.
-   * @param factory - Per-stream factory returning a `GroupStreamHandler`.
+   * Subscribe to inbound group streams. The callback is invoked once for each newly observed stream.
+   * @param callback - Callback invoked with each inbound stream.
+   * @param options - Per-subscription options controlling how streams are tracked.
    */
-  public onGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
-    this._groupStreamFactories.push(factory);
+  public onGroupStream(
+    callback: (stream: GroupStream) => void | Promise<void>,
+    options?: OnGroupStreamOptions,
+  ): GroupStreamSubscription {
+    return this._inboundStreams.register(callback, options);
   }
 
   /**
@@ -375,6 +389,12 @@ export class WebPubSubClient {
    * @param listener - The handler
    */
   public off(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
+  /**
+   * Remove handler for group state changes.
+   * @param event - The event name
+   * @param listener - The handler
+   */
+  public off(event: "group-states-changed", listener: (e: OnGroupStatesChangedArgs) => void): void;
   public off(
     event:
       | "connected"
@@ -382,22 +402,11 @@ export class WebPubSubClient {
       | "stopped"
       | "server-message"
       | "group-message"
-      | "rejoin-group-failed",
+      | "rejoin-group-failed"
+      | "group-states-changed",
     listener: (e: any) => void,
   ): void {
     this._emitter.removeListener(event, listener);
-  }
-
-  /**
-   * Remove a previously registered group stream factory. Pass the same factory
-   * reference that was supplied to {@link onGroupStream}.
-   * @param factory - The factory reference originally registered via {@link onGroupStream}.
-   */
-  public offGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
-    const index = this._groupStreamFactories.indexOf(factory);
-    if (index >= 0) {
-      this._groupStreamFactories.splice(index, 1);
-    }
   }
 
   private _emitEvent(event: "connected", args: OnConnectedArgs): void;
@@ -406,6 +415,7 @@ export class WebPubSubClient {
   private _emitEvent(event: "server-message", args: OnServerDataMessageArgs): void;
   private _emitEvent(event: "group-message", args: OnGroupDataMessageArgs): void;
   private _emitEvent(event: "rejoin-group-failed", args: OnRejoinGroupFailedArgs): void;
+  private _emitEvent(event: "group-states-changed", args: OnGroupStatesChangedArgs): void;
   private _emitEvent(
     event:
       | "connected"
@@ -413,7 +423,8 @@ export class WebPubSubClient {
       | "stopped"
       | "server-message"
       | "group-message"
-      | "rejoin-group-failed",
+      | "rejoin-group-failed"
+      | "group-states-changed",
     args: any,
   ): void {
     this._emitter.emit(event, args);
@@ -631,6 +642,197 @@ export class WebPubSubClient {
   }
 
   /**
+   * Sets this connection's state in the specified group.
+   * @param groupName - The group name
+   * @param state - The full state dictionary for this connection
+   * @param options - The set group state options
+   */
+  public async setGroupState(
+    groupName: string,
+    state: GroupState,
+    options?: SetGroupStateOptions,
+  ): Promise<WebPubSubResult> {
+    return this._operationExecuteWithRetry(
+      () => this._setGroupStateAttempt(groupName, state, options),
+      options?.abortSignal,
+    );
+  }
+
+  private async _setGroupStateAttempt(
+    groupName: string,
+    state: GroupState,
+    options?: SetGroupStateOptions,
+  ): Promise<WebPubSubResult> {
+    const result = await this._sendMessageWithAckId(
+      (id) => {
+        return {
+          group: groupName,
+          state: state,
+          ackId: id,
+          kind: "setGroupState",
+        } as SetGroupStateMessage;
+      },
+      options?.ackId,
+      options?.abortSignal,
+    );
+    this._setOwnGroupState(groupName, state);
+    return result;
+  }
+
+  /**
+   * Clears this connection's state in the specified group.
+   * @param groupName - The group name
+   * @param options - The clear group state options
+   */
+  public async clearGroupState(
+    groupName: string,
+    options?: ClearGroupStateOptions,
+  ): Promise<WebPubSubResult> {
+    return this._operationExecuteWithRetry(
+      () => this._clearGroupStateAttempt(groupName, options),
+      options?.abortSignal,
+    );
+  }
+
+  private async _clearGroupStateAttempt(
+    groupName: string,
+    options?: ClearGroupStateOptions,
+  ): Promise<WebPubSubResult> {
+    const result = await this._sendMessageWithAckId(
+      (id) => {
+        return {
+          group: groupName,
+          ackId: id,
+          kind: "setGroupState",
+        } as SetGroupStateMessage;
+      },
+      options?.ackId,
+      options?.abortSignal,
+    );
+    this._clearOwnGroupState(groupName);
+    return result;
+  }
+
+  /**
+   * Subscribes to group state changes.
+   * @param groupName - The group name
+   * @param options - The subscribe group states options
+   */
+  public async subscribeGroupStates(
+    groupName: string,
+    options?: SubscribeGroupStatesOptions,
+  ): Promise<WebPubSubResult> {
+    return this._operationExecuteWithRetry(
+      () => this._subscribeGroupStatesAttempt(groupName, options),
+      options?.abortSignal,
+    );
+  }
+
+  private async _subscribeGroupStatesAttempt(
+    groupName: string,
+    options?: SubscribeGroupStatesOptions,
+  ): Promise<WebPubSubResult> {
+    const group = this._getOrAddGroup(groupName);
+    const previousManager = group.groupStateManager;
+    const wasSubscribed = group.isGroupStateSubscribed;
+    group.groupStateManager = this._prepareGroupStateManagerForSubscribe(previousManager);
+
+    try {
+      const result = await this._subscribeGroupStatesCore(groupName, options);
+      group.isGroupStateSubscribed = true;
+      return result;
+    } catch (err) {
+      group.isGroupStateSubscribed = wasSubscribed;
+      group.groupStateManager = previousManager;
+      throw err;
+    }
+  }
+
+  private async _subscribeGroupStatesCore(
+    groupName: string,
+    options?: SubscribeGroupStatesOptions,
+  ): Promise<WebPubSubResult> {
+    return this._sendMessageWithAckId(
+      (id) => {
+        return {
+          group: groupName,
+          ackId: id,
+          kind: "subscribeGroupState",
+        } as SubscribeGroupStateMessage;
+      },
+      options?.ackId,
+      options?.abortSignal,
+    );
+  }
+
+  /**
+   * Unsubscribes from group state changes.
+   * @param groupName - The group name
+   * @param options - The unsubscribe group states options
+   */
+  public async unsubscribeGroupStates(
+    groupName: string,
+    options?: UnsubscribeGroupStatesOptions,
+  ): Promise<WebPubSubResult> {
+    return this._operationExecuteWithRetry(
+      () => this._unsubscribeGroupStatesAttempt(groupName, options),
+      options?.abortSignal,
+    );
+  }
+
+  private async _unsubscribeGroupStatesAttempt(
+    groupName: string,
+    options?: UnsubscribeGroupStatesOptions,
+  ): Promise<WebPubSubResult> {
+    const result = await this._sendMessageWithAckId(
+      (id) => {
+        return {
+          group: groupName,
+          ackId: id,
+          kind: "unsubscribeGroupState",
+        } as UnsubscribeGroupStateMessage;
+      },
+      options?.ackId,
+      options?.abortSignal,
+    );
+
+    const group = this._groupMap.get(groupName);
+    if (group != null) {
+      group.isGroupStateSubscribed = false;
+      group.groupStateManager = undefined;
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns all cached group state records for the specified group.
+   * The client must be subscribed to group state changes for this group.
+   * @param groupName - The group name
+   */
+  public listGroupStates(groupName: string): readonly GroupStateRecord[] {
+    const group = this._groupMap.get(groupName);
+    if (group?.isGroupStateSubscribed !== true || group.groupStateManager == null) {
+      throw new Error(`Group state is not subscribed for group '${groupName}'.`);
+    }
+
+    return group.groupStateManager.listStates();
+  }
+
+  /**
+   * Returns this connection's own locally tracked group state for the specified group. The client must be joined to this group.
+   * @param groupName - The group name
+   */
+  public getGroupState(groupName: string): GroupState | undefined {
+    const group = this._groupMap.get(groupName);
+    if (group?.isJoined !== true) {
+      throw new Error(`Group '${groupName}' is not joined.`);
+    }
+
+    return group.ownGroupState == null ? undefined : { ...group.ownGroupState };
+  }
+
+  /**
    * Send message to group.
    * @param groupName - The group name
    * @param content - The data content
@@ -688,14 +890,14 @@ export class WebPubSubClient {
   }
 
   /**
-   * Create an outbound stream publisher to a group.
+   * Open an outbound stream to a group.
    * @param groupName - Target group name.
-   * @param options - Stream start options.
+   * @param options - Stream open options.
    */
-  public async streamToGroup(
+  public async openGroupStream(
     groupName: string,
-    options?: StreamToGroupOptions,
-  ): Promise<StreamPublisher> {
+    options?: OpenGroupStreamOptions,
+  ): Promise<GroupStreamWriter> {
     const streamId = options?.streamId ?? this._generateOutboundStreamId();
     if (this._outboundStreams.has(streamId)) {
       throw new Error(`Stream '${streamId}' already exists.`);
@@ -704,18 +906,18 @@ export class WebPubSubClient {
     const session = new OutboundStreamSession({
       streamId,
       groupName,
-      idleTimeoutMs: options?.idleTimeoutMs,
+      idleTimeoutInMs: options?.idleTimeoutInMs,
       canSend: () => this._canSendStreamTraffic(),
       sendStart: async () =>
         this._sendStreamStart(streamId, groupName, {
           noEcho: options?.noEcho,
-          idleTimeoutMs: options?.idleTimeoutMs,
+          idleTimeoutInMs: options?.idleTimeoutInMs,
         }),
       sendData: async (sequenceId, content, dataType) =>
         this._sendStreamData(streamId, sequenceId, content, dataType),
       sendEnd: async (endOptions) => this._sendStreamEnd(streamId, endOptions),
-      sendKeepalive: async (keepaliveOptions) =>
-        this._sendStreamKeepalive(streamId, keepaliveOptions),
+      sendKeepAlive: async (keepAliveOptions) =>
+        this._sendStreamKeepAlive(streamId, keepAliveOptions),
     });
     this._outboundStreams.set(streamId, session);
 
@@ -729,22 +931,21 @@ export class WebPubSubClient {
 
     return {
       streamId,
-      publish: async (
+      write: async (
         content: JSONTypes | ArrayBuffer,
-        dataType?: WebPubSubDataType,
-        sendOptions?: SendStreamDataOptions,
+        dataType: WebPubSubDataType,
+        writeOptions?: GroupStreamWriteOptions,
       ): Promise<void> => {
-        await session.publish(
-          content,
-          dataType ?? this._resolveStreamDataType(content),
-          sendOptions?.abortSignal,
-        );
+        await session.write(content, dataType, writeOptions?.abortSignal);
       },
-      keepalive: async (keepaliveOptions?: SendStreamKeepaliveOptions): Promise<void> => {
-        await session.keepalive(keepaliveOptions);
+      end: async (endOptions?: EndGroupStreamOptions): Promise<void> => {
+        await session.end(endOptions);
       },
-      complete: async (endOptions?: EndStreamOptions): Promise<void> => {
-        await session.complete(endOptions);
+      abort: async (
+        error: StreamEndError,
+        abortOptions?: AbortGroupStreamOptions,
+      ): Promise<void> => {
+        await session.abort(error, abortOptions);
       },
       onError: (listener: (error: StreamDataError) => void): (() => void) => {
         return session.onError(listener);
@@ -873,6 +1074,9 @@ export class WebPubSubClient {
                     (async () => {
                       try {
                         await this._joinGroupCore(g.name);
+                        if (g.isGroupStateSubscribed) {
+                          await this._resubscribeGroupStates(g);
+                        }
                       } catch (err) {
                         this._safeEmitRejoinGroupFailed(g.name, err);
                       }
@@ -950,6 +1154,14 @@ export class WebPubSubClient {
           this._handleOutboundStreamClosedMessage(message);
         };
 
+        const handleGroupStateSnapshotMessage = (message: GroupStateSnapshotMessage): void => {
+          this._handleGroupStateSnapshotMessage(message);
+        };
+
+        const handleGroupStateUpdateMessage = (message: GroupStateUpdateMessage): void => {
+          this._handleGroupStateUpdateMessage(message);
+        };
+
         this._lastMessageReceived = Date.now();
 
         let messages: WebPubSubMessage[] | WebPubSubMessage | null;
@@ -1016,6 +1228,14 @@ export class WebPubSubClient {
               }
               case "streamClosed": {
                 handleStreamClosedMessage(message as StreamClosedMessage);
+                break;
+              }
+              case "groupStateSnapshot": {
+                handleGroupStateSnapshotMessage(message as GroupStateSnapshotMessage);
+                break;
+              }
+              case "groupStateUpdate": {
+                handleGroupStateUpdateMessage(message as GroupStateUpdateMessage);
                 break;
               }
             }
@@ -1295,6 +1515,65 @@ export class WebPubSubClient {
     } as OnRejoinGroupFailedArgs);
   }
 
+  private _safeEmitGroupStatesChanged(groupName: string): void {
+    this._emitEvent("group-states-changed", {
+      group: groupName,
+    } as OnGroupStatesChangedArgs);
+  }
+
+  private _handleGroupStateSnapshotMessage(message: GroupStateSnapshotMessage): void {
+    const manager = this._groupMap.get(message.group)?.groupStateManager;
+    if (manager == null) {
+      // If we don't have a manager for this group, it means we haven't subscribed to the group state or already unsubscribed. We can just ignore the snapshot message in this case.
+      return;
+    }
+
+    if (manager.applySnapshot(message.items)) {
+      this._safeEmitGroupStatesChanged(message.group);
+    }
+  }
+
+  private _handleGroupStateUpdateMessage(message: GroupStateUpdateMessage): void {
+    const manager = this._groupMap.get(message.group)?.groupStateManager;
+    if (manager == null) {
+      return;
+    }
+
+    if (manager.applyUpdates(message.items)) {
+      this._safeEmitGroupStatesChanged(message.group);
+    }
+  }
+
+  private _prepareGroupStateManagerForSubscribe(
+    manager: GroupStateManager | undefined,
+  ): GroupStateManager {
+    return manager ?? new GroupStateManager();
+  }
+
+  private _setOwnGroupState(groupName: string, state: GroupState): void {
+    const group = this._getOrAddGroup(groupName);
+    group.ownGroupState = { ...state };
+  }
+
+  private _clearOwnGroupState(groupName: string): void {
+    const group = this._getOrAddGroup(groupName);
+    group.ownGroupState = undefined;
+  }
+
+  private _resetGroupStatesForNewConnection(): void {
+    this._groupMap.forEach((group) => {
+      group.ownGroupState = undefined;
+      if (group.isGroupStateSubscribed) {
+        group.groupStateManager = new GroupStateManager();
+      }
+    });
+  }
+
+  private async _resubscribeGroupStates(group: WebPubSubGroup): Promise<void> {
+    group.groupStateManager = this._prepareGroupStateManagerForSubscribe(group.groupStateManager);
+    await this._subscribeGroupStatesCore(group.name);
+  }
+
   private _handleOutboundStreamAckMessage(message: StreamAckMessage): void {
     logger.verbose(
       `Received streamAck for streamId=${message.streamId}, expectedSequenceId=${message.expectedSequenceId}`,
@@ -1381,7 +1660,7 @@ export class WebPubSubClient {
   private async _sendStreamStart(
     streamId: string,
     groupName: string,
-    options?: StreamToGroupOptions,
+    options?: OpenGroupStreamOptions,
   ): Promise<void> {
     const message: SendToGroupMessage = {
       kind: "sendToGroup",
@@ -1389,7 +1668,7 @@ export class WebPubSubClient {
       noEcho: options?.noEcho ?? false,
       stream: {
         streamId,
-        idleTimeoutMs: options?.idleTimeoutMs,
+        idleTimeoutInMs: options?.idleTimeoutInMs,
       },
     };
     await this._sendMessage(message);
@@ -1411,9 +1690,9 @@ export class WebPubSubClient {
     await this._sendMessage(message);
   }
 
-  private async _sendStreamKeepalive(
+  private async _sendStreamKeepAlive(
     streamId: string,
-    options?: SendStreamKeepaliveOptions,
+    options?: { abortSignal?: AbortSignalLike },
   ): Promise<void> {
     const message: StreamDataMessage = {
       kind: "streamData",
@@ -1422,7 +1701,10 @@ export class WebPubSubClient {
     await this._sendMessage(message, options?.abortSignal);
   }
 
-  private async _sendStreamEnd(streamId: string, options?: EndStreamOptions): Promise<void> {
+  private async _sendStreamEnd(
+    streamId: string,
+    options?: { error?: StreamEndError; abortSignal?: AbortSignalLike },
+  ): Promise<void> {
     const message: StreamEndMessage = {
       kind: "streamEnd",
       streamId,
@@ -1433,18 +1715,6 @@ export class WebPubSubClient {
 
   private _generateOutboundStreamId(): string {
     return randomUUID();
-  }
-
-  private _resolveStreamDataType(content: JSONTypes | ArrayBuffer): WebPubSubDataType {
-    if (content instanceof ArrayBuffer) {
-      return "binary";
-    }
-
-    if (typeof content === "string") {
-      return "text";
-    }
-
-    return "json";
   }
 
   private _mapInvokeResponse(message: InvokeResponseMessage): InvokeEventResult {
@@ -1668,6 +1938,9 @@ class RetryPolicy {
 class WebPubSubGroup {
   public readonly name: string;
   public isJoined = false;
+  public isGroupStateSubscribed = false;
+  public groupStateManager?: GroupStateManager;
+  public ownGroupState?: GroupState;
 
   constructor(name: string) {
     this.name = name;

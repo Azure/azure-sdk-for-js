@@ -9,7 +9,9 @@ import * as MOCKS from "./constants.js";
 
 declare module "vitest" {
   type MyEnvVarKeys = {
-    [K in (typeof EnvVarKeys)[keyof typeof EnvVarKeys]]: K extends (typeof EnvVarKeys)["ALLOW_SHARED_KEY_ACCESS"]
+    [
+      K in (typeof EnvVarKeys)[keyof typeof EnvVarKeys]
+    ]: K extends (typeof EnvVarKeys)["ALLOW_SHARED_KEY_ACCESS"]
       ? boolean
       : K extends (typeof EnvVarKeys)["TEST_MODE"]
         ? string | undefined

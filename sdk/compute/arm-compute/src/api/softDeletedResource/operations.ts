@@ -31,7 +31,7 @@ export function _listByArtifactNameSend(
       galleryName: galleryName,
       artifactType: artifactType,
       artifactName: artifactName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,14 +49,15 @@ export async function _listByArtifactNameDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _gallerySoftDeletedResourceListDeserializer(result.body);
 }
-
 /** List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image. */
 export function listByArtifactName(
   context: Client,
@@ -79,6 +80,6 @@ export function listByArtifactName(
       ),
     _listByArtifactNameDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-03-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
   );
 }

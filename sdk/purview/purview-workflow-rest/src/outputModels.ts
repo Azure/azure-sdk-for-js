@@ -109,12 +109,7 @@ export interface UserRequestResponseOutput {
 export interface UserRequestResponseOperationsItemOutput {
   /** The operation type. */
   type:
-    | "CreateTerm"
-    | "UpdateTerm"
-    | "DeleteTerm"
-    | "ImportTerms"
-    | "UpdateAsset"
-    | "GrantDataAccess";
+    "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
   /** The payload of each operation which user want to submit. */
   payload: Record<string, unknown>;
   workflowRunIds?: Array<string>;
@@ -178,12 +173,7 @@ export interface WorkflowRunMetadataOutput {
 export interface WorkflowRunPayloadOutput {
   /** The workflow run payload type. */
   type:
-    | "CreateTerm"
-    | "UpdateTerm"
-    | "DeleteTerm"
-    | "ImportTerms"
-    | "UpdateAsset"
-    | "GrantDataAccess";
+    "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
   /** The target value which need involve workflow to update. */
   targetValue: string;
 }
@@ -243,12 +233,7 @@ export interface WorkflowRunOutput {
 export interface WorkflowRunRunPayloadOutput {
   /** The workflow run payload type. */
   type:
-    | "CreateTerm"
-    | "UpdateTerm"
-    | "DeleteTerm"
-    | "ImportTerms"
-    | "UpdateAsset"
-    | "GrantDataAccess";
+    "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
   /** The target value which need involve workflow to update. */
   targetValue: string;
   /** The payload of each operation which user want to submit. */
@@ -315,12 +300,7 @@ export interface WorkflowTaskOutputParent {
 export interface TaskPayloadOutput {
   /** The task payload type. */
   type:
-    | "CreateTerm"
-    | "UpdateTerm"
-    | "DeleteTerm"
-    | "ImportTerms"
-    | "UpdateAsset"
-    | "GrantDataAccess";
+    "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
   /** The target value of entity which user want to involve workflow to update. */
   targetValue: string;
   /** The payload of the task. */

@@ -36,11 +36,6 @@ export interface ProximityPlacementGroupsOperations {
     options?: ProximityPlacementGroupsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ProximityPlacementGroup>;
   /** Delete a proximity placement group. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     proximityPlacementGroupName: string,
@@ -67,7 +62,6 @@ export interface ProximityPlacementGroupsOperations {
     options?: ProximityPlacementGroupsGetOptionalParams,
   ) => Promise<ProximityPlacementGroup>;
 }
-
 function _getProximityPlacementGroups(context: ComputeManagementContext) {
   return {
     listBySubscription: (options?: ProximityPlacementGroupsListBySubscriptionOptionalParams) =>
@@ -101,7 +95,6 @@ function _getProximityPlacementGroups(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, proximityPlacementGroupName, options),
   };
 }
-
 export function _getProximityPlacementGroupsOperations(
   context: ComputeManagementContext,
 ): ProximityPlacementGroupsOperations {

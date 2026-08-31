@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a scenario.
  *
  * @summary create or update a scenario.
- * x-ms-original-file: 2026-05-01-preview/Scenarios_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/Scenarios_CreateOrUpdate.json
  */
 async function createOrUpdateAScenario(): Promise<void> {
   const credential = new DefaultAzureCredential();

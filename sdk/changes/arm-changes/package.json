@@ -5,7 +5,7 @@
   "description": "A generated SDK for ChangesClient.",
   "version": "1.1.2",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
@@ -32,6 +32,7 @@
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
+    "@azure/logger": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",

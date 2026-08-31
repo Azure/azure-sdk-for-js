@@ -34,11 +34,6 @@ export interface GalleriesOperations {
     options?: GalleriesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Gallery>;
   /** Delete a Shared Image Gallery. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,
@@ -105,7 +100,6 @@ export interface GalleriesOperations {
     options?: GalleriesGetOptionalParams,
   ) => Promise<Gallery>;
 }
-
 function _getGalleries(context: ComputeManagementContext) {
   return {
     list: (options?: GalleriesListOptionalParams) => list(context, options),
@@ -186,7 +180,6 @@ function _getGalleries(context: ComputeManagementContext) {
       get(context, resourceGroupName, galleryName, options),
   };
 }
-
 export function _getGalleriesOperations(context: ComputeManagementContext): GalleriesOperations {
   return {
     ..._getGalleries(context),

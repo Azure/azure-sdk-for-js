@@ -42,11 +42,6 @@ export interface SubvolumesOperations {
     options?: SubvolumesListByVolumeOptionalParams,
   ) => PagedAsyncIterableIterator<SubvolumeInfo>;
   /** Delete subvolume */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -65,7 +60,10 @@ export interface SubvolumesOperations {
     body: SubvolumePatchRequest,
     options?: SubvolumesUpdateOptionalParams,
   ) => PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
-  /** Creates a subvolume in the path or clones the subvolume mentioned in the parentPath */
+  /**
+   * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
+   * Deprecated. This operation will be removed in a future API version.
+   */
   create: (
     resourceGroupName: string,
     accountName: string,

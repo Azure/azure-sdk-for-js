@@ -88,7 +88,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,14 +106,15 @@ export async function _listByLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _virtualMachineListResultDeserializer(result.body);
 }
-
 /** Gets all the virtual machines under the specified subscription for the specified location. */
 export function listByLocation(
   context: Client,
@@ -125,7 +126,7 @@ export function listByLocation(
     () => _listByLocationSend(context, location, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -141,7 +142,7 @@ export function _migrateToVMScaleSetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,9 +151,9 @@ export function _migrateToVMScaleSetSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["parameters"]
-      ? options["parameters"]
-      : migrateVMToVirtualMachineScaleSetInputSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : migrateVMToVirtualMachineScaleSetInputSerializer(options?.parameters),
   });
 }
 
@@ -162,14 +163,15 @@ export async function _migrateToVMScaleSetDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set. */
 export function migrateToVMScaleSet(
   context: Client,
@@ -182,7 +184,7 @@ export function migrateToVMScaleSet(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _migrateToVMScaleSetSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -199,7 +201,7 @@ export function _runCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,17 +218,18 @@ export function _runCommandSend(
 export async function _runCommandDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RunCommandResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return runCommandResultDeserializer(result.body);
 }
-
 /** Run command on the VM. */
 export function runCommand(
   context: Client,
@@ -235,13 +238,13 @@ export function runCommand(
   parameters: RunCommandInput,
   options: VirtualMachinesRunCommandOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RunCommandResult>, RunCommandResult> {
-  return getLongRunningPoller(context, _runCommandDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _runCommandDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _runCommandSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
 }
 
@@ -257,7 +260,7 @@ export function _listAvailableSizesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,14 +278,15 @@ export async function _listAvailableSizesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _virtualMachineSizeListResultDeserializer(result.body);
 }
-
 /** Lists all available virtual machine sizes to which the specified virtual machine can be resized. */
 export function listAvailableSizes(
   context: Client,
@@ -295,7 +299,7 @@ export function listAvailableSizes(
     () => _listAvailableSizesSend(context, resourceGroupName, vmName, options),
     _listAvailableSizesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -311,7 +315,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,14 +328,15 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** The operation to start a virtual machine. */
 export function start(
   context: Client,
@@ -344,7 +349,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -360,7 +365,7 @@ export function _simulateEvictionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -373,14 +378,15 @@ export async function _simulateEvictionDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** The operation to simulate the eviction of spot virtual machine. */
 export async function simulateEviction(
   context: Client,
@@ -404,7 +410,7 @@ export function _retrieveBootDiagnosticsDataSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
       sasUriExpirationTimeInMinutes: options?.sasUriExpirationTimeInMinutes,
     },
     {
@@ -423,14 +429,15 @@ export async function _retrieveBootDiagnosticsDataDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return retrieveBootDiagnosticsDataResultDeserializer(result.body);
 }
-
 /** The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs. */
 export async function retrieveBootDiagnosticsData(
   context: Client,
@@ -459,7 +466,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -472,14 +479,15 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** The operation to restart a virtual machine. */
 export function restart(
   context: Client,
@@ -492,7 +500,7 @@ export function restart(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _restartSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -508,7 +516,7 @@ export function _reimageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -517,9 +525,9 @@ export function _reimageSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["parameters"]
-      ? options["parameters"]
-      : virtualMachineReimageParametersSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : virtualMachineReimageParametersSerializer(options?.parameters),
   });
 }
 
@@ -527,14 +535,15 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE: The retaining of old OS disk depends on the value of deleteOption of OS disk. If deleteOption is detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before performing the reimage. */
 export function reimage(
   context: Client,
@@ -547,7 +556,7 @@ export function reimage(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reimageSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -563,7 +572,7 @@ export function _redeploySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -576,14 +585,15 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Shuts down the virtual machine, moves it to a new node, and powers it back on. */
 export function redeploy(
   context: Client,
@@ -596,7 +606,7 @@ export function redeploy(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _redeploySend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -612,7 +622,7 @@ export function _reapplySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -625,14 +635,15 @@ export async function _reapplyDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** The operation to reapply a virtual machine's state. */
 export function reapply(
   context: Client,
@@ -645,7 +656,7 @@ export function reapply(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reapplySend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -661,7 +672,7 @@ export function _powerOffSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
       skipShutdown: options?.skipShutdown,
     },
     {
@@ -675,14 +686,15 @@ export async function _powerOffDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. */
 export function powerOff(
   context: Client,
@@ -695,7 +707,7 @@ export function powerOff(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _powerOffSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -711,7 +723,7 @@ export function _performMaintenanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -724,14 +736,15 @@ export async function _performMaintenanceDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** The operation to perform maintenance on a virtual machine. */
 export function performMaintenance(
   context: Client,
@@ -744,7 +757,7 @@ export function performMaintenance(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _performMaintenanceSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -760,7 +773,7 @@ export function _instanceViewSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -778,14 +791,15 @@ export async function _instanceViewDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineInstanceViewDeserializer(result.body);
 }
-
 /** Retrieves information about the run-time state of a virtual machine. */
 export async function instanceView(
   context: Client,
@@ -810,7 +824,7 @@ export function _installPatchesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -827,17 +841,18 @@ export function _installPatchesSend(
 export async function _installPatchesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VirtualMachineInstallPatchesResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineInstallPatchesResultDeserializer(result.body);
 }
-
 /** Installs patches on the VM. */
 export function installPatches(
   context: Client,
@@ -849,13 +864,13 @@ export function installPatches(
   OperationState<VirtualMachineInstallPatchesResult>,
   VirtualMachineInstallPatchesResult
 > {
-  return getLongRunningPoller(context, _installPatchesDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _installPatchesDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _installPatchesSend(context, resourceGroupName, vmName, installPatchesInput, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineInstallPatchesResult>,
     VirtualMachineInstallPatchesResult
@@ -874,7 +889,7 @@ export function _generalizeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -887,14 +902,15 @@ export async function _generalizeDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual machine before performing this operation. For Windows, please refer to [Create a managed image of a generalized VM in Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux, please refer to [How to create an image of a virtual machine or VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image). */
 export async function generalize(
   context: Client,
@@ -918,7 +934,7 @@ export function _deallocateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
       hibernate: options?.hibernate,
       forceDeallocate: options?.forceDeallocate,
     },
@@ -933,14 +949,15 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses. */
 export function deallocate(
   context: Client,
@@ -953,7 +970,7 @@ export function deallocate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deallocateSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -969,7 +986,7 @@ export function _convertToManagedDisksSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -984,14 +1001,15 @@ export async function _convertToManagedDisksDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation. */
 export function convertToManagedDisks(
   context: Client,
@@ -1005,7 +1023,7 @@ export function convertToManagedDisks(
     getInitialResponse: () =>
       _convertToManagedDisksSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1022,7 +1040,7 @@ export function _captureSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1039,17 +1057,18 @@ export function _captureSend(
 export async function _captureDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VirtualMachineCaptureResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineCaptureResultDeserializer(result.body);
 }
-
 /** Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs. */
 export function capture(
   context: Client,
@@ -1058,12 +1077,12 @@ export function capture(
   parameters: VirtualMachineCaptureParameters,
   options: VirtualMachinesCaptureOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VirtualMachineCaptureResult>, VirtualMachineCaptureResult> {
-  return getLongRunningPoller(context, _captureDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _captureDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _captureSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineCaptureResult>, VirtualMachineCaptureResult>;
 }
 
@@ -1080,7 +1099,7 @@ export function _attachDetachDataDisksSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1097,17 +1116,18 @@ export function _attachDetachDataDisksSend(
 export async function _attachDetachDataDisksDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StorageProfile> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return storageProfileDeserializer(result.body);
 }
-
 /** Attach and detach data disks to/from the virtual machine. */
 export function attachDetachDataDisks(
   context: Client,
@@ -1116,13 +1136,13 @@ export function attachDetachDataDisks(
   parameters: AttachDetachDataDisksRequest,
   options: VirtualMachinesAttachDetachDataDisksOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<StorageProfile>, StorageProfile> {
-  return getLongRunningPoller(context, _attachDetachDataDisksDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _attachDetachDataDisksDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _attachDetachDataDisksSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<StorageProfile>, StorageProfile>;
 }
 
@@ -1138,7 +1158,7 @@ export function _assessPatchesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1153,17 +1173,18 @@ export function _assessPatchesSend(
 export async function _assessPatchesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VirtualMachineAssessPatchesResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineAssessPatchesResultDeserializer(result.body);
 }
-
 /** Assess patches on the VM. */
 export function assessPatches(
   context: Client,
@@ -1174,12 +1195,12 @@ export function assessPatches(
   OperationState<VirtualMachineAssessPatchesResult>,
   VirtualMachineAssessPatchesResult
 > {
-  return getLongRunningPoller(context, _assessPatchesDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _assessPatchesDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _assessPatchesSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineAssessPatchesResult>,
     VirtualMachineAssessPatchesResult
@@ -1194,7 +1215,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines{?api%2Dversion,statusOnly,%24filter,%24expand}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
       statusOnly: options?.statusOnly,
       "%24filter": options?.filter,
       "%24expand": options?.expand,
@@ -1215,14 +1236,15 @@ export async function _listAllDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _virtualMachineListResultDeserializer(result.body);
 }
-
 /** Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines. */
 export function listAll(
   context: Client,
@@ -1233,7 +1255,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -1247,7 +1269,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
     },
@@ -1267,14 +1289,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _virtualMachineListResultDeserializer(result.body);
 }
-
 /** Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines. */
 export function list(
   context: Client,
@@ -1286,7 +1309,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -1302,7 +1325,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -1316,20 +1339,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** The operation to delete a virtual machine. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -1341,7 +1360,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, vmName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1358,7 +1377,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1381,14 +1400,15 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineDeserializer(result.body);
 }
-
 /** The operation to update a virtual machine. */
 export function update(
   context: Client,
@@ -1402,7 +1422,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachine>, VirtualMachine>;
 }
 
@@ -1419,7 +1439,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1444,14 +1464,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineDeserializer(result.body);
 }
-
 /** The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation. */
 export function createOrUpdate(
   context: Client,
@@ -1466,7 +1487,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, vmName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachine>, VirtualMachine>;
 }
 
@@ -1482,7 +1503,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -1499,14 +1520,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineDeserializer(result.body);
 }
-
 /** Retrieves information about the model view or the instance view of a virtual machine. */
 export async function get(
   context: Client,

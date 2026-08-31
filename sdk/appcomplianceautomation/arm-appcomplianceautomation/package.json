@@ -5,7 +5,7 @@
   "description": "A generated SDK for AppComplianceAutomationToolForMicrosoft365.",
   "version": "1.0.2",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
@@ -34,6 +34,7 @@
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
+    "@azure/logger": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",

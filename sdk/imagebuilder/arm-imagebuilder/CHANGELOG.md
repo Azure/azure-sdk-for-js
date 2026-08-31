@@ -1,6 +1,16 @@
 # Release History
 
-## 5.0.0 (2026-05-20)
+## 5.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.0.0 (2026-06-12)
 
 ### Features Added
   - Added operation TriggersOperations.createOrUpdate

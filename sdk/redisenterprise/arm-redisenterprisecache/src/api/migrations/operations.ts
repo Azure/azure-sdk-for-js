@@ -1,22 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RedisEnterpriseManagementContext as Client } from "../index.js";
+import type { RedisEnterpriseManagementContext as Client } from "../index.js";
+import type {
+  Migration,
+  _MigrationList,
+  MigrationValidationRequest,
+  MigrationValidationResponse,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  MigrationValidationRequest,
+  migrationSerializer,
+  migrationDeserializer,
+  _migrationListDeserializer,
   migrationValidationRequestSerializer,
-  MigrationValidationResponse,
   migrationValidationResponseDeserializer,
 } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { MigrationsValidateOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type {
+  MigrationsValidateOptionalParams,
+  MigrationsCancelOptionalParams,
+  MigrationsListOptionalParams,
+  MigrationsStartOptionalParams,
+  MigrationsGetOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _validateSend(
   context: Client,
@@ -31,7 +44,7 @@ export function _validateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,14 +64,15 @@ export async function _validateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return migrationValidationResponseDeserializer(result.body);
 }
-
 /** Validates if a source Azure Cache for Redis resource can be migrated to a target Azure Managed Redis resource. */
 export async function validate(
   context: Client,
@@ -69,4 +83,217 @@ export async function validate(
 ): Promise<MigrationValidationResponse> {
   const result = await _validateSend(context, resourceGroupName, clusterName, body, options);
   return _validateDeserialize(result);
+}
+
+export function _cancelSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  options: MigrationsCancelOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default/cancel{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+/** Cancel or rollback the migration operation in a Redis Enterprise cluster. */
+export function cancel(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  options: MigrationsCancelOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _cancelDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _cancelSend(context, resourceGroupName, clusterName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _listSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  options: MigrationsListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_MigrationList> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _migrationListDeserializer(result.body);
+}
+/** Gets information about all migrations attempts in a Redis Enterprise cluster. */
+export function list(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  options: MigrationsListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<Migration> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, resourceGroupName, clusterName, options),
+    _listDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    },
+  );
+}
+
+export function _startSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  parameters: Migration,
+  options: MigrationsStartOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: migrationSerializer(parameters),
+  });
+}
+
+export async function _startDeserialize(result: PathUncheckedResponse): Promise<Migration> {
+  const expectedStatuses = ["200", "201", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return migrationDeserializer(result.body);
+}
+/** Starts a new migration */
+export function start(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  parameters: Migration,
+  options: MigrationsStartOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<Migration>, Migration> {
+  return getLongRunningPoller(context, _startDeserialize, ["200", "201", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _startSend(context, resourceGroupName, clusterName, parameters, options),
+    resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+  }) as PollerLike<OperationState<Migration>, Migration>;
+}
+
+export function _getSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  options: MigrationsGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Migration> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return migrationDeserializer(result.body);
+}
+/** Gets information about a migration in a Redis Enterprise cluster. */
+export async function get(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  options: MigrationsGetOptionalParams = { requestOptions: {} },
+): Promise<Migration> {
+  const result = await _getSend(context, resourceGroupName, clusterName, options);
+  return _getDeserialize(result);
 }

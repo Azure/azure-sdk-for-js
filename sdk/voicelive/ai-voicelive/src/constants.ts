@@ -7,7 +7,7 @@
  *
  * @internal
  */
-export const SDK_VERSION = "1.1.0-beta.1";
+export const SDK_VERSION = "1.1.0";
 
 /**
  * The default API version used by the Voice Live service when the user does
@@ -15,4 +15,4 @@ export const SDK_VERSION = "1.1.0-beta.1";
  *
  * @internal
  */
-export const DEFAULT_API_VERSION = "2026-06-01-preview";
+export const DEFAULT_API_VERSION = "2026-07-15";

@@ -27,6 +27,8 @@ import {
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaEvaluatorsDeleteGenerationJobOptionalParams,
@@ -76,7 +78,9 @@ export async function _deleteGenerationJobDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -128,7 +132,9 @@ export async function _cancelGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -179,7 +185,9 @@ export async function _listGenerationJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -187,7 +195,12 @@ export async function _listGenerationJobsDeserialize(
   return _agentsPagedResultEvaluatorGenerationJobDeserializer(result.body);
 }
 
-/** Returns a list of evaluator generation jobs. */
+/**
+ * Returns a list of evaluator generation jobs. The List API has up to a few
+ * seconds of propagation delay, so a recently created job may not appear
+ * immediately; use the Get evaluator generation job API with the job ID to
+ * retrieve a specific job without delay.
+ */
 export function listGenerationJobs(
   context: Client,
   options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
@@ -232,7 +245,9 @@ export async function _getGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -279,29 +294,48 @@ export function _createGenerationJobSend(
 
 export async function _createGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<EvaluatorGenerationJob> {
-  const expectedStatuses = ["201"];
+): Promise<EvaluatorVersion> {
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return evaluatorGenerationJobDeserializer(result.body);
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return evaluatorVersionDeserializer(result.body.result);
 }
 
 /**
  * Creates an evaluator generation job. The service generates rubric-based evaluator
  * definitions from the provided source materials asynchronously.
  */
-export async function createGenerationJob(
+export function createGenerationJob(
   context: Client,
   job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<EvaluatorGenerationJob> {
-  const result = await _createGenerationJobSend(context, job, options);
-  return _createGenerationJobDeserialize(result);
+): JobPoller<EvaluatorVersion> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
+  return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: {
+      ...options?.requestOptions?.headers,
+      "foundry-features": "Evaluations=V1Preview",
+    },
+  });
 }
 
 export function _getCredentialsSend(
@@ -340,7 +374,9 @@ export async function _getCredentialsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -348,7 +384,7 @@ export async function _getCredentialsDeserialize(
   return datasetCredentialDeserializer(result.body);
 }
 
-/** Get the SAS credential to access the storage account associated with an Evaluator version. */
+/** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
 export async function getCredentials(
   context: Client,
   name: string,
@@ -396,7 +432,9 @@ export async function _pendingUploadDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -404,7 +442,7 @@ export async function _pendingUploadDeserialize(
   return pendingUploadResponseDeserializer(result.body);
 }
 
-/** Start a new or get an existing pending upload of an evaluator for a specific version. */
+/** Initiates a new pending upload or retrieves an existing one for the specified evaluator version. */
 export async function pendingUpload(
   context: Client,
   name: string,
@@ -458,7 +496,7 @@ export async function _updateVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Update an existing EvaluatorVersion with the given version id */
+/** Updates the specified evaluator version in place. */
 export async function updateVersion(
   context: Client,
   name: string,
@@ -510,7 +548,7 @@ export async function _createVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Create a new EvaluatorVersion with auto incremented version id */
+/** Creates a new evaluator version with an auto-incremented version identifier. */
 export async function createVersion(
   context: Client,
   name: string,
@@ -554,7 +592,7 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
   return;
 }
 
-/** Delete the specific version of the EvaluatorVersion. The service returns 204 No Content if the EvaluatorVersion was deleted successfully or if the EvaluatorVersion does not exist. */
+/** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
 export async function deleteVersion(
   context: Client,
   name: string,
@@ -604,7 +642,7 @@ export async function _getVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Get the specific version of the EvaluatorVersion. The service returns 404 Not Found error if the EvaluatorVersion does not exist. */
+/** Retrieves the specified evaluator version, returning 404 if it does not exist. */
 export async function getVersion(
   context: Client,
   name: string,
@@ -652,7 +690,7 @@ export async function _listDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** List the latest version of each evaluator */
+/** Lists the latest version of each evaluator. */
 export function list(
   context: Client,
   options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
@@ -714,7 +752,7 @@ export async function _listVersionsDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** List all versions of the given evaluator */
+/** Returns the available versions for the specified evaluator. */
 export function listVersions(
   context: Client,
   name: string,

@@ -34,11 +34,6 @@ export interface GalleryInVMAccessControlProfilesOperations {
     options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
   /** Delete a gallery inVMAccessControlProfile. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,
@@ -125,7 +120,6 @@ export interface GalleryInVMAccessControlProfilesOperations {
     options?: GalleryInVMAccessControlProfilesGetOptionalParams,
   ) => Promise<GalleryInVMAccessControlProfile>;
 }
-
 function _getGalleryInVMAccessControlProfiles(context: ComputeManagementContext) {
   return {
     listByGallery: (
@@ -275,7 +269,6 @@ function _getGalleryInVMAccessControlProfiles(context: ComputeManagementContext)
     ) => get(context, resourceGroupName, galleryName, inVMAccessControlProfileName, options),
   };
 }
-
 export function _getGalleryInVMAccessControlProfilesOperations(
   context: ComputeManagementContext,
 ): GalleryInVMAccessControlProfilesOperations {

@@ -492,10 +492,7 @@ export function privateEndpointConnectionPropertiesPrivateLinkServiceConnectionS
 
 /** Status of the the private link service connection. Valid values are Pending, Approved, Rejected, or Disconnected. */
 export type PrivateLinkServiceConnectionStatus =
-  | "Pending"
-  | "Approved"
-  | "Rejected"
-  | "Disconnected";
+  "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 /** The provisioning state of the private link service connection. Valid values are Updating, Deleting, Failed, Succeeded, Incomplete, or Canceled. */
 export enum KnownPrivateLinkServiceConnectionProvisioningState {
@@ -1527,13 +1524,7 @@ export enum KnownPublicNetworkAccess {
 export type PublicNetworkAccess = string;
 /** The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure AI Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. */
 export type SearchServiceStatus =
-  | "running"
-  | "provisioning"
-  | "deleting"
-  | "degraded"
-  | "disabled"
-  | "error"
-  | "stopped";
+  "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error" | "stopped";
 /** The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'Succeeded' or 'Failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'Succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up. */
 export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 

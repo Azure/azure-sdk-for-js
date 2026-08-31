@@ -21,25 +21,25 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaEvaluationTaxonomies operations. */
 export interface BetaEvaluationTaxonomiesOperations {
-  /** Update an evaluation taxonomy. */
+  /** Modifies the specified evaluation taxonomy with the provided changes. */
   update: (
     name: string,
     taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
-  /** Create an evaluation taxonomy. */
+  /** Creates or replaces the specified evaluation taxonomy with the provided definition. */
   create: (
     name: string,
     taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
-  /** Delete an evaluation taxonomy by name. */
+  /** Removes the specified evaluation taxonomy from the project. */
   delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
-  /** List evaluation taxonomies */
+  /** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
   list: (
     options?: BetaEvaluationTaxonomiesListOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
-  /** Get an evaluation run by name. */
+  /** Retrieves the specified evaluation taxonomy. */
   get: (
     name: string,
     options?: BetaEvaluationTaxonomiesGetOptionalParams,

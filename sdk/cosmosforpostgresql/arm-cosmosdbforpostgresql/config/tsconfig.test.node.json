@@ -1,3 +1,10 @@
 {
-  "extends": "../../../../eng/tsconfigs/test.node.json"
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-cosmosdbforpostgresql": ["../src/index.ts"],
+      "@azure/arm-cosmosdbforpostgresql/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
 }

@@ -4,7 +4,7 @@
 import { getCatalogsFromWorkspaceManifest } from "@pnpm/catalogs.config";
 import { resolveFromCatalog } from "@pnpm/catalogs.resolver";
 import { type Catalogs } from "@pnpm/catalogs.types";
-import { readWorkspaceManifest } from "@pnpm/workspace.read-manifest";
+import { readWorkspaceManifest, type WorkspaceManifest } from "@pnpm/workspace.read-manifest";
 import { resolveRoot } from "./resolveProject.ts";
 
 let catalogs: Catalogs | undefined = undefined;
@@ -12,7 +12,12 @@ let catalogs: Catalogs | undefined = undefined;
 export async function loadPnpmWorkspaceCatalogs() {
   if (!catalogs) {
     const manifest = await readWorkspaceManifest(await resolveRoot());
-    catalogs = getCatalogsFromWorkspaceManifest(manifest);
+    if (!manifest || (!manifest.catalog && !manifest.catalogs)) {
+      throw new Error("No catalog or catalogs found in the workspace manifest!");
+    }
+    catalogs = getCatalogsFromWorkspaceManifest(
+      manifest as Pick<WorkspaceManifest, "catalog" | "catalogs">,
+    );
   }
 }
 

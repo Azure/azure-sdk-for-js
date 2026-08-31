@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   // Iterate over all containers in the account
@@ -34,7 +34,7 @@ async function main(): Promise<void> {
   // The iterator also supports iteration by page with a configurable (and optional) `maxPageSize` setting.
   console.log("Containers (by page):");
   for await (const response of blobServiceClient.listContainers().byPage({
-    maxPageSize: 20
+    maxPageSize: 20,
   })) {
     console.log("- Page:");
     if (response.containerItems) {

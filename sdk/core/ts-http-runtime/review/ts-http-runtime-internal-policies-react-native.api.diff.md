@@ -18,14 +18,12 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
-@@ -44,10 +44,10 @@
- 
+@@ -45,9 +45,9 @@
  // @public
  export const formDataPolicyName = "formDataPolicy";
  
--// @public @deprecated
+ // @public @deprecated
 -export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
-+// @public (undocumented)
 +export function getDefaultProxySettings(_proxyUrl?: string): ProxySettings | undefined;
  
  // @public

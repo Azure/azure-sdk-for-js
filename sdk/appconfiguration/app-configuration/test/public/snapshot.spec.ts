@@ -57,6 +57,7 @@ describe("AppConfigurationClient snapshot", () => {
       name: recorder.variable("snapshot1", `snapshot-${new Date().getTime()}`),
       retentionPeriodInSeconds: 2592000,
       filters: [filter1],
+      description: "a snapshot description",
     };
 
     await client.addConfigurationSetting({

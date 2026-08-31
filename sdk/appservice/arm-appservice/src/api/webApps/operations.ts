@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { WebSiteManagementContext as Client } from "../index.js";
-import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import type {
   Identifier,
   _IdentifierCollection,
@@ -666,7 +665,11 @@ import type {
   WebAppsListSlotsOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  createRestError,
+  getBinaryStreamResponse,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listWorkflowsSend(

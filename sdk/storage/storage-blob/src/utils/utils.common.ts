@@ -6,6 +6,11 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
+import { StorageResponseFormat } from "@azure/storage-common";
+import type {
+  ListBlobsResponse,
+  ListBlobsHierarchicalResponse,
+} from "../generated/models/index.js";
 
 import type {
   BlobQueryArrowConfiguration,
@@ -17,11 +22,9 @@ import type {
   QuerySerialization,
   BlobTags,
   BlobName,
-  ListBlobsFlatSegmentResponse,
-  ListBlobsHierarchySegmentResponse,
   PageRange,
   ClearRange,
-} from "../generated/src/models/index.js";
+} from "../generated-classic-models.js";
 import {
   DevelopmentConnectionString,
   HeaderConstants,
@@ -35,6 +38,7 @@ import {
   type ObjectReplicationStatus,
   type HttpAuthorization,
   StorageChecksumAlgorithm,
+  fromTspImmutabilityPolicyMode,
 } from "../models.js";
 import type {
   ListBlobsFlatSegmentResponseModel,
@@ -45,8 +49,18 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
+
+const accountNameSuffixes = [
+  "-secondary-ipv6",
+  "-secondary-dualstack",
+  "-ipv6",
+  "-dualstack",
+  "-secondary",
+];
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -607,11 +621,19 @@ export function iEqual(str1: string, str2: string): boolean {
  */
 export function getAccountNameFromUrl(url: string): string {
   const parsedUrl = new URL(url);
-  let accountName;
+  let accountName: string;
   try {
     if (parsedUrl.hostname.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+      // `${defaultEndpointsProtocol}://${accountName}-suffix.blob.${endpointSuffix}`;
       accountName = parsedUrl.hostname.split(".")[0];
+      for (let i = 0; i < accountNameSuffixes.length; ++i) {
+        const suffix = accountNameSuffixes[i];
+        if (accountName.endsWith(suffix)) {
+          accountName = accountName.substring(0, accountName.length - suffix.length);
+          break;
+        }
+      }
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
@@ -623,7 +645,7 @@ export function getAccountNameFromUrl(url: string): string {
     }
     return accountName;
   } catch (error: any) {
-    throw new Error("Unable to extract accountName with provided information.");
+    throw new Error("Unable to extract accountName with provided information.", { cause: error });
   }
 }
 
@@ -758,6 +780,9 @@ export function toQuerySerialization(
       return {
         format: {
           type: "parquet",
+          parquetTextConfiguration: {
+            additionalProperties: (textConfiguration as any).additionalProperties,
+          },
         },
       };
 
@@ -804,6 +829,21 @@ export function parseObjectReplicationRecord(
 }
 
 /**
+ * Resolves a {@link StorageResponseFormat} to the concrete format the client should use.
+ * `Auto` currently resolves to `Xml`; this mapping may change in a future service version.
+ *
+ * @param responseFormat - The requested response format, or undefined to use the default.
+ */
+export function resolveResponseFormat(
+  responseFormat?: StorageResponseFormat,
+): StorageResponseFormat {
+  if (responseFormat === undefined || responseFormat === StorageResponseFormat.Auto) {
+    return StorageResponseFormat.Xml;
+  }
+  return responseFormat;
+}
+
+/**
  * Attach a TokenCredential to an object.
  *
  * @param thing -
@@ -829,15 +869,23 @@ export function BlobNameToString(name: BlobName): string {
 }
 
 export function ConvertInternalResponseOfListBlobFlat(
-  internalResponse: ListBlobsFlatSegmentResponse,
+  internalResponse: ListBlobsResponse,
 ): ListBlobsFlatSegmentResponseModel {
   return {
     ...internalResponse,
     segment: {
-      blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
+      blobItems: internalResponse.blobItems.map((blobItemTsp) => {
         const blobItem: BlobItemInternalModel = {
-          ...blobItemInteral,
-          name: BlobNameToString(blobItemInteral.name),
+          ...blobItemTsp,
+          properties: {
+            ...blobItemTsp.properties,
+            immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+              blobItemTsp.properties.immutabilityPolicyMode,
+            ),
+          },
+          metadata: blobItemTsp.metadata?.additionalProperties,
+          objectReplicationMetadata: blobItemTsp.objectReplicationMetadata?.additionalProperties,
+          name: BlobNameToString(blobItemTsp.name),
         };
         return blobItem;
       }),
@@ -846,22 +894,30 @@ export function ConvertInternalResponseOfListBlobFlat(
 }
 
 export function ConvertInternalResponseOfListBlobHierarchy(
-  internalResponse: ListBlobsHierarchySegmentResponse,
+  internalResponse: ListBlobsHierarchicalResponse,
 ): ListBlobsHierarchySegmentResponseModel {
   return {
     ...internalResponse,
     segment: {
-      blobPrefixes: internalResponse.segment.blobPrefixes?.map((blobPrefixInternal) => {
+      blobPrefixes: internalResponse.hierarchicalList.blobPrefixes?.map((blobPrefixInternal) => {
         const blobPrefix: BlobPrefixModel = {
           ...blobPrefixInternal,
           name: BlobNameToString(blobPrefixInternal.name),
         };
         return blobPrefix;
       }),
-      blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
+      blobItems: internalResponse.hierarchicalList.blobItems.map((blobItemTsp) => {
         const blobItem: BlobItemInternalModel = {
-          ...blobItemInteral,
-          name: BlobNameToString(blobItemInteral.name),
+          ...blobItemTsp,
+          properties: {
+            ...blobItemTsp.properties,
+            immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+              blobItemTsp.properties.immutabilityPolicyMode,
+            ),
+          },
+          metadata: blobItemTsp.metadata?.additionalProperties,
+          objectReplicationMetadata: blobItemTsp.objectReplicationMetadata?.additionalProperties,
+          name: BlobNameToString(blobItemTsp.name),
         };
         return blobItem;
       }),
@@ -925,6 +981,50 @@ export function EscapePath(blobName: string): string {
     split[i] = encodeURIComponent(split[i]);
   }
   return split.join("/");
+}
+
+/**
+ * Reads a raw response body (a Node.js readable stream or a browser Blob) into a
+ * single byte array. Shared by the Apache Arrow or XML List Blobs response parsers.
+ */
+export async function readResponseBodyToBytes(response: {
+  readableStreamBody?: NodeJS.ReadableStream;
+  blobBody?: Promise<Blob>;
+}): Promise<Uint8Array> {
+  if (response.blobBody) {
+    const blob = await response.blobBody;
+    return new Uint8Array(await blob.arrayBuffer());
+  }
+  if (response.readableStreamBody) {
+    return readNodeStreamToBytes(response.readableStreamBody);
+  }
+  throw new RangeError("List Blobs response body is empty or unavailable.");
+}
+
+/**
+ * Reads a Node.js readable stream to completion, concatenating its chunks into a
+ * single byte array.
+ */
+function readNodeStreamToBytes(stream: NodeJS.ReadableStream): Promise<Uint8Array> {
+  return new Promise<Uint8Array>((resolve, reject) => {
+    const chunks: Uint8Array[] = [];
+    let totalLength = 0;
+    stream.on("data", (chunk: Uint8Array | string) => {
+      const bytes = typeof chunk === "string" ? new TextEncoder().encode(chunk) : chunk;
+      chunks.push(bytes);
+      totalLength += bytes.byteLength;
+    });
+    stream.on("end", () => {
+      const result = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const chunk of chunks) {
+        result.set(chunk, offset);
+        offset += chunk.byteLength;
+      }
+      resolve(result);
+    });
+    stream.on("error", reject);
+  });
 }
 
 /**
@@ -1021,6 +1121,37 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
+  compatResponse.parsedBody = result._response.parsedBody;
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  Object.defineProperty(result, "_response", {
+    value: compatResponse,
+    enumerable: false,
+  });
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
 }
 
 interface UploadChecksumParametersLike {

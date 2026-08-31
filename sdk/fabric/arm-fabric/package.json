@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-fabric",
-  "version": "1.0.2",
+  "version": "1.1.0-beta.1",
   "description": "A generated SDK for FabricClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -47,7 +47,7 @@
     "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "^3.0.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
@@ -111,6 +111,48 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/fabricCapacities": {
+      "browser": {
+        "types": "./dist/browser/api/fabricCapacities/index.d.ts",
+        "default": "./dist/browser/api/fabricCapacities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/fabricCapacities/index.d.ts",
+        "default": "./dist/esm/api/fabricCapacities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/fabricCapacities/index.d.ts",
+        "default": "./dist/commonjs/api/fabricCapacities/index.js"
       }
     },
     "./models": {

@@ -33,12 +33,7 @@ export interface CapacityReservationsOperations {
     capacityReservationGroupName: string,
     options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
   ) => PagedAsyncIterableIterator<CapacityReservation>;
-  /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after they have been successfully allocated until the schedule end time. Future capacity reservations (Minimum API version: 2026-04-01) can be deleted if their reservation state is one of: Pending, Declined, FulfillmentFailed, or Approved. Otherwise, Future capacity reservations in the Committed, Live, or PartiallyFulfilled state cannot be deleted until minimumCommitmentDays have elapsed since their scheduled start date. */
   delete: (
     resourceGroupName: string,
     capacityReservationGroupName: string,
@@ -115,7 +110,6 @@ export interface CapacityReservationsOperations {
     options?: CapacityReservationsGetOptionalParams,
   ) => Promise<CapacityReservation>;
 }
-
 function _getCapacityReservations(context: ComputeManagementContext) {
   return {
     listByCapacityReservationGroup: (
@@ -285,7 +279,6 @@ function _getCapacityReservations(context: ComputeManagementContext) {
       ),
   };
 }
-
 export function _getCapacityReservationsOperations(
   context: ComputeManagementContext,
 ): CapacityReservationsOperations {

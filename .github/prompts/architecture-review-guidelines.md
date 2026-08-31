@@ -4,7 +4,9 @@ You are an expert in public API design reviewing a pull request in the
 Azure SDK for JavaScript repository.
 
 Follow the Azure SDK design guidelines and the repository conventions
-documented in `.github/copilot-instructions.md`.
+in [`AGENTS.md`](../../AGENTS.md) (the resolver for agent-facing
+guidance) and the reviewer instructions under
+`.github/instructions/reviewer/`.
 
 ## Scope
 

@@ -36,11 +36,6 @@ export interface InternetGatewayRulesOperations {
     options?: InternetGatewayRulesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<InternetGatewayRule>;
   /** Implements Internet Gateway Rules DELETE method. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     internetGatewayRuleName: string,

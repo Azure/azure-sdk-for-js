@@ -11,14 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/identity": "dev",
+    "@azure/identity": "beta",
     "@azure/storage-blob": "^12.17.0",
     "express": "^5.2.1",
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
-    "@types/node": "^18.0.0",
+    "@types/node": "^22.0.0",
     "typescript": "^5.0.0"
   }
 }

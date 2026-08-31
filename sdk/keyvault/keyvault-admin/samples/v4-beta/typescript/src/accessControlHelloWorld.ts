@@ -12,7 +12,6 @@ import {
   KnownKeyVaultRoleScope,
 } from "@azure/keyvault-admin";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as uuid from "uuid";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -34,7 +33,7 @@ export async function main(): Promise<void> {
   }
 
   const globalScope = KnownKeyVaultRoleScope.Global;
-  const roleDefinitionName = uuid.v4();
+  const roleDefinitionName = crypto.randomUUID();
   const permissions: KeyVaultPermission[] = [
     {
       dataActions: [
@@ -53,7 +52,7 @@ export async function main(): Promise<void> {
 
   // This sample uses a custom role but you may assign one of the many built-in roles.
   // Please refer to https://learn.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
-  const roleAssignmentName = uuid.v4();
+  const roleAssignmentName = crypto.randomUUID();
   const clientObjectId = process.env["CLIENT_OBJECT_ID"];
   if (!clientObjectId) {
     throw new Error("Missing environment variable CLIENT_OBJECT_ID.");

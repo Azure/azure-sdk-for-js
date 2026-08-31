@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to gets information about a HorizonDb pool.
+ * This sample demonstrates how to gets information about a HorizonDB pool.
  *
- * @summary gets information about a HorizonDb pool.
- * x-ms-original-file: 2026-01-20-preview/Pools_Get.json
+ * @summary gets information about a HorizonDB pool.
+ * x-ms-original-file: 2026-05-01-preview/Pools_Get.json
  */
-async function getAHorizonDbPool() {
+async function getAHorizonDBPool() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function getAHorizonDbPool() {
 }
 
 async function main() {
-  await getAHorizonDbPool();
+  await getAHorizonDBPool();
 }
 
 main().catch(console.error);

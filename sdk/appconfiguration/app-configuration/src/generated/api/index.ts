@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export type {
-  AzureAppConfigurationContext,
-  AzureAppConfigurationClientOptionalParams,
-} from "./azureAppConfigurationContext.js";
-export { createAzureAppConfiguration } from "./azureAppConfigurationContext.js";
+  AppConfigurationContext,
+  AppConfigurationClientOptionalParams,
+} from "./appConfigurationContext.js";
+export { createAppConfiguration } from "./appConfigurationContext.js";
 export {
   checkRevisions,
   getRevisions,

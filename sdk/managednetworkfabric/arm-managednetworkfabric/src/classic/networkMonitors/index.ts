@@ -22,9 +22,9 @@ import type {
 } from "../../api/networkMonitors/options.js";
 import type {
   UpdateAdministrativeState,
-  CommonPostActionResponseForDeviceUpdate,
   NetworkMonitor,
   NetworkMonitorPatch,
+  CommonPostActionResponseForDeviceUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -72,11 +72,6 @@ export interface NetworkMonitorsOperations {
     options?: NetworkMonitorsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NetworkMonitor>;
   /** Deletes layer 2 connectivity between compute nodes by managed by named NetworkMonitor name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     networkMonitorName: string,

@@ -1,16 +1,109 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 2.5.0 (2026-08-20)
 
 ### Features Added
 
-- Added experimental GenAI tracing support via `enableGenAITracing()`. When enabled, OpenTelemetry spans are emitted for Responses API calls with GenAI semantic convention attributes, token usage metrics, and optional content recording.
-
-### Breaking Changes
+- Add beta agent optimization models with `AgentOptimization*` names and `OptimizedAgentIdentifier`, while retaining the previous names as deprecated aliases. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `SimulationSeedDataGenerationJobOptions` with the `simulation_seed` discriminator, while retaining `TaskGenerationDataGenerationJobOptions` compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Update `project.beta.routines` to the `Routines=V2Preview` contract while retaining the previous list options for compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add the optional `cache_write_tokens` property to `ResponseUsageInputTokensDetails`. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add programmatic tool calling with `ProgrammaticToolCallingParam`, `SpecificProgrammaticToolCallingParam`, and `allowed_callers` configuration on callable tools. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `output_schema` configuration to function tools. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `Reasoning.mode`, the `ReasoningModeEnum` type, and the `max` reasoning effort. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `redact_private_content` to trace data generation jobs and `registry_connection_id` to container configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add the `VoiceAgents=V1Preview` agent definition opt-in key. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 
 ### Bugs Fixed
 
+- Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
+- Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+
 ### Other Changes
+
+- Add the `agents/agentProgrammaticToolCalling.ts` sample demonstrating programmatic tool calling configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+
+## 2.4.0 (2026-08-04)
+
+### Breaking Changes
+
+- Changed the beta job creation operations `project.beta.agents.createOptimizationJob`, `project.beta.datasets.createGenerationJob`, and `project.beta.evaluators.createGenerationJob` into long-running operations. Each now returns a poller instead of a promise, and resolves to the job result (`OptimizationJobResult`, `DataGenerationJobResult`, and `EvaluatorVersion` respectively) rather than the queued job. Call `pollUntilDone()` to await completion, or `submitted()` to continue once the job is queued. Each operation also accepts a new `updateIntervalInMs` option to control the polling interval. The queued job's id is available as `poller.operationState?.jobId` once `submitted()` resolves, so it can still be passed to the paired get, cancel, and delete operations.
+
+### Features Added
+
+- Added `JobOperationState` and `JobPoller` types, exposing the `jobId` of a queued job on the pollers returned by the beta job creation operations.
+- Added `project.agents.patchAgentObject` for merge-patching agent endpoint configuration and agent card metadata.
+- Added `ToolSearchToolboxTool` as a generally available `toolbox_search` tool type on `project.toolboxes`, letting an agent discover a toolbox's tools at run time instead of binding every tool up front.
+- Added `status` property and `AgentIdentityStatus` type on `AgentIdentity` to report whether an agent instance identity or agent blueprint is active or disabled.
+- Added `TaskGenerationDataGenerationJobOptions` as a `task_generation` job type on `project.beta.datasets` for generating multiturn evaluation test cases.
+- Added `max_stalls` to `OptimizationOptions` to cap the number of consecutive reflective minibatch rejections before an optimization job stops early.
+- Added generation provenance and input-quality advisories to `project.beta.evaluators`: `generation_job_id` and `warnings` on `EvaluatorVersion`, and `input_quality_warnings` on `EvaluatorGenerationJob`. The advisories are surfaced as `RubricGenerationInputQualityWarning` values.
+
+### Other Changes
+
+- Added the `toolboxes/toolboxToolSearch.ts` sample demonstrating the toolbox search tool end to end.
+
+## 2.3.1 (2026-07-09)
+
+### Other Changes
+
+- The `project.beta.datasets` data generation job operations now always send the `foundry-features: DataGenerationJobs=V1Preview` header instead of deriving it from the caller-supplied `foundryFeatures` option.
+- Added hosted agent samples:
+  - `agents/hostedAgents/agentUserIdentityIsolation.ts`
+  - `agents/hostedAgents/createHostedAgentFromImage.ts`
+  - `agents/hostedAgents/sessionsCrud.ts`
+  - `agents/hostedAgents/sessionsFilesUploadDownload.ts`
+  - `agents/hostedAgents/toolboxWithSkill.ts`
+
+## 2.3.0 (2026-07-01)
+
+### Features Added
+
+- Changed GenAI tracing from a process-wide setting to a per-client configuration via `tracingOptions` on `AIProjectClientOptionalParams`. Tracing is now enabled by passing `tracingOptions: { experimental: true }` when constructing the client instead of calling the global `enableGenAITracing()` function.
+- Added `ProtocolConfiguration` and per-protocol configuration types (`ActivityProtocolConfiguration`, `ResponsesProtocolConfiguration`, `A2AProtocolConfiguration`, `McpProtocolConfiguration`, `InvocationsProtocolConfiguration`, `InvocationsWsProtocolConfiguration`) on the agent endpoint.
+- Added `BotServiceTenantAuthorizationScheme` as a new `AgentEndpointAuthorizationScheme` subtype.
+- Added `VersionSelectionRuleType` type alias.
+- Added `draft` property on `AgentVersion` to indicate whether a version is a draft candidate rather than a release.
+- Added `isRestError` and `NodeReadableStream` exports.
+- Added `enable` and `disable` methods on `project.agents` to control agent operational state.
+- Added `AgentState` type and `state` property on `Agent` to reflect whether an agent endpoint is enabled or disabled.
+- Promoted session operations (`createSession`, `getSession`, `deleteSession`, `stopSession`, `listSessions`, `getSessionLogStream`, `listSessionFiles`, `downloadSessionFile`, `uploadSessionFile`, `deleteSessionFile`) from `project.beta.agents` to `project.agents`.
+- Promoted `createVersionFromCode`, `downloadAgentCode`, and `updateAgentObject` from `project.beta.agents` to `project.agents`.
+- Promoted `project.beta.toolboxes` operations to `project.toolboxes`. Toolbox tool types now use `ToolboxToolUnion` and its subtypes (`CodeInterpreterToolboxTool`, `FileSearchToolboxTool`, `WebSearchToolboxTool`, `MCPToolboxTool`).
+
+### Breaking Changes
+
+- Removed the global `enableGenAITracing()` and `disableGenAITracing()` functions. Use `tracingOptions` on `AIProjectClientOptionalParams` instead.
+- Removed `ToolboxSearchPreviewTool` from the `ToolUnion`.
+- Removed `name`, `description`, and `tool_configs` properties from `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, and other preview tool interfaces. On `BingGroundingTool`, these properties are deprecated.
+- Removed `tools` property from `HostedAgentDefinition`.
+- Removed `AgentEndpointProtocol` type alias; replaced by `ProtocolConfiguration` on the agent endpoint.
+- Removed beta agent optimization candidate operations, including `listOptimizationCandidates`, `getOptimizationCandidate`, `getOptimizationCandidateConfig`, `getOptimizationCandidateResults`, `getCandidateFile`, and `promoteCandidate`.
+- Removed related beta agent optimization candidate response and metadata types, including `AgentsPagedResultOptimizationCandidate`, `CandidateMetadata`, `CandidateFileInfo`, `CandidateDeployConfig`, `CandidateResults`, `PromoteCandidateRequest`, `PromoteCandidateResponse`, and `BetaAgentsGetCandidateFileResponse`.
+- Changed `project.beta.agents.createOptimizationJob` to accept an `OptimizationJob` request body instead of `OptimizationJobInputs`.
+- Changed `project.beta.agents.listOptimizationJobs` to return `OptimizationJobListItem` values.
+- Changed `AgentVersion.metadata` from required to optional.
+- Renamed optimization model types from `AgentIdentifier` and `DatasetRef` to the new `Optimization*` model names (e.g., `OptimizationAgentIdentifier`, `OptimizationDatasetInput`, `OptimizationEvaluatorRef`).
+- Renamed `BetaAgentsCreateAgentVersionFromCodeOptionalParams` to `AgentsCreateVersionFromCodeOptionalParams`.
+- Renamed the `project.beta.models.update` request parameter from `body` to `modelVersionUpdate`.
+- Renamed `BetaToolboxesOperations` to `ToolboxesOperations` and moved toolbox option types from `api/beta/toolboxes` to `api/toolboxes`.
+- Renamed beta skills option types to include `BetaSkills` prefix (e.g., `DeleteVersionOptionalParams` → `BetaSkillsDeleteVersionOptionalParams`, `ListVersionsOptionalParams` → `BetaSkillsListVersionsOptionalParams`).
+- Renamed `VersionSelectorType` to `VersionSelectionRuleType`.
+- Removed `SystemDataV3` from the public API surface.
+- Removed the implicit `foundry-features` header injection for agent endpoints.
+
+### Bugs Fixed
+
+- Fixed routine run status exports so `RoutineRun.status` can reference the exported `RoutineRunStatus` type.
+- Fixed package import mappings for browser and React Native platform-specific helpers.
+- Fixed union type deserializers to use bracket notation (`item["type"]`) for consistent property access.
+
+### Other Changes
+
+- Updated minimum Node.js version to 22.
+- Replaced `@azure/core-tracing` dependency with direct `@opentelemetry/api` dependency for GenAI tracing.
+- Updated `CodeConfiguration.runtime` description to reflect the current supported runtime (`python_3_14`).
+- Simplified deserializers by removing unnecessary identity-mapping of record properties.
 
 ## 2.2.0 (2026-05-29)
 

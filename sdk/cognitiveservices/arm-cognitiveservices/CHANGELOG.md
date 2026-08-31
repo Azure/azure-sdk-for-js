@@ -1,5 +1,1042 @@
 # Release History
 
+## 9.0.0-beta.4 (2026-08-27)
+Compared with version 8.1.0
+
+### Features Added
+  - Added operation group AgentApplicationsOperations
+  - Added operation group AgentDeploymentsOperations
+  - Added operation group ArcDeploymentsOperations
+  - Added operation group ComputeOperationsOperations
+  - Added operation group ComputesOperations
+  - Added operation group ManagedComputeCapacitiesOperations
+  - Added operation group ManagedComputeDeploymentsOperations
+  - Added operation group ManagedComputeUsagesOperationGroupOperations
+  - Added operation group ManagedNetworkProvisionsOperations
+  - Added operation group ManagedNetworkSettingsOperations
+  - Added operation group OutboundRuleOperations
+  - Added operation group OutboundRulesOperations
+  - Added operation group RaiExternalSafetyProviderOperations
+  - Added operation group RaiExternalSafetyProvidersOperations
+  - Added operation group RaiToolLabelsOperations
+  - Added operation group SubscriptionRaiPolicyOperations
+  - Added operation group TestRaiExternalSafetyProviderOperations
+  - Added operation group WorkbenchesOperations
+  - Added operation AccountCapabilityHostsOperations.createOrUpdate
+  - Added operation AccountCapabilityHostsOperations.delete
+  - Added operation AccountsOperations.create
+  - Added operation AccountsOperations.delete
+  - Added operation AccountsOperations.evaluateDeploymentPolicies
+  - Added operation AccountsOperations.update
+  - Added operation CommitmentPlansOperations.createOrUpdateAssociation
+  - Added operation CommitmentPlansOperations.createOrUpdatePlan
+  - Added operation CommitmentPlansOperations.delete
+  - Added operation CommitmentPlansOperations.deleteAssociation
+  - Added operation CommitmentPlansOperations.deletePlan
+  - Added operation CommitmentPlansOperations.updatePlan
+  - Added operation DeletedAccountsOperations.purge
+  - Added operation DeploymentsOperations.createOrUpdate
+  - Added operation DeploymentsOperations.delete
+  - Added operation DeploymentsOperations.pause
+  - Added operation DeploymentsOperations.resume
+  - Added operation DeploymentsOperations.update
+  - Added operation EncryptionScopesOperations.delete
+  - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation ProjectCapabilityHostsOperations.createOrUpdate
+  - Added operation ProjectCapabilityHostsOperations.delete
+  - Added operation ProjectsOperations.create
+  - Added operation ProjectsOperations.delete
+  - Added operation ProjectsOperations.update
+  - Added operation RaiBlocklistItemsOperations.delete
+  - Added operation RaiBlocklistsOperations.delete
+  - Added operation RaiPoliciesOperations.delete
+  - Added operation RaiTopicsOperations.delete
+  - Added Interface AccountsEvaluateDeploymentPoliciesOptionalParams
+  - Added Interface AgentApplication
+  - Added Interface AgentApplicationsCreateOrUpdateOptionalParams
+  - Added Interface AgentApplicationsDeleteOptionalParams
+  - Added Interface AgentApplicationsDisableOptionalParams
+  - Added Interface AgentApplicationsEnableOptionalParams
+  - Added Interface AgentApplicationsGetOptionalParams
+  - Added Interface AgentApplicationsListAgentsOptionalParams
+  - Added Interface AgentApplicationsListOptionalParams
+  - Added Interface AgentDeployment
+  - Added Interface AgentDeploymentProperties
+  - Added Interface AgentDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface AgentDeploymentsDeleteOptionalParams
+  - Added Interface AgentDeploymentsGetOptionalParams
+  - Added Interface AgentDeploymentsListOptionalParams
+  - Added Interface AgentDeploymentsStartOptionalParams
+  - Added Interface AgentDeploymentsStopOptionalParams
+  - Added Interface AgentHostingConfiguration
+  - Added Interface AgenticApplicationProperties
+  - Added Interface AgentProtocolVersion
+  - Added Interface AgentReference
+  - Added Interface AgentReferenceProperties
+  - Added Interface AgentReferenceResourceArmPaginatedResult
+  - Added Interface ApplicationAuthorizationPolicy
+  - Added Interface ApplicationTrafficRoutingPolicy
+  - Added Interface ArcDeployment
+  - Added Interface ArcDeploymentCpuMemoryResourceRequirements
+  - Added Interface ArcDeploymentKubernetesResources
+  - Added Interface ArcDeploymentModel
+  - Added Interface ArcDeploymentPatchCpuMemoryResourceRequirements
+  - Added Interface ArcDeploymentPatchKubernetesResources
+  - Added Interface ArcDeploymentProperties
+  - Added Interface ArcDeploymentProvisioningDetails
+  - Added Interface ArcDeploymentResourceRequirements
+  - Added Interface ArcDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface ArcDeploymentsDeleteOptionalParams
+  - Added Interface ArcDeploymentsGetOptionalParams
+  - Added Interface ArcDeploymentSku
+  - Added Interface ArcDeploymentsListOptionalParams
+  - Added Interface ArcDeploymentsUpdateOptionalParams
+  - Added Interface ArcDeploymentUpdate
+  - Added Interface ArcDeploymentUpdateProperties
+  - Added Interface ArcDeploymentVllmParameters
+  - Added Interface AssignedIdentity
+  - Added Interface CapabilitySettings
+  - Added Interface ChannelsBuiltInAuthorizationPolicy
+  - Added Interface ClusterComputeProperties
+  - Added Interface CommitmentPlanAccountAssociationProperties
+  - Added Interface Compute
+  - Added Interface ComputeOperationsGetOptionalParams
+  - Added Interface ComputeOperationStatus
+  - Added Interface ComputeOperationStatusProperties
+  - Added Interface ComputeProperties
+  - Added Interface ComputesCreateOrUpdateOptionalParams
+  - Added Interface ComputesDeleteOptionalParams
+  - Added Interface ComputesGetOptionalParams
+  - Added Interface ComputesListOptionalParams
+  - Added Interface ComputesRestartOptionalParams
+  - Added Interface ComputesStartOptionalParams
+  - Added Interface ComputesStopOptionalParams
+  - Added Interface ConnectivityEndpoints
+  - Added Interface ContainerInstanceComputeProperties
+  - Added Interface DefenderForAISettingProperties
+  - Added Interface DeploymentPolicyEvaluationResult
+  - Added Interface DeploymentRouting
+  - Added Interface DeploymentSizeCapacity
+  - Added Interface DeploymentsPauseOptionalParams
+  - Added Interface DeploymentSpeculativeDecoding
+  - Added Interface DeploymentsResumeOptionalParams
+  - Added Interface EvaluateDeploymentPoliciesDeployment
+  - Added Interface EvaluateDeploymentPoliciesDeploymentProperties
+  - Added Interface EvaluateDeploymentPoliciesRequest
+  - Added Interface EvaluateDeploymentPoliciesResponse
+  - Added Interface FoundryAutoUpgrade
+  - Added Interface FqdnOutboundRule
+  - Added Interface HostedAgentDeployment
+  - Added Interface ManagedAgentDeployment
+  - Added Interface ManagedClusterAgentHostingConfiguration
+  - Added Interface ManagedComputeCapacitiesListOptionalParams
+  - Added Interface ManagedComputeCapacity
+  - Added Interface ManagedComputeCapacityProperties
+  - Added Interface ManagedComputeDeployment
+  - Added Interface ManagedComputeDeploymentInfo
+  - Added Interface ManagedComputeDeploymentProperties
+  - Added Interface ManagedComputeDeploymentProvisioningDetails
+  - Added Interface ManagedComputeDeploymentRoutes
+  - Added Interface ManagedComputeDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface ManagedComputeDeploymentsDeleteOptionalParams
+  - Added Interface ManagedComputeDeploymentsGetOptionalParams
+  - Added Interface ManagedComputeDeploymentsListOptionalParams
+  - Added Interface ManagedComputeDeploymentsUpdateOptionalParams
+  - Added Interface ManagedComputeUsage
+  - Added Interface ManagedComputeUsagesOperationGroupListOptionalParams
+  - Added Interface ManagedNetworkProvisionOptions
+  - Added Interface ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams
+  - Added Interface ManagedNetworkProvisionStatus
+  - Added Interface ManagedNetworkSettings
+  - Added Interface ManagedNetworkSettingsBasicResource
+  - Added Interface ManagedNetworkSettingsDeleteOptionalParams
+  - Added Interface ManagedNetworkSettingsEx
+  - Added Interface ManagedNetworkSettingsGetOptionalParams
+  - Added Interface ManagedNetworkSettingsListOptionalParams
+  - Added Interface ManagedNetworkSettingsPatchOptionalParams
+  - Added Interface ManagedNetworkSettingsProperties
+  - Added Interface ManagedNetworkSettingsPropertiesBasicResource
+  - Added Interface ManagedNetworkSettingsPutOptionalParams
+  - Added Interface OrganizationSharedBuiltInAuthorizationPolicy
+  - Added Interface OutboundRule
+  - Added Interface OutboundRuleBasicResource
+  - Added Interface OutboundRuleCreateOrUpdateOptionalParams
+  - Added Interface OutboundRuleDeleteOptionalParams
+  - Added Interface OutboundRuleGetOptionalParams
+  - Added Interface OutboundRuleListOptionalParams
+  - Added Interface OutboundRulesPostOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PatchResourceSku
+  - Added Interface PolicyAssignmentEvaluationDetails
+  - Added Interface PolicyExpressionEvaluationDetails
+  - Added Interface Pool
+  - Added Interface PrivateEndpointOutboundRule
+  - Added Interface PrivateEndpointOutboundRuleDestination
+  - Added Interface RaiEgressHeaderTransform
+  - Added Interface RaiEgressHeaderValueRef
+  - Added Interface RaiEgressManagedIdentityRef
+  - Added Interface RaiEgressPolicyConfig
+  - Added Interface RaiEgressRewriteTarget
+  - Added Interface RaiEgressRule
+  - Added Interface RaiEgressRuleAction
+  - Added Interface RaiEgressRuleMatch
+  - Added Interface RaiEgressSecretRef
+  - Added Interface RaiExternalSafetyProviderCreateOrUpdateOptionalParams
+  - Added Interface RaiExternalSafetyProviderDeleteOptionalParams
+  - Added Interface RaiExternalSafetyProviderGetOptionalParams
+  - Added Interface RaiExternalSafetyProviderSchema
+  - Added Interface RaiExternalSafetyProviderSchemaProperties
+  - Added Interface RaiExternalSafetyProvidersListOptionalParams
+  - Added Interface RaiSafetyProviderConfig
+  - Added Interface RaiToolLabel
+  - Added Interface RaiToolLabelProperties
+  - Added Interface RaiToolLabelPropertiesAccountScope
+  - Added Interface RaiToolLabelPropertiesProjectScopesItem
+  - Added Interface RaiToolLabelsCreateOrUpdateOptionalParams
+  - Added Interface RaiToolLabelsDeleteOptionalParams
+  - Added Interface RaiToolLabelsGetOptionalParams
+  - Added Interface RaiToolLabelsListOptionalParams
+  - Added Interface RestorePollerOptions
+  - Added Interface RoleBasedBuiltInAuthorizationPolicy
+  - Added Interface SafetyProviderConfig
+  - Added Interface ServiceTagOutboundRule
+  - Added Interface ServiceTagOutboundRuleDestination
+  - Added Interface SimplePollerLike
+  - Added Interface SshSettings
+  - Added Interface SubscriptionRaiPolicyCreateOrUpdateOptionalParams
+  - Added Interface SubscriptionRaiPolicyDeleteOptionalParams
+  - Added Interface SubscriptionRaiPolicyGetOptionalParams
+  - Added Interface TestRaiExternalSafetyProviderCreateOrUpdateOptionalParams
+  - Added Interface TrafficRoutingRule
+  - Added Interface VersionedAgentReference
+  - Added Interface Workbench
+  - Added Interface WorkbenchesCreateOrUpdateOptionalParams
+  - Added Interface WorkbenchesDeleteOptionalParams
+  - Added Interface WorkbenchesGetOptionalParams
+  - Added Interface WorkbenchesListOptionalParams
+  - Added Interface WorkbenchesRestartOptionalParams
+  - Added Interface WorkbenchesStartOptionalParams
+  - Added Interface WorkbenchesStopOptionalParams
+  - Added Interface WorkbenchesUpdateOptionalParams
+  - Added Interface WorkbenchProperties
+  - Interface AccountCapabilityHostsGetOptionalParams has a new optional parameter abortSignal
+  - Interface AccountCapabilityHostsGetOptionalParams has a new optional parameter requestOptions
+  - Interface AccountCapabilityHostsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountCapabilityHostsGetOptionalParams has a new optional parameter onResponse
+  - Interface AccountCapabilityHostsListOptionalParams has a new optional parameter abortSignal
+  - Interface AccountCapabilityHostsListOptionalParams has a new optional parameter requestOptions
+  - Interface AccountCapabilityHostsListOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountCapabilityHostsListOptionalParams has a new optional parameter onResponse
+  - Interface AccountConnectionsCreateOptionalParams has a new optional parameter abortSignal
+  - Interface AccountConnectionsCreateOptionalParams has a new optional parameter requestOptions
+  - Interface AccountConnectionsCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountConnectionsCreateOptionalParams has a new optional parameter onResponse
+  - Interface AccountConnectionsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface AccountConnectionsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface AccountConnectionsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountConnectionsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface AccountConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface AccountConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface AccountConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface AccountConnectionsListOptionalParams has a new optional parameter abortSignal
+  - Interface AccountConnectionsListOptionalParams has a new optional parameter requestOptions
+  - Interface AccountConnectionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountConnectionsListOptionalParams has a new optional parameter onResponse
+  - Interface AccountConnectionsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface AccountConnectionsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface AccountConnectionsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountConnectionsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface AccountProperties has a new optional parameter a365LoggingEnabled
+  - Interface AccountProperties has a new optional parameter agentHostingConfigurations
+  - Interface AccountProperties has a new optional parameter capabilitySettings
+  - Interface AccountProperties has a new optional parameter foundryAutoUpgrade
+  - Interface AccountsGetOptionalParams has a new optional parameter abortSignal
+  - Interface AccountsGetOptionalParams has a new optional parameter requestOptions
+  - Interface AccountsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountsGetOptionalParams has a new optional parameter onResponse
+  - Interface AccountsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface AccountsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface AccountsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface AccountsListKeysOptionalParams has a new optional parameter abortSignal
+  - Interface AccountsListKeysOptionalParams has a new optional parameter requestOptions
+  - Interface AccountsListKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountsListKeysOptionalParams has a new optional parameter onResponse
+  - Interface AccountsListModelsOptionalParams has a new optional parameter abortSignal
+  - Interface AccountsListModelsOptionalParams has a new optional parameter requestOptions
+  - Interface AccountsListModelsOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountsListModelsOptionalParams has a new optional parameter onResponse
+  - Interface AccountsListOptionalParams has a new optional parameter abortSignal
+  - Interface AccountsListOptionalParams has a new optional parameter requestOptions
+  - Interface AccountsListOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountsListOptionalParams has a new optional parameter onResponse
+  - Interface AccountsListSkusOptionalParams has a new optional parameter abortSignal
+  - Interface AccountsListSkusOptionalParams has a new optional parameter requestOptions
+  - Interface AccountsListSkusOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountsListSkusOptionalParams has a new optional parameter onResponse
+  - Interface AccountsListUsagesOptionalParams has a new optional parameter abortSignal
+  - Interface AccountsListUsagesOptionalParams has a new optional parameter requestOptions
+  - Interface AccountsListUsagesOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountsListUsagesOptionalParams has a new optional parameter onResponse
+  - Interface AccountsRegenerateKeyOptionalParams has a new optional parameter abortSignal
+  - Interface AccountsRegenerateKeyOptionalParams has a new optional parameter requestOptions
+  - Interface AccountsRegenerateKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface AccountsRegenerateKeyOptionalParams has a new optional parameter onResponse
+  - Interface ApiProperties has a new optional parameter additionalProperties
+  - Interface CalculateModelCapacityOptionalParams has a new optional parameter abortSignal
+  - Interface CalculateModelCapacityOptionalParams has a new optional parameter requestOptions
+  - Interface CalculateModelCapacityOptionalParams has a new optional parameter tracingOptions
+  - Interface CalculateModelCapacityOptionalParams has a new optional parameter onResponse
+  - Interface CapabilityHostProperties has a new optional parameter enablePublicHostingEnvironment
+  - Interface CheckDomainAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface CheckDomainAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface CheckDomainAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface CheckDomainAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface CheckSkuAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface CheckSkuAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface CheckSkuAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface CheckSkuAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentPlansCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentPlansCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentPlansCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentPlansCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentPlansGetAssociationOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentPlansGetAssociationOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentPlansGetAssociationOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentPlansGetAssociationOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentPlansGetOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentPlansGetOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentPlansGetOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentPlansGetOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentPlansGetPlanOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentPlansGetPlanOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentPlansGetPlanOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentPlansGetPlanOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentPlansListAssociationsOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentPlansListAssociationsOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentPlansListAssociationsOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentPlansListAssociationsOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentPlansListOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentPlansListOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentPlansListOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentPlansListOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentPlansListPlansByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentPlansListPlansByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentPlansListPlansByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentPlansListPlansByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentPlansListPlansBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentPlansListPlansBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentPlansListPlansBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentPlansListPlansBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface CommitmentTiersListOptionalParams has a new optional parameter abortSignal
+  - Interface CommitmentTiersListOptionalParams has a new optional parameter requestOptions
+  - Interface CommitmentTiersListOptionalParams has a new optional parameter tracingOptions
+  - Interface CommitmentTiersListOptionalParams has a new optional parameter onResponse
+  - Interface DefenderForAISettingsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DefenderForAISettingsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DefenderForAISettingsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DefenderForAISettingsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DefenderForAISettingsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DefenderForAISettingsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DefenderForAISettingsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DefenderForAISettingsGetOptionalParams has a new optional parameter onResponse
+  - Interface DefenderForAISettingsListOptionalParams has a new optional parameter abortSignal
+  - Interface DefenderForAISettingsListOptionalParams has a new optional parameter requestOptions
+  - Interface DefenderForAISettingsListOptionalParams has a new optional parameter tracingOptions
+  - Interface DefenderForAISettingsListOptionalParams has a new optional parameter onResponse
+  - Interface DefenderForAISettingsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DefenderForAISettingsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DefenderForAISettingsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DefenderForAISettingsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DeletedAccountsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DeletedAccountsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DeletedAccountsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DeletedAccountsGetOptionalParams has a new optional parameter onResponse
+  - Interface DeletedAccountsListOptionalParams has a new optional parameter abortSignal
+  - Interface DeletedAccountsListOptionalParams has a new optional parameter requestOptions
+  - Interface DeletedAccountsListOptionalParams has a new optional parameter tracingOptions
+  - Interface DeletedAccountsListOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentProperties has a new optional parameter contextCacheContainerId
+  - Interface DeploymentProperties has a new optional parameter deploymentState
+  - Interface DeploymentProperties has a new optional parameter routing
+  - Interface DeploymentProperties has a new optional parameter serviceTier
+  - Interface DeploymentProperties has a new optional parameter speculativeDecoding
+  - Interface DeploymentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsGetOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsListOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsListOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsListOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsListOptionalParams has a new optional parameter onResponse
+  - Interface DeploymentsListSkusOptionalParams has a new optional parameter abortSignal
+  - Interface DeploymentsListSkusOptionalParams has a new optional parameter requestOptions
+  - Interface DeploymentsListSkusOptionalParams has a new optional parameter tracingOptions
+  - Interface DeploymentsListSkusOptionalParams has a new optional parameter onResponse
+  - Interface EncryptionScopesCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface EncryptionScopesCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface EncryptionScopesCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface EncryptionScopesCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface EncryptionScopesGetOptionalParams has a new optional parameter abortSignal
+  - Interface EncryptionScopesGetOptionalParams has a new optional parameter requestOptions
+  - Interface EncryptionScopesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface EncryptionScopesGetOptionalParams has a new optional parameter onResponse
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter abortSignal
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter requestOptions
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter tracingOptions
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter onResponse
+  - Interface LocationBasedModelCapacitiesListOptionalParams has a new optional parameter abortSignal
+  - Interface LocationBasedModelCapacitiesListOptionalParams has a new optional parameter requestOptions
+  - Interface LocationBasedModelCapacitiesListOptionalParams has a new optional parameter tracingOptions
+  - Interface LocationBasedModelCapacitiesListOptionalParams has a new optional parameter onResponse
+  - Interface ModelCapacitiesListOptionalParams has a new optional parameter abortSignal
+  - Interface ModelCapacitiesListOptionalParams has a new optional parameter requestOptions
+  - Interface ModelCapacitiesListOptionalParams has a new optional parameter tracingOptions
+  - Interface ModelCapacitiesListOptionalParams has a new optional parameter onResponse
+  - Interface ModelSkuCapacityProperties has a new optional parameter scopeId
+  - Interface ModelSkuCapacityProperties has a new optional parameter scopeType
+  - Interface ModelsListOptionalParams has a new optional parameter abortSignal
+  - Interface ModelsListOptionalParams has a new optional parameter requestOptions
+  - Interface ModelsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ModelsListOptionalParams has a new optional parameter onResponse
+  - Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams has a new optional parameter onResponse
+  - Interface NetworkSecurityPerimeterConfigurationsListOptionalParams has a new optional parameter abortSignal
+  - Interface NetworkSecurityPerimeterConfigurationsListOptionalParams has a new optional parameter requestOptions
+  - Interface NetworkSecurityPerimeterConfigurationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface NetworkSecurityPerimeterConfigurationsListOptionalParams has a new optional parameter onResponse
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsListOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsListOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsListOptionalParams has a new optional parameter onResponse
+  - Interface PrivateLinkResourcesListOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateLinkResourcesListOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateLinkResourcesListOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateLinkResourcesListOptionalParams has a new optional parameter onResponse
+  - Interface ProjectCapabilityHostsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectCapabilityHostsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectCapabilityHostsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectCapabilityHostsGetOptionalParams has a new optional parameter onResponse
+  - Interface ProjectCapabilityHostsListOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectCapabilityHostsListOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectCapabilityHostsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectCapabilityHostsListOptionalParams has a new optional parameter onResponse
+  - Interface ProjectConnectionsCreateOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectConnectionsCreateOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectConnectionsCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectConnectionsCreateOptionalParams has a new optional parameter onResponse
+  - Interface ProjectConnectionsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectConnectionsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectConnectionsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectConnectionsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProjectConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface ProjectConnectionsListOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectConnectionsListOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectConnectionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectConnectionsListOptionalParams has a new optional parameter onResponse
+  - Interface ProjectConnectionsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectConnectionsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectConnectionsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectConnectionsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProjectProperties has a new optional parameter capabilitySettings
+  - Interface ProjectsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectsGetOptionalParams has a new optional parameter onResponse
+  - Interface ProjectsListOptionalParams has a new optional parameter abortSignal
+  - Interface ProjectsListOptionalParams has a new optional parameter requestOptions
+  - Interface ProjectsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ProjectsListOptionalParams has a new optional parameter onResponse
+  - Interface QuotaTiersCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaTiersCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaTiersCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaTiersCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface QuotaTiersGetOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaTiersGetOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaTiersGetOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaTiersGetOptionalParams has a new optional parameter onResponse
+  - Interface QuotaTiersListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaTiersListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaTiersListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaTiersListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface QuotaTiersUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaTiersUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaTiersUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaTiersUpdateOptionalParams has a new optional parameter onResponse
+  - Interface RaiBlocklistItemsBatchAddOptionalParams has a new optional parameter abortSignal
+  - Interface RaiBlocklistItemsBatchAddOptionalParams has a new optional parameter requestOptions
+  - Interface RaiBlocklistItemsBatchAddOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiBlocklistItemsBatchAddOptionalParams has a new optional parameter onResponse
+  - Interface RaiBlocklistItemsBatchDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface RaiBlocklistItemsBatchDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface RaiBlocklistItemsBatchDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiBlocklistItemsBatchDeleteOptionalParams has a new optional parameter onResponse
+  - Interface RaiBlocklistItemsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface RaiBlocklistItemsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface RaiBlocklistItemsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiBlocklistItemsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface RaiBlocklistItemsGetOptionalParams has a new optional parameter abortSignal
+  - Interface RaiBlocklistItemsGetOptionalParams has a new optional parameter requestOptions
+  - Interface RaiBlocklistItemsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiBlocklistItemsGetOptionalParams has a new optional parameter onResponse
+  - Interface RaiBlocklistItemsListOptionalParams has a new optional parameter abortSignal
+  - Interface RaiBlocklistItemsListOptionalParams has a new optional parameter requestOptions
+  - Interface RaiBlocklistItemsListOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiBlocklistItemsListOptionalParams has a new optional parameter onResponse
+  - Interface RaiBlocklistsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface RaiBlocklistsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface RaiBlocklistsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiBlocklistsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface RaiBlocklistsGetOptionalParams has a new optional parameter abortSignal
+  - Interface RaiBlocklistsGetOptionalParams has a new optional parameter requestOptions
+  - Interface RaiBlocklistsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiBlocklistsGetOptionalParams has a new optional parameter onResponse
+  - Interface RaiBlocklistsListOptionalParams has a new optional parameter abortSignal
+  - Interface RaiBlocklistsListOptionalParams has a new optional parameter requestOptions
+  - Interface RaiBlocklistsListOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiBlocklistsListOptionalParams has a new optional parameter onResponse
+  - Interface RaiContentFiltersGetOptionalParams has a new optional parameter abortSignal
+  - Interface RaiContentFiltersGetOptionalParams has a new optional parameter requestOptions
+  - Interface RaiContentFiltersGetOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiContentFiltersGetOptionalParams has a new optional parameter onResponse
+  - Interface RaiContentFiltersListOptionalParams has a new optional parameter abortSignal
+  - Interface RaiContentFiltersListOptionalParams has a new optional parameter requestOptions
+  - Interface RaiContentFiltersListOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiContentFiltersListOptionalParams has a new optional parameter onResponse
+  - Interface RaiPoliciesCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface RaiPoliciesCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface RaiPoliciesCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiPoliciesCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface RaiPoliciesGetOptionalParams has a new optional parameter abortSignal
+  - Interface RaiPoliciesGetOptionalParams has a new optional parameter requestOptions
+  - Interface RaiPoliciesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiPoliciesGetOptionalParams has a new optional parameter onResponse
+  - Interface RaiPoliciesListOptionalParams has a new optional parameter abortSignal
+  - Interface RaiPoliciesListOptionalParams has a new optional parameter requestOptions
+  - Interface RaiPoliciesListOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiPoliciesListOptionalParams has a new optional parameter onResponse
+  - Interface RaiPolicyContentFilter has a new optional parameter action
+  - Interface RaiPolicyProperties has a new optional parameter egressPolicy
+  - Interface RaiPolicyProperties has a new optional parameter safetyProviders
+  - Interface RaiTopicsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface RaiTopicsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface RaiTopicsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiTopicsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface RaiTopicsGetOptionalParams has a new optional parameter abortSignal
+  - Interface RaiTopicsGetOptionalParams has a new optional parameter requestOptions
+  - Interface RaiTopicsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiTopicsGetOptionalParams has a new optional parameter onResponse
+  - Interface RaiTopicsListOptionalParams has a new optional parameter abortSignal
+  - Interface RaiTopicsListOptionalParams has a new optional parameter requestOptions
+  - Interface RaiTopicsListOptionalParams has a new optional parameter tracingOptions
+  - Interface RaiTopicsListOptionalParams has a new optional parameter onResponse
+  - Interface ResourceSkusListOptionalParams has a new optional parameter abortSignal
+  - Interface ResourceSkusListOptionalParams has a new optional parameter requestOptions
+  - Interface ResourceSkusListOptionalParams has a new optional parameter tracingOptions
+  - Interface ResourceSkusListOptionalParams has a new optional parameter onResponse
+  - Interface Usage has a new optional parameter scopeId
+  - Interface Usage has a new optional parameter scopeType
+  - Interface UsagesListOptionalParams has a new optional parameter abortSignal
+  - Interface UsagesListOptionalParams has a new optional parameter requestOptions
+  - Interface UsagesListOptionalParams has a new optional parameter tracingOptions
+  - Interface UsagesListOptionalParams has a new optional parameter onResponse
+  - Added Type Alias AgentDeploymentPropertiesUnion
+  - Added Type Alias AgentDeploymentProvisioningState
+  - Added Type Alias AgentDeploymentState
+  - Added Type Alias AgentDeploymentType
+  - Added Type Alias AgentHostingConfigurationUnion
+  - Added Type Alias AgentHostingType
+  - Added Type Alias AgenticApplicationProvisioningState
+  - Added Type Alias AgentProtocol
+  - Added Type Alias ApplicationAuthorizationPolicyUnion
+  - Added Type Alias ArcDeploymentComputeType
+  - Added Type Alias ArcDeploymentRuntime
+  - Added Type Alias ArcDeploymentSkuName
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BuiltInAuthorizationScheme
+  - Added Type Alias ComputeOperationStatusType
+  - Added Type Alias ComputePropertiesUnion
+  - Added Type Alias ComputeProvisioningState
+  - Added Type Alias ComputeType
+  - Added Type Alias DeploymentState
+  - Added Type Alias FirewallSku
+  - Added Type Alias FoundryAutoUpgradeMode
+  - Added Type Alias IdentityKind
+  - Added Type Alias IdentityManagementType
+  - Added Type Alias IdentityProvisioningState
+  - Added Type Alias IsolationMode
+  - Added Type Alias ManagedNetworkKind
+  - Added Type Alias ManagedNetworkProvisioningState
+  - Added Type Alias ManagedNetworkStatus
+  - Added Type Alias OutboundRuleUnion
+  - Added Type Alias PolicyEvaluationOutcome
+  - Added Type Alias QuotaScopeType
+  - Added Type Alias RaiActionType
+  - Added Type Alias RaiEgressDefaultAction
+  - Added Type Alias RaiEgressHeaderOperation
+  - Added Type Alias RaiEgressMode
+  - Added Type Alias RaiEgressRuleActionType
+  - Added Type Alias RaiEgressRuleType
+  - Added Type Alias RaiEgressScheme
+  - Added Type Alias RoutingMode
+  - Added Type Alias RuleAction
+  - Added Type Alias RuleCategory
+  - Added Type Alias RuleStatus
+  - Added Type Alias RuleType
+  - Added Type Alias ServiceTier
+  - Added Type Alias TrafficRoutingProtocol
+  - Added Type Alias VmPriority
+  - Added Enum AzureClouds
+  - Added Enum KnownAgentDeploymentProvisioningState
+  - Added Enum KnownAgentDeploymentState
+  - Added Enum KnownAgentDeploymentType
+  - Added Enum KnownAgentHostingType
+  - Added Enum KnownAgenticApplicationProvisioningState
+  - Added Enum KnownAgentProtocol
+  - Added Enum KnownArcDeploymentComputeType
+  - Added Enum KnownArcDeploymentRuntime
+  - Added Enum KnownArcDeploymentSkuName
+  - Added Enum KnownBuiltInAuthorizationScheme
+  - Added Enum KnownComputeOperationStatusType
+  - Added Enum KnownComputeProvisioningState
+  - Added Enum KnownComputeType
+  - Added Enum KnownDeploymentState
+  - Added Enum KnownFirewallSku
+  - Added Enum KnownFoundryAutoUpgradeMode
+  - Added Enum KnownIdentityKind
+  - Added Enum KnownIdentityManagementType
+  - Added Enum KnownIdentityProvisioningState
+  - Added Enum KnownIsolationMode
+  - Added Enum KnownManagedNetworkKind
+  - Added Enum KnownManagedNetworkProvisioningState
+  - Added Enum KnownManagedNetworkStatus
+  - Added Enum KnownPolicyEvaluationOutcome
+  - Added Enum KnownQuotaScopeType
+  - Added Enum KnownRaiActionType
+  - Added Enum KnownRaiEgressDefaultAction
+  - Added Enum KnownRaiEgressHeaderOperation
+  - Added Enum KnownRaiEgressMode
+  - Added Enum KnownRaiEgressRuleActionType
+  - Added Enum KnownRaiEgressRuleType
+  - Added Enum KnownRaiEgressScheme
+  - Added Enum KnownRoutingMode
+  - Added Enum KnownRuleAction
+  - Added Enum KnownRuleCategory
+  - Added Enum KnownRuleStatus
+  - Added Enum KnownRuleType
+  - Added Enum KnownServiceTier
+  - Added Enum KnownTrafficRoutingProtocol
+  - Added Enum KnownVersions
+  - Added Enum KnownVmPriority
+  - Enum KnownConnectionAuthType has a new value AccountManagedIdentity
+  - Enum KnownConnectionAuthType has a new value AgenticIdentityToken
+  - Enum KnownConnectionAuthType has a new value AgenticUser
+  - Enum KnownConnectionAuthType has a new value AgentUserImpersonation
+  - Enum KnownConnectionAuthType has a new value DelegatedSAS
+  - Enum KnownConnectionAuthType has a new value ProjectManagedIdentity
+  - Enum KnownConnectionAuthType has a new value UserEntraToken
+  - Enum KnownConnectionCategory has a new value ApiManagement
+  - Enum KnownConnectionCategory has a new value AppConfig
+  - Enum KnownConnectionCategory has a new value AppInsights
+  - Enum KnownConnectionCategory has a new value AzureContainerAppEnvironment
+  - Enum KnownConnectionCategory has a new value AzureKeyVault
+  - Enum KnownConnectionCategory has a new value Databricks
+  - Enum KnownConnectionCategory has a new value GroundingWithBingSearch
+  - Enum KnownConnectionCategory has a new value GroundingWithCustomSearch
+  - Enum KnownConnectionCategory has a new value MicrosoftFabric
+  - Enum KnownConnectionCategory has a new value ModelGateway
+  - Enum KnownConnectionCategory has a new value PowerPlatformEnvironment
+  - Enum KnownConnectionCategory has a new value RemoteA2A
+  - Enum KnownConnectionCategory has a new value RemoteTool
+  - Enum KnownConnectionCategory has a new value Sharepoint
+  - Enum KnownProvisioningState has a new value ExtensionUnreachable
+  - Enum KnownRaiPolicyContentSource has a new value PostRun
+  - Enum KnownRaiPolicyContentSource has a new value PostToolCall
+  - Enum KnownRaiPolicyContentSource has a new value PreRun
+  - Enum KnownRaiPolicyContentSource has a new value PreToolCall
+
+### Breaking Changes
+  - Operation AccountCapabilityHosts.beginDeleteAndWait has a new signature
+  - Operation AccountConnections.create has a new signature
+  - Operation AccountConnections.get has a new signature
+  - Operation AccountConnections.update has a new signature
+  - Operation EncryptionScopes.beginDeleteAndWait has a new signature
+  - Operation ProjectCapabilityHosts.beginDeleteAndWait has a new signature
+  - Operation ProjectConnections.create has a new signature
+  - Operation ProjectConnections.get has a new signature
+  - Operation ProjectConnections.update has a new signature
+  - Operation RaiBlocklistItems.beginDeleteAndWait has a new signature
+  - Operation RaiBlocklists.beginDeleteAndWait has a new signature
+  - Operation RaiPolicies.beginDeleteAndWait has a new signature
+  - Operation RaiTopics.beginDeleteAndWait has a new signature
+  - Removed Interface AzureEntityResource
+  - Removed Interface CustomTopicConfig
+  - Removed Interface NetworkSecurityPerimeterConfigurationList
+  - Removed Interface RaiTopicConfig
+  - Type of parameter authType of interface ConnectionPropertiesV2 is changed from "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD" to ConnectionAuthType
+  - Interface RaiPolicyProperties no longer has parameter customTopics
+  - Type alias "ConnectionPropertiesV2Union" has been changed
+
+## 9.0.0-beta.3 (2026-06-30)
+Compared with version 8.1.0
+
+### Features Added
+  - Added operation group AgentApplicationsOperations
+  - Added operation group AgentDeploymentsOperations
+  - Added operation group ComputeOperationsOperations
+  - Added operation group ComputesOperations
+  - Added operation group ManagedComputeCapacitiesOperations
+  - Added operation group ManagedComputeDeploymentsOperations
+  - Added operation group ManagedComputeUsagesOperationGroupOperations
+  - Added operation group ManagedNetworkProvisionsOperations
+  - Added operation group ManagedNetworkSettingsOperations
+  - Added operation group OutboundRuleOperations
+  - Added operation group OutboundRulesOperations
+  - Added operation group RaiExternalSafetyProviderOperations
+  - Added operation group RaiExternalSafetyProvidersOperations
+  - Added operation group RaiToolLabelsOperations
+  - Added operation group SubscriptionRaiPolicyOperations
+  - Added operation group TestRaiExternalSafetyProviderOperations
+  - Added operation group WorkbenchesOperations
+  - Added operation AccountCapabilityHostsOperations.createOrUpdate
+  - Added operation AccountCapabilityHostsOperations.delete
+  - Added operation AccountsOperations.create
+  - Added operation AccountsOperations.delete
+  - Added operation AccountsOperations.evaluateDeploymentPolicies
+  - Added operation AccountsOperations.update
+  - Added operation CommitmentPlansOperations.createOrUpdateAssociation
+  - Added operation CommitmentPlansOperations.createOrUpdatePlan
+  - Added operation CommitmentPlansOperations.delete
+  - Added operation CommitmentPlansOperations.deleteAssociation
+  - Added operation CommitmentPlansOperations.deletePlan
+  - Added operation CommitmentPlansOperations.updatePlan
+  - Added operation DeletedAccountsOperations.purge
+  - Added operation DeploymentsOperations.createOrUpdate
+  - Added operation DeploymentsOperations.delete
+  - Added operation DeploymentsOperations.pause
+  - Added operation DeploymentsOperations.resume
+  - Added operation DeploymentsOperations.update
+  - Added operation EncryptionScopesOperations.delete
+  - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation ProjectCapabilityHostsOperations.createOrUpdate
+  - Added operation ProjectCapabilityHostsOperations.delete
+  - Added operation ProjectsOperations.create
+  - Added operation ProjectsOperations.delete
+  - Added operation ProjectsOperations.update
+  - Added operation RaiBlocklistItemsOperations.delete
+  - Added operation RaiBlocklistsOperations.delete
+  - Added operation RaiPoliciesOperations.delete
+  - Added operation RaiTopicsOperations.delete
+  - Added Interface AccountsEvaluateDeploymentPoliciesOptionalParams
+  - Added Interface AgentApplication
+  - Added Interface AgentApplicationsCreateOrUpdateOptionalParams
+  - Added Interface AgentApplicationsDeleteOptionalParams
+  - Added Interface AgentApplicationsDisableOptionalParams
+  - Added Interface AgentApplicationsEnableOptionalParams
+  - Added Interface AgentApplicationsGetOptionalParams
+  - Added Interface AgentApplicationsListAgentsOptionalParams
+  - Added Interface AgentApplicationsListOptionalParams
+  - Added Interface AgentDeployment
+  - Added Interface AgentDeploymentProperties
+  - Added Interface AgentDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface AgentDeploymentsDeleteOptionalParams
+  - Added Interface AgentDeploymentsGetOptionalParams
+  - Added Interface AgentDeploymentsListOptionalParams
+  - Added Interface AgentDeploymentsStartOptionalParams
+  - Added Interface AgentDeploymentsStopOptionalParams
+  - Added Interface AgenticApplicationProperties
+  - Added Interface AgentProtocolVersion
+  - Added Interface AgentReference
+  - Added Interface AgentReferenceProperties
+  - Added Interface AgentReferenceResourceArmPaginatedResult
+  - Added Interface ApplicationAuthorizationPolicy
+  - Added Interface ApplicationTrafficRoutingPolicy
+  - Added Interface AssignedIdentity
+  - Added Interface ChannelsBuiltInAuthorizationPolicy
+  - Added Interface ClusterComputeProperties
+  - Added Interface CommitmentPlanAccountAssociationProperties
+  - Added Interface Compute
+  - Added Interface ComputeOperationsGetOptionalParams
+  - Added Interface ComputeOperationStatus
+  - Added Interface ComputeOperationStatusProperties
+  - Added Interface ComputeProperties
+  - Added Interface ComputesCreateOrUpdateOptionalParams
+  - Added Interface ComputesDeleteOptionalParams
+  - Added Interface ComputesGetOptionalParams
+  - Added Interface ComputesListOptionalParams
+  - Added Interface ComputesRestartOptionalParams
+  - Added Interface ComputesStartOptionalParams
+  - Added Interface ComputesStopOptionalParams
+  - Added Interface ComputesUpdateOptionalParams
+  - Added Interface ConnectivityEndpoints
+  - Added Interface ContainerInstanceComputeProperties
+  - Added Interface DefenderForAISettingProperties
+  - Added Interface DeploymentPolicyEvaluationResult
+  - Added Interface DeploymentRouting
+  - Added Interface DeploymentSizeCapacity
+  - Added Interface DeploymentsPauseOptionalParams
+  - Added Interface DeploymentSpeculativeDecoding
+  - Added Interface DeploymentsResumeOptionalParams
+  - Added Interface EvaluateDeploymentPoliciesDeployment
+  - Added Interface EvaluateDeploymentPoliciesDeploymentProperties
+  - Added Interface EvaluateDeploymentPoliciesRequest
+  - Added Interface EvaluateDeploymentPoliciesResponse
+  - Added Interface FoundryAutoUpgrade
+  - Added Interface FqdnOutboundRule
+  - Added Interface HostedAgentDeployment
+  - Added Interface ManagedAgentDeployment
+  - Added Interface ManagedComputeCapacitiesListOptionalParams
+  - Added Interface ManagedComputeCapacity
+  - Added Interface ManagedComputeCapacityProperties
+  - Added Interface ManagedComputeDeployment
+  - Added Interface ManagedComputeDeploymentInfo
+  - Added Interface ManagedComputeDeploymentProperties
+  - Added Interface ManagedComputeDeploymentProvisioningDetails
+  - Added Interface ManagedComputeDeploymentRoutes
+  - Added Interface ManagedComputeDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface ManagedComputeDeploymentsDeleteOptionalParams
+  - Added Interface ManagedComputeDeploymentsGetOptionalParams
+  - Added Interface ManagedComputeDeploymentsListOptionalParams
+  - Added Interface ManagedComputeDeploymentsUpdateOptionalParams
+  - Added Interface ManagedComputeUsage
+  - Added Interface ManagedComputeUsagesOperationGroupListOptionalParams
+  - Added Interface ManagedNetworkProvisionOptions
+  - Added Interface ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams
+  - Added Interface ManagedNetworkProvisionStatus
+  - Added Interface ManagedNetworkSettings
+  - Added Interface ManagedNetworkSettingsBasicResource
+  - Added Interface ManagedNetworkSettingsDeleteOptionalParams
+  - Added Interface ManagedNetworkSettingsEx
+  - Added Interface ManagedNetworkSettingsGetOptionalParams
+  - Added Interface ManagedNetworkSettingsListOptionalParams
+  - Added Interface ManagedNetworkSettingsPatchOptionalParams
+  - Added Interface ManagedNetworkSettingsProperties
+  - Added Interface ManagedNetworkSettingsPropertiesBasicResource
+  - Added Interface ManagedNetworkSettingsPutOptionalParams
+  - Added Interface OrganizationSharedBuiltInAuthorizationPolicy
+  - Added Interface OutboundRule
+  - Added Interface OutboundRuleBasicResource
+  - Added Interface OutboundRuleCreateOrUpdateOptionalParams
+  - Added Interface OutboundRuleDeleteOptionalParams
+  - Added Interface OutboundRuleGetOptionalParams
+  - Added Interface OutboundRuleListOptionalParams
+  - Added Interface OutboundRulesPostOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PatchResourceSku
+  - Added Interface PolicyAssignmentEvaluationDetails
+  - Added Interface PolicyExpressionEvaluationDetails
+  - Added Interface Pool
+  - Added Interface PrivateEndpointOutboundRule
+  - Added Interface PrivateEndpointOutboundRuleDestination
+  - Added Interface RaiEgressHeaderTransform
+  - Added Interface RaiEgressHeaderValueRef
+  - Added Interface RaiEgressManagedIdentityRef
+  - Added Interface RaiEgressPolicyConfig
+  - Added Interface RaiEgressRewriteTarget
+  - Added Interface RaiEgressRule
+  - Added Interface RaiEgressRuleAction
+  - Added Interface RaiEgressRuleMatch
+  - Added Interface RaiEgressSecretRef
+  - Added Interface RaiExternalSafetyProviderCreateOrUpdateOptionalParams
+  - Added Interface RaiExternalSafetyProviderDeleteOptionalParams
+  - Added Interface RaiExternalSafetyProviderGetOptionalParams
+  - Added Interface RaiExternalSafetyProviderSchema
+  - Added Interface RaiExternalSafetyProviderSchemaProperties
+  - Added Interface RaiExternalSafetyProvidersListOptionalParams
+  - Added Interface RaiSafetyProviderConfig
+  - Added Interface RaiToolLabel
+  - Added Interface RaiToolLabelProperties
+  - Added Interface RaiToolLabelPropertiesAccountScope
+  - Added Interface RaiToolLabelPropertiesProjectScopesItem
+  - Added Interface RaiToolLabelsCreateOrUpdateOptionalParams
+  - Added Interface RaiToolLabelsDeleteOptionalParams
+  - Added Interface RaiToolLabelsGetOptionalParams
+  - Added Interface RaiToolLabelsListOptionalParams
+  - Added Interface RestorePollerOptions
+  - Added Interface RoleBasedBuiltInAuthorizationPolicy
+  - Added Interface SafetyProviderConfig
+  - Added Interface ServiceTagOutboundRule
+  - Added Interface ServiceTagOutboundRuleDestination
+  - Added Interface SimplePollerLike
+  - Added Interface SshSettings
+  - Added Interface SubscriptionRaiPolicyCreateOrUpdateOptionalParams
+  - Added Interface SubscriptionRaiPolicyDeleteOptionalParams
+  - Added Interface SubscriptionRaiPolicyGetOptionalParams
+  - Added Interface TestRaiExternalSafetyProviderCreateOrUpdateOptionalParams
+  - Added Interface TrafficRoutingRule
+  - Added Interface VersionedAgentReference
+  - Added Interface Workbench
+  - Added Interface WorkbenchesCreateOrUpdateOptionalParams
+  - Added Interface WorkbenchesDeleteOptionalParams
+  - Added Interface WorkbenchesGetOptionalParams
+  - Added Interface WorkbenchesListOptionalParams
+  - Added Interface WorkbenchesRestartOptionalParams
+  - Added Interface WorkbenchesStartOptionalParams
+  - Added Interface WorkbenchesStopOptionalParams
+  - Added Interface WorkbenchesUpdateOptionalParams
+  - Added Interface WorkbenchProperties
+  - Interface AccountProperties has a new optional parameter foundryAutoUpgrade
+  - Interface ApiProperties has a new optional parameter additionalProperties
+  - Interface CapabilityHostProperties has a new optional parameter enablePublicHostingEnvironment
+  - Interface DeploymentProperties has a new optional parameter deploymentState
+  - Interface DeploymentProperties has a new optional parameter routing
+  - Interface DeploymentProperties has a new optional parameter serviceTier
+  - Interface DeploymentProperties has a new optional parameter speculativeDecoding
+  - Interface ModelSkuCapacityProperties has a new optional parameter scopeId
+  - Interface ModelSkuCapacityProperties has a new optional parameter scopeType
+  - Interface RaiPolicyContentFilter has a new optional parameter action
+  - Interface RaiPolicyProperties has a new optional parameter egressPolicy
+  - Interface RaiPolicyProperties has a new optional parameter safetyProviders
+  - Interface Usage has a new optional parameter scopeId
+  - Interface Usage has a new optional parameter scopeType
+  - Added Type Alias AgentDeploymentPropertiesUnion
+  - Added Type Alias AgentDeploymentProvisioningState
+  - Added Type Alias AgentDeploymentState
+  - Added Type Alias AgentDeploymentType
+  - Added Type Alias AgenticApplicationProvisioningState
+  - Added Type Alias AgentProtocol
+  - Added Type Alias ApplicationAuthorizationPolicyUnion
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BuiltInAuthorizationScheme
+  - Added Type Alias ComputeOperationStatusType
+  - Added Type Alias ComputePropertiesUnion
+  - Added Type Alias ComputeProvisioningState
+  - Added Type Alias ComputeType
+  - Added Type Alias DeploymentState
+  - Added Type Alias FirewallSku
+  - Added Type Alias FoundryAutoUpgradeMode
+  - Added Type Alias IdentityKind
+  - Added Type Alias IdentityManagementType
+  - Added Type Alias IdentityProvisioningState
+  - Added Type Alias IsolationMode
+  - Added Type Alias ManagedNetworkKind
+  - Added Type Alias ManagedNetworkProvisioningState
+  - Added Type Alias ManagedNetworkStatus
+  - Added Type Alias OutboundRuleUnion
+  - Added Type Alias PolicyEvaluationOutcome
+  - Added Type Alias QuotaScopeType
+  - Added Type Alias RaiActionType
+  - Added Type Alias RaiEgressDefaultAction
+  - Added Type Alias RaiEgressHeaderOperation
+  - Added Type Alias RaiEgressMode
+  - Added Type Alias RaiEgressRuleActionType
+  - Added Type Alias RaiEgressRuleType
+  - Added Type Alias RaiEgressScheme
+  - Added Type Alias RoutingMode
+  - Added Type Alias RuleAction
+  - Added Type Alias RuleCategory
+  - Added Type Alias RuleStatus
+  - Added Type Alias RuleType
+  - Added Type Alias ServiceTier
+  - Added Type Alias TrafficRoutingProtocol
+  - Added Type Alias VmPriority
+  - Added Enum AzureClouds
+  - Added Enum KnownAgentDeploymentProvisioningState
+  - Added Enum KnownAgentDeploymentState
+  - Added Enum KnownAgentDeploymentType
+  - Added Enum KnownAgenticApplicationProvisioningState
+  - Added Enum KnownAgentProtocol
+  - Added Enum KnownBuiltInAuthorizationScheme
+  - Added Enum KnownComputeOperationStatusType
+  - Added Enum KnownComputeProvisioningState
+  - Added Enum KnownComputeType
+  - Added Enum KnownDeploymentState
+  - Added Enum KnownFirewallSku
+  - Added Enum KnownFoundryAutoUpgradeMode
+  - Added Enum KnownIdentityKind
+  - Added Enum KnownIdentityManagementType
+  - Added Enum KnownIdentityProvisioningState
+  - Added Enum KnownIsolationMode
+  - Added Enum KnownManagedNetworkKind
+  - Added Enum KnownManagedNetworkProvisioningState
+  - Added Enum KnownManagedNetworkStatus
+  - Added Enum KnownPolicyEvaluationOutcome
+  - Added Enum KnownQuotaScopeType
+  - Added Enum KnownRaiActionType
+  - Added Enum KnownRaiEgressDefaultAction
+  - Added Enum KnownRaiEgressHeaderOperation
+  - Added Enum KnownRaiEgressMode
+  - Added Enum KnownRaiEgressRuleActionType
+  - Added Enum KnownRaiEgressRuleType
+  - Added Enum KnownRaiEgressScheme
+  - Added Enum KnownRoutingMode
+  - Added Enum KnownRuleAction
+  - Added Enum KnownRuleCategory
+  - Added Enum KnownRuleStatus
+  - Added Enum KnownRuleType
+  - Added Enum KnownServiceTier
+  - Added Enum KnownTrafficRoutingProtocol
+  - Added Enum KnownVersions
+  - Added Enum KnownVmPriority
+  - Enum KnownConnectionAuthType has a new value AccountManagedIdentity
+  - Enum KnownConnectionAuthType has a new value AgenticIdentityToken
+  - Enum KnownConnectionAuthType has a new value AgenticUser
+  - Enum KnownConnectionAuthType has a new value AgentUserImpersonation
+  - Enum KnownConnectionAuthType has a new value DelegatedSAS
+  - Enum KnownConnectionAuthType has a new value ProjectManagedIdentity
+  - Enum KnownConnectionAuthType has a new value UserEntraToken
+  - Enum KnownConnectionCategory has a new value ApiManagement
+  - Enum KnownConnectionCategory has a new value AppConfig
+  - Enum KnownConnectionCategory has a new value AppInsights
+  - Enum KnownConnectionCategory has a new value AzureContainerAppEnvironment
+  - Enum KnownConnectionCategory has a new value AzureKeyVault
+  - Enum KnownConnectionCategory has a new value Databricks
+  - Enum KnownConnectionCategory has a new value GroundingWithBingSearch
+  - Enum KnownConnectionCategory has a new value GroundingWithCustomSearch
+  - Enum KnownConnectionCategory has a new value MicrosoftFabric
+  - Enum KnownConnectionCategory has a new value ModelGateway
+  - Enum KnownConnectionCategory has a new value PowerPlatformEnvironment
+  - Enum KnownConnectionCategory has a new value RemoteA2A
+  - Enum KnownConnectionCategory has a new value RemoteTool
+  - Enum KnownConnectionCategory has a new value Sharepoint
+  - Enum KnownRaiPolicyContentSource has a new value PostRun
+  - Enum KnownRaiPolicyContentSource has a new value PostToolCall
+  - Enum KnownRaiPolicyContentSource has a new value PreRun
+  - Enum KnownRaiPolicyContentSource has a new value PreToolCall
+
+### Breaking Changes
+  - Operation AccountCapabilityHosts.beginDeleteAndWait has a new signature
+  - Operation AccountConnections.create has a new signature
+  - Operation AccountConnections.get has a new signature
+  - Operation AccountConnections.update has a new signature
+  - Operation EncryptionScopes.beginDeleteAndWait has a new signature
+  - Operation ProjectCapabilityHosts.beginDeleteAndWait has a new signature
+  - Operation ProjectConnections.create has a new signature
+  - Operation ProjectConnections.get has a new signature
+  - Operation ProjectConnections.update has a new signature
+  - Operation RaiBlocklistItems.beginDeleteAndWait has a new signature
+  - Operation RaiBlocklists.beginDeleteAndWait has a new signature
+  - Operation RaiPolicies.beginDeleteAndWait has a new signature
+  - Operation RaiTopics.beginDeleteAndWait has a new signature
+  - Class CognitiveServicesManagementClient no longer has parameter apiVersion
+  - Class CognitiveServicesManagementClient no longer has parameter subscriptionId
+  - Removed Interface AzureEntityResource
+  - Removed Interface CustomTopicConfig
+  - Removed Interface NetworkSecurityPerimeterConfigurationList
+  - Removed Interface RaiTopicConfig
+  - Type of parameter authType of interface ConnectionPropertiesV2 is changed from "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD" to ConnectionAuthType
+  - Interface RaiPolicyProperties no longer has parameter customTopics
+  - Type alias "ConnectionPropertiesV2Union" has been changed
 ## 9.0.0-beta.2 (2026-05-26)
 Compared with version 8.1.0
 

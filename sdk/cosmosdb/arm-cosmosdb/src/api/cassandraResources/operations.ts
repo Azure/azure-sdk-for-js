@@ -11,9 +11,6 @@ import type {
   CassandraTableGetResults,
   CassandraTableCreateUpdateParameters,
   _CassandraTableListResult,
-  CassandraViewGetResults,
-  CassandraViewCreateUpdateParameters,
-  _CassandraViewListResult,
   CassandraRoleDefinitionResource,
   _CassandraRoleDefinitionListResult,
   CassandraRoleAssignmentResource,
@@ -21,18 +18,15 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  cloudErrorDeserializer,
   throughputSettingsGetResultsDeserializer,
   throughputSettingsUpdateParametersSerializer,
+  cloudErrorDeserializer,
   cassandraKeyspaceGetResultsDeserializer,
   cassandraKeyspaceCreateUpdateParametersSerializer,
   _cassandraKeyspaceListResultDeserializer,
   cassandraTableGetResultsDeserializer,
   cassandraTableCreateUpdateParametersSerializer,
   _cassandraTableListResultDeserializer,
-  cassandraViewGetResultsDeserializer,
-  cassandraViewCreateUpdateParametersSerializer,
-  _cassandraViewListResultDeserializer,
   cassandraRoleDefinitionResourceSerializer,
   cassandraRoleDefinitionResourceDeserializer,
   _cassandraRoleDefinitionListResultDeserializer,
@@ -53,10 +47,6 @@ import type {
   CassandraResourcesDeleteCassandraRoleDefinitionOptionalParams,
   CassandraResourcesCreateUpdateCassandraRoleDefinitionOptionalParams,
   CassandraResourcesGetCassandraRoleDefinitionOptionalParams,
-  CassandraResourcesListCassandraViewsOptionalParams,
-  CassandraResourcesDeleteCassandraViewOptionalParams,
-  CassandraResourcesCreateUpdateCassandraViewOptionalParams,
-  CassandraResourcesGetCassandraViewOptionalParams,
   CassandraResourcesListCassandraTablesOptionalParams,
   CassandraResourcesDeleteCassandraTableOptionalParams,
   CassandraResourcesCreateUpdateCassandraTableOptionalParams,
@@ -65,10 +55,6 @@ import type {
   CassandraResourcesDeleteCassandraKeyspaceOptionalParams,
   CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams,
   CassandraResourcesGetCassandraKeyspaceOptionalParams,
-  CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
-  CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
-  CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
-  CassandraResourcesGetCassandraViewThroughputOptionalParams,
   CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
   CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams,
   CassandraResourcesUpdateCassandraTableThroughputOptionalParams,
@@ -94,7 +80,7 @@ export function _listCassandraRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +98,9 @@ export async function _listCassandraRoleAssignmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,11 +120,7 @@ export function listCassandraRoleAssignments(
     () => _listCassandraRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listCassandraRoleAssignmentsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -154,7 +138,7 @@ export function _deleteCassandraRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,7 +153,9 @@ export async function _deleteCassandraRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -201,7 +187,7 @@ export function deleteCassandraRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -223,7 +209,7 @@ export function _createUpdateCassandraRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +229,9 @@ export async function _createUpdateCassandraRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -279,7 +267,7 @@ export function createUpdateCassandraRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<CassandraRoleAssignmentResource>, CassandraRoleAssignmentResource>;
 }
@@ -298,7 +286,7 @@ export function _getCassandraRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,7 +304,9 @@ export async function _getCassandraRoleAssignmentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -354,7 +344,7 @@ export function _listCassandraRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -372,7 +362,9 @@ export async function _listCassandraRoleDefinitionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -392,11 +384,7 @@ export function listCassandraRoleDefinitions(
     () => _listCassandraRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listCassandraRoleDefinitionsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -414,7 +402,7 @@ export function _deleteCassandraRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -429,7 +417,9 @@ export async function _deleteCassandraRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -461,7 +451,7 @@ export function deleteCassandraRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -483,7 +473,7 @@ export function _createUpdateCassandraRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -503,7 +493,9 @@ export async function _createUpdateCassandraRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -539,7 +531,7 @@ export function createUpdateCassandraRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<CassandraRoleDefinitionResource>, CassandraRoleDefinitionResource>;
 }
@@ -558,7 +550,7 @@ export function _getCassandraRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -576,7 +568,9 @@ export async function _getCassandraRoleDefinitionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -602,272 +596,6 @@ export async function getCassandraRoleDefinition(
   return _getCassandraRoleDefinitionDeserialize(result);
 }
 
-export function _listCassandraViewsSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  options: CassandraResourcesListCassandraViewsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listCassandraViewsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_CassandraViewListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return _cassandraViewListResultDeserializer(result.body);
-}
-
-/** Lists the Cassandra materialized views under an existing Azure Cosmos DB database account. */
-export function listCassandraViews(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  options: CassandraResourcesListCassandraViewsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<CassandraViewGetResults> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listCassandraViewsSend(context, resourceGroupName, accountName, keyspaceName, options),
-    _listCassandraViewsDeserialize,
-    ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
-  );
-}
-
-export function _deleteCassandraViewSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesDeleteCassandraViewOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      keyspaceName: keyspaceName,
-      viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _deleteCassandraViewDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200", "202", "204"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Deletes an existing Azure Cosmos DB Cassandra view. */
-export function deleteCassandraView(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesDeleteCassandraViewOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteCassandraViewDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deleteCassandraViewSend(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _createUpdateCassandraViewSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
-  options: CassandraResourcesCreateUpdateCassandraViewOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      keyspaceName: keyspaceName,
-      viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: cassandraViewCreateUpdateParametersSerializer(createUpdateCassandraViewParameters),
-  });
-}
-
-export async function _createUpdateCassandraViewDeserialize(
-  result: PathUncheckedResponse,
-): Promise<CassandraViewGetResults> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return cassandraViewGetResultsDeserializer(result.body);
-}
-
-/** Create or update an Azure Cosmos DB Cassandra View */
-export function createUpdateCassandraView(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
-  options: CassandraResourcesCreateUpdateCassandraViewOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<CassandraViewGetResults>, CassandraViewGetResults> {
-  return getLongRunningPoller(
-    context,
-    _createUpdateCassandraViewDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _createUpdateCassandraViewSend(
-          context,
-          resourceGroupName,
-          accountName,
-          keyspaceName,
-          viewName,
-          createUpdateCassandraViewParameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
-  ) as PollerLike<OperationState<CassandraViewGetResults>, CassandraViewGetResults>;
-}
-
-export function _getCassandraViewSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesGetCassandraViewOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      keyspaceName: keyspaceName,
-      viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getCassandraViewDeserialize(
-  result: PathUncheckedResponse,
-): Promise<CassandraViewGetResults> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return cassandraViewGetResultsDeserializer(result.body);
-}
-
-/** Gets the Cassandra view under an existing Azure Cosmos DB database account. */
-export async function getCassandraView(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesGetCassandraViewOptionalParams = { requestOptions: {} },
-): Promise<CassandraViewGetResults> {
-  const result = await _getCassandraViewSend(
-    context,
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    viewName,
-    options,
-  );
-  return _getCassandraViewDeserialize(result);
-}
-
 export function _listCassandraTablesSend(
   context: Client,
   resourceGroupName: string,
@@ -882,7 +610,7 @@ export function _listCassandraTablesSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -900,7 +628,9 @@ export async function _listCassandraTablesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -921,11 +651,7 @@ export function listCassandraTables(
     () => _listCassandraTablesSend(context, resourceGroupName, accountName, keyspaceName, options),
     _listCassandraTablesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -945,7 +671,7 @@ export function _deleteCassandraTableSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -960,7 +686,9 @@ export async function _deleteCassandraTableDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -990,7 +718,7 @@ export function deleteCassandraTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1011,7 +739,7 @@ export function _createUpdateCassandraTableSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1031,7 +759,9 @@ export async function _createUpdateCassandraTableDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1067,7 +797,7 @@ export function createUpdateCassandraTable(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<CassandraTableGetResults>, CassandraTableGetResults>;
 }
@@ -1088,7 +818,7 @@ export function _getCassandraTableSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1106,7 +836,9 @@ export async function _getCassandraTableDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1146,7 +878,7 @@ export function _listCassandraKeyspacesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1164,7 +896,9 @@ export async function _listCassandraKeyspacesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1184,11 +918,7 @@ export function listCassandraKeyspaces(
     () => _listCassandraKeyspacesSend(context, resourceGroupName, accountName, options),
     _listCassandraKeyspacesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -1206,7 +936,7 @@ export function _deleteCassandraKeyspaceSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1221,7 +951,9 @@ export async function _deleteCassandraKeyspaceDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1243,7 +975,7 @@ export function deleteCassandraKeyspace(
     getInitialResponse: () =>
       _deleteCassandraKeyspaceSend(context, resourceGroupName, accountName, keyspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1262,7 +994,7 @@ export function _createUpdateCassandraKeyspaceSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1284,7 +1016,9 @@ export async function _createUpdateCassandraKeyspaceDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1318,7 +1052,7 @@ export function createUpdateCassandraKeyspace(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<CassandraKeyspaceGetResults>, CassandraKeyspaceGetResults>;
 }
@@ -1337,7 +1071,7 @@ export function _getCassandraKeyspaceSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1355,7 +1089,9 @@ export async function _getCassandraKeyspaceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1381,296 +1117,6 @@ export async function getCassandraKeyspace(
   return _getCassandraKeyspaceDeserialize(result);
 }
 
-export function _migrateCassandraViewToManualThroughputSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default/migrateToManualThroughput{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      keyspaceName: keyspaceName,
-      viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _migrateCassandraViewToManualThroughputDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ThroughputSettingsGetResults> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
-
-    throw error;
-  }
-
-  return throughputSettingsGetResultsDeserializer(result.body);
-}
-
-/** Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput */
-export function migrateCassandraViewToManualThroughput(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults> {
-  return getLongRunningPoller(
-    context,
-    _migrateCassandraViewToManualThroughputDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _migrateCassandraViewToManualThroughputSend(
-          context,
-          resourceGroupName,
-          accountName,
-          keyspaceName,
-          viewName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
-  ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
-}
-
-export function _migrateCassandraViewToAutoscaleSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default/migrateToAutoscale{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      keyspaceName: keyspaceName,
-      viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _migrateCassandraViewToAutoscaleDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ThroughputSettingsGetResults> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
-
-    throw error;
-  }
-
-  return throughputSettingsGetResultsDeserializer(result.body);
-}
-
-/** Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale */
-export function migrateCassandraViewToAutoscale(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults> {
-  return getLongRunningPoller(
-    context,
-    _migrateCassandraViewToAutoscaleDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _migrateCassandraViewToAutoscaleSend(
-          context,
-          resourceGroupName,
-          accountName,
-          keyspaceName,
-          viewName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
-  ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
-}
-
-export function _updateCassandraViewThroughputSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  updateThroughputParameters: ThroughputSettingsUpdateParameters,
-  options: CassandraResourcesUpdateCassandraViewThroughputOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      keyspaceName: keyspaceName,
-      viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: throughputSettingsUpdateParametersSerializer(updateThroughputParameters),
-  });
-}
-
-export async function _updateCassandraViewThroughputDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ThroughputSettingsGetResults> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return throughputSettingsGetResultsDeserializer(result.body);
-}
-
-/** Update RUs per second of an Azure Cosmos DB Cassandra view */
-export function updateCassandraViewThroughput(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  updateThroughputParameters: ThroughputSettingsUpdateParameters,
-  options: CassandraResourcesUpdateCassandraViewThroughputOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults> {
-  return getLongRunningPoller(
-    context,
-    _updateCassandraViewThroughputDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _updateCassandraViewThroughputSend(
-          context,
-          resourceGroupName,
-          accountName,
-          keyspaceName,
-          viewName,
-          updateThroughputParameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
-  ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
-}
-
-export function _getCassandraViewThroughputSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesGetCassandraViewThroughputOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      keyspaceName: keyspaceName,
-      viewName: viewName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getCassandraViewThroughputDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ThroughputSettingsGetResults> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return throughputSettingsGetResultsDeserializer(result.body);
-}
-
-/** Gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account with the provided name. */
-export async function getCassandraViewThroughput(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  keyspaceName: string,
-  viewName: string,
-  options: CassandraResourcesGetCassandraViewThroughputOptionalParams = { requestOptions: {} },
-): Promise<ThroughputSettingsGetResults> {
-  const result = await _getCassandraViewThroughputSend(
-    context,
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    viewName,
-    options,
-  );
-  return _getCassandraViewThroughputDeserialize(result);
-}
-
 export function _migrateCassandraTableToManualThroughputSend(
   context: Client,
   resourceGroupName: string,
@@ -1689,7 +1135,7 @@ export function _migrateCassandraTableToManualThroughputSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1707,7 +1153,9 @@ export async function _migrateCassandraTableToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1743,7 +1191,7 @@ export function migrateCassandraTableToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1766,7 +1214,7 @@ export function _migrateCassandraTableToAutoscaleSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1784,7 +1232,9 @@ export async function _migrateCassandraTableToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1820,7 +1270,7 @@ export function migrateCassandraTableToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1842,7 +1292,7 @@ export function _updateCassandraTableThroughputSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1862,7 +1312,9 @@ export async function _updateCassandraTableThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1898,7 +1350,7 @@ export function updateCassandraTableThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1919,7 +1371,7 @@ export function _getCassandraTableThroughputSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1937,7 +1389,9 @@ export async function _getCassandraTableThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1981,7 +1435,7 @@ export function _migrateCassandraKeyspaceToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1999,7 +1453,9 @@ export async function _migrateCassandraKeyspaceToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2033,7 +1489,7 @@ export function migrateCassandraKeyspaceToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2054,7 +1510,7 @@ export function _migrateCassandraKeyspaceToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2072,7 +1528,9 @@ export async function _migrateCassandraKeyspaceToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2106,7 +1564,7 @@ export function migrateCassandraKeyspaceToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2128,7 +1586,7 @@ export function _updateCassandraKeyspaceThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2148,7 +1606,9 @@ export async function _updateCassandraKeyspaceThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2184,7 +1644,7 @@ export function updateCassandraKeyspaceThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2203,7 +1663,7 @@ export function _getCassandraKeyspaceThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2221,7 +1681,9 @@ export async function _getCassandraKeyspaceThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

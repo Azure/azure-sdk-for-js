@@ -1,6 +1,6 @@
 # Release History
 
-## 7.10.0-beta.5 (Unreleased)
+## 7.10.0-beta.6 (Unreleased)
 
 ### Features Added
 
@@ -8,10 +8,23 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 7.10.0-beta.5 (2026-08-21)
+
+### Features Added
+
+- Added `ServiceBusClient.listMessageSessions()` to list session IDs for session-enabled queues and subscriptions, including optional filtering by session-state update timestamp. Implements the `com.microsoft:get-message-sessions` management operation. ([#38323](https://github.com/Azure/azure-sdk-for-js/pull/38323))
+- Added `sqlFilterCount` and `correlationFilterCount` to `TopicRuntimeProperties`, exposing the total number of SQL filters and correlation filters across all of a topic's subscriptions. ([#39500](https://github.com/Azure/azure-sdk-for-js/pull/39500))
+- The ATOM administration client now sends `api-version=2024-05` (previously `2021-05`), which is required for the topic filter counts above. ([#39500](https://github.com/Azure/azure-sdk-for-js/pull/39500))
+
+### Bugs Fixed
+
 - Read `com.microsoft:max-message-batch-size` vendor property from the AMQP sender link to correctly limit batch size on Premium large-message entities, where `max-message-size` can be up to 100 MB but the batch limit is 1 MB.
 - Fixed `TimeoutNegativeWarning` on Node.js v24+ when timeout budget is exceeded during CBS authentication by clamping remaining-time computations to a minimum of 0. [#38166](https://github.com/Azure/azure-sdk-for-js/pull/38166)
-
-### Other Changes
+- Fixed CBS token renewal stopping permanently after a single failed renewal. A transient credential error (for example a failed AAD `getToken` during a workload-identity rotation) no longer leaves the link's token un-renewed; renewal now retries with a capped exponential backoff until it succeeds or the link closes. [#38467](https://github.com/Azure/azure-sdk-for-js/issues/38467)
 
 ## 7.10.0-beta.4 (2026-03-10)
 

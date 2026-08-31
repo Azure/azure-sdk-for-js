@@ -1,31 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all incident related entities.
- *
- * @summary Gets all incident related entities.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/entities/GetAllIncidentEntities.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getsAllIncidentRelatedEntities(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const incidentId = "afbd324f-6c48-459c-8710-8d1e1cd03812";
+/**
+ * This sample demonstrates how to gets all entities for an incident.
+ *
+ * @summary gets all entities for an incident.
+ * x-ms-original-file: 2025-07-01-preview/incidents/IncidentEntities/Incidents_ListEntities.json
+ */
+async function incidentsListEntities(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.incidents.listEntities(resourceGroupName, workspaceName, incidentId);
+  const result = await client.incidents.listEntities(
+    "myRg",
+    "myWorkspace",
+    "69a30280-6a4c-4aa7-9af0-5d63f335d600",
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getsAllIncidentRelatedEntities();
+  await incidentsListEntities();
 }
 
 main().catch(console.error);

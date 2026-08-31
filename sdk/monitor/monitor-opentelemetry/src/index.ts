@@ -3,6 +3,7 @@
 
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
+import type { Instrumentation } from "@opentelemetry/instrumentation";
 import type { NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -15,6 +16,7 @@ import type {
   StatsbeatInstrumentations,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
+  ConsoleInstrumentationOptions,
   BrowserSdkLoaderOptions,
 } from "./types.js";
 import {
@@ -27,23 +29,25 @@ import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
+import { ensureAzureSdkTracingBridge } from "./utils/azureSdkTracingBridge.js";
 import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { isLogCollectionDisabled } from "./utils/logUtils.js";
 import { Logger } from "./shared/logging/index.js";
 import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
-import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-conventions";
 
-/**
- * Semantic attribute for cloud resource ID, defined by \@opentelemetry/resource-detector-azure
- * @internal
- */
-const CLOUD_RESOURCE_ID_ATTRIBUTE = "cloud.resource_id";
-
-export type { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
+export type {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  ConsoleInstrumentationOptions,
+  BrowserSdkLoaderOptions,
+};
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
 let sdk: NodeSDK;
 let browserSdkLoader: BrowserSdkLoader | undefined;
+// Track the global console patch because NodeSDK does not disable instrumentations.
+let consoleInstrumentation: Instrumentation | undefined;
 
 /**
  * Check if auto-attach (autoinstrumentation) is enabled and warn about double instrumentation.
@@ -71,6 +75,8 @@ function sendAttachWarning(): void {
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
   const config = new InternalConfig(options);
   patchOpenTelemetryInstrumentationEnable();
+  // Omit disabled log instrumentations from Statsbeat.
+  const logInstrumentationsEnabled = !isLogCollectionDisabled();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
@@ -78,22 +84,19 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     mySql: config.instrumentationOptions?.mySql?.enabled,
     postgreSql: config.instrumentationOptions?.postgreSql?.enabled,
     redis: config.instrumentationOptions?.redis?.enabled,
-    bunyan: config.instrumentationOptions?.bunyan?.enabled,
-    winston: config.instrumentationOptions?.winston?.enabled,
+    bunyan: logInstrumentationsEnabled && config.instrumentationOptions?.bunyan?.enabled,
+    winston: logInstrumentationsEnabled && config.instrumentationOptions?.winston?.enabled,
+    console: logInstrumentationsEnabled && config.instrumentationOptions?.console?.enabled,
   };
-  // Check if the AKS resource detector successfully populated specific resource attributes
-  // (k8s.cluster.name or cloud.resource_id) beyond the basic cloud.platform/cloud.provider
-  // Derive from config.resource.attributes which already includes the AKS detector results
-  const resourceAttributes = config.resource.attributes;
-  const aksResourceDetected =
-    SEMRESATTRS_K8S_CLUSTER_NAME in resourceAttributes ||
-    CLOUD_RESOURCE_ID_ATTRIBUTE in resourceAttributes;
+  // Only report this feature when the AKS resource detector itself was able to populate the AKS
+  // cluster attributes, which requires the customer to have configured access to the
+  // aks-cluster-metadata ConfigMap (RBAC + env var or mounted file).
   const statsbeatFeatures: StatsbeatFeatures = {
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
     customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED]?.toLowerCase() === "true",
-    aksResourceDetectorPopulation: aksResourceDetected,
+    aksResourceDetectorPopulation: config.aksResourceDetectorPopulated,
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 
@@ -104,6 +107,9 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   metrics.disable();
   trace.disable();
   logs.disable();
+  // Restore any console patch from the previous initialization.
+  consoleInstrumentation?.disable();
+  consoleInstrumentation = undefined;
 
   // Clear the entire OpenTelemetry API global state to avoid version conflicts.
   // The disable() calls above remove individual providers but leave the `version` field
@@ -123,6 +129,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const instrumentations = traceHandler
     .getInstrumentations()
     .concat(logHandler.getInstrumentations());
+  consoleInstrumentation = logHandler.getConsoleInstrumentation();
 
   const resourceDetectorsList = parseResourceDetectorsFromEnvVar();
 
@@ -163,6 +170,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   setSdkPrefix();
   sendAttachWarning();
   sdk.start();
+
+  // Eagerly install the Azure SDK tracing bridge in case @azure/core-tracing
+  // was loaded before useAzureMonitor() (the RITM hook misses it otherwise).
+  ensureAzureSdkTracingBridge();
 }
 
 /**
@@ -171,6 +182,9 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
  */
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
+  // NodeSDK.shutdown() does not restore the global console.
+  consoleInstrumentation?.disable();
+  consoleInstrumentation = undefined;
   return sdk?.shutdown();
 }
 

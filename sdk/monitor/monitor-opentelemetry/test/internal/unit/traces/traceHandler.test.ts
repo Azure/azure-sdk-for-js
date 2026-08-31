@@ -31,6 +31,15 @@ import { ExportResultCode } from "@opentelemetry/core";
 import type { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { RateLimitedSampler } from "@azure/monitor-opentelemetry-exporter";
+import { createTracingClient } from "@azure/core-tracing";
+import {
+  ATTR_HTTP_REQUEST_METHOD,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_SERVER_ADDRESS,
+  ATTR_SERVER_PORT,
+  ATTR_URL_FULL,
+  ATTR_URL_PATH,
+} from "@opentelemetry/semantic-conventions";
 
 describe("Library/TraceHandler", () => {
   const connectionString = "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
@@ -101,6 +110,7 @@ describe("Library/TraceHandler", () => {
       await handler.shutdown();
     }
     metrics.disable();
+    vi.unstubAllEnvs();
     vi.restoreAllMocks();
   });
 
@@ -178,6 +188,28 @@ describe("Library/TraceHandler", () => {
 
       expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
       expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.2}");
+    });
+  });
+
+  describe("BatchSpanProcessor configuration", () => {
+    it("uses OpenTelemetry environment variables", () => {
+      vi.stubEnv("OTEL_BSP_MAX_QUEUE_SIZE", "4096");
+      vi.stubEnv("OTEL_BSP_MAX_EXPORT_BATCH_SIZE", "1024");
+      vi.stubEnv("OTEL_BSP_SCHEDULE_DELAY", "2500");
+      vi.stubEnv("OTEL_BSP_EXPORT_TIMEOUT", "15000");
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+      const processor = handler.getBatchSpanProcessor();
+
+      assert.strictEqual(process.env.OTEL_BSP_MAX_QUEUE_SIZE, "4096");
+      assert.strictEqual(process.env.OTEL_BSP_MAX_EXPORT_BATCH_SIZE, "1024");
+      assert.strictEqual(process.env.OTEL_BSP_SCHEDULE_DELAY, "2500");
+      assert.strictEqual(process.env.OTEL_BSP_EXPORT_TIMEOUT, "15000");
+      assert.propertyVal(processor, "_maxQueueSize", 4096);
+      assert.propertyVal(processor, "_maxExportBatchSize", 1024);
+      assert.propertyVal(processor, "_scheduledDelayMillis", 2500);
+      assert.propertyVal(processor, "_exportTimeoutMillis", 15000);
     });
   });
 
@@ -289,7 +321,8 @@ describe("Library/TraceHandler", () => {
       const spans = allSpans.filter(
         (span: ReadableSpan) =>
           span.attributes["startAttribute"] === "SomeValue" &&
-          span.attributes["http.target"] === "/test",
+          (span.attributes[ATTR_URL_PATH] === "/test" ||
+            span.attributes[ATTR_URL_FULL] === `http://localhost:${mockHttpServerPort}/test`),
       );
       expect(spans.length).toBe(2);
       assert.deepStrictEqual(spans.length, 2);
@@ -303,17 +336,11 @@ describe("Library/TraceHandler", () => {
       assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
       assert.isDefined(spans[0].startTime);
       assert.isDefined(spans[0].endTime);
-      assert.deepStrictEqual(spans[0].attributes["http.host"], `localhost:${mockHttpServerPort}`);
-      assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
-      assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
-      assert.deepStrictEqual(spans[0].attributes["http.status_text"], "OK");
-      assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
-      assert.deepStrictEqual(
-        spans[0].attributes["http.url"],
-        `http://localhost:${mockHttpServerPort}/test`,
-      );
-      assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
-      assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_SERVER_ADDRESS], "localhost");
+      assert.deepStrictEqual(spans[0].attributes[ATTR_SERVER_PORT], mockHttpServerPort);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_HTTP_REQUEST_METHOD], "GET");
+      assert.deepStrictEqual(spans[0].attributes[ATTR_HTTP_RESPONSE_STATUS_CODE], 200);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_URL_PATH], "/test");
       // Outgoing request
       assert.deepStrictEqual(spans[1].name, "GET");
       assert.deepStrictEqual(
@@ -324,16 +351,14 @@ describe("Library/TraceHandler", () => {
       assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
       assert.isDefined(spans[1].startTime);
       assert.isDefined(spans[1].endTime);
-      assert.deepStrictEqual(spans[1].attributes["http.host"], `localhost:${mockHttpServerPort}`);
-      assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
-      assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
-      assert.deepStrictEqual(spans[1].attributes["http.status_text"], "OK");
-      assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
+      assert.deepStrictEqual(spans[1].attributes[ATTR_SERVER_ADDRESS], "localhost");
+      assert.deepStrictEqual(spans[1].attributes[ATTR_SERVER_PORT], mockHttpServerPort);
+      assert.deepStrictEqual(spans[1].attributes[ATTR_HTTP_REQUEST_METHOD], "GET");
+      assert.deepStrictEqual(spans[1].attributes[ATTR_HTTP_RESPONSE_STATUS_CODE], 200);
       assert.deepStrictEqual(
-        spans[1].attributes["http.url"],
+        spans[1].attributes[ATTR_URL_FULL],
         `http://localhost:${mockHttpServerPort}/test`,
       );
-      assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
       assert.notDeepEqual(spans[0].spanContext().spanId, spans[1].spanContext().spanId);
       // Incoming request
       assert.deepStrictEqual(spans[0].attributes["startAttribute"], "SomeValue");
@@ -371,6 +396,45 @@ describe("Library/TraceHandler", () => {
       const instrumentations = handler.getInstrumentations();
       expect(instrumentations).toHaveLength(0);
       expect(instrumentations[0]).not.toBeInstanceOf(HttpInstrumentation);
+    });
+  });
+
+  describe("#autoCollection of Azure SDK spans", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: false },
+        azureSdk: { enabled: true },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
+    // Constructing the TraceHandler should wire the Azure SDK instrumenter into
+    // @azure/core-tracing directly, so Azure SDK spans are produced even when the
+    // OpenTelemetry require/import module hooks never fire (the ESM / Azure Functions
+    // scenario). With the instrumenter wired and a recording tracer provider registered,
+    // spans started through @azure/core-tracing must be recording.
+    it("wires the Azure SDK instrumenter so core-tracing produces recording spans", () => {
+      tracerProvider = new NodeTracerProvider({ sampler: new AlwaysOnSampler() });
+      trace.setGlobalTracerProvider(tracerProvider);
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+      handler.getInstrumentations().forEach((instrumentation) => {
+        activeInstrumentations.push(instrumentation);
+      });
+
+      const tracingClient = createTracingClient({
+        namespace: "Microsoft.Test",
+        packageName: "@azure/test",
+        packageVersion: "1.0.0",
+      });
+      const { span } = tracingClient.startSpan("TestClient.operation");
+      expect(span.isRecording()).toBe(true);
+      span.end();
     });
   });
 });

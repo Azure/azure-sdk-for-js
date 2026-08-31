@@ -11,7 +11,7 @@
     "directory": "sdk/template/template-perf-tests"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -47,7 +47,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
   "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
+    "@azure-tools/test-perf": "workspace:^",
     "@azure/identity": "^4.8.0",
     "@azure/template": "workspace:^",
     "dotenv": "^16.0.0",

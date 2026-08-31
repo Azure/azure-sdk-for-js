@@ -596,15 +596,10 @@ export type WorkerSelectorAttachment =
   | WeightedAllocationWorkerSelectorAttachment;
 /** Abstract base class for defining a distribution mode. */
 export type DistributionMode =
-  | DistributionModeParent
-  | BestWorkerMode
-  | LongestIdleMode
-  | RoundRobinMode;
+  DistributionModeParent | BestWorkerMode | LongestIdleMode | RoundRobinMode;
 /** Abstract base class for defining a trigger for exception rules. */
 export type ExceptionTrigger =
-  | ExceptionTriggerParent
-  | QueueLengthExceptionTrigger
-  | WaitTimeExceptionTrigger;
+  ExceptionTriggerParent | QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
 /** The action to take when the exception is triggered. */
 export type ExceptionAction =
   | ExceptionActionParent
@@ -618,10 +613,7 @@ export type ExceptionAction =
  * SuspendMode: Used when matching workers to a job needs to be suspended.
  */
 export type JobMatchingMode =
-  | JobMatchingModeParent
-  | ScheduleAndSuspendMode
-  | QueueAndMatchMode
-  | SuspendMode;
+  JobMatchingModeParent | ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
 /** Alias for QueueSelectorAttachmentKind */
 export type QueueSelectorAttachmentKind = string;
 /** Alias for RouterRuleKind */

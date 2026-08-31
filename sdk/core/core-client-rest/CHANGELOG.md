@@ -1,5 +1,31 @@
 # Release History
 
+## 2.9.0 (Unreleased)
+
+### Features Added
+
+- Added an optional `internal` property to `ClientOptions` for `getClient`, carrying a `noDefaultAcceptHeader` flag (defaults to `false`). When set to `true`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients. [PR #39291](https://github.com/Azure/azure-sdk-for-js/pull/39291)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Added support for normalizing package-local `customHeaders` aliases. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
+
+### Other Changes
+
+## 2.8.0 (2026-07-13)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 2.7.0 (2026-06-22)
+
+### Features Added
+
+- Added `getBinaryStreamResponse` helper that resolves a `StreamableMethod` into a binary stream response. It can be imported and shared by generated SDK packages. [PR #38909](https://github.com/Azure/azure-sdk-for-js/pull/38909)
+
 ## 2.6.1 (2026-06-04)
 
 ### Bugs Fixed

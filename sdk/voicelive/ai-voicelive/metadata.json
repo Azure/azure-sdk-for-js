@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "VoiceLive": "2026-06-01-preview"
+    "VoiceLive": "2026-07-15"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.55.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "VoiceLive",
     "CrossLanguageDefinitionId": {
@@ -21,7 +21,6 @@
       "@azure/ai-voicelive!EouDetection:interface": "VoiceLive.EouDetection",
       "@azure/ai-voicelive!AzureSemanticDetectionEn:interface": "VoiceLive.AzureSemanticDetectionEn",
       "@azure/ai-voicelive!AzureSemanticDetectionMultilingual:interface": "VoiceLive.AzureSemanticDetectionMultilingual",
-      "@azure/ai-voicelive!SmartEndOfTurnDetection:interface": "VoiceLive.SmartEndOfTurnDetection",
       "@azure/ai-voicelive!ServerVad:interface": "VoiceLive.ServerVad",
       "@azure/ai-voicelive!TurnDetection:interface": "VoiceLive.TurnDetection",
       "@azure/ai-voicelive!AzureSemanticVad:interface": "VoiceLive.AzureSemanticVad",
@@ -80,7 +79,6 @@
       "@azure/ai-voicelive!ClientEventResponseCancel:interface": "VoiceLive.ClientEventResponseCancel",
       "@azure/ai-voicelive!ClientEventConversationItemRetrieve:interface": "VoiceLive.ClientEventConversationItemRetrieve",
       "@azure/ai-voicelive!ClientEventOutputAudioBufferClear:interface": "VoiceLive.ClientEventOutputAudioBufferClear",
-      "@azure/ai-voicelive!ClientEventRtcCallSdpCreate:interface": "VoiceLive.ClientEventRtcCallSdpCreate",
       "@azure/ai-voicelive!ConversationItemBase:interface": "VoiceLive.ConversationItemBase",
       "@azure/ai-voicelive!ResponseCancelledDetails:interface": "VoiceLive.ResponseCancelledDetails",
       "@azure/ai-voicelive!ResponseStatusDetails:interface": "VoiceLive.ResponseStatusDetails",
@@ -172,11 +170,6 @@
       "@azure/ai-voicelive!ServerEventOutputAudioBufferCleared:interface": "VoiceLive.ServerEventOutputAudioBufferCleared",
       "@azure/ai-voicelive!ServerEventResponseAudioTranscriptAnnotationAdded:interface": "VoiceLive.ServerEventResponseAudioTranscriptAnnotationAdded",
       "@azure/ai-voicelive!ServerEventResponseInvocationDelta:interface": "VoiceLive.ServerEventResponseInvocationDelta",
-      "@azure/ai-voicelive!ServerEventRtcCallSdpCreated:interface": "VoiceLive.ServerEventRtcCallSdpCreated",
-      "@azure/ai-voicelive!ServerEventRtcCallError:interface": "VoiceLive.ServerEventRtcCallError",
-      "@azure/ai-voicelive!RtcCallErrorDetails:interface": "VoiceLive.RtcCallErrorDetails",
-      "@azure/ai-voicelive!ServerEventOutputAudioBufferStarted:interface": "VoiceLive.ServerEventOutputAudioBufferStarted",
-      "@azure/ai-voicelive!ServerEventOutputAudioBufferStopped:interface": "VoiceLive.ServerEventOutputAudioBufferStopped",
       "@azure/ai-voicelive!ActionSearchSource:interface": "VoiceLive.ActionSearchSource",
       "@azure/ai-voicelive!ActionSearch:interface": "VoiceLive.ActionSearch",
       "@azure/ai-voicelive!ActionOpenPage:interface": "VoiceLive.ActionOpenPage",

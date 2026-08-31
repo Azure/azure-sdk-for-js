@@ -11,30 +11,34 @@ import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-common';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
+import type { BlobTags } from '@azure/storage-blob';
+import { ClientOptions } from '@azure-rest/core-client';
 import type { ContainerRenameResponse } from '@azure/storage-blob';
 import type { ContainerUndeleteResponse } from '@azure/storage-blob';
-import * as coreClient from '@azure/core-client';
-import * as coreHttpCompat from '@azure/core-http-compat';
-import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { Credential as Credential_2 } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
 import { CredentialPolicyCreator } from '@azure/storage-common';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
+import type { FullOperationResponse } from '@azure-rest/core-client';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import { isPipelineLike } from '@azure/storage-blob';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
-import type { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
+import type { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
 import { NodeJSReadableStream } from '@azure/storage-blob';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
+import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
 import { PipelineLike } from '@azure/storage-blob';
 import { PipelineOptions } from '@azure/storage-blob';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
@@ -57,7 +61,8 @@ import { StorageRetryPolicyFactory } from '@azure/storage-common';
 import { StorageRetryPolicyType } from '@azure/storage-common';
 import { StorageSharedKeyCredential } from '@azure/storage-common';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
-import type { TokenCredential } from '@azure/core-auth';
+import { Tags } from '@azure/storage-blob';
+import { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKey } from '@azure/storage-common';
@@ -408,6 +413,8 @@ export class DataLakePathClient extends StorageClient {
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getProperties(options?: PathGetPropertiesOptions): Promise<PathGetPropertiesResponse>;
+    getSystemProperties(options?: PathGetSystemPropertiesOptions): Promise<PathGetSystemPropertiesResponse>;
+    getTags(options?: PathGetTagsOptions): Promise<PathGetTagsResponse>;
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     get name(): string;
@@ -417,6 +424,7 @@ export class DataLakePathClient extends StorageClient {
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
     setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetPermissionsResponse>;
+    setTags(tags: Tags, options?: PathSetTagsOptions): Promise<PathSetTagsResponse>;
     toDirectoryClient(): DataLakeDirectoryClient;
     toFileClient(): DataLakeFileClient;
     updateAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
@@ -440,6 +448,7 @@ export class DataLakeSASPermissions {
     move: boolean;
     static parse(permissions: string): DataLakeSASPermissions;
     read: boolean;
+    tag: boolean;
     toString(): string;
     write: boolean;
 }
@@ -565,8 +574,8 @@ export interface FileAppendOptions extends CommonOptions {
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     flush?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
-    leaseAction?: LeaseAction;
+    // Warning: (ae-forgotten-export) The symbol "LeaseAction_2" needs to be exported by the entry point index.d.ts
+    leaseAction?: LeaseAction_2;
     leaseDurationInSeconds?: number;
     // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -606,7 +615,7 @@ export interface FileFlushOptions extends CommonOptions {
     // (undocumented)
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
-    leaseAction?: LeaseAction;
+    leaseAction?: LeaseAction_2;
     leaseDurationInSeconds?: number;
     // (undocumented)
     pathHttpHeaders?: PathHttpHeaders;
@@ -1050,6 +1059,7 @@ export class FileSystemSASPermissions {
     move: boolean;
     static parse(permissions: string): FileSystemSASPermissions;
     read: boolean;
+    tag: boolean;
     toString(): string;
     write: boolean;
 }
@@ -1144,6 +1154,8 @@ export { HttpOperationResponse }
 export { HttpRequestBody }
 
 export { isPipelineLike }
+
+export { isRestError }
 
 export { Lease }
 
@@ -1240,7 +1252,7 @@ export interface Metadata {
 }
 
 // @public (undocumented)
-export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
+export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_2, "ifTags">;
 
 // @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -1617,6 +1629,70 @@ export interface PathGetPropertiesOptions extends CommonOptions {
 // @public (undocumented)
 export type PathGetPropertiesResponse = WithResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>;
 
+// @public
+export interface PathGetSystemPropertiesHeaders {
+    acceptRanges?: string;
+    acl?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: string;
+    contentRange?: string;
+    contentType?: string;
+    creationTime?: Date;
+    date?: Date;
+    encryptionContext?: string;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    errorCode?: string;
+    etag?: string;
+    expiresOn?: Date;
+    group?: string;
+    isDirectory?: boolean;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    leaseDuration?: string;
+    leaseState?: string;
+    leaseStatus?: string;
+    owner?: string;
+    permissions?: PathPermissions;
+    properties?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface PathGetSystemPropertiesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: DataLakeRequestConditions;
+    userPrincipalName?: boolean;
+}
+
+// @public
+export type PathGetSystemPropertiesResponse = WithResponse<PathGetSystemPropertiesHeaders, PathGetPropertiesHeadersModel>;
+
+// @public
+export interface PathGetTagsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface PathGetTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
+}
+
+// @public
+export type PathGetTagsResponse = WithResponse<{
+    tags: Tags;
+} & PathGetTagsHeaders, PathGetTagsHeaders, BlobTags>;
+
 // @public (undocumented)
 export interface PathHttpHeaders {
     // (undocumented)
@@ -1836,6 +1912,24 @@ export interface PathSetPermissionsOptions extends CommonOptions {
 
 // @public (undocumented)
 export type PathSetPermissionsResponse = WithResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>;
+
+// @public
+export interface PathSetTagsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface PathSetTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
+}
+
+// @public
+export type PathSetTagsResponse = WithResponse<PathSetTagsHeaders, PathSetTagsHeaders>;
 
 // @public
 export interface PathUndeleteHeaders {
@@ -2100,6 +2194,11 @@ export { StorageRetryPolicyType }
 export { StorageSharedKeyCredential }
 
 export { StorageSharedKeyCredentialPolicy }
+
+// @public
+export interface TagConditions {
+    tagConditions?: string;
+}
 
 // @public (undocumented)
 export const ToBlobEndpointHostMappings: string[][];

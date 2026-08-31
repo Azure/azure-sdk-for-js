@@ -115,11 +115,6 @@ export interface DiskAccessesOperations {
     options?: DiskAccessesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DiskAccess>;
   /** Deletes a disk access resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     diskAccessName: string,
@@ -186,7 +181,6 @@ export interface DiskAccessesOperations {
     options?: DiskAccessesGetOptionalParams,
   ) => Promise<DiskAccess>;
 }
-
 function _getDiskAccesses(context: ComputeManagementContext) {
   return {
     listPrivateEndpointConnections: (
@@ -391,7 +385,6 @@ function _getDiskAccesses(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, diskAccessName, options),
   };
 }
-
 export function _getDiskAccessesOperations(
   context: ComputeManagementContext,
 ): DiskAccessesOperations {

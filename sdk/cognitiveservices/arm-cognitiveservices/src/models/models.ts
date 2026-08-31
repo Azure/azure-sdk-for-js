@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
 /** Check SKU availability parameter. */
 export interface CheckSkuAvailabilityParameter {
   /** The SKU of the resource. */
@@ -583,6 +583,8 @@ export interface AccountProperties {
   dynamicThrottlingEnabled?: boolean;
   /** The flag to disable stored completions. */
   storedCompletionsDisabled?: boolean;
+  /** Specifies whether A365 logging is enabled. Defaults to true. Set to false to opt out. */
+  a365LoggingEnabled?: boolean;
   readonly quotaLimit?: QuotaLimit;
   restrictOutboundNetworkAccess?: boolean;
   allowedFqdnList?: string[];
@@ -611,6 +613,10 @@ export interface AccountProperties {
   defaultProject?: string;
   /** Specifies the projects, by project name, that are associated with this resource. */
   associatedProjects?: string[];
+  /** Reusable default agent capability settings inherited by child projects. */
+  capabilitySettings?: CapabilitySettings;
+  /** Customer-owned AKS hosting configurations for Foundry agents. This property can only be specified when the account is created; an existing account without a hosting configuration cannot add one later. This API version supports exactly one configuration, while the array shape is reserved for future API versions that may support multiple configurations. Once set, the configuration cannot be changed, removed, or reordered. Account update requests should omit this property or send the complete existing value unchanged. Responses only include hosting configuration types defined by the requested API version. */
+  agentHostingConfigurations?: AgentHostingConfigurationUnion[];
 }
 
 export function accountPropertiesSerializer(item: AccountProperties): any {
@@ -633,6 +639,7 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
       : apiPropertiesSerializer(item["apiProperties"]),
     dynamicThrottlingEnabled: item["dynamicThrottlingEnabled"],
     storedCompletionsDisabled: item["storedCompletionsDisabled"],
+    a365LoggingEnabled: item["a365LoggingEnabled"],
     restrictOutboundNetworkAccess: item["restrictOutboundNetworkAccess"],
     allowedFqdnList: !item["allowedFqdnList"]
       ? item["allowedFqdnList"]
@@ -660,6 +667,12 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
       : item["associatedProjects"].map((p: any) => {
           return p;
         }),
+    capabilitySettings: !item["capabilitySettings"]
+      ? item["capabilitySettings"]
+      : capabilitySettingsSerializer(item["capabilitySettings"]),
+    agentHostingConfigurations: !item["agentHostingConfigurations"]
+      ? item["agentHostingConfigurations"]
+      : agentHostingConfigurationUnionArraySerializer(item["agentHostingConfigurations"]),
   };
 }
 
@@ -702,6 +715,7 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
       : callRateLimitDeserializer(item["callRateLimit"]),
     dynamicThrottlingEnabled: item["dynamicThrottlingEnabled"],
     storedCompletionsDisabled: item["storedCompletionsDisabled"],
+    a365LoggingEnabled: item["a365LoggingEnabled"],
     quotaLimit: !item["quotaLimit"]
       ? item["quotaLimit"]
       : quotaLimitDeserializer(item["quotaLimit"]),
@@ -745,6 +759,12 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
       : item["associatedProjects"].map((p: any) => {
           return p;
         }),
+    capabilitySettings: !item["capabilitySettings"]
+      ? item["capabilitySettings"]
+      : capabilitySettingsDeserializer(item["capabilitySettings"]),
+    agentHostingConfigurations: !item["agentHostingConfigurations"]
+      ? item["agentHostingConfigurations"]
+      : agentHostingConfigurationUnionArrayDeserializer(item["agentHostingConfigurations"]),
   };
 }
 
@@ -766,6 +786,8 @@ export enum KnownProvisioningState {
   Canceled = "Canceled",
   /** ResolvingDNS */
   ResolvingDNS = "ResolvingDNS",
+  /** ExtensionUnreachable */
+  ExtensionUnreachable = "ExtensionUnreachable",
 }
 
 /**
@@ -780,7 +802,8 @@ export enum KnownProvisioningState {
  * **Failed** \
  * **Succeeded** \
  * **Canceled** \
- * **ResolvingDNS**
+ * **ResolvingDNS** \
+ * **ExtensionUnreachable**
  */
 export type ProvisioningState = string;
 
@@ -1638,6 +1661,155 @@ export enum KnownFoundryAutoUpgradeMode {
  */
 export type FoundryAutoUpgradeMode = string;
 
+/** Extensible agent capability configuration. Carries the Azure resource IDs of the agent storage dependencies. Modeled as an object so future capability-backed resources can be added without changing the account or project contract. */
+export interface CapabilitySettings {
+  /** Azure resource ID of the document store used by agent runtime state. */
+  documentStore?: string;
+  /** Azure resource ID of the vector store used by agent retrieval and indexing. */
+  vectorStore?: string;
+  /** Azure resource ID of the blob store used by agent file and artifact storage. */
+  blobStore?: string;
+}
+
+export function capabilitySettingsSerializer(item: CapabilitySettings): any {
+  return {
+    documentStore: item["documentStore"],
+    vectorStore: item["vectorStore"],
+    blobStore: item["blobStore"],
+  };
+}
+
+export function capabilitySettingsDeserializer(item: any): CapabilitySettings {
+  return {
+    documentStore: item["documentStore"],
+    vectorStore: item["vectorStore"],
+    blobStore: item["blobStore"],
+  };
+}
+
+export function agentHostingConfigurationUnionArraySerializer(
+  result: Array<AgentHostingConfigurationUnion>,
+): any[] {
+  return result.map((item) => {
+    return agentHostingConfigurationUnionSerializer(item);
+  });
+}
+
+export function agentHostingConfigurationUnionArrayDeserializer(
+  result: Array<AgentHostingConfigurationUnion>,
+): any[] {
+  return result.map((item) => {
+    return agentHostingConfigurationUnionDeserializer(item);
+  });
+}
+
+/** Base configuration for hosting Foundry agents. */
+export interface AgentHostingConfiguration {
+  /** Unique name of the hosting configuration within the Foundry account. */
+  name: string;
+  /** Type of infrastructure used to host Foundry agents. */
+  /** The discriminator possible values: ManagedCluster */
+  hostingType: AgentHostingType;
+}
+
+export function agentHostingConfigurationSerializer(item: AgentHostingConfiguration): any {
+  return { name: item["name"], hostingType: item["hostingType"] };
+}
+
+export function agentHostingConfigurationDeserializer(item: any): AgentHostingConfiguration {
+  return {
+    name: item["name"],
+    hostingType: item["hostingType"],
+  };
+}
+
+/** Alias for AgentHostingConfigurationUnion */
+export type AgentHostingConfigurationUnion =
+  ManagedClusterAgentHostingConfiguration | AgentHostingConfiguration;
+
+export function agentHostingConfigurationUnionSerializer(
+  item: AgentHostingConfigurationUnion,
+): any {
+  switch (item.hostingType) {
+    case "ManagedCluster":
+      return managedClusterAgentHostingConfigurationSerializer(
+        item as ManagedClusterAgentHostingConfiguration,
+      );
+
+    default:
+      return agentHostingConfigurationSerializer(item);
+  }
+}
+
+export function agentHostingConfigurationUnionDeserializer(
+  item: any,
+): AgentHostingConfigurationUnion {
+  switch (item["hostingType"]) {
+    case "ManagedCluster":
+      return managedClusterAgentHostingConfigurationDeserializer(
+        item as ManagedClusterAgentHostingConfiguration,
+      );
+
+    default:
+      return agentHostingConfigurationDeserializer(item);
+  }
+}
+
+/** Type of infrastructure used to host Foundry agents. */
+export enum KnownAgentHostingType {
+  /** Agents are hosted on an Azure Kubernetes Service managed cluster. */
+  ManagedCluster = "ManagedCluster",
+}
+
+/**
+ * Type of infrastructure used to host Foundry agents. \
+ * {@link KnownAgentHostingType} can be used interchangeably with AgentHostingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ManagedCluster**: Agents are hosted on an Azure Kubernetes Service managed cluster.
+ */
+export type AgentHostingType = string;
+
+/** Configuration for hosting Foundry agents on an Azure Kubernetes Service managed cluster. */
+export interface ManagedClusterAgentHostingConfiguration extends AgentHostingConfiguration {
+  /** Type of infrastructure used to host Foundry agents. */
+  hostingType: "ManagedCluster";
+  /** Azure resource ID of the user-assigned managed identity used by the Foundry resource provider to manage the hosting configuration. The identity must be assigned to the Foundry account in identity.userAssignedIdentities. */
+  hostingManagementIdentityResourceId: string;
+  /** Azure resource ID of the separate user-assigned managed identity federated to service accounts on the AKS cluster. Hosted agents use this identity to access the Azure Storage blob data plane. */
+  workloadIdentityResourceId: string;
+  /** Azure resource ID of the customer-owned AKS managed cluster that runs the hosted agent workloads. */
+  clusterResourceId: string;
+  /** Azure resource ID of the customer-owned storage account used by the hosted agents. The storage account must be in the same subscription and region as the AKS cluster, and its data-plane endpoint must be reachable from the workload network. */
+  storageAccountResourceId: string;
+}
+
+export function managedClusterAgentHostingConfigurationSerializer(
+  item: ManagedClusterAgentHostingConfiguration,
+): any {
+  return {
+    name: item["name"],
+    hostingType: item["hostingType"],
+    hostingManagementIdentityResourceId: item["hostingManagementIdentityResourceId"],
+    workloadIdentityResourceId: item["workloadIdentityResourceId"],
+    clusterResourceId: item["clusterResourceId"],
+    storageAccountResourceId: item["storageAccountResourceId"],
+  };
+}
+
+export function managedClusterAgentHostingConfigurationDeserializer(
+  item: any,
+): ManagedClusterAgentHostingConfiguration {
+  return {
+    name: item["name"],
+    hostingType: item["hostingType"],
+    hostingManagementIdentityResourceId: item["hostingManagementIdentityResourceId"],
+    workloadIdentityResourceId: item["workloadIdentityResourceId"],
+    clusterResourceId: item["clusterResourceId"],
+    storageAccountResourceId: item["storageAccountResourceId"],
+  };
+}
+
 /** The resource model definition representing SKU */
 export interface Sku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
@@ -1733,10 +1905,7 @@ export function identityDeserializer(item: any): Identity {
 
 /** The identity type. */
 export type ResourceIdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned";
+  "None" | "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned";
 
 export function userAssignedIdentityRecordSerializer(
   item: Record<string, UserAssignedIdentity>,
@@ -2647,6 +2816,10 @@ export interface DeploymentProperties {
   readonly provisioningState?: DeploymentProvisioningState;
   /** Properties of Cognitive Services account deployment model. */
   model?: DeploymentModel;
+  /** The resource ID of the context cache container associated with this deployment. */
+  contextCacheContainerId?: string;
+  /** Speculative decoding settings for the deployment. This configuration applies to Fireworks model formats. */
+  speculativeDecoding?: DeploymentSpeculativeDecoding;
   /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
   scaleSettings?: DeploymentScaleSettings;
   /** The capabilities. */
@@ -2679,6 +2852,10 @@ export interface DeploymentProperties {
 export function deploymentPropertiesSerializer(item: DeploymentProperties): any {
   return {
     model: !item["model"] ? item["model"] : deploymentModelSerializer(item["model"]),
+    contextCacheContainerId: item["contextCacheContainerId"],
+    speculativeDecoding: !item["speculativeDecoding"]
+      ? item["speculativeDecoding"]
+      : deploymentSpeculativeDecodingSerializer(item["speculativeDecoding"]),
     scaleSettings: !item["scaleSettings"]
       ? item["scaleSettings"]
       : deploymentScaleSettingsSerializer(item["scaleSettings"]),
@@ -2700,6 +2877,10 @@ export function deploymentPropertiesDeserializer(item: any): DeploymentPropertie
   return {
     provisioningState: item["provisioningState"],
     model: !item["model"] ? item["model"] : deploymentModelDeserializer(item["model"]),
+    contextCacheContainerId: item["contextCacheContainerId"],
+    speculativeDecoding: !item["speculativeDecoding"]
+      ? item["speculativeDecoding"]
+      : deploymentSpeculativeDecodingDeserializer(item["speculativeDecoding"]),
     scaleSettings: !item["scaleSettings"]
       ? item["scaleSettings"]
       : deploymentScaleSettingsDeserializer(item["scaleSettings"]),
@@ -2764,6 +2945,30 @@ export enum KnownDeploymentProvisioningState {
  * **Canceled**
  */
 export type DeploymentProvisioningState = string;
+
+/** Speculative decoding settings for a deployment. */
+export interface DeploymentSpeculativeDecoding {
+  /** Draft model used to generate speculative decoding tokens. */
+  draftModel: DeploymentModel;
+  /** The number of draft tokens attempted per speculation step. */
+  draftTokenCount?: number;
+}
+
+export function deploymentSpeculativeDecodingSerializer(item: DeploymentSpeculativeDecoding): any {
+  return {
+    draftModel: deploymentModelSerializer(item["draftModel"]),
+    draftTokenCount: item["draftTokenCount"],
+  };
+}
+
+export function deploymentSpeculativeDecodingDeserializer(
+  item: any,
+): DeploymentSpeculativeDecoding {
+  return {
+    draftModel: deploymentModelDeserializer(item["draftModel"]),
+    draftTokenCount: item["draftTokenCount"],
+  };
+}
 
 /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
 export interface DeploymentScaleSettings {
@@ -3540,6 +3745,11 @@ export interface RaiPolicyProperties {
   customBlocklists?: CustomBlocklistConfig[];
   /** The list of Safety Providers. */
   safetyProviders?: SafetyProviderConfig[];
+  /**
+   * Egress (outbound network) policy controlling which external endpoints sandboxed
+   * agents can reach. Includes rules with Allow/Deny/Transform/Rewrite actions.
+   */
+  egressPolicy?: RaiEgressPolicyConfig;
 }
 
 export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
@@ -3555,6 +3765,9 @@ export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
     safetyProviders: !item["safetyProviders"]
       ? item["safetyProviders"]
       : safetyProviderConfigArraySerializer(item["safetyProviders"]),
+    egressPolicy: !item["egressPolicy"]
+      ? item["egressPolicy"]
+      : raiEgressPolicyConfigSerializer(item["egressPolicy"]),
   };
 }
 
@@ -3572,6 +3785,9 @@ export function raiPolicyPropertiesDeserializer(item: any): RaiPolicyProperties 
     safetyProviders: !item["safetyProviders"]
       ? item["safetyProviders"]
       : safetyProviderConfigArrayDeserializer(item["safetyProviders"]),
+    egressPolicy: !item["egressPolicy"]
+      ? item["egressPolicy"]
+      : raiEgressPolicyConfigDeserializer(item["egressPolicy"]),
   };
 }
 
@@ -3818,6 +4034,456 @@ export function safetyProviderConfigDeserializer(item: any): SafetyProviderConfi
     source: item["source"],
   };
 }
+
+/**
+ * Egress (outbound network) policy configuration nested within an RAI policy.
+ * Controls which external endpoints sandboxed agents can reach and what
+ * transformations (header injection, URL rewrite) are applied to matching traffic.
+ */
+export interface RaiEgressPolicyConfig {
+  /**
+   * The enforcement mode for egress rules.
+   * If omitted on create, the server defaults to Enforced. On subsequent GET
+   * requests, the server always returns the effective mode.
+   */
+  mode?: RaiEgressMode;
+  /**
+   * The default action when no user-defined rules match.
+   * Deny blocks unmatched traffic; Allow permits it. Transform and Rewrite rules
+   * are always applied to their matched traffic regardless of this setting —
+   * defaultAction only governs traffic that does not match any rule.
+   * If omitted on create, the server defaults to Deny (fail-closed). On subsequent
+   * GET requests, the server always returns the effective value.
+   */
+  defaultAction?: RaiEgressDefaultAction;
+  /** Description of the egress policy. */
+  description?: string;
+  /**
+   * Ordered list of egress rules. First matching rule wins.
+   * Rules are evaluated in declaration order; the first rule whose match criteria
+   * are satisfied determines the action taken on the request.
+   */
+  rules?: RaiEgressRule[];
+}
+
+export function raiEgressPolicyConfigSerializer(item: RaiEgressPolicyConfig): any {
+  return {
+    mode: item["mode"],
+    defaultAction: item["defaultAction"],
+    description: item["description"],
+    rules: !item["rules"] ? item["rules"] : raiEgressRuleArraySerializer(item["rules"]),
+  };
+}
+
+export function raiEgressPolicyConfigDeserializer(item: any): RaiEgressPolicyConfig {
+  return {
+    mode: item["mode"],
+    defaultAction: item["defaultAction"],
+    description: item["description"],
+    rules: !item["rules"] ? item["rules"] : raiEgressRuleArrayDeserializer(item["rules"]),
+  };
+}
+
+/**
+ * The enforcement mode for egress rules.
+ * If omitted on create, the server defaults to Enforced.
+ */
+export enum KnownRaiEgressMode {
+  /** Rules are enforced. Matching traffic is allowed or denied per rule actions. */
+  Enforced = "Enforced",
+  /**
+   * Rules are evaluated and logged but not enforced. Traffic is always forwarded regardless of
+   * rule action. A would-be Deny is logged but not applied. Transform and Rewrite actions are
+   * still applied to matching traffic (only Deny enforcement is suppressed).
+   */
+  Audit = "Audit",
+}
+
+/**
+ * The enforcement mode for egress rules.
+ * If omitted on create, the server defaults to Enforced. \
+ * {@link KnownRaiEgressMode} can be used interchangeably with RaiEgressMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Rules are enforced. Matching traffic is allowed or denied per rule actions. \
+ * **Audit**: Rules are evaluated and logged but not enforced. Traffic is always forwarded regardless of
+ * rule action. A would-be Deny is logged but not applied. Transform and Rewrite actions are
+ * still applied to matching traffic (only Deny enforcement is suppressed).
+ */
+export type RaiEgressMode = string;
+
+/** The default action when no user-defined egress rules match. */
+export enum KnownRaiEgressDefaultAction {
+  /** Allow traffic by default when no rules match. */
+  Allow = "Allow",
+  /** Deny traffic by default when no rules match. */
+  Deny = "Deny",
+}
+
+/**
+ * The default action when no user-defined egress rules match. \
+ * {@link KnownRaiEgressDefaultAction} can be used interchangeably with RaiEgressDefaultAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**: Allow traffic by default when no rules match. \
+ * **Deny**: Deny traffic by default when no rules match.
+ */
+export type RaiEgressDefaultAction = string;
+
+export function raiEgressRuleArraySerializer(result: Array<RaiEgressRule>): any[] {
+  return result.map((item) => {
+    return raiEgressRuleSerializer(item);
+  });
+}
+
+export function raiEgressRuleArrayDeserializer(result: Array<RaiEgressRule>): any[] {
+  return result.map((item) => {
+    return raiEgressRuleDeserializer(item);
+  });
+}
+
+/** A single egress rule. Rules are evaluated in order; first match wins. */
+export interface RaiEgressRule {
+  /** Name of the rule. Must be unique within the policy. */
+  name: string;
+  /** Description of the rule. */
+  description?: string;
+  /** The type of rule (e.g., Fqdn). Determines how match criteria are interpreted. */
+  ruleType: RaiEgressRuleType;
+  /** The match criteria for this rule. */
+  match?: RaiEgressRuleMatch;
+  /**
+   * The action to take when this rule matches, including the action type and any
+   * type-specific configuration (headers for Transform, rewrite target for Rewrite).
+   */
+  action: RaiEgressRuleAction;
+}
+
+export function raiEgressRuleSerializer(item: RaiEgressRule): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    ruleType: item["ruleType"],
+    match: !item["match"] ? item["match"] : raiEgressRuleMatchSerializer(item["match"]),
+    action: raiEgressRuleActionSerializer(item["action"]),
+  };
+}
+
+export function raiEgressRuleDeserializer(item: any): RaiEgressRule {
+  return {
+    name: item["name"],
+    description: item["description"],
+    ruleType: item["ruleType"],
+    match: !item["match"] ? item["match"] : raiEgressRuleMatchDeserializer(item["match"]),
+    action: raiEgressRuleActionDeserializer(item["action"]),
+  };
+}
+
+/** The type of an egress rule, determining what kind of traffic matching it performs. */
+export enum KnownRaiEgressRuleType {
+  /** Fully qualified domain name (FQDN) based rule matching on host and path patterns. */
+  Fqdn = "Fqdn",
+}
+
+/**
+ * The type of an egress rule, determining what kind of traffic matching it performs. \
+ * {@link KnownRaiEgressRuleType} can be used interchangeably with RaiEgressRuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Fqdn**: Fully qualified domain name (FQDN) based rule matching on host and path patterns.
+ */
+export type RaiEgressRuleType = string;
+
+/**
+ * The match criteria for an egress rule.
+ * If both host and path are omitted, the rule matches all traffic.
+ * Host uses DNS wildcard syntax (e.g., "\*.openai.com" matches "api.openai.com").
+ * Path uses URI prefix matching with an asterisk as a single-segment wildcard.
+ * For example, "/v1/\*" matches "/v1/chat".
+ */
+export interface RaiEgressRuleMatch {
+  /**
+   * Host pattern to match using DNS wildcard syntax (e.g., "\*.openai.com").
+   * A leading "\*." matches any subdomain. Omit to match all hosts.
+   */
+  host?: string;
+  /**
+   * Path pattern to match using URI prefix matching.
+   * An asterisk serves as a single-segment wildcard.
+   * For example, "/v1/\*" matches "/v1/chat". Omit to match all paths.
+   */
+  path?: string;
+}
+
+export function raiEgressRuleMatchSerializer(item: RaiEgressRuleMatch): any {
+  return { host: item["host"], path: item["path"] };
+}
+
+export function raiEgressRuleMatchDeserializer(item: any): RaiEgressRuleMatch {
+  return {
+    host: item["host"],
+    path: item["path"],
+  };
+}
+
+/**
+ * The action an egress rule takes when it matches.
+ * - Allow/Deny: no additional fields needed; headers and rewrite must not be set.
+ * - Transform: headers is required with at least one entry; rewrite must not be set.
+ * - Rewrite: rewrite is required with at least one of scheme/host/path;
+ * headers is optional for injecting headers alongside the redirect.
+ */
+export interface RaiEgressRuleAction {
+  /** The kind of action. */
+  actionType: RaiEgressRuleActionType;
+  /**
+   * Header transforms to apply. Required for Transform; optional for Rewrite;
+   * not allowed for Allow or Deny.
+   */
+  headers?: RaiEgressHeaderTransform[];
+  /** Destination override. Required for Rewrite; not allowed otherwise. */
+  rewrite?: RaiEgressRewriteTarget;
+}
+
+export function raiEgressRuleActionSerializer(item: RaiEgressRuleAction): any {
+  return {
+    actionType: item["actionType"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : raiEgressHeaderTransformArraySerializer(item["headers"]),
+    rewrite: !item["rewrite"] ? item["rewrite"] : raiEgressRewriteTargetSerializer(item["rewrite"]),
+  };
+}
+
+export function raiEgressRuleActionDeserializer(item: any): RaiEgressRuleAction {
+  return {
+    actionType: item["actionType"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : raiEgressHeaderTransformArrayDeserializer(item["headers"]),
+    rewrite: !item["rewrite"]
+      ? item["rewrite"]
+      : raiEgressRewriteTargetDeserializer(item["rewrite"]),
+  };
+}
+
+/** The kind of action an egress rule takes when it matches. */
+export enum KnownRaiEgressRuleActionType {
+  /** Allow the matched traffic. */
+  Allow = "Allow",
+  /** Deny the matched traffic. */
+  Deny = "Deny",
+  /** Forward the matched traffic after applying header transforms. Requires at least one header. */
+  Transform = "Transform",
+  /** Redirect the matched traffic to a new destination, optionally applying header transforms. Requires a rewrite target. */
+  Rewrite = "Rewrite",
+}
+
+/**
+ * The kind of action an egress rule takes when it matches. \
+ * {@link KnownRaiEgressRuleActionType} can be used interchangeably with RaiEgressRuleActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**: Allow the matched traffic. \
+ * **Deny**: Deny the matched traffic. \
+ * **Transform**: Forward the matched traffic after applying header transforms. Requires at least one header. \
+ * **Rewrite**: Redirect the matched traffic to a new destination, optionally applying header transforms. Requires a rewrite target.
+ */
+export type RaiEgressRuleActionType = string;
+
+export function raiEgressHeaderTransformArraySerializer(
+  result: Array<RaiEgressHeaderTransform>,
+): any[] {
+  return result.map((item) => {
+    return raiEgressHeaderTransformSerializer(item);
+  });
+}
+
+export function raiEgressHeaderTransformArrayDeserializer(
+  result: Array<RaiEgressHeaderTransform>,
+): any[] {
+  return result.map((item) => {
+    return raiEgressHeaderTransformDeserializer(item);
+  });
+}
+
+/**
+ * A header transformation applied to matched traffic.
+ * For Set or Insert operations, exactly one of value or valueRef must be provided.
+ * For Remove operations, neither value nor valueRef should be set.
+ */
+export interface RaiEgressHeaderTransform {
+  /** The operation to perform on this header. */
+  operation: RaiEgressHeaderOperation;
+  /** The HTTP header name (e.g., "Authorization", "X-Custom-Auth"). */
+  name: string;
+  /**
+   * A static header value. Write-only: accepted on create/update, never returned on read.
+   * If omitted on update, the existing value is preserved. Use this for non-sensitive values;
+   * for credentials, use valueRef instead.
+   */
+  value?: string;
+  /** A dynamic header value resolved at request time from a secret or managed identity. */
+  valueRef?: RaiEgressHeaderValueRef;
+}
+
+export function raiEgressHeaderTransformSerializer(item: RaiEgressHeaderTransform): any {
+  return {
+    operation: item["operation"],
+    name: item["name"],
+    value: item["value"],
+    valueRef: !item["valueRef"]
+      ? item["valueRef"]
+      : raiEgressHeaderValueRefSerializer(item["valueRef"]),
+  };
+}
+
+export function raiEgressHeaderTransformDeserializer(item: any): RaiEgressHeaderTransform {
+  return {
+    operation: item["operation"],
+    name: item["name"],
+    value: item["value"],
+    valueRef: !item["valueRef"]
+      ? item["valueRef"]
+      : raiEgressHeaderValueRefDeserializer(item["valueRef"]),
+  };
+}
+
+/** The operation to apply to a header in a Transform or Rewrite action. */
+export enum KnownRaiEgressHeaderOperation {
+  /** Set or overwrite the header value, creating it if it does not exist. */
+  Set = "Set",
+  /** Add the header only if it is not already present. */
+  Insert = "Insert",
+  /** Remove the header if present. */
+  Remove = "Remove",
+}
+
+/**
+ * The operation to apply to a header in a Transform or Rewrite action. \
+ * {@link KnownRaiEgressHeaderOperation} can be used interchangeably with RaiEgressHeaderOperation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Set**: Set or overwrite the header value, creating it if it does not exist. \
+ * **Insert**: Add the header only if it is not already present. \
+ * **Remove**: Remove the header if present.
+ */
+export type RaiEgressHeaderOperation = string;
+
+/** A dynamic source for a header value. Exactly one of secretRef or managedIdentityRef must be set. */
+export interface RaiEgressHeaderValueRef {
+  /** Resolve the value from a stored secret. */
+  secretRef?: RaiEgressSecretRef;
+  /** Resolve the value from a managed-identity token. */
+  managedIdentityRef?: RaiEgressManagedIdentityRef;
+}
+
+export function raiEgressHeaderValueRefSerializer(item: RaiEgressHeaderValueRef): any {
+  return {
+    secretRef: !item["secretRef"]
+      ? item["secretRef"]
+      : raiEgressSecretRefSerializer(item["secretRef"]),
+    managedIdentityRef: !item["managedIdentityRef"]
+      ? item["managedIdentityRef"]
+      : raiEgressManagedIdentityRefSerializer(item["managedIdentityRef"]),
+  };
+}
+
+export function raiEgressHeaderValueRefDeserializer(item: any): RaiEgressHeaderValueRef {
+  return {
+    secretRef: !item["secretRef"]
+      ? item["secretRef"]
+      : raiEgressSecretRefDeserializer(item["secretRef"]),
+    managedIdentityRef: !item["managedIdentityRef"]
+      ? item["managedIdentityRef"]
+      : raiEgressManagedIdentityRefDeserializer(item["managedIdentityRef"]),
+  };
+}
+
+/** A reference to a stored secret used as a header value. */
+export interface RaiEgressSecretRef {
+  /** Identifier of the secret to inject. */
+  secretId: string;
+  /** Optional key within the secret. */
+  secretKey?: string;
+  /** Optional format for the resolved value; "{value}" is the placeholder, e.g. "Bearer {value}". */
+  format?: string;
+}
+
+export function raiEgressSecretRefSerializer(item: RaiEgressSecretRef): any {
+  return { secretId: item["secretId"], secretKey: item["secretKey"], format: item["format"] };
+}
+
+export function raiEgressSecretRefDeserializer(item: any): RaiEgressSecretRef {
+  return {
+    secretId: item["secretId"],
+    secretKey: item["secretKey"],
+    format: item["format"],
+  };
+}
+
+/** A reference to a managed-identity token used as a header value. */
+export interface RaiEgressManagedIdentityRef {
+  /** The resource/audience the token is requested for. */
+  resource: string;
+  /** Optional format for the resolved token; "{value}" is the placeholder, e.g. "Bearer {value}". */
+  format?: string;
+}
+
+export function raiEgressManagedIdentityRefSerializer(item: RaiEgressManagedIdentityRef): any {
+  return { resource: item["resource"], format: item["format"] };
+}
+
+export function raiEgressManagedIdentityRefDeserializer(item: any): RaiEgressManagedIdentityRef {
+  return {
+    resource: item["resource"],
+    format: item["format"],
+  };
+}
+
+/**
+ * Where a Rewrite action sends matched traffic. At least one field must be set;
+ * omitted fields retain the original request values. This constraint is enforced
+ * by the server (400 Bad Request if all fields are omitted).
+ */
+export interface RaiEgressRewriteTarget {
+  /** Target scheme. Original scheme is kept if omitted. */
+  scheme?: RaiEgressScheme;
+  /** Target host. Original host is kept if omitted. */
+  host?: string;
+  /** Target path (literal string). Original path (and query) is kept if omitted. */
+  path?: string;
+}
+
+export function raiEgressRewriteTargetSerializer(item: RaiEgressRewriteTarget): any {
+  return { scheme: item["scheme"], host: item["host"], path: item["path"] };
+}
+
+export function raiEgressRewriteTargetDeserializer(item: any): RaiEgressRewriteTarget {
+  return {
+    scheme: item["scheme"],
+    host: item["host"],
+    path: item["path"],
+  };
+}
+
+/** URL scheme for rewrite targets. Only HTTP and HTTPS are supported. */
+export enum KnownRaiEgressScheme {
+  /** HTTP scheme. */
+  Http = "http",
+  /** HTTPS scheme. */
+  Https = "https",
+}
+
+/**
+ * URL scheme for rewrite targets. Only HTTP and HTTPS are supported. \
+ * {@link KnownRaiEgressScheme} can be used interchangeably with RaiEgressScheme,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **http**: HTTP scheme. \
+ * **https**: HTTPS scheme.
+ */
+export type RaiEgressScheme = string;
 
 /** Azure OpenAI blocklist config. */
 export interface RaiBlocklistConfig {
@@ -4877,10 +5543,18 @@ export interface ProjectProperties {
   readonly endpoints?: Record<string, string>;
   /** Indicates whether the project is the default project for the account. */
   readonly isDefault?: boolean;
+  /** Effective agent capability settings for the project. Optional partial override of the account defaults; omitted fields inherit from the parent account when present. Settable only at create time. */
+  capabilitySettings?: CapabilitySettings;
 }
 
 export function projectPropertiesSerializer(item: ProjectProperties): any {
-  return { displayName: item["displayName"], description: item["description"] };
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    capabilitySettings: !item["capabilitySettings"]
+      ? item["capabilitySettings"]
+      : capabilitySettingsSerializer(item["capabilitySettings"]),
+  };
 }
 
 export function projectPropertiesDeserializer(item: any): ProjectProperties {
@@ -4894,6 +5568,9 @@ export function projectPropertiesDeserializer(item: any): ProjectProperties {
           Object.entries(item["endpoints"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     isDefault: item["isDefault"],
+    capabilitySettings: !item["capabilitySettings"]
+      ? item["capabilitySettings"]
+      : capabilitySettingsDeserializer(item["capabilitySettings"]),
   };
 }
 
@@ -6960,6 +7637,438 @@ export function quotaTierArrayDeserializer(result: Array<QuotaTier>): any[] {
   });
 }
 
+/** Cognitive Services account Arc deployment, backed by customer-managed Arc-enabled Kubernetes resources. */
+export interface ArcDeployment extends ProxyResource {
+  /** Properties of the Cognitive Services Arc deployment. */
+  properties: ArcDeploymentProperties;
+  /** The Arc deployment SKU. Only the SKU name is required for Arc deployments. */
+  sku: ArcDeploymentSku;
+  /** Resource Etag. */
+  readonly etag?: string;
+}
+
+export function arcDeploymentSerializer(item: ArcDeployment): any {
+  return {
+    properties: arcDeploymentPropertiesSerializer(item["properties"]),
+    sku: arcDeploymentSkuSerializer(item["sku"]),
+  };
+}
+
+export function arcDeploymentDeserializer(item: any): ArcDeployment {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: arcDeploymentPropertiesDeserializer(item["properties"]),
+    sku: arcDeploymentSkuDeserializer(item["sku"]),
+    etag: item["etag"],
+  };
+}
+
+/** Properties of a Cognitive Services Arc deployment. */
+export interface ArcDeploymentProperties {
+  /** Model reference. Required on creation and immutable after creation. */
+  model: ArcDeploymentModel;
+  /** Full Azure resource ID of the Foundry inference extension on the target Arc-enabled Kubernetes cluster. Required on creation and immutable after creation. */
+  extensionId: string;
+  /** Inference runtime. Required on creation and immutable after creation. */
+  runtime: ArcDeploymentRuntime;
+  /** Compute type for the deployment. Required on creation and immutable after creation. */
+  compute: ArcDeploymentComputeType;
+  /**
+   * Optional deployment template identifier for advanced vLLM tuning. Allowed only when runtime is vllm.
+   * Example: azureml://registries/{registry}/deploymenttemplates/{template}/versions/{version}
+   */
+  deploymentTemplate?: string;
+  /** Read-only. Effective vLLM runtime parameters resolved for the deployed model. Returned only when runtime is vllm. */
+  readonly vllmParameters?: ArcDeploymentVllmParameters;
+  /** Physical replica count on the Arc cluster. */
+  replicas: number;
+  /** Per-replica Kubernetes resource requests and limits. */
+  resources: ArcDeploymentKubernetesResources;
+  /** Kubernetes node selector key-value map used to schedule pods onto nodes with matching labels. */
+  nodeSelector?: Record<string, string>;
+  /** The deployment state. */
+  deploymentState?: DeploymentState;
+  /** The name of RAI policy. */
+  raiPolicyName?: string;
+  /** Read-only. Current provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+  /** Read-only. Status message and timestamp from the last provisioning operation. */
+  readonly provisioningDetails?: ArcDeploymentProvisioningDetails;
+  /** Read-only. Base URL for inference calls to this deployment on the Arc cluster. Populated when provisioningState is Succeeded. */
+  readonly inferenceEndpoint?: string;
+  /** Read-only. Deployment capabilities represented as key-value pairs. */
+  readonly capabilities?: Record<string, string>;
+}
+
+export function arcDeploymentPropertiesSerializer(item: ArcDeploymentProperties): any {
+  return {
+    model: arcDeploymentModelSerializer(item["model"]),
+    extensionId: item["extensionId"],
+    runtime: item["runtime"],
+    compute: item["compute"],
+    deploymentTemplate: item["deploymentTemplate"],
+    replicas: item["replicas"],
+    resources: arcDeploymentKubernetesResourcesSerializer(item["resources"]),
+    nodeSelector: item["nodeSelector"],
+    deploymentState: item["deploymentState"],
+    raiPolicyName: item["raiPolicyName"],
+  };
+}
+
+export function arcDeploymentPropertiesDeserializer(item: any): ArcDeploymentProperties {
+  return {
+    model: arcDeploymentModelDeserializer(item["model"]),
+    extensionId: item["extensionId"],
+    runtime: item["runtime"],
+    compute: item["compute"],
+    deploymentTemplate: item["deploymentTemplate"],
+    vllmParameters: !item["vllmParameters"]
+      ? item["vllmParameters"]
+      : arcDeploymentVllmParametersDeserializer(item["vllmParameters"]),
+    replicas: item["replicas"],
+    resources: arcDeploymentKubernetesResourcesDeserializer(item["resources"]),
+    nodeSelector: !item["nodeSelector"]
+      ? item["nodeSelector"]
+      : Object.fromEntries(
+          Object.entries(item["nodeSelector"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    deploymentState: item["deploymentState"],
+    raiPolicyName: item["raiPolicyName"],
+    provisioningState: item["provisioningState"],
+    provisioningDetails: !item["provisioningDetails"]
+      ? item["provisioningDetails"]
+      : arcDeploymentProvisioningDetailsDeserializer(item["provisioningDetails"]),
+    inferenceEndpoint: item["inferenceEndpoint"],
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : Object.fromEntries(
+          Object.entries(item["capabilities"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/** Model reference for an Arc deployment. */
+export interface ArcDeploymentModel {
+  /** Deployment model format. */
+  format: string;
+  /** Deployment model name. */
+  name: string;
+}
+
+export function arcDeploymentModelSerializer(item: ArcDeploymentModel): any {
+  return { format: item["format"], name: item["name"] };
+}
+
+export function arcDeploymentModelDeserializer(item: any): ArcDeploymentModel {
+  return {
+    format: item["format"],
+    name: item["name"],
+  };
+}
+
+/** Inference runtime for an Arc deployment. */
+export enum KnownArcDeploymentRuntime {
+  /** vLLM runtime. */
+  Vllm = "vllm",
+  /** ONNX runtime. */
+  Onnx = "onnx-genai",
+}
+
+/**
+ * Inference runtime for an Arc deployment. \
+ * {@link KnownArcDeploymentRuntime} can be used interchangeably with ArcDeploymentRuntime,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **vllm**: vLLM runtime. \
+ * **onnx-genai**: ONNX runtime.
+ */
+export type ArcDeploymentRuntime = string;
+
+/** Compute type for an Arc deployment. */
+export enum KnownArcDeploymentComputeType {
+  /** GPU compute. */
+  Gpu = "gpu",
+  /** CPU compute. */
+  Cpu = "cpu",
+}
+
+/**
+ * Compute type for an Arc deployment. \
+ * {@link KnownArcDeploymentComputeType} can be used interchangeably with ArcDeploymentComputeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **gpu**: GPU compute. \
+ * **cpu**: CPU compute.
+ */
+export type ArcDeploymentComputeType = string;
+
+/** Effective vLLM runtime parameters for an Arc deployment. */
+export interface ArcDeploymentVllmParameters {
+  /** Number of GPUs used for tensor parallelism. */
+  tensorParallelSize?: number;
+  /** Maximum model context length. */
+  maxModelLen?: number;
+  /** Fraction of GPU memory reserved for model execution. */
+  gpuMemoryUtilization?: number;
+  /** Whether eager execution is enforced for the vLLM runtime. */
+  enforceEager?: boolean;
+}
+
+export function arcDeploymentVllmParametersDeserializer(item: any): ArcDeploymentVllmParameters {
+  return {
+    tensorParallelSize: item["tensorParallelSize"],
+    maxModelLen: item["maxModelLen"],
+    gpuMemoryUtilization: item["gpuMemoryUtilization"],
+    enforceEager: item["enforceEager"],
+  };
+}
+
+/** Per-replica Kubernetes resource requests and limits for an Arc deployment. */
+export interface ArcDeploymentKubernetesResources {
+  /** Kubernetes CPU and memory resource requests for each deployment replica. */
+  requests?: ArcDeploymentCpuMemoryResourceRequirements;
+  /** Kubernetes resource limits for each deployment replica. */
+  limits?: ArcDeploymentResourceRequirements;
+}
+
+export function arcDeploymentKubernetesResourcesSerializer(
+  item: ArcDeploymentKubernetesResources,
+): any {
+  return {
+    requests: !item["requests"]
+      ? item["requests"]
+      : arcDeploymentCpuMemoryResourceRequirementsSerializer(item["requests"]),
+    limits: !item["limits"]
+      ? item["limits"]
+      : arcDeploymentResourceRequirementsSerializer(item["limits"]),
+  };
+}
+
+export function arcDeploymentKubernetesResourcesDeserializer(
+  item: any,
+): ArcDeploymentKubernetesResources {
+  return {
+    requests: !item["requests"]
+      ? item["requests"]
+      : arcDeploymentCpuMemoryResourceRequirementsDeserializer(item["requests"]),
+    limits: !item["limits"]
+      ? item["limits"]
+      : arcDeploymentResourceRequirementsDeserializer(item["limits"]),
+  };
+}
+
+/** CPU and memory resource requirements for an Arc deployment replica. */
+export interface ArcDeploymentCpuMemoryResourceRequirements {
+  /** Kubernetes CPU quantity string, for example 500m, 2, 4, or 8. */
+  cpu: string;
+  /** Kubernetes memory quantity string, for example 512Mi, 2Gi, or 16Gi. */
+  memory: string;
+}
+
+export function arcDeploymentCpuMemoryResourceRequirementsSerializer(
+  item: ArcDeploymentCpuMemoryResourceRequirements,
+): any {
+  return { cpu: item["cpu"], memory: item["memory"] };
+}
+
+export function arcDeploymentCpuMemoryResourceRequirementsDeserializer(
+  item: any,
+): ArcDeploymentCpuMemoryResourceRequirements {
+  return {
+    cpu: item["cpu"],
+    memory: item["memory"],
+  };
+}
+
+/**
+ * Kubernetes resource requirements for an Arc deployment replica.
+ * Specify either cpu and memory together, or gpu. GPU is supported only in limits, not requests.
+ */
+export interface ArcDeploymentResourceRequirements {
+  /**
+   * Kubernetes CPU quantity string, for example 500m, 2, 4, or 8.
+   * Required with memory when specifying CPU and memory limits. Do not specify with gpu.
+   */
+  cpu?: string;
+  /**
+   * Kubernetes memory quantity string, for example 512Mi, 2Gi, or 16Gi.
+   * Required with cpu when specifying CPU and memory limits. Do not specify with gpu.
+   */
+  memory?: string;
+  /**
+   * Kubernetes GPU quantity, for example 1, 2, or 5.
+   * Required when specifying GPU limits. Do not specify with cpu or memory.
+   */
+  gpu?: number;
+}
+
+export function arcDeploymentResourceRequirementsSerializer(
+  item: ArcDeploymentResourceRequirements,
+): any {
+  return { cpu: item["cpu"], memory: item["memory"], gpu: item["gpu"] };
+}
+
+export function arcDeploymentResourceRequirementsDeserializer(
+  item: any,
+): ArcDeploymentResourceRequirements {
+  return {
+    cpu: item["cpu"],
+    memory: item["memory"],
+    gpu: item["gpu"],
+  };
+}
+
+/** Provisioning status details for an Arc deployment. */
+export interface ArcDeploymentProvisioningDetails {
+  /** A human-readable status message from the last provisioning operation. */
+  message?: string;
+  /** Timestamp of the last provisioning operation. */
+  lastOperationTimestamp?: Date;
+}
+
+export function arcDeploymentProvisioningDetailsDeserializer(
+  item: any,
+): ArcDeploymentProvisioningDetails {
+  return {
+    message: item["message"],
+    lastOperationTimestamp: !item["lastOperationTimestamp"]
+      ? item["lastOperationTimestamp"]
+      : new Date(item["lastOperationTimestamp"]),
+  };
+}
+
+/** SKU for an Arc deployment. */
+export interface ArcDeploymentSku {
+  /** The name of the Arc deployment SKU. Must be Arc. */
+  name: ArcDeploymentSkuName;
+}
+
+export function arcDeploymentSkuSerializer(item: ArcDeploymentSku): any {
+  return { name: item["name"] };
+}
+
+export function arcDeploymentSkuDeserializer(item: any): ArcDeploymentSku {
+  return {
+    name: item["name"],
+  };
+}
+
+/** SKU for an Arc deployment. */
+export enum KnownArcDeploymentSkuName {
+  /** Arc SKU. */
+  Arc = "Arc",
+}
+
+/**
+ * SKU for an Arc deployment. \
+ * {@link KnownArcDeploymentSkuName} can be used interchangeably with ArcDeploymentSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Arc**: Arc SKU.
+ */
+export type ArcDeploymentSkuName = string;
+
+/** The object used to update an Arc deployment. */
+export interface ArcDeploymentUpdate {
+  /** Properties that can be updated on an Arc deployment. */
+  properties?: ArcDeploymentUpdateProperties;
+}
+
+export function arcDeploymentUpdateSerializer(item: ArcDeploymentUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : arcDeploymentUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Mutable properties for an Arc deployment. */
+export interface ArcDeploymentUpdateProperties {
+  /** Physical replica count on the Arc cluster. */
+  replicas?: number;
+  /** Per-replica Kubernetes resource requests and limits. */
+  resources?: ArcDeploymentPatchKubernetesResources;
+  /** Kubernetes node selector key-value map used to schedule pods onto nodes with matching labels. */
+  nodeSelector?: Record<string, string>;
+}
+
+export function arcDeploymentUpdatePropertiesSerializer(item: ArcDeploymentUpdateProperties): any {
+  return {
+    replicas: item["replicas"],
+    resources: !item["resources"]
+      ? item["resources"]
+      : arcDeploymentPatchKubernetesResourcesSerializer(item["resources"]),
+    nodeSelector: item["nodeSelector"],
+  };
+}
+
+/** Per-replica Kubernetes resource requests and limits for an Arc deployment update. */
+export interface ArcDeploymentPatchKubernetesResources {
+  /** Kubernetes CPU and memory resource requests for each deployment replica. */
+  requests?: ArcDeploymentPatchCpuMemoryResourceRequirements;
+  /** Kubernetes resource limits for each deployment replica. */
+  limits?: ArcDeploymentResourceRequirements;
+}
+
+export function arcDeploymentPatchKubernetesResourcesSerializer(
+  item: ArcDeploymentPatchKubernetesResources,
+): any {
+  return {
+    requests: !item["requests"]
+      ? item["requests"]
+      : arcDeploymentPatchCpuMemoryResourceRequirementsSerializer(item["requests"]),
+    limits: !item["limits"]
+      ? item["limits"]
+      : arcDeploymentResourceRequirementsSerializer(item["limits"]),
+  };
+}
+
+/** CPU and memory resource requirements for an Arc deployment replica update. */
+export interface ArcDeploymentPatchCpuMemoryResourceRequirements {
+  /** Kubernetes CPU quantity string, for example 500m, 2, 4, or 8. */
+  cpu?: string;
+  /** Kubernetes memory quantity string, for example 512Mi, 2Gi, or 16Gi. */
+  memory?: string;
+}
+
+export function arcDeploymentPatchCpuMemoryResourceRequirementsSerializer(
+  item: ArcDeploymentPatchCpuMemoryResourceRequirements,
+): any {
+  return { cpu: item["cpu"], memory: item["memory"] };
+}
+
+/** The list of Arc deployments. */
+export interface _ArcDeploymentListResult {
+  /** The link used to get the next page of Arc deployments. */
+  nextLink?: string;
+  /** Gets the list of Arc deployments and their properties. */
+  readonly value: ArcDeployment[];
+}
+
+export function _arcDeploymentListResultDeserializer(item: any): _ArcDeploymentListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: arcDeploymentArrayDeserializer(item["value"]),
+  };
+}
+
+export function arcDeploymentArraySerializer(result: Array<ArcDeployment>): any[] {
+  return result.map((item) => {
+    return arcDeploymentSerializer(item);
+  });
+}
+
+export function arcDeploymentArrayDeserializer(result: Array<ArcDeployment>): any[] {
+  return result.map((item) => {
+    return arcDeploymentDeserializer(item);
+  });
+}
+
 /** Agent Application resource */
 export interface AgentApplication extends ProxyResource {
   /** [Required] Additional attributes of the entity. */
@@ -7626,6 +8735,11 @@ export interface ManagedComputeDeploymentProperties {
   acceleratorType?: string;
   /** Template auto-upgrade policy. Defaults to OnceNewDefaultVersionAvailable. */
   versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
+  /**
+   * Deployment capabilities represented as key-value pairs.
+   * Example: { assetsV2: "true" }.
+   */
+  readonly capabilities?: Record<string, string>;
   /** Foundry compute ARM resource ID for VM-backed managed compute deployments. Required when sku.name is VmManagedCompute; immutable after creation. */
   computeId?: string;
   /** Scheduling priority for VM-backed managed compute deployments. Immutable after creation. */
@@ -7663,6 +8777,11 @@ export function managedComputeDeploymentPropertiesDeserializer(
     deploymentTemplate: item["deploymentTemplate"],
     acceleratorType: item["acceleratorType"],
     versionUpgradeOption: item["versionUpgradeOption"],
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : Object.fromEntries(
+          Object.entries(item["capabilities"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     computeId: item["computeId"],
     priority: item["priority"],
     acceleratorsPerInstance: item["acceleratorsPerInstance"],
@@ -7930,8 +9049,6 @@ export interface Compute extends ProxyResource {
   properties: ComputePropertiesUnion;
   /** Resource Etag. */
   readonly etag?: string;
-  /** The location of the compute resource. */
-  location?: string;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The kind (type) of compute resource. */
@@ -7943,7 +9060,6 @@ export interface Compute extends ProxyResource {
 export function computeSerializer(item: Compute): any {
   return {
     properties: computePropertiesUnionSerializer(item["properties"]),
-    location: item["location"],
     tags: item["tags"],
     kind: item["kind"],
     identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
@@ -7960,7 +9076,6 @@ export function computeDeserializer(item: any): Compute {
       : systemDataDeserializer(item["systemData"]),
     properties: computePropertiesUnionDeserializer(item["properties"]),
     etag: item["etag"],
-    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
@@ -7977,6 +9092,8 @@ export interface ComputeProperties {
   /** The type of compute resource. */
   /** The discriminator possible values: Cluster, ContainerInstance */
   computeType: ComputeType;
+  /** The location of the compute resource. */
+  location: string;
   /** Provisioning state of the compute resource. */
   readonly provisioningState?: ComputeProvisioningState;
   /** Error details for the compute resource. */
@@ -7986,12 +9103,13 @@ export interface ComputeProperties {
 }
 
 export function computePropertiesSerializer(item: ComputeProperties): any {
-  return { computeType: item["computeType"] };
+  return { computeType: item["computeType"], location: item["location"] };
 }
 
 export function computePropertiesDeserializer(item: any): ComputeProperties {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     provisioningState: item["provisioningState"],
     errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
@@ -8000,9 +9118,7 @@ export function computePropertiesDeserializer(item: any): ComputeProperties {
 
 /** Alias for ComputePropertiesUnion */
 export type ComputePropertiesUnion =
-  | ClusterComputeProperties
-  | ContainerInstanceComputeProperties
-  | ComputeProperties;
+  ClusterComputeProperties | ContainerInstanceComputeProperties | ComputeProperties;
 
 export function computePropertiesUnionSerializer(item: ComputePropertiesUnion): any {
   switch (item.computeType) {
@@ -8110,6 +9226,7 @@ export interface ClusterComputeProperties extends ComputeProperties {
 export function clusterComputePropertiesSerializer(item: ClusterComputeProperties): any {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     pools: poolArraySerializer(item["pools"]),
     subnetArmId: item["subnetArmId"],
   };
@@ -8118,6 +9235,7 @@ export function clusterComputePropertiesSerializer(item: ClusterComputePropertie
 export function clusterComputePropertiesDeserializer(item: any): ClusterComputeProperties {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     provisioningState: item["provisioningState"],
     errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
@@ -8143,7 +9261,7 @@ export interface Pool {
   /** The name of the pool. */
   name: string;
   /** The VM priority of the pool. */
-  vmPriority: VmPriority;
+  vmPriority?: VmPriority;
   /** The instance type (VM SKU) used in the pool. */
   instanceType: string;
   /** The number of nodes in the pool. */
@@ -8172,8 +9290,8 @@ export function poolDeserializer(item: any): Pool {
 export enum KnownVmPriority {
   /** Regular VM priority. */
   Regular = "Regular",
-  /** Low-priority VM. */
-  LowPriority = "LowPriority",
+  /** Spot VM priority. */
+  Spot = "Spot",
 }
 
 /**
@@ -8182,7 +9300,7 @@ export enum KnownVmPriority {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Regular**: Regular VM priority. \
- * **LowPriority**: Low-priority VM.
+ * **Spot**: Spot VM priority.
  */
 export type VmPriority = string;
 
@@ -8207,6 +9325,7 @@ export function containerInstanceComputePropertiesSerializer(
 ): any {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     targetClusterId: item["targetClusterId"],
     imageLink: item["imageLink"],
     idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
@@ -8221,6 +9340,7 @@ export function containerInstanceComputePropertiesDeserializer(
 ): ContainerInstanceComputeProperties {
   return {
     computeType: item["computeType"],
+    location: item["location"],
     provisioningState: item["provisioningState"],
     errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
@@ -8475,8 +9595,6 @@ export function managedComputeCapacityDeserializer(item: any): ManagedComputeCap
 export interface ManagedComputeCapacityProperties {
   /** The type of accelerator (e.g., Azure.A100, Azure.H100). */
   readonly acceleratorType?: string;
-  /** The Azure region where the capacity is available. */
-  readonly location?: string;
   /** The number of available accelerators in the region. */
   readonly availableAccelerators?: number;
   /** Capacity information broken down by deployment size. */
@@ -8488,7 +9606,6 @@ export function managedComputeCapacityPropertiesDeserializer(
 ): ManagedComputeCapacityProperties {
   return {
     acceleratorType: item["acceleratorType"],
-    location: item["location"],
     availableAccelerators: item["availableAccelerators"],
     deploymentSizeCapacities: !item["deploymentSizeCapacities"]
       ? item["deploymentSizeCapacities"]
@@ -8921,10 +10038,7 @@ export function outboundRuleDeserializer(item: any): OutboundRule {
 
 /** Alias for OutboundRuleUnion */
 export type OutboundRuleUnion =
-  | FqdnOutboundRule
-  | PrivateEndpointOutboundRule
-  | ServiceTagOutboundRule
-  | OutboundRule;
+  FqdnOutboundRule | PrivateEndpointOutboundRule | ServiceTagOutboundRule | OutboundRule;
 
 export function outboundRuleUnionSerializer(item: OutboundRuleUnion): any {
   switch (item.type) {
@@ -9690,9 +10804,7 @@ export function agentDeploymentPropertiesDeserializer(item: any): AgentDeploymen
 
 /** Alias for AgentDeploymentPropertiesUnion */
 export type AgentDeploymentPropertiesUnion =
-  | ManagedAgentDeployment
-  | HostedAgentDeployment
-  | AgentDeploymentProperties;
+  ManagedAgentDeployment | HostedAgentDeployment | AgentDeploymentProperties;
 
 export function agentDeploymentPropertiesUnionSerializer(
   item: AgentDeploymentPropertiesUnion,
@@ -10356,6 +11468,14 @@ export enum KnownVersions {
   V20260301 = "2026-03-01",
   /** The 2026-03-15-preview API version. */
   V20260315Preview = "2026-03-15-preview",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
+  /** The 2026-05-15-preview API version. */
+  V20260515Preview = "2026-05-15-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-07-15-preview API version. */
+  V20260715Preview = "2026-07-15-preview",
 }
 
 export function raiBlocklistItemBulkRequestArraySerializer(

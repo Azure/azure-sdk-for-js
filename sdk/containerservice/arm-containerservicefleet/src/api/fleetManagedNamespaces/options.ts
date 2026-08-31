@@ -10,10 +10,8 @@ export interface FleetManagedNamespacesUpdateOptionalParams extends OperationOpt
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
-
 /** Optional parameters. */
 export interface FleetManagedNamespacesListByFleetOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface FleetManagedNamespacesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -21,7 +19,6 @@ export interface FleetManagedNamespacesDeleteOptionalParams extends OperationOpt
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
-
 /** Optional parameters. */
 export interface FleetManagedNamespacesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -31,6 +28,5 @@ export interface FleetManagedNamespacesCreateOrUpdateOptionalParams extends Oper
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
 }
-
 /** Optional parameters. */
 export interface FleetManagedNamespacesGetOptionalParams extends OperationOptions {}

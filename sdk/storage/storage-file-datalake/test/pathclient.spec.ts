@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
-import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, delay } from "@azure-tools/test-recorder";
 
 import type { DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src/index.js";
 import { DataLakeFileClient } from "../src/index.js";
 import { toPermissionsString } from "../src/transforms.js";
 import {
   bodyToString,
+  createAndStartRecorder,
   getDataLakeServiceClient,
   getEncryptionScope,
   getUniqueName,
-  recorderEnvSetup,
   sleep,
-  uriSanitizers,
 } from "./utils/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -33,9 +33,7 @@ describe("DataLakePathClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -50,6 +48,68 @@ describe("DataLakePathClient", () => {
   afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
+  });
+
+  it("DataLakeFileClient getSystemProperties", async () => {
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+
+    await testFileClient.create();
+    const systemProperties = await testFileClient.getSystemProperties();
+    const properties = await testFileClient.getProperties();
+    assert.deepEqual(systemProperties.permissions, properties.permissions);
+    assert.deepEqual(systemProperties.owner, properties.owner);
+    assert.deepEqual(systemProperties.group, properties.group);
+    assert.deepEqual(systemProperties.etag, properties.etag);
+    assert.deepEqual(systemProperties.contentLength, properties.contentLength);
+    assert.deepEqual(systemProperties.isDirectory, false);
+
+    const pathClient = fileSystemClient.getDirectoryClient(testFileName);
+    const fileProperties = await pathClient.getSystemProperties();
+    assert.deepEqual(fileProperties.permissions, properties.permissions);
+    assert.deepEqual(fileProperties.owner, properties.owner);
+    assert.deepEqual(fileProperties.group, properties.group);
+    assert.deepEqual(fileProperties.etag, properties.etag);
+    assert.deepEqual(fileProperties.contentLength, properties.contentLength);
+    assert.deepEqual(fileProperties.isDirectory, false);
+  });
+
+  it("DataLakeDirectoryClient getSystemProperties", async () => {
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
+    const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
+
+    await testDirClient.create();
+    const systemProperties = await testDirClient.getSystemProperties();
+    const properties = await testDirClient.getProperties();
+    assert.deepEqual(systemProperties.permissions, properties.permissions);
+    assert.deepEqual(systemProperties.owner, properties.owner);
+    assert.deepEqual(systemProperties.group, properties.group);
+    assert.deepEqual(systemProperties.etag, properties.etag);
+    assert.deepEqual(systemProperties.contentLength, properties.contentLength);
+    assert.deepEqual(systemProperties.isDirectory, true);
+
+    const pathClient = fileSystemClient.getDirectoryClient(testDirName);
+    const pathProperties = await pathClient.getSystemProperties();
+    assert.deepEqual(pathProperties.permissions, properties.permissions);
+    assert.deepEqual(pathProperties.owner, properties.owner);
+    assert.deepEqual(pathProperties.group, properties.group);
+    assert.deepEqual(pathProperties.etag, properties.etag);
+    assert.deepEqual(pathProperties.contentLength, properties.contentLength);
+    assert.deepEqual(pathProperties.isDirectory, true);
+  });
+
+  // Skip the case util the feature is enabled in service
+  it.skip("DataLakeFileClient setTags & getTags", async () => {
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const tags = {
+      tag1: "val1",
+      tag2: "val2",
+    };
+    await testFileClient.create();
+    await testFileClient.setTags(tags);
+    const getTagsResponse = await testFileClient.getTags();
+    assert.deepStrictEqual(getTagsResponse.tags, tags);
   });
 
   it("DataLakeFileClient create file path with directory dots", async () => {
@@ -1210,6 +1270,9 @@ describe("DataLakePathClient", () => {
 
   it("append with flush should work", async () => {
     const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([
+      104, 225, 9, 240, 244, 12, 167, 42, 21, 224, 92, 194, 39, 134, 248, 230,
+    ]);
 
     const tempFileName = recorder.variable("tempfile2", getUniqueName("tempfile2"));
     const tempFileClient = fileSystemClient.getFileClient(tempFileName);
@@ -1217,13 +1280,13 @@ describe("DataLakePathClient", () => {
     await tempFileClient.create();
 
     await tempFileClient.append(body, 0, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length * 2, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
       flush: true,
     });
 
@@ -1235,6 +1298,9 @@ describe("DataLakePathClient", () => {
 
   it("append & flush should work", async () => {
     const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([
+      104, 225, 9, 240, 244, 12, 167, 42, 21, 224, 92, 194, 39, 134, 248, 230,
+    ]);
 
     const tempFileName = recorder.variable("tempfile2", getUniqueName("tempfile2"));
     const tempFileClient = fileSystemClient.getFileClient(tempFileName);
@@ -1242,13 +1308,13 @@ describe("DataLakePathClient", () => {
     await tempFileClient.create();
 
     await tempFileClient.append(body, 0, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length * 2, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
 
     await tempFileClient.flush(body.length * 3);
@@ -1261,6 +1327,9 @@ describe("DataLakePathClient", () => {
 
   it("append & flush should work with all parameters", async () => {
     const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([
+      104, 225, 9, 240, 244, 12, 167, 42, 21, 224, 92, 194, 39, 134, 248, 230,
+    ]);
 
     const tempFileName = recorder.variable("tempfile2", getUniqueName("tempfile2"));
     const tempFileClient = fileSystemClient.getFileClient(tempFileName);
@@ -1304,13 +1373,13 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(acl.permissions, permissions);
 
     await tempFileClient.append(body, 0, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length * 2, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
 
     pathHttpHeaders = {
@@ -1334,6 +1403,31 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(properties.contentDisposition, pathHttpHeaders.contentDisposition);
     assert.deepStrictEqual(properties.contentType, pathHttpHeaders.contentType);
     assert.deepStrictEqual(properties.metadata, metadata);
+
+    await tempFileClient.delete();
+  });
+
+  it("append with incorrect MD5 should fail", async () => {
+    const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    const tempFileName = recorder.variable("tempfile3", getUniqueName("tempfile3"));
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+
+    await tempFileClient.create();
+    try {
+      await tempFileClient.append(body, 0, body.length, {
+        transactionalContentMD5: bodyMD5,
+      });
+      assert.fail("Appending with incorrect MD5 should fail.");
+    } catch (error) {
+      assert.include(
+        (error as any).message,
+        "The MD5 value specified in the request did not match with the MD5 value calculated by the server",
+      );
+    }
+
+    const properties = await tempFileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, 0);
 
     await tempFileClient.delete();
   });
@@ -1469,9 +1563,7 @@ describe("DataLakePathClient with CPK", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -1872,9 +1964,7 @@ describe("DataLakePathClient - Encryption Scope", () => {
       ctx.skip();
     }
 
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);

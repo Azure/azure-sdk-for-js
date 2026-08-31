@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all import pipelines for the specified container registry.
  *
  * @summary lists all import pipelines for the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/ImportPipelineList.json
+ * x-ms-original-file: 2026-03-01-preview/ImportPipelineList.json
  */
 async function importPipelineList(): Promise<void> {
   const credential = new DefaultAzureCredential();

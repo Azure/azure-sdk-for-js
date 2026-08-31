@@ -54,10 +54,17 @@
       "dependsOn": ["build"]
     },
     "test:browser": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "passThroughEnv": [
+        "PUBLISHCODECOVERAGE",
+        "PublishCodeCoverage",
+        "PLAYWRIGHT_BROWSERS_PATH",
+        "TMPDIR"
+      ]
     },
     "test:node": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "passThroughEnv": ["PUBLISHCODECOVERAGE", "PublishCodeCoverage"]
     },
     "update-snippets": {
       "cache": false

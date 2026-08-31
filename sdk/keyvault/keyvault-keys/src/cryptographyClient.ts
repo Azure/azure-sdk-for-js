@@ -235,8 +235,7 @@ export class CryptographyClient {
   ): Promise<EncryptResult>;
   public encrypt(
     ...args:
-      | [EncryptParameters, EncryptOptions?]
-      | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
+      [EncryptParameters, EncryptOptions?] | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
     const [parameters, options] = this.disambiguateEncryptArguments(args);
     return tracingClient.withSpan("CryptographyClient.encrypt", options, async (updatedOptions) => {
@@ -274,6 +273,7 @@ export class CryptographyClient {
       } catch (e: any) {
         throw new Error(
           `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`,
+          { cause: e },
         );
       }
     }
@@ -386,8 +386,7 @@ export class CryptographyClient {
   ): Promise<DecryptResult>;
   public decrypt(
     ...args:
-      | [DecryptParameters, DecryptOptions?]
-      | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
+      [DecryptParameters, DecryptOptions?] | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
   ): Promise<DecryptResult> {
     const [parameters, options] = this.disambiguateDecryptArguments(args);
 

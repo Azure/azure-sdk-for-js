@@ -12,7 +12,7 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Deployments operations. */
 export interface DeploymentsOperations {
-  /** List all deployed models in the project */
+  /** Returns the deployed models available in the current project, optionally filtered by publisher, model name, or deployment type. */
   list: (options?: DeploymentsListOptionalParams) => PagedAsyncIterableIterator<DeploymentUnion>;
   /** Get a deployed model. */
   get: (name: string, options?: DeploymentsGetOptionalParams) => Promise<DeploymentUnion>;

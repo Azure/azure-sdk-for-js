@@ -1,5 +1,37 @@
 # Release History
 
+## 12.5.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed `BufferScheduler` letting a failed buffer allocation (`RangeError: Failed to allocate memory`) escape as an uncaught exception during large uploads. Allocation failures in the stream and internal event listeners are now routed through the scheduler's error handling so the upload promise rejects cleanly. `BufferScheduler` also no longer starts queued block uploads after the upload promise has been rejected. Issue [#39102](https://github.com/Azure/azure-sdk-for-js/issues/39102).
+- Added the missing export of `storageRedirectRangeHeaderPolicy` for browsers. [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 12.5.0 (2026-08-03)
+
+### Features Added
+
+- add `storageRedirectRangeHeaderPolicy`
+- Added the `StorageResponseFormat` enum (`Auto`, `Xml`, `Arrow`), re-exported by `@azure/storage-blob` to opt into the Apache Arrow response format when listing blobs.
+
+### Bugs Fixed
+
+- Fixed the ESM build of the CRC64 checksum calculator crashing (`TypeError [ERR_INVALID_ARG_VALUE]` from `import.meta.url`) when an ESM consumer is bundled to CommonJS with a Node-targeted bundler such as esbuild. Because the WebAssembly module is base64-embedded, none of the Emscripten-generated filesystem/URL machinery is reachable, so the `import.meta.url` polyfill, `node:*` imports, `require('fs')`/`require('path')` reads, and the shell/web read hooks have been removed from `crc64.js`. The ESM, browser, and react-native builds are now identical, and the CommonJS copy differs only by its export statement. Issue [#39057](https://github.com/Azure/azure-sdk-for-js/issues/39057).
+
+## 12.4.1 (2026-06-22)
+
+### Bugs Fixed
+
+- Fixed the browser and react-native builds of the CRC64 checksum calculator still containing Node.js `require('fs')`/`require('path')` calls, which broke esbuild-based bundlers. The post-build step now replaces the unreachable Node-only filesystem read block with a no-op in the browser and react-native copies of `crc64.js`. Issue [#38924](https://github.com/Azure/azure-sdk-for-js/issues/38924).
+
 ## 12.4.0 (2026-05-22)
 
 ### Features Added

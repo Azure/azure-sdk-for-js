@@ -3,6 +3,8 @@
 
 import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
+  resyncCertificates,
+  resyncPasswords,
   runRwCommand,
   runRoCommand,
   upgrade,
@@ -17,6 +19,8 @@ import {
   get,
 } from "../../api/networkDevices/operations.js";
 import type {
+  NetworkDevicesResyncCertificatesOptionalParams,
+  NetworkDevicesResyncPasswordsOptionalParams,
   NetworkDevicesRunRwCommandOptionalParams,
   NetworkDevicesRunRoCommandOptionalParams,
   NetworkDevicesUpgradeOptionalParams,
@@ -31,16 +35,21 @@ import type {
   NetworkDevicesGetOptionalParams,
 } from "../../api/networkDevices/options.js";
 import type {
-  CommonPostActionResponseForStateUpdate,
+  OperationStatusResult,
   NetworkDevice,
   NetworkDevicePatchParameters,
   RebootProperties,
+  NetworkDeviceRefreshConfigurationResponse,
   UpdateDeviceAdministrativeState,
-  UpdateVersion,
+  NetworkDeviceUpdateAdministrativeStateResponse,
+  NetworkDeviceUpgradeRequest,
+  NetworkDeviceUpgradeResponse,
   DeviceRoCommand,
   CommonPostActionResponseForDeviceROCommandsOperationStatusResult,
   DeviceRwCommand,
-  CommonPostActionResponseForDeviceRWCommands,
+  NetworkDeviceRunRwCommandResponse,
+  NetworkDeviceResyncPasswordsResponse,
+  NetworkFabricResyncCertificatesResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -49,6 +58,58 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkDevices operations. */
 export interface NetworkDevicesOperations {
+  /** Updates the Network Device to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync. */
+  resyncCertificates: (
+    resourceGroupName: string,
+    networkDeviceName: string,
+    options?: NetworkDevicesResyncCertificatesOptionalParams,
+  ) => PollerLike<
+    OperationState<NetworkFabricResyncCertificatesResponse>,
+    NetworkFabricResyncCertificatesResponse
+  >;
+  /** @deprecated use resyncCertificates instead */
+  beginResyncCertificates: (
+    resourceGroupName: string,
+    networkDeviceName: string,
+    options?: NetworkDevicesResyncCertificatesOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricResyncCertificatesResponse>,
+      NetworkFabricResyncCertificatesResponse
+    >
+  >;
+  /** @deprecated use resyncCertificates instead */
+  beginResyncCertificatesAndWait: (
+    resourceGroupName: string,
+    networkDeviceName: string,
+    options?: NetworkDevicesResyncCertificatesOptionalParams,
+  ) => Promise<NetworkFabricResyncCertificatesResponse>;
+  /** Updates the Network Device to use the latest passwords. Does not generate new passwords. Allows network devices missed during a previous password rotation to be brought back into sync. */
+  resyncPasswords: (
+    resourceGroupName: string,
+    networkDeviceName: string,
+    options?: NetworkDevicesResyncPasswordsOptionalParams,
+  ) => PollerLike<
+    OperationState<NetworkDeviceResyncPasswordsResponse>,
+    NetworkDeviceResyncPasswordsResponse
+  >;
+  /** @deprecated use resyncPasswords instead */
+  beginResyncPasswords: (
+    resourceGroupName: string,
+    networkDeviceName: string,
+    options?: NetworkDevicesResyncPasswordsOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<NetworkDeviceResyncPasswordsResponse>,
+      NetworkDeviceResyncPasswordsResponse
+    >
+  >;
+  /** @deprecated use resyncPasswords instead */
+  beginResyncPasswordsAndWait: (
+    resourceGroupName: string,
+    networkDeviceName: string,
+    options?: NetworkDevicesResyncPasswordsOptionalParams,
+  ) => Promise<NetworkDeviceResyncPasswordsResponse>;
   /** Run the RW Command on the Network Device. */
   runRwCommand: (
     resourceGroupName: string,
@@ -56,8 +117,8 @@ export interface NetworkDevicesOperations {
     body: DeviceRwCommand,
     options?: NetworkDevicesRunRwCommandOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForDeviceRWCommands>,
-    CommonPostActionResponseForDeviceRWCommands
+    OperationState<NetworkDeviceRunRwCommandResponse>,
+    NetworkDeviceRunRwCommandResponse
   >;
   /** @deprecated use runRwCommand instead */
   beginRunRwCommand: (
@@ -67,8 +128,8 @@ export interface NetworkDevicesOperations {
     options?: NetworkDevicesRunRwCommandOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForDeviceRWCommands>,
-      CommonPostActionResponseForDeviceRWCommands
+      OperationState<NetworkDeviceRunRwCommandResponse>,
+      NetworkDeviceRunRwCommandResponse
     >
   >;
   /** @deprecated use runRwCommand instead */
@@ -77,7 +138,7 @@ export interface NetworkDevicesOperations {
     networkDeviceName: string,
     body: DeviceRwCommand,
     options?: NetworkDevicesRunRwCommandOptionalParams,
-  ) => Promise<CommonPostActionResponseForDeviceRWCommands>;
+  ) => Promise<NetworkDeviceRunRwCommandResponse>;
   /** Run the RO Command on the Network Device. */
   runRoCommand: (
     resourceGroupName: string,
@@ -111,31 +172,25 @@ export interface NetworkDevicesOperations {
   upgrade: (
     resourceGroupName: string,
     networkDeviceName: string,
-    body: UpdateVersion,
+    body: NetworkDeviceUpgradeRequest,
     options?: NetworkDevicesUpgradeOptionalParams,
-  ) => PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+  ) => PollerLike<OperationState<NetworkDeviceUpgradeResponse>, NetworkDeviceUpgradeResponse>;
   /** @deprecated use upgrade instead */
   beginUpgrade: (
     resourceGroupName: string,
     networkDeviceName: string,
-    body: UpdateVersion,
+    body: NetworkDeviceUpgradeRequest,
     options?: NetworkDevicesUpgradeOptionalParams,
   ) => Promise<
-    SimplePollerLike<
-      OperationState<CommonPostActionResponseForStateUpdate>,
-      CommonPostActionResponseForStateUpdate
-    >
+    SimplePollerLike<OperationState<NetworkDeviceUpgradeResponse>, NetworkDeviceUpgradeResponse>
   >;
   /** @deprecated use upgrade instead */
   beginUpgradeAndWait: (
     resourceGroupName: string,
     networkDeviceName: string,
-    body: UpdateVersion,
+    body: NetworkDeviceUpgradeRequest,
     options?: NetworkDevicesUpgradeOptionalParams,
-  ) => Promise<CommonPostActionResponseForStateUpdate>;
+  ) => Promise<NetworkDeviceUpgradeResponse>;
   /** Updates the Administrative state of the Network Device. */
   updateAdministrativeState: (
     resourceGroupName: string,
@@ -143,8 +198,8 @@ export interface NetworkDevicesOperations {
     body: UpdateDeviceAdministrativeState,
     options?: NetworkDevicesUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<NetworkDeviceUpdateAdministrativeStateResponse>,
+    NetworkDeviceUpdateAdministrativeStateResponse
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -154,8 +209,8 @@ export interface NetworkDevicesOperations {
     options?: NetworkDevicesUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForStateUpdate>,
-      CommonPostActionResponseForStateUpdate
+      OperationState<NetworkDeviceUpdateAdministrativeStateResponse>,
+      NetworkDeviceUpdateAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -164,15 +219,15 @@ export interface NetworkDevicesOperations {
     networkDeviceName: string,
     body: UpdateDeviceAdministrativeState,
     options?: NetworkDevicesUpdateAdministrativeStateOptionalParams,
-  ) => Promise<CommonPostActionResponseForStateUpdate>;
+  ) => Promise<NetworkDeviceUpdateAdministrativeStateResponse>;
   /** Refreshes the configuration the Network Device. */
   refreshConfiguration: (
     resourceGroupName: string,
     networkDeviceName: string,
     options?: NetworkDevicesRefreshConfigurationOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<NetworkDeviceRefreshConfigurationResponse>,
+    NetworkDeviceRefreshConfigurationResponse
   >;
   /** @deprecated use refreshConfiguration instead */
   beginRefreshConfiguration: (
@@ -181,8 +236,8 @@ export interface NetworkDevicesOperations {
     options?: NetworkDevicesRefreshConfigurationOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForStateUpdate>,
-      CommonPostActionResponseForStateUpdate
+      OperationState<NetworkDeviceRefreshConfigurationResponse>,
+      NetworkDeviceRefreshConfigurationResponse
     >
   >;
   /** @deprecated use refreshConfiguration instead */
@@ -190,36 +245,28 @@ export interface NetworkDevicesOperations {
     resourceGroupName: string,
     networkDeviceName: string,
     options?: NetworkDevicesRefreshConfigurationOptionalParams,
-  ) => Promise<CommonPostActionResponseForStateUpdate>;
+  ) => Promise<NetworkDeviceRefreshConfigurationResponse>;
   /** Reboot the Network Device. */
   reboot: (
     resourceGroupName: string,
     networkDeviceName: string,
     body: RebootProperties,
     options?: NetworkDevicesRebootOptionalParams,
-  ) => PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
   /** @deprecated use reboot instead */
   beginReboot: (
     resourceGroupName: string,
     networkDeviceName: string,
     body: RebootProperties,
     options?: NetworkDevicesRebootOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<CommonPostActionResponseForStateUpdate>,
-      CommonPostActionResponseForStateUpdate
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
   /** @deprecated use reboot instead */
   beginRebootAndWait: (
     resourceGroupName: string,
     networkDeviceName: string,
     body: RebootProperties,
     options?: NetworkDevicesRebootOptionalParams,
-  ) => Promise<CommonPostActionResponseForStateUpdate>;
+  ) => Promise<OperationStatusResult>;
   /** List all the Network Device resources in a given subscription. */
   listBySubscription: (
     options?: NetworkDevicesListBySubscriptionOptionalParams,
@@ -230,11 +277,6 @@ export interface NetworkDevicesOperations {
     options?: NetworkDevicesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NetworkDevice>;
   /** Delete the Network Device resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     networkDeviceName: string,
@@ -304,6 +346,48 @@ export interface NetworkDevicesOperations {
 
 function _getNetworkDevices(context: AzureNetworkFabricManagementServiceAPIContext) {
   return {
+    resyncCertificates: (
+      resourceGroupName: string,
+      networkDeviceName: string,
+      options?: NetworkDevicesResyncCertificatesOptionalParams,
+    ) => resyncCertificates(context, resourceGroupName, networkDeviceName, options),
+    beginResyncCertificates: async (
+      resourceGroupName: string,
+      networkDeviceName: string,
+      options?: NetworkDevicesResyncCertificatesOptionalParams,
+    ) => {
+      const poller = resyncCertificates(context, resourceGroupName, networkDeviceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginResyncCertificatesAndWait: async (
+      resourceGroupName: string,
+      networkDeviceName: string,
+      options?: NetworkDevicesResyncCertificatesOptionalParams,
+    ) => {
+      return await resyncCertificates(context, resourceGroupName, networkDeviceName, options);
+    },
+    resyncPasswords: (
+      resourceGroupName: string,
+      networkDeviceName: string,
+      options?: NetworkDevicesResyncPasswordsOptionalParams,
+    ) => resyncPasswords(context, resourceGroupName, networkDeviceName, options),
+    beginResyncPasswords: async (
+      resourceGroupName: string,
+      networkDeviceName: string,
+      options?: NetworkDevicesResyncPasswordsOptionalParams,
+    ) => {
+      const poller = resyncPasswords(context, resourceGroupName, networkDeviceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginResyncPasswordsAndWait: async (
+      resourceGroupName: string,
+      networkDeviceName: string,
+      options?: NetworkDevicesResyncPasswordsOptionalParams,
+    ) => {
+      return await resyncPasswords(context, resourceGroupName, networkDeviceName, options);
+    },
     runRwCommand: (
       resourceGroupName: string,
       networkDeviceName: string,
@@ -355,13 +439,13 @@ function _getNetworkDevices(context: AzureNetworkFabricManagementServiceAPIConte
     upgrade: (
       resourceGroupName: string,
       networkDeviceName: string,
-      body: UpdateVersion,
+      body: NetworkDeviceUpgradeRequest,
       options?: NetworkDevicesUpgradeOptionalParams,
     ) => upgrade(context, resourceGroupName, networkDeviceName, body, options),
     beginUpgrade: async (
       resourceGroupName: string,
       networkDeviceName: string,
-      body: UpdateVersion,
+      body: NetworkDeviceUpgradeRequest,
       options?: NetworkDevicesUpgradeOptionalParams,
     ) => {
       const poller = upgrade(context, resourceGroupName, networkDeviceName, body, options);
@@ -371,7 +455,7 @@ function _getNetworkDevices(context: AzureNetworkFabricManagementServiceAPIConte
     beginUpgradeAndWait: async (
       resourceGroupName: string,
       networkDeviceName: string,
-      body: UpdateVersion,
+      body: NetworkDeviceUpgradeRequest,
       options?: NetworkDevicesUpgradeOptionalParams,
     ) => {
       return await upgrade(context, resourceGroupName, networkDeviceName, body, options);

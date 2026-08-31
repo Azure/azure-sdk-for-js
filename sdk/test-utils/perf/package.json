@@ -8,7 +8,7 @@
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
@@ -54,6 +54,7 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-client": "^1.9.2",
+    "@azure/core-process": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.18.0",
     "@azure/core-util": "^1.3.2",
     "@types/minimist": "^1.2.2",

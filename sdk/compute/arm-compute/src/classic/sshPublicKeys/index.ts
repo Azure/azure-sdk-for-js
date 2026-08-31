@@ -45,11 +45,6 @@ export interface SshPublicKeysOperations {
     options?: SshPublicKeysListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<SshPublicKeyResource>;
   /** Delete an SSH public key. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     sshPublicKeyName: string,
@@ -76,7 +71,6 @@ export interface SshPublicKeysOperations {
     options?: SshPublicKeysGetOptionalParams,
   ) => Promise<SshPublicKeyResource>;
 }
-
 function _getSshPublicKeys(context: ComputeManagementContext) {
   return {
     generateKeyPair: (
@@ -114,7 +108,6 @@ function _getSshPublicKeys(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, sshPublicKeyName, options),
   };
 }
-
 export function _getSshPublicKeysOperations(
   context: ComputeManagementContext,
 ): SshPublicKeysOperations {
