@@ -21,7 +21,7 @@ import { delay } from "@azure/core-util";
  * loop. This guard is applied to every source of the polling interval — the
  * caller-supplied `intervalInMs` and any server-provided `Retry-After` value —
  * so oversized values are never scheduled directly on the timer. A non-finite
- * interval falls back to the default polling interval.
+ * caller-supplied interval falls back to the default polling interval.
  */
 function boundPollingInterval(intervalInMs: number): number {
   if (!Number.isFinite(intervalInMs)) {

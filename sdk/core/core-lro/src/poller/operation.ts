@@ -303,7 +303,7 @@ export async function pollOperation<
 
     if (!terminalStates.includes(status)) {
       const intervalInMs = getPollingInterval?.(response);
-      if (intervalInMs) setDelay(intervalInMs);
+      if (intervalInMs && Number.isFinite(intervalInMs)) setDelay(intervalInMs);
       const location = getOperationLocation?.(response, state);
       if (location !== undefined) {
         const isUpdated = operationLocation !== location;
