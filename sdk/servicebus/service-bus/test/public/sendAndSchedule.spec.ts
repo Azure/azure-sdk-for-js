@@ -189,12 +189,12 @@ describe("Sender Tests", () => {
       };
 
       let actualErrorCode: string | undefined;
-      let actualErr: unknown;
+      let actualErr: string | undefined;
       try {
         await sender.scheduleMessages(largeMessage, new Date(Date.now()));
         throw new Error("Test fail if reaching here.");
       } catch (err: any) {
-        actualErr = err;
+        actualErr = String(err);
         actualErrorCode = err.code;
       }
 
