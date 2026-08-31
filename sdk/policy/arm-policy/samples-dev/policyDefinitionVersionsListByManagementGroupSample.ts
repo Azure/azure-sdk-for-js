@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation retrieves a list of all the policy definition versions for the given policy definition in the given management group.
  *
  * @summary this operation retrieves a list of all the policy definition versions for the given policy definition in the given management group.
- * x-ms-original-file: 2026-07-01/listPolicyDefinitionVersionsByManagementGroup.json
+ * x-ms-original-file: 2026-01-01-preview/listPolicyDefinitionVersionsByManagementGroup.json
  */
 async function listPolicyDefinitionVersionsByManagementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

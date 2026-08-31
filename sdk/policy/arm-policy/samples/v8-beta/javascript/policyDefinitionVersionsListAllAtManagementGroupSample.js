@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation lists all the policy definition versions for all policy definitions at the management group scope.
  *
  * @summary this operation lists all the policy definition versions for all policy definitions at the management group scope.
- * x-ms-original-file: 2026-07-01/listAllPolicyDefinitionVersionsByManagementGroup.json
+ * x-ms-original-file: 2026-01-01-preview/listAllPolicyDefinitionVersionsByManagementGroup.json
  */
 async function listAllPolicyDefinitionVersionsAtManagementGroup() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation deletes the policy definition in the given subscription with the given name.
  *
  * @summary this operation deletes the policy definition in the given subscription with the given name.
- * x-ms-original-file: 2026-07-01/deletePolicyDefinition.json
+ * x-ms-original-file: 2026-01-01-preview/deletePolicyDefinition.json
  */
 async function deleteAPolicyDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();

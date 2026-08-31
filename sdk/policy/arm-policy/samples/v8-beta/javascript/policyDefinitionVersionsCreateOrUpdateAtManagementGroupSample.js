@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation creates or updates a policy definition version in the given management group with the given name.
  *
  * @summary this operation creates or updates a policy definition version in the given management group with the given name.
- * x-ms-original-file: 2026-07-01/createOrUpdatePolicyDefinitionVersionAtManagementGroup.json
+ * x-ms-original-file: 2026-01-01-preview/createOrUpdatePolicyDefinitionVersionAtManagementGroup.json
  */
 async function createOrUpdateAPolicyDefinitionVersionAtManagementGroupLevel() {
   const credential = new DefaultAzureCredential();

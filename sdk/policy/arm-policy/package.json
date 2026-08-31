@@ -140,6 +140,34 @@
         "default": "./dist/commonjs/api/policyTokens/index.js"
       }
     },
+    "./api/variableValues": {
+      "browser": {
+        "types": "./dist/browser/api/variableValues/index.d.ts",
+        "default": "./dist/browser/api/variableValues/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/variableValues/index.d.ts",
+        "default": "./dist/esm/api/variableValues/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/variableValues/index.d.ts",
+        "default": "./dist/commonjs/api/variableValues/index.js"
+      }
+    },
+    "./api/variables": {
+      "browser": {
+        "types": "./dist/browser/api/variables/index.d.ts",
+        "default": "./dist/browser/api/variables/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/variables/index.d.ts",
+        "default": "./dist/esm/api/variables/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/variables/index.d.ts",
+        "default": "./dist/commonjs/api/variables/index.js"
+      }
+    },
     "./api/policySetDefinitionVersions": {
       "browser": {
         "types": "./dist/browser/api/policySetDefinitionVersions/index.d.ts",
@@ -166,6 +194,34 @@
       "require": {
         "types": "./dist/commonjs/api/policySetDefinitions/index.d.ts",
         "default": "./dist/commonjs/api/policySetDefinitions/index.js"
+      }
+    },
+    "./api/policyExemptions": {
+      "browser": {
+        "types": "./dist/browser/api/policyExemptions/index.d.ts",
+        "default": "./dist/browser/api/policyExemptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/policyExemptions/index.d.ts",
+        "default": "./dist/esm/api/policyExemptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/policyExemptions/index.d.ts",
+        "default": "./dist/commonjs/api/policyExemptions/index.js"
+      }
+    },
+    "./api/policyEnrollments": {
+      "browser": {
+        "types": "./dist/browser/api/policyEnrollments/index.d.ts",
+        "default": "./dist/browser/api/policyEnrollments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/policyEnrollments/index.d.ts",
+        "default": "./dist/esm/api/policyEnrollments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/policyEnrollments/index.d.ts",
+        "default": "./dist/commonjs/api/policyEnrollments/index.js"
       }
     },
     "./api/policyDefinitionVersions": {

@@ -2,13 +2,8 @@
 // Licensed under the MIT License.
 
 import type { PolicyContext } from "../../api/policyContext.js";
-import {
-  acquireAtResourceGroup,
-  acquireAtManagementGroup,
-  acquire,
-} from "../../api/policyTokens/operations.js";
+import { acquireAtManagementGroup, acquire } from "../../api/policyTokens/operations.js";
 import type {
-  PolicyTokensAcquireAtResourceGroupOptionalParams,
   PolicyTokensAcquireAtManagementGroupOptionalParams,
   PolicyTokensAcquireOptionalParams,
 } from "../../api/policyTokens/options.js";
@@ -16,12 +11,6 @@ import type { PolicyTokenRequest, PolicyTokenResponse } from "../../models/model
 
 /** Interface representing a PolicyTokens operations. */
 export interface PolicyTokensOperations {
-  /** This operation acquires a policy token in the given resource group for the given request body. */
-  acquireAtResourceGroup: (
-    resourceGroupName: string,
-    parameters: PolicyTokenRequest,
-    options?: PolicyTokensAcquireAtResourceGroupOptionalParams,
-  ) => Promise<PolicyTokenResponse>;
   /** This operation acquires a policy token in the given management group for the given request body. */
   acquireAtManagementGroup: (
     managementGroupName: string,
@@ -37,11 +26,6 @@ export interface PolicyTokensOperations {
 
 function _getPolicyTokens(context: PolicyContext) {
   return {
-    acquireAtResourceGroup: (
-      resourceGroupName: string,
-      parameters: PolicyTokenRequest,
-      options?: PolicyTokensAcquireAtResourceGroupOptionalParams,
-    ) => acquireAtResourceGroup(context, resourceGroupName, parameters, options),
     acquireAtManagementGroup: (
       managementGroupName: string,
       parameters: PolicyTokenRequest,

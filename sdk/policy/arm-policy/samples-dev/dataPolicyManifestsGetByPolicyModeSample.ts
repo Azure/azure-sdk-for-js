@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation retrieves the data policy manifest with the given policy mode.
  *
  * @summary this operation retrieves the data policy manifest with the given policy mode.
- * x-ms-original-file: 2026-07-01/getDataPolicyManifest.json
+ * x-ms-original-file: 2026-01-01-preview/getDataPolicyManifest.json
  */
 async function retrieveADataPolicyManifestByPolicyMode(): Promise<void> {
   const credential = new DefaultAzureCredential();

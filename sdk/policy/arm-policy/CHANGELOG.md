@@ -1,11 +1,14 @@
 # Release History
 
-## 8.0.0-beta.1 (2026-08-27)
+## 8.0.0-beta.1 (2026-08-31)
 Compared with version 7.0.1
 
 ### Features Added
   - Added operation group DataPolicyManifestsOperations
-  - Added operation PolicyTokensOperations.acquireAtResourceGroup
+  - Added operation group PolicyEnrollmentsOperations
+  - Added operation group PolicyExemptionsOperations
+  - Added operation group VariablesOperations
+  - Added operation group VariableValuesOperations
   - Added Interface Alias
   - Added Interface AliasPath
   - Added Interface AliasPathMetadata
@@ -18,13 +21,57 @@ Compared with version 7.0.1
   - Added Interface DataPolicyManifestsGetByPolicyModeOptionalParams
   - Added Interface DataPolicyManifestsListOptionalParams
   - Added Interface PolicyDefinitionVersionListResult
+  - Added Interface PolicyEnrollment
+  - Added Interface PolicyEnrollmentProperties
+  - Added Interface PolicyEnrollmentsCreateOrUpdateOptionalParams
+  - Added Interface PolicyEnrollmentsDeleteOptionalParams
+  - Added Interface PolicyEnrollmentsGetOptionalParams
+  - Added Interface PolicyEnrollmentsListForManagementGroupOptionalParams
+  - Added Interface PolicyEnrollmentsListForResourceGroupOptionalParams
+  - Added Interface PolicyEnrollmentsListForResourceOptionalParams
+  - Added Interface PolicyEnrollmentsListOptionalParams
+  - Added Interface PolicyEnrollmentsUpdateOptionalParams
+  - Added Interface PolicyEnrollmentUpdate
+  - Added Interface PolicyEnrollmentUpdateProperties
+  - Added Interface PolicyExemption
+  - Added Interface PolicyExemptionProperties
+  - Added Interface PolicyExemptionsCreateOrUpdateOptionalParams
+  - Added Interface PolicyExemptionsDeleteOptionalParams
+  - Added Interface PolicyExemptionsGetOptionalParams
+  - Added Interface PolicyExemptionsListForManagementGroupOptionalParams
+  - Added Interface PolicyExemptionsListForResourceGroupOptionalParams
+  - Added Interface PolicyExemptionsListForResourceOptionalParams
+  - Added Interface PolicyExemptionsListOptionalParams
+  - Added Interface PolicyExemptionsUpdateOptionalParams
+  - Added Interface PolicyExemptionUpdate
+  - Added Interface PolicyExemptionUpdateProperties
   - Added Interface PolicySetDefinitionVersionListResult
   - Added Interface PolicyTokenEvaluatedRequestDetails
-  - Added Interface PolicyTokensAcquireAtResourceGroupOptionalParams
+  - Added Interface PolicyVariableColumn
+  - Added Interface PolicyVariableProperties
+  - Added Interface PolicyVariableValueColumnValue
+  - Added Interface PolicyVariableValueProperties
   - Added Interface ResourceTypeAliases
   - Added Interface SelfServeExemptionSettings
+  - Added Interface Variable
+  - Added Interface VariablesCreateOrUpdateAtManagementGroupOptionalParams
+  - Added Interface VariablesCreateOrUpdateOptionalParams
+  - Added Interface VariablesDeleteAtManagementGroupOptionalParams
+  - Added Interface VariablesDeleteOptionalParams
+  - Added Interface VariablesGetAtManagementGroupOptionalParams
+  - Added Interface VariablesGetOptionalParams
+  - Added Interface VariablesListForManagementGroupOptionalParams
+  - Added Interface VariablesListOptionalParams
+  - Added Interface VariableValue
+  - Added Interface VariableValuesCreateOrUpdateAtManagementGroupOptionalParams
+  - Added Interface VariableValuesCreateOrUpdateOptionalParams
+  - Added Interface VariableValuesDeleteAtManagementGroupOptionalParams
+  - Added Interface VariableValuesDeleteOptionalParams
+  - Added Interface VariableValuesGetAtManagementGroupOptionalParams
+  - Added Interface VariableValuesGetOptionalParams
+  - Added Interface VariableValuesListForManagementGroupOptionalParams
+  - Added Interface VariableValuesListOptionalParams
   - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter additionalInfo
-  - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter complianceState
   - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter endpointKind
   - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter policyAction
   - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter policyEvaluationDetails
@@ -33,23 +80,25 @@ Compared with version 7.0.1
   - Interface PolicyAssignmentUpdate has a new optional parameter selfServeExemptionSettings
   - Interface PolicyAssignmentUpdateProperties has a new optional parameter selfServeExemptionSettings
   - Interface PolicyTokenResponse has a new optional parameter requestDetails
-  - Interface Selector has a new optional parameter progress
   - Added Type Alias AliasPathAttributes
   - Added Type Alias AliasPathTokenType
   - Added Type Alias AliasPatternType
   - Added Type Alias AliasType
-  - Added Type Alias ComplianceState
+  - Added Type Alias AssignmentScopeValidation
+  - Added Type Alias ExemptionCategory
+  - Added Type Alias ExemptionManagementMode
   - Added Type Alias PolicyAction
   - Added Enum KnownAliasPathAttributes
   - Added Enum KnownAliasPathTokenType
-  - Added Enum KnownComplianceState
+  - Added Enum KnownAssignmentScopeValidation
+  - Added Enum KnownExemptionCategory
+  - Added Enum KnownExemptionManagementMode
   - Added Enum KnownPolicyAction
   - Enum KnownSelectorKind has a new value GroupPrincipalId
-  - Enum KnownSelectorKind has a new value ResourceRolloutPercentage
   - Enum KnownSelectorKind has a new value UserPrincipalId
   - Enum KnownVersions has a new value V20251101
-  - Enum KnownVersions has a new value V20260601
-  - Enum KnownVersions has a new value V20260701
+  - Enum KnownVersions has a new value V20251201Preview
+  - Enum KnownVersions has a new value V20260101Preview
 
 ### Breaking Changes
   - Operation PolicyAssignmentsOperations.delete has a new signature

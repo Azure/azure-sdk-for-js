@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
  *
  * @summary this operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
- * x-ms-original-file: 2026-07-01/deletePolicyAssignment.json
+ * x-ms-original-file: 2026-01-01-preview/deletePolicyAssignment.json
  */
 async function deleteAPolicyAssignment() {
   const credential = new DefaultAzureCredential();

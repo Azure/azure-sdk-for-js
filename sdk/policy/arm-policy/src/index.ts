@@ -61,6 +61,17 @@ export type {
   PolicyDefinitionVersion,
   PolicyDefinitionVersionProperties,
   PolicyDefinitionVersionListResult,
+  PolicyEnrollment,
+  PolicyEnrollmentProperties,
+  AssignmentScopeValidation,
+  PolicyEnrollmentUpdate,
+  PolicyEnrollmentUpdateProperties,
+  PolicyExemption,
+  PolicyExemptionProperties,
+  ExemptionCategory,
+  ExemptionManagementMode,
+  PolicyExemptionUpdate,
+  PolicyExemptionUpdateProperties,
   PolicySetDefinition,
   PolicySetDefinitionProperties,
   PolicyDefinitionReference,
@@ -68,6 +79,12 @@ export type {
   PolicySetDefinitionVersion,
   PolicySetDefinitionVersionProperties,
   PolicySetDefinitionVersionListResult,
+  Variable,
+  PolicyVariableProperties,
+  PolicyVariableColumn,
+  VariableValue,
+  PolicyVariableValueProperties,
+  PolicyVariableValueColumnValue,
   PolicyTokenRequest,
   PolicyTokenOperation,
   PolicyTokenResponse,
@@ -77,7 +94,6 @@ export type {
   PolicyLogInfo,
   ExternalEndpointResult,
   PolicyAction,
-  ComplianceState,
 } from "./models/index.js";
 export {
   KnownEnforcementMode,
@@ -89,10 +105,12 @@ export {
   KnownAliasPathAttributes,
   KnownPolicyType,
   KnownParameterType,
+  KnownAssignmentScopeValidation,
+  KnownExemptionCategory,
+  KnownExemptionManagementMode,
   KnownPolicyTokenResult,
   KnownExternalEndpointResult,
   KnownPolicyAction,
-  KnownComplianceState,
   KnownVersions,
 } from "./models/index.js";
 export type { PolicyClientOptionalParams } from "./api/index.js";
@@ -138,6 +156,26 @@ export type {
   PolicyDefinitionVersionsGetOptionalParams,
 } from "./api/policyDefinitionVersions/index.js";
 export type {
+  PolicyEnrollmentsListForResourceOptionalParams,
+  PolicyEnrollmentsListOptionalParams,
+  PolicyEnrollmentsListForManagementGroupOptionalParams,
+  PolicyEnrollmentsListForResourceGroupOptionalParams,
+  PolicyEnrollmentsDeleteOptionalParams,
+  PolicyEnrollmentsUpdateOptionalParams,
+  PolicyEnrollmentsCreateOrUpdateOptionalParams,
+  PolicyEnrollmentsGetOptionalParams,
+} from "./api/policyEnrollments/index.js";
+export type {
+  PolicyExemptionsListForResourceOptionalParams,
+  PolicyExemptionsListOptionalParams,
+  PolicyExemptionsListForManagementGroupOptionalParams,
+  PolicyExemptionsListForResourceGroupOptionalParams,
+  PolicyExemptionsDeleteOptionalParams,
+  PolicyExemptionsUpdateOptionalParams,
+  PolicyExemptionsCreateOrUpdateOptionalParams,
+  PolicyExemptionsGetOptionalParams,
+} from "./api/policyExemptions/index.js";
+export type {
   PolicySetDefinitionsListByManagementGroupOptionalParams,
   PolicySetDefinitionsDeleteAtManagementGroupOptionalParams,
   PolicySetDefinitionsCreateOrUpdateAtManagementGroupOptionalParams,
@@ -165,18 +203,41 @@ export type {
   PolicySetDefinitionVersionsGetOptionalParams,
 } from "./api/policySetDefinitionVersions/index.js";
 export type {
-  PolicyTokensAcquireAtResourceGroupOptionalParams,
   PolicyTokensAcquireAtManagementGroupOptionalParams,
   PolicyTokensAcquireOptionalParams,
 } from "./api/policyTokens/index.js";
+export type {
+  VariablesListForManagementGroupOptionalParams,
+  VariablesDeleteAtManagementGroupOptionalParams,
+  VariablesCreateOrUpdateAtManagementGroupOptionalParams,
+  VariablesGetAtManagementGroupOptionalParams,
+  VariablesListOptionalParams,
+  VariablesDeleteOptionalParams,
+  VariablesCreateOrUpdateOptionalParams,
+  VariablesGetOptionalParams,
+} from "./api/variables/index.js";
+export type {
+  VariableValuesListForManagementGroupOptionalParams,
+  VariableValuesDeleteAtManagementGroupOptionalParams,
+  VariableValuesCreateOrUpdateAtManagementGroupOptionalParams,
+  VariableValuesGetAtManagementGroupOptionalParams,
+  VariableValuesListOptionalParams,
+  VariableValuesDeleteOptionalParams,
+  VariableValuesCreateOrUpdateOptionalParams,
+  VariableValuesGetOptionalParams,
+} from "./api/variableValues/index.js";
 export type {
   DataPolicyManifestsOperations,
   PolicyAssignmentsOperations,
   PolicyDefinitionsOperations,
   PolicyDefinitionVersionsOperations,
+  PolicyEnrollmentsOperations,
+  PolicyExemptionsOperations,
   PolicySetDefinitionsOperations,
   PolicySetDefinitionVersionsOperations,
   PolicyTokensOperations,
+  VariablesOperations,
+  VariableValuesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
