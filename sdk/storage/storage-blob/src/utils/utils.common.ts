@@ -7,6 +7,10 @@ import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import { StorageResponseFormat } from "@azure/storage-common";
+import type {
+  ListBlobsResponse,
+  ListBlobsHierarchicalResponse,
+} from "../generated/models/index.js";
 
 import type {
   BlobQueryArrowConfiguration,
@@ -18,11 +22,9 @@ import type {
   QuerySerialization,
   BlobTags,
   BlobName,
-  ListBlobsFlatSegmentResponse,
-  ListBlobsHierarchySegmentResponse,
   PageRange,
   ClearRange,
-} from "../generated/src/models/index.js";
+} from "../generated-classic-models.js";
 import {
   DevelopmentConnectionString,
   HeaderConstants,
@@ -36,6 +38,7 @@ import {
   type ObjectReplicationStatus,
   type HttpAuthorization,
   StorageChecksumAlgorithm,
+  fromTspImmutabilityPolicyMode,
 } from "../models.js";
 import type {
   ListBlobsFlatSegmentResponseModel,
@@ -46,6 +49,8 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
@@ -775,6 +780,9 @@ export function toQuerySerialization(
       return {
         format: {
           type: "parquet",
+          parquetTextConfiguration: {
+            additionalProperties: (textConfiguration as any).additionalProperties,
+          },
         },
       };
 
@@ -861,15 +869,23 @@ export function BlobNameToString(name: BlobName): string {
 }
 
 export function ConvertInternalResponseOfListBlobFlat(
-  internalResponse: ListBlobsFlatSegmentResponse,
+  internalResponse: ListBlobsResponse,
 ): ListBlobsFlatSegmentResponseModel {
   return {
     ...internalResponse,
     segment: {
-      blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
+      blobItems: internalResponse.blobItems.map((blobItemTsp) => {
         const blobItem: BlobItemInternalModel = {
-          ...blobItemInteral,
-          name: BlobNameToString(blobItemInteral.name),
+          ...blobItemTsp,
+          properties: {
+            ...blobItemTsp.properties,
+            immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+              blobItemTsp.properties.immutabilityPolicyMode,
+            ),
+          },
+          metadata: blobItemTsp.metadata?.additionalProperties,
+          objectReplicationMetadata: blobItemTsp.objectReplicationMetadata?.additionalProperties,
+          name: BlobNameToString(blobItemTsp.name),
         };
         return blobItem;
       }),
@@ -878,22 +894,30 @@ export function ConvertInternalResponseOfListBlobFlat(
 }
 
 export function ConvertInternalResponseOfListBlobHierarchy(
-  internalResponse: ListBlobsHierarchySegmentResponse,
+  internalResponse: ListBlobsHierarchicalResponse,
 ): ListBlobsHierarchySegmentResponseModel {
   return {
     ...internalResponse,
     segment: {
-      blobPrefixes: internalResponse.segment.blobPrefixes?.map((blobPrefixInternal) => {
+      blobPrefixes: internalResponse.hierarchicalList.blobPrefixes?.map((blobPrefixInternal) => {
         const blobPrefix: BlobPrefixModel = {
           ...blobPrefixInternal,
           name: BlobNameToString(blobPrefixInternal.name),
         };
         return blobPrefix;
       }),
-      blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
+      blobItems: internalResponse.hierarchicalList.blobItems.map((blobItemTsp) => {
         const blobItem: BlobItemInternalModel = {
-          ...blobItemInteral,
-          name: BlobNameToString(blobItemInteral.name),
+          ...blobItemTsp,
+          properties: {
+            ...blobItemTsp.properties,
+            immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+              blobItemTsp.properties.immutabilityPolicyMode,
+            ),
+          },
+          metadata: blobItemTsp.metadata?.additionalProperties,
+          objectReplicationMetadata: blobItemTsp.objectReplicationMetadata?.additionalProperties,
+          name: BlobNameToString(blobItemTsp.name),
         };
         return blobItem;
       }),
@@ -1097,6 +1121,37 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
+  compatResponse.parsedBody = result._response.parsedBody;
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  Object.defineProperty(result, "_response", {
+    value: compatResponse,
+    enumerable: false,
+  });
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
 }
 
 interface UploadChecksumParametersLike {
