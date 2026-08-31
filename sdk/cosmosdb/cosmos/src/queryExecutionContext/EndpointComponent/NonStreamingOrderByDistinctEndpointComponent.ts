@@ -89,7 +89,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
   public hasMoreResults(): boolean {
     if (this.priorityQueueBufferSize === 0) return false;
-    return this.executionContext.hasMoreResults();
+    return this.executionContext.hasMoreResults() && !this.isCompleted;
   }
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
@@ -128,9 +128,10 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       }
 
       if (
-        response.result === undefined ||
-        !Array.isArray(response.result.buffer) ||
-        response.result.buffer.length === 0
+        (response.result === undefined ||
+          !Array.isArray(response.result.buffer) ||
+          response.result.buffer.length === 0) &&
+        !this.executionContext.hasMoreResults()
       ) {
         this.isCompleted = true;
         if (this.aggregateMap.size() > 0) {
