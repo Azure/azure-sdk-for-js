@@ -53,7 +53,6 @@ describe("AzurePipelinesCredential (internal)", function () {
       assert.include(error.message, `"status":${response.status}`);
       assert.include(error.message, "test-e2e-id");
       assert.include(error.message, "test-msedge-ref");
-      // ...but request headers - especially the Authorization header - must never be included.
       assert.notInclude(error.message.toLowerCase(), "authorization");
       assert.notInclude(error.message, "REDACTED");
       assert.notInclude(error.message.toLowerCase(), '"request"');
