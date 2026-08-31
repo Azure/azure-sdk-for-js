@@ -7,7 +7,7 @@ import type {
   CpkInfo as BlobCpkInfo,
   PublicAccessType as ContainerPublicAccessType,
 } from "@azure/storage-blob";
-import type { AclFailedEntry, CpkInfo } from "./generated/src/models/index.js";
+import type { AclFailedEntry, CpkInfo } from "./generated-classic-models.js";
 import type {
   AccessControlChangeError,
   FileSystemItem,

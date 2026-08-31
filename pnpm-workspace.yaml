@@ -3,6 +3,7 @@ packages:
   - common/tools/dev-tool
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
+  - eng/tools/ci-runner
   - eng/tools/eng-package-utils
   - eng/tools/versioning
   - eng/tools/dependency-testing

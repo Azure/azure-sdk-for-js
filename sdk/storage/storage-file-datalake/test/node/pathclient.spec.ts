@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { join } from "node:path";
 import fs from "node:fs";
 import type {
@@ -21,12 +21,11 @@ import {
 import { toAcl, toRemoveAcl } from "../../src/transforms.js";
 import {
   bodyToString,
+  createAndStartRecorder,
   getDataLakeServiceClient,
-  recorderEnvSetup,
   getDataLakeFileSystemClientWithSASCredential,
   getDataLakeServiceClientWithDefaultCredential,
   getUniqueName,
-  uriSanitizers,
   SimpleTokenCredential,
   configureStorageClient,
 } from "../utils/index.js";
@@ -45,10 +44,7 @@ describe("DataLakePathClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    // make sure we add the sanitizers on playback for SAS strings
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
@@ -1112,8 +1108,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
