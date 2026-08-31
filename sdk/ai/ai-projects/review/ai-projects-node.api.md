@@ -8,7 +8,7 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import { isRestError } from '@azure/core-rest-pipeline';
 import OpenAI from 'openai';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
@@ -79,6 +79,7 @@ export interface Agent {
     agent_endpoint?: AgentEndpointConfig;
     readonly blueprint?: AgentIdentity;
     readonly blueprint_reference?: AgentBlueprintReferenceUnion;
+    digital_worker_type?: DigitalWorkerType;
     id: string;
     readonly instance_identity?: AgentIdentity;
     name: string;
@@ -146,7 +147,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | VoiceAgentDefinition | AgentDefinition;
@@ -174,18 +175,6 @@ export interface AgentEndpointConfig {
     version_selector?: VersionSelector;
 }
 
-// @public (undocumented)
-export type AgentEndpointConversationsGetAgentConversationAudioContentResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public (undocumented)
-export type AgentEndpointConversationsGetAgentConversationItemAudioContentResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
 // @public
 export interface AgentEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
     agent_name: string;
@@ -208,6 +197,202 @@ export interface AgentIdentity {
 
 // @public
 export type AgentIdentityStatus = "active" | "disabled";
+
+// @public
+export interface AgentInsight {
+    readonly agent_name: string;
+    readonly agent_version: string;
+    readonly category: string;
+    readonly created_at: Date;
+    readonly description: string;
+    readonly details?: AgentInsightDetails;
+    readonly id: string;
+    readonly monitor_id: string;
+    readonly severity: AgentInsightSeverity;
+    readonly status: AgentInsightStatus;
+    readonly title: string;
+    readonly trace_count: number;
+    readonly updated_at: Date;
+}
+
+// @public
+export interface AgentInsightDetails {
+    highlighted_traces: AgentInsightHighlightedTrace[];
+    linked_traces: AgentInsightLinkedTrace[];
+    recommended_actions: AgentInsightRecommendedAction;
+}
+
+// @public
+export interface AgentInsightEstimatedCost {
+    amount: number;
+    currency: "USD";
+}
+
+// @public
+export interface AgentInsightHighlightedTrace {
+    duration_ms: number;
+    summary: string;
+    timestamp: Date;
+    total_tokens?: number;
+    readonly trace_id: string;
+}
+
+// @public
+export interface AgentInsightLinkedTrace {
+    readonly timestamp: Date;
+    readonly trace_id: string;
+}
+
+// @public
+export interface AgentInsightMonitor {
+    readonly agent_name: string;
+    readonly enabled: boolean;
+    readonly estimated_cost?: AgentInsightEstimatedCost;
+    readonly id: string;
+    readonly model_deployment_name: string;
+    readonly next_scheduled_run_at?: Date;
+    readonly overview: AgentInsightsOverview | null;
+    readonly run_interval_hours: number;
+    readonly suspension: AgentInsightSuspension | null;
+    readonly updated_at: Date;
+}
+
+// @public
+export interface AgentInsightMonitorCreate {
+    agent_name: string;
+    enabled?: boolean;
+    model_deployment_name: string;
+    run_interval_hours?: number;
+}
+
+// @public
+export interface AgentInsightMonitorListItem {
+    readonly agent_name: string;
+    readonly enabled: boolean;
+    readonly estimated_cost?: AgentInsightEstimatedCost;
+    readonly id: string;
+    readonly model_deployment_name: string;
+    readonly next_scheduled_run_at?: Date;
+    readonly run_interval_hours: number;
+    readonly suspension: AgentInsightSuspension | null;
+    readonly updated_at: Date;
+}
+
+// @public
+export interface AgentInsightMonitorUpdate {
+    enabled?: boolean;
+    model_deployment_name?: string;
+    overview_override?: AgentInsightsOverviewOverride;
+    run_interval_hours?: number;
+}
+
+// @public
+export type AgentInsightOverviewSource = "generated" | "user_override";
+
+// @public
+export type AgentInsightPromptSurface = "instructions" | "tool";
+
+// @public
+export interface AgentInsightProposedFix {
+    changes?: AgentInsightProposedFixChange[];
+    kind: AgentInsightProposedFixKind;
+    text: string;
+}
+
+// @public
+export interface AgentInsightProposedFixChange {
+    diff?: string;
+    language?: string;
+    new_value?: any;
+    old_value?: any;
+    path?: string;
+    surface?: AgentInsightPromptSurface;
+    target?: string;
+}
+
+// @public
+export type AgentInsightProposedFixKind = "prose" | "code_change" | "prompt_change";
+
+// @public
+export interface AgentInsightRecommendedAction {
+    proposed_fix: AgentInsightProposedFix;
+}
+
+// @public
+export interface AgentInsightRun {
+    readonly agent_name: string;
+    readonly completed_at?: Date;
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly id: string;
+    inputs?: AgentInsightRunCreate;
+    readonly model_deployment_name: string;
+    readonly monitor_id: string;
+    readonly result?: AgentInsightRunResult;
+    readonly started_at?: Date;
+    readonly status: JobStatus;
+    readonly trigger: AgentInsightRunTrigger;
+    readonly updated_at: Date;
+    readonly window_end: Date;
+    readonly window_start: Date;
+}
+
+// @public
+export interface AgentInsightRunCreate {
+    lookback_hours?: number;
+}
+
+// @public
+export interface AgentInsightRunResult {
+    insights_created: number;
+    insights_reopened: number;
+    insights_updated: number;
+    token_usage: AgentInsightTokenUsage;
+    traces_analyzed: number;
+    traces_in_window: number;
+}
+
+// @public
+export type AgentInsightRunTrigger = "on_demand" | "scheduled";
+
+// @public
+export type AgentInsightSeverity = "high" | "medium" | "low";
+
+// @public
+export interface AgentInsightsOverview {
+    content: string;
+    source: AgentInsightOverviewSource;
+    updated_at: Date;
+}
+
+// @public
+export interface AgentInsightsOverviewOverride {
+    content: string;
+}
+
+// @public
+export type AgentInsightStatus = "active" | "resolved" | "ignored";
+
+// @public
+export interface AgentInsightSuspension {
+    code: string;
+    details?: Record<string, any>;
+    message: string;
+    occurred_at: Date;
+}
+
+// @public
+export interface AgentInsightTokenUsage {
+    cached_tokens?: number;
+    input_tokens: number;
+    output_tokens: number;
+    total_tokens: number;
+}
+
+// @public
+export interface AgentInsightUpdate {
+    status?: AgentInsightStatus;
+}
 
 // @public
 export type AgentKind = "prompt" | "hosted" | "workflow" | "external" | "voice";
@@ -501,6 +686,8 @@ export interface AgentsOperations {
     enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
     generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) => Promise<Agent>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
+    getMicrosoft365Package: (agentName: string, publishScope: Microsoft365PublishScope, options?: GetMicrosoft365PackageOptionalParams) => Promise<GetMicrosoft365PackageResponse>;
+    getMicrosoft365PublishDefaults: (agentName: string, options?: GetMicrosoft365PublishDefaultsOptionalParams) => Promise<Microsoft365PublishDefaults>;
     getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
@@ -509,6 +696,7 @@ export interface AgentsOperations {
     listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
     patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
+    publishToMicrosoft365: (agentName: string, publishScope: Microsoft365PublishScope, options?: PublishToMicrosoft365OptionalParams) => Promise<Microsoft365PublishResponse>;
     stopSession: (agentName: string, sessionId: string, options?: AgentsStopSessionOptionalParams) => Promise<void>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
@@ -758,6 +946,201 @@ export interface BaseCredentials {
 
 // @public
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
+
+// @public
+export interface BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaAgentEndpointConversationsListAgentConversationsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaAgentEndpointConversationsOperations {
+    deleteAgentConversation: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams) => Promise<void>;
+    getAgentConversation: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationOptionalParams) => Promise<VoiceConversation>;
+    getAgentConversationAudio: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams) => Promise<VoiceRecordingResponse>;
+    getAgentConversationAudioContent: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams) => Promise<BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse>;
+    getAgentConversationItem: (agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
+    getAgentConversationItemAudio: (agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams) => Promise<VoiceItemAudioResponse>;
+    getAgentConversationItemAudioContent: (agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams) => Promise<BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse>;
+    getAgentConversationResponse: (agentName: string, conversationId: string, responseId: string, options?: BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams) => Promise<VoiceResponse>;
+    listAgentConversationItems: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listAgentConversationResponseItems: (agentName: string, conversationId: string, responseId: string, options?: BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listAgentConversationResponses: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
+    listAgentConversations: (agentName: string, options?: BetaAgentEndpointConversationsListAgentConversationsOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsCancelRunOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+}
+
+// @public
+export interface BetaAgentInsightMonitorsCreateOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+}
+
+// @public
+export interface BetaAgentInsightMonitorsCreateRunOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsDeleteOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+}
+
+// @public
+export interface BetaAgentInsightMonitorsGetInsightOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+    includeDetails?: boolean;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsGetOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+}
+
+// @public
+export interface BetaAgentInsightMonitorsGetRunOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+}
+
+// @public
+export interface BetaAgentInsightMonitorsListInsightsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    category?: string;
+    foundryFeatures?: "AgentInsights=V1Preview";
+    includeDetails?: boolean;
+    limit?: number;
+    order?: PageOrder;
+    severity?: AgentInsightSeverity;
+    status?: AgentInsightStatus;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsListOptionalParams extends OperationOptions {
+    after?: string;
+    agentName?: string;
+    before?: string;
+    foundryFeatures?: "AgentInsights=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsListRunsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "AgentInsights=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+    status?: JobStatus;
+    trigger?: AgentInsightRunTrigger;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsOperations {
+    cancelRun: (monitorId: string, runId: string, options?: BetaAgentInsightMonitorsCancelRunOptionalParams) => Promise<AgentInsightRun>;
+    create: (monitor: AgentInsightMonitorCreate, options?: BetaAgentInsightMonitorsCreateOptionalParams) => Promise<AgentInsightMonitor>;
+    createRun: (monitorId: string, run: AgentInsightRunCreate, options?: BetaAgentInsightMonitorsCreateRunOptionalParams) => JobPoller<AgentInsightRunResult>;
+    deleteAgentInsightMonitor: (monitorId: string, options?: BetaAgentInsightMonitorsDeleteOptionalParams) => Promise<void>;
+    get: (monitorId: string, options?: BetaAgentInsightMonitorsGetOptionalParams) => Promise<AgentInsightMonitor>;
+    getInsight: (monitorId: string, insightId: string, options?: BetaAgentInsightMonitorsGetInsightOptionalParams) => Promise<AgentInsight>;
+    getRun: (monitorId: string, runId: string, options?: BetaAgentInsightMonitorsGetRunOptionalParams) => Promise<AgentInsightRun>;
+    list: (options?: BetaAgentInsightMonitorsListOptionalParams) => PagedAsyncIterableIterator<AgentInsightMonitorListItem>;
+    listInsights: (monitorId: string, options?: BetaAgentInsightMonitorsListInsightsOptionalParams) => PagedAsyncIterableIterator<AgentInsight>;
+    listRuns: (monitorId: string, options?: BetaAgentInsightMonitorsListRunsOptionalParams) => PagedAsyncIterableIterator<AgentInsightRun>;
+    reset: (monitorId: string, options?: BetaAgentInsightMonitorsResetOptionalParams) => Promise<void>;
+    update: (monitorId: string, monitor: AgentInsightMonitorUpdate, options?: BetaAgentInsightMonitorsUpdateOptionalParams) => Promise<AgentInsightMonitor>;
+    updateInsight: (monitorId: string, insightId: string, update: AgentInsightUpdate, options?: BetaAgentInsightMonitorsUpdateInsightOptionalParams) => Promise<AgentInsight>;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsResetOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+}
+
+// @public
+export interface BetaAgentInsightMonitorsUpdateInsightOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+}
+
+// @public
+export interface BetaAgentInsightMonitorsUpdateOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentInsights=V1Preview";
+}
 
 // @public
 export interface BetaAgentsCancelOptimizationJobOptionalParams extends OperationOptions {
@@ -1141,6 +1524,8 @@ export interface BetaModelsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
+    agentEndpointConversations: BetaAgentEndpointConversationsOperations;
+    agentInsightMonitors: BetaAgentInsightMonitorsOperations;
     agents: BetaAgentsOperations;
     datasets: BetaDatasetsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
@@ -1152,6 +1537,7 @@ export interface BetaOperations {
     routines: BetaRoutinesOperations;
     schedules: BetaSchedulesOperations;
     skills: BetaSkillsOperations;
+    voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
 
 // @public
@@ -1176,6 +1562,7 @@ export interface BetaRedTeamsOperations {
 // @public
 export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptions {
     action?: RoutineActionUnion;
+    authorization?: RoutineAuthorization;
     description?: string;
     enabled?: boolean;
     foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
@@ -1350,6 +1737,20 @@ export interface BetaSkillsOperations {
 
 // @public
 export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
+    agentVersionOverride?: string;
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    foundryFeaturesQuery?: "VoiceAgents=V1Preview";
+    store?: boolean;
+    websocketSubprotocol?: VoiceAgentWebSocketSubprotocol;
+}
+
+// @public
+export interface BetaVoiceAgentWebSocketOperations {
+    connectVoiceAgent: (agentName: string, options?: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -2035,6 +2436,9 @@ export type DeploymentType = "ModelDeployment";
 export type DeploymentUnion = ModelDeployment | Deployment;
 
 // @public
+export type DigitalWorkerType = "m365";
+
+// @public
 export interface Dimension {
     always_applicable?: boolean;
     description: string;
@@ -2472,7 +2876,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview" | "ModelRouterControls=V1Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "AgentInsights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview" | "ModelRouterControls=V1Preview";
 
 // @public
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
@@ -2584,6 +2988,36 @@ export interface GenerateVoiceAgentRequest {
 
 // @public
 export type GenerationWarningType = "input_quality";
+
+// @public
+export interface GetMicrosoft365PackageOptionalParams extends OperationOptions {
+    accessBoundaries?: ActivityProtocolAccessBoundary[];
+    agentDisplayName?: string;
+    appVersion?: string;
+    botServiceArmId?: string;
+    canRespondWithoutMention?: boolean;
+    colorIconBase64?: string;
+    developerName?: string;
+    developerWebsiteUrl?: string;
+    fullDescription?: string;
+    optionalPermissionScopes?: Microsoft365PermissionScopes[];
+    outlineIconBase64?: string;
+    privacyUrl?: string;
+    publishAsAutopilot?: boolean;
+    shortDescription?: string;
+    termsOfUseUrl?: string;
+}
+
+// @public (undocumented)
+export type GetMicrosoft365PackageResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface GetMicrosoft365PublishDefaultsOptionalParams extends OperationOptions {
+    publishAsDigitalWorker?: boolean;
+}
 
 // @public
 export type GitHubIssueEvent = "opened" | "closed";
@@ -3124,6 +3558,40 @@ export interface Metadata {
 }
 
 // @public
+export interface Microsoft365PermissionScopes {
+    resourceAppId: string;
+    scopes: string[];
+}
+
+// @public
+export interface Microsoft365PublishDefaults {
+    agentDisplayName?: string;
+    agentName?: string;
+    appPublishScope?: Microsoft365PublishScope;
+    appRegistrationClientId?: string;
+    appVersion?: string;
+    botServiceArmId?: string;
+    developerName?: string;
+    developerWebsiteUrl?: string;
+    fullDescription?: string;
+    privacyUrl?: string;
+    recommendedNextAppVersion?: string;
+    shortDescription?: string;
+    teamsAppId?: string;
+    termsOfUseUrl?: string;
+    titleId?: string;
+}
+
+// @public
+export interface Microsoft365PublishResponse {
+    teamsAppId?: string;
+    titleId?: string;
+}
+
+// @public
+export type Microsoft365PublishScope = "Personal" | "Shared" | "Tenant";
+
+// @public
 export interface MicrosoftFabricPreviewTool extends Tool {
     fabric_dataagent_preview: FabricDataAgentToolParameters;
     type: "fabric_dataagent_preview";
@@ -3220,32 +3688,6 @@ export interface NoAuthenticationCredentials extends BaseCredentials {
 
 // @public
 export type NodeReadableStream = NodeJS.ReadableStream;
-
-// @public
-export interface OmitPropertiesRealtimeResponse {
-    conversation_id?: string;
-    id?: string;
-    max_output_tokens?: number | "inf";
-    object?: "realtime.response";
-    output_modalities?: ("text" | "audio")[];
-    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
-    status_details?: RealtimeResponseStatusDetails;
-    usage?: RealtimeResponseUsage;
-}
-
-// @public
-export interface OmitPropertiesRealtimeResponse1 {
-    conversation_id?: string;
-    id?: string;
-    max_output_tokens?: number | "inf";
-    // (undocumented)
-    metadata?: Metadata;
-    object?: "realtime.response";
-    output_modalities?: ("text" | "audio")[];
-    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
-    status_details?: RealtimeResponseStatusDetails;
-    usage?: RealtimeResponseUsage;
-}
 
 // @public
 export interface OneTimeTrigger extends Trigger {
@@ -3498,6 +3940,25 @@ export interface ProtocolVersionRecord {
 export type PublishApprovalStatus = "not_published" | "pending" | "approved" | "rejected" | "no_approval_needed";
 
 // @public
+export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
+    accessBoundaries?: ActivityProtocolAccessBoundary[];
+    agentDisplayName?: string;
+    appVersion?: string;
+    botServiceArmId?: string;
+    canRespondWithoutMention?: boolean;
+    colorIconBase64?: string;
+    developerName?: string;
+    developerWebsiteUrl?: string;
+    fullDescription?: string;
+    optionalPermissionScopes?: Microsoft365PermissionScopes[];
+    outlineIconBase64?: string;
+    privacyUrl?: string;
+    publishAsAutopilot?: boolean;
+    shortDescription?: string;
+    termsOfUseUrl?: string;
+}
+
+// @public
 export interface RaiConfig {
     rai_policy_name: string;
 }
@@ -3704,17 +4165,17 @@ export interface RealtimeMCPApprovalResponse extends RealtimeConversationItem {
 // @public
 export interface RealtimeMCPError {
     // (undocumented)
-    type: RealtimeMcpErrorType;
+    type: RealtimeMCPErrorType;
 }
 
 // @public
-export type RealtimeMcpErrorType = "protocol_error" | "tool_execution_error" | "http_error";
+export type RealtimeMCPErrorType = "protocol_error" | "tool_execution_error" | "http_error";
 
 // @public
-export type RealtimeMCPErrorUnion = RealtimeMCPProtocolError | RealtimeMCPToolExecutionError | RealtimeMcphttpError | RealtimeMCPError;
+export type RealtimeMCPErrorUnion = RealtimeMCPProtocolError | RealtimeMCPToolExecutionError | RealtimeMCPHttpError | RealtimeMCPError;
 
 // @public
-export interface RealtimeMcphttpError extends RealtimeMCPError {
+export interface RealtimeMCPHttpError extends RealtimeMCPError {
     // (undocumented)
     code: number;
     // (undocumented)
@@ -4422,6 +4883,14 @@ export type RoutineActionUnion = InvokeAgentResponsesApiRoutineAction | InvokeAg
 export type RoutineAttemptSource = "event_fire" | "manual_dispatch" | "queued_dispatch" | "schedule_delivery" | "timer_delivery";
 
 // @public
+export interface RoutineAuthorization {
+    identity?: RoutineDispatchIdentity;
+}
+
+// @public
+export type RoutineDispatchIdentity = "agent" | "creator";
+
+// @public
 export interface RoutineDispatchPayload {
     type: RoutineDispatchPayloadType;
 }
@@ -4964,7 +5433,7 @@ export interface ToolboxTool {
 }
 
 // @public
-export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "shell" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "web_iq_preview" | "a2a";
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "a2a" | "shell" | "web_iq_preview";
 
 // @public
 export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | ShellToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2AToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | WebIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
@@ -5567,9 +6036,23 @@ export interface VoiceAgentNoiseReduction {
 export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression";
 
 // @public
-export interface VoiceAgentRealtimeResponse extends OmitPropertiesRealtimeResponse1 {
+export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
     audio?: VoiceResponseAudio;
     output?: RealtimeConversationItemUnion[];
+}
+
+// @public
+export interface VoiceAgentRealtimeResponseBase {
+    conversation_id?: string;
+    id?: string;
+    max_output_tokens?: number | "inf";
+    // (undocumented)
+    metadata?: Metadata;
+    object?: "realtime.response";
+    output_modalities?: ("text" | "audio")[];
+    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+    status_details?: RealtimeResponseStatusDetails;
+    usage?: RealtimeResponseUsage;
 }
 
 // @public
@@ -5998,7 +6481,7 @@ export interface VoiceRecordingResponse {
 }
 
 // @public
-export interface VoiceResponse extends OmitPropertiesRealtimeResponse {
+export interface VoiceResponse extends VoiceResponseBase {
     audio?: VoiceResponseAudio;
     completed_at?: Date;
     conversation_id: string;
@@ -6020,6 +6503,18 @@ export interface VoiceResponseAudioOutput {
     voice?: string;
     voice_locale?: string;
     voice_type?: VoiceType;
+}
+
+// @public
+export interface VoiceResponseBase {
+    conversation_id?: string;
+    id?: string;
+    max_output_tokens?: number | "inf";
+    object?: "realtime.response";
+    output_modalities?: ("text" | "audio")[];
+    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+    status_details?: RealtimeResponseStatusDetails;
+    usage?: RealtimeResponseUsage;
 }
 
 // @public

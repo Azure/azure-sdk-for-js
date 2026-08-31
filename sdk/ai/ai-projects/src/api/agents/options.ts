@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AgentState,
   AgentKind,
   AgentBlueprintReferenceUnion,
   AgentEndpointConfig,
   ActivityProtocolAccessBoundary,
-  DigitalWorkerType,
   AgentCard,
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions {

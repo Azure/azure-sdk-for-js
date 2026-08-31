@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
-import type {
+import {
   updateInsight,
   getInsight,
   listInsights,
@@ -11,13 +11,13 @@ import type {
   listRuns,
   createRun,
   reset,
-  update,
+  update as updateMonitor,
   deleteAgentInsightMonitor,
   get,
   create,
   list,
 } from "../../../api/beta/agentInsightMonitors/operations.js";
-import {
+import type {
   BetaAgentInsightMonitorsUpdateInsightOptionalParams,
   BetaAgentInsightMonitorsGetInsightOptionalParams,
   BetaAgentInsightMonitorsListInsightsOptionalParams,
@@ -161,7 +161,7 @@ function _getBetaAgentInsightMonitors(context: AIProjectContext) {
       monitorId: string,
       monitor: AgentInsightMonitorUpdate,
       options?: BetaAgentInsightMonitorsUpdateOptionalParams,
-    ) => update(context, monitorId, monitor, options),
+    ) => updateMonitor(context, monitorId, monitor, options),
     deleteAgentInsightMonitor: (
       monitorId: string,
       options?: BetaAgentInsightMonitorsDeleteOptionalParams,

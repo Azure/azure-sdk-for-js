@@ -390,23 +390,23 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       content: Uint8Array,
       options?: AgentsUploadSessionFileOptionalParams,
     ) => uploadSessionFile(context, agentName, sessionId, path, content, options),
-      getMicrosoft365PublishDefaults: (
+    getMicrosoft365PublishDefaults: (
       agentName: string,
-        options?: GetMicrosoft365PublishDefaultsOptionalParams,
-      ) => getMicrosoft365PublishDefaults(context, agentName, options),
-      getMicrosoft365Package: (
-        agentName: string,
-        publishScope: Microsoft365PublishScope,
-        options?: GetMicrosoft365PackageOptionalParams,
-      ) => getMicrosoft365Package(context, agentName, publishScope, options),
-      publishToMicrosoft365: (
-        agentName: string,
-        publishScope: Microsoft365PublishScope,
-        options?: PublishToMicrosoft365OptionalParams,
-      ) => publishToMicrosoft365(context, agentName, publishScope, options),
-      getSessionLogStream: (
-        agentName: string,
-        agentVersion: string,
+      options?: GetMicrosoft365PublishDefaultsOptionalParams,
+    ) => getMicrosoft365PublishDefaults(context, agentName, options),
+    getMicrosoft365Package: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: GetMicrosoft365PackageOptionalParams,
+    ) => getMicrosoft365Package(context, agentName, publishScope, options),
+    publishToMicrosoft365: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: PublishToMicrosoft365OptionalParams,
+    ) => publishToMicrosoft365(context, agentName, publishScope, options),
+    getSessionLogStream: (
+      agentName: string,
+      agentVersion: string,
       sessionId: string,
       options?: AgentsGetSessionLogStreamOptionalParams,
     ) => getSessionLogStream(context, agentName, agentVersion, sessionId, options),

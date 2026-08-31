@@ -719,7 +719,9 @@ export function _deleteAgentConversationSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
@@ -763,7 +765,9 @@ export async function deleteAgentConversation(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<void> {
   const result = await _deleteAgentConversationSend(context, agentName, conversationId, options);
   return _deleteAgentConversationDeserialize(result);
@@ -773,7 +777,9 @@ export function _getAgentConversationSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsGetAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsGetAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
@@ -821,7 +827,9 @@ export async function getAgentConversation(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsGetAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsGetAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<VoiceConversation> {
   const result = await _getAgentConversationSend(context, agentName, conversationId, options);
   return _getAgentConversationDeserialize(result);
@@ -830,7 +838,9 @@ export async function getAgentConversation(
 export function _listAgentConversationsSend(
   context: Client,
   agentName: string,
-  options: BetaAgentEndpointConversationsListAgentConversationsOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsListAgentConversationsOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
@@ -881,7 +891,9 @@ export async function _listAgentConversationsDeserialize(
 export function listAgentConversations(
   context: Client,
   agentName: string,
-  options: BetaAgentEndpointConversationsListAgentConversationsOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsListAgentConversationsOptionalParams = {
+    requestOptions: {},
+  },
 ): PagedAsyncIterableIterator<VoiceConversation> {
   return buildPagedAsyncIterator(
     context,

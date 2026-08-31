@@ -57,7 +57,7 @@ export function _updateInsightSend(
   context: Client,
   monitorId: string,
   insightId: string,
-  update: AgentInsightUpdate,
+  insightUpdate: AgentInsightUpdate,
   options: BetaAgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -71,20 +71,18 @@ export function _updateInsightSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agentInsightUpdateSerializer(update),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agentInsightUpdateSerializer(insightUpdate),
+  });
 }
 
 export async function _updateInsightDeserialize(
@@ -108,10 +106,10 @@ export async function updateInsight(
   context: Client,
   monitorId: string,
   insightId: string,
-  update: AgentInsightUpdate,
+  insightUpdate: AgentInsightUpdate,
   options: BetaAgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsight> {
-  const result = await _updateInsightSend(context, monitorId, insightId, update, options);
+  const result = await _updateInsightSend(context, monitorId, insightId, insightUpdate, options);
   return _updateInsightDeserialize(result);
 }
 
@@ -133,18 +131,16 @@ export function _getInsightSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getInsightDeserialize(result: PathUncheckedResponse): Promise<AgentInsight> {
@@ -195,18 +191,16 @@ export function _listInsightsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listInsightsDeserialize(
@@ -269,18 +263,16 @@ export function _cancelRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _cancelRunDeserialize(
@@ -327,18 +319,16 @@ export function _getRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<AgentInsightRun> {
@@ -387,18 +377,16 @@ export function _listRunsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listRunsDeserialize(
@@ -460,20 +448,18 @@ export function _createRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agentInsightRunCreateSerializer(run),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agentInsightRunCreateSerializer(run),
+  });
 }
 
 export async function _createRunDeserialize(
@@ -536,17 +522,15 @@ export function _resetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _resetDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -589,20 +573,18 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agentInsightMonitorUpdateSerializer(monitor),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agentInsightMonitorUpdateSerializer(monitor),
+  });
 }
 
 export async function _updateDeserialize(
@@ -647,17 +629,15 @@ export function _deleteAgentInsightMonitorSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteAgentInsightMonitorDeserialize(
@@ -701,18 +681,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<AgentInsightMonitor> {
@@ -753,20 +731,18 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agentInsightMonitorCreateSerializer(monitor),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agentInsightMonitorCreateSerializer(monitor),
+  });
 }
 
 export async function _createDeserialize(
@@ -813,18 +789,16 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listDeserialize(

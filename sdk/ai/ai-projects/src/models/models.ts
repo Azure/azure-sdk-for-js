@@ -22553,8 +22553,8 @@ export function voiceAgentServerEventResponseAnimationBlendshapesDeltaSerializer
     output_index: item["output_index"],
     content_index: item["content_index"],
     frames: item["frames"].map((p: any) => {
-      return p.map((p: any) => {
-        return p;
+      return p.map((p1: any) => {
+        return p1;
       });
     }),
     frame_index: item["frame_index"],
