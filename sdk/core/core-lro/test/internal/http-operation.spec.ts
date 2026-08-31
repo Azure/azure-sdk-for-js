@@ -45,39 +45,39 @@ describe("http/operation.ts", () => {
       assert.equal(result, 999999999000);
     });
 
-    it("returns undefined for a non-numeric, non-date value", () => {
+    it("returns NaN for a non-numeric, non-date value", () => {
       const result = parseRetryAfter({
         rawResponse: makeRawResponse({ headers: { "retry-after": "/bar" } }),
         flatResponse: {},
       });
-      assert.isUndefined(result);
+      assert.isNaN(result!);
     });
 
-    it("returns undefined for a negative delay-seconds value", () => {
+    it("returns NaN for a negative delay-seconds value", () => {
       const result = parseRetryAfter({
         rawResponse: makeRawResponse({ headers: { "retry-after": "-1" } }),
         flatResponse: {},
       });
-      assert.isUndefined(result);
+      assert.isNaN(result!);
     });
 
-    it("returns undefined for a partially numeric delay-seconds value", () => {
+    it("returns NaN for a partially numeric delay-seconds value", () => {
       const result = parseRetryAfter({
         rawResponse: makeRawResponse({ headers: { "retry-after": "1junk" } }),
         flatResponse: {},
       });
-      assert.isUndefined(result);
+      assert.isNaN(result!);
     });
   });
 
   describe("calculatePollingIntervalFromDate (via parseRetryAfter)", () => {
-    it("returns undefined when retry-after date is in the past", () => {
+    it("returns NaN when retry-after date is in the past", () => {
       const pastDate = new Date(Date.now() - 100000).toUTCString();
       const result = parseRetryAfter({
         rawResponse: makeRawResponse({ headers: { "retry-after": pastDate } }),
         flatResponse: {},
       });
-      assert.isUndefined(result);
+      assert.isNaN(result!);
     });
 
     it("returns milliseconds when retry-after date is in the future", () => {

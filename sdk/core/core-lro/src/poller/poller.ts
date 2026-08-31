@@ -33,6 +33,21 @@ function boundPollingInterval(
 }
 
 /**
+ * Bounds a server-provided polling interval, such as one derived from a
+ * `Retry-After` header, to the range supported by the platform timer.
+ *
+ * A value that cannot be honored — unparseable, not finite, or not a positive
+ * number of milliseconds — falls back to the caller's configured interval
+ * rather than leaving the delay from an earlier response in effect.
+ */
+function boundServerPollingInterval(intervalInMs: number, configuredIntervalInMs: number): number {
+  if (!Number.isFinite(intervalInMs) || intervalInMs <= 0) {
+    return configuredIntervalInMs;
+  }
+  return Math.min(intervalInMs, MAX_POLLING_INTERVAL_IN_MS);
+}
+
+/**
  * Returns a poller factory.
  */
 export function buildCreatePoller<TResponse, TResult, TState extends OperationState<TResult>>(
@@ -200,7 +215,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           updateState,
           options: pollOptions,
           setDelay: (pollIntervalInMs) => {
-            currentPollIntervalInMs = boundPollingInterval(
+            currentPollIntervalInMs = boundServerPollingInterval(
               pollIntervalInMs,
               configuredPollIntervalInMs,
             );

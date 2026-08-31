@@ -63,6 +63,49 @@ async function runPoller(options: { intervalInMs?: number; retryAfter?: string }
   assert.equal(result.statusCode, 200);
 }
 
+async function runPollerWithRetryAfterSequence(options: {
+  intervalInMs: number;
+  retryAfters: (string | undefined)[];
+}): Promise<void> {
+  const { intervalInMs, retryAfters } = options;
+  const pollingPath = "path/poll";
+  const poller = createTestPoller({
+    intervalInMs,
+    routes: [
+      {
+        method: "PUT",
+        status: 202,
+        headers: {
+          "operation-location": pollingPath,
+        },
+      },
+      ...retryAfters.map((retryAfter) => ({
+        method: "GET" as const,
+        path: pollingPath,
+        status: 200,
+        ...(retryAfter === undefined ? {} : { headers: { "retry-after": retryAfter } }),
+        body: JSON.stringify({ status: "InProgress" }),
+      })),
+      {
+        method: "GET" as const,
+        path: pollingPath,
+        status: 200,
+        body: JSON.stringify({ status: "Succeeded" }),
+      },
+      {
+        method: "GET" as const,
+        path: "path",
+        status: 200,
+        body: JSON.stringify({ id: "done" }),
+      },
+    ],
+    throwOnNon2xxResponse: true,
+  });
+
+  const result = await poller.pollUntilDone();
+  assert.equal(result.statusCode, 200);
+}
+
 describe("poller bounds oversized polling intervals", () => {
   beforeEach(() => {
     delayCalls.length = 0;
@@ -135,5 +178,53 @@ describe("poller bounds oversized polling intervals", () => {
     });
 
     assert.deepEqual(delayCalls, [configuredIntervalInMs]);
+  });
+
+  it("restores the configured interval when an oversized Retry-After follows a valid one", async () => {
+    const configuredIntervalInMs = 5000;
+
+    await runPollerWithRetryAfterSequence({
+      intervalInMs: configuredIntervalInMs,
+      retryAfters: ["10", "9".repeat(400)],
+    });
+
+    // The second response cannot be honored, so the delay falls back to the
+    // caller's configured interval rather than reusing the previous 10s delay.
+    assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
+  });
+
+  it("restores the configured interval when a malformed Retry-After follows a valid one", async () => {
+    const configuredIntervalInMs = 5000;
+
+    await runPollerWithRetryAfterSequence({
+      intervalInMs: configuredIntervalInMs,
+      retryAfters: ["10", "1junk"],
+    });
+
+    assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
+  });
+
+  it("restores the configured interval when a past-dated Retry-After follows a valid one", async () => {
+    const configuredIntervalInMs = 5000;
+
+    await runPollerWithRetryAfterSequence({
+      intervalInMs: configuredIntervalInMs,
+      retryAfters: ["10", new Date(Date.now() - 60_000).toUTCString()],
+    });
+
+    assert.deepEqual(delayCalls, [10_000, configuredIntervalInMs]);
+  });
+
+  it("keeps the previous server delay when a later response omits Retry-After", async () => {
+    const configuredIntervalInMs = 5000;
+
+    await runPollerWithRetryAfterSequence({
+      intervalInMs: configuredIntervalInMs,
+      retryAfters: ["10", undefined],
+    });
+
+    // An absent header means the server expressed no opinion, so the delay that
+    // it last asked for stays in effect.
+    assert.deepEqual(delayCalls, [10_000, 10_000]);
   });
 });
