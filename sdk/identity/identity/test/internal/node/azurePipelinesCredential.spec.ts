@@ -75,10 +75,7 @@ describe("AzurePipelinesCredential (internal)", function () {
         assert.fail("Expected handleOidcResponse to throw");
       } catch (e: any) {
         assertSafeErrorDetails(e);
-        assert.include(
-          e.message,
-          "No service connection found with identifier fake-identifier",
-        );
+        assert.include(e.message, "No service connection found with identifier fake-identifier");
       }
     });
 
