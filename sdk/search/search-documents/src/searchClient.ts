@@ -780,7 +780,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         nextPageParameters: result.nextPageParameters,
       };
     } catch (e: any) {
-      throw new Error(`Corrupted or invalid continuation token: ${decodedToken}`);
+      throw new Error(`Corrupted or invalid continuation token: ${decodedToken}`, { cause: e });
     }
   }
 
