@@ -565,8 +565,6 @@ export type {
   AgentsDownloadAgentCodeResponse,
   DownloadVersionResponse,
   BetaSkillsDownloadResponse,
-  BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse,
-  BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
 } from "./models.js";
 
 export type {

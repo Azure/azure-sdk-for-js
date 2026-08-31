@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
-import type { BetaAgentEndpointConversationsOperations } from "./agentEndpointConversations/index.js";
-import { _getBetaAgentEndpointConversationsOperations } from "./agentEndpointConversations/index.js";
 import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import type { BetaAgentsOperations } from "./agents/index.js";
@@ -28,8 +26,6 @@ import type { BetaRoutinesOperations } from "./routines/index.js";
 import { _getBetaRoutinesOperations } from "./routines/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
-import type { BetaVoiceAgentWebSocketOperations } from "./voiceAgentWebSocket/index.js";
-import { _getBetaVoiceAgentWebSocketOperations } from "./voiceAgentWebSocket/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
@@ -55,12 +51,8 @@ export interface BetaOperations {
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
   /** Operations for managing agents. */
   agents: BetaAgentsOperations;
-  /** Operations for managing persisted voice agent conversations. */
-  agentEndpointConversations: BetaAgentEndpointConversationsOperations;
   /** Operations for managing Agent Insights monitors. */
   agentInsightMonitors: BetaAgentInsightMonitorsOperations;
-  /** Operations for connecting to voice agents over WebSocket. */
-  voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
@@ -87,11 +79,7 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     /** Operations for managing agents. */
     agents: _getBetaAgentsOperations(context),
-    /** Operations for managing persisted voice agent conversations. */
-    agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
-    /** Operations for connecting to voice agents over WebSocket. */
-    voiceAgentWebSocket: _getBetaVoiceAgentWebSocketOperations(context),
   };
 }

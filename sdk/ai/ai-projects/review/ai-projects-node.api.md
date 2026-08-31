@@ -952,98 +952,6 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public
-export interface BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export type BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export type BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaAgentEndpointConversationsListAgentConversationsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaAgentEndpointConversationsOperations {
-    deleteAgentConversation: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams) => Promise<void>;
-    getAgentConversation: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationOptionalParams) => Promise<VoiceConversation>;
-    getAgentConversationAudio: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams) => Promise<VoiceRecordingResponse>;
-    getAgentConversationAudioContent: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams) => Promise<BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse>;
-    getAgentConversationItem: (agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
-    getAgentConversationItemAudio: (agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams) => Promise<VoiceItemAudioResponse>;
-    getAgentConversationItemAudioContent: (agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams) => Promise<BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse>;
-    getAgentConversationResponse: (agentName: string, conversationId: string, responseId: string, options?: BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams) => Promise<VoiceResponse>;
-    listAgentConversationItems: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
-    listAgentConversationResponseItems: (agentName: string, conversationId: string, responseId: string, options?: BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
-    listAgentConversationResponses: (agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
-    listAgentConversations: (agentName: string, options?: BetaAgentEndpointConversationsListAgentConversationsOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
-}
-
-// @public
 export interface BetaAgentInsightMonitorsCancelRunOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentInsights=V1Preview";
 }
@@ -1528,7 +1436,6 @@ export interface BetaModelsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
-    agentEndpointConversations: BetaAgentEndpointConversationsOperations;
     agentInsightMonitors: BetaAgentInsightMonitorsOperations;
     agents: BetaAgentsOperations;
     datasets: BetaDatasetsOperations;
@@ -1541,7 +1448,6 @@ export interface BetaOperations {
     routines: BetaRoutinesOperations;
     schedules: BetaSchedulesOperations;
     skills: BetaSkillsOperations;
-    voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
 
 // @public
@@ -1741,20 +1647,6 @@ export interface BetaSkillsOperations {
 
 // @public
 export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
-    agentVersionOverride?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    foundryFeaturesQuery?: "VoiceAgents=V1Preview";
-    store?: boolean;
-    websocketSubprotocol?: VoiceAgentWebSocketSubprotocol;
-}
-
-// @public
-export interface BetaVoiceAgentWebSocketOperations {
-    connectVoiceAgent: (agentName: string, options?: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams) => Promise<void>;
 }
 
 // @public

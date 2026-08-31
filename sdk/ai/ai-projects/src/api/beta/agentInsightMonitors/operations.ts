@@ -75,9 +75,7 @@ export function _updateInsightSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -134,9 +132,7 @@ export function _getInsightSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -194,9 +190,7 @@ export function _listInsightsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -235,9 +229,7 @@ export function listInsights(
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
         headers: {
-          ...(options?.foundryFeatures !== undefined
-            ? { "foundry-features": options.foundryFeatures }
-            : {}),
+          "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
         },
       },
       cursorFieldName: "last_id",
@@ -266,9 +258,7 @@ export function _cancelRunSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -322,9 +312,7 @@ export function _getRunSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -380,9 +368,7 @@ export function _listRunsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -421,9 +407,7 @@ export function listRuns(
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
         headers: {
-          ...(options?.foundryFeatures !== undefined
-            ? { "foundry-features": options.foundryFeatures }
-            : {}),
+          "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
         },
       },
       cursorFieldName: "last_id",
@@ -452,9 +436,7 @@ export function _createRunSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -500,9 +482,7 @@ export function createRun(
     apiVersion: context.apiVersion ?? "v1",
     pollHeaders: {
       ...options?.requestOptions?.headers,
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
     },
   });
 }
@@ -525,9 +505,7 @@ export function _resetSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       ...options.requestOptions?.headers,
     },
   });
@@ -577,9 +555,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -632,9 +608,7 @@ export function _deleteAgentInsightMonitorSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       ...options.requestOptions?.headers,
     },
   });
@@ -684,9 +658,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -735,9 +707,7 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -792,9 +762,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -832,9 +800,7 @@ export function list(
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
         headers: {
-          ...(options?.foundryFeatures !== undefined
-            ? { "foundry-features": options.foundryFeatures }
-            : {}),
+          "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
         },
       },
       cursorFieldName: "last_id",

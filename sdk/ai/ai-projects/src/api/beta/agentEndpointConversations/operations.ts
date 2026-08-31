@@ -485,7 +485,15 @@ export function listAgentConversationItems(
     () => _listAgentConversationItemsSend(context, agentName, conversationId, options),
     _listAgentConversationItemsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        headers: { "foundry-features": "VoiceAgents=V1Preview" },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
@@ -568,7 +576,15 @@ export function listAgentConversationResponseItems(
       ),
     _listAgentConversationResponseItemsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        headers: { "foundry-features": "VoiceAgents=V1Preview" },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
@@ -711,7 +727,15 @@ export function listAgentConversationResponses(
     () => _listAgentConversationResponsesSend(context, agentName, conversationId, options),
     _listAgentConversationResponsesDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        headers: { "foundry-features": "VoiceAgents=V1Preview" },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
@@ -900,6 +924,14 @@ export function listAgentConversations(
     () => _listAgentConversationsSend(context, agentName, options),
     _listAgentConversationsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        headers: { "foundry-features": "VoiceAgents=V1Preview" },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }

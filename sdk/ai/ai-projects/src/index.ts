@@ -570,8 +570,6 @@ export type {
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
-  BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse,
-  BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
 } from "./models/index.js";
 export type {
   SessionConfiguration,
@@ -793,9 +791,7 @@ export type {
   VoiceAgentWebSocketSubprotocol,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
-export type { BetaAgentEndpointConversationsOperations } from "./classic/beta/agentEndpointConversations/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";
-export type { BetaVoiceAgentWebSocketOperations } from "./classic/beta/voiceAgentWebSocket/index.js";
 export type { FileContents } from "./static-helpers/multipartHelpers.js";
 export type { JobOperationState, JobPoller } from "./static-helpers/pollingHelpers.js";
 export type {
@@ -878,20 +874,6 @@ export type {
   BetaAgentInsightMonitorsCreateOptionalParams,
   BetaAgentInsightMonitorsListOptionalParams,
 } from "./api/beta/agentInsightMonitors/index.js";
-export type {
-  BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
-  BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams,
-  BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
-  BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
-  BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams,
-  BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams,
-  BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
-  BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams,
-  BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams,
-  BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams,
-  BetaAgentEndpointConversationsGetAgentConversationOptionalParams,
-  BetaAgentEndpointConversationsListAgentConversationsOptionalParams,
-} from "./api/beta/agentEndpointConversations/index.js";
 export type {
   BetaAgentsDeleteOptimizationJobOptionalParams,
   BetaAgentsCancelOptimizationJobOptionalParams,
@@ -1006,7 +988,6 @@ export type {
   ToolboxesGetOptionalParams,
   CreateVersionOptionalParams as ToolboxesCreateVersionOptionalParams,
 } from "./api/toolboxes/index.js";
-export type { BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./api/beta/voiceAgentWebSocket/index.js";
 export type {
   AgentsOperations,
   BetaOperations,
