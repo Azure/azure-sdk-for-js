@@ -1,6 +1,6 @@
 # Release History
 
-## 14.1.0 (2026-08-29)
+## 14.1.0 (2026-08-31)
 
 ### Features Added
   - Added operation ItemLevelRecoveryConnectionsOperations.listInstantItemRecoveryOperationResult
