@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for exporting availability telemetry from OpenTelemetry log records with `microsoft.availability.*` attributes. [#39734](https://github.com/Azure/azure-sdk-for-js/pull/39734)
+
 ### Breaking Changes
 
 ### Bugs Fixed
