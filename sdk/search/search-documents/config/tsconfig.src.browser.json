@@ -1,9 +1,7 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
   "compilerOptions": {
-    // @azure/core-sse ships type declarations that reference Node globals even in its browser
-    // entrypoint, which the browser src build (types: []) cannot resolve.
-    "skipLibCheck": true
+    "lib": ["DOM", "ES2023", "ESNext.Disposable"]
   },
   "include": [
     "../src/events.d.ts",
