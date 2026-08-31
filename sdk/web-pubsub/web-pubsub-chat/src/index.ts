@@ -17,7 +17,7 @@ import {
 export { WebPubSubChatServiceClient } from "./webPubSubChatServiceClient.js";
 export type { WebPubSubChatServiceClientOptions } from "./webPubSubChatServiceClient.js";
 export type { GetClientAccessTokenOptions, ClientAccessToken } from "./models/clientToken.js";
-export { BuiltInChatRole } from "./chatPermissions.js";
+export { BuiltInChatRoles } from "./builtInChatRoles.js";
 export type {
   ChatConversation,
   ChatMessage,

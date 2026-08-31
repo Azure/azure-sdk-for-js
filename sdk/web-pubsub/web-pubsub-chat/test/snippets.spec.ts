@@ -3,7 +3,7 @@
 
 import {
   AzureKeyCredential,
-  BuiltInChatRole,
+  BuiltInChatRoles,
   KnownChatPermission,
   WebPubSubChatServiceClient,
 } from "../src/index.js";
@@ -69,7 +69,7 @@ describe("snippets", () => {
     await client.createOrReplaceUser("alice", {
       kind: "Human",
       nickname: "Alice",
-      roleName: BuiltInChatRole.UserNormal,
+      roleName: BuiltInChatRoles.UserNormal,
     });
 
     await client.createOrReplaceRole("room.moderator", {
@@ -134,7 +134,7 @@ describe("snippets", () => {
     const user = await client.createOrReplaceUser(userId, {
       kind: "Human",
       nickname: "Alice",
-      roleName: BuiltInChatRole.UserNormal,
+      roleName: BuiltInChatRoles.UserNormal,
     });
     console.log(`Created user: ${user.id}, nickname: ${user.nickname}`);
 

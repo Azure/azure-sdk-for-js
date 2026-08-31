@@ -15,7 +15,7 @@ import { TokenCredential } from '@azure/core-auth';
 export { AzureKeyCredential }
 
 // @public
-export const BuiltInChatRole: {
+export const BuiltInChatRoles: {
     readonly UserNormal: "user.normal";
     readonly RoomMember: "room.member";
     readonly RoomOperator: "room.operator";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /** Built-in roles supported by Web PubSub Chat. */
-export const BuiltInChatRole = {
+export const BuiltInChatRoles = {
   /** The default user role with room creation and room listing permissions. */
   UserNormal: "user.normal",
   /** The room member role with publish, history, and invite permissions. */
