@@ -29,15 +29,13 @@ import type { TokenCredential } from "@azure/core-auth";
 import { TypeDeserializer } from "./utils/typeDeserializer.js";
 import * as Mappers from "./generated/models/mappers.js";
 
-/// <reference path="../jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
-import { hexToBase64 } from "./utils/helpers.js";
 import { _policyResultFromGenerated } from "./models/policyResult.js";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
 import { verifyAttestationSigningKey } from "./utils/helpers.js";
 import { createAttestationResponse } from "./models/attestationResponse.js";
 import { AttestationTokenImpl } from "./models/attestationToken.js";
 import { tracingClient } from "./generated/tracing.js";
+import { certificateToBase64, keyTypeFromCertificate } from "./utils/jws.js";
 
 /**
  * Attestation Client Construction Options.
@@ -436,13 +434,9 @@ export class AttestationAdministrationClient {
           verifyAttestationSigningKey(privateKey, certificate);
         }
 
-        const cert = new jsrsasign.X509();
-        cert.readCertPEM(pemCertificate);
-        const kty = this.keyTypeFromCertificate(cert);
-
         const jwk: JsonWebKey = {
-          x5C: [hexToBase64(cert.hex)],
-          kty: kty,
+          x5C: [certificateToBase64(pemCertificate)],
+          kty: keyTypeFromCertificate(pemCertificate),
         };
 
         const addBody: AttestationCertificateManagementBody = {
@@ -493,25 +487,6 @@ export class AttestationAdministrationClient {
     );
   }
 
-  private keyTypeFromCertificate(cert: any): string {
-    let kty: string;
-    switch (cert.getSignatureAlgorithmName()) {
-      case "SHA256withRSA":
-      case "SHA384withRSA":
-      case "SHA512withRSA":
-        kty = "RSA";
-        break;
-      case "SHA256withECDSA":
-      case "SHA384withECDSA":
-        kty = "EC";
-        break;
-      default:
-        kty = "RSA";
-        break;
-    }
-    return kty;
-  }
-
   /** Add a new certificate chain to the set of policy management certificates.
    *
    * @param pemCertificate - PEM encoded certificate to add to the set of policy management certificates.
@@ -549,13 +524,9 @@ export class AttestationAdministrationClient {
           verifyAttestationSigningKey(privateKey, certificate);
         }
 
-        const cert = new jsrsasign.X509();
-        cert.readCertPEM(pemCertificate);
-        const kty = this.keyTypeFromCertificate(cert);
-
         const jwk: JsonWebKey = {
-          x5C: [hexToBase64(cert.hex)],
-          kty: kty,
+          x5C: [certificateToBase64(pemCertificate)],
+          kty: keyTypeFromCertificate(pemCertificate),
         };
 
         const addBody: AttestationCertificateManagementBody = {

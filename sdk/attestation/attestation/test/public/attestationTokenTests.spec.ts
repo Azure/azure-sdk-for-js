@@ -1,29 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../src/jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
-import { Recorder } from "@azure-tools/test-recorder";
+import { base64UrlEncodeByteArray } from "../../src/utils/base64.js";
 import { bytesToString, stringToBytes } from "../../src/utils/utf8.js";
-import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils.js";
+import {
+  certificateToBase64,
+  createECDSKey,
+  createRSAKey,
+  createX509Certificate,
+} from "../utils/cryptoUtils.js";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
 import { AttestationTokenImpl } from "../../src/models/attestationToken.js";
-import { recorderOptions } from "../utils/recordedClient.js";
-import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 describe("AttestationTokenTests", () => {
-  let recorder: Recorder;
-
-  beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-  });
-
-  afterEach(async () => {
-    await recorder.stop();
-  });
-
   it("#testUtf8ConversionFunctions", async () => {
     const buffer = stringToBytes("ABCDEF");
     assert.equal(buffer[0], 65);
@@ -62,12 +52,41 @@ describe("AttestationTokenTests", () => {
     const [privKey, pubKey] = createECDSKey();
     const cert = createX509Certificate(privKey, pubKey, "testCert");
 
-    const [key2] = createECDSKey();
+    const [key2] = createECDSKey(1);
 
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
     assert.throws(() => verifyAttestationSigningKey(key2, cert));
+  });
+
+  it("#createRsaSigningKeyWrongKey", async () => {
+    const [privateKey, publicKey] = createRSAKey();
+    const certificate = createX509Certificate(privateKey, publicKey, "testCert");
+    const [mismatchedKey] = createRSAKey(1);
+
+    expect(() => verifyAttestationSigningKey(mismatchedKey, certificate)).toThrow(
+      "Key does not match Certificate",
+    );
+  });
+
+  it("#rejectMalformedSigningMaterial", async () => {
+    const [privateKey, publicKey] = createRSAKey();
+    const certificate = createX509Certificate(privateKey, publicKey, "testCert");
+
+    expect(() => verifyAttestationSigningKey("not a key", certificate)).toThrow(
+      "Invalid PEM encoded private key",
+    );
+    expect(() => verifyAttestationSigningKey(privateKey, "not a certificate")).toThrow(
+      "Invalid PEM encoded certificate",
+    );
+
+    const truncatedCertificate = `-----BEGIN CERTIFICATE-----
+${certificateToBase64(certificate).slice(0, -4)}
+-----END CERTIFICATE-----`;
+    expect(() => verifyAttestationSigningKey(privateKey, truncatedCertificate)).toThrow(
+      "Invalid DER",
+    );
   });
 
   /**
@@ -109,13 +128,7 @@ describe("AttestationTokenTests", () => {
     if (token.certificateChain) {
       const pemCert: string = token.certificateChain.certificates[0];
 
-      const expectedCert = new jsrsasign.X509();
-      expectedCert.readCertPEM(cert);
-
-      const actualCert = new jsrsasign.X509();
-      actualCert.readCertPEM(pemCert);
-
-      assert.equal(expectedCert.hex, actualCert.hex);
+      assert.equal(certificateToBase64(cert), certificateToBase64(pemCert));
     }
 
     // The token of course should validate.
@@ -159,6 +172,38 @@ describe("AttestationTokenTests", () => {
     expect(token.notBefore?.getTime()).to.equal(currentDate.getTime());
     expect(token.expiresOn?.getTime()).to.equal(currentDate.getTime() + 30 * 1000);
     expect(token.issuer).to.equal("this is an issuer");
+  });
+
+  it("#createEcSecuredAttestationToken", async () => {
+    const [privateKey, publicKey] = createECDSKey();
+    const certificate = createX509Certificate(privateKey, publicKey, "certificate");
+    const token = AttestationTokenImpl.create({
+      body: JSON.stringify({ foo: "bar" }),
+      privateKey,
+      certificate,
+    });
+
+    assert.equal(token.algorithm, "ES256");
+    assert.equal(token.certificateChain?.certificates.length, 1);
+    assert.deepEqual(token.getTokenProblems([{ certificates: [certificate] }]), []);
+  });
+
+  it("#rejectTamperedRsaAndEcTokens", async () => {
+    for (const createKey of [createRSAKey, createECDSKey]) {
+      const [privateKey, publicKey] = createKey();
+      const certificate = createX509Certificate(privateKey, publicKey, "certificate");
+      const token = AttestationTokenImpl.create({
+        body: JSON.stringify({ foo: "bar" }),
+        privateKey,
+        certificate,
+      });
+      const pieces = token.serialize().split(".");
+      pieces[1] = base64UrlEncodeByteArray(stringToBytes(JSON.stringify({ foo: "tampered" })));
+      const tamperedToken = new AttestationTokenImpl(pieces.join("."));
+      assert.deepEqual(tamperedToken.getTokenProblems([{ certificates: [certificate] }]), [
+        "Attestation Token is not properly signed.",
+      ]);
+    }
   });
 
   it("#verifyAttestationTokenCallback", async () => {

@@ -66,7 +66,10 @@ exceptions:
     packages:
       - "@azure/web-pubsub"
       - "@azure/web-pubsub-chat"
-  - dependency: "jsrsasign"
+  - dependency: "@noble/curves"
+    packages:
+      - "@azure/attestation"
+  - dependency: "node-forge"
     packages:
       - "@azure/attestation"
   - dependency: "jssha"
