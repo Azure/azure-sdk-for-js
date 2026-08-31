@@ -15,7 +15,6 @@ import {
 } from "../../src/http/operation.js";
 import type { OperationResponse } from "../../src/index.js";
 import { makeRawResponse, makeState } from "../utils/utils.js";
-import { MAX_POLLING_INTERVAL_IN_MS } from "../../src/poller/constants.js";
 
 describe("http/operation.ts", () => {
   describe("parseRetryAfter (numeric seconds)", () => {
@@ -35,33 +34,15 @@ describe("http/operation.ts", () => {
       assert.isUndefined(result);
     });
 
-    it("retains the value just below the timer boundary", () => {
-      // 2147483 seconds -> 2147483000 ms, which is below the maximum.
-      const result = parseRetryAfter({
-        rawResponse: makeRawResponse({ headers: { "retry-after": "2147483" } }),
-        flatResponse: {},
-      });
-      assert.equal(result, 2147483000);
-      assert.isAtMost(result!, MAX_POLLING_INTERVAL_IN_MS);
-    });
-
-    it("bounds a value just above the timer boundary to the maximum", () => {
-      // 2147484 seconds -> 2147484000 ms, which exceeds the maximum.
-      const result = parseRetryAfter({
-        rawResponse: makeRawResponse({ headers: { "retry-after": "2147484" } }),
-        flatResponse: {},
-      });
-      assert.equal(result, MAX_POLLING_INTERVAL_IN_MS);
-    });
-
-    it("bounds an oversized value instead of overflowing the timer", () => {
-      // The value from the issue report: 999999999 seconds -> 999999999000 ms,
-      // which Node.js would otherwise clamp to a 1 ms timer.
+    it("returns the raw converted value, leaving timer bounding to the poller", () => {
+      // The parser is a pure protocol parser: it converts seconds to milliseconds
+      // without applying any timer bound. The poller is responsible for clamping
+      // an oversized interval before it is scheduled. See retryAfterBound.spec.ts.
       const result = parseRetryAfter({
         rawResponse: makeRawResponse({ headers: { "retry-after": "999999999" } }),
         flatResponse: {},
       });
-      assert.equal(result, MAX_POLLING_INTERVAL_IN_MS);
+      assert.equal(result, 999999999000);
     });
 
     it("returns undefined for a non-numeric, non-date value", () => {
@@ -91,15 +72,6 @@ describe("http/operation.ts", () => {
       });
       assert.isNumber(result);
       assert.isAbove(result!, 1000, "should be in milliseconds, not seconds");
-    });
-
-    it("bounds a distant future date to the timer maximum", () => {
-      const distantDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 30).toUTCString();
-      const result = parseRetryAfter({
-        rawResponse: makeRawResponse({ headers: { "retry-after": distantDate } }),
-        flatResponse: {},
-      });
-      assert.equal(result, MAX_POLLING_INTERVAL_IN_MS);
     });
   });
 

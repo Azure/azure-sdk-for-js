@@ -17,7 +17,6 @@ import type {
   RestorableOperationState,
 } from "../poller/models.js";
 import { pollOperation } from "../poller/operation.js";
-import { MAX_POLLING_INTERVAL_IN_MS } from "../poller/constants.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { logger } from "../logger.js";
 
@@ -184,23 +183,9 @@ export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): numbe
     const retryAfterInSeconds = parseInt(retryAfter);
     return isNaN(retryAfterInSeconds)
       ? calculatePollingIntervalFromDate(new Date(retryAfter))
-      : boundPollingInterval(retryAfterInSeconds * 1000);
+      : retryAfterInSeconds * 1000;
   }
   return undefined;
-}
-
-/**
- * Bounds a server-provided polling interval to the range supported by the
- * platform timer. Without this, an oversized `Retry-After` value would overflow
- * `setTimeout` and, on Node.js, be scheduled for `1` millisecond instead of the
- * intended long delay, causing a near-continuous polling loop. A non-finite
- * interval falls back to `undefined` so the configured polling interval is used.
- */
-function boundPollingInterval(intervalInMs: number): number | undefined {
-  if (!Number.isFinite(intervalInMs)) {
-    return undefined;
-  }
-  return Math.min(intervalInMs, MAX_POLLING_INTERVAL_IN_MS);
 }
 
 export function getErrorFromResponse<T>(response: OperationResponse<T>): LroError | undefined {
@@ -224,7 +209,7 @@ function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefi
   const timeNow = Math.floor(new Date().getTime());
   const retryAfterTime = retryAfterDate.getTime();
   if (timeNow < retryAfterTime) {
-    return boundPollingInterval(retryAfterTime - timeNow);
+    return retryAfterTime - timeNow;
   }
   return undefined;
 }

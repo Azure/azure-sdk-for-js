@@ -11,8 +11,24 @@ import type {
   PollerLike,
 } from "./models.js";
 import { deserializeState, initOperation, pollOperation } from "./operation.js";
-import { POLL_INTERVAL_IN_MS } from "./constants.js";
+import { MAX_POLLING_INTERVAL_IN_MS, POLL_INTERVAL_IN_MS } from "./constants.js";
 import { delay } from "@azure/core-util";
+
+/**
+ * Bounds a polling interval to the range supported by the platform timer.
+ * Node.js clamps a `setTimeout` delay greater than {@link MAX_POLLING_INTERVAL_IN_MS}
+ * to `1`, which would turn an intended long delay into a near-continuous polling
+ * loop. This guard is applied to every source of the polling interval — the
+ * caller-supplied `intervalInMs` and any server-provided `Retry-After` value —
+ * so oversized values are never scheduled directly on the timer. A non-finite
+ * interval falls back to the default polling interval.
+ */
+function boundPollingInterval(intervalInMs: number): number {
+  if (!Number.isFinite(intervalInMs)) {
+    return POLL_INTERVAL_IN_MS;
+  }
+  return Math.min(intervalInMs, MAX_POLLING_INTERVAL_IN_MS);
+}
 /**
  * Returns a poller factory.
  */
@@ -74,7 +90,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const handlers = new Map<symbol, Handler>();
     const handleProgressEvents = async (): Promise<void> => handlers.forEach((h) => h(state));
     const cancelErrMsg = "Operation was canceled";
-    let currentPollIntervalInMs = intervalInMs;
+    let currentPollIntervalInMs = boundPollingInterval(intervalInMs);
 
     const poller: PollerLike<TState, TResult> = {
       get operationState(): TState | undefined {
@@ -180,7 +196,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           updateState,
           options: pollOptions,
           setDelay: (pollIntervalInMs) => {
-            currentPollIntervalInMs = pollIntervalInMs;
+            currentPollIntervalInMs = boundPollingInterval(pollIntervalInMs);
           },
           setErrorAsResult: !resolveOnUnsuccessful,
         });
