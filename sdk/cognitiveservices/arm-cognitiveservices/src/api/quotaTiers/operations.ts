@@ -29,7 +29,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/quotaTiers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -56,7 +56,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _quotaTierListResultDeserializer(result.body);
 }
-
 /** Returns all the resources of a particular type belonging to a subscription. */
 export function listBySubscription(
   context: Client,
@@ -67,11 +66,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -86,7 +81,7 @@ export function _updateSend(
     {
       subscriptionId: context.subscriptionId,
       default: defaultParam,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +108,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return quotaTierDeserializer(result.body);
 }
-
 /** Update the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information. */
 export async function update(
   context: Client,
@@ -136,7 +130,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       default: defaultParam,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -165,7 +159,6 @@ export async function _createOrUpdateDeserialize(
 
   return quotaTierDeserializer(result.body);
 }
-
 /** Update the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information. */
 export async function createOrUpdate(
   context: Client,
@@ -187,7 +180,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       default: defaultParam,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +205,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Qu
 
   return quotaTierDeserializer(result.body);
 }
-
 /** Gets the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information. */
 export async function get(
   context: Client,

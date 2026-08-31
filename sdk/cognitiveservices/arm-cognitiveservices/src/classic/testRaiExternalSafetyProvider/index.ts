@@ -17,7 +17,6 @@ export interface TestRaiExternalSafetyProviderOperations {
     options?: TestRaiExternalSafetyProviderCreateOrUpdateOptionalParams,
   ) => Promise<RaiExternalSafetyProviderSchema>;
 }
-
 function _getTestRaiExternalSafetyProvider(context: CognitiveServicesManagementContext) {
   return {
     createOrUpdate: (
@@ -37,7 +36,6 @@ function _getTestRaiExternalSafetyProvider(context: CognitiveServicesManagementC
       ),
   };
 }
-
 export function _getTestRaiExternalSafetyProviderOperations(
   context: CognitiveServicesManagementContext,
 ): TestRaiExternalSafetyProviderOperations {

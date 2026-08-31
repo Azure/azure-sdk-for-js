@@ -60,7 +60,6 @@ export interface RaiPoliciesOperations {
     options?: RaiPoliciesGetOptionalParams,
   ) => Promise<RaiPolicy>;
 }
-
 function _getRaiPolicies(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -107,7 +106,6 @@ function _getRaiPolicies(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, raiPolicyName, options),
   };
 }
-
 export function _getRaiPoliciesOperations(
   context: CognitiveServicesManagementContext,
 ): RaiPoliciesOperations {

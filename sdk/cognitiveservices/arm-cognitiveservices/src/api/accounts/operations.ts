@@ -11,8 +11,6 @@ import type {
   UsageListResult,
   _AccountModelListResult,
   AccountModel,
-  EvaluateDeploymentPoliciesRequest,
-  EvaluateDeploymentPoliciesResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -23,15 +21,12 @@ import {
   accountSkuListResultDeserializer,
   usageListResultDeserializer,
   _accountModelListResultDeserializer,
-  evaluateDeploymentPoliciesRequestSerializer,
-  evaluateDeploymentPoliciesResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  AccountsEvaluateDeploymentPoliciesOptionalParams,
   AccountsListModelsOptionalParams,
   AccountsListUsagesOptionalParams,
   AccountsListSkusOptionalParams,
@@ -48,67 +43,6 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _evaluateDeploymentPoliciesSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  body: EvaluateDeploymentPoliciesRequest,
-  options: AccountsEvaluateDeploymentPoliciesOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/evaluateDeploymentPolicies{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: evaluateDeploymentPoliciesRequestSerializer(body),
-  });
-}
-
-export async function _evaluateDeploymentPoliciesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<EvaluateDeploymentPoliciesResponse> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return evaluateDeploymentPoliciesResponseDeserializer(result.body);
-}
-
-/** Evaluate Azure Policy compliance for a set of hypothetical deployments without creating them. */
-export async function evaluateDeploymentPolicies(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  body: EvaluateDeploymentPoliciesRequest,
-  options: AccountsEvaluateDeploymentPoliciesOptionalParams = { requestOptions: {} },
-): Promise<EvaluateDeploymentPoliciesResponse> {
-  const result = await _evaluateDeploymentPoliciesSend(
-    context,
-    resourceGroupName,
-    accountName,
-    body,
-    options,
-  );
-  return _evaluateDeploymentPoliciesDeserialize(result);
-}
-
 export function _listModelsSend(
   context: Client,
   resourceGroupName: string,
@@ -121,7 +55,7 @@ export function _listModelsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,7 +82,6 @@ export async function _listModelsDeserialize(
 
   return _accountModelListResultDeserializer(result.body);
 }
-
 /** List available Models for the requested Cognitive Services account */
 export function listModels(
   context: Client,
@@ -161,11 +94,7 @@ export function listModels(
     () => _listModelsSend(context, resourceGroupName, accountName, options),
     _listModelsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -181,7 +110,7 @@ export function _listUsagesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
     },
     {
@@ -209,7 +138,6 @@ export async function _listUsagesDeserialize(
 
   return usageListResultDeserializer(result.body);
 }
-
 /** Get usages for the requested Cognitive Services account */
 export async function listUsages(
   context: Client,
@@ -233,7 +161,7 @@ export function _listSkusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -260,7 +188,6 @@ export async function _listSkusDeserialize(
 
   return accountSkuListResultDeserializer(result.body);
 }
-
 /** List available SKUs for the requested Cognitive Services account */
 export async function listSkus(
   context: Client,
@@ -285,7 +212,7 @@ export function _regenerateKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -312,7 +239,6 @@ export async function _regenerateKeyDeserialize(result: PathUncheckedResponse): 
 
   return apiKeysDeserializer(result.body);
 }
-
 /** Regenerates the specified account key for the specified Cognitive Services account. */
 export async function regenerateKey(
   context: Client,
@@ -343,7 +269,7 @@ export function _listKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -368,7 +294,6 @@ export async function _listKeysDeserialize(result: PathUncheckedResponse): Promi
 
   return apiKeysDeserializer(result.body);
 }
-
 /** Lists the account keys for the specified Cognitive Services account. */
 export async function listKeys(
   context: Client,
@@ -388,7 +313,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/accounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -413,7 +338,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _accountListResultDeserializer(result.body);
 }
-
 /** Returns all the resources of a particular type belonging to a subscription. */
 export function list(
   context: Client,
@@ -424,11 +348,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -442,7 +362,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -469,7 +389,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _accountListResultDeserializer(result.body);
 }
-
 /** Returns all the resources of a particular type belonging to a resource group */
 export function listByResourceGroup(
   context: Client,
@@ -481,11 +400,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -501,7 +416,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -523,7 +438,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a Cognitive Services account from the resource group. */
 export function $delete(
   context: Client,
@@ -536,7 +450,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, accountName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -553,7 +467,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -580,7 +494,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return accountDeserializer(result.body);
 }
-
 /** Updates a Cognitive Services account */
 export function update(
   context: Client,
@@ -595,7 +508,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, account, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<Account>, Account>;
 }
 
@@ -612,7 +525,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -639,7 +552,6 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return accountDeserializer(result.body);
 }
-
 /** Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing. */
 export function create(
   context: Client,
@@ -654,7 +566,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, account, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<Account>, Account>;
 }
 
@@ -670,7 +582,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -695,7 +607,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ac
 
   return accountDeserializer(result.body);
 }
-
 /** Returns a Cognitive Services account specified by the parameters. */
 export async function get(
   context: Client,

@@ -15,14 +15,12 @@ export interface CommitmentTiersOperations {
     options?: CommitmentTiersListOptionalParams,
   ) => PagedAsyncIterableIterator<CommitmentTier>;
 }
-
 function _getCommitmentTiers(context: CognitiveServicesManagementContext) {
   return {
     list: (location: string, options?: CommitmentTiersListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getCommitmentTiersOperations(
   context: CognitiveServicesManagementContext,
 ): CommitmentTiersOperations {

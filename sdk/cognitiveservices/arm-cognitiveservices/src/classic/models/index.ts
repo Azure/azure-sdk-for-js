@@ -12,14 +12,12 @@ export interface ModelsOperations {
   /** List Models. */
   list: (location: string, options?: ModelsListOptionalParams) => PagedAsyncIterableIterator<Model>;
 }
-
 function _getModels(context: CognitiveServicesManagementContext) {
   return {
     list: (location: string, options?: ModelsListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getModelsOperations(
   context: CognitiveServicesManagementContext,
 ): ModelsOperations {

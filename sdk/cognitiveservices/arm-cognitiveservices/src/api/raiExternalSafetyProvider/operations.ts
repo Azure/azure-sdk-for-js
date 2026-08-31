@@ -29,7 +29,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       safetyProviderName: safetyProviderName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,7 +51,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified custom topic associated with the subscription. */
 export function $delete(
   context: Client,
@@ -63,7 +62,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, safetyProviderName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -78,7 +77,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       safetyProviderName: safetyProviderName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,7 +106,6 @@ export async function _createOrUpdateDeserialize(
 
   return raiExternalSafetyProviderSchemaDeserializer(result.body);
 }
-
 /** Create the rai safety provider associated with the subscription. */
 export async function createOrUpdate(
   context: Client,
@@ -129,7 +127,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       safetyProviderName: safetyProviderName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -156,7 +154,6 @@ export async function _getDeserialize(
 
   return raiExternalSafetyProviderSchemaDeserializer(result.body);
 }
-
 /** Gets the specified external safety provider associated with the Subscription */
 export async function get(
   context: Client,

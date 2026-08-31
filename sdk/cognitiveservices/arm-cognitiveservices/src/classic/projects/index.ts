@@ -101,7 +101,6 @@ export interface ProjectsOperations {
     options?: ProjectsGetOptionalParams,
   ) => Promise<Project>;
 }
-
 function _getProjects(context: CognitiveServicesManagementContext) {
   return {
     list: (resourceGroupName: string, accountName: string, options?: ProjectsListOptionalParams) =>
@@ -192,7 +191,6 @@ function _getProjects(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, projectName, options),
   };
 }
-
 export function _getProjectsOperations(
   context: CognitiveServicesManagementContext,
 ): ProjectsOperations {

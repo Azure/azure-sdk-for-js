@@ -30,7 +30,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       modelFormat: modelFormat,
       modelName: modelName,
       modelVersion: modelVersion,
@@ -60,7 +60,6 @@ export async function _listDeserialize(
 
   return _modelCapacityListResultDeserializer(result.body);
 }
-
 /** List Location Based ModelCapacities. */
 export function list(
   context: Client,
@@ -75,10 +74,6 @@ export function list(
     () => _listSend(context, location, modelFormat, modelName, modelVersion, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }

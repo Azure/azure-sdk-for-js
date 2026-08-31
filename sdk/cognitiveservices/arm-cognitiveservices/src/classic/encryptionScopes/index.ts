@@ -60,7 +60,6 @@ export interface EncryptionScopesOperations {
     options?: EncryptionScopesGetOptionalParams,
   ) => Promise<EncryptionScope>;
 }
-
 function _getEncryptionScopes(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -115,7 +114,6 @@ function _getEncryptionScopes(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, encryptionScopeName, options),
   };
 }
-
 export function _getEncryptionScopesOperations(
   context: CognitiveServicesManagementContext,
 ): EncryptionScopesOperations {

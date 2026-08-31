@@ -12,13 +12,11 @@ export interface OperationsOperations {
   /** Lists all the available Cognitive Services account operations. */
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
 function _getOperations(context: CognitiveServicesManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOperationsOperations(
   context: CognitiveServicesManagementContext,
 ): OperationsOperations {

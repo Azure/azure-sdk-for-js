@@ -28,7 +28,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       safetyProviderName: safetyProviderName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _createOrUpdateDeserialize(
 
   return raiExternalSafetyProviderSchemaDeserializer(result.body);
 }
-
 /** Test the rai safety provider associated with the subscription. */
 export async function createOrUpdate(
   context: Client,

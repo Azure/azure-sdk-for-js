@@ -3,7 +3,6 @@
 
 import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
-  evaluateDeploymentPolicies,
   listModels,
   listUsages,
   listSkus,
@@ -17,7 +16,6 @@ import {
   get,
 } from "../../api/accounts/operations.js";
 import type {
-  AccountsEvaluateDeploymentPoliciesOptionalParams,
   AccountsListModelsOptionalParams,
   AccountsListUsagesOptionalParams,
   AccountsListSkusOptionalParams,
@@ -37,8 +35,6 @@ import type {
   AccountSkuListResult,
   UsageListResult,
   AccountModel,
-  EvaluateDeploymentPoliciesRequest,
-  EvaluateDeploymentPoliciesResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -47,13 +43,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Accounts operations. */
 export interface AccountsOperations {
-  /** Evaluate Azure Policy compliance for a set of hypothetical deployments without creating them. */
-  evaluateDeploymentPolicies: (
-    resourceGroupName: string,
-    accountName: string,
-    body: EvaluateDeploymentPoliciesRequest,
-    options?: AccountsEvaluateDeploymentPoliciesOptionalParams,
-  ) => Promise<EvaluateDeploymentPoliciesResponse>;
   /** List available Models for the requested Cognitive Services account */
   listModels: (
     resourceGroupName: string,
@@ -159,15 +148,8 @@ export interface AccountsOperations {
     options?: AccountsGetOptionalParams,
   ) => Promise<Account>;
 }
-
 function _getAccounts(context: CognitiveServicesManagementContext) {
   return {
-    evaluateDeploymentPolicies: (
-      resourceGroupName: string,
-      accountName: string,
-      body: EvaluateDeploymentPoliciesRequest,
-      options?: AccountsEvaluateDeploymentPoliciesOptionalParams,
-    ) => evaluateDeploymentPolicies(context, resourceGroupName, accountName, body, options),
     listModels: (
       resourceGroupName: string,
       accountName: string,
@@ -272,7 +254,6 @@ function _getAccounts(context: CognitiveServicesManagementContext) {
       get(context, resourceGroupName, accountName, options),
   };
 }
-
 export function _getAccountsOperations(
   context: CognitiveServicesManagementContext,
 ): AccountsOperations {

@@ -8,9 +8,7 @@ export interface RaiExternalSafetyProviderDeleteOptionalParams extends Operation
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RaiExternalSafetyProviderCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface RaiExternalSafetyProviderGetOptionalParams extends OperationOptions {}
