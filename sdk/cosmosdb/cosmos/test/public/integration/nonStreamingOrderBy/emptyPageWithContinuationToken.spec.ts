@@ -159,7 +159,7 @@ describe("NSOB empty pages with continuation tokens", { timeout: 60000 }, () => 
 
     if (shouldEmptyPage) {
       run.removedDocumentCount += documents.length;
-      response.result.Documents = [];
+      documents.length = 0;
       run.emptiedPageCount++;
       if (hasContinuationToken) {
         run.emptiedContinuationTokens.push(responseToken);
