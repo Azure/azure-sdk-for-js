@@ -131,6 +131,7 @@ export interface VirtualMachineBulkOperationsOperations {
     options?: VirtualMachineBulkOperationsBulkDeallocateOperationOptionalParams,
   ) => Promise<DeallocateResourceOperationResponse>;
 }
+
 function _getVirtualMachineBulkOperations(context: ComputeContext) {
   return {
     bulkAcknowledgeOperationErrors: (
@@ -200,6 +201,7 @@ function _getVirtualMachineBulkOperations(context: ComputeContext) {
     ) => bulkDeallocateOperation(context, resourceGroupName, location, requestBody, options),
   };
 }
+
 export function _getVirtualMachineBulkOperationsOperations(
   context: ComputeContext,
 ): VirtualMachineBulkOperationsOperations {

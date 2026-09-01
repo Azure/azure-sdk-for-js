@@ -12,7 +12,7 @@
 
 ### Other Changes
 
-- Migrate to Typespec-based code generation [PR #37543](https://github.com/Azure/azure-sdk-for-js/pull/37543)
+- Migrate to Typespec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
 
 ## 12.34.0-beta.1 (2026-08-03)
 
@@ -24,7 +24,6 @@
 
 ### Other Changes
 
-- Migrate to Typespec-based code generation [PR #37543](https://github.com/Azure/azure-sdk-for-js/pull/37543)
 - For service version 2026-10-06 and later, upload operations now return the service-computed CRC64 checksum (`xMsContentCrc64`) in addition to `contentMD5` when a Content-MD5 is provided. This applies to `stageBlock`, `stageBlockFromURL`, `uploadPages`, `uploadPagesFromURL`, `appendBlock`, `appendBlockFromURL`, `upload`, and `syncUploadFromURL`.
 
 ## 12.33.0 (2026-06-24)
