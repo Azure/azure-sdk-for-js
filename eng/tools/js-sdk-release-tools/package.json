@@ -23,7 +23,6 @@
     "hlc-code-gen": "./dist/hlcCodeGenCli.js",
     "hlc-code-gen-for-pipeline": "./dist/autoGenerateInPipeline.js",
     "code-gen-pipeline": "./dist/autoGenerateInPipeline.js",
-    "rlc-code-gen": "./dist/rlcCodegenCli.js",
     "update-changelog": "./dist/generateChangelogCli.js",
     "update-version": "./dist/updateBumpVersionCli.js",
     "generate-ci-yaml": "./dist/generateCiYamlCli.js"
