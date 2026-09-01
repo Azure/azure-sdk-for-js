@@ -21,6 +21,7 @@ If the generated code does not fit your needs, you can use the JavaScript custom
 Install `js-sdk-release-tools`
 ```
 npm --prefix eng/tools/js-sdk-release-tools ci
+npm --prefix eng/tools/js-sdk-release-tools run build
 ```
 
 After you build your package, run

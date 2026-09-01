@@ -114,8 +114,6 @@ async function automationGenerateInPipeline(
 
 const optionDefinitions = [
   { name: "use", type: String },
-  { name: "typespecEmitter", type: String },
-  { name: "sdkGenerationType", type: String },
   { name: "inputJsonPath", type: String },
   { name: "outputJsonPath", type: String },
   // this option should be only used in local run, it will skip backup node modules, etc.
