@@ -54,7 +54,7 @@ export function _refreshCertificateSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,6 +76,7 @@ export async function _refreshCertificateDeserialize(result: PathUncheckedRespon
 
   return;
 }
+
 /** This operation will fetch the certificate from Azure Key Vault and install it on the bucket server. */
 export function refreshCertificate(
   context: Client,
@@ -100,7 +101,7 @@ export function refreshCertificate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -123,7 +124,7 @@ export function _generateAkvCredentialsSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,6 +152,7 @@ export async function _generateAkvCredentialsDeserialize(
 
   return;
 }
+
 /** Generate the access key and secret key used for accessing the specified volume bucket and store in Azure Key Vault. */
 export function generateAkvCredentials(
   context: Client,
@@ -177,7 +179,7 @@ export function generateAkvCredentials(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -200,7 +202,7 @@ export function _generateCredentialsSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,6 +231,7 @@ export async function _generateCredentialsDeserialize(
 
   return bucketGenerateCredentialsDeserializer(result.body);
 }
+
 /** Generate the access key and secret key used for accessing the specified volume bucket. Also return expiry date and time of key pair (in UTC). */
 export async function generateCredentials(
   context: Client,
@@ -269,7 +272,7 @@ export function _listSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,6 +297,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _bucketListDeserializer(result.body);
 }
+
 /** Describes all buckets belonging to a volume. Buckets allow additional services, such as AI services, connect to the volume data contained in those buckets. */
 export function list(
   context: Client,
@@ -311,7 +315,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -334,7 +338,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -356,6 +360,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a volume's bucket. */
 export function $delete(
   context: Client,
@@ -380,7 +385,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -403,7 +408,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -430,6 +435,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return bucketDeserializer(result.body);
 }
+
 /** Updates the details of a volume bucket. */
 export function update(
   context: Client,
@@ -456,7 +462,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<Bucket>, Bucket>;
 }
 
@@ -479,7 +485,7 @@ export function _createOrUpdateSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -506,6 +512,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return bucketDeserializer(result.body);
 }
+
 /** Creates or updates a bucket for a volume. A bucket allows additional services, such as AI services, connect to the volume data contained in those buckets. */
 export function createOrUpdate(
   context: Client,
@@ -532,7 +539,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<Bucket>, Bucket>;
 }
 
@@ -554,7 +561,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -579,6 +586,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Bu
 
   return bucketDeserializer(result.body);
 }
+
 /** Get the details of the specified volume's bucket. A bucket allows additional services, such as AI services, connect to the volume data contained in those buckets. */
 export async function get(
   context: Client,

@@ -74,6 +74,23 @@ describe("snippets", () => {
     logs.setGlobalLoggerProvider(loggerProvider);
   });
 
+  it("ReadmeSampleAvailability", async () => {
+    const logger = logs.getLogger("availability");
+
+    logger.emit({
+      body: "Homepage availability test completed.",
+      attributes: {
+        "microsoft.availability.id": "availability-test-run-123",
+        "microsoft.availability.name": "Homepage",
+        "microsoft.availability.duration": "00:00:00.250",
+        "microsoft.availability.success": true,
+        "microsoft.availability.runLocation": "westus2",
+        "microsoft.availability.message": "HTTP 200",
+        "microsoft.availability.testTimestamp": new Date().toISOString(),
+      },
+    });
+  });
+
   it("ReadmeSampleSampling", async () => {
     // Sampler expects a sample rate of between 0 and 1 inclusive
     // A rate of 0.75 means approximately 75 % of your traces will be sent

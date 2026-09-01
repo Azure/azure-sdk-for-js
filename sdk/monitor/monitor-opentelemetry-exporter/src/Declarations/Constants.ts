@@ -316,7 +316,7 @@ export const ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000;
  */
 export const ONE_SETTINGS_BACKOFF_BASE_MS = 3600 * 1000;
 /**
- * OneSettings feature key that gates customer-facing SDK stats.
+ * OneSettings feature key that gates internal SDK stats.
  * @internal
  */
 export const ONE_SETTINGS_FEATURE_SDK_STATS = "FEATURE_SDK_STATS";

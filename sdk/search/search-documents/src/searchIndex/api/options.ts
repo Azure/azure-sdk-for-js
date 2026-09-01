@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { ListingSearchType } from "../../models/azure/search/documents/indexes/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
-  /** The number of items to retrieve. Default is 50, maximum is 1000. */
-  top?: number;
-  /** The number of items to skip. */
-  skip?: number;
-  /** A value that specifies whether to fetch the total count of items. Default is false. */
-  count?: boolean;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -26,15 +27,13 @@ export interface GetServiceStatisticsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
+export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
 
 /** Optional parameters. */
-export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
+export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -45,12 +44,32 @@ export interface UploadKnowledgeSourceFileOptionalParams extends OperationOption
 export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** Optional prefix to filter files by their directory-like path. */
+  prefix?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
 
 /** Optional parameters. */
-export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
+export interface UploadKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
+export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
+export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -69,6 +88,12 @@ export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
 export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -117,6 +142,12 @@ export interface CreateKnowledgeBaseOptionalParams extends OperationOptions {
 export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -165,6 +196,12 @@ export interface CreateAliasOptionalParams extends OperationOptions {
 export interface ListAliasesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -231,12 +268,12 @@ export interface ListIndexesWithSelectedPropertiesOptionalParams extends Operati
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
-  /** The number of items to retrieve. Default is 50, maximum is 1000. */
-  top?: number;
-  /** The number of items to skip. */
-  skip?: number;
-  /** A value that specifies whether to fetch the total count of items. Default is false. */
-  count?: boolean;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -245,12 +282,12 @@ export interface ListIndexesWithSelectedPropertiesOptionalParams extends Operati
 export interface ListIndexesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
-  /** The number of items to retrieve. Default is 50, maximum is 1000. */
-  top?: number;
-  /** The number of items to skip. */
-  skip?: number;
-  /** A value that specifies whether to fetch the total count of items. Default is false. */
-  count?: boolean;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -303,6 +340,12 @@ export interface GetSynonymMapsOptionalParams extends OperationOptions {
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }

@@ -3,6 +3,7 @@
 
 import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 import { ConfigurationManager } from "../../src/_configuration/configurationManager.js";
+import { ConfigurationProfile } from "../../src/_configuration/configurationProfile.js";
 import type { OneSettingsResponse } from "../../src/_configuration/utils.js";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
 import {
@@ -33,11 +34,28 @@ describe("ConfigurationManager", () => {
 
   beforeEach(() => {
     manager.reset();
+    ConfigurationProfile.getInstance().reset();
     request.mockReset();
   });
 
   afterEach(() => {
     manager.reset();
+    ConfigurationProfile.getInstance().reset();
+  });
+
+  it("fills the write-once evaluation profile across repeated initialization", () => {
+    manager.initialize({ component: "ext", version: "1.0.0", os: "linux" });
+    manager.initialize({ component: "dst", region: "westus", ikey: "test-ikey" });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "linux",
+      rp: "",
+      attach: "",
+      version: "1.0.0",
+      component: "ext",
+      region: "westus",
+      ikey: "test-ikey",
+    });
   });
 
   it("fetches and caches configuration when change detection reports an update", async () => {

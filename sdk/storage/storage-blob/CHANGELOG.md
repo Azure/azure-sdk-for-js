@@ -1,6 +1,6 @@
 # Release History
 
-## 12.34.0-beta.2 (Unreleased)
+## 12.35.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,11 @@
 
 ### Bugs Fixed
 
+- Restored the core v1 user agent string prefix, `azsdk-js-storageblob`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+
 ### Other Changes
+
+- Migrate to Typespec-based code generation [PR #37543](https://github.com/Azure/azure-sdk-for-js/pull/37543)
 
 ## 12.34.0-beta.1 (2026-08-03)
 
@@ -20,6 +24,7 @@
 
 ### Other Changes
 
+- Migrate to Typespec-based code generation [PR #37543](https://github.com/Azure/azure-sdk-for-js/pull/37543)
 - For service version 2026-10-06 and later, upload operations now return the service-computed CRC64 checksum (`xMsContentCrc64`) in addition to `contentMD5` when a Content-MD5 is provided. This applies to `stageBlock`, `stageBlockFromURL`, `uploadPages`, `uploadPagesFromURL`, `appendBlock`, `appendBlockFromURL`, `upload`, and `syncUploadFromURL`.
 
 ## 12.33.0 (2026-06-24)
@@ -28,12 +33,6 @@
 
 - Includes all features released in 12.33.0-beta.1.
 
-## 12.32.0 (2026-05-22)
-
-### Features Added
-
-- Includes all features released in 12.32.0-beta.1.
-
 ## 12.33.0-beta.1 (2026-04-29)
 
 ### Features Added
@@ -41,6 +40,12 @@
 - Added support for service version 2026-06-06.
 - Added support for Blob Smart Tier.
 - Added support for Directory-level SAS and User Delegation SAS.
+
+## 12.32.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.32.0-beta.1.
 
 ## 12.32.0-beta.1 (2026-03-05)
 
