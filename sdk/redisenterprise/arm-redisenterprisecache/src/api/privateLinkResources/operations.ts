@@ -26,7 +26,7 @@ export function _listByClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,7 +53,6 @@ export async function _listByClusterDeserialize(
 
   return _privateLinkResourceListResultDeserializer(result.body);
 }
-
 /** Gets the private link resources that need to be created for a Redis Enterprise cluster. */
 export function listByCluster(
   context: Client,
@@ -69,7 +68,7 @@ export function listByCluster(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-06-01-preview",
     },
   );
 }

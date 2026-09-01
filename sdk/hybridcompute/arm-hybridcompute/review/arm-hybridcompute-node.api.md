@@ -733,10 +733,7 @@ export enum KnownStatusTypes {
 
 // @public
 export enum KnownVersions {
-    V20250916Preview = "2025-09-16-preview",
-    V20260212Preview = "2026-02-12-preview",
-    V20260604Preview = "2026-06-04-preview",
-    V20260616Preview = "2026-06-16-preview"
+    V20260715 = "2026-07-15"
 }
 
 // @public

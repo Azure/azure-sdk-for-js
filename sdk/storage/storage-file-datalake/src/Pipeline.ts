@@ -127,7 +127,7 @@ export function newPipeline(
   if (!credential) {
     credential = new AnonymousCredential();
   }
-  const packageDetails = `azsdk-js-storage-datalake/${SDK_VERSION}`;
+  const packageDetails = `azsdk-js-storagedatalake/${SDK_VERSION}`;
   const userAgentPrefix = pipelineOptions?.userAgentOptions?.userAgentPrefix
     ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
     : `${packageDetails}`;
@@ -179,7 +179,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
-    const packageDetails = `azsdk-js-storage-file-datalake/${SDK_VERSION}`;
+    const packageDetails = `azsdk-js-storagedatalake/${SDK_VERSION}`;
     const userAgentPrefix =
       restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
         ? `${restOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`

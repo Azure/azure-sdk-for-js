@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ACTIVE_SESSIONS_SENTINEL_MS, ServiceBusClient } from "../../../src/serviceBusClient.js";
+import { DEFAULT_LISTING_SENTINEL_MS, ServiceBusClient } from "../../../src/serviceBusClient.js";
 import { translateServiceBusError } from "../../../src/serviceBusError.js";
 import { describe, it } from "vitest";
 import { expect } from "../../public/utils/chai.js";
 
 /**
- * Unit tests for the active-messages sentinel value used by listMessageSessions.
+ * Unit tests for the default-listing sentinel value used by listMessageSessions.
  *
  * The service checks `lastUpdatedTime != DateTime.MaxValue` (exact equality) to switch
- * between "active messages" mode and "updated since" mode. The .NET AMQP library
+ * between default listing mode and updated-since mode. Default listing mode returns
+ * sessions with active messages or stored session state. The .NET AMQP library
  * (TimeStampEncoding.cs) encodes DateTime.MaxValue as 253402300800000 ms
  * (10000-01-01T00:00:00Z) due to double-to-long rounding in TotalMilliseconds.
  * Sending 253402300799999 (1 ms less) fails this check and the service returns
- * empty results instead of sessions with active messages.
+ * empty results instead of sessions with active messages or stored session state.
  */
 describe("listMessageSessions sentinel", function (): void {
   it("sentinel matches .NET AMQP encoding of DateTime.MaxValue (253402300800000 ms)", () => {
@@ -22,14 +23,14 @@ describe("listMessageSessions sentinel", function (): void {
     // so no api.md diff guards it, and the wire-value assertions elsewhere compare
     // against the constant itself. It must be 253402300800000, not 253402300799999
     // (the last ms of year 9999): sending the lower value fails the service's
-    // DateTime.MaxValue equality check and takes the active-messages code path.
-    expect(ACTIVE_SESSIONS_SENTINEL_MS).to.equal(253402300800000);
+    // DateTime.MaxValue equality check and takes the updated-since code path.
+    expect(DEFAULT_LISTING_SENTINEL_MS).to.equal(253402300800000);
   });
 
   it("sentinel represents 10000-01-01T00:00:00.000Z", () => {
     // Pins the expanded-year ISO form (normative per ECMA-262), independent of
     // the numeric assertion above.
-    const d = new Date(ACTIVE_SESSIONS_SENTINEL_MS);
+    const d = new Date(DEFAULT_LISTING_SENTINEL_MS);
     expect(d.toISOString()).to.equal("+010000-01-01T00:00:00.000Z");
   });
 });
@@ -63,7 +64,7 @@ describe("listMessageSessions request", function (): void {
     return { client, calls };
   }
 
-  it("puts the active-messages sentinel Date on the wire by default", async () => {
+  it("puts the default-listing sentinel Date on the wire by default", async () => {
     const { client, calls } = stubbedClient([["s1"]]);
     const ids: string[] = [];
     for await (const id of client.listMessageSessions("myqueue")) {
@@ -72,7 +73,7 @@ describe("listMessageSessions request", function (): void {
     expect(ids).to.eql(["s1"]);
     expect(calls).to.have.lengthOf(1);
     expect(calls[0].lastUpdatedTime).to.be.instanceOf(Date);
-    expect(calls[0].lastUpdatedTime!.getTime()).to.equal(ACTIVE_SESSIONS_SENTINEL_MS);
+    expect(calls[0].lastUpdatedTime!.getTime()).to.equal(DEFAULT_LISTING_SENTINEL_MS);
     expect(calls[0].skip).to.equal(0);
     expect(calls[0].top).to.equal(100);
     await client.close();

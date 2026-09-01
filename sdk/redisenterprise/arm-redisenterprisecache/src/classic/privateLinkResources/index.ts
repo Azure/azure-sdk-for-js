@@ -16,7 +16,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesListByClusterOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
-
 function _getPrivateLinkResources(context: RedisEnterpriseManagementContext) {
   return {
     listByCluster: (
@@ -26,7 +25,6 @@ function _getPrivateLinkResources(context: RedisEnterpriseManagementContext) {
     ) => listByCluster(context, resourceGroupName, clusterName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: RedisEnterpriseManagementContext,
 ): PrivateLinkResourcesOperations {

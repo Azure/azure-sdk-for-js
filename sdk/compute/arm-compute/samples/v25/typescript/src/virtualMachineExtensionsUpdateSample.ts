@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update the extension.
  *
  * @summary the operation to update the extension.
- * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachineExtension_Update.json
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachineExtension_Update.json
  */
 async function updateVMExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

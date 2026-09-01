@@ -637,7 +637,7 @@ export const getHttpResponseOnly = (pipelineResponse: PipelineResponse): HttpRes
  * @internal
  * Type with the service versions for the ATOM API.
  */
-export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";
+export type ServiceBusAtomAPIVersion = "2024-05" | "2021-05" | "2017-04";
 
 /**
  * @internal

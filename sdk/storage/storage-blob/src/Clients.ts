@@ -2092,6 +2092,7 @@ export class BlobClient extends StorageClient {
           } catch (error: any) {
             throw new Error(
               `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`,
+              { cause: error },
             );
           }
         }
@@ -2223,7 +2224,9 @@ export class BlobClient extends StorageClient {
 
       return { blobName, containerName };
     } catch (error: any) {
-      throw new Error("Unable to extract blobName and containerName with provided information.");
+      throw new Error("Unable to extract blobName and containerName with provided information.", {
+        cause: error,
+      });
     }
   }
 
@@ -4226,6 +4229,7 @@ export class BlockBlobClient extends BlobClient {
               sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
               sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
               sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+              sourceIfTags: options.sourceConditions?.tagConditions,
               ifTags: options.conditions?.tagConditions,
               encryptionKey: options.customerProvidedKey?.encryptionKey,
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
