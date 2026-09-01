@@ -8,9 +8,7 @@
 
 ### Bugs Fixed
 
-- [#39626](https://github.com/Azure/azure-sdk-for-js/issues/39626) Fixed zero-hit non-streaming `ORDER BY` queries (full-text `ORDER BY RANK` and hybrid-search queries) hanging indefinitely in a client-side, no-I/O loop that starves the event loop's macrotask phase and therefore cannot be rescued by an external `Promise.race`/`setTimeout` guard:
-  - `NonStreamingOrderByEndpointComponent.hasMoreResults()` and `NonStreamingOrderByDistinctEndpointComponent.hasMoreResults()` now consult the component's own `isCompleted` flag instead of only the underlying execution context, which can keep reporting more results after the component has gone terminal.
-  - Both components now treat an empty page as terminal only once the underlying execution context is exhausted, so an interim empty page that still carries a live continuation token keeps draining instead of ending the query early and skipping the results behind it.
+- [#39626](https://github.com/Azure/azure-sdk-for-js/issues/39626) Fixed non-streaming `ORDER BY` queries that could hang indefinitely for zero results or stop early when an empty page still had a continuation token.
 
 ### Other Changes
 
