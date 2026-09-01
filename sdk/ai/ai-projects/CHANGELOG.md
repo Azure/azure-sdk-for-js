@@ -10,6 +10,10 @@
 - Add A2A tools and protocol configuration, shell tools for agents and toolboxes, and Model Router control contracts. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
 - Add hosted-agent session configuration and routine dispatch authorization options. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
 
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `f416ccf41dad7862085d8766165d31e5a0ceb4c4`.
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added
