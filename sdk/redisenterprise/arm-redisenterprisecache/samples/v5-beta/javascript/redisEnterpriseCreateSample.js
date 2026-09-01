@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
  *
  * @summary creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseCreate.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseCreate.json
  */
 async function redisEnterpriseCreate() {
   const credential = new DefaultAzureCredential();

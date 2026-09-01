@@ -5,10 +5,10 @@
  * Post-emitter script to fix known issues in newly emitted code under src/.
  *
  * Corrections applied:
- * 1. Replaces all occurrences of "api%2Dversion" with "api-version"
- * 2. Removes "azsdk-js-client" and "azsdk-js-api" additions to userAgentPrefix
- * 3. Makes the RealtimeFunctionToolParameters serializer pass through its input
+ * 1. Removes "azsdk-js-client" and "azsdk-js-api" additions to userAgentPrefix
+ * 2. Makes the RealtimeFunctionToolParameters serializer pass through its input
  *    instead of discarding it (see fixRealtimeFunctionToolParametersSerializer)
+ * 3. Removes duplicate public type re-exports introduced by overlapping TypeSpec views
  *
  * Usage: node scripts/post-emitter.mjs
  */
@@ -37,17 +37,7 @@ function getAllTsFiles(dir) {
 }
 
 /**
- * Fix 1: Replace all occurrences of "api%2Dversion" with "api-version".
- *
- * The emitter URL-encodes the hyphen in "api-version" within URL templates
- * and object keys, producing "api%2Dversion" which breaks the API version parameter.
- */
-function fixApiVersionEncoding(content) {
-  return content.replaceAll("api%2Dversion", "api-version");
-}
-
-/**
- * Fix 2: Remove "azsdk-js-client" and "azsdk-js-api" from userAgentPrefix construction.
+ * Remove "azsdk-js-client" and "azsdk-js-api" from userAgentPrefix construction.
  *
  * The emitter generates patterns like:
  *   prefixFromOptions ? `${prefixFromOptions} azsdk-js-client` : `azsdk-js-client`
@@ -112,7 +102,6 @@ function processFile(filePath) {
   const original = readFileSync(filePath, "utf-8");
   let modified = original;
 
-  modified = fixApiVersionEncoding(modified);
   modified = fixUserAgentPrefix(modified);
   modified = fixRealtimeFunctionToolParametersSerializer(modified);
 

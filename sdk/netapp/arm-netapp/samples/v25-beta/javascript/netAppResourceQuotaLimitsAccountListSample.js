@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of quota limits for all quotas that are under account. Currently PoolsPerAccount is the only one.
  *
  * @summary gets a list of quota limits for all quotas that are under account. Currently PoolsPerAccount is the only one.
- * x-ms-original-file: 2026-05-15-preview/NetAppResourceQuotaLimitsAccount_List.json
+ * x-ms-original-file: 2026-06-15-preview/NetAppResourceQuotaLimitsAccount_List.json
  */
 async function quotaLimits() {
   const credential = new DefaultAzureCredential();
