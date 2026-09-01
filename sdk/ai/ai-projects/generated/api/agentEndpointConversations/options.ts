@@ -11,6 +11,12 @@ export interface AgentEndpointConversationsGetAgentConversationAudioContentOptio
 export interface AgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
