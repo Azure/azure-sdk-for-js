@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import fs from "node:fs";
 import path from "node:path";
 import buffer from "node:buffer";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
 import {
   bodyToString,
+  createAndStartRecorder,
   createRandomLocalFile,
   getDataLakeServiceClient,
   getUniqueName,
-  recorderEnvSetup,
 } from "../utils/index.js";
 import {
   MB,
@@ -40,8 +41,7 @@ describe("Highlevel Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {

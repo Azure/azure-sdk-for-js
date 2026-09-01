@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to disable the scheduled action so its future occurrences do not run.
+ * This sample demonstrates how to disables the specified scheduled action so future occurrences do not run.
  *
- * @summary disable the scheduled action so its future occurrences do not run.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_Disable_MaximumSet_Gen.json
+ * @summary disables the specified scheduled action so future occurrences do not run.
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActions_Disable_MaximumSet_Gen.json
  */
-async function scheduledActionsDisableMaximumSet() {
+async function disableAScheduledAction() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function scheduledActionsDisableMaximumSet() {
 }
 
 async function main() {
-  await scheduledActionsDisableMaximumSet();
+  await disableAScheduledAction();
 }
 
 main().catch(console.error);

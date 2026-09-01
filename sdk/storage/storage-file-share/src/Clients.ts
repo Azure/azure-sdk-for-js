@@ -5743,6 +5743,7 @@ export class ShareFileClient extends StorageClient {
               `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
                 'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
                 `\t ${error.message}`,
+              { cause: error },
             );
           }
         }

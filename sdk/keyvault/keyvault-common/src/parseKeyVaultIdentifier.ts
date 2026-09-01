@@ -41,7 +41,9 @@ export function parseKeyVaultIdentifier(
   try {
     baseUri = new URL(identifier);
   } catch (e: any) {
-    throw new Error(`Invalid ${collection} identifier: ${identifier}. Not a valid URI`);
+    throw new Error(`Invalid ${collection} identifier: ${identifier}. Not a valid URI`, {
+      cause: e,
+    });
   }
 
   // Path is of the form '/collection/name[/version]'
