@@ -1,6 +1,22 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/policyTokens/index.ts",
+    "../src/api/variableValues/index.ts",
+    "../src/api/variables/index.ts",
+    "../src/api/policySetDefinitionVersions/index.ts",
+    "../src/api/policySetDefinitions/index.ts",
+    "../src/api/policyExemptions/index.ts",
+    "../src/api/policyEnrollments/index.ts",
+    "../src/api/policyDefinitionVersions/index.ts",
+    "../src/api/policyDefinitions/index.ts",
+    "../src/api/dataPolicyManifests/index.ts",
+    "../src/api/policyAssignments/index.ts",
+    "../src/models/index.ts"
   ]
 }
