@@ -5,7 +5,7 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
+import type { A2ATool, AgentsOperations, AIProjectClient } from "../../../src/index.js";
 import type OpenAI from "openai";
 
 describe("agents - agent-to-agent (A2A)", () => {
@@ -80,5 +80,40 @@ describe("agents - agent-to-agent (A2A)", () => {
     // Clean up
     await agents.deleteVersion(agent.name, agent.version);
     console.log("Agent deleted");
+  });
+
+  // TODO(A2ATool): unskip after recording added.
+  it.skip("should create agent with the GA A2A tool", async function () {
+    const tool: A2ATool = {
+      type: "a2a",
+      project_connection_id: assertEnvironmentVariable("A2A_PROJECT_CONNECTION_ID"),
+      a2a_version: "1.0",
+    };
+
+    const agent = await agents.createVersion("MyA2AGaAgent", {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: "You are a helpful assistant.",
+      tools: [tool],
+    });
+
+    assert.isNotNull(agent);
+    assert.equal(agent.name, "MyA2AGaAgent");
+
+    const response = await openAIClient.responses.create(
+      {
+        input: "What can the connected agent do?",
+      },
+      {
+        body: {
+          agent_reference: { name: agent.name, version: agent.version, type: "agent_reference" },
+        },
+      },
+    );
+
+    assert.isNotEmpty(response.output_text);
+
+    // Clean up
+    await agents.deleteVersion(agent.name, agent.version);
   });
 });
