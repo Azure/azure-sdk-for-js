@@ -793,7 +793,12 @@ export type {
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";
 export type { FileContents } from "./static-helpers/multipartHelpers.js";
-export type { JobOperationState, JobPoller } from "./static-helpers/pollingHelpers.js";
+export type {
+  JobOperationState,
+  JobPoller,
+  RunOperationState,
+  RunPoller,
+} from "./static-helpers/pollingHelpers.js";
 export type {
   AgentsDeleteSessionFileOptionalParams,
   AgentsListSessionFilesOptionalParams,

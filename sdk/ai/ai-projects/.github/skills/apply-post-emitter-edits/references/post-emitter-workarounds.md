@@ -54,3 +54,10 @@ Merge guidelines for newly emitted code from the `./incoming` directory:
   - `MCPToolRequireApproval`, `mcpToolRequireApprovalSerializer`, `mcpToolRequireApprovalDeserializer`
 
 - **Known duplicate-property hot spot**: the `AgentVersion` interface and its `agentVersionDeserializer` may end up with two `status` fields — keep `status?: AgentVersionStatus` and delete the bare-string-literal duplicate.
+
+- **Identity-bearing LROs must preserve the created resource id.** The emitter resolves these operations to terminal result payloads that omit the id needed by paired get, cancel, and delete operations:
+
+  - Beta optimization, data-generation, and evaluator-generation operations return `JobPoller<T>` and expose `operationState.jobId` through `getJobPoller`.
+  - `src/api/beta/agentInsightMonitors/operations.ts#createRun` returns `RunPoller<AgentInsightRunResult>` and exposes `operationState.runId` through `getRunPoller`.
+
+  Mirror each customized return type in its corresponding `src/classic/` operations interface and re-export `JobOperationState` / `JobPoller` and `RunOperationState` / `RunPoller` from `src/index.ts`. The internal helpers share a delegating `PollerLike` wrapper so the id is present through `operationState`, `poll()`, `onProgress()`, serialization, and resume.

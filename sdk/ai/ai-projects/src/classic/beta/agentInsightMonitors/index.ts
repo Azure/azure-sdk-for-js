@@ -44,7 +44,7 @@ import type {
   AgentInsightUpdate,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import type { RunPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaAgentInsightMonitors operations. */
 export interface BetaAgentInsightMonitorsOperations {
@@ -83,12 +83,12 @@ export interface BetaAgentInsightMonitorsOperations {
     monitorId: string,
     options?: BetaAgentInsightMonitorsListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentInsightRun>;
-  /** Start an Agent Insights run for a monitor. */
+  /** Start an Agent Insights run for a monitor. The poller exposes the created run id. */
   createRun: (
     monitorId: string,
     run: AgentInsightRunCreate,
     options?: BetaAgentInsightMonitorsCreateRunOptionalParams,
-  ) => JobPoller<AgentInsightRunResult>;
+  ) => RunPoller<AgentInsightRunResult>;
   /** Reset an Agent Insights monitor's overview, checkpoint, and active insight state. */
   reset: (
     monitorId: string,
