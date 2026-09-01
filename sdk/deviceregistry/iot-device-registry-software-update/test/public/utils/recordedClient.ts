@@ -12,8 +12,7 @@ import {
 import { DeviceRegistrySoftwareUpdateClient } from "../../../src/index.js";
 
 const fakeEndpoint = "fake.api.adu.microsoft.com";
-const fakeManifestUrl =
-  "https://fake.blob.core.windows.net/container/manifest.json?sanitized";
+const fakeManifestUrl = "https://fake.blob.core.windows.net/container/manifest.json?sanitized";
 const fakePayloadUrl = "https://fake.blob.core.windows.net/container/README.md?sanitized";
 const fakeOperationId = "00000000-0000-0000-0000-000000000000";
 
@@ -39,8 +38,7 @@ const recorderStartOptions: RecorderStartOptions = {
       },
       {
         regex: true,
-        target:
-          "(?i)(sig|se|sp|sr|sv|st|spr|srt|ss|skoid|sktid|skt|ske|skv)=[^&\\s\\\"]+",
+        target: '(?i)(sig|se|sp|sr|sv|st|spr|srt|ss|skoid|sktid|skt|ske|skv)=[^&\\s\\"]+',
         value: "$1=sanitized",
       },
     ],

@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistrySoftwareUpdateClient, ImportUpdateRequest } from "../../src/index.js";
+import type {
+  DeviceRegistrySoftwareUpdateClient,
+  ImportUpdateRequest,
+} from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
@@ -10,7 +13,7 @@ import {
   createRecorder,
   testEnvironmentVariable,
   testPollingOptions,
-} from "./utils/recordedClient.js";
+} from "../utils/recordedClient.js";
 
 const updateId = {
   // This identity is reserved for lifecycle tests in the fixed test instance and may be deleted.
@@ -42,8 +45,7 @@ describe("Device Registry Software Update recorded tests", () => {
             request.method === "POST" &&
             new URL(request.url).pathname.endsWith("/updates:import")
           ) {
-            const body =
-              typeof request.body === "string" ? JSON.parse(request.body) : request.body;
+            const body = typeof request.body === "string" ? JSON.parse(request.body) : request.body;
             if (body && typeof body === "object" && "enableScan" in body) {
               sentEnableScan = body.enableScan;
             }
@@ -77,6 +79,8 @@ describe("Device Registry Software Update recorded tests", () => {
 
     let importStarted = false;
     let originalError: unknown;
+    let testFailed = false;
+    let cleanupError: unknown;
     try {
       await assertUpdateDoesNotExist(client);
 
@@ -100,8 +104,8 @@ describe("Device Registry Software Update recorded tests", () => {
       assert.isFalse(Number.isNaN(update.createdDateTime.valueOf()));
       assert.isFalse(Number.isNaN(update.importedDateTime.valueOf()));
     } catch (error) {
+      testFailed = true;
       originalError = error;
-      throw error;
     } finally {
       if (importStarted) {
         try {
@@ -114,12 +118,17 @@ describe("Device Registry Software Update recorded tests", () => {
           await deletePoller.pollUntilDone();
           assert.isTrue(deletePoller.isDone);
           assert.strictEqual(deletePoller.operationState?.status, "succeeded");
-        } catch (cleanupError) {
-          if (originalError === undefined) {
-            throw cleanupError;
-          }
+        } catch (error) {
+          cleanupError = error;
         }
       }
+    }
+
+    if (testFailed) {
+      throw originalError;
+    }
+    if (cleanupError !== undefined) {
+      throw cleanupError;
     }
   });
 
