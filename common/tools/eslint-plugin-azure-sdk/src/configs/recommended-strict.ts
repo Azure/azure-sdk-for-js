@@ -140,12 +140,7 @@ export function recommendedStrictDelta(options: { typeChecked: boolean }): FlatC
       "default-case-last": "error",
 
       // --- Imports ---
-      // Note: core `no-duplicate-imports` is intentionally NOT enabled here.
-      // It flags `import { Foo } from "x"` + `import type { Bar } from "x"`
-      // as a duplicate even though those are semantically distinct (one is
-      // erased at compile time). `@typescript-eslint/consistent-type-imports`
-      // below is the TypeScript-aware replacement that handles the type-only
-      // distinction correctly.
+      "no-duplicate-imports": ["error", { allowSeparateTypeImports: true }],
       // Promotes from warn (in customized) to error
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-import-type-side-effects": "error",

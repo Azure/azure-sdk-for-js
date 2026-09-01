@@ -7,6 +7,9 @@ import { recommendedStrictDelta } from "../../src/configs/recommended-strict.js"
 import plugin from "../../src/index.js";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 
+const COGNITIVE_COMPLEXITY_THRESHOLD = 15;
+const MAX_CLASSES_PER_FILE = 1;
+
 /**
  * Flattens all `rules` objects from a config array into a single record.
  */
@@ -31,7 +34,10 @@ describe("recommendedStrictDelta", () => {
     });
 
     it("should include sonarjs/cognitive-complexity set to ['error', 15]", () => {
-      expect(rules["sonarjs/cognitive-complexity"]).toEqual(["error", 15]);
+      expect(rules["sonarjs/cognitive-complexity"]).toEqual([
+        "error",
+        COGNITIVE_COMPLEXITY_THRESHOLD,
+      ]);
     });
 
     it("should include max-lines-per-function with documented options", () => {
@@ -42,7 +48,7 @@ describe("recommendedStrictDelta", () => {
     });
 
     it("should include max-classes-per-file set to ['error', 1]", () => {
-      expect(rules["max-classes-per-file"]).toEqual(["error", 1]);
+      expect(rules["max-classes-per-file"]).toEqual(["error", MAX_CLASSES_PER_FILE]);
     });
 
     it("should include @typescript-eslint/max-params with max: 7", () => {
@@ -72,11 +78,8 @@ describe("recommendedStrictDelta", () => {
       expect(rules["@typescript-eslint/consistent-type-imports"]).toBe("error");
     });
 
-    it("should NOT enable core no-duplicate-imports (the TS-aware @typescript-eslint/consistent-type-imports covers this)", () => {
-      // The core rule flags `import { Foo } from "x"` + `import type { Bar } from "x"`
-      // as duplicates even though those are semantically distinct. Keep the
-      // strict preset free of it so the TS extension owns import-shape policy.
-      expect(rules["no-duplicate-imports"]).toBeUndefined();
+    it("should reject duplicate imports while allowing separate type imports", () => {
+      expect(rules["no-duplicate-imports"]).toEqual(["error", { allowSeparateTypeImports: true }]);
     });
 
     it("should silence high-noise sonarjs rules", () => {
@@ -121,7 +124,10 @@ describe("recommendedStrictDelta", () => {
     });
 
     it("should include all always-on rules", () => {
-      expect(rules["sonarjs/cognitive-complexity"]).toEqual(["error", 15]);
+      expect(rules["sonarjs/cognitive-complexity"]).toEqual([
+        "error",
+        COGNITIVE_COMPLEXITY_THRESHOLD,
+      ]);
       expect(rules["max-lines-per-function"]).toEqual([
         "error",
         { max: 100, skipBlankLines: true, skipComments: true, IIFEs: true },
@@ -246,10 +252,52 @@ describe("plugin exports", () => {
     expect(recommendedRules["curly"]).toEqual(["error", "multi-line"]);
   });
 
-  it("configStrict helper should return an array", () => {
-    const result = plugin.configStrict();
-    expect(Array.isArray(result)).toBe(true);
-    expect(result.length).toBeGreaterThan(0);
+  it("configStrict should compose the strict preset, caller configs, and global ignores", () => {
+    const customConfig = { name: "caller-config", rules: { "no-alert": "error" as const } };
+    const result = plugin.configStrict([customConfig]);
+
+    expect(result).toEqual([
+      ...configs.recommendedStrict,
+      customConfig,
+      expect.objectContaining({
+        ignores: ["**/test/snippets.spec.ts", "**/test/stress"],
+      }),
+    ]);
+  });
+});
+
+describe("recommendedStrict import handling (ESLint integration)", () => {
+  async function duplicateImportMessages(source: string): Promise<Linter.LintMessage[]> {
+    const eslint = new ESLint({
+      overrideConfigFile: true,
+      overrideConfig: plugin.configs.recommendedStrict as never,
+    });
+    const [result] = await eslint.lintText(source, { filePath: "src/index.ts" });
+    return result.messages.filter((message) => message.ruleId === "no-duplicate-imports");
+  }
+
+  it("should report duplicate value imports", async () => {
+    const messages = await duplicateImportMessages(`
+      import { first } from "example";
+      import { second } from "example";
+      export { first, second };
+    `);
+
+    expect(messages).toEqual([
+      expect.objectContaining({
+        ruleId: "no-duplicate-imports",
+      }),
+    ]);
+  });
+
+  it("should allow separate value and type imports", async () => {
+    const messages = await duplicateImportMessages(`
+      import { value } from "example";
+      import type { Value } from "example";
+      export const result: Value = value;
+    `);
+
+    expect(messages).toEqual([]);
   });
 });
 
@@ -281,7 +329,9 @@ describe("recommendedStrictTypeChecked resolved scope (ESLint integration)", () 
   function enabledOf(config: Linter.Config, names: string[]): string[] {
     return names.filter((name) => {
       const entry = config.rules?.[name];
-      if (entry === undefined) return false;
+      if (entry === undefined) {
+        return false;
+      }
       const severity = Array.isArray(entry) ? entry[0] : entry;
       return severity !== "off" && severity !== 0;
     });
