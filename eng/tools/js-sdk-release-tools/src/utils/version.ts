@@ -1,5 +1,5 @@
 import { logger } from "./logger.js";
-import { inc as semverInc } from "semver";
+import { inc as semverInc, prerelease, rcompare, valid } from "semver";
 import { ApiVersionType } from "../common/types.js";
 
 function getDistTags(npmViewResult: Record<string, unknown>): Record<string, string> | undefined {
@@ -88,6 +88,10 @@ export function getLatestStableVersion(npmViewResult: Record<string, unknown>) {
   const isLatestComparable =
     latestVersion && (!latestVersion.includes("-") || latestVersion.includes("beta"));
   if (isLatestComparable) return latestVersion;
+  const latestPublishedStableVersion = getUsedVersions(npmViewResult)
+    .filter((version) => valid(version) && prerelease(version) === null)
+    .sort(rcompare)[0];
+  if (latestPublishedStableVersion) return latestPublishedStableVersion;
   if (betaVersion) return betaVersion;
   if (latestVersion) return latestVersion;
   logger.warn(`Failed to find latest or beta version found in dist-tags.`);

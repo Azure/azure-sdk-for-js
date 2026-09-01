@@ -57,6 +57,7 @@ export interface ElasticSnapshotsOperations {
     options?: ElasticSnapshotsGetOptionalParams,
   ) => Promise<ElasticSnapshot>;
 }
+
 function _getElasticSnapshots(context: NetAppManagementContext) {
   return {
     listByElasticVolume: (
@@ -105,6 +106,7 @@ function _getElasticSnapshots(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, snapshotName, options),
   };
 }
+
 export function _getElasticSnapshotsOperations(
   context: NetAppManagementContext,
 ): ElasticSnapshotsOperations {

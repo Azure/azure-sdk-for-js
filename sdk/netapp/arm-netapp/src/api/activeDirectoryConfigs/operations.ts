@@ -38,7 +38,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/activeDirectoryConfigs{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +65,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _activeDirectoryConfigListResultDeserializer(result.body);
 }
+
 /** List all active directory configurations within the subscription */
 export function listBySubscription(
   context: Client,
@@ -78,7 +79,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -93,7 +94,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,6 +121,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _activeDirectoryConfigListResultDeserializer(result.body);
 }
+
 /** List all active directory configurations within the resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -134,7 +136,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -151,7 +153,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       activeDirectoryConfigName: activeDirectoryConfigName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,6 +175,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete the specified Active Directory configuration */
 export function $delete(
   context: Client,
@@ -186,7 +189,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, activeDirectoryConfigName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -203,7 +206,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       activeDirectoryConfigName: activeDirectoryConfigName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -232,6 +235,7 @@ export async function _updateDeserialize(
 
   return activeDirectoryConfigDeserializer(result.body);
 }
+
 /** Patch the specified active directory configuration */
 export function update(
   context: Client,
@@ -246,7 +250,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, activeDirectoryConfigName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ActiveDirectoryConfig>, ActiveDirectoryConfig>;
 }
 
@@ -263,7 +267,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       activeDirectoryConfigName: activeDirectoryConfigName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -292,6 +296,7 @@ export async function _createOrUpdateDeserialize(
 
   return activeDirectoryConfigDeserializer(result.body);
 }
+
 /** Create or update the specified active directory configuration */
 export function createOrUpdate(
   context: Client,
@@ -306,7 +311,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, activeDirectoryConfigName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ActiveDirectoryConfig>, ActiveDirectoryConfig>;
 }
 
@@ -322,7 +327,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       activeDirectoryConfigName: activeDirectoryConfigName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,6 +354,7 @@ export async function _getDeserialize(
 
   return activeDirectoryConfigDeserializer(result.body);
 }
+
 /** Get the details of the specified active directory configuration */
 export async function get(
   context: Client,
