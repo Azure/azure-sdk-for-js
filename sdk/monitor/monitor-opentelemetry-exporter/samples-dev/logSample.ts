@@ -44,6 +44,22 @@ export async function main(): Promise<void> {
     attributes: { key: "value" },
   });
 
+  // Add an availability result
+  logger.emit({
+    severityNumber: SeverityNumber.INFO,
+    severityText: "INFO",
+    body: "Homepage availability test completed.",
+    attributes: {
+      "microsoft.availability.id": "availability-test-run-123",
+      "microsoft.availability.name": "Homepage",
+      "microsoft.availability.duration": "00:00:00.250",
+      "microsoft.availability.success": true,
+      "microsoft.availability.runLocation": "westus2",
+      "microsoft.availability.message": "HTTP 200",
+      "microsoft.availability.testTimestamp": new Date().toISOString(),
+    },
+  });
+
   // flush and shutdown
   await loggerProvider.forceFlush();
   await loggerProvider.shutdown();

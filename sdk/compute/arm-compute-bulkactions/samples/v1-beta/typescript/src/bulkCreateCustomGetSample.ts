@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an instance of BulkCreateCustoms.
  *
  * @summary gets an instance of BulkCreateCustoms.
- * x-ms-original-file: 2026-07-06-preview/BulkCreateCustom_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/BulkCreateCustom_Get_MaximumSet_Gen.json
  */
 async function bulkCreateCustomGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
