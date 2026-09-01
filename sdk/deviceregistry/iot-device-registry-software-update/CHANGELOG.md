@@ -10,4 +10,6 @@
 
 ### Bugs Fixed
 
+- Prevented continuation tokens from sending credentials to an unexpected request origin. [#39647](https://github.com/Azure/azure-sdk-for-js/pull/39647)
+
 ### Other Changes

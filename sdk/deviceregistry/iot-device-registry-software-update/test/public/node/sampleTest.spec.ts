@@ -77,7 +77,7 @@ describe("Device Registry Software Update recorded tests", () => {
 
     assert.isFalse(importRequest.enableScan, "The import request must disable scanning");
 
-    let importStarted = false;
+    let importedByThisTest = false;
     let originalError: unknown;
     let testFailed = false;
     let cleanupError: unknown;
@@ -85,8 +85,8 @@ describe("Device Registry Software Update recorded tests", () => {
       await assertUpdateDoesNotExist(client);
 
       const importPoller = client.softwareUpdate.importUpdate(importRequest, testPollingOptions);
-      importStarted = true;
       await importPoller.pollUntilDone();
+      importedByThisTest = true;
 
       assert.isFalse(sentEnableScan, "The serialized request must send enableScan as false");
       assert.isTrue(importPoller.isDone);
@@ -107,7 +107,9 @@ describe("Device Registry Software Update recorded tests", () => {
       testFailed = true;
       originalError = error;
     } finally {
-      if (importStarted) {
+      // Only delete after this test has completed the import successfully. In particular,
+      // an import conflict must not delete an update created by another concurrent run.
+      if (importedByThisTest) {
         try {
           const deletePoller = client.softwareUpdate.deleteUpdate(
             updateId.provider,

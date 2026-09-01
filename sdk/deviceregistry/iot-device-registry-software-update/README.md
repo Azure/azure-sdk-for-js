@@ -1,6 +1,6 @@
-# Azure DeviceRegistrySoftwareUpdate client library for JavaScript
+# Azure Device Registry software update client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DeviceRegistrySoftwareUpdate client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for the Azure Device Registry software update client.
 
 Software Update for Device Registry is an Azure service that enables customers to publish updates for their IoT devices to the cloud, and then deploy that update to their devices (approve updates to groups of devices managed and provisioned in Device Registry). It leverages the proven security and reliability of the Windows Update platform, optimized for IoT devices. It works globally and knows when and how to update devices, enabling customers to focus on their business goals and let Software Update for Device Registry handle the updates.
 
@@ -25,7 +25,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/iot-device-registry-software-update` package
 
-Install the Azure DeviceRegistrySoftwareUpdate client library for JavaScript with `npm`:
+Install the Azure Device Registry software update client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/iot-device-registry-software-update
@@ -33,8 +33,8 @@ npm install @azure/iot-device-registry-software-update
 
 ### Create and authenticate a `DeviceRegistrySoftwareUpdateClient`
 
-To create a client object to access the Azure DeviceRegistrySoftwareUpdate API, you need the resource endpoint hostname (without a protocol, for example `contoso.api.adu.microsoft.com`) and a `credential`. The Azure DeviceRegistrySoftwareUpdate client can use Microsoft Entra credentials to authenticate.
-You can find the endpoint for your Azure DeviceRegistrySoftwareUpdate resource in the [Azure Portal][azure_portal]. If it is shown as a URL, pass only its hostname.
+To create a client object to access the Azure Device Registry software update API, you need the resource endpoint hostname (without a protocol, for example `contoso.api.adu.microsoft.com`) and a `credential`. The Azure Device Registry software update client can use Microsoft Entra credentials to authenticate.
+You can find the endpoint for your Azure Device Registry software update resource in the [Azure Portal][azure_portal]. If it is shown as a URL, pass only its hostname.
 
 You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -44,7 +44,7 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new Microsoft Entra application and grant access to Azure DeviceRegistrySoftwareUpdate** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new Microsoft Entra application and grant access to Azure Device Registry software update** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
 
@@ -55,7 +55,7 @@ import { DeviceRegistrySoftwareUpdateClient } from "@azure/iot-device-registry-s
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new DeviceRegistrySoftwareUpdateClient(
-  "<endpoint-hostname>",
+  "contoso.api.adu.microsoft.com",
   new DefaultAzureCredential(),
 );
 ```
@@ -70,7 +70,7 @@ const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const client = new DeviceRegistrySoftwareUpdateClient("<endpoint-hostname>", credential);
+const client = new DeviceRegistrySoftwareUpdateClient("contoso.api.adu.microsoft.com", credential);
 ```
 
 ### JavaScript Bundle
@@ -79,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### DeviceRegistrySoftwareUpdateClient
+### `DeviceRegistrySoftwareUpdateClient`
 
-`DeviceRegistrySoftwareUpdateClient` is the primary interface for developers using the Azure DeviceRegistrySoftwareUpdate client library. Explore the methods on this client object to understand the different features of the Azure DeviceRegistrySoftwareUpdate service that you can access.
+`DeviceRegistrySoftwareUpdateClient` is the primary interface for developers using the Azure Device Registry software update client library. Explore the methods on this client object to understand the different features of the Azure Device Registry software update service that you can access.
 
 ## Examples
 
@@ -92,7 +92,7 @@ import { DeviceRegistrySoftwareUpdateClient } from "@azure/iot-device-registry-s
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new DeviceRegistrySoftwareUpdateClient(
-  "<endpoint-hostname>",
+  "contoso.api.adu.microsoft.com",
   new DefaultAzureCredential(),
 );
 for await (const provider of client.softwareUpdate.listProviders()) {

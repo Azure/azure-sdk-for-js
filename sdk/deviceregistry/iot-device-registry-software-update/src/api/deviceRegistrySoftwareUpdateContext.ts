@@ -28,6 +28,7 @@ export function createDeviceRegistrySoftwareUpdate(
   options: DeviceRegistrySoftwareUpdateClientOptionalParams = {},
 ): DeviceRegistrySoftwareUpdateContext {
   const endpointUrl = options.endpoint ?? `https://${endpointParam}`;
+  const endpointOrigin = new URL(endpointUrl).origin;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-iot-device-registry-software-update/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
@@ -42,6 +43,18 @@ export function createDeviceRegistrySoftwareUpdate(
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
+  clientContext.pipeline.addPolicy(
+    {
+      name: "enforce-endpoint-origin",
+      async sendRequest(request, next) {
+        if (new URL(request.url).origin !== endpointOrigin) {
+          throw new Error("Refusing to send credentials to an unexpected request origin.");
+        }
+        return next(request);
+      },
+    },
+    { beforePhase: "Sign" },
+  );
   const apiVersion = options.apiVersion;
   return { ...clientContext, apiVersion } as DeviceRegistrySoftwareUpdateContext;
 }
