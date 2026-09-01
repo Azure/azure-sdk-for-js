@@ -37,13 +37,6 @@ Compared with version 1.0.0
   - Enum KnownVersions has a new value V20260505Preview
   - Enum KnownVersions has a new value V20260905Preview
 
-### Breaking Changes
-
-Compared with version 1.1.0-beta.1
-
-  - Interface SkuMixPlacementDeploymentChoice no longer has parameter id. The recommendation identifier is now returned once on SkuMixPlacementResponse instead of on each placement choice; read `response.id`.
-  - Interface SkuMixPlacementItem no longer has parameter capacityMax. Read `response.capacityLimits` instead, which reports the same ceiling together with the reason it was applied.
-
 ## 1.1.0-beta.1 (2026-08-03)
 Compared with version 1.0.0
 
