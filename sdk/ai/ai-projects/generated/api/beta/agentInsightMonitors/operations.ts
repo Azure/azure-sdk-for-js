@@ -606,7 +606,7 @@ export async function update(
   return _updateDeserialize(result);
 }
 
-export function _deleteAgentInsightMonitorSend(
+export function _$deleteSend(
   context: Client,
   monitorId: string,
   options: BetaAgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
@@ -634,9 +634,7 @@ export function _deleteAgentInsightMonitorSend(
     });
 }
 
-export async function _deleteAgentInsightMonitorDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -651,13 +649,13 @@ export async function _deleteAgentInsightMonitorDeserialize(
 }
 
 /** Delete an Agent Insights monitor and all of its runs, insights, and state. */
-export async function deleteAgentInsightMonitor(
+export async function $delete(
   context: Client,
   monitorId: string,
   options: BetaAgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteAgentInsightMonitorSend(context, monitorId, options);
-  return _deleteAgentInsightMonitorDeserialize(result);
+  const result = await _$deleteSend(context, monitorId, options);
+  return _$deleteDeserialize(result);
 }
 
 export function _getSend(

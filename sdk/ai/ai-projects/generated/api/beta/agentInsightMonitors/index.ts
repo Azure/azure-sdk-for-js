@@ -11,7 +11,7 @@ export {
   createRun,
   reset,
   update,
-  deleteAgentInsightMonitor,
+  $delete,
   get,
   create,
   list,
