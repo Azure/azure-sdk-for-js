@@ -27,7 +27,6 @@ const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment n
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
   // Create agent with structured output configuration
   console.log("Creating agent...");
@@ -60,6 +59,8 @@ export async function main(): Promise<void> {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
+  const openAIClient = project.getOpenAIClient({ azureConfig: { allowPreview: true, agentName: agent.name } });
+
   // Create conversation with initial user message
   console.log("\nCreating conversation with initial user message...");
   const conversation = await openAIClient.conversations.create({
@@ -78,9 +79,6 @@ export async function main(): Promise<void> {
   const response = await openAIClient.responses.create(
     {
       conversation: conversation.id,
-    },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response output: ${response.output_text}`);

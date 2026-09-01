@@ -1,5 +1,29 @@
 # Release History
 
+## 25.5.0 (2026-08-25)
+
+### Features Added
+  - Added Interface DranetProfile
+  - Added Interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces
+  - Added Interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
+  - Added Interface ManagedClusterAzureMonitorProfileContainerInsights
+  - Interface AgentPoolNetworkProfile has a new optional parameter dranet
+  - Interface ManagedClusterAzureMonitorProfile has a new optional parameter containerInsights
+  - Interface ManagedClusterAzureMonitorProfileAppMonitoring has a new optional parameter openTelemetryLogsAndTraces
+  - Interface ManagedClusterAzureMonitorProfileAppMonitoring has a new optional parameter openTelemetryMetrics
+  - Interface ManagedClusterManagedOutboundIPProfile has a new optional parameter countIPv6
+  - Interface ManagedClusterNATGatewayProfile has a new optional parameter outboundIPPrefixes
+  - Interface ManagedClusterNATGatewayProfile has a new optional parameter outboundIPs
+  - Interface ManagedClusterNATGatewayProfile has a new optional parameter sku
+  - Added Type Alias ContainerNetworkLogs
+  - Added Type Alias DranetMode
+  - Added Type Alias ManagedClusterNATGatewaySku
+  - Added Enum KnownContainerNetworkLogs
+  - Added Enum KnownDranetMode
+  - Added Enum KnownManagedClusterNATGatewaySku
+  - Enum KnownAgentPoolSSHAccess has a new value EntraId
+  - Enum KnownVersions has a new value V20260601
+
 ## 25.5.0-beta.1 (2026-07-28)
 Compared with version 25.4.0
 
