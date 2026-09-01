@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { acquireAtManagementGroup, acquire } from "./operations.js";
-export {
+export type {
   PolicyTokensAcquireAtManagementGroupOptionalParams,
   PolicyTokensAcquireOptionalParams,
 } from "./options.js";
