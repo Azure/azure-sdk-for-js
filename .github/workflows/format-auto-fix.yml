@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Fetch and validate PR
         id: find-pr
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const prNumberStr = context.payload.inputs?.pr_number;
@@ -60,7 +60,7 @@ jobs:
 
       - name: Notify fork PR author
         if: steps.find-pr.outputs.is-fork == 'true'
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             await github.rest.issues.createComment({
@@ -79,7 +79,7 @@ jobs:
 
       - name: Checkout PR branch
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: ${{ steps.find-pr.outputs.pr-branch }}
           repository: ${{ steps.find-pr.outputs.pr-repo }}
@@ -87,13 +87,13 @@ jobs:
 
       - name: Setup Node.js
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 'lts/*'
 
       - name: Setup pnpm
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
         with:
           version: '10.33.0'
 
@@ -172,7 +172,7 @@ jobs:
 
       - name: Post result comment
         if: steps.find-pr.outputs.has-pr == 'true'
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           CHANGES: ${{ steps.commit.outputs.CHANGES }}
         with:
