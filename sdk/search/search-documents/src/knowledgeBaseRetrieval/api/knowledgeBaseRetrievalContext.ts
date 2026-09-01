@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../../logger.js";
+import pkgJson from "@azure/search-documents/package.json" with { type: "json" };
 import { KnownVersions } from "../../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
@@ -30,10 +31,10 @@ export function createKnowledgeBaseRetrieval(
 ): KnowledgeBaseRetrievalContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-search-documents/13.1.0-beta.2`;
+  const userAgentInfo = `azsdk-js-search-documents/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

@@ -81,10 +81,13 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
 
     afterEach(async () => {
-      await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await delay(WAIT_TIME);
-      await deleteSynonymMaps(indexClient);
-      await recorder?.stop();
+      try {
+        await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+        await delay(WAIT_TIME);
+        await deleteSynonymMaps(indexClient).catch(() => {});
+      } finally {
+        await recorder?.stop();
+      }
     });
 
     describe("#synonymmaps", () => {
