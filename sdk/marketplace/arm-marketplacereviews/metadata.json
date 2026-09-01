@@ -1,0 +1,28 @@
+{
+  "apiVersions": {
+    "Microsoft.Marketplace": "2023-01-01-preview"
+  },
+  "emitterVersion": "0.56.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Marketplace",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-marketplacereviews!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-marketplacereviews!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-marketplacereviews!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-marketplacereviews!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-marketplacereviews!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-marketplacereviews!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-marketplacereviews!UserHasReview:interface": "Microsoft.Marketplace.UserHasReview",
+      "@azure/arm-marketplacereviews!UserHasReviewProperties:interface": "Microsoft.Marketplace.UserHasReviewProperties",
+      "@azure/arm-marketplacereviews!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-marketplacereviews!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-marketplacereviews!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-marketplacereviews!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-marketplacereviews!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-marketplacereviews!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-marketplacereviews!KnownVersions:enum": "Microsoft.Marketplace.Versions",
+      "@azure/arm-marketplacereviews!RatingAndReviewsOperationsOperations#checkUserHasReview:member": "Microsoft.Marketplace.RatingAndReviewsOperations.checkUserHasReview",
+      "@azure/arm-marketplacereviews!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
