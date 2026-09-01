@@ -844,7 +844,7 @@ describe("logUtils.ts", () => {
       );
     });
 
-    it("should preserve legacy correlation context on availability telemetry", () => {
+    it("should map the supported correlation context on availability telemetry", () => {
       testLogRecord.attributes = {
         "microsoft.availability.id": "test-id",
         "microsoft.availability.name": "test-name",
@@ -852,6 +852,7 @@ describe("logUtils.ts", () => {
         "microsoft.availability.success": true,
         [KnownContextTagKeys.AiOperationId]: "legacy-operation-id",
         [KnownContextTagKeys.AiOperationParentId]: "legacy-parent-id",
+        [KnownContextTagKeys.AiOperationName]: "legacy-operation-name",
         "microsoft.operation_name": "GET /availability",
         "microsoft.session.id": "session-id",
         "microsoft.synthetic_source": "availability-test",
@@ -863,22 +864,22 @@ describe("logUtils.ts", () => {
         [KnownContextTagKeys.AiDeviceModel]: "device-model",
         [KnownContextTagKeys.AiDeviceType]: "PC",
         [KnownContextTagKeys.AiDeviceOSVersion]: "test-os",
+        [KnownContextTagKeys.AiOperationCorrelationVector]: "correlation-vector",
+        [KnownContextTagKeys.AiSessionIsFirst]: "true",
+        [KnownContextTagKeys.AiDeviceLocale]: "en-US",
+        "ai.user.userAgent": "legacy-agent/1.0",
         InvocationId: "invocation-id",
-        ProcessId: "process-id",
-        LogLevel: "Information",
-        Category: "availability",
-        HostInstanceId: "host-instance-id",
-        AzFuncLiveLogsSessionId: "live-logs-session-id",
       };
       testLogRecord.body = "availability log";
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
+        [KnownContextTagKeys.AiOperationId]: "legacy-operation-id",
+        [KnownContextTagKeys.AiOperationParentId]: "legacy-parent-id",
+        [KnownContextTagKeys.AiOperationCorrelationVector]: "correlation-vector",
+        [KnownContextTagKeys.AiSessionIsFirst]: "true",
+        [KnownContextTagKeys.AiDeviceLocale]: "en-US",
+        "ai.user.userAgent": "legacy-agent/1.0",
         InvocationId: "invocation-id",
-        ProcessId: "process-id",
-        LogLevel: "Information",
-        Category: "availability",
-        HostInstanceId: "host-instance-id",
-        AzFuncLiveLogsSessionId: "live-logs-session-id",
       };
       const expectedBaseData: Partial<AvailabilityData> = {
         id: "test-id",
@@ -894,8 +895,8 @@ describe("logUtils.ts", () => {
       const expectedTags: Tags = {
         [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
         [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
-        [KnownContextTagKeys.AiOperationId]: "legacy-operation-id",
-        [KnownContextTagKeys.AiOperationParentId]: "legacy-parent-id",
+        [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
+        [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
         [KnownContextTagKeys.AiOperationName]: "GET /availability",
         [KnownContextTagKeys.AiSessionId]: "session-id",
         [KnownContextTagKeys.AiUserAccountId]: "account-id",

@@ -60,37 +60,58 @@ import {
 
 const ApplicationInsightsUserAgent = "ai.user.userAgent";
 
-const legacyContextTagKeys: readonly KnownContextTagKeys[] = [
-  KnownContextTagKeys.AiApplicationVer,
-  KnownContextTagKeys.AiDeviceId,
-  KnownContextTagKeys.AiDeviceLocale,
-  KnownContextTagKeys.AiDeviceModel,
-  KnownContextTagKeys.AiDeviceOemName,
-  KnownContextTagKeys.AiDeviceOSVersion,
-  KnownContextTagKeys.AiDeviceType,
-  KnownContextTagKeys.AiLocationCountry,
-  KnownContextTagKeys.AiLocationIp,
-  KnownContextTagKeys.AiOperationCorrelationVector,
-  KnownContextTagKeys.AiOperationId,
-  KnownContextTagKeys.AiOperationName,
-  KnownContextTagKeys.AiOperationParentId,
-  KnownContextTagKeys.AiOperationSyntheticSource,
-  KnownContextTagKeys.AiSessionId,
-  KnownContextTagKeys.AiSessionIsFirst,
-  KnownContextTagKeys.AiUserAccountId,
-  KnownContextTagKeys.AiUserAuthUserId,
-  KnownContextTagKeys.AiUserId,
-  KnownContextTagKeys.AiCloudRole,
-  KnownContextTagKeys.AiCloudRoleInstance,
+const logContextTagMappings: readonly {
+  contextTagKey: KnownContextTagKeys;
+  attributeNames: readonly string[];
+}[] = [
+  {
+    contextTagKey: KnownContextTagKeys.AiOperationName,
+    attributeNames: [ApplicationInsightsOperationName, KnownContextTagKeys.AiOperationName],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiSessionId,
+    attributeNames: [ApplicationInsightsSessionId],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiDeviceId,
+    attributeNames: [KnownContextTagKeys.AiDeviceId],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiDeviceModel,
+    attributeNames: [KnownContextTagKeys.AiDeviceModel],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiDeviceType,
+    attributeNames: [KnownContextTagKeys.AiDeviceType],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiDeviceOSVersion,
+    attributeNames: [KnownContextTagKeys.AiDeviceOSVersion],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiOperationSyntheticSource,
+    attributeNames: [ApplicationInsightsSyntheticSource],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiUserAccountId,
+    attributeNames: [ApplicationInsightsUserAccountId],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiUserAuthUserId,
+    attributeNames: [experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiUserId,
+    attributeNames: [experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID],
+  },
+  {
+    contextTagKey: KnownContextTagKeys.AiLocationIp,
+    attributeNames: [MicrosoftClientIp],
+  },
 ];
 
 const logContextAttributeNames = new Set<string>([
-  ...legacyContextTagKeys,
-  ApplicationInsightsOperationName,
-  ApplicationInsightsSessionId,
-  ApplicationInsightsSyntheticSource,
-  ApplicationInsightsUserAccountId,
-  ApplicationInsightsUserAgent,
+  ...logContextTagMappings.flatMap(({ attributeNames }) => attributeNames),
   ATTR_USER_AGENT_ORIGINAL,
 ]);
 
@@ -242,71 +263,22 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   const tags: Tags = createTagsFromResource(log.resource);
   const attributes = log.attributes as Attributes;
 
-  for (const contextTagKey of legacyContextTagKeys) {
-    const value = getContextAttribute(attributes, contextTagKey);
-    if (value !== undefined) {
-      tags[contextTagKey] = value;
-    }
-  }
-
-  if (!tags[KnownContextTagKeys.AiOperationId] && log.spanContext?.traceId) {
+  if (log.spanContext?.traceId) {
     tags[KnownContextTagKeys.AiOperationId] = log.spanContext.traceId;
   }
-  if (!tags[KnownContextTagKeys.AiOperationParentId] && log.spanContext?.spanId) {
+  if (log.spanContext?.spanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
   }
-  setContextTagFromAttributes(
-    tags,
-    attributes,
-    KnownContextTagKeys.AiOperationName,
-    ApplicationInsightsOperationName,
-  );
-  setContextTagFromAttributes(
-    tags,
-    attributes,
-    KnownContextTagKeys.AiSessionId,
-    ApplicationInsightsSessionId,
-  );
-  setContextTagFromAttributes(
-    tags,
-    attributes,
-    KnownContextTagKeys.AiOperationSyntheticSource,
-    ApplicationInsightsSyntheticSource,
-  );
-  setContextTagFromAttributes(
-    tags,
-    attributes,
-    KnownContextTagKeys.AiUserAccountId,
-    ApplicationInsightsUserAccountId,
-  );
-  setContextTagFromAttributes(
-    tags,
-    attributes,
-    KnownContextTagKeys.AiUserAuthUserId,
-    experimentalOpenTelemetryValues.ATTR_ENDUSER_ID,
-  );
-  setContextTagFromAttributes(
-    tags,
-    attributes,
-    KnownContextTagKeys.AiUserId,
-    experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID,
-  );
+
+  for (const { contextTagKey, attributeNames } of logContextTagMappings) {
+    setContextTagFromAttributes(tags, attributes, contextTagKey, attributeNames);
+  }
 
   if (!tags[KnownContextTagKeys.AiOperationSyntheticSource] && isSyntheticSource(attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
 
-  // Set ai.location.ip from microsoft.client.ip if it exists
-  setContextTagFromAttributes(
-    tags,
-    attributes,
-    KnownContextTagKeys.AiLocationIp,
-    MicrosoftClientIp,
-  );
-
-  const userAgent =
-    getContextAttribute(attributes, ApplicationInsightsUserAgent) ??
-    getContextAttribute(attributes, ATTR_USER_AGENT_ORIGINAL);
+  const userAgent = getContextAttribute(attributes, ATTR_USER_AGENT_ORIGINAL);
   if (userAgent !== undefined) {
     tags[ApplicationInsightsUserAgent] = userAgent;
   }
@@ -318,15 +290,14 @@ function setContextTagFromAttributes(
   tags: Tags,
   attributes: Attributes,
   contextTagKey: KnownContextTagKeys,
-  attributeName: string,
+  attributeNames: readonly string[],
 ): void {
-  if (getContextAttribute(attributes, contextTagKey) !== undefined) {
-    return;
-  }
-
-  const value = getContextAttribute(attributes, attributeName);
-  if (value !== undefined) {
-    tags[contextTagKey] = value;
+  for (const attributeName of attributeNames) {
+    const value = getContextAttribute(attributes, attributeName);
+    if (value !== undefined) {
+      tags[contextTagKey] = value;
+      return;
+    }
   }
 }
 
