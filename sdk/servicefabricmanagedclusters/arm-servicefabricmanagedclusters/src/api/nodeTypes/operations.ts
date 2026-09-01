@@ -81,7 +81,9 @@ export async function _listFaultSimulationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -145,7 +147,9 @@ export async function _getFaultSimulationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -207,7 +211,9 @@ export async function _stopFaultSimulationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -275,7 +281,9 @@ export async function _startFaultSimulationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -341,7 +349,9 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -400,7 +410,9 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -459,7 +471,9 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -518,7 +532,9 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -577,7 +593,9 @@ export async function _deleteNodeDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -636,7 +654,9 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -693,7 +713,9 @@ export async function _listByManagedClustersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -748,7 +770,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -807,7 +831,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -867,7 +893,9 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -931,7 +959,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<No
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
