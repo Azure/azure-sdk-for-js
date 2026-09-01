@@ -10,6 +10,10 @@
 - Added agent-configured client-reference echo cancellation to the browser Voice Agent sample, streaming interleaved microphone and rendered-playback PCM channels.
 - Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
 
+### Bugs Fixed
+
+- Fixed browser bundling by isolating Node.js file-system access used by dataset and model upload helpers. [#39798](https://github.com/Azure/azure-sdk-for-js/pull/39798)
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "node:fs";
-import nodePath from "node:path";
 import type { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
 import type {
   _PagedDatasetVersion,
@@ -35,6 +33,12 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ContainerClient } from "@azure/storage-blob";
 import { logger } from "../../logger.js";
+import {
+  getLocalFileName,
+  getLocalPathType,
+  listLocalFiles,
+  uploadLocalFile,
+} from "#platform/static-helpers/localFileStorage";
 export function _getCredentialsSend(
   context: Client,
   name: string,
@@ -443,15 +447,11 @@ export async function uploadFile(
   filePath: string,
   options?: DatasetUploadInternalOptions,
 ): Promise<DatasetVersionUnion> {
-  // if file does not exist
-
-  const fileExists = fs.existsSync(filePath);
-  if (!fileExists) {
+  const pathType = getLocalPathType(filePath);
+  if (pathType === "missing") {
     throw new Error(`File does not exist at path: ${filePath}`);
   }
-  // Check if the file is a directory
-  const isDirectory = fs.lstatSync(filePath).isDirectory();
-  if (isDirectory) {
+  if (pathType === "directory") {
     throw new Error(`The provided file is actually a folder. Use method uploadFolder instead`);
   }
 
@@ -462,9 +462,9 @@ export async function uploadFile(
     options,
   );
   // file name as blob name
-  const blobName = nodePath.basename(filePath);
+  const blobName = getLocalFileName(filePath);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  await blockBlobClient.uploadStream(fs.createReadStream(filePath));
+  await uploadLocalFile(blockBlobClient, filePath);
 
   const datasetVersion = await createOrUpdate(context, name, outputVersion, {
     name: name,
@@ -482,14 +482,11 @@ export async function uploadFolder(
   folderPath: string,
   options?: DatasetUploadInternalOptions,
 ): Promise<DatasetVersionUnion> {
-  // Check if the folder exists
-  const folderExists = fs.existsSync(folderPath);
-  if (!folderExists) {
+  const pathType = getLocalPathType(folderPath);
+  if (pathType === "missing") {
     throw new Error(`Folder does not exist at path: ${folderPath}`);
   }
-  // Check if the folder is a file
-  const isFile = fs.lstatSync(folderPath).isFile();
-  if (isFile) {
+  if (pathType === "file") {
     throw new Error(`The provided path is actually a file. Use method uploadFile instead`);
   }
 
@@ -500,31 +497,12 @@ export async function uploadFolder(
     options,
   );
 
-  // Helper function to recursively get all files in a directory
-  async function getAllFiles(dir: string, fileList: string[] = []): Promise<string[]> {
-    const files = await fs.promises.readdir(dir);
-
-    for (const file of files) {
-      const filePath = `${dir}/${file}`;
-      const stat = await fs.promises.lstat(filePath);
-
-      if (stat.isDirectory()) {
-        await getAllFiles(filePath, fileList);
-      } else {
-        fileList.push(filePath);
-      }
-    }
-
-    return fileList;
-  }
-
-  // Get all files in the folder
-  const allFiles = await getAllFiles(folderPath);
+  const allFiles = await listLocalFiles(folderPath);
   let filteredFiles = allFiles;
   if (options?.filePattern) {
     try {
       const filePattern = new RegExp(options.filePattern);
-      filteredFiles = allFiles.filter((file) => filePattern.test(file));
+      filteredFiles = allFiles.filter((file) => filePattern.test(file.path));
     } catch {
       // If regex pattern is invalid, ignore the pattern and upload all files
     }
@@ -535,22 +513,18 @@ export async function uploadFolder(
   }
 
   // Upload each file to blob storage while maintaining relative paths
-  for (const filePath of filteredFiles) {
-    // Create blob name as relative path from the base folder
-    const relativePath = nodePath.relative(folderPath, filePath).split(nodePath.sep).join("/");
-
+  for (const file of filteredFiles) {
     logger.verbose(
-      `[uploadFolderAndCreate] Start uploading file '${filePath}' as blob '${relativePath}'`,
+      `[uploadFolderAndCreate] Start uploading file '${file.path}' as blob '${file.relativePath}'`,
     );
 
     // Get a block blob client for the relative path
-    const blobClient = containerClient.getBlockBlobClient(relativePath);
+    const blobClient = containerClient.getBlockBlobClient(file.relativePath);
 
     // Upload the file using a readable stream for better performance
-    const fileStream = fs.createReadStream(filePath);
-    await blobClient.uploadStream(fileStream);
+    await uploadLocalFile(blobClient, file.path);
     logger.verbose(
-      `[uploadFolderAndCreate] Done uploading file '${filePath}' as blob '${relativePath}'`,
+      `[uploadFolderAndCreate] Done uploading file '${file.path}' as blob '${file.relativePath}'`,
     );
   }
 
