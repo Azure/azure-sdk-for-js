@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import type {
   SearchClient,
-  SearchIndexClient,
   WebKnowledgeSource,
   RemoteSharePointKnowledgeSource,
   WorkIQKnowledgeSource,
@@ -15,7 +14,9 @@ import type {
 } from "../../../../src/index.js";
 import {
   KnowledgeRetrievalClient,
+  KnownKnowledgeBaseRetrievalStatusCode,
   KnownKnowledgeRetrievalOutputMode,
+  SearchIndexClient,
 } from "../../../../src/index.js";
 import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
@@ -92,11 +93,14 @@ describe("Knowledge", { timeout: 20_000 }, () => {
   });
 
   afterEach(async () => {
-    await indexClient.deleteKnowledgeBase(TEST_BASE_NAME);
-    await indexClient.deleteKnowledgeSource(TEST_KS_NAME);
-    await indexClient.deleteIndex(TEST_INDEX_NAME);
-    await delay(WAIT_TIME);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteKnowledgeBase(TEST_BASE_NAME).catch(() => {});
+      await indexClient.deleteKnowledgeSource(TEST_KS_NAME).catch(() => {});
+      await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+      await delay(WAIT_TIME);
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   describe("KnowledgeRetrievalClient", () => {
@@ -116,10 +120,58 @@ describe("Knowledge", { timeout: 20_000 }, () => {
       assert.exists(result.response);
       assert.isTrue(result.response.length > 0);
     });
+
+    it.runIf(isLiveMode())(
+      "streams typed retrieval events (live only)",
+      { timeout: 60000 },
+      async () => {
+        let started = false;
+        let completed = false;
+        let eventCount = 0;
+        const activities = new Set<number>();
+
+        for await (const event of await knowledgeRetrievalClient.retrieveStream({
+          intents: [{ type: "semantic", search: "What is the most luxurious hotel?" }],
+          includeActivity: true,
+          retrievalReasoningEffort: { kind: "minimal" },
+        })) {
+          eventCount += 1;
+          console.log(
+            `[stream event ${eventCount}] ${event.event}\n${JSON.stringify(event.data, null, 2)}`,
+          );
+
+          if (event.event === "retrieval.started") {
+            started = true;
+          } else if (event.event === "activity.started") {
+            activities.add(event.data.id);
+          } else if (event.event === "activity.completed") {
+            assert.isTrue(activities.delete(event.data.id));
+          } else if (event.event === "response.completed") {
+            assert.include(
+              [
+                KnownKnowledgeBaseRetrievalStatusCode.OK,
+                KnownKnowledgeBaseRetrievalStatusCode.PartialContent,
+              ],
+              event.data.statusCode,
+            );
+            completed = true;
+          } else if (event.event === "error") {
+            throw new Error(event.data.error.message ?? "Streaming retrieval failed");
+          }
+        }
+
+        console.log(`[stream complete] ${eventCount} events received`);
+
+        assert.isTrue(started);
+        assert.isTrue(completed);
+        assert.equal(activities.size, 0);
+      },
+    );
   });
 
-  // Unskip and test locally with valid AOAI resource. Cannot enable in the pipeline due to resource constraints.
-  describe.skip("KnowledgeRetrievalClient with models", () => {
+  // These scenarios require externally provisioned model/Fabric resources and are intentionally
+  // live-only. They never generate or consume recordings.
+  describe.runIf(isLiveMode())("KnowledgeRetrievalClient with models (live only)", () => {
     const chatAzureOpenAIParameters = {
       deploymentId: env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
       resourceUrl: env.AZURE_OPENAI_ENDPOINT,
@@ -199,54 +251,6 @@ describe("Knowledge", { timeout: 20_000 }, () => {
       await delay(WAIT_TIME);
       await indexClient.deleteKnowledgeBase(`${TEST_BASE_NAME}-remotesharepoint`);
       await indexClient.deleteKnowledgeSource(spKsName);
-    });
-
-    it("CRUD workIQ knowledge source", { timeout: 60000 }, async () => {
-      const ksName = `workiq-ks-${TEST_INDEX_NAME}`;
-      const baseName = `${TEST_BASE_NAME}-workiq`;
-      const workIQKnowledgeSource: WorkIQKnowledgeSource = {
-        kind: "workIQ",
-        name: ksName,
-        description: "WorkIQ knowledge source for testing",
-      };
-
-      // Create
-      const created = await indexClient.createOrUpdateKnowledgeSource(workIQKnowledgeSource);
-      assert.equal(created.kind, "workIQ");
-      assert.equal(created.name, ksName);
-
-      // Read
-      const fetched = await indexClient.getKnowledgeSource(ksName);
-      assert.equal(fetched.kind, "workIQ");
-      assert.equal(fetched.name, ksName);
-
-      // List
-      const allSources: (typeof fetched)[] = [];
-      for await (const source of indexClient.listKnowledgeSources()) {
-        allSources.push(source);
-      }
-      assert.isTrue(allSources.some((s) => s.name === ksName));
-
-      // Validate knowledge base referencing the WorkIQ source
-      const knowledgeBase = await indexClient.createKnowledgeBase({
-        name: baseName,
-        models: [
-          {
-            kind: "azureOpenAI",
-            azureOpenAIParameters: chatAzureOpenAIParameters,
-          },
-        ],
-        knowledgeSources: [{ name: ksName }],
-        outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
-      });
-      assert.equal(knowledgeBase.name, baseName);
-      assert.isTrue(knowledgeBase.knowledgeSources.some((s) => s.name === ksName));
-
-      await delay(WAIT_TIME);
-
-      // Cleanup
-      await indexClient.deleteKnowledgeBase(baseName);
-      await indexClient.deleteKnowledgeSource(ksName);
     });
 
     it("CRUD fabricDataAgent knowledge source", { timeout: 60000 }, async () => {
@@ -376,5 +380,44 @@ describe("Knowledge", { timeout: 20_000 }, () => {
       await indexClient.deleteKnowledgeBase(baseName);
       await indexClient.deleteKnowledgeSource(ksName);
     });
+  });
+});
+
+describe.runIf(isLiveMode())("WorkIQ knowledge source (live only)", () => {
+  it("round-trips BYO Entra configuration without using the recorder", async () => {
+    const endpoint = assertEnvironmentVariable("ENDPOINT");
+    const sourceName = `workiq-${createRandomIndexName()}`;
+    const baseName = `workiq-kb-${createRandomIndexName()}`;
+    const client = new SearchIndexClient(endpoint, createTestCredential());
+    const source: WorkIQKnowledgeSource = {
+      kind: "workIQ",
+      name: sourceName,
+      description: "Live-only WorkIQ BYO Entra validation",
+      workIQParameters: {
+        entraAppAuthentication: {
+          applicationId: assertEnvironmentVariable("WORKIQ_APPLICATION_ID"),
+          federatedCredentialId: assertEnvironmentVariable("WORKIQ_FEDERATED_CREDENTIAL_ID"),
+          tenantId: env.WORKIQ_TENANT_ID || undefined,
+        },
+      },
+    };
+
+    try {
+      const created = await client.createKnowledgeSource(source);
+      assert.equal(created.kind, "workIQ");
+      assert.deepEqual(
+        (created as WorkIQKnowledgeSource).workIQParameters.entraAppAuthentication,
+        source.workIQParameters.entraAppAuthentication,
+      );
+
+      const knowledgeBase = await client.createKnowledgeBase({
+        name: baseName,
+        knowledgeSources: [{ name: sourceName }],
+      });
+      assert.isTrue(knowledgeBase.knowledgeSources.some((item) => item.name === sourceName));
+    } finally {
+      await client.deleteKnowledgeBase(baseName).catch(() => {});
+      await client.deleteKnowledgeSource(sourceName).catch(() => {});
+    }
   });
 });
