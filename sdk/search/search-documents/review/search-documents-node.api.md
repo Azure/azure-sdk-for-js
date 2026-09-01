@@ -3410,14 +3410,14 @@ export interface ListIndexStatsSummaryOptions extends OperationOptions {
 // @public
 export type ListingSearchType = string;
 
-// @public (undocumented)
+// @public
 export interface ListKnowledgeBasesOptions extends OperationOptions {
     pageSize?: number;
     search?: string;
     searchType?: ListingSearchType;
 }
 
-// @public (undocumented)
+// @public
 export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
     pageSize?: number;
     prefix?: string;
@@ -3425,7 +3425,7 @@ export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
     searchType?: ListingSearchType;
 }
 
-// @public (undocumented)
+// @public
 export interface ListKnowledgeSourcesOptions extends OperationOptions {
     pageSize?: number;
     search?: string;
@@ -3484,47 +3484,39 @@ export type MarkdownParsingSubmode = string;
 
 // @public
 export interface McpServerAuthentication {
-    // (undocumented)
     kind: McpServerAuthenticationKind;
 }
 
-// @public (undocumented)
+// @public
 export type McpServerAuthenticationKind = string;
 
-// @public (undocumented)
+// @public
 export type McpServerAuthenticationUnion = McpServerFoundryConnectionAuthentication | McpServerStoredHeadersAuthentication | McpServerAuthentication;
 
-// @public (undocumented)
+// @public
 export interface McpServerAutoOutputParsing extends McpServerOutputParsing {
-    // (undocumented)
     kind: "auto";
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerFoundryConnectionAuthentication extends McpServerAuthentication {
-    // (undocumented)
     foundryConnectionParameters: McpServerFoundryConnectionParameters;
-    // (undocumented)
     kind: "foundryConnection";
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerFoundryConnectionParameters {
-    // (undocumented)
     connectionId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerHeaders {
-    // (undocumented)
     additionalProperties?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
-    // (undocumented)
     jsonParameters: McpServerOutputParsingJsonParameters;
-    // (undocumented)
     kind: "json";
 }
 
@@ -3546,77 +3538,59 @@ export interface McpServerKnowledgeSourceParams extends BaseKnowledgeSourceParam
     kind: "mcpServer";
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
-    // (undocumented)
     kind: "none";
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerOutputParsing {
-    // (undocumented)
     kind: McpServerOutputParsingKind;
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerOutputParsingJsonParameters {
-    // (undocumented)
     documentsPath: string;
-    // (undocumented)
     includeContext?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export type McpServerOutputParsingKind = string;
 
-// @public (undocumented)
+// @public
 export interface McpServerOutputParsingSplitParameters {
-    // (undocumented)
     defaultLanguageCode?: SplitSkillLanguage;
-    // (undocumented)
     maximumPageLength?: number;
-    // (undocumented)
     maximumPagesToTake?: number;
-    // (undocumented)
     pageOverlapLength?: number;
-    // (undocumented)
     textSplitMode?: TextSplitMode;
 }
 
-// @public (undocumented)
+// @public
 export type McpServerOutputParsingUnion = McpServerAutoOutputParsing | McpServerJsonOutputParsing | McpServerSplitOutputParsing | McpServerNoneOutputParsing | McpServerOutputParsing;
 
-// @public (undocumented)
+// @public
 export interface McpServerSplitOutputParsing extends McpServerOutputParsing {
-    // (undocumented)
     kind: "split";
-    // (undocumented)
     splitParameters?: McpServerOutputParsingSplitParameters;
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerStoredHeadersAuthentication extends McpServerAuthentication {
-    // (undocumented)
     kind: "storedHeaders";
-    // (undocumented)
     storedHeadersParameters: McpServerStoredHeadersParameters;
 }
 
-// @public (undocumented)
+// @public
 export interface McpServerStoredHeadersParameters {
-    // (undocumented)
     headers?: McpServerHeaders;
 }
 
 // @public
 export interface McpServerTool {
-    // (undocumented)
     maxOutputTokens?: number;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     outputParsing?: McpServerOutputParsingUnion;
-    // (undocumented)
     resultsProcessing?: KnowledgeSourceResultsProcessing;
 }
 
