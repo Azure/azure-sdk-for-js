@@ -57,6 +57,7 @@ function assertEnvelope(
   expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date,
   expectedServiceTags: Tags = expectedServiceTagsBase,
+  expectedSyntheticSource = "True",
 ): void {
   assert.isDefined(envelope);
   assert.strictEqual(envelope?.name, name);
@@ -75,7 +76,9 @@ function assertEnvelope(
   assert.deepStrictEqual(envelope?.tags, {
     ...context.tags,
     ...expectedServiceTags,
-    [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
+    ...(expectedSyntheticSource
+      ? { [KnownContextTagKeys.AiOperationSyntheticSource]: expectedSyntheticSource }
+      : {}),
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
@@ -838,6 +841,86 @@ describe("logUtils.ts", () => {
         expectedBaseData,
         expectedTime,
         expectedServiceTagsBase,
+      );
+    });
+
+    it("should preserve legacy correlation context on availability telemetry", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        [KnownContextTagKeys.AiOperationId]: "legacy-operation-id",
+        [KnownContextTagKeys.AiOperationParentId]: "legacy-parent-id",
+        "microsoft.operation_name": "GET /availability",
+        "microsoft.session.id": "session-id",
+        "microsoft.synthetic_source": "availability-test",
+        "microsoft.user.account_id": "account-id",
+        [experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]: "authenticated-user-id",
+        [experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID]: "anonymous-user-id",
+        "user_agent.original": "availability-agent/1.0",
+        [KnownContextTagKeys.AiDeviceId]: "device-id",
+        [KnownContextTagKeys.AiDeviceModel]: "device-model",
+        [KnownContextTagKeys.AiDeviceType]: "PC",
+        [KnownContextTagKeys.AiDeviceOSVersion]: "test-os",
+        InvocationId: "invocation-id",
+        ProcessId: "process-id",
+        LogLevel: "Information",
+        Category: "availability",
+        HostInstanceId: "host-instance-id",
+        AzFuncLiveLogsSessionId: "live-logs-session-id",
+      };
+      testLogRecord.body = "availability log";
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        InvocationId: "invocation-id",
+        ProcessId: "process-id",
+        LogLevel: "Information",
+        Category: "availability",
+        HostInstanceId: "host-instance-id",
+        AzFuncLiveLogsSessionId: "live-logs-session-id",
+      };
+      const expectedBaseData: Partial<AvailabilityData> = {
+        id: "test-id",
+        name: "test-name",
+        duration: "00:00:02",
+        success: true,
+        runLocation: undefined,
+        message: "availability log",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+      const expectedTags: Tags = {
+        [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
+        [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
+        [KnownContextTagKeys.AiOperationId]: "legacy-operation-id",
+        [KnownContextTagKeys.AiOperationParentId]: "legacy-parent-id",
+        [KnownContextTagKeys.AiOperationName]: "GET /availability",
+        [KnownContextTagKeys.AiSessionId]: "session-id",
+        [KnownContextTagKeys.AiUserAccountId]: "account-id",
+        [KnownContextTagKeys.AiUserAuthUserId]: "authenticated-user-id",
+        [KnownContextTagKeys.AiUserId]: "anonymous-user-id",
+        [KnownContextTagKeys.AiDeviceId]: "device-id",
+        [KnownContextTagKeys.AiDeviceModel]: "device-model",
+        [KnownContextTagKeys.AiDeviceType]: "PC",
+        [KnownContextTagKeys.AiDeviceOSVersion]: "test-os",
+        "ai.user.userAgent": "availability-agent/1.0",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Availability",
+        100,
+        "AvailabilityData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedTags,
+        "availability-test",
       );
     });
 

@@ -137,6 +137,8 @@ The following attributes are required:
 
 `microsoft.availability.runLocation`, `microsoft.availability.message`, and `microsoft.availability.testTimestamp` are optional. The timestamp must be an ISO 8601 string and overrides the log record time when valid. If the message attribute is omitted, the log body is used as the availability message.
 
+Availability records use the same correlation context as other OpenTelemetry logs. When a record is emitted with an active span (or an explicit OpenTelemetry context), the span trace ID and span ID populate the Application Insights operation ID and parent ID. For migration from the Application Insights Node.js 2.x SDK, legacy `ai.*` context-tag attributes are also honored as explicit overrides. The exporter maps `microsoft.operation_name`, `microsoft.session.id`, `microsoft.synthetic_source`, `microsoft.user.account_id`, `enduser.id`, `enduser.pseudo.id`, and `user_agent.original` to their corresponding Application Insights context tags.
+
 If any required attribute is missing or empty, the exporter sends the record as regular message telemetry instead. Exception and custom event attributes take precedence over availability attributes.
 
 ### Sampling

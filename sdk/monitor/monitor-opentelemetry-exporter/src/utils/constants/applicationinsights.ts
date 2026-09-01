@@ -47,6 +47,10 @@ export const ApplicationInsightsAvailabilitySuccess = "microsoft.availability.su
 export const ApplicationInsightsAvailabilityRunLocation = "microsoft.availability.runLocation";
 export const ApplicationInsightsAvailabilityMessage = "microsoft.availability.message";
 export const ApplicationInsightsAvailabilityTestTimestamp = "microsoft.availability.testTimestamp";
+export const ApplicationInsightsOperationName = "microsoft.operation_name";
+export const ApplicationInsightsSessionId = "microsoft.session.id";
+export const ApplicationInsightsSyntheticSource = "microsoft.synthetic_source";
+export const ApplicationInsightsUserAccountId = "microsoft.user.account_id";
 export const MicrosoftClientIp = "microsoft.client.ip";
 
 export const ApplicationInsightsMessageName = "Microsoft.ApplicationInsights.Message";

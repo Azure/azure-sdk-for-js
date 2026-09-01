@@ -23,6 +23,7 @@ import {
   ATTR_EXCEPTION_MESSAGE,
   ATTR_EXCEPTION_STACKTRACE,
   ATTR_EXCEPTION_TYPE,
+  ATTR_USER_AGENT_ORIGINAL,
 } from "@opentelemetry/semantic-conventions";
 import { experimentalOpenTelemetryValues } from "../types.js";
 import type { Measurements, Properties, Tags } from "../types.js";
@@ -47,11 +48,51 @@ import {
   ApplicationInsightsExceptionName,
   ApplicationInsightsMessageBaseType,
   ApplicationInsightsMessageName,
+  ApplicationInsightsOperationName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  ApplicationInsightsSessionId,
+  ApplicationInsightsSyntheticSource,
+  ApplicationInsightsUserAccountId,
   DEFAULT_BREEZE_DATA_VERSION,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
+
+const ApplicationInsightsUserAgent = "ai.user.userAgent";
+
+const legacyContextTagKeys: readonly KnownContextTagKeys[] = [
+  KnownContextTagKeys.AiApplicationVer,
+  KnownContextTagKeys.AiDeviceId,
+  KnownContextTagKeys.AiDeviceLocale,
+  KnownContextTagKeys.AiDeviceModel,
+  KnownContextTagKeys.AiDeviceOemName,
+  KnownContextTagKeys.AiDeviceOSVersion,
+  KnownContextTagKeys.AiDeviceType,
+  KnownContextTagKeys.AiLocationCountry,
+  KnownContextTagKeys.AiLocationIp,
+  KnownContextTagKeys.AiOperationCorrelationVector,
+  KnownContextTagKeys.AiOperationId,
+  KnownContextTagKeys.AiOperationName,
+  KnownContextTagKeys.AiOperationParentId,
+  KnownContextTagKeys.AiOperationSyntheticSource,
+  KnownContextTagKeys.AiSessionId,
+  KnownContextTagKeys.AiSessionIsFirst,
+  KnownContextTagKeys.AiUserAccountId,
+  KnownContextTagKeys.AiUserAuthUserId,
+  KnownContextTagKeys.AiUserId,
+  KnownContextTagKeys.AiCloudRole,
+  KnownContextTagKeys.AiCloudRoleInstance,
+];
+
+const logContextAttributeNames = new Set<string>([
+  ...legacyContextTagKeys,
+  ApplicationInsightsOperationName,
+  ApplicationInsightsSessionId,
+  ApplicationInsightsSyntheticSource,
+  ApplicationInsightsUserAccountId,
+  ApplicationInsightsUserAgent,
+  ATTR_USER_AGENT_ORIGINAL,
+]);
 
 /**
  * Log to Azure envelope parsing.
@@ -199,45 +240,104 @@ function getAttributeString(log: ReadableLogRecord, attributeName: string): stri
 
 function createTagsFromLog(log: ReadableLogRecord): Tags {
   const tags: Tags = createTagsFromResource(log.resource);
-  if (log.spanContext?.traceId) {
+  const attributes = log.attributes as Attributes;
+
+  for (const contextTagKey of legacyContextTagKeys) {
+    const value = getContextAttribute(attributes, contextTagKey);
+    if (value !== undefined) {
+      tags[contextTagKey] = value;
+    }
+  }
+
+  if (!tags[KnownContextTagKeys.AiOperationId] && log.spanContext?.traceId) {
     tags[KnownContextTagKeys.AiOperationId] = log.spanContext.traceId;
   }
-  if (log.spanContext?.spanId) {
+  if (!tags[KnownContextTagKeys.AiOperationParentId] && log.spanContext?.spanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
   }
-  if (log.attributes[KnownContextTagKeys.AiOperationName]) {
-    tags[KnownContextTagKeys.AiOperationName] = log.attributes[
-      KnownContextTagKeys.AiOperationName
-    ] as string;
-  }
-  if (isSyntheticSource(log.attributes as Attributes)) {
+  setContextTagFromAttributes(
+    tags,
+    attributes,
+    KnownContextTagKeys.AiOperationName,
+    ApplicationInsightsOperationName,
+  );
+  setContextTagFromAttributes(
+    tags,
+    attributes,
+    KnownContextTagKeys.AiSessionId,
+    ApplicationInsightsSessionId,
+  );
+  setContextTagFromAttributes(
+    tags,
+    attributes,
+    KnownContextTagKeys.AiOperationSyntheticSource,
+    ApplicationInsightsSyntheticSource,
+  );
+  setContextTagFromAttributes(
+    tags,
+    attributes,
+    KnownContextTagKeys.AiUserAccountId,
+    ApplicationInsightsUserAccountId,
+  );
+  setContextTagFromAttributes(
+    tags,
+    attributes,
+    KnownContextTagKeys.AiUserAuthUserId,
+    experimentalOpenTelemetryValues.ATTR_ENDUSER_ID,
+  );
+  setContextTagFromAttributes(
+    tags,
+    attributes,
+    KnownContextTagKeys.AiUserId,
+    experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID,
+  );
+
+  if (!tags[KnownContextTagKeys.AiOperationSyntheticSource] && isSyntheticSource(attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
 
   // Set ai.location.ip from microsoft.client.ip if it exists
-  const microsoftClientIp = log.attributes?.[MicrosoftClientIp];
-  if (microsoftClientIp) {
-    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
-  }
+  setContextTagFromAttributes(
+    tags,
+    attributes,
+    KnownContextTagKeys.AiLocationIp,
+    MicrosoftClientIp,
+  );
 
-  // Map user ID attributes
-  const attributes = log.attributes as Attributes;
-  if (attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]) {
-    const endUserId = String(attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]);
-    if (endUserId && endUserId.length > 0) {
-      tags[KnownContextTagKeys.AiUserAuthUserId] = endUserId;
-    }
-  }
-  if (attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID]) {
-    const endUserPseudoId = String(
-      attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID],
-    );
-    if (endUserPseudoId && endUserPseudoId.length > 0) {
-      tags[KnownContextTagKeys.AiUserId] = endUserPseudoId;
-    }
+  const userAgent =
+    getContextAttribute(attributes, ApplicationInsightsUserAgent) ??
+    getContextAttribute(attributes, ATTR_USER_AGENT_ORIGINAL);
+  if (userAgent !== undefined) {
+    tags[ApplicationInsightsUserAgent] = userAgent;
   }
 
   return tags;
+}
+
+function setContextTagFromAttributes(
+  tags: Tags,
+  attributes: Attributes,
+  contextTagKey: KnownContextTagKeys,
+  attributeName: string,
+): void {
+  if (getContextAttribute(attributes, contextTagKey) !== undefined) {
+    return;
+  }
+
+  const value = getContextAttribute(attributes, attributeName);
+  if (value !== undefined) {
+    tags[contextTagKey] = value;
+  }
+}
+
+function getContextAttribute(attributes: Attributes, attributeName: string): string | undefined {
+  const value = attributes[attributeName];
+  if (value === undefined) {
+    return;
+  }
+
+  const stringValue = String(value);
+  return stringValue.length > 0 ? stringValue : undefined;
 }
 
 function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measurements] {
@@ -251,7 +351,7 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
         key.startsWith("microsoft") ||
         legacySemanticValues.includes(key) ||
         httpSemanticValues.includes(key as any) ||
-        key === (KnownContextTagKeys.AiOperationName as string)
+        logContextAttributeNames.has(key)
       )) {
         properties[key] = serializeAttribute(log.attributes[key]);
       }
