@@ -28,7 +28,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,6 +53,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _quotaItemListDeserializer(result.body);
 }
+
 /** Get the default and current limits for quotas */
 export function list(
   context: Client,
@@ -67,7 +68,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -84,7 +85,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       quotaLimitName: quotaLimitName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,6 +110,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Qu
 
   return quotaItemDeserializer(result.body);
 }
+
 /** Get the default and current quota limit */
 export async function get(
   context: Client,

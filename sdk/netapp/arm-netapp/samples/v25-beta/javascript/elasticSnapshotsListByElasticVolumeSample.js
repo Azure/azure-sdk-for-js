@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list ElasticSnapshot resources by ElasticVolume
  *
  * @summary list ElasticSnapshot resources by ElasticVolume
- * x-ms-original-file: 2026-05-15-preview/ElasticSnapshots_ListByElasticVolume.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticSnapshots_ListByElasticVolume.json
  */
 async function elasticSnapshotsListByElasticVolume() {
   const credential = new DefaultAzureCredential();

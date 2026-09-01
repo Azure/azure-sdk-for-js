@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-05-15-preview/PutRaiPolicy.json
+ * x-ms-original-file: 2026-07-15-preview/PutRaiPolicy.json
  */
 async function putRaiPolicy() {
   const credential = new DefaultAzureCredential();
@@ -94,7 +94,7 @@ async function putRaiPolicy() {
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-05-15-preview/PutRaiPolicyWithEgress.json
+ * x-ms-original-file: 2026-07-15-preview/PutRaiPolicyWithEgress.json
  */
 async function putRaiPolicyWithEgress() {
   const credential = new DefaultAzureCredential();
@@ -107,6 +107,7 @@ async function putRaiPolicyWithEgress() {
     {
       properties: {
         basePolicyName: "Microsoft.Default",
+        contentFilters: [],
         egressPolicy: {
           mode: "Enforced",
           defaultAction: "Deny",

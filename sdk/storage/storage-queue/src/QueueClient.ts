@@ -1235,7 +1235,7 @@ export class QueueClient extends StorageClient {
 
       return queueName;
     } catch (error: any) {
-      throw new Error("Unable to extract queueName with provided information.");
+      throw new Error("Unable to extract queueName with provided information.", { cause: error });
     }
   }
 

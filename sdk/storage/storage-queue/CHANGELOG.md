@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Restored the core v1 user agent string prefix, `azsdk-js-storagequeue`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+
 ### Other Changes
 
 ## 12.32.0-beta.1 (2026-08-03)
