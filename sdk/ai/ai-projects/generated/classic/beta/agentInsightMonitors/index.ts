@@ -12,7 +12,7 @@ import {
   createRun,
   reset,
   update,
-  deleteAgentInsightMonitor,
+  $delete,
   get,
   create,
   list,
@@ -101,7 +101,7 @@ export interface BetaAgentInsightMonitorsOperations {
     options?: BetaAgentInsightMonitorsUpdateOptionalParams,
   ) => Promise<AgentInsightMonitor>;
   /** Delete an Agent Insights monitor and all of its runs, insights, and state. */
-  deleteAgentInsightMonitor: (
+  delete: (
     monitorId: string,
     options?: BetaAgentInsightMonitorsDeleteOptionalParams,
   ) => Promise<void>;
@@ -162,10 +162,8 @@ function _getBetaAgentInsightMonitors(context: AIProjectContext) {
       monitor: AgentInsightMonitorUpdate,
       options?: BetaAgentInsightMonitorsUpdateOptionalParams,
     ) => update(context, monitorId, monitor, options),
-    deleteAgentInsightMonitor: (
-      monitorId: string,
-      options?: BetaAgentInsightMonitorsDeleteOptionalParams,
-    ) => deleteAgentInsightMonitor(context, monitorId, options),
+    delete: (monitorId: string, options?: BetaAgentInsightMonitorsDeleteOptionalParams) =>
+      $delete(context, monitorId, options),
     get: (monitorId: string, options?: BetaAgentInsightMonitorsGetOptionalParams) =>
       get(context, monitorId, options),
     create: (
