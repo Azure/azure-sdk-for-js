@@ -50,7 +50,6 @@ function getHoroscope(sign: string): string {
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
   // Create agent with function tools
   console.log("Creating agent with function tools...");
@@ -62,22 +61,21 @@ export async function main(): Promise<void> {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
+  const openAIClient = project.getOpenAIClient({
+    azureConfig: { allowPreview: true, agentName: agent.name },
+  });
+
   // Prompt the model with tools defined
   console.log("\nGenerating initial response...");
-  const response = await openAIClient.responses.create(
-    {
-      input: [
-        {
-          type: "message",
-          role: "user",
-          content: "What is my horoscope? I am an Aquarius.",
-        },
-      ],
-    },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
-    },
-  );
+  const response = await openAIClient.responses.create({
+    input: [
+      {
+        type: "message",
+        role: "user",
+        content: "What is my horoscope? I am an Aquarius.",
+      },
+    ],
+  });
   console.log(`Response output: ${response.output_text}`);
 
   // Process function calls
@@ -110,15 +108,10 @@ export async function main(): Promise<void> {
   console.log(JSON.stringify(inputList, null, 2));
 
   // Submit function results to get final response
-  const finalResponse = await openAIClient.responses.create(
-    {
-      input: inputList,
-      previous_response_id: response.id,
-    },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
-    },
-  );
+  const finalResponse = await openAIClient.responses.create({
+    input: inputList,
+    previous_response_id: response.id,
+  });
 
   // The model should be able to give a response!
   console.log("\nFinal output:");
