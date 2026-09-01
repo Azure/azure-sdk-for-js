@@ -32,8 +32,8 @@ import {
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
-import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
+import type { RunPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getRunPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaAgentInsightMonitorsUpdateInsightOptionalParams,
@@ -467,14 +467,15 @@ export async function _createRunDeserialize(
   return agentInsightRunResultDeserializer(result.body.result);
 }
 
-/** Start an Agent Insights run for a monitor. */
+/** Start an Agent Insights run for a monitor. The poller exposes the created run id. */
 export function createRun(
   context: Client,
   monitorId: string,
   run: AgentInsightRunCreate,
   options: BetaAgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
-): JobPoller<AgentInsightRunResult> {
-  return getJobPoller(context, _createRunDeserialize, ["201", "200", "202"], {
+): RunPoller<AgentInsightRunResult> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: the emitted result omits the created run id.
+  return getRunPoller(context, _createRunDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createRunSend(context, monitorId, run, options),

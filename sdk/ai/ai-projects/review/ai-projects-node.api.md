@@ -1026,7 +1026,7 @@ export interface BetaAgentInsightMonitorsListRunsOptionalParams extends Operatio
 export interface BetaAgentInsightMonitorsOperations {
     cancelRun: (monitorId: string, runId: string, options?: BetaAgentInsightMonitorsCancelRunOptionalParams) => Promise<AgentInsightRun>;
     create: (monitor: AgentInsightMonitorCreate, options?: BetaAgentInsightMonitorsCreateOptionalParams) => Promise<AgentInsightMonitor>;
-    createRun: (monitorId: string, run: AgentInsightRunCreate, options?: BetaAgentInsightMonitorsCreateRunOptionalParams) => JobPoller<AgentInsightRunResult>;
+    createRun: (monitorId: string, run: AgentInsightRunCreate, options?: BetaAgentInsightMonitorsCreateRunOptionalParams) => RunPoller<AgentInsightRunResult>;
     deleteAgentInsightMonitor: (monitorId: string, options?: BetaAgentInsightMonitorsDeleteOptionalParams) => Promise<void>;
     get: (monitorId: string, options?: BetaAgentInsightMonitorsGetOptionalParams) => Promise<AgentInsightMonitor>;
     getInsight: (monitorId: string, insightId: string, options?: BetaAgentInsightMonitorsGetInsightOptionalParams) => Promise<AgentInsight>;
@@ -4866,6 +4866,14 @@ export type RubricGenerationInputQualityWarningSeverity = "warning";
 
 // @public
 export type RubricGenerationInputQualityWarningSource = "prompt" | "agent" | "dataset" | "aggregate";
+
+// @public
+export interface RunOperationState<TResult> extends OperationState_2<TResult> {
+    readonly runId?: string;
+}
+
+// @public
+export type RunPoller<TResult> = PollerLike<RunOperationState<TResult>, TResult>;
 
 // @public
 export type SampleType = "EvaluationResultSample";

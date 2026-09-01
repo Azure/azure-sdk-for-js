@@ -245,6 +245,7 @@ If the diff includes removals or renames you cannot easily isolate, restore the 
 
 From [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md):
 
+- **Identity-bearing LROs must preserve the created resource id.** Re-apply the documented `JobPoller` customizations for beta job creation and the `RunPoller` customization for Agent Insights run creation. The generated terminal result payloads omit the ids needed by the paired get, cancel, and delete operations.
 - **`foundryFeatures` must NEVER be a positional method parameter** — but it IS allowed as a property on an `*Options` / `*OptionalParams` class (i.e. as a member of the options bag). Concretely:
   - **Allowed** — `foundryFeatures?: "Foo=V1Preview"` declared as a field on `BetaSkillsListOptionalParams`, then accessed via `options?.foundryFeatures`. The emitter does this by default for many list operations and it is fine.
   - **NOT allowed** — `foundryFeatures` appearing as a positional parameter on a method or `*Send` helper, e.g. `function _$deleteSend(context, name, foundryFeatures, options)` or `delete: (name, foundryFeatures, options) => ...`. If the emitter introduced this, revert to the prior signature and instantiate `foundryFeatures` as a local `const` inside the method body before sending it over the wire.
