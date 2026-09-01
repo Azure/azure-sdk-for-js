@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -10,66 +11,66 @@ import {
 
 export { PolicyClient } from "./policyClient.js";
 export {
-  PolicyAssignment,
-  PolicyAssignmentProperties,
-  ParameterValuesValue,
+  type PolicyAssignment,
+  type PolicyAssignmentProperties,
+  type ParameterValuesValue,
   KnownEnforcementMode,
-  EnforcementMode,
-  NonComplianceMessage,
-  ResourceSelector,
-  Selector,
+  type EnforcementMode,
+  type NonComplianceMessage,
+  type ResourceSelector,
+  type Selector,
   KnownSelectorKind,
-  SelectorKind,
-  Override,
+  type SelectorKind,
+  type Override,
   KnownOverrideKind,
-  OverrideKind,
+  type OverrideKind,
   KnownAssignmentType,
-  AssignmentType,
-  Identity,
-  ResourceIdentityType,
-  UserAssignedIdentitiesValue,
-  ExtensionResource,
-  Resource,
-  SystemData,
+  type AssignmentType,
+  type Identity,
+  type ResourceIdentityType,
+  type UserAssignedIdentitiesValue,
+  type ExtensionResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  PolicyAssignmentUpdate,
-  PolicyAssignmentUpdateProperties,
-  PolicyDefinition,
-  PolicyDefinitionProperties,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type PolicyAssignmentUpdate,
+  type PolicyAssignmentUpdateProperties,
+  type PolicyDefinition,
+  type PolicyDefinitionProperties,
   KnownPolicyType,
-  PolicyType,
-  ParameterDefinitionsValue,
+  type PolicyType,
+  type ParameterDefinitionsValue,
   KnownParameterType,
-  ParameterType,
-  ParameterDefinitionsValueMetadata,
-  ExternalEvaluationEnforcementSettings,
-  ExternalEvaluationEndpointSettings,
-  ProxyResource,
-  PolicyDefinitionVersion,
-  PolicyDefinitionVersionProperties,
-  PolicySetDefinition,
-  PolicySetDefinitionProperties,
-  PolicyDefinitionReference,
-  PolicyDefinitionGroup,
-  PolicySetDefinitionVersion,
-  PolicySetDefinitionVersionProperties,
-  PolicyTokenRequest,
-  PolicyTokenOperation,
-  PolicyTokenResponse,
+  type ParameterType,
+  type ParameterDefinitionsValueMetadata,
+  type ExternalEvaluationEnforcementSettings,
+  type ExternalEvaluationEndpointSettings,
+  type ProxyResource,
+  type PolicyDefinitionVersion,
+  type PolicyDefinitionVersionProperties,
+  type PolicySetDefinition,
+  type PolicySetDefinitionProperties,
+  type PolicyDefinitionReference,
+  type PolicyDefinitionGroup,
+  type PolicySetDefinitionVersion,
+  type PolicySetDefinitionVersionProperties,
+  type PolicyTokenRequest,
+  type PolicyTokenOperation,
+  type PolicyTokenResponse,
   KnownPolicyTokenResult,
-  PolicyTokenResult,
-  ExternalEvaluationEndpointInvocationResult,
-  PolicyLogInfo,
+  type PolicyTokenResult,
+  type ExternalEvaluationEndpointInvocationResult,
+  type PolicyLogInfo,
   KnownExternalEndpointResult,
-  ExternalEndpointResult,
+  type ExternalEndpointResult,
   KnownVersions,
 } from "./models/index.js";
 export type { PolicyClientOptionalParams } from "./api/index.js";
-export {
+export type {
   PolicyAssignmentsListForResourceOptionalParams,
   PolicyAssignmentsListOptionalParams,
   PolicyAssignmentsListForManagementGroupOptionalParams,
@@ -79,7 +80,7 @@ export {
   PolicyAssignmentsCreateOptionalParams,
   PolicyAssignmentsGetOptionalParams,
 } from "./api/policyAssignments/index.js";
-export {
+export type {
   PolicyDefinitionsListByManagementGroupOptionalParams,
   PolicyDefinitionsDeleteAtManagementGroupOptionalParams,
   PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams,
@@ -91,7 +92,7 @@ export {
   PolicyDefinitionsCreateOrUpdateOptionalParams,
   PolicyDefinitionsGetOptionalParams,
 } from "./api/policyDefinitions/index.js";
-export {
+export type {
   PolicyDefinitionVersionsListAllOptionalParams,
   PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams,
   PolicyDefinitionVersionsListAllBuiltinsOptionalParams,
@@ -106,7 +107,7 @@ export {
   PolicyDefinitionVersionsCreateOrUpdateOptionalParams,
   PolicyDefinitionVersionsGetOptionalParams,
 } from "./api/policyDefinitionVersions/index.js";
-export {
+export type {
   PolicySetDefinitionsListByManagementGroupOptionalParams,
   PolicySetDefinitionsDeleteAtManagementGroupOptionalParams,
   PolicySetDefinitionsCreateOrUpdateAtManagementGroupOptionalParams,
@@ -118,7 +119,7 @@ export {
   PolicySetDefinitionsCreateOrUpdateOptionalParams,
   PolicySetDefinitionsGetOptionalParams,
 } from "./api/policySetDefinitions/index.js";
-export {
+export type {
   PolicySetDefinitionVersionsListAllOptionalParams,
   PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams,
   PolicySetDefinitionVersionsListAllBuiltinsOptionalParams,
@@ -133,11 +134,11 @@ export {
   PolicySetDefinitionVersionsCreateOrUpdateOptionalParams,
   PolicySetDefinitionVersionsGetOptionalParams,
 } from "./api/policySetDefinitionVersions/index.js";
-export {
+export type {
   PolicyTokensAcquireAtManagementGroupOptionalParams,
   PolicyTokensAcquireOptionalParams,
 } from "./api/policyTokens/index.js";
-export {
+export type {
   PolicyAssignmentsOperations,
   PolicyDefinitionsOperations,
   PolicyDefinitionVersionsOperations,
@@ -145,5 +146,5 @@ export {
   PolicySetDefinitionVersionsOperations,
   PolicyTokensOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };
