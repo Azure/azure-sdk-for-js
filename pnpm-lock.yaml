@@ -6708,7 +6708,7 @@ importers:
   sdk/compute/arm-computerecommender:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
@@ -25018,7 +25018,7 @@ importers:
   sdk/policy/arm-policy:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
@@ -30031,7 +30031,7 @@ importers:
   sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
