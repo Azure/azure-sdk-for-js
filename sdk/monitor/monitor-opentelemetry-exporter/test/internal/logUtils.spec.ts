@@ -57,7 +57,6 @@ function assertEnvelope(
   expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date,
   expectedServiceTags: Tags = expectedServiceTagsBase,
-  expectedSyntheticSource = "True",
 ): void {
   assert.isDefined(envelope);
   assert.strictEqual(envelope?.name, name);
@@ -76,9 +75,7 @@ function assertEnvelope(
   assert.deepStrictEqual(envelope?.tags, {
     ...context.tags,
     ...expectedServiceTags,
-    ...(expectedSyntheticSource
-      ? { [KnownContextTagKeys.AiOperationSyntheticSource]: expectedSyntheticSource }
-      : {}),
+    [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
@@ -844,42 +841,21 @@ describe("logUtils.ts", () => {
       );
     });
 
-    it("should map the supported correlation context on availability telemetry", () => {
+    it("should preserve span correlation on availability telemetry", () => {
       testLogRecord.attributes = {
         "microsoft.availability.id": "test-id",
         "microsoft.availability.name": "test-name",
         "microsoft.availability.duration": "00:00:02",
         "microsoft.availability.success": true,
-        [KnownContextTagKeys.AiOperationId]: "legacy-operation-id",
-        [KnownContextTagKeys.AiOperationParentId]: "legacy-parent-id",
-        [KnownContextTagKeys.AiOperationName]: "legacy-operation-name",
-        "microsoft.operation_name": "GET /availability",
-        "microsoft.session.id": "session-id",
-        "microsoft.synthetic_source": "availability-test",
-        "microsoft.user.account_id": "account-id",
-        [experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]: "authenticated-user-id",
-        [experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID]: "anonymous-user-id",
-        "user_agent.original": "availability-agent/1.0",
-        [KnownContextTagKeys.AiDeviceId]: "device-id",
-        [KnownContextTagKeys.AiDeviceModel]: "device-model",
-        [KnownContextTagKeys.AiDeviceType]: "PC",
-        [KnownContextTagKeys.AiDeviceOSVersion]: "test-os",
-        [KnownContextTagKeys.AiOperationCorrelationVector]: "correlation-vector",
-        [KnownContextTagKeys.AiSessionIsFirst]: "true",
-        [KnownContextTagKeys.AiDeviceLocale]: "en-US",
-        "ai.user.userAgent": "legacy-agent/1.0",
-        InvocationId: "invocation-id",
+        [KnownContextTagKeys.AiOperationId]: "attribute-operation-id",
+        [KnownContextTagKeys.AiOperationParentId]: "attribute-parent-id",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       testLogRecord.body = "availability log";
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
-        [KnownContextTagKeys.AiOperationId]: "legacy-operation-id",
-        [KnownContextTagKeys.AiOperationParentId]: "legacy-parent-id",
-        [KnownContextTagKeys.AiOperationCorrelationVector]: "correlation-vector",
-        [KnownContextTagKeys.AiSessionIsFirst]: "true",
-        [KnownContextTagKeys.AiDeviceLocale]: "en-US",
-        "ai.user.userAgent": "legacy-agent/1.0",
-        InvocationId: "invocation-id",
+        [KnownContextTagKeys.AiOperationId]: "attribute-operation-id",
+        [KnownContextTagKeys.AiOperationParentId]: "attribute-parent-id",
       };
       const expectedBaseData: Partial<AvailabilityData> = {
         id: "test-id",
@@ -891,22 +867,6 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
-      const expectedTags: Tags = {
-        [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
-        [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
-        [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
-        [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
-        [KnownContextTagKeys.AiOperationName]: "GET /availability",
-        [KnownContextTagKeys.AiSessionId]: "session-id",
-        [KnownContextTagKeys.AiUserAccountId]: "account-id",
-        [KnownContextTagKeys.AiUserAuthUserId]: "authenticated-user-id",
-        [KnownContextTagKeys.AiUserId]: "anonymous-user-id",
-        [KnownContextTagKeys.AiDeviceId]: "device-id",
-        [KnownContextTagKeys.AiDeviceModel]: "device-model",
-        [KnownContextTagKeys.AiDeviceType]: "PC",
-        [KnownContextTagKeys.AiDeviceOSVersion]: "test-os",
-        "ai.user.userAgent": "availability-agent/1.0",
       };
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
@@ -920,8 +880,7 @@ describe("logUtils.ts", () => {
         emptyMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedTags,
-        "availability-test",
+        expectedServiceTagsBase,
       );
     });
 

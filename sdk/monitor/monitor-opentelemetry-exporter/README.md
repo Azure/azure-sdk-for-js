@@ -139,25 +139,6 @@ The following attributes are required:
 
 Availability records use the same correlation context as other OpenTelemetry logs. When a record is emitted with an active span (or an explicit OpenTelemetry context), the span trace ID and span ID populate the Application Insights operation ID and parent ID. These values are authoritative and cannot be overridden by log attributes. The availability test-run ID remains separate from the operation ID.
 
-The following log attributes map to Application Insights context tags, matching the .NET Azure Monitor OpenTelemetry exporter:
-
-| Log attribute | Application Insights context tag |
-| --- | --- |
-| `microsoft.operation_name` | `ai.operation.name` |
-| `microsoft.session.id` | `ai.session.id` |
-| `microsoft.client.ip` | `ai.location.ip` |
-| `enduser.pseudo.id` | `ai.user.id` |
-| `enduser.id` | `ai.user.authUserId` |
-| `user_agent.original` | `ai.user.userAgent` |
-| `ai.device.id` | `ai.device.id` |
-| `ai.device.model` | `ai.device.model` |
-| `ai.device.type` | `ai.device.type` |
-| `ai.device.osVersion` | `ai.device.osVersion` |
-| `microsoft.synthetic_source` | `ai.operation.syntheticSource` |
-| `microsoft.user.account_id` | `ai.user.accountId` |
-
-For backward compatibility, `ai.operation.name` remains a fallback when `microsoft.operation_name` is absent, and `user_agent.synthetic.type` continues to set `ai.operation.syntheticSource` to `True` when `microsoft.synthetic_source` is absent. Other `ai.*` log attributes remain custom dimensions rather than overriding context tags.
-
 If any required attribute is missing or empty, the exporter sends the record as regular message telemetry instead. Exception and custom event attributes take precedence over availability attributes.
 
 ### Sampling

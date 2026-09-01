@@ -23,7 +23,6 @@ import {
   ATTR_EXCEPTION_MESSAGE,
   ATTR_EXCEPTION_STACKTRACE,
   ATTR_EXCEPTION_TYPE,
-  ATTR_USER_AGENT_ORIGINAL,
 } from "@opentelemetry/semantic-conventions";
 import { experimentalOpenTelemetryValues } from "../types.js";
 import type { Measurements, Properties, Tags } from "../types.js";
@@ -48,72 +47,11 @@ import {
   ApplicationInsightsExceptionName,
   ApplicationInsightsMessageBaseType,
   ApplicationInsightsMessageName,
-  ApplicationInsightsOperationName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
-  ApplicationInsightsSessionId,
-  ApplicationInsightsSyntheticSource,
-  ApplicationInsightsUserAccountId,
   DEFAULT_BREEZE_DATA_VERSION,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
-
-const ApplicationInsightsUserAgent = "ai.user.userAgent";
-
-const logContextTagMappings: readonly {
-  contextTagKey: KnownContextTagKeys;
-  attributeNames: readonly string[];
-}[] = [
-  {
-    contextTagKey: KnownContextTagKeys.AiOperationName,
-    attributeNames: [ApplicationInsightsOperationName, KnownContextTagKeys.AiOperationName],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiSessionId,
-    attributeNames: [ApplicationInsightsSessionId],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiDeviceId,
-    attributeNames: [KnownContextTagKeys.AiDeviceId],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiDeviceModel,
-    attributeNames: [KnownContextTagKeys.AiDeviceModel],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiDeviceType,
-    attributeNames: [KnownContextTagKeys.AiDeviceType],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiDeviceOSVersion,
-    attributeNames: [KnownContextTagKeys.AiDeviceOSVersion],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiOperationSyntheticSource,
-    attributeNames: [ApplicationInsightsSyntheticSource],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiUserAccountId,
-    attributeNames: [ApplicationInsightsUserAccountId],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiUserAuthUserId,
-    attributeNames: [experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiUserId,
-    attributeNames: [experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID],
-  },
-  {
-    contextTagKey: KnownContextTagKeys.AiLocationIp,
-    attributeNames: [MicrosoftClientIp],
-  },
-];
-
-const logContextAttributeNames = new Set<string>([
-  ...logContextTagMappings.flatMap(({ attributeNames }) => attributeNames),
-  ATTR_USER_AGENT_ORIGINAL,
-]);
 
 /**
  * Log to Azure envelope parsing.
@@ -261,54 +199,45 @@ function getAttributeString(log: ReadableLogRecord, attributeName: string): stri
 
 function createTagsFromLog(log: ReadableLogRecord): Tags {
   const tags: Tags = createTagsFromResource(log.resource);
-  const attributes = log.attributes as Attributes;
-
   if (log.spanContext?.traceId) {
     tags[KnownContextTagKeys.AiOperationId] = log.spanContext.traceId;
   }
   if (log.spanContext?.spanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
   }
-
-  for (const { contextTagKey, attributeNames } of logContextTagMappings) {
-    setContextTagFromAttributes(tags, attributes, contextTagKey, attributeNames);
+  if (log.attributes[KnownContextTagKeys.AiOperationName]) {
+    tags[KnownContextTagKeys.AiOperationName] = log.attributes[
+      KnownContextTagKeys.AiOperationName
+    ] as string;
   }
-
-  if (!tags[KnownContextTagKeys.AiOperationSyntheticSource] && isSyntheticSource(attributes)) {
+  if (isSyntheticSource(log.attributes as Attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
 
-  const userAgent = getContextAttribute(attributes, ATTR_USER_AGENT_ORIGINAL);
-  if (userAgent !== undefined) {
-    tags[ApplicationInsightsUserAgent] = userAgent;
+  // Set ai.location.ip from microsoft.client.ip if it exists
+  const microsoftClientIp = log.attributes?.[MicrosoftClientIp];
+  if (microsoftClientIp) {
+    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
+  }
+
+  // Map user ID attributes
+  const attributes = log.attributes as Attributes;
+  if (attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]) {
+    const endUserId = String(attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]);
+    if (endUserId && endUserId.length > 0) {
+      tags[KnownContextTagKeys.AiUserAuthUserId] = endUserId;
+    }
+  }
+  if (attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID]) {
+    const endUserPseudoId = String(
+      attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID],
+    );
+    if (endUserPseudoId && endUserPseudoId.length > 0) {
+      tags[KnownContextTagKeys.AiUserId] = endUserPseudoId;
+    }
   }
 
   return tags;
-}
-
-function setContextTagFromAttributes(
-  tags: Tags,
-  attributes: Attributes,
-  contextTagKey: KnownContextTagKeys,
-  attributeNames: readonly string[],
-): void {
-  for (const attributeName of attributeNames) {
-    const value = getContextAttribute(attributes, attributeName);
-    if (value !== undefined) {
-      tags[contextTagKey] = value;
-      return;
-    }
-  }
-}
-
-function getContextAttribute(attributes: Attributes, attributeName: string): string | undefined {
-  const value = attributes[attributeName];
-  if (value === undefined) {
-    return;
-  }
-
-  const stringValue = String(value);
-  return stringValue.length > 0 ? stringValue : undefined;
 }
 
 function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measurements] {
@@ -322,7 +251,7 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
         key.startsWith("microsoft") ||
         legacySemanticValues.includes(key) ||
         httpSemanticValues.includes(key as any) ||
-        logContextAttributeNames.has(key)
+        key === (KnownContextTagKeys.AiOperationName as string)
       )) {
         properties[key] = serializeAttribute(log.attributes[key]);
       }
