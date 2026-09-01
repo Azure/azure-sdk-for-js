@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fixed `AzurePipelinesCredential` to include only relevant details in error messages and logs when the OIDC token request fails. [#39774](https://github.com/Azure/azure-sdk-for-js/pull/39774)
+- Fixed `InteractiveBrowserCredential` failing to authenticate when the user's default browser is already running and only permits a single instance. The browser is no longer launched with `newInstance`, which on macOS passed `open --new`.
 
 ### Other Changes
 
