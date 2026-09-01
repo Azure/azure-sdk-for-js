@@ -10,7 +10,7 @@
 
 ### Bugs Fixed
 
-- Preserved operation, session, user, device, and synthetic-source context tags on OpenTelemetry log records, including availability telemetry, for correlation behavior. [#39734](https://github.com/Azure/azure-sdk-for-js/pull/39734)
+- Preserved operation, session, user, device, and synthetic-source context tags on OpenTelemetry log records, including availability telemetry, for correlation behavior. [#39818](https://github.com/Azure/azure-sdk-for-js/pull/39818)
 - Fixed global-to-regional ingestion redirects across trusted same-cloud Azure Monitor host suffixes and updated internal Statsbeat routing so EU SDK statistics use the EU Statsbeat destination. [#39622](https://github.com/Azure/azure-sdk-for-js/pull/39622)
 
 ### Other Changes
