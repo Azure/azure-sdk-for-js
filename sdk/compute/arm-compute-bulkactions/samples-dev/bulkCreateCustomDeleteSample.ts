@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes BulkCreateCustoms.
  *
  * @summary deletes BulkCreateCustoms.
- * x-ms-original-file: 2026-07-06-preview/BulkCreateCustom_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/BulkCreateCustom_Delete_MaximumSet_Gen.json
  */
 async function bulkCreateCustomDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

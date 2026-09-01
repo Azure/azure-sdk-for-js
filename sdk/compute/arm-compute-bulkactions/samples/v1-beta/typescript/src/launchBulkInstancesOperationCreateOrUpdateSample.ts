@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates LaunchBulkInstancesOperations.
  *
  * @summary creates or updates LaunchBulkInstancesOperations.
- * x-ms-original-file: 2026-07-06-preview/LaunchBulkInstancesOperation_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/LaunchBulkInstancesOperation_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function launchBulkInstancesOperationCreateOrUpdateExample(): Promise<void> {
   const credential = new DefaultAzureCredential();

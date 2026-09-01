@@ -34,7 +34,6 @@ import {
   _stopDeserialize as _stopDeserializeComputes,
   _startDeserialize as _startDeserializeComputes,
   _$deleteDeserialize as _$deleteDeserializeComputes,
-  _updateDeserialize as _updateDeserializeComputes,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeComputes,
 } from "./api/computes/operations.js";
 import {
@@ -46,6 +45,11 @@ import {
   _$deleteDeserialize as _$deleteDeserializeAgentApplications,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAgentApplications,
 } from "./api/agentApplications/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeArcDeployments,
+  _updateDeserialize as _updateDeserializeArcDeployments,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeArcDeployments,
+} from "./api/arcDeployments/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeProjectCapabilityHosts,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeProjectCapabilityHosts,
@@ -216,10 +220,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _startDeserializeComputes, expectedStatuses: ["202", "204", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}":
     { deserializer: _$deleteDeserializeComputes, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}":
-    { deserializer: _updateDeserializeComputes, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}":
-    { deserializer: _createOrUpdateDeserializeComputes, expectedStatuses: ["200", "201", "202"] },
+    { deserializer: _createOrUpdateDeserializeComputes, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedComputeDeployments/{deploymentName}":
     {
       deserializer: _$deleteDeserializeManagedComputeDeployments,
@@ -240,6 +242,15 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}":
     {
       deserializer: _createOrUpdateDeserializeAgentApplications,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/arcDeployments/{deploymentName}":
+    { deserializer: _$deleteDeserializeArcDeployments, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/arcDeployments/{deploymentName}":
+    { deserializer: _updateDeserializeArcDeployments, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/arcDeployments/{deploymentName}":
+    {
+      deserializer: _createOrUpdateDeserializeArcDeployments,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/capabilityHosts/{capabilityHostName}":

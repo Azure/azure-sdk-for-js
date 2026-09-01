@@ -7,7 +7,7 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -121,12 +121,15 @@ export interface GetDataSourceConnectionOptionalParams extends OperationOptions 
 }
 
 // @public
-export function getDataSourceConnections(context: SearchIndexerContext, options?: GetDataSourceConnectionsOptionalParams): Promise<ListDataSourcesResult>;
+export function getDataSourceConnections(context: SearchIndexerContext, options?: GetDataSourceConnectionsOptionalParams): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection>;
 
 // @public
 export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
@@ -140,12 +143,15 @@ export interface GetIndexerOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getIndexers(context: SearchIndexerContext, options?: GetIndexersOptionalParams): Promise<ListIndexersResult>;
+export function getIndexers(context: SearchIndexerContext, options?: GetIndexersOptionalParams): PagedAsyncIterableIterator<SearchIndexer>;
 
 // @public
 export interface GetIndexersOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
@@ -168,12 +174,15 @@ export interface GetSkillsetOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getSkillsets(context: SearchIndexerContext, options?: GetSkillsetsOptionalParams): Promise<ListSkillsetsResult>;
+export function getSkillsets(context: SearchIndexerContext, options?: GetSkillsetsOptionalParams): PagedAsyncIterableIterator<SearchIndexerSkillset>;
 
 // @public
 export interface GetSkillsetsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
