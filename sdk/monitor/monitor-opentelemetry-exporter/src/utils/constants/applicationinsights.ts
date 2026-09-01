@@ -46,7 +46,6 @@ export const ApplicationInsightsAvailabilityDuration = "microsoft.availability.d
 export const ApplicationInsightsAvailabilitySuccess = "microsoft.availability.success";
 export const ApplicationInsightsAvailabilityRunLocation = "microsoft.availability.runLocation";
 export const ApplicationInsightsAvailabilityMessage = "microsoft.availability.message";
-export const ApplicationInsightsAvailabilityTestTimestamp = "microsoft.availability.testTimestamp";
 export const MicrosoftClientIp = "microsoft.client.ip";
 
 export const ApplicationInsightsMessageName = "Microsoft.ApplicationInsights.Message";

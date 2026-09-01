@@ -121,7 +121,6 @@ logger.emit({
     "microsoft.availability.success": true,
     "microsoft.availability.runLocation": "westus2",
     "microsoft.availability.message": "HTTP 200",
-    "microsoft.availability.testTimestamp": new Date().toISOString(),
   },
 });
 ```
@@ -135,7 +134,7 @@ The following attributes are required:
 | `microsoft.availability.duration` | Test duration, for example `00:00:00.250`. |
 | `microsoft.availability.success` | Whether the test succeeded. |
 
-`microsoft.availability.runLocation`, `microsoft.availability.message`, and `microsoft.availability.testTimestamp` are optional. The timestamp must be an ISO 8601 string and overrides the log record time when valid. If the message attribute is omitted, the log body is used as the availability message.
+`microsoft.availability.runLocation` and `microsoft.availability.message` are optional. If the message attribute is omitted, the log body is used as the availability message. The availability result timestamp comes from the OpenTelemetry log record.
 
 Availability records use the same correlation context as other OpenTelemetry logs. When a record is emitted with an active span (or an explicit OpenTelemetry context), the span trace ID and span ID populate the Application Insights operation ID and parent ID. These values are authoritative and cannot be overridden by log attributes. The availability test-run ID remains separate from the operation ID.
 

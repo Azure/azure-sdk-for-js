@@ -762,7 +762,6 @@ describe("logUtils.ts", () => {
 
   describe("#availability logs", () => {
     it("should create an availability envelope from availability attributes", () => {
-      const testTimestamp = "2025-04-19T12:10:59.9930000+00:00";
       testLogRecord.attributes = {
         "microsoft.availability.id": "test-id",
         "microsoft.availability.name": "test-name",
@@ -770,7 +769,6 @@ describe("logUtils.ts", () => {
         "microsoft.availability.success": true,
         "microsoft.availability.runLocation": "test-location",
         "microsoft.availability.message": "test-message",
-        "microsoft.availability.testTimestamp": testTimestamp,
         "extra.attribute": "foo",
         [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
         [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
@@ -800,7 +798,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        new Date(testTimestamp),
+        hrTimeToDate(testLogRecord.hrTime),
         expectedServiceTagsBase,
       );
     });
@@ -920,13 +918,13 @@ describe("logUtils.ts", () => {
       );
     });
 
-    it("should use the log time when the availability test timestamp is invalid", () => {
+    it("should ignore a customer-supplied availability test timestamp", () => {
       testLogRecord.attributes = {
         "microsoft.availability.id": "test-id",
         "microsoft.availability.name": "test-name",
         "microsoft.availability.duration": "00:00:02",
         "microsoft.availability.success": true,
-        "microsoft.availability.testTimestamp": "invalid",
+        "microsoft.availability.testTimestamp": "2025-04-19T12:10:59.9930000+00:00",
         [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       testLogRecord.body = "availability log";
