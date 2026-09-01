@@ -10,6 +10,7 @@ import { glob } from "glob";
 import { logger } from "../utils/logger.js";
 import { customizeCodes, formatSdk, lintFix, updateSnippets } from "./devToolUtils.js";
 import { getModularSDKType } from "../utils/generateInputUtils.js";
+import { preparePackageForBuild } from "./postEmitter.js";
 
 async function packPackage(packageDirectory: string, packageName: string) {
   const cwd = join(packageDirectory);
@@ -114,8 +115,21 @@ export async function buildPackage(
   const modularSDKType = getModularSDKType(packageDirectory);
   let errorAsWarning = false;
   if (modularSDKType === ModularSDKType.DataPlane) {
-    await customizeCodes(packageDirectory);
     errorAsWarning = true;
+  }
+  const applyCustomizations =
+    modularSDKType === ModularSDKType.DataPlane
+      ? () => customizeCodes(packageDirectory)
+      : undefined;
+  if (options.skip) {
+    await applyCustomizations?.();
+  } else {
+    await preparePackageForBuild(
+      packageDirectory,
+      options.sdkRepoRoot,
+      options.runMode,
+      applyCustomizations,
+    );
   }
   try {
     await runCommand(
