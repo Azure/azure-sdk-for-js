@@ -24,7 +24,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,6 +51,7 @@ export async function _listDeserialize(
 
   return _trustedAccessRoleListResultDeserializer(result.body);
 }
+
 /** List supported trusted access roles. */
 export function list(
   context: Client,
@@ -65,7 +66,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }

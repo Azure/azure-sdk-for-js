@@ -220,11 +220,6 @@ If the diff includes removals or renames you cannot easily isolate, restore the 
 
 From [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md):
 
-- **`api-version` string literals must not be URL-escaped in `src/`.** The JS TypeSpec emitter currently has a bug where the literal string `api-version` can be emitted as `api%2Dversion`. Replace any `api%2Dversion` instances in `src/` with `api-version`. Do not apply this correction under `generated/`; changing generated output before customization can create larger initial diffs in `src/` after the three-way merge.
-  ```powershell
-  Get-ChildItem -Recurse -File src -Include *.ts |
-    Select-String -Pattern 'api%2Dversion' -SimpleMatch
-  ```
 - **`foundryFeatures` must NEVER be a positional method parameter** — but it IS allowed as a property on an `*Options` / `*OptionalParams` class (i.e. as a member of the options bag). Concretely:
   - **Allowed** — `foundryFeatures?: "Foo=V1Preview"` declared as a field on `BetaSkillsListOptionalParams`, then accessed via `options?.foundryFeatures`. The emitter does this by default for many list operations and it is fine.
   - **NOT allowed** — `foundryFeatures` appearing as a positional parameter on a method or `*Send` helper, e.g. `function _$deleteSend(context, name, foundryFeatures, options)` or `delete: (name, foundryFeatures, options) => ...`. If the emitter introduced this, revert to the prior signature and instantiate `foundryFeatures` as a local `const` inside the method body before sending it over the wire.
@@ -306,8 +301,6 @@ If `dev-tool` or one of its workspace dependencies is missing because a prior in
 ```powershell
 pnpm install --filter @azure/ai-projects...
 ```
-
-If the repository's configured Azure Artifacts feed returns `401`, do not change or print credentials. After confirming the required packages are public or local workspace packages, retry the same filtered install with `--registry=https://registry.npmjs.org/`. Avoid an unfiltered `pnpm install` during post-emitter work: it can remove existing module directories before a feed failure and leave `dev-tool` only partially installed.
 
 Then regenerate the API report and confirm the new public surface is present in it:
 

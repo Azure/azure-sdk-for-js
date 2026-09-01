@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ActionGroupPatchBody } from "../../actionGroupsApi/models.js";
-import type { ErrorAdditionalInfo } from "../../models.js";
-import { errorAdditionalInfoArrayDeserializer } from "../../models.js";
-import type { TenantActionGroupPatchBody } from "../../tenantActionGroups/models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { ActionGroupPatchBody } from "../../actionGroupsApi/models.js";
+import type { ErrorAdditionalInfo } from "../../models.js";
+import { errorAdditionalInfoArrayDeserializer } from "../../models.js";
+import type { TenantActionGroupPatchBody } from "../../tenantActionGroups/models.js";
+
 export function emailReceiverArraySerializer(result: Array<EmailReceiver>): any[] {
   return result.map((item) => {
     return emailReceiverSerializer(item);

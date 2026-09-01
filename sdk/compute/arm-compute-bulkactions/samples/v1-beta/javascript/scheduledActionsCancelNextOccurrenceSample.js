@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to cancel the next scheduled occurrence of the scheduled action.
+ * This sample demonstrates how to cancels the next occurrence of the specified scheduled action.
  *
- * @summary cancel the next scheduled occurrence of the scheduled action.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_CancelNextOccurrence_MaximumSet_Gen.json
+ * @summary cancels the next occurrence of the specified scheduled action.
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActions_CancelNextOccurrence_MaximumSet_Gen.json
  */
-async function scheduledActionsCancelNextOccurrenceMaximumSet() {
+async function cancelTheNextScheduledActionOccurrence() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -19,7 +19,8 @@ async function scheduledActionsCancelNextOccurrenceMaximumSet() {
     "myScheduledAction",
     {
       resourceIds: [
-        "/subscriptions/1d04e8f1-ee04-4056-b0b2-718f5bb45b04/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachines/myVm",
+        "/subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/myVm",
+        "/subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/myVm2",
       ],
     },
   );
@@ -27,7 +28,7 @@ async function scheduledActionsCancelNextOccurrenceMaximumSet() {
 }
 
 async function main() {
-  await scheduledActionsCancelNextOccurrenceMaximumSet();
+  await cancelTheNextScheduledActionOccurrence();
 }
 
 main().catch(console.error);
