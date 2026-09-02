@@ -94,7 +94,7 @@
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
     "@azure/msal-browser": "^5.5.0",
-    "@azure/msal-node": "^5.1.5",
+    "@azure/msal-node": "^5.6.0",
     "open": "^10.1.0",
     "tslib": "^2.2.0"
   },
