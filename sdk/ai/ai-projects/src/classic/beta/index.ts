@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { BetaAgentEndpointConversationsOperations } from "./agentEndpointConversations/index.js";
+import { _getBetaAgentEndpointConversationsOperations } from "./agentEndpointConversations/index.js";
+import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
+import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import type { BetaAgentsOperations } from "./agents/index.js";
 import { _getBetaAgentsOperations } from "./agents/index.js";
 import type { BetaDatasetsOperations } from "./datasets/index.js";
@@ -47,6 +51,8 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
+  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+  agentEndpointConversations: BetaAgentEndpointConversationsOperations;
   /** Operations for managing agents. */
   agents: BetaAgentsOperations;
 }
@@ -73,6 +79,8 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluators: _getBetaEvaluatorsOperations(context),
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
+    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
+    agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
     /** Operations for managing agents. */
     agents: _getBetaAgentsOperations(context),
   };

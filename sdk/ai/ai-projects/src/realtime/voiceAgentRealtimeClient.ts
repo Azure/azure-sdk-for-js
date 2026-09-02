@@ -6,6 +6,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { uint8ArrayToString } from "@azure/core-util";
 import { SDK_VERSION } from "../constants.js";
 import type {
+  RealtimeConversationItemUnion,
   VoiceAgentClientEvent,
   VoiceAgentResponseCreateParams,
   VoiceAgentServerEvent,
@@ -354,11 +355,14 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
         type: "conversation.item.create",
         event_id: options.eventId,
         previous_item_id: options.previousItemId,
+        // `RealtimeConversationItemUnion` no longer enumerates a "message" item in the generated
+        // models, but the wire protocol still accepts this shape; see the TypeSpec regeneration
+        // report for details.
         item: {
           type: "message",
           role: "user",
           content: [{ type: "input_text", text }],
-        },
+        } as unknown as RealtimeConversationItemUnion,
       },
       options,
     );

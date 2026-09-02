@@ -7,7 +7,8 @@ import {
   type Agent,
   type AgentDefinitionUnion,
   type AgentVersion,
-  type VoiceConversationItem,
+  type RealtimeAudioFormatsAudioPcm,
+  type RealtimeConversationItemUnion,
   type VoiceRecordingResponse,
   type VoiceAgentDefinition,
   type VoiceAgentConnection,
@@ -357,11 +358,13 @@ class VoiceAgentConsole {
     try {
       const client = this.getClient(endpoint);
       const conversation = await client.agentEndpointConversations.getAgentConversation(
+        preview,
         agentName,
         conversationId,
       );
-      const items: VoiceConversationItem[] = [];
+      const items: RealtimeConversationItemUnion[] = [];
       for await (const item of client.agentEndpointConversations.listAgentConversationItems(
+        preview,
         agentName,
         conversationId,
         { limit: 100, order: "asc" },
@@ -719,7 +722,12 @@ class VoiceAgentConsole {
       const definition = getVoiceDefinition(agent);
       const outputFormat = definition.audio?.output?.format;
       const outputIsPcm = outputFormat === undefined || outputFormat.type === "audio/pcm";
-      const outputRate = outputFormat?.rate ?? 24_000;
+      // `RealtimeAudioFormats`'s fallback `type` field isn't narrowed to a single literal (see the
+      // matching comment in src/realtime/protocol.ts), so an explicit cast is needed here too.
+      const outputRate =
+        outputFormat?.type === "audio/pcm"
+          ? ((outputFormat as RealtimeAudioFormatsAudioPcm).rate ?? 24_000)
+          : 24_000;
       this.player.setSampleRate(outputRate);
       this.renderAgent(
         agent.name,
@@ -1001,7 +1009,7 @@ class VoiceAgentConsole {
     }
   }
 
-  private renderFetchedConversation(items: VoiceConversationItem[]): number {
+  private renderFetchedConversation(items: RealtimeConversationItemUnion[]): number {
     const messages = items.flatMap((item) => {
       const message = getPersistedMessage(item);
       return message ? [message] : [];
@@ -1048,6 +1056,7 @@ class VoiceAgentConsole {
     this.showConversationAudioStatus("Loading recording...");
     try {
       const recording = await client.agentEndpointConversations.getAgentConversationAudio(
+        preview,
         agentName,
         conversationId,
       );
@@ -1061,6 +1070,7 @@ class VoiceAgentConsole {
       }
 
       const content = await client.agentEndpointConversations.getAgentConversationAudioContent(
+        preview,
         agentName,
         conversationId,
       );
@@ -1250,22 +1260,27 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
+// `RealtimeConversationItemUnion` does not enumerate a "message" item variant (see the matching
+// comment in src/realtime/protocol.ts), so persisted user/assistant messages are read back from
+// the REST API as the generic `{ type }` shape. Widen to the actual wire shape to read them.
 function getPersistedMessage(
-  item: VoiceConversationItem,
+  item: RealtimeConversationItemUnion,
 ): { role: "user" | "assistant"; text: string } | undefined {
+  const candidate = item as { type: string; role?: unknown; content?: unknown };
   if (
-    item.type !== "message" ||
-    !("role" in item) ||
-    !("content" in item) ||
-    !Array.isArray(item.content) ||
-    (item.role !== "user" && item.role !== "assistant")
+    candidate.type !== "message" ||
+    !("role" in candidate) ||
+    !("content" in candidate) ||
+    !Array.isArray(candidate.content) ||
+    (candidate.role !== "user" && candidate.role !== "assistant")
   ) {
     return undefined;
   }
+  const message = candidate as { role: "user" | "assistant"; content: unknown[] };
 
   const parts: string[] = [];
   let hasAudio = false;
-  for (const content of item.content) {
+  for (const content of message.content) {
     if (!content || typeof content !== "object") {
       continue;
     }
@@ -1281,7 +1296,7 @@ function getPersistedMessage(
   }
 
   return {
-    role: item.role,
+    role: message.role,
     text: parts.join("\n") || (hasAudio ? "Audio message" : "Message without text content"),
   };
 }

@@ -6,7 +6,10 @@ import {
   AgentKind,
   AgentBlueprintReferenceUnion,
   AgentEndpointConfig,
+  ActivityProtocolAccessBoundary,
+  DigitalWorkerType,
   AgentCard,
+  Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
 } from "../../models/models.js";
@@ -48,6 +51,148 @@ export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
 export interface AgentsDownloadSessionFileOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {}
+/** Optional parameters. */
+export interface GetMicrosoft365PublishDefaultsOptionalParams extends OperationOptions {
+  /** When true, returns defaults for publishing the agent as an autopilot (digital worker) agent. */
+  publishAsDigitalWorker?: boolean;
+}
+
+/** Optional parameters. */
+export interface GetMicrosoft365PackageOptionalParams extends OperationOptions {
+  /**
+   * Display name used as the published Teams app name. When omitted, the agent name from the route is
+   * used.
+   */
+  agentDisplayName?: string;
+  /**
+   * ARM resource id of the Azure Bot Service that fronts this agent in Microsoft Teams. Required for
+   * workspaces on the default bot-based Teams backend; optional for workspaces on the API-based backend.
+   * Must not be supplied when `publishAsAutopilot` is true.
+   */
+  botServiceArmId?: string;
+  /**
+   * When true, the agent is published as an autopilot (digital worker) agent: the bot id is taken from
+   * the agent's blueprint identity and the generated Teams manifest is marked as a digital worker.
+   */
+  publishAsAutopilot?: boolean;
+  /**
+   * Activity-protocol access boundaries to apply to the agent when publishing as an autopilot agent.
+   * An empty list clears the existing boundaries. When omitted, the existing boundaries are left
+   * unchanged.
+   */
+  accessBoundaries?: ActivityProtocolAccessBoundary[];
+  /**
+   * Exact selection of delegated permission scopes to grant to the autopilot blueprint. May only be
+   * supplied when `publishAsAutopilot` is true. When omitted or empty, the platform's default
+   * permission set is used. Mandatory platform permissions are always granted and are not affected by
+   * this value.
+   */
+  optionalPermissionScopes?: Microsoft365PermissionScopes[];
+  /**
+   * Controls how the published agent responds to Teams messages: when true it responds to all messages
+   * on its surfaces, when false only when it is at-mentioned. When omitted, the agent's existing Teams
+   * message-notification setting is left unchanged.
+   */
+  canRespondWithoutMention?: boolean;
+  /**
+   * App version (for example `1.2.3`) written into the Teams manifest. May contain only digits and
+   * periods, must not start with `0`, and must end with a digit. When omitted, a platform default is
+   * used.
+   */
+  appVersion?: string;
+  /** Short, one-line description shown in the Teams app listing. */
+  shortDescription?: string;
+  /** Full description shown on the Teams app details page. */
+  fullDescription?: string;
+  /** Display name of the developer / publisher shown in the Teams app listing. */
+  developerName?: string;
+  /** Developer / publisher website URL shown in the Teams app listing. Must be an https URL. */
+  developerWebsiteUrl?: string;
+  /** Privacy policy URL shown in the Teams app listing. Must be an http or https URL. */
+  privacyUrl?: string;
+  /** Terms-of-use URL shown in the Teams app listing. */
+  termsOfUseUrl?: string;
+  /**
+   * Optional base64-encoded PNG used as the color (full-bleed) icon in the Teams app package. Must be a
+   * 192x192 PNG (perfect square, no border or rounded corners). Max 1 MB after decode. When omitted, the
+   * platform default color icon is used.
+   */
+  colorIconBase64?: string;
+  /**
+   * Optional base64-encoded PNG used as the outline icon in the Teams app package. Must be a 32x32 PNG.
+   * Max 1 MB after decode. When omitted, the platform default outline icon is used.
+   */
+  outlineIconBase64?: string;
+}
+
+/** Optional parameters. */
+export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
+  /**
+   * Display name used as the published Teams app name. When omitted, the agent name from the route is
+   * used.
+   */
+  agentDisplayName?: string;
+  /**
+   * ARM resource id of the Azure Bot Service that fronts this agent in Microsoft Teams. Required for
+   * workspaces on the default bot-based Teams backend; optional for workspaces on the API-based backend.
+   * Must not be supplied when `publishAsAutopilot` is true.
+   */
+  botServiceArmId?: string;
+  /**
+   * When true, the agent is published as an autopilot (digital worker) agent: the bot id is taken from
+   * the agent's blueprint identity and the generated Teams manifest is marked as a digital worker.
+   */
+  publishAsAutopilot?: boolean;
+  /**
+   * Activity-protocol access boundaries to apply to the agent when publishing as an autopilot agent.
+   * An empty list clears the existing boundaries. When omitted, the existing boundaries are left
+   * unchanged.
+   */
+  accessBoundaries?: ActivityProtocolAccessBoundary[];
+  /**
+   * Exact selection of delegated permission scopes to grant to the autopilot blueprint. May only be
+   * supplied when `publishAsAutopilot` is true. When omitted or empty, the platform's default
+   * permission set is used. Mandatory platform permissions are always granted and are not affected by
+   * this value.
+   */
+  optionalPermissionScopes?: Microsoft365PermissionScopes[];
+  /**
+   * Controls how the published agent responds to Teams messages: when true it responds to all messages
+   * on its surfaces, when false only when it is at-mentioned. When omitted, the agent's existing Teams
+   * message-notification setting is left unchanged.
+   */
+  canRespondWithoutMention?: boolean;
+  /**
+   * App version (for example `1.2.3`) written into the Teams manifest. May contain only digits and
+   * periods, must not start with `0`, and must end with a digit. When omitted, a platform default is
+   * used.
+   */
+  appVersion?: string;
+  /** Short, one-line description shown in the Teams app listing. */
+  shortDescription?: string;
+  /** Full description shown on the Teams app details page. */
+  fullDescription?: string;
+  /** Display name of the developer / publisher shown in the Teams app listing. */
+  developerName?: string;
+  /** Developer / publisher website URL shown in the Teams app listing. Must be an https URL. */
+  developerWebsiteUrl?: string;
+  /** Privacy policy URL shown in the Teams app listing. Must be an http or https URL. */
+  privacyUrl?: string;
+  /** Terms-of-use URL shown in the Teams app listing. */
+  termsOfUseUrl?: string;
+  /**
+   * Optional base64-encoded PNG used as the color (full-bleed) icon in the Teams app package. Must be a
+   * 192x192 PNG (perfect square, no border or rounded corners). Max 1 MB after decode. When omitted, the
+   * platform default color icon is used.
+   */
+  colorIconBase64?: string;
+  /**
+   * Optional base64-encoded PNG used as the outline icon in the Teams app package. Must be a 32x32 PNG.
+   * Max 1 MB after decode. When omitted, the platform default outline icon is used.
+   */
+  outlineIconBase64?: string;
+}
+
 /** Optional parameters. */
 export interface AgentsGetSessionLogStreamOptionalParams extends OperationOptions {}
 /** Optional parameters. */
@@ -173,6 +318,10 @@ export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   description?: string;
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
+  /** (Preview) The type of digital worker (previously known as `autopilot`). If omitted, it is not a digital worker. */
+  digitalWorkerType?: DigitalWorkerType;
+  /** (Preview) Whether this agent version is a draft (candidate) rather than a release. The service defaults to `false` if a value is not specified by the caller. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. */
+  draft?: boolean;
 }
 /** Optional parameters. */
 export interface AgentsListOptionalParams extends OperationOptions {
@@ -273,6 +422,10 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
   description?: string;
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
+  /** (Preview) The type of digital worker (previously known as `autopilot`). If omitted, it is not a digital worker. */
+  digitalWorkerType?: DigitalWorkerType;
+  /** (Preview) Whether this agent version is a draft (candidate) rather than a release. The service defaults to `false` if a value is not specified by the caller. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. */
+  draft?: boolean;
   /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
   agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */

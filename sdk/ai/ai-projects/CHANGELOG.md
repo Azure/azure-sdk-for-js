@@ -1,5 +1,18 @@
 # Release History
 
+## 3.0.0 (Unreleased)
+
+### Breaking Changes
+
+- Added `project.beta.agentEndpointConversations`, which `project.agentEndpointConversations` now aliases. Every operation on it (`getAgentConversation`, `listAgentConversations`, `getAgentConversationItem`, `listAgentConversationItems`, `listAgentConversationResponseItems`, `getAgentConversationResponse`, `listAgentConversationResponses`, `deleteAgentConversation`, `getAgentConversationAudio`, `getAgentConversationAudioContent`, `getAgentConversationItemAudio`, `getAgentConversationItemAudioContent`) now takes a required `foundryFeatures: "VoiceAgents=V1Preview"` first argument.
+- Moved `project.voiceAgentWebSocket` under `project.beta.voiceAgentWebSocket` (no top-level alias retained).
+- Renamed the conversation item model from `VoiceConversationItem` to `RealtimeConversationItemUnion`. The new union no longer enumerates a `message` item variant (it only covers `function_call`, `function_call_output`, `mcp_call`, `mcp_list_tools`, `mcp_approval_request`, and `mcp_approval_response`); persisted user/assistant message items are still returned by the service but must be read through the generic `{ type: "message", role, content }` shape rather than a dedicated type.
+- Renamed `VoiceAudioFormat` to `RealtimeAudioFormatsUnion`, now a discriminated union (`RealtimeAudioFormatsAudioPcm | RealtimeAudioFormatsAudioPcmu | RealtimeAudioFormatsAudioPcma`) instead of a single flat interface. The optional `rate` property only exists on the `audio/pcm` variant (`RealtimeAudioFormatsAudioPcm`, now typed as the literal `24000`) and must be accessed after narrowing on `type`.
+
+### Features Added
+
+- Added `project.beta.agentInsightMonitors` for managing agent insight monitors.
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added

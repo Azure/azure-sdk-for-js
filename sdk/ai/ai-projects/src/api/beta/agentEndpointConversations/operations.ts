@@ -1,87 +1,87 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
+import type { AIProjectContext as Client } from "../../index.js";
+import type {
+  _AgentsPagedResultVoiceConversation,
+  VoiceConversation,
+  _AgentsPagedResultVoiceResponse,
+  VoiceResponse,
+  RealtimeConversationItemUnion,
+  _AgentsPagedResultRealtimeConversationItem,
+  VoiceItemAudioResponse,
+  VoiceRecordingResponse,
+  BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse,
+  BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
+} from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-  _AgentsPagedResultVoiceConversation,
   _agentsPagedResultVoiceConversationDeserializer,
-  VoiceConversation,
   voiceConversationDeserializer,
-  _AgentsPagedResultVoiceResponse,
   _agentsPagedResultVoiceResponseDeserializer,
-  VoiceResponse,
   voiceResponseDeserializer,
-  VoiceConversationItem,
-  _AgentsPagedResultVoiceConversationItem,
-  _agentsPagedResultVoiceConversationItemDeserializer,
-  VoiceItemAudioResponse,
+  realtimeConversationItemUnionDeserializer,
+  _agentsPagedResultRealtimeConversationItemDeserializer,
   voiceItemAudioResponseDeserializer,
-  VoiceRecordingResponse,
   voiceRecordingResponseDeserializer,
-  AgentEndpointConversationsGetAgentConversationAudioContentResponse,
-  AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
-  AgentEndpointConversationsGetAgentConversationItemResponse,
-} from "../../models/models.js";
+} from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
-import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
-  AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
-  AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
-  AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
-  AgentEndpointConversationsGetAgentConversationItemOptionalParams,
-  AgentEndpointConversationsListAgentConversationItemsOptionalParams,
-  AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
-  AgentEndpointConversationsGetAgentConversationResponseOptionalParams,
-  AgentEndpointConversationsListAgentConversationResponsesOptionalParams,
-  AgentEndpointConversationsDeleteAgentConversationOptionalParams,
-  AgentEndpointConversationsGetAgentConversationOptionalParams,
-  AgentEndpointConversationsListAgentConversationsOptionalParams,
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
+import type {
+  BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams,
+  BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getAgentConversationAudioContentSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio/content{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio/content{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "audio/wav",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "audio/wav",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAgentConversationAudioContentDeserialize(
   result: PathUncheckedResponse &
-    AgentEndpointConversationsGetAgentConversationAudioContentResponse,
-): Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse> {
+    BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse,
+): Promise<BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -94,6 +94,7 @@ export async function _getAgentConversationAudioContentDeserialize(
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
+
 /**
  * Streams the whole-call merged stereo recording as a WAV (`audio/wav`) byte stream through the service
  * (no SAS URL). This route serves Foundry-managed storage only. For bring-your-own-storage (BYOS)
@@ -107,14 +108,16 @@ export async function _getAgentConversationAudioContentDeserialize(
  */
 export async function getAgentConversationAudioContent(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams = {
     requestOptions: {},
   },
-): Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse> {
+): Promise<BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse> {
   const streamableMethod = _getAgentConversationAudioContentSend(
     context,
+    foundryFeatures,
     agentName,
     conversationId,
     options,
@@ -125,32 +128,34 @@ export async function getAgentConversationAudioContent(
 
 export function _getAgentConversationAudioSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationAudioOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAgentConversationAudioDeserialize(
@@ -168,6 +173,7 @@ export async function _getAgentConversationAudioDeserialize(
 
   return voiceRecordingResponseDeserializer(result.body);
 }
+
 /**
  * Returns metadata for the whole-call merged stereo recording (user audio on the left channel, agent audio
  * on the right). The common metadata (format, sample rate, channels, channel layout, duration) is returned
@@ -182,52 +188,61 @@ export async function _getAgentConversationAudioDeserialize(
  */
 export async function getAgentConversationAudio(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationAudioOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams = {
     requestOptions: {},
   },
 ): Promise<VoiceRecordingResponse> {
-  const result = await _getAgentConversationAudioSend(context, agentName, conversationId, options);
+  const result = await _getAgentConversationAudioSend(
+    context,
+    foundryFeatures,
+    agentName,
+    conversationId,
+    options,
+  );
   return _getAgentConversationAudioDeserialize(result);
 }
 
 export function _getAgentConversationItemAudioContentSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/content{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/content{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "audio/wav",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "audio/wav",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAgentConversationItemAudioContentDeserialize(
   result: PathUncheckedResponse &
-    AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
-): Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse> {
+    BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
+): Promise<BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -240,6 +255,7 @@ export async function _getAgentConversationItemAudioContentDeserialize(
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
+
 /**
  * Streams a single conversation item's audio as a WAV (`audio/wav`) byte stream through the service (no SAS
  * URL). This route serves Foundry-managed storage only. For bring-your-own-storage (BYOS) recordings the
@@ -249,15 +265,17 @@ export async function _getAgentConversationItemAudioContentDeserialize(
  */
 export async function getAgentConversationItemAudioContent(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams = {
     requestOptions: {},
   },
-): Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse> {
+): Promise<BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse> {
   const streamableMethod = _getAgentConversationItemAudioContentSend(
     context,
+    foundryFeatures,
     agentName,
     conversationId,
     itemId,
@@ -269,34 +287,36 @@ export async function getAgentConversationItemAudioContent(
 
 export function _getAgentConversationItemAudioSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAgentConversationItemAudioDeserialize(
@@ -314,6 +334,7 @@ export async function _getAgentConversationItemAudioDeserialize(
 
   return voiceItemAudioResponseDeserializer(result.body);
 }
+
 /**
  * Returns metadata for a single conversation item's audio segment, including the common playback facts
  * (role, format/codec, sample rate, channels, offset, duration) for both Foundry-managed and
@@ -324,15 +345,17 @@ export async function _getAgentConversationItemAudioDeserialize(
  */
 export async function getAgentConversationItemAudio(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams = {
     requestOptions: {},
   },
 ): Promise<VoiceItemAudioResponse> {
   const result = await _getAgentConversationItemAudioSend(
     context,
+    foundryFeatures,
     agentName,
     conversationId,
     itemId,
@@ -343,39 +366,41 @@ export async function getAgentConversationItemAudio(
 
 export function _getAgentConversationItemSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAgentConversationItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentEndpointConversationsGetAgentConversationItemResponse> {
+): Promise<RealtimeConversationItemUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -386,8 +411,9 @@ export async function _getAgentConversationItemDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return realtimeConversationItemUnionDeserializer(result.body);
 }
+
 /**
  * Retrieves a single item from the specified conversation by its id, including its transcript. An
  * `input_audio`/`output_audio` content part indicates that audio is available for the item; the canonical per-item
@@ -397,15 +423,17 @@ export async function _getAgentConversationItemDeserialize(
  */
 export async function getAgentConversationItem(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: AgentEndpointConversationsGetAgentConversationItemOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams = {
     requestOptions: {},
   },
-): Promise<AgentEndpointConversationsGetAgentConversationItemResponse> {
+): Promise<RealtimeConversationItemUnion> {
   const result = await _getAgentConversationItemSend(
     context,
+    foundryFeatures,
     agentName,
     conversationId,
     itemId,
@@ -416,15 +444,15 @@ export async function getAgentConversationItem(
 
 export function _listAgentConversationItemsSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsListAgentConversationItemsOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -432,25 +460,27 @@ export function _listAgentConversationItemsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listAgentConversationItemsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultVoiceConversationItem> {
+): Promise<_AgentsPagedResultRealtimeConversationItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -461,8 +491,9 @@ export async function _listAgentConversationItemsDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultVoiceConversationItemDeserializer(result.body);
+  return _agentsPagedResultRealtimeConversationItemDeserializer(result.body);
 }
+
 /**
  * Returns a paged collection of items — the complete ordered conversation history, including user input,
  * assistant output, and client-created tool outputs (transcripts + tool events). Returns `404` when the
@@ -470,15 +501,17 @@ export async function _listAgentConversationItemsDeserialize(
  */
 export function listAgentConversationItems(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsListAgentConversationItemsOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<VoiceConversationItem> {
+): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listAgentConversationItemsSend(context, agentName, conversationId, options),
+    () =>
+      _listAgentConversationItemsSend(context, foundryFeatures, agentName, conversationId, options),
     _listAgentConversationItemsDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
@@ -487,16 +520,16 @@ export function listAgentConversationItems(
 
 export function _listAgentConversationResponseItemsSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}/items{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}/items{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -505,25 +538,27 @@ export function _listAgentConversationResponseItemsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listAgentConversationResponseItemsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultVoiceConversationItem> {
+): Promise<_AgentsPagedResultRealtimeConversationItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -534,8 +569,9 @@ export async function _listAgentConversationResponseItemsDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultVoiceConversationItemDeserializer(result.body);
+  return _agentsPagedResultRealtimeConversationItemDeserializer(result.body);
 }
+
 /**
  * Returns a paged collection of the output items produced by a specific response (the response's output
  * projection). For the complete ordered conversation history — including user input and client-created
@@ -544,18 +580,20 @@ export async function _listAgentConversationResponseItemsDeserialize(
  */
 export function listAgentConversationResponseItems(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<VoiceConversationItem> {
+): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
   return buildPagedAsyncIterator(
     context,
     () =>
       _listAgentConversationResponseItemsSend(
         context,
+        foundryFeatures,
         agentName,
         conversationId,
         responseId,
@@ -569,34 +607,36 @@ export function listAgentConversationResponseItems(
 
 export function _getAgentConversationResponseSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: AgentEndpointConversationsGetAgentConversationResponseOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       response_id: responseId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAgentConversationResponseDeserialize(
@@ -614,21 +654,24 @@ export async function _getAgentConversationResponseDeserialize(
 
   return voiceResponseDeserializer(result.body);
 }
+
 /**
  * Retrieves a single response from the specified conversation by its id, including its `output` items,
  * `usage`, and status. Returns `404` when the conversation or response was not persisted (`store = false`).
  */
 export async function getAgentConversationResponse(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: AgentEndpointConversationsGetAgentConversationResponseOptionalParams = {
+  options: BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams = {
     requestOptions: {},
   },
 ): Promise<VoiceResponse> {
   const result = await _getAgentConversationResponseSend(
     context,
+    foundryFeatures,
     agentName,
     conversationId,
     responseId,
@@ -639,15 +682,15 @@ export async function getAgentConversationResponse(
 
 export function _listAgentConversationResponsesSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsListAgentConversationResponsesOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -655,20 +698,22 @@ export function _listAgentConversationResponsesSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listAgentConversationResponsesDeserialize(
@@ -686,6 +731,7 @@ export async function _listAgentConversationResponsesDeserialize(
 
   return _agentsPagedResultVoiceResponseDeserializer(result.body);
 }
+
 /**
  * Returns a paged collection of the responses (model inference turns) recorded for the specified
  * conversation. The per-response `output` projection may be omitted here; use the response-items route
@@ -693,15 +739,23 @@ export async function _listAgentConversationResponsesDeserialize(
  */
 export function listAgentConversationResponses(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsListAgentConversationResponsesOptionalParams = {
+  options: BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<VoiceResponse> {
   return buildPagedAsyncIterator(
     context,
-    () => _listAgentConversationResponsesSend(context, agentName, conversationId, options),
+    () =>
+      _listAgentConversationResponsesSend(
+        context,
+        foundryFeatures,
+        agentName,
+        conversationId,
+        options,
+      ),
     _listAgentConversationResponsesDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
@@ -710,26 +764,30 @@ export function listAgentConversationResponses(
 
 export function _deleteAgentConversationSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsDeleteAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteAgentConversationDeserialize(
@@ -747,46 +805,60 @@ export async function _deleteAgentConversationDeserialize(
 
   return;
 }
+
 /**
  * Deletes a conversation and all of its stored data — responses, items, and any audio (cascade). This is
  * the customer's explicit data-deletion control for voice conversations.
  */
 export async function deleteAgentConversation(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsDeleteAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<void> {
-  const result = await _deleteAgentConversationSend(context, agentName, conversationId, options);
+  const result = await _deleteAgentConversationSend(
+    context,
+    foundryFeatures,
+    agentName,
+    conversationId,
+    options,
+  );
   return _deleteAgentConversationDeserialize(result);
 }
 
 export function _getAgentConversationSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsGetAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAgentConversationDeserialize(
@@ -804,48 +876,62 @@ export async function _getAgentConversationDeserialize(
 
   return voiceConversationDeserializer(result.body);
 }
+
 /**
  * Retrieves a single conversation recorded for the specified voice agent endpoint by its id.
  * Returns `404` when the conversation was not persisted (`store = false`) or does not exist.
  */
 export async function getAgentConversation(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   conversationId: string,
-  options: AgentEndpointConversationsGetAgentConversationOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsGetAgentConversationOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<VoiceConversation> {
-  const result = await _getAgentConversationSend(context, agentName, conversationId, options);
+  const result = await _getAgentConversationSend(
+    context,
+    foundryFeatures,
+    agentName,
+    conversationId,
+    options,
+  );
   return _getAgentConversationDeserialize(result);
 }
 
 export function _listAgentConversationsSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  options: AgentEndpointConversationsListAgentConversationsOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsListAgentConversationsOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listAgentConversationsDeserialize(
@@ -863,18 +949,23 @@ export async function _listAgentConversationsDeserialize(
 
   return _agentsPagedResultVoiceConversationDeserializer(result.body);
 }
+
 /**
  * Returns the conversations persisted for the specified voice agent endpoint.
- * Conversations are present only when the agent definition has `store = true`.
+ * Conversations are present when the session's effective `store` setting is `true`, whether inherited from the
+ * agent definition or enabled by the WebSocket session override.
  */
 export function listAgentConversations(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  options: AgentEndpointConversationsListAgentConversationsOptionalParams = { requestOptions: {} },
+  options: BetaAgentEndpointConversationsListAgentConversationsOptionalParams = {
+    requestOptions: {},
+  },
 ): PagedAsyncIterableIterator<VoiceConversation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listAgentConversationsSend(context, agentName, options),
+    () => _listAgentConversationsSend(context, foundryFeatures, agentName, options),
     _listAgentConversationsDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },

@@ -9,76 +9,76 @@ type ClientEventSerializer = (event: never) => unknown;
 type ServerEventDeserializer = (event: unknown) => VoiceAgentServerEvent;
 
 const clientEventSerializers: Record<string, ClientEventSerializer> = {
-  "conversation.item.create": models.voiceAgentClientEventConversationItemCreateSerializer,
-  "conversation.item.delete": models.voiceAgentClientEventConversationItemDeleteSerializer,
-  "conversation.item.retrieve": models.voiceAgentClientEventConversationItemRetrieveSerializer,
-  "conversation.item.truncate": models.voiceAgentClientEventConversationItemTruncateSerializer,
-  "input_audio_buffer.append": models.voiceAgentClientEventInputAudioBufferAppendSerializer,
-  "input_audio_buffer.clear": models.voiceAgentClientEventInputAudioBufferClearSerializer,
-  "input_audio_buffer.commit": models.voiceAgentClientEventInputAudioBufferCommitSerializer,
-  "output_audio_buffer.clear": models.voiceAgentClientEventOutputAudioBufferClearSerializer,
-  "response.cancel": models.voiceAgentClientEventResponseCancelSerializer,
-  "response.create": models.voiceAgentClientEventResponseCreateSerializer,
+  "conversation.item.create": models.realtimeClientEventConversationItemCreateSerializer,
+  "conversation.item.delete": models.realtimeClientEventConversationItemDeleteSerializer,
+  "conversation.item.retrieve": models.realtimeClientEventConversationItemRetrieveSerializer,
+  "conversation.item.truncate": models.realtimeClientEventConversationItemTruncateSerializer,
+  "input_audio_buffer.append": models.realtimeClientEventInputAudioBufferAppendSerializer,
+  "input_audio_buffer.clear": models.realtimeClientEventInputAudioBufferClearSerializer,
+  "input_audio_buffer.commit": models.realtimeClientEventInputAudioBufferCommitSerializer,
+  "output_audio_buffer.clear": models.realtimeClientEventOutputAudioBufferClearSerializer,
+  "response.cancel": models.realtimeClientEventResponseCancelSerializer,
+  "response.create": models.realtimeClientEventResponseCreateSerializer,
   "session.update": models.voiceAgentClientEventSessionUpdateSerializer,
   "session.avatar.connect": models.voiceAgentClientEventSessionAvatarConnectSerializer,
 };
 
 const serverEventDeserializers: Record<string, ServerEventDeserializer> = {
-  "conversation.item.added": models.voiceAgentServerEventConversationItemAddedDeserializer,
-  "conversation.item.created": models.voiceAgentServerEventConversationItemCreatedDeserializer,
-  "conversation.item.deleted": models.voiceAgentServerEventConversationItemDeletedDeserializer,
-  "conversation.item.done": models.voiceAgentServerEventConversationItemDoneDeserializer,
+  "conversation.item.added": models.realtimeServerEventConversationItemAddedDeserializer,
+  "conversation.item.created": models.realtimeServerEventConversationItemCreatedDeserializer,
+  "conversation.item.deleted": models.realtimeServerEventConversationItemDeletedDeserializer,
+  "conversation.item.done": models.realtimeServerEventConversationItemDoneDeserializer,
   "conversation.item.input_audio_transcription.completed":
-    models.voiceAgentServerEventConversationItemInputAudioTranscriptionCompletedDeserializer,
+    models.realtimeServerEventConversationItemInputAudioTranscriptionCompletedDeserializer,
   "conversation.item.input_audio_transcription.delta":
-    models.voiceAgentServerEventConversationItemInputAudioTranscriptionDeltaDeserializer,
+    models.realtimeServerEventConversationItemInputAudioTranscriptionDeltaDeserializer,
   "conversation.item.input_audio_transcription.failed":
-    models.voiceAgentServerEventConversationItemInputAudioTranscriptionFailedDeserializer,
+    models.realtimeServerEventConversationItemInputAudioTranscriptionFailedDeserializer,
   "conversation.item.input_audio_transcription.segment":
-    models.voiceAgentServerEventConversationItemInputAudioTranscriptionSegmentDeserializer,
-  "conversation.item.retrieved": models.voiceAgentServerEventConversationItemRetrievedDeserializer,
-  "conversation.item.truncated": models.voiceAgentServerEventConversationItemTruncatedDeserializer,
-  "input_audio_buffer.cleared": models.voiceAgentServerEventInputAudioBufferClearedDeserializer,
-  "input_audio_buffer.committed": models.voiceAgentServerEventInputAudioBufferCommittedDeserializer,
+    models.realtimeServerEventConversationItemInputAudioTranscriptionSegmentDeserializer,
+  "conversation.item.retrieved": models.realtimeServerEventConversationItemRetrievedDeserializer,
+  "conversation.item.truncated": models.realtimeServerEventConversationItemTruncatedDeserializer,
+  "input_audio_buffer.cleared": models.realtimeServerEventInputAudioBufferClearedDeserializer,
+  "input_audio_buffer.committed": models.realtimeServerEventInputAudioBufferCommittedDeserializer,
   "input_audio_buffer.speech_started":
-    models.voiceAgentServerEventInputAudioBufferSpeechStartedDeserializer,
+    models.realtimeServerEventInputAudioBufferSpeechStartedDeserializer,
   "input_audio_buffer.speech_stopped":
-    models.voiceAgentServerEventInputAudioBufferSpeechStoppedDeserializer,
+    models.realtimeServerEventInputAudioBufferSpeechStoppedDeserializer,
   "input_audio_buffer.timeout_triggered":
-    models.voiceAgentServerEventInputAudioBufferTimeoutTriggeredDeserializer,
-  "mcp_list_tools.completed": models.voiceAgentServerEventMcpListToolsCompletedDeserializer,
-  "mcp_list_tools.failed": models.voiceAgentServerEventMcpListToolsFailedDeserializer,
-  "mcp_list_tools.in_progress": models.voiceAgentServerEventMcpListToolsInProgressDeserializer,
-  "output_audio_buffer.cleared": models.voiceAgentServerEventOutputAudioBufferClearedDeserializer,
-  "rate_limits.updated": models.voiceAgentServerEventRateLimitsUpdatedDeserializer,
-  "response.output_audio.delta": models.voiceAgentServerEventResponseAudioDeltaDeserializer,
-  "response.output_audio.done": models.voiceAgentServerEventResponseAudioDoneDeserializer,
+    models.realtimeServerEventInputAudioBufferTimeoutTriggeredDeserializer,
+  "mcp_list_tools.completed": models.realtimeServerEventMCPListToolsCompletedDeserializer,
+  "mcp_list_tools.failed": models.realtimeServerEventMCPListToolsFailedDeserializer,
+  "mcp_list_tools.in_progress": models.realtimeServerEventMCPListToolsInProgressDeserializer,
+  "output_audio_buffer.cleared": models.realtimeServerEventOutputAudioBufferClearedDeserializer,
+  "rate_limits.updated": models.realtimeServerEventRateLimitsUpdatedDeserializer,
+  "response.output_audio.delta": models.realtimeServerEventResponseAudioDeltaDeserializer,
+  "response.output_audio.done": models.realtimeServerEventResponseAudioDoneDeserializer,
   "response.output_audio_transcript.delta":
-    models.voiceAgentServerEventResponseAudioTranscriptDeltaDeserializer,
+    models.realtimeServerEventResponseAudioTranscriptDeltaDeserializer,
   "response.output_audio_transcript.done":
-    models.voiceAgentServerEventResponseAudioTranscriptDoneDeserializer,
+    models.realtimeServerEventResponseAudioTranscriptDoneDeserializer,
   "response.content_part.added": models.realtimeServerEventResponseContentPartAddedDeserializer,
-  "response.content_part.done": models.voiceAgentServerEventResponseContentPartDoneDeserializer,
-  "response.created": models.voiceAgentServerEventResponseCreatedDeserializer,
-  "response.done": models.voiceAgentServerEventResponseDoneDeserializer,
+  "response.content_part.done": models.realtimeServerEventResponseContentPartDoneDeserializer,
+  "response.created": models.realtimeServerEventResponseCreatedDeserializer,
+  "response.done": models.realtimeServerEventResponseDoneDeserializer,
   "response.function_call_arguments.delta":
-    models.voiceAgentServerEventResponseFunctionCallArgumentsDeltaDeserializer,
+    models.realtimeServerEventResponseFunctionCallArgumentsDeltaDeserializer,
   "response.function_call_arguments.done":
-    models.voiceAgentServerEventResponseFunctionCallArgumentsDoneDeserializer,
+    models.realtimeServerEventResponseFunctionCallArgumentsDoneDeserializer,
   "response.mcp_call_arguments.delta":
-    models.voiceAgentServerEventResponseMcpCallArgumentsDeltaDeserializer,
+    models.realtimeServerEventResponseMCPCallArgumentsDeltaDeserializer,
   "response.mcp_call_arguments.done":
-    models.voiceAgentServerEventResponseMcpCallArgumentsDoneDeserializer,
-  "response.mcp_call.completed": models.voiceAgentServerEventResponseMcpCallCompletedDeserializer,
-  "response.mcp_call.failed": models.voiceAgentServerEventResponseMcpCallFailedDeserializer,
+    models.realtimeServerEventResponseMCPCallArgumentsDoneDeserializer,
+  "response.mcp_call.completed": models.realtimeServerEventResponseMCPCallCompletedDeserializer,
+  "response.mcp_call.failed": models.realtimeServerEventResponseMCPCallFailedDeserializer,
   "response.mcp_call.in_progress":
-    models.voiceAgentServerEventResponseMcpCallInProgressDeserializer,
-  "response.output_item.added": models.voiceAgentServerEventResponseOutputItemAddedDeserializer,
-  "response.output_item.done": models.voiceAgentServerEventResponseOutputItemDoneDeserializer,
-  "response.output_text.delta": models.voiceAgentServerEventResponseTextDeltaDeserializer,
-  "response.output_text.done": models.voiceAgentServerEventResponseTextDoneDeserializer,
-  "session.created": models.voiceAgentServerEventSessionCreatedDeserializer,
-  "session.updated": models.voiceAgentServerEventSessionUpdatedDeserializer,
+    models.realtimeServerEventResponseMCPCallInProgressDeserializer,
+  "response.output_item.added": models.realtimeServerEventResponseOutputItemAddedDeserializer,
+  "response.output_item.done": models.realtimeServerEventResponseOutputItemDoneDeserializer,
+  "response.output_text.delta": models.realtimeServerEventResponseTextDeltaDeserializer,
+  "response.output_text.done": models.realtimeServerEventResponseTextDoneDeserializer,
+  "session.created": models.realtimeServerEventSessionCreatedDeserializer,
+  "session.updated": models.realtimeServerEventSessionUpdatedDeserializer,
   error: models.realtimeServerEventErrorDeserializer,
   warning: models.voiceAgentServerEventWarningDeserializer,
   "session.avatar.connecting": models.voiceAgentServerEventSessionAvatarConnectingDeserializer,
@@ -113,8 +113,23 @@ export function serializeVoiceAgentClientEvent(event: VoiceAgentClientEvent): st
   } else if (event.type === "response.create" && event.response?.interim_response) {
     const response = serialized["response"] as Record<string, unknown>;
     response["interim_response"] = serializeInterimResponse(event.response.interim_response);
+  } else if (event.type === "conversation.item.create") {
+    restoreMessageItemFields(event.item, serialized["item"] as Record<string, unknown>);
   }
   return JSON.stringify(serialized);
+}
+
+// The generated `RealtimeConversationItemUnion` does not enumerate a "message" item variant, so
+// `realtimeConversationItemUnionSerializer` falls back to `realtimeConversationItemSerializer`,
+// which only emits `{ type }` and silently drops `role`/`content`. Restore those fields from the
+// original (pre-serialization) item so the wire payload built by `sendText` is complete; see the
+// TypeSpec regeneration report for details on this generated-model gap.
+function restoreMessageItemFields(item: unknown, serializedItem: Record<string, unknown>): void {
+  const source = item as { type?: string; role?: unknown; content?: unknown };
+  if (source?.type === "message") {
+    serializedItem["role"] = source.role;
+    serializedItem["content"] = source.content;
+  }
 }
 
 /** @internal */
@@ -207,25 +222,47 @@ function normalizeSessionUnions(
   }
 }
 
-function serializeTurnDetection(turnDetection: models.VoiceAgentTurnDetection): unknown {
+// The generated `VoiceAgentTurnDetectionConfig` fallback member's `type` field is typed as the
+// full `VoiceAgentTurnDetectionType` literal union (not narrowed to a single value), so TypeScript
+// cannot exclude it from any individual `case` branch below. The runtime `switch` on `.type` already
+// guarantees the narrower shape in each branch, so an explicit cast is used to reflect that.
+function serializeTurnDetection(turnDetection: models.VoiceAgentTurnDetectionConfigUnion): unknown {
   switch (turnDetection.type) {
     case "server_vad":
-      return models.voiceAgentServerVadTurnDetectionSerializer(turnDetection);
+      return models.voiceAgentServerVadTurnDetectionSerializer(
+        turnDetection as models.VoiceAgentServerVadTurnDetection,
+      );
     case "semantic_vad":
-      return models.voiceAgentSemanticVadTurnDetectionSerializer(turnDetection);
+      return models.voiceAgentSemanticVadTurnDetectionSerializer(
+        turnDetection as models.VoiceAgentSemanticVadTurnDetection,
+      );
     case "azure_semantic_vad":
-      return models.voiceAzureSemanticVadTurnDetectionSerializer(turnDetection);
+      return models.voiceAgentAzureSemanticVadTurnDetectionSerializer(
+        turnDetection as models.VoiceAgentAzureSemanticVadTurnDetection,
+      );
     case "azure_semantic_vad_en":
-      return models.voiceAzureSemanticVadEnTurnDetectionSerializer(turnDetection);
+      return models.voiceAgentAzureSemanticVadEnTurnDetectionSerializer(
+        turnDetection as models.VoiceAgentAzureSemanticVadEnTurnDetection,
+      );
     case "azure_semantic_vad_multilingual":
-      return models.voiceAzureSemanticVadMultilingualTurnDetectionSerializer(turnDetection);
+      return models.voiceAgentAzureSemanticVadMultilingualTurnDetectionSerializer(
+        turnDetection as models.VoiceAgentAzureSemanticVadMultilingualTurnDetection,
+      );
+    default:
+      return models.voiceAgentTurnDetectionConfigSerializer(turnDetection);
   }
 }
 
-function serializeInterimResponse(interimResponse: models.VoiceAgentInterimResponse): unknown {
+// Same fallback-narrowing limitation as above: `VoiceAgentInterimResponseConfig.type` is `string`,
+// so the ternary's branches cannot be excluded from each other without an explicit cast.
+function serializeInterimResponse(interimResponse: models.VoiceAgentInterimResponseConfigUnion): unknown {
   return interimResponse.type === "static_interim_response"
-    ? models.voiceAgentStaticInterimResponseConfigSerializer(interimResponse)
-    : models.voiceAgentLlmInterimResponseConfigSerializer(interimResponse);
+    ? models.voiceAgentStaticInterimResponseConfigSerializer(
+        interimResponse as models.VoiceAgentStaticInterimResponseConfig,
+      )
+    : models.voiceAgentLlmInterimResponseConfigSerializer(
+        interimResponse as models.VoiceAgentLlmInterimResponseConfig,
+      );
 }
 
 function normalizeSessionResponseUnions(session: models.VoiceAgentSessionResponseConfig): void {
@@ -239,26 +276,42 @@ function normalizeSessionResponseUnions(session: models.VoiceAgentSessionRespons
 }
 
 function deserializeTurnDetection(
-  turnDetection: models.VoiceAgentTurnDetection,
-): models.VoiceAgentTurnDetection {
+  turnDetection: models.VoiceAgentTurnDetectionConfigUnion,
+): models.VoiceAgentTurnDetectionConfigUnion {
   switch (turnDetection.type) {
     case "server_vad":
-      return models.voiceAgentServerVadTurnDetectionDeserializer(turnDetection);
+      return models.voiceAgentServerVadTurnDetectionDeserializer(
+        turnDetection as models.VoiceAgentServerVadTurnDetection,
+      );
     case "semantic_vad":
-      return models.voiceAgentSemanticVadTurnDetectionDeserializer(turnDetection);
+      return models.voiceAgentSemanticVadTurnDetectionDeserializer(
+        turnDetection as models.VoiceAgentSemanticVadTurnDetection,
+      );
     case "azure_semantic_vad":
-      return models.voiceAzureSemanticVadTurnDetectionDeserializer(turnDetection);
+      return models.voiceAgentAzureSemanticVadTurnDetectionDeserializer(
+        turnDetection as models.VoiceAgentAzureSemanticVadTurnDetection,
+      );
     case "azure_semantic_vad_en":
-      return models.voiceAzureSemanticVadEnTurnDetectionDeserializer(turnDetection);
+      return models.voiceAgentAzureSemanticVadEnTurnDetectionDeserializer(
+        turnDetection as models.VoiceAgentAzureSemanticVadEnTurnDetection,
+      );
     case "azure_semantic_vad_multilingual":
-      return models.voiceAzureSemanticVadMultilingualTurnDetectionDeserializer(turnDetection);
+      return models.voiceAgentAzureSemanticVadMultilingualTurnDetectionDeserializer(
+        turnDetection as models.VoiceAgentAzureSemanticVadMultilingualTurnDetection,
+      );
+    default:
+      return models.voiceAgentTurnDetectionConfigDeserializer(turnDetection);
   }
 }
 
 function deserializeInterimResponse(
-  interimResponse: models.VoiceAgentInterimResponse,
-): models.VoiceAgentInterimResponse {
+  interimResponse: models.VoiceAgentInterimResponseConfigUnion,
+): models.VoiceAgentInterimResponseConfigUnion {
   return interimResponse.type === "static_interim_response"
-    ? models.voiceAgentStaticInterimResponseConfigDeserializer(interimResponse)
-    : models.voiceAgentLlmInterimResponseConfigDeserializer(interimResponse);
+    ? models.voiceAgentStaticInterimResponseConfigDeserializer(
+        interimResponse as models.VoiceAgentStaticInterimResponseConfig,
+      )
+    : models.voiceAgentLlmInterimResponseConfigDeserializer(
+        interimResponse as models.VoiceAgentLlmInterimResponseConfig,
+      );
 }

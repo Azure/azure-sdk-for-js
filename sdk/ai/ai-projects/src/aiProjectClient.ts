@@ -6,8 +6,8 @@ import OpenAI from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { createAIProject } from "./api/index.js";
-import type { AgentEndpointConversationsOperations } from "./classic/agentEndpointConversations/index.js";
-import { _getAgentEndpointConversationsOperations } from "./classic/agentEndpointConversations/index.js";
+import type { BetaAgentEndpointConversationsOperations } from "./classic/beta/agentEndpointConversations/index.js";
+import { _getBetaAgentEndpointConversationsOperations } from "./classic/beta/agentEndpointConversations/index.js";
 import type { AgentsOperations } from "./classic/agents/index.js";
 import { _getAgentsOperations } from "./classic/agents/index.js";
 import type { ToolboxesOperations } from "./classic/toolboxes/index.js";
@@ -113,7 +113,7 @@ export class AIProjectClient {
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
-    this.agentEndpointConversations = _getAgentEndpointConversationsOperations(
+    this.agentEndpointConversations = _getBetaAgentEndpointConversationsOperations(
       this._cognitiveScopeClient,
     );
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
@@ -140,7 +140,7 @@ export class AIProjectClient {
   /** The operation groups for evaluationRules */
   public readonly evaluationRules: EvaluationRulesOperations;
   /** The operation groups for agentEndpointConversations */
-  public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
+  public readonly agentEndpointConversations: BetaAgentEndpointConversationsOperations;
   /** Realtime voice-agent connections. */
   public readonly realtime: VoiceAgentRealtimeClient;
   /** The operation groups for agents */
