@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed three unreachable error-handling guards that compared an error code against its un-normalized name after `translateServiceBusError` had already normalized it: `peekMessages` / `peekMessagesBySession` now return an empty result instead of throwing when the service reports the requested messages are not found (matching .NET); the streaming receiver no longer attempts a doomed abandon when a message's lock is already lost; and a session-lock-expired error now carries its descriptive message. [#39312](https://github.com/Azure/azure-sdk-for-js/pull/39312)
+
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)

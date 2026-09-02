@@ -9,7 +9,7 @@ import { ReceiverHelper } from "./receiverHelper.js";
 
 import { throwErrorIfConnectionClosed } from "../util/errors.js";
 import type { MessagingError, RetryOptions } from "@azure/core-amqp";
-import { RetryOperationType, ConditionErrorNameMapper } from "@azure/core-amqp";
+import { RetryOperationType } from "@azure/core-amqp";
 import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import { receiverLogger as logger } from "../log.js";
 import type { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
@@ -284,7 +284,11 @@ export class StreamingReceiver extends MessageReceiver {
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
           !bMessage.delivery.remote_settled &&
-          error.code !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
+          // Skip abandon when the lock is already lost - abandoning would fail anyway.
+          // translateServiceBusError normalizes the code to "MessageLockLost" (the AMQP
+          // condition maps to "MessageLockLostError", which the ServiceBusError constructor
+          // then normalizes), so the check compares against the normalized value.
+          error.code !== "MessageLockLost" &&
           this.receiveMode === "peekLock" &&
           this.isOpen() // only try to abandon the messages if the connection is still open
         ) {
