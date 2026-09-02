@@ -3,7 +3,11 @@
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { findMissingAdditions } from "./check-generated-member-parity.mjs";
+import {
+  findMissingAdditions,
+  findMissingPreservedExports,
+  findIndexInvariantViolations,
+} from "./check-generated-member-parity.mjs";
 
 const previousGeneratedOptions = `
 export interface AgentsCreateAgentOptionalParams {
@@ -100,4 +104,66 @@ export function _createSend() {
       ["request body property", "draft"],
     ],
   );
+});
+
+test("reports customized exports removed by a destructive merge", () => {
+  const previousSource = `
+export { AIProjectClient } from "./aiProjectClient.js";
+export type { ExistingModel, LegacyModel } from "./models/index.js";
+export interface LocalOptions {}
+`;
+  const currentSource = `
+export type { ExistingModel, EmittedModel } from "./models/index.js";
+`;
+
+  const missing = findMissingPreservedExports({
+    previousSource,
+    currentSource,
+    file: "index.ts",
+  });
+  assert.deepEqual(
+    missing.map(({ name }) => name),
+    ["AIProjectClient", "LegacyModel", "LocalOptions"],
+  );
+});
+
+test("accepts preserved customized exports plus additions", () => {
+  const previousSource = `
+export { InternalName as PublicName } from "./models/index.js";
+export type { ExistingModel } from "./models/index.js";
+`;
+  const currentSource = `
+export { InternalName as PublicName } from "./models/index.js";
+export type { ExistingModel, EmittedModel } from "./models/index.js";
+`;
+
+  const missing = findMissingPreservedExports({
+    previousSource,
+    currentSource,
+    file: "index.ts",
+  });
+  assert.deepEqual(missing, []);
+});
+
+test("rejects emitted paging and restore-poller imports in the customized barrel", () => {
+  const source = `
+import { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+`;
+
+  assert.deepEqual(findIndexInvariantViolations(source), [
+    "must not reference nonexistent src/restorePollerHelpers.ts",
+    "PageSettings must be imported as a type from @azure/core-paging",
+    "PagedAsyncIterableIterator must be imported as a type from @azure/core-paging",
+    "ContinuablePage must be imported as a type from ./static-helpers/pagingHelpers.js",
+  ]);
+});
+
+test("accepts the hand-maintained customized barrel imports", () => {
+  const source = `
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
+`;
+
+  assert.deepEqual(findIndexInvariantViolations(source), []);
 });

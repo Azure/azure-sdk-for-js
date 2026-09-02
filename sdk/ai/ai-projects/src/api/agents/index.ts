@@ -31,7 +31,6 @@ export {
   updateAgentFromManifest,
   createAgentFromManifest,
   update,
-  generateAgent,
   create,
   get,
 } from "./operations.js";

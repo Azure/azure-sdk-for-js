@@ -171,7 +171,7 @@ Then, for each genuine addition:
 
 If nothing is missing, this step is a no-op — confirm and move on.
 
-### Step 2a: Check additions inside existing declarations
+### Step 2a: Check additions and preserve the customized public surface
 
 Run the package-local parity guard after conflict cleanup and top-level propagation:
 
@@ -179,14 +179,26 @@ Run the package-local parity guard after conflict cleanup and top-level propagat
 node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs
 ```
 
-The guard has intentionally narrow scope. For TypeScript files changed under `generated/` relative to `HEAD`, it checks only:
+The guard has intentionally narrow scope. For TypeScript files changed under `generated/` relative to `HEAD`, it checks:
 
 - direct members newly added to an existing interface;
 - properties newly added to a request `body` object in an existing `*Send` function.
+- the hand-maintained `src/index.ts` import scaffold: `PageSettings` and
+  `PagedAsyncIterableIterator` remain type imports from `@azure/core-paging`,
+  `ContinuablePage` remains a type import from the local paging helper, and no
+  nonexistent `src/restorePollerHelpers.ts` export is introduced.
+
+It also compares the clean `HEAD` versions of `src/index.ts`, `src/models/index.ts`, and
+`src/models/models.ts` with the current customized source and fails if any previously exported
+symbol disappeared without belonging to a generated-backed model removal from Step 3. This
+preservation check runs even when none of those files changed under `generated/`. It catches the
+destructive failure mode where customization output is replaced wholesale with emitted output:
+member parity alone cannot detect that because the copied file contains every newly emitted member
+while silently deleting unrelated maintained API and import customizations.
 
 It compares those additions with the corresponding declaration in `src/` and accounts for the known customized agent declaration names such as `AgentsCreateAgentOptionalParams` → `AgentsCreateOptionalParams` and `_createAgentSend` → `_createSend`. It does not require broad generated/source equality and does not change either tree.
 
-If the guard reports a missing addition, inspect the generated declaration and copy the member or body mapping into the customized declaration, preserving its existing name, style, tracing, and behavior. If a declaration has a new customization rename, add that file-scoped symbol mapping to `symbolRenames` in the guard. Do not suppress a member merely because the custom side omitted it; require explicit upstream or compatibility evidence for any intentional omission.
+If the guard reports a missing addition, inspect the generated declaration and copy the member or body mapping into the customized declaration, preserving its existing name, style, tracing, and behavior. If it reports missing previously exported symbols, stop: restore the affected additions-only/public-export file from clean `HEAD`, then repeat the three-way test in Step 2 and propagate only verified additions. If a declaration has a new customization rename, add that file-scoped symbol mapping to `symbolRenames` in the guard. Do not suppress a member or export merely because the custom side omitted it; require explicit upstream or compatibility evidence for any intentional omission.
 
 Rerun the guard until it passes. Validate the guard itself after editing it:
 
@@ -229,9 +241,12 @@ Known repeat offenders observed across regens: `MCPToolFilter`, `MCPToolRequireA
 
 Also look for duplicate **properties within a single interface** (not just duplicate top-level exports) — `dev-tool customization apply` does not dedupe property-level conflicts. Symptom: TS2300 `Duplicate identifier 'status'` and TS1117 `An object literal cannot have multiple properties with the same name` on adjacent lines. Manually delete the second occurrence in both the interface and its deserializer.
 
-### Step 3: Apply additions-only rule for models
+### Step 3: Apply the additions-only default and validated model removals
 
-Review `git diff` for `src/models/models.ts` and `src/models/index.ts` and revert any **deletions or modifications** to existing models — keep only the `+` lines (your own additions from Step 2) unless `temp/typespec-commit-descriptions.md` clearly describes the non-additive shape change.
+Review `git diff` for `src/models/models.ts` and `src/models/index.ts`. Additions-only remains the
+default: revert deletions or modifications to existing models unless the upstream evidence from
+Step -1 and the current `generated/` versus `HEAD:generated/` diff establish that the target spec
+intentionally removed them.
 
 Examples of commit-description-validated exceptions include a field explicitly removed upstream, a union member explicitly removed upstream, or response properties explicitly made required. When keeping one of these exceptions, make sure the API report reflects the same upstream intent.
 
@@ -239,7 +254,31 @@ Examples of commit-description-validated exceptions include a field explicitly r
 git diff HEAD -- src/models/models.ts src/models/index.ts
 ```
 
-If the diff includes removals or renames you cannot easily isolate, restore the file from `HEAD` and then re-apply only the added model entries by hand.
+For validated top-level model declaration removals, do not copy any current `generated/` file over
+`src/`. Start from the clean customized source and run the AST-based synchronizer:
+
+```powershell
+# Dry run: reports whether generated removals still need to be synchronized.
+node .github/skills/apply-post-emitter-edits/scripts/sync-generated-model-removals.mjs
+
+# After reviewing the generated removal set against upstream intent:
+node .github/skills/apply-post-emitter-edits/scripts/sync-generated-model-removals.mjs --write
+
+# Both checks must now pass.
+node .github/skills/apply-post-emitter-edits/scripts/sync-generated-model-removals.mjs
+node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs
+```
+
+The synchronizer compares `HEAD:generated/models/models.ts` with the current emitted model file,
+removes the corresponding declarations plus customized aliases/helpers that depend only on those
+declarations, and filters their re-exports from `src/models/index.ts` and `src/index.ts`. It does not
+replace either barrel, so hand-maintained imports, non-model exports, tracing exports, and poller
+customizations remain intact. Use `--base-ref <ref>` only when repairing a committed bad merge whose
+clean customization baseline is not `HEAD`.
+
+If the remaining diff includes removals or renames that the synchronizer did not derive from the
+generated baseline, restore the affected file from `HEAD` and re-apply only verified additions and
+removals.
 
 ### Step 4: Enforce per-rule reverts
 
@@ -370,4 +409,9 @@ Once the build is green, hand off to the `author-samples` skill.
 - Do **not** trust `npx dev-tool run extract-api` after a single source edit — it may pick up stale `dist/` artifacts. Run `npm run build` (which cleans first) before re-extracting if the API report still shows old symbols.
 - Do **not** trust a zero-result protected-file audit unless Git paths were normalized with `--relative`; repository-relative paths silently fail the package-relative comparison.
 - Do **not** treat matching top-level export names as member-level parity. Run Step 2a after resolving conflicts; TypeScript compilation cannot detect an omitted optional member and its omitted request mapping.
+- Do **not** treat a passing addition-only member check as proof that customized files were preserved. The Step 2a guard must also report zero missing baseline exports; a wholesale generated-to-`src` copy otherwise looks complete while deleting existing public API.
+- Do **not** copy `generated/index.ts`, `generated/models/index.ts`, or
+  `generated/models/models.ts` over their `src/` counterparts to honor model removals. Generated
+  barrels can reference generated-only helpers and undo hand-maintained package imports. Restore the
+  customized baseline and use the Step 3 synchronizer instead.
 - Do **not** repair a conflict-corrupted model file one duplicate at a time when the diff shows broad existing-export removals. Restore the clean committed customization baseline and propagate only verified additions.

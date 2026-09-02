@@ -1,23 +1,23 @@
 Merge guidelines for newly emitted code from the .\incoming directory:
+
 - The following files should not be deleted or changed:
-    src\aiProjectClient.ts
-    src\constants.ts
-    src\getCustomFetch-browser.mts
-    src\getCustomFetch.ts
-    src\overwriteOpenAIClient.ts
-    src\util.ts
-    src\api\aiProjectContext.ts
-    src\api\telemetry\index.ts
-    src\api\telemetry\operations.ts
-    src\api\datasets\operations.ts
-    src\classic\telemetry\index.ts
-    src\classic\datasets\index.ts
-    src\classic\index.ts
-    src\static-helpers\**
+  src\aiProjectClient.ts
+  src\constants.ts
+  src\getCustomFetch-browser.mts
+  src\getCustomFetch.ts
+  src\overwriteOpenAIClient.ts
+  src\util.ts
+  src\api\aiProjectContext.ts
+  src\api\telemetry\index.ts
+  src\api\telemetry\operations.ts
+  src\api\datasets\operations.ts
+  src\classic\telemetry\index.ts
+  src\classic\datasets\index.ts
+  src\classic\index.ts
+  src\static-helpers\**
 - IMPORTANT: If any change or deletion has occurred in the files listed above, the merge has failed, and all operations should be aborted.
-- In src\models\models.ts, please only accept added models. Unless otherwise instructed in the prompt, do not change or delete existing models in this file. NOTE: `dev-tool customization apply` does NOT automatically copy newly emitted models from `generated/models/models.ts` into `src/models/models.ts` — you must propagate any new model interfaces, unions, serializers, and deserializers manually.
-- In src\models\index.ts, please only accept added models. Unless otherwise instructed in the prompt, do not change or delete existing models in this file. Same manual-propagation note as above applies.
-- After resolving customization conflicts and propagating top-level exports, run `.github\skills\apply-post-emitter-edits\scripts\check-generated-member-parity.mjs`. It checks newly added members of existing interfaces and request-body objects in `*Send` functions. Matching export names are not sufficient because optional members and their wire mappings can be dropped while the package still compiles.
+- In src\models\models.ts and src\models\index.ts, additions-only is the default. `dev-tool customization apply` does NOT automatically copy newly emitted models into `src`, so propagate additions manually. When upstream intent and the generated baseline diff establish that models were removed, start from the clean customized source and run `.github\skills\apply-post-emitter-edits\scripts\sync-generated-model-removals.mjs --write`; never replace a `src` model file or barrel with its `generated` counterpart.
+- After resolving customization conflicts and synchronizing validated additions/removals, run `.github\skills\apply-post-emitter-edits\scripts\check-generated-member-parity.mjs`. It checks newly added members of existing interfaces and request-body objects in `*Send` functions, preserves baseline exports except generated-backed model removals, rejects `src\restorePollerHelpers.ts` references, and enforces the customized `@azure/core-paging` imports in `src\index.ts`. A wholesale generated-to-`src` copy can contain every newly emitted member while silently deleting maintained API and import customizations, so all checks are required.
 - foundryFeatures must not be a positional parameter for any method, internal or external facing. Instead, instantiate it locally to a default value before sending it over the wire. foundryFeatures IS allowed as a property on `*Options` / `*OptionalParams` interfaces (the options bag); only positional parameters are forbidden. Any changes making foundryFeatures a method parameter should be reverted to the local-const pattern.
 - No changes to the list operation in BetaEvaluatorsOperations are permitted. The emitter wants to create a "listLatestVersions" method instead of list, but that is not allowed.
 - Known customization-layer renames (custom name on the right). If the spec-side name still appears in `src/` after a regen, it is a propagation false positive — add a private `type` alias rather than copying the definition:
@@ -37,4 +37,5 @@ Merge guidelines for newly emitted code from the .\incoming directory:
   - `src/api/beta/evaluators/operations.ts` → `createGenerationJob` returns `JobPoller<EvaluatorVersion>`
 
   In each, swap `getLongRunningPoller` for `getJobPoller` from `src/static-helpers/pollingHelpers.ts`, drop the trailing `as PollerLike<...>` cast, and replace the `@azure/core-lro` type import with `import type { JobPoller } from "../../../static-helpers/pollingHelpers.js"`. Mirror the same return type in `src/classic/beta/{agents,datasets,evaluators}/index.ts`. `JobOperationState` / `JobPoller` are re-exported from `src/index.ts`; `getJobPoller` is internal. `getJobPoller` is a delegating `PollerLike` wrapper rather than an `Object.defineProperty` patch on `operationState`, because `operationState` being an own accessor is an undocumented core-lro internal and this package floats on `@azure/core-lro: ^3.1.0`. Remove this workaround once the spec stops annotating `result` with `@lroResult` and the LRO's final result becomes the job resource itself (which carries `id`); the wrapper can also collapse into plain options once core-lro gains an init-time state hook (https://github.com/Azure/azure-sdk-for-js/issues/39476).
+
 - Agent Insights run creation must keep the run id reachable from the poller. The emitter writes `src/api/beta/agentInsightMonitors/operations.ts#createRun` as `getLongRunningPoller(...) as PollerLike<OperationState<AgentInsightRunResult>, AgentInsightRunResult>`, so the initial `AgentInsightRun.id` is dropped while the poller resolves only to the terminal `result` payload. Re-apply the customization so `createRun` returns `RunPoller<AgentInsightRunResult>`, calls `getRunPoller`, and exposes `operationState.runId` after `submitted()`. Mirror the return type in `src/classic/beta/agentInsightMonitors/index.ts`. `RunOperationState` / `RunPoller` are re-exported from `src/index.ts`; `getRunPoller` is internal and shares the same identity-stamping implementation as `getJobPoller`.
