@@ -53,6 +53,8 @@ import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
 import type { ServiceRenameContainerOptions } from '@azure/storage-blob';
 import type { ServiceSetPropertiesOptions } from '@azure/storage-blob';
 import type { ServiceSetPropertiesResponse } from '@azure/storage-blob';
+import type { SessionMode } from '@azure/storage-blob';
+import type { SessionOptions } from '@azure/storage-blob';
 import { StorageBrowserPolicy } from '@azure/storage-common';
 import { StorageBrowserPolicyFactory } from '@azure/storage-common';
 import { StorageRetryOptions } from '@azure/storage-common';
@@ -2150,6 +2152,10 @@ export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
     destinationFileSystemName?: string;
 }
 
+export { SessionMode }
+
+export { SessionOptions }
+
 // @public (undocumented)
 export interface SignedIdentifier<T> {
     // (undocumented)
@@ -2180,6 +2186,7 @@ export interface StoragePipelineOptions {
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
     retryOptions?: StorageRetryOptions;
+    sessionOptions?: SessionOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 

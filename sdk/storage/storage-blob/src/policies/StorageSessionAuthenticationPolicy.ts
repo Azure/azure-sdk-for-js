@@ -15,6 +15,7 @@ import {
 } from "@azure/storage-common";
 import {
   ContainerSessionProvider,
+  getServiceEndpoint,
   isSessionEligible,
 } from "../session/ContainerSessionProvider.js";
 import type { ActiveSession } from "../session/models.js";
@@ -52,15 +53,23 @@ export function storageSessionAuthenticationPolicy(
   const { bearerPolicy, credential, clientOptions } = options;
   const accountName = clientOptions.sessionOptions?.accountName;
 
-  // Deferred so the provider can take the account endpoint from the first eligible request; the
-  // pipeline is built before any URL is known.
-  let provider: ContainerSessionProvider | undefined;
-  const getProvider = (request: PipelineRequest): ContainerSessionProvider =>
-    (provider ??= new ContainerSessionProvider(request.url, credential, {
-      ...clientOptions,
-      // The inner client only issues Create Session, which is never session-eligible.
-      sessionOptions: undefined,
-    }));
+  // One provider per account. A single Pipeline can be shared across clients for different
+  // accounts, and a session is only ever valid for the account that issued it. Deferred because
+  // the pipeline is built before any URL is known.
+  const providers = new Map<string, ContainerSessionProvider>();
+  const getProvider = (request: PipelineRequest): ContainerSessionProvider => {
+    const endpoint = getServiceEndpoint(request.url);
+    let provider = providers.get(endpoint);
+    if (!provider) {
+      provider = new ContainerSessionProvider(request.url, credential, {
+        ...clientOptions,
+        // The inner client only issues Create Session, which is never session-eligible.
+        sessionOptions: undefined,
+      });
+      providers.set(endpoint, provider);
+    }
+    return provider;
+  };
 
   return {
     name: storageSessionAuthenticationPolicyName,

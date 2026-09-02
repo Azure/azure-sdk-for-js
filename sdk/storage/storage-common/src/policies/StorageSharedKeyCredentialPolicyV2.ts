@@ -9,10 +9,7 @@ import type {
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "../utils/constants.js";
-import {
-  buildStorageSharedKeyStringToSign,
-  prepareSharedKeyHeaders,
-} from "./SharedKeySigning.js";
+import { buildStorageSharedKeyStringToSign, prepareSharedKeyHeaders } from "./SharedKeySigning.js";
 
 /**
  * The programmatic identifier of the storageSharedKeyCredentialPolicy.

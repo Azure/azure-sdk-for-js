@@ -6,6 +6,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { BlobServiceClient } from "../BlobServiceClient.js";
+import { logger } from "../log.js";
 import type { StoragePipelineOptions } from "../Pipeline.js";
 import { isIpEndpointStyle } from "../utils/utils.common.js";
 import { HeaderConstants } from "../utils/constants.js";
@@ -35,15 +36,21 @@ export function isSessionEligible(request: PipelineRequest): boolean {
 
   const parsedUrl = new URL(request.url);
 
-  // DataLake shares this pipeline; only its blob endpoint understands sessions.
-  if (parsedUrl.hostname.split(".")[1] === "dfs") {
+  // DataLake shares this pipeline; only its blob endpoint understands sessions. Skipping the
+  // first label keeps an account literally named "dfs" eligible, while still catching private
+  // endpoint hosts such as `account.privatelink.dfs.core.windows.net`.
+  if (parsedUrl.hostname.split(".").slice(1).includes("dfs")) {
     return false;
   }
 
   // A "comp" parameter means a sub-resource (block list, metadata, tags, ...) and "restype"
-  // means a container- or account-level operation. Neither is a blob download.
-  if (parsedUrl.searchParams.has("comp") || parsedUrl.searchParams.has("restype")) {
-    return false;
+  // means a container- or account-level operation. Neither is a blob download. The service
+  // treats query parameter names case-insensitively, so this check must too.
+  for (const key of parsedUrl.searchParams.keys()) {
+    const lowered = key.toLowerCase();
+    if (lowered === "comp" || lowered === "restype") {
+      return false;
+    }
   }
 
   // Structured message downloads are not supported with session authentication.
@@ -138,6 +145,15 @@ export class ContainerSessionProvider {
       if (!isFallbackEligible(error)) {
         throw error;
       }
+      // The reason is the actionable part: FeatureNotEnabled means the account opts out entirely.
+      const reason = isRestError(error) ? (error.code ?? error.statusCode) : "unknown";
+      logger.warning(
+        // The container name comes from a caller-supplied URL, so it cannot be trusted to be
+        // free of line breaks that would forge a second log record.
+        `Create Session failed for container "${containerName.replace(/[\r\n]/g, "")}" ` +
+          `(${reason}). Falling back to bearer token authentication for this container until ` +
+          `the fallback expires.`,
+      );
       return createBearerFallback();
     }
   }
@@ -162,7 +178,7 @@ function parseContainerAndBlob(parsedUrl: URL): { containerName: string; blobNam
  * Reduces any account URL to its blob service endpoint, dropping container and blob segments
  * along with every query component so a SAS is never carried into Create Session.
  */
-function getServiceEndpoint(url: string): string {
+export function getServiceEndpoint(url: string): string {
   const parsedUrl = new URL(url);
   const accountSegments = isIpEndpointStyle(parsedUrl) ? 2 : 1;
 

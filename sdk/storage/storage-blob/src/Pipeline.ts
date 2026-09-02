@@ -213,7 +213,7 @@ export interface SessionOptions {
  * Resolves `auto` to the behavior this release ships. Sessions are off by default for now, and
  * this is the single place to flip that.
  */
-function resolveSessionMode(mode: SessionMode | undefined): Exclude<SessionMode, "auto"> {
+export function resolveSessionMode(mode: SessionMode | undefined): Exclude<SessionMode, "auto"> {
   return mode === undefined || mode === "auto" ? "disabled" : mode;
 }
 

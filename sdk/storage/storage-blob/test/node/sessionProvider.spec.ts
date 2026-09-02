@@ -4,6 +4,7 @@
 import { describe, it, assert, expect } from "vitest";
 import type { WebResourceLike } from "@azure/core-http-compat";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import { ContainerSessionProvider } from "../../src/session/ContainerSessionProvider.js";
 import { SESSION_REFRESH_BUFFER_MS } from "../../src/session/models.js";
 import type { FakeResponse } from "./sessionTestUtils.js";
@@ -160,6 +161,33 @@ describe("ContainerSessionProvider", () => {
         assert.strictEqual(session.kind, "bearerFallback");
       });
     }
+
+    it("warns when it falls back, so a silently session-less account is diagnosable", async () => {
+      const messages: string[] = [];
+      const originalLog = AzureLogger.log;
+      const originalLevel = getLogLevel();
+      setLogLevel("warning");
+      AzureLogger.log = (...args: unknown[]) => messages.push(args.join(" "));
+
+      try {
+        const { provider } = providerWith(() => ({
+          status: 403,
+          headers: { "x-ms-error-code": "AuthorizationFailure" },
+        }));
+
+        await provider.getSession(getRequest(`${ACCOUNT}/mycontainer/blob.txt`));
+      } finally {
+        AzureLogger.log = originalLog;
+        setLogLevel(originalLevel);
+      }
+
+      assert.isTrue(
+        messages.some(
+          (message) => message.includes("mycontainer") && message.includes("AuthorizationFailure"),
+        ),
+        `expected a warning naming the container and the reason, got: ${JSON.stringify(messages)}`,
+      );
+    });
 
     const rethrowCases: { name: string; response: FakeResponse }[] = [
       {

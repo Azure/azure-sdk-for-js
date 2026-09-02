@@ -292,6 +292,18 @@ describe("isSessionEligible", () => {
       url: "https://myaccount.dfs.core.windows.net/filesystem/file.txt",
     },
     {
+      name: "DataLake dfs endpoint behind a private endpoint",
+      url: "https://myaccount.privatelink.dfs.core.windows.net/filesystem/file.txt",
+    },
+    {
+      name: "comp with non-canonical casing",
+      url: `${account}/container/blob.txt?Comp=blocklist`,
+    },
+    {
+      name: "restype with non-canonical casing",
+      url: `${account}/container/blob.txt?RESTYPE=account`,
+    },
+    {
       name: "container-level request on an IP-style endpoint",
       url: "http://127.0.0.1:10000/devstoreaccount1/container",
     },

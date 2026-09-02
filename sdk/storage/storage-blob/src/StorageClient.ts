@@ -2,7 +2,14 @@
 // Licensed under the MIT License.
 
 import type { PipelineLike } from "./Pipeline.js";
-import { getCoreClientOptions, getCredentialFromPipeline, Pipeline } from "./Pipeline.js";
+import type { StoragePipelineOptions } from "./Pipeline.js";
+import {
+  getCoreClientOptions,
+  getCredentialFromPipeline,
+  Pipeline,
+  resolveSessionMode,
+} from "./Pipeline.js";
+import { isNodeLike } from "@azure/core-util";
 import {
   escapeURLPath,
   getURLScheme,
@@ -98,6 +105,7 @@ export abstract class StorageClient {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);
+    assertAccountNameAvailableForSessions(url, this.accountName, pipeline);
     const coreClientOptions = getCoreClientOptions(pipeline);
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
@@ -130,4 +138,35 @@ export abstract class StorageClient {
       this.storageClientContext = new StorageClientContext(this.url, coreClientOptions);
     }
   }
+}
+
+/**
+ * Sessions sign with Shared Key, which needs an account name, so a client that could never sign
+ * is rejected here rather than partway through its first download.
+ *
+ * DFS URLs are exempt: session-eligible requests always target the blob endpoint, whose host
+ * yields an account name even when the DFS host this client was built from does not.
+ */
+function assertAccountNameAvailableForSessions(
+  url: string,
+  accountName: string,
+  pipeline: PipelineLike,
+): void {
+  const sessionOptions = (pipeline.options as StoragePipelineOptions).sessionOptions;
+  if (
+    // In the browser the session policy is a bearer passthrough, so nothing here can fail.
+    !isNodeLike ||
+    accountName ||
+    sessionOptions?.accountName ||
+    resolveSessionMode(sessionOptions?.mode) !== "enabled" ||
+    new URL(url).hostname.split(".").slice(1).includes("dfs")
+  ) {
+    return;
+  }
+
+  throw new Error(
+    'sessionOptions.mode is "enabled" but the storage account name could not be determined ' +
+      `from the URL "${new URL(url).origin}". Set sessionOptions.accountName when using a ` +
+      "custom endpoint URL.",
+  );
 }

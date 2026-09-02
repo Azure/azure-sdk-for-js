@@ -7,6 +7,7 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import type { WebResourceLike } from "@azure/core-http-compat";
 import type { SessionOptions } from "../../src/Pipeline.js";
 import { getCoreClientOptions, newPipeline } from "../../src/Pipeline.js";
+import { BlobClient } from "../../src/index.js";
 import type { FakeResponse, SeenRequest } from "./sessionTestUtils.js";
 import {
   ACCOUNT,
@@ -145,5 +146,69 @@ describe("session wiring in getCoreClientOptions", () => {
       assert.isTrue(b.startsWith("Session session-token-1:"));
       assert.notStrictEqual(b, a, "the account name is part of the string to sign");
     });
+
+    it("scopes sessions per account when one pipeline is shared across accounts", async () => {
+      const other = "https://otheraccount.blob.core.windows.net";
+      const client = createClient({ mode: "enabled" });
+
+      // Same container name on both accounts: a container-only cache key would collide here and
+      // send the first account's session token to the second.
+      await client.send(`${ACCOUNT}/mycontainer/blob.txt`);
+      await client.send(`${other}/mycontainer/blob.txt`);
+
+      const created = client.seen.filter(isCreateSession);
+      assert.lengthOf(created, 2, "each account must mint its own session");
+      assert.sameMembers(
+        created.map((request) => new URL(request.url).host),
+        ["myaccount.blob.core.windows.net", "otheraccount.blob.core.windows.net"],
+        "Create Session must target the account of the request that triggered it",
+      );
+
+      const [first, second] = client.dataRequests();
+      assert.isTrue(first.authorization?.startsWith("Session session-token-1:"));
+      assert.isTrue(
+        second.authorization?.startsWith("Session session-token-2:"),
+        `the second account must not reuse the first account's session token, got: ${second.authorization}`,
+      );
+    });
   });
+});
+
+describe("account name validation at client construction", () => {
+  const CUSTOM_DOMAIN = "https://storage.mycustomdomain.com/mycontainer/blob.txt";
+
+  function construct(url: string, sessionOptions?: SessionOptions): BlobClient {
+    return new BlobClient(url, fakeTokenCredential, { sessionOptions });
+  }
+
+  it("throws when sessions are enabled and the account name cannot be derived", () => {
+    assert.throws(
+      () => construct(CUSTOM_DOMAIN, { mode: "enabled" }),
+      /could not be determined.*sessionOptions\.accountName/s,
+    );
+  });
+
+  it("does not throw when the account name is supplied explicitly", () => {
+    assert.doesNotThrow(() =>
+      construct(CUSTOM_DOMAIN, { mode: "enabled", accountName: "myaccount" }),
+    );
+  });
+
+  it("does not throw for a DFS URL, whose blob endpoint yields the account name", () => {
+    assert.doesNotThrow(() =>
+      construct("https://myaccount.dfs.core.windows.net/myfs/file.txt", { mode: "enabled" }),
+    );
+  });
+
+  const allowedCases: { name: string; sessionOptions?: SessionOptions }[] = [
+    { name: "no session options", sessionOptions: undefined },
+    { name: 'mode "auto"', sessionOptions: { mode: "auto" } },
+    { name: 'mode "disabled"', sessionOptions: { mode: "disabled" } },
+  ];
+
+  for (const { name, sessionOptions } of allowedCases) {
+    it(`does not throw with ${name}, even on a custom domain`, () => {
+      assert.doesNotThrow(() => construct(CUSTOM_DOMAIN, sessionOptions));
+    });
+  }
 });

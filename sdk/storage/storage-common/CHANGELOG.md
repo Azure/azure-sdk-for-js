@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- add `buildStorageSharedKeyStringToSign` and `prepareSharedKeyHeaders`, which expose the Shared Key request signing steps for use by other Azure Storage client libraries
+- Added `buildStorageSharedKeyStringToSign` and `prepareSharedKeyHeaders`, which expose the Shared Key request signing steps for use by other Azure Storage client libraries.
 
 ### Breaking Changes
 
@@ -16,7 +16,6 @@
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
-
 
 ## 12.5.0 (2026-08-03)
 

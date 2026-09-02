@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default.
+
 ### Breaking Changes
 
 ### Bugs Fixed
