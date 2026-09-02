@@ -853,6 +853,24 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       assert.isTrue(isRejected, "Unexpected - promise is not rejected");
     });
 
+    it("resolves a message-not-found response for batch delete", () => {
+      context.message!.application_properties = {
+        statusCode: 404,
+        errorCondition: "com.microsoft:message-not-found",
+      };
+      context.message!.body = { "message-count": 3 };
+      responsesMap.get("abc-id")!.isResponseAccepted = (response) =>
+        response.application_properties?.statusCode === 404 &&
+        response.application_properties?.errorCondition === "com.microsoft:message-not-found";
+
+      onMessageReceived(context, defaultConnectionId, responsesMap);
+
+      assertItemsLengthInResponsesMap(responsesMap, 0);
+      assert.isTrue(cleanupBeforeResolveOrRejectIsCalled);
+      assert.isTrue(isResolved);
+      assert.isFalse(isRejected);
+    });
+
     it("calls the cleanup callback and deletes the id from the map and rejects if there is no status code", () => {
       context.message!.application_properties!.statusCode = undefined;
       assertItemsLengthInResponsesMap(responsesMap, 1);

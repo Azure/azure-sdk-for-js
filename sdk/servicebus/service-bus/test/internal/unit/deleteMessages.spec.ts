@@ -44,9 +44,15 @@ describe("Batch delete messages", function (): void {
         const managementClient: any = client["_connectionContext"].getManagementClient("q");
         const cutoff = new Date("2026-08-27T12:30:00.000Z");
         let capturedRequest: RheaMessage | undefined;
+        let capturedOptions: any;
         managementClient.initWithUniqueReplyTo = async (options: any): Promise<any> => options;
-        managementClient._makeManagementRequest = async (request: RheaMessage): Promise<any> => {
+        managementClient._makeManagementRequest = async (
+          request: RheaMessage,
+          _logger: unknown,
+          options: any,
+        ): Promise<any> => {
           capturedRequest = request;
+          capturedOptions = options;
           return { application_properties: { statusCode: 200 }, body: { "message-count": 2 } };
         };
 
@@ -63,6 +69,22 @@ describe("Batch delete messages", function (): void {
         assert.equal(capturedRequest!.body["message-count"].value, 500);
         assert.equal(capturedRequest!.body["enqueued-time-utc"], cutoff);
         assert.equal(capturedRequest!.body["session-id"], "session-1");
+        assert.isTrue(
+          capturedOptions.isResponseAccepted({
+            application_properties: {
+              statusCode: 404,
+              errorCondition: "com.microsoft:message-not-found",
+            },
+          }),
+        );
+        assert.isFalse(
+          capturedOptions.isResponseAccepted({
+            application_properties: {
+              statusCode: 404,
+              errorCondition: "com.microsoft:session-not-found",
+            },
+          }),
+        );
       } finally {
         await client.close();
       }

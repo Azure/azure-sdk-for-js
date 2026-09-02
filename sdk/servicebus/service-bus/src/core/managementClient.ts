@@ -73,6 +73,7 @@ import type { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
  * @internal
  */
 export interface SendManagementRequestOptions extends SendRequestOptions {
+  isResponseAccepted?: (response: RheaMessage) => boolean;
   /** Retry options used only while establishing the management link. */
   retryOptions?: RetryOptions;
   /**
@@ -975,7 +976,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose("%s delete messages request body: %O.", this.logPrefix, request.body);
 
-      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
+      const result = await this._makeManagementRequest(request, receiverLogger, {
+        ...updatedOptions,
+        isResponseAccepted: (response) =>
+          response.application_properties?.statusCode === 404 &&
+          response.application_properties?.errorCondition === "com.microsoft:message-not-found",
+      });
       const statusCode = result.application_properties!.statusCode;
       const errorCondition = result.application_properties!.errorCondition;
       const deletedCount = result.body?.["message-count"];

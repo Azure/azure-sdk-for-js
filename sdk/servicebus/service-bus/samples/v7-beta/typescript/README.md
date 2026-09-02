@@ -79,7 +79,7 @@ node dist/sendMessages.js
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICEBUS_FQDN="<servicebus fqdn>" QUEUE_NAME="<queue name>" node dist/sendMessages.js
+npx cross-env SERVICEBUS_CONNECTION_STRING="<connection string>" QUEUE_NAME="<queue name>" node dist/sendMessages.js
 ```
 
 ## Next Steps
