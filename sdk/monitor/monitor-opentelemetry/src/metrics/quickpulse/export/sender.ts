@@ -155,12 +155,13 @@ export class QuickpulseSender {
         return;
       }
 
-      let currentHost = "";
-      try {
-        currentHost = new url.URL(this.endpointUrl).host;
-      } catch {
-        currentHost = "";
-      }
+      const currentHost = (() => {
+        try {
+          return new url.URL(this.endpointUrl).host;
+        } catch {
+          return "";
+        }
+      })();
 
       if (!isSameRegisteredDomain(currentHost, locUrl.host)) {
         diag.error(
