@@ -14,12 +14,15 @@ const BLOB_URL = `https://${ACCOUNT}.blob.core.windows.net/container/blob.txt`;
 const DATE = "Mon, 01 Jan 2026 00:00:00 GMT";
 
 /**
- * The signed fields, in the order the Shared Key scheme requires. Spelled out here so a
- * reordering in the implementation fails loudly instead of silently producing 403s.
+ * The signed fields, in the order the Shared Key scheme requires. Transcribed from the REST
+ * docs rather than from the implementation, so a reordering fails loudly instead of silently
+ * producing 403s.
+ *
+ * @see https://learn.microsoft.com/rest/api/storageservices/authorize-with-shared-key
  */
 const FIELD_ORDER = [
-  "content-language",
   "content-encoding",
+  "content-language",
   "content-length",
   "content-md5",
   "content-type",
@@ -86,10 +89,19 @@ describe("buildStorageSharedKeyStringToSign", () => {
     );
   });
 
+  it("signs Content-Encoding before Content-Language", () => {
+    const lines = sign({
+      headers: { "content-encoding": "gzip", "content-language": "en-US" },
+    }).split("\n");
+
+    assert.strictEqual(lines[1], "gzip", "Content-Encoding is the 2nd signed field");
+    assert.strictEqual(lines[2], "en-US", "Content-Language is the 3rd signed field");
+  });
+
   it("places every signed field in its required slot", () => {
     const fields: Record<SignedField, string> = {
-      "content-language": "en-US",
       "content-encoding": "gzip",
+      "content-language": "en-US",
       "content-length": "512",
       "content-md5": "q2xhc3NpYw==",
       "content-type": "application/octet-stream",

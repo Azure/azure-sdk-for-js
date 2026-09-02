@@ -133,8 +133,8 @@ export function buildStorageSharedKeyStringToSign(
   return (
     [
       request.method.toUpperCase(),
-      getHeaderValueToSign(request, HeaderConstants.CONTENT_LANGUAGE),
       getHeaderValueToSign(request, HeaderConstants.CONTENT_ENCODING),
+      getHeaderValueToSign(request, HeaderConstants.CONTENT_LANGUAGE),
       getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH),
       getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
       getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
