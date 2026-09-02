@@ -135,7 +135,6 @@ export { delay }
 // @public
 export interface DeleteMessagesOptions extends OperationOptionsBase {
     beforeEnqueueTime?: Date;
-    maxMessageCount: number;
 }
 
 // @public
@@ -234,6 +233,7 @@ export interface ProcessErrorArgs {
 // @public
 export interface PurgeMessagesOptions extends OperationOptionsBase {
     beforeEnqueueTime?: Date;
+    maxMessagesPerBatch?: number;
 }
 
 // @public
@@ -509,7 +509,7 @@ export interface ServiceBusReceiver {
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
-    deleteMessages(options: DeleteMessagesOptions): Promise<DeleteMessagesResult>;
+    deleteMessages(maxMessageCount: number, options?: DeleteMessagesOptions): Promise<DeleteMessagesResult>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;

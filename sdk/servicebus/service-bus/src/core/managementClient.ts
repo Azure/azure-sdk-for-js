@@ -18,6 +18,7 @@ import {
 } from "rhea-promise";
 import type {
   MessagingError,
+  RetryConfig,
   SendRequestOptions,
   RetryOptions,
   AmqpAnnotatedMessage,
@@ -27,6 +28,8 @@ import {
   Constants,
   defaultCancellableLock,
   RequestResponseLink,
+  RetryOperationType,
+  retry,
 } from "@azure/core-amqp";
 import type { ConnectionContext } from "../connectionContext.js";
 import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../serviceBusMessage.js";
@@ -70,6 +73,8 @@ import type { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
  * @internal
  */
 export interface SendManagementRequestOptions extends SendRequestOptions {
+  /** Retry options used only while establishing the management link. */
+  retryOptions?: RetryOptions;
   /**
    * The name of the sender or receiver link associated with the managmenet operations.
    * This is used for service side optimization.
@@ -946,7 +951,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     messageCount: number,
     enqueueTimeUtcOlderThan: Date,
     sessionId?: string,
-    options?: OperationOptionsBase & SendManagementRequestOptions,
+    updatedOptions?: OperationOptionsBase & SendManagementRequestOptions,
   ): Promise<number> {
     try {
       const messageBody: any = {};
@@ -956,7 +961,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
 
-      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -972,17 +976,21 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       receiverLogger.verbose("%s delete messages request body: %O.", this.logPrefix, request.body);
 
       const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
-      if (result.application_properties!.statusCode === 200) {
-        return result.body["message-count"];
-      } else if (
-        result.application_properties!.statusCode === 204 &&
-        result.application_properties!.errorCondition === "com.microsoft:message-not-found"
+      const statusCode = result.application_properties!.statusCode;
+      const errorCondition = result.application_properties!.errorCondition;
+      const deletedCount = result.body?.["message-count"];
+      if (
+        statusCode === 200 ||
+        (statusCode === 404 && errorCondition === "com.microsoft:message-not-found")
       ) {
+        if (!Number.isInteger(deletedCount) || deletedCount < 0 || deletedCount > messageCount) {
+          throw new Error("Batch delete response did not contain a valid message-count.");
+        }
+        return deletedCount;
+      } else if (statusCode === 204) {
         return 0;
       } else {
-        throw new Error(
-          `Unexpected response with status code of ${result.application_properties!.statusCode}`,
-        );
+        throw new Error(`Unexpected response with status code of ${statusCode}`);
       }
     } catch (err: any) {
       const error = translateServiceBusError(err) as MessagingError;
@@ -994,34 +1002,40 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
   }
 
-  /**
-   * Delete messages. If no option is specified, all messages will be deleted.
-   *
-   * @param messageCount - number of messages to delete in a batch.
-   * @param enqueueTimeUtcOlderThan - Delete messages whose enqueue time (UTC) are older than this.
-   * @returns number of messages deleted.
-   */
+  /** @internal */
   async deleteMessages(
     messageCount: number,
     enqueueTimeUtcOlderThan?: Date,
     sessionId?: string,
     options: OperationOptionsBase & SendManagementRequestOptions = {},
   ): Promise<number> {
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "messageCount", messageCount);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "maxMessageCount", messageCount);
     throwTypeErrorIfParameterTypeMismatch(
       this._context.connectionId,
-      "messageCount",
+      "maxMessageCount",
       messageCount,
       "number",
     );
 
-    if (isNaN(messageCount) || messageCount < 1) {
-      throw new TypeError("'messageCount' must be a number greater than 0.");
+    if (!Number.isInteger(messageCount) || messageCount < 1 || messageCount > 0x7fffffff) {
+      throw new TypeError("'maxMessageCount' must be an integer between 1 and 2147483647.");
     }
 
     enqueueTimeUtcOlderThan ??= new Date();
+    if (!Number.isFinite(enqueueTimeUtcOlderThan.getTime())) {
+      throw new TypeError("'beforeEnqueueTime' must be a valid Date.");
+    }
 
-    return this._deleteMessages(messageCount, enqueueTimeUtcOlderThan, sessionId, options);
+    const config: RetryConfig<SendManagementRequestOptions> = {
+      operation: () => this.initWithUniqueReplyTo(options),
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: options.retryOptions,
+      abortSignal: options.abortSignal,
+    };
+    const updatedOptions = await retry<SendManagementRequestOptions>(config);
+
+    return this._deleteMessages(messageCount, enqueueTimeUtcOlderThan, sessionId, updatedOptions);
   }
 
   /**
