@@ -53,7 +53,7 @@ export function createDeviceRegistrySoftwareUpdate(
         return next(request);
       },
     },
-    { beforePhase: "Sign" },
+    { afterPhase: "Retry" },
   );
   const apiVersion = options.apiVersion;
   return { ...clientContext, apiVersion } as DeviceRegistrySoftwareUpdateContext;
