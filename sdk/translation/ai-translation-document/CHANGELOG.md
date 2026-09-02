@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0 (2026-08-01)
 
 This release migrates the package to the `@azure/ai-translation-document` name and a new client design. It replaces the previous `@azure-rest/ai-translation-document` REST-level client (RLC) package.
