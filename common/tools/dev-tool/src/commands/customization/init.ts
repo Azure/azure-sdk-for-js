@@ -68,11 +68,10 @@ async function ensureCustomizeScript(packagePath: string): Promise<void> {
     return;
   }
 
+  // Append only the new entry to avoid reordering existing scripts; the repo's
+  // package.json formatting (prettier-plugin-packagejson) sorts the field on commit.
   scripts.customize = DEFAULT_CUSTOMIZE_SCRIPT;
-  // Match prettier-plugin-packagejson, which sorts the scripts field alphabetically.
-  packageJson.scripts = Object.fromEntries(
-    Object.entries(scripts).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)),
-  );
+  packageJson.scripts = scripts;
 
   const content = await format(JSON.stringify(packageJson, null, 2), "json-stringify");
   await fs.writeFile(packageJsonPath, content);

@@ -38,7 +38,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voicelive/ai-voicelive/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
-    "constantPaths": []
+    "constantPaths": [
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
