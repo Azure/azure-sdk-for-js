@@ -13,6 +13,7 @@ export type {
   ChatMessage,
   MessageContent,
   ChatRole,
+  ChatPermission,
   ChatRoom,
   ChatRoomMember,
   ChatUser,
@@ -20,7 +21,7 @@ export type {
   ChatUserKind,
   HumanChatUser,
 } from "./models/index.js";
-export { KnownVersions } from "./models/index.js";
+export { KnownChatPermission, KnownChatUserKind, KnownVersions } from "./models/index.js";
 export type {
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
