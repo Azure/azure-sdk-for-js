@@ -39,17 +39,12 @@ export interface SendRequestOptions {
   requestName?: string;
 }
 
-interface InternalSendRequestOptions extends SendRequestOptions {
-  isResponseAccepted?: (response: RheaMessage) => boolean;
-}
-
 /**
  * @internal
  */
 export interface DeferredPromiseWithCallback {
   resolve: (value?: any) => void;
   reject: (reason?: any) => void;
-  isResponseAccepted?: (response: RheaMessage) => boolean;
   /**
    * To be called before resolving or rejecting the deferred promise
    */
@@ -116,7 +111,6 @@ export class RequestResponseLink implements ReqResLink {
    * @returns Promise<Message> The AMQP (response) message.
    */
   sendRequest(request: RheaMessage, options: SendRequestOptions = {}): Promise<RheaMessage> {
-    const internalOptions = options as InternalSendRequestOptions;
     const timeoutInMs =
       options.timeoutInMs === undefined
         ? Constants.defaultOperationTimeoutInMs
@@ -185,7 +179,6 @@ export class RequestResponseLink implements ReqResLink {
       this._responsesMap.set(request.message_id as string, {
         resolve: resolve,
         reject: reject,
-        isResponseAccepted: internalOptions.isResponseAccepted,
         cleanupBeforeResolveOrReject: () => {
           if (aborter) aborter.removeEventListener("abort", onAbort);
           if (isDefined(timer)) {
@@ -327,7 +320,7 @@ export function onMessageReceived(
       `[${connectionId}] No statusCode in the "application_properties" in the returned response with correlation-id: ${responseCorrelationId}`,
     );
   }
-  if ((info.statusCode > 199 && info.statusCode < 300) || promise.isResponseAccepted?.(message)) {
+  if (info.statusCode > 199 && info.statusCode < 300) {
     logger.verbose(
       `[${connectionId}] Resolving the response with correlation-id: ${responseCorrelationId}`,
     );
