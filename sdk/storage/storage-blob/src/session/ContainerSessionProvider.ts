@@ -19,6 +19,15 @@ import { createBearerFallback } from "./models.js";
 const FEATURE_NOT_ENABLED = "FeatureNotEnabled";
 
 /**
+ * Upper bound on cached container sessions. A client that walks many containers would otherwise
+ * hold a session key per container for its whole lifetime. Sized so realistic workloads never
+ * evict an entry they are about to reuse.
+ *
+ * @internal
+ */
+export const MAX_CACHED_CONTAINERS = 100;
+
+/**
  * Whether `request` may be authenticated with a session token.
  *
  * Phase-1 scope is blob download only. Widening scope is a matter of removing rules here, with
@@ -115,14 +124,27 @@ export class ContainerSessionProvider {
   }
 
   private getCache(containerName: string): AutoRefreshingCache {
-    let cache = this.caches.get(containerName);
-    if (!cache) {
-      // The factory itself issues no request, so a benign duplicate never costs a CreateSession.
-      cache = new AutoRefreshingCache((abortSignal) =>
-        this.acquireSession(containerName, abortSignal),
-      );
-      this.caches.set(containerName, cache);
+    const existing = this.caches.get(containerName);
+    if (existing) {
+      // Re-insert so Map iteration order tracks recency.
+      this.caches.delete(containerName);
+      this.caches.set(containerName, existing);
+      return existing;
     }
+
+    // The factory itself issues no request, so a benign duplicate never costs a CreateSession.
+    const cache = new AutoRefreshingCache((abortSignal) =>
+      this.acquireSession(containerName, abortSignal),
+    );
+    this.caches.set(containerName, cache);
+
+    if (this.caches.size > MAX_CACHED_CONTAINERS) {
+      const leastRecentlyUsed = this.caches.keys().next().value;
+      if (leastRecentlyUsed !== undefined) {
+        this.caches.delete(leastRecentlyUsed);
+      }
+    }
+
     return cache;
   }
 

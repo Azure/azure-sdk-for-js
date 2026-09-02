@@ -110,6 +110,40 @@ describe("AutoRefreshingCache", () => {
     assert.strictEqual(acquire.mock.calls.length, 2);
   });
 
+  it("joins the running background refresh when the session is invalidated mid-flight", async () => {
+    let release: ((session: SessionTokenInfo) => void) | undefined;
+    let issued = 0;
+    const acquire = vi.fn(async () => {
+      issued++;
+      // Only the background attempt is held open; the first call resolves immediately.
+      return issued === 1
+        ? makeSession("token-1")
+        : new Promise<SessionTokenInfo>((resolve) => (release = resolve));
+    });
+    const cache = new AutoRefreshingCache(acquire, 1000);
+
+    const first = (await cache.get()) as ActiveSession;
+    vi.setSystemTime(first.refreshAfterTimestamp + 1);
+    await cache.get();
+    await flushMicrotasks();
+    assert.strictEqual(acquire.mock.calls.length, 2, "the background refresh must have started");
+
+    // A 401 arrives for the session being refreshed, so the next caller has nothing to serve.
+    cache.invalidateIfCurrent(first);
+    const blocked = cache.get();
+    await flushMicrotasks();
+
+    assert.strictEqual(
+      acquire.mock.calls.length,
+      2,
+      "the blocked caller must join the in-flight refresh, not start a second one",
+    );
+
+    release?.(makeSession("token-2"));
+    assert.strictEqual(((await blocked) as ActiveSession).sessionToken, "token-2");
+    assert.strictEqual(((await cache.get()) as ActiveSession).sessionToken, "token-2");
+  });
+
   it("swallows a background failure, keeps the old value, and throttles the next attempt", async () => {
     const backgroundTimeoutMs = 1000;
     let issued = 0;

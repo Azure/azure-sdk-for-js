@@ -5,7 +5,10 @@ import { describe, it, assert, expect } from "vitest";
 import type { WebResourceLike } from "@azure/core-http-compat";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
-import { ContainerSessionProvider } from "../../src/session/ContainerSessionProvider.js";
+import {
+  ContainerSessionProvider,
+  MAX_CACHED_CONTAINERS,
+} from "../../src/session/ContainerSessionProvider.js";
 import { SESSION_REFRESH_BUFFER_MS } from "../../src/session/models.js";
 import type { FakeResponse } from "./sessionTestUtils.js";
 import {
@@ -71,6 +74,35 @@ describe("ContainerSessionProvider", () => {
       await provider.getSession(getRequest(`${ACCOUNT}/mycontainer/nested/three.txt`));
 
       assert.strictEqual(requests.length, 1);
+    });
+
+    it("bounds the cache, evicting the least recently used container", async () => {
+      const { provider, requests } = providerWith(alwaysSucceed);
+      const touch = (container: string): Promise<unknown> =>
+        provider.getSession(getRequest(`${ACCOUNT}/${container}/blob.txt`));
+
+      // Fill the cache exactly, then keep "container0" hot so it is no longer the oldest entry.
+      for (let i = 0; i < MAX_CACHED_CONTAINERS; i++) {
+        await touch(`container${i}`);
+      }
+      await touch("container0");
+      assert.strictEqual(requests.length, MAX_CACHED_CONTAINERS, "each container minted once");
+
+      // One container past the bound evicts the least recently used, which is now "container1".
+      await touch("overflow");
+      await touch("container0");
+      assert.strictEqual(
+        requests.length,
+        MAX_CACHED_CONTAINERS + 1,
+        "a recently used container must survive eviction",
+      );
+
+      await touch("container1");
+      assert.strictEqual(
+        requests.length,
+        MAX_CACHED_CONTAINERS + 2,
+        "the least recently used container must have been evicted and re-acquired",
+      );
     });
 
     it("mints a separate session for each container", async () => {

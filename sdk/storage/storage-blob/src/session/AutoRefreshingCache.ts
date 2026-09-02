@@ -79,10 +79,11 @@ export class AutoRefreshingCache {
     }
   }
 
-  private acquireShared(): Promise<SessionTokenInfo> {
-    // Assigned synchronously, before any await, so concurrent callers join this attempt.
+  private acquireShared(abortSignal?: AbortSignalLike): Promise<SessionTokenInfo> {
+    // Assigned synchronously, before any await, so concurrent callers join this attempt. This is
+    // the only place a session is installed, so completions cannot race each other.
     if (!this.inFlight) {
-      this.inFlight = this.acquire()
+      this.inFlight = this.acquire(abortSignal)
         .then((value) => {
           this.current = value;
           return value;
@@ -104,7 +105,9 @@ export class AutoRefreshingCache {
 
   private async runBackgroundRefresh(current: SessionTokenInfo): Promise<void> {
     try {
-      this.current = await this.acquire(AbortSignal.timeout(this.backgroundAcquireTimeoutMs));
+      // Shares the foreground attempt: if `current` expires or is invalidated while this runs,
+      // the blocked caller joins this acquisition instead of starting a second one.
+      await this.acquireShared(AbortSignal.timeout(this.backgroundAcquireTimeoutMs));
     } catch (error: unknown) {
       if (this.current === current) {
         // Keep serving the still-valid value: a timeout retries on the next request, any
