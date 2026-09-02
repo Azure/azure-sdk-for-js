@@ -18,7 +18,6 @@ import type {
   SessionDirectoryListResponse,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
-  GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   Microsoft365PublishDefaults,
   Microsoft365PublishScope,
@@ -44,7 +43,6 @@ import {
   _agentsPagedResultAgentSessionResourceDeserializer,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
-  generateAgentRequestSerializer,
   microsoft365PublishDefaultsDeserializer,
   microsoft365PermissionScopesArraySerializer,
   microsoft365PublishResponseDeserializer,
@@ -82,7 +80,6 @@ import type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateOptionalParams,
-  AgentsGenerateAgentOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
@@ -1813,60 +1810,6 @@ export async function update(
 ): Promise<Agent> {
   const result = await _updateSend(context, agentName, definition, options);
   return _updateDeserialize(result);
-}
-
-export function _generateAgentSend(
-  context: Client,
-  body: GenerateAgentRequest,
-  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const foundryFeatures = "VoiceAgents=V1Preview";
-  const path = expandUrlTemplate(
-    "/agents:generate{?api%2Dversion}",
-    {
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: generateAgentRequestSerializer(body),
-  });
-}
-
-export async function _generateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return agentDeserializer(result.body);
-}
-
-/**
- * Generates and creates an agent from kind-specific high-level inputs.
- * The generated definition remains fully editable through the standard agent versioning operations.
- */
-export async function generateAgent(
-  context: Client,
-  body: GenerateAgentRequest,
-  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
-): Promise<Agent> {
-  const result = await _generateAgentSend(context, body, options);
-  return _generateAgentDeserialize(result);
 }
 
 export function _createSend(
