@@ -106,17 +106,11 @@ export default azsdkEslint.configStrict();
 
 There is no type-checked equivalent of `configStrict()` — to get both the type-aware rules and the global ignores, use the second example above.
 
-#### Peer dependency
+#### SonarJS dependency
 
-The strict preset requires `eslint-plugin-sonarjs` (peer dependency — add it explicitly to your `devDependencies` if not already present transitively):
-
-```json
-{
-  "devDependencies": {
-    "eslint-plugin-sonarjs": "^4.2.0"
-  }
-}
-```
+`eslint-plugin-sonarjs` is an implementation dependency of this plugin and is installed
+transitively. Consumers do not need to install it separately, including when they opt into a
+strict preset.
 
 #### Rule categories added by the strict preset
 
