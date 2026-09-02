@@ -451,7 +451,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
       const time = hrTimeToDate(event.time);
-      let name = "";
+      let name: string;
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
       const measurements = createCustomMeasurements(event.attributes);
