@@ -933,7 +933,7 @@
 # PRLabel: %Mgmt
 /sdk/service-map/arm-servicemap/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/servicenetworking/arm-servicenetworking/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
