@@ -1,6 +1,6 @@
 # Release History
 
-## 9.1.0 (2026-09-01)
+## 9.1.0 (2026-09-02)
 
 ### Features Added
   - Added operation group RebalanceJobsOperations
