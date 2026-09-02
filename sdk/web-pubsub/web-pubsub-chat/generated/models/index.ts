@@ -6,6 +6,7 @@ export type {
   ChatMessage,
   MessageContent,
   ChatRole,
+  ChatPermission,
   ChatRoom,
   ChatRoomMember,
   ChatUser,
@@ -13,4 +14,4 @@ export type {
   ChatUserKind,
   HumanChatUser,
 } from "./models.js";
-export { KnownVersions } from "./models.js";
+export { KnownChatPermission, KnownChatUserKind, KnownVersions } from "./models.js";
