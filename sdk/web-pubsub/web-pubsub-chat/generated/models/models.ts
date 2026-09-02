@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Represents a chat conversation. */
 export interface ChatConversation {
   /** Conversation identifier. */
@@ -144,7 +144,7 @@ export interface ChatRole {
   /** Role name. Must start with 'user.' or 'room.' prefix. */
   readonly name: string;
   /** Permissions associated with the role. Do not mix user permissions and room permissions in one role. */
-  permissions: string[];
+  permissions: ChatPermission[];
   /** The entity tag for this resource. */
   readonly etag: string;
 }
@@ -166,6 +166,36 @@ export function chatRoleDeserializer(item: any): ChatRole {
     etag: item["etag"],
   };
 }
+
+/** A permission that can be assigned to a chat role. */
+export enum KnownChatPermission {
+  /** Allows a user to create chat rooms. */
+  UserCreateRoom = "user.create_room",
+  /** Allows a user to list the rooms they belong to. */
+  UserFetchAllRooms = "user.fetch_all_rooms",
+  /** Allows a room member to publish messages. */
+  RoomPublishMessage = "room.publish_message",
+  /** Allows a room member to read message history. */
+  RoomHistory = "room.history",
+  /** Allows a room member to add users to a room. */
+  RoomInvite = "room.invite",
+  /** Allows a room operator to remove users from a room. */
+  RoomRemoveUser = "room.remove_user",
+}
+
+/**
+ * A permission that can be assigned to a chat role. \
+ * {@link KnownChatPermission} can be used interchangeably with ChatPermission,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user.create_room**: Allows a user to create chat rooms. \
+ * **user.fetch_all_rooms**: Allows a user to list the rooms they belong to. \
+ * **room.publish_message**: Allows a room member to publish messages. \
+ * **room.history**: Allows a room member to read message history. \
+ * **room.invite**: Allows a room member to add users to a room. \
+ * **room.remove_user**: Allows a room operator to remove users from a room.
+ */
+export type ChatPermission = string;
 
 /** Represents a chat room. */
 export interface ChatRoom {
@@ -294,7 +324,19 @@ export function chatUserUnionDeserializer(item: any): ChatUserUnion {
 }
 
 /** Discriminator for the kind of chat user. */
-export type ChatUserKind = "Human";
+export enum KnownChatUserKind {
+  /** A human end-user. */
+  Human = "Human",
+}
+
+/**
+ * Discriminator for the kind of chat user. \
+ * {@link KnownChatUserKind} can be used interchangeably with ChatUserKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Human**: A human end-user.
+ */
+export type ChatUserKind = string;
 
 /** A human end-user, identified by a user role. */
 export interface HumanChatUser extends ChatUser {

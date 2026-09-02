@@ -90,16 +90,14 @@ export async function lintFix(packageDirectory: string) {
   }
 }
 
-export async function customizeCodes(packageDirectory: string) {
-  logger.info(`Start to customize codes in '${packageDirectory}'.`);
+export async function customizeCodes(packageDirectory: string): Promise<void> {
   const cwd = packageDirectory;
   const options = { ...runCommandOptions, cwd };
 
   try {
-    //TODO: support ./src/generated cases in future
-    const customizeCommand = `customization apply-v2 -s ./generated -c ./src`;
-    await runCommand("npm", ["exec", "--", "dev-tool", customizeCommand], options, true, 600, true);
-    logger.info(`Customize codes successfully.`);
+    // `--if-present` runs the package's `customize` script when it exists and is a
+    // no-op otherwise, so packages without customization are silently skipped.
+    await runCommand("npm", ["run", "--if-present", "customize"], options, true, 600);
   } catch (error) {
     logger.warn(`Failed to customize codes due to: ${(error as Error)?.stack ?? error}`);
   }
