@@ -63,7 +63,7 @@ async function ensureCustomizeScript(packagePath: string): Promise<void> {
   }
 
   const scripts = packageJson.scripts ?? {};
-  if (scripts.customize) {
+  if ("customize" in scripts) {
     log(`Existing 'customize' script left unchanged: ${scripts.customize}`);
     return;
   }
