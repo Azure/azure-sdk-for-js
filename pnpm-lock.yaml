@@ -27332,6 +27332,85 @@ importers:
         specifier: catalog:testing
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
 
+  sdk/redhatopenshifthcp/arm-redhatopenshifthcp:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.7.0
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.1
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.10(playwright@1.62.0)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))(vitest@4.1.10)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.10(vitest@4.1.10)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 10.8.0
+      playwright:
+        specifier: catalog:testing
+        version: 1.62.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.6
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
+
   sdk/redis/arm-rediscache:
     dependencies:
       '@azure-rest/core-client':
@@ -30314,7 +30393,7 @@ importers:
   sdk/servicenetworking/arm-servicenetworking:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -35759,11 +35838,11 @@ packages:
     engines: {node: '>=22.0.0'}
 
   '@azure/abort-controller@1.1.0':
-    resolution: {integrity: sha1-eI7nhFelWvihrTQqyxgjg9IRkkk=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/abort-controller/-/abort-controller-1.1.0.tgz}
+    resolution: {integrity: sha1-eI7nhFelWvihrTQqyxgjg9IRkkk=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/abort-controller/-/abort-controller-1.1.0.tgz}
     engines: {node: '>=12.0.0'}
 
   '@azure/abort-controller@2.2.0':
-    resolution: {integrity: sha1-k+DoKwGGLn6jtbaZWHGdPz/SyKw=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/abort-controller/-/abort-controller-2.2.0.tgz}
+    resolution: {integrity: sha1-k+DoKwGGLn6jtbaZWHGdPz/SyKw=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/abort-controller/-/abort-controller-2.2.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/app-configuration-provider@2.5.1':
@@ -35786,15 +35865,15 @@ packages:
     engines: {node: '>=14.0.0'}
 
   '@azure/arm-network@32.2.0':
-    resolution: {integrity: sha1-UUV4yGqsTNnxZZPcpLpRAcqWWX0=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-network/-/arm-network-32.2.0.tgz}
+    resolution: {integrity: sha1-UUV4yGqsTNnxZZPcpLpRAcqWWX0=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-network/-/arm-network-32.2.0.tgz}
     engines: {node: '>=14.0.0'}
 
   '@azure/arm-network@36.0.0':
-    resolution: {integrity: sha1-lZ3k/QTwWTqU1lPp0atiwB68Vp4=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-network/-/arm-network-36.0.0.tgz}
+    resolution: {integrity: sha1-lZ3k/QTwWTqU1lPp0atiwB68Vp4=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-network/-/arm-network-36.0.0.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/arm-recoveryservices@5.4.0':
-    resolution: {integrity: sha1-xhCsgrCAoBid/WnFP8GwR1gkT9E=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-recoveryservices/-/arm-recoveryservices-5.4.0.tgz}
+    resolution: {integrity: sha1-xhCsgrCAoBid/WnFP8GwR1gkT9E=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-recoveryservices/-/arm-recoveryservices-5.4.0.tgz}
     engines: {node: '>=14.0.0'}
 
   '@azure/arm-resources@7.0.0':
@@ -35806,11 +35885,11 @@ packages:
     engines: {node: '>=20.0.0'}
 
   '@azure/arm-servicebus@6.1.0':
-    resolution: {integrity: sha1-obGbSgdm7IM//UUfsGTJdsrxacA=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-servicebus/-/arm-servicebus-6.1.0.tgz}
+    resolution: {integrity: sha1-obGbSgdm7IM//UUfsGTJdsrxacA=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-servicebus/-/arm-servicebus-6.1.0.tgz}
     engines: {node: '>=14.0.0'}
 
   '@azure/arm-storage@18.5.0':
-    resolution: {integrity: sha1-hHzWoKc3k3aMCxqEesNscjBgZrE=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-storage/-/arm-storage-18.5.0.tgz}
+    resolution: {integrity: sha1-hHzWoKc3k3aMCxqEesNscjBgZrE=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/arm-storage/-/arm-storage-18.5.0.tgz}
     engines: {node: '>=18.0.0'}
 
   '@azure/arm-webpubsub@1.2.0':
@@ -35818,11 +35897,11 @@ packages:
     engines: {node: '>=18.0.0'}
 
   '@azure/communication-common@2.4.2':
-    resolution: {integrity: sha1-bTqmJ8PL/123/Gkv+9OAGoC5YL0=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/communication-common/-/communication-common-2.4.2.tgz}
+    resolution: {integrity: sha1-bTqmJ8PL/123/Gkv+9OAGoC5YL0=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/communication-common/-/communication-common-2.4.2.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/communication-identity@1.3.1':
-    resolution: {integrity: sha1-lokkY7wYiMIPt2fdAEMnDet3QC4=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/communication-identity/-/communication-identity-1.3.1.tgz}
+    resolution: {integrity: sha1-lokkY7wYiMIPt2fdAEMnDet3QC4=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/communication-identity/-/communication-identity-1.3.1.tgz}
     engines: {node: '>=18.0.0'}
 
   '@azure/communication-signaling@1.0.0-beta.31':
@@ -35834,15 +35913,15 @@ packages:
     engines: {node: '>=8.0.0'}
 
   '@azure/core-amqp@4.5.0':
-    resolution: {integrity: sha1-n32dCXWXAyKRblx23bTKx/ur0XY=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-amqp/-/core-amqp-4.5.0.tgz}
+    resolution: {integrity: sha1-n32dCXWXAyKRblx23bTKx/ur0XY=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-amqp/-/core-amqp-4.5.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/core-auth@1.11.0':
-    resolution: {integrity: sha1-Ha7/32LRqHHSK4ZfnzFkpj6h9XU=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-auth/-/core-auth-1.11.0.tgz}
+    resolution: {integrity: sha1-Ha7/32LRqHHSK4ZfnzFkpj6h9XU=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-auth/-/core-auth-1.11.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/core-client@1.11.0':
-    resolution: {integrity: sha1-5z0JrHl33l17QVaWt+1F0/3rZ7A=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-client/-/core-client-1.11.0.tgz}
+    resolution: {integrity: sha1-5z0JrHl33l17QVaWt+1F0/3rZ7A=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-client/-/core-client-1.11.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/core-http-compat@2.5.0':
@@ -35853,19 +35932,19 @@ packages:
       '@azure/core-rest-pipeline': ^1.22.0
 
   '@azure/core-lro@2.7.2':
-    resolution: {integrity: sha1-eHEFAnog5Fx3ZRqYsBpNOwG3Wgg=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-lro/-/core-lro-2.7.2.tgz}
+    resolution: {integrity: sha1-eHEFAnog5Fx3ZRqYsBpNOwG3Wgg=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-lro/-/core-lro-2.7.2.tgz}
     engines: {node: '>=18.0.0'}
 
   '@azure/core-lro@3.4.0':
-    resolution: {integrity: sha1-c0Zb0X3lxduw8noJH29mGnBHC78=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-lro/-/core-lro-3.4.0.tgz}
+    resolution: {integrity: sha1-c0Zb0X3lxduw8noJH29mGnBHC78=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-lro/-/core-lro-3.4.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/core-paging@1.7.0':
-    resolution: {integrity: sha1-WVl6L1Q4ujxsh4n8hw9p4OeFMag=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-paging/-/core-paging-1.7.0.tgz}
+    resolution: {integrity: sha1-WVl6L1Q4ujxsh4n8hw9p4OeFMag=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-paging/-/core-paging-1.7.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/core-tracing@1.4.0':
-    resolution: {integrity: sha1-1lenAOJNJW0ZXmKKeV22qMxHXqs=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-tracing/-/core-tracing-1.4.0.tgz}
+    resolution: {integrity: sha1-1lenAOJNJW0ZXmKKeV22qMxHXqs=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-tracing/-/core-tracing-1.4.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/core-util@1.14.0':
@@ -35873,7 +35952,7 @@ packages:
     engines: {node: '>=22.0.0'}
 
   '@azure/core-xml@1.6.0':
-    resolution: {integrity: sha1-EI8JIOG834owuffoh5ibOhIIK9k=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-xml/-/core-xml-1.6.0.tgz}
+    resolution: {integrity: sha1-EI8JIOG834owuffoh5ibOhIIK9k=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/core-xml/-/core-xml-1.6.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/functions-extensions-base@0.3.0':
@@ -35881,26 +35960,26 @@ packages:
     engines: {node: '>=18.0'}
 
   '@azure/functions@3.5.1':
-    resolution: {integrity: sha1-mKxcGPhINf1YId5ATFKrvUWIcfY=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/functions/-/functions-3.5.1.tgz}
+    resolution: {integrity: sha1-mKxcGPhINf1YId5ATFKrvUWIcfY=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/functions/-/functions-3.5.1.tgz}
 
   '@azure/functions@3.6.0':
-    resolution: {integrity: sha1-HL9cq2XKOcnaNue7Ti62Prsjeyo=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/functions/-/functions-3.6.0.tgz}
+    resolution: {integrity: sha1-HL9cq2XKOcnaNue7Ti62Prsjeyo=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/functions/-/functions-3.6.0.tgz}
     engines: {node: '>=22.0'}
 
   '@azure/functions@4.16.2':
-    resolution: {integrity: sha1-e/GOBuS1+Ss2i0I8xX/pu2WI788=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/functions/-/functions-4.16.2.tgz}
+    resolution: {integrity: sha1-e/GOBuS1+Ss2i0I8xX/pu2WI788=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/functions/-/functions-4.16.2.tgz}
     engines: {node: '>=20.0'}
 
   '@azure/identity@4.13.0':
-    resolution: {integrity: sha1-sr5jZGlkq1ng3A6tyo5PVi/DH5Y=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/identity/-/identity-4.13.0.tgz}
+    resolution: {integrity: sha1-sr5jZGlkq1ng3A6tyo5PVi/DH5Y=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/identity/-/identity-4.13.0.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/identity@4.13.1':
-    resolution: {integrity: sha1-vcCRZYuqWaR+6furSHpLsBhym8M=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/identity/-/identity-4.13.1.tgz}
+    resolution: {integrity: sha1-vcCRZYuqWaR+6furSHpLsBhym8M=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/identity/-/identity-4.13.1.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/keyvault-certificates@4.10.3':
-    resolution: {integrity: sha1-xv78JrnQG9ECOHL6sv0HYRyb6ZQ=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/keyvault-certificates/-/keyvault-certificates-4.10.3.tgz}
+    resolution: {integrity: sha1-xv78JrnQG9ECOHL6sv0HYRyb6ZQ=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/keyvault-certificates/-/keyvault-certificates-4.10.3.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/keyvault-common@2.1.0':
@@ -35916,7 +35995,7 @@ packages:
     engines: {node: '>=20.0.0'}
 
   '@azure/keyvault-secrets@4.11.2':
-    resolution: {integrity: sha1-Ngm9ZSp6Nn8UU17FWfgXhkMkr8k=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/keyvault-secrets/-/keyvault-secrets-4.11.2.tgz}
+    resolution: {integrity: sha1-Ngm9ZSp6Nn8UU17FWfgXhkMkr8k=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/keyvault-secrets/-/keyvault-secrets-4.11.2.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/logger@1.4.0':
@@ -35928,15 +36007,15 @@ packages:
     engines: {node: '>=14.0.0'}
 
   '@azure/monitor-opentelemetry-exporter@1.0.0-beta.44':
-    resolution: {integrity: sha1-nGLs0sX/thEavosiWEyN+Esrm+s=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/monitor-opentelemetry-exporter/-/monitor-opentelemetry-exporter-1.0.0-beta.44.tgz}
+    resolution: {integrity: sha1-nGLs0sX/thEavosiWEyN+Esrm+s=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/monitor-opentelemetry-exporter/-/monitor-opentelemetry-exporter-1.0.0-beta.44.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/msal-browser@4.30.0':
-    resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-browser/-/msal-browser-4.30.0.tgz}
+    resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-browser/-/msal-browser-4.30.0.tgz}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-browser@5.17.1':
-    resolution: {integrity: sha1-EozjSq27IGyUDpnKXgzxldEsbfw=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-browser/-/msal-browser-5.17.1.tgz}
+    resolution: {integrity: sha1-EozjSq27IGyUDpnKXgzxldEsbfw=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-browser/-/msal-browser-5.17.1.tgz}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-common@14.16.1':
@@ -35952,22 +36031,22 @@ packages:
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-node-extensions@5.3.3':
-    resolution: {integrity: sha1-epkwJfLi78Wbvuivs1j9mLvyeHA=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node-extensions/-/msal-node-extensions-5.3.3.tgz}
+    resolution: {integrity: sha1-epkwJfLi78Wbvuivs1j9mLvyeHA=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node-extensions/-/msal-node-extensions-5.3.3.tgz}
     engines: {node: '>=20'}
 
   '@azure/msal-node-runtime@0.20.6':
     resolution: {integrity: sha1-EQ3GT4uReISiL6VxQ3tuogN/WGo=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node-runtime/-/msal-node-runtime-0.20.6.tgz}
 
   '@azure/msal-node@2.16.3':
-    resolution: {integrity: sha1-i4BRUq14CwSNbCszsdTibXtGM2g=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node/-/msal-node-2.16.3.tgz}
+    resolution: {integrity: sha1-i4BRUq14CwSNbCszsdTibXtGM2g=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node/-/msal-node-2.16.3.tgz}
     engines: {node: '>=16'}
 
   '@azure/msal-node@3.8.10':
-    resolution: {integrity: sha1-RMkAkFsCPmMUbOrSmZcg8JBsdMo=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node/-/msal-node-3.8.10.tgz}
+    resolution: {integrity: sha1-RMkAkFsCPmMUbOrSmZcg8JBsdMo=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node/-/msal-node-3.8.10.tgz}
     engines: {node: '>=16'}
 
   '@azure/msal-node@5.4.2':
-    resolution: {integrity: sha1-EeB7IuSZAznQzjMVTg7+pLLFUPo=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node/-/msal-node-5.4.2.tgz}
+    resolution: {integrity: sha1-EeB7IuSZAznQzjMVTg7+pLLFUPo=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/msal-node/-/msal-node-5.4.2.tgz}
     engines: {node: '>=20'}
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
@@ -35979,35 +36058,35 @@ packages:
     engines: {node: '>=18.0.0'}
 
   '@azure/search-documents@12.1.0':
-    resolution: {integrity: sha1-eTO+ozIX17lWlv6XoZzA9DMbw2o=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/search-documents/-/search-documents-12.1.0.tgz}
+    resolution: {integrity: sha1-eTO+ozIX17lWlv6XoZzA9DMbw2o=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/search-documents/-/search-documents-12.1.0.tgz}
     engines: {node: '>=18.0.0'}
 
   '@azure/search-documents@12.2.0':
-    resolution: {integrity: sha1-tLDrLa4flirU5JiFM0GLm+dXXf4=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/search-documents/-/search-documents-12.2.0.tgz}
+    resolution: {integrity: sha1-tLDrLa4flirU5JiFM0GLm+dXXf4=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/search-documents/-/search-documents-12.2.0.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/service-bus@7.9.5':
-    resolution: {integrity: sha1-rVpvPK+eMmnF6DjXsV7NAw4tjTM=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/service-bus/-/service-bus-7.9.5.tgz}
+    resolution: {integrity: sha1-rVpvPK+eMmnF6DjXsV7NAw4tjTM=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/service-bus/-/service-bus-7.9.5.tgz}
     engines: {node: '>=18.0.0'}
 
   '@azure/storage-blob@12.31.0':
-    resolution: {integrity: sha1-l7Cb4r9qtZc5uGLt2BJHmDYs5yA=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-blob/-/storage-blob-12.31.0.tgz}
+    resolution: {integrity: sha1-l7Cb4r9qtZc5uGLt2BJHmDYs5yA=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-blob/-/storage-blob-12.31.0.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/storage-blob@12.33.0':
-    resolution: {integrity: sha1-EK1FhvSSJzG4t5zIa+ytp1Z6H6s=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-blob/-/storage-blob-12.33.0.tgz}
+    resolution: {integrity: sha1-EK1FhvSSJzG4t5zIa+ytp1Z6H6s=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-blob/-/storage-blob-12.33.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/storage-common@12.4.1':
-    resolution: {integrity: sha1-eMI6si3QTOJ7E9/omRtFtv3ts0U=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-common/-/storage-common-12.4.1.tgz}
+    resolution: {integrity: sha1-eMI6si3QTOJ7E9/omRtFtv3ts0U=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-common/-/storage-common-12.4.1.tgz}
     engines: {node: '>=20.0.0'}
 
   '@azure/storage-file-datalake@12.31.0':
-    resolution: {integrity: sha1-A+QzXVvQdRw9ja3odM9OC0+zz1M=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-file-datalake/-/storage-file-datalake-12.31.0.tgz}
+    resolution: {integrity: sha1-A+QzXVvQdRw9ja3odM9OC0+zz1M=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-file-datalake/-/storage-file-datalake-12.31.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/storage-file-share@12.32.0':
-    resolution: {integrity: sha1-TCmcfde3pwDTgTpgAK08t7xyNlI=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-file-share/-/storage-file-share-12.32.0.tgz}
+    resolution: {integrity: sha1-TCmcfde3pwDTgTpgAK08t7xyNlI=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@azure/storage-file-share/-/storage-file-share-12.32.0.tgz}
     engines: {node: '>=22.0.0'}
 
   '@azure/web-pubsub-chat-client@1.0.0-beta.2':
@@ -37995,7 +38074,7 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typespec/ts-http-runtime@0.3.7':
-    resolution: {integrity: sha1-mrJ1NYmDu9MLyJUM9NxX5kcGcPM=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@typespec/ts-http-runtime/-/ts-http-runtime-0.3.7.tgz}
+    resolution: {integrity: sha1-mrJ1NYmDu9MLyJUM9NxX5kcGcPM=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@typespec/ts-http-runtime/-/ts-http-runtime-0.3.7.tgz}
     engines: {node: '>=22.0.0'}
 
   '@vitest/browser-playwright@4.1.10':
@@ -40601,7 +40680,7 @@ packages:
     hasBin: true
 
   playwright@1.62.0:
-    resolution: {integrity: sha1-7d7blLDkkqbHQlpgKw6t6jXHFSY=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/playwright/-/playwright-1.62.0.tgz}
+    resolution: {integrity: sha1-7d7blLDkkqbHQlpgKw6t6jXHFSY=, tarball: https://ms-feed-2.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/playwright/-/playwright-1.62.0.tgz}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -40761,7 +40840,7 @@ packages:
     resolution: {integrity: sha1-6DVX3BLq5jqZ4AOkY4ix3LtE234=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/react-is/-/react-is-18.3.1.tgz}
 
   react-native@0.84.1:
-    resolution: {integrity: sha1-vF6CeEhcXGsBFtzK9mI0ee0fO4g=, tarball: https://ms-feed-17.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/react-native/-/react-native-0.84.1.tgz}
+    resolution: {integrity: sha1-vF6CeEhcXGsBFtzK9mI0ee0fO4g=, tarball: https://ms-feed-12.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/react-native/-/react-native-0.84.1.tgz}
     engines: {node: '>= 20.19.4'}
     hasBin: true
     peerDependencies:
