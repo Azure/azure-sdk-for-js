@@ -1,0 +1,2289 @@
+{
+  "definitions": {
+    "AccessPolicyEntry": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "applicationId": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "objectId": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        },
+        "permissions": {
+          "type": "object",
+          "required": true,
+          "readOnly": false,
+          "$ref": "#/definitions/Permissions"
+        },
+        "tenantId": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        }
+      }
+    },
+    "ActionReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "type": {
+          "type": "enum",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "rotate",
+            "notify"
+          ]
+        }
+      }
+    },
+    "DeletedManagedHsmProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "deletionDate": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "mhsmId": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "purgeProtectionEnabled": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": true
+        },
+        "scheduledPurgeDate": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": true,
+          "valueType": "string"
+        }
+      }
+    },
+    "DeletedVaultProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "deletionDate": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "purgeProtectionEnabled": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": true
+        },
+        "scheduledPurgeDate": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": true,
+          "valueType": "string"
+        },
+        "vaultId": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "IPRule": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "value": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        }
+      }
+    },
+    "KeyAttributesReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "enabled": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": true
+        },
+        "exp": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "exportable": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": true,
+          "hasDefault": true
+        },
+        "nbf": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "recoveryLevel": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "Purgeable",
+            "Recoverable+Purgeable",
+            "Recoverable",
+            "Recoverable+ProtectedSubscription"
+          ]
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "KeyPropertiesReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/KeyAttributesReadonly"
+        },
+        "curveName": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "P-256",
+            "P-384",
+            "P-521",
+            "P-256K"
+          ]
+        },
+        "keyOps": {
+          "type": "array",
+          "required": false,
+          "readOnly": true,
+          "elementType": "string",
+          "elementEnumValues": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey",
+            "import",
+            "release"
+          ]
+        },
+        "keySize": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "keyUri": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "keyUriWithVersion": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "kty": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "EC",
+            "EC-HSM",
+            "RSA",
+            "RSA-HSM",
+            "oct-HSM"
+          ]
+        },
+        "release_policy": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/KeyReleasePolicyReadonly"
+        },
+        "rotationPolicy": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/RotationPolicyReadonly"
+        }
+      }
+    },
+    "KeyReleasePolicyReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "hasDefault": true
+        },
+        "data": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "encoding": {
+            "encoding": "base64url",
+            "wireKind": "string",
+            "sourceKind": "bytes"
+          }
+        }
+      }
+    },
+    "KeyRotationPolicyAttributesReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "expiryTime": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "KeyVaultAction": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "type": {
+          "type": "enum",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "rotate",
+            "notify"
+          ]
+        }
+      }
+    },
+    "KeyVaultKeyAttributes": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "enabled": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        "exp": {
+          "type": "int",
+          "required": false,
+          "readOnly": false
+        },
+        "exportable": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "nbf": {
+          "type": "int",
+          "required": false,
+          "readOnly": false
+        },
+        "recoveryLevel": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "Purgeable",
+            "Recoverable+Purgeable",
+            "Recoverable",
+            "Recoverable+ProtectedSubscription"
+          ]
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "KeyVaultKeyProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultKeyAttributes"
+        },
+        "curveName": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "P-256",
+            "P-384",
+            "P-521",
+            "P-256K"
+          ]
+        },
+        "keyOps": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "string",
+          "elementEnumValues": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey",
+            "import",
+            "release"
+          ]
+        },
+        "keySize": {
+          "type": "int",
+          "required": false,
+          "readOnly": false
+        },
+        "keyUri": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "keyUriWithVersion": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "kty": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "EC",
+            "EC-HSM",
+            "RSA",
+            "RSA-HSM",
+            "oct-HSM"
+          ]
+        },
+        "release_policy": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultKeyReleasePolicy"
+        },
+        "rotationPolicy": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultRotationPolicy"
+        }
+      }
+    },
+    "KeyVaultKeyReleasePolicy": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "data": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "encoding": {
+            "encoding": "base64url",
+            "wireKind": "string",
+            "sourceKind": "bytes"
+          }
+        }
+      }
+    },
+    "KeyVaultKeyRotationPolicyAttributes": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "expiryTime": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "KeyVaultLifetimeAction": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "action": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultAction"
+        },
+        "trigger": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultTrigger"
+        }
+      }
+    },
+    "KeyVaultManagedHsmAction": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "type": {
+          "type": "enum",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "rotate",
+            "notify"
+          ]
+        }
+      }
+    },
+    "KeyVaultManagedHsmKeyAttributes": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "enabled": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        "exp": {
+          "type": "int",
+          "required": false,
+          "readOnly": false
+        },
+        "exportable": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        "nbf": {
+          "type": "int",
+          "required": false,
+          "readOnly": false
+        },
+        "recoveryLevel": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "Purgeable",
+            "Recoverable+Purgeable",
+            "Recoverable",
+            "Recoverable+ProtectedSubscription"
+          ]
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "KeyVaultManagedHsmKeyProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultManagedHsmKeyAttributes"
+        },
+        "curveName": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "P-256",
+            "P-384",
+            "P-521",
+            "P-256K"
+          ]
+        },
+        "keyOps": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "string",
+          "elementEnumValues": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey",
+            "import",
+            "release"
+          ]
+        },
+        "keySize": {
+          "type": "int",
+          "required": false,
+          "readOnly": false
+        },
+        "keyUri": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "keyUriWithVersion": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "kty": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "EC",
+            "EC-HSM",
+            "RSA",
+            "RSA-HSM",
+            "oct-HSM"
+          ]
+        },
+        "release_policy": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultManagedHsmKeyReleasePolicy"
+        },
+        "rotationPolicy": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultManagedHsmRotationPolicy"
+        }
+      }
+    },
+    "KeyVaultManagedHsmKeyReleasePolicy": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "data": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "encoding": {
+            "encoding": "base64url",
+            "wireKind": "string",
+            "sourceKind": "bytes"
+          }
+        }
+      }
+    },
+    "KeyVaultManagedHsmKeyRotationPolicyAttributes": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "expiryTime": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "KeyVaultManagedHsmLifetimeAction": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "action": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultManagedHsmAction"
+        },
+        "trigger": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultManagedHsmTrigger"
+        }
+      }
+    },
+    "KeyVaultManagedHsmRotationPolicy": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultManagedHsmKeyRotationPolicyAttributes"
+        },
+        "lifetimeActions": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/KeyVaultManagedHsmLifetimeAction"
+        }
+      }
+    },
+    "KeyVaultManagedHsmTrigger": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "timeAfterCreate": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "timeBeforeExpiry": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        }
+      }
+    },
+    "KeyVaultRotationPolicy": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultKeyRotationPolicyAttributes"
+        },
+        "lifetimeActions": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/KeyVaultLifetimeAction"
+        }
+      }
+    },
+    "KeyVaultTrigger": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "timeAfterCreate": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "timeBeforeExpiry": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        }
+      }
+    },
+    "LifetimeActionReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "action": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ActionReadonly"
+        },
+        "trigger": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/TriggerReadonly"
+        }
+      }
+    },
+    "ManagedHsmActionReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "type": {
+          "type": "enum",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "rotate",
+            "notify"
+          ]
+        }
+      }
+    },
+    "ManagedHsmKeyAttributesReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "enabled": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": true
+        },
+        "exp": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "exportable": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": true
+        },
+        "nbf": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "recoveryLevel": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "Purgeable",
+            "Recoverable+Purgeable",
+            "Recoverable",
+            "Recoverable+ProtectedSubscription"
+          ]
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "ManagedHsmKeyPropertiesReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ManagedHsmKeyAttributesReadonly"
+        },
+        "curveName": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "P-256",
+            "P-384",
+            "P-521",
+            "P-256K"
+          ]
+        },
+        "keyOps": {
+          "type": "array",
+          "required": false,
+          "readOnly": true,
+          "elementType": "string",
+          "elementEnumValues": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey",
+            "import",
+            "release"
+          ]
+        },
+        "keySize": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "keyUri": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "keyUriWithVersion": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "kty": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "EC",
+            "EC-HSM",
+            "RSA",
+            "RSA-HSM",
+            "oct-HSM"
+          ]
+        },
+        "release_policy": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ManagedHsmKeyReleasePolicyReadonly"
+        },
+        "rotationPolicy": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ManagedHsmRotationPolicyReadonly"
+        }
+      }
+    },
+    "ManagedHsmKeyReleasePolicyReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "hasDefault": true
+        },
+        "data": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "encoding": {
+            "encoding": "base64url",
+            "wireKind": "string",
+            "sourceKind": "bytes"
+          }
+        }
+      }
+    },
+    "ManagedHsmKeyRotationPolicyAttributesReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        },
+        "expiryTime": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "ManagedHsmLifetimeActionReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "action": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ManagedHsmActionReadonly"
+        },
+        "trigger": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ManagedHsmTriggerReadonly"
+        }
+      }
+    },
+    "ManagedHsmProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "createMode": {
+          "type": "enum",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "recover",
+            "default"
+          ]
+        },
+        "enablePurgeProtection": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "enableSoftDelete": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "hsmUri": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "initialAdminObjectIds": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "string"
+        },
+        "networkAcls": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/MHSMNetworkRuleSet"
+        },
+        "privateEndpointConnections": {
+          "type": "array",
+          "required": false,
+          "readOnly": true,
+          "elementType": "object",
+          "elementRef": "#/definitions/MHSMPrivateEndpointConnectionItem"
+        },
+        "publicNetworkAccess": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true,
+          "enumValues": [
+            "Enabled",
+            "Disabled"
+          ]
+        },
+        "regions": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/MHSMGeoReplicatedRegion"
+        },
+        "scheduledPurgeDate": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "securityDomainProperties": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ManagedHSMSecurityDomainProperties"
+        },
+        "softDeleteRetentionInDays": {
+          "type": "int",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "statusMessage": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "tenantId": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        }
+      }
+    },
+    "ManagedHsmRotationPolicyReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ManagedHsmKeyRotationPolicyAttributesReadonly"
+        },
+        "lifetimeActions": {
+          "type": "array",
+          "required": false,
+          "readOnly": true,
+          "elementType": "object",
+          "elementRef": "#/definitions/ManagedHsmLifetimeActionReadonly"
+        }
+      }
+    },
+    "ManagedHSMSecurityDomainProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "activationStatus": {
+          "type": "string",
+          "required": false,
+          "readOnly": true,
+          "enumValues": [
+            "Active",
+            "NotActivated",
+            "Unknown",
+            "Failed"
+          ]
+        },
+        "activationStatusMessage": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "ManagedHsmSku": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "family": {
+          "type": "string",
+          "required": true,
+          "readOnly": false,
+          "enumValues": [
+            "B",
+            "C"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": false,
+          "enumValues": [
+            "Standard_B1",
+            "Custom_B32",
+            "Custom_B6",
+            "Custom_C42",
+            "Custom_C10"
+          ]
+        }
+      }
+    },
+    "ManagedHsmTriggerReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "timeAfterCreate": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "timeBeforeExpiry": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "ManagedServiceIdentity": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "principalId": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "tenantId": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "required": true,
+          "readOnly": false,
+          "enumValues": [
+            "None",
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned,UserAssigned"
+          ]
+        },
+        "userAssignedIdentities": {
+          "type": "record",
+          "required": false,
+          "readOnly": false,
+          "valueType": "object",
+          "valueRef": "#/definitions/UserAssignedIdentity"
+        }
+      }
+    },
+    "MHSMGeoReplicatedRegion": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "isPrimary": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        "name": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        }
+      }
+    },
+    "MHSMIPRule": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "value": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        }
+      }
+    },
+    "MHSMNetworkRuleSet": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "bypass": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "AzureServices",
+            "None"
+          ]
+        },
+        "defaultAction": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "Allow",
+            "Deny"
+          ]
+        },
+        "ipRules": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/MHSMIPRule"
+        },
+        "serviceTags": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/MHSMServiceTagRule"
+        },
+        "virtualNetworkRules": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/MHSMVirtualNetworkRule"
+        }
+      }
+    },
+    "MHSMPrivateEndpoint": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {}
+    },
+    "MHSMPrivateEndpointConnectionItem": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/MHSMPrivateEndpointConnectionProperties"
+        }
+      }
+    },
+    "MHSMPrivateEndpointConnectionProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "privateEndpoint": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/MHSMPrivateEndpoint"
+        },
+        "privateLinkServiceConnectionState": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/MHSMPrivateLinkServiceConnectionState"
+        }
+      }
+    },
+    "MHSMPrivateLinkServiceConnectionState": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "actionsRequired": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "None"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "status": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "Pending",
+            "Approved",
+            "Rejected",
+            "Disconnected"
+          ]
+        }
+      }
+    },
+    "MHSMServiceTagRule": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "tag": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        }
+      }
+    },
+    "MHSMVirtualNetworkRule": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        }
+      }
+    },
+    "NetworkRuleSet": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "bypass": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "AzureServices",
+            "None"
+          ]
+        },
+        "defaultAction": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "Allow",
+            "Deny"
+          ]
+        },
+        "ipRules": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/IPRule"
+        },
+        "virtualNetworkRules": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/VirtualNetworkRule"
+        }
+      }
+    },
+    "Permissions": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "certificates": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "string",
+          "elementEnumValues": [
+            "all",
+            "get",
+            "list",
+            "delete",
+            "create",
+            "import",
+            "update",
+            "managecontacts",
+            "getissuers",
+            "listissuers",
+            "setissuers",
+            "deleteissuers",
+            "manageissuers",
+            "recover",
+            "purge",
+            "backup",
+            "restore"
+          ]
+        },
+        "keys": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "string",
+          "elementEnumValues": [
+            "all",
+            "encrypt",
+            "decrypt",
+            "wrapKey",
+            "unwrapKey",
+            "sign",
+            "verify",
+            "get",
+            "list",
+            "create",
+            "update",
+            "import",
+            "delete",
+            "backup",
+            "restore",
+            "recover",
+            "purge",
+            "release",
+            "rotate",
+            "getrotationpolicy",
+            "setrotationpolicy"
+          ]
+        },
+        "secrets": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "string",
+          "elementEnumValues": [
+            "all",
+            "get",
+            "list",
+            "set",
+            "delete",
+            "backup",
+            "restore",
+            "recover",
+            "purge"
+          ]
+        },
+        "storage": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "string",
+          "elementEnumValues": [
+            "all",
+            "get",
+            "list",
+            "delete",
+            "set",
+            "update",
+            "regeneratekey",
+            "recover",
+            "purge",
+            "backup",
+            "restore",
+            "setsas",
+            "listsas",
+            "getsas",
+            "deletesas"
+          ]
+        }
+      }
+    },
+    "PrivateEndpoint": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {}
+    },
+    "PrivateEndpointConnectionItem": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/PrivateEndpointConnectionProperties"
+        }
+      }
+    },
+    "PrivateEndpointConnectionProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "privateEndpoint": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/PrivateEndpoint"
+        },
+        "privateLinkServiceConnectionState": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/PrivateLinkServiceConnectionState"
+        }
+      }
+    },
+    "PrivateLinkServiceConnectionState": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "actionsRequired": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "None"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "status": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "Pending",
+            "Approved",
+            "Rejected",
+            "Disconnected"
+          ]
+        }
+      }
+    },
+    "RotationPolicyReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/KeyRotationPolicyAttributesReadonly"
+        },
+        "lifetimeActions": {
+          "type": "array",
+          "required": false,
+          "readOnly": true,
+          "elementType": "object",
+          "elementRef": "#/definitions/LifetimeActionReadonly"
+        }
+      }
+    },
+    "SecretAttributes": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "created": {
+          "type": "int",
+          "required": false,
+          "readOnly": true,
+          "encoding": {
+            "encoding": "unixTimestamp",
+            "wireKind": "int",
+            "sourceKind": "utcDateTime"
+          }
+        },
+        "enabled": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        "exp": {
+          "type": "int",
+          "required": false,
+          "readOnly": false,
+          "encoding": {
+            "encoding": "unixTimestamp",
+            "wireKind": "int",
+            "sourceKind": "utcDateTime"
+          }
+        },
+        "nbf": {
+          "type": "int",
+          "required": false,
+          "readOnly": false,
+          "encoding": {
+            "encoding": "unixTimestamp",
+            "wireKind": "int",
+            "sourceKind": "utcDateTime"
+          }
+        },
+        "updated": {
+          "type": "int",
+          "required": false,
+          "readOnly": true,
+          "encoding": {
+            "encoding": "unixTimestamp",
+            "wireKind": "int",
+            "sourceKind": "utcDateTime"
+          }
+        }
+      }
+    },
+    "SecretProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/SecretAttributes"
+        },
+        "contentType": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "secretUri": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "secretUriWithVersion": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "value": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        }
+      }
+    },
+    "Sku": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "family": {
+          "type": "string",
+          "required": true,
+          "readOnly": false,
+          "enumValues": [
+            "A"
+          ]
+        },
+        "name": {
+          "type": "enum",
+          "required": true,
+          "readOnly": false,
+          "enumValues": [
+            "standard",
+            "premium"
+          ]
+        }
+      }
+    },
+    "TokenBindingParameters": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "minimumTokenBindingStrength": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "NoValidation",
+            "Unattested",
+            "AttestedTrustedLaunch",
+            "AttestedConfidential"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "Enforced",
+            "NotEnforced"
+          ]
+        }
+      }
+    },
+    "TriggerReadonly": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "timeAfterCreate": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "timeBeforeExpiry": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "UserAssignedIdentity": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "clientId": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "principalId": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        }
+      }
+    },
+    "VaultAccessPolicyProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "accessPolicies": {
+          "type": "array",
+          "required": true,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/AccessPolicyEntry"
+        }
+      }
+    },
+    "VaultProperties": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "accessPolicies": {
+          "type": "array",
+          "required": false,
+          "readOnly": false,
+          "elementType": "object",
+          "elementRef": "#/definitions/AccessPolicyEntry"
+        },
+        "createMode": {
+          "type": "enum",
+          "required": false,
+          "readOnly": false,
+          "enumValues": [
+            "recover",
+            "default"
+          ]
+        },
+        "enabledForDeployment": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "enabledForDiskEncryption": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "enabledForTemplateDeployment": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "enablePurgeProtection": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        },
+        "enableRbacAuthorization": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "enableSoftDelete": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "hsmPoolResourceId": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "networkAcls": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/NetworkRuleSet"
+        },
+        "privateEndpointConnections": {
+          "type": "array",
+          "required": false,
+          "readOnly": true,
+          "elementType": "object",
+          "elementRef": "#/definitions/PrivateEndpointConnectionItem"
+        },
+        "publicNetworkAccess": {
+          "type": "string",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "sku": {
+          "type": "object",
+          "required": true,
+          "readOnly": false,
+          "$ref": "#/definitions/Sku"
+        },
+        "softDeleteRetentionInDays": {
+          "type": "int",
+          "required": false,
+          "readOnly": false,
+          "hasDefault": true
+        },
+        "tenantId": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        },
+        "tokenBindingParameters": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/TokenBindingParameters"
+        },
+        "vaultUri": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        }
+      }
+    },
+    "VirtualNetworkRule": {
+      "type": "object",
+      "required": false,
+      "readOnly": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        },
+        "ignoreMissingVnetServiceEndpoint": {
+          "type": "boolean",
+          "required": false,
+          "readOnly": false
+        }
+      }
+    }
+  },
+  "resources": {
+    "Microsoft.KeyVault/locations/deletedManagedHSMs": {
+      "resourceType": "Microsoft.KeyVault/locations/deletedManagedHSMs",
+      "apiVersion": "2026-03-01-preview",
+      "readOnlyResource": true,
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/DeletedManagedHsmProperties"
+        }
+      }
+    },
+    "Microsoft.KeyVault/locations/deletedVaults": {
+      "resourceType": "Microsoft.KeyVault/locations/deletedVaults",
+      "apiVersion": "2026-03-01-preview",
+      "readOnlyResource": true,
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/DeletedVaultProperties"
+        }
+      }
+    },
+    "Microsoft.KeyVault/managedHSMs": {
+      "resourceType": "Microsoft.KeyVault/managedHSMs",
+      "apiVersion": "2026-03-01-preview",
+      "properties": {
+        "identity": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/ManagedServiceIdentity"
+        },
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/ManagedHsmProperties"
+        },
+        "sku": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/ManagedHsmSku"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": false,
+          "valueType": "string"
+        }
+      }
+    },
+    "Microsoft.KeyVault/managedHSMs/keys": {
+      "resourceType": "Microsoft.KeyVault/managedHSMs/keys",
+      "apiVersion": "2026-03-01-preview",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": true,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultManagedHsmKeyProperties"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": false,
+          "valueType": "string"
+        }
+      }
+    },
+    "Microsoft.KeyVault/managedHSMs/keys/versions": {
+      "resourceType": "Microsoft.KeyVault/managedHSMs/keys/versions",
+      "apiVersion": "2026-03-01-preview",
+      "readOnlyResource": true,
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/ManagedHsmKeyPropertiesReadonly"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": true,
+          "valueType": "string"
+        }
+      }
+    },
+    "Microsoft.KeyVault/managedHSMs/privateEndpointConnections": {
+      "resourceType": "Microsoft.KeyVault/managedHSMs/privateEndpointConnections",
+      "apiVersion": "2026-03-01-preview",
+      "properties": {
+        "etag": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "identity": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/ManagedServiceIdentity"
+        },
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/MHSMPrivateEndpointConnectionProperties"
+        },
+        "sku": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/ManagedHsmSku"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": false,
+          "valueType": "string"
+        }
+      }
+    },
+    "Microsoft.KeyVault/vaults": {
+      "resourceType": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2026-03-01-preview",
+      "properties": {
+        "location": {
+          "type": "string",
+          "required": true,
+          "readOnly": false
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": true,
+          "readOnly": false,
+          "$ref": "#/definitions/VaultProperties"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": false,
+          "valueType": "string"
+        }
+      }
+    },
+    "Microsoft.KeyVault/vaults/accessPolicies": {
+      "resourceType": "Microsoft.KeyVault/vaults/accessPolicies",
+      "apiVersion": "2026-03-01-preview",
+      "properties": {
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": true,
+          "readOnly": false,
+          "$ref": "#/definitions/VaultAccessPolicyProperties"
+        }
+      }
+    },
+    "Microsoft.KeyVault/vaults/keys": {
+      "resourceType": "Microsoft.KeyVault/vaults/keys",
+      "apiVersion": "2026-03-01-preview",
+      "properties": {
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": true,
+          "readOnly": false,
+          "$ref": "#/definitions/KeyVaultKeyProperties"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": false,
+          "valueType": "string"
+        }
+      }
+    },
+    "Microsoft.KeyVault/vaults/keys/versions": {
+      "resourceType": "Microsoft.KeyVault/vaults/keys/versions",
+      "apiVersion": "2026-03-01-preview",
+      "readOnlyResource": true,
+      "properties": {
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": true,
+          "$ref": "#/definitions/KeyPropertiesReadonly"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": true,
+          "valueType": "string"
+        }
+      }
+    },
+    "Microsoft.KeyVault/vaults/privateEndpointConnections": {
+      "resourceType": "Microsoft.KeyVault/vaults/privateEndpointConnections",
+      "apiVersion": "2026-03-01-preview",
+      "properties": {
+        "etag": {
+          "type": "string",
+          "required": false,
+          "readOnly": false
+        },
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": false,
+          "readOnly": false,
+          "$ref": "#/definitions/PrivateEndpointConnectionProperties"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": true,
+          "valueType": "string"
+        }
+      }
+    },
+    "Microsoft.KeyVault/vaults/secrets": {
+      "resourceType": "Microsoft.KeyVault/vaults/secrets",
+      "apiVersion": "2026-03-01-preview",
+      "properties": {
+        "location": {
+          "type": "string",
+          "required": false,
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "required": true,
+          "readOnly": true
+        },
+        "properties": {
+          "type": "object",
+          "required": true,
+          "readOnly": false,
+          "$ref": "#/definitions/SecretProperties"
+        },
+        "tags": {
+          "type": "record",
+          "required": false,
+          "readOnly": false,
+          "valueType": "string"
+        }
+      }
+    }
+  }
+}

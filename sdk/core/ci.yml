@@ -134,6 +134,12 @@ extends:
         - pnpm-*.yaml
         - tsconfig*.json
         - common/tools/warp/
+      - name: azure-provisioning-core
+        safeName: azureprovisioningcore
+        triggeringPaths:
+        - pnpm-*.yaml
+        - tsconfig*.json
+        - common/tools/warp/
       - name: typespec-ts-http-runtime
         safeName: typespectshttpruntime
         triggeringPaths:
