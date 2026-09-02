@@ -41,8 +41,9 @@ async function main() {
 
     let peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Number of messages in the queue: ${peekedMessages.length}`);
-    console.log("Deleting all messages from the queue");
-    await queueReceiver.purgeMessages();
+    console.log("Deleting all eligible messages from the queue in portable 500-message batches");
+    const purgeResult = await queueReceiver.purgeMessages();
+    console.log(`Number of messages actually purged: ${purgeResult.deletedCount}`);
     peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Number of messages in the queue after clearing: ${peekedMessages.length}`);
 
@@ -52,9 +53,11 @@ async function main() {
     peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Peeked messages (1): ${peekedMessages.length}.`); // should be 10
 
-    let { deletedCount } = await queueReceiver.deleteMessages(10);
+    const requestedCount = 10;
+    let { deletedCount } = await queueReceiver.deleteMessages(requestedCount);
 
-    console.log(`Number of messages deleted: ${deletedCount}.`);
+    // Any request can return fewer deletions than requested, especially when messages are large.
+    console.log(`Requested ${requestedCount}; the service deleted ${deletedCount}.`);
 
     // Sending 10 messages again
     await sender.sendMessages(messages);

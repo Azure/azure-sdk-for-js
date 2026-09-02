@@ -7,16 +7,17 @@
  * @summary Demonstrates deleting messages from a queue.
  */
 
-const { ServiceBusClient } = require("@azure/service-bus");
-const { DefaultAzureCredential } = require("@azure/identity");
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-require("dotenv/config");
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-const messages = [
+const messages: ServiceBusMessage[] = [
   { body: "Albert Einstein" },
   { body: "Werner Heisenberg" },
   { body: "Marie Curie" },
@@ -31,7 +32,7 @@ const messages = [
 
 const max32BitNumber = 2147483647;
 
-async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
   try {
@@ -41,8 +42,9 @@ async function main() {
 
     let peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Number of messages in the queue: ${peekedMessages.length}`);
-    console.log("Deleting all messages from the queue");
-    await queueReceiver.purgeMessages();
+    console.log("Deleting all eligible messages from the queue in portable 500-message batches");
+    const purgeResult = await queueReceiver.purgeMessages();
+    console.log(`Number of messages actually purged: ${purgeResult.deletedCount}`);
     peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Number of messages in the queue after clearing: ${peekedMessages.length}`);
 
@@ -52,9 +54,11 @@ async function main() {
     peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Peeked messages (1): ${peekedMessages.length}.`); // should be 10
 
-    let { deletedCount } = await queueReceiver.deleteMessages(10);
+    const requestedCount = 10;
+    let { deletedCount } = await queueReceiver.deleteMessages(requestedCount);
 
-    console.log(`Number of messages deleted: ${deletedCount}.`);
+    // Any request can return fewer deletions than requested, especially when messages are large.
+    console.log(`Requested ${requestedCount}; the service deleted ${deletedCount}.`);
 
     // Sending 10 messages again
     await sender.sendMessages(messages);
@@ -81,5 +85,3 @@ main().catch((err) => {
   console.log("deleteMessages Sample - Error occurred: ", err);
   process.exit(1);
 });
-
-module.exports = { main };
