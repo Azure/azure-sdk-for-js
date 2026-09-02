@@ -466,6 +466,45 @@ if (blobBody) {
 
 A complete example of simple scenarios is at [samples/v12/typescript/src/sharedKeyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/typescript/src/sharedKeyAuth.ts).
 
+### Authenticate downloads with a session token (Node.js)
+
+When you authenticate with a `TokenCredential`, you can opt in to session token authentication. Eligible blob downloads are then signed with a container-scoped session token instead of a bearer token, which avoids a token exchange on every request.
+
+Sessions are disabled by default. Set `sessionOptions.mode` to `"enabled"` to opt in.
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+Only `GET` blob download requests are eligible; container and service operations, and any request using a structured message body, continue to use a bearer token. If a session cannot be created because the account does not have the feature enabled, the client logs a warning and falls back to bearer tokens rather than failing the download.
+
+In browsers and React Native, `sessionOptions` is accepted for type compatibility but has no effect, because signing a session requires Shared Key, which is unavailable outside Node.js.
+
+```ts snippet:ReadmeSampleSessionAuthentication
+import { BlobServiceClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+import { buffer } from "node:stream/consumers";
+
+const account = "<account>";
+
+// Session token authentication is only available in the Node.js runtime. In browsers and
+// React Native these options are ignored and requests keep using a bearer token.
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  new DefaultAzureCredential(),
+  { sessionOptions: { mode: "enabled" } },
+);
+
+// Eligible downloads are now signed with a container-scoped session token instead of a
+// bearer token. Everything else, including this container listing, is unaffected.
+const containerClient = blobServiceClient.getContainerClient("<container name>");
+const blobClient = containerClient.getBlobClient("<blob name>");
+const downloadBlockBlobResponse = await blobClient.download();
+if (downloadBlockBlobResponse.readableStreamBody) {
+  const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+  console.log(`Downloaded blob content: ${downloaded.toString()}`);
+}
+```
+
+If your endpoint URL is not in the standard `https://<account>.blob.core.windows.net` form, the account name cannot be derived from it. Set `sessionOptions.accountName` explicitly in that case.
+
 ## Troubleshooting
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
