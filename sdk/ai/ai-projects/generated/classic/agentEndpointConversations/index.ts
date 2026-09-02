@@ -5,6 +5,8 @@ import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   getAgentConversationAudioContent,
   getAgentConversationAudio,
+  getAgentConversationItemGeneratedAudioContent,
+  getAgentConversationItemGeneratedAudio,
   getAgentConversationItemAudioContent,
   getAgentConversationItemAudio,
   getAgentConversationItem,
@@ -19,6 +21,8 @@ import {
 import {
   AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
   AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
+  AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams,
+  AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemOptionalParams,
@@ -35,8 +39,10 @@ import {
   VoiceResponse,
   RealtimeConversationItemUnion,
   VoiceItemAudioResponse,
+  VoiceGeneratedItemAudioResponse,
   VoiceRecordingResponse,
   AgentEndpointConversationsGetAgentConversationAudioContentResponse,
+  AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentResponse,
   AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -78,6 +84,34 @@ export interface AgentEndpointConversationsOperations {
     conversationId: string,
     options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
   ) => Promise<VoiceRecordingResponse>;
+  /**
+   * Streams a conversation item's generated audio as a WAV (`audio/wav`) byte stream through the service. This
+   * subordinate artifact exists only when playback was interrupted and the service rendered more audio than the
+   * listener heard, including when the response ends as cancelled. This route serves Foundry-managed storage only.
+   * For bring-your-own-storage (BYOS) recordings the bytes are not proxied, so this route returns `409 Conflict`.
+   * Returns `404` when the conversation or item was not persisted, or when no generated audio exists beyond the
+   * heard segment.
+   */
+  getAgentConversationItemGeneratedAudioContent: (
+    foundryFeatures: "VoiceAgents=V1Preview",
+    agentName: string,
+    conversationId: string,
+    itemId: string,
+    options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams,
+  ) => Promise<AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentResponse>;
+  /**
+   * Returns metadata for a conversation item's generated audio. This subordinate artifact is separate from the
+   * canonical heard-audio segment and exists only when playback was interrupted and the service rendered more audio
+   * than the listener heard, including when the response ends as cancelled. Returns `404` when the conversation or
+   * item was not persisted, or when no generated audio exists beyond the heard segment.
+   */
+  getAgentConversationItemGeneratedAudio: (
+    foundryFeatures: "VoiceAgents=V1Preview",
+    agentName: string,
+    conversationId: string,
+    itemId: string,
+    options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams,
+  ) => Promise<VoiceGeneratedItemAudioResponse>;
   /**
    * Streams a single conversation item's audio as a WAV (`audio/wav`) byte stream through the service (no SAS
    * URL). This route serves Foundry-managed storage only. For bring-your-own-storage (BYOS) recordings the
@@ -220,6 +254,36 @@ function _getAgentEndpointConversations(context: AIProjectContext) {
       conversationId: string,
       options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
     ) => getAgentConversationAudio(context, foundryFeatures, agentName, conversationId, options),
+    getAgentConversationItemGeneratedAudioContent: (
+      foundryFeatures: "VoiceAgents=V1Preview",
+      agentName: string,
+      conversationId: string,
+      itemId: string,
+      options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams,
+    ) =>
+      getAgentConversationItemGeneratedAudioContent(
+        context,
+        foundryFeatures,
+        agentName,
+        conversationId,
+        itemId,
+        options,
+      ),
+    getAgentConversationItemGeneratedAudio: (
+      foundryFeatures: "VoiceAgents=V1Preview",
+      agentName: string,
+      conversationId: string,
+      itemId: string,
+      options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams,
+    ) =>
+      getAgentConversationItemGeneratedAudio(
+        context,
+        foundryFeatures,
+        agentName,
+        conversationId,
+        itemId,
+        options,
+      ),
     getAgentConversationItemAudioContent: (
       foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,

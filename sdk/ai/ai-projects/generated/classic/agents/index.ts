@@ -7,6 +7,20 @@ import {
   listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
+  getMicrosoft365PublishDefaults,
+  getMicrosoft365Package,
+  publishToMicrosoft365,
+  replaceTelephonyTransferTargets,
+  getTelephonyTransferTargets,
+  endTelephonyCall,
+  transferTelephonyCall,
+  getTelephonyCall,
+  listTelephonyCalls,
+  deleteTelephonyBinding,
+  updateTelephonyBinding,
+  getTelephonyBinding,
+  listTelephonyBindings,
+  createTelephonyBinding,
   getSessionLogStream,
   listSessions,
   stopSession,
@@ -37,6 +51,20 @@ import {
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
+  GetMicrosoft365PublishDefaultsOptionalParams,
+  GetMicrosoft365PackageOptionalParams,
+  PublishToMicrosoft365OptionalParams,
+  AgentsReplaceTelephonyTransferTargetsOptionalParams,
+  AgentsGetTelephonyTransferTargetsOptionalParams,
+  AgentsEndTelephonyCallOptionalParams,
+  AgentsTransferTelephonyCallOptionalParams,
+  AgentsGetTelephonyCallOptionalParams,
+  AgentsListTelephonyCallsOptionalParams,
+  AgentsDeleteTelephonyBindingOptionalParams,
+  AgentsUpdateTelephonyBindingOptionalParams,
+  AgentsGetTelephonyBindingOptionalParams,
+  AgentsListTelephonyBindingsOptionalParams,
+  AgentsCreateTelephonyBindingOptionalParams,
   AgentsGetSessionLogStreamOptionalParams,
   AgentsListSessionsOptionalParams,
   AgentsStopSessionOptionalParams,
@@ -72,10 +100,24 @@ import {
   VersionIndicatorUnion,
   AgentSessionResource,
   SessionLogEvent,
+  TelephonyBindingListItem,
+  UpdateTelephonyBindingRequest,
+  TelephonyCallSummary,
+  TelephonyCallRecord,
+  TelephonyTransferTargets,
+  TelephonyTransferTarget,
+  Microsoft365PublishScope,
+  Microsoft365PublishResponse,
+  Microsoft365PublishDefaults,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
   GenerateAgentRequest,
+  CreateTelephonyBindingRequest,
   AgentsDownloadSessionFileResponse,
+  GetMicrosoft365PackageResponse,
+  AgentsUpdateTelephonyBindingResponse,
+  AgentsGetTelephonyBindingResponse,
+  AgentsCreateTelephonyBindingResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -122,6 +164,100 @@ export interface AgentsOperations {
     content: Uint8Array,
     options?: AgentsUploadSessionFileOptionalParams,
   ) => Promise<SessionFileWriteResponse>;
+  /**
+   * Returns default and previously-published values used to pre-populate a Microsoft 365 publish
+   * request for a Foundry agent.
+   */
+  getMicrosoft365PublishDefaults: (
+    agentName: string,
+    options?: GetMicrosoft365PublishDefaultsOptionalParams,
+  ) => Promise<Microsoft365PublishDefaults>;
+  /**
+   * Generates the Microsoft Teams app package (zip) for a Foundry agent from the supplied publish
+   * request, without publishing it. Returns the app package as `application/zip`.
+   */
+  getMicrosoft365Package: (
+    agentName: string,
+    publishScope: Microsoft365PublishScope,
+    options?: GetMicrosoft365PackageOptionalParams,
+  ) => Promise<GetMicrosoft365PackageResponse>;
+  /**
+   * Publishes a Foundry agent to Microsoft 365 / Microsoft Teams and returns the published title and
+   * Teams app ids.
+   */
+  publishToMicrosoft365: (
+    agentName: string,
+    publishScope: Microsoft365PublishScope,
+    options?: PublishToMicrosoft365OptionalParams,
+  ) => Promise<Microsoft365PublishResponse>;
+  /** Replaces all transfer targets configured for the voice agent named in the path. */
+  replaceTelephonyTransferTargets: (
+    agentName: string,
+    ifMatch: string,
+    transferTargets: TelephonyTransferTarget[],
+    options?: AgentsReplaceTelephonyTransferTargetsOptionalParams,
+  ) => Promise<TelephonyTransferTargets>;
+  /** Returns all transfer targets configured for the voice agent named in the path. */
+  getTelephonyTransferTargets: (
+    agentName: string,
+    options?: AgentsGetTelephonyTransferTargetsOptionalParams,
+  ) => Promise<TelephonyTransferTargets>;
+  /** Ends an active inbound call owned by the voice agent named in the path. */
+  endTelephonyCall: (
+    agentName: string,
+    callId: string,
+    options?: AgentsEndTelephonyCallOptionalParams,
+  ) => Promise<TelephonyCallRecord>;
+  /** Transfers an active inbound call to a configured target for the voice agent named in the path. */
+  transferTelephonyCall: (
+    agentName: string,
+    callId: string,
+    target: string,
+    options?: AgentsTransferTelephonyCallOptionalParams,
+  ) => Promise<TelephonyCallRecord>;
+  /** Retrieves a durable inbound call record owned by the voice agent named in the path. */
+  getTelephonyCall: (
+    agentName: string,
+    callId: string,
+    options?: AgentsGetTelephonyCallOptionalParams,
+  ) => Promise<TelephonyCallRecord>;
+  /** Returns the durable inbound call history for the voice agent named in the path. */
+  listTelephonyCalls: (
+    agentName: string,
+    options?: AgentsListTelephonyCallsOptionalParams,
+  ) => PagedAsyncIterableIterator<TelephonyCallSummary>;
+  /** Deletes a telephony binding owned by the voice agent named in the path. */
+  deleteTelephonyBinding: (
+    agentName: string,
+    bindingId: string,
+    ifMatch: string,
+    options?: AgentsDeleteTelephonyBindingOptionalParams,
+  ) => Promise<void>;
+  /** Updates a telephony binding owned by the voice agent named in the path. */
+  updateTelephonyBinding: (
+    agentName: string,
+    bindingId: string,
+    ifMatch: string,
+    body: UpdateTelephonyBindingRequest,
+    options?: AgentsUpdateTelephonyBindingOptionalParams,
+  ) => Promise<AgentsUpdateTelephonyBindingResponse>;
+  /** Retrieves a telephony binding owned by the voice agent named in the path. */
+  getTelephonyBinding: (
+    agentName: string,
+    bindingId: string,
+    options?: AgentsGetTelephonyBindingOptionalParams,
+  ) => Promise<AgentsGetTelephonyBindingResponse>;
+  /** Returns the telephony bindings owned by the voice agent named in the path. */
+  listTelephonyBindings: (
+    agentName: string,
+    options?: AgentsListTelephonyBindingsOptionalParams,
+  ) => PagedAsyncIterableIterator<TelephonyBindingListItem>;
+  /** Creates a telephony binding for the voice agent named in the path. */
+  createTelephonyBinding: (
+    agentName: string,
+    body: CreateTelephonyBindingRequest,
+    options?: AgentsCreateTelephonyBindingOptionalParams,
+  ) => Promise<AgentsCreateTelephonyBindingResponse>;
   /**
    * Streams console logs (stdout / stderr) for a specific hosted agent session
    * as a Server-Sent Events (SSE) stream.
@@ -348,6 +484,75 @@ function _getAgents(context: AIProjectContext) {
       content: Uint8Array,
       options?: AgentsUploadSessionFileOptionalParams,
     ) => uploadSessionFile(context, agentName, agentSessionId, path, content, options),
+    getMicrosoft365PublishDefaults: (
+      agentName: string,
+      options?: GetMicrosoft365PublishDefaultsOptionalParams,
+    ) => getMicrosoft365PublishDefaults(context, agentName, options),
+    getMicrosoft365Package: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: GetMicrosoft365PackageOptionalParams,
+    ) => getMicrosoft365Package(context, agentName, publishScope, options),
+    publishToMicrosoft365: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: PublishToMicrosoft365OptionalParams,
+    ) => publishToMicrosoft365(context, agentName, publishScope, options),
+    replaceTelephonyTransferTargets: (
+      agentName: string,
+      ifMatch: string,
+      transferTargets: TelephonyTransferTarget[],
+      options?: AgentsReplaceTelephonyTransferTargetsOptionalParams,
+    ) => replaceTelephonyTransferTargets(context, agentName, ifMatch, transferTargets, options),
+    getTelephonyTransferTargets: (
+      agentName: string,
+      options?: AgentsGetTelephonyTransferTargetsOptionalParams,
+    ) => getTelephonyTransferTargets(context, agentName, options),
+    endTelephonyCall: (
+      agentName: string,
+      callId: string,
+      options?: AgentsEndTelephonyCallOptionalParams,
+    ) => endTelephonyCall(context, agentName, callId, options),
+    transferTelephonyCall: (
+      agentName: string,
+      callId: string,
+      target: string,
+      options?: AgentsTransferTelephonyCallOptionalParams,
+    ) => transferTelephonyCall(context, agentName, callId, target, options),
+    getTelephonyCall: (
+      agentName: string,
+      callId: string,
+      options?: AgentsGetTelephonyCallOptionalParams,
+    ) => getTelephonyCall(context, agentName, callId, options),
+    listTelephonyCalls: (agentName: string, options?: AgentsListTelephonyCallsOptionalParams) =>
+      listTelephonyCalls(context, agentName, options),
+    deleteTelephonyBinding: (
+      agentName: string,
+      bindingId: string,
+      ifMatch: string,
+      options?: AgentsDeleteTelephonyBindingOptionalParams,
+    ) => deleteTelephonyBinding(context, agentName, bindingId, ifMatch, options),
+    updateTelephonyBinding: (
+      agentName: string,
+      bindingId: string,
+      ifMatch: string,
+      body: UpdateTelephonyBindingRequest,
+      options?: AgentsUpdateTelephonyBindingOptionalParams,
+    ) => updateTelephonyBinding(context, agentName, bindingId, ifMatch, body, options),
+    getTelephonyBinding: (
+      agentName: string,
+      bindingId: string,
+      options?: AgentsGetTelephonyBindingOptionalParams,
+    ) => getTelephonyBinding(context, agentName, bindingId, options),
+    listTelephonyBindings: (
+      agentName: string,
+      options?: AgentsListTelephonyBindingsOptionalParams,
+    ) => listTelephonyBindings(context, agentName, options),
+    createTelephonyBinding: (
+      agentName: string,
+      body: CreateTelephonyBindingRequest,
+      options?: AgentsCreateTelephonyBindingOptionalParams,
+    ) => createTelephonyBinding(context, agentName, body, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,

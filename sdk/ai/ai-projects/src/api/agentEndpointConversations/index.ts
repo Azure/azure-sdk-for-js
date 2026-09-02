@@ -4,6 +4,8 @@
 export {
   getAgentConversationAudioContent,
   getAgentConversationAudio,
+  getAgentConversationItemGeneratedAudioContent,
+  getAgentConversationItemGeneratedAudio,
   getAgentConversationItemAudioContent,
   getAgentConversationItemAudio,
   getAgentConversationItem,
@@ -18,6 +20,8 @@ export {
 export type {
   AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
   AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
+  AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams,
+  AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemOptionalParams,

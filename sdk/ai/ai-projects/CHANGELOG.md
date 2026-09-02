@@ -7,8 +7,18 @@
 - Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
 - Added `project.realtime` (`VoiceAgentRealtimeClient`) for establishing bidirectional realtime WebSocket sessions with voice agents, including text, audio, and tool-call streaming.
 - Added direct browser and React Native realtime connections using Microsoft Entra bearer credentials carried in the WebSocket subprotocol.
-- Added optional client-reference echo cancellation to the browser Voice Agent sample, streaming interleaved microphone and rendered-playback PCM channels.
+- Added agent-configured client-reference echo cancellation to the browser Voice Agent sample, streaming interleaved microphone and rendered-playback PCM channels.
 - Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
+- Added hosted-agent voice bridges and configurable subagents for delegating background work to sibling Foundry agents.
+- Added WebRTC signaling events and transport selection for Voice Agent connections.
+- Added Voice Agent telephony binding, call history, transfer, and hang-up operations.
+- Added metadata and content operations for generated audio that was rendered beyond the portion heard by the user.
+- Added Microsoft 365 publishing operations and digital-worker configuration for agents.
+- Added optional identity selection for routine dispatch authorization.
+
+### Bugs Fixed
+
+- Fixed browser bundling by isolating Node.js file-system access used by dataset and model upload helpers. [#39798](https://github.com/Azure/azure-sdk-for-js/pull/39798)
 
 ## 2.5.0 (2026-08-20)
 

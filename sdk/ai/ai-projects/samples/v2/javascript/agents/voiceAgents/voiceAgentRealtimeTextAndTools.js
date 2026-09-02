@@ -24,7 +24,7 @@ const pcmSampleRate = 24_000;
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const { definition, created } = await getOrCreateVoiceAgent(project);
+  const { created } = await getOrCreateVoiceAgent(project);
   const connection = await project.realtime.connect(agentName);
   const audioOutput = createWriteStream(audioOutputPath);
   let pendingToolOutputs = 0;
@@ -33,29 +33,6 @@ async function main() {
   let audioByteCount = 0;
 
   try {
-    await connection.configureSession({
-      type: "realtime",
-      output_modalities: ["text", "audio"],
-      audio: {
-        output: {
-          ...definition.audio?.output,
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-        },
-      },
-      tools: [
-        {
-          type: "function",
-          name: "get_weather",
-          description: "Get the current weather for a city.",
-          parameters: {
-            type: "object",
-            properties: { city: { type: "string" } },
-            required: ["city"],
-          },
-        },
-      ],
-    });
-
     await connection.sendText("What is the weather in Seattle? Use the weather tool.");
 
     for await (const event of connection) {
@@ -143,6 +120,21 @@ async function getOrCreateVoiceAgent(project) {
     model: modelName,
     instructions: "You are a helpful voice assistant. Use tools when appropriate.",
     output_modalities: ["text", "audio"],
+    audio: {
+      output: { format: { type: "audio/pcm", rate: pcmSampleRate } },
+    },
+    tools: [
+      {
+        type: "function",
+        name: "get_weather",
+        description: "Get the current weather for a city.",
+        parameters: {
+          type: "object",
+          properties: { city: { type: "string" } },
+          required: ["city"],
+        },
+      },
+    ],
   };
   const agent = await project.agents.create(agentName, definition, { foundryFeatures: preview });
   return { definition: getVoiceDefinition(agent), created: true };

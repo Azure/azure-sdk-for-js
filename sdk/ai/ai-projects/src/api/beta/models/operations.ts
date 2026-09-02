@@ -39,8 +39,11 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { BlobServiceClient } from "@azure/storage-blob";
-import fs from "node:fs";
-import nodePath from "node:path";
+import {
+  ensureLocalFileAccess,
+  listLocalFiles,
+  readLocalFile,
+} from "#platform/static-helpers/localFileStorage";
 
 export function _getCredentialsSend(
   context: Client,
@@ -451,19 +454,6 @@ export function listVersions(
   );
 }
 
-function getAllFiles(dir: string): string[] {
-  const results: string[] = [];
-  for (const entry of fs.readdirSync(dir)) {
-    const fullPath = nodePath.join(dir, entry);
-    if (fs.statSync(fullPath).isDirectory()) {
-      results.push(...getAllFiles(fullPath));
-    } else {
-      results.push(fullPath);
-    }
-  }
-  return results;
-}
-
 export async function createFromSource(
   context: Client,
   name: string,
@@ -471,6 +461,7 @@ export async function createFromSource(
   source: string,
   options: BetaModelsCreateFromSourceOptions = {},
 ): Promise<ModelVersion> {
+  ensureLocalFileAccess();
   const pollingTimeout = options.pollingTimeout ?? 300_000;
   const pollingInterval = options.pollingInterval ?? 2_000;
 
@@ -483,12 +474,11 @@ export async function createFromSource(
   const containerClient = new BlobServiceClient(
     uploadResponse.blobReference.credential.sasUri,
   ).getContainerClient("");
-  const files = getAllFiles(source);
-  for (const filePath of files) {
-    const blobName = nodePath.relative(source, filePath).replace(/\\/g, "/");
-    const data = fs.readFileSync(filePath);
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    await blockBlobClient.upload(data, data.length);
+  const files = await listLocalFiles(source);
+  for (const file of files) {
+    const data = readLocalFile(file.path);
+    const blockBlobClient = containerClient.getBlockBlobClient(file.relativePath);
+    await blockBlobClient.upload(data, data.byteLength);
   }
 
   // Step 3: Trigger async model version creation
