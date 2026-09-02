@@ -27,15 +27,18 @@ export interface ChatMessageInput {
 }
 
 // @public
+export type ChatPermission = string;
+
+// @public
 export interface ChatRole {
     readonly etag: string;
     readonly name: string;
-    permissions: string[];
+    permissions: ChatPermission[];
 }
 
 // @public
 export interface ChatRoleInput {
-    permissions: string[];
+    permissions: ChatPermission[];
 }
 
 // @public
@@ -98,6 +101,16 @@ export interface HumanChatUserInput extends ChatUserInput {
     // (undocumented)
     kind: "Human";
     roleName: string;
+}
+
+// @public
+export enum KnownChatPermission {
+    RoomHistory = "room.history",
+    RoomInvite = "room.invite",
+    RoomPublishMessage = "room.publish_message",
+    RoomRemoveUser = "room.remove_user",
+    UserCreateRoom = "user.create_room",
+    UserFetchAllRooms = "user.fetch_all_rooms"
 }
 
 // @public
