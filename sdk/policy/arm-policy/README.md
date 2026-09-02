@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policy/arm-policy)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-policy)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-policy)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-policy?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policy/arm-policy/samples)
 
 ## Getting started
