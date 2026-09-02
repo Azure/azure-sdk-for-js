@@ -17925,8 +17925,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/keyvault-keys':
-        specifier: ^4.9.0
-        version: 4.10.2
+        specifier: workspace:^
+        version: link:../keyvault-keys
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.1
