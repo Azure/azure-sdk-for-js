@@ -33,7 +33,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,7 +46,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -71,7 +73,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, vaultName, resourceGroupName, policyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-31-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -90,7 +92,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,13 +114,19 @@ export function _createOrUpdateSend(
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<ProtectionPolicyResource> {
+): Promise<ProtectionPolicyResource | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return protectionPolicyResourceDeserializer(result.body);
@@ -135,7 +143,7 @@ export async function createOrUpdate(
   policyName: string,
   parameters: ProtectionPolicyResource,
   options: ProtectionPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<ProtectionPolicyResource> {
+): Promise<ProtectionPolicyResource | void> {
   const result = await _createOrUpdateSend(
     context,
     vaultName,
@@ -161,7 +169,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +187,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

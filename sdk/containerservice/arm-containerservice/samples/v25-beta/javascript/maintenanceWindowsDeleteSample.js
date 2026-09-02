@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a maintenance window.
  *
  * @summary deletes a maintenance window.
- * x-ms-original-file: 2026-04-02-preview/MaintenanceWindowsDelete.json
+ * x-ms-original-file: 2026-06-02-preview/MaintenanceWindowsDelete.json
  */
 async function deleteMaintenanceWindow() {
   const credential = new DefaultAzureCredential();

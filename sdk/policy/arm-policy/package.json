@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-policy",
-  "version": "7.0.1",
+  "version": "8.0.0-beta.1",
   "description": "A generated SDK for PolicyClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -46,9 +46,9 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -140,6 +140,34 @@
         "default": "./dist/commonjs/api/policyTokens/index.js"
       }
     },
+    "./api/variableValues": {
+      "browser": {
+        "types": "./dist/browser/api/variableValues/index.d.ts",
+        "default": "./dist/browser/api/variableValues/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/variableValues/index.d.ts",
+        "default": "./dist/esm/api/variableValues/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/variableValues/index.d.ts",
+        "default": "./dist/commonjs/api/variableValues/index.js"
+      }
+    },
+    "./api/variables": {
+      "browser": {
+        "types": "./dist/browser/api/variables/index.d.ts",
+        "default": "./dist/browser/api/variables/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/variables/index.d.ts",
+        "default": "./dist/esm/api/variables/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/variables/index.d.ts",
+        "default": "./dist/commonjs/api/variables/index.js"
+      }
+    },
     "./api/policySetDefinitionVersions": {
       "browser": {
         "types": "./dist/browser/api/policySetDefinitionVersions/index.d.ts",
@@ -168,6 +196,34 @@
         "default": "./dist/commonjs/api/policySetDefinitions/index.js"
       }
     },
+    "./api/policyExemptions": {
+      "browser": {
+        "types": "./dist/browser/api/policyExemptions/index.d.ts",
+        "default": "./dist/browser/api/policyExemptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/policyExemptions/index.d.ts",
+        "default": "./dist/esm/api/policyExemptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/policyExemptions/index.d.ts",
+        "default": "./dist/commonjs/api/policyExemptions/index.js"
+      }
+    },
+    "./api/policyEnrollments": {
+      "browser": {
+        "types": "./dist/browser/api/policyEnrollments/index.d.ts",
+        "default": "./dist/browser/api/policyEnrollments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/policyEnrollments/index.d.ts",
+        "default": "./dist/esm/api/policyEnrollments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/policyEnrollments/index.d.ts",
+        "default": "./dist/commonjs/api/policyEnrollments/index.js"
+      }
+    },
     "./api/policyDefinitionVersions": {
       "browser": {
         "types": "./dist/browser/api/policyDefinitionVersions/index.d.ts",
@@ -194,6 +250,20 @@
       "require": {
         "types": "./dist/commonjs/api/policyDefinitions/index.d.ts",
         "default": "./dist/commonjs/api/policyDefinitions/index.js"
+      }
+    },
+    "./api/dataPolicyManifests": {
+      "browser": {
+        "types": "./dist/browser/api/dataPolicyManifests/index.d.ts",
+        "default": "./dist/browser/api/dataPolicyManifests/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataPolicyManifests/index.d.ts",
+        "default": "./dist/esm/api/dataPolicyManifests/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataPolicyManifests/index.d.ts",
+        "default": "./dist/commonjs/api/dataPolicyManifests/index.js"
       }
     },
     "./api/policyAssignments": {

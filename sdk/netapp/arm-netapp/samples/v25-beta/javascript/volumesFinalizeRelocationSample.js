@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to finalizes the relocation of the volume and cleans up the old volume.
  *
  * @summary finalizes the relocation of the volume and cleans up the old volume.
- * x-ms-original-file: 2026-04-15-preview/Volumes_FinalizeRelocation.json
+ * x-ms-original-file: 2026-06-15-preview/Volumes_FinalizeRelocation.json
  */
 async function volumesFinalizeRelocation() {
   const credential = new DefaultAzureCredential();

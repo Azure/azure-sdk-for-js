@@ -36,7 +36,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-02-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }
@@ -100,7 +100,7 @@ export function _createOrUpdateSend(
       resourceName: resourceName,
       agentPoolName: agentPoolName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -157,7 +157,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<Machine>, Machine>;
 }
 
@@ -177,7 +177,7 @@ export function _getSend(
       resourceName: resourceName,
       agentPoolName: agentPoolName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export type { AddressPrefixSetsOperations } from "./addressPrefixSets/index.js";
 export type { AdminRuleCollectionsOperations } from "./adminRuleCollections/index.js";
 export type { AdminRulesOperations } from "./adminRules/index.js";
 export type { ApplicationGatewayPrivateEndpointConnectionsOperations } from "./applicationGatewayPrivateEndpointConnections/index.js";
@@ -36,6 +37,7 @@ export type { ExpressRouteConnectionsOperations } from "./expressRouteConnection
 export type { ExpressRouteCrossConnectionPeeringsOperations } from "./expressRouteCrossConnectionPeerings/index.js";
 export type { ExpressRouteCrossConnectionsOperations } from "./expressRouteCrossConnections/index.js";
 export type { ExpressRouteGatewaysOperations } from "./expressRouteGateways/index.js";
+export type { ExpressRouteLagsOperations } from "./expressRouteLags/index.js";
 export type { ExpressRouteLinksOperations } from "./expressRouteLinks/index.js";
 export type { ExpressRoutePortAuthorizationsOperations } from "./expressRoutePortAuthorizations/index.js";
 export type { ExpressRoutePortsOperations } from "./expressRoutePorts/index.js";
@@ -48,8 +50,10 @@ export type { FirewallPolicyDraftsOperations } from "./firewallPolicyDrafts/inde
 export type { FirewallPolicyIdpsSignaturesOperations } from "./firewallPolicyIdpsSignatures/index.js";
 export type { FirewallPolicyIdpsSignaturesFilterValuesOperations } from "./firewallPolicyIdpsSignaturesFilterValues/index.js";
 export type { FirewallPolicyIdpsSignaturesOverridesOperations } from "./firewallPolicyIdpsSignaturesOverrides/index.js";
+export type { FirewallPolicyKubeSelectorGroupsOperations } from "./firewallPolicyKubeSelectorGroups/index.js";
 export type { FirewallPolicyRuleCollectionGroupDraftsOperations } from "./firewallPolicyRuleCollectionGroupDrafts/index.js";
 export type { FirewallPolicyRuleCollectionGroupsOperations } from "./firewallPolicyRuleCollectionGroups/index.js";
+export type { FirstPartyServiceTagsOperations } from "./firstPartyServiceTags/index.js";
 export type { FlowLogsOperations } from "./flowLogs/index.js";
 export type { HubRouteTablesOperations } from "./hubRouteTables/index.js";
 export type { HubVirtualNetworkConnectionsOperations } from "./hubVirtualNetworkConnections/index.js";

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.14.0-beta.5 (Unreleased)
+## 4.14.0-beta.6 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,27 @@
 
 ### Bugs Fixed
 
+- Fixed `AzurePipelinesCredential` to include only relevant details in error messages and logs when the OIDC token request fails. [#39774](https://github.com/Azure/azure-sdk-for-js/pull/39774)
+- Fixed `InteractiveBrowserCredential` failing to authenticate when the user's default browser is already running and only permits a single instance. The browser is no longer launched with `newInstance`, which on macOS passed `open --new`. [#39814](https://github.com/Azure/azure-sdk-for-js/pull/39814)
+
 ### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 4.13.2 (2026-08-12)
+
+### Other Changes
+
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39569](https://github.com/Azure/azure-sdk-for-js/pull/39569)
+- Replaced shell-based developer credential commands with safe, structured process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+- Migrated platform-specific module resolution to `#platform/*` imports. [#38309](https://github.com/Azure/azure-sdk-for-js/pull/38309)
+
+## 4.14.0-beta.5 (2026-08-12)
+
+### Other Changes
+
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39425](https://github.com/Azure/azure-sdk-for-js/pull/39425)
+- Replaced shell-based developer credential commands with safe, structured process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 
 ## 4.14.0-beta.4 (2026-06-08)
 

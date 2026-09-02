@@ -3,8 +3,9 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-logs](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/sdk-logs)
+ * [@opentelemetry/sdk-logs](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/sdk-logs)
  * to instrument a simple Node.js application.
+ * It also demonstrates how to associate custom measurements with logs.
  *
  * @summary use opentelemetry logs in a Node.js application.
  */
@@ -31,7 +32,7 @@ const loggerProvider = new LoggerProvider({
   resource: resourceFromAttributes({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
   }),
-  processors: [new SimpleLogRecordProcessor(logExporter)],
+  processors: [new SimpleLogRecordProcessor({ exporter: logExporter })],
 });
 const logger = loggerProvider.getLogger("example-basic-logger-node");
 
@@ -41,7 +42,29 @@ export async function main(): Promise<void> {
     severityNumber: SeverityNumber.INFO,
     severityText: "INFO",
     body: "test message",
-    attributes: { key: "value" },
+    attributes: {
+      key: "value",
+      "microsoft.custom_measurements": JSON.stringify({
+        itemsProcessed: 42,
+        queueDepth: 7,
+      }),
+    },
+  });
+
+  // Add an availability result
+  logger.emit({
+    severityNumber: SeverityNumber.INFO,
+    severityText: "INFO",
+    body: "Homepage availability test completed.",
+    attributes: {
+      "microsoft.availability.id": "availability-test-run-123",
+      "microsoft.availability.name": "Homepage",
+      "microsoft.availability.duration": "00:00:00.250",
+      "microsoft.availability.success": true,
+      "microsoft.availability.runLocation": "westus2",
+      "microsoft.availability.message": "HTTP 200",
+      "microsoft.availability.testTimestamp": new Date().toISOString(),
+    },
   });
 
   // flush and shutdown

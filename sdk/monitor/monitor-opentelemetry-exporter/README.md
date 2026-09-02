@@ -95,13 +95,49 @@ const exporter = new AzureMonitorLogExporter({
   connectionString: "<connection string>",
 });
 
-const logRecordProcessor = new BatchLogRecordProcessor(exporter);
-const loggerProvider = new LoggerProvider();
-loggerProvider.addLogRecordProcessor(logRecordProcessor);
+const logRecordProcessor = new BatchLogRecordProcessor({ exporter });
+const loggerProvider = new LoggerProvider({
+  processors: [logRecordProcessor],
+});
 
 // Register logger Provider as global
 logs.setGlobalLoggerProvider(loggerProvider);
 ```
+
+#### Availability results
+
+After registering the logger provider, emit an OpenTelemetry log record with the availability attributes below. The exporter converts the record to Application Insights availability telemetry.
+
+```ts snippet:ReadmeSampleAvailability
+import { logs } from "@opentelemetry/api-logs";
+
+const logger = logs.getLogger("availability");
+logger.emit({
+  body: "Homepage availability test completed.",
+  attributes: {
+    "microsoft.availability.id": "availability-test-run-123",
+    "microsoft.availability.name": "Homepage",
+    "microsoft.availability.duration": "00:00:00.250",
+    "microsoft.availability.success": true,
+    "microsoft.availability.runLocation": "westus2",
+    "microsoft.availability.message": "HTTP 200",
+    "microsoft.availability.testTimestamp": new Date().toISOString(),
+  },
+});
+```
+
+The following attributes are required:
+
+| Attribute | Description |
+| --- | --- |
+| `microsoft.availability.id` | Identifier for this test run. |
+| `microsoft.availability.name` | Name of the availability test. |
+| `microsoft.availability.duration` | Test duration, for example `00:00:00.250`. |
+| `microsoft.availability.success` | Whether the test succeeded. |
+
+`microsoft.availability.runLocation`, `microsoft.availability.message`, and `microsoft.availability.testTimestamp` are optional. The timestamp must be an ISO 8601 string and overrides the log record time when valid. If the message attribute is omitted, the log body is used as the availability message.
+
+If any required attribute is missing or empty, the exporter sends the record as regular message telemetry instead. Exception and custom event attributes take precedence over availability attributes.
 
 ### Sampling
 

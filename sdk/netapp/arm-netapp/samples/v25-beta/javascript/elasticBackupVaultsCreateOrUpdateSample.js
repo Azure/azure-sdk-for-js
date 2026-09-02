@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the specified Elastic Backup Vault in the Elastic NetApp account
  *
  * @summary create or update the specified Elastic Backup Vault in the Elastic NetApp account
- * x-ms-original-file: 2026-04-15-preview/ElasticBackupVaults_Create.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackupVaults_Create.json
  */
 async function elasticBackupVaultsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

@@ -60,7 +60,7 @@ export function _getResiliencyInformationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       attemptRefresh: options?.attemptRefresh,
     },
     {
@@ -106,7 +106,7 @@ export function getResiliencyInformation(
       getInitialResponse: () =>
         _getResiliencyInformationSend(context, resourceGroupName, expressRouteGatewayName, options),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<GatewayResiliencyInformation>, GatewayResiliencyInformation>;
 }
@@ -123,7 +123,7 @@ export function _getRoutesInformationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       attemptRefresh: options?.attemptRefresh,
     },
     {
@@ -165,7 +165,7 @@ export function getRoutesInformation(
     getInitialResponse: () =>
       _getRoutesInformationSend(context, resourceGroupName, expressRouteGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<GatewayRouteSetsInformation>, GatewayRouteSetsInformation>;
 }
 
@@ -184,7 +184,7 @@ export function _stopSiteFailoverTestSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,7 +233,7 @@ export function stopSiteFailoverTest(
     getInitialResponse: () =>
       _stopSiteFailoverTestSend(context, resourceGroupName, expressRouteGatewayName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ExpressRouteGatewaysStopSiteFailoverTestResponse>,
     ExpressRouteGatewaysStopSiteFailoverTestResponse
@@ -253,7 +253,7 @@ export function _startSiteFailoverTestSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       peeringLocation: peeringLocation,
     },
     {
@@ -305,7 +305,7 @@ export function startSiteFailoverTest(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ExpressRouteGatewaysStartSiteFailoverTestResponse>,
     ExpressRouteGatewaysStartSiteFailoverTestResponse
@@ -326,7 +326,7 @@ export function _getFailoverSingleTestDetailsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       peeringLocation: peeringLocation,
       failoverTestId: failoverTestId,
     },
@@ -385,7 +385,7 @@ export function getFailoverSingleTestDetails(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<ExpressRouteFailoverSingleTestDetails[]>,
@@ -405,7 +405,7 @@ export function _getFailoverAllTestsDetailsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       type: options?.typeParam,
       fetchLatest: options?.fetchLatest,
     },
@@ -460,7 +460,7 @@ export function getFailoverAllTestsDetails(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<ExpressRouteFailoverTestDetails[]>,
@@ -476,7 +476,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -523,7 +523,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -573,7 +573,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -609,7 +609,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, expressRouteGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -626,7 +626,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -676,7 +676,7 @@ export function updateTags(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ExpressRouteGateway>, ExpressRouteGateway>;
 }
 
@@ -693,7 +693,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -743,7 +743,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ExpressRouteGateway>, ExpressRouteGateway>;
 }
 
@@ -759,7 +759,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteGatewayName: expressRouteGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

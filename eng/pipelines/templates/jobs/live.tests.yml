@@ -161,7 +161,7 @@ jobs:
             pwsh: true
             ScriptType: InlineScript
             Inline: |
-              Start-Process "node" -ArgumentList "launch.ts run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+              Start-Process "node" -ArgumentList "launch.ts run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool" -RedirectStandardOutput "$(Agent.TempDirectory)/browser-relay.out.log" -RedirectStandardError "$(Agent.TempDirectory)/browser-relay.err.log"
               for ($i = 0; $i -lt 10; $i++) {
                   try {
                       Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
@@ -171,6 +171,8 @@ jobs:
                       Start-Sleep 6
                   }
               }
+              if (Test-Path "$(Agent.TempDirectory)/browser-relay.out.log") { Write-Host '----- browser-relay stdout -----'; Get-Content "$(Agent.TempDirectory)/browser-relay.out.log" }
+              if (Test-Path "$(Agent.TempDirectory)/browser-relay.err.log") { Write-Host '----- browser-relay stderr -----'; Get-Content "$(Agent.TempDirectory)/browser-relay.err.log" }
               Write-Error "Could not connect to browser credential relay."
               exit 1
           displayName: "Start browser credential relay"
@@ -182,7 +184,7 @@ jobs:
 
       - ${{ else }}:
         - pwsh: |
-            Start-Process "node" -ArgumentList "launch.ts run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+            Start-Process "node" -ArgumentList "launch.ts run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool" -RedirectStandardOutput "$(Agent.TempDirectory)/browser-relay.out.log" -RedirectStandardError "$(Agent.TempDirectory)/browser-relay.err.log"
             for ($i = 0; $i -lt 10; $i++) {
                 try {
                     Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
@@ -192,6 +194,8 @@ jobs:
                     Start-Sleep 6
                 }
             }
+            if (Test-Path "$(Agent.TempDirectory)/browser-relay.out.log") { Write-Host '----- browser-relay stdout -----'; Get-Content "$(Agent.TempDirectory)/browser-relay.out.log" }
+            if (Test-Path "$(Agent.TempDirectory)/browser-relay.err.log") { Write-Host '----- browser-relay stderr -----'; Get-Content "$(Agent.TempDirectory)/browser-relay.err.log" }
             Write-Error "Could not connect to browser credential relay."
             exit 1
           displayName: "Start browser credential relay"
@@ -310,6 +314,12 @@ jobs:
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
       # ===== END LIVE TEST RUNS =====
+
+      - pwsh: |
+          Write-Host "Filesystem usage after browser tests:"
+          df -h / /mnt
+        displayName: "Report disk usage after browser tests (Linux)"
+        condition: and(always(),eq(variables['Agent.OS'], 'Linux'),eq(variables['TestType'], 'browser'))
 
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - ${{ each directory in coalesce(parameters.TestResourceDirectories, split(parameters.ServiceDirectory, '|')) }}:

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a ElasticSnapshot
  *
  * @summary get a ElasticSnapshot
- * x-ms-original-file: 2026-04-15-preview/ElasticSnapshots_Get.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticSnapshots_Get.json
  */
 async function elasticSnapshotsGet() {
   const credential = new DefaultAzureCredential();

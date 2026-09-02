@@ -192,6 +192,11 @@ export { isRestError }
 export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
+export interface ListMessageSessionsOptions extends OperationOptionsBase {
+    sessionStateUpdatedAfter?: Date;
+}
+
+// @public
 export interface MessageHandlers {
     processError(args: ProcessErrorArgs): Promise<void>;
     processMessage(message: ServiceBusReceivedMessage): Promise<void>;
@@ -343,7 +348,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
 // @public
 export interface ServiceBusAdministrationClientOptions extends CommonClientOptions {
-    serviceVersion?: "2021-05" | "2017-04";
+    serviceVersion?: "2024-05" | "2021-05" | "2017-04";
 }
 
 // @public
@@ -361,6 +366,8 @@ export class ServiceBusClient {
     createSender(queueOrTopicName: string, options?: ServiceBusSenderOptions): ServiceBusSender;
     fullyQualifiedNamespace: string;
     identifier: string;
+    listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
+    listMessageSessions(topicName: string, subscriptionName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
 }
 
 // @public
@@ -662,11 +669,13 @@ export interface TopicProperties {
 // @public
 export interface TopicRuntimeProperties {
     accessedAt: Date;
+    correlationFilterCount?: number;
     createdAt: Date;
     modifiedAt: Date;
     name: string;
     scheduledMessageCount: number;
     sizeInBytes?: number;
+    sqlFilterCount?: number;
     subscriptionCount?: number;
 }
 

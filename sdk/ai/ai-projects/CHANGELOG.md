@@ -1,5 +1,58 @@
 # Release History
 
+## 2.5.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.5.0 (2026-08-20)
+
+### Features Added
+
+- Add beta agent optimization models with `AgentOptimization*` names and `OptimizedAgentIdentifier`, while retaining the previous names as deprecated aliases. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `SimulationSeedDataGenerationJobOptions` with the `simulation_seed` discriminator, while retaining `TaskGenerationDataGenerationJobOptions` compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Update `project.beta.routines` to the `Routines=V2Preview` contract while retaining the previous list options for compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add the optional `cache_write_tokens` property to `ResponseUsageInputTokensDetails`. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add programmatic tool calling with `ProgrammaticToolCallingParam`, `SpecificProgrammaticToolCallingParam`, and `allowed_callers` configuration on callable tools. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `output_schema` configuration to function tools. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `Reasoning.mode`, the `ReasoningModeEnum` type, and the `max` reasoning effort. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `redact_private_content` to trace data generation jobs and `registry_connection_id` to container configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add the `VoiceAgents=V1Preview` agent definition opt-in key. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+
+### Bugs Fixed
+
+- Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
+- Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+
+### Other Changes
+
+- Add the `agents/agentProgrammaticToolCalling.ts` sample demonstrating programmatic tool calling configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+
+## 2.4.0 (2026-08-04)
+
+### Breaking Changes
+
+- Changed the beta job creation operations `project.beta.agents.createOptimizationJob`, `project.beta.datasets.createGenerationJob`, and `project.beta.evaluators.createGenerationJob` into long-running operations. Each now returns a poller instead of a promise, and resolves to the job result (`OptimizationJobResult`, `DataGenerationJobResult`, and `EvaluatorVersion` respectively) rather than the queued job. Call `pollUntilDone()` to await completion, or `submitted()` to continue once the job is queued. Each operation also accepts a new `updateIntervalInMs` option to control the polling interval. The queued job's id is available as `poller.operationState?.jobId` once `submitted()` resolves, so it can still be passed to the paired get, cancel, and delete operations.
+
+### Features Added
+
+- Added `JobOperationState` and `JobPoller` types, exposing the `jobId` of a queued job on the pollers returned by the beta job creation operations.
+- Added `project.agents.patchAgentObject` for merge-patching agent endpoint configuration and agent card metadata.
+- Added `ToolSearchToolboxTool` as a generally available `toolbox_search` tool type on `project.toolboxes`, letting an agent discover a toolbox's tools at run time instead of binding every tool up front.
+- Added `status` property and `AgentIdentityStatus` type on `AgentIdentity` to report whether an agent instance identity or agent blueprint is active or disabled.
+- Added `TaskGenerationDataGenerationJobOptions` as a `task_generation` job type on `project.beta.datasets` for generating multiturn evaluation test cases.
+- Added `max_stalls` to `OptimizationOptions` to cap the number of consecutive reflective minibatch rejections before an optimization job stops early.
+- Added generation provenance and input-quality advisories to `project.beta.evaluators`: `generation_job_id` and `warnings` on `EvaluatorVersion`, and `input_quality_warnings` on `EvaluatorGenerationJob`. The advisories are surfaced as `RubricGenerationInputQualityWarning` values.
+
+### Other Changes
+
+- Added the `toolboxes/toolboxToolSearch.ts` sample demonstrating the toolbox search tool end to end.
+
 ## 2.3.1 (2026-07-09)
 
 ### Other Changes

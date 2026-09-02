@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refresh LDAP Bind DN password by fetching the latest password from Azure Key Vault.
  *
  * @summary refresh LDAP Bind DN password by fetching the latest password from Azure Key Vault.
- * x-ms-original-file: 2026-04-15-preview/Accounts_RefreshLdapBindPassword.json
+ * x-ms-original-file: 2026-06-15-preview/Accounts_RefreshLdapBindPassword.json
  */
 async function netAppAccountsRefreshLdapBindPassword(): Promise<void> {
   const credential = new DefaultAzureCredential();

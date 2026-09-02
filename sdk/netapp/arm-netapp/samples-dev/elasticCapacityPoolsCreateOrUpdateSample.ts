@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the specified NetApp Elastic Capacity Pool within the resource group and NetApp Elastic Account
  *
  * @summary create or update the specified NetApp Elastic Capacity Pool within the resource group and NetApp Elastic Account
- * x-ms-original-file: 2026-04-15-preview/ElasticCapacityPools_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticCapacityPools_CreateOrUpdate.json
  */
 async function elasticCapacityPoolsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function elasticCapacityPoolsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create or update the specified NetApp Elastic Capacity Pool within the resource group and NetApp Elastic Account
  *
  * @summary create or update the specified NetApp Elastic Capacity Pool within the resource group and NetApp Elastic Account
- * x-ms-original-file: 2026-04-15-preview/ElasticCapacityPools_CreateOrUpdateCMK.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticCapacityPools_CreateOrUpdateCMK.json
  */
 async function elasticCapacityPoolsCreateOrUpdateCMK(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the specified Elastic Volume
  *
  * @summary delete the specified Elastic Volume
- * x-ms-original-file: 2026-04-15-preview/ElasticVolumes_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticVolumes_Delete.json
  */
 async function elasticVolumesDelete() {
   const credential = new DefaultAzureCredential();

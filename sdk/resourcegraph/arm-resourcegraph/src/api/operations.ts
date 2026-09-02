@@ -70,7 +70,6 @@ export async function _resourcesHistoryDeserialize(
 
   return { body: result.body };
 }
-
 /** List all snapshots of a resource for a given time interval. */
 export async function resourcesHistory(
   context: Client,
@@ -116,7 +115,6 @@ export async function _resourcesDeserialize(result: PathUncheckedResponse): Prom
 
   return queryResponseDeserializer(result.body);
 }
-
 /** Queries the resources managed by Azure Resource Manager for scopes specified in the request. */
 export async function resources(
   context: Client,
@@ -164,7 +162,6 @@ export async function _resourceChangeDetailsDeserialize(
 
   return resourceChangeDataArrayDeserializer(result.body);
 }
-
 /** Get resource change details. */
 export async function resourceChangeDetails(
   context: Client,
@@ -212,7 +209,6 @@ export async function _resourceChangesDeserialize(
 
   return resourceChangeListDeserializer(result.body);
 }
-
 /** List changes to a resource for a given time interval. */
 export async function resourceChanges(
   context: Client,

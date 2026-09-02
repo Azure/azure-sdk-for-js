@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a BrokerAuthenticationResource
  *
  * @summary create a BrokerAuthenticationResource
- * x-ms-original-file: 2026-03-01/BrokerAuthentication_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2026-07-01/BrokerAuthentication_CreateOrUpdate_Complex.json
  */
 async function brokerAuthenticationCreateOrUpdateComplex() {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function brokerAuthenticationCreateOrUpdateComplex() {
  * This sample demonstrates how to create a BrokerAuthenticationResource
  *
  * @summary create a BrokerAuthenticationResource
- * x-ms-original-file: 2026-03-01/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function brokerAuthenticationCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

@@ -26,7 +26,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       subscriptionId: context.subscriptionId,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -40,13 +40,19 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<ValidateOperationsResponse> {
+): Promise<ValidateOperationsResponse | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return validateOperationsResponseDeserializer(result.body);
@@ -59,7 +65,7 @@ export async function get(
   resourceGroupName: string,
   operationId: string,
   options: ValidateOperationResultsGetOptionalParams = { requestOptions: {} },
-): Promise<ValidateOperationsResponse> {
+): Promise<ValidateOperationsResponse | void> {
   const result = await _getSend(context, vaultName, resourceGroupName, operationId, options);
   return _getDeserialize(result);
 }

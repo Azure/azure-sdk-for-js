@@ -376,3 +376,14 @@ export interface PurgeMessagesResult {
    */
   deletedCount: number;
 }
+
+/**
+ * Options to configure the `listMessageSessions` method on the `ServiceBusClient`.
+ */
+export interface ListMessageSessionsOptions extends OperationOptionsBase {
+  /**
+   * If specified, only sessions whose state was updated after this time are returned.
+   * If not specified, returns sessions that have active messages or session state.
+   */
+  sessionStateUpdatedAfter?: Date;
+}

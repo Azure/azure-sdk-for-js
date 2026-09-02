@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get volumes associated with snapshot policy
  *
  * @summary get volumes associated with snapshot policy
- * x-ms-original-file: 2026-04-15-preview/SnapshotPolicies_ListVolumes.json
+ * x-ms-original-file: 2026-06-15-preview/SnapshotPolicies_ListVolumes.json
  */
 async function snapshotPoliciesListVolumes() {
   const credential = new DefaultAzureCredential();

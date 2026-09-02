@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the specified NetApp Elastic Account within the resource group
  *
  * @summary create or update the specified NetApp Elastic Account within the resource group
- * x-ms-original-file: 2026-04-15-preview/ElasticAccounts_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticAccounts_CreateOrUpdate.json
  */
 async function elasticAccountsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

@@ -67,6 +67,8 @@ export type {
   NetworkEgressType,
   SystemSku,
   SupercomputerIdentities,
+  SystemAssignedServiceIdentity,
+  SystemAssignedServiceIdentityType,
   SupercomputerUpdate,
   SupercomputerUpdateProperties,
   SupercomputerIdentitiesUpdate,
@@ -80,7 +82,9 @@ export type {
   StorageStoreUnion,
   StorageStoreType,
   AzureStorageBlobStore,
+  BlobStorageMountProtocol,
   AzureNetAppFilesStore,
+  NetAppMountProtocol,
   StorageContainerUpdate,
 } from "./models.js";
 export {
@@ -96,6 +100,9 @@ export {
   KnownScaleSetPriority,
   KnownNetworkEgressType,
   KnownSystemSku,
+  KnownSystemAssignedServiceIdentityType,
   KnownStorageStoreType,
+  KnownBlobStorageMountProtocol,
+  KnownNetAppMountProtocol,
   KnownVersions,
 } from "./models.js";

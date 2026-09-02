@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a ElasticSnapshotPolicy
  *
  * @summary update a ElasticSnapshotPolicy
- * x-ms-original-file: 2026-04-15-preview/ElasticSnapshotPolicies_Update.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticSnapshotPolicies_Update.json
  */
 async function elasticSnapshotPoliciesUpdate() {
   const credential = new DefaultAzureCredential();

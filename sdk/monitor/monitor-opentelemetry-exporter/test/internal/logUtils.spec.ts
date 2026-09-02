@@ -37,6 +37,7 @@ import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
+import { ApplicationInsightsCustomMeasurements } from "../../src/utils/constants/applicationinsights.js";
 
 const context = getInstance();
 
@@ -176,6 +177,26 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
+    });
+
+    it("should route custom measurements on logs to measurements", () => {
+      testLogRecord.body = "Test message";
+      testLogRecord.attributes = {
+        "extra.attribute": "foo",
+        [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42,"queueDepth":7}',
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const baseData = envelope?.data?.baseData as MessageData;
+
+      assert.deepStrictEqual(baseData.measurements, {
+        itemsProcessed: 42,
+        queueDepth: 7,
+      });
+      assert.deepStrictEqual(baseData.properties, {
+        "extra.attribute": "foo",
+      });
     });
 
     it("should serialize complex objects in message body as JSON", () => {
@@ -617,6 +638,7 @@ describe("logUtils.ts", () => {
       };
       testLogRecord.attributes = {
         "_MS.baseType": "PageViewData",
+        [ApplicationInsightsCustomMeasurements]: '{"ignoredMeasurement":42}',
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
@@ -757,6 +779,205 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
+    });
+
+    it("should merge custom measurements with legacy custom event measurements", () => {
+      testLogRecord.attributes = {
+        "microsoft.custom_event.name": "testing name",
+        [ApplicationInsightsCustomMeasurements]: {
+          attributeMeasurement: 42,
+          sharedMeasurement: 2,
+        },
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = {
+        measurements: {
+          legacyMeasurement: 7,
+          sharedMeasurement: 1,
+        },
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const baseData = envelope?.data?.baseData as TelemetryEventData;
+
+      assert.deepStrictEqual(baseData.measurements, {
+        legacyMeasurement: 7,
+        sharedMeasurement: 2,
+        attributeMeasurement: 42,
+      });
+      assert.isUndefined(baseData.properties?.[ApplicationInsightsCustomMeasurements]);
+    });
+  });
+
+  describe("#availability logs", () => {
+    it("should create an availability envelope from availability attributes", () => {
+      const testTimestamp = "2025-04-19T12:10:59.9930000+00:00";
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:05",
+        "microsoft.availability.success": true,
+        "microsoft.availability.runLocation": "test-location",
+        "microsoft.availability.message": "test-message",
+        "microsoft.availability.testTimestamp": testTimestamp,
+        "extra.attribute": "foo",
+        [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<AvailabilityData> = {
+        id: "test-id",
+        name: "test-name",
+        duration: "00:00:05",
+        success: true,
+        runLocation: "test-location",
+        message: "test-message",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Availability",
+        100,
+        "AvailabilityData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        new Date(testTimestamp),
+        expectedServiceTagsBase,
+      );
+    });
+
+    it("should create an availability envelope with only required attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": false,
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedBaseData: Partial<AvailabilityData> = {
+        id: "test-id",
+        name: "test-name",
+        duration: "00:00:02",
+        success: false,
+        runLocation: undefined,
+        message: "availability log",
+        version: 2,
+        properties: {},
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Availability",
+        100,
+        "AvailabilityData",
+        {},
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+    });
+
+    it("should fall back to a message envelope for incomplete availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        "extra.attribute": "foo",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+      testLogRecord.severityNumber = SeverityNumber.INFO;
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: "availability log",
+        severityLevel: "Information",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+    });
+
+    it("should use the log time when the availability test timestamp is invalid", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        "microsoft.availability.testTimestamp": "invalid",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assert.deepStrictEqual(envelope?.time, hrTimeToDate(testLogRecord.hrTime));
+      assert.strictEqual(envelope?.data?.baseType, "AvailabilityData");
+    });
+
+    it("should give custom event telemetry precedence over availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        "microsoft.custom_event.name": "test-event",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assert.strictEqual(envelope?.name, "Microsoft.ApplicationInsights.Event");
+      assert.strictEqual(envelope?.data?.baseType, "EventData");
+      assert.strictEqual((envelope?.data?.baseData as TelemetryEventData).name, "test-event");
+    });
+
+    it("should give exception telemetry precedence over availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        [SEMATTRS_EXCEPTION_TYPE]: "Error",
+        [SEMATTRS_EXCEPTION_MESSAGE]: "test exception",
+        [SEMATTRS_EXCEPTION_STACKTRACE]: "test stack",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assert.strictEqual(envelope?.name, "Microsoft.ApplicationInsights.Exception");
+      assert.strictEqual(envelope?.data?.baseType, "ExceptionData");
     });
   });
 

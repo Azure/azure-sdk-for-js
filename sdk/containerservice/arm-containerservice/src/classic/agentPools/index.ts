@@ -5,6 +5,8 @@ import type { ContainerServiceContext } from "../../api/containerServiceContext.
 import {
   getUpgradeProfile,
   getAvailableAgentPoolVersions,
+  update,
+  listBootstrapData,
   upgradeNodeImageVersion,
   deleteMachines,
   completeUpgrade,
@@ -17,6 +19,8 @@ import {
 import type {
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
+  AgentPoolsUpdateOptionalParams,
+  AgentPoolsListBootstrapDataOptionalParams,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
   AgentPoolsDeleteMachinesOptionalParams,
   AgentPoolsCompleteUpgradeOptionalParams,
@@ -29,6 +33,9 @@ import type {
 import type {
   AgentPool,
   AgentPoolDeleteMachinesParameter,
+  ListBootstrapDataRequest,
+  PoolBootstrapData,
+  AgentPoolUpdate,
   AgentPoolAvailableVersions,
   AgentPoolUpgradeProfile,
 } from "../../models/models.js";
@@ -52,6 +59,38 @@ export interface AgentPoolsOperations {
     resourceName: string,
     options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
   ) => Promise<AgentPoolAvailableVersions>;
+  /** Updates an agent pool in the specified managed cluster. Visit https://aka.ms/aks/concurrent-node-operations for more information. */
+  update: (
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    parameters: AgentPoolUpdate,
+    options?: AgentPoolsUpdateOptionalParams,
+  ) => PollerLike<OperationState<AgentPool>, AgentPool>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    parameters: AgentPoolUpdate,
+    options?: AgentPoolsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<AgentPool>, AgentPool>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    parameters: AgentPoolUpdate,
+    options?: AgentPoolsUpdateOptionalParams,
+  ) => Promise<AgentPool>;
+  /** Returns pool-level bootstrap configuration for FlexNode machines. */
+  listBootstrapData: (
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    body: ListBootstrapDataRequest,
+    options?: AgentPoolsListBootstrapDataOptionalParams,
+  ) => Promise<PoolBootstrapData>;
   /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
   upgradeNodeImageVersion: (
     resourceGroupName: string,
@@ -212,6 +251,54 @@ function _getAgentPools(context: ContainerServiceContext) {
       resourceName: string,
       options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
     ) => getAvailableAgentPoolVersions(context, resourceGroupName, resourceName, options),
+    update: (
+      resourceGroupName: string,
+      resourceName: string,
+      agentPoolName: string,
+      parameters: AgentPoolUpdate,
+      options?: AgentPoolsUpdateOptionalParams,
+    ) => update(context, resourceGroupName, resourceName, agentPoolName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      resourceName: string,
+      agentPoolName: string,
+      parameters: AgentPoolUpdate,
+      options?: AgentPoolsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        resourceName,
+        agentPoolName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      agentPoolName: string,
+      parameters: AgentPoolUpdate,
+      options?: AgentPoolsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        resourceName,
+        agentPoolName,
+        parameters,
+        options,
+      );
+    },
+    listBootstrapData: (
+      resourceGroupName: string,
+      resourceName: string,
+      agentPoolName: string,
+      body: ListBootstrapDataRequest,
+      options?: AgentPoolsListBootstrapDataOptionalParams,
+    ) => listBootstrapData(context, resourceGroupName, resourceName, agentPoolName, body, options),
     upgradeNodeImageVersion: (
       resourceGroupName: string,
       resourceName: string,

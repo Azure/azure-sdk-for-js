@@ -10,6 +10,9 @@ import {
   listSchemaRegistryClusters,
   listEnvironments,
   getEnvironmentById,
+  activateResource,
+  latestLinkedSaaS,
+  linkSaaS,
   listRegions,
   listBySubscription,
   listByResourceGroup,
@@ -28,6 +31,9 @@ import type {
   OrganizationListSchemaRegistryClustersOptionalParams,
   OrganizationListEnvironmentsOptionalParams,
   OrganizationGetEnvironmentByIdOptionalParams,
+  OrganizationActivateResourceOptionalParams,
+  OrganizationLatestLinkedSaaSOptionalParams,
+  OrganizationLinkSaaSOptionalParams,
   OrganizationListRegionsOptionalParams,
   OrganizationListBySubscriptionOptionalParams,
   OrganizationListByResourceGroupOptionalParams,
@@ -43,6 +49,10 @@ import type {
   OrganizationResource,
   ListAccessRequestModel,
   ListRegionsSuccessResponse,
+  SaaSData,
+  LatestLinkedSaaSResponse,
+  ActivateSaaSParameterRequest,
+  SaaSResourceDetailsResponse,
   SCEnvironmentRecord,
   SchemaRegistryClusterRecord,
   SCClusterRecord,
@@ -107,6 +117,50 @@ export interface OrganizationOperations {
     environmentId: string,
     options?: OrganizationGetEnvironmentByIdOptionalParams,
   ) => Promise<SCEnvironmentRecord>;
+  /** Resolve the token to get the SaaS resource ID and activate the SaaS resource */
+  activateResource: (
+    body: ActivateSaaSParameterRequest,
+    options?: OrganizationActivateResourceOptionalParams,
+  ) => PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
+  /** @deprecated use activateResource instead */
+  beginActivateResource: (
+    body: ActivateSaaSParameterRequest,
+    options?: OrganizationActivateResourceOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>
+  >;
+  /** @deprecated use activateResource instead */
+  beginActivateResourceAndWait: (
+    body: ActivateSaaSParameterRequest,
+    options?: OrganizationActivateResourceOptionalParams,
+  ) => Promise<SaaSResourceDetailsResponse>;
+  /** Returns the latest SaaS linked to the Confluent organization of the underlying resource. */
+  latestLinkedSaaS: (
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationLatestLinkedSaaSOptionalParams,
+  ) => Promise<LatestLinkedSaaSResponse>;
+  /** Links a new SaaS to the Confluent organization of the underlying resource. */
+  linkSaaS: (
+    resourceGroupName: string,
+    organizationName: string,
+    body: SaaSData,
+    options?: OrganizationLinkSaaSOptionalParams,
+  ) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+  /** @deprecated use linkSaaS instead */
+  beginLinkSaaS: (
+    resourceGroupName: string,
+    organizationName: string,
+    body: SaaSData,
+    options?: OrganizationLinkSaaSOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OrganizationResource>, OrganizationResource>>;
+  /** @deprecated use linkSaaS instead */
+  beginLinkSaaSAndWait: (
+    resourceGroupName: string,
+    organizationName: string,
+    body: SaaSData,
+    options?: OrganizationLinkSaaSOptionalParams,
+  ) => Promise<OrganizationResource>;
   /** cloud provider regions available for creating Schema Registry clusters. */
   listRegions: (
     resourceGroupName: string,
@@ -124,11 +178,6 @@ export interface OrganizationOperations {
     options?: OrganizationListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OrganizationResource>;
   /** Delete Organization resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationName: string,
@@ -191,7 +240,6 @@ export interface OrganizationOperations {
     options?: OrganizationGetClusterAPIKeyOptionalParams,
   ) => Promise<APIKeyRecord>;
 }
-
 function _getOrganization(context: ConfluentManagementContext) {
   return {
     createAPIKey: (
@@ -271,6 +319,53 @@ function _getOrganization(context: ConfluentManagementContext) {
       environmentId: string,
       options?: OrganizationGetEnvironmentByIdOptionalParams,
     ) => getEnvironmentById(context, resourceGroupName, organizationName, environmentId, options),
+    activateResource: (
+      body: ActivateSaaSParameterRequest,
+      options?: OrganizationActivateResourceOptionalParams,
+    ) => activateResource(context, body, options),
+    beginActivateResource: async (
+      body: ActivateSaaSParameterRequest,
+      options?: OrganizationActivateResourceOptionalParams,
+    ) => {
+      const poller = activateResource(context, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginActivateResourceAndWait: async (
+      body: ActivateSaaSParameterRequest,
+      options?: OrganizationActivateResourceOptionalParams,
+    ) => {
+      return await activateResource(context, body, options);
+    },
+    latestLinkedSaaS: (
+      resourceGroupName: string,
+      organizationName: string,
+      options?: OrganizationLatestLinkedSaaSOptionalParams,
+    ) => latestLinkedSaaS(context, resourceGroupName, organizationName, options),
+    linkSaaS: (
+      resourceGroupName: string,
+      organizationName: string,
+      body: SaaSData,
+      options?: OrganizationLinkSaaSOptionalParams,
+    ) => linkSaaS(context, resourceGroupName, organizationName, body, options),
+    beginLinkSaaS: async (
+      resourceGroupName: string,
+      organizationName: string,
+      body: SaaSData,
+      options?: OrganizationLinkSaaSOptionalParams,
+    ) => {
+      const poller = linkSaaS(context, resourceGroupName, organizationName, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginLinkSaaSAndWait: async (
+      resourceGroupName: string,
+      organizationName: string,
+      body: SaaSData,
+      options?: OrganizationLinkSaaSOptionalParams,
+    ) => {
+      return await linkSaaS(context, resourceGroupName, organizationName, body, options);
+    },
     listRegions: (
       resourceGroupName: string,
       organizationName: string,
@@ -349,7 +444,6 @@ function _getOrganization(context: ConfluentManagementContext) {
     ) => getClusterAPIKey(context, resourceGroupName, organizationName, apiKeyId, options),
   };
 }
-
 export function _getOrganizationOperations(
   context: ConfluentManagementContext,
 ): OrganizationOperations {

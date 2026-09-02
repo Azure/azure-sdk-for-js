@@ -527,10 +527,10 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         error.message,
         `Relationship ` + relationshipId + ` not found on twin ` + BUILDING_DIGITAL_TWIN_ID,
       );
-      assert.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
   it("delete relationship", async () => {
@@ -587,8 +587,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
           error.message,
           `Relationship ` + relationshipId + ` not found on twin ` + BUILDING_DIGITAL_TWIN_ID,
         );
-        assert.equal(errorWasThrown, true, "Error was not thrown");
       }
+      assert.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
@@ -609,10 +609,10 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         error.message,
         `Relationship ` + relationshipId + ` not found on twin ` + BUILDING_DIGITAL_TWIN_ID,
       );
-      assert.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
   it("update relationship replace", async () => {
@@ -1151,10 +1151,10 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `Relationship foo not found on twin`);
-      assert.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
   it("list relationships", async () => {

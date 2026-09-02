@@ -1,6 +1,16 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.0 (2026-08-03)
 
 General Availability release aligning `@azure/ai-voicelive` with the stable Voice Live API version `2026-07-15`. The changes below are cumulative relative to the previous stable release, `1.0.0`.
 
@@ -18,8 +28,6 @@ General Availability release aligning `@azure/ai-voicelive` with the stable Voic
 
 - API version updated from `2026-04-10` to `2026-07-15`.
 - Renamed `RequestImageContentPart.url` to `RequestImageContentPart.imageUrl` to align the SDK model with the `image_url` wire shape.
-
-### Bugs Fixed
 
 ### Other Changes
 

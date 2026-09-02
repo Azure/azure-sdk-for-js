@@ -12,7 +12,6 @@ export interface GatesListByFleetOptionalParams extends OperationOptions {
   /** The page-continuation token to use with a paged version of this API. */
   skipToken?: string;
 }
-
 /** Optional parameters. */
 export interface GatesUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -22,6 +21,5 @@ export interface GatesUpdateOptionalParams extends OperationOptions {
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
 }
-
 /** Optional parameters. */
 export interface GatesGetOptionalParams extends OperationOptions {}

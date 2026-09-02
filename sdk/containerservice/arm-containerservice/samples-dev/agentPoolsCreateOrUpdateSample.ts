@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsAssociate_CRG.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsAssociate_CRG.json
  */
 async function associateAgentPoolWithCapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function associateAgentPoolWithCapacityReservationGroup(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_CustomNodeConfig.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_CustomNodeConfig.json
  */
 async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,6 +42,7 @@ async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void>
       cpuCfsQuota: true,
       cpuCfsQuotaPeriod: "200ms",
       cpuManagerPolicy: "static",
+      evictionMaxPodGracePeriodInSeconds: 60,
       failSwapOn: false,
       hardEvictionThreshold: {
         memoryAvailable: "500Mi",
@@ -51,6 +52,16 @@ async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void>
       imageGcHighThreshold: 90,
       imageGcLowThreshold: 70,
       kubeReserved: { cpuMillicores: 200, memoryMB: 1024 },
+      softEvictionGracePeriod: {
+        memoryAvailable: "1m30s",
+        nodeFsAvailable: "2m",
+        nodeFsInodesFree: "2m",
+      },
+      softEvictionThreshold: {
+        memoryAvailable: "750Mi",
+        nodeFsAvailable: "20%",
+        nodeFsInodesFree: "15%",
+      },
       topologyManagerPolicy: "best-effort",
     },
     linuxOSConfig: {
@@ -75,7 +86,7 @@ async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void>
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_DedicatedHostGroup.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_DedicatedHostGroup.json
  */
 async function createAgentPoolWithDedicatedHostGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -96,7 +107,7 @@ async function createAgentPoolWithDedicatedHostGroup(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_EnableEncryptionAtHost.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_EnableEncryptionAtHost.json
  */
 async function createAgentPoolWithEncryptionAtHostEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -116,7 +127,7 @@ async function createAgentPoolWithEncryptionAtHostEnabled(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_EnableFIPS.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_EnableFIPS.json
  */
 async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -136,7 +147,7 @@ async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_EnableUltraSSD.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_EnableUltraSSD.json
  */
 async function createAgentPoolWithUltraSSDEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -156,7 +167,7 @@ async function createAgentPoolWithUltraSSDEnabled(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_Ephemeral.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_Ephemeral.json
  */
 async function createAgentPoolWithEphemeralOSDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -177,7 +188,25 @@ async function createAgentPoolWithEphemeralOSDisk(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_GPUMIG.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_FlexNode.json
+ */
+async function createFlexNodeAgentPool(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "flexnode1", {
+    mode: "User",
+    orchestratorVersion: "1.32",
+    typePropertiesType: "FlexNodes",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_GPUMIG.json
  */
 async function createAgentPoolWithGpumig(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -218,7 +247,7 @@ async function createAgentPoolWithGpumig(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_MessageOfTheDay.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_MessageOfTheDay.json
  */
 async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -240,7 +269,7 @@ async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_OSSKU.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_OSSKU.json
  */
 async function createAgentPoolWithOssku(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -281,7 +310,7 @@ async function createAgentPoolWithOssku(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_PPG.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_PPG.json
  */
 async function createAgentPoolWithPPG(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -302,7 +331,51 @@ async function createAgentPoolWithPPG(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_Snapshot.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_PerNICPublicIP.json
+ */
+async function createAgentPoolWithPerNICPublicIPConfiguration(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.createOrUpdate("rg1", "clustername1", "agentpool1", {
+    count: 3,
+    orchestratorVersion: "",
+    osType: "Linux",
+    vmSize: "Standard_D8s_v3",
+    networkProfile: {
+      secondaryNetworkInterfaces: [
+        {
+          type: "Standard",
+          vnetSubnetId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVNet/subnets/secondary-subnet-1",
+          enableAcceleratedNetworking: true,
+          publicIPAddressConfiguration: {
+            publicIPAddressVersion: "IPv4",
+            ipTags: [{ ipTagType: "FirstPartyUsage", tag: "teams" }],
+          },
+        },
+        {
+          type: "Standard",
+          vnetSubnetId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVNet/subnets/secondary-subnet-2",
+          enableAcceleratedNetworking: true,
+          publicIPAddressConfiguration: {
+            publicIPAddressVersion: "IPv4",
+            publicIPPrefixID:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/myPrefix",
+          },
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_Snapshot.json
  */
 async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -326,7 +399,7 @@ async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_Spot.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_Spot.json
  */
 async function createSpotAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -350,7 +423,7 @@ async function createSpotAgentPool(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_TypeVirtualMachines.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_TypeVirtualMachines.json
  */
 async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -379,7 +452,7 @@ async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_TypeVirtualMachines_Autoscale.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_TypeVirtualMachines_Autoscale.json
  */
 async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -403,7 +476,7 @@ async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_Update.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_Update.json
  */
 async function createOrUpdateAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -428,7 +501,7 @@ async function createOrUpdateAgentPool(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_WasmWasi.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_WasmWasi.json
  */
 async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -450,7 +523,7 @@ async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_WindowsDisableOutboundNAT.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_WindowsDisableOutboundNAT.json
  */
 async function createWindowsAgentPoolWithDisablingOutboundNAT(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -471,7 +544,7 @@ async function createWindowsAgentPoolWithDisablingOutboundNAT(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPoolsCreate_WindowsOSSKU.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsCreate_WindowsOSSKU.json
  */
 async function createAgentPoolWithWindowsOssku(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -491,7 +564,7 @@ async function createAgentPoolWithWindowsOssku(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPools_Start.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPools_Start.json
  */
 async function startAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -507,7 +580,7 @@ async function startAgentPool(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPools_Stop.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPools_Stop.json
  */
 async function stopAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -523,7 +596,7 @@ async function stopAgentPool(): Promise<void> {
  * This sample demonstrates how to creates or updates an agent pool in the specified managed cluster.
  *
  * @summary creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-04-02-preview/AgentPools_Update.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPools_Update.json
  */
 async function updateAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -552,10 +625,12 @@ async function main(): Promise<void> {
   await createAgentPoolWithFipsEnabledOS();
   await createAgentPoolWithUltraSSDEnabled();
   await createAgentPoolWithEphemeralOSDisk();
+  await createFlexNodeAgentPool();
   await createAgentPoolWithGpumig();
   await createAgentPoolWithMessageOfTheDay();
   await createAgentPoolWithOssku();
   await createAgentPoolWithPPG();
+  await createAgentPoolWithPerNICPublicIPConfiguration();
   await createAgentPoolUsingAnAgentPoolSnapshot();
   await createSpotAgentPool();
   await createAgentPoolWithVirtualMachinesPoolType();

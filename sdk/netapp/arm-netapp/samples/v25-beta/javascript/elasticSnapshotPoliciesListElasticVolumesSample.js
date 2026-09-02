@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get elastic volumes associated with Elastic Snapshot Policy
  *
  * @summary get elastic volumes associated with Elastic Snapshot Policy
- * x-ms-original-file: 2026-04-15-preview/ElasticSnapshotPolicies_ListElasticVolumes.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticSnapshotPolicies_ListElasticVolumes.json
  */
 async function elasticSnapshotPoliciesListElasticVolumes() {
   const credential = new DefaultAzureCredential();

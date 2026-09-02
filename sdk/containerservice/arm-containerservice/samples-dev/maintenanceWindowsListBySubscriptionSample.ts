@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists maintenance windows in the specified subscription.
  *
  * @summary lists maintenance windows in the specified subscription.
- * x-ms-original-file: 2026-04-02-preview/MaintenanceWindowsListBySubscription.json
+ * x-ms-original-file: 2026-06-02-preview/MaintenanceWindowsListBySubscription.json
  */
 async function listMaintenanceWindowsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

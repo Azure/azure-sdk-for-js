@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to test all routes configured in this Iot Hub
  *
  * @summary test all routes configured in this Iot Hub
- * x-ms-original-file: 2026-03-01-preview/iothub_testallroutes.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_testallroutes.json
  */
 async function iotHubResourceTestAllRoutes() {
   const credential = new DefaultAzureCredential();

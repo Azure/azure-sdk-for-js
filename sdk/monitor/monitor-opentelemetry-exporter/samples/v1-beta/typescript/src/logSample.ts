@@ -3,27 +3,22 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-metrics](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/sdk-logs)
+ * [@opentelemetry/sdk-logs](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/sdk-logs)
  * to instrument a simple Node.js application.
+ * It also demonstrates how to associate custom measurements with logs.
  *
  * @summary use opentelemetry logs in a Node.js application.
  */
 
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Resource } from "@opentelemetry/resources";
-import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { SeverityNumber } from "@opentelemetry/api-logs";
 
 // Load the .env file if it exists
 import "dotenv/config";
-import { SeverityNumber } from "@opentelemetry/api-logs";
 
-// Logger setup
-const loggerProvider = new LoggerProvider({
-  resource: new Resource({
-    [ATTR_SERVICE_NAME]: "basic-service",
-  }),
-});
 // Configure processor to send logs to the exporter
 const logExporter = new AzureMonitorLogExporter({
   connectionString:
@@ -31,7 +26,14 @@ const logExporter = new AzureMonitorLogExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
     "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
-loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(logExporter));
+
+// Logger setup
+const loggerProvider = new LoggerProvider({
+  resource: resourceFromAttributes({
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+  }),
+  processors: [new SimpleLogRecordProcessor({ exporter: logExporter })],
+});
 const logger = loggerProvider.getLogger("example-basic-logger-node");
 
 export async function main(): Promise<void> {
@@ -40,7 +42,29 @@ export async function main(): Promise<void> {
     severityNumber: SeverityNumber.INFO,
     severityText: "INFO",
     body: "test message",
-    attributes: { key: "value" },
+    attributes: {
+      key: "value",
+      "microsoft.custom_measurements": JSON.stringify({
+        itemsProcessed: 42,
+        queueDepth: 7,
+      }),
+    },
+  });
+
+  // Add an availability result
+  logger.emit({
+    severityNumber: SeverityNumber.INFO,
+    severityText: "INFO",
+    body: "Homepage availability test completed.",
+    attributes: {
+      "microsoft.availability.id": "availability-test-run-123",
+      "microsoft.availability.name": "Homepage",
+      "microsoft.availability.duration": "00:00:00.250",
+      "microsoft.availability.success": true,
+      "microsoft.availability.runLocation": "westus2",
+      "microsoft.availability.message": "HTTP 200",
+      "microsoft.availability.testTimestamp": new Date().toISOString(),
+    },
   });
 
   // flush and shutdown

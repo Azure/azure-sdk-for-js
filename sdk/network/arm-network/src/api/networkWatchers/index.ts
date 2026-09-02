@@ -2,6 +2,12 @@
 // Licensed under the MIT License.
 
 export {
+  connectionAnalyzersQuery,
+  connectionAnalyzersList,
+  connectionAnalyzersUpdateTags,
+  connectionAnalyzersDelete,
+  connectionAnalyzersGet,
+  connectionAnalyzersCreate,
   getNetworkConfigurationDiagnostic,
   listAvailableProviders,
   getAzureReachabilityReport,
@@ -22,6 +28,12 @@ export {
   get,
 } from "./operations.js";
 export type {
+  NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+  NetworkWatchersConnectionAnalyzersListOptionalParams,
+  NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams,
+  NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+  NetworkWatchersConnectionAnalyzersGetOptionalParams,
+  NetworkWatchersConnectionAnalyzersCreateOptionalParams,
   NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams,
   NetworkWatchersListAvailableProvidersOptionalParams,
   NetworkWatchersGetAzureReachabilityReportOptionalParams,

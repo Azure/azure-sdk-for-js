@@ -65,7 +65,7 @@ export class HybridComputeManagementClient {
     subscriptionId: string,
     options?: HybridComputeManagementClientOptionalParams,
   );
-  /** Azure Arc( Servers and K8s Clusters) API reference for Private Link's Scopes management. */
+  /** Azure Arc API reference for managing connected machines, machine extensions, run commands, gateways, licenses, license profiles, private link scopes, and related HybridCompute resources. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | HybridComputeManagementClientOptionalParams,
@@ -80,14 +80,7 @@ export class HybridComputeManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createHybridComputeManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createHybridComputeManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.extensionPublisher = _getExtensionPublisherOperations(this._client);
     this.extensionType = _getExtensionTypeOperations(this._client);

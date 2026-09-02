@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentKeysOrIds } from "../../models/azure/search/documents/indexes/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import {
+  DocumentKeysOrIds,
+  ListingSearchType,
+} from "../../models/azure/search/documents/indexes/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ResetSkillsOptionalParams extends OperationOptions {
@@ -26,6 +29,12 @@ export interface GetSkillsetsOptionalParams extends OperationOptions {
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -88,6 +97,12 @@ export interface GetIndexersOptionalParams extends OperationOptions {
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -178,6 +193,12 @@ export interface GetDataSourceConnectionsOptionalParams extends OperationOptions
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }

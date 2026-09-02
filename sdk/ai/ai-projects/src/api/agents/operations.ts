@@ -59,6 +59,7 @@ import type {
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
   AgentsUpdateAgentObjectOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -75,13 +76,7 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
-import { startSpan } from "../../tracing/tracingClient.js";
-import {
-  setAgentAttributes,
-  setAgentVersionAttributes,
-  setCommonAttributes,
-} from "../../tracing/attributes.js";
-import { OperationName } from "../../tracing/constants.js";
+import { traceAgentCreate, traceAgentVersionCreate } from "../../tracing/agentTracing.js";
 
 export function _deleteSessionFileSend(
   context: Client,
@@ -980,6 +975,15 @@ export async function updateAgentObject(
   return _patchAgentObjectDeserialize(result);
 }
 
+/** Modifies an existing agent. */
+export async function patchAgentObject(
+  context: Client,
+  agentName: string,
+  options: AgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  return updateAgentObject(context, agentName, options);
+}
+
 export function _listVersionsSend(
   context: Client,
   agentName: string,
@@ -1199,7 +1203,7 @@ export async function createAgentVersionFromManifest(
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<AgentVersion> {
-  if (!tracingConfig?.enabled) {
+  return traceAgentVersionCreate(agentName, context.endpoint, tracingConfig, async () => {
     const result = await _createAgentVersionFromManifestSend(
       context,
       agentName,
@@ -1208,23 +1212,7 @@ export async function createAgentVersionFromManifest(
       options,
     );
     return _createAgentVersionFromManifestDeserialize(result);
-  }
-  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${agentName}`);
-  try {
-    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-    const result = await _createAgentVersionFromManifestSend(
-      context,
-      agentName,
-      manifestId,
-      parameterValues,
-      options,
-    );
-    const version = await _createAgentVersionFromManifestDeserialize(result);
-    setAgentVersionAttributes(span, version, tracingConfig.contentRecording);
-    return version;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function _createVersionSend(
@@ -1288,20 +1276,10 @@ export async function createVersion(
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<AgentVersion> {
-  if (!tracingConfig?.enabled) {
+  return traceAgentVersionCreate(agentName, context.endpoint, tracingConfig, async () => {
     const result = await _createVersionSend(context, agentName, definition, options);
     return _createVersionDeserialize(result);
-  }
-  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${agentName}`);
-  try {
-    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-    const result = await _createVersionSend(context, agentName, definition, options);
-    const version = await _createVersionDeserialize(result);
-    setAgentVersionAttributes(span, version, tracingConfig.contentRecording);
-    return version;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function _listSend(
@@ -1538,7 +1516,7 @@ export async function createAgentFromManifest(
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  if (!tracingConfig?.enabled) {
+  return traceAgentCreate(name, context.endpoint, tracingConfig, async () => {
     const result = await _createAgentFromManifestSend(
       context,
       name,
@@ -1547,23 +1525,7 @@ export async function createAgentFromManifest(
       options,
     );
     return _createAgentFromManifestDeserialize(result);
-  }
-  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${name}`);
-  try {
-    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-    const result = await _createAgentFromManifestSend(
-      context,
-      name,
-      manifestId,
-      parameterValues,
-      options,
-    );
-    const agent = await _createAgentFromManifestDeserialize(result);
-    setAgentAttributes(span, agent, tracingConfig.contentRecording);
-    return agent;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function _updateSend(
@@ -1698,20 +1660,10 @@ export async function create(
   options: AgentsCreateOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  if (!tracingConfig?.enabled) {
+  return traceAgentCreate(name, context.endpoint, tracingConfig, async () => {
     const result = await _createSend(context, name, definition, options);
     return _createDeserialize(result);
-  }
-  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${name}`);
-  try {
-    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-    const result = await _createSend(context, name, definition, options);
-    const agent = await _createDeserialize(result);
-    setAgentAttributes(span, agent, tracingConfig.contentRecording);
-    return agent;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function _getSend(

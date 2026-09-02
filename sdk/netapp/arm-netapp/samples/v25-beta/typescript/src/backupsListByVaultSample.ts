@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all backups Under a Backup Vault
  *
  * @summary list all backups Under a Backup Vault
- * x-ms-original-file: 2026-04-15-preview/Backups_ListByVault.json
+ * x-ms-original-file: 2026-06-15-preview/Backups_ListByVault.json
  */
 async function backupsListByVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

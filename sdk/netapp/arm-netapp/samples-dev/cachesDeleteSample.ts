@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified cache
  *
  * @summary delete the specified cache
- * x-ms-original-file: 2026-04-15-preview/Caches_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/Caches_Delete.json
  */
 async function cachesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
