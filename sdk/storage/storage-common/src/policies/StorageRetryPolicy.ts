@@ -166,7 +166,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     }
 
     await this.delay(isPrimaryRetry, attempt, request.abortSignal);
-    return this.attemptSendRequest(request, secondaryHas404, ++attempt);
+    return this.attemptSendRequest(request, secondaryHas404, attempt + 1);
   }
 
   /**

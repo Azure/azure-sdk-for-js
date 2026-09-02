@@ -72,8 +72,7 @@ function computeHash(
     size -= 12;
   }
 
-  let curr = size;
-  switch (curr) {
+  switch (size) {
     case 12:
       a += readUInt32(data, index);
       b += readUInt32(data, index + 4);
@@ -81,35 +80,27 @@ function computeHash(
       break;
     case 11:
       c += data[index + 10] << 16;
-      curr = 10;
     case 10:
       c += data[index + 9] << 8;
-      curr = 9;
     case 9:
       c += data[index + 8];
-      curr = 8;
     case 8:
       b += readUInt32(data, index + 4);
       a += readUInt32(data, index);
       break;
     case 7:
       b += data[index + 6] << 16;
-      curr = 6;
     case 6:
       b += data[index + 5] << 8;
-      curr = 5;
     case 5:
       b += data[index + 4];
-      curr = 4;
     case 4:
       a += readUInt32(data, index);
       break;
     case 3:
       a += data[index + 2] << 16;
-      curr = 2;
     case 2:
       a += data[index + 1] << 8;
-      curr = 1;
     case 1:
       a += data[index];
       break;
