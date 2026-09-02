@@ -259,7 +259,7 @@ try {
 }
 ```
 
-Use `project.agentEndpointConversations` to inspect conversations for Voice Agents configured with
+Use `project.beta.agentEndpointConversations` to inspect conversations for Voice Agents configured with
 `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a single
 session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict` and
 `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local

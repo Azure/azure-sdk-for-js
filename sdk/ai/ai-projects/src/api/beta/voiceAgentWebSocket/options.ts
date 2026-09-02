@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VoiceAgentWebSocketSubprotocol } from "../../../models/models.js";
+import { VoiceAgentTransport, VoiceAgentWebSocketSubprotocol } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -14,6 +14,13 @@ export interface BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams extends 
    * required.
    */
   foundryFeaturesQuery?: "VoiceAgents=V1Preview";
+  /**
+   * Selects the connection transport. Omit or send `websocket` for the default, where signaling and audio are
+   * exchanged as JSON events over this WebSocket. Send `webrtc` to negotiate a WebRTC connection: the WebSocket
+   * then carries only SDP signaling (`rtc.call.sdp.create` / `rtc.call.sdp.created`) while media and the data
+   * channel are peer-to-peer.
+   */
+  transport?: VoiceAgentTransport;
   /**
    * Whether to persist the conversation created by this WebSocket session. If omitted, the service honors the
    * persisted voice agent definition's configured `store` value. If supplied, this value overrides the

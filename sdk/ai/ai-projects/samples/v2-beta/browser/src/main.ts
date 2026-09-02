@@ -357,13 +357,13 @@ class VoiceAgentConsole {
     this.setRestState("checking");
     try {
       const client = this.getClient(endpoint);
-      const conversation = await client.agentEndpointConversations.getAgentConversation(
+      const conversation = await client.beta.agentEndpointConversations.getAgentConversation(
         preview,
         agentName,
         conversationId,
       );
       const items: RealtimeConversationItemUnion[] = [];
-      for await (const item of client.agentEndpointConversations.listAgentConversationItems(
+      for await (const item of client.beta.agentEndpointConversations.listAgentConversationItems(
         preview,
         agentName,
         conversationId,
@@ -1055,7 +1055,7 @@ class VoiceAgentConsole {
     this.conversationAudioDetails.hidden = true;
     this.showConversationAudioStatus("Loading recording...");
     try {
-      const recording = await client.agentEndpointConversations.getAgentConversationAudio(
+      const recording = await client.beta.agentEndpointConversations.getAgentConversationAudio(
         preview,
         agentName,
         conversationId,
@@ -1069,7 +1069,7 @@ class VoiceAgentConsole {
         return "BYOS audio metadata";
       }
 
-      const content = await client.agentEndpointConversations.getAgentConversationAudioContent(
+      const content = await client.beta.agentEndpointConversations.getAgentConversationAudioContent(
         preview,
         agentName,
         conversationId,

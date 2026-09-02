@@ -7,8 +7,12 @@ import type { FileContents } from "./static-helpers/multipartHelpers.js";
 import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 
 export { AIProjectClient } from "./aiProjectClient.js";
-export type { AIProjectClientOptions } from "./aiProjectClient.js";
-export type { GenAITracingOptions } from "./tracing/configuration.js";
+export type {
+  AIProjectClientOptions,
+} from "./aiProjectClient.js";
+export type {
+  GenAITracingOptions,
+} from "./tracing/configuration.js";
 export {
   VoiceAgentRealtimeClient,
   VoiceAgentConnectionState,
@@ -40,7 +44,9 @@ export {
   VoiceAgentConnectionError,
   VoiceAgentProtocolError,
 } from "./realtime/errors.js";
-export type { VoiceAgentRealtimeErrorCode } from "./realtime/errors.js";
+export type {
+  VoiceAgentRealtimeErrorCode,
+} from "./realtime/errors.js";
 
 // Compatibility exports retained from the 2.4.0 public surface.
 export { KnownApiVersions } from "./models/models.js";
@@ -78,7 +84,9 @@ export type {
   AgentsUpdateAgentObjectOptionalParams,
   AgentsUpdateOptionalParams,
 } from "./api/agents/options.js";
-export type { BetaModelsCreateOptions } from "./classic/beta/models/index.js";
+export type {
+  BetaModelsCreateOptions,
+} from "./classic/beta/models/index.js";
 export type {
   CreateFromFilesOptionalParams as BetaSkillsCreateVersionFromFilesOptionalParams,
   DeleteVersionOptionalParams as BetaSkillsDeleteVersionOptionalParams,
@@ -92,13 +100,20 @@ export type {
   GetVersionOptionalParams as ToolboxesGetVersionOptionalParams,
   ListVersionsOptionalParams as ToolboxesListVersionsOptionalParams,
 } from "./api/toolboxes/options.js";
-export type { InsightGenerationRequest } from "./api/beta/insights/options.js";
+export type {
+  InsightGenerationRequest,
+} from "./api/beta/insights/options.js";
 export type {
   AzureAgentConfig,
   OpenAIClientOptionsWithAzureAgent,
 } from "./azureAgent.interface.js";
-export type { JobOperationState, JobPoller } from "./static-helpers/pollingHelpers.js";
-export type { TelemetryOperations } from "./classic/telemetry/index.js";
+export type {
+  JobOperationState,
+  JobPoller,
+} from "./static-helpers/pollingHelpers.js";
+export type {
+  TelemetryOperations,
+} from "./classic/telemetry/index.js";
 export type {
   TextResponseFormatConfiguration,
   TextResponseFormatConfigurationResponseFormatJsonObject,
@@ -277,6 +292,7 @@ export type {
   ExternalAgentDefinition,
   VoiceAgentDefinition,
   VoiceModelType,
+  VoiceAgentTargetAgent,
   VoiceAgentGreetingConfig,
   VoiceAgentGreetingConfigUnion,
   VoiceAgentTemplateGreetingConfig,
@@ -336,6 +352,9 @@ export type {
   VoiceAgentSystemTool,
   VoiceAgentSystemToolName,
   VoiceAgentToolboxTool,
+  VoiceAgentSubAgentConfig,
+  VoiceAgentSubAgent,
+  VoiceAgentSubagentResponsePolicy,
   AgentVersionStatus,
   AgentIdentity,
   AgentIdentityStatus,
@@ -388,6 +407,36 @@ export type {
   Microsoft365PublishScope,
   Microsoft365PublishResponse,
   Microsoft365PublishDefaults,
+  CreateTeamsPhoneExtensionTelephonyBindingRequest,
+  CreateTwilioTelephonyBindingRequest,
+  TeamsPhoneExtensionTelephonyBinding,
+  TelephonyBindingStatus,
+  TwilioTelephonyBinding,
+  TelephonyBindingListItem,
+  TeamsPhoneExtensionTelephonyBindingListItem,
+  TwilioTelephonyBindingListItem,
+  UpdateTelephonyBindingRequest,
+  TelephonyCallSummary,
+  TelephonyProvider,
+  TelephonyCallStatus,
+  TelephonyCallPhase,
+  TelephonyCallRecord,
+  TelephonyCallTiming,
+  TelephonyCallDurationBasis,
+  TelephonyCallTimestampSource,
+  TelephonyCallTrace,
+  TelephonyCallTraceStatus,
+  TelephonyCallTraceMode,
+  TelephonyCallLifecycleEvent,
+  TelephonyCallLifecycleEventName,
+  TelephonyCallLifecycleEventSource,
+  TelephonyCallLifecycleEventOutcome,
+  TelephonyTransferTargets,
+  TelephonyTransferTarget,
+  TelephonyTransferDestination,
+  PstnTelephonyTransferDestination,
+  TeamsTelephonyTransferDestination,
+  SipTelephonyTransferDestination,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
   EvaluationRule,
@@ -432,6 +481,10 @@ export type {
   ManagedAzureAISearchIndex,
   CosmosDBIndex,
   EmbeddingConfiguration,
+  VoiceGeneratedItemAudioResponse,
+  VoiceAudioRole,
+  VoiceAudioContainerFormat,
+  VoiceAudioCodec,
   ToolboxTool,
   ToolboxToolUnion,
   ToolboxToolType,
@@ -495,9 +548,6 @@ export type {
   RealtimeResponseStatusDetails,
   RealtimeResponseStatusDetailsError,
   VoiceItemAudioResponse,
-  VoiceAudioRole,
-  VoiceAudioContainerFormat,
-  VoiceAudioCodec,
   VoiceRecordingResponse,
   VoiceRecordingChannelLayout,
   AgentInsightMonitorListItem,
@@ -745,7 +795,6 @@ export type {
   PromotionInfo,
   AgentOptimizationJobProgress,
   AgentOptimizationJobListItem,
-
   VoiceAgentSessionUpdateConfig,
   VoiceAgentSessionAvatarConfig,
   VoiceAgentAvatarIceServer,
@@ -772,10 +821,10 @@ export type {
   RealtimeFunctionTool,
   Metadata,
   PickPropertiesVoiceAgentAudioConfig,
+  VoiceAgentClientEventRtcCallSdpCreate,
   VoiceAgentClientEventSessionUpdate,
   VoiceAgentSessionUpdate,
-  VoiceAgentServerEventWarningDetails,
-  VoiceAgentServerEventSessionAvatarConnecting,
+  VoiceAgentServerEventSessionSubagentCompleted,
   RealtimeServerEvent,
   RealtimeServerEventUnion,
   RealtimeServerEventType,
@@ -832,7 +881,15 @@ export type {
   RealtimeServerEventResponseMCPCallInProgress,
   RealtimeServerEventResponseMCPCallCompleted,
   RealtimeServerEventResponseMCPCallFailed,
+  VoiceAgentServerEventSessionSubagentStarted,
+  VoiceAgentServerEventSessionSubagentAborted,
+  VoiceAgentSubagentAbortReason,
   VoiceAgentServerEventWarning,
+  VoiceAgentServerEventWarningDetails,
+  VoiceAgentServerEventSessionAvatarConnecting,
+  VoiceAgentServerEventRtcCallSdpCreated,
+  VoiceAgentServerEventRtcCallError,
+  VoiceAgentRtcCallErrorDetails,
   VoiceAgentServerEventSessionAvatarSwitchToSpeaking,
   VoiceAgentServerEventSessionAvatarSwitchToIdle,
   VoiceAgentServerEventResponseAudioTimestampDelta,
@@ -849,6 +906,8 @@ export type {
   RealtimeServerEventErrorError,
   UpdateToolboxRequest,
   RealtimeServerEventError,
+  CreateTelephonyBindingRequest,
+  TelephonyBinding,
   VoiceAgentClientEvent,
   VoiceAgentServerEvent,
   VoiceAgentWebSocketMessage,
@@ -857,9 +916,14 @@ export type {
   PageOrder,
   FoundryFeaturesOptInKeys,
   PendingUploadType,
+  VoiceAgentTransport,
   VoiceAgentWebSocketSubprotocol,
   MemoryStoreObjectType,
+  AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentResponse,
   AgentsDownloadSessionFileResponse,
+  AgentsUpdateTelephonyBindingResponse,
+  AgentsGetTelephonyBindingResponse,
+  AgentsCreateTelephonyBindingResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
   DownloadVersionResponse,
@@ -868,12 +932,29 @@ export type {
   BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
-export type { AIProjectClientOptionalParams } from "./api/index.js";
+export type {
+  AIProjectClientOptionalParams,
+} from "./api/index.js";
+export type {
+  AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams,
+  AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams,
+} from "./api/agentEndpointConversations/index.js";
 export type {
   AgentsDeleteSessionFileOptionalParams,
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
+  AgentsReplaceTelephonyTransferTargetsOptionalParams,
+  AgentsGetTelephonyTransferTargetsOptionalParams,
+  AgentsEndTelephonyCallOptionalParams,
+  AgentsTransferTelephonyCallOptionalParams,
+  AgentsGetTelephonyCallOptionalParams,
+  AgentsListTelephonyCallsOptionalParams,
+  AgentsDeleteTelephonyBindingOptionalParams,
+  AgentsUpdateTelephonyBindingOptionalParams,
+  AgentsGetTelephonyBindingOptionalParams,
+  AgentsListTelephonyBindingsOptionalParams,
+  AgentsCreateTelephonyBindingOptionalParams,
   GetMicrosoft365PublishDefaultsOptionalParams,
   GetMicrosoft365PackageOptionalParams,
   PublishToMicrosoft365OptionalParams,
@@ -1075,8 +1156,11 @@ export type {
   BetaSkillsListOptionalParams,
   BetaSkillsGetOptionalParams,
 } from "./api/beta/skills/index.js";
-export type { BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./api/beta/voiceAgentWebSocket/index.js";
 export type {
+  BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams,
+} from "./api/beta/voiceAgentWebSocket/index.js";
+export type {
+  AgentEndpointConversationsOperations,
   AgentsOperations,
   BetaOperations,
   ConnectionsOperations,
@@ -1100,6 +1184,12 @@ export type {
   BetaSkillsOperations,
   BetaVoiceAgentWebSocketOperations,
 } from "./classic/index.js";
-export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export type { FileContents, NodeReadableStream };
-export { RestError, isRestError } from "@azure/core-rest-pipeline";
+export type {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator };
+export type { FileContents,
+  NodeReadableStream };
+export { RestError,
+  isRestError,
+} from "@azure/core-rest-pipeline";

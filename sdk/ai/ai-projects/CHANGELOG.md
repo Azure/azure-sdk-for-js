@@ -4,7 +4,8 @@
 
 ### Breaking Changes
 
-- Added `project.beta.agentEndpointConversations`, which `project.agentEndpointConversations` now aliases. Every operation on it (`getAgentConversation`, `listAgentConversations`, `getAgentConversationItem`, `listAgentConversationItems`, `listAgentConversationResponseItems`, `getAgentConversationResponse`, `listAgentConversationResponses`, `deleteAgentConversation`, `getAgentConversationAudio`, `getAgentConversationAudioContent`, `getAgentConversationItemAudio`, `getAgentConversationItemAudioContent`) now takes a required `foundryFeatures: "VoiceAgents=V1Preview"` first argument.
+- Added `project.beta.agentEndpointConversations`. Every operation on it (`getAgentConversation`, `listAgentConversations`, `getAgentConversationItem`, `listAgentConversationItems`, `listAgentConversationResponseItems`, `getAgentConversationResponse`, `listAgentConversationResponses`, `deleteAgentConversation`, `getAgentConversationAudio`, `getAgentConversationAudioContent`, `getAgentConversationItemAudio`, `getAgentConversationItemAudioContent`) now takes a required `foundryFeatures: "VoiceAgents=V1Preview"` first argument.
+- `project.agentEndpointConversations` no longer aliases `project.beta.agentEndpointConversations`. It now exposes only the new `getAgentConversationItemGeneratedAudio` and `getAgentConversationItemGeneratedAudioContent` operations (see Features Added); use `project.beta.agentEndpointConversations` for the operations listed above.
 - Moved `project.voiceAgentWebSocket` under `project.beta.voiceAgentWebSocket` (no top-level alias retained).
 - Renamed the conversation item model from `VoiceConversationItem` to `RealtimeConversationItemUnion`. The new union no longer enumerates a `message` item variant (it only covers `function_call`, `function_call_output`, `mcp_call`, `mcp_list_tools`, `mcp_approval_request`, and `mcp_approval_response`); persisted user/assistant message items are still returned by the service but must be read through the generic `{ type: "message", role, content }` shape rather than a dedicated type.
 - Renamed `VoiceAudioFormat` to `RealtimeAudioFormatsUnion`, now a discriminated union (`RealtimeAudioFormatsAudioPcm | RealtimeAudioFormatsAudioPcmu | RealtimeAudioFormatsAudioPcma`) instead of a single flat interface. The optional `rate` property only exists on the `audio/pcm` variant (`RealtimeAudioFormatsAudioPcm`, now typed as the literal `24000`) and must be accessed after narrowing on `type`.
@@ -12,6 +13,8 @@
 ### Features Added
 
 - Added `project.beta.agentInsightMonitors` for managing agent insight monitors.
+- Added `project.agentEndpointConversations.getAgentConversationItemGeneratedAudio` and `getAgentConversationItemGeneratedAudioContent`, for retrieving a conversation item's generated audio — a subordinate artifact that exists only when playback was interrupted and the service rendered more audio than the listener heard.
+- Added telephony support to `project.agents`: `createTelephonyBinding`, `getTelephonyBinding`, `listTelephonyBindings`, `updateTelephonyBinding`, and `deleteTelephonyBinding` for managing Teams Phone Extension and Twilio bindings; `getTelephonyCall`, `listTelephonyCalls`, `endTelephonyCall`, and `transferTelephonyCall` for managing calls; and `getTelephonyTransferTargets`/`replaceTelephonyTransferTargets` for configuring transfer targets.
 
 ## 2.5.0 (2026-08-20)
 
