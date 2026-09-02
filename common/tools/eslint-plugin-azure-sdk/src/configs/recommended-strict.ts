@@ -28,6 +28,7 @@ const MAX_PARAMS = 7;
  * under any `src/` directory.
  */
 const STRICT_FILES: readonly string[] = ["**/src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"];
+const STRICT_IGNORES: readonly string[] = ["**/{test,tests,samples,samples-dev,perf,stress}/**"];
 
 /**
  * Glob pattern used to scope the *type-checked* portion of the strict delta.
@@ -49,7 +50,11 @@ const STRICT_TYPED_FILES: readonly string[] = ["**/src/**/*.{ts,cts,mts,tsx}"];
  * policy for every config object it emits.
  */
 function scopeToSrc(config: FlatConfig.Config): FlatConfig.Config {
-  return { ...config, files: [...STRICT_FILES] };
+  return {
+    ...config,
+    files: [...STRICT_FILES],
+    ignores: [...(config.ignores ?? []), ...STRICT_IGNORES],
+  };
 }
 
 /**
@@ -58,7 +63,11 @@ function scopeToSrc(config: FlatConfig.Config): FlatConfig.Config {
  * requires parser services that are only configured for TypeScript.
  */
 function scopeToTypedSrc(config: FlatConfig.Config): FlatConfig.Config {
-  return { ...config, files: [...STRICT_TYPED_FILES] };
+  return {
+    ...config,
+    files: [...STRICT_TYPED_FILES],
+    ignores: [...(config.ignores ?? []), ...STRICT_IGNORES],
+  };
 }
 
 /**

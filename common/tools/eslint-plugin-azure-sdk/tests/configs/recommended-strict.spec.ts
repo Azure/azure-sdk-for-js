@@ -110,6 +110,7 @@ describe("recommendedStrictDelta", () => {
       expect(deltaConfigs.length).toBeGreaterThan(0);
       for (const config of deltaConfigs) {
         expect(config.files).toEqual(["**/src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"]);
+        expect(config.ignores).toContain("**/{test,tests,samples,samples-dev,perf,stress}/**");
       }
     });
   });
@@ -196,6 +197,7 @@ describe("recommendedStrictDelta", () => {
 
       for (const config of deltaConfigs) {
         expect([alwaysOnScope, typedScope]).toContainEqual(config.files);
+        expect(config.ignores).toContain("**/{test,tests,samples,samples-dev,perf,stress}/**");
       }
 
       // Every config object carrying a type-aware rule must use the TS-only scope.
@@ -363,6 +365,18 @@ describe("recommendedStrictTypeChecked resolved scope (ESLint integration)", () 
 
   it("should not apply the strict delta outside src/", async () => {
     const config = await resolveConfigFor("test/example.ts");
+    expect(enabledOf(config, alwaysOnRules)).toEqual([]);
+  });
+
+  it.each([
+    "test/stress/app/src/example.ts",
+    "tests/unit/src/example.ts",
+    "samples/demo/src/example.ts",
+    "samples-dev/demo/src/example.ts",
+    "perf/benchmark/src/example.ts",
+    "stress/app/src/example.ts",
+  ])("should not apply the strict delta to excluded nested source tree %s", async (filePath) => {
+    const config = await resolveConfigFor(filePath);
     expect(enabledOf(config, alwaysOnRules)).toEqual([]);
   });
 });
