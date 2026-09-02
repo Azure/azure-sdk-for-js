@@ -185,15 +185,21 @@ export class Pipeline implements PipelineLike {
 }
 
 /**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
  * Determines when blob requests are authenticated with a session token instead of a bearer token.
  */
 export type SessionMode = "auto" | "disabled" | "enabled";
 
 /**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
  * Options for configuring session token authentication for blob operations.
  *
  * Session authentication currently applies only to blob download requests made with a
- * `TokenCredential`.
+ * `TokenCredential`. These options are exported from the browser and React Native entry points
+ * for type compatibility, but they have no effect there: signing a session requires Shared Key,
+ * which is unavailable outside Node.js, so those builds always use a bearer token.
  */
 export interface SessionOptions {
   /**
@@ -247,6 +253,8 @@ export interface StoragePipelineOptions {
    */
   audience?: string | string[];
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Configures session token authentication for blob operations.
    */
   sessionOptions?: SessionOptions;

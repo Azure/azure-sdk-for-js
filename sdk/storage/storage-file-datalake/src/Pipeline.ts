@@ -115,6 +115,8 @@ export interface StoragePipelineOptions {
    */
   audience?: string;
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Configures session token authentication. Sessions apply only to requests that reach the blob
    * endpoint, so within Data Lake this affects file reads and nothing else.
    */

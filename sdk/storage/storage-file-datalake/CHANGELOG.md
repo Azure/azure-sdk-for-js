@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `sessionOptions`, forwarding the session token authentication added in `@azure/storage-blob`. Disabled by default and limited to blob-endpoint requests, so in Data Lake only file reads are affected.
+- Added `sessionOptions`, forwarding the session token authentication added in `@azure/storage-blob`. Disabled by default, Node.js only, and limited to blob-endpoint requests, so in Data Lake only file reads are affected.
 
 ### Breaking Changes
 
