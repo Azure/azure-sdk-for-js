@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing Redis Enterprise cluster
  *
  * @summary updates an existing Redis Enterprise cluster
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseUpdate.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseUpdate.json
  */
 async function redisEnterpriseUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

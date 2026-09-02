@@ -32,16 +32,16 @@ type ValueConverter<T> = (value: string) => T;
  */
 export function evaluateFeature<T>(
   featureKey: string,
-  settings: Record<string, unknown>,
+  settings: Readonly<Record<string, unknown>>,
   valueConverter: ValueConverter<T>,
 ): T | undefined;
 export function evaluateFeature(
   featureKey: string,
-  settings: Record<string, unknown>,
+  settings: Readonly<Record<string, unknown>>,
 ): boolean | string | undefined;
 export function evaluateFeature<T>(
   featureKey: string,
-  settings: Record<string, unknown>,
+  settings: Readonly<Record<string, unknown>>,
   valueConverter?: ValueConverter<T>,
 ): boolean | string | T | undefined {
   if (!featureKey || !isRecord(settings) || !Object.hasOwn(settings, featureKey)) {

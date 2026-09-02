@@ -31,8 +31,15 @@ import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "..
 import type { Attributes } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
 import {
+  ApplicationInsightsAvailabilityDuration,
+  ApplicationInsightsAvailabilityId,
   ApplicationInsightsAvailabilityBaseType,
+  ApplicationInsightsAvailabilityMessage,
   ApplicationInsightsAvailabilityName,
+  ApplicationInsightsAvailabilityNameAttribute,
+  ApplicationInsightsAvailabilityRunLocation,
+  ApplicationInsightsAvailabilitySuccess,
+  ApplicationInsightsAvailabilityTestTimestamp,
   ApplicationInsightsBaseType,
   ApplicationInsightsCustomEventName,
   ApplicationInsightsCustomMeasurements,
@@ -53,7 +60,7 @@ import {
  * @internal
  */
 export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
-  const time = hrTimeToDate(log.hrTime);
+  let time = hrTimeToDate(log.hrTime);
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
@@ -67,6 +74,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
   const isExceptionType: boolean = !!(exceptionType && exceptionStacktrace) || false;
+  const availabilityData = getAvailabilityData(log);
   const isMessageType: boolean =
     !log.attributes[ApplicationInsightsBaseType] &&
     !log.attributes[ApplicationInsightsCustomEventName] &&
@@ -101,6 +109,11 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       ...getLegacyApplicationInsightsMeasurements(log),
       ...measurements,
     };
+  } else if (availabilityData) {
+    name = ApplicationInsightsAvailabilityName;
+    baseType = ApplicationInsightsAvailabilityBaseType;
+    baseData = availabilityData;
+    time = getAvailabilityTime(log) ?? time;
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
@@ -148,6 +161,51 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       baseData: baseData,
     },
   };
+}
+
+function getAvailabilityData(log: ReadableLogRecord): AvailabilityData | undefined {
+  if (
+    log.attributes[ApplicationInsightsBaseType] ||
+    log.attributes[ApplicationInsightsAvailabilityNameAttribute] === undefined
+  ) {
+    return;
+  }
+
+  const id = getAttributeString(log, ApplicationInsightsAvailabilityId);
+  const name = getAttributeString(log, ApplicationInsightsAvailabilityNameAttribute);
+  const duration = getAttributeString(log, ApplicationInsightsAvailabilityDuration);
+  const success = getAttributeString(log, ApplicationInsightsAvailabilitySuccess);
+  if (!id || !name || !duration || !success) {
+    return;
+  }
+
+  return {
+    kind: "AvailabilityData",
+    version: DEFAULT_BREEZE_DATA_VERSION,
+    id,
+    name,
+    duration,
+    success: success.toLowerCase() === "true",
+    runLocation: getAttributeString(log, ApplicationInsightsAvailabilityRunLocation),
+    message:
+      getAttributeString(log, ApplicationInsightsAvailabilityMessage) ??
+      (log.body === undefined ? undefined : serializeAttribute(log.body)),
+  };
+}
+
+function getAvailabilityTime(log: ReadableLogRecord): Date | undefined {
+  const testTimestamp = log.attributes[ApplicationInsightsAvailabilityTestTimestamp];
+  if (typeof testTimestamp !== "string") {
+    return;
+  }
+
+  const time = new Date(testTimestamp);
+  return Number.isNaN(time.getTime()) ? undefined : time;
+}
+
+function getAttributeString(log: ReadableLogRecord, attributeName: string): string | undefined {
+  const value = log.attributes[attributeName];
+  return value === undefined ? undefined : String(value);
 }
 
 function createTagsFromLog(log: ReadableLogRecord): Tags {

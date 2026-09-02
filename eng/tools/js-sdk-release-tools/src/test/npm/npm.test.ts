@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { updatePackageVersion } from "../../mlc/clientGenerator/utils/typeSpecUtils.js";
 import { join } from "path";
 import { load } from "@npmcli/package-json";
-import { tryGetNpmView } from "../../common/npmUtils.js";
+import { configureNpmFromRepo, tryGetNpmView } from "../../common/npmUtils.js";
 
 describe("Npm package json", () => {
   test("Replace package version", async () => {
@@ -15,10 +15,21 @@ describe("Npm package json", () => {
 
 describe("Npm view", () => {
   test("View package version", async () => {
-    const nonExistResult = await tryGetNpmView("non-exist");
-    expect(nonExistResult).toBeUndefined();
+    const originalRegistry = process.env.npm_config_registry;
+    configureNpmFromRepo(join(__dirname, "../../../../../.."));
 
-    const normalResult = await tryGetNpmView("connect");
-    expect(normalResult!["name"]).toBe("connect");
+    try {
+      const nonExistResult = await tryGetNpmView("non-exist");
+      expect(nonExistResult).toBeUndefined();
+
+      const normalResult = await tryGetNpmView("connect");
+      expect(normalResult!["name"]).toBe("connect");
+    } finally {
+      if (originalRegistry) {
+        process.env.npm_config_registry = originalRegistry;
+      } else {
+        delete process.env.npm_config_registry;
+      }
+    }
   });
 });

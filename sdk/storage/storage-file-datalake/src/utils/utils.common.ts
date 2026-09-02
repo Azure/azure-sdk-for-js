@@ -22,9 +22,10 @@ import {
 } from "./constants.js";
 import type { HttpResponse } from "@azure/storage-blob";
 import type { HttpHeadersLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
 import { toAcl, toPermissions } from "../transforms.js";
-import { PathHttpHeaders } from "../generated/src/index.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -569,7 +570,7 @@ export function getAccountNameFromUrl(url: string): string {
     }
     return accountName;
   } catch (error: any) {
-    throw new Error("Unable to extract accountName with provided information.");
+    throw new Error("Unable to extract accountName with provided information.", { cause: error });
   }
 }
 
@@ -662,6 +663,41 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
+/**
+ * Converts a TypeSpec-generated response (with StorageCompatResponseInfo) into the
+ * legacy compat response shape expected by the public API surface.
+ */
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
+  compatResponse.parsedBody = result._response.parsedBody;
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  Object.defineProperty(result, "_response", {
+    value: compatResponse,
+    enumerable: false,
+  });
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
+}
+
 export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
   encryptionContext?: string;
   owner?: string;
@@ -717,7 +753,7 @@ export function ParsePathGetPropertiesExtraHeaderValues(
 
 interface UploadChecksumParametersLike {
   /** Parameter group */
-  pathHttpHeaders?: PathHttpHeaders;
+  transactionalContentHash?: Uint8Array;
   transactionalContentCrc64?: Uint8Array;
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   structuredBodyType?: string;
@@ -757,14 +793,7 @@ export async function setUploadChecksumParameters(
 
   let bodyInfo = undefined;
   if (contentChecksumAlgorithm === "Customized") {
-    if (parameters.pathHttpHeaders === undefined) {
-      parameters.pathHttpHeaders = {
-        transactionalContentHash: uploadOptions.transactionalContentMD5,
-      };
-    } else {
-      parameters.pathHttpHeaders.transactionalContentHash = uploadOptions.transactionalContentMD5;
-      (parameters as any).transactionalContentHash = uploadOptions.transactionalContentMD5;
-    }
+    parameters.transactionalContentHash = uploadOptions.transactionalContentMD5;
     parameters.transactionalContentCrc64 = uploadOptions.transactionalContentCrc64;
   } else if (contentChecksumAlgorithm === "StorageCrc64") {
     await StorageCRC64Calculator.init();

@@ -315,6 +315,12 @@ jobs:
 
       # ===== END LIVE TEST RUNS =====
 
+      - pwsh: |
+          Write-Host "Filesystem usage after browser tests:"
+          df -h / /mnt
+        displayName: "Report disk usage after browser tests (Linux)"
+        condition: and(always(),eq(variables['Agent.OS'], 'Linux'),eq(variables['TestType'], 'browser'))
+
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - ${{ each directory in coalesce(parameters.TestResourceDirectories, split(parameters.ServiceDirectory, '|')) }}:
           - template: /eng/common/TestResources/remove-test-resources.yml

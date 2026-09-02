@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkVdiFlexCreate: Bulk create  operation for a batch of virtual machines, this operation supports flex properties to give options on Sku and zone selection.
  *
  * @summary bulkVdiFlexCreate: Bulk create  operation for a batch of virtual machines, this operation supports flex properties to give options on Sku and zone selection.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkVdiFlexCreate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkVdiFlexCreate_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkVdiFlexCreateExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -617,7 +617,7 @@ async function virtualMachineBulkOperationsBulkVdiFlexCreateExample(): Promise<v
  * This sample demonstrates how to bulkVdiFlexCreate: Bulk create  operation for a batch of virtual machines, this operation supports flex properties to give options on Sku and zone selection.
  *
  * @summary bulkVdiFlexCreate: Bulk create  operation for a batch of virtual machines, this operation supports flex properties to give options on Sku and zone selection.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkVdiFlexCreate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkVdiFlexCreate_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkVdiFlexCreateExampleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

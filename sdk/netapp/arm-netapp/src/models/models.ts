@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -684,7 +685,10 @@ export interface VolumeProperties {
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
-  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  /**
+   * Specify the protocol types for the volume. Supported values are NFSv3, NFSv4.1, and CIFS. For SMB volumes, specify CIFS.
+   * The value SMB isn't supported in the protocolTypes property. Default: NFSv3
+   */
   protocolTypes?: string[];
   /** Azure lifecycle management */
   readonly provisioningState?: string;
@@ -2508,7 +2512,10 @@ export interface VolumePatchProperties {
   usageThreshold?: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
-  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  /**
+   * Specify the protocol types for the volume. Supported values are NFSv3, NFSv4.1, and CIFS. For SMB volumes, specify CIFS.
+   * The value SMB isn't supported in the protocolTypes property. Default: NFSv3
+   */
   protocolTypes?: string[];
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
@@ -8258,8 +8265,8 @@ export interface LdapConfiguration {
   domain?: string;
   /** List of LDAP server IP addresses (IPv4 only) for the LDAP domain. */
   ldapServers?: string[];
-  /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
-  ldapOverTLS?: boolean;
+  /** Indicates the secure LDAP mode for encrypting communication between ANF storage and customer LDAP servers. */
+  secureLdapType?: SecureLdapType;
   /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded ldap servers CA certificate. */
   serverCACertificate?: string;
   /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
@@ -8290,7 +8297,7 @@ export function ldapConfigurationSerializer(item: LdapConfiguration): any {
       : item["ldapServers"].map((p: any) => {
           return p;
         }),
-    ldapOverTLS: item["ldapOverTLS"],
+    secureLdapType: item["secureLdapType"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
     dnsServers: !item["dnsServers"]
@@ -8318,7 +8325,7 @@ export function ldapConfigurationDeserializer(item: any): LdapConfiguration {
       : item["ldapServers"].map((p: any) => {
           return p;
         }),
-    ldapOverTLS: item["ldapOverTLS"],
+    secureLdapType: item["secureLdapType"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
     dnsServers: !item["dnsServers"]
@@ -8337,6 +8344,24 @@ export function ldapConfigurationDeserializer(item: any): LdapConfiguration {
       : bindPasswordAkvConfigDeserializer(item["bindPasswordAkvConfig"]),
   };
 }
+
+/** Indicates the secure LDAP mode for encrypting communication between ANF storage and customer LDAP servers. */
+export enum KnownSecureLdapType {
+  /** LDAP traffic is encrypted using LDAP over TLS. */
+  LdapOverTLS = "LdapOverTLS",
+  /** LDAP traffic is not encrypted. */
+  None = "None",
+}
+
+/**
+ * Indicates the secure LDAP mode for encrypting communication between ANF storage and customer LDAP servers. \
+ * {@link KnownSecureLdapType} can be used interchangeably with SecureLdapType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LdapOverTLS**: LDAP traffic is encrypted using LDAP over TLS. \
+ * **None**: LDAP traffic is not encrypted.
+ */
+export type SecureLdapType = string;
 
 /** The authentication level to use when binding to the LDAP server. */
 export enum KnownBindAuthenticationLevel {
@@ -8483,8 +8508,8 @@ export interface LdapConfigurationPatch {
   domain?: string;
   /** List of LDAP server IP addresses (IPv4 only) for the LDAP domain. */
   ldapServers?: string[];
-  /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
-  ldapOverTLS?: boolean;
+  /** Indicates the secure LDAP mode for encrypting communication between ANF storage and customer LDAP servers. */
+  secureLdapType?: SecureLdapType;
   /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded ldap servers CA certificate. */
   serverCACertificate?: string;
   /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
@@ -8515,7 +8540,7 @@ export function ldapConfigurationPatchSerializer(item: LdapConfigurationPatch): 
       : item["ldapServers"].map((p: any) => {
           return p;
         }),
-    ldapOverTLS: item["ldapOverTLS"],
+    secureLdapType: item["secureLdapType"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
     dnsServers: !item["dnsServers"]
@@ -9456,4 +9481,8 @@ export enum KnownVersions {
   V20260501 = "2026-05-01",
   /** The 2026-05-15-preview API version. */
   V20260515Preview = "2026-05-15-preview",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
+  /** The 2026-06-15-preview API version. */
+  V20260615Preview = "2026-06-15-preview",
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list LaunchBulkInstancesOperation resources by subscriptionId.
  *
  * @summary list LaunchBulkInstancesOperation resources by subscriptionId.
- * x-ms-original-file: 2026-07-06-preview/LaunchBulkInstancesOperation_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/LaunchBulkInstancesOperation_ListBySubscription_MaximumSet_Gen.json
  */
 async function launchBulkInstancesOperationListBySubscriptionExample() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function launchBulkInstancesOperationListBySubscriptionExample() {
  * This sample demonstrates how to list LaunchBulkInstancesOperation resources by subscriptionId.
  *
  * @summary list LaunchBulkInstancesOperation resources by subscriptionId.
- * x-ms-original-file: 2026-07-06-preview/LaunchBulkInstancesOperation_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/LaunchBulkInstancesOperation_ListBySubscription_MinimumSet_Gen.json
  */
 async function launchBulkInstancesOperationListBySubscriptionExampleGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

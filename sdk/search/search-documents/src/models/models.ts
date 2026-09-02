@@ -1,44 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchIndexResponse } from "./azure/search/documents/indexes/models.js";
-import { searchIndexResponseArrayDeserializer } from "./azure/search/documents/indexes/models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
-
-/** Configures a SharePoint connector app registration for the index, enabling document-level permissions from SharePoint. */
-export interface SharePointConnectorAppRegistration {
-  /** The application (client) ID of the app registration used to connect to SharePoint. */
-  applicationId: string;
-  /** The federated credential ID configured on the app registration. */
-  federatedCredentialId: string;
-  /** The tenant ID of the app registration. If not specified, the tenant of the search service is used. */
-  tenantId?: string;
-}
-
-export function sharePointConnectorAppRegistrationSerializer(
-  item: SharePointConnectorAppRegistration,
-): any {
-  return {
-    applicationId: item["applicationId"],
-    federatedCredentialId: item["federatedCredentialId"],
-    tenantId: item["tenantId"],
-  };
-}
-
-export function sharePointConnectorAppRegistrationDeserializer(
-  item: any,
-): SharePointConnectorAppRegistration {
-  return {
-    applicationId: item["applicationId"],
-    federatedCredentialId: item["federatedCredentialId"],
-    tenantId: item["tenantId"],
-  };
-}
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import {
+  searchIndexResponseArrayDeserializer,
+  SearchIndexResponse,
+} from "./azure/search/documents/indexes/models.js";
+import {
+  KnowledgeBaseActivityRecordUnion,
+  KnowledgeBaseReferenceUnion,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
+} from "./azure/search/documents/knowledgeBases/models.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesSelectedResult {
@@ -58,23 +40,26 @@ export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesS
   };
 }
 
-/** The chunking strategy used by the Content Understanding skill. Default is 'fixedSize'. */
-export enum KnownContentUnderstandingSkillChunkingMethod {
-  /** Fixed-size character-based windowed chunking. */
-  FixedSize = "fixedSize",
-  /** Layout-aware, paragraph-boundary-respecting chunking. */
-  Semantic = "semantic",
-}
-
 /**
- * The chunking strategy used by the Content Understanding skill. Default is 'fixedSize'. \
- * {@link KnownContentUnderstandingSkillChunkingMethod} can be used interchangeably with ContentUnderstandingSkillChunkingMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **fixedSize**: Fixed-size character-based windowed chunking. \
- * **semantic**: Layout-aware, paragraph-boundary-respecting chunking.
+ * The set of server-sent events emitted while streaming a knowledge base retrieval, added in
+ * version 2026-08-01-preview. Each event's `data:` payload is JSON-encoded using the type
+ * associated with its event name below. The stream ends after the terminal `response.completed`
+ * event (or an `error` event, if the retrieval fails before completing).
  */
-export type ContentUnderstandingSkillChunkingMethod = string;
+export type KnowledgeBaseRetrievalStreamEvents =
+  | KnowledgeBaseRetrievalStartedEvent
+  | KnowledgeBaseActivityStartedEvent
+  | KnowledgeBaseActivityRecordUnion
+  | KnowledgeBaseAnswerCompletedEvent
+  | KnowledgeBaseReferenceUnion[]
+  | KnowledgeBaseStreamErrorEvent
+  | KnowledgeBaseResponseCompletedEvent;
+
+export function knowledgeBaseRetrievalStreamEventsDeserializer(
+  item: any,
+): KnowledgeBaseRetrievalStreamEvents {
+  return item;
+}
 
 /** The available API versions. */
 export enum KnownVersions {
@@ -84,4 +69,24 @@ export enum KnownVersions {
   V20260401 = "2026-04-01",
   /** The 2026-05-01-preview API version. */
   V20260501Preview = "2026-05-01-preview",
+  /** The 2026-08-01-preview API version. */
+  V20260801Preview = "2026-08-01-preview",
 }
+
+/** Platform-specific raw response returned by the protocol streaming retrieval operation. */
+export type RetrieveStreamResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};

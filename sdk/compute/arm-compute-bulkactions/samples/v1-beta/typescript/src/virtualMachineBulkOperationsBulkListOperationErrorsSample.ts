@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkListOperationErrors: List bulk operation errors for a resource group
  *
  * @summary bulkListOperationErrors: List bulk operation errors for a resource group
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkListOperationErrorsExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function virtualMachineBulkOperationsBulkListOperationErrorsExample(): Pro
  * This sample demonstrates how to bulkListOperationErrors: List bulk operation errors for a resource group
  *
  * @summary bulkListOperationErrors: List bulk operation errors for a resource group
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkListOperationErrors_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkListOperationErrorsMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
