@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a custom certificate.
  *
  * @summary get a custom certificate.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubCustomCertificates_Get.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubCustomCertificates_Get.json
  */
 async function webPubSubCustomCertificatesGet() {
   const credential = new DefaultAzureCredential();

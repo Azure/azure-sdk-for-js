@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified private endpoint connection
  *
  * @summary update the state of specified private endpoint connection
- * x-ms-original-file: 2025-08-01-preview/WebPubSubPrivateEndpointConnections_Update.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubPrivateEndpointConnections_Update.json
  */
 async function webPubSubPrivateEndpointConnectionsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function webPubSubPrivateEndpointConnectionsUpdate(): Promise<void> {
     "myWebPubSubService",
     {
       privateEndpoint: {},
-      privateLinkServiceConnectionState: { actionsRequired: "None", status: "Approved" },
+      privateLinkServiceConnectionState: { status: "Approved", actionsRequired: "None" },
     },
   );
   console.log(result);

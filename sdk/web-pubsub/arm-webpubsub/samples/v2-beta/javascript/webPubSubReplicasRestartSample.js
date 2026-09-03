@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to operation to restart a replica.
  *
  * @summary operation to restart a replica.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubReplicas_Restart.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubReplicas_Restart.json
  */
 async function webPubSubReplicasRestart() {
   const credential = new DefaultAzureCredential();

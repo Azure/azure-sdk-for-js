@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all available skus of the resource.
  *
  * @summary list all available skus of the resource.
- * x-ms-original-file: 2025-08-01-preview/WebPubSub_ListSkus.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSub_ListSkus.json
  */
 async function webPubSubListSkus(): Promise<void> {
   const credential = new DefaultAzureCredential();

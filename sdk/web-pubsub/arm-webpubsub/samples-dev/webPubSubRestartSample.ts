@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to restart a resource.
  *
  * @summary operation to restart a resource.
- * x-ms-original-file: 2025-08-01-preview/WebPubSub_Restart.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSub_Restart.json
  */
 async function webPubSubRestart(): Promise<void> {
   const credential = new DefaultAzureCredential();

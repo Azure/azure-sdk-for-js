@@ -2,13 +2,17 @@
 // Licensed under the MIT License.
 
 import type { WebPubSubManagementClient } from "./webPubSubManagementClient.js";
-import { _createOrUpdateDeserialize } from "./api/webPubSubReplicaSharedPrivateLinkResources/operations.js";
+import {
+  _$deleteDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/webPubSubPersistentStorages/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeWebPubSubReplicaSharedPrivateLinkResources } from "./api/webPubSubReplicaSharedPrivateLinkResources/operations.js";
 import {
   _restartDeserialize,
   _updateDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeWebPubSubReplicas,
 } from "./api/webPubSubReplicas/operations.js";
-import { _$deleteDeserialize } from "./api/webPubSubPrivateEndpointConnections/operations.js";
+import { _$deleteDeserialize as _$deleteDeserializeWebPubSubPrivateEndpointConnections } from "./api/webPubSubPrivateEndpointConnections/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeWebPubSubCustomDomains,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeWebPubSubCustomDomains,
@@ -99,8 +103,15 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/persistentStorages/{name}":
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/persistentStorages/{name}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}":
+    {
+      deserializer: _createOrUpdateDeserializeWebPubSubReplicaSharedPrivateLinkResources,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/restart":
     { deserializer: _restartDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}":
@@ -111,7 +122,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
+    {
+      deserializer: _$deleteDeserializeWebPubSubPrivateEndpointConnections,
+      expectedStatuses: ["200", "202", "204"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customDomains/{name}":
     {
       deserializer: _$deleteDeserializeWebPubSubCustomDomains,

@@ -1,14 +1,205 @@
 # Release History
 
-## 2.0.0-beta.4 (Unreleased)
+## 2.0.0-beta.4 (2026-09-03)
+Compared with version 1.2.0
 
 ### Features Added
+  - Added operation group WebPubSubPersistentStoragesOperations
+  - Added operation WebPubSubOperations.createOrUpdate
+  - Added operation WebPubSubOperations.delete
+  - Added operation WebPubSubOperations.regenerateKey
+  - Added operation WebPubSubOperations.restart
+  - Added operation WebPubSubOperations.update
+  - Added operation WebPubSubCustomCertificatesOperations.createOrUpdate
+  - Added operation WebPubSubCustomDomainsOperations.createOrUpdate
+  - Added operation WebPubSubCustomDomainsOperations.delete
+  - Added operation WebPubSubHubsOperations.createOrUpdate
+  - Added operation WebPubSubHubsOperations.delete
+  - Added operation WebPubSubPrivateEndpointConnectionsOperations.delete
+  - Added operation WebPubSubReplicasOperations.createOrUpdate
+  - Added operation WebPubSubReplicasOperations.restart
+  - Added operation WebPubSubReplicasOperations.update
+  - Added operation WebPubSubReplicaSharedPrivateLinkResourcesOperations.createOrUpdate
+  - Added operation WebPubSubSharedPrivateLinkResourcesOperations.createOrUpdate
+  - Added operation WebPubSubSharedPrivateLinkResourcesOperations.delete
+  - Class WebPubSubManagementClient has a new constructor "constructor(credential: TokenCredential, options?: WebPubSubManagementClientOptionalParams);"
+  - Added Interface ApplicationFirewallSettings
+  - Added Interface ChatSettings
+  - Added Interface ClientConnectionCountRule
+  - Added Interface ClientTrafficControlRule
+  - Added Interface CustomCertificateProperties
+  - Added Interface CustomDomainProperties
+  - Added Interface EventListener
+  - Added Interface GroupPresenceEventFilters
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PersistentStorage
+  - Added Interface PersistentStorageProperties
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ReplicaProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SharedPrivateLinkResourceProperties
+  - Added Interface SimplePollerLike
+  - Added Interface ThrottleByJwtCustomClaimRule
+  - Added Interface ThrottleByJwtSignatureRule
+  - Added Interface ThrottleByUserIdRule
+  - Added Interface TrafficThrottleByJwtCustomClaimRule
+  - Added Interface TrafficThrottleByJwtSignatureRule
+  - Added Interface TrafficThrottleByUserIdRule
+  - Added Interface WebPubSubPersistentStoragesCreateOrUpdateOptionalParams
+  - Added Interface WebPubSubPersistentStoragesDeleteOptionalParams
+  - Added Interface WebPubSubPersistentStoragesGetOptionalParams
+  - Added Interface WebPubSubPersistentStoragesListOptionalParams
+  - Added Interface WebPubSubProperties
+  - Interface EventHandler has a new optional parameter groupPresenceEvents
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface SharedPrivateLinkResource has a new optional parameter fqdns
+  - Interface UsagesListOptionalParams has a new optional parameter abortSignal
+  - Interface UsagesListOptionalParams has a new optional parameter requestOptions
+  - Interface UsagesListOptionalParams has a new optional parameter tracingOptions
+  - Interface UsagesListOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubCheckNameAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubCheckNameAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubCheckNameAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubCheckNameAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubCustomCertificatesDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubCustomCertificatesDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubCustomCertificatesDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubCustomCertificatesDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubCustomCertificatesGetOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubCustomCertificatesGetOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubCustomCertificatesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubCustomCertificatesGetOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubCustomCertificatesListOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubCustomCertificatesListOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubCustomCertificatesListOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubCustomCertificatesListOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubCustomDomainsGetOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubCustomDomainsGetOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubCustomDomainsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubCustomDomainsGetOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubCustomDomainsListOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubCustomDomainsListOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubCustomDomainsListOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubCustomDomainsListOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubGetOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubGetOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubGetOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubHubProperties has a new optional parameter chat
+  - Interface WebPubSubHubsGetOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubHubsGetOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubHubsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubHubsGetOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubHubsListOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubHubsListOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubHubsListOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubHubsListOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubListKeysOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubListKeysOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubListKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubListKeysOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubListReplicaSkusOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubListReplicaSkusOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubListReplicaSkusOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubListReplicaSkusOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubListSkusOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubListSkusOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubListSkusOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubListSkusOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubPrivateEndpointConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubPrivateEndpointConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubPrivateEndpointConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubPrivateEndpointConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubPrivateEndpointConnectionsListOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubPrivateEndpointConnectionsListOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubPrivateEndpointConnectionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubPrivateEndpointConnectionsListOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubPrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubPrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubPrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubPrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubPrivateLinkResourcesListOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubPrivateLinkResourcesListOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubPrivateLinkResourcesListOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubPrivateLinkResourcesListOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubReplicasDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubReplicasDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubReplicasDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubReplicasDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubReplicasGetOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubReplicasGetOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubReplicasGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubReplicasGetOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubReplicasListOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubReplicasListOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubReplicasListOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubReplicasListOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubResource has a new optional parameter applicationFirewall
+  - Interface WebPubSubSharedPrivateLinkResourcesGetOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubSharedPrivateLinkResourcesGetOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubSharedPrivateLinkResourcesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubSharedPrivateLinkResourcesGetOptionalParams has a new optional parameter onResponse
+  - Interface WebPubSubSharedPrivateLinkResourcesListOptionalParams has a new optional parameter abortSignal
+  - Interface WebPubSubSharedPrivateLinkResourcesListOptionalParams has a new optional parameter requestOptions
+  - Interface WebPubSubSharedPrivateLinkResourcesListOptionalParams has a new optional parameter tracingOptions
+  - Interface WebPubSubSharedPrivateLinkResourcesListOptionalParams has a new optional parameter onResponse
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ClientConnectionCountRuleDiscriminator
+  - Added Type Alias ClientConnectionCountRuleUnion
+  - Added Type Alias ClientTrafficControlRuleDiscriminator
+  - Added Type Alias ClientTrafficControlRuleUnion
+  - Added Type Alias GroupPresenceEventName
+  - Added Type Alias KeyType
+  - Added Enum AzureClouds
+  - Added Enum KnownClientConnectionCountRuleDiscriminator
+  - Added Enum KnownClientTrafficControlRuleDiscriminator
+  - Added Enum KnownGroupPresenceEventName
+  - Added Enum KnownVersions
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation WebPubSub.beginRestartAndWait has a new signature
+  - Operation WebPubSubHubs.beginCreateOrUpdate has a new signature
+  - Operation WebPubSubHubs.beginCreateOrUpdateAndWait has a new signature
+  - Operation WebPubSubHubs.get has a new signature
+  - Operation WebPubSubReplicas.beginRestartAndWait has a new signature
+  - Removed Interface CustomCertificateList
+  - Removed Interface CustomDomainList
+  - Removed Interface EventListener_2
+  - Removed Interface OperationList
+  - Removed Interface PrivateEndpointConnectionList
+  - Removed Interface PrivateLinkResourceList
+  - Removed Interface ReplicaList
+  - Removed Interface SharedPrivateLinkResourceList
+  - Removed Interface SignalRServiceUsageList
+  - Removed Interface WebPubSubHubList
+  - Removed Interface WebPubSubResourceList
+  - Type of parameter type of interface EventListenerEndpoint is changed from "EventHub" to EventListenerEndpointDiscriminator
+  - Type of parameter type of interface EventListenerFilter is changed from "EventName" to EventListenerFilterDiscriminator
+  - Type of parameter eventListeners of interface WebPubSubHubProperties is changed from EventListener_2[] to EventListener[]
+  - Removed Type Alias KeyType_2
+  - Type alias "EventListenerEndpointUnion" has been changed
+  - Type alias "EventListenerFilterUnion" has been changed
 
 ## 2.0.0-beta.3 (2026-06-03)
 Compared with version 1.2.0

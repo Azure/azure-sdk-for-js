@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to operation to delete a resource.
  *
  * @summary operation to delete a resource.
- * x-ms-original-file: 2025-08-01-preview/WebPubSub_Delete.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSub_Delete.json
  */
 async function webPubSubDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

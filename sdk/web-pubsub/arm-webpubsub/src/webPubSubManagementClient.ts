@@ -18,6 +18,8 @@ import type { WebPubSubCustomDomainsOperations } from "./classic/webPubSubCustom
 import { _getWebPubSubCustomDomainsOperations } from "./classic/webPubSubCustomDomains/index.js";
 import type { WebPubSubHubsOperations } from "./classic/webPubSubHubs/index.js";
 import { _getWebPubSubHubsOperations } from "./classic/webPubSubHubs/index.js";
+import type { WebPubSubPersistentStoragesOperations } from "./classic/webPubSubPersistentStorages/index.js";
+import { _getWebPubSubPersistentStoragesOperations } from "./classic/webPubSubPersistentStorages/index.js";
 import type { WebPubSubPrivateEndpointConnectionsOperations } from "./classic/webPubSubPrivateEndpointConnections/index.js";
 import { _getWebPubSubPrivateEndpointConnectionsOperations } from "./classic/webPubSubPrivateEndpointConnections/index.js";
 import type { WebPubSubPrivateLinkResourcesOperations } from "./classic/webPubSubPrivateLinkResources/index.js";
@@ -59,16 +61,10 @@ export class WebPubSubManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createWebPubSubManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createWebPubSubManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.usages = _getUsagesOperations(this._client);
+    this.webPubSubPersistentStorages = _getWebPubSubPersistentStoragesOperations(this._client);
     this.webPubSubReplicaSharedPrivateLinkResources =
       _getWebPubSubReplicaSharedPrivateLinkResourcesOperations(this._client);
     this.webPubSubReplicas = _getWebPubSubReplicasOperations(this._client);
@@ -88,6 +84,8 @@ export class WebPubSubManagementClient {
 
   /** The operation groups for usages */
   public readonly usages: UsagesOperations;
+  /** The operation groups for webPubSubPersistentStorages */
+  public readonly webPubSubPersistentStorages: WebPubSubPersistentStoragesOperations;
   /** The operation groups for webPubSubReplicaSharedPrivateLinkResources */
   public readonly webPubSubReplicaSharedPrivateLinkResources: WebPubSubReplicaSharedPrivateLinkResourcesOperations;
   /** The operation groups for webPubSubReplicas */

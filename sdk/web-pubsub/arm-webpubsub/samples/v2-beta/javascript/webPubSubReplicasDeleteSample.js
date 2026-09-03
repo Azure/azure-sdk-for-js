@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to operation to delete a replica.
  *
  * @summary operation to delete a replica.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubReplicas_Delete.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubReplicas_Delete.json
  */
 async function webPubSubReplicasDelete() {
   const credential = new DefaultAzureCredential();

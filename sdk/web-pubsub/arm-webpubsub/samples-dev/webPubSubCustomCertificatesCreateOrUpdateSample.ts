@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a custom certificate.
  *
  * @summary create or update a custom certificate.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubCustomCertificates_CreateOrUpdate.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubCustomCertificates_CreateOrUpdate.json
  */
 async function webPubSubCustomCertificatesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
