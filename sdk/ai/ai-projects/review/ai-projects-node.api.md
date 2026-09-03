@@ -2873,7 +2873,7 @@ export interface GetMicrosoft365PackageOptionalParams extends OperationOptions {
     termsOfUseUrl?: string;
 }
 
-// @public (undocumented)
+// @public
 export type GetMicrosoft365PackageResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;

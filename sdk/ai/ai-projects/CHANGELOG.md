@@ -9,6 +9,7 @@
 - Add Microsoft 365 publishing operations and digital-worker metadata to `project.agents`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
 - Add A2A tools and protocol configuration, shell tools for agents and toolboxes, and Model Router control contracts. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
 - Add hosted-agent session configuration and routine dispatch authorization options. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add preview support for creating and listing draft agent versions through the `draft` and `includeDrafts` options, including automatic `DraftAgents=V1Preview` header handling. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
 
 ### Other Changes
 

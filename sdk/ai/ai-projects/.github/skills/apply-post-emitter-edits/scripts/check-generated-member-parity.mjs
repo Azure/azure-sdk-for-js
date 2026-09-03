@@ -306,6 +306,24 @@ function runGit(repoRoot, args) {
   });
 }
 
+function validateConfiguredRefs(repoRoot, options) {
+  const refs = [
+    ["--base-ref", options.baseRef],
+    ["--generated-ref", options.generatedRef],
+    ["--source-ref", options.sourceRef],
+  ];
+  for (const [argument, ref] of refs) {
+    if (!ref) {
+      continue;
+    }
+    try {
+      runGit(repoRoot, ["rev-parse", "--verify", "--quiet", "--end-of-options", `${ref}^{commit}`]);
+    } catch {
+      throw new Error(`Invalid ${argument} value: ${ref}`);
+    }
+  }
+}
+
 function parseArguments(argv) {
   const options = { baseRef: "HEAD", files: [], allowedSourceRemovals: new Set() };
   for (let index = 0; index < argv.length; index++) {
@@ -371,6 +389,7 @@ function main() {
   const options = parseArguments(process.argv.slice(2));
   const repoRoot = runGit(packageRoot, ["rev-parse", "--show-toplevel"]).trim();
   const packageRelative = path.relative(repoRoot, packageRoot).replaceAll("\\", "/");
+  validateConfiguredRefs(repoRoot, options);
   const generatedFiles = changedGeneratedFiles(repoRoot, packageRelative, options);
   const missingAdditions = [];
 

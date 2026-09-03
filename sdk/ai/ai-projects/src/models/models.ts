@@ -14621,6 +14621,7 @@ export type AgentsDownloadSessionFileResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/** The binary Microsoft 365 app package generated for a Foundry agent. */
 export type GetMicrosoft365PackageResponse = {
   /**
    * BROWSER ONLY

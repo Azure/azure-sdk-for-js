@@ -2,12 +2,20 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 import {
   findMissingAdditions,
   findMissingPreservedExports,
   findIndexInvariantViolations,
 } from "./check-generated-member-parity.mjs";
+
+const scriptPath = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "check-generated-member-parity.mjs",
+);
 
 const previousGeneratedOptions = `
 export interface AgentsCreateAgentOptionalParams {
@@ -246,4 +254,15 @@ import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 `;
 
   assert.deepEqual(findIndexInvariantViolations(source), []);
+});
+
+test("rejects an invalid configured ref", () => {
+  const result = spawnSync(
+    process.execPath,
+    [scriptPath, "--generated-ref", "invalid-ref-for-parity-test", "--file", "models/models.ts"],
+    { encoding: "utf8" },
+  );
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /Invalid --generated-ref value: invalid-ref-for-parity-test/);
 });

@@ -144,7 +144,15 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+
+Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
+
+```ts snippet:agent-insight-monitors
+for await (const monitor of project.beta.agentInsightMonitors.list()) {
+  console.log(`${monitor.id}: ${monitor.agent_name}`);
+}
+```
 
 ## Examples
 

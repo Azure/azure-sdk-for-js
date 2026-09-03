@@ -17,6 +17,18 @@ export async function getBinaryStreamResponse(streamableMethod: StreamableMethod
   }
 > {
   const response = await streamableMethod.asNodeStream();
+  if (!response.status.startsWith("2") && response.body) {
+    const chunks: Buffer[] = [];
+    for await (const chunk of response.body) {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
+    return {
+      ...response,
+      body: JSON.parse(Buffer.concat(chunks).toString("utf8")),
+      blobBody: undefined,
+      readableStreamBody: undefined,
+    };
+  }
   return {
     ...response,
     blobBody: undefined,

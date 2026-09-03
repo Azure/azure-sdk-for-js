@@ -17,6 +17,14 @@ export async function getBinaryStreamResponse(streamableMethod: StreamableMethod
   }
 > {
   const response = await streamableMethod.asBrowserStream();
+  if (!response.status.startsWith("2") && response.body) {
+    return {
+      ...response,
+      body: await new Response(response.body).json(),
+      blobBody: undefined,
+      readableStreamBody: undefined,
+    };
+  }
   return {
     ...response,
     blobBody: new Response(response.body).blob(),
