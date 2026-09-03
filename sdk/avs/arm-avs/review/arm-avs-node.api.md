@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -610,6 +612,17 @@ export interface Host extends ProxyResource {
 export type HostKind = string;
 
 // @public
+export interface HostLicense {
+    kind: HostLicenseKind;
+}
+
+// @public
+export type HostLicenseKind = string;
+
+// @public
+export type HostLicenseUnion = WindowsServerLicense | HostLicense;
+
+// @public
 export type HostMaintenance = string;
 
 // @public
@@ -619,6 +632,7 @@ export interface HostProperties {
     readonly faultDomain?: string;
     readonly fqdn?: string;
     kind: HostKind;
+    licenses?: HostLicenseUnion[];
     maintenance?: HostMaintenance;
     readonly moRefId?: string;
     readonly provisioningState?: HostProvisioningState;
@@ -642,6 +656,21 @@ export interface HostsListOptionalParams extends OperationOptions {
 export interface HostsOperations {
     get: (resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams) => Promise<Host>;
     list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams) => PagedAsyncIterableIterator<Host>;
+    update: (resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, properties: HostUpdate, options?: HostsUpdateOptionalParams) => Promise<Host>;
+}
+
+// @public
+export interface HostsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HostUpdate {
+    properties?: HostUpdateProperties;
+}
+
+// @public
+export interface HostUpdateProperties {
+    licenses?: HostLicenseUnion[];
 }
 
 // @public
@@ -716,6 +745,8 @@ export interface IscsiPathsOperations {
     listByPrivateCloud: (resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams) => PagedAsyncIterableIterator<IscsiPath>;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -768,6 +799,7 @@ export enum KnownAzureHybridBenefitType {
 export enum KnownBlockedDatesConstraintCategory {
     HiPriorityEvent = "HiPriorityEvent",
     Holiday = "Holiday",
+    OverlappingMaintenance = "OverlappingMaintenance",
     QuotaExhausted = "QuotaExhausted"
 }
 
@@ -918,6 +950,11 @@ export enum KnownHostKind {
 }
 
 // @public
+export enum KnownHostLicenseKind {
+    WindowsServer = "WindowsServer"
+}
+
+// @public
 export enum KnownHostMaintenance {
     Replacement = "Replacement",
     Upgrade = "Upgrade"
@@ -965,9 +1002,23 @@ export enum KnownLicenseProvisioningState {
 }
 
 // @public
+export enum KnownMaintenanceActivityKind {
+    Backup = "Backup",
+    CertificateRotation = "CertificateRotation",
+    Downgrade = "Downgrade",
+    Upgrade = "Upgrade"
+}
+
+// @public
 export enum KnownMaintenanceCheckType {
     Precheck = "Precheck",
     Preflight = "Preflight"
+}
+
+// @public
+export enum KnownMaintenanceGroupKind {
+    Consolidation = "Consolidation",
+    Logical = "Logical"
 }
 
 // @public
@@ -1132,7 +1183,9 @@ export enum KnownQuotaEnabled {
 // @public
 export enum KnownRescheduleOperationConstraintKind {
     AvailableWindowForMaintenanceWhileRescheduleOperation = "AvailableWindowForMaintenance",
-    BlockedWhileRescheduleOperation = "Blocked"
+    BlockedWhileRescheduleOperation = "Blocked",
+    ReschedulingWindow = "ReschedulingWindow",
+    WeekendRescheduling = "WeekendRescheduling"
 }
 
 // @public
@@ -1163,7 +1216,8 @@ export enum KnownResourceSkuRestrictionsType {
 export enum KnownScheduleOperationConstraintKind {
     AvailableWindowForMaintenanceWhileScheduleOperation = "AvailableWindowForMaintenance",
     BlockedWhileScheduleOperation = "Blocked",
-    SchedulingWindow = "SchedulingWindow"
+    SchedulingWindow = "SchedulingWindow",
+    WeekendScheduling = "WeekendScheduling"
 }
 
 // @public
@@ -1251,7 +1305,8 @@ export enum KnownVcfLicenseKind {
 export enum KnownVersions {
     V20230901 = "2023-09-01",
     V20240901 = "2024-09-01",
-    V20250901 = "2025-09-01"
+    V20250901 = "2025-09-01",
+    V20260301 = "2026-03-01"
 }
 
 // @public
@@ -1447,6 +1502,18 @@ export interface Maintenance extends ProxyResource {
 }
 
 // @public
+export interface MaintenanceActivity {
+    readonly component: string;
+    readonly impact?: string;
+    readonly infoLink?: string;
+    readonly kind: MaintenanceActivityKind;
+    readonly version: string;
+}
+
+// @public
+export type MaintenanceActivityKind = string;
+
+// @public
 export type MaintenanceCheckType = string;
 
 // @public
@@ -1454,6 +1521,16 @@ export interface MaintenanceFailedCheck {
     readonly impactedResources?: ImpactedMaintenanceResource[];
     readonly name?: string;
 }
+
+// @public
+export interface MaintenanceGroup {
+    readonly id: string;
+    readonly kind: MaintenanceGroupKind;
+    readonly name: string;
+}
+
+// @public
+export type MaintenanceGroupKind = string;
 
 // @public
 export interface MaintenanceManagementOperation {
@@ -1468,15 +1545,18 @@ export type MaintenanceManagementOperationUnion = ScheduleOperation | Reschedule
 
 // @public
 export interface MaintenanceProperties {
+    readonly activities?: MaintenanceActivity[];
     readonly clusterId?: number;
     readonly component?: MaintenanceType;
     readonly displayName?: string;
     readonly estimatedDurationInMinutes?: number;
+    readonly group?: MaintenanceGroup;
     readonly impact?: string;
     readonly infoLink?: string;
     readonly maintenanceReadiness?: MaintenanceReadiness;
     readonly operations?: MaintenanceManagementOperationUnion[];
     readonly provisioningState?: MaintenanceProvisioningState;
+    readonly relationships?: MaintenanceRelationships;
     readonly scheduledByMicrosoft?: boolean;
     readonly scheduledStartTime?: Date;
     readonly state?: MaintenanceState;
@@ -1509,6 +1589,17 @@ export type MaintenanceReadinessRefreshOperationStatus = string;
 
 // @public
 export type MaintenanceReadinessStatus = string;
+
+// @public
+export interface MaintenanceRecommendation {
+    readonly maintenanceWindows?: MaintenanceWindowRecommendation[];
+}
+
+// @public
+export interface MaintenanceRelationships {
+    readonly dependencies?: string[];
+    readonly prerequisites?: string[];
+}
 
 // @public
 export interface MaintenanceReschedule {
@@ -1571,6 +1662,12 @@ export type MaintenanceStatusFilter = string;
 
 // @public
 export type MaintenanceType = string;
+
+// @public
+export interface MaintenanceWindowRecommendation {
+    readonly reason?: string;
+    readonly startTime: Date;
+}
 
 // @public
 export interface ManagementCluster {
@@ -1941,6 +2038,7 @@ export interface RescheduleOperation extends MaintenanceManagementOperation {
     readonly disabledReason?: string;
     readonly isDisabled?: boolean;
     kind: "Reschedule";
+    readonly recommendation?: MaintenanceRecommendation;
 }
 
 // @public
@@ -1952,7 +2050,15 @@ export interface RescheduleOperationConstraint {
 export type RescheduleOperationConstraintKind = string;
 
 // @public
-export type RescheduleOperationConstraintUnion = AvailableWindowForMaintenanceWhileRescheduleOperation | BlockedWhileRescheduleOperation | RescheduleOperationConstraint;
+export type RescheduleOperationConstraintUnion = ReschedulingWindowConstraint | WeekendReschedulingConstraint | AvailableWindowForMaintenanceWhileRescheduleOperation | BlockedWhileRescheduleOperation | RescheduleOperationConstraint;
+
+// @public
+export interface ReschedulingWindowConstraint extends RescheduleOperationConstraint {
+    readonly endsAt: Date;
+    // (undocumented)
+    kind: "ReschedulingWindow";
+    readonly startsAt: Date;
+}
 
 // @public
 export interface Resource {
@@ -2020,6 +2126,8 @@ export interface ResourceSkuZoneDetails {
     name: string[];
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureVMwareSolutionAPI, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -2036,6 +2144,7 @@ export interface ScheduleOperation extends MaintenanceManagementOperation {
     readonly disabledReason?: string;
     readonly isDisabled?: boolean;
     kind: "Schedule";
+    readonly recommendation?: MaintenanceRecommendation;
 }
 
 // @public
@@ -2047,7 +2156,7 @@ export interface ScheduleOperationConstraint {
 export type ScheduleOperationConstraintKind = string;
 
 // @public
-export type ScheduleOperationConstraintUnion = SchedulingWindow | AvailableWindowForMaintenanceWhileScheduleOperation | BlockedWhileScheduleOperation | ScheduleOperationConstraint;
+export type ScheduleOperationConstraintUnion = SchedulingWindow | WeekendSchedulingConstraint | AvailableWindowForMaintenanceWhileScheduleOperation | BlockedWhileScheduleOperation | ScheduleOperationConstraint;
 
 // @public
 export interface SchedulingWindow extends ScheduleOperationConstraint {
@@ -2379,6 +2488,27 @@ export interface VmwareFirewallLicenseProperties extends LicenseProperties {
     kind: "VmwareFirewall";
     labels?: Label[];
     licenseKey?: string;
+}
+
+// @public
+export interface WeekendReschedulingConstraint extends RescheduleOperationConstraint {
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    // (undocumented)
+    kind: "WeekendRescheduling";
+}
+
+// @public
+export interface WeekendSchedulingConstraint extends ScheduleOperationConstraint {
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    // (undocumented)
+    kind: "WeekendScheduling";
+}
+
+// @public
+export interface WindowsServerLicense extends HostLicense {
+    kind: "WindowsServer";
 }
 
 // @public

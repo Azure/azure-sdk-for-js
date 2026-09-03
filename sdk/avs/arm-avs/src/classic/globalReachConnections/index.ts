@@ -16,11 +16,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a GlobalReachConnections operations. */
 export interface GlobalReachConnectionsOperations {
   /** Delete a GlobalReachConnection */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,
