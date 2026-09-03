@@ -39,19 +39,23 @@ export class AIProjectClient {
     this._client = createAIProject(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.toolboxes = _getToolboxesOperations(this._client);
+    this.agentEndpointConversations = _getAgentEndpointConversationsOperations(this._client);
+    this.voiceAgentWebSocket = _getVoiceAgentWebSocketOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.datasets = _getDatasetsOperations(this._client);
     this.connections = _getConnectionsOperations(this._client);
     this.evaluationRules = _getEvaluationRulesOperations(this._client);
-    this.agentEndpointConversations = _getAgentEndpointConversationsOperations(this._client);
-    this.voiceAgentWebSocket = _getVoiceAgentWebSocketOperations(this._client);
     this.agents = _getAgentsOperations(this._client);
     this.beta = _getBetaOperations(this._client);
   }
 
   /** The operation groups for toolboxes */
   public readonly toolboxes: ToolboxesOperations;
+  /** The operation groups for agentEndpointConversations */
+  public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
+  /** The operation groups for voiceAgentWebSocket */
+  public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */
@@ -62,10 +66,6 @@ export class AIProjectClient {
   public readonly connections: ConnectionsOperations;
   /** The operation groups for evaluationRules */
   public readonly evaluationRules: EvaluationRulesOperations;
-  /** The operation groups for agentEndpointConversations */
-  public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
-  /** The operation groups for voiceAgentWebSocket */
-  public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
   /** The operation groups for beta */
