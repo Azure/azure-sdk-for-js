@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list BulkCreateCustom resources by subscriptionId.
  *
  * @summary list BulkCreateCustom resources by subscriptionId.
- * x-ms-original-file: 2026-07-06-preview/BulkCreateCustom_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/BulkCreateCustom_ListBySubscription_MaximumSet_Gen.json
  */
 async function bulkCreateCustomListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();

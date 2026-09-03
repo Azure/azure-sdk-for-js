@@ -1,28 +1,66 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppConfigurationClient } from "../../src/index.js";
+import { AppConfigurationClient } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type {
+  HttpClient,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("request url query parameters", () => {
-  let recorder: Recorder;
+  it("encodes reserved characters in key path parameters", async () => {
+    const requests: PipelineRequest[] = [];
+    const key = "key?/#%=!'()*";
+    const encodedKey = "key%3F%2F%23%25%3D%21%27%28%29%2A";
+    const mockHttpClient: HttpClient = {
+      sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
+        requests.push(request);
+        return {
+          request,
+          status: 200,
+          headers: createHttpHeaders(),
+          bodyAsText: JSON.stringify({ key, value: "value" }),
+        };
+      },
+    };
+    const client = new AppConfigurationClient(
+      "Endpoint=https://contoso.azconfig.io;Id=fake-id;Secret=ABCD",
+      { httpClient: mockHttpClient },
+    );
 
-  beforeEach(async (ctx) => {
-    recorder = await startRecorder(ctx);
-    await recorder.setMatcher("CustomDefaultMatcher", {
-      excludedHeaders: ["sync-token"],
-    });
-  });
+    await client.addConfigurationSetting({ key, value: "value" });
+    await client.setConfigurationSetting({ key, value: "value" });
+    await client.getConfigurationSetting({ key });
+    await client.deleteConfigurationSetting({ key });
+    await client.setReadOnly({ key }, true);
+    await client.setReadOnly({ key }, false);
 
-  afterEach(async () => {
-    await recorder.stop();
+    assert.lengthOf(requests, 6);
+    for (const request of requests) {
+      const url = new URL(request.url);
+      assert.match(url.pathname, new RegExp(`^/(?:kv|locks)/${encodedKey}$`));
+      assert.notInclude(url.search, "/#%");
+    }
   });
 
   describe("normalize query parameters", () => {
+    let recorder: Recorder;
+
+    beforeEach(async (ctx) => {
+      recorder = await startRecorder(ctx);
+    });
+
+    afterEach(async () => {
+      await recorder.stop();
+    });
+
     it("sort query params in alphabetical order", async () => {
       const key = recorder.variable(
         "sortQueryParams",

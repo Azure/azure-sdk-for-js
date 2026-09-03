@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates tags on a maintenance window.
  *
  * @summary updates tags on a maintenance window.
- * x-ms-original-file: 2026-05-02-preview/MaintenanceWindowsUpdateTags.json
+ * x-ms-original-file: 2026-06-02-preview/MaintenanceWindowsUpdateTags.json
  */
 async function updateMaintenanceWindowTags() {
   const credential = new DefaultAzureCredential();

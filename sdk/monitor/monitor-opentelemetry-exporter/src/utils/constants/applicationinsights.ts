@@ -40,6 +40,13 @@ export enum DependencyTypes {
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 export const ApplicationInsightsBaseType = "_MS.baseType";
 export const ApplicationInsightsCustomEventName = "microsoft.custom_event.name";
+export const ApplicationInsightsCustomMeasurements = "microsoft.custom_measurements";
+export const ApplicationInsightsAvailabilityId = "microsoft.availability.id";
+export const ApplicationInsightsAvailabilityNameAttribute = "microsoft.availability.name";
+export const ApplicationInsightsAvailabilityDuration = "microsoft.availability.duration";
+export const ApplicationInsightsAvailabilitySuccess = "microsoft.availability.success";
+export const ApplicationInsightsAvailabilityRunLocation = "microsoft.availability.runLocation";
+export const ApplicationInsightsAvailabilityMessage = "microsoft.availability.message";
 export const MicrosoftClientIp = "microsoft.client.ip";
 
 export const ApplicationInsightsMessageName = "Microsoft.ApplicationInsights.Message";

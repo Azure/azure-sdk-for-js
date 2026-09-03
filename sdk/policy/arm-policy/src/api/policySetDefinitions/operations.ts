@@ -36,7 +36,7 @@ export function _listByManagementGroupSend(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions{?api%2Dversion,%24filter,%24expand,%24top}",
     {
       managementGroupId: managementGroupId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
       "%24top": options?.top,
@@ -57,7 +57,10 @@ export async function _listByManagementGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -75,7 +78,11 @@ export function listByManagementGroup(
     () => _listByManagementGroupSend(context, managementGroupId, options),
     _listByManagementGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -90,7 +97,7 @@ export function _deleteAtManagementGroupSend(
     {
       managementGroupId: managementGroupId,
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,7 +112,10 @@ export async function _deleteAtManagementGroupDeserialize(
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -142,7 +152,7 @@ export function _createOrUpdateAtManagementGroupSend(
     {
       managementGroupId: managementGroupId,
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -162,7 +172,10 @@ export async function _createOrUpdateAtManagementGroupDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -200,7 +213,7 @@ export function _getAtManagementGroupSend(
     {
       managementGroupId: managementGroupId,
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -219,7 +232,10 @@ export async function _getAtManagementGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -249,7 +265,7 @@ export function _listBuiltInSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Authorization/policySetDefinitions{?api%2Dversion,%24filter,%24expand,%24top}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
       "%24top": options?.top,
@@ -270,7 +286,10 @@ export async function _listBuiltInDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -287,7 +306,11 @@ export function listBuiltIn(
     () => _listBuiltInSend(context, options),
     _listBuiltInDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -300,7 +323,7 @@ export function _getBuiltInSend(
     "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}{?api%2Dversion,%24expand}",
     {
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -319,7 +342,10 @@ export async function _getBuiltInDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -344,7 +370,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions{?api%2Dversion,%24filter,%24expand,%24top}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
       "%24top": options?.top,
@@ -365,7 +391,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -382,7 +411,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -396,7 +429,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -409,7 +442,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -417,11 +453,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** This operation deletes the policy set definition in the given subscription with the given name. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   policySetDefinitionName: string,
@@ -442,7 +473,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -462,7 +493,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -490,7 +524,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -507,7 +541,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Po
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

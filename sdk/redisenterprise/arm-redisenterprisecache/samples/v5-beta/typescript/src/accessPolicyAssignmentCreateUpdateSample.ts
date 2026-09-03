@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates/Updates a particular access policy assignment for a database
  *
  * @summary creates/Updates a particular access policy assignment for a database
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseAccessPolicyAssignmentCreateUpdate.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseAccessPolicyAssignmentCreateUpdate.json
  */
 async function redisEnterpriseAccessPolicyAssignmentCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,8 +24,33 @@ async function redisEnterpriseAccessPolicyAssignmentCreateUpdate(): Promise<void
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to creates/Updates a particular access policy assignment for a database
+ *
+ * @summary creates/Updates a particular access policy assignment for a database
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseAccessPolicyAssignmentCreateUpdateWithCustomAccessString.json
+ */
+async function redisEnterpriseAccessPolicyAssignmentCreateUpdateWithCustomAccessString(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
+  const result = await client.accessPolicyAssignment.createUpdate(
+    "rg1",
+    "cache1",
+    "default",
+    "defaultTestEntraApp1",
+    {
+      accessPolicyName: "default",
+      accessString: "+@read ~cache:*",
+      user: { objectId: "6497c918-11ad-41e7-1b0f-7c518a87d0b0" },
+    },
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await redisEnterpriseAccessPolicyAssignmentCreateUpdate();
+  await redisEnterpriseAccessPolicyAssignmentCreateUpdateWithCustomAccessString();
 }
 
 main().catch(console.error);

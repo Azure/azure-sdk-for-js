@@ -227,7 +227,7 @@ export async function assertThrowsRestError(
   } catch (err: any) {
     console.log("running into ", JSON.stringify(err));
     if (!(err instanceof Error)) {
-      throw new Error("Error is not recognized");
+      throw new Error("Error is not recognized", { cause: err });
     }
     if (err.name === "RestError") {
       const restError = err as RestError;
@@ -250,7 +250,7 @@ export async function assertThrowsAbortError(
     assert.fail(`${message}: No error thrown`);
   } catch (e: any) {
     if (!(e instanceof Error)) {
-      throw new Error("Error is not recognized");
+      throw new Error("Error is not recognized", { cause: e });
     }
     if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;

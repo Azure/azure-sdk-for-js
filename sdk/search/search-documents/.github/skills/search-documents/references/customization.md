@@ -45,18 +45,18 @@ For each file previously in `src/`:
 
 When both sides changed the same lines, conflict markers appear:
 
-```typescript
-<<<<<<< custom
-// Hand-written code
-const result = transformResult(raw);
-||||||| base
-// Previous generated code
-const result = raw;
-=======
-// New generated code
-const result = deserializeResult(raw);
->>>>>>> result
-```
+ ```typescript
+ <<<<<<< custom
+ // Hand-written code
+ const result = transformResult(raw);
+ ||||||| base
+ // Previous generated code
+ const result = raw;
+ =======
+ // New generated code
+ const result = deserializeResult(raw);
+ >>>>>>> result
+ ```
 
 Resolve conflicts by preserving behavior, not by choosing one side verbatim.
 

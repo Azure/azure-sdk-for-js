@@ -5,6 +5,7 @@ import {
   base64encode,
   bodyToString,
   configureBlobStorageClient,
+  createAndStartRecorder,
   getBSU,
   getRecorderUniqueVariable,
   getSASConnectionStringFromEnvironment,
@@ -57,6 +58,10 @@ describe("ContainerClient", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -906,8 +911,7 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length - 1);
 
     for (const blob of blobClients) {
-      let i = 0;
-      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![i++].name));
+      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![0].name));
     }
 
     for (const blob of blobClients) {
@@ -1376,6 +1380,10 @@ describe("Version error test", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1389,13 +1397,13 @@ describe("Version error test", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await containerClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).message.startsWith(
+        (err as any).details.message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
       );
@@ -1425,9 +1433,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
