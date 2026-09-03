@@ -13,7 +13,8 @@ import type { ServiceBusLogger } from "../../../src/log.js";
 import { createServiceBusLogger } from "../../../src/log.js";
 import type { ProcessErrorArgs } from "../../../src/models.js";
 import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError.js";
-import { MessagingError, RetryOperationType } from "@azure/core-amqp";
+import { MessagingError, RetryMode, RetryOperationType } from "@azure/core-amqp";
+import type { RetryOptions } from "@azure/core-amqp";
 import type {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
@@ -248,6 +249,55 @@ describe("shared receiver code", () => {
 
       assert.isEmpty(errorMessages);
       assert.equal(numOperationCalls, 1);
+    });
+
+    it("defaults an unset mode to Fixed (core-amqp layer default unchanged)", async () => {
+      // The SB exponential default is injected at the client layer; this shared
+      // primitive keeps its historical Fixed default when mode is unset.
+      const retryOptions: RetryOptions = {};
+      const succeed = async <T>(): Promise<T> => Promise.resolve({} as T);
+      await retryForever(
+        {
+          logPrefix: "logPrefix",
+          logger,
+          onError: () => {
+            /* no-op */
+          },
+          retryConfig: {
+            operation: async () => 1,
+            connectionId: "id",
+            operationType: RetryOperationType.connection,
+            retryOptions,
+          },
+        },
+        succeed,
+      );
+      assert.equal(retryOptions.mode, RetryMode.Fixed);
+    });
+
+    it("does not revert an explicit Exponential mode (EP2 guard regression)", async () => {
+      // RetryMode.Exponential === 0. The old `!mode` guard treated it as unset
+      // and reverted it to Fixed on the streaming path; the guard now checks
+      // `== undefined`, so an explicit Exponential is preserved.
+      const retryOptions: RetryOptions = { mode: RetryMode.Exponential };
+      const succeed = async <T>(): Promise<T> => Promise.resolve({} as T);
+      await retryForever(
+        {
+          logPrefix: "logPrefix",
+          logger,
+          onError: () => {
+            /* no-op */
+          },
+          retryConfig: {
+            operation: async () => 1,
+            connectionId: "id",
+            operationType: RetryOperationType.connection,
+            retryOptions,
+          },
+        },
+        succeed,
+      );
+      assert.equal(retryOptions.mode, RetryMode.Exponential);
     });
 
     it("retries after each retry<> call exhausts _its_ retries", async () => {
