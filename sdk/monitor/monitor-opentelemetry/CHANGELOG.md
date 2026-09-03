@@ -15,7 +15,7 @@
 
 ### Other Changes
 
-- Updated OpenTelemetry stable dependencies to `^2.11.0`, experimental dependencies to `^0.222.0`, semantic conventions to `^1.43.0`, and bundled contrib instrumentations, resource detector, and Winston transport to their latest compatible versions.
+- Updated OpenTelemetry stable dependencies to `^2.11.0`, experimental dependencies to `^0.222.0`, semantic conventions to `^1.43.0`, and bundled contrib instrumentations, resource detector, and Winston transport to their latest compatible versions. [#39868](https://github.com/Azure/azure-sdk-for-js/pull/39868)
 - Updated to using exporter version 1.0.0-beta.45.
 
 ## 1.19.0 (2026-07-29)
