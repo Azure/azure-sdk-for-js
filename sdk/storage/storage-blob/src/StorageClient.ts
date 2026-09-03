@@ -10,6 +10,7 @@ import {
   resolveSessionMode,
 } from "./Pipeline.js";
 import { isNodeLike } from "@azure/core-util";
+import { isTokenCredential } from "@azure/core-auth";
 import {
   escapeURLPath,
   getURLScheme,
@@ -159,7 +160,9 @@ function assertAccountNameAvailableForSessions(
     accountName ||
     sessionOptions?.accountName ||
     resolveSessionMode(sessionOptions?.mode) !== "enabled" ||
-    new URL(url).hostname.split(".").slice(1).includes("dfs")
+    new URL(url).hostname.split(".").slice(1).includes("dfs") ||
+    // Sessions are only wired up for a TokenCredential, so `mode` is inert for anything else.
+    !isTokenCredential(getCredentialFromPipeline(pipeline))
   ) {
     return;
   }

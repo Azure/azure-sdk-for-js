@@ -56,6 +56,11 @@ export function storageSessionAuthenticationPolicy(
   // One provider per account. A single Pipeline can be shared across clients for different
   // accounts, and a session is only ever valid for the account that issued it. Deferred because
   // the pipeline is built before any URL is known.
+  //
+  // Deliberately uncapped: an entry only appears for an endpoint the caller drives traffic to, so
+  // the size is bounded by the caller's own account set. Evicting would re-mint every container
+  // session behind the evicted account, trading a caller-controlled footprint for load on the
+  // service.
   const providers = new Map<string, ContainerSessionProvider>();
   const getProvider = (request: PipelineRequest): ContainerSessionProvider => {
     const endpoint = getServiceEndpoint(request.url);

@@ -7,7 +7,7 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import type { WebResourceLike } from "@azure/core-http-compat";
 import type { SessionOptions } from "../../src/Pipeline.js";
 import { getCoreClientOptions, newPipeline } from "../../src/Pipeline.js";
-import { BlobClient } from "../../src/index.js";
+import { AnonymousCredential, BlobClient, StorageSharedKeyCredential } from "../../src/index.js";
 import type { FakeResponse, SeenRequest } from "./sessionTestUtils.js";
 import {
   ACCOUNT,
@@ -211,4 +211,19 @@ describe("account name validation at client construction", () => {
       assert.doesNotThrow(() => construct(CUSTOM_DOMAIN, sessionOptions));
     });
   }
+
+  it("does not throw for a non-token credential, which never gets a session policy", () => {
+    assert.doesNotThrow(
+      () =>
+        new BlobClient(CUSTOM_DOMAIN, new AnonymousCredential(), {
+          sessionOptions: { mode: "enabled" },
+        }),
+    );
+    assert.doesNotThrow(
+      () =>
+        new BlobClient(CUSTOM_DOMAIN, new StorageSharedKeyCredential("myaccount", "a2V5"), {
+          sessionOptions: { mode: "enabled" },
+        }),
+    );
+  });
 });
