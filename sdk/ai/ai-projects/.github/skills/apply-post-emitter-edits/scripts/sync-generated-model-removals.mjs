@@ -101,14 +101,6 @@ export function planModelRemovals({ previousGenerated, currentGenerated, previou
   let changed = true;
   while (changed) {
     changed = false;
-    const removedReferences = new Set(
-      [...plannedEntries].flatMap((entry) => [...entry.references]),
-    );
-    const survivingReferences = new Set(
-      sourceGraph.entries
-        .filter((entry) => !plannedEntries.has(entry))
-        .flatMap((entry) => [...entry.references]),
-    );
 
     for (const entry of sourceGraph.entries) {
       if (
@@ -119,10 +111,7 @@ export function planModelRemovals({ previousGenerated, currentGenerated, previou
       }
 
       const dependsOnRemoval = [...entry.references].some((name) => plannedNames.has(name));
-      const supportsOnlyRemoval = entry.names.some(
-        (name) => removedReferences.has(name) && !survivingReferences.has(name),
-      );
-      if (dependsOnRemoval || supportsOnlyRemoval) {
+      if (dependsOnRemoval) {
         addEntry(entry);
         changed = true;
       }

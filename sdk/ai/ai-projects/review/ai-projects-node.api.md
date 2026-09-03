@@ -619,10 +619,6 @@ export interface AgentSessionResource {
 export type AgentSessionStatus = "creating" | "active" | "idle" | "updating" | "failed" | "deleting" | "deleted" | "expired";
 
 // @public
-export interface AgentsGenerateAgentOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AgentsGetOptionalParams extends OperationOptions {
 }
 
@@ -668,6 +664,8 @@ export interface AgentsListSessionsOptionalParams extends OperationOptions {
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
+    foundryFeatures?: "DraftAgents=V1Preview";
+    includeDrafts?: boolean;
     limit?: number;
     order?: PageOrder;
 }
@@ -4723,49 +4721,6 @@ export type VersionSelectionRuleUnion = FixedRatioVersionSelectionRule | Version
 export interface VersionSelector {
     // (undocumented)
     version_selection_rules: VersionSelectionRuleUnion[];
-}
-
-// @public
-export type VoiceAgentWebSocketSubprotocol = "realtime";
-
-// @public
-export type VoiceAudioCodec = "pcm16" | "pcmu" | "pcma";
-
-// @public
-export type VoiceAudioContainerFormat = "wav";
-
-// @public
-export type VoiceAudioRole = "user" | "agent";
-
-// @public
-export interface VoiceItemAudioResponse {
-    blob_uri?: string;
-    channels?: number;
-    codec?: VoiceAudioCodec;
-    conversation_id: string;
-    duration_ms?: number;
-    format?: VoiceAudioContainerFormat;
-    item_id: string;
-    role?: VoiceAudioRole;
-    sample_rate?: number;
-    start_offset_ms?: number;
-}
-
-// @public
-export interface VoiceRecordingChannelLayout {
-    left: "user";
-    right: "agent";
-}
-
-// @public
-export interface VoiceRecordingResponse {
-    blob_uri?: string;
-    channel_layout: VoiceRecordingChannelLayout;
-    channels: number;
-    conversation_id: string;
-    duration_ms: number;
-    format: VoiceAudioContainerFormat;
-    sample_rate: number;
 }
 
 // @public

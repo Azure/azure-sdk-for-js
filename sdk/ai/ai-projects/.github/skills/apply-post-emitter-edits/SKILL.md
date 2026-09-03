@@ -270,11 +270,25 @@ node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-pari
 ```
 
 The synchronizer compares `HEAD:generated/models/models.ts` with the current emitted model file,
-removes the corresponding declarations plus customized aliases/helpers that depend only on those
-declarations, and filters their re-exports from `src/models/index.ts` and `src/index.ts`. It does not
-replace either barrel, so hand-maintained imports, non-model exports, tracing exports, and poller
-customizations remain intact. Use `--base-ref <ref>` only when repairing a committed bad merge whose
-clean customization baseline is not `HEAD`.
+removes the corresponding declarations plus customized aliases/helpers that depend on a removed
+declaration, and filters their re-exports from `src/models/index.ts` and `src/index.ts`. It never
+removes an independent support declaration merely because a removed declaration references it;
+review such now-unused support declarations manually. It does not replace either barrel, so
+hand-maintained imports, non-model exports, tracing exports, and poller customizations remain intact.
+Use `--base-ref <ref>` only when repairing a committed bad merge whose clean customization baseline
+is not `HEAD`.
+
+If upstream or review evidence requires removing a customized export that never existed in
+`generated/`, pass its exact declaration name to the parity guard after making the removal:
+
+```powershell
+node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs `
+  --allow-source-removal RemovedCustomizedType
+```
+
+Repeat the option for multiple declarations. Each allowance must match a baseline export that is
+actually absent from the current source; misspelled or stale allowances fail the guard. Never use
+this option for generated-backed removals, which the synchronizer derives automatically.
 
 If the remaining diff includes removals or renames that the synchronizer did not derive from the
 generated baseline, restore the affected file from `HEAD` and re-apply only verified additions and

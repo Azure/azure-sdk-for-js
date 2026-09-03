@@ -570,12 +570,6 @@ export type {
   WebIQPreviewTool,
   ActivityProtocolAccessBoundary,
   PublishApprovalStatus,
-  VoiceItemAudioResponse,
-  VoiceAudioRole,
-  VoiceAudioContainerFormat,
-  VoiceAudioCodec,
-  VoiceRecordingResponse,
-  VoiceRecordingChannelLayout,
   ShellToolboxTool,
   ToolboxShellEnvironment,
   ToolboxShellEnvironmentUnion,
@@ -586,5 +580,4 @@ export type {
   ToolboxShellContainerReferenceEnvironment,
   A2AToolboxTool,
   WebIQPreviewToolboxTool,
-  VoiceAgentWebSocketSubprotocol,
 } from "./models.js";

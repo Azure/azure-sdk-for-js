@@ -10,7 +10,7 @@ import {
   removeModelDeclarations,
 } from "./sync-generated-model-removals.mjs";
 
-test("plans generated removals and their custom dependency cluster", () => {
+test("plans generated removals and downstream custom dependents", () => {
   const previousGenerated = `
 export interface StableModel {}
 export interface RemovedModel {}
@@ -29,11 +29,11 @@ export interface UnrelatedCustomModel {}
   const plan = planModelRemovals({ previousGenerated, currentGenerated, previousSource });
   assert.deepEqual([...plan.generatedRemovedNames], ["RemovedModel", "removedModelSerializer"]);
   assert.deepEqual(plan.sourceNames, [
-    "CustomSupport",
     "RemovedModel",
     "removedModelSerializer",
     "CustomRemovedAlias",
   ]);
+  assert.equal(plan.sourceNames.includes("CustomSupport"), false);
 });
 
 test("removes planned declarations and filters only stale model reexports", () => {

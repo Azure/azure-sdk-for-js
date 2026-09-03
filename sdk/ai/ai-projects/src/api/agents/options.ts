@@ -272,6 +272,8 @@ export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOption
 
 /** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
+  /** Feature flag required to include draft agent versions. */
+  foundryFeatures?: "DraftAgents=V1Preview";
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -294,6 +296,8 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
+  /** Whether to include draft (candidate) versions in the response. */
+  includeDrafts?: boolean;
 }
 
 /** Optional parameters. */
@@ -425,9 +429,6 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
 }
-
-/** Optional parameters. */
-export interface AgentsGenerateAgentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateOptionalParams extends OperationOptions {

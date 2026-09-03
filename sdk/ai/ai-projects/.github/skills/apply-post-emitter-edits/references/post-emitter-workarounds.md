@@ -31,6 +31,8 @@ Merge guidelines for newly emitted code from the `./incoming` directory:
 
 - Apply the same additions-only default and generated-removal synchronizer to `src/models/index.ts` and its top-level re-exports.
 
+- The model-removal synchronizer may cascade only to customized declarations that depend on a removed declaration. It must not delete an independent support declaration merely because a removed model references it. For a reviewed custom-only removal that never existed in `generated/`, pass its exact name to the parity guard with `--allow-source-removal`; stale or misspelled allowances fail validation.
+
 - After resolving customization conflicts and synchronizing validated additions/removals, run `.github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs`. It checks newly added members of existing interfaces and request-body objects in `*Send` functions, preserves baseline exports except generated-backed model removals, rejects `src/restorePollerHelpers.ts` references, and enforces the customized `@azure/core-paging` imports in `src/index.ts`. A wholesale generated-to-`src` copy can contain every newly emitted member while silently deleting maintained API and import customizations, so all checks are required.
 
 - `foundryFeatures` must **not** be a positional parameter for any method, internal or external facing. Instead, instantiate it locally to a default value before sending it over the wire. **However**, `foundryFeatures` IS allowed as a property on `*Options` / `*OptionalParams` interfaces (i.e. as a member of the options bag, e.g. `foundryFeatures?: "Skills=V1Preview"`). Only positional parameters are forbidden. Any changes making `foundryFeatures` a method parameter must be reverted to the local-const pattern.

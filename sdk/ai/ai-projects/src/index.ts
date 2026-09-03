@@ -573,12 +573,6 @@ export type {
   WebIQPreviewTool,
   ActivityProtocolAccessBoundary,
   PublishApprovalStatus,
-  VoiceItemAudioResponse,
-  VoiceAudioRole,
-  VoiceAudioContainerFormat,
-  VoiceAudioCodec,
-  VoiceRecordingResponse,
-  VoiceRecordingChannelLayout,
   ShellToolboxTool,
   ToolboxShellEnvironment,
   ToolboxShellEnvironmentUnion,
@@ -589,7 +583,6 @@ export type {
   ToolboxShellContainerReferenceEnvironment,
   A2AToolboxTool,
   WebIQPreviewToolboxTool,
-  VoiceAgentWebSocketSubprotocol,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";
@@ -630,7 +623,6 @@ export type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateOptionalParams,
-  AgentsGenerateAgentOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./api/agents/index.js";

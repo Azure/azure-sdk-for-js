@@ -239,7 +239,7 @@ function runGit(repoRoot, args) {
 }
 
 function parseArguments(argv) {
-  const options = { baseRef: "HEAD", files: [] };
+  const options = { baseRef: "HEAD", files: [], allowedSourceRemovals: new Set() };
   for (let index = 0; index < argv.length; index++) {
     const argument = argv[index];
     const value = argv[index + 1];
@@ -258,6 +258,9 @@ function parseArguments(argv) {
       index++;
     } else if (argument === "--file" && value) {
       options.files.push(value.replaceAll("\\", "/"));
+      index++;
+    } else if (argument === "--allow-source-removal" && value) {
+      options.allowedSourceRemovals.add(value);
       index++;
     } else {
       throw new Error(`Unknown or incomplete argument: ${argument}`);
@@ -363,7 +366,7 @@ function main() {
           }).sourceNames,
         )
       : new Set();
-  const missingPreservedExports = [];
+  const allMissingPreservedExports = [];
   for (const file of sourceFiles) {
     const previousSource = readVersion(repoRoot, packageRelative, "src", file, options.baseRef);
     if (!previousSource) {
@@ -372,12 +375,18 @@ function main() {
 
     const currentSource =
       readVersion(repoRoot, packageRelative, "src", file, options.sourceRef) ?? "";
-    missingPreservedExports.push(
-      ...findMissingPreservedExports({ previousSource, currentSource, file }).filter(
-        (item) => !allowedModelRemovals.has(item.name),
-      ),
+    allMissingPreservedExports.push(
+      ...findMissingPreservedExports({ previousSource, currentSource, file }),
     );
   }
+  const missingNames = new Set(allMissingPreservedExports.map((item) => item.name));
+  const unusedSourceRemovalAllowances = [...options.allowedSourceRemovals].filter(
+    (name) => !missingNames.has(name),
+  );
+  const missingPreservedExports = allMissingPreservedExports.filter(
+    (item) =>
+      !allowedModelRemovals.has(item.name) && !options.allowedSourceRemovals.has(item.name),
+  );
 
   const currentIndex = readVersion(repoRoot, packageRelative, "src", "index.ts", options.sourceRef);
   const indexInvariantViolations = currentIndex ? findIndexInvariantViolations(currentIndex) : [];
@@ -406,10 +415,18 @@ function main() {
     }
   }
 
+  if (unusedSourceRemovalAllowances.length > 0) {
+    console.error("Explicit source-removal allowances did not match missing baseline exports:");
+    for (const name of unusedSourceRemovalAllowances) {
+      console.error(`  ${name}`);
+    }
+  }
+
   if (
     missingAdditions.length > 0 ||
     missingPreservedExports.length > 0 ||
-    indexInvariantViolations.length > 0
+    indexInvariantViolations.length > 0 ||
+    unusedSourceRemovalAllowances.length > 0
   ) {
     process.exitCode = 1;
     return;
@@ -418,7 +435,8 @@ function main() {
   console.log(
     `Customization parity passed for ${generatedFiles.length} changed generated file(s); ` +
       `preserved exports in ${sourceFiles.length} customized source file(s), allowing ` +
-      `${allowedModelRemovals.size} generated-backed model removal(s).`,
+      `${allowedModelRemovals.size} generated-backed and ` +
+      `${options.allowedSourceRemovals.size} explicitly reviewed source removal(s).`,
   );
 }
 

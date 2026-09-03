@@ -145,6 +145,22 @@ export type { ExistingModel, EmittedModel } from "./models/index.js";
   assert.deepEqual(missing, []);
 });
 
+test("identifies the exact customized export requiring an explicit removal allowance", () => {
+  const previousSource = `
+export type { ExistingModel, ReviewedRemoval } from "./models/index.js";
+`;
+  const currentSource = `
+export type { ExistingModel } from "./models/index.js";
+`;
+
+  const missing = findMissingPreservedExports({
+    previousSource,
+    currentSource,
+    file: "index.ts",
+  });
+  assert.deepEqual(missing, [{ file: "index.ts", name: "ReviewedRemoval" }]);
+});
+
 test("rejects emitted paging and restore-poller imports in the customized barrel", () => {
   const source = `
 import { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";

@@ -1206,13 +1206,14 @@ export function _listVersionsSend(
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/versions{?limit,order,after,before,include_drafts,api-version}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      include_drafts: options?.includeDrafts,
       "api-version": context.apiVersion,
     },
     {
@@ -1221,7 +1222,13 @@ export function _listVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
