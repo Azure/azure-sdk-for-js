@@ -475,10 +475,10 @@ describe("PageBlobClient", () => {
 
   it("updateSequenceNumber", async () => {
     await pageBlobClient.create(1024);
-    let propertiesResponse = await pageBlobClient.getProperties();
+    await pageBlobClient.getProperties();
 
     await pageBlobClient.updateSequenceNumber("increment");
-    propertiesResponse = await pageBlobClient.getProperties();
+    let propertiesResponse = await pageBlobClient.getProperties();
     assert.equal(propertiesResponse.blobSequenceNumber!, 1);
 
     await pageBlobClient.updateSequenceNumber("update", 10);
