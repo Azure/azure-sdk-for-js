@@ -76,6 +76,63 @@ export const removed = 1, retained = 2;
   assert.deepEqual([...collectModelExports(nextSource)], ["retained"]);
 });
 
+test("requires manual reconciliation for retained declarations with removed references", () => {
+  const previousGenerated = `
+export interface StableModel {}
+export interface RemovedModel {}
+export type ModelUnion = StableModel | RemovedModel;
+`;
+  const currentGenerated = `
+export interface StableModel {}
+export type ModelUnion = StableModel;
+`;
+  const previousSource = `
+export interface StableModel {}
+export interface RemovedModel {}
+export type ModelUnion = StableModel | RemovedModel;
+`;
+
+  const plan = planModelRemovals({
+    previousGenerated,
+    currentGenerated,
+    previousSource,
+  });
+
+  assert.deepEqual(plan.sourceNames, ["RemovedModel"]);
+  assert.deepEqual(plan.retainedReferenceConflicts, [
+    {
+      declarationNames: ["ModelUnion"],
+      removedReferences: ["RemovedModel"],
+    },
+  ]);
+});
+
+test("accepts manually reconciled retained declarations", () => {
+  const previousGenerated = `
+export interface StableModel {}
+export interface RemovedModel {}
+export type ModelUnion = StableModel | RemovedModel;
+`;
+  const currentGenerated = `
+export interface StableModel {}
+export type ModelUnion = StableModel;
+`;
+  const previousSource = `
+export interface StableModel {}
+export interface RemovedModel {}
+export type ModelUnion = StableModel | RemovedModel;
+`;
+
+  const plan = planModelRemovals({
+    previousGenerated,
+    currentGenerated,
+    previousSource,
+    currentSource: currentGenerated,
+  });
+
+  assert.deepEqual(plan.retainedReferenceConflicts, []);
+});
+
 test("removes planned declarations and filters only stale model reexports", () => {
   const models = `
 export interface StableModel {}

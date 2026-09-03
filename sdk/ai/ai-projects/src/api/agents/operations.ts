@@ -1254,6 +1254,7 @@ export function listVersions(
   agentName: string,
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentVersion> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listVersionsSend(context, agentName, options),
@@ -1265,10 +1266,12 @@ export function listVersions(
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
       nextPageRequestOptions: {
+        ...requestParameters,
         headers: {
           ...(options?.foundryFeatures !== undefined
             ? { "foundry-features": options?.foundryFeatures }
             : {}),
+          ...requestParameters.headers,
         },
       },
     },

@@ -16,10 +16,11 @@ function createStreamableMethod(bodyText: string): StreamableMethod {
   } as unknown as StreamableMethod;
 }
 
-const rawErrorCases: Array<[string, string, string]> = [
-  ["an empty", "", ""],
-  ["a plain-text", "bad gateway", "bad gateway"],
-  ["an HTML", "<html>bad gateway</html>", "<html>bad gateway</html>"],
+const invalidObjectErrorCases: Array<[string, string]> = [
+  ["an empty", ""],
+  ["a plain-text", "bad gateway"],
+  ["an HTML", "<html>bad gateway</html>"],
+  ["a non-object JSON", "[]"],
 ];
 
 describe("getBinaryStreamResponse", () => {
@@ -31,19 +32,13 @@ describe("getBinaryStreamResponse", () => {
     expect(response.blobBody).toBeUndefined();
   });
 
-  it.each(rawErrorCases)(
-    "preserves %s error stream as text",
-    async (_description, bodyText, text) => {
+  it.each(invalidObjectErrorCases)(
+    "leaves the body undefined for %s error stream",
+    async (_description, bodyText) => {
       const response = await getBinaryStreamResponse(createStreamableMethod(bodyText));
 
-      expect(response.body).toBe(text);
+      expect(response.body).toBeUndefined();
       expect(response.blobBody).toBeUndefined();
     },
   );
-
-  it("preserves parsed non-object JSON values", async () => {
-    const response = await getBinaryStreamResponse(createStreamableMethod("[]"));
-
-    expect(response.body).toEqual([]);
-  });
 });

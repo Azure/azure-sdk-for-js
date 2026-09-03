@@ -94,7 +94,12 @@ function collectDeclarationGraph(source, fileName) {
   return { sourceFile, entries, exportedNames };
 }
 
-export function planModelRemovals({ previousGenerated, currentGenerated, previousSource }) {
+export function planModelRemovals({
+  previousGenerated,
+  currentGenerated,
+  previousSource,
+  currentSource = previousSource,
+}) {
   const previousGeneratedGraph = collectDeclarationGraph(
     previousGenerated,
     "previous-generated/models/models.ts",
@@ -104,6 +109,7 @@ export function planModelRemovals({ previousGenerated, currentGenerated, previou
     "generated/models/models.ts",
   );
   const sourceGraph = collectDeclarationGraph(previousSource, "previous-src/models/models.ts");
+  const currentSourceGraph = collectDeclarationGraph(currentSource, "src/models/models.ts");
   const generatedRemovedNames = new Set(
     [...previousGeneratedGraph.exportedNames].filter(
       (name) => !currentGeneratedGraph.exportedNames.has(name),
@@ -148,7 +154,14 @@ export function planModelRemovals({ previousGenerated, currentGenerated, previou
   const sourceNames = sourceGraph.entries
     .filter((entry) => plannedEntries.has(entry))
     .flatMap((entry) => entry.names);
-  return { generatedRemovedNames, sourceNames };
+  const retainedReferenceConflicts = currentSourceGraph.entries
+    .filter((entry) => !entry.names.some((name) => plannedNames.has(name)))
+    .map((entry) => ({
+      declarationNames: entry.names,
+      removedReferences: [...entry.references].filter((name) => plannedNames.has(name)),
+    }))
+    .filter((conflict) => conflict.removedReferences.length > 0);
+  return { generatedRemovedNames, sourceNames, retainedReferenceConflicts };
 }
 
 function applyEdits(source, edits) {
@@ -294,7 +307,23 @@ function main() {
   const currentGenerated = readPackageFile("generated", "models/models.ts");
   const previousSource = fromBase("src", "models/models.ts");
   const currentModels = readPackageFile("src", "models/models.ts");
-  const plan = planModelRemovals({ previousGenerated, currentGenerated, previousSource });
+  const plan = planModelRemovals({
+    previousGenerated,
+    currentGenerated,
+    previousSource,
+    currentSource: currentModels,
+  });
+  if (plan.retainedReferenceConflicts.length > 0) {
+    console.error("Generated model removals require manual reconciliation:");
+    for (const conflict of plan.retainedReferenceConflicts) {
+      console.error(
+        `- ${conflict.declarationNames.join(", ")} still references removed declaration(s): ` +
+          conflict.removedReferences.join(", "),
+      );
+    }
+    process.exitCode = 1;
+    return;
+  }
   const namesToRemove = new Set(plan.sourceNames);
   const nextModels = removeModelDeclarations(currentModels, namesToRemove);
   const availableNames = collectModelExports(nextModels);
