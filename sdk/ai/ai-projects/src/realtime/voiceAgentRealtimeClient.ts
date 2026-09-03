@@ -584,6 +584,7 @@ function buildWebSocketUrl(
   url.protocol = "wss:";
   url.pathname = `${url.pathname.replace(/\/$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
   url.searchParams.set("api-version", apiVersion);
+  url.searchParams.set("x-ms-client-sdk", `azsdk-js-ai-projects/${SDK_VERSION}`);
   if (options.agentSessionId) {
     url.searchParams.set("agent_session_id", options.agentSessionId);
   }
@@ -606,6 +607,7 @@ function buildHeaders(
     authorization: `Bearer ${token}`,
     "foundry-features": voiceAgentsPreview,
     "x-ms-client-request-id": createRequestId(),
+    "x-ms-client-sdk": sdkUserAgent,
     "user-agent": clientOptions.userAgentPrefix
       ? `${clientOptions.userAgentPrefix} ${sdkUserAgent}`
       : sdkUserAgent,
