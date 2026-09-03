@@ -200,6 +200,18 @@ describe("account name validation at client construction", () => {
     );
   });
 
+  it("throws for a private-link DFS URL, whose blob endpoint does not", () => {
+    // Data Lake rewrites the host to myaccount.privatelink.blob.core.windows.net, which
+    // getAccountNameFromUrl cannot parse, so this would otherwise fail while signing a read.
+    assert.throws(
+      () =>
+        construct("https://myaccount.privatelink.dfs.core.windows.net/myfs/file.txt", {
+          mode: "enabled",
+        }),
+      /could not be determined.*sessionOptions\.accountName/s,
+    );
+  });
+
   const allowedCases: { name: string; sessionOptions?: SessionOptions }[] = [
     { name: "no session options", sessionOptions: undefined },
     { name: 'mode "auto"', sessionOptions: { mode: "auto" } },

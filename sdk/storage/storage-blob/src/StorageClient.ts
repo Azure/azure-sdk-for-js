@@ -145,8 +145,10 @@ export abstract class StorageClient {
  * Sessions sign with Shared Key, which needs an account name, so a client that could never sign
  * is rejected here rather than partway through its first download.
  *
- * DFS URLs are exempt: session-eligible requests always target the blob endpoint, whose host
- * yields an account name even when the DFS host this client was built from does not.
+ * `account.dfs.*` is exempt because session-eligible requests target `account.blob.*`, which does
+ * yield an account name. The test mirrors `getAccountNameFromUrl`, which only derives a name when
+ * the label after the account is `blob`: `account.privatelink.dfs.*` maps to
+ * `account.privatelink.blob.*` and stays underivable, so it is not exempt.
  */
 function assertAccountNameAvailableForSessions(
   url: string,
@@ -160,7 +162,7 @@ function assertAccountNameAvailableForSessions(
     accountName ||
     sessionOptions?.accountName ||
     resolveSessionMode(sessionOptions?.mode) !== "enabled" ||
-    new URL(url).hostname.split(".").slice(1).includes("dfs") ||
+    new URL(url).hostname.split(".")[1] === "dfs" ||
     // Sessions are only wired up for a TokenCredential, so `mode` is inert for anything else.
     !isTokenCredential(getCredentialFromPipeline(pipeline))
   ) {
