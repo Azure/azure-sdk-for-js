@@ -19,7 +19,7 @@ type ListFactory = (
   context: AIProjectContext,
   options: OperationOptions,
 ) => {
-  byPage(): AsyncIterableIterator<unknown>;
+  byPage(settings?: { continuationToken?: string }): AsyncIterableIterator<unknown>;
 };
 
 const listFactories: Record<string, ListFactory> = {
@@ -62,6 +62,33 @@ function createContext(capturedNextPageOptions: RequestParameters[]): AIProjectC
   } as unknown as AIProjectContext;
 }
 
+function createResumeContext(capturedPageLinks: string[]): AIProjectContext {
+  let pageNumber = 2;
+  return {
+    apiVersion: "v1",
+    endpoint: "https://example.com",
+    pathUnchecked: (pageLink: string) => ({
+      get: () => {
+        capturedPageLinks.push(pageLink);
+        const cursor = `cursor-${pageNumber++}`;
+        return Promise.resolve({
+          request: createPipelineRequest({
+            url: pageLink,
+            method: "GET",
+          }),
+          headers: {},
+          status: "200",
+          body: {
+            data: [],
+            last_id: cursor,
+            has_more: cursor === "cursor-2",
+          },
+        } as PathUncheckedResponse);
+      },
+    }),
+  } as unknown as AIProjectContext;
+}
+
 describe("Agent Insights pagination", () => {
   for (const [name, createIterator] of Object.entries(listFactories)) {
     it(`forwards request options to ${name} continuation requests`, async () => {
@@ -99,6 +126,21 @@ describe("Agent Insights pagination", () => {
           "x-custom-header": "custom-value",
         },
       });
+    });
+
+    it(`advances ${name} after resuming from a continuation token`, async () => {
+      const capturedPageLinks: string[] = [];
+      const context = createResumeContext(capturedPageLinks);
+      const continuationToken =
+        "https://example.com/agent-insight-monitors?api-version=v1&after=cursor-1";
+      const pages = createIterator(context, {}).byPage({ continuationToken });
+
+      expect((await pages.next()).done).toBe(false);
+      expect((await pages.next()).done).toBe(false);
+      expect(capturedPageLinks).toEqual([
+        continuationToken,
+        "https://example.com/agent-insight-monitors?api-version=v1&after=cursor-2",
+      ]);
     });
   }
 });

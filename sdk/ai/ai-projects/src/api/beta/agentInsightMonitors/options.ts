@@ -65,7 +65,7 @@ export interface BetaAgentInsightMonitorsListRunsOptionalParams extends Operatio
 export interface BetaAgentInsightMonitorsCreateRunOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
+  /** Client-generated unique ID for idempotent retries. When absent, the server creates the run unconditionally. */
   operationId?: string;
 }
 
