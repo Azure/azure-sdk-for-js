@@ -14,16 +14,6 @@
 
 - Regenerate the client from azure-rest-api-specs commit `3c4aab72901077a0fc50da18f4aef6832d36d60f`. [#39759](https://github.com/Azure/azure-sdk-for-js/issues/39759)
 
-## 2.5.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 2.5.0 (2026-08-20)
 
 ### Features Added
