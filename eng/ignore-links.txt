@@ -143,11 +143,8 @@ https://learn.microsoft.com/javascript/api/@azure/arm-compute-bulkactions?view=a
 https://www.npmjs.com/package/@azure/arm-compute-bulkactions
 https://learn.microsoft.com/javascript/api/@azure/arm-containerserviceaimanager?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-containerserviceaimanager
-<<<<<<< HEAD
 https://learn.microsoft.com/javascript/api/@azure/arm-marketplacereviews?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-marketplacereviews
-=======
 https://learn.microsoft.com/javascript/api/@azure/arm-redhatopenshifthcp?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-redhatopenshifthcp
 https://aka.ms/aks/concurrent-node-operations
->>>>>>> main
