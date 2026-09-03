@@ -79,6 +79,7 @@ export const removed = 1, retained = 2;
 test("removes planned declarations and filters only stale model reexports", () => {
   const models = `
 export interface StableModel {}
+export interface CommentedStableModel {}
 export interface RemovedModel {}
 export type CustomRemovedAlias = RemovedModel;
 `;
@@ -90,6 +91,8 @@ export type CustomRemovedAlias = RemovedModel;
   const barrel = `
 export type {
   StableModel,
+  /** Retained export documentation. */
+  CommentedStableModel,
   RemovedModel,
   CustomRemovedAlias,
 } from "./models.js";
@@ -103,6 +106,7 @@ export type { OtherType } from "./other.js";
   );
 
   assert.match(nextBarrel, /StableModel/);
+  assert.match(nextBarrel, /\/\*\* Retained export documentation\. \*\//);
   assert.doesNotMatch(nextBarrel, /RemovedModel|CustomRemovedAlias/);
   assert.match(nextBarrel, /OtherType/);
 });

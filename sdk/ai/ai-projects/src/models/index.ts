@@ -323,6 +323,8 @@ export type {
   AgentInsightRecommendedAction,
   AgentInsightProposedFix,
   AgentInsightProposedFixKind,
+  AgentInsightJsonValue,
+  AgentInsightJsonObject,
   AgentInsightProposedFixChange,
   AgentInsightPromptSurface,
   AgentInsightUpdate,

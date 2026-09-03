@@ -244,8 +244,9 @@ export function filterModelReexports(source, moduleName, availableNames, fileNam
       continue;
     }
 
-    const exportClause = `{
-${kept.map((element) => `  ${element.getText(sourceFile)},`).join("\n")}
+    const exportClause = `{${kept
+      .map((element) => `${source.slice(element.getFullStart(), element.getEnd())},`)
+      .join("")}
 }`;
     edits.push({
       start: statement.exportClause.getStart(sourceFile),

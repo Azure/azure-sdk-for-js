@@ -238,6 +238,14 @@ export interface AgentInsightHighlightedTrace {
 }
 
 // @public
+export interface AgentInsightJsonObject {
+    [key: string]: AgentInsightJsonValue;
+}
+
+// @public
+export type AgentInsightJsonValue = string | number | boolean | null | AgentInsightJsonObject | AgentInsightJsonValue[];
+
+// @public
 export interface AgentInsightLinkedTrace {
     readonly timestamp: Date;
     readonly trace_id: string;
@@ -303,8 +311,8 @@ export interface AgentInsightProposedFix {
 export interface AgentInsightProposedFixChange {
     diff?: string;
     language?: string;
-    new_value?: any;
-    old_value?: any;
+    new_value?: AgentInsightJsonValue;
+    old_value?: AgentInsightJsonValue;
     path?: string;
     surface?: AgentInsightPromptSurface;
     target?: string;
@@ -376,7 +384,7 @@ export type AgentInsightStatus = "active" | "resolved" | "ignored";
 // @public
 export interface AgentInsightSuspension {
     code: string;
-    details?: Record<string, any>;
+    details?: AgentInsightJsonObject;
     message: string;
     occurred_at: Date;
 }

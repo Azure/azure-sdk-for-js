@@ -182,6 +182,7 @@ export type {
   AgentBlueprintReferenceType,
   ManagedAgentIdentityBlueprintReference,
   AgentEndpointConfig,
+  /** @deprecated Use AgentEndpointConfig instead */
   AgentEndpoint,
   VersionSelector,
   VersionSelectionRule,
@@ -342,6 +343,8 @@ export type {
   AgentInsightRecommendedAction,
   AgentInsightProposedFix,
   AgentInsightProposedFixKind,
+  AgentInsightJsonValue,
+  AgentInsightJsonObject,
   AgentInsightProposedFixChange,
   AgentInsightPromptSurface,
   AgentInsightUpdate,

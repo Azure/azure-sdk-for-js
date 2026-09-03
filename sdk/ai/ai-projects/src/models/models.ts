@@ -8397,6 +8397,16 @@ export function agentInsightProposedFixDeserializer(item: any): AgentInsightProp
 /** The customer-renderable kind of an agent insight's proposed fix. */
 export type AgentInsightProposedFixKind = "prose" | "code_change" | "prompt_change";
 
+/** A JSON value used in Agent Insights payloads. */
+export type AgentInsightJsonValue =
+  string | number | boolean | null | AgentInsightJsonObject | AgentInsightJsonValue[];
+
+/** A JSON object used in Agent Insights payloads. */
+export interface AgentInsightJsonObject {
+  /** JSON properties keyed by name. */
+  [key: string]: AgentInsightJsonValue;
+}
+
 export function agentInsightProposedFixChangeArrayDeserializer(
   result: Array<AgentInsightProposedFixChange>,
 ): any[] {
@@ -8418,9 +8428,9 @@ export interface AgentInsightProposedFixChange {
   /** The user-visible target within a Prompt surface, when needed. */
   target?: string;
   /** The bounded Prompt value before the change. Present for Prompt changes, including when null. */
-  old_value?: any;
+  old_value?: AgentInsightJsonValue;
   /** The bounded Prompt value after the change. Present for Prompt changes, including when null. */
-  new_value?: any;
+  new_value?: AgentInsightJsonValue;
 }
 
 export function agentInsightProposedFixChangeDeserializer(
@@ -9801,7 +9811,7 @@ export interface AgentInsightSuspension {
   /** The time when the suspension occurred. */
   occurred_at: Date;
   /** Additional reason-specific suspension details. */
-  details?: Record<string, any>;
+  details?: AgentInsightJsonObject;
 }
 
 export function agentInsightSuspensionDeserializer(item: any): AgentInsightSuspension {
