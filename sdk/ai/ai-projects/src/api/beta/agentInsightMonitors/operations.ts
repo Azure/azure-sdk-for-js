@@ -443,6 +443,7 @@ export function _createRunSend(
     contentType: "application/json",
     headers: {
       "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

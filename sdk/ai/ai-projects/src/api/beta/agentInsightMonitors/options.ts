@@ -82,6 +82,8 @@ export interface BetaAgentInsightMonitorsCreateRunOptionalParams extends Operati
   updateIntervalInMs?: number;
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentInsights=V1Preview";
+  /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
+  operationId?: string;
 }
 
 /** Optional parameters. */

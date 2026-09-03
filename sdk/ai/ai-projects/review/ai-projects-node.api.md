@@ -969,6 +969,7 @@ export interface BetaAgentInsightMonitorsCreateOptionalParams extends OperationO
 // @public
 export interface BetaAgentInsightMonitorsCreateRunOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentInsights=V1Preview";
+    operationId?: string;
     updateIntervalInMs?: number;
 }
 
@@ -3798,7 +3799,30 @@ export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
 
 // @public
 export interface RaiConfig {
+    invocations_moderation?: RaiInvocationModeration;
     rai_policy_name: string;
+}
+
+// @public
+export type RaiInvocationContentType = "json" | "text";
+
+// @public
+export type RaiInvocationMode = "non_streaming" | "streaming" | "both";
+
+// @public
+export interface RaiInvocationModeration {
+    input_content_type?: RaiInvocationContentType;
+    input_paths?: string[];
+    output_content_type?: RaiInvocationContentType;
+    output_paths?: string[];
+    response_mode: RaiInvocationMode;
+    stream_selectors?: RaiSseTextSelector[];
+}
+
+// @public
+export interface RaiSseTextSelector {
+    event_type: string;
+    text_field?: string;
 }
 
 // @public
