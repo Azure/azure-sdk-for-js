@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AzureDevOpsListResponse, AzureDevOpsPipelineDefinition } from "./interfaces.js";
+
 /**
  * @param pipelineId -
  * @returns the url to get the latest build for the pipeline
@@ -10,7 +12,9 @@ export function buildUrl(pipelineId: number): string {
 }
 const LIST_BUILDS_URL = "https://dev.azure.com/azure-sdk/internal/_apis/pipelines?api-version=7.0";
 
-export async function getAllDevopsBuilds(authToken: string) {
+export async function getAllDevopsBuilds(
+  authToken: string,
+): Promise<AzureDevOpsListResponse<AzureDevOpsPipelineDefinition>> {
   const response = await fetch(LIST_BUILDS_URL, {
     headers: {
       Authorization: `Bearer ${authToken}`,
@@ -22,7 +26,7 @@ export async function getAllDevopsBuilds(authToken: string) {
 
   const responseText = await response.text();
   try {
-    return JSON.parse(responseText);
+    return JSON.parse(responseText) as AzureDevOpsListResponse<AzureDevOpsPipelineDefinition>;
   } catch {
     console.error(responseText);
     throw new Error(`failed to parse response as json`);
@@ -48,7 +52,7 @@ export function getBuildTimeline(buildId: number, authToken: string) {
  * @param {string} buildId
  * @return {string} - the timeline url for the build
  */
-export function buildTimelineUrl(buildId) {
+export function buildTimelineUrl(buildId: number): string {
   return `https://dev.azure.com/azure-sdk/internal/_apis/build/builds/${buildId}/Timeline?api-version=7.0`;
 }
 
@@ -59,7 +63,11 @@ export function buildTimelineUrl(buildId) {
  * @param {string} created - issue created date in ISO format
  * @returns {string} - the github issue link
  */
-export function githubIssueLinkUrl(label, kind, created) {
+export function githubIssueLinkUrl(
+  label: string,
+  kind: "bug" | "question",
+  created: string,
+): string {
   const minus = kind === "question" ? "bug" : "question";
   return `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+-label%3Aissue-addressed+-label%3A${minus}+-label%3Aneeds-author-feedback+-label%3Afeature-request+label%3A%22${label.replace(" ", "+")}%22+created%3A%3C${created}`;
 }
@@ -69,6 +77,6 @@ export function githubIssueLinkUrl(label, kind, created) {
  * @param {string} label - space separated github labels
  * @returns {string} - the github issue link
  */
-export function githubTotalIssueLink(label) {
+export function githubTotalIssueLink(label: string): string {
   return `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+label%3A%22${label.replace(" ", "%20")}%22`;
 }

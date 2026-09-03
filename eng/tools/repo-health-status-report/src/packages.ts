@@ -6,9 +6,19 @@ import { join } from "path";
 import { readFile } from "fs/promises";
 import { getBaseDir } from "./env.js";
 
-export async function getDataplanePackages(): Promise<
-  Record<string, { version: string; projectPath: string; serviceDir: string; packageDir: string }>
-> {
+interface PackageJson {
+  name: string;
+  version: string;
+}
+
+interface DataplanePackage {
+  version: string;
+  projectPath: string;
+  serviceDir: string;
+  packageDir: string;
+}
+
+export async function getDataplanePackages(): Promise<Record<string, DataplanePackage>> {
   const workspaceRoot = getBaseDir();
   const sdkPackageJsonFiles = (
     await glob(`${workspaceRoot}/sdk/*/*/package.json`, { absolute: false })
@@ -16,11 +26,11 @@ export async function getDataplanePackages(): Promise<
     .filter((file) => !file.includes(`/arm-`) && !file.includes(`\\arm-`))
     .map((file) => file.replaceAll("\\", "/").replaceAll("../", ""));
 
-  const result = {};
+  const result: Record<string, DataplanePackage> = {};
 
   for (const path of sdkPackageJsonFiles) {
     const jsonFile = await readFile(join(workspaceRoot, path), "utf-8");
-    const json = JSON.parse(jsonFile);
+    const json = JSON.parse(jsonFile) as PackageJson;
     if (json.name.startsWith("@azure-tests/") || json.name.startsWith("@azure-tools/")) {
       continue;
     }

@@ -1,11 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type DevopsBuildStatus =
-  "abandoned" | "canceled" | "failed" | "skipped" | "succeeded" | "succeededWithIssues" | "UNKNOWN";
+export type AzureDevOpsBuildResult =
+  "canceled" | "failed" | "none" | "partiallySucceeded" | "succeeded";
 
-export type DevopsTaskStatus =
-  "succeeded" | "failed" | "canceled" | "none" | "partiallySucceeded" | "UNKNOWN";
+export type DevopsBuildStatus = AzureDevOpsBuildResult | "UNKNOWN";
+
+export type AzureDevOpsTaskResult =
+  "abandoned" | "canceled" | "failed" | "skipped" | "succeeded" | "succeededWithIssues";
+
+export type DevopsTaskStatus = AzureDevOpsTaskResult | "UNKNOWN";
+
+export interface AzureDevOpsListResponse<T> {
+  count: number;
+  value: T[];
+}
+
+export interface AzureDevOpsPipelineDefinition {
+  id: number;
+  name: string;
+}
+
+export interface AzureDevOpsBuild {
+  id: number;
+  buildNumber: string;
+  result?: AzureDevOpsBuildResult;
+  _links: {
+    web: {
+      href: string;
+    };
+  };
+}
+
+export interface AzureDevOpsTimelineRecord {
+  name?: string;
+  result?: AzureDevOpsTaskResult;
+  resultCode?: string;
+  log?: {
+    url: string;
+  };
+}
+
+export interface AzureDevOpsTimeline {
+  records?: AzureDevOpsTimelineRecord[];
+}
 
 export type PackageStatusCode = "NEEDS_ACTION" | "BLOCKED" | "GOOD";
 
@@ -21,32 +59,21 @@ export interface CheckStatus {
   log?: string;
 }
 
-export interface WeeklyTestPipelineResult {
-  id: number;
-  buildNumber?: string;
-  link: string;
-  result?: DevopsBuildStatus;
-  lint?: CheckStatus;
-  weeklyTests?: CheckStatus;
-}
+export type PipelineTaskKind =
+  "build" | "ci" | "docs" | "lint" | "samples" | "tests" | "weeklyTests";
 
-export interface TestsPipelineResult {
-  id: number;
+export type PipelineResult = {
+  id?: number;
   buildNumber?: string;
-  link: string;
+  link?: string;
   result?: DevopsBuildStatus;
-  tests?: CheckStatus;
-  samples?: CheckStatus;
-}
+} & Partial<Record<PipelineTaskKind, CheckStatus>>;
 
-export interface CiPipelineResult {
-  id: number;
-  buildNumber?: string;
-  link: string;
-  result?: DevopsBuildStatus;
-  ci?: CheckStatus;
-  lint?: CheckStatus;
-}
+export type WeeklyTestPipelineResult = PipelineResult;
+
+export type TestsPipelineResult = PipelineResult;
+
+export type CiPipelineResult = PipelineResult;
 
 export interface PipelineResults {
   weeklyTests?: WeeklyTestPipelineResult;
@@ -90,5 +117,4 @@ export interface PackageStatus extends PackageInfo {
 
 export type PackagesWithStatus = Record<string, PackageStatus>;
 
-export type PipelineResultsUnion =
-  CiPipelineResult | TestsPipelineResult | WeeklyTestPipelineResult;
+export type PipelineResultsUnion = PipelineResult;

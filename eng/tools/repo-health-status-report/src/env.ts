@@ -4,9 +4,9 @@
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-let cachedBaseDir = undefined;
+let cachedBaseDir: string | undefined;
 
-export function getBaseDir() {
+export function getBaseDir(): string {
   if (cachedBaseDir === undefined) {
     // path to where this file lives
     const __dirname = dirname(fileURLToPath(import.meta.url));

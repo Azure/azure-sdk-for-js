@@ -11,18 +11,25 @@ import {
   githubIssueLinkUrl,
 } from "./urlHelpers.js";
 import type {
+  AzureDevOpsBuild,
+  AzureDevOpsListResponse,
+  AzureDevOpsTimeline,
+  AzureDevOpsTimelineRecord,
+  DevopsTaskStatus,
   Packages,
   PackageStatus,
   PackageStatusCode,
   PackagesWithStatus,
+  PipelineResult,
   PipelineResults,
-  PipelineResultsUnion,
+  PipelineTaskKind,
   Status,
 } from "./interfaces.js";
 
 import "dotenv/config";
 import { writeFile } from "node:fs/promises";
 import { getCustomerIssues, mapCodeownersToLabel, uploadResultToGitHubJsRepo } from "./github.js";
+import type { CustomerIssue } from "./github.js";
 
 const DEVOPS_RESOURCE_UUID = "499b84ac-1321-427f-aa17-267ca6975798";
 
@@ -74,34 +81,31 @@ function runType() {
 }
 
 function recordTestResult(
-  task,
-  runTaskKind: "build" | "ci" | "tests" | "weeklyTests" | "samples" | "docs" | "lint",
-  pipeline: PipelineResultsUnion,
+  task: AzureDevOpsTimelineRecord,
+  runTaskKind: PipelineTaskKind,
+  pipeline: PipelineResult,
 ): void {
-  if (!pipeline[runTaskKind]) {
-    pipeline[runTaskKind] = { status: "UNKNOWN" };
-  }
-  const unsuccessful = ["failed", "canceled", "abandoned", "skipped", "succeededWithIssues"];
-  const old = pipeline[runTaskKind];
-  if (task["result"] === "succeeded") {
-    if (!unsuccessful.includes(pipeline[runTaskKind].status)) {
+  const old = pipeline[runTaskKind] ?? { status: "UNKNOWN" };
+  const taskResult = task.result ?? "UNKNOWN";
+  const unsuccessful: DevopsTaskStatus[] = [
+    "failed",
+    "canceled",
+    "abandoned",
+    "skipped",
+    "succeededWithIssues",
+  ];
+  if (taskResult === "succeeded") {
+    if (!unsuccessful.includes(old.status)) {
       // None of same task from other legs has issues so far
       pipeline[runTaskKind] = { ...old, status: "succeeded" };
     }
-  } else if (task["result"] === "failed") {
-    pipeline[runTaskKind] = { ...old, status: "failed" };
-    if (task["log"]) {
-      pipeline[runTaskKind].log = task["log"].url;
-    }
+  } else if (taskResult === "failed") {
+    pipeline[runTaskKind] = { ...old, status: "failed", log: task.log?.url ?? old.log };
   } else if (
-    pipeline[runTaskKind].status !== "failed" &&
-    (task["result"] !== "skipped" ||
-      task["resultCode"] !== "Skipping step due to condition evaluation.")
+    old.status !== "failed" &&
+    (taskResult !== "skipped" || task.resultCode !== "Skipping step due to condition evaluation.")
   ) {
-    pipeline[runTaskKind] = { ...old, status: task["result"] };
-    if (task["log"]) {
-      pipeline[runTaskKind].log = task["log"].url;
-    }
+    pipeline[runTaskKind] = { ...old, status: taskResult, log: task.log?.url ?? old.log };
   }
 }
 
@@ -151,66 +155,67 @@ async function getBuildResult(
   const buildResponse = await getBuild(pipelineId, token);
   await new Promise((resolve) => setTimeout(resolve, 1000));
   console.log("continue after 1 seconds delay");
-  const buildResult = await buildResponse.json();
-  if (!buildResponse.ok || !buildResult["value"]) {
+  const buildResult = (await buildResponse.json()) as AzureDevOpsListResponse<AzureDevOpsBuild>;
+  if (!buildResponse.ok || !buildResult.value) {
     console.warn(`No ${buildKind} build found for ${pkgName}`);
     recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
     return;
   }
 
-  const result = buildResult["value"][0];
+  const result = buildResult.value[0];
   if (!result) {
     console.warn(`No ${buildKind} build result found for ${pkgName}`);
     recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
     return;
   }
 
-  const buildId = result["id"];
-  pipelines[pkgName][buildKind] = {
+  const buildId = result.id;
+  const pipelineResult: PipelineResult = {
     ...pipelines[pkgName][buildKind],
     id: buildId,
-    link: result["_links"]["web"]["href"],
-    buildNumber: result["buildNumber"],
+    link: result._links.web.href,
+    buildNumber: result.buildNumber,
   };
+  pipelines[pkgName][buildKind] = pipelineResult;
 
-  if (result["result"] === "succeeded") {
+  if (result.result === "succeeded") {
     recordAllPipeline(buildKind, pipelines[pkgName], "succeeded");
     return;
   }
 
-  const orig = pipelines[pkgName];
-  pipelines[pkgName] = { ...orig, [buildKind]: { ...orig[buildKind], result: result["result"] } };
+  pipelineResult.result = result.result;
   const timelineResponse = await getBuildTimeline(buildId, token);
   if (!timelineResponse.ok) {
     recordAllPipeline("tests", pipelines[pkgName], "UNKNOWN");
     return;
   }
-  let timelineResult;
+  let timelineResult: AzureDevOpsTimeline;
   try {
-    timelineResult = await timelineResponse.json();
+    timelineResult = (await timelineResponse.json()) as AzureDevOpsTimeline;
   } catch (error) {
     console.warn("Error parsing timeline response:", error, buildId);
     recordAllPipeline("tests", pipelines[pkgName], "UNKNOWN");
     return;
   }
-  for (const task of timelineResult["records"]) {
+  for (const task of timelineResult.records ?? []) {
+    const taskName = task.name ?? "";
     if (buildKind === "ci") {
-      if (task["name"].includes("Build libraries")) {
-        recordTestResult(task, "build", pipelines[pkgName][buildKind]);
-      } else if (task["name"].includes("Build ESLint Plugin and Lint Libraries")) {
-        recordTestResult(task, "lint", pipelines[pkgName][buildKind]);
-      } else if (task["name"].includes("Test libraries")) {
-        recordTestResult(task, "ci", pipelines[pkgName][buildKind]);
+      if (taskName.includes("Build libraries")) {
+        recordTestResult(task, "build", pipelineResult);
+      } else if (taskName.includes("Build ESLint Plugin and Lint Libraries")) {
+        recordTestResult(task, "lint", pipelineResult);
+      } else if (taskName.includes("Test libraries")) {
+        recordTestResult(task, "ci", pipelineResult);
       }
     } else if (buildKind === "tests") {
-      if (task["name"].includes("Test libraries")) {
-        recordTestResult(task, "tests", pipelines[pkgName][buildKind]);
-      } else if (task["name"].includes("Execute Samples")) {
-        recordTestResult(task, "samples", pipelines[pkgName][buildKind]);
+      if (taskName.includes("Test libraries")) {
+        recordTestResult(task, "tests", pipelineResult);
+      } else if (taskName.includes("Execute Samples")) {
+        recordTestResult(task, "samples", pipelineResult);
       }
     } else if (buildKind === "weeklyTests") {
-      if (task["name"].includes("Integration test libraries")) {
-        recordTestResult(task, "weeklyTests", pipelines[pkgName][buildKind]);
+      if (taskName.includes("Integration test libraries")) {
+        recordTestResult(task, "weeklyTests", pipelineResult);
       }
     }
   }
@@ -248,7 +253,7 @@ async function getWeeklyTestsResult(
  */
 async function getPipelines(
   dataplane: Packages,
-  authToken,
+  authToken: string,
 ): Promise<Record<string, PipelineResults>> {
   const responseJson = await getAllDevopsBuilds(authToken);
 
@@ -305,7 +310,7 @@ function reportOverallStatus(packageDetails: PackageStatus): void {
 
 function reportTestResult(
   testKind: "ci" | "tests",
-  pipeline: PipelineResults,
+  pipeline: PipelineResults | undefined,
   packageDetails: PackageStatus,
 ): void {
   if (!pipeline) {
@@ -313,39 +318,42 @@ function reportTestResult(
     packageDetails[testKind] = { status: "UNKNOWN" };
     return;
   }
-  const testStatus = pipeline[testKind]?.[testKind]?.status;
+  const pipelineResult = pipeline[testKind];
+  if (!pipelineResult) {
+    console.warn(`No ${testKind} pipeline found for ${packageDetails.serviceDir}`);
+    packageDetails[testKind] = { status: "UNKNOWN" };
+    return;
+  }
+  const testStatus = pipelineResult[testKind]?.status;
   const old = packageDetails[testKind];
-  if (testStatus === "succeeded" || testStatus === "partiallySucceeded") {
-    packageDetails[testKind] = { ...old, status: "PASS", link: pipeline[testKind].link };
+  if (testStatus === "succeeded") {
+    packageDetails[testKind] = { ...old, status: "PASS", link: pipelineResult.link };
   } else if (testStatus === "failed") {
-    packageDetails[testKind] = { ...old, status: "FAIL", link: pipeline[testKind].link };
+    packageDetails[testKind] = { ...old, status: "FAIL", link: pipelineResult.link };
   } else {
-    packageDetails[testKind] = { ...old, status: "UNKNOWN", link: pipeline[testKind].link };
+    packageDetails[testKind] = { ...old, status: "UNKNOWN", link: pipelineResult.link };
   }
 }
 
 function recordTotalCustomerIssues(
   dataplane: PackagesWithStatus,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  githubIssues: any[],
+  githubIssues: CustomerIssue[],
   trackedLabels: Record<string, string>,
-) {
+): void {
   for (const issue of githubIssues) {
     for (const label of issue.labels) {
-      if (trackedLabels[label.name]) {
-        const serviceDir = trackedLabels[label.name];
+      const labelName = typeof label === "string" ? label : label.name;
+      if (labelName && trackedLabels[labelName]) {
+        const serviceDir = trackedLabels[labelName];
         const packages = Object.keys(dataplane).filter(
           (pkgName) => (dataplane[pkgName] as PackageStatus).serviceDir === serviceDir,
         );
         for (const pkgName of packages) {
-          if (label.name === (dataplane[pkgName] as PackageStatus).label) {
-            if (!(dataplane[pkgName] as PackageStatus).customerIssues) {
-              (dataplane[pkgName] as PackageStatus).customerIssues = { num: 0, link: "" };
-            }
-            (dataplane[pkgName] as PackageStatus).customerIssues.num++;
-            (dataplane[pkgName] as PackageStatus).customerIssues.link = githubTotalIssueLink(
-              label.name,
-            );
+          const packageDetails = dataplane[pkgName] as PackageStatus;
+          if (labelName === packageDetails.label) {
+            const customerIssues = (packageDetails.customerIssues ??= { num: 0, link: "" });
+            customerIssues.num++;
+            customerIssues.link = githubTotalIssueLink(labelName);
           }
         }
       }
@@ -355,41 +363,40 @@ function recordTotalCustomerIssues(
 
 function recordSlaStatus(
   dataplane: PackagesWithStatus,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  githubIssue: any,
+  githubIssue: CustomerIssue,
   trackedLabels: Record<string, string>,
   timePeriod: number,
   kind: "question" | "bug",
 ): void {
   for (const label of githubIssue.labels) {
-    if (trackedLabels[label.name]) {
-      const serviceDir = trackedLabels[label.name];
+    const labelName = typeof label === "string" ? label : label.name;
+    if (labelName && trackedLabels[labelName]) {
+      const serviceDir = trackedLabels[labelName];
       const packages = Object.keys(dataplane).filter(
         (pkgName) => (dataplane[pkgName] as PackageStatus).serviceDir === serviceDir,
       );
       for (const pkgName of packages) {
-        if (label.name === (dataplane[pkgName] as PackageStatus).label) {
-          if (!(dataplane[pkgName] as PackageStatus).sla) {
-            (dataplane[pkgName] as PackageStatus).sla = {
-              question: {
-                num: 0,
-                link: githubIssueLinkUrl(
-                  label.name,
-                  "question",
-                  new Date(timePeriod).toISOString().split("T")[0],
-                ),
-              },
-              bug: {
-                num: 0,
-                link: githubIssueLinkUrl(
-                  label.name,
-                  "bug",
-                  new Date(timePeriod).toISOString().split("T")[0],
-                ),
-              },
-            };
-          }
-          (dataplane[pkgName] as PackageStatus).sla[kind].num++;
+        const packageDetails = dataplane[pkgName] as PackageStatus;
+        if (labelName === packageDetails.label) {
+          const sla = (packageDetails.sla ??= {
+            question: {
+              num: 0,
+              link: githubIssueLinkUrl(
+                labelName,
+                "question",
+                new Date(timePeriod).toISOString().split("T")[0],
+              ),
+            },
+            bug: {
+              num: 0,
+              link: githubIssueLinkUrl(
+                labelName,
+                "bug",
+                new Date(timePeriod).toISOString().split("T")[0],
+              ),
+            },
+          });
+          sla[kind].num++;
         }
       }
     }
@@ -403,7 +410,9 @@ async function reportSlaAndTotalIssues(dataplane: PackagesWithStatus) {
   const filtered = issues.filter(
     (issue) =>
       !issue.labels.some((label) =>
-        ["issue-addressed", "needs-author-feedback", "feature-request"].includes(label.name),
+        ["issue-addressed", "needs-author-feedback", "feature-request"].includes(
+          typeof label === "string" ? label : (label.name ?? ""),
+        ),
       ),
   );
   const today = Date.now();
@@ -412,10 +421,20 @@ async function reportSlaAndTotalIssues(dataplane: PackagesWithStatus) {
 
   for (const issue of filtered) {
     const createdDate = new Date(issue.created_at);
-    if (issue.labels.some((l) => l.name === "question") && createdDate.getTime() < thirtyDaysAgo) {
+    if (
+      issue.labels.some((label) =>
+        typeof label === "string" ? label === "question" : label.name === "question",
+      ) &&
+      createdDate.getTime() < thirtyDaysAgo
+    ) {
       recordSlaStatus(dataplane, issue, trackedLabels, thirtyDaysAgo, "question");
     }
-    if (issue.labels.some((l) => l.name === "bug") && createdDate.getTime() < ninetyDaysAgo) {
+    if (
+      issue.labels.some((label) =>
+        typeof label === "string" ? label === "bug" : label.name === "bug",
+      ) &&
+      createdDate.getTime() < ninetyDaysAgo
+    ) {
       recordSlaStatus(dataplane, issue, trackedLabels, ninetyDaysAgo, "bug");
     }
   }

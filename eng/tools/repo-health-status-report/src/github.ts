@@ -6,9 +6,13 @@ import "dotenv/config";
 import { readFile } from "node:fs/promises";
 import { PackageStatus, PackagesWithStatus } from "./interfaces.js";
 
+export type CustomerIssue = Awaited<
+  ReturnType<Octokit["rest"]["issues"]["listForRepo"]>
+>["data"][number];
+
 // GitHub
-let octokit = undefined;
-function getOctokit() {
+let octokit: Octokit | undefined;
+function getOctokit(): Octokit {
   if (octokit === undefined) {
     const gitHubToken = process.env.GITHUB_TOKEN;
     if (!gitHubToken) {
@@ -31,12 +35,22 @@ export async function uploadResultToGitHubJsRepo(csvPath: string) {
   const repo = "azure-sdk-for-js";
   const branch = "js-sdk-health-report";
   const path = `eng/tools/repo-health-status-report/health_report.csv`;
-  let sha = undefined;
+  let sha: string | undefined;
   try {
     const file = await octokit.rest.repos.getContent({ owner, repo, path, ref: branch });
+    if (Array.isArray(file.data)) {
+      throw new Error(`Expected ${path} to be a file, but it is a directory.`);
+    }
     sha = file.data.sha;
   } catch (error) {
-    if (error.status !== 404) throw error; // Ignore if file doesn't exist
+    if (
+      typeof error !== "object" ||
+      error === null ||
+      !("status" in error) ||
+      error.status !== 404
+    ) {
+      throw error;
+    }
   }
   await octokit.rest.repos.createOrUpdateFileContents({
     owner,
@@ -50,8 +64,8 @@ export async function uploadResultToGitHubJsRepo(csvPath: string) {
   console.log(`Health report uploaded to azure-sdk-for-js ${path}`);
 }
 
-export async function getCustomerIssues() {
-  const issues = [];
+export async function getCustomerIssues(): Promise<CustomerIssue[]> {
+  const issues: CustomerIssue[] = [];
   const octokit = getOctokit();
 
   const iterator = octokit.paginate.iterator(octokit.rest.issues.listForRepo, {
@@ -67,7 +81,7 @@ export async function getCustomerIssues() {
   return issues;
 }
 
-function tryGetPackageName(directory) {
+function tryGetPackageName(directory: string): string {
   const trimmed = directory.trim();
   if (trimmed.endsWith("-rest") && trimmed !== "core-client-rest") {
     return `@azure-rest/${trimmed.slice(0, -5)}`;
@@ -92,8 +106,16 @@ export async function mapCodeownersToLabel(dataplane: PackagesWithStatus) {
   });
 
   // base64 decode the content
-  const content = Buffer.from(codeOwners.content, codeOwners.encoding).toString("utf-8");
-  const trackedLabels = {};
+  if (
+    Array.isArray(codeOwners) ||
+    !("content" in codeOwners) ||
+    typeof codeOwners.content !== "string" ||
+    codeOwners.encoding !== "base64"
+  ) {
+    throw new Error("Expected .github/CODEOWNERS to be a base64-encoded file.");
+  }
+  const content = Buffer.from(codeOwners.content, "base64").toString("utf-8");
+  const trackedLabels: Record<string, string> = {};
   const lines = content.split("\n");
   let label = "";
   let count = 0;
