@@ -16,6 +16,10 @@
 - Added `project.agentEndpointConversations.getAgentConversationItemGeneratedAudio` and `getAgentConversationItemGeneratedAudioContent`, for retrieving a conversation item's generated audio — a subordinate artifact that exists only when playback was interrupted and the service rendered more audio than the listener heard.
 - Added telephony support to `project.agents`: `createTelephonyBinding`, `getTelephonyBinding`, `listTelephonyBindings`, `updateTelephonyBinding`, and `deleteTelephonyBinding` for managing Teams Phone Extension and Twilio bindings; `getTelephonyCall`, `listTelephonyCalls`, `endTelephonyCall`, and `transferTelephonyCall` for managing calls; and `getTelephonyTransferTargets`/`replaceTelephonyTransferTargets` for configuring transfer targets.
 
+### Bugs Fixed
+
+- Fixed `turn_detection_type_change_not_allowed` errors when connecting to a pre-existing voice agent whose configured turn-detection type isn't `server_vad` (e.g. `azure_semantic_vad`). The browser voice-agent sample and `agents/voiceAgents/voiceAgentRealtimeAudio.ts` no longer hardcode `turn_detection: { type: "server_vad", ... }` in `configureSession`; they now derive the session's turn-detection config from the agent's own configured type, since turn-detection type is fixed at agent-configuration time and cannot change on connect.
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added

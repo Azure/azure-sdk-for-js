@@ -16,7 +16,7 @@ import {
   type AgentDefinitionUnion,
   type VoiceAgentDefinition,
   type VoiceAgentFunctionTool,
-  type VoiceAudioFormat,
+  type RealtimeAudioFormatsUnion,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -44,7 +44,7 @@ export async function main(): Promise<void> {
 
   try {
     // session.update merges into the existing session config; only the changed field needs to be sent.
-    const pcmFormat: VoiceAudioFormat = { type: "audio/pcm", rate: pcmSampleRate };
+    const pcmFormat: RealtimeAudioFormatsUnion = { type: "audio/pcm", rate: pcmSampleRate };
     const weatherTool: VoiceAgentFunctionTool = {
       type: "function",
       name: "get_weather",

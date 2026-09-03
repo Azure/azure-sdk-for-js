@@ -18,8 +18,8 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
-  getBinaryStreamResponse,
 } from "@azure-rest/core-client";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 
 export function _getAgentConversationItemGeneratedAudioContentSend(
   context: Client,

@@ -106,7 +106,9 @@ import type {
   Microsoft365PublishScope,
   Microsoft365PublishResponse,
   Microsoft365PublishDefaults,
-  TelephonyBindingListItem,
+  CreateTelephonyBindingRequestUnion,
+  TelephonyBindingUnion,
+  TelephonyBindingListItemUnion,
   UpdateTelephonyBindingRequest,
   TelephonyCallSummary,
   TelephonyCallRecord,
@@ -114,11 +116,7 @@ import type {
   TelephonyTransferTarget,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
-  CreateTelephonyBindingRequest,
   AgentsDownloadSessionFileResponse,
-  AgentsUpdateTelephonyBindingResponse,
-  AgentsGetTelephonyBindingResponse,
-  AgentsCreateTelephonyBindingResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
@@ -216,24 +214,24 @@ export interface AgentsOperations {
     ifMatch: string,
     body: UpdateTelephonyBindingRequest,
     options?: AgentsUpdateTelephonyBindingOptionalParams,
-  ) => Promise<AgentsUpdateTelephonyBindingResponse>;
+  ) => Promise<TelephonyBindingUnion>;
   /** Retrieves a telephony binding owned by the voice agent named in the path. */
   getTelephonyBinding: (
     agentName: string,
     bindingId: string,
     options?: AgentsGetTelephonyBindingOptionalParams,
-  ) => Promise<AgentsGetTelephonyBindingResponse>;
+  ) => Promise<TelephonyBindingUnion>;
   /** Returns the telephony bindings owned by the voice agent named in the path. */
   listTelephonyBindings: (
     agentName: string,
     options?: AgentsListTelephonyBindingsOptionalParams,
-  ) => PagedAsyncIterableIterator<TelephonyBindingListItem>;
+  ) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
   /** Creates a telephony binding for the voice agent named in the path. */
   createTelephonyBinding: (
     agentName: string,
-    body: CreateTelephonyBindingRequest,
+    body: CreateTelephonyBindingRequestUnion,
     options?: AgentsCreateTelephonyBindingOptionalParams,
-  ) => Promise<AgentsCreateTelephonyBindingResponse>;
+  ) => Promise<TelephonyBindingUnion>;
   /**
    * Returns default and previously-published values used to pre-populate a Microsoft 365 publish
    * request for a Foundry agent.
@@ -541,7 +539,7 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
     ) => listTelephonyBindings(context, agentName, options),
     createTelephonyBinding: (
       agentName: string,
-      body: CreateTelephonyBindingRequest,
+      body: CreateTelephonyBindingRequestUnion,
       options?: AgentsCreateTelephonyBindingOptionalParams,
     ) => createTelephonyBinding(context, agentName, body, options),
     getMicrosoft365PublishDefaults: (

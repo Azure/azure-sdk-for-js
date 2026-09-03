@@ -13,6 +13,8 @@ import {
   type VoiceAgentDefinition,
   type VoiceAgentConnection,
   type VoiceAgentServerEvent,
+  type VoiceAgentTurnDetectionConfigUnion,
+  type VoiceHostedAgentConversationEngine,
 } from "@azure/ai-projects";
 import { MicrophoneCapture, PcmAudioPlayer } from "./audio.js";
 import { LocalAzureCredential } from "./localAzureCredential.js";
@@ -411,7 +413,7 @@ class VoiceAgentConsole {
         // unrecognized agent abort the whole list.
         let model: string;
         try {
-          model = getVoiceDefinition(agent).model;
+          model = voiceAgentModelDisplay(getVoiceDefinition(agent));
         } catch (error) {
           model = `(${getErrorMessage(error)})`;
         }
@@ -732,7 +734,7 @@ class VoiceAgentConsole {
       this.renderAgent(
         agent.name,
         agent.versions.latest.version,
-        definition.model,
+        voiceAgentModelDisplay(definition),
         outputIsPcm ? `PCM ${outputRate / 1000} kHz` : outputFormat.type,
       );
       this.setRestState("ready");
@@ -750,12 +752,7 @@ class VoiceAgentConsole {
         audio: {
           input: {
             format: { type: "audio/pcm", rate: 24_000 },
-            turn_detection: {
-              type: "server_vad",
-              create_response: true,
-              interrupt_response: true,
-              silence_duration_ms: 500,
-            },
+            turn_detection: withTurnDetectionOverrides(definition.audio?.input?.turn_detection),
           },
         },
         tools: [
@@ -870,7 +867,9 @@ class VoiceAgentConsole {
     } catch (error) {
       if (!this.manuallyDisconnecting) {
         this.showError(error);
-        this.setConnected(false);
+        // Clear `this.connection` (not just the UI) so `setConnecting`'s "already connected"
+        // check doesn't keep Connect/Load agents/endpoint stuck disabled after an abnormal close.
+        await this.disconnect();
       }
     }
   }
@@ -1330,6 +1329,21 @@ function getVoiceDefinition(agent: Agent): VoiceAgentDefinition {
   return definition;
 }
 
+function voiceAgentModelDisplay(definition: VoiceAgentDefinition): string {
+  // `model` is omitted when a `conversation_engine` (e.g. a hosted agent) owns the conversation instead.
+  if (definition.model) {
+    return definition.model;
+  }
+  const engine = definition.conversation_engine;
+  // The base `VoiceConversationEngine.type` is untyped `string`, so it doesn't discriminate the
+  // union automatically; check the literal explicitly before reading the hosted-agent-only `name`.
+  const name =
+    engine?.type === "hosted_agent"
+      ? (engine as VoiceHostedAgentConversationEngine).name
+      : "?";
+  return `(hosted agent: ${name})`;
+}
+
 function isVoiceAgentDefinition(
   definition: AgentDefinitionUnion,
 ): definition is VoiceAgentDefinition {
@@ -1340,6 +1354,27 @@ function isVoiceAgentDefinition(
     "model" in definition &&
     typeof definition.model === "string"
   );
+}
+
+function withTurnDetectionOverrides(
+  turnDetection: VoiceAgentTurnDetectionConfigUnion | undefined,
+): VoiceAgentTurnDetectionConfigUnion {
+  // Turn-detection type is a session default set when the agent was configured and cannot change
+  // at connect time (see the `audio` doc comment on `VoiceAgentDefinition`), so the agent's own
+  // type and fields are preserved here; only this demo's chosen overrides are layered on top.
+  if (!turnDetection) {
+    return {
+      type: "server_vad",
+      create_response: true,
+      interrupt_response: true,
+      silence_duration_ms: 500,
+    };
+  }
+  if (turnDetection.type === "semantic_vad") {
+    // Unlike every other turn-detection type, `semantic_vad` has no `silence_duration_ms` field.
+    return { ...turnDetection, create_response: true, interrupt_response: true };
+  }
+  return { ...turnDetection, create_response: true, interrupt_response: true, silence_duration_ms: 500 };
 }
 
 new VoiceAgentConsole();

@@ -44,9 +44,13 @@ import {
   microsoft365PublishResponseDeserializer,
   Microsoft365PublishDefaults,
   microsoft365PublishDefaultsDeserializer,
+  createTelephonyBindingRequestUnionSerializer,
+  CreateTelephonyBindingRequestUnion,
+  telephonyBindingUnionDeserializer,
+  TelephonyBindingUnion,
   _AgentsPagedResultTelephonyBindingListItem,
   _agentsPagedResultTelephonyBindingListItemDeserializer,
-  TelephonyBindingListItem,
+  TelephonyBindingListItemUnion,
   UpdateTelephonyBindingRequest,
   updateTelephonyBindingRequestSerializer,
   _AgentsPagedResultTelephonyCallSummary,
@@ -61,11 +65,6 @@ import {
   sessionFileWriteResponseDeserializer,
   _sessionDirectoryListResponseDeserializer,
   generateAgentRequestSerializer,
-  CreateTelephonyBindingRequest,
-  createTelephonyBindingRequestSerializer,
-  AgentsUpdateTelephonyBindingResponse,
-  AgentsGetTelephonyBindingResponse,
-  AgentsCreateTelephonyBindingResponse,
   GetMicrosoft365PackageResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -852,7 +851,7 @@ export function _updateTelephonyBindingSend(
 
 export async function _updateTelephonyBindingDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsUpdateTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -863,7 +862,7 @@ export async function _updateTelephonyBindingDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return telephonyBindingUnionDeserializer(result.body);
 }
 
 /** Updates a telephony binding owned by the voice agent named in the path. */
@@ -874,7 +873,7 @@ export async function updateTelephonyBinding(
   ifMatch: string,
   body: UpdateTelephonyBindingRequest,
   options: AgentsUpdateTelephonyBindingOptionalParams = { requestOptions: {} },
-): Promise<AgentsUpdateTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const result = await _updateTelephonyBindingSend(
     context,
     agentName,
@@ -919,7 +918,7 @@ export function _getTelephonyBindingSend(
 
 export async function _getTelephonyBindingDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsGetTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -930,7 +929,7 @@ export async function _getTelephonyBindingDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return telephonyBindingUnionDeserializer(result.body);
 }
 
 /** Retrieves a telephony binding owned by the voice agent named in the path. */
@@ -939,7 +938,7 @@ export async function getTelephonyBinding(
   agentName: string,
   bindingId: string,
   options: AgentsGetTelephonyBindingOptionalParams = { requestOptions: {} },
-): Promise<AgentsGetTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const result = await _getTelephonyBindingSend(context, agentName, bindingId, options);
   return _getTelephonyBindingDeserialize(result);
 }
@@ -1000,7 +999,7 @@ export function listTelephonyBindings(
   context: Client,
   agentName: string,
   options: AgentsListTelephonyBindingsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TelephonyBindingListItem> {
+): PagedAsyncIterableIterator<TelephonyBindingListItemUnion> {
   return buildPagedAsyncIterator(
     context,
     () => _listTelephonyBindingsSend(context, agentName, options),
@@ -1013,7 +1012,7 @@ export function listTelephonyBindings(
 export function _createTelephonyBindingSend(
   context: Client,
   agentName: string,
-  body: CreateTelephonyBindingRequest,
+  body: CreateTelephonyBindingRequestUnion,
   options: AgentsCreateTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1048,13 +1047,13 @@ export function _createTelephonyBindingSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: createTelephonyBindingRequestSerializer(body),
+      body: createTelephonyBindingRequestUnionSerializer(body),
     });
 }
 
 export async function _createTelephonyBindingDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsCreateTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1065,16 +1064,16 @@ export async function _createTelephonyBindingDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return telephonyBindingUnionDeserializer(result.body);
 }
 
 /** Creates a telephony binding for the voice agent named in the path. */
 export async function createTelephonyBinding(
   context: Client,
   agentName: string,
-  body: CreateTelephonyBindingRequest,
+  body: CreateTelephonyBindingRequestUnion,
   options: AgentsCreateTelephonyBindingOptionalParams = { requestOptions: {} },
-): Promise<AgentsCreateTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const result = await _createTelephonyBindingSend(context, agentName, body, options);
   return _createTelephonyBindingDeserialize(result);
 }

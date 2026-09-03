@@ -5124,12 +5124,12 @@ export function externalAgentDefinitionDeserializer(item: any): ExternalAgentDef
 export interface VoiceAgentDefinition extends AgentDefinition {
   /** The kind discriminator for a voice agent definition. Always `voice`. */
   kind: "voice";
-  /** How the voice agent obtains its conversational backend. `managed` uses the service-managed model named by `model`; `self_deployed` uses the customer's Foundry deployment named by `model`; `hosted_agent` fronts the hosted text agent referenced by `target_agent`. This is independent of the architecture (realtime or cascaded), which the service derives from the selected backend. */
-  model_type: VoiceModelType;
-  /** The model to use for this agent. Required when `model_type` is `managed` (the service-managed model name) or `self_deployed` (the customer's Foundry deployment name). Omit this property when `model_type` is `hosted_agent`; `target_agent` identifies the conversational backend. The model must support realtime or cascaded voice. */
+  /** How the model backing this voice agent is served. Required with `model` for a model-backed voice agent and omitted when `conversation_engine` is provided. This is independent of the architecture (realtime or cascaded), which the service derives from the selected model. */
+  model_type?: VoiceModelType;
+  /** The model to use for this agent. Required with `model_type` for a model-backed voice agent and omitted when `conversation_engine` is provided. The model must support realtime or cascaded voice. */
   model?: string;
-  /** The hosted text agent that this voice agent fronts. Required when `model_type` is `hosted_agent` and not applicable otherwise. In this mode, `model`, `instructions`, `tools`, and `tool_choice` must be omitted, and `greeting.tool_choice` cannot be `required`, because the target agent owns the conversation logic. The target must be in the same project and support the `invocations_ws` protocol, Voice Live compatibility, and Bridge Protocol 1.0. */
-  target_agent?: VoiceAgentTargetAgent;
+  /** The engine that owns conversation handling for this voice agent. Exactly one of this property and the model-backed configuration (`model_type` with `model`) must be provided. When this property is provided, `model_type`, `model`, `instructions`, `tools`, and `tool_choice` must be omitted, and `greeting.tool_choice` cannot be `required`, because the engine owns the conversation logic. The initial implementation supports a hosted-agent engine. */
+  conversation_engine?: VoiceConversationEngineUnion;
   /** A system (or developer) message inserted into the model's context. Supports template substitution via `structured_inputs`, rendered per session before the live session starts. */
   instructions?: string;
   /** Optional session-start greeting. Template mode speaks exact rendered text; LLM-generated mode asks the session model to author the opening response and may use configured tools. */
@@ -5187,9 +5187,9 @@ export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any 
     rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
     model_type: item["model_type"],
     model: item["model"],
-    target_agent: !item["target_agent"]
-      ? item["target_agent"]
-      : voiceAgentTargetAgentSerializer(item["target_agent"]),
+    conversation_engine: !item["conversation_engine"]
+      ? item["conversation_engine"]
+      : voiceConversationEngineUnionSerializer(item["conversation_engine"]),
     instructions: item["instructions"],
     greeting: !item["greeting"]
       ? item["greeting"]
@@ -5235,9 +5235,9 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
       : raiConfigDeserializer(item["rai_config"]),
     model_type: item["model_type"],
     model: item["model"],
-    target_agent: !item["target_agent"]
-      ? item["target_agent"]
-      : voiceAgentTargetAgentDeserializer(item["target_agent"]),
+    conversation_engine: !item["conversation_engine"]
+      ? item["conversation_engine"]
+      : voiceConversationEngineUnionDeserializer(item["conversation_engine"]),
     instructions: item["instructions"],
     greeting: !item["greeting"]
       ? item["greeting"]
@@ -5279,10 +5279,57 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
  * How the model backing a voice agent is served. This is independent of the architecture (realtime or cascaded),
  * which the service derives from the selected model.
  */
-export type VoiceModelType = "managed" | "self_deployed" | "hosted_agent";
+export type VoiceModelType = "managed" | "self_deployed";
 
-/** A closed reference to the hosted text agent that a `hosted_agent` voice agent fronts, containing only its name and optional version. The target is resolved within the same project. */
-export interface VoiceAgentTargetAgent {
+/** An engine that owns conversation handling for a voice agent. */
+export interface VoiceConversationEngine {
+  /** The conversation engine type. */
+  /** The discriminator possible values: hosted_agent */
+  type: string;
+}
+
+export function voiceConversationEngineSerializer(item: VoiceConversationEngine): any {
+  return { type: item["type"] };
+}
+
+export function voiceConversationEngineDeserializer(item: any): VoiceConversationEngine {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VoiceConversationEngineUnion */
+export type VoiceConversationEngineUnion =
+  VoiceHostedAgentConversationEngine | VoiceConversationEngine;
+
+export function voiceConversationEngineUnionSerializer(item: VoiceConversationEngineUnion): any {
+  switch (item.type) {
+    case "hosted_agent":
+      return voiceHostedAgentConversationEngineSerializer(
+        item as VoiceHostedAgentConversationEngine,
+      );
+
+    default:
+      return voiceConversationEngineSerializer(item);
+  }
+}
+
+export function voiceConversationEngineUnionDeserializer(item: any): VoiceConversationEngineUnion {
+  switch (item["type"]) {
+    case "hosted_agent":
+      return voiceHostedAgentConversationEngineDeserializer(
+        item as VoiceHostedAgentConversationEngine,
+      );
+
+    default:
+      return voiceConversationEngineDeserializer(item);
+  }
+}
+
+/** A closed reference to the hosted text agent that owns conversation handling for a voice agent. The hosted agent is resolved within the same project and must support the `invocations_ws` protocol, Voice Live compatibility, and Bridge Protocol 1.0. */
+export interface VoiceHostedAgentConversationEngine extends VoiceConversationEngine {
+  /** Selects a hosted Foundry agent as the conversation engine. */
+  type: "hosted_agent";
   /** The non-empty DNS-like name of the target hosted text agent in the same project. */
   name: string;
   /** The target agent version. Omit this property to select the latest version when the voice session starts. When supplied, use a positive integer or `draft-{positive-unix-timestamp}` whose numeric component fits in a signed 64-bit integer. */
@@ -5291,17 +5338,23 @@ export interface VoiceAgentTargetAgent {
   additionalProperties?: Record<string, any>;
 }
 
-export function voiceAgentTargetAgentSerializer(item: VoiceAgentTargetAgent): any {
+export function voiceHostedAgentConversationEngineSerializer(
+  item: VoiceHostedAgentConversationEngine,
+): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
+    type: item["type"],
     name: item["name"],
     version: item["version"],
   };
 }
 
-export function voiceAgentTargetAgentDeserializer(item: any): VoiceAgentTargetAgent {
+export function voiceHostedAgentConversationEngineDeserializer(
+  item: any,
+): VoiceHostedAgentConversationEngine {
   return {
-    additionalProperties: serializeRecord(item, ["name", "version"]),
+    additionalProperties: serializeRecord(item, ["type", "name", "version"]),
+    type: item["type"],
     name: item["name"],
     version: item["version"],
   };
@@ -6973,29 +7026,19 @@ export function voiceAgentToolboxToolDeserializer(item: any): VoiceAgentToolboxT
   };
 }
 
-/** Configuration for sibling Foundry text agents that a voice agent may consult, and for delivery of their responses. */
+/** Configuration for sibling Foundry text agents that a voice agent may consult. */
 export interface VoiceAgentSubAgentConfig {
   /** The sibling Foundry text agents, in the same project, that this voice agent may consult. */
   subagents: VoiceAgentSubAgent[];
-  /** Policy for acknowledging forwarded requests and filling gaps while waiting for a subagent response. */
-  response_policy?: VoiceAgentSubagentResponsePolicy;
 }
 
 export function voiceAgentSubAgentConfigSerializer(item: VoiceAgentSubAgentConfig): any {
-  return {
-    subagents: voiceAgentSubAgentArraySerializer(item["subagents"]),
-    response_policy: !item["response_policy"]
-      ? item["response_policy"]
-      : voiceAgentSubagentResponsePolicySerializer(item["response_policy"]),
-  };
+  return { subagents: voiceAgentSubAgentArraySerializer(item["subagents"]) };
 }
 
 export function voiceAgentSubAgentConfigDeserializer(item: any): VoiceAgentSubAgentConfig {
   return {
     subagents: voiceAgentSubAgentArrayDeserializer(item["subagents"]),
-    response_policy: !item["response_policy"]
-      ? item["response_policy"]
-      : voiceAgentSubagentResponsePolicyDeserializer(item["response_policy"]),
   };
 }
 
@@ -7019,8 +7062,8 @@ export interface VoiceAgentSubAgent {
   agent_version?: string;
   /** A description of the subagent's capabilities, used by the voice agent to decide whether to forward a query. */
   agent_capabilities: string;
-  /** Whether progress updates are emitted incrementally instead of only when the subagent invocation completes. Defaults to `false`. */
-  enable_delta_progress?: boolean;
+  /** Policy for acknowledging forwarded requests and filling gaps while waiting for this subagent's response. */
+  response_policy?: VoiceAgentSubagentResponsePolicy;
   /** The wall-clock timeout, in seconds, for each invocation of this subagent. When omitted, the service timeout is used. */
   invoke_timeout_seconds?: number;
 }
@@ -7030,7 +7073,9 @@ export function voiceAgentSubAgentSerializer(item: VoiceAgentSubAgent): any {
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
     agent_capabilities: item["agent_capabilities"],
-    enable_delta_progress: item["enable_delta_progress"],
+    response_policy: !item["response_policy"]
+      ? item["response_policy"]
+      : voiceAgentSubagentResponsePolicySerializer(item["response_policy"]),
     invoke_timeout_seconds: item["invoke_timeout_seconds"],
   };
 }
@@ -7040,7 +7085,9 @@ export function voiceAgentSubAgentDeserializer(item: any): VoiceAgentSubAgent {
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
     agent_capabilities: item["agent_capabilities"],
-    enable_delta_progress: item["enable_delta_progress"],
+    response_policy: !item["response_policy"]
+      ? item["response_policy"]
+      : voiceAgentSubagentResponsePolicyDeserializer(item["response_policy"]),
     invoke_timeout_seconds: item["invoke_timeout_seconds"],
   };
 }
@@ -7055,6 +7102,8 @@ export interface VoiceAgentSubagentResponsePolicy {
   ack_instructions?: string;
   /** Instructions used to generate gap-filling speech while waiting for progress. */
   gap_filling_instructions?: string;
+  /** Whether progress updates are emitted incrementally instead of only when the subagent invocation completes. Defaults to `false`. */
+  enable_delta_progress?: boolean;
   /** Instructions used to summarize streamed subagent progress for speech. */
   progress_instructions?: string;
   /** The minimum number of seconds between spoken progress updates. */
@@ -7069,6 +7118,7 @@ export function voiceAgentSubagentResponsePolicySerializer(
     gap_filling_interval: item["gap_filling_interval"],
     ack_instructions: item["ack_instructions"],
     gap_filling_instructions: item["gap_filling_instructions"],
+    enable_delta_progress: item["enable_delta_progress"],
     progress_instructions: item["progress_instructions"],
     progress_update_interval: item["progress_update_interval"],
   };
@@ -7082,6 +7132,7 @@ export function voiceAgentSubagentResponsePolicyDeserializer(
     gap_filling_interval: item["gap_filling_interval"],
     ack_instructions: item["ack_instructions"],
     gap_filling_instructions: item["gap_filling_instructions"],
+    enable_delta_progress: item["enable_delta_progress"],
     progress_instructions: item["progress_instructions"],
     progress_update_interval: item["progress_update_interval"],
   };
@@ -8256,16 +8307,55 @@ export function microsoft365PublishDefaultsDeserializer(item: any): Microsoft365
   };
 }
 
-/** The request to create a Microsoft Teams Phone Extension binding. */
-export interface CreateTeamsPhoneExtensionTelephonyBindingRequest {
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The Foundry connection name for the Teams Phone Extension provider. */
+/** The request to create a telephony binding. */
+export interface CreateTelephonyBindingRequest {
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
   connection: string;
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
   /** An optional display label for the binding. */
   label?: string;
+}
+
+export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBindingRequest): any {
+  return { provider: item["provider"], connection: item["connection"], label: item["label"] };
+}
+
+/** Alias for CreateTelephonyBindingRequestUnion */
+export type CreateTelephonyBindingRequestUnion =
+  | CreateTeamsPhoneExtensionTelephonyBindingRequest
+  | CreateTwilioTelephonyBindingRequest
+  | CreateTelephonyBindingRequest;
+
+export function createTelephonyBindingRequestUnionSerializer(
+  item: CreateTelephonyBindingRequestUnion,
+): any {
+  switch (item.provider) {
+    case "teams_phone_extension":
+      return createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
+        item as CreateTeamsPhoneExtensionTelephonyBindingRequest,
+      );
+
+    case "twilio":
+      return createTwilioTelephonyBindingRequestSerializer(
+        item as CreateTwilioTelephonyBindingRequest,
+      );
+
+    default:
+      return createTelephonyBindingRequestSerializer(item);
+  }
+}
+
+/** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
+export type TelephonyProvider = "teams_phone_extension" | "twilio";
+
+/** The request to create a Microsoft Teams Phone Extension binding. */
+export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
   /** The Microsoft Teams resource-account object identifier as a GUID. */
   resource_account_object_id: string;
 }
@@ -8276,22 +8366,18 @@ export function createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
   return {
     provider: item["provider"],
     connection: item["connection"],
-    phone_number: item["phone_number"],
     label: item["label"],
+    phone_number: item["phone_number"],
     resource_account_object_id: item["resource_account_object_id"],
   };
 }
 
 /** The request to create a Twilio binding. */
-export interface CreateTwilioTelephonyBindingRequest {
+export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBindingRequest {
   /** The Twilio provider. */
   provider: "twilio";
-  /** The Foundry connection name for the Twilio provider. */
-  connection: string;
   /** The Twilio E.164 phone number. */
   phone_number: string;
-  /** An optional display label for the binding. */
-  label?: string;
 }
 
 export function createTwilioTelephonyBindingRequestSerializer(
@@ -8300,29 +8386,69 @@ export function createTwilioTelephonyBindingRequestSerializer(
   return {
     provider: item["provider"],
     connection: item["connection"],
-    phone_number: item["phone_number"],
     label: item["label"],
+    phone_number: item["phone_number"],
   };
 }
 
-/** A Microsoft Teams Phone Extension binding owned by a voice agent. */
-export interface TeamsPhoneExtensionTelephonyBinding {
+/** A telephony binding owned by a voice agent. */
+export interface TelephonyBinding {
   /** The service-generated binding identifier. */
   id: string;
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The Foundry connection name for the Teams Phone Extension provider. */
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
   connection: string;
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
   /** The optional display label for the binding. */
   label?: string;
-  /** The Microsoft Teams resource-account object identifier as a GUID. */
-  resource_account_object_id: string;
   /** The lifecycle status. */
   status: TelephonyBindingStatus;
   /** The service-generated webhook URL to configure with the telephony provider. */
   incoming_call_url: string;
+}
+
+export function telephonyBindingDeserializer(item: any): TelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+  };
+}
+
+/** Alias for TelephonyBindingUnion */
+export type TelephonyBindingUnion =
+  TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
+
+export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUnion {
+  switch (item["provider"]) {
+    case "teams_phone_extension":
+      return teamsPhoneExtensionTelephonyBindingDeserializer(
+        item as TeamsPhoneExtensionTelephonyBinding,
+      );
+
+    case "twilio":
+      return twilioTelephonyBindingDeserializer(item as TwilioTelephonyBinding);
+
+    default:
+      return telephonyBindingDeserializer(item);
+  }
+}
+
+/** The lifecycle status of a telephony binding. */
+export type TelephonyBindingStatus = "active" | "suspended";
+
+/** A Microsoft Teams Phone Extension binding owned by a voice agent. */
+export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
 }
 
 export function teamsPhoneExtensionTelephonyBindingDeserializer(
@@ -8332,33 +8458,20 @@ export function teamsPhoneExtensionTelephonyBindingDeserializer(
     id: item["id"],
     provider: item["provider"],
     connection: item["connection"],
-    phone_number: item["phone_number"],
     label: item["label"],
-    resource_account_object_id: item["resource_account_object_id"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
   };
 }
 
-/** The lifecycle status of a telephony binding. */
-export type TelephonyBindingStatus = "active" | "suspended";
-
 /** A Twilio binding owned by a voice agent. */
-export interface TwilioTelephonyBinding {
-  /** The service-generated binding identifier. */
-  id: string;
+export interface TwilioTelephonyBinding extends TelephonyBinding {
   /** The Twilio provider. */
   provider: "twilio";
-  /** The Foundry connection name for the Twilio provider. */
-  connection: string;
   /** The Twilio E.164 phone number. */
   phone_number: string;
-  /** The optional display label for the binding. */
-  label?: string;
-  /** The lifecycle status. */
-  status: TelephonyBindingStatus;
-  /** The service-generated webhook URL to configure with Twilio. */
-  incoming_call_url: string;
 }
 
 export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBinding {
@@ -8366,17 +8479,17 @@ export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBi
     id: item["id"],
     provider: item["provider"],
     connection: item["connection"],
-    phone_number: item["phone_number"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
+    phone_number: item["phone_number"],
   };
 }
 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultTelephonyBindingListItem {
   /** The requested list of items. */
-  data: TelephonyBindingListItem[];
+  data: TelephonyBindingListItemUnion[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -8389,49 +8502,83 @@ export function _agentsPagedResultTelephonyBindingListItemDeserializer(
   item: any,
 ): _AgentsPagedResultTelephonyBindingListItem {
   return {
-    data: telephonyBindingListItemArrayDeserializer(item["data"]),
+    data: telephonyBindingListItemUnionArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function telephonyBindingListItemArrayDeserializer(
-  result: Array<TelephonyBindingListItem>,
+export function telephonyBindingListItemUnionArrayDeserializer(
+  result: Array<TelephonyBindingListItemUnion>,
 ): any[] {
   return result.map((item) => {
-    return telephonyBindingListItemDeserializer(item);
+    return telephonyBindingListItemUnionDeserializer(item);
   });
 }
 
 /** A telephony binding returned in a list, including its entity tag. */
-export type TelephonyBindingListItem =
-  TeamsPhoneExtensionTelephonyBindingListItem | TwilioTelephonyBindingListItem;
-
-export function telephonyBindingListItemDeserializer(item: any): TelephonyBindingListItem {
-  return item;
-}
-
-/** A Microsoft Teams Phone Extension binding returned in a list, including its entity tag. */
-export interface TeamsPhoneExtensionTelephonyBindingListItem {
+export interface TelephonyBindingListItem {
   /** The service-generated binding identifier. */
   id: string;
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The Foundry connection name for the Teams Phone Extension provider. */
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
   connection: string;
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
   /** The optional display label for the binding. */
   label?: string;
-  /** The Microsoft Teams resource-account object identifier as a GUID. */
-  resource_account_object_id: string;
   /** The lifecycle status. */
   status: TelephonyBindingStatus;
   /** The service-generated webhook URL to configure with the telephony provider. */
   incoming_call_url: string;
   /** The entity tag to send in the `If-Match` header when updating or deleting this binding. */
   readonly etag: string;
+}
+
+export function telephonyBindingListItemDeserializer(item: any): TelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+  };
+}
+
+/** Alias for TelephonyBindingListItemUnion */
+export type TelephonyBindingListItemUnion =
+  | TeamsPhoneExtensionTelephonyBindingListItem
+  | TwilioTelephonyBindingListItem
+  | TelephonyBindingListItem;
+
+export function telephonyBindingListItemUnionDeserializer(
+  item: any,
+): TelephonyBindingListItemUnion {
+  switch (item["provider"]) {
+    case "teams_phone_extension":
+      return teamsPhoneExtensionTelephonyBindingListItemDeserializer(
+        item as TeamsPhoneExtensionTelephonyBindingListItem,
+      );
+
+    case "twilio":
+      return twilioTelephonyBindingListItemDeserializer(item as TwilioTelephonyBindingListItem);
+
+    default:
+      return telephonyBindingListItemDeserializer(item);
+  }
+}
+
+/** A Microsoft Teams Phone Extension binding returned in a list, including its entity tag. */
+export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBindingListItem {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
 }
 
 export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
@@ -8441,33 +8588,21 @@ export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
     id: item["id"],
     provider: item["provider"],
     connection: item["connection"],
-    phone_number: item["phone_number"],
     label: item["label"],
-    resource_account_object_id: item["resource_account_object_id"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     etag: item["etag"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
   };
 }
 
 /** A Twilio binding returned in a list, including its entity tag. */
-export interface TwilioTelephonyBindingListItem {
-  /** The service-generated binding identifier. */
-  id: string;
+export interface TwilioTelephonyBindingListItem extends TelephonyBindingListItem {
   /** The Twilio provider. */
   provider: "twilio";
-  /** The Foundry connection name for the Twilio provider. */
-  connection: string;
   /** The Twilio E.164 phone number. */
   phone_number: string;
-  /** The optional display label for the binding. */
-  label?: string;
-  /** The lifecycle status. */
-  status: TelephonyBindingStatus;
-  /** The service-generated webhook URL to configure with Twilio. */
-  incoming_call_url: string;
-  /** The entity tag to send in the `If-Match` header when updating or deleting this binding. */
-  readonly etag: string;
 }
 
 export function twilioTelephonyBindingListItemDeserializer(
@@ -8477,11 +8612,11 @@ export function twilioTelephonyBindingListItemDeserializer(
     id: item["id"],
     provider: item["provider"],
     connection: item["connection"],
-    phone_number: item["phone_number"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     etag: item["etag"],
+    phone_number: item["phone_number"],
   };
 }
 
@@ -8561,8 +8696,8 @@ export interface TelephonyCallSummary {
   agent_session_ready_at?: Date;
   /** The Unix timestamp (in seconds) for when the call ended. */
   ended_at?: Date;
-  /** The call duration in seconds. */
-  duration_seconds?: number;
+  /** The call duration. */
+  duration_ms?: number;
   /** The service-generated reason that the call ended. */
   end_reason?: string;
   /** The provider status code associated with the terminal result. */
@@ -8591,16 +8726,13 @@ export function telephonyCallSummaryDeserializer(item: any): TelephonyCallSummar
       ? item["agent_session_ready_at"]
       : new Date(item["agent_session_ready_at"] * 1000),
     ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
-    duration_seconds: item["duration_seconds"],
+    duration_ms: item["duration_ms"],
     end_reason: item["end_reason"],
     provider_status_code: item["provider_status_code"],
     provider_sub_code: item["provider_sub_code"],
     provider_message: item["provider_message"],
   };
 }
-
-/** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
-export type TelephonyProvider = "teams_phone_extension" | "twilio";
 
 /** The lifecycle status of an inbound telephony call. */
 export type TelephonyCallStatus = "in_progress" | "success" | "failed";
@@ -8646,8 +8778,8 @@ export interface TelephonyCallRecord {
   agent_session_ready_at?: Date;
   /** The Unix timestamp (in seconds) for when the call ended. */
   ended_at?: Date;
-  /** The call duration in seconds. */
-  duration_seconds?: number;
+  /** The call duration. */
+  duration_ms?: number;
   /** The service-generated reason that the call ended. */
   end_reason?: string;
   /** The provider status code associated with the terminal result. */
@@ -8660,9 +8792,9 @@ export interface TelephonyCallRecord {
   timing: TelephonyCallTiming;
   /** Correlation to the customer-facing Foundry trace. */
   trace?: TelephonyCallTrace;
-  /** The bounded lifecycle timeline. */
+  /** The lifecycle timeline. */
   events: TelephonyCallLifecycleEvent[];
-  /** Whether older lifecycle events were omitted because the bounded event limit was reached. */
+  /** Whether older lifecycle events were omitted from the timeline. */
   events_truncated: boolean;
 }
 
@@ -8684,7 +8816,7 @@ export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord 
       ? item["agent_session_ready_at"]
       : new Date(item["agent_session_ready_at"] * 1000),
     ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
-    duration_seconds: item["duration_seconds"],
+    duration_ms: item["duration_ms"],
     end_reason: item["end_reason"],
     provider_status_code: item["provider_status_code"],
     provider_sub_code: item["provider_sub_code"],
@@ -8696,28 +8828,28 @@ export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord 
   };
 }
 
-/** Detailed provider-neutral timing for an inbound telephony call. Millisecond values are Unix timestamps. */
+/** Detailed provider-neutral timing for an inbound telephony call. */
 export interface TelephonyCallTiming {
-  /** When the provider webhook was received, as Unix time in milliseconds. */
-  received_at_ms?: number;
-  /** When webhook validation completed, as Unix time in milliseconds. */
-  validated_at_ms?: number;
-  /** When the call was admitted to an agent binding, as Unix time in milliseconds. */
-  admitted_at_ms?: number;
-  /** When the service requested that the provider answer the call, as Unix time in milliseconds. */
-  answer_requested_at_ms?: number;
-  /** When the provider reported that the call was answered, as Unix time in milliseconds. */
-  answered_at_ms?: number;
-  /** When the provider media channel connected, as Unix time in milliseconds. */
-  media_connected_at_ms?: number;
-  /** When the voice-agent session became ready, as Unix time in milliseconds. */
-  agent_session_ready_at_ms?: number;
-  /** When caller audio was first observed, as Unix time in milliseconds. */
-  first_caller_audio_at_ms?: number;
-  /** When agent audio was first observed, as Unix time in milliseconds. */
-  first_agent_audio_at_ms?: number;
-  /** When the call reached a terminal state, as Unix time in milliseconds. */
-  ended_at_ms?: number;
+  /** The Unix timestamp (in seconds) for when the provider webhook was received. */
+  received_at?: Date;
+  /** The Unix timestamp (in seconds) for when webhook validation completed. */
+  validated_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call was admitted to an agent binding. */
+  admitted_at?: Date;
+  /** The Unix timestamp (in seconds) for when the service requested that the provider answer the call. */
+  answer_requested_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider reported that the call was answered. */
+  answered_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
+  media_connected_at?: Date;
+  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
+  agent_session_ready_at?: Date;
+  /** The Unix timestamp (in seconds) for when caller audio was first observed. */
+  first_caller_audio_at?: Date;
+  /** The Unix timestamp (in seconds) for when agent audio was first observed. */
+  first_agent_audio_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call reached a terminal state. */
+  ended_at?: Date;
   /** The timestamp used as the basis for duration. */
   duration_basis?: TelephonyCallDurationBasis;
   /** The primary source of the timing milestones. Individual lifecycle events identify their own timestamp source separately. */
@@ -8726,16 +8858,28 @@ export interface TelephonyCallTiming {
 
 export function telephonyCallTimingDeserializer(item: any): TelephonyCallTiming {
   return {
-    received_at_ms: item["received_at_ms"],
-    validated_at_ms: item["validated_at_ms"],
-    admitted_at_ms: item["admitted_at_ms"],
-    answer_requested_at_ms: item["answer_requested_at_ms"],
-    answered_at_ms: item["answered_at_ms"],
-    media_connected_at_ms: item["media_connected_at_ms"],
-    agent_session_ready_at_ms: item["agent_session_ready_at_ms"],
-    first_caller_audio_at_ms: item["first_caller_audio_at_ms"],
-    first_agent_audio_at_ms: item["first_agent_audio_at_ms"],
-    ended_at_ms: item["ended_at_ms"],
+    received_at: !item["received_at"] ? item["received_at"] : new Date(item["received_at"] * 1000),
+    validated_at: !item["validated_at"]
+      ? item["validated_at"]
+      : new Date(item["validated_at"] * 1000),
+    admitted_at: !item["admitted_at"] ? item["admitted_at"] : new Date(item["admitted_at"] * 1000),
+    answer_requested_at: !item["answer_requested_at"]
+      ? item["answer_requested_at"]
+      : new Date(item["answer_requested_at"] * 1000),
+    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
+    media_connected_at: !item["media_connected_at"]
+      ? item["media_connected_at"]
+      : new Date(item["media_connected_at"] * 1000),
+    agent_session_ready_at: !item["agent_session_ready_at"]
+      ? item["agent_session_ready_at"]
+      : new Date(item["agent_session_ready_at"] * 1000),
+    first_caller_audio_at: !item["first_caller_audio_at"]
+      ? item["first_caller_audio_at"]
+      : new Date(item["first_caller_audio_at"] * 1000),
+    first_agent_audio_at: !item["first_agent_audio_at"]
+      ? item["first_agent_audio_at"]
+      : new Date(item["first_agent_audio_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
     duration_basis: item["duration_basis"],
     timestamp_source: item["timestamp_source"],
   };
@@ -8796,10 +8940,10 @@ export interface TelephonyCallLifecycleEvent {
   source: TelephonyCallLifecycleEventSource;
   /** The outcome of the observed lifecycle operation. */
   outcome: TelephonyCallLifecycleEventOutcome;
-  /** When the service observed the event, as Unix time in milliseconds. */
-  observed_at_ms: number;
-  /** When the event occurred according to the provider, as Unix time in milliseconds. */
-  occurred_at_ms?: number;
+  /** The Unix timestamp (in seconds) for when the service observed the event. */
+  observed_at: Date;
+  /** The Unix timestamp (in seconds) for when the event occurred according to the provider. */
+  occurred_at?: Date;
   /** The source of the event timestamp. */
   timestamp_source: TelephonyCallTimestampSource;
   /** A stable service-generated reason associated with the event. */
@@ -8820,8 +8964,8 @@ export function telephonyCallLifecycleEventDeserializer(item: any): TelephonyCal
     name: item["name"],
     source: item["source"],
     outcome: item["outcome"],
-    observed_at_ms: item["observed_at_ms"],
-    occurred_at_ms: item["occurred_at_ms"],
+    observed_at: new Date(item["observed_at"] * 1000),
+    occurred_at: !item["occurred_at"] ? item["occurred_at"] : new Date(item["occurred_at"] * 1000),
     timestamp_source: item["timestamp_source"],
     reason: item["reason"],
     provider_event_id: item["provider_event_id"],
@@ -8888,14 +9032,14 @@ export interface TelephonyTransferTarget {
   /** A description that helps the voice agent decide when to use this target. */
   description: string;
   /** The provider-specific transfer destination. */
-  destination: TelephonyTransferDestination;
+  destination: TelephonyTransferDestinationUnion;
 }
 
 export function telephonyTransferTargetSerializer(item: TelephonyTransferTarget): any {
   return {
     name: item["name"],
     description: item["description"],
-    destination: telephonyTransferDestinationSerializer(item["destination"]),
+    destination: telephonyTransferDestinationUnionSerializer(item["destination"]),
   };
 }
 
@@ -8903,26 +9047,77 @@ export function telephonyTransferTargetDeserializer(item: any): TelephonyTransfe
   return {
     name: item["name"],
     description: item["description"],
-    destination: telephonyTransferDestinationDeserializer(item["destination"]),
+    destination: telephonyTransferDestinationUnionDeserializer(item["destination"]),
   };
 }
 
 /** A destination for a telephony transfer target. */
-export type TelephonyTransferDestination =
-  | PstnTelephonyTransferDestination
-  | TeamsTelephonyTransferDestination
-  | SipTelephonyTransferDestination;
+export interface TelephonyTransferDestination {
+  /** The telephony transfer destination type. */
+  /** The discriminator possible values: pstn, teams, sip */
+  kind: TelephonyTransferDestinationKind;
+}
 
 export function telephonyTransferDestinationSerializer(item: TelephonyTransferDestination): any {
-  return item;
+  return { kind: item["kind"] };
 }
 
 export function telephonyTransferDestinationDeserializer(item: any): TelephonyTransferDestination {
-  return item;
+  return {
+    kind: item["kind"],
+  };
 }
 
+/** Alias for TelephonyTransferDestinationUnion */
+export type TelephonyTransferDestinationUnion =
+  | PstnTelephonyTransferDestination
+  | TeamsTelephonyTransferDestination
+  | SipTelephonyTransferDestination
+  | TelephonyTransferDestination;
+
+export function telephonyTransferDestinationUnionSerializer(
+  item: TelephonyTransferDestinationUnion,
+): any {
+  switch (item.kind) {
+    case "pstn":
+      return pstnTelephonyTransferDestinationSerializer(item as PstnTelephonyTransferDestination);
+
+    case "teams":
+      return teamsTelephonyTransferDestinationSerializer(item as TeamsTelephonyTransferDestination);
+
+    case "sip":
+      return sipTelephonyTransferDestinationSerializer(item as SipTelephonyTransferDestination);
+
+    default:
+      return telephonyTransferDestinationSerializer(item);
+  }
+}
+
+export function telephonyTransferDestinationUnionDeserializer(
+  item: any,
+): TelephonyTransferDestinationUnion {
+  switch (item["kind"]) {
+    case "pstn":
+      return pstnTelephonyTransferDestinationDeserializer(item as PstnTelephonyTransferDestination);
+
+    case "teams":
+      return teamsTelephonyTransferDestinationDeserializer(
+        item as TeamsTelephonyTransferDestination,
+      );
+
+    case "sip":
+      return sipTelephonyTransferDestinationDeserializer(item as SipTelephonyTransferDestination);
+
+    default:
+      return telephonyTransferDestinationDeserializer(item);
+  }
+}
+
+/** The kind of telephony transfer destination. Known values are stable; additional values may be added over time. */
+export type TelephonyTransferDestinationKind = "pstn" | "teams" | "sip";
+
 /** A PSTN destination for a telephony transfer target. */
-export interface PstnTelephonyTransferDestination {
+export interface PstnTelephonyTransferDestination extends TelephonyTransferDestination {
   /** The PSTN destination type. */
   kind: "pstn";
   /** The E.164 phone number to call. */
@@ -8945,7 +9140,7 @@ export function pstnTelephonyTransferDestinationDeserializer(
 }
 
 /** A Microsoft Teams destination for a telephony transfer target. */
-export interface TeamsTelephonyTransferDestination {
+export interface TeamsTelephonyTransferDestination extends TelephonyTransferDestination {
   /** The Microsoft Teams destination type. */
   kind: "teams";
   /** The Microsoft Teams user or resource-account identifier. */
@@ -8968,7 +9163,7 @@ export function teamsTelephonyTransferDestinationDeserializer(
 }
 
 /** A SIP destination for a telephony transfer target. */
-export interface SipTelephonyTransferDestination {
+export interface SipTelephonyTransferDestination extends TelephonyTransferDestination {
   /** The SIP destination type. */
   kind: "sip";
   /** The SIP or SIPS URI to call. */
@@ -24144,21 +24339,6 @@ export function generateAgentRequestSerializer(item: GenerateAgentRequest): any 
   return item;
 }
 
-/** The request to create a telephony binding. */
-export type CreateTelephonyBindingRequest =
-  CreateTeamsPhoneExtensionTelephonyBindingRequest | CreateTwilioTelephonyBindingRequest;
-
-export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBindingRequest): any {
-  return item;
-}
-
-/** A telephony binding owned by a voice agent. */
-export type TelephonyBinding = TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding;
-
-export function telephonyBindingDeserializer(item: any): TelephonyBinding {
-  return item;
-}
-
 /** Alias for _ListVersionsRequestType */
 export type _ListVersionsRequestType = EvaluatorType | "all";
 
@@ -24355,12 +24535,6 @@ export type AgentsDownloadSessionFileResponse = {
    */
   readableStreamBody?: NodeReadableStream;
 };
-
-export type AgentsUpdateTelephonyBindingResponse = { body: TelephonyBinding };
-
-export type AgentsGetTelephonyBindingResponse = { body: TelephonyBinding };
-
-export type AgentsCreateTelephonyBindingResponse = { body: TelephonyBinding };
 
 export type GetMicrosoft365PackageResponse = {
   /**
