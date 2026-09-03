@@ -29,7 +29,6 @@ const DEVOPS_RESOURCE_UUID = "499b84ac-1321-427f-aa17-267ca6975798";
 const RELEASE_BLOCKERS = ["lint", "ci"];
 
 const SDK_OWNED = [
-  "@azure/app-configuration",
   "@azure/container-registry",
   // core
   "@azure/abort-controller",
@@ -48,8 +47,6 @@ const SDK_OWNED = [
   "@azure/logger",
   "@typespec/ts-http-runtime",
 
-  "@azure/ai-form-recognizer",
-
   // identity
   "@azure/identity",
   "@azure/identity-broker",
@@ -57,24 +54,8 @@ const SDK_OWNED = [
   "@azure/identity-vscode",
 
   "@azure/opentelemetry-instrumentation-azure-sdk",
-  // keyvault
-  "@azure/keyvault-admin",
-  "@azure/keyvault-common",
-  "@azure/keyvault-keys",
-  "@azure/keyvault-certificates",
-  "@azure/keyvault-secrets",
-  // ...
-  "@azure/ai-metrics-advisor",
-  // ...
-  "@azure/monitor-ingestion",
 
   "@azure/notification-hubs",
-
-  "@azure/schema-registry-json",
-  "@azure/schema-registry-avro",
-  "@azure/schema-registry",
-
-  "@azure/search-documents",
 
   "@azure/data-tables",
 

@@ -2,21 +2,10 @@
 // Licensed under the MIT License.
 
 export type DevopsBuildStatus =
-  | "abandoned"
-  | "canceled"
-  | "failed"
-  | "skipped"
-  | "succeeded"
-  | "succeededWithIssues"
-  | "UNKNOWN";
+  "abandoned" | "canceled" | "failed" | "skipped" | "succeeded" | "succeededWithIssues" | "UNKNOWN";
 
 export type DevopsTaskStatus =
-  | "succeeded"
-  | "failed"
-  | "canceled"
-  | "none"
-  | "partiallySucceeded"
-  | "UNKNOWN";
+  "succeeded" | "failed" | "canceled" | "none" | "partiallySucceeded" | "UNKNOWN";
 
 export type PackageStatusCode = "NEEDS_ACTION" | "BLOCKED" | "GOOD";
 
@@ -102,6 +91,4 @@ export interface PackageStatus extends PackageInfo {
 export type PackagesWithStatus = Record<string, PackageStatus>;
 
 export type PipelineResultsUnion =
-  | CiPipelineResult
-  | TestsPipelineResult
-  | WeeklyTestPipelineResult;
+  CiPipelineResult | TestsPipelineResult | WeeklyTestPipelineResult;

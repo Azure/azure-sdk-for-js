@@ -12,22 +12,21 @@ jobs:
 
     steps:
       - template: /eng/pipelines/templates/steps/common.yml
+      - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
       - script: |
-          npm ci
-        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
-        displayName: "Install repo-health-status-report dependencies"
+          pnpm install
+        displayName: "Install repository dependencies"
 
       - script: |
-          npm run build
+          pnpm run build
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
         displayName: "Build repo-health-status-report tool"
 
       - script: |
-          npm run run-tool
+          pnpm run run-tool
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
           GITHUB_TOKEN: $(azuresdk-github-pat)
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
         displayName: "Run repo-health-status-report tool"
-
