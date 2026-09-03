@@ -507,9 +507,6 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
-      glob:
-        specifier: ^13.0.6
-        version: 13.0.6
       octokit:
         specifier: ^5.0.5
         version: 5.0.5

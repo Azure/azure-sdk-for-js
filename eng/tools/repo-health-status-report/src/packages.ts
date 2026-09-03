@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { glob } from "glob";
-import { join } from "path";
-import { readFile } from "fs/promises";
+import { glob, readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { getBaseDir } from "./env.js";
 
 interface PackageJson {
@@ -20,11 +19,13 @@ interface DataplanePackage {
 
 export async function getDataplanePackages(): Promise<Record<string, DataplanePackage>> {
   const workspaceRoot = getBaseDir();
-  const sdkPackageJsonFiles = (
-    await glob(`${workspaceRoot}/sdk/*/*/package.json`, { absolute: false })
-  )
-    .filter((file) => !file.includes(`/arm-`) && !file.includes(`\\arm-`))
-    .map((file) => file.replaceAll("\\", "/").replaceAll("../", ""));
+  const sdkPackageJsonFiles: string[] = [];
+  for await (const file of glob("sdk/*/*/package.json", { cwd: workspaceRoot })) {
+    const normalizedPath = file.replaceAll("\\", "/");
+    if (!normalizedPath.includes("/arm-")) {
+      sdkPackageJsonFiles.push(normalizedPath);
+    }
+  }
 
   const result: Record<string, DataplanePackage> = {};
 
