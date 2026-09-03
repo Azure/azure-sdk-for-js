@@ -49,7 +49,7 @@ describe("elasticSan test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus2";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     elasticSanName = "testelasticsan";
     parameters = {
       location,

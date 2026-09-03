@@ -1,7 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface ApplicationsRestartDeployedCodePackageOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface ApplicationsFetchHealthOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface ApplicationsUpdateUpgradeOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface ApplicationsStartRollbackOptionalParams extends OperationOptions {
@@ -31,7 +49,10 @@ export interface ApplicationsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ApplicationsUpdateOptionalParams extends OperationOptions {}
+export interface ApplicationsUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface ApplicationsCreateOrUpdateOptionalParams extends OperationOptions {

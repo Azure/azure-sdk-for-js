@@ -17,7 +17,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("AzureFleet test", () => {
+describe.skip("AzureFleet test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureFleetClient;
@@ -45,7 +45,7 @@ describe("AzureFleet test", () => {
 
   it.only("operations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);

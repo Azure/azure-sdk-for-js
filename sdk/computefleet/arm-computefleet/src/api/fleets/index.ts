@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  cancel,
   listVirtualMachines,
   listVirtualMachineScaleSets,
   listBySubscription,
@@ -12,8 +11,7 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  FleetsCancelOptionalParams,
+export type {
   FleetsListVirtualMachinesOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
   FleetsListBySubscriptionOptionalParams,

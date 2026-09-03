@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /* eslint-disable tsdoc/syntax */
 /*
  * Copyright (c) Microsoft Corporation.

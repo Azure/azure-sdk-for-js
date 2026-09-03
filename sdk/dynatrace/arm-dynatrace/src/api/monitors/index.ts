@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  getMarketplaceSaaSResourceDetails,
+  getAllConnectedResourcesCount,
+  listLinkableEnvironments,
+  getSSODetails,
+  upgradePlan,
+  listAppServices,
+  getMetricStatus,
+  listHosts,
+  manageAgentInstallation,
+  getVMHostPayload,
+  listMonitoredResources,
+  listBySubscriptionId,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams,
+  MonitorsGetAllConnectedResourcesCountOptionalParams,
+  MonitorsListLinkableEnvironmentsOptionalParams,
+  MonitorsGetSSODetailsOptionalParams,
+  MonitorsUpgradePlanOptionalParams,
+  MonitorsListAppServicesOptionalParams,
+  MonitorsGetMetricStatusOptionalParams,
+  MonitorsListHostsOptionalParams,
+  MonitorsManageAgentInstallationOptionalParams,
+  MonitorsGetVMHostPayloadOptionalParams,
+  MonitorsListMonitoredResourcesOptionalParams,
+  MonitorsListBySubscriptionIdOptionalParams,
+  MonitorsListByResourceGroupOptionalParams,
+  MonitorsDeleteOptionalParams,
+  MonitorsUpdateOptionalParams,
+  MonitorsCreateOrUpdateOptionalParams,
+  MonitorsGetOptionalParams,
+} from "./options.js";

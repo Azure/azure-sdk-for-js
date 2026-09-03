@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import { User } from "../../models/models.js";
-import {
+import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import { listByMongoCluster, $delete, createOrUpdate, get } from "../../api/users/operations.js";
+import type {
   UsersListByMongoClusterOptionalParams,
   UsersDeleteOptionalParams,
   UsersCreateOrUpdateOptionalParams,
   UsersGetOptionalParams,
 } from "../../api/users/options.js";
-import { listByMongoCluster, $delete, createOrUpdate, get } from "../../api/users/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { User } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Users operations. */
 export interface UsersOperations {
@@ -22,11 +22,6 @@ export interface UsersOperations {
     options?: UsersListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<User>;
   /** Deletes a mongo cluster user. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,

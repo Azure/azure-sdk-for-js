@@ -13,14 +13,12 @@
  * @azsdk-weight 10
  **/
 
+import type { WebResource, RequestPolicy, RequestPolicyOptions } from "@azure/storage-blob";
 import {
   newPipeline,
   AnonymousCredential,
   BlobServiceClient,
   BaseRequestPolicy,
-  WebResource,
-  RequestPolicy,
-  RequestPolicyOptions,
 } from "@azure/storage-blob";
 
 // Load the .env file if it exists
@@ -74,7 +72,7 @@ async function main(): Promise<void> {
   const pipeline = newPipeline(new AnonymousCredential());
 
   // Inject customized factory into default pipeline
-  await pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
+  pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
 
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net${accountSas}`,

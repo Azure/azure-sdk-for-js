@@ -5,10 +5,12 @@
 ```ts
 
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
-import type { PollerLike } from '@azure/core-lro';
-import type { PollOperationState } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { SimplePollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -29,7 +31,7 @@ export interface EmailAttachment {
 export class EmailClient {
     constructor(connectionString: string, options?: EmailClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: EmailClientOptions);
-    beginSend(message: EmailMessage, options?: EmailSendOptionalParams): Promise<PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>>;
+    beginSend(message: EmailMessage, options?: EmailSendOptionalParams): Promise<SimplePollerLike<OperationState<EmailSendResponse>, EmailSendResponse>>;
 }
 
 // @public
@@ -107,6 +109,8 @@ export interface HtmlEmailContent {
     subject: string;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownEmailSendStatus {
     Canceled = "Canceled",
@@ -122,6 +126,8 @@ export interface PlainTextEmailContent {
     plainText: string;
     subject: string;
 }
+
+export { RestError }
 
 // (No @packageDocumentation comment for this package)
 

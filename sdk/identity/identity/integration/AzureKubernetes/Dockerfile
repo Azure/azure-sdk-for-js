@@ -2,29 +2,30 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # ------------------------------------
-ARG NODE_VERSION=18
+ARG NODE_VERSION=24
 
-# docker can't tell when the repo has changed and will therefore cache this layer
-# internal users should provide MCR registry to build via 'docker build . --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/"'
-# public OSS users should simply leave this argument blank or ignore its presence entirely
-ARG REGISTRY=""
+ARG BASE_IMAGE="mcr.microsoft.com/azurelinux/base/nodejs:${NODE_VERSION}"
 
-FROM ${REGISTRY}node:${NODE_VERSION}-alpine as builder
+FROM ${BASE_IMAGE} AS builder
 WORKDIR /app
 
 COPY . .
 
-RUN npm install --no-package-lock
+RUN npm install
 
 RUN npm run build
 
-FROM ${REGISTRY}node:${NODE_VERSION}-alpine
+RUN npm prune --omit=dev
+
+FROM ${BASE_IMAGE}
 WORKDIR /app
+
+# Azure Linux base image does not include wget by default
+RUN tdnf install -y wget && tdnf clean all
 
 # Copy only the built app and necessary files
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./
-
-RUN npm install --only=production
+COPY --from=builder /app/node_modules ./node_modules
 
 CMD ["node", "dist/index.js"]

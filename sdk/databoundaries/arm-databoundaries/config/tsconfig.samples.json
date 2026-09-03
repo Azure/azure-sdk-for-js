@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../eng/tsconfigs/samples.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-databoundaries": ["../dist/esm"]
+    }
+  }
+}

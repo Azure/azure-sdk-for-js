@@ -1,14 +1,35 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 1.1.1 (Unreleased)
 
 ### Features Added
+
+- Added group state APIs to set or clear the current connection's group state, subscribe to group state changes, and read cached group state records.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0 (2026-06-22)
+
+### Features Added
+
+- Added group streaming support
+
+## 1.0.4 (2026-03-20)
+
+### Features Added
+
+- Added `invokeEvent` method to `WebPubSubClient` that allows invoking server-side event handlers and receiving responses back.
+- Added application-layer ping/pong mechanism for more accurate keepalive detection. This enables the client to detect its own disconnection quickly even when WebSocket-level ping/pong frames are inaccessible (e.g., in browser environments). Added `keepAliveTimeoutInMs` option to `WebPubSubClientOptions`.
+
+### Bugs Fixed
+
+- Fixed a bug that `sequenceId` with value `0` would not be sent to the service, which caused keepalive to not work when no messages had been received.
+
+## 1.0.3 (2026-03-14)
 
 ## 1.0.2 (2024-05-01)
 

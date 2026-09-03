@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
-import { convert } from "./convert";
-import { createPrinter } from "../printer";
-import { createAccumulator } from "../typescript/accumulator";
-import { createDiagnosticEmitter } from "../typescript/diagnostic";
-import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info";
-import { testSyntax } from "./syntax";
-import { createToCommonJsTransform, isDependency, isRelativePath } from "./transforms";
+import { convert } from "./convert.ts";
+import { createPrinter } from "../printer.ts";
+import { createAccumulator } from "../typescript/accumulator.ts";
+import { createDiagnosticEmitter } from "../typescript/diagnostic.ts";
+import type { AzSdkMetaTags, ModuleInfo } from "./info.ts";
+import { AZSDK_META_TAG_PREFIX, VALID_AZSDK_META_TAGS } from "./info.ts";
+import { testSyntax } from "./syntax.ts";
+import { createToCommonJsTransform, isDependency, isRelativePath } from "./transforms.ts";
 
 const log = createPrinter("samples:processor");
 
@@ -25,7 +26,7 @@ export async function processSources(
   const importedRelativeModules = new Set<string>();
 
   const jobs = sources.map(async (source) => {
-    const sourceText = (await fs.readFile(source)).toString("utf8");
+    const sourceText = (await readFile(source)).toString("utf8");
 
     // File-scoped information
     let summary: string | undefined = undefined;
@@ -157,6 +158,7 @@ export async function processSources(
       if (
         result.summary === undefined &&
         !importedRelativeModules.has(result.relativeSourcePath.replace(/\.ts$/, "")) &&
+        !importedRelativeModules.has(result.relativeSourcePath.replace(/\.ts$/, ".js")) &&
         !result.azSdkTags.util
       ) {
         fail(

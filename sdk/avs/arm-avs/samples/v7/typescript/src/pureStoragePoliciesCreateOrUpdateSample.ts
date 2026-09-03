@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a PureStoragePolicy
  *
  * @summary create a PureStoragePolicy
- * x-ms-original-file: 2024-09-01/PureStoragePolicies_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/PureStoragePolicies_CreateOrUpdate.json
  */
 async function pureStoragePoliciesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

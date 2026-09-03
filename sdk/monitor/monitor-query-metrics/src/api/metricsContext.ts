@@ -27,7 +27,7 @@ export function createMetrics(
 ): MetricsContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-monitor-query-metrics/1.0.0`;
+  const userAgentInfo = `azsdk-js-monitor-query-metrics/1.0.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;
@@ -49,7 +49,6 @@ export function createMetrics(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version")) {
-        // eslint-disable-next-line no-param-reassign
         req.url = `${req.url}${
           Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
         }api-version=${apiVersion}`;

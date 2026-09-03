@@ -1,0 +1,113 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export { ComputeLimitClient } from "./computeLimitClient.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  GuestSubscription,
+  GuestSubscriptionProperties,
+  ResourceProvisioningState,
+  ProxyResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  TrustedHostSubscription,
+  SharedLimit,
+  SharedLimitProperties,
+  LimitName,
+  Feature,
+  FeatureProperties,
+  FeatureState,
+  FeatureEnableRequest,
+  OperationStatusResult,
+  VmFamily,
+  VmFamilyProperties,
+  SharedLimitCap,
+  SharedLimitCapProperties,
+  SetMemberCapOverridesRequest,
+  MemberCap,
+  SetMemberCapOverridesResult,
+  MemberCapOverride,
+  MemberCapOverrideProperties,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownResourceProvisioningState,
+  KnownCreatedByType,
+  KnownFeatureState,
+  KnownVersions,
+} from "./models/index.js";
+export type { ComputeLimitClientOptionalParams } from "./api/index.js";
+export type {
+  FeaturesDisableOptionalParams,
+  FeaturesEnableOptionalParams,
+  FeaturesListBySubscriptionLocationResourceOptionalParams,
+  FeaturesGetOptionalParams,
+} from "./api/features/index.js";
+export type {
+  GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
+  GuestSubscriptionsDeleteOptionalParams,
+  GuestSubscriptionsCreateOptionalParams,
+  GuestSubscriptionsGetOptionalParams,
+} from "./api/guestSubscriptions/index.js";
+export type {
+  MemberCapOverridesListByParentOptionalParams,
+  MemberCapOverridesDeleteOptionalParams,
+  MemberCapOverridesCreateOrUpdateOptionalParams,
+  MemberCapOverridesGetOptionalParams,
+} from "./api/memberCapOverrides/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  SharedLimitCapsSetMemberCapOverridesOptionalParams,
+  SharedLimitCapsListBySubscriptionLocationResourceOptionalParams,
+  SharedLimitCapsDeleteOptionalParams,
+  SharedLimitCapsCreateOrUpdateOptionalParams,
+  SharedLimitCapsGetOptionalParams,
+} from "./api/sharedLimitCaps/index.js";
+export type {
+  SharedLimitsListBySubscriptionLocationResourceOptionalParams,
+  SharedLimitsDeleteOptionalParams,
+  SharedLimitsCreateOptionalParams,
+  SharedLimitsGetOptionalParams,
+} from "./api/sharedLimits/index.js";
+export type {
+  TrustedHostSubscriptionsListBySubscriptionLocationResourceOptionalParams,
+  TrustedHostSubscriptionsDeleteOptionalParams,
+  TrustedHostSubscriptionsGetOptionalParams,
+  TrustedHostSubscriptionsCreateOptionalParams,
+} from "./api/trustedHostSubscriptions/index.js";
+export type {
+  VmFamiliesListBySubscriptionLocationResourceOptionalParams,
+  VmFamiliesGetOptionalParams,
+} from "./api/vmFamilies/index.js";
+export type {
+  FeaturesOperations,
+  GuestSubscriptionsOperations,
+  MemberCapOverridesOperations,
+  OperationsOperations,
+  SharedLimitCapsOperations,
+  SharedLimitsOperations,
+  TrustedHostSubscriptionsOperations,
+  VmFamiliesOperations,
+} from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

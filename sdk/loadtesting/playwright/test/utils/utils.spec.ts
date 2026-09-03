@@ -5,7 +5,10 @@ import {
   Constants,
   GitHubActionsConstants,
   InternalEnvironmentVariables,
+  RunConfigConstants,
   ServiceEnvironmentVariable,
+  StorageUriValidationConstants,
+  UploadConstants,
 } from "../../src/common/constants.js";
 import {
   getAccessToken,
@@ -23,6 +26,14 @@ import {
   getRunName,
   isValidGuid,
   ValidateRunID,
+  getHtmlReporterOutputFolder,
+  getContentType,
+  calculateOptimalConcurrency,
+  collectAllFiles,
+  getPortalTestRunUrl,
+  getStorageAccountNameFromUri,
+  getTestRunConfig,
+  isValidAzureStorageBlobUri,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -32,32 +43,54 @@ import { parseJwt } from "../../src/utils/parseJwt.js";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { createEntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
-import * as childProcess from "node:child_process";
+import * as coreProcess from "@azure/core-process";
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
+import type { FullConfig } from "@playwright/test";
 
-vi.mock("child_process", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("child_process")>();
+vi.mock("@azure/core-process", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@azure/core-process")>();
   return {
     ...actual,
-    exec: vi.fn((command, callback) => {
-      if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
-        callback(null, "git version 2.37.1", "");
-      } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
-        callback(null, "true", "");
-      } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND) {
-        callback(null, "Test commit message", "");
+    execFile: vi.fn(async (command: string, args: string[]) => {
+      if (
+        command === GitHubActionsConstants.GIT_VERSION_COMMAND.command &&
+        args.join(" ") === GitHubActionsConstants.GIT_VERSION_COMMAND.args.join(" ")
+      ) {
+        return { stdout: "git version 2.37.1", stderr: "" };
+      } else if (
+        command === GitHubActionsConstants.GIT_REV_PARSE.command &&
+        args.join(" ") === GitHubActionsConstants.GIT_REV_PARSE.args.join(" ")
+      ) {
+        return { stdout: "true", stderr: "" };
+      } else if (
+        command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND.command &&
+        args.join(" ") === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND.args.join(" ")
+      ) {
+        return { stdout: "Test commit message", stderr: "" };
       } else {
-        callback(new Error(`Command not mocked: ${command}`), "", "");
+        throw new Error(`Command not mocked: ${command} ${args.join(" ")}`);
       }
-      return {} as childProcess.ChildProcess;
     }),
-    execSync: vi.fn((command) => {
-      if (command.includes("playwright --version")) {
-        return Buffer.from("1.42.0");
+    spawnSync: vi.fn((command: string, args: string[]) => {
+      let stdout: string;
+      if (args.includes("playwright") && args.includes("--version")) {
+        stdout = "1.42.0";
       } else if (command === "echo") {
-        return Buffer.from("Version 1.2.3");
+        stdout = "Version 1.2.3";
       } else {
-        throw new Error(`Command not mocked: ${command}`);
+        throw new Error(`Command not mocked: ${command} ${args.join(" ")}`);
       }
+      return {
+        error: undefined,
+        output: [null, stdout, ""],
+        pid: 1,
+        signal: null,
+        status: 0,
+        stderr: "",
+        stdout,
+      };
     }),
   };
 });
@@ -109,6 +142,7 @@ describe("Service Utils", () => {
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, Constants.LatestAPIVersion);
     vi.spyOn(console, "error");
     vi.spyOn(console, "log");
+    vi.mocked(process.exit).mockReset();
   });
 
   afterEach(() => {
@@ -152,7 +186,7 @@ describe("Service Utils", () => {
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -164,7 +198,34 @@ describe("Service Utils", () => {
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
+    expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+  });
+
+  it("should use the provided sourceType when specified", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
+    const runId = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+    const escapeRunId = encodeURIComponent(runId);
+    const os = "linux";
+    const sourceType = "Others";
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=${sourceType}&api-version=${Constants.LatestAPIVersion}`;
+    expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion, sourceType)).to.equal(
+      expected,
+    );
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+  });
+
+  it("should default sourceType to PlaywrightWorkspacesTestRun when omitted", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
+    const runId = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+    const escapeRunId = encodeURIComponent(runId);
+    const os = "linux";
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -558,7 +619,7 @@ describe("Service Utils", () => {
     const mockVersion = "1.2.3";
     delete process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION];
     vi.spyOn(packageManager, "getPackageManager").mockReturnValue({
-      runCommand: vi.fn().mockReturnValue("echo"),
+      runCommand: vi.fn().mockReturnValue({ command: "echo", args: [] }),
       getVersionFromStdout: vi.fn().mockReturnValue(mockVersion),
     });
 
@@ -692,21 +753,14 @@ describe("Service Utils", () => {
     };
 
     // Create a new mock implementation for this test only
-    vi.mocked(childProcess.exec).mockImplementation(
-      (command: any, options: any, callback?: any) => {
-        // Handle the case where callback is the second argument
-        const cb = typeof options === "function" ? options : callback;
-
-        if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
-          setTimeout(() => cb(null, "git version 2.37.1", ""), 0);
-        } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
-          setTimeout(() => cb(null, "false", ""), 0); // Not inside a git repository
-        } else {
-          setTimeout(() => cb(new Error(`Command not mocked: ${command}`), "", ""), 0);
-        }
-        return {} as childProcess.ChildProcess;
-      },
-    );
+    vi.mocked(coreProcess.execFile).mockImplementation(async (command, args) => {
+      if (command === GitHubActionsConstants.GIT_VERSION_COMMAND.command) {
+        return { stdout: "git version 2.37.1", stderr: "" };
+      } else if (command === GitHubActionsConstants.GIT_REV_PARSE.command) {
+        return { stdout: "false", stderr: "" };
+      }
+      throw new Error(`Command not mocked: ${command} ${args?.join(" ")}`);
+    });
 
     const result = await getRunName(ciInfo);
     expect(result).toBe("");
@@ -721,28 +775,315 @@ describe("Service Utils", () => {
     };
 
     // Create a new mock implementation for this test only
-    vi.mocked(childProcess.exec).mockImplementation(
-      (command: any, options: any, callback?: any) => {
-        // Handle the case where callback is the second argument
-        const cb = typeof options === "function" ? options : callback;
-
-        if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
-          setTimeout(() => cb(null, "git version 2.37.1", ""), 0);
-        } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
-          setTimeout(() => cb(null, "true", ""), 0);
-        } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND) {
-          setTimeout(() => cb(new Error("Command failed"), "", "stderr output"), 0);
-        } else {
-          setTimeout(() => cb(new Error(`Command not mocked: ${command}`), "", ""), 0);
-        }
-        return {} as childProcess.ChildProcess;
-      },
-    );
+    vi.mocked(coreProcess.execFile).mockImplementation(async (command, args) => {
+      if (command === GitHubActionsConstants.GIT_VERSION_COMMAND.command) {
+        return { stdout: "git version 2.37.1", stderr: "" };
+      } else if (command === GitHubActionsConstants.GIT_REV_PARSE.command) {
+        return { stdout: "true", stderr: "" };
+      } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND.command) {
+        throw new Error("Command failed");
+      }
+      throw new Error(`Command not mocked: ${command} ${args?.join(" ")}`);
+    });
 
     const result = await getRunName(ciInfo);
     expect(result).toBe("");
 
     // Restore the mock
     vi.resetAllMocks();
+  });
+
+  describe("getHtmlReporterOutputFolder", () => {
+    it("should return default folder when reporter config is absent", () => {
+      const config = { reporter: undefined } as unknown as FullConfig;
+      expect(getHtmlReporterOutputFolder(config)).toBe("playwright-report");
+    });
+
+    it("should return default folder when html reporter is configured without options", () => {
+      const config = { reporter: ["html"] } as unknown as FullConfig;
+      expect(getHtmlReporterOutputFolder(config)).toBe("playwright-report");
+    });
+
+    it("should return configured output folder from html reporter options", () => {
+      const config = {
+        reporter: [["html", { outputFolder: "custom-report" }]],
+      } as unknown as FullConfig;
+
+      expect(getHtmlReporterOutputFolder(config)).toBe("custom-report");
+    });
+  });
+
+  describe("getContentType", () => {
+    it("should return known content type when extension is mapped", () => {
+      expect(getContentType("report/index.html")).toBe("text/html");
+      expect(getContentType("assets/app.js")).toBe("application/javascript");
+    });
+
+    it("should return default content type for unknown extensions", () => {
+      expect(getContentType("report/data.bin")).toBe("application/octet-stream");
+    });
+  });
+
+  describe("calculateOptimalConcurrency", () => {
+    it("should cap concurrency by file count when total files are small", () => {
+      const files = Array.from({ length: 6 }, () => ({ size: 10 }));
+      expect(calculateOptimalConcurrency(files)).toBe(6);
+    });
+
+    it("should scale concurrency for many small files", () => {
+      const totalFiles = 500;
+      const files = Array.from({ length: totalFiles }, () => ({
+        size: UploadConstants.SMALL_FILE_THRESHOLD - 1,
+      }));
+      const expected = Math.floor(
+        Math.min(
+          UploadConstants.MAX_CONCURRENCY,
+          Math.max(UploadConstants.BASE_CONCURRENCY, totalFiles / 50),
+        ),
+      );
+
+      expect(calculateOptimalConcurrency(files)).toBe(expected);
+    });
+
+    it("should adjust concurrency for very large folders", () => {
+      const totalFiles = 1200;
+      const files = Array.from({ length: totalFiles }, () => ({
+        size: UploadConstants.SMALL_FILE_THRESHOLD + 1,
+      }));
+      const expected = Math.floor(
+        Math.min(
+          UploadConstants.MAX_CONCURRENCY,
+          UploadConstants.BASE_CONCURRENCY + Math.floor(totalFiles / 200),
+        ),
+      );
+
+      expect(calculateOptimalConcurrency(files)).toBe(expected);
+    });
+
+    it("should fall back to base concurrency for mixed workloads", () => {
+      const files = Array.from({ length: 100 }, (_, index) => ({
+        size:
+          index % 2 === 0
+            ? UploadConstants.SMALL_FILE_THRESHOLD + 10
+            : UploadConstants.SMALL_FILE_THRESHOLD + 20,
+      }));
+
+      const expected = Math.floor(
+        Math.min(UploadConstants.MAX_CONCURRENCY, UploadConstants.BASE_CONCURRENCY),
+      );
+
+      expect(calculateOptimalConcurrency(files)).toBe(expected);
+    });
+  });
+
+  describe("collectAllFiles", () => {
+    it("should collect files with normalized relative paths and content types", () => {
+      const root = mkdtempSync(join(tmpdir(), "playwright-utils-"));
+      const nestedDir = join(root, "nested");
+      mkdirSync(nestedDir);
+      const fileOne = join(root, "index.html");
+      const fileTwo = join(nestedDir, "trace.zip");
+
+      writeFileSync(fileOne, "<html></html>");
+      writeFileSync(fileTwo, "binarydata");
+
+      const result = collectAllFiles(root, root, "run-123");
+      const sorted = [...result].sort((a, b) => a.relativePath.localeCompare(b.relativePath));
+
+      expect(sorted).toHaveLength(2);
+      expect(sorted[0]).toMatchObject({
+        relativePath: "run-123/index.html",
+        contentType: "text/html",
+      });
+      expect(sorted[1]).toMatchObject({
+        relativePath: "run-123/nested/trace.zip",
+        contentType: "application/zip",
+      });
+
+      rmSync(root, { recursive: true, force: true });
+    });
+  });
+
+  describe("getPortalTestRunUrl", () => {
+    const originalEnv = process.env;
+
+    beforeEach(() => {
+      process.env = { ...originalEnv };
+      process.env._MPT_SERVICE_RUN_ID = "test-run-id-123";
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it("should build a portal URL with correct format", () => {
+      const resourceId =
+        "/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name";
+
+      const portalUrl = getPortalTestRunUrl(resourceId);
+      expect(portalUrl).toBe(
+        `https://ms.portal.azure.com/#view/Microsoft_Azure_CloudNativeTesting/TestReport.ReactView/testRunId/${encodeURIComponent("test-run-id-123")}/resourceId/${encodeURIComponent("/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name")}`,
+      );
+    });
+
+    it("should throw when resourceId is null or empty", () => {
+      expect(() => getPortalTestRunUrl("")).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+      expect(() => getPortalTestRunUrl(null as any)).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+      expect(() => getPortalTestRunUrl(undefined as any)).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+    });
+
+    it("should throw when run ID is not available", () => {
+      delete process.env._MPT_SERVICE_RUN_ID;
+      const resourceId =
+        "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace";
+
+      expect(() => getPortalTestRunUrl(resourceId)).toThrow(
+        "Run ID is required but not found in environment variables",
+      );
+    });
+  });
+
+  describe("getStorageAccountNameFromUri", () => {
+    it("should extract account name from storage URI", () => {
+      const account = getStorageAccountNameFromUri(
+        "https://exampleaccount.blob.core.windows.net/container/path",
+      );
+      expect(account).toBe("exampleaccount");
+    });
+
+    it("should return null for non-blob endpoints", () => {
+      const account = getStorageAccountNameFromUri("https://exampleaccount.table.core.windows.net");
+      expect(account).toBeNull();
+    });
+
+    it("should return null when URI is invalid", () => {
+      const account = getStorageAccountNameFromUri("not-a-valid-uri");
+      expect(account).toBeNull();
+    });
+  });
+
+  describe("getTestRunConfig", () => {
+    it("should prefer explicit workers when provided", () => {
+      const config = {
+        workers: 8,
+        version: "1.42.0",
+        metadata: { actualWorkers: 4 },
+      } as unknown as FullConfig;
+
+      const result = getTestRunConfig(config);
+      expect(result).toEqual({
+        framework: {
+          name: RunConfigConstants.TEST_FRAMEWORK_NAME,
+          version: "1.42.0",
+          runnerName: RunConfigConstants.TEST_FRAMEWORK_RUNNERNAME,
+        },
+        sdkLanguage: RunConfigConstants.TEST_SDK_LANGUAGE,
+        maxWorkers: 8,
+      });
+    });
+
+    it("should fall back to metadata workers when workers are undefined", () => {
+      const config = {
+        workers: undefined,
+        version: "1.42.0",
+        metadata: { actualWorkers: 6 },
+      } as unknown as FullConfig;
+
+      const result = getTestRunConfig(config);
+      expect(result).toEqual({
+        framework: {
+          name: RunConfigConstants.TEST_FRAMEWORK_NAME,
+          version: "1.42.0",
+          runnerName: RunConfigConstants.TEST_FRAMEWORK_RUNNERNAME,
+        },
+        sdkLanguage: RunConfigConstants.TEST_SDK_LANGUAGE,
+        maxWorkers: 6,
+      });
+    });
+  });
+
+  describe("isValidAzureStorageBlobUri", () => {
+    // ── valid endpoints ─────────────────────────────────────────────────────
+    it.each([
+      // Standard public-cloud blob endpoints
+      "https://myaccount.blob.core.windows.net",
+      "https://myaccount.blob.core.windows.net/",
+      // US Government cloud
+      "https://myaccount.blob.core.usgovcloudapi.net",
+      // China cloud
+      "https://myaccount.blob.core.chinacloudapi.cn",
+      // Custom port is permitted (mirrors RP behaviour)
+      "https://myaccount.blob.core.windows.net:8443",
+      // Non-standard account label is fine as long as suffix matches
+      "https://account-with-dashes.blob.core.windows.net",
+    ])("accepts valid URI: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(true);
+    });
+
+    // ── attacker-controlled host ─────────────────────────────────────────────
+    it.each([
+      // Completely different domain
+      "https://attacker.example.com",
+      // Suffix in path, not hostname
+      "https://attacker.example.com/account.blob.core.windows.net",
+      // Suffix appended to attacker hostname (subdomain bypass)
+      "https://account.blob.core.windows.net.attacker.com",
+      // Wrong service type – table storage is not in the allowlist
+      "https://account.table.core.windows.net",
+      // Retired German sovereign cloud – not in the allowlist
+      "https://account.blob.core.cloudapi.de",
+    ])("rejects attacker-controlled host: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(false);
+    });
+
+    // ── scheme ───────────────────────────────────────────────────────────────
+    it.each([
+      "http://account.blob.core.windows.net",
+      "ftp://account.blob.core.windows.net",
+      "file:///etc/passwd",
+      "javascript:alert(1)",
+    ])("rejects non-https scheme: %s", (uri) => {
+      expect(isValidAzureStorageBlobUri(uri)).toBe(false);
+    });
+
+    // ── embedded credentials ─────────────────────────────────────────────────
+    it("rejects URI with userinfo (username:password)", () => {
+      expect(isValidAzureStorageBlobUri("https://user:pass@account.blob.core.windows.net")).toBe(
+        false,
+      );
+    });
+
+    // ── query string and fragment ────────────────────────────────────────────
+    it("rejects URI with query string", () => {
+      expect(isValidAzureStorageBlobUri("https://account.blob.core.windows.net/?sig=stolen")).toBe(
+        false,
+      );
+    });
+
+    it("rejects URI with fragment", () => {
+      expect(isValidAzureStorageBlobUri("https://account.blob.core.windows.net/#frag")).toBe(false);
+    });
+
+    // ── null / empty / malformed ─────────────────────────────────────────────
+    it.each([undefined, null, "", "   ", "not-a-url"])(
+      "rejects null/empty/malformed input: %s",
+      (input) => {
+        expect(isValidAzureStorageBlobUri(input as any)).toBe(false);
+      },
+    );
+
+    // ── hostname-suffix allowlist is exhaustive ──────────────────────────────
+    it("covers every suffix in StorageUriValidationConstants", () => {
+      for (const suffix of StorageUriValidationConstants.AllowedHostnameSuffixes) {
+        const uri = `https://account${suffix}`;
+        expect(isValidAzureStorageBlobUri(uri)).toBe(true);
+      }
+    });
   });
 });

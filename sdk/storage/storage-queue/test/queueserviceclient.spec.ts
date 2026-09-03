@@ -1,24 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { QueueServiceClient } from "../src/QueueServiceClient.js";
-import {
-  getAlternateQSU,
-  getQSU,
-  getSASConnectionStringFromEnvironment,
-  uriSanitizers,
-} from "./utils/index.js";
+import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
-import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.js";
+import { configureStorageClient, createAndStartRecorder, getUniqueName } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
@@ -28,36 +21,36 @@ describe("QueueServiceClient", () => {
   it("listQueues with default parameters", async () => {
     const queueServiceClient = getQSU(recorder);
     const result = (await queueServiceClient.listQueues().byPage().next()).value;
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(result.clientRequestId);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.clientRequestId);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(result.queueItems!.length >= 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.queueItems!.length, 0);
 
     if (result.queueItems!.length > 0) {
       const queue = result.queueItems![0];
-      assert.ok(queue.name.length > 0);
+      assert.isAbove(queue.name.length, 0);
     }
   });
 
   it("listQueues with default parameters - empty prefix should not cause an error", async () => {
     const queueServiceClient = getQSU(recorder);
     const result = (await queueServiceClient.listQueues({ prefix: "" }).byPage().next()).value;
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(result.clientRequestId);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.clientRequestId);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(result.queueItems!.length >= 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.queueItems!.length, 0);
 
     if (result.queueItems!.length > 0) {
       const queue = result.queueItems![0];
-      assert.ok(queue.name.length > 0);
+      assert.isAbove(queue.name.length, 0);
     }
   });
 
@@ -82,9 +75,9 @@ describe("QueueServiceClient", () => {
         .next()
     ).value;
 
-    assert.ok(result1.continuationToken);
+    assert.isDefined(result1.continuationToken);
     assert.equal(result1.queueItems!.length, 1);
-    assert.ok(result1.queueItems![0].name.startsWith(queueNamePrefix));
+    assert.isTrue(result1.queueItems![0].name.startsWith(queueNamePrefix));
     assert.deepEqual(result1.queueItems![0].metadata!.key, "val");
 
     const result2 = (
@@ -97,9 +90,9 @@ describe("QueueServiceClient", () => {
         .next()
     ).value;
 
-    assert.ok(!result2.continuationToken);
+    assert.equal(result2.continuationToken, "");
     assert.equal(result2.queueItems!.length, 1);
-    assert.ok(result2.queueItems![0].name.startsWith(queueNamePrefix));
+    assert.isTrue(result2.queueItems![0].name.startsWith(queueNamePrefix));
     assert.deepEqual(result2.queueItems![0].metadata!.key, "val");
 
     await queueClient1.delete();
@@ -122,7 +115,7 @@ describe("QueueServiceClient", () => {
       includeMetadata: true,
       prefix: queueNamePrefix,
     })) {
-      assert.ok(item.name.startsWith(queueNamePrefix));
+      assert.isTrue(item.name.startsWith(queueNamePrefix));
       assert.deepEqual(item.metadata!.key, "val");
     }
 
@@ -147,11 +140,11 @@ describe("QueueServiceClient", () => {
       prefix: queueNamePrefix,
     });
     let queueItem = getYieldedValue(await iter1.next());
-    assert.ok(queueItem.name.startsWith(queueNamePrefix));
+    assert.isTrue(queueItem.name.startsWith(queueNamePrefix));
     assert.deepEqual(queueItem.metadata!.key, "val");
 
     queueItem = getYieldedValue(await iter1.next());
-    assert.ok(queueItem.name.startsWith(queueNamePrefix));
+    assert.isTrue(queueItem.name.startsWith(queueNamePrefix));
     assert.deepEqual(queueItem.metadata!.key, "val");
 
     await queueClient1.delete();
@@ -176,7 +169,7 @@ describe("QueueServiceClient", () => {
       })
       .byPage({ maxPageSize: 2 })) {
       for (const queueItem of response.queueItems!) {
-        assert.ok(queueItem.name.startsWith(queueNamePrefix));
+        assert.isTrue(queueItem.name.startsWith(queueNamePrefix));
         assert.deepEqual(queueItem.metadata!.key, "val");
       }
     }
@@ -207,7 +200,7 @@ describe("QueueServiceClient", () => {
     // Gets 2 queues
     if (item.queueItems) {
       for (const queueItem of item.queueItems) {
-        assert.ok(queueItem.name.startsWith(queueNamePrefix));
+        assert.isTrue(queueItem.name.startsWith(queueNamePrefix));
         assert.deepEqual(queueItem.metadata!.key, "val");
       }
     }
@@ -223,7 +216,7 @@ describe("QueueServiceClient", () => {
     item = (await iter.next()).value;
     // Gets 2 queues
     for (const queueItem of item.queueItems!) {
-      assert.ok(queueItem.name.startsWith(queueNamePrefix));
+      assert.isTrue(queueItem.name.startsWith(queueNamePrefix));
       assert.deepEqual(queueItem.metadata!.key, "val");
     }
 
@@ -236,18 +229,18 @@ describe("QueueServiceClient", () => {
     const queueServiceClient = getQSU(recorder);
     const result = await queueServiceClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(result.clientRequestId);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.clientRequestId);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
     if (result.cors && result.cors!.length > 0) {
-      assert.ok(result.cors![0].allowedHeaders.length > 0);
-      assert.ok(result.cors![0].allowedMethods.length > 0);
-      assert.ok(result.cors![0].allowedOrigins.length > 0);
-      assert.ok(result.cors![0].exposedHeaders.length > 0);
-      assert.ok(result.cors![0].maxAgeInSeconds >= 0);
+      assert.isAbove(result.cors![0].allowedHeaders.length, 0);
+      assert.isAbove(result.cors![0].allowedMethods.length, 0);
+      assert.isAbove(result.cors![0].allowedOrigins.length, 0);
+      assert.isAbove(result.cors![0].exposedHeaders.length, 0);
+      assert.isAtLeast(result.cors![0].maxAgeInSeconds, 0);
     }
   });
 
@@ -304,10 +297,10 @@ describe("QueueServiceClient", () => {
     await delay(5 * 1000);
 
     const result = await queueServiceClient.getProperties();
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
@@ -320,7 +313,7 @@ describe("QueueServiceClient", () => {
     }
 
     const result = await queueServiceClient!.getStatistics();
-    assert.ok(result.geoReplication!.lastSyncOn);
+    assert.isDefined(result.geoReplication!.lastSyncOn);
   });
 
   it("can be created from a sas connection string", async () => {
@@ -331,8 +324,8 @@ describe("QueueServiceClient", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 
   it("can create and delete a queue", async () => {
@@ -360,8 +353,8 @@ describe("QueueServiceClient", () => {
       err = error;
     }
     assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");
-    assert.ok(
-      err.message.startsWith("The specified queue does not exist."),
+    assert.isTrue(
+      err.details.message.startsWith("The specified queue does not exist."),
       "Error doesn't say `QueueNotFound`",
     );
   });

@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  AgriServiceListAvailableSolutionsOptionalParams,
-  AgriServiceListBySubscriptionOptionalParams,
-  AgriServiceListByResourceGroupOptionalParams,
-  AgriServiceDeleteOptionalParams,
-  AgriServiceUpdateOptionalParams,
-  AgriServiceCreateOrUpdateOptionalParams,
-  AgriServiceGetOptionalParams,
+  type AgriServiceListAvailableSolutionsOptionalParams,
+  type AgriServiceListBySubscriptionOptionalParams,
+  type AgriServiceListByResourceGroupOptionalParams,
+  type AgriServiceDeleteOptionalParams,
+  type AgriServiceUpdateOptionalParams,
+  type AgriServiceCreateOrUpdateOptionalParams,
+  type AgriServiceGetOptionalParams,
 } from "./options.js";

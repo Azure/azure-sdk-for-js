@@ -1,0 +1,7 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "ESNext.Disposable"]
+  },
+  "include": ["../src/index.ts"]
+}

@@ -4,7 +4,7 @@
 import { defineConfig } from "vitest/config";
 import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
-import { VerboseReporter } from "vitest/reporters";
+import { VerboseReporter } from "vitest/node";
 
 /**
  * vitest reporter that does not output "serialized error" to console which may contain secrets
@@ -32,6 +32,7 @@ export function packageNameFrom(rootDir: string): string {
 
 /**
  * Creates standard alias mappings for tests given a root directory and outputs.
+ * - Maps "<packageName>/package.json" to the real package.json at the package root
  * - Maps the package name (from package.json) to the given distDir/indexFile
  * - Maps "$internal/..." to the same distDir
  */
@@ -52,6 +53,14 @@ export function makeAliases(
   } = options;
 
   return [
+    // Must precede the package-name alias below: the first matching alias wins, and
+    // the bare package-name alias would otherwise shadow the "/package.json" subpath.
+    // Some generated clients import "<packageName>/package.json" to read their version
+    // at runtime; keep that resolving to the real file rather than the aliased entry point.
+    {
+      find: `${packageName}/package.json`,
+      replacement: resolve(rootDir, "package.json"),
+    },
     {
       find: packageName,
       replacement: resolve(rootDir, `${distDir}/${indexFile}`),
@@ -63,12 +72,58 @@ export function makeAliases(
   ] as const;
 }
 
+function shouldCollectCoverage(rootDir: string) {
+  const publishCodeCoverage =
+    (process.env["PublishCodeCoverage"] ?? process.env["PUBLISHCODECOVERAGE"] ?? "")
+      .toString()
+      .toLowerCase();
+
+  const ciCoverageEnabled = publishCodeCoverage === "true" || publishCodeCoverage === "1";
+
+  return (
+    process.env["TEST_MODE"] === "live" ||
+    ciCoverageEnabled ||
+    rootDir.includes("/sdk/core/") ||
+    rootDir.includes("\\sdk\\core\\")
+  );
+}
+
+function getCoverageProjectRoot(rootDir: string): string {
+  return process.env["SYSTEM_DEFAULTWORKINGDIRECTORY"] ?? rootDir;
+}
+
 function makeNodeAliases(rootDir: string) {
   const [dist, indexFile] = isInDevopsPipeline() ? ["dist/esm", "index.js"] : ["src", "index.ts"];
   return makeAliases(rootDir, { distDir: `./${dist}`, indexFile });
 }
 
+/**
+ * Vite plugin that works around a processedIds cache bug in Vite's import analysis.
+ * The __vitest__ environment defaults to noExternal: [], which lets Vite cache the first
+ * externalization decision for a bare specifier across all importers. When multiple versions
+ * of @azure/core-lro coexist (v2 from published deps, v3 from workspace), the first resolution
+ * gets cached and subsequent importers get the wrong version. Adding core-lro to noExternal
+ * forces Vite to transform (not externalize) each import, resolving per-importer correctly.
+ * See https://github.com/vitest-dev/vitest/issues/10028
+ */
+export function fixCoreLroExternalization() {
+  return {
+    name: "fix-core-lro-externalization",
+    configEnvironment(name: string, config: { resolve?: { noExternal?: string[] | boolean } }) {
+      if (name === "__vitest__") {
+        config.resolve ??= {};
+        if (Array.isArray(config.resolve.noExternal)) {
+          config.resolve.noExternal.push("@azure/core-lro");
+        } else if (!config.resolve.noExternal) {
+          config.resolve.noExternal = ["@azure/core-lro"];
+        }
+      }
+    },
+  };
+}
+
 export default defineConfig({
+  plugins: [fixCoreLroExternalization()],
   test: {
     testTimeout: 1200000,
     hookTimeout: 1200000,
@@ -83,12 +138,14 @@ export default defineConfig({
     include: ["test/**/*.spec.ts"],
     exclude: [
       "test/**/browser/*.spec.ts",
+      "test/**/react-native/**",
       "test/snippets.spec.ts",
       "test/integration/**/*.spec.ts",
       "test/stress/**/*.ts",
     ],
     alias: [...makeNodeAliases(process.cwd())],
     coverage: {
+      enabled: shouldCollectCoverage(process.cwd()),
       include: ["src/**/*.ts"],
       exclude: [
         "src/**/*-browser.mts",
@@ -98,7 +155,11 @@ export default defineConfig({
         "test/snippets.spec.ts",
       ],
       provider: "istanbul",
-      reporter: ["text", "json", "html"],
+      reporter: [
+        "text",
+        ["cobertura", { file: "cobertura-coverage.xml", projectRoot: getCoverageProjectRoot(process.cwd()) }],
+        "html",
+      ],
       reportsDirectory: "coverage",
     },
   },

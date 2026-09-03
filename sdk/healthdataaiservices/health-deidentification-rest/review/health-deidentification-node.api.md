@@ -12,11 +12,13 @@ import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -70,7 +72,7 @@ export interface CancelJobHeaders {
 export type CancelJobParameters = CancelJobHeaderParam & RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidentificationClientOptions): DeidentificationClient;
+function createClient(endpointParam: string, credentials: TokenCredential, input?: DeidentificationClientOptions): DeidentificationClient;
 export default createClient;
 
 // @public (undocumented)
@@ -88,10 +90,12 @@ export interface DeidentificationContent {
     customizations?: DeidentificationCustomizationOptions;
     inputText: string;
     operation?: DeidentificationOperationType;
+    taggedEntities?: TaggedPhiEntities;
 }
 
 // @public
 export interface DeidentificationCustomizationOptions {
+    inputLocale?: string;
     redactionFormat?: string;
     surrogateLocale?: string;
 }
@@ -121,12 +125,14 @@ export interface DeidentificationJob {
 
 // @public
 export interface DeidentificationJobCustomizationOptions {
+    inputLocale?: string;
     redactionFormat?: string;
     surrogateLocale?: string;
 }
 
 // @public
 export interface DeidentificationJobCustomizationOptionsOutput {
+    inputLocale?: string;
     redactionFormat?: string;
     surrogateLocale?: string;
 }
@@ -409,6 +415,8 @@ export type GetPage<TPage> = (pageLink: string) => Promise<{
     nextPageLink?: string;
 }>;
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;
 
@@ -598,6 +606,9 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
+export type PhiCategory = string;
+
+// @public
 export type PhiCategoryOutput = string;
 
 // @public
@@ -614,6 +625,8 @@ export interface PhiTaggerResultOutput {
     entities: Array<PhiEntityOutput>;
 }
 
+export { RestError }
+
 // @public (undocumented)
 export interface Routes {
     (path: "/jobs/{name}", name: string): GetJob;
@@ -621,6 +634,14 @@ export interface Routes {
     (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
     (path: "/jobs/{name}:cancel", name: string): CancelJob;
     (path: "/deid"): DeidentifyText;
+}
+
+// @public
+export interface SimplePhiEntity {
+    category: PhiCategory;
+    length: number;
+    offset: number;
+    text?: string;
 }
 
 // @public
@@ -667,6 +688,12 @@ export interface StringIndexOutput {
 }
 
 // @public
+export interface TaggedPhiEntities {
+    encoding: TextEncodingType;
+    entities: Array<SimplePhiEntity>;
+}
+
+// @public
 export interface TargetStorageLocation {
     location: string;
     overwrite?: boolean;
@@ -679,6 +706,9 @@ export interface TargetStorageLocationOutput {
     overwrite?: boolean;
     prefix: string;
 }
+
+// @public
+export type TextEncodingType = string;
 
 // (No @packageDocumentation comment for this package)
 

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { Setting as GeneratedSetting } from "./generated/src/index.js";
-import type { KeyVaultClient } from "./generated/src/index.js";
+import type { Setting as GeneratedSetting } from "./models/models.js";
+import type { KeyVaultClient } from "./keyVaultClient.js";
 import type {
   UpdateSettingOptions,
   GetSettingOptions,

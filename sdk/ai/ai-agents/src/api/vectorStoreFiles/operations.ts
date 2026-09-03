@@ -1,36 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
+import type { AgentsContext as Client } from "../index.js";
+import type {
+  _AgentsPagedResultVectorStoreFile,
+  VectorStoreFile,
+  VectorStoreFileDeletionStatus,
+} from "../../models/models.js";
 import {
   vectorStoreDataSourceSerializer,
   agentV1ErrorDeserializer,
   vectorStoreChunkingStrategyRequestUnionSerializer,
-  _AgentsPagedResultVectorStoreFile,
   _agentsPagedResultVectorStoreFileDeserializer,
-  VectorStoreFile,
   vectorStoreFileDeserializer,
-  VectorStoreFileDeletionStatus,
   vectorStoreFileDeletionStatusDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   VectorStoreFilesDeleteVectorStoreFileOptionalParams,
   VectorStoreFilesGetVectorStoreFileOptionalParams,
   VectorStoreFilesCreateVectorStoreFileOptionalParams,
   VectorStoreFilesListVectorStoreFilesOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 import { createPoller } from "../poller.js";
 
 export function _deleteVectorStoreFileSend(
@@ -42,11 +38,11 @@ export function _deleteVectorStoreFileSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/files/{fileId}{?api%2Dversion}",
+    "/vector_stores/{vectorStoreId}/files/{fileId}{?api-version}",
     {
       vectorStoreId: vectorStoreId,
       fileId: fileId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,10 +145,10 @@ export function _createVectorStoreFileSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/files{?api%2Dversion}",
+    "/vector_stores/{vectorStoreId}/files{?api-version}",
     {
       vectorStoreId: vectorStoreId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

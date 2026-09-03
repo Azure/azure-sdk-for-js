@@ -3,6 +3,6 @@
 
 export {
   createProgrammableConnectivity,
-  ProgrammableConnectivityContext,
-  ProgrammableConnectivityClientOptionalParams,
+  type ProgrammableConnectivityContext,
+  type ProgrammableConnectivityClientOptionalParams,
 } from "./programmableConnectivityContext.js";

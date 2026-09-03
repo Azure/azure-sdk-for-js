@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import { CapabilityType } from "../../models/models.js";
-import {
+import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { list, get } from "../../api/capabilityTypes/operations.js";
+import type {
   CapabilityTypesListOptionalParams,
   CapabilityTypesGetOptionalParams,
 } from "../../api/capabilityTypes/options.js";
-import { list, get } from "../../api/capabilityTypes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { CapabilityType } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CapabilityTypes operations. */
 export interface CapabilityTypesOperations {
@@ -26,7 +26,6 @@ export interface CapabilityTypesOperations {
     options?: CapabilityTypesGetOptionalParams,
   ) => Promise<CapabilityType>;
 }
-
 function _getCapabilityTypes(context: ChaosManagementContext) {
   return {
     list: (location: string, targetTypeName: string, options?: CapabilityTypesListOptionalParams) =>
@@ -39,7 +38,6 @@ function _getCapabilityTypes(context: ChaosManagementContext) {
     ) => get(context, location, targetTypeName, capabilityTypeName, options),
   };
 }
-
 export function _getCapabilityTypesOperations(
   context: ChaosManagementContext,
 ): CapabilityTypesOperations {

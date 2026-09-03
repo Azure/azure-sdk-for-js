@@ -1,10 +1,8 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### Features Added
-
-- Updated to `@azure/core-tracing` to GA.
 
 ### Breaking Changes
 
@@ -12,9 +10,11 @@
 
 ### Other Changes
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.6 (2025-08-21)
 
 ### Features Added
+
+- Updated to `@azure/core-tracing` to GA.
 
 ### Breaking Changes
 

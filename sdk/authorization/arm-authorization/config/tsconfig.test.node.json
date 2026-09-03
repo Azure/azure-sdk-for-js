@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-authorization": ["../src/index.ts"],
+      "@azure/arm-authorization/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

@@ -109,7 +109,7 @@ node dist/clustersCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env CONNECTEDVMWARE_SUBSCRIPTION_ID="<connectedvmware subscription id>" CONNECTEDVMWARE_RESOURCE_GROUP="<connectedvmware resource group>" node dist/clustersCreateSample.js
+cross-env CONNECTEDVMWARE_SUBSCRIPTION_ID="<connectedvmware subscription id>" CONNECTEDVMWARE_RESOURCE_GROUP="<connectedvmware resource group>" node dist/clustersCreateSample.js
 ```
 
 ## Next Steps

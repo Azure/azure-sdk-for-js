@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface UpdateRunsSkipOptionalParams extends OperationOptions {
@@ -10,7 +10,6 @@ export interface UpdateRunsSkipOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
-
 /** Optional parameters. */
 export interface UpdateRunsStopOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -18,7 +17,6 @@ export interface UpdateRunsStopOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
-
 /** Optional parameters. */
 export interface UpdateRunsStartOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -26,10 +24,13 @@ export interface UpdateRunsStartOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
-
 /** Optional parameters. */
-export interface UpdateRunsListByFleetOptionalParams extends OperationOptions {}
-
+export interface UpdateRunsListByFleetOptionalParams extends OperationOptions {
+  /** The number of result items to return. */
+  top?: number;
+  /** The page-continuation token to use with a paged version of this API. */
+  skipToken?: string;
+}
 /** Optional parameters. */
 export interface UpdateRunsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -37,7 +38,6 @@ export interface UpdateRunsDeleteOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
-
 /** Optional parameters. */
 export interface UpdateRunsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -47,6 +47,5 @@ export interface UpdateRunsCreateOrUpdateOptionalParams extends OperationOptions
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
 }
-
 /** Optional parameters. */
 export interface UpdateRunsGetOptionalParams extends OperationOptions {}

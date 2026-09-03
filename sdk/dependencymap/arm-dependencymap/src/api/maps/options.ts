@@ -10,15 +10,13 @@ export interface MapsExportDependenciesOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface MapsGetConnectionsForProcessOnFocusedMachineOptionalParams
-  extends OperationOptions {
+export interface MapsGetConnectionsForProcessOnFocusedMachineOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams
-  extends OperationOptions {
+export interface MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

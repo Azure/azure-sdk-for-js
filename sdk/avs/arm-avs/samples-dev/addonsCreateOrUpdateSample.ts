@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2024-09-01/Addons_CreateOrUpdate_ArcReg.json
+ * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_ArcReg.json
  */
-
-import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function addonsCreateOrUpdateArcReg(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -29,17 +28,14 @@ async function addonsCreateOrUpdateArcReg(): Promise<void> {
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2024-09-01/Addons_CreateOrUpdate_HCX.json
+ * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_HCX.json
  */
 async function addonsCreateOrUpdateHCX(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const result = await client.addons.createOrUpdate("group1", "cloud1", "hcx", {
-    properties: {
-      addonType: "HCX",
-      offer: "VMware MaaS Cloud Provider (Enterprise)",
-    },
+    properties: { addonType: "HCX", offer: "VMware MaaS Cloud Provider (Enterprise)" },
   });
   console.log(result);
 }
@@ -48,7 +44,7 @@ async function addonsCreateOrUpdateHCX(): Promise<void> {
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2024-09-01/Addons_CreateOrUpdate_HCX_With_Networks.json
+ * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_HCX_With_Networks.json
  */
 async function addonsCreateOrUpdateHCXWithNetworks(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -69,17 +65,14 @@ async function addonsCreateOrUpdateHCXWithNetworks(): Promise<void> {
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2024-09-01/Addons_CreateOrUpdate_SRM.json
+ * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_SRM.json
  */
 async function addonsCreateOrUpdateSRM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const result = await client.addons.createOrUpdate("group1", "cloud1", "srm", {
-    properties: {
-      addonType: "SRM",
-      licenseKey: "41915178-A8FF-4A4D-B683-6D735AF5E3F5",
-    },
+    properties: { addonType: "SRM", licenseKey: "41915178-A8FF-4A4D-B683-6D735AF5E3F5" },
   });
   console.log(result);
 }
@@ -88,7 +81,7 @@ async function addonsCreateOrUpdateSRM(): Promise<void> {
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2024-09-01/Addons_CreateOrUpdate_VR.json
+ * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_VR.json
  */
 async function addonsCreateOrUpdateVR(): Promise<void> {
   const credential = new DefaultAzureCredential();

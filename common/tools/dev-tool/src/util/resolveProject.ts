@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { readdir, stat } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
-import { createPrinter } from "./printer";
-import { SampleConfiguration } from "./samples/configuration";
+import { createRequire } from "node:module";
+import { createPrinter } from "./printer.ts";
+import type { SampleConfiguration } from "./samples/configuration.ts";
 import { pathToFileURL } from "node:url";
 
 const { debug } = createPrinter("resolve-project");
@@ -44,7 +46,6 @@ declare global {
         [k: string]: string[];
       };
     };
-    tshy?: Record<string, object>;
     type?: string;
     module?: string;
     bin?: Record<string, string>;
@@ -118,14 +119,21 @@ export interface ProjectInfo {
   packageJson: PackageJson;
 }
 
-async function isAzureSDKPackage(fileName: string): Promise<boolean> {
-  const f = await import(fileName);
-
-  if (f.name.includes("@azure/monorepo")) {
+async function isWorkspacePackage(packageObject: unknown): Promise<boolean> {
+  if (typeof packageObject !== "object" || packageObject === null) {
     return false;
-  } else if (/^@azure(-[a-z]+)?\//.test(f.name)) {
+  }
+  if (!("name" in packageObject) || typeof packageObject.name !== "string") {
+    return false;
+  }
+  if (packageObject.name.includes("@azure/monorepo")) {
+    return false;
+  } else if (/^@azure(-[a-z]+)?\//.test(packageObject.name)) {
     return true;
-  } else if (f.name.startsWith("@typespec")) {
+  } else if (
+    packageObject.name.startsWith("@typespec") ||
+    packageObject.name === "@microsoft/warp"
+  ) {
     return true;
   } else {
     return false;
@@ -133,7 +141,7 @@ async function isAzureSDKPackage(fileName: string): Promise<boolean> {
 }
 
 async function findAzSDKPackageJson(directory: string): Promise<[string, PackageJson]> {
-  const files = await fs.readdir(directory);
+  const files = await readdir(directory);
 
   if (files.includes("pnpm-workspace.yaml")) {
     throw new Error("Reached monorepo root, but no matching Azure SDK package was found.");
@@ -142,8 +150,8 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
   for (const file of files) {
     if (file === "package.json") {
       const fullPath = pathToFileURL(path.join(directory, file)).href;
-      const packageObject = (await import(fullPath)).default;
-      if (await isAzureSDKPackage(fullPath)) {
+      const { default: packageObject } = await import(fullPath, { with: { type: "json" } });
+      if (await isWorkspacePackage(packageObject)) {
         return [directory, packageObject];
       }
       debug(`found package.json at ${fullPath}, but it is not an Azure SDK package`);
@@ -168,11 +176,11 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
 export async function resolveProject(
   workingDirectory: string = process.cwd(),
 ): Promise<ProjectInfo> {
-  if (!fs.existsSync(workingDirectory)) {
+  if (!existsSync(workingDirectory)) {
     throw new Error(`No such file or directory: ${workingDirectory}`);
   }
 
-  const directory = await fs.stat(workingDirectory);
+  const directory = await stat(workingDirectory);
 
   if (!directory.isDirectory()) {
     throw new Error(`${workingDirectory} is not a directory`);
@@ -201,7 +209,7 @@ export async function resolveProject(
  * @returns an absolute path to the root of the monorepo
  */
 export async function resolveRoot(start: string = process.cwd()): Promise<string> {
-  if (await fs.pathExists(path.join(start, "pnpm-workspace.yaml"))) {
+  if (existsSync(path.join(start, "pnpm-workspace.yaml"))) {
     return start;
   } else {
     const nextPath = path.resolve(start, "..");
@@ -223,6 +231,7 @@ export async function isModuleProject() {
  * @returns - a "require"-like function that always resolves relative to the input project
  */
 export function bindRequireFunction(info: ProjectInfo): (id: string) => unknown {
+  const require = createRequire(pathToFileURL(path.join(info.path, "package.json")).href);
   return (moduleSpecifier) => {
     try {
       return require(

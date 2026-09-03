@@ -3,9 +3,9 @@
 
 export { listByWorkspace, $delete, update, create, get } from "./operations.js";
 export {
-  FirmwaresListByWorkspaceOptionalParams,
-  FirmwaresDeleteOptionalParams,
-  FirmwaresUpdateOptionalParams,
-  FirmwaresCreateOptionalParams,
-  FirmwaresGetOptionalParams,
+  type FirmwaresListByWorkspaceOptionalParams,
+  type FirmwaresDeleteOptionalParams,
+  type FirmwaresUpdateOptionalParams,
+  type FirmwaresCreateOptionalParams,
+  type FirmwaresGetOptionalParams,
 } from "./options.js";

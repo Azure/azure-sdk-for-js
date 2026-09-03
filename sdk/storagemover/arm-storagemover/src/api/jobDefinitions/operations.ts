@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageMoverContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { StorageMoverContext as Client } from "../index.js";
+import type {
   JobDefinition,
-  jobDefinitionSerializer,
-  jobDefinitionDeserializer,
   JobDefinitionUpdateParameters,
-  jobDefinitionUpdateParametersSerializer,
   _JobDefinitionList,
-  _jobDefinitionListDeserializer,
   JobRunResourceId,
-  jobRunResourceIdDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  jobDefinitionSerializer,
+  jobDefinitionDeserializer,
+  jobDefinitionUpdateParametersSerializer,
+  _jobDefinitionListDeserializer,
+  jobRunResourceIdDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   JobDefinitionsStopJobOptionalParams,
   JobDefinitionsStartJobOptionalParams,
   JobDefinitionsListOptionalParams,
@@ -29,13 +29,9 @@ import {
   JobDefinitionsCreateOrUpdateOptionalParams,
   JobDefinitionsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _stopJobSend(
   context: Client,
@@ -53,7 +49,7 @@ export function _stopJobSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,10 +57,7 @@ export function _stopJobSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -75,6 +68,7 @@ export async function _stopJobDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -117,7 +111,7 @@ export function _startJobSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,10 +119,7 @@ export function _startJobSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -139,6 +130,7 @@ export async function _startJobDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -179,7 +171,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       storageMoverName: storageMoverName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,10 +179,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -199,6 +188,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -218,7 +208,7 @@ export function list(
     () => _listSend(context, resourceGroupName, storageMoverName, projectName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -238,7 +228,7 @@ export function _$deleteSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -252,6 +242,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -285,6 +276,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -305,7 +297,7 @@ export function _updateSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,10 +306,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: jobDefinitionUpdateParametersSerializer(jobDefinition),
   });
 }
@@ -327,6 +316,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -372,7 +362,7 @@ export function _createOrUpdateSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -381,10 +371,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: jobDefinitionSerializer(jobDefinition),
   });
 }
@@ -396,6 +383,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -440,7 +428,7 @@ export function _getSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -448,10 +436,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -460,6 +445,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

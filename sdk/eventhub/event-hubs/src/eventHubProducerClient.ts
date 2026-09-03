@@ -159,10 +159,7 @@ export class EventHubProducerClient {
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
     credentialOrOptions3?:
-      | TokenCredential
-      | NamedKeyCredential
-      | SASCredential
-      | EventHubClientOptions,
+      TokenCredential | NamedKeyCredential | SASCredential | EventHubClientOptions,
     options4?: EventHubClientOptions, // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ) {
     this._context = createConnectionContext(
@@ -545,15 +542,12 @@ export class EventHubProducerClient {
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
-  getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
-    return this._context
-      .managementSession!.getEventHubProperties({
-        ...options,
-        retryOptions: this._clientOptions.retryOptions,
-      })
-      .then((eventHubProperties) => {
-        return eventHubProperties.partitionIds;
-      });
+  async getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
+    const eventHubProperties = await this._context.managementSession!.getEventHubProperties({
+      ...options,
+      retryOptions: this._clientOptions.retryOptions,
+    });
+    return eventHubProperties.partitionIds;
   }
 
   /**

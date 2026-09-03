@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
+import type { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
 import {
   fetchAvailablePlugins,
   checkEnterpriseDetails,
@@ -12,7 +12,7 @@ import {
   create,
   get,
 } from "../../api/grafana/operations.js";
-import {
+import type {
   GrafanaFetchAvailablePluginsOptionalParams,
   GrafanaCheckEnterpriseDetailsOptionalParams,
   GrafanaListOptionalParams,
@@ -22,14 +22,14 @@ import {
   GrafanaCreateOptionalParams,
   GrafanaGetOptionalParams,
 } from "../../api/grafana/options.js";
-import {
+import type {
   ManagedGrafana,
   ManagedGrafanaUpdateParameters,
   EnterpriseDetails,
   GrafanaAvailablePluginListResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Grafana operations. */
 export interface GrafanaOperations {

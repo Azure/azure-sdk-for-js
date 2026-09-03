@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { createSynonymMapFromFile } from "../../../src/synonymMapHelper.js";
-import { describe, it, assert } from "vitest";
+import { assert, describe, it } from "vitest";
+import { createSynonymMapFromFile } from "#platform/synonymMapHelper";
 
 describe("synonymmap", () => {
   it("create synonymmap from file(browser)", async () => {

@@ -34,6 +34,10 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     // Copy source for all cases in this suite doesn't include any credential, it's save to keep x-ms-copy-source header.
     await recorder.start(recorderEnvSetupWithCopySource);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -69,7 +73,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
 
     const result = await poller.pollUntilDone();
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties1 = await blobClient.getProperties();
     const properties2 = await newBlobClient.getProperties();
@@ -78,7 +82,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
     // A service feature is being rolling out which will sanitize the sig field
     // so we remove it before comparing urls.
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+    assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
 
     const sanitizedActualUrl = new URL(properties2.copySource!);
     sanitizedActualUrl.searchParams.delete("sig");
@@ -109,8 +113,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       }
     } while (!poller.isDone());
 
-    assert.ok(result!);
-    assert.ok(result!.copyId);
+    assert.isDefined(result!);
+    assert.isDefined(result!.copyId);
 
     const properties1 = await blobClient.getProperties();
     const properties2 = await newBlobClient.getProperties();
@@ -119,7 +123,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
     // A service feature is being rolling out which will sanitize the sig field
     // so we remove it before comparing urls.
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+    assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
 
     const sanitizedActualUrl = new URL(properties2.copySource!);
     sanitizedActualUrl.searchParams.delete("sig");
@@ -211,7 +215,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       ...testPollerProperties,
     });
     const result = await poller2.pollUntilDone();
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     assert.equal(result.copyStatus, "success", "Poller2 copy failed.");
   });
 });

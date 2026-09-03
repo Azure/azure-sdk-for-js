@@ -32,7 +32,7 @@ import {
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { HybridConnectivityManagementAPIOptionalParams } from "./api/hybridConnectivityManagementAPIContext.js";
+export { type HybridConnectivityManagementAPIOptionalParams } from "./api/hybridConnectivityManagementAPIContext.js";
 
 export class HybridConnectivityManagementAPI {
   private _client: HybridConnectivityManagementAPIContext;

@@ -6,8 +6,8 @@ import {
   getQSU,
   getConnectionStringFromEnvironment,
   configureStorageClient,
+  createAndStartRecorder,
   getUniqueName,
-  recorderEnvSetup,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient.js";
@@ -21,8 +21,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
@@ -36,15 +35,15 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
 
     const specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
@@ -57,12 +56,12 @@ describe("QueueClient messageId methods, Node.js only", () => {
       eResult.popReceipt,
       newMessage,
     );
-    assert.ok(uResult.version);
-    assert.ok(uResult.nextVisibleOn);
-    assert.ok(uResult.date);
-    assert.ok(uResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(uResult.popReceipt);
+    assert.isDefined(uResult.version);
+    assert.isDefined(uResult.nextVisibleOn);
+    assert.isDefined(uResult.date);
+    assert.isDefined(uResult.requestId);
+    assert.isDefined(eResult.clientRequestId);
+    assert.isDefined(uResult.popReceipt);
 
     const pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
@@ -71,14 +70,14 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   it("update message negative with 65537B (64KB+1B) characters including special char which is computed after encoding", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
+    assert.isDefined(eResult.requestId);
+    assert.isDefined(eResult.nextVisibleOn);
+    assert.isDefined(eResult.version);
 
     const specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
@@ -93,11 +92,10 @@ describe("QueueClient messageId methods, Node.js only", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(error);
-    assert.ok(
-      error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit.",
-      ),
+    assert.isDefined(error);
+    assert.include(
+      error.details.message,
+      "The request body is too large and exceeds the maximum permissible limit.",
     );
   });
 
@@ -105,8 +103,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
     const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
 
     const newClient = new QueueClient(queueClient.url, credential);
     configureStorageClient(recorder, newClient);
@@ -126,8 +124,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
     const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
 
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
@@ -151,8 +149,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
     const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
 
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
@@ -171,8 +169,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   it("can be created with a connection string and a queue name and a message id", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
 
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.name);
     configureStorageClient(recorder, newClient);
@@ -190,8 +188,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   it("can be created with a connection string and a queue name and a message id and an option bag", async () => {
     const eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
 
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.name, {
       retryOptions: {

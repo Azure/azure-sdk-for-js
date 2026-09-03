@@ -3,9 +3,9 @@
 
 export { $delete, update, createOrUpdate, get, list } from "./operations.js";
 export {
-  PlacementPoliciesDeleteOptionalParams,
-  PlacementPoliciesUpdateOptionalParams,
-  PlacementPoliciesCreateOrUpdateOptionalParams,
-  PlacementPoliciesGetOptionalParams,
-  PlacementPoliciesListOptionalParams,
+  type PlacementPoliciesDeleteOptionalParams,
+  type PlacementPoliciesUpdateOptionalParams,
+  type PlacementPoliciesCreateOrUpdateOptionalParams,
+  type PlacementPoliciesGetOptionalParams,
+  type PlacementPoliciesListOptionalParams,
 } from "./options.js";

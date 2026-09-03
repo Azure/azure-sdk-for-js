@@ -18,10 +18,8 @@ export function ndJsonPolicy(): PipelinePolicy {
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       // There currently isn't a good way to bypass the serializer
       if (typeof request.body === "string" && request.body.startsWith("[")) {
-        const body = JSON.parse(request.body);
-        if (Array.isArray(body)) {
-          request.body = body.map((item) => JSON.stringify(item) + "\n").join("");
-        }
+        const body: unknown[] = JSON.parse(request.body);
+        request.body = body.map((item) => JSON.stringify(item) + "\n").join("");
       }
       return next(request);
     },

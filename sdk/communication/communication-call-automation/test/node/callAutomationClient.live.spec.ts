@@ -25,9 +25,8 @@ import type {
   CreateCallOptions,
   AnswerCallOptions,
 } from "../../src/index.js";
-import { isNodeLike } from "@azure/core-util";
 
-describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => {
+describe("Call Automation Main Client Live Tests", () => {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -45,7 +44,7 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
   });
 
   afterEach(async () => {
-    persistEvents(testName);
+    await persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });

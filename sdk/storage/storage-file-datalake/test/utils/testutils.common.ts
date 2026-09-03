@@ -2,12 +2,19 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
 import type { FindReplaceSanitizer } from "@azure-tools/test-recorder";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import type {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import type { StorageClient } from "../../src/StorageClient.js";
 import { isNodeLike } from "@azure/core-util";
+import type { TestContext } from "vitest";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -153,4 +160,30 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
  */
 export async function sleep(seconds: number): Promise<void> {
   await delay(seconds * 1000);
+}
+
+export async function createAndStartRecorder(testContext?: TestContext): Promise<Recorder> {
+  const recorder = new Recorder(testContext);
+  await recorder.start(recorderEnvSetup);
+  // SAS token may contain sensitive information
+  await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: ["Accept", "Content-Type"],
+    ignoreQueryOrdering: true,
+  });
+  return recorder;
+}
+
+export type CustomizeRequest = (request: PipelineRequest) => void;
+
+export const customizeRequestPolicyName = "customizeRequestPolicyame";
+
+export function customizeRequestPolicy(customizeRequest: CustomizeRequest): PipelinePolicy {
+  return {
+    name: customizeRequestPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      customizeRequest(request);
+      return next(request);
+    },
+  };
 }

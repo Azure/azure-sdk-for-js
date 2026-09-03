@@ -10,8 +10,7 @@ import { MapperTypeNames } from "./serializer.js";
  */
 export function getStreamingResponseStatusCodes(operationSpec: OperationSpec): Set<number> {
   const result = new Set<number>();
-  for (const statusCode in operationSpec.responses) {
-    const operationResponse = operationSpec.responses[statusCode];
+  for (const [statusCode, operationResponse] of Object.entries(operationSpec.responses)) {
     if (
       operationResponse.bodyMapper &&
       operationResponse.bodyMapper.type.name === MapperTypeNames.Stream

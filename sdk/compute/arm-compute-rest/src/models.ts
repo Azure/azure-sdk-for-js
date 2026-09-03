@@ -1012,15 +1012,13 @@ export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOn
 export interface RollingUpgradeProgressInfo {}
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
-export interface VirtualMachineScaleSetReimageParameters
-  extends VirtualMachineScaleSetVMReimageParameters {
+export interface VirtualMachineScaleSetReimageParameters extends VirtualMachineScaleSetVMReimageParameters {
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
   instanceIds?: Array<string>;
 }
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
-export interface VirtualMachineScaleSetVMReimageParameters
-  extends VirtualMachineReimageParameters {}
+export interface VirtualMachineScaleSetVMReimageParameters extends VirtualMachineReimageParameters {}
 
 /** Parameters for Reimaging Virtual Machine. NOTE: Virtual Machine OS disk will always be reimaged */
 export interface VirtualMachineReimageParameters {
@@ -2501,13 +2499,7 @@ export interface VirtualMachineRunCommandScriptSource {
 export interface VirtualMachineRunCommandInstanceView {
   /** Script execution status. */
   executionState?:
-    | "Unknown"
-    | "Pending"
-    | "Running"
-    | "Failed"
-    | "Succeeded"
-    | "TimedOut"
-    | "Canceled";
+    "Unknown" | "Pending" | "Running" | "Failed" | "Succeeded" | "TimedOut" | "Canceled";
   /** Communicate script configuration errors or execution messages. */
   executionMessage?: string;
   /** Exit code returned from script execution. */
@@ -3193,8 +3185,7 @@ export interface GalleryImageVersionProperties {
 }
 
 /** The publishing profile of a gallery image Version. */
-export interface GalleryImageVersionPublishingProfile
-  extends GalleryArtifactPublishingProfileBase {}
+export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {}
 
 /** Describes the basic gallery artifact publishing profile. */
 export interface GalleryArtifactPublishingProfileBase {
@@ -3244,9 +3235,7 @@ export interface OSDiskImageEncryption extends DiskImageEncryption {
 export interface OSDiskImageSecurityProfile {
   /** confidential VM encryption types */
   confidentialVMEncryptionType?:
-    | "EncryptedVMGuestStateOnlyWithPmk"
-    | "EncryptedWithPmk"
-    | "EncryptedWithCmk";
+    "EncryptedVMGuestStateOnlyWithPmk" | "EncryptedWithPmk" | "EncryptedWithCmk";
   /** secure VM disk encryption set id */
   secureVMDiskEncryptionSetId?: string;
 }
@@ -3371,8 +3360,7 @@ export interface GalleryApplicationVersionProperties {
 }
 
 /** The publishing profile of a gallery image version. */
-export interface GalleryApplicationVersionPublishingProfile
-  extends GalleryArtifactPublishingProfileBase {
+export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
   /** The source image from which the Image Version is going to be created. */
   source: UserArtifactSource;
   manageActions?: UserArtifactManage;

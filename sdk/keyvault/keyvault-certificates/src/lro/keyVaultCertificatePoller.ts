@@ -5,7 +5,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import { delay } from "@azure/core-util";
 import type { PollOperation, PollOperationState } from "@azure/core-lro";
 import { Poller } from "@azure/core-lro";
-import type { KeyVaultClient } from "../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../keyVaultClient.js";
 
 /**
  * Common parameters to a Key Vault Certificate Poller.
@@ -22,8 +22,9 @@ export interface KeyVaultCertificatePollerOptions {
 /**
  * An interface representing the public shape of the state of a Key Vault Certificate Poller's operations.
  */
-export interface KeyVaultCertificatePollOperationState<TResult>
-  extends PollOperationState<TResult> {
+export interface KeyVaultCertificatePollOperationState<
+  TResult,
+> extends PollOperationState<TResult> {
   /**
    * The name of the certificate.
    */
@@ -86,8 +87,7 @@ export interface KeyVaultCertificatePollOperationOptions {
 export class KeyVaultCertificatePollOperation<
   TState extends KeyVaultCertificatePollOperationState<TResult>,
   TResult,
-> implements PollOperation<TState, TResult>
-{
+> implements PollOperation<TState, TResult> {
   private cancelMessage: string = "";
 
   constructor(

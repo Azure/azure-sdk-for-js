@@ -1,0 +1,245 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { NotificationHubsManagementContext } from "../../api/notificationHubsManagementContext.js";
+import {
+  listGroupIds,
+  getGroupId,
+  list,
+  $delete,
+  update,
+  get,
+} from "../../api/privateEndpointConnections/operations.js";
+import {
+  PrivateEndpointConnectionsListGroupIdsOptionalParams,
+  PrivateEndpointConnectionsGetGroupIdOptionalParams,
+  PrivateEndpointConnectionsListOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsUpdateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+} from "../../api/privateEndpointConnections/options.js";
+import { PrivateEndpointConnectionResource, PrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+/** Interface representing a PrivateEndpointConnections operations. */
+export interface PrivateEndpointConnectionsOperations {
+  /**
+   * Even though this namespace requires subscription id, resource group and namespace name, it returns a constant payload (for a given namespacE) every time it's called.
+   * That's why we don't send it to the sibling RP, but process it directly in the scale unit that received the request.
+   */
+  listGroupIds: (
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: PrivateEndpointConnectionsListGroupIdsOptionalParams,
+  ) => PagedAsyncIterableIterator<PrivateLinkResource>;
+  /**
+   * Even though this namespace requires subscription id, resource group and namespace name, it returns a constant payload (for a given namespacE) every time it's called.
+   * That's why we don't send it to the sibling RP, but process it directly in the scale unit that received the request.
+   */
+  getGroupId: (
+    resourceGroupName: string,
+    namespaceName: string,
+    subResourceName: string,
+    options?: PrivateEndpointConnectionsGetGroupIdOptionalParams,
+  ) => Promise<PrivateLinkResource>;
+  /**
+   * Returns all Private Endpoint Connections that belong to the given Notification Hubs namespace.
+   * This is a public API that can be called directly by Notification Hubs users.
+   */
+  list: (
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: PrivateEndpointConnectionsListOptionalParams,
+  ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
+  /**
+   * Deletes the Private Endpoint Connection.
+   * This is a public API that can be called directly by Notification Hubs users.
+   */
+  delete: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<void>;
+  /**
+   * Approves or rejects Private Endpoint Connection.
+   * This is a public API that can be called directly by Notification Hubs users.
+   */
+  update: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnectionResource,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
+  ) => PollerLike<
+    OperationState<PrivateEndpointConnectionResource>,
+    PrivateEndpointConnectionResource
+  >;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnectionResource,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionResource>,
+      PrivateEndpointConnectionResource
+    >
+  >;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnectionResource,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
+  ) => Promise<PrivateEndpointConnectionResource>;
+  /**
+   * Returns a Private Endpoint Connection with a given name.
+   * This is a public API that can be called directly by Notification Hubs users.
+   */
+  get: (
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsGetOptionalParams,
+  ) => Promise<PrivateEndpointConnectionResource>;
+}
+
+function _getPrivateEndpointConnections(context: NotificationHubsManagementContext) {
+  return {
+    listGroupIds: (
+      resourceGroupName: string,
+      namespaceName: string,
+      options?: PrivateEndpointConnectionsListGroupIdsOptionalParams,
+    ) => listGroupIds(context, resourceGroupName, namespaceName, options),
+    getGroupId: (
+      resourceGroupName: string,
+      namespaceName: string,
+      subResourceName: string,
+      options?: PrivateEndpointConnectionsGetGroupIdOptionalParams,
+    ) => getGroupId(context, resourceGroupName, namespaceName, subResourceName, options),
+    list: (
+      resourceGroupName: string,
+      namespaceName: string,
+      options?: PrivateEndpointConnectionsListOptionalParams,
+    ) => list(context, resourceGroupName, namespaceName, options),
+    delete: (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, namespaceName, privateEndpointConnectionName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
+    update: (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      parameters: PrivateEndpointConnectionResource,
+      options?: PrivateEndpointConnectionsUpdateOptionalParams,
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        parameters,
+        options,
+      ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      parameters: PrivateEndpointConnectionResource,
+      options?: PrivateEndpointConnectionsUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      parameters: PrivateEndpointConnectionResource,
+      options?: PrivateEndpointConnectionsUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        parameters,
+        options,
+      );
+    },
+    get: (
+      resourceGroupName: string,
+      namespaceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsGetOptionalParams,
+    ) => get(context, resourceGroupName, namespaceName, privateEndpointConnectionName, options),
+  };
+}
+
+export function _getPrivateEndpointConnectionsOperations(
+  context: NotificationHubsManagementContext,
+): PrivateEndpointConnectionsOperations {
+  return {
+    ..._getPrivateEndpointConnections(context),
+  };
+}

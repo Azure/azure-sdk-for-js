@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { decodeUtf8, encodeUtf8 } from "#platform/encoding";
+
 declare global {
   // stub these out for the browser
   function btoa(input: string): string;
@@ -69,9 +71,7 @@ export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
  * @internal
  */
 export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
-  const decoder = new TextDecoder();
-  const dataString = decoder.decode(bytes);
-  return dataString;
+  return decodeUtf8(bytes);
 }
 
 /**
@@ -86,15 +86,15 @@ export function uint8ArrayToHexString(bytes: Uint8Array): string {
  * Encodes a JavaScript string into a Uint8Array.
  * @internal
  */
-export function utf8StringToUint8Array(value: string): Uint8Array {
-  return new TextEncoder().encode(value);
+export function utf8StringToUint8Array(value: string): Uint8Array<ArrayBuffer> {
+  return encodeUtf8(value);
 }
 
 /**
  * Encodes a Base64 string into a Uint8Array.
  * @internal
  */
-export function base64ToUint8Array(value: string): Uint8Array {
+export function base64ToUint8Array(value: string): Uint8Array<ArrayBuffer> {
   return new Uint8Array([...atob(value)].map((x) => x.charCodeAt(0)));
 }
 
@@ -102,7 +102,7 @@ export function base64ToUint8Array(value: string): Uint8Array {
  * Encodes a Base64Url string into a Uint8Array.
  * @internal
  */
-export function base64UrlToUint8Array(value: string): Uint8Array {
+export function base64UrlToUint8Array(value: string): Uint8Array<ArrayBuffer> {
   const base64String = value.replace(/-/g, "+").replace(/_/g, "/");
   return base64ToUint8Array(base64String);
 }
@@ -113,7 +113,7 @@ const hexDigits = new Set("0123456789abcdefABCDEF");
  * Encodes a hex string into a Uint8Array
  * @internal
  */
-export function hexStringToUint8Array(value: string): Uint8Array {
+export function hexStringToUint8Array(value: string): Uint8Array<ArrayBuffer> {
   // If value has odd length, the last character will be ignored, consistent with NodeJS Buffer behavior
   const bytes = new Uint8Array(value.length / 2);
   for (let i = 0; i < value.length / 2; ++i) {

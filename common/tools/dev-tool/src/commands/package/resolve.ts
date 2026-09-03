@@ -2,10 +2,10 @@
 // Licensed under the MIT License
 
 import path from "node:path";
-import { resolveProject } from "../../util/resolveProject";
-import { createPrinter } from "../../util/printer";
-import { leafCommand } from "../../framework/command";
-import { makeCommandInfo } from "../../framework/command";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { leafCommand } from "../../framework/command.ts";
+import { makeCommandInfo } from "../../framework/command.ts";
 
 const log = createPrinter("resolve-package");
 

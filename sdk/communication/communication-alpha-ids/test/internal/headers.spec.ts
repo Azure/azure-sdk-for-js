@@ -8,7 +8,6 @@ import { AlphaIdsClient } from "../../src/index.js";
 import type { TokenCredential } from "@azure/identity";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { configurationHttpClient } from "../public/utils/mockHttpClients.js";
-import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 describe("AlphaIdsClient - headers", function () {
@@ -31,17 +30,14 @@ describe("AlphaIdsClient - headers", function () {
     request = spy.mock.calls[0][0];
   });
 
-  it("[node] sets correct host", function (ctx) {
-    if (!isNodeLike) {
-      ctx.skip();
-    }
+  it("sets correct host", function () {
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
 
   it("sets correct default user-agent", function () {
-    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
-      request.headers.get(userAgentHeader) as string,
+      userAgent as string,
       new RegExp(`azsdk-js-communication-alpha-ids/${SDK_VERSION}`, "g"),
     );
   });
@@ -106,9 +102,9 @@ describe("AlphaIdsClient - headers", function () {
 
     request = spy.mock.calls[0][0];
 
-    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
-      request.headers.get(userAgentHeader) as string,
+      userAgent as string,
       new RegExp(
         `alphaidsclient-headers-test azsdk-js-communication-alpha-ids/${SDK_VERSION}`,
         "g",

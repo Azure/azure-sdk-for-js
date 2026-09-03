@@ -1,0 +1,17 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/autoUpgradeProfileOperations/index.ts",
+    "../src/api/autoUpgradeProfiles/index.ts",
+    "../src/api/fleetUpdateStrategies/index.ts",
+    "../src/api/updateRuns/index.ts",
+    "../src/api/gates/index.ts",
+    "../src/api/fleetManagedNamespaces/index.ts",
+    "../src/api/fleetMembers/index.ts",
+    "../src/api/fleets/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
+}

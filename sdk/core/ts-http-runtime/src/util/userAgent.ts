@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getHeaderName, setPlatformSpecificData } from "./userAgentPlatform.js";
+import { getHeaderName, setPlatformSpecificData } from "#platform/userAgent";
 import { SDK_VERSION } from "../constants.js";
+
+export { setPlatformSpecificData };
 
 function getUserAgentString(telemetryInfo: Map<string, string>): string {
   const parts: string[] = [];

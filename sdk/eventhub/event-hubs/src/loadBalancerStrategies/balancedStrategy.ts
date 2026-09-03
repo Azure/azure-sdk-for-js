@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { getRandomIntegerInclusive } from "@azure/core-util";
 import type { LoadBalancingStrategy } from "./loadBalancingStrategy.js";
 import { listAvailablePartitions } from "./loadBalancingStrategy.js";
 import type { PartitionOwnership } from "../eventProcessor.js";
@@ -46,7 +47,7 @@ export class BalancedLoadBalancingStrategy implements LoadBalancingStrategy {
       return [];
     }
 
-    const randomIndex = Math.floor(Math.random() * claimablePartitions.length);
+    const randomIndex = getRandomIntegerInclusive(0, claimablePartitions.length - 1);
     return [claimablePartitions[randomIndex]];
   }
 }

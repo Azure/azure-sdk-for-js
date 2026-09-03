@@ -68,7 +68,7 @@ node dist/analyzeConversationApp.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env LANGUAGE_ENDPOINT="<language endpoint>" AZURE_CONVERSATIONS_PROJECT_NAME="<azure conversations project name>" AZURE_CONVERSATIONS_DEPLOYMENT_NAME="<azure conversations deployment name>" node dist/analyzeConversationApp.js
+cross-env LANGUAGE_ENDPOINT="<language endpoint>" AZURE_CONVERSATIONS_PROJECT_NAME="<azure conversations project name>" AZURE_CONVERSATIONS_DEPLOYMENT_NAME="<azure conversations deployment name>" node dist/analyzeConversationApp.js
 ```
 
 ## Next Steps

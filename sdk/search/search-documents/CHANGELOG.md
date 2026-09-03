@@ -1,5 +1,173 @@
 # Release History
 
+## 13.1.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 13.1.0-beta.2 (2026-08-31)
+
+### Features Added
+
+- Regenerated from the `2026-08-01-preview` Search service API at commit `9b7dfbd6ad0ba29c60142de066dc993433e3a8a7`.
+- Added typed server-sent event retrieval through `KnowledgeRetrievalClient.retrieveStream`, including typed start/activity/answer/reference/error/completion events and `200`/`206` completion status values.
+- Added File knowledge source CORS options, multipart upload and in-place update APIs, relative-path/custom metadata, prefix-filtered paging, and read-only parsing/extraction modes selected by the service.
+- Added `auto` retrieval reasoning, knowledge base `retrieveDefaults` and metadata-only `tags`, per-source `resultsProcessing`/`neverQuerySource`, and private ingestion `networkAccessMode`.
+- Added stored `queryHints`, request-time `queryHintOverrides`, query-hint processing diagnostics, served-image diagnostics, and Search-owned `citationUrl` values on supported indexed references.
+- Added Work IQ bring-your-own Microsoft Entra application parameters and a separate `queryWorkIQSourceAuthorization` user assertion option.
+- Added server-driven `search`, `pageSize`, and `searchType` listing options and continuation across indexes, aliases, synonym maps, indexers, data sources, skillsets, knowledge bases, knowledge sources, files, and index statistics.
+- Added activity start/completion timestamps, structured activity `model` metadata, Work IQ sensitivity-label metadata, `maxVectorIndexSizePerIndexInBytes`, and GPT-5.6 SOL/Terra/Luna model names.
+- Exported all concrete activity/reference union members, query-hint/image-serving helpers, known activity/reference enums, File/MCP request types, and other new August model types from the package root.
+- Added `logicalReasoningEffort` to `KnowledgeBaseAgenticReasoningActivityRecord` as an additive post-cut preview field; it is not used in August samples.
+
+### Breaking Changes
+
+- `WorkIQKnowledgeSource.workIQParameters` is now required.
+- Renamed the root convenience property `McpServerKnowledgeSourceParameters.serverURL` to `serverUrl`; the raw protocol subpath retains the generated wire-oriented name.
+- Removed preview offset listing options (`top`, `skip`, and `count`) in favor of server-driven cursor pagination.
+- Removed `WorkIQAttribution`/`KnowledgeBaseWorkIQReference.attributions` and `McpServerToolInclusionMode`; use Work IQ sensitivity metadata and `resultsProcessing` respectively.
+- Replaced activity `modelName` with structured `model` metadata and renamed indexer status `totalSynchronizations` to `totalSynchronization`.
+- `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required.
+
+### Bugs Fixed
+
+- Fixed `SearchIndexerClient.resetDocuments` so `dataSourceDocumentIds` is forwarded to the service.
+- Fixed continuation for every generated paged operation by reading the deserialized `nextLink`/`odataNextLink` property instead of its wire name.
+- Fixed convenience conversions that dropped query hints, ingestion settings, and generated resource names from indexed knowledge sources.
+
+### Other Changes
+
+- Expanded README snippets and TypeScript/JavaScript samples for File lifecycle, query hints, private ingestion, retrieval defaults/controls/citations, Work IQ BYO Entra authentication, typed streaming, cursor pagination, service limits, and knowledge base tags.
+
+## 13.1.0-beta.1 (2026-06-01)
+
+### Features Added
+
+- Regenerated from the `2026-05-01-preview` Search service API.
+- Added `resetSkills` method to `SearchIndexerClient` to selectively re-execute specified skills in a skillset.
+- Added `resetDocuments` method to `SearchIndexerClient` to selectively re-ingest specific documents in the data source.
+- Added `resyncIndexer` method to `SearchIndexerClient` to re-sync pre-defined options (e.g., permissions) from the data source.
+- Added `listIndexStatsSummary` method to `SearchIndexClient` to retrieve paged statistics summaries for all indexes in the service.
+- Added new knowledge source kinds: `IndexedSharePoint`, `RemoteSharePoint`, `WorkIQ`, `FabricDataAgent`, and `FabricOntology`, along with corresponding `KnowledgeBaseReference` types.
+- Added `KnowledgeBaseModelQueryPlanningActivityRecord` and `KnowledgeBaseModelAnswerSynthesisActivityRecord` activity record types.
+- Added `KnowledgeRetrievalLowReasoningEffort` and `KnowledgeRetrievalMediumReasoningEffort` reasoning effort variants for knowledge retrieval, along with `KnowledgeRetrievalOutputMode`.
+- Added `PurviewSensitivityLabelInfo` on knowledge base reference and response types for Purview sensitivity labeling.
+- Added `messages`, `maxOutputDocuments`, `maxOutputSize`, `outputMode`, and `retrievalReasoningEffort` properties to `KnowledgeBaseRetrievalRequest`.
+- Added `alwaysQuerySource`, `enableImageServing`, `failOnError`, and `maxOutputDocuments` properties to `BaseKnowledgeSourceParams`.
+- Added `ContentUnderstandingSkillChunkingMethod` and corresponding `method` property on `ContentUnderstandingSkillChunkingProperties`.
+- Added `mode` (`IndexingMode`), `statusDetail` (`IndexerExecutionStatusDetail`), `IndexerCurrentState`, and `IndexerRuntime` properties surfaced on indexer execution results.
+- Added `warning` to `BaseKnowledgeBaseActivityRecord`.
+- Added `hybridSearch` option on `BaseSearchRequestOptions` to configure hybrid search behaviors.
+- Added `querySourceAuthorization` and `enableElevatedRead` options on `BaseSearchRequestOptions` and `GetDocumentOptions` to issue queries with a query-source token and to bypass document-level permission checks.
+- Added `querySourceAuthorization` option on `RetrieveOptions` for knowledge base retrieval.
+- Added preview-only configuration properties on `KnowledgeBase`: `outputMode`, `retrievalReasoningEffort`, `retrievalInstructions`, `answerInstructions`, and `corsOptions`.
+- Added new public knowledge source kinds: `IndexedSharePointKnowledgeSource`, `RemoteSharePointKnowledgeSource`, `WorkIQKnowledgeSource`, `FabricDataAgentKnowledgeSource`, and `FabricOntologyKnowledgeSource` (and their `*Parameters` companions).
+- Exported `KnownKnowledgeRetrievalOutputMode`, `KnownKnowledgeRetrievalReasoningEffortKind`, `KnownIndexedSharePointContainerName`, and `IndexedSharePointContainerName` enums.
+
+### Breaking Changes
+
+- `queryRewrites` on `SemanticSearchOptions` is now serialized to the new wire string format (e.g., `generative|count-3`); the public `GenerativeQueryRewrites` shape is unchanged but consumers reading raw request bodies should expect the new format.
+
+### Bugs Fixed
+
+- Fixed argument order in `SearchIndexClient.deleteKnowledgeSourceFile` so the underlying request now targets the correct file (previously the `name` and `fileId` arguments were swapped on the wire, causing deletes to silently no-op).
+
+## 13.0.0 (2026-05-01)
+
+### Features Added
+
+- Added `debug` property to `BaseSearchRequestOptions` to enable debug mode for non-semantic search queries.
+- Added `oversampling` property to `BaseVectorQuery` for vector search oversampling configuration.
+- Added `KnowledgeRetrievalClient` for agentic retrieval operations on knowledge bases.
+- Added support for knowledge sources with multiple kinds: `searchIndex`, `azureBlob`, `indexedOneLake`, and `web`.
+- Added `ContentUnderstandingSkill` for enhanced content extraction and understanding in indexer pipelines.
+- Added `KnowledgeBase` management APIs to `SearchIndexClient` for creating, updating, and deleting knowledge bases.
+- Added knowledge source status tracking via `getKnowledgeSourceStatus` method.
+
+### Breaking Changes
+
+- Upgraded from beta to stable release with API refinements.
+- Removed preview-only properties from `KnowledgeBase` interface: `retrievalReasoningEffort`, `outputMode`, `retrievalInstructions`, `answerInstructions`.
+
+### Bugs Fixed
+
+- Fixed `VectorizableImageBinaryQuery` to properly map `binaryImage` property to the service's `base64Image` field.
+
+### Other Changes
+
+- Removed empty `DebugInfo` interface that provided no value.
+- Regenerated from latest TypeSpec spec with `KnowledgeBaseModelWebSummarizationActivityRecord` moved to correct location.
+- Code is now generated from TypeSpec to align with the latest service definitions and code generation pipeline.
+
+## 12.3.0-beta.1 (2025-11-17)
+
+### Features Added
+
+- Add support for elevated read for document retrieval operations [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add support for new facet results: avg, min, max, cardinality [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add new knowledge source kinds types: `web`, `remoteSharePoint`, `indexedSharePoint`, `indexedOneLake`.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added support for `sharepoint` data source type in `SearchIndexerDataSourceType`.
+- Add support for indexers runtime [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add support for purview in search indexes [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add new property in service limits [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add new `ContentUnderstandingSkill` in skills [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added `product` scoring function aggregation type in `ScoringFunctionAggregation`. [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added support for new Azure OpenAI models: `gpt-5`, `gpt-5-mini`, `gpt-5-nano` in `AzureOpenAIModelName`.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added `maxCumulativeIndexerRuntimeSeconds` property in `ServiceLimits` for runtime constraints.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added enhanced knowledge source configuration options:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - `sourceDataFields`, `searchFields`, `semanticConfigurationName` in `SearchIndexKnowledgeSourceParameters`
+  - `isADLSGen2`, `ingestionParameters` in `AzureBlobKnowledgeSourceParameters`
+- Added optional parameter `x-ms-enable-elevated-read` for document retrieval operations with elevated permissions.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added support for partial content responses (HTTP 206) in knowledge base operations.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added `error` property in `KnowledgeBaseActivityRecord` for improved error tracking.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added enhanced knowledge source parameters: `includeReferences`, `includeReferenceSourceData`, `alwaysQuerySource`, `rerankerThreshold` in `SearchIndexKnowledgeSourceParams`.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Added new method `getKnowledgeSourceStatus` to search index client. [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+
+### Breaking Changes
+
+- Renamed KnowledgeAgent* -> KnowledgeBase* [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Renamed Knowledge Agent to Knowledge Base across all APIs and models:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - All `KnowledgeAgent*` classes renamed to `KnowledgeBase*` equivalents
+  - API paths changed from `/agents` to `/knowledgebases`
+  - All agent-related activity record types updated with new naming convention
+- Removed deprecated Knowledge Agent configuration models:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - `KnowledgeAgentOutputConfiguration`
+  - `KnowledgeAgentRequestLimits`
+  - `KnowledgeAgentModel`
+  - `KnowledgeAgentModelKind`
+  - `KnowledgeAgentAzureOpenAIModel`
+- Removed properties from `KnowledgeSourceReference`:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - `includeReferences`
+  - `includeReferenceSourceData`
+  - `alwaysQuerySource`
+  - `maxSubQueries`
+  - `rerankerThreshold`
+- Removed `sourceDataSelect` property from `SearchIndexKnowledgeSourceParameters`.[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Removed properties from `AzureBlobKnowledgeSourceParameters`:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+  - `identity`
+  - `embeddingModel`
+  - `chatCompletionModel`
+  - `ingestionSchedule`
+  - `disableImageVerbalization`
+
+## 12.2.0-beta.3 (2025-10-07)
+
+### Features Added
+
+- Added API for listing index statistics [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added semantic ranking based on scoring profile boosted score [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added agentic retrieval functionality through `KnowledgeRetrievalClient` and `KnowledgeAgent` [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added ACL functionality for indexer ingestion [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added document-level access control [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added support for vector fields in top-level complex fields [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added `ChatCompletionSkill` as a variant of `WebAPISkill` [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added `strictPostFilter` option for filtering on global top results [#35924](https://github.com/Azure/azure-sdk-for-js/pull/35924)
+
 ## 12.2.0-beta.2 (2024-11-25)
 
 ### Features Added
@@ -14,7 +182,7 @@
   - Configure through the `markdownParsingSubmode` and `markdownHeaderDepth` properties of `IndexingParametersConfiguration`.
 - Added `DocumentIntelligenceLayoutSkill` [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
 - Added subdomain billing for skillsets [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
- 
+
 ### Bugs Fixed
 
 - Fixed the type of `SearchResult.documentDebugInfo` to not erroneously describe it as an array [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
@@ -35,8 +203,8 @@
 
 ### Features Added
 
-- Added support for text queries against vector fields [#30494](https://github.com/Azure/azure-sdk-for-js/pull/29597) 
-  - Create text queries against vector fields with the `VectorizedTextQuery` variant of `VectorQuery`. Such queries are supported by configuring the corresponding index field with a `VectorSearchVectorizer`. This configuration describes a delegate, which the service uses to generate vector embeddings for the query text. 
+- Added support for text queries against vector fields [#30494](https://github.com/Azure/azure-sdk-for-js/pull/29597)
+  - Create text queries against vector fields with the `VectorizedTextQuery` variant of `VectorQuery`. Such queries are supported by configuring the corresponding index field with a `VectorSearchVectorizer`. This configuration describes a delegate, which the service uses to generate vector embeddings for the query text.
 - Added `AzureOpenAIEmbeddingSkill` to allow for `SearchIndexer`s to populate embedding fields at index-time.
 - Added index configuration for vector quantization through `VectorSearchCompression`
 
@@ -310,7 +478,6 @@
 ### Other Changes
 
 - Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-
   - Affects these types:
     - `IndexDocumentsClient`
     - `SearchClient`
@@ -437,7 +604,6 @@
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - Regenerated the search SDK with the latest swaggers that includes the following changes:
-
   - Support for `TokenCredential` has been added. With this addition, the Search SDK supports authentication via AAD.
   - Identity types - `SearchIndexerDataNoneIdentity` & `SearchIndexerDataUserAssignedIdentity` have been added.
   - The following new skills have been added:

@@ -14,7 +14,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
+export { type CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
 
 export class CarbonOptimizationManagementClient {
   private _client: CarbonOptimizationManagementContext;

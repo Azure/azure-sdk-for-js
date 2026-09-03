@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ConfigTemplateVersionsListByConfigTemplateOptionalParams
-  extends OperationOptions {}
+export interface ConfigTemplateVersionsListByConfigTemplateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ConfigTemplateVersionsGetOptionalParams extends OperationOptions {}

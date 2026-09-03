@@ -38,7 +38,7 @@ export interface ListShortCodeCostsOptions extends ShortCodesGetCostsOptionalPar
  */
 export interface ListUSProgramBriefsOptions extends ShortCodesGetUSProgramBriefsOptionalParams {}
 
-export {
+export type {
   ShortCode,
   USProgramBrief,
   NumberType,

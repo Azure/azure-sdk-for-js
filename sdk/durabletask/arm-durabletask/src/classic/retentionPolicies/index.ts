@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DurableTaskContext } from "../../api/durableTaskContext.js";
-import { RetentionPolicy } from "../../models/models.js";
-import {
-  RetentionPoliciesListBySchedulerOptionalParams,
-  RetentionPoliciesDeleteOptionalParams,
-  RetentionPoliciesUpdateOptionalParams,
-  RetentionPoliciesCreateOrReplaceOptionalParams,
-  RetentionPoliciesGetOptionalParams,
-} from "../../api/retentionPolicies/options.js";
+import type { DurableTaskContext } from "../../api/durableTaskContext.js";
 import {
   listByScheduler,
   $delete,
@@ -17,8 +9,16 @@ import {
   createOrReplace,
   get,
 } from "../../api/retentionPolicies/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  RetentionPoliciesListBySchedulerOptionalParams,
+  RetentionPoliciesDeleteOptionalParams,
+  RetentionPoliciesUpdateOptionalParams,
+  RetentionPoliciesCreateOrReplaceOptionalParams,
+  RetentionPoliciesGetOptionalParams,
+} from "../../api/retentionPolicies/options.js";
+import type { RetentionPolicy } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RetentionPolicies operations. */
 export interface RetentionPoliciesOperations {

@@ -64,12 +64,12 @@ describe("Encryption Scope", function () {
     })) {
       if (container.name === containerName) {
         assert.strictEqual(container.properties.defaultEncryptionScope, accountEncryptionKey);
-        assert.ok(!container.properties.preventEncryptionScopeOverride);
+        assert.isFalse(container.properties.preventEncryptionScopeOverride);
         containerChecked = true;
         break;
       }
     }
-    assert.ok(containerChecked);
+    assert.isDefined(containerChecked);
 
     await blockBlobClient.upload(content, content.length, {
       encryptionScope: encryptionScopeName1,
@@ -90,12 +90,12 @@ describe("Encryption Scope", function () {
     })) {
       if (container.name === containerName) {
         assert.strictEqual(container.properties.defaultEncryptionScope, encryptionScopeName1);
-        assert.ok(container.properties.preventEncryptionScopeOverride);
+        assert.isDefined(container.properties.preventEncryptionScopeOverride);
         containerChecked = true;
         break;
       }
     }
-    assert.ok(containerChecked);
+    assert.isDefined(containerChecked);
 
     let operationFailed = false;
     try {
@@ -106,7 +106,7 @@ describe("Encryption Scope", function () {
       operationFailed = true;
       assert.equal(err.details.errorCode, "RequestForbiddenByContainerEncryptionPolicy");
     }
-    assert.ok(operationFailed, "Blob update overriding encryption scope should fail.");
+    assert.isTrue(operationFailed, "Blob update overriding encryption scope should fail.");
   });
 
   it.skip("specify CPK together with CPK-N should fail", async () => {
@@ -120,7 +120,7 @@ describe("Encryption Scope", function () {
     } catch (err: any) {
       operationFailed = true;
     }
-    assert.ok(operationFailed, "Providing both CPK and CPK-N should fail.");
+    assert.isTrue(operationFailed, "Providing both CPK and CPK-N should fail.");
   });
 
   it("setMetadata, getProperties and createSnapshot with CPK-N", async () => {
@@ -150,6 +150,6 @@ describe("Encryption Scope", function () {
       operationFailed = true;
       assert.strictEqual(err.details.errorCode, "BlobCustomerSpecifiedEncryptionMismatch");
     }
-    assert.ok(operationFailed, "Create snapshot with unmatching encryption scope should fail.");
+    assert.isTrue(operationFailed, "Create snapshot with unmatching encryption scope should fail.");
   });
 });

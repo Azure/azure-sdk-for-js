@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DeletedSecret, KeyVaultSecret } from "../../src/index.js";
-import type { DeletedSecretBundle, SecretBundle } from "../../src/generated/src/models/index.js";
+import type { DeletedSecretBundle, SecretBundle } from "../../src/models/models.js";
 import { getSecretFromSecretBundle } from "../../src/transformations.js";
 import { describe, it, assert } from "vitest";
 
@@ -51,11 +51,23 @@ describe("Transformations", () => {
         version: "1",
         name: "abc123",
         certificateKeyId: "test_kid",
+        previousVersion: undefined,
       },
     };
 
     const secret: KeyVaultSecret = getSecretFromSecretBundle(bundle);
     assert.deepEqual(secret, expectedResult);
+  });
+
+  it("correctly assigns previousVersion when present in the bundle", () => {
+    const bundle: SecretBundle = {
+      id: "https://azure_keyvault.vault.azure.net/keys/abc123/2",
+      value: "new value",
+      previousVersion: "1",
+    };
+
+    const secret: KeyVaultSecret = getSecretFromSecretBundle(bundle);
+    assert.equal(secret.properties.previousVersion, "1");
   });
 
   it("correctly assigns all properties for a deleted secret", () => {
@@ -74,5 +86,16 @@ describe("Transformations", () => {
     assert.equal(secret.recoveryId, "recovery_id");
     assert.equal(secret.deletedOn, date);
     assert.equal(secret.scheduledPurgeDate, date);
+    assert.isUndefined(secret.properties.previousVersion);
+  });
+
+  it("correctly assigns previousVersion when present in a deleted secret bundle", () => {
+    const bundle: DeletedSecretBundle = {
+      id: "https://azure_keyvault.vault.azure.net/keys/abc123/2",
+      previousVersion: "1",
+    };
+
+    const secret: DeletedSecret = getSecretFromSecretBundle(bundle);
+    assert.equal(secret.properties.previousVersion, "1");
   });
 });

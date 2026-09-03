@@ -122,7 +122,7 @@ describe("Authorization", { timeout: 10000 }, () => {
       permissionFeed: [collReadPermission],
       connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     });
-    assert.equal("document1", createdDoc.id, "invalid documnet create");
+    assert.equal(createdDoc.id, "document1", "invalid documnet create");
 
     const { resource: readDoc } = await clientReadPermission
       .database(database.id)

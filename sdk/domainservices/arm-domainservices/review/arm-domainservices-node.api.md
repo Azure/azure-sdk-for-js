@@ -4,11 +4,30 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ChannelBinding = string;
 
 // @public
 export interface CloudError {
@@ -51,21 +70,63 @@ export interface ContainerAccount {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface DomainSecuritySettings {
+    channelBinding?: ChannelBinding;
     kerberosArmoring?: KerberosArmoring;
     kerberosRc4Encryption?: KerberosRc4Encryption;
+    ldapSigning?: LdapSigning;
     ntlmV1?: NtlmV1;
     syncKerberosPasswords?: SyncKerberosPasswords;
     syncNtlmPasswords?: SyncNtlmPasswords;
     syncOnPremPasswords?: SyncOnPremPasswords;
+    syncOnPremSamAccountName?: SyncOnPremSamAccountName;
     tlsV1?: TlsV1;
 }
 
 // @public
-export interface DomainService extends Resource {
+export interface DomainService extends ProxyResource {
+    configDiagnostics?: ConfigDiagnostics;
+    readonly deploymentId?: string;
+    domainConfigurationType?: string;
+    domainName?: string;
+    domainSecuritySettings?: DomainSecuritySettings;
+    etag?: string;
+    filteredSync?: FilteredSync;
+    ldapsSettings?: LdapsSettings;
+    location?: string;
+    readonly migrationProperties?: MigrationProperties;
+    notificationSettings?: NotificationSettings;
+    readonly provisioningState?: string;
+    replicaSets?: ReplicaSet[];
+    resourceForestSettings?: ResourceForestSettings;
+    sku?: string;
+    readonly syncApplicationId?: string;
+    readonly syncOwner?: string;
+    syncScope?: SyncScope;
+    tags?: Record<string, string>;
+    readonly tenantId?: string;
+    readonly version?: number;
+}
+
+// @public
+export interface DomainServiceOperationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DomainServiceOperationsOperations {
+    list: (options?: DomainServiceOperationsListOptionalParams) => PagedAsyncIterableIterator<OperationEntity>;
+}
+
+// @public
+export interface DomainServiceProperties {
     configDiagnostics?: ConfigDiagnostics;
     readonly deploymentId?: string;
     domainConfigurationType?: string;
@@ -79,133 +140,82 @@ export interface DomainService extends Resource {
     replicaSets?: ReplicaSet[];
     resourceForestSettings?: ResourceForestSettings;
     sku?: string;
+    readonly syncApplicationId?: string;
     readonly syncOwner?: string;
+    syncScope?: SyncScope;
     readonly tenantId?: string;
     readonly version?: number;
 }
 
 // @public
-export interface DomainServiceListResult {
-    readonly nextLink?: string;
-    value?: DomainService[];
-}
-
-// @public
-export interface DomainServiceOperations {
-    list(options?: DomainServiceOperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity>;
-}
-
-// @public
-export interface DomainServiceOperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainServiceOperationsListNextResponse = OperationEntityListResult;
-
-// @public
-export interface DomainServiceOperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainServiceOperationsListResponse = OperationEntityListResult;
-
-// @public
-export interface DomainServices {
-    beginCreateOrUpdate(resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainServicesCreateOrUpdateResponse>, DomainServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesCreateOrUpdateOptionalParams): Promise<DomainServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, domainServiceName: string, options?: DomainServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, domainServiceName: string, options?: DomainServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainServicesUpdateResponse>, DomainServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesUpdateOptionalParams): Promise<DomainServicesUpdateResponse>;
-    get(resourceGroupName: string, domainServiceName: string, options?: DomainServicesGetOptionalParams): Promise<DomainServicesGetResponse>;
-    list(options?: DomainServicesListOptionalParams): PagedAsyncIterableIterator<DomainService>;
-    listByResourceGroup(resourceGroupName: string, options?: DomainServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DomainService>;
-}
-
-// @public
-export interface DomainServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DomainServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DomainServicesCreateOrUpdateResponse = DomainService;
-
-// @public
-export interface DomainServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DomainServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DomainServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface DomainServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DomainServicesGetResponse = DomainService;
-
-// @public
-export interface DomainServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DomainServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DomainServicesListByResourceGroupNextResponse = DomainServiceListResult;
-
-// @public
-export interface DomainServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DomainServicesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DomainServicesListByResourceGroupResponse = DomainServiceListResult;
-
-// @public
-export interface DomainServicesListNextOptionalParams extends coreClient.OperationOptions {
+export interface DomainServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DomainService>, DomainService>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesCreateOrUpdateOptionalParams) => Promise<DomainService>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, domainServiceName: string, options?: DomainServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, domainServiceName: string, options?: DomainServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DomainService>, DomainService>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesUpdateOptionalParams) => Promise<DomainService>;
+    createOrUpdate: (resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<DomainService>, DomainService>;
+    delete: (resourceGroupName: string, domainServiceName: string, options?: DomainServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, domainServiceName: string, options?: DomainServicesGetOptionalParams) => Promise<DomainService>;
+    list: (options?: DomainServicesListOptionalParams) => PagedAsyncIterableIterator<DomainService>;
+    listByResourceGroup: (resourceGroupName: string, options?: DomainServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DomainService>;
+    unsuspend: (resourceGroupName: string, domainServiceName: string, options?: DomainServicesUnsuspendOptionalParams) => Promise<UnsuspendDomainServiceResponse>;
+    update: (resourceGroupName: string, domainServiceName: string, domainService: DomainService, options?: DomainServicesUpdateOptionalParams) => PollerLike<OperationState<DomainService>, DomainService>;
 }
-
-// @public
-export type DomainServicesListNextResponse = DomainServiceListResult;
-
-// @public
-export interface DomainServicesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainServicesListResponse = DomainServiceListResult;
 
 // @public (undocumented)
-export class DomainServicesResourceProvider extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DomainServicesResourceProviderOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    domainServiceOperations: DomainServiceOperations;
-    // (undocumented)
-    domainServices: DomainServices;
-    // (undocumented)
-    ouContainerOperationGrp: OuContainerOperationGrp;
-    // (undocumented)
-    ouContainerOperations: OuContainerOperations;
-    // (undocumented)
-    subscriptionId: string;
+export class DomainServicesResourceProvider {
+    constructor(credential: TokenCredential, options?: DomainServicesResourceProviderOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DomainServicesResourceProviderOptionalParams);
+    readonly domainServiceOperations: DomainServiceOperationsOperations;
+    readonly domainServices: DomainServicesOperations;
+    readonly ouContainerOperationGrp: OuContainerOperationGrpOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface DomainServicesResourceProviderOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DomainServicesResourceProviderOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface DomainServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DomainServicesUnsuspendOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DomainServicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DomainServicesUpdateResponse = DomainService;
 
 // @public
 export type ExternalAccess = string;
@@ -221,9 +231,6 @@ export interface ForestTrust {
     trustedDomainFqdn?: string;
     trustPassword?: string;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HealthAlert {
@@ -243,11 +250,19 @@ export interface HealthMonitor {
     readonly name?: string;
 }
 
+export { isRestError }
+
 // @public
 export type KerberosArmoring = string;
 
 // @public
 export type KerberosRc4Encryption = string;
+
+// @public
+export enum KnownChannelBinding {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
 
 // @public
 export enum KnownCreatedByType {
@@ -283,6 +298,12 @@ export enum KnownKerberosRc4Encryption {
 
 // @public
 export enum KnownLdaps {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownLdapSigning {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
@@ -334,13 +355,33 @@ export enum KnownSyncOnPremPasswords {
 }
 
 // @public
+export enum KnownSyncOnPremSamAccountName {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownSyncScope {
+    All = "All",
+    CloudOnly = "CloudOnly"
+}
+
+// @public
 export enum KnownTlsV1 {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
+export enum KnownVersions {
+    V20251001Preview = "2025-10-01-preview"
+}
+
+// @public
 export type Ldaps = string;
+
+// @public
+export type LdapSigning = string;
 
 // @public
 export interface LdapsSettings {
@@ -398,13 +439,66 @@ export interface OperationEntity {
 }
 
 // @public
-export interface OperationEntityListResult {
-    readonly nextLink?: string;
-    value?: OperationEntity[];
+export interface OuContainer extends ProxyResource {
+    accounts?: ContainerAccount[];
+    readonly containerId?: string;
+    readonly deploymentId?: string;
+    readonly distinguishedName?: string;
+    readonly domainName?: string;
+    etag?: string;
+    location?: string;
+    readonly provisioningState?: string;
+    readonly serviceStatus?: string;
+    tags?: Record<string, string>;
+    readonly tenantId?: string;
 }
 
 // @public
-export interface OuContainer extends Resource {
+export interface OuContainerOperationGrpCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OuContainerOperationGrpDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OuContainerOperationGrpGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OuContainerOperationGrpListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OuContainerOperationGrpOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerOperationGrpCreateOptionalParams) => Promise<SimplePollerLike<OperationState<OuContainer>, OuContainer>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerOperationGrpCreateOptionalParams) => Promise<OuContainer>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, options?: OuContainerOperationGrpDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, options?: OuContainerOperationGrpDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerOperationGrpUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<OuContainer>, OuContainer>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerOperationGrpUpdateOptionalParams) => Promise<OuContainer>;
+    create: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerOperationGrpCreateOptionalParams) => PollerLike<OperationState<OuContainer>, OuContainer>;
+    delete: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, options?: OuContainerOperationGrpDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, options?: OuContainerOperationGrpGetOptionalParams) => Promise<OuContainer>;
+    list: (resourceGroupName: string, domainServiceName: string, options?: OuContainerOperationGrpListOptionalParams) => PagedAsyncIterableIterator<OuContainer>;
+    update: (resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerOperationGrpUpdateOptionalParams) => PollerLike<OperationState<OuContainer>, OuContainer>;
+}
+
+// @public
+export interface OuContainerOperationGrpUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OuContainerProperties {
     accounts?: ContainerAccount[];
     readonly containerId?: string;
     readonly deploymentId?: string;
@@ -416,86 +510,20 @@ export interface OuContainer extends Resource {
 }
 
 // @public
-export interface OuContainerCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OuContainerCreateResponse = OuContainer;
-
-// @public
-export interface OuContainerDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export interface OuContainerGetOptionalParams extends coreClient.OperationOptions {
+export interface ProxyResource extends Resource {
 }
-
-// @public
-export type OuContainerGetResponse = OuContainer;
-
-// @public
-export interface OuContainerListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OuContainerListNextResponse = OuContainerListResult;
-
-// @public
-export interface OuContainerListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OuContainerListResponse = OuContainerListResult;
-
-// @public
-export interface OuContainerListResult {
-    readonly nextLink?: string;
-    value?: OuContainer[];
-}
-
-// @public
-export interface OuContainerOperationGrp {
-    beginCreate(resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerCreateOptionalParams): Promise<PollerLike<PollOperationState<OuContainerCreateResponse>, OuContainerCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerCreateOptionalParams): Promise<OuContainerCreateResponse>;
-    beginDelete(resourceGroupName: string, domainServiceName: string, ouContainerName: string, options?: OuContainerDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, domainServiceName: string, ouContainerName: string, options?: OuContainerDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerUpdateOptionalParams): Promise<PollerLike<PollOperationState<OuContainerUpdateResponse>, OuContainerUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, domainServiceName: string, ouContainerName: string, containerAccount: ContainerAccount, options?: OuContainerUpdateOptionalParams): Promise<OuContainerUpdateResponse>;
-    get(resourceGroupName: string, domainServiceName: string, ouContainerName: string, options?: OuContainerGetOptionalParams): Promise<OuContainerGetResponse>;
-    list(resourceGroupName: string, domainServiceName: string, options?: OuContainerListOptionalParams): PagedAsyncIterableIterator<OuContainer>;
-}
-
-// @public
-export interface OuContainerOperations {
-    list(options?: OuContainerOperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity>;
-}
-
-// @public
-export interface OuContainerOperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OuContainerOperationsListNextResponse = OperationEntityListResult;
-
-// @public
-export interface OuContainerOperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OuContainerOperationsListResponse = OperationEntityListResult;
-
-// @public
-export interface OuContainerUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type OuContainerUpdateResponse = OuContainer;
 
 // @public
 export interface ReplicaSet {
@@ -506,6 +534,7 @@ export interface ReplicaSet {
     readonly healthMonitors?: HealthMonitor[];
     location?: string;
     readonly replicaSetId?: string;
+    readonly selfUnsuspendCounter?: number;
     readonly serviceStatus?: string;
     subnetId?: string;
     readonly vnetSiteId?: string;
@@ -513,14 +542,9 @@ export interface ReplicaSet {
 
 // @public
 export interface Resource {
-    etag?: string;
     readonly id?: string;
-    location?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -528,6 +552,40 @@ export interface Resource {
 export interface ResourceForestSettings {
     resourceForest?: string;
     settings?: ForestTrust[];
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DomainServicesResourceProvider, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -543,6 +601,12 @@ export type SyncNtlmPasswords = string;
 export type SyncOnPremPasswords = string;
 
 // @public
+export type SyncOnPremSamAccountName = string;
+
+// @public
+export type SyncScope = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -554,6 +618,12 @@ export interface SystemData {
 
 // @public
 export type TlsV1 = string;
+
+// @public
+export interface UnsuspendDomainServiceResponse {
+    // (undocumented)
+    message?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

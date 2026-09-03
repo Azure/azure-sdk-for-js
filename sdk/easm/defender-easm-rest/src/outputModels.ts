@@ -820,8 +820,7 @@ export interface LogAnalyticsDataConnectionPropertiesOutput extends DataConnecti
 /** The properties required to establish connection to a particular service */
 export interface DataConnectionPropertiesOutput {}
 
-export interface AzureDataExplorerDataConnectionPropertiesOutput
-  extends DataConnectionPropertiesOutput {
+export interface AzureDataExplorerDataConnectionPropertiesOutput extends DataConnectionPropertiesOutput {
   /** The azure data explorer cluster name */
   clusterName?: string;
   /** The azure data explorer region */

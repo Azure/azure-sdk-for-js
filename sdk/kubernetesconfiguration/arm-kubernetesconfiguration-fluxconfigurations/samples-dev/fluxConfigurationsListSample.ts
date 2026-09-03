@@ -1,36 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all Flux Configurations.
- *
- * @summary List all Flux Configurations.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/ListFluxConfigurations.json
- */
-
 import { FluxConfigurationClient } from "@azure/arm-kubernetesconfiguration-fluxconfigurations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list all Flux Configurations.
+ *
+ * @summary list all Flux Configurations.
+ * x-ms-original-file: 2025-04-01/ListFluxConfigurations.json
+ */
 async function listFluxConfiguration(): Promise<void> {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const resourceGroupName =
-    process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
-  const clusterRp = "Microsoft.Kubernetes";
-  const clusterResourceName = "connectedClusters";
-  const clusterName = "clusterName1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId1";
   const client = new FluxConfigurationClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.fluxConfigurations.list(
-    resourceGroupName,
-    clusterRp,
-    clusterResourceName,
-    clusterName,
+    "rg1",
+    "Microsoft.Kubernetes",
+    "connectedClusters",
+    "clusterName1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

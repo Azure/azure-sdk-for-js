@@ -5,7 +5,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 import {
   DevelopmentConnectionString,
@@ -79,8 +79,8 @@ import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
+ * @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
+ * @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
  *
  * @param url -
  */
@@ -91,7 +91,7 @@ export function escapeURLPath(url: string): string {
   path = path || "/";
 
   path = escape(path);
-  urlParsed.pathname = path;
+  (urlParsed as unknown as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -107,7 +107,7 @@ export interface ConnectionString {
 
 function getProxyUriFromDevConnString(connectionString: string): string {
   // Development Connection String
-  // https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  // https://learn.microsoft.com/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
   let proxyUri = "";
   if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
     // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
@@ -167,20 +167,21 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   ) {
     // Account connection string
 
-    let defaultEndpointsProtocol = "";
-    let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
-    let endpointSuffix = "";
-
     // Get account name and key
-    accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    const accountName = getValueInConnString(connectionString, "AccountName");
+    const accountKey = stringToUint8Array(
+      getValueInConnString(connectionString, "AccountKey"),
+      "base64",
+    );
 
     if (!blobEndpoint) {
       // BlobEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const defaultEndpointsProtocol = getValueInConnString(
+        connectionString,
+        "DefaultEndpointsProtocol",
+      );
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -188,7 +189,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
         );
       }
 
-      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      const endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }
@@ -258,7 +259,7 @@ export function appendToURLPath(url: string, name: string): string {
 
   let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.pathname = path;
+  (urlParsed as unknown as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -318,7 +319,7 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  */
 export function setURLHost(url: string, host: string): string {
   const urlParsed = new URL(url);
-  urlParsed.hostname = host;
+  (urlParsed as unknown as { hostname: string }).hostname = host;
   return urlParsed.toString();
 }
 
@@ -444,24 +445,6 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
 }
 
 /**
- * Base64 encode.
- *
- * @param content -
- */
-export function base64encode(content: string): string {
-  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
-}
-
-/**
- * Base64 decode.
- *
- * @param encodedString -
- */
-export function base64decode(encodedString: string): string {
-  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
-}
-
-/**
  * Generate a 64 bytes base64 block ID string.
  *
  * @param blockIndex -
@@ -481,7 +464,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
   const res =
     blockIDPrefix +
     padStart(blockIndex.toString(), maxSourceStringLength - blockIDPrefix.length, "0");
-  return base64encode(res);
+  return uint8ArrayToString(stringToUint8Array(res, "utf-8"), "base64");
 }
 
 /**
@@ -607,7 +590,7 @@ export function getAccountNameFromUrl(url: string): string {
     }
     return accountName;
   } catch (error: any) {
-    throw new Error("Unable to extract accountName with provided information.");
+    throw new Error("Unable to extract accountName with provided information.", { cause: error });
   }
 }
 

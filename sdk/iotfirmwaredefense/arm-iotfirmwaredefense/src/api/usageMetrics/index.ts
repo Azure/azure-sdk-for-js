@@ -3,6 +3,6 @@
 
 export { listByWorkspace, get } from "./operations.js";
 export {
-  UsageMetricsListByWorkspaceOptionalParams,
-  UsageMetricsGetOptionalParams,
+  type UsageMetricsListByWorkspaceOptionalParams,
+  type UsageMetricsGetOptionalParams,
 } from "./options.js";

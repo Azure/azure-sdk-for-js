@@ -25,9 +25,9 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken,
     );
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
+    assert.isDefined(token?.token);
     assert.isDefined(token?.expiresOnTimestamp);
-    if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
+    if (token?.expiresOnTimestamp) assert.isTrue(token?.expiresOnTimestamp > Date.now());
   });
 
   it("fails with invalid service connection", async function (ctx) {
@@ -43,8 +43,9 @@ describe("AzurePipelinesCredential", function () {
       "existingServiceConnectionId",
       systemAccessToken,
     );
+    // The error can be either AADSTS700213 or AADSTS700211
     const regExp: RegExp =
-      /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .*/;
+      /invalid_client:.*AADSTS70021[13]: No matching federated identity record found for presented assertion (?:issuer|subject)/;
     await expect(credential.getToken(scope)).rejects.toThrow(regExp);
   });
 

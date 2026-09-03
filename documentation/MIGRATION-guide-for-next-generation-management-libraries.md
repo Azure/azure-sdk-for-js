@@ -41,7 +41,7 @@ into
 
 ```typescript
 import { ClientSecretCredential } from "@azure/identity";
-const credentials = new ClientSecretCredential(tenantId, clientId, clientSecrat);
+const credentials = new ClientSecretCredential(tenantId, clientId, clientSecret);
 ```
 
 Please refer to [@azure/identity](https://www.npmjs.com/package/@azure/identity) for more details about `@azure/identity` and [migration guide from @azure/ms-rest-nodeauth to @azure/identity](https://github.com/Azure/ms-rest-nodeauth/blob/master/migrate-to-identity-v2.md) on how to migrate from `@azure/ms-rest-nodeauth`.  
@@ -227,8 +227,8 @@ Many operations may take a long time to finish before receiving the desired resp
 
 The following table compares `LROPoller` and `PollerLike`:
 
-| operation                                                                  | `LROPOller`                                  | `PollerLike`                                                                                                                                                                                                    |
-| -------------------------------------------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| operation                                                                  | `LROPoller`                                  | `PollerLike`                                                                                                                                                                                                    |
+|----------------------------------------------------------------------------|----------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | return final results                                                       | `pollUntilFinished()`                        | `pollUntilDone()`                                                                                                                                                                                               |
 | poll                                                                       | `poll()`                                     | `poll()`                                                                                                                                                                                                        |
 | access the current state after receiving the response of each poll request | N/A                                          | `onProgress()`                                                                                                                                                                                                  |

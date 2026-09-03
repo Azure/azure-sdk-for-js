@@ -1,0 +1,8 @@
+directory: specification/discovery/Discovery.Management
+commit: 4ef6cb2ad1515ab236778ed1b7c1911bd68a8325
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+- specification/discovery/Discovery.Management.Shared
+- specification/discovery/Discovery.Bookshelf.Management
+- specification/discovery/Discovery.Supercomputer.Management
+- specification/discovery/Discovery.Workspace.Management

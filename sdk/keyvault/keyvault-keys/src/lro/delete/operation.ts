@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import type { DeleteKeyOptions, DeletedKey, GetDeletedKeyOptions } from "../../keysModels.js";
 import { tracingClient } from "../../tracing.js";
 import { getKeyFromKeyBundle } from "../../transformations.js";

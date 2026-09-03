@@ -1,86 +1,80 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createServiceFabricManagedClustersManagement,
+import type {
   ServiceFabricManagedClustersManagementContext,
   ServiceFabricManagedClustersManagementClientOptionalParams,
 } from "./api/index.js";
-import {
-  OperationStatusOperations,
-  _getOperationStatusOperations,
-} from "./classic/operationStatus/index.js";
-import {
-  OperationResultsOperations,
-  _getOperationResultsOperations,
-} from "./classic/operationResults/index.js";
-import {
-  NodeTypeSkusOperations,
-  _getNodeTypeSkusOperations,
-} from "./classic/nodeTypeSkus/index.js";
-import { NodeTypesOperations, _getNodeTypesOperations } from "./classic/nodeTypes/index.js";
-import {
-  ManagedMaintenanceWindowStatusOperations,
-  _getManagedMaintenanceWindowStatusOperations,
-} from "./classic/managedMaintenanceWindowStatus/index.js";
-import {
-  ManagedApplyMaintenanceWindowOperations,
-  _getManagedApplyMaintenanceWindowOperations,
-} from "./classic/managedApplyMaintenanceWindow/index.js";
-import {
-  ManagedAzResiliencyStatusOperations,
-  _getManagedAzResiliencyStatusOperations,
-} from "./classic/managedAzResiliencyStatus/index.js";
-import {
-  ManagedClustersOperations,
-  _getManagedClustersOperations,
-} from "./classic/managedClusters/index.js";
-import {
-  ManagedUnsupportedVMSizesOperations,
-  _getManagedUnsupportedVMSizesOperations,
-} from "./classic/managedUnsupportedVMSizes/index.js";
-import {
-  ManagedClusterVersionOperations,
-  _getManagedClusterVersionOperations,
-} from "./classic/managedClusterVersion/index.js";
-import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
-import {
-  ApplicationTypeVersionsOperations,
-  _getApplicationTypeVersionsOperations,
-} from "./classic/applicationTypeVersions/index.js";
-import {
-  ApplicationTypesOperations,
-  _getApplicationTypesOperations,
-} from "./classic/applicationTypes/index.js";
-import {
-  ApplicationsOperations,
-  _getApplicationsOperations,
-} from "./classic/applications/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { createServiceFabricManagedClustersManagement } from "./api/index.js";
+import type { ApplicationTypeVersionsOperations } from "./classic/applicationTypeVersions/index.js";
+import { _getApplicationTypeVersionsOperations } from "./classic/applicationTypeVersions/index.js";
+import type { ApplicationTypesOperations } from "./classic/applicationTypes/index.js";
+import { _getApplicationTypesOperations } from "./classic/applicationTypes/index.js";
+import type { ApplicationsOperations } from "./classic/applications/index.js";
+import { _getApplicationsOperations } from "./classic/applications/index.js";
+import type { ManagedApplyMaintenanceWindowOperations } from "./classic/managedApplyMaintenanceWindow/index.js";
+import { _getManagedApplyMaintenanceWindowOperations } from "./classic/managedApplyMaintenanceWindow/index.js";
+import type { ManagedAzResiliencyStatusOperations } from "./classic/managedAzResiliencyStatus/index.js";
+import { _getManagedAzResiliencyStatusOperations } from "./classic/managedAzResiliencyStatus/index.js";
+import type { ManagedClusterVersionOperations } from "./classic/managedClusterVersion/index.js";
+import { _getManagedClusterVersionOperations } from "./classic/managedClusterVersion/index.js";
+import type { ManagedClustersOperations } from "./classic/managedClusters/index.js";
+import { _getManagedClustersOperations } from "./classic/managedClusters/index.js";
+import type { ManagedMaintenanceWindowStatusOperations } from "./classic/managedMaintenanceWindowStatus/index.js";
+import { _getManagedMaintenanceWindowStatusOperations } from "./classic/managedMaintenanceWindowStatus/index.js";
+import type { ManagedUnsupportedVMSizesOperations } from "./classic/managedUnsupportedVMSizes/index.js";
+import { _getManagedUnsupportedVMSizesOperations } from "./classic/managedUnsupportedVMSizes/index.js";
+import type { NodeTypeSkusOperations } from "./classic/nodeTypeSkus/index.js";
+import { _getNodeTypeSkusOperations } from "./classic/nodeTypeSkus/index.js";
+import type { NodeTypesOperations } from "./classic/nodeTypes/index.js";
+import { _getNodeTypesOperations } from "./classic/nodeTypes/index.js";
+import type { OperationResultsOperations } from "./classic/operationResults/index.js";
+import { _getOperationResultsOperations } from "./classic/operationResults/index.js";
+import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
+import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { ServicesOperations } from "./classic/services/index.js";
+import { _getServicesOperations } from "./classic/services/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/serviceFabricManagedClustersManagementContext.js";
+export type { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/serviceFabricManagedClustersManagementContext.js";
 
 export class ServiceFabricManagedClustersManagementClient {
   private _client: ServiceFabricManagedClustersManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Service Fabric Managed Clusters Management Client */
+  constructor(
+    credential: TokenCredential,
+    options?: ServiceFabricManagedClustersManagementClientOptionalParams,
+  );
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: ServiceFabricManagedClustersManagementClientOptionalParams = {},
+    options?: ServiceFabricManagedClustersManagementClientOptionalParams,
+  );
+  /** Service Fabric Managed Clusters Management Client */
+  constructor(
+    credential: TokenCredential,
+    subscriptionIdOrOptions?: string | ServiceFabricManagedClustersManagementClientOptionalParams,
+    options?: ServiceFabricManagedClustersManagementClientOptionalParams,
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createServiceFabricManagedClustersManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
+    }
+
+    options = options ?? {};
+    this._client = createServiceFabricManagedClustersManagement(
+      credential,
+      subscriptionId ?? "",
+      options,
+    );
     this.pipeline = this._client.pipeline;
     this.operationStatus = _getOperationStatusOperations(this._client);
     this.operationResults = _getOperationResultsOperations(this._client);

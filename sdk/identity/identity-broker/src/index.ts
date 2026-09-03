@@ -6,8 +6,6 @@ import { NativeBrokerPlugin } from "@azure/msal-node-extensions";
 
 /**
  * A subset of the AzurePluginContext provided by \@azure/identity
- *
- * @internal
  */
 interface AzurePluginContext {
   nativeBrokerPluginControl: NativeBrokerPluginControl;

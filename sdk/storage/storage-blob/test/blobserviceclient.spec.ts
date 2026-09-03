@@ -3,16 +3,16 @@
 import { BlobServiceClient } from "../src/index.js";
 import {
   configureBlobStorageClient,
+  createAndStartRecorder,
   getAlternateBSU,
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "./utils/index.js";
-import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type { Tags } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -21,9 +21,7 @@ describe("BlobServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
@@ -33,21 +31,21 @@ describe("BlobServiceClient", () => {
   it("ListContainers with default parameters", async () => {
     const blobServiceClient = getBSU(recorder);
     const result = (await blobServiceClient.listContainers().byPage().next()).value;
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-    assert.ok(typeof result.clientRequestId);
-    assert.ok(result.clientRequestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
+    assert.isDefined(result.clientRequestId);
+    assert.isAbove(result.clientRequestId!.length, 0);
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(result.containerItems!.length >= 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.containerItems!.length, 0);
 
     if (result.containerItems!.length > 0) {
       const container = result.containerItems![0];
-      assert.ok(container.name.length > 0);
-      assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModified);
+      assert.isAbove(container.name.length, 0);
+      assert.isAbove(container.properties.etag.length, 0);
+      assert.isDefined(container.properties.lastModified);
     }
   });
 
@@ -60,7 +58,7 @@ describe("BlobServiceClient", () => {
     const blobServiceClient = getBSU(recorder);
     const result = (await blobServiceClient.listContainers({ includeSystem: true }).byPage().next())
       .value;
-    assert.ok(result.containerItems!.length > 0);
+    assert.isAbove(result.containerItems!.length, 0);
 
     let foundSystemContainer = false;
     for (const containerItem of result.containerItems) {
@@ -70,20 +68,20 @@ describe("BlobServiceClient", () => {
       }
     }
 
-    assert.ok(foundSystemContainer, "System containers should be included in listing result");
+    assert.isTrue(foundSystemContainer, "System containers should be included in listing result");
   });
 
   it("ListContainers with default parameters - null prefix shouldn't throw error", async () => {
     const blobServiceClient = getBSU(recorder);
     const result = (await blobServiceClient.listContainers({ prefix: "" }).byPage().next()).value;
 
-    assert.ok(result.containerItems!.length >= 0);
+    assert.isAtLeast(result.containerItems!.length, 0);
 
     if (result.containerItems!.length > 0) {
       const container = result.containerItems![0];
-      assert.ok(container.name.length > 0);
-      assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModified);
+      assert.isAbove(container.name.length, 0);
+      assert.isAbove(container.properties.etag.length, 0);
+      assert.isDefined(container.properties.lastModified);
     }
   });
 
@@ -108,13 +106,13 @@ describe("BlobServiceClient", () => {
         .next()
     ).value;
 
-    assert.ok(result1.continuationToken);
+    assert.isDefined(result1.continuationToken);
     assert.equal(result1.containerItems!.length, 1);
-    assert.ok(result1.containerItems![0].name.startsWith(containerNamePrefix));
-    assert.ok(result1.containerItems![0].properties.etag.length > 0);
-    assert.ok(result1.containerItems![0].properties.lastModified);
-    assert.ok(!result1.containerItems![0].properties.leaseDuration);
-    assert.ok(!result1.containerItems![0].properties.publicAccess);
+    assert.isTrue(result1.containerItems![0].name.startsWith(containerNamePrefix));
+    assert.isAbove(result1.containerItems![0].properties.etag.length, 0);
+    assert.isDefined(result1.containerItems![0].properties.lastModified);
+    assert.isUndefined(result1.containerItems![0].properties.leaseDuration);
+    assert.isUndefined(result1.containerItems![0].properties.publicAccess);
     assert.deepEqual(result1.containerItems![0].properties.leaseState, "available");
     assert.deepEqual(result1.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
@@ -129,13 +127,13 @@ describe("BlobServiceClient", () => {
         .next()
     ).value;
 
-    assert.ok(!result2.continuationToken);
+    assert.equal(result2.continuationToken, "");
     assert.equal(result2.containerItems!.length, 1);
-    assert.ok(result2.containerItems![0].name.startsWith(containerNamePrefix));
-    assert.ok(result2.containerItems![0].properties.etag.length > 0);
-    assert.ok(result2.containerItems![0].properties.lastModified);
-    assert.ok(!result2.containerItems![0].properties.leaseDuration);
-    assert.ok(!result2.containerItems![0].properties.publicAccess);
+    assert.isTrue(result2.containerItems![0].name.startsWith(containerNamePrefix));
+    assert.isAbove(result2.containerItems![0].properties.etag.length, 0);
+    assert.isDefined(result2.containerItems![0].properties.lastModified);
+    assert.isUndefined(result2.containerItems![0].properties.leaseDuration);
+    assert.isUndefined(result2.containerItems![0].properties.publicAccess);
     assert.deepEqual(result2.containerItems![0].properties.leaseState, "available");
     assert.deepEqual(result2.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result2.containerItems![0].metadata!.key, "val");
@@ -161,11 +159,11 @@ describe("BlobServiceClient", () => {
       includeMetadata: true,
       prefix: containerNamePrefix,
     })) {
-      assert.ok(container.name.startsWith(containerNamePrefix));
-      assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModified);
-      assert.ok(!container.properties.leaseDuration);
-      assert.ok(!container.properties.publicAccess);
+      assert.isTrue(container.name.startsWith(containerNamePrefix));
+      assert.isAbove(container.properties.etag.length, 0);
+      assert.isDefined(container.properties.lastModified);
+      assert.isUndefined(container.properties.leaseDuration);
+      assert.isUndefined(container.properties.publicAccess);
       assert.deepEqual(container.properties.leaseState, "available");
       assert.deepEqual(container.properties.leaseStatus, "unlocked");
       assert.deepEqual(container.metadata!.key, "val");
@@ -193,21 +191,21 @@ describe("BlobServiceClient", () => {
     });
 
     let containerItem = getYieldedValue(await iterator.next());
-    assert.ok(containerItem.name.startsWith(containerNamePrefix));
-    assert.ok(containerItem.properties.etag.length > 0);
-    assert.ok(containerItem.properties.lastModified);
-    assert.ok(!containerItem.properties.leaseDuration);
-    assert.ok(!containerItem.properties.publicAccess);
+    assert.isTrue(containerItem.name.startsWith(containerNamePrefix));
+    assert.isAbove(containerItem.properties.etag.length, 0);
+    assert.isDefined(containerItem.properties.lastModified);
+    assert.isUndefined(containerItem.properties.leaseDuration);
+    assert.isUndefined(containerItem.properties.publicAccess);
     assert.deepEqual(containerItem.properties.leaseState, "available");
     assert.deepEqual(containerItem.properties.leaseStatus, "unlocked");
     assert.deepEqual(containerItem.metadata!.key, "val");
 
     containerItem = getYieldedValue(await iterator.next());
-    assert.ok(containerItem.name.startsWith(containerNamePrefix));
-    assert.ok(containerItem.properties.etag.length > 0);
-    assert.ok(containerItem.properties.lastModified);
-    assert.ok(!containerItem.properties.leaseDuration);
-    assert.ok(!containerItem.properties.publicAccess);
+    assert.isTrue(containerItem.name.startsWith(containerNamePrefix));
+    assert.isAbove(containerItem.properties.etag.length, 0);
+    assert.isDefined(containerItem.properties.lastModified);
+    assert.isUndefined(containerItem.properties.leaseDuration);
+    assert.isUndefined(containerItem.properties.publicAccess);
     assert.deepEqual(containerItem.properties.leaseState, "available");
     assert.deepEqual(containerItem.properties.leaseStatus, "unlocked");
     assert.deepEqual(containerItem.metadata!.key, "val");
@@ -236,11 +234,11 @@ describe("BlobServiceClient", () => {
       })
       .byPage({ maxPageSize: 2 })) {
       for (const container of response.containerItems) {
-        assert.ok(container.name.startsWith(containerNamePrefix));
-        assert.ok(container.properties.etag.length > 0);
-        assert.ok(container.properties.lastModified);
-        assert.ok(!container.properties.leaseDuration);
-        assert.ok(!container.properties.publicAccess);
+        assert.isTrue(container.name.startsWith(containerNamePrefix));
+        assert.isAbove(container.properties.etag.length, 0);
+        assert.isDefined(container.properties.lastModified);
+        assert.isUndefined(container.properties.leaseDuration);
+        assert.isUndefined(container.properties.publicAccess);
         assert.deepEqual(container.properties.leaseState, "available");
         assert.deepEqual(container.properties.leaseStatus, "unlocked");
         assert.deepEqual(container.metadata!.key, "val");
@@ -273,11 +271,11 @@ describe("BlobServiceClient", () => {
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
     for (const container of response.containerItems) {
-      assert.ok(container.name.startsWith(containerNamePrefix));
-      assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModified);
-      assert.ok(!container.properties.leaseDuration);
-      assert.ok(!container.properties.publicAccess);
+      assert.isTrue(container.name.startsWith(containerNamePrefix));
+      assert.isAbove(container.properties.etag.length, 0);
+      assert.isDefined(container.properties.lastModified);
+      assert.isUndefined(container.properties.leaseDuration);
+      assert.isUndefined(container.properties.publicAccess);
       assert.deepEqual(container.properties.leaseState, "available");
       assert.deepEqual(container.properties.leaseStatus, "unlocked");
       assert.deepEqual(container.metadata!.key, "val");
@@ -294,11 +292,11 @@ describe("BlobServiceClient", () => {
     response = (await iter.next()).value;
     // Gets 2 containers
     for (const container of response.containerItems) {
-      assert.ok(container.name.startsWith(containerNamePrefix));
-      assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModified);
-      assert.ok(!container.properties.leaseDuration);
-      assert.ok(!container.properties.publicAccess);
+      assert.isTrue(container.name.startsWith(containerNamePrefix));
+      assert.isAbove(container.properties.etag.length, 0);
+      assert.isDefined(container.properties.lastModified);
+      assert.isUndefined(container.properties.leaseDuration);
+      assert.isUndefined(container.properties.publicAccess);
       assert.deepEqual(container.properties.leaseState, "available");
       assert.deepEqual(container.properties.leaseStatus, "unlocked");
       assert.deepEqual(container.metadata!.key, "val");
@@ -313,19 +311,19 @@ describe("BlobServiceClient", () => {
     const blobServiceClient = getBSU(recorder);
     const result = await blobServiceClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-    assert.ok(typeof result.clientRequestId);
-    assert.ok(result.clientRequestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
+    assert.isDefined(result.clientRequestId);
+    assert.isAbove(result.clientRequestId!.length, 0);
 
     if (result.cors && result.cors!.length > 0) {
-      assert.ok(result.cors![0].allowedHeaders.length > 0);
-      assert.ok(result.cors![0].allowedMethods.length > 0);
-      assert.ok(result.cors![0].allowedOrigins.length > 0);
-      assert.ok(result.cors![0].exposedHeaders.length > 0);
-      assert.ok(result.cors![0].maxAgeInSeconds >= 0);
+      assert.isAbove(result.cors![0].allowedHeaders.length, 0);
+      assert.isAbove(result.cors![0].allowedMethods.length, 0);
+      assert.isAbove(result.cors![0].allowedOrigins.length, 0);
+      assert.isAbove(result.cors![0].exposedHeaders.length, 0);
+      assert.isAtLeast(result.cors![0].maxAgeInSeconds, 0);
     }
   });
 
@@ -389,10 +387,10 @@ describe("BlobServiceClient", () => {
     await delay(5 * 1000);
 
     const result = await blobServiceClient.getProperties();
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
@@ -405,15 +403,15 @@ describe("BlobServiceClient", () => {
     }
 
     const result = await blobServiceClient!.getStatistics();
-    assert.ok(result.geoReplication!.lastSyncOn);
+    assert.isDefined(result.geoReplication!.lastSyncOn);
   });
 
   it("getAccountInfo", async () => {
     const blobServiceClient = getBSU(recorder);
 
     const accountInfo = await blobServiceClient.getAccountInfo();
-    assert.ok(accountInfo.accountKind);
-    assert.ok(accountInfo.skuName);
+    assert.isDefined(accountInfo.accountKind);
+    assert.isDefined(accountInfo.skuName);
     assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
@@ -438,7 +436,7 @@ describe("BlobServiceClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
   });
 
@@ -450,8 +448,8 @@ describe("BlobServiceClient", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 
   it("getUserDelegationKey should work", async function (ctx) {
@@ -539,7 +537,7 @@ describe("BlobServiceClient", () => {
     for await (const segment of blobServiceClient.findBlobsByTags(`${key2}='default'`).byPage({
       maxPageSize: 1,
     })) {
-      assert.ok(segment.blobs.length <= 1);
+      assert.isAtMost(segment.blobs.length, 1);
       for (const blob of segment.blobs) {
         blobsWithTag2.push(blob);
       }
@@ -577,7 +575,7 @@ describe("BlobServiceClient", () => {
     });
 
     const staticWebsite = (await blobServiceClient.getProperties()).staticWebsite;
-    assert.ok(staticWebsite?.enabled);
+    assert.isDefined(staticWebsite?.enabled);
     assert.equal(staticWebsite?.errorDocument404Path, errorDocument404Path);
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
   });
@@ -604,9 +602,9 @@ describe("BlobServiceClient", () => {
       if (containerItem.deleted && containerItem.name === containerName) {
         listed = true;
         // check list container response
-        assert.ok(containerItem.version);
-        assert.ok(containerItem.properties.deletedOn);
-        assert.ok(containerItem.properties.remainingRetentionDays);
+        assert.isDefined(containerItem.version);
+        assert.isDefined(containerItem.properties.deletedOn);
+        assert.isDefined(containerItem.properties.remainingRetentionDays);
 
         const restoreRes = await blobServiceClient.undeleteContainer(
           containerName,
@@ -617,7 +615,7 @@ describe("BlobServiceClient", () => {
         break;
       }
     }
-    assert.ok(listed);
+    assert.isTrue(listed);
   });
 
   // need feature to record test

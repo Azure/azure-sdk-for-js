@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, vi, expect, beforeAll } from "vitest";
 import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
 import type { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
 import { OperationType, ResourceType } from "../../../src/common/index.js";
-import { Constants, HTTPMethod, RequestContext } from "../../../src/index.js";
+import type { RequestContext } from "../../../src/index.js";
+import { Constants, HTTPMethod } from "../../../src/index.js";
 
 const mockReadEndpoints = [
   "https://region1.documents.azure.com:443/",
@@ -25,6 +26,9 @@ function createMockGlobalEndpointManager(): GlobalEndpointManager {
       { name: "region3", databaseAccountEndpoint: "https://region3.documents.azure.com:443/" },
     ],
     canUseMultipleWriteLocations: () => false,
+    enablePartitionLevelFailover: true,
+    lastKnownPPAFEnabled: true,
+    enablePartitionLevelCircuitBreaker: true,
   } as unknown as GlobalEndpointManager;
 }
 
@@ -106,8 +110,9 @@ describe("GlobalPartitionEndpointManager", () => {
       assert.equal(result, false);
     });
 
-    it("should return false if enablePartitionLevelFailover is false", async () => {
+    it("should return false if lastKnownPPAFEnabled is false", async () => {
       const mockGEM = createMockGlobalEndpointManager();
+      mockGEM.lastKnownPPAFEnabled = false;
       const managerNoPreferred = new GlobalPartitionEndpointManager(
         {
           connectionPolicy: {
@@ -360,6 +365,11 @@ describe("GlobalPartitionEndpointManager", () => {
   });
 
   describe("Circuit Breaker Failback", () => {
+    let originalInterval: number;
+    beforeAll(() => {
+      originalInterval = Constants.StalePartitionUnavailabilityRefreshIntervalInMs;
+      (Constants as any).StalePartitionUnavailabilityRefreshIntervalInMs = 20;
+    });
     let globalPartitionEndpointManager: GlobalPartitionEndpointManager;
     beforeEach(() => {
       const mockGEM = createMockGlobalEndpointManager();

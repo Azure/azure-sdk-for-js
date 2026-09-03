@@ -154,8 +154,7 @@ export interface AzureChatExtensionDataSourceResponseCitation {
 }
 
 /** The retrieved document. */
-export interface AzureChatExtensionRetrievedDocument
-  extends AzureChatExtensionDataSourceResponseCitation {
+export interface AzureChatExtensionRetrievedDocument extends AzureChatExtensionDataSourceResponseCitation {
   /** The search queries used to retrieve the document. */
   search_queries: string[];
 

@@ -7,7 +7,7 @@ export {
   getVectorStoreFileBatch,
   createVectorStoreFileBatch,
 } from "./operations.js";
-export {
+export type {
   VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
   VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
   VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams,

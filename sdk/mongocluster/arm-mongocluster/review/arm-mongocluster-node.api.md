@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -29,6 +31,16 @@ export interface AuthConfigProperties {
 
 // @public
 export type AuthenticationMode = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BackupProperties {
@@ -76,8 +88,8 @@ export type CreateMode = string;
 
 // @public
 export interface CustomerManagedKeyEncryptionProperties {
-    keyEncryptionKeyIdentity: KeyEncryptionKeyIdentity;
-    keyEncryptionKeyUrl: string;
+    keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
 }
 
 // @public
@@ -190,10 +202,12 @@ export type IdentityProviderType = string;
 // @public
 export type IdentityProviderUnion = EntraIdentityProvider | IdentityProvider;
 
+export { isRestError }
+
 // @public
 export interface KeyEncryptionKeyIdentity {
-    identityType: KeyEncryptionKeyIdentityType;
-    userAssignedIdentityResourceId: string;
+    identityType?: KeyEncryptionKeyIdentityType;
+    userAssignedIdentityResourceId?: string;
 }
 
 // @public
@@ -281,6 +295,12 @@ export enum KnownMongoClusterStatus {
 }
 
 // @public
+export enum KnownNetworkBypassMode {
+    AzureCosmosDB = "AzureCosmosDB",
+    None = "None"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -363,12 +383,9 @@ export enum KnownUserRole {
 
 // @public
 export enum KnownVersions {
-    V20240301Preview = "2024-03-01-preview",
-    V20240601Preview = "2024-06-01-preview",
     V20240701 = "2024-07-01",
-    V20241001Preview = "2024-10-01-preview",
-    V20250401Preview = "2025-04-01-preview",
-    V20250701Preview = "2025-07-01-preview"
+    V20250901 = "2025-09-01",
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -409,6 +426,7 @@ export class MongoClusterManagementClient {
 // @public
 export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -424,6 +442,7 @@ export interface MongoClusterProperties {
     encryption?: EncryptionProperties;
     highAvailability?: HighAvailabilityProperties;
     readonly infrastructureVersion?: string;
+    networkBypassMode?: NetworkBypassMode;
     previewFeatures?: PreviewFeature[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -518,13 +537,18 @@ export interface MongoClusterUpdateProperties {
     backup?: BackupProperties;
     compute?: ComputeProperties;
     dataApi?: DataApiProperties;
+    encryption?: EncryptionProperties;
     highAvailability?: HighAvailabilityProperties;
+    networkBypassMode?: NetworkBypassMode;
     previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
     serverVersion?: string;
     sharding?: ShardingProperties;
     storage?: StorageProperties;
 }
+
+// @public
+export type NetworkBypassMode = string;
 
 // @public
 export interface Operation {
@@ -710,6 +734,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MongoClusterManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -727,9 +753,7 @@ export interface ShardingProperties {
 
 // @public
 export interface StorageProperties {
-    iops?: number;
     sizeGb?: number;
-    throughput?: number;
     type?: StorageType;
 }
 

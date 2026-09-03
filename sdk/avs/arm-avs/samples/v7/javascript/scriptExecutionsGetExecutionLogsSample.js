@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to return the logs for a script execution resource
  *
  * @summary return the logs for a script execution resource
- * x-ms-original-file: 2024-09-01/ScriptExecutions_GetExecutionLogs.json
+ * x-ms-original-file: 2025-09-01/ScriptExecutions_GetExecutionLogs.json
  */
 async function scriptExecutionsGetExecutionLogs() {
   const credential = new DefaultAzureCredential();

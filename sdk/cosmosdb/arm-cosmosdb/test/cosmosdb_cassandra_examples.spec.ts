@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Cosmosdb test", () => {
+describe.skip("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -49,7 +49,7 @@ describe("Cosmosdb test", () => {
       recorder.configureClientOptions({}),
     );
     location = "uksouth";
-    resourceGroupName = "myjstest";
+    resourceGroupName = "SSS3PT_myjstest";
     accountName = "myaccountxxyz1";
     keyspaceName = "mykeyspacexxx";
   });

@@ -278,7 +278,7 @@ export namespace ConnectionContext {
       );
     };
 
-    const onDisconnected: OnAmqpEvent = async (context: EventContext) => {
+    async function handleDisconnection(context: EventContext): Promise<void> {
       if (waitForConnectionRefreshPromise) {
         return;
       }
@@ -295,7 +295,7 @@ export namespace ConnectionContext {
           logger.verbose(
             "[%s] Accompanying error on the context.connection: %O",
             connectionContext.connection.id,
-            context.connection && context.connection.error,
+            context.connection.error,
           );
         }
         if (context.error) {
@@ -369,9 +369,19 @@ export namespace ConnectionContext {
         waitForConnectionRefreshResolve();
         waitForConnectionRefreshPromise = undefined;
       }
+    }
+
+    const onDisconnected: OnAmqpEvent = (context: EventContext) => {
+      // Fire-and-forget async operation with error handling
+      handleDisconnection(context).catch((err) => {
+        logger.verbose(
+          `[${connectionContext.connectionId}] Unhandled error in 'disconnected' event handler. %O`,
+          err,
+        );
+      });
     };
 
-    const protocolError: OnAmqpEvent = async (context: EventContext) => {
+    const protocolError: OnAmqpEvent = (context: EventContext) => {
       logger.verbose(
         "[%s] 'protocol_error' event occurred on the amqp connection.",
         connectionContext.connection.id,
@@ -393,7 +403,7 @@ export namespace ConnectionContext {
       }
     };
 
-    const error: OnAmqpEvent = async (context: EventContext) => {
+    const error: OnAmqpEvent = (context: EventContext) => {
       logger.verbose(
         "[%s] 'error' event occurred on the amqp connection.",
         connectionContext.connection.id,
@@ -469,10 +479,7 @@ export function createConnectionContext(
   hostOrConnectionString: string,
   eventHubNameOrOptions?: string | EventHubClientOptions,
   credentialOrOptions?:
-    | TokenCredential
-    | NamedKeyCredential
-    | SASCredential
-    | EventHubClientOptions,
+    TokenCredential | NamedKeyCredential | SASCredential | EventHubClientOptions,
   options?: EventHubClientOptions,
 ): ConnectionContext {
   let connectionString;
@@ -482,12 +489,10 @@ export function createConnectionContext(
 
   if (!isCredential(credentialOrOptions)) {
     const parsedCS = parseEventHubConnectionString(hostOrConnectionString);
-    if (
-      !(
-        parsedCS.eventHubName ||
-        (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions)
-      )
-    ) {
+    if (!(
+      parsedCS.eventHubName ||
+      (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions)
+    )) {
       throw new TypeError(
         `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
           `must contain "EntityPath=<your-event-hub-name>".`,

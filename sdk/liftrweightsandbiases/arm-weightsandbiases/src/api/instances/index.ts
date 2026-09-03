@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  InstancesListBySubscriptionOptionalParams,
-  InstancesListByResourceGroupOptionalParams,
-  InstancesDeleteOptionalParams,
-  InstancesUpdateOptionalParams,
-  InstancesCreateOrUpdateOptionalParams,
-  InstancesGetOptionalParams,
+  type InstancesListBySubscriptionOptionalParams,
+  type InstancesListByResourceGroupOptionalParams,
+  type InstancesDeleteOptionalParams,
+  type InstancesUpdateOptionalParams,
+  type InstancesCreateOrUpdateOptionalParams,
+  type InstancesGetOptionalParams,
 } from "./options.js";

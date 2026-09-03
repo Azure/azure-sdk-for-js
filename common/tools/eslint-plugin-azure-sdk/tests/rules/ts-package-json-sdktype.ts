@@ -21,7 +21,11 @@ const examplePackageGood = `{
   "author": "Microsoft Corporation",
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/eventhub/event-hubs"
+  },
   "sideEffects": false,
   "keywords": [
     "azure",
@@ -34,7 +38,7 @@ const examplePackageGood = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -102,7 +106,7 @@ const examplePackageGood = `{
     "process": "^0.11.10",
     "rhea-promise": "^2.1.0",
     "tslib": "^2.2.0",
-    "uuid": "^8.3.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -123,9 +127,7 @@ const examplePackageGood = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^20.0.0",
-    "@types/sinon": "^9.0.4",
-    "@types/uuid": "^8.0.0",
+    "@types/node": "^22.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
@@ -157,7 +159,6 @@ const examplePackageGood = `{
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
     "typescript": "~5.8.2",
     "ws": "^7.1.1",
@@ -172,7 +173,11 @@ const examplePackageBad = `{
   "author": "Microsoft Corporation",
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/eventhub/event-hubs"
+  },
   "sideEffects": false,
   "keywords": [
     "azure",
@@ -185,7 +190,7 @@ const examplePackageBad = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -253,7 +258,7 @@ const examplePackageBad = `{
     "process": "^0.11.10",
     "rhea-promise": "^2.1.0",
     "tslib": "^2.2.0",
-    "uuid": "^8.3.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -274,9 +279,7 @@ const examplePackageBad = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^20.0.0",
-    "@types/sinon": "^9.0.4",
-    "@types/uuid": "^8.0.0",
+    "@types/node": "^22.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
@@ -308,7 +311,6 @@ const examplePackageBad = `{
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
     "typescript": "~5.8.2",
     "ws": "^7.1.1",

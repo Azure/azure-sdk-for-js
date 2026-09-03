@@ -3,7 +3,7 @@
 
 export { action, listByParent, get } from "./operations.js";
 export {
-  DbNodesActionOptionalParams,
-  DbNodesListByParentOptionalParams,
-  DbNodesGetOptionalParams,
+  type DbNodesActionOptionalParams,
+  type DbNodesListByParentOptionalParams,
+  type DbNodesGetOptionalParams,
 } from "./options.js";

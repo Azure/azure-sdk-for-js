@@ -9,7 +9,8 @@ import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCreden
  * Optional parameters for the {@link ClientSecretCredential} class.
  */
 export interface ClientSecretCredentialOptions
-  extends MultiTenantTokenCredentialOptions,
+  extends
+    MultiTenantTokenCredentialOptions,
     CredentialPersistenceOptions,
     AuthorityValidationOptions {
   // TODO: Export again once we're ready to release this feature.

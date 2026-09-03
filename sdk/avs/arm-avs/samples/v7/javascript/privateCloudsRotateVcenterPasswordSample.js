@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to rotate the vCenter password
  *
  * @summary rotate the vCenter password
- * x-ms-original-file: 2024-09-01/PrivateClouds_RotateVcenterPassword.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_RotateVcenterPassword.json
  */
 async function privateCloudsRotateVcenterPassword() {
   const credential = new DefaultAzureCredential();

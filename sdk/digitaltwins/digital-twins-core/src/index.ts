@@ -3,16 +3,16 @@
 
 export {
   DigitalTwinsClient,
-  DigitalTwinsClientOptions,
-  GetModelOptions,
-  ListEventRoutesOptions,
-  ListModelsOptions,
-  QueryTwinsOptions,
-  ListIncomingRelationshipsOptions,
-  ListRelationshipsOptions,
+  type DigitalTwinsClientOptions,
+  type GetModelOptions,
+  type ListEventRoutesOptions,
+  type ListModelsOptions,
+  type QueryTwinsOptions,
+  type ListIncomingRelationshipsOptions,
+  type ListRelationshipsOptions,
 } from "./digitalTwinsClient.js";
 
-export {
+export type {
   DigitalTwinsAddOptionalParams,
   DigitalTwinsAddHeaders,
   DigitalTwinsAddResponse,
@@ -55,3 +55,4 @@ export {
   QuerySpecification,
   PagedDigitalTwinsModelDataCollection,
 } from "./generated/models/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

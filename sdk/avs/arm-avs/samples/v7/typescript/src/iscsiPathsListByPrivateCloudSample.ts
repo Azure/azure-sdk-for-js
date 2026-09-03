@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list IscsiPath resources by PrivateCloud
  *
  * @summary list IscsiPath resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/IscsiPaths_List.json
+ * x-ms-original-file: 2025-09-01/IscsiPaths_List.json
  */
 async function iscsiPathsListByPrivateCloud(): Promise<void> {
   const credential = new DefaultAzureCredential();

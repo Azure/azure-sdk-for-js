@@ -1,15 +1,69 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 3.0.0 (2026-07-27)
 
 ### Features Added
+  - Added operation AzureTrafficCollectorsOperations.createOrUpdate
+  - Added operation AzureTrafficCollectorsOperations.delete
+  - Added operation CollectorPoliciesOperations.createOrUpdate
+  - Added operation CollectorPoliciesOperations.delete
+  - Class AzureTrafficCollectorClient has a new constructor "constructor(credential: TokenCredential, options?: AzureTrafficCollectorClientOptionalParams);"
+  - Added Interface AzureTrafficCollectorPropertiesFormat
+  - Added Interface CollectorPolicyPropertiesFormat
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface SystemData has a new optional parameter lastModifiedAt
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Operation AzureTrafficCollectors.beginCreateOrUpdate has a new signature
+  - Operation AzureTrafficCollectors.beginCreateOrUpdateAndWait has a new signature
+  - Operation CollectorPolicies.beginCreateOrUpdate has a new signature
+  - Operation CollectorPolicies.beginCreateOrUpdateAndWait has a new signature
+  - Removed Interface TrackedResource
+  - Removed Interface TrackedResourceSystemData
+  - Removed Type Alias ApiVersionParameter
+  - Removed Enum KnownApiVersionParameter
 
-### Bugs Fixed
+## 3.0.0-beta.1 (2026-06-26)
+Compared with version 2.0.0
 
-### Other Changes
+### Features Added
+  - Added operation AzureTrafficCollectorsOperations.createOrUpdate
+  - Added operation AzureTrafficCollectorsOperations.delete
+  - Added operation CollectorPoliciesOperations.createOrUpdate
+  - Added operation CollectorPoliciesOperations.delete
+  - Class AzureTrafficCollectorClient has a new constructor "constructor(credential: TokenCredential, options?: AzureTrafficCollectorClientOptionalParams);"
+  - Added Interface AzureTrafficCollectorPropertiesFormat
+  - Added Interface CollectorPolicyPropertiesFormat
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface SystemData has a new optional parameter lastModifiedAt
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
+### Breaking Changes
+  - Operation AzureTrafficCollectors.beginCreateOrUpdate has a new signature
+  - Operation AzureTrafficCollectors.beginCreateOrUpdateAndWait has a new signature
+  - Operation CollectorPolicies.beginCreateOrUpdate has a new signature
+  - Operation CollectorPolicies.beginCreateOrUpdateAndWait has a new signature
+  - Removed Interface TrackedResource
+  - Removed Interface TrackedResourceSystemData
+  - Removed Type Alias ApiVersionParameter
+  - Removed Enum KnownApiVersionParameter
+
+    
 ## 2.0.0 (2022-11-24)
     
 ### Features Added
@@ -35,4 +89,4 @@
     
 ## 1.0.0 (2022-07-13)
 
-The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

@@ -1,14 +1,401 @@
 # Release History
 
-## 8.0.1 (Unreleased)
+## 9.0.0 (2026-07-16)
 
 ### Features Added
+  - Added operation AmlFilesystemsOperations.createOrUpdate
+  - Added operation AmlFilesystemsOperations.delete
+  - Added operation AmlFilesystemsOperations.update
+  - Added operation AutoExportJobsOperations.createOrUpdate
+  - Added operation AutoExportJobsOperations.delete
+  - Added operation AutoExportJobsOperations.update
+  - Added operation AutoImportJobsOperations.createOrUpdate
+  - Added operation AutoImportJobsOperations.delete
+  - Added operation AutoImportJobsOperations.update
+  - Added operation CachesOperations.createOrUpdate
+  - Added operation CachesOperations.debugInfo
+  - Added operation CachesOperations.delete
+  - Added operation CachesOperations.flush
+  - Added operation CachesOperations.pausePrimingJob
+  - Added operation CachesOperations.resumePrimingJob
+  - Added operation CachesOperations.spaceAllocation
+  - Added operation CachesOperations.start
+  - Added operation CachesOperations.startPrimingJob
+  - Added operation CachesOperations.stop
+  - Added operation CachesOperations.stopPrimingJob
+  - Added operation CachesOperations.update
+  - Added operation CachesOperations.upgradeFirmware
+  - Added operation ExpansionJobsOperations.createOrUpdate
+  - Added operation ExpansionJobsOperations.delete
+  - Added operation ExpansionJobsOperations.update
+  - Added operation ImportJobsOperations.createOrUpdate
+  - Added operation ImportJobsOperations.delete
+  - Added operation ImportJobsOperations.update
+  - Added operation StorageTargetOperationsOperations.flush
+  - Added operation StorageTargetOperationsOperations.invalidate
+  - Added operation StorageTargetOperationsOperations.resume
+  - Added operation StorageTargetOperationsOperations.suspend
+  - Added operation StorageTargetsOperations.createOrUpdate
+  - Added operation StorageTargetsOperations.delete
+  - Added operation StorageTargetsOperations.dnsRefresh
+  - Added operation StorageTargetsOperations.restoreDefaults
+  - Class StorageCacheManagementClient has a new constructor "constructor(credential: TokenCredential, options?: StorageCacheManagementClientOptionalParams);"
+  - Added Interface AmlFilesystemProperties
+  - Added Interface AmlFilesystemUpdateProperties
+  - Added Interface ApiOperationProperties
+  - Added Interface AscOperationProperties
+  - Added Interface AutoExportJobProperties
+  - Added Interface AutoExportJobPropertiesStatus
+  - Added Interface AutoExportJobUpdateProperties
+  - Added Interface AutoImportJobProperties
+  - Added Interface AutoImportJobPropertiesStatus
+  - Added Interface AutoImportJobUpdateProperties
+  - Added Interface CacheProperties
+  - Added Interface ExpansionJobProperties
+  - Added Interface ExpansionJobPropertiesStatus
+  - Added Interface ImportJobProperties
+  - Added Interface ImportJobPropertiesStatus
+  - Added Interface ImportJobUpdateProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface StorageTargetOperationsFlushOptionalParams
+  - Added Interface StorageTargetOperationsInvalidateOptionalParams
+  - Added Interface StorageTargetOperationsResumeOptionalParams
+  - Added Interface StorageTargetOperationsSuspendOptionalParams
+  - Added Interface StorageTargetProperties
+  - Interface AutoExportJob has a new optional parameter status
+  - Interface AutoImportJob has a new optional parameter status
+  - Interface ExpansionJob has a new optional parameter status
+  - Interface ImportJob has a new optional parameter status
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Operation AutoExportJobs.beginDeleteAndWait has a new signature
+  - Operation AutoImportJobs.beginDeleteAndWait has a new signature
+  - Operation Caches.beginPausePrimingJobAndWait has a new signature
+  - Operation Caches.beginResumePrimingJobAndWait has a new signature
+  - Operation Caches.beginSpaceAllocationAndWait has a new signature
+  - Operation Caches.beginStartPrimingJobAndWait has a new signature
+  - Operation Caches.beginStopPrimingJobAndWait has a new signature
+  - Operation ExpansionJobs.beginDeleteAndWait has a new signature
+  - Operation ImportJobs.beginDeleteAndWait has a new signature
+  - Removed Interface StorageTargetFlushOptionalParams
+  - Removed Interface StorageTargetInvalidateOptionalParams
+  - Removed Interface StorageTargetResource
+  - Removed Interface StorageTargetResumeOptionalParams
+  - Removed Interface StorageTargetSuspendOptionalParams
+  - Interface AutoExportJob no longer has parameter currentIterationFilesDiscovered
+  - Interface AutoExportJob no longer has parameter currentIterationFilesExported
+  - Interface AutoExportJob no longer has parameter currentIterationFilesFailed
+  - Interface AutoExportJob no longer has parameter currentIterationMiBDiscovered
+  - Interface AutoExportJob no longer has parameter currentIterationMiBExported
+  - Interface AutoExportJob no longer has parameter exportIterationCount
+  - Interface AutoExportJob no longer has parameter lastCompletionTimeUTC
+  - Interface AutoExportJob no longer has parameter lastStartedTimeUTC
+  - Interface AutoExportJob no longer has parameter lastSuccessfulIterationCompletionTimeUTC
+  - Interface AutoExportJob no longer has parameter state
+  - Interface AutoExportJob no longer has parameter statusCode
+  - Interface AutoExportJob no longer has parameter statusMessage
+  - Interface AutoExportJob no longer has parameter totalFilesExported
+  - Interface AutoExportJob no longer has parameter totalFilesFailed
+  - Interface AutoExportJob no longer has parameter totalMiBExported
+  - Interface AutoImportJob no longer has parameter blobSyncEvents
+  - Interface AutoImportJob no longer has parameter importedDirectories
+  - Interface AutoImportJob no longer has parameter importedFiles
+  - Interface AutoImportJob no longer has parameter importedSymlinks
+  - Interface AutoImportJob no longer has parameter lastCompletionTimeUTC
+  - Interface AutoImportJob no longer has parameter lastStartedTimeUTC
+  - Interface AutoImportJob no longer has parameter preexistingDirectories
+  - Interface AutoImportJob no longer has parameter preexistingFiles
+  - Interface AutoImportJob no longer has parameter preexistingSymlinks
+  - Interface AutoImportJob no longer has parameter rateOfBlobImport
+  - Interface AutoImportJob no longer has parameter rateOfBlobWalk
+  - Interface AutoImportJob no longer has parameter scanEndTime
+  - Interface AutoImportJob no longer has parameter scanStartTime
+  - Interface AutoImportJob no longer has parameter state
+  - Interface AutoImportJob no longer has parameter statusCode
+  - Interface AutoImportJob no longer has parameter statusMessage
+  - Interface AutoImportJob no longer has parameter totalBlobsImported
+  - Interface AutoImportJob no longer has parameter totalBlobsWalked
+  - Interface AutoImportJob no longer has parameter totalConflicts
+  - Interface AutoImportJob no longer has parameter totalErrors
+  - Interface ExpansionJob no longer has parameter completionTimeUTC
+  - Interface ExpansionJob no longer has parameter percentComplete
+  - Interface ExpansionJob no longer has parameter startTimeUTC
+  - Interface ExpansionJob no longer has parameter state
+  - Interface ExpansionJob no longer has parameter statusCode
+  - Interface ExpansionJob no longer has parameter statusMessage
+  - Interface ImportJob no longer has parameter blobsImportedPerSecond
+  - Interface ImportJob no longer has parameter blobsWalkedPerSecond
+  - Interface ImportJob no longer has parameter importedDirectories
+  - Interface ImportJob no longer has parameter importedFiles
+  - Interface ImportJob no longer has parameter importedSymlinks
+  - Interface ImportJob no longer has parameter lastCompletionTime
+  - Interface ImportJob no longer has parameter lastStartedTime
+  - Interface ImportJob no longer has parameter preexistingDirectories
+  - Interface ImportJob no longer has parameter preexistingFiles
+  - Interface ImportJob no longer has parameter preexistingSymlinks
+  - Interface ImportJob no longer has parameter state
+  - Interface ImportJob no longer has parameter statusMessage
+  - Interface ImportJob no longer has parameter totalBlobsImported
+  - Interface ImportJob no longer has parameter totalBlobsWalked
+  - Interface ImportJob no longer has parameter totalConflicts
+  - Interface ImportJob no longer has parameter totalErrors
 
-### Bugs Fixed
+## 9.0.0-beta.1 (2026-06-08)
+Compared with version 8.2.0
+
+### Features Added
+  - Added operation AmlFilesystemsOperations.createOrUpdate
+  - Added operation AmlFilesystemsOperations.delete
+  - Added operation AmlFilesystemsOperations.update
+  - Added operation AutoExportJobsOperations.createOrUpdate
+  - Added operation AutoExportJobsOperations.delete
+  - Added operation AutoExportJobsOperations.update
+  - Added operation AutoImportJobsOperations.createOrUpdate
+  - Added operation AutoImportJobsOperations.delete
+  - Added operation AutoImportJobsOperations.update
+  - Added operation CachesOperations.createOrUpdate
+  - Added operation CachesOperations.debugInfo
+  - Added operation CachesOperations.delete
+  - Added operation CachesOperations.flush
+  - Added operation CachesOperations.pausePrimingJob
+  - Added operation CachesOperations.resumePrimingJob
+  - Added operation CachesOperations.spaceAllocation
+  - Added operation CachesOperations.start
+  - Added operation CachesOperations.startPrimingJob
+  - Added operation CachesOperations.stop
+  - Added operation CachesOperations.stopPrimingJob
+  - Added operation CachesOperations.update
+  - Added operation CachesOperations.upgradeFirmware
+  - Added operation ExpansionJobsOperations.createOrUpdate
+  - Added operation ExpansionJobsOperations.delete
+  - Added operation ExpansionJobsOperations.update
+  - Added operation ImportJobsOperations.createOrUpdate
+  - Added operation ImportJobsOperations.delete
+  - Added operation ImportJobsOperations.update
+  - Added operation StorageTargetOperationsOperations.flush
+  - Added operation StorageTargetOperationsOperations.invalidate
+  - Added operation StorageTargetOperationsOperations.resume
+  - Added operation StorageTargetOperationsOperations.suspend
+  - Added operation StorageTargetsOperations.createOrUpdate
+  - Added operation StorageTargetsOperations.delete
+  - Added operation StorageTargetsOperations.dnsRefresh
+  - Added operation StorageTargetsOperations.restoreDefaults
+  - Class StorageCacheManagementClient has a new constructor "constructor(credential: TokenCredential, options?: StorageCacheManagementClientOptionalParams);"
+  - Added Interface AmlFilesystemProperties
+  - Added Interface AmlFilesystemUpdateProperties
+  - Added Interface ApiOperationProperties
+  - Added Interface AscOperationProperties
+  - Added Interface AutoExportJobProperties
+  - Added Interface AutoExportJobPropertiesStatus
+  - Added Interface AutoExportJobUpdateProperties
+  - Added Interface AutoImportJobProperties
+  - Added Interface AutoImportJobPropertiesStatus
+  - Added Interface AutoImportJobUpdateProperties
+  - Added Interface CacheProperties
+  - Added Interface ExpansionJobProperties
+  - Added Interface ExpansionJobPropertiesStatus
+  - Added Interface ImportJobProperties
+  - Added Interface ImportJobPropertiesStatus
+  - Added Interface ImportJobUpdateProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface StorageTargetOperationsFlushOptionalParams
+  - Added Interface StorageTargetOperationsInvalidateOptionalParams
+  - Added Interface StorageTargetOperationsResumeOptionalParams
+  - Added Interface StorageTargetOperationsSuspendOptionalParams
+  - Added Interface StorageTargetProperties
+  - Interface AutoExportJob has a new optional parameter status
+  - Interface AutoImportJob has a new optional parameter status
+  - Interface ExpansionJob has a new optional parameter status
+  - Interface ImportJob has a new optional parameter status
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation AutoExportJobs.beginDeleteAndWait has a new signature
+  - Operation AutoImportJobs.beginDeleteAndWait has a new signature
+  - Operation Caches.beginPausePrimingJobAndWait has a new signature
+  - Operation Caches.beginResumePrimingJobAndWait has a new signature
+  - Operation Caches.beginSpaceAllocationAndWait has a new signature
+  - Operation Caches.beginStartPrimingJobAndWait has a new signature
+  - Operation Caches.beginStopPrimingJobAndWait has a new signature
+  - Operation ExpansionJobs.beginDeleteAndWait has a new signature
+  - Operation ImportJobs.beginDeleteAndWait has a new signature
+  - Removed Interface StorageTargetFlushOptionalParams
+  - Removed Interface StorageTargetInvalidateOptionalParams
+  - Removed Interface StorageTargetResource
+  - Removed Interface StorageTargetResumeOptionalParams
+  - Removed Interface StorageTargetSuspendOptionalParams
+  - Interface AutoExportJob no longer has parameter currentIterationFilesDiscovered
+  - Interface AutoExportJob no longer has parameter currentIterationFilesExported
+  - Interface AutoExportJob no longer has parameter currentIterationFilesFailed
+  - Interface AutoExportJob no longer has parameter currentIterationMiBDiscovered
+  - Interface AutoExportJob no longer has parameter currentIterationMiBExported
+  - Interface AutoExportJob no longer has parameter exportIterationCount
+  - Interface AutoExportJob no longer has parameter lastCompletionTimeUTC
+  - Interface AutoExportJob no longer has parameter lastStartedTimeUTC
+  - Interface AutoExportJob no longer has parameter lastSuccessfulIterationCompletionTimeUTC
+  - Interface AutoExportJob no longer has parameter state
+  - Interface AutoExportJob no longer has parameter statusCode
+  - Interface AutoExportJob no longer has parameter statusMessage
+  - Interface AutoExportJob no longer has parameter totalFilesExported
+  - Interface AutoExportJob no longer has parameter totalFilesFailed
+  - Interface AutoExportJob no longer has parameter totalMiBExported
+  - Interface AutoImportJob no longer has parameter blobSyncEvents
+  - Interface AutoImportJob no longer has parameter importedDirectories
+  - Interface AutoImportJob no longer has parameter importedFiles
+  - Interface AutoImportJob no longer has parameter importedSymlinks
+  - Interface AutoImportJob no longer has parameter lastCompletionTimeUTC
+  - Interface AutoImportJob no longer has parameter lastStartedTimeUTC
+  - Interface AutoImportJob no longer has parameter preexistingDirectories
+  - Interface AutoImportJob no longer has parameter preexistingFiles
+  - Interface AutoImportJob no longer has parameter preexistingSymlinks
+  - Interface AutoImportJob no longer has parameter rateOfBlobImport
+  - Interface AutoImportJob no longer has parameter rateOfBlobWalk
+  - Interface AutoImportJob no longer has parameter scanEndTime
+  - Interface AutoImportJob no longer has parameter scanStartTime
+  - Interface AutoImportJob no longer has parameter state
+  - Interface AutoImportJob no longer has parameter statusCode
+  - Interface AutoImportJob no longer has parameter statusMessage
+  - Interface AutoImportJob no longer has parameter totalBlobsImported
+  - Interface AutoImportJob no longer has parameter totalBlobsWalked
+  - Interface AutoImportJob no longer has parameter totalConflicts
+  - Interface AutoImportJob no longer has parameter totalErrors
+  - Interface ExpansionJob no longer has parameter completionTimeUTC
+  - Interface ExpansionJob no longer has parameter percentComplete
+  - Interface ExpansionJob no longer has parameter startTimeUTC
+  - Interface ExpansionJob no longer has parameter state
+  - Interface ExpansionJob no longer has parameter statusCode
+  - Interface ExpansionJob no longer has parameter statusMessage
+  - Interface ImportJob no longer has parameter blobsImportedPerSecond
+  - Interface ImportJob no longer has parameter blobsWalkedPerSecond
+  - Interface ImportJob no longer has parameter importedDirectories
+  - Interface ImportJob no longer has parameter importedFiles
+  - Interface ImportJob no longer has parameter importedSymlinks
+  - Interface ImportJob no longer has parameter lastCompletionTime
+  - Interface ImportJob no longer has parameter lastStartedTime
+  - Interface ImportJob no longer has parameter preexistingDirectories
+  - Interface ImportJob no longer has parameter preexistingFiles
+  - Interface ImportJob no longer has parameter preexistingSymlinks
+  - Interface ImportJob no longer has parameter state
+  - Interface ImportJob no longer has parameter statusMessage
+  - Interface ImportJob no longer has parameter totalBlobsImported
+  - Interface ImportJob no longer has parameter totalBlobsWalked
+  - Interface ImportJob no longer has parameter totalConflicts
+  - Interface ImportJob no longer has parameter totalErrors
+
+## 8.2.0 (2026-03-19)
+
+### Features Added
+  - Added operation group ExpansionJobs
+  - Added Interface ExpansionJob
+  - Added Interface ExpansionJobsCreateOrUpdateHeaders
+  - Added Interface ExpansionJobsCreateOrUpdateOptionalParams
+  - Added Interface ExpansionJobsDeleteHeaders
+  - Added Interface ExpansionJobsDeleteOptionalParams
+  - Added Interface ExpansionJobsGetOptionalParams
+  - Added Interface ExpansionJobsListByAmlFilesystemOptionalParams
+  - Added Interface ExpansionJobsListResult
+  - Added Interface ExpansionJobsUpdateHeaders
+  - Added Interface ExpansionJobsUpdateOptionalParams
+  - Added Interface ExpansionJobUpdate
+  - Interface AmlFilesystem has a new optional parameter clusterUuid
+  - Interface AmlFilesystem has a new optional parameter currentStorageCapacityTiB
+  - Added Type Alias ExpansionJobPropertiesProvisioningState
+  - Added Type Alias ExpansionJobsCreateOrUpdateResponse
+  - Added Type Alias ExpansionJobsDeleteResponse
+  - Added Type Alias ExpansionJobsGetResponse
+  - Added Type Alias ExpansionJobsListByAmlFilesystemNextResponse
+  - Added Type Alias ExpansionJobsListByAmlFilesystemResponse
+  - Added Type Alias ExpansionJobStatusType
+  - Added Type Alias ExpansionJobsUpdateResponse
+  - Added Enum KnownExpansionJobPropertiesProvisioningState
+  - Added Enum KnownExpansionJobStatusType
+  - Enum KnownAmlFilesystemHealthStateType has a new value Expanding
+
+## 8.1.0 (2025-09-26)
+
+### Features Added
+  - Added operation group AutoExportJobs
+  - Added operation group AutoImportJobs
+  - Added Interface AutoExportJob
+  - Added Interface AutoExportJobsCreateOrUpdateHeaders
+  - Added Interface AutoExportJobsCreateOrUpdateOptionalParams
+  - Added Interface AutoExportJobsDeleteHeaders
+  - Added Interface AutoExportJobsDeleteOptionalParams
+  - Added Interface AutoExportJobsGetOptionalParams
+  - Added Interface AutoExportJobsListByAmlFilesystemOptionalParams
+  - Added Interface AutoExportJobsListResult
+  - Added Interface AutoExportJobsUpdateHeaders
+  - Added Interface AutoExportJobsUpdateOptionalParams
+  - Added Interface AutoExportJobUpdate
+  - Added Interface AutoImportJob
+  - Added Interface AutoImportJobPropertiesStatusBlobSyncEvents
+  - Added Interface AutoImportJobsCreateOrUpdateHeaders
+  - Added Interface AutoImportJobsCreateOrUpdateOptionalParams
+  - Added Interface AutoImportJobsDeleteHeaders
+  - Added Interface AutoImportJobsDeleteOptionalParams
+  - Added Interface AutoImportJobsGetOptionalParams
+  - Added Interface AutoImportJobsListByAmlFilesystemOptionalParams
+  - Added Interface AutoImportJobsListResult
+  - Added Interface AutoImportJobsUpdateHeaders
+  - Added Interface AutoImportJobsUpdateOptionalParams
+  - Added Interface AutoImportJobUpdate
+  - Added Interface Cache
+  - Interface ImportJob has a new optional parameter adminStatus
+  - Interface ImportJob has a new optional parameter importedDirectories
+  - Interface ImportJob has a new optional parameter importedFiles
+  - Interface ImportJob has a new optional parameter importedSymlinks
+  - Interface ImportJob has a new optional parameter preexistingDirectories
+  - Interface ImportJob has a new optional parameter preexistingFiles
+  - Interface ImportJob has a new optional parameter preexistingSymlinks
+  - Interface ImportJobUpdate has a new optional parameter adminStatus
+  - Added Type Alias AutoExportJobAdminStatus
+  - Added Type Alias AutoExportJobProvisioningStateType
+  - Added Type Alias AutoExportJobsCreateOrUpdateResponse
+  - Added Type Alias AutoExportJobsDeleteResponse
+  - Added Type Alias AutoExportJobsGetResponse
+  - Added Type Alias AutoExportJobsListByAmlFilesystemNextResponse
+  - Added Type Alias AutoExportJobsListByAmlFilesystemResponse
+  - Added Type Alias AutoExportJobsUpdateResponse
+  - Added Type Alias AutoExportStatusType
+  - Added Type Alias AutoImportJobPropertiesAdminStatus
+  - Added Type Alias AutoImportJobPropertiesProvisioningState
+  - Added Type Alias AutoImportJobsCreateOrUpdateResponse
+  - Added Type Alias AutoImportJobsDeleteResponse
+  - Added Type Alias AutoImportJobsGetResponse
+  - Added Type Alias AutoImportJobsListByAmlFilesystemNextResponse
+  - Added Type Alias AutoImportJobsListByAmlFilesystemResponse
+  - Added Type Alias AutoImportJobState
+  - Added Type Alias AutoImportJobsUpdateResponse
+  - Added Type Alias AutoImportJobUpdatePropertiesAdminStatus
+  - Added Type Alias ImportJobAdminStatus
+  - Added Enum KnownAutoExportJobAdminStatus
+  - Added Enum KnownAutoExportJobProvisioningStateType
+  - Added Enum KnownAutoExportStatusType
+  - Added Enum KnownAutoImportJobPropertiesAdminStatus
+  - Added Enum KnownAutoImportJobPropertiesProvisioningState
+  - Added Enum KnownAutoImportJobState
+  - Added Enum KnownAutoImportJobUpdatePropertiesAdminStatus
+  - Added Enum KnownImportJobAdminStatus
+
+
+## 8.0.1 (2025-08-21)
 
 ### Other Changes
+
+  - Other fixes
 
 ## 8.0.0 (2024-05-13)
     

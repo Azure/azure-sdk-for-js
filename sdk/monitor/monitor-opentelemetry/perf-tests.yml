@@ -1,6 +1,6 @@
 Service: monitor-opentelemetry
 
-Project: sdk/monitor/perf-tests/monitor-opentelemetry
+Project: sdk/monitor/monitor-opentelemetry-perf-tests
 
 PrimaryPackage: '@azure/monitor-opentelemetry'
 
@@ -8,8 +8,8 @@ PackageVersions:
 - '@azure/monitor-opentelemetry': 1.1.1
   "@azure/functions": 3.2.0
   "@azure/monitor-opentelemetry-exporter": 1.0.0-beta.18
-  "@opentelemetry/api": 1.7.0
-  "@azure/opentelemetry-instrumentation-azure-sdk": 1.0.0-beta.5
+  "@opentelemetry/api": 1.9.1
+  "@azure/opentelemetry-instrumentation-azure-sdk": 1.0.0
 - '@azure/monitor-opentelemetry': source
   "@azure/core-client": source
   "@azure/core-auth": source

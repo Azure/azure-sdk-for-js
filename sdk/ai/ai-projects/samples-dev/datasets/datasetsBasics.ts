@@ -13,22 +13,20 @@ import type { DatasetVersionUnion } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const containerConnectionName =
-  process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const containerConnectionName = process.env["AZURE_STORAGE_CONNECTION_NAME"];
 const VERSION1 = "1.0";
-const VERSION1_UPDATE = "1.1";
 const VERSION2 = "2.0";
 const VERSION3 = "3.0";
 
 async function main(): Promise<void> {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   // sample files to use in the demonstration
   const sampleFolder = "sample_folder";
@@ -49,11 +47,13 @@ async function main(): Promise<void> {
   );
   console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
 
-  const updatedDataset1 = await project.datasets.createOrUpdate(
-    datasetName,
-    VERSION1_UPDATE,
-    dataset1,
-  );
+  const updatedDataset1 = await project.datasets.createOrUpdate(datasetName, VERSION1, {
+    type: dataset1.type,
+    dataUri: dataset1.dataUri,
+    description: "Updated description",
+    name: datasetName,
+    version: VERSION1,
+  });
   console.log("Dataset1 updated:", JSON.stringify(updatedDataset1, null, 2));
 
   const credential = await project.datasets.getCredentials(dataset1.name, dataset1.version, {});
@@ -70,7 +70,7 @@ async function main(): Promise<void> {
     {
       connectionName: containerConnectionName,
       // only upload sample_file1.txt and sample_file2.txt
-      filePattern: /sample_file[1-2]\.txt$/,
+      filePattern: "sample_file[1-2]\\.txt$",
     },
   );
   console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
@@ -93,7 +93,7 @@ async function main(): Promise<void> {
   console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
 
   console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-  const datasetVersions = await project.datasets.listVersions(datasetName);
+  const datasetVersions = project.datasets.listVersions(datasetName);
   for await (const version of datasetVersions) {
     console.log("List versions:", version);
   }

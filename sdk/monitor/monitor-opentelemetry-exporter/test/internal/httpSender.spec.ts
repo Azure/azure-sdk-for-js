@@ -3,6 +3,7 @@
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
+import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants.js";
 import {
   successfulBreezeResponse,
@@ -11,10 +12,12 @@ import {
 } from "../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import nock from "nock";
-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
+import { createEmptyPipeline, RestError } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
-import { describe, it, assert, afterAll } from "vitest";
+import { describe, it, assert, afterAll, beforeEach, afterEach, vi } from "vitest";
 import { delay } from "@azure/core-util";
+import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
@@ -41,6 +44,18 @@ describe("HttpSender", () => {
   const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
   nock.disableNetConnect();
 
+  // These senders all share an on-disk persister (same instrumentation key). The
+  // randomized startup-replay timer would otherwise fire mid-suite and drain that
+  // shared persister, stealing envelopes these tests assert on. Startup replay is
+  // covered explicitly in baseSender.spec.ts, so disable it here for determinism.
+  beforeEach(() => {
+    vi.spyOn(BaseSender.prototype as any, "scheduleStartupReplay").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   afterAll(() => {
     nock.cleanAll();
     nock.enableNetConnect();
@@ -54,7 +69,70 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      assert.ok(sender);
+      assert.isDefined(sender);
+    });
+  });
+
+  describe("configuration", () => {
+    const envelope: Envelope = {
+      name: "name",
+      time: new Date(),
+    };
+
+    it("respects a custom endpoint provided through exporter options", async () => {
+      const customEndpoint = "https://custom.example/v2.1";
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          endpoint: customEndpoint,
+        },
+      });
+
+      const customScope = nock(customEndpoint)
+        .post("/track")
+        .reply(200, JSON.stringify(successfulBreezeResponse(1)));
+
+      const { statusCode } = await sender.send([envelope]);
+
+      assert.strictEqual(statusCode, 200);
+      customScope.done();
+    });
+
+    it("applies additional pipeline policies from exporter options", async () => {
+      const policy: PipelinePolicy = {
+        name: "testAdditionalPolicy",
+        async sendRequest(request, next) {
+          request.headers.set("x-test-policy", "applied");
+          return next(request);
+        },
+      };
+
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          host: "https://custom.policy.example",
+          additionalPolicies: [
+            {
+              policy,
+              position: "perRetry",
+            },
+          ],
+        },
+      });
+
+      const policyScope = nock("https://custom.policy.example")
+        .matchHeader("x-test-policy", "applied")
+        .post("/v2.1/track")
+        .reply(200, JSON.stringify(successfulBreezeResponse(1)));
+
+      const { statusCode } = await sender.send([envelope]);
+
+      assert.strictEqual(statusCode, 200);
+      policyScope.done();
     });
   });
 
@@ -91,9 +169,9 @@ describe("HttpSender", () => {
 
       try {
         await sender.send([envelope, envelope]);
-        assert.ok(false);
+        assert.fail("Unexpected execution path");
       } catch (error: any) {
-        assert.ok(error);
+        assert.isDefined(error);
       }
     });
 
@@ -112,6 +190,47 @@ describe("HttpSender", () => {
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
+    });
+
+    it.each([
+      [
+        "connection reset",
+        (request: Parameters<HttpClient["sendRequest"]>[0]) =>
+          new RestError("Connection reset before a response was received", {
+            code: "ECONNRESET",
+            request,
+          }),
+      ],
+      [
+        "request timeout",
+        () =>
+          Object.assign(new Error("Request timed out before a response was received"), {
+            name: "AbortError",
+          }),
+      ],
+    ])("should persist telemetry after a %s with no response", async (_name, createError) => {
+      const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => {
+        throw createError(request);
+      });
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          httpClient: { sendRequest },
+          retryOptions: { maxRetries: 0 },
+        },
+      });
+      const persistSpy = vi.spyOn(sender["persister"], "push").mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([envelope]);
+
+      assert.strictEqual(sendRequest.mock.calls.length, 1);
+      assert.deepStrictEqual(persistSpy.mock.calls[0][0], [envelope]);
+      assert.isNotNull(sender["retryTimer"]);
+      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+      clearTimeout(sender["retryTimer"]!);
+      sender["retryTimer"] = null;
     });
 
     it("should persist retriable failed telemetry 429", async () => {
@@ -273,6 +392,37 @@ describe("HttpSender", () => {
       await delay(2000); // wait enough time for timeout callback
     });
 
+    it("should not persist telemetry rejected due to sampling", async () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
+      // Sampling rejections should not be retried even if the status code is retriable
+      // Use different cases to verify case-insensitive matching
+      const response = partialBreezeResponse(
+        [500, 500, 500, 408],
+        [
+          "Telemetry sampled out.",
+          "TELEMETRY SAMPLED OUT.",
+          "telemetry sampled out.",
+          "Timeout error",
+        ],
+      );
+      scope.reply(206, JSON.stringify(response));
+
+      const result = await sender.exportEnvelopes([envelope, envelope, envelope, envelope]);
+      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+
+      // Wait for persistence to complete
+      await delay(1500);
+
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
+      // Only the timeout error (408) should be persisted, not the sampling rejections
+      assert.strictEqual(persistedEnvelopes?.length, 1);
+    });
+
     it("should not persist non-retriable failed telemetry", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
@@ -386,7 +536,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -400,7 +550,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        const client = (sender as any)["appInsightsClient"] as any;
+        assert.strictEqual(client["host"], redirectHost);
       }, 1500);
     });
 
@@ -411,7 +562,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -425,7 +576,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        const client = (sender as any)["appInsightsClient"] as any;
+        assert.strictEqual(client["host"], redirectHost);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -438,7 +590,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -449,12 +601,14 @@ describe("HttpSender", () => {
       let result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        const client = (sender as any)["appInsightsClient"] as any;
+        assert.strictEqual(client["host"], redirectHost);
       }, 1500);
       result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        const client = (sender as any)["appInsightsClient"] as any;
+        assert.strictEqual(client["host"], redirectHost);
       }, 1500);
 
       await delay(4000); // wait enough time for timeout callbacks
@@ -467,7 +621,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -491,6 +645,50 @@ describe("HttpSender", () => {
 
       await delay(2000); // wait enough time for timeout callback
     });
+
+    it("should refuse a cross-origin redirect and not leak telemetry to a foreign host", async () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
+      // The attacker host is neither the configured ingestion host nor under a trusted
+      // Azure Monitor / Application Insights ingestion suffix. The exporter MUST refuse to
+      // mutate the client or replay the envelopes against this host -- otherwise the bearer
+      // auth policy attached for `monitor.azure.com` would re-sign and send the AAD token
+      // (and the telemetry envelope) to the attacker on the recursive `exportEnvelopes` call.
+      const attackerHost = "https://attacker.example.invalid";
+      const attackerLocation = attackerHost + "/v2.1/track";
+      const attackerScope = nock(attackerHost).post("/v2.1/track").reply(200, "should-not-be-hit");
+
+      scope.reply(307, {}, { location: attackerLocation });
+
+      const result = await sender.exportEnvelopes([envelope]);
+
+      assert.strictEqual(result.code, ExportResultCode.FAILED);
+      assert.match(result.error?.message ?? "", /Refused cross-origin redirect/);
+      // The exporter must NOT have contacted the attacker host.
+      assert.isFalse(attackerScope.isDone(), "exporter must not POST to the cross-origin host");
+      // The host on the underlying client must be unchanged so subsequent exports do not
+      // continue talking to the attacker (no persistent host poisoning).
+      const client = (sender as any)["appInsightsClient"] as any;
+      assert.strictEqual(client["host"], DEFAULT_BREEZE_ENDPOINT);
+    });
+
+    it("should reject a malformed redirect location without changing the host", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
+
+      assert.isFalse(sender.handlePermanentRedirect("not a URL"));
+      assert.strictEqual(sender.appInsightsClientOptions.host, DEFAULT_BREEZE_ENDPOINT);
+
+      nock.cleanAll();
+    });
   });
 
   describe("#authentication", () => {
@@ -503,7 +701,7 @@ describe("HttpSender", () => {
           credential: new TestTokenCredential(),
         },
       });
-      assert.ok(
+      assert.isDefined(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "bearerTokenAuthenticationPolicy";
         }),
@@ -520,7 +718,9 @@ describe("HttpSender", () => {
           credential: new TestTokenCredential(),
         },
       });
-      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentialScopes, ["testAudience"]);
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["testAudience"],
+      });
     });
   });
 
@@ -535,12 +735,181 @@ describe("HttpSender", () => {
             host: "http://www.testproxy.com",
             port: 123,
           },
-        },
+        } as any,
       });
-      assert.ok(
+      assert.isDefined(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "proxyPolicy";
         }),
+      );
+    });
+
+    it("propagates proxy options from exporter options", () => {
+      const exporter = new AzureMonitorTraceExporter({
+        connectionString:
+          "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://dc.services.visualstudio.com",
+        proxyOptions: {
+          host: "http://www.testproxy.com",
+          port: 123,
+        },
+      });
+
+      const policies = (exporter as any)["sender"][
+        "appInsightsClient"
+      ].pipeline.getOrderedPolicies();
+
+      assert.isDefined(
+        policies.find((policy: PipelinePolicy) => {
+          return policy.name === "proxyPolicy";
+        }),
+      );
+    });
+  });
+
+  describe("#backward compatibility with ServiceClientOptions", () => {
+    it("should map legacy credentialScopes (string[]) to credentials.scopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentialScopes: ["https://custom.scope/.default"],
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://custom.scope/.default"],
+      });
+    });
+
+    it("should map legacy credentialScopes (string) to credentials.scopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentialScopes: "https://custom.scope/.default",
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://custom.scope/.default"],
+      });
+    });
+
+    it("should prefer credentials.scopes over legacy credentialScopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentials: { scopes: ["https://new.scope/.default"] },
+          credentialScopes: ["https://old.scope/.default"],
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://new.scope/.default"],
+      });
+    });
+
+    it("should adopt policies from a user-provided pipeline", () => {
+      const customPipeline: Pipeline = createEmptyPipeline();
+      const customPolicy: PipelinePolicy = {
+        name: "myCustomPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      customPipeline.addPolicy(customPolicy);
+
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          pipeline: customPipeline,
+        } as any,
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      assert.isDefined(
+        clientPolicies.find((p: PipelinePolicy) => p.name === "myCustomPolicy"),
+        "Custom policy from user pipeline should be adopted",
+      );
+    });
+
+    it("should not duplicate policies when user pipeline has overlapping names", () => {
+      const customPipeline: Pipeline = createEmptyPipeline();
+      // Add a policy that already exists on the generated client
+      const duplicatePolicy: PipelinePolicy = {
+        name: "userAgentPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      customPipeline.addPolicy(duplicatePolicy);
+
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          pipeline: customPipeline,
+        } as any,
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      const userAgentPolicies = clientPolicies.filter(
+        (p: PipelinePolicy) => p.name === "userAgentPolicy",
+      );
+      assert.strictEqual(
+        userAgentPolicies.length,
+        1,
+        "Should not have duplicated the userAgentPolicy",
+      );
+    });
+
+    it("should set credentials.scopes via aadAudience with credential (new pattern)", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        aadAudience: "testAudience",
+        exporterOptions: {
+          credential: new TestTokenCredential(),
+        },
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["testAudience"],
+      });
+    });
+
+    it("should set default credentials.scopes when credential present but no aadAudience", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credential: new TestTokenCredential(),
+        },
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://monitor.azure.com/.default"],
+      });
+    });
+
+    it("should pass through additionalPolicies", () => {
+      const customPolicy: PipelinePolicy = {
+        name: "myAdditionalPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          additionalPolicies: [{ policy: customPolicy, position: "perCall" }],
+        },
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      assert.isDefined(
+        clientPolicies.find((p: PipelinePolicy) => p.name === "myAdditionalPolicy"),
+        "additionalPolicies should be added to the client pipeline",
       );
     });
   });

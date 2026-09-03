@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.1.0 (2026-05-05)
+
+### Features Added
+
+- Re-export `RestError` and `isRestError` from `@azure/core-rest-pipeline` for convenience.
+
+## 2.0.2 (2025-10-07)
+
+### Bugs Fixed
+
+- Properly handle single-element headers of template registrations [PR #36114](https://github.com/Azure/azure-sdk-for-js/pull/36114).
 
 ## 2.0.0 (2024-10-14)
 

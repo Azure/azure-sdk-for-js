@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  NetworkInterfacesListAllOptionalParams,
-  NetworkInterfacesListByResourceGroupOptionalParams,
-  NetworkInterfacesDeleteOptionalParams,
-  NetworkInterfacesUpdateOptionalParams,
-  NetworkInterfacesCreateOrUpdateOptionalParams,
-  NetworkInterfacesGetOptionalParams,
+  type NetworkInterfacesListAllOptionalParams,
+  type NetworkInterfacesListByResourceGroupOptionalParams,
+  type NetworkInterfacesDeleteOptionalParams,
+  type NetworkInterfacesUpdateOptionalParams,
+  type NetworkInterfacesCreateOrUpdateOptionalParams,
+  type NetworkInterfacesGetOptionalParams,
 } from "./options.js";

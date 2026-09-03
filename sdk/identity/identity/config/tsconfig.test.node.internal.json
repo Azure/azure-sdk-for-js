@@ -1,0 +1,21 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity": ["../src/index.ts"],
+      "@azure/identity/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  },
+  "include": [
+    "../test/internal/**/*.spec.ts",
+    "../test/*.ts",
+    "../test/node/**/*.ts",
+    "../test/public/node/utils/**/*.ts"
+  ],
+  "exclude": [
+    "../test/**/browser",
+    "../test/snippets.spec.ts",
+    "../test/stress"
+  ]
+}

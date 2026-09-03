@@ -21,15 +21,15 @@ import type {
 } from "../cryptographyClientModels.js";
 import { SDK_VERSION } from "../constants.js";
 import type { UnwrapResult } from "../cryptographyClientModels.js";
-import type { KeyVaultClientOptionalParams } from "../generated/src/index.js";
-import { KeyVaultClient } from "../generated/src/index.js";
+import type { KeyVaultClientOptionalParams } from "../keyVaultClient.js";
+import { KeyVaultClient } from "../keyVaultClient.js";
 import { parseKeyVaultKeyIdentifier } from "../identifier.js";
 import type { CryptographyClientOptions, GetKeyOptions, KeyVaultKey } from "../keysModels.js";
 import { LATEST_API_VERSION } from "../keysModels.js";
 import { getKeyFromKeyBundle } from "../transformations.js";
-import { createHash } from "./crypto.js";
+import { createHash } from "#platform/cryptography/crypto";
 import type { CryptographyProvider, CryptographyProviderOperation } from "./models.js";
-import { logger } from "../log.js";
+import { logger } from "../logger.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { tracingClient } from "../tracing.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
@@ -71,7 +71,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     } catch (err: any) {
       logger.error(err);
 
-      throw new Error(`${keyId} is not a valid Key Vault key ID`);
+      throw new Error(`${keyId} is not a valid Key Vault key ID`, { cause: err });
     }
   }
 

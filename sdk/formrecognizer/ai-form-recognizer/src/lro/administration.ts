@@ -21,8 +21,7 @@ import type { OperationContext } from "./util/poller.js";
  * @internal
  */
 export type AdministrationOperationState =
-  | DocumentModelOperationState
-  | DocumentClassifierOperationState;
+  DocumentModelOperationState | DocumentClassifierOperationState;
 
 /**
  * The set of fields common to all administration operations.
@@ -74,8 +73,7 @@ export interface ModelAdministrationOperationStateCommon {
  * The state of a model creation operation.
  */
 export interface DocumentModelOperationState
-  extends PollOperationState<DocumentModelDetails>,
-    ModelAdministrationOperationStateCommon {}
+  extends PollOperationState<DocumentModelDetails>, ModelAdministrationOperationStateCommon {}
 
 /**
  * The respones of a model creation operation.
@@ -91,8 +89,7 @@ export type DocumentModelBuildResponse =
  * @internal
  */
 export type DocumentModelAdministrationResponse =
-  | DocumentModelBuildResponse
-  | DocumentClassifierBuildOperationDetails;
+  DocumentModelBuildResponse | DocumentClassifierBuildOperationDetails;
 
 /**
  * Convert an operation result into a training poller state.
@@ -156,5 +153,4 @@ export type DocumentClassifierPoller = PollerLike<
  * The state of a model creation operation.
  */
 export interface DocumentClassifierOperationState
-  extends PollOperationState<DocumentClassifierDetails>,
-    ModelAdministrationOperationStateCommon {}
+  extends PollOperationState<DocumentClassifierDetails>, ModelAdministrationOperationStateCommon {}

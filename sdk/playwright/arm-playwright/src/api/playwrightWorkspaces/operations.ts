@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { PlaywrightManagementContext as Client } from "../index.js";
+import type {
   PlaywrightWorkspace,
-  playwrightWorkspaceSerializer,
-  playwrightWorkspaceDeserializer,
   PlaywrightWorkspaceUpdate,
-  playwrightWorkspaceUpdateSerializer,
   _PlaywrightWorkspaceListResult,
-  _playwrightWorkspaceListResultDeserializer,
   CheckNameAvailabilityRequest,
-  checkNameAvailabilityRequestSerializer,
   CheckNameAvailabilityResponse,
-  checkNameAvailabilityResponseDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  playwrightWorkspaceSerializer,
+  playwrightWorkspaceDeserializer,
+  playwrightWorkspaceUpdateSerializer,
+  _playwrightWorkspaceListResultDeserializer,
+  checkNameAvailabilityRequestSerializer,
+  checkNameAvailabilityResponseDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
   PlaywrightWorkspacesListBySubscriptionOptionalParams,
   PlaywrightWorkspacesListByResourceGroupOptionalParams,
@@ -31,26 +31,20 @@ import {
   PlaywrightWorkspacesCreateOrUpdateOptionalParams,
   PlaywrightWorkspacesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkNameAvailabilitySend(
   context: Client,
   body: CheckNameAvailabilityRequest,
-  options: PlaywrightWorkspacesCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: PlaywrightWorkspacesCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,10 +53,7 @@ export function _checkNameAvailabilitySend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: checkNameAvailabilityRequestSerializer(body),
   });
 }
@@ -74,6 +65,7 @@ export async function _checkNameAvailabilityDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -84,9 +76,7 @@ export async function _checkNameAvailabilityDeserialize(
 export async function checkNameAvailability(
   context: Client,
   body: CheckNameAvailabilityRequest,
-  options: PlaywrightWorkspacesCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: PlaywrightWorkspacesCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): Promise<CheckNameAvailabilityResponse> {
   const result = await _checkNameAvailabilitySend(context, body, options);
   return _checkNameAvailabilityDeserialize(result);
@@ -94,15 +84,13 @@ export async function checkNameAvailability(
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: PlaywrightWorkspacesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: PlaywrightWorkspacesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/playwrightWorkspaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,10 +98,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -124,6 +109,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -133,32 +119,32 @@ export async function _listBySubscriptionDeserialize(
 /** List PlaywrightWorkspace resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: PlaywrightWorkspacesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: PlaywrightWorkspacesListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PlaywrightWorkspace> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: PlaywrightWorkspacesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: PlaywrightWorkspacesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/playwrightWorkspaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,10 +152,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -180,6 +163,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -190,16 +174,18 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: PlaywrightWorkspacesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: PlaywrightWorkspacesListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PlaywrightWorkspace> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    },
   );
 }
 
@@ -215,7 +201,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       playwrightWorkspaceName: playwrightWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,6 +215,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -253,6 +240,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, playwrightWorkspaceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -269,7 +257,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       playwrightWorkspaceName: playwrightWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,10 +266,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: playwrightWorkspaceUpdateSerializer(properties),
   });
 }
@@ -293,6 +278,7 @@ export async function _updateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -322,9 +308,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   playwrightWorkspaceName: string,
   resource: PlaywrightWorkspace,
-  options: PlaywrightWorkspacesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: PlaywrightWorkspacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/playwrightWorkspaces/{playwrightWorkspaceName}{?api%2Dversion}",
@@ -332,7 +316,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       playwrightWorkspaceName: playwrightWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -341,10 +325,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: playwrightWorkspaceSerializer(resource),
   });
 }
@@ -356,6 +337,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -368,9 +350,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   playwrightWorkspaceName: string,
   resource: PlaywrightWorkspace,
-  options: PlaywrightWorkspacesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: PlaywrightWorkspacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PlaywrightWorkspace>, PlaywrightWorkspace> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -378,6 +358,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, playwrightWorkspaceName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-02-01-preview",
   }) as PollerLike<OperationState<PlaywrightWorkspace>, PlaywrightWorkspace>;
 }
 
@@ -393,7 +374,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       playwrightWorkspaceName: playwrightWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -401,10 +382,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -413,6 +391,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pl
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

@@ -106,7 +106,8 @@ export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any>
   }
 
   if (!opts.includeRoot) {
-    for (const key of Object.keys(parsedXml)) {
+    const key = Object.keys(parsedXml)[0];
+    if (key !== undefined) {
       const value = parsedXml[key];
       return typeof value === "object" ? { ...value } : value;
     }

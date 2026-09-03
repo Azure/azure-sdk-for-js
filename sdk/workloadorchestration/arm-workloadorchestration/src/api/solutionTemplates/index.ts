@@ -12,12 +12,12 @@ export {
   get,
 } from "./operations.js";
 export {
-  SolutionTemplatesListBySubscriptionOptionalParams,
-  SolutionTemplatesListByResourceGroupOptionalParams,
-  SolutionTemplatesDeleteOptionalParams,
-  SolutionTemplatesRemoveVersionOptionalParams,
-  SolutionTemplatesCreateVersionOptionalParams,
-  SolutionTemplatesUpdateOptionalParams,
-  SolutionTemplatesCreateOrUpdateOptionalParams,
-  SolutionTemplatesGetOptionalParams,
+  type SolutionTemplatesListBySubscriptionOptionalParams,
+  type SolutionTemplatesListByResourceGroupOptionalParams,
+  type SolutionTemplatesDeleteOptionalParams,
+  type SolutionTemplatesRemoveVersionOptionalParams,
+  type SolutionTemplatesCreateVersionOptionalParams,
+  type SolutionTemplatesUpdateOptionalParams,
+  type SolutionTemplatesCreateOrUpdateOptionalParams,
+  type SolutionTemplatesGetOptionalParams,
 } from "./options.js";

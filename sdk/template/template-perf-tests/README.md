@@ -1,7 +1,7 @@
 ## Setting up the perf project
 
 1. Build the template perf test project `pnpm build --filter perf-template...`.
-2. Navigate to `cd sdk/template/perf-tests/template`.
+2. Navigate to `cd sdk/template/template-perf-tests`.
 
 ## Environment setup
 

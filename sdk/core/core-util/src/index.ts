@@ -109,14 +109,7 @@ export function randomUUID(): string {
  * @public
  */
 export type HttpMethods =
-  | "GET"
-  | "PUT"
-  | "POST"
-  | "DELETE"
-  | "PATCH"
-  | "HEAD"
-  | "OPTIONS"
-  | "TRACE";
+  "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 /**
  * A generic shape for a plain JS object.

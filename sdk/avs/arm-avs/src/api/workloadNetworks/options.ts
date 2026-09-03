@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface WorkloadNetworksDeleteVMGroupOptionalParams extends OperationOptions {
@@ -178,7 +178,7 @@ export interface WorkloadNetworksGetDhcpOptionalParams extends OperationOptions 
 export interface WorkloadNetworksListDhcpOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkloadNetworksGetOptionalParams extends OperationOptions {}
+export interface WorkloadNetworksListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkloadNetworksListOptionalParams extends OperationOptions {}
+export interface WorkloadNetworksGetOptionalParams extends OperationOptions {}

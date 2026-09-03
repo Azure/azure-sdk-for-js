@@ -1,29 +1,7 @@
 # Release History
-
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.3 (2024-11-07)
-
-### Bugs Fixed
-
-- Fix missing package information issue in user agent
-
-## 1.0.0-beta.2 (2024-07-26)
+    
+## 1.0.0 (2026-08-03)
 
 ### Features Added
 
-- disable hierarchy api subpath export and issue fix.
-
-## 1.0.0-beta.1 (2024-07-09)
-
-### Features Added
-
-Initial release of the Azure Edgezones package
+This is the first stable release of the @azure/arm-edgezones package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.

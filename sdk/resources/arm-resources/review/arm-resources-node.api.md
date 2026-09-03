@@ -4,11 +4,20 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type ActionType = string;
 
 // @public
 export interface Alias {
@@ -31,7 +40,7 @@ export interface AliasPath {
 // @public
 export type AliasPathAttributes = string;
 
-// @public (undocumented)
+// @public
 export interface AliasPathMetadata {
     readonly attributes?: AliasPathAttributes;
     readonly type?: AliasPathTokenType;
@@ -53,11 +62,21 @@ export type AliasPatternType = "NotSpecified" | "Extract";
 // @public
 export type AliasType = "NotSpecified" | "PlainText" | "Mask";
 
-// @public (undocumented)
+// @public
 export interface ApiProfile {
     readonly apiVersion?: string;
     readonly profileVersion?: string;
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CloudError {
@@ -65,9 +84,26 @@ export interface CloudError {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -99,13 +135,20 @@ export interface ExtendedLocation {
 export type ExtendedLocationType = string;
 
 // @public
+export interface ExtensionResource extends Resource {
+}
+
+// @public
 export interface GenericResource extends Resource {
+    extendedLocation?: ExtendedLocation;
     identity?: Identity;
     kind?: string;
+    location?: string;
     managedBy?: string;
     plan?: Plan;
     properties?: Record<string, unknown>;
     sku?: Sku;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -116,29 +159,24 @@ export interface GenericResourceExpanded extends GenericResource {
 }
 
 // @public
-export interface GenericResourceFilter {
-    resourceType?: string;
-    tagname?: string;
-    tagvalue?: string;
-}
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: IdentityUserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, IdentityUserAssignedIdentitiesValue>;
 }
 
-// @public (undocumented)
+// @public
 export interface IdentityUserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+export { isRestError }
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
@@ -160,6 +198,14 @@ export enum KnownAliasPathTokenType {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownExportTemplateOutputFormat {
     Bicep = "Bicep",
     Json = "Json"
@@ -168,6 +214,13 @@ export enum KnownExportTemplateOutputFormat {
 // @public
 export enum KnownExtendedLocationType {
     EdgeZone = "EdgeZone"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -186,43 +239,50 @@ export enum KnownTagsPatchOperation {
 }
 
 // @public
+export enum KnownVersions {
+    V20250401 = "2025-04-01"
+}
+
+// @public
 export interface Operation {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
-    name?: string;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface Permission {
@@ -267,12 +327,6 @@ export interface ProviderExtendedLocation {
 }
 
 // @public
-export interface ProviderListResult {
-    readonly nextLink?: string;
-    value?: Provider[];
-}
-
-// @public
 export interface ProviderPermission {
     applicationId?: string;
     managedByRoleDefinition?: RoleDefinition;
@@ -282,8 +336,8 @@ export interface ProviderPermission {
 
 // @public
 export interface ProviderPermissionListResult {
-    readonly nextLink?: string;
-    value?: ProviderPermission[];
+    nextLink?: string;
+    value: ProviderPermission[];
 }
 
 // @public
@@ -300,9 +354,7 @@ export interface ProviderResourceType {
     readonly defaultApiVersion?: string;
     locationMappings?: ProviderExtendedLocation[];
     locations?: string[];
-    properties?: {
-        [propertyName: string]: string;
-    };
+    properties?: Record<string, string>;
     resourceType?: string;
     // (undocumented)
     zoneMappings?: ZoneMapping[];
@@ -310,149 +362,88 @@ export interface ProviderResourceType {
 
 // @public
 export interface ProviderResourceTypeListResult {
-    readonly nextLink?: string;
-    value?: ProviderResourceType[];
+    nextLink?: string;
+    value: ProviderResourceType[];
 }
 
 // @public
-export interface ProviderResourceTypes {
-    list(resourceProviderNamespace: string, options?: ProviderResourceTypesListOptionalParams): Promise<ProviderResourceTypesListResponse>;
-}
-
-// @public
-export interface ProviderResourceTypesListOptionalParams extends coreClient.OperationOptions {
+export interface ProviderResourceTypesListOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ProviderResourceTypesListResponse = ProviderResourceTypeListResult;
-
-// @public
-export interface Providers {
-    get(resourceProviderNamespace: string, options?: ProvidersGetOptionalParams): Promise<ProvidersGetResponse>;
-    getAtTenantScope(resourceProviderNamespace: string, options?: ProvidersGetAtTenantScopeOptionalParams): Promise<ProvidersGetAtTenantScopeResponse>;
-    list(options?: ProvidersListOptionalParams): PagedAsyncIterableIterator<Provider>;
-    listAtTenantScope(options?: ProvidersListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<Provider>;
-    providerPermissions(resourceProviderNamespace: string, options?: ProvidersProviderPermissionsOptionalParams): Promise<ProvidersProviderPermissionsResponse>;
-    register(resourceProviderNamespace: string, options?: ProvidersRegisterOptionalParams): Promise<ProvidersRegisterResponse>;
-    registerAtManagementGroupScope(resourceProviderNamespace: string, groupId: string, options?: ProvidersRegisterAtManagementGroupScopeOptionalParams): Promise<void>;
-    unregister(resourceProviderNamespace: string, options?: ProvidersUnregisterOptionalParams): Promise<ProvidersUnregisterResponse>;
+export interface ProviderResourceTypesOperations {
+    list: (resourceProviderNamespace: string, options?: ProviderResourceTypesListOptionalParams) => Promise<ProviderResourceTypeListResult>;
 }
 
 // @public
-export interface ProvidersGetAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface ProvidersGetAtTenantScopeOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ProvidersGetAtTenantScopeResponse = Provider;
-
-// @public
-export interface ProvidersGetOptionalParams extends coreClient.OperationOptions {
+export interface ProvidersGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ProvidersGetResponse = Provider;
-
-// @public
-export interface ProvidersListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProvidersListAtTenantScopeNextResponse = ProviderListResult;
-
-// @public
-export interface ProvidersListAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface ProvidersListAtTenantScopeOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ProvidersListAtTenantScopeResponse = ProviderListResult;
-
-// @public
-export interface ProvidersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProvidersListNextResponse = ProviderListResult;
-
-// @public
-export interface ProvidersListOptionalParams extends coreClient.OperationOptions {
+export interface ProvidersListOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ProvidersListResponse = ProviderListResult;
-
-// @public
-export interface ProvidersProviderPermissionsOptionalParams extends coreClient.OperationOptions {
+export interface ProvidersOperations {
+    get: (resourceProviderNamespace: string, options?: ProvidersGetOptionalParams) => Promise<Provider>;
+    getAtTenantScope: (resourceProviderNamespace: string, options?: ProvidersGetAtTenantScopeOptionalParams) => Promise<Provider>;
+    list: (options?: ProvidersListOptionalParams) => PagedAsyncIterableIterator<Provider>;
+    listAtTenantScope: (options?: ProvidersListAtTenantScopeOptionalParams) => PagedAsyncIterableIterator<Provider>;
+    providerPermissions: (resourceProviderNamespace: string, options?: ProvidersProviderPermissionsOptionalParams) => Promise<ProviderPermissionListResult>;
+    register: (resourceProviderNamespace: string, options?: ProvidersRegisterOptionalParams) => Promise<Provider>;
+    registerAtManagementGroupScope: (resourceProviderNamespace: string, groupId: string, options?: ProvidersRegisterAtManagementGroupScopeOptionalParams) => Promise<void>;
+    unregister: (resourceProviderNamespace: string, options?: ProvidersUnregisterOptionalParams) => Promise<Provider>;
 }
 
 // @public
-export type ProvidersProviderPermissionsResponse = ProviderPermissionListResult;
-
-// @public
-export interface ProvidersRegisterAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface ProvidersProviderPermissionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ProvidersRegisterOptionalParams extends coreClient.OperationOptions {
+export interface ProvidersRegisterAtManagementGroupScopeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProvidersRegisterOptionalParams extends OperationOptions {
     properties?: ProviderRegistrationRequest;
 }
 
 // @public
-export type ProvidersRegisterResponse = Provider;
-
-// @public
-export interface ProvidersUnregisterOptionalParams extends coreClient.OperationOptions {
+export interface ProvidersUnregisterOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ProvidersUnregisterResponse = Provider;
 
 // @public
 export interface Resource {
-    extendedLocation?: ExtendedLocation;
     readonly id?: string;
-    location?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
-export interface ResourceGroup {
-    readonly id?: string;
-    location: string;
+export interface ResourceGroup extends TrackedResource {
     managedBy?: string;
-    readonly name?: string;
     properties?: ResourceGroupProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public
 export interface ResourceGroupExportResult {
-    error?: ErrorResponse;
+    error?: ErrorDetail;
     output?: string;
     template?: Record<string, unknown>;
-}
-
-// @public
-export interface ResourceGroupFilter {
-    tagName?: string;
-    tagValue?: string;
-}
-
-// @public
-export interface ResourceGroupListResult {
-    readonly nextLink?: string;
-    value?: ResourceGroup[];
 }
 
 // @public
@@ -460,9 +451,7 @@ export interface ResourceGroupPatchable {
     managedBy?: string;
     name?: string;
     properties?: ResourceGroupProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -471,255 +460,143 @@ export interface ResourceGroupProperties {
 }
 
 // @public
-export interface ResourceGroups {
-    beginDelete(resourceGroupName: string, options?: ResourceGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, options?: ResourceGroupsDeleteOptionalParams): Promise<void>;
-    beginExportTemplate(resourceGroupName: string, parameters: ExportTemplateRequest, options?: ResourceGroupsExportTemplateOptionalParams): Promise<SimplePollerLike<OperationState<ResourceGroupsExportTemplateResponse>, ResourceGroupsExportTemplateResponse>>;
-    beginExportTemplateAndWait(resourceGroupName: string, parameters: ExportTemplateRequest, options?: ResourceGroupsExportTemplateOptionalParams): Promise<ResourceGroupsExportTemplateResponse>;
-    checkExistence(resourceGroupName: string, options?: ResourceGroupsCheckExistenceOptionalParams): Promise<ResourceGroupsCheckExistenceResponse>;
-    createOrUpdate(resourceGroupName: string, parameters: ResourceGroup, options?: ResourceGroupsCreateOrUpdateOptionalParams): Promise<ResourceGroupsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, options?: ResourceGroupsGetOptionalParams): Promise<ResourceGroupsGetResponse>;
-    list(options?: ResourceGroupsListOptionalParams): PagedAsyncIterableIterator<ResourceGroup>;
-    update(resourceGroupName: string, parameters: ResourceGroupPatchable, options?: ResourceGroupsUpdateOptionalParams): Promise<ResourceGroupsUpdateResponse>;
+export interface ResourceGroupsCheckExistenceOptionalParams extends OperationOptions {
 }
 
-// @public
-export interface ResourceGroupsCheckExistenceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
+// @public (undocumented)
 export type ResourceGroupsCheckExistenceResponse = {
     body: boolean;
 };
 
 // @public
-export interface ResourceGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ResourceGroupsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourceGroupsCreateOrUpdateResponse = ResourceGroup;
-
-// @public
-export interface ResourceGroupsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface ResourceGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ResourceGroupsDeleteOptionalParams extends OperationOptions {
     forceDeletionTypes?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ResourceGroupsExportTemplateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourceGroupsExportTemplateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ResourceGroupsExportTemplateResponse = ResourceGroupExportResult;
-
-// @public
-export interface ResourceGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface ResourceGroupsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourceGroupsGetResponse = ResourceGroup;
-
-// @public
-export interface ResourceGroupsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceGroupsListNextResponse = ResourceGroupListResult;
-
-// @public
-export interface ResourceGroupsListOptionalParams extends coreClient.OperationOptions {
+export interface ResourceGroupsListOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type ResourceGroupsListResponse = ResourceGroupListResult;
-
-// @public
-export interface ResourceGroupsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ResourceGroupsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, options?: ResourceGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, options?: ResourceGroupsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginExportTemplate: (resourceGroupName: string, parameters: ExportTemplateRequest, options?: ResourceGroupsExportTemplateOptionalParams) => Promise<SimplePollerLike<OperationState<ResourceGroupExportResult>, ResourceGroupExportResult>>;
+    // @deprecated (undocumented)
+    beginExportTemplateAndWait: (resourceGroupName: string, parameters: ExportTemplateRequest, options?: ResourceGroupsExportTemplateOptionalParams) => Promise<ResourceGroupExportResult>;
+    checkExistence: (resourceGroupName: string, options?: ResourceGroupsCheckExistenceOptionalParams) => Promise<ResourceGroupsCheckExistenceResponse>;
+    createOrUpdate: (resourceGroupName: string, parameters: ResourceGroup, options?: ResourceGroupsCreateOrUpdateOptionalParams) => Promise<ResourceGroup>;
+    delete: (resourceGroupName: string, options?: ResourceGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    exportTemplate: (resourceGroupName: string, parameters: ExportTemplateRequest, options?: ResourceGroupsExportTemplateOptionalParams) => PollerLike<OperationState<ResourceGroupExportResult>, ResourceGroupExportResult>;
+    get: (resourceGroupName: string, options?: ResourceGroupsGetOptionalParams) => Promise<ResourceGroup>;
+    list: (options?: ResourceGroupsListOptionalParams) => PagedAsyncIterableIterator<ResourceGroup>;
+    update: (resourceGroupName: string, parameters: ResourceGroupPatchable, options?: ResourceGroupsUpdateOptionalParams) => Promise<ResourceGroup>;
 }
 
 // @public
-export type ResourceGroupsUpdateResponse = ResourceGroup;
+export interface ResourceGroupsUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
+// @public (undocumented)
+export class ResourceManagementClient {
+    constructor(credential: TokenCredential, options?: ResourceManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ResourceManagementClientOptionalParams);
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly providerResourceTypes: ProviderResourceTypesOperations;
+    readonly providers: ProvidersOperations;
+    readonly resourceGroups: ResourceGroupsOperations;
+    readonly resources: ResourcesOperations;
+    readonly tagsOperations: TagsOperationsOperations;
+}
+
 // @public
-export interface ResourceListResult {
-    readonly nextLink?: string;
-    value?: GenericResourceExpanded[];
+export interface ResourceManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface ResourcesCheckExistenceByIdOptionalParams extends OperationOptions {
 }
 
 // @public (undocumented)
-export class ResourceManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: ResourceManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    providerResourceTypes: ProviderResourceTypes;
-    // (undocumented)
-    providers: Providers;
-    // (undocumented)
-    resourceGroups: ResourceGroups;
-    // (undocumented)
-    resources: Resources;
-    // (undocumented)
-    subscriptionId?: string;
-    // (undocumented)
-    tagsOperations: TagsOperations;
-}
-
-// @public
-export interface ResourceManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface ResourceProviderOperationDisplayProperties {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    publisher?: string;
-    resource?: string;
-}
-
-// @public
-export interface Resources {
-    beginCreateOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ResourcesCreateOrUpdateResponse>, ResourcesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateOptionalParams): Promise<ResourcesCreateOrUpdateResponse>;
-    beginCreateOrUpdateById(resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateByIdOptionalParams): Promise<SimplePollerLike<OperationState<ResourcesCreateOrUpdateByIdResponse>, ResourcesCreateOrUpdateByIdResponse>>;
-    beginCreateOrUpdateByIdAndWait(resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateByIdOptionalParams): Promise<ResourcesCreateOrUpdateByIdResponse>;
-    beginDelete(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesDeleteOptionalParams): Promise<void>;
-    beginDeleteById(resourceId: string, apiVersion: string, options?: ResourcesDeleteByIdOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteByIdAndWait(resourceId: string, apiVersion: string, options?: ResourcesDeleteByIdOptionalParams): Promise<void>;
-    beginMoveResources(sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesMoveResourcesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginMoveResourcesAndWait(sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesMoveResourcesOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ResourcesUpdateResponse>, ResourcesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateOptionalParams): Promise<ResourcesUpdateResponse>;
-    beginUpdateById(resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateByIdOptionalParams): Promise<SimplePollerLike<OperationState<ResourcesUpdateByIdResponse>, ResourcesUpdateByIdResponse>>;
-    beginUpdateByIdAndWait(resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateByIdOptionalParams): Promise<ResourcesUpdateByIdResponse>;
-    beginValidateMoveResources(sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesValidateMoveResourcesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginValidateMoveResourcesAndWait(sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesValidateMoveResourcesOptionalParams): Promise<void>;
-    checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesCheckExistenceOptionalParams): Promise<ResourcesCheckExistenceResponse>;
-    checkExistenceById(resourceId: string, apiVersion: string, options?: ResourcesCheckExistenceByIdOptionalParams): Promise<ResourcesCheckExistenceByIdResponse>;
-    get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesGetOptionalParams): Promise<ResourcesGetResponse>;
-    getById(resourceId: string, apiVersion: string, options?: ResourcesGetByIdOptionalParams): Promise<ResourcesGetByIdResponse>;
-    list(options?: ResourcesListOptionalParams): PagedAsyncIterableIterator<GenericResourceExpanded>;
-    listByResourceGroup(resourceGroupName: string, options?: ResourcesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<GenericResourceExpanded>;
-}
-
-// @public
-export interface ResourcesCheckExistenceByIdOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export type ResourcesCheckExistenceByIdResponse = {
     body: boolean;
 };
 
 // @public
-export interface ResourcesCheckExistenceOptionalParams extends coreClient.OperationOptions {
+export interface ResourcesCheckExistenceOptionalParams extends OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export type ResourcesCheckExistenceResponse = {
     body: boolean;
 };
 
 // @public
-export interface ResourcesCreateOrUpdateByIdOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourcesCreateOrUpdateByIdOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ResourcesCreateOrUpdateByIdResponse = GenericResource;
-
-// @public
-export interface ResourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourcesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ResourcesCreateOrUpdateResponse = GenericResource;
-
-// @public
-export interface ResourcesDeleteByIdOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourcesDeleteByIdOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ResourcesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourcesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ResourcesGetByIdOptionalParams extends coreClient.OperationOptions {
+export interface ResourcesGetByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourcesGetByIdResponse = GenericResource;
-
-// @public
-export interface ResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface ResourcesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourcesGetResponse = GenericResource;
-
-// @public
-export interface ResourcesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourcesListByResourceGroupNextResponse = ResourceListResult;
-
-// @public
-export interface ResourcesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ResourcesListByResourceGroupOptionalParams extends OperationOptions {
     expand?: string;
     filter?: string;
     top?: number;
 }
 
 // @public
-export type ResourcesListByResourceGroupResponse = ResourceListResult;
-
-// @public
-export interface ResourcesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourcesListNextResponse = ResourceListResult;
-
-// @public
-export interface ResourcesListOptionalParams extends coreClient.OperationOptions {
+export interface ResourcesListOptionalParams extends OperationOptions {
     expand?: string;
     filter?: string;
     top?: number;
 }
-
-// @public
-export type ResourcesListResponse = ResourceListResult;
 
 // @public
 export interface ResourcesMoveInfo {
@@ -728,32 +605,84 @@ export interface ResourcesMoveInfo {
 }
 
 // @public
-export interface ResourcesMoveResourcesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourcesMoveResourcesOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ResourcesUpdateByIdOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GenericResource>, GenericResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateOptionalParams) => Promise<GenericResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateById: (resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateByIdOptionalParams) => Promise<SimplePollerLike<OperationState<GenericResource>, GenericResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateByIdAndWait: (resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateByIdOptionalParams) => Promise<GenericResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteById: (resourceId: string, apiVersion: string, options?: ResourcesDeleteByIdOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteByIdAndWait: (resourceId: string, apiVersion: string, options?: ResourcesDeleteByIdOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginMoveResources: (sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesMoveResourcesOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginMoveResourcesAndWait: (sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesMoveResourcesOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GenericResource>, GenericResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateOptionalParams) => Promise<GenericResource>;
+    // @deprecated (undocumented)
+    beginUpdateById: (resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateByIdOptionalParams) => Promise<SimplePollerLike<OperationState<GenericResource>, GenericResource>>;
+    // @deprecated (undocumented)
+    beginUpdateByIdAndWait: (resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateByIdOptionalParams) => Promise<GenericResource>;
+    // @deprecated (undocumented)
+    beginValidateMoveResources: (sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesValidateMoveResourcesOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginValidateMoveResourcesAndWait: (sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesValidateMoveResourcesOptionalParams) => Promise<void>;
+    checkExistence: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesCheckExistenceOptionalParams) => Promise<ResourcesCheckExistenceResponse>;
+    checkExistenceById: (resourceId: string, apiVersion: string, options?: ResourcesCheckExistenceByIdOptionalParams) => Promise<ResourcesCheckExistenceByIdResponse>;
+    createOrUpdate: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<GenericResource>, GenericResource>;
+    createOrUpdateById: (resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesCreateOrUpdateByIdOptionalParams) => PollerLike<OperationState<GenericResource>, GenericResource>;
+    delete: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteById: (resourceId: string, apiVersion: string, options?: ResourcesDeleteByIdOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: ResourcesGetOptionalParams) => Promise<GenericResource>;
+    getById: (resourceId: string, apiVersion: string, options?: ResourcesGetByIdOptionalParams) => Promise<GenericResource>;
+    list: (options?: ResourcesListOptionalParams) => PagedAsyncIterableIterator<GenericResourceExpanded>;
+    listByResourceGroup: (resourceGroupName: string, options?: ResourcesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<GenericResourceExpanded>;
+    moveResources: (sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesMoveResourcesOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateOptionalParams) => PollerLike<OperationState<GenericResource>, GenericResource>;
+    updateById: (resourceId: string, apiVersion: string, parameters: GenericResource, options?: ResourcesUpdateByIdOptionalParams) => PollerLike<OperationState<GenericResource>, GenericResource>;
+    validateMoveResources: (sourceResourceGroupName: string, parameters: ResourcesMoveInfo, options?: ResourcesValidateMoveResourcesOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface ResourcesUpdateByIdOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ResourcesUpdateByIdResponse = GenericResource;
-
-// @public
-export interface ResourcesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourcesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ResourcesUpdateResponse = GenericResource;
+export interface ResourcesValidateMoveResourcesOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+export { RestError }
 
 // @public
-export interface ResourcesValidateMoveResourcesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ResourceManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
 
@@ -767,6 +696,28 @@ export interface RoleDefinition {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface Sku {
     capacity?: number;
     family?: string;
@@ -777,8 +728,13 @@ export interface Sku {
 }
 
 // @public
-export interface SubResource {
-    id?: string;
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -797,99 +753,71 @@ export interface TagDetails {
 
 // @public
 export interface Tags {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface TagsCreateOrUpdateAtScopeHeaders {
-    location?: string;
-}
-
-// @public
-export interface TagsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TagsOperationsCreateOrUpdateAtScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TagsCreateOrUpdateAtScopeResponse = TagsResource;
-
-// @public
-export interface TagsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TagsOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagsCreateOrUpdateResponse = TagDetails;
-
-// @public
-export interface TagsCreateOrUpdateValueOptionalParams extends coreClient.OperationOptions {
+export interface TagsOperationsCreateOrUpdateValueOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagsCreateOrUpdateValueResponse = TagValue;
-
-// @public
-export interface TagsDeleteAtScopeHeaders {
-    location?: string;
-}
-
-// @public
-export interface TagsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TagsOperationsDeleteAtScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface TagsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TagsOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TagsDeleteValueOptionalParams extends coreClient.OperationOptions {
+export interface TagsOperationsDeleteValueOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TagsGetAtScopeOptionalParams extends coreClient.OperationOptions {
+export interface TagsOperationsGetAtScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagsGetAtScopeResponse = TagsResource;
-
-// @public
-export interface TagsListNextOptionalParams extends coreClient.OperationOptions {
+export interface TagsOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagsListNextResponse = TagsListResult;
-
-// @public
-export interface TagsListOptionalParams extends coreClient.OperationOptions {
+export interface TagsOperationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtScope: (scope: string, parameters: TagsResource, options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<TagsResource>, TagsResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtScopeAndWait: (scope: string, parameters: TagsResource, options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams) => Promise<TagsResource>;
+    // @deprecated (undocumented)
+    beginDeleteAtScope: (scope: string, options?: TagsOperationsDeleteAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAtScopeAndWait: (scope: string, options?: TagsOperationsDeleteAtScopeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdateAtScope: (scope: string, parameters: TagsPatchResource, options?: TagsOperationsUpdateAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<TagsResource>, TagsResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAtScopeAndWait: (scope: string, parameters: TagsPatchResource, options?: TagsOperationsUpdateAtScopeOptionalParams) => Promise<TagsResource>;
+    createOrUpdate: (tagName: string, options?: TagsOperationsCreateOrUpdateOptionalParams) => Promise<TagDetails>;
+    createOrUpdateAtScope: (scope: string, parameters: TagsResource, options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams) => PollerLike<OperationState<TagsResource>, TagsResource>;
+    createOrUpdateValue: (tagName: string, tagValue: string, options?: TagsOperationsCreateOrUpdateValueOptionalParams) => Promise<TagValue>;
+    delete: (tagName: string, options?: TagsOperationsDeleteOptionalParams) => Promise<void>;
+    deleteAtScope: (scope: string, options?: TagsOperationsDeleteAtScopeOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteValue: (tagName: string, tagValue: string, options?: TagsOperationsDeleteValueOptionalParams) => Promise<void>;
+    getAtScope: (scope: string, options?: TagsOperationsGetAtScopeOptionalParams) => Promise<TagsResource>;
+    list: (options?: TagsOperationsListOptionalParams) => PagedAsyncIterableIterator<TagDetails>;
+    updateAtScope: (scope: string, parameters: TagsPatchResource, options?: TagsOperationsUpdateAtScopeOptionalParams) => PollerLike<OperationState<TagsResource>, TagsResource>;
 }
 
 // @public
-export type TagsListResponse = TagsListResult;
-
-// @public
-export interface TagsListResult {
-    readonly nextLink?: string;
-    value?: TagDetails[];
-}
-
-// @public
-export interface TagsOperations {
-    beginCreateOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<TagsCreateOrUpdateAtScopeResponse>, TagsCreateOrUpdateAtScopeResponse>>;
-    beginCreateOrUpdateAtScopeAndWait(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
-    beginDeleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtScopeAndWait(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
-    beginUpdateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<TagsUpdateAtScopeResponse>, TagsUpdateAtScopeResponse>>;
-    beginUpdateAtScopeAndWait(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
-    createOrUpdate(tagName: string, options?: TagsCreateOrUpdateOptionalParams): Promise<TagsCreateOrUpdateResponse>;
-    createOrUpdateValue(tagName: string, tagValue: string, options?: TagsCreateOrUpdateValueOptionalParams): Promise<TagsCreateOrUpdateValueResponse>;
-    delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void>;
-    deleteValue(tagName: string, tagValue: string, options?: TagsDeleteValueOptionalParams): Promise<void>;
-    getAtScope(scope: string, options?: TagsGetAtScopeOptionalParams): Promise<TagsGetAtScopeResponse>;
-    list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
+export interface TagsOperationsUpdateAtScopeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -902,26 +830,9 @@ export interface TagsPatchResource {
 }
 
 // @public
-export interface TagsResource {
-    readonly id?: string;
-    readonly name?: string;
+export interface TagsResource extends ExtensionResource {
     properties: Tags;
-    readonly type?: string;
 }
-
-// @public
-export interface TagsUpdateAtScopeHeaders {
-    location?: string;
-}
-
-// @public
-export interface TagsUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type TagsUpdateAtScopeResponse = TagsResource;
 
 // @public
 export interface TagValue {
@@ -930,7 +841,13 @@ export interface TagValue {
     tagValue?: string;
 }
 
-// @public (undocumented)
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface ZoneMapping {
     location?: string;
     // (undocumented)

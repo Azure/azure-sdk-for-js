@@ -1,5 +1,80 @@
 # Release History
-## 4.6.0 (2025-09-15)
+
+## 4.10.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 4.10.0 (2026-07-21)
+
+### Features Added
+
+- Added a semantic reranking API. Use `Container.semanticRerank(rerankContext, documents, options)` to score and reorder documents by relevance via the Cosmos DB Inference Service. Configure it through `enablePreviewFeatures.semanticRerank` on `CosmosClientOptions`: `inferenceEndpoint` (required) and an optional `inferenceRequestTimeout` (ms, default 5000) single-attempt timeout that fails with HTTP 408 when exceeded. Requires AAD authentication. The result and any thrown error include `CosmosDiagnostics` for the operation.
+- Added `enablePreviewFeatures` to `CosmosClientOptions`, a dictionary for opting into preview features of the SDK.
+
+### Bugs Fixed
+
+- [#38087](https://github.com/Azure/azure-sdk-for-js/issues/38087) Made `boundingBox` optional on the `SpatialIndex` type. Bounding boxes are only required for geometry spatial indexes, not geography ones.
+- Fixed cross-partition queries making a redundant `/pkranges` metadata call on every query. Queries now reuse the shared partition key range cache (worst for hybrid queries, which previously fetched ranges per component query). The cache is also made failure-safe so a transient fetch error no longer poisons later lookups.
+- [#39115](https://github.com/Azure/azure-sdk-for-js/issues/39115) Fixed continuation token handling for `enableQueryControl` queries. Resuming now routes through the query plan instead of forwarding the SDK-internal composite token to the gateway, avoiding an extra failing call and the `MalformedContinuationToken` error.
+
+## 4.9.3 (2026-04-20)
+
+### Bugs Fixed
+
+- [#38124](https://github.com/Azure/azure-sdk-for-js/pull/38124) Fixed incorrect SQL filter generation in ORDER BY queries with continuation tokens. Backslashes and single quotes in `orderByItem` values are now properly escaped in `formatValueForSQL` before being embedded in WHERE clauses.
+
+## 4.9.2 (2026-03-16)
+
+### Bugs Fixed
+
+- [#36765](https://github.com/Azure/azure-sdk-for-js/pull/36765) Fixed inflated continuation token size in streaming queries (`SELECT * FROM c`) by properly removing exhausted partition ranges from the continuation token.
+
+## 4.9.1 (2026-01-29)
+
+### Bugs Fixed
+
+- [#37178](https://github.com/Azure/azure-sdk-for-js/pull/37178) Fixed memory leak in full-text search queries by improving continuation token handling for hybrid component query scenarios.
+- [#37194](https://github.com/Azure/azure-sdk-for-js/pull/37194) Added support for `SQLQuerySpec` in hybrid search queries. Previously, only string queries were supported.
+
+## 4.9.0 (2025-11-24)
+
+### Features Added
+
+- Added support for continuation tokens in queries. This capability is available when using the `enableQueryControl` feature in `FeedOptions`.
+
+## 4.8.0 (2025-11-20)
+
+### Features Added
+
+- [#36701](https://github.com/Azure/azure-sdk-for-js/issues/36701) Added support for `float16` data type in vector embedding.
+- [#36700](https://github.com/Azure/azure-sdk-for-js/issues/36700) Added support for Priority level in Change feed.
+- [#36699](https://github.com/Azure/azure-sdk-for-js/issues/36699) Add support for throughput buckets in Change Feed.
+
+### Bugs Fixed
+
+- Fixed MIN/MAX aggregate queries randomly returning incorrect results in multi-partition collections. Empty partitions (count:0) were incorrectly overwriting valid aggregate values with undefined, causing MIN or MAX values to be missing from query results.
+
+### Other Changes
+
+- Added samples demonstrating Throughput bucketing feature.
+- Added samples showcasing the use of Priority-Level support.
+- Added samples for the `deleteAllItemsForPartitionKey` feature.
+
+## 4.7.0 (2025-10-23)
+
+### Features Added
+
+Dynamic Enablement for PPAF(Per Partition Automatic Failover): Added support to dynamically enable or disable PPAF based on the `enablePartitionLevelFailover` flag retrieved from the database account properties removing the need of SDK restart. 
+
+## 4.6.0 (2025-10-08)
 
 ### Features Added
 
@@ -13,10 +88,12 @@ await container.items.upsert(city, requestOptions);
 
 await container.item("1").delete(requestOptions);
 ```
+- [#36015](https://github.com/Azure/azure-sdk-for-js/issues/36015) AAD Authentication Scope Override: Added support for overriding AAD authentication scope via the new `aadScope` option in `CosmosClientOptions`. When no custom scope is provided, the system uses the account-specific scope for authentication and implements a fallback mechanism to `https://cosmos.azure.com/.default` in case of `AADSTS500011` errors. When a custom scope is explicitly provided via the `aadScope` option, no fallback occurs.
 
 ### Bugs Fixed
 - [#35875](https://github.com/Azure/azure-sdk-for-js/issues/35875) Fixed the per-operation partition key format in the batch API to match the API-level partition key,
  preventing partitionKeyMismatch error when an optional partition key value is provided in the operationInput
+- [#35967](https://github.com/Azure/azure-sdk-for-js/issues/35967) Changed the default values of `enablePartitionLevelFailover` and `enablePartitionLevelCircuitBreaker` flags to `true` in the connection policy.
 
 ## 4.5.1 (2025-09-01)
 

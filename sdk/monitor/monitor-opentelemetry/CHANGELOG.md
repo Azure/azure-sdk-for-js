@@ -1,6 +1,138 @@
 # Release History
 
-### 1.13.1 (2025-09-10)
+## 1.20.0 (Unreleased)
+
+### Features Added
+
+- `instrumentationOptions.console` now accepts a `logSeverity` value, allowing the console log severity to be configured programmatically instead of only through the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. [#39483](https://github.com/Azure/azure-sdk-for-js/pull/39483)
+- Added support for the Azure Container Apps resource detector from `@opentelemetry/resource-detector-azure`. [#39510](https://github.com/Azure/azure-sdk-for-js/issues/39510)
+
+### Bugs Fixed
+
+- Fixed incorrect performance-counter sampling by giving standard and normalized process CPU counters independent state and initializing the first request and exception rate intervals with the current time. [#39520](https://github.com/Azure/azure-sdk-for-js/pull/39520)
+- Fixed a failed IMDS request being recorded as a dependency when running on App Service, Functions, and Container Apps. The Azure VM resource detector now runs only when no other detector has identified the platform. [#39510](https://github.com/Azure/azure-sdk-for-js/issues/39510)
+- The built-in `BatchSpanProcessor` now respects the standard OpenTelemetry `OTEL_BSP_*` environment variables. [#39607](https://github.com/Azure/azure-sdk-for-js/issues/39607)
+
+### Other Changes
+
+- Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, semantic conventions to `^1.43.0`, and bundled contrib instrumentations, resource detector, and Winston transport to their latest compatible versions. [#39649](https://github.com/Azure/azure-sdk-for-js/pull/39649)
+- Updated to using exporter version 1.0.0-beta.45.
+
+## 1.19.0 (2026-07-29)
+
+### Features Added
+
+- Live Metrics (QuickPulse) now honors the `APPLICATIONINSIGHTS_AUTHENTICATION_STRING` environment variable for Azure Active Directory (AAD) authentication as a fallback when no explicit credential is supplied. [#39445](https://github.com/Azure/azure-sdk-for-js/pull/39445)
+- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+
+### Bugs Fixed
+
+- Fixed `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE` not disabling log collection. `NONE` now skips registering the log instrumentations entirely, so no logs are collected. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+
+### Other Changes
+
+- Fixed Statsbeat instrumentation encoding so adding an instrumentation no longer shifts the reported bits of others, and flags above `2 ** 32` (such as `pino`, `restify`, `router`, and `amqplib`) are no longer dropped. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+- Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). Updated the bundled contrib instrumentations and resource detector to their latest versions. [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
+- Updated to using exporter version 1.0.0-beta.44.
+
+## 1.18.2 (2026-07-01)
+
+### Bugs Fixed
+
+- Fixed missing Azure SDK dependency spans (Service Bus, Event Grid, Storage, etc.) when running as an ESM application on Node.js 22+ — most notably in Azure Functions, where the `--import @azure/monitor-opentelemetry/loader` flag cannot be configured. The distro now wires the Azure SDK instrumenter into `@azure/core-tracing` directly, so Azure SDK tracing works in ESM even when the OpenTelemetry module hooks never fire.
+- Fixed Azure SDK spans being silently dropped when any Azure SDK package is imported before `useAzureMonitor()`. The fix eagerly installs the `@azure/core-tracing` OpenTelemetry bridge after SDK initialization, handling the case where the RITM hook could not intercept an already-loaded `@azure/core-tracing`.
+- Fixed a CPU-saturating deactivate/reactivate loop in Live Metrics that occurred when live-endpoint posts failed while subscribed.
+- Hardened Live Metrics (QuickPulse) redirect handling so a `x-ms-qps-service-endpoint-redirect-v2` header is only followed when the target host matches the configured endpoint or a known Azure Monitor ingestion domain. This prevents an attacker-controlled redirect from causing the bearer auth token (and telemetry body) to be sent to an untrusted host.
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.43.
+
+## 1.18.1 (2026-05-29)
+
+### Other Changes
+
+- Updated OpenTelemetry experimental dependencies from `^0.217.0` to `^0.218.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`). The `otlp-transformer` in this release replaces its `protobufjs` dependency with a custom serializer, resolving related `npm audit` advisories.
+- Removed the redundant private `quickpulseClientOptions` field from `QuickpulseSender`; tests now read `credential` and `credentialScopes` directly via bracket notation.
+- Updated to using exporter version 1.0.0-beta.42.
+
+## 1.18.0 (2026-05-12)
+
+### Other Changes
+
+- Updated OpenTelemetry dependencies to the `0.217.0` / `2.7.1` release line, including `@opentelemetry/sdk-node`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, the stable `@opentelemetry/core` / `@opentelemetry/resources` / `@opentelemetry/sdk-metrics` / `@opentelemetry/sdk-trace-base` / `@opentelemetry/sdk-trace-node` packages, `@opentelemetry/semantic-conventions`, and the contrib instrumentations (`bunyan`, `mongodb`, `mysql`, `pg`, `redis`, `winston`, `resource-detector-azure`, `winston-transport`).
+- Updated to using exporter version 1.0.0-beta.41.
+
+## 1.17.0 (2026-05-07)
+
+### Features Added
+
+- Added GenAI main agent attribution: `AzureMonitorSpanProcessor` and `AzureLogRecordProcessor` now propagate `microsoft.gen_ai.main_agent.*` attributes (with fallback to `gen_ai.agent.*` / `gen_ai.conversation.id`) from parent spans to child spans, derive them on `invoke_agent` spans, and copy them from the active span onto emitted log records.
+- Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
+- Added `AKS_RESOURCE_DETECTOR_POPULATION` statsbeat feature signal to track when the AKS resource detector successfully populates resource attributes.
+
+### Bugs Fixed
+
+- Fixed Available Memory performance counter on Linux to report `MemAvailable` from `/proc/meminfo` instead of `MemFree` (via `os.freemem()`). `MemAvailable` accounts for reclaimable memory (page cache, buffers), providing a more accurate measure of memory available to processes.
+- Fixed standard metrics and performance counters recording 0ms duration for all sub-second requests. `span.duration` is an `HrTime` tuple `[seconds, nanoseconds]` but was incorrectly read as `span.duration[0]` (seconds only). Converted to milliseconds using `hrTimeToMilliseconds()` from `@opentelemetry/core`.
+
+### Other Changes
+
+- Restructured `samples-dev` to use the standard Azure SDK dev-tool format with `@summary` tags.
+- Updated to using exporter version 1.0.0-beta.40.
+
+## 1.16.0 (2026-02-20)
+
+### Breaking Changes
+
+- Default Sampler Changed: The default sampling behavior has been changed from `ApplicationInsightsSampler` with 100% sampling (all traces sampled) to `RateLimitedSampler` with 5.0 traces per second. This change significantly reduces telemetry volume for high-traffic applications and provides better cost optimization out of the box.
+  - **Impact**: Applications with more than 5 requests per second will see fewer traces exported by default.
+  - **Migration**: To maintain the previous behavior (100% sampling), explicitly configure the sampler by setting `tracesPerSecond: 0` which will fall back to using `samplingRatio: 1.0`.
+
+### Other Changes
+
+- Changed `CUSTOMER_SDKSTATS` SDK Stats feature to track when customers explicitly disable SDK stats by setting `APPLICATIONINSIGHTS_SDKSTATS_DISABLED=true`.
+- In double-instrumentation scenarios, surface a warning in the log stream in addition to diagnostic logs to help customers identify when they have both autoinstrumentation and manual instrumentation enabled.
+
+### Bugs Fixed
+
+- Fixed OpenTelemetry API version mismatch causing Noop providers in VS Code extensions. When a different version of `@opentelemetry/api` was already loaded (e.g. by the VS Code extension host), `useAzureMonitor` would silently fall back to Noop providers, discarding all telemetry. The fix clears the stale global API state before initializing the SDK.
+
+## 1.15.1 (2026-01-16)
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.38.
+
+## 1.15.0 (2026-01-15)
+
+### Features Added
+
+- Allow configuring additional metric views through `AzureMonitorOpenTelemetryOptions` and pass them to the NodeSDK.
+- Honor `OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION` for selecting default histogram aggregation (explicit or exponential).
+- Support `OTEL_TRACES_SAMPLER`/`OTEL_TRACES_SAMPLER_ARG` environment variables for sampler selection.
+
+- Add support for automatic instrumentation in ESM environments.
+
+## 1.14.2 (2025-11-13)
+
+### Bugs Fixed
+
+- Fix azure SDK dependency version imports.
+
+## 1.14.1 (2025-11-10)
+
+### Bugs Fixed
+
+- Fix dynamically importing the monitor-opentelemetry packages in Next.js.
+
+## 1.14.0 (2025-09-16)
+
+### Other Changes
+
+- Update exporter version.
+
+## 1.13.1 (2025-09-10)
 
 ### Bugs Fixed
 
@@ -10,7 +142,7 @@
 
 - Update OpenTelemetry dependencies.
 
-### 1.13.0 (2025-09-05)
+## 1.13.0 (2025-09-05)
 
 ### Features Added
 
@@ -87,6 +219,7 @@
 ## 1.8.0 (2024-10-23)
 
 ### Features Added
+
 - Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
 - Support for Live Metrics Filtering.
 - Support parsing AAD Audience from the connection string for live metrics.
@@ -98,6 +231,7 @@
 ## 1.7.1 (2024-09-13)
 
 ### Bugs Fixed
+
 - Live Metrics: Do not send documents from past time intervals.
 
 ### Other Changes

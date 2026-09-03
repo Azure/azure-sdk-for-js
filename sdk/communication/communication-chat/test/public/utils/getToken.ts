@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Buffer } from "node:buffer";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 export function getToken(tokenString: string): string {
-  return Buffer.from(tokenString).toString("base64");
+  return uint8ArrayToString(stringToUint8Array(tokenString, "utf-8"), "base64");
 }

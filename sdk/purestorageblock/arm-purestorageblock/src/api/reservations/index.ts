@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  latestLinkedSaaS,
+  linkSaaS,
   getBillingReport,
   getBillingStatus,
   getResourceLimits,
@@ -12,7 +14,9 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
+export type {
+  ReservationsLatestLinkedSaaSOptionalParams,
+  ReservationsLinkSaaSOptionalParams,
   ReservationsGetBillingReportOptionalParams,
   ReservationsGetBillingStatusOptionalParams,
   ReservationsGetResourceLimitsOptionalParams,

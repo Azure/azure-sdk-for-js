@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { ExascaleDbStorageVault, ExascaleDbStorageVaultTagsUpdate } from "../../models/models.js";
-import {
-  ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
-  ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
-  ExascaleDbStorageVaultsDeleteOptionalParams,
-  ExascaleDbStorageVaultsUpdateOptionalParams,
-  ExascaleDbStorageVaultsCreateOptionalParams,
-  ExascaleDbStorageVaultsGetOptionalParams,
-} from "../../api/exascaleDbStorageVaults/options.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,8 +10,20 @@ import {
   create,
   get,
 } from "../../api/exascaleDbStorageVaults/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+  ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
+  ExascaleDbStorageVaultsDeleteOptionalParams,
+  ExascaleDbStorageVaultsUpdateOptionalParams,
+  ExascaleDbStorageVaultsCreateOptionalParams,
+  ExascaleDbStorageVaultsGetOptionalParams,
+} from "../../api/exascaleDbStorageVaults/options.js";
+import type {
+  ExascaleDbStorageVault,
+  ExascaleDbStorageVaultTagsUpdate,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExascaleDbStorageVaults operations. */
 export interface ExascaleDbStorageVaultsOperations {

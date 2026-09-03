@@ -85,7 +85,7 @@ describe.each(authMethods)(`[%s] document classifiers`, (authMethod) => {
 
       _classifier = await poller.pollUntilDone();
 
-      assert.ok(_classifier.classifierId);
+      assert.isDefined(_classifier.classifierId);
     }
 
     return _classifier;
@@ -114,11 +114,11 @@ describe.each(authMethods)(`[%s] document classifiers`, (authMethod) => {
 
     // Additionally check that the pages aren't empty and that there are some common fields set
     assert.isNotEmpty(result.pages);
-    assert.ok(result.pages![0].pageNumber);
+    assert.isDefined(result.pages![0].pageNumber);
     assert.isDefined(result.pages![0].angle);
-    assert.ok(result.pages![0].height);
-    assert.ok(result.pages![0].width);
-    assert.ok(result.pages![0].unit);
+    assert.isDefined(result.pages![0].height);
+    assert.isDefined(result.pages![0].width);
+    assert.isDefined(result.pages![0].unit);
   });
 
   it("analyze from PNG file URL", async () => {

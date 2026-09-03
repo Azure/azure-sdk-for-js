@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import concurrently from "concurrently";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { runTestsWithProxyTool } from "../../util/testUtils";
-import { createPrinter } from "../../util/printer";
-import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer";
+import path from "node:path";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { runTestsWithProxyTool } from "../../util/testUtils.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer.ts";
+import { run } from "../../util/run.ts";
+import { resolveNodeModuleBin } from "../../util/nodeCli.ts";
+import { buildVitestCommand } from "../../util/vitestCommand.ts";
 
 const log = createPrinter("test:vitest");
 
@@ -47,15 +50,12 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function playwrightInstall(): Promise<void> {
-  const { result } = concurrently([
-    {
-      command: "npx playwright install",
-      name: "playwright install",
-    },
-  ]);
-
-  await result;
-  log.info("playwright browsers installed");
+  // Browser tests only run on Chromium, so avoid downloading unused browsers.
+  const playwrightCli = resolveNodeModuleBin("playwright", "playwright", process.cwd());
+  await run([process.execPath, "--", playwrightCli, "install", "chromium"], {
+    stdio: "inherit",
+  });
+  log.info("playwright chromium browser installed");
 }
 
 export default leafCommand(commandInfo, async (options) => {
@@ -63,31 +63,27 @@ export default leafCommand(commandInfo, async (options) => {
     await playwrightInstall();
   }
 
-  const updatedArgs = options["--"]?.map((opt) =>
-    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
-  );
-
-  let args = "";
-  // Only set if we didn't provide a config file path
-  const providedConfig = updatedArgs?.find((arg) => arg === "-c" || arg === "--config");
-  if (options["browser"] && !providedConfig) {
-    args = "-c vitest.browser.config.ts";
-  } else if (options["esm"] && !providedConfig) {
-    args = "-c vitest.esm.config.ts";
-  }
-
-  const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
-  const command = {
-    command: `vitest ${args} ${vitestArgs}`,
-    name: "vitest",
-  };
+  const updatedArgs = options["--"] ?? [];
+  const command = buildVitestCommand(updatedArgs, {
+    browser: options["browser"],
+    esm: options["esm"],
+  });
 
   const stopRelayServer =
     options.browser && options["relay-server"] && (await shouldStartRelay())
       ? startRelayServer()
       : undefined;
 
+  const oldPath = process.env.PATH;
   try {
+    // prepend local node_module/.bin to PATH so that vitest can be found in sub-process
+    const binPath = path.resolve(path.join(process.cwd(), "node_modules/.bin"));
+    const included = (process.env.PATH?.split(path.delimiter) ?? []).includes(binPath);
+    if (!included) {
+      log.debug(`Adding ${binPath} to process.env.PATH`);
+      process.env.PATH = binPath + path.delimiter + process.env.PATH;
+    }
+
     if (options["test-proxy"]) {
       if (options["test-proxy-debug"]) process.env["Logging__LogLevel__Default"] = "Debug";
 
@@ -95,9 +91,19 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     log.info("Running vitest without test-proxy");
-    await concurrently([command]).result;
-    return true;
+    try {
+      await run(command, { stdio: "inherit" });
+      return true;
+    } catch (error: unknown) {
+      log.error(`vitest failed: ${error instanceof Error ? error.message : String(error)}`);
+      return false;
+    }
   } finally {
     stopRelayServer?.();
+    if (typeof oldPath === "undefined") {
+      delete process.env.PATH;
+    } else {
+      process.env.PATH = oldPath;
+    }
   }
 });

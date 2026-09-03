@@ -1,8 +1,12 @@
 {
   "editor.autoIndent": "full",
   "editor.detectIndentation": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "eslint.workingDirectories": [

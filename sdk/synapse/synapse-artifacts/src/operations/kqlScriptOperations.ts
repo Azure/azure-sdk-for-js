@@ -25,8 +25,285 @@ import type {
   ArtifactRenameRequest,
   KqlScriptRenameOptionalParams,
 } from "../models/index.js";
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
+/** Class containing KqlScriptOperations operations. */
+export class KqlScriptOperationsImpl implements KqlScriptOperations {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class KqlScriptOperations class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Creates or updates a KQL Script
+   * @param kqlScriptName KQL script name
+   * @param kqlScript KQL script
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    kqlScriptName: string,
+    kqlScript: KqlScriptResource,
+    options?: KqlScriptCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<KqlScriptCreateOrUpdateResponse>,
+      KqlScriptCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<KqlScriptCreateOrUpdateResponse> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdate",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<KqlScriptCreateOrUpdateResponse>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { kqlScriptName, kqlScript, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      KqlScriptCreateOrUpdateResponse,
+      OperationState<KqlScriptCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a KQL Script
+   * @param kqlScriptName KQL script name
+   * @param kqlScript KQL script
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    kqlScriptName: string,
+    kqlScript: KqlScriptResource,
+    options?: KqlScriptCreateOrUpdateOptionalParams,
+  ): Promise<KqlScriptCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(kqlScriptName, kqlScript, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get KQL script by name
+   * @param kqlScriptName KQL script name
+   * @param options The options parameters.
+   */
+  async getByName(
+    kqlScriptName: string,
+    options?: KqlScriptGetByNameOptionalParams,
+  ): Promise<KqlScriptGetByNameResponse> {
+    return tracingClient.withSpan("ArtifactsClient.getByName", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { kqlScriptName, options },
+        getByNameOperationSpec,
+      ) as Promise<KqlScriptGetByNameResponse>;
+    });
+  }
+
+  /**
+   * Delete KQL script by name
+   * @param kqlScriptName KQL script name
+   * @param options The options parameters.
+   */
+  async beginDeleteByName(
+    kqlScriptName: string,
+    options?: KqlScriptDeleteByNameOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeleteByName",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { kqlScriptName, options },
+      spec: deleteByNameOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete KQL script by name
+   * @param kqlScriptName KQL script name
+   * @param options The options parameters.
+   */
+  async beginDeleteByNameAndWait(
+    kqlScriptName: string,
+    options?: KqlScriptDeleteByNameOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeleteByName(kqlScriptName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Rename KQL script
+   * @param kqlScriptName KQL script name
+   * @param renameRequest Rename request
+   * @param options The options parameters.
+   */
+  async beginRename(
+    kqlScriptName: string,
+    renameRequest: ArtifactRenameRequest,
+    options?: KqlScriptRenameOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan("ArtifactsClient.beginRename", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { kqlScriptName, renameRequest, options },
+      spec: renameOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Rename KQL script
+   * @param kqlScriptName KQL script name
+   * @param renameRequest Rename request
+   * @param options The options parameters.
+   */
+  async beginRenameAndWait(
+    kqlScriptName: string,
+    renameRequest: ArtifactRenameRequest,
+    options?: KqlScriptRenameOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginRename(kqlScriptName, renameRequest, options);
+    return poller.pollUntilDone();
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -109,307 +386,3 @@ const renameOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-
-/** Class containing KqlScriptOperations operations. */
-export class KqlScriptOperationsImpl implements KqlScriptOperations {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class KqlScriptOperations class.
-   * @param client - Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Creates or updates a KQL Script
-   * @param kqlScriptName - KQL script name
-   * @param kqlScript - KQL script
-   * @param options - The options parameters.
-   */
-  async beginCreateOrUpdate(
-    kqlScriptName: string,
-    kqlScript: KqlScriptResource,
-    options?: KqlScriptCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<KqlScriptCreateOrUpdateResponse>,
-      KqlScriptCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<KqlScriptCreateOrUpdateResponse> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginCreateOrUpdate",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(
-            args,
-            spec,
-          ) as Promise<KqlScriptCreateOrUpdateResponse>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: KqlScriptResource;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { kqlScriptName, kqlScript, options },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      KqlScriptCreateOrUpdateResponse,
-      OperationState<KqlScriptCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates a KQL Script
-   * @param kqlScriptName - KQL script name
-   * @param kqlScript - KQL script
-   * @param options - The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    kqlScriptName: string,
-    kqlScript: KqlScriptResource,
-    options?: KqlScriptCreateOrUpdateOptionalParams,
-  ): Promise<KqlScriptCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(kqlScriptName, kqlScript, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get KQL script by name
-   * @param kqlScriptName - KQL script name
-   * @param options - The options parameters.
-   */
-  async getByName(
-    kqlScriptName: string,
-    options?: KqlScriptGetByNameOptionalParams,
-  ): Promise<KqlScriptGetByNameResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getByName",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { kqlScriptName, updatedOptions },
-          getByNameOperationSpec,
-        ) as Promise<KqlScriptGetByNameResponse>;
-      },
-    );
-  }
-
-  /**
-   * Delete KQL script by name
-   * @param kqlScriptName - KQL script name
-   * @param options - The options parameters.
-   */
-  async beginDeleteByName(
-    kqlScriptName: string,
-    options?: KqlScriptDeleteByNameOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginDeleteByName",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { kqlScriptName, options },
-      spec: deleteByNameOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete KQL script by name
-   * @param kqlScriptName - KQL script name
-   * @param options - The options parameters.
-   */
-  async beginDeleteByNameAndWait(
-    kqlScriptName: string,
-    options?: KqlScriptDeleteByNameOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDeleteByName(kqlScriptName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Rename KQL script
-   * @param kqlScriptName - KQL script name
-   * @param renameRequest - Rename request
-   * @param options - The options parameters.
-   */
-  async beginRename(
-    kqlScriptName: string,
-    renameRequest: ArtifactRenameRequest,
-    options?: KqlScriptRenameOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan("ArtifactsClient.beginRename", options ?? {}, async () => {
-        return this.client.sendOperationRequest(args, spec) as Promise<void>;
-      });
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { kqlScriptName, renameRequest, options },
-      spec: renameOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Rename KQL script
-   * @param kqlScriptName - KQL script name
-   * @param renameRequest - Rename request
-   * @param options - The options parameters.
-   */
-  async beginRenameAndWait(
-    kqlScriptName: string,
-    renameRequest: ArtifactRenameRequest,
-    options?: KqlScriptRenameOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginRename(kqlScriptName, renameRequest, options);
-    return poller.pollUntilDone();
-  }
-}

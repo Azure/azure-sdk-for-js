@@ -86,6 +86,19 @@ describe("TrafficManager test", () => {
   });
 
   it("profiles delete test", async () => {
+    // Ensure the profile exists before attempting deletion so this test is not
+    // order-dependent on "profiles create test" and does not 404 if the profile
+    // has already been removed by a previous run. createOrUpdate is idempotent.
+    await client.profiles.createOrUpdate(resourceGroup, profileName, {
+      dnsConfig: { relativeName: "azsmnet6386", ttl: 35 },
+      location,
+      maxReturn: 2,
+      monitorConfig: { path: "/testpath.aspx", port: 80, protocol: "HTTP" },
+      profileStatus: "Enabled",
+      trafficRoutingMethod: "MultiValue",
+      trafficViewEnrollmentStatus: "Disabled",
+    });
+    await client.profiles.delete(resourceGroup, profileName);
     const resArray = new Array();
     for await (const item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

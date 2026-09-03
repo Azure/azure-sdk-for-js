@@ -26,6 +26,7 @@ describe("DefaultAzureCredential", () => {
       `Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev' or any of these credentials - EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, VisualStudioCodeCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential.`,
     );
   });
+
   it("should not throw an error if AZURE_TOKEN_CREDENTIALS is set to a supported value", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
     expect(() => new DefaultAzureCredential()).not.toThrowError();
@@ -122,6 +123,12 @@ describe("create functions", () => {
     expect(cliSpy).not.toHaveBeenCalled();
     expect(devCliSpy).not.toHaveBeenCalled();
     expect(psSpy).not.toHaveBeenCalled();
+
+    expect(miSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sendProbeRequest: false,
+      }),
+    );
   });
 
   it("calls only createDefaultWorkloadIdentityCredential when AZURE_TOKEN_CREDENTIALS is 'WorkloadIdentityCredential'", () => {
@@ -201,6 +208,12 @@ describe("create functions", () => {
 
     expect(envSpy).toHaveBeenCalled();
     expect(miSpy).toHaveBeenCalled();
+    // Ensure default MI behavior is passed in correctly to send probe request
+    expect(miSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sendProbeRequest: true,
+      }),
+    );
     expect(wiSpy).toHaveBeenCalled();
     expect(vscSpy).not.toHaveBeenCalled();
     expect(cliSpy).not.toHaveBeenCalled();

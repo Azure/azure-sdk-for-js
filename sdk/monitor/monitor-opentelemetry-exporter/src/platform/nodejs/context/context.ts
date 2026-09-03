@@ -10,6 +10,7 @@ import {
   ENV_AZURE_MONITOR_PREFIX,
   ENV_APPLICATIONINSIGHTS_SHIM_VERSION,
   ENV_AZURE_MONITOR_DISTRO_VERSION,
+  ENV_MICROSOFT_OPENTELEMETRY_VERSION,
 } from "../../../Declarations/Constants.js";
 
 let instance: Context | null = null;
@@ -47,7 +48,9 @@ export class Context {
   }
 
   private _getVersion(): string {
-    if (process.env[ENV_APPLICATIONINSIGHTS_SHIM_VERSION]) {
+    if (process.env[ENV_MICROSOFT_OPENTELEMETRY_VERSION]) {
+      return `mot${process.env[ENV_MICROSOFT_OPENTELEMETRY_VERSION]}`;
+    } else if (process.env[ENV_APPLICATIONINSIGHTS_SHIM_VERSION]) {
       return `sha${process.env[ENV_APPLICATIONINSIGHTS_SHIM_VERSION]}`;
     } else if (process.env[ENV_AZURE_MONITOR_DISTRO_VERSION]) {
       return `dst${process.env[ENV_AZURE_MONITOR_DISTRO_VERSION]}`;

@@ -5,20 +5,94 @@ import type { CompatResponse } from "@azure/core-http-compat";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
-import type {
-  SnapshotComposition,
-  ConfigurationSettingsFilter,
-  ConfigurationSnapshot,
-  ConfigurationSnapshotStatus,
-  SettingLabel,
-} from "./generated/src/index.js";
+import type { SnapshotReferenceValue } from "./snapshotReference.js";
+
+/**
+ * Defines values for SnapshotComposition.
+ * {@link KnownSnapshotComposition} can be used interchangeably with SnapshotComposition.
+ */
+export type SnapshotComposition = string;
+
+/** Known values of {@link SnapshotComposition} that the service accepts. */
+export enum KnownSnapshotComposition {
+  /** Key */
+  Key = "key",
+  /** KeyLabel */
+  KeyLabel = "key_label",
+}
+
+/**
+ * Defines values for ConfigurationSnapshotStatus.
+ * {@link KnownConfigurationSnapshotStatus} can be used interchangeably with ConfigurationSnapshotStatus.
+ */
+export type ConfigurationSnapshotStatus = string;
+
+/** Known values of {@link ConfigurationSnapshotStatus} that the service accepts. */
+export enum KnownConfigurationSnapshotStatus {
+  /** Provisioning */
+  Provisioning = "provisioning",
+  /** Ready */
+  Ready = "ready",
+  /** Archived */
+  Archived = "archived",
+  /** Failed */
+  Failed = "failed",
+}
+
+/**
+ * Enables filtering of key-values. Syntax reference:
+ * https://aka.ms/azconfig/docs/restapisnapshots
+ */
+export interface ConfigurationSettingsFilter {
+  /** Filters key-values by their key field. */
+  keyFilter: string;
+  /** Filters key-values by their label field. */
+  labelFilter?: string;
+  /** Filters key-values by their tags field. */
+  tagsFilter?: string[];
+}
+
+/** A snapshot is a named, immutable subset of an App Configuration store's key-values. */
+export interface ConfigurationSnapshot {
+  /** The name of the snapshot. */
+  readonly name: string;
+  /** The current status of the snapshot. */
+  readonly status?: ConfigurationSnapshotStatus;
+  /** A list of filters used to filter the key-values included in the snapshot. */
+  filters: ConfigurationSettingsFilter[];
+  /** The composition type describes how the key-values within the snapshot are composed. */
+  compositionType?: SnapshotComposition;
+  /** The time that the snapshot was created. */
+  readonly createdOn?: Date;
+  /** The time that the snapshot will expire. */
+  readonly expiresOn?: Date;
+  /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. */
+  retentionPeriodInSeconds?: number;
+  /** The size in bytes of the snapshot. */
+  readonly sizeInBytes?: number;
+  /** The amount of key-values in the snapshot. */
+  readonly itemCount?: number;
+  /** The tags of the snapshot. */
+  tags?: { [propertyName: string]: string };
+  /** The description of the snapshot. */
+  description?: string;
+  /** A value representing the current state of the snapshot. */
+  readonly etag?: string;
+}
+
+/** Labels are used to group key-values. */
+export interface SettingLabel {
+  /** The name of the label. */
+  readonly name?: string;
+}
 
 /**
  * Provides configuration options for AppConfigurationClient.
  */
 export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
-   * The API version to use when interacting with the service. The default value is `2023-11-01`.
+   * The API version to use when interacting with the service. The default value is `2026-04-01`.
+   * {@link KnownAppConfigurationApiVersion} can be used interchangeably with apiVersion.
    * Note that overriding this default value may result in unsupported behavior.
    */
   apiVersion?: string;
@@ -50,6 +124,18 @@ export enum KnownAppConfigAudience {
 }
 
 /**
+ * Known service API versions supported by AppConfigurationClient.
+ */
+export enum KnownAppConfigurationApiVersion {
+  /** The 2023-11-01 API version */
+  V20231101 = "2023-11-01",
+  /** The 2024-09-01 API version */
+  V20240901 = "2024-09-01",
+  /** The 2026-04-01 API version */
+  V20260401 = "2026-04-01",
+}
+
+/**
  * Fields that uniquely identify a configuration setting
  */
 export interface ConfigurationSettingId {
@@ -73,7 +159,7 @@ export interface ConfigurationSettingId {
  * Necessary fields for updating or creating a new configuration setting
  */
 export type ConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string,
+  T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string,
 > = ConfigurationSettingId & {
   /**
    * The content type of the setting's value
@@ -84,6 +170,11 @@ export type ConfigurationSettingParam<
    * Tags for this key
    */
   tags?: { [propertyName: string]: string };
+
+  /**
+   * The description of the setting.
+   */
+  description?: string;
 } & (T extends string
     ? {
         /**
@@ -103,7 +194,7 @@ export type ConfigurationSettingParam<
  * its etag, whether it is currently readOnly and when it was last modified.
  */
 export type ConfigurationSetting<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string,
+  T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string,
 > = ConfigurationSettingParam<T> & {
   /**
    * Whether or not the setting is read-only
@@ -150,14 +241,14 @@ export interface HttpResponseField<HeadersT> {
  * Parameters for adding a new configuration setting
  */
 export type AddConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string,
+  T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string,
 > = ConfigurationSettingParam<T>;
 
 /**
  * Parameters for creating or updating a new configuration setting
  */
 export type SetConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string,
+  T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string,
 > = ConfigurationSettingParam<T>;
 
 /**
@@ -237,39 +328,31 @@ export interface AddConfigurationSettingOptions extends OperationOptions {}
  * Response from adding a ConfigurationSetting.
  */
 export interface AddConfigurationSettingResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
+  extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Response from deleting a ConfigurationSetting.
  */
 export interface DeleteConfigurationSettingResponse
-  extends SyncTokenHeaderField,
-    HttpResponseFields,
-    HttpResponseField<SyncTokenHeaderField> {}
+  extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Options for deleting a ConfigurationSetting.
  */
 export interface DeleteConfigurationSettingOptions
-  extends HttpOnlyIfUnchangedField,
-    OperationOptions {}
+  extends HttpOnlyIfUnchangedField, OperationOptions {}
 
 /**
  * Options used when saving a ConfigurationSetting.
  */
 export interface SetConfigurationSettingOptions
-  extends HttpOnlyIfUnchangedField,
-    OperationOptions {}
+  extends HttpOnlyIfUnchangedField, OperationOptions {}
 
 /**
  * Response from setting a ConfigurationSetting.
  */
 export interface SetConfigurationSettingResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
+  extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Headers from getting a ConfigurationSetting.
@@ -280,7 +363,8 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField {}
  * Response from retrieving a ConfigurationSetting.
  */
 export interface GetConfigurationSettingResponse
-  extends ConfigurationSetting,
+  extends
+    ConfigurationSetting,
     GetConfigurationHeaders,
     HttpResponseFields,
     HttpResponseField<GetConfigurationHeaders> {}
@@ -289,9 +373,7 @@ export interface GetConfigurationSettingResponse
  * Options for getting a ConfigurationSetting.
  */
 export interface GetConfigurationSettingOptions
-  extends OperationOptions,
-    HttpOnlyIfChangedField,
-    OptionalFields {
+  extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
@@ -354,8 +436,7 @@ export interface ListSettingsOptions extends OptionalFields {
  * the accept date time header.
  */
 export interface ListConfigurationSettingsForSnapshotOptions
-  extends OperationOptions,
-    OptionalFields {}
+  extends OperationOptions, OptionalFields {}
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -363,6 +444,16 @@ export interface ListConfigurationSettingsForSnapshotOptions
  * result.
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+  /**
+   * Etags list for page
+   */
+  pageEtags?: string[];
+}
+
+/**
+ * Options for checkConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ */
+export interface CheckConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
   /**
    * Etags list for page
    */
@@ -400,9 +491,7 @@ export interface ListSnapshots extends OptionalSnapshotFields {
  * result.
  */
 export interface ListSnapshotsOptions
-  extends OperationOptions,
-    ListSnapshots,
-    OptionalSnapshotFields {}
+  extends OperationOptions, ListSnapshots, OptionalSnapshotFields {}
 
 /**
  * An interface that tracks the settings for paged iteration
@@ -430,9 +519,7 @@ export interface EtagEntity {
  * A page of configuration settings and the corresponding HTTP response
  */
 export interface ListConfigurationSettingPage
-  extends HttpResponseField<SyncTokenHeaderField>,
-    PageSettings,
-    EtagEntity {
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
   /**
    * The configuration settings for this page of results.
    */
@@ -443,9 +530,7 @@ export interface ListConfigurationSettingPage
  * A page of configuration settings and the corresponding HTTP response
  */
 export interface ListLabelsPage
-  extends HttpResponseField<SyncTokenHeaderField>,
-    PageSettings,
-    EtagEntity {
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
   /**
    * The collection of labels
    */
@@ -488,9 +573,7 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
  * Response when setting a value to read-only.
  */
 export interface SetReadOnlyResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
+  extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Options that control how to retry failed requests.
@@ -565,14 +648,6 @@ export interface SnapshotInfo {
   retentionPeriodInSeconds?: number;
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
+  /** The description of the snapshot. */
+  description?: string;
 }
-
-export {
-  ConfigurationSnapshot,
-  ConfigurationSettingsFilter,
-  SnapshotComposition,
-  KnownSnapshotComposition,
-  KnownConfigurationSnapshotStatus,
-  ConfigurationSnapshotStatus,
-  SettingLabel,
-} from "./generated/src/index.js";

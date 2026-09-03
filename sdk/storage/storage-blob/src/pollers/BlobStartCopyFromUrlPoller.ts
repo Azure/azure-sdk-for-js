@@ -27,8 +27,7 @@ export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getPro
  * This state is passed into the user-specified `onProgress` callback
  * whenever copy progress is detected.
  */
-export interface BlobBeginCopyFromUrlPollState
-  extends PollOperationState<BlobBeginCopyFromURLResponse> {
+export interface BlobBeginCopyFromUrlPollState extends PollOperationState<BlobBeginCopyFromURLResponse> {
   /**
    * The instance of {@link BlobClient} that was used when calling {@link BlobClient.beginCopyFromURL}.
    */
@@ -59,8 +58,10 @@ export interface BlobBeginCopyFromUrlPollState
  *  - cancellation via abortCopyFromURL
  * @hidden
  */
-export interface BlobBeginCopyFromURLPollOperation
-  extends PollOperation<BlobBeginCopyFromUrlPollState, BlobBeginCopyFromURLResponse> {}
+export interface BlobBeginCopyFromURLPollOperation extends PollOperation<
+  BlobBeginCopyFromUrlPollState,
+  BlobBeginCopyFromURLResponse
+> {}
 
 /**
  * The set of options used to configure the poller.

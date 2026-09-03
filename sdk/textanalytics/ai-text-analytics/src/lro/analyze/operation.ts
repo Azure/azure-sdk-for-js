@@ -105,8 +105,7 @@ export interface BeginAnalyzeActionsOptions extends OperationOptions {
  * The state of the begin analyze polling operation.
  */
 export interface AnalyzeActionsOperationState
-  extends AnalysisPollOperationState<PagedAnalyzeActionsResult>,
-    AnalyzeActionsOperationMetadata {}
+  extends AnalysisPollOperationState<PagedAnalyzeActionsResult>, AnalyzeActionsOperationMetadata {}
 
 /**
  * @internal

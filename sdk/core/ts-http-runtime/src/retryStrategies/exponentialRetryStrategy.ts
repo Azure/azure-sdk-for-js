@@ -79,10 +79,10 @@ export function exponentialRetryStrategy(
 export function isExponentialRetryResponse(response?: PipelineResponse): boolean {
   return Boolean(
     response &&
-      response.status !== undefined &&
-      (response.status >= 500 || response.status === 408) &&
-      response.status !== 501 &&
-      response.status !== 505,
+    response.status !== undefined &&
+    (response.status >= 500 || response.status === 408) &&
+    response.status !== 501 &&
+    response.status !== 505,
   );
 }
 

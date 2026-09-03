@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  StorageContainersListAllOptionalParams,
-  StorageContainersListByResourceGroupOptionalParams,
-  StorageContainersDeleteOptionalParams,
-  StorageContainersUpdateOptionalParams,
-  StorageContainersCreateOrUpdateOptionalParams,
-  StorageContainersGetOptionalParams,
+  type StorageContainersListAllOptionalParams,
+  type StorageContainersListByResourceGroupOptionalParams,
+  type StorageContainersDeleteOptionalParams,
+  type StorageContainersUpdateOptionalParams,
+  type StorageContainersCreateOrUpdateOptionalParams,
+  type StorageContainersGetOptionalParams,
 } from "./options.js";

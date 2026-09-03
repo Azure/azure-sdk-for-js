@@ -22,8 +22,8 @@ export function createRestError(
   response?: PathUncheckedResponse,
 ): RestError {
   if (typeof messageOrResponse === "string") {
-    return tspCreateRestError(messageOrResponse, response! as TspPathUncheckedResponse);
+    return tspCreateRestError(messageOrResponse, response as unknown as TspPathUncheckedResponse);
   } else {
-    return tspCreateRestError(messageOrResponse as TspPathUncheckedResponse);
+    return tspCreateRestError(messageOrResponse as unknown as TspPathUncheckedResponse);
   }
 }

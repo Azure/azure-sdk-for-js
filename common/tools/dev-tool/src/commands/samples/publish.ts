@@ -9,11 +9,11 @@
  */
 
 import path from "node:path";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { createPrinter } from "../../util/printer";
-import { resolveProject } from "../../util/resolveProject";
-import { PUBLIC_SAMPLES_BASE } from "../../util/samples/info";
-import { makeSamplesFactory } from "../../util/samples/generation";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { PUBLIC_SAMPLES_BASE } from "../../util/samples/info.ts";
+import { makeSamplesFactory } from "../../util/samples/generation.ts";
 
 export const log = createPrinter("publish");
 

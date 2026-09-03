@@ -10,12 +10,13 @@
 import {
   RunStreamEvent,
   MessageStreamEvent,
-  MessageTextContent,
   DoneEvent,
   ErrorEvent,
   AgentsClient,
-  isOutputOfType,
   ToolUtility,
+  type ThreadRun,
+  type MessageDeltaChunk,
+  type MessageDeltaTextContent,
 } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -69,15 +70,18 @@ export async function main(): Promise<void> {
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
       case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${eventMessage.data.status}`);
+        {
+          const threadRun = eventMessage.data as ThreadRun;
+          console.log(`ThreadRun status: ${threadRun.status}`);
+        }
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {
-          const messageDelta = eventMessage.data;
+          const messageDelta = eventMessage.data as MessageDeltaChunk;
           if (messageDelta.delta && messageDelta.delta.content) {
             messageDelta.delta.content.forEach((contentPart) => {
               if (contentPart.type === "text") {
-                const textContent = contentPart;
+                const textContent = contentPart as MessageDeltaTextContent;
                 const textValue = textContent.text?.value || "No text";
                 console.log(`Text delta received:: ${textValue}`);
               }

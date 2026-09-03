@@ -3,6 +3,6 @@
 
 export {
   createCarbonOptimizationManagement,
-  CarbonOptimizationManagementContext,
-  CarbonOptimizationManagementClientOptionalParams,
+  type CarbonOptimizationManagementContext,
+  type CarbonOptimizationManagementClientOptionalParams,
 } from "./carbonOptimizationManagementContext.js";

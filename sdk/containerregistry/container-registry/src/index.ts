@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 export * from "./containerRegistryClient.js";
-export {
+export type {
   ContainerRepository,
   DeleteRepositoryOptions,
   GetRepositoryPropertiesOptions,
   UpdateRepositoryPropertiesOptions,
   ListManifestPropertiesOptions,
 } from "./containerRepository.js";
-export {
+export type {
   RegistryArtifact,
   DeleteArtifactOptions,
   DeleteTagOptions,
@@ -21,3 +21,4 @@ export {
 } from "./registryArtifact.js";
 export * from "./models.js";
 export * from "./content/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

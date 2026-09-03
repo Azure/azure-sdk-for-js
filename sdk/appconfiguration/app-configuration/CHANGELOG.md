@@ -1,6 +1,6 @@
 # Release History
 
-## 1.9.1 (Unreleased)
+## 1.12.2 (Unreleased)
 
 ### Features Added
 
@@ -8,13 +8,58 @@
 
 ### Bugs Fixed
 
+- Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes. [#39594](https://github.com/Azure/azure-sdk-for-js/issues/39594)
+- Fixed a bug that incorrectly truncated configuration setting keys containing reserved URL characters such as `?`. [#39670](https://github.com/Azure/azure-sdk-for-js/issues/39670)
+
 ### Other Changes
+
+## 1.12.1 (2026-06-22)
+
+### Bugs Fixed
+
+- Fixed a regression introduced in 1.12.0 where creating an `AppConfigurationClient` from a connection string caused every request to fail with `TypeError [ERR_INVALID_HTTP_TOKEN]: Header name must be a valid HTTP token ["Connection String"]`. [#39025](https://github.com/Azure/azure-sdk-for-js/issues/39025)
+
+## 1.12.0 (2026-06-18)
+
+### Features Added
+
+- Added a new `description` property to `ConfigurationSetting`/`ConfigurationSettingParam`, `ConfigurationSnapshot`, and `SnapshotInfo`, allowing a description to be set on configuration settings and snapshots. Requires the `2026-04-01` API version or later.
+- Updated the default service API version to `2026-04-01`.
+- Added `KnownAppConfigurationApiVersion` enum exposing the service API versions supported by `AppConfigurationClient`.
+
+## 1.11.0 (2026-01-26)
+
+### Features Added
+
+- Added a new method, `checkConfigurationSettings`, which can be used to check settings from the Azure App Configuration store using HEAD requests, returning only headers without the response body. [#36959](https://github.com/Azure/azure-sdk-for-js/pull/36959)
+
+### Other Changes
+
+- Added internal pipeline policy to handle audience error and surface up an improved error message. [#36573](https://github.com/Azure/azure-sdk-for-js/pull/36573)
+
+## 1.10.0 (2025-11-13)
+
+### Features Added
+
+- Support snapshot reference [#36105](https://github.com/Azure/azure-sdk-for-js/pull/36105)
+  - New type for SnapshotReference - `ConfigurationSetting<SnapshotReferenceValue>`
+  - Upon using `getConfigurationSetting`(or add/update), use `parseSnapshotReference` methods to access the properties (to translate `ConfigurationSetting` into the type above).
+  - Helper method `isSnapshotReference` checks the contentType and return boolean values.
+
+- Support `requirement_type` for feature flag. [#36104](https://github.com/Azure/azure-sdk-for-js/pull/36104)
+
+## 1.9.2 (2025-11-05)
+
+### Other Changes
+
+- Added internal pipeline policy to normalize (case-insensitive alphabetical) ordering of query parameters for deterministic request URLs. [#36344](https://github.com/Azure/azure-sdk-for-js/pull/36344)
 
 ## 1.9.0 (2025-04-08)
 
 ### Features Added
- - Include all the changes from 1.9.0-beta.1 version
- 
+
+- Include all the changes from 1.9.0-beta.1 version
+
 ### Other Changes
 
 - Update README with a link to [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider). [#33152](https://github.com/Azure/azure-sdk-for-js/pull/33152)
@@ -144,7 +189,6 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 ### Other Changes
 
 - Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
-
   - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
   - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
@@ -181,7 +225,6 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 ### Features Added
 
 - Special configuration settings - feature flag and secret reference are now supported. 🎉
-
   - For types, use `ConfigurationSetting<FeatureFlagValue>` and `ConfigurationSetting<SecretReferenceValue>`.
   - Use `parseFeatureFlag` and `parseSecretReference` methods to parse the configuration settings into feature flag and secret reference respectively.
 

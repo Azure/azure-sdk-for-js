@@ -123,7 +123,11 @@ describe("Multi-region tests", { timeout: 30000 }, () => {
     const options: CosmosClientOptions = {
       endpoint,
       key: masterKey,
-      connectionPolicy: { preferredLocations: ["Australia East"] },
+      connectionPolicy: {
+        preferredLocations: ["Australia East"],
+        enablePartitionLevelFailover: false,
+        enablePartitionLevelCircuitBreaker: false,
+      },
     };
     const plugins: PluginConfig[] = [
       {
@@ -180,7 +184,11 @@ describe("Multi-region tests", { timeout: 30000 }, () => {
     const options: CosmosClientOptions = {
       endpoint,
       key: masterKey,
-      connectionPolicy: { preferredLocations: ["Australia East"] },
+      connectionPolicy: {
+        preferredLocations: ["Australia East"],
+        enablePartitionLevelFailover: false,
+        enablePartitionLevelCircuitBreaker: false,
+      },
     };
     const plugins: PluginConfig[] = [
       {

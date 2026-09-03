@@ -60,7 +60,7 @@ export function logPolicy(options: LogPolicyOptions = {}): PipelinePolicy {
       const response = await next(request);
 
       logger(`Response status code: ${response.status}`);
-      logger(`Headers: ${sanitizer.sanitize(response.headers)}`);
+      logger(`Headers: ${sanitizer.sanitize({ headers: response.headers })}`);
 
       return response;
     },

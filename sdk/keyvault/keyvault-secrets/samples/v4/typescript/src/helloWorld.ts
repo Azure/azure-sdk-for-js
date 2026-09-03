@@ -41,7 +41,7 @@ export async function main(): Promise<void> {
     result.properties.version!,
     {
       enabled: false,
-    }
+    },
   );
   console.log("updated secret: ", updatedSecret);
 

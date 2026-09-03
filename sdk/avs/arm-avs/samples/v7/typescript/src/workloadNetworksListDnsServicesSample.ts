@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list WorkloadNetworkDnsService resources by WorkloadNetwork
  *
  * @summary list WorkloadNetworkDnsService resources by WorkloadNetwork
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_ListDnsServices.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_ListDnsServices.json
  */
 async function workloadNetworksListDnsServices(): Promise<void> {
   const credential = new DefaultAzureCredential();

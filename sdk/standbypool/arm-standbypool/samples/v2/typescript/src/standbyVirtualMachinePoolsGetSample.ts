@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a StandbyVirtualMachinePoolResource
  *
  * @summary get a StandbyVirtualMachinePoolResource
- * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePools_Get.json
+ * x-ms-original-file: 2025-10-01/StandbyVirtualMachinePools_Get.json
  */
 async function standbyVirtualMachinePoolsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

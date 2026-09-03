@@ -4,17 +4,27 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -37,11 +47,12 @@ export class DurableTaskClient {
 // @public
 export interface DurableTaskClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -80,6 +91,21 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -88,6 +114,12 @@ export enum KnownProvisioningState {
     Provisioning = "Provisioning",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -105,9 +137,15 @@ export enum KnownRedundancyState {
 }
 
 // @public
+export enum KnownSchedulerSkuName {
+    Consumption = "Consumption",
+    Dedicated = "Dedicated"
+}
+
+// @public
 export enum KnownVersions {
-    V20241001Preview = "2024-10-01-preview",
-    V20250401Preview = "2025-04-01-preview"
+    V20251101 = "2025-11-01",
+    V20260201 = "2026-02-01"
 }
 
 // @public
@@ -137,6 +175,12 @@ export interface OperationsOperations {
 }
 
 // @public
+export interface OptionalPropertiesUpdateableProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -152,11 +196,57 @@ export interface PageSettings {
 }
 
 // @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnectionUpdate {
+    properties?: OptionalPropertiesUpdateableProperties;
+}
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
 }
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export type PurgeableOrchestrationState = string;
@@ -237,10 +327,17 @@ export interface Scheduler extends TrackedResource {
 }
 
 // @public
+export interface SchedulerPrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
 export interface SchedulerProperties {
     readonly endpoint?: string;
     ipAllowlist: string[];
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     sku: SchedulerSku;
 }
 
@@ -249,6 +346,7 @@ export interface SchedulerPropertiesUpdate {
     readonly endpoint?: string;
     ipAllowlist?: string[];
     readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     sku?: SchedulerSkuUpdate;
 }
 
@@ -258,7 +356,17 @@ export interface SchedulersCreateOrUpdateOptionalParams extends OperationOptions
 }
 
 // @public
+export interface SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SchedulersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchedulersDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -267,16 +375,27 @@ export interface SchedulersGetOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface SchedulersGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchedulersGetPrivateLinkOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface SchedulerSku {
     capacity?: number;
-    name: string;
+    name: SchedulerSkuName;
     readonly redundancyState?: RedundancyState;
 }
 
 // @public
+export type SchedulerSkuName = string;
+
+// @public
 export interface SchedulerSkuUpdate {
     capacity?: number;
-    name?: string;
+    name?: SchedulerSkuName;
     readonly redundancyState?: RedundancyState;
 }
 
@@ -289,17 +408,37 @@ export interface SchedulersListBySubscriptionOptionalParams extends OperationOpt
 }
 
 // @public
+export interface SchedulersListPrivateEndpointConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchedulersListPrivateLinksOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface SchedulersOperations {
     createOrUpdate: (resourceGroupName: string, schedulerName: string, resource: Scheduler, options?: SchedulersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Scheduler>, Scheduler>;
+    createOrUpdatePrivateEndpointConnection: (resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
     delete: (resourceGroupName: string, schedulerName: string, options?: SchedulersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deletePrivateEndpointConnection: (resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, options?: SchedulersDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, schedulerName: string, options?: SchedulersGetOptionalParams) => Promise<Scheduler>;
+    getPrivateEndpointConnection: (resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, options?: SchedulersGetPrivateEndpointConnectionOptionalParams) => Promise<PrivateEndpointConnection>;
+    getPrivateLink: (resourceGroupName: string, schedulerName: string, privateLinkResourceName: string, options?: SchedulersGetPrivateLinkOptionalParams) => Promise<SchedulerPrivateLinkResource>;
     listByResourceGroup: (resourceGroupName: string, options?: SchedulersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Scheduler>;
     listBySubscription: (options?: SchedulersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Scheduler>;
+    listPrivateEndpointConnections: (resourceGroupName: string, schedulerName: string, options?: SchedulersListPrivateEndpointConnectionsOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    listPrivateLinks: (resourceGroupName: string, schedulerName: string, options?: SchedulersListPrivateLinksOptionalParams) => PagedAsyncIterableIterator<SchedulerPrivateLinkResource>;
     update: (resourceGroupName: string, schedulerName: string, properties: SchedulerUpdate, options?: SchedulersUpdateOptionalParams) => PollerLike<OperationState<Scheduler>, Scheduler>;
+    updatePrivateEndpointConnection: (resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionUpdate, options?: SchedulersUpdatePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
 
 // @public
 export interface SchedulersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchedulersUpdatePrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

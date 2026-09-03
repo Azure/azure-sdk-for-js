@@ -16,7 +16,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { HealthDataAIServicesClientOptionalParams } from "./api/healthDataAIServicesContext.js";
+export { type HealthDataAIServicesClientOptionalParams } from "./api/healthDataAIServicesContext.js";
 
 export class HealthDataAIServicesClient {
   private _client: HealthDataAIServicesContext;

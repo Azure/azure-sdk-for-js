@@ -1,5 +1,24 @@
 # Release History
 
+## 4.5.1 (2026-09-03)
+
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 4.5.0 (2026-07-13)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 4.4.2 (2026-04-22)
+
+### Bugs Fixed
+
+- Handle `AggregateError` in `translate()` for Node.js 20+ Happy Eyeballs (RFC 8305). When DNS resolution fails over dual-stack connections, Node.js now throws an `AggregateError` bundling IPv4 and IPv6 errors. The `translate()` function now translates all inner errors and returns a properly annotated `AggregateError` with correct `retryable` semantics. [#38233](https://github.com/Azure/azure-sdk-for-js/pull/38233)
+- Clamp negative timeout values passed to `setTimeout` to a minimum of 0 when timeout budgets are exceeded in shared request/locking paths, preventing `TimeoutNegativeWarning` on Node.js v24+ (for example, during CBS authentication). [#38166](https://github.com/Azure/azure-sdk-for-js/pull/38166)
+
 ## 4.4.1 (2025-09-11)
 
 ### Other Changes

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Cluster
  *
  * @summary create a Cluster
- * x-ms-original-file: 2024-09-01/Clusters_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/Clusters_CreateOrUpdate.json
  */
 async function clustersCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

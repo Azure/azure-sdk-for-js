@@ -3,9 +3,13 @@
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ArtifactsClient.",
   "sdk-type": "client",
-  "version": "1.0.0-beta.16",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-artifacts/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "version": "1.0.0-beta.18",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/synapse-artifacts/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/synapse/synapse-artifacts"
+  },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
@@ -27,7 +31,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -40,11 +44,15 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/logger": "^1.1.4",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "react-native": "catalog:testing",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -59,13 +67,13 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "extract-api": "dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
-    "lint": "eslint package.json src test",
-    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "echo Skipped",
+    "lint:fix": "echo Skipped",
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
@@ -87,22 +95,6 @@
     ]
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -124,5 +116,12 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

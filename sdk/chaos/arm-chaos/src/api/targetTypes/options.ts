@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface TargetTypesListOptionalParams extends OperationOptions {
   /** String that sets the continuation token. */
   continuationToken?: string;
 }
-
 /** Optional parameters. */
 export interface TargetTypesGetOptionalParams extends OperationOptions {}

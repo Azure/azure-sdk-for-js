@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 export { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange.js";
-export { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
+export type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
 export { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey.js";
 export { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
-export { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+export type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
 export { FeedRangeInternal, FeedRange } from "./FeedRange.js";
 export { ChangeFeedStartFrom } from "./ChangeFeedStartFrom.js";
 export { ChangeFeedMode } from "./ChangeFeedMode.js";

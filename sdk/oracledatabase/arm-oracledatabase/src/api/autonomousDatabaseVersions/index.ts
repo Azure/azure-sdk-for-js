@@ -3,6 +3,6 @@
 
 export { listByLocation, get } from "./operations.js";
 export {
-  AutonomousDatabaseVersionsListByLocationOptionalParams,
-  AutonomousDatabaseVersionsGetOptionalParams,
+  type AutonomousDatabaseVersionsListByLocationOptionalParams,
+  type AutonomousDatabaseVersionsGetOptionalParams,
 } from "./options.js";

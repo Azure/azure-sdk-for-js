@@ -51,9 +51,6 @@ async function main() {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
   });
   console.log(`Run finished with status: ${run.status}`);
 

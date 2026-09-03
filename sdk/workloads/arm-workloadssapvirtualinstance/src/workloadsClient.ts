@@ -22,7 +22,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { WorkloadsClientOptionalParams } from "./api/workloadsContext.js";
+export { type WorkloadsClientOptionalParams } from "./api/workloadsContext.js";
 
 export class WorkloadsClient {
   private _client: WorkloadsContext;

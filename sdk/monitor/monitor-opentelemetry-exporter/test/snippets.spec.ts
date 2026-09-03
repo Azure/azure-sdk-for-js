@@ -65,12 +65,29 @@ describe("snippets", () => {
       connectionString: "<connection string>",
     });
     // @ts-preserve-whitespace
-    const logRecordProcessor = new BatchLogRecordProcessor(exporter);
-    const loggerProvider = new LoggerProvider();
-    loggerProvider.addLogRecordProcessor(logRecordProcessor);
+    const logRecordProcessor = new BatchLogRecordProcessor({ exporter });
+    const loggerProvider = new LoggerProvider({
+      processors: [logRecordProcessor],
+    });
     // @ts-preserve-whitespace
     // Register logger Provider as global
     logs.setGlobalLoggerProvider(loggerProvider);
+  });
+
+  it("ReadmeSampleAvailability", async () => {
+    const logger = logs.getLogger("availability");
+
+    logger.emit({
+      body: "Homepage availability test completed.",
+      attributes: {
+        "microsoft.availability.id": "availability-test-run-123",
+        "microsoft.availability.name": "Homepage",
+        "microsoft.availability.duration": "00:00:00.250",
+        "microsoft.availability.success": true,
+        "microsoft.availability.runLocation": "westus2",
+        "microsoft.availability.message": "HTTP 200",
+      },
+    });
   });
 
   it("ReadmeSampleSampling", async () => {

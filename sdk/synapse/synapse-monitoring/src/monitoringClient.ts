@@ -46,7 +46,7 @@ export class MonitoringClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-synapse-monitoring/1.0.0-beta.3`;
+    const packageDetails = `azsdk-js-synapse-monitoring/1.0.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

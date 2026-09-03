@@ -6,7 +6,7 @@ import type {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
 } from "@azure/core-http-compat";
-import type { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
+import type { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import { HeaderConstants } from "../utils/constants.js";
 import { getURLPath, getURLQueries } from "../utils/utils.common.js";
 import { CredentialPolicy } from "./CredentialPolicy.js";
@@ -86,7 +86,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 
   /**
    * Retrieve header value according to shared key sign rules.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
+   * @see https://learn.microsoft.com/rest/api/storageservices/authenticate-with-shared-key
    *
    * @param request -
    * @param headerName -
@@ -100,7 +100,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 
     // When using version 2015-02-21 or later, if Content-Length is zero, then
     // set the Content-Length part of the StringToSign to an empty string.
-    // https://learn.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
+    // https://learn.microsoft.com/rest/api/storageservices/authenticate-with-shared-key
     if (headerName === HeaderConstants.CONTENT_LENGTH && value === "0") {
       return "";
     }

@@ -46,7 +46,7 @@ import "dotenv/config";
  * Sets the OpenEnclave attestation policy using an Unsecured attestation policy.
  */
 async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
-  await writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
+  writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -99,7 +99,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
 }
 
 async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
-  await writeBanner("Set Open Enclave Attestation Policy - Secured policy");
+  writeBanner("Set Open Enclave Attestation Policy - Secured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -162,7 +162,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
 }
 
 async function setSgxEnclaveAttestationPolicyIsolatedSecured(): Promise<void> {
-  await writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
+  writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;

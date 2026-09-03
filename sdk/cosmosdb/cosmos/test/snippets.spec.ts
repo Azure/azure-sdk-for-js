@@ -33,7 +33,7 @@ import {
   StoredProcedureDefinition,
   ItemDefinition,
 } from "@azure/cosmos";
-import { ClientSecretCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
@@ -552,6 +552,16 @@ describe("snippets", () => {
       connectionPolicy: {
         requestTimeout: 10000,
       },
+    });
+  });
+
+  it("CosmosClientWithAADScope", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const aadCredentials = new DefaultAzureCredential();
+    const client = new CosmosClient({
+      endpoint,
+      aadCredentials,
+      aadScope: "https://cosmos.azure.com/.default", // Optional custom scope
     });
   });
 
@@ -1775,5 +1785,93 @@ describe("snippets", () => {
       // process results
     }
     queryIterator.reset();
+  });
+
+  it("QueryWithContinuationToken", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const queryIterator = container.items.query("SELECT * from c", {
+      maxItemCount: 10,
+      enableQueryControl: true,
+      forceQueryPlan: true,
+    });
+    // @ts-preserve-whitespace
+    let pageCount = 0;
+    while (queryIterator.hasMoreResults()) {
+      pageCount++;
+      // @ts-ignore
+      const { resources, continuationToken } = await queryIterator.fetchNext();
+      console.log(`Page ${pageCount} has ${resources.length} items`);
+      // continuationToken can be saved and used later to resume from where you left off
+    }
+  });
+
+  it("QueryWithContinuationTokenOrderBy", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const queryIterator = container.items.query("SELECT * from c ORDER BY c.id", {
+      maxItemCount: 10,
+      enableQueryControl: true,
+      forceQueryPlan: true,
+    });
+    // @ts-preserve-whitespace
+    let pageCount = 0;
+    while (queryIterator.hasMoreResults()) {
+      pageCount++;
+      // @ts-ignore
+      const { resources, continuationToken } = await queryIterator.fetchNext();
+      if (resources.length > 0) {
+        // Process results
+        // Safe to use continuationToken after receiving data
+        if (continuationToken) {
+          // Can persist token for resuming later
+        }
+      }
+    }
+  });
+  it("ContainerSemanticRerank", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const aadCredentials = new DefaultAzureCredential();
+    const client = new CosmosClient({
+      endpoint,
+      aadCredentials,
+      enablePreviewFeatures: {
+        semanticRerank: {
+          inferenceEndpoint: "https://your-account.<region>.dbinference.azure.com",
+        },
+      },
+    });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const queryResults = ["doc1 JSON", "doc2 JSON", "doc3 JSON"];
+    const result = await container.semanticRerank(
+      "most economical with multiple adjustments",
+      queryResults,
+      { return_documents: true, top_k: 10, sort: true },
+    );
+    // Access the top-ranked document
+    if (result.rerankScores.length > 0) {
+      const topResult = result.rerankScores[0];
+      const topScore = topResult.score;
+      const topDocument = topResult.document;
+      if (topDocument) {
+        console.log("Top-ranked document:", topDocument);
+      }
+      console.log("Top score:", topScore);
+    }
   });
 });

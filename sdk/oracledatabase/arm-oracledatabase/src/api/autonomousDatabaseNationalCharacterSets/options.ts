@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams
-  extends OperationOptions {}
+export interface AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AutonomousDatabaseNationalCharacterSetsGetOptionalParams
-  extends OperationOptions {}
+export interface AutonomousDatabaseNationalCharacterSetsGetOptionalParams extends OperationOptions {}

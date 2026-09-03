@@ -9,7 +9,6 @@ import {
 } from "@azure/core-rest-pipeline";
 import type { KeyCredential } from "@azure/core-auth";
 import { createCommunicationAccessKeyCredentialPolicy } from "../../src/index.js";
-import { isNodeLike } from "@azure/core-util";
 import { set } from "mockdate";
 import { describe, it, assert } from "vitest";
 
@@ -45,7 +44,23 @@ describe("CommunicationKeyCredentialPolicy", function () {
   });
 });
 
-async function verifyHeadersForUrlReturnAuthHeader(urlToTest: string): Promise<string> {
+describe("CommunicationKeyCredentialPolicy", function () {
+  it("signs the request correctly with explicit port", async function () {
+    const authHeader = await verifyHeadersForUrlReturnAuthHeader(
+      "https://example.com:8080/testPath",
+      "example.com:8080",
+    );
+    assert.equal(
+      authHeader,
+      "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=zFAbbRWjUmDbcK/DT3cYgnwMyh+kXJxBpC3qlxnPCh0=",
+    );
+  });
+});
+
+async function verifyHeadersForUrlReturnAuthHeader(
+  urlToTest: string,
+  expectedHost?: string,
+): Promise<string> {
   const credential = new MockKeyCredential("pw==");
   const communicationKeyCredentialPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
 
@@ -83,8 +98,10 @@ async function verifyHeadersForUrlReturnAuthHeader(urlToTest: string): Promise<s
 
   assert.equal(dateHeader, "Wed, 13 Apr 2022 18:09:12 GMT");
   assert.equal(hashHeader, "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=");
-  if (isNodeLike) {
-    assert.isNotEmpty(hostHeader);
+  // Host header is now always set (browsers silently ignore forbidden headers)
+  assert.isNotEmpty(hostHeader);
+  if (expectedHost) {
+    assert.equal(hostHeader, expectedHost);
   }
   return authHeader;
 }

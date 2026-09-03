@@ -67,7 +67,7 @@ node dist/DownloadMedia.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ACS_ACCESS_KEY="<acs access key>" ACS_URL="<acs url>" node dist/DownloadMedia.js
+cross-env ACS_ACCESS_KEY="<acs access key>" ACS_URL="<acs url>" node dist/DownloadMedia.js
 ```
 
 ## Next Steps

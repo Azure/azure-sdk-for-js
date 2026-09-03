@@ -3,9 +3,9 @@
 
 export { listBySchema, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  SchemaVersionsListBySchemaOptionalParams,
-  SchemaVersionsDeleteOptionalParams,
-  SchemaVersionsUpdateOptionalParams,
-  SchemaVersionsCreateOrUpdateOptionalParams,
-  SchemaVersionsGetOptionalParams,
+  type SchemaVersionsListBySchemaOptionalParams,
+  type SchemaVersionsDeleteOptionalParams,
+  type SchemaVersionsUpdateOptionalParams,
+  type SchemaVersionsCreateOrUpdateOptionalParams,
+  type SchemaVersionsGetOptionalParams,
 } from "./options.js";

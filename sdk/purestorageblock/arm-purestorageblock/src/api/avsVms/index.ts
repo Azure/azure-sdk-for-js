@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByStoragePool, $delete, get, update } from "./operations.js";
-export {
+export type {
   AvsVmsListByStoragePoolOptionalParams,
   AvsVmsDeleteOptionalParams,
   AvsVmsGetOptionalParams,

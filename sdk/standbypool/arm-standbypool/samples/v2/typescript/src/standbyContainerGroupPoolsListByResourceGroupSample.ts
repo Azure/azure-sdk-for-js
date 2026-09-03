@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list StandbyContainerGroupPoolResource resources by resource group
  *
  * @summary list StandbyContainerGroupPoolResource resources by resource group
- * x-ms-original-file: 2025-03-01/StandbyContainerGroupPools_ListByResourceGroup.json
+ * x-ms-original-file: 2025-10-01/StandbyContainerGroupPools_ListByResourceGroup.json
  */
 async function standbyContainerGroupPoolsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

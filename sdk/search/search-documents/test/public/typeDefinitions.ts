@@ -7,15 +7,13 @@ import type {
   KnownSemanticSearchResultsType,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
-} from "../../src/generated/data/index.js";
+} from "../../src/index.js";
 import type {
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
   KnownBlobIndexerParsingMode,
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCustomEntityLookupSkillLanguage,
-  KnownEntityCategory,
-  KnownEntityRecognitionSkillLanguage,
   KnownImageAnalysisSkillLanguage,
   KnownImageDetail,
   KnownIndexerExecutionEnvironment,
@@ -25,14 +23,13 @@ import type {
   KnownRegexFlags,
   KnownSearchFieldDataType,
   KnownSearchIndexerDataSourceType,
-  KnownSentimentSkillLanguage,
   KnownSplitSkillLanguage,
   KnownTextSplitMode,
   KnownTextTranslationSkillLanguage,
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,
   KnownVisualFeature,
-} from "../../src/generated/service/index.js";
+} from "../../src/index.js";
 
 import type { IsEqual } from "type-plus";
 
@@ -41,8 +38,6 @@ type ExpectBlobIndexerImageAction = `${KnownBlobIndexerImageAction}`;
 type ExpectBlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 type ExpectBlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 type ExpectCustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
-type ExpectEntityCategory = `${KnownEntityCategory}`;
-type ExpectEntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
 type ExpectImageAnalysisSkillLanguage = `${KnownImageAnalysisSkillLanguage}`;
 type ExpectImageDetail = `${KnownImageDetail}`;
 type ExpectIndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
@@ -58,7 +53,6 @@ type ExpectSearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
 type ExpectSemanticErrorMode = `${KnownSemanticErrorMode}`;
 type ExpectSemanticErrorReason = `${KnownSemanticErrorReason}`;
 type ExpectSemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
-type ExpectSentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
 type ExpectSplitSkillLanguage = `${KnownSplitSkillLanguage}`;
 type ExpectTextSplitMode = `${KnownTextSplitMode}`;
 type ExpectTextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
@@ -70,51 +64,11 @@ type ExpectVisualFeature = `${KnownVisualFeature}`;
 
 type BlobIndexerDataToExtract = "allMetadata" | "contentAndMetadata" | "storageMetadata";
 type BlobIndexerImageAction =
-  | "generateNormalizedImagePerPage"
-  | "generateNormalizedImages"
-  | "none";
+  "generateNormalizedImagePerPage" | "generateNormalizedImages" | "none";
 type BlobIndexerParsingMode =
-  | "default"
-  | "delimitedText"
-  | "json"
-  | "jsonArray"
-  | "jsonLines"
-  | "markdown"
-  | "text";
+  "default" | "delimitedText" | "json" | "jsonArray" | "jsonLines" | "markdown" | "text";
 type BlobIndexerPDFTextRotationAlgorithm = "detectAngles" | "none";
 type CustomEntityLookupSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
-type EntityCategory =
-  | "datetime"
-  | "email"
-  | "location"
-  | "organization"
-  | "person"
-  | "quantity"
-  | "url";
-type EntityRecognitionSkillLanguage =
-  | "ar"
-  | "cs"
-  | "da"
-  | "de"
-  | "el"
-  | "en"
-  | "es"
-  | "fi"
-  | "fr"
-  | "hu"
-  | "it"
-  | "ja"
-  | "ko"
-  | "nl"
-  | "no"
-  | "pl"
-  | "pt-BR"
-  | "pt-PT"
-  | "ru"
-  | "sv"
-  | "tr"
-  | "zh-Hans"
-  | "zh-Hant";
 type ImageAnalysisSkillLanguage =
   | "ar"
   | "az"
@@ -396,26 +350,11 @@ type SearchIndexerDataSourceType =
   | "azuretable"
   | "cosmosdb"
   | "mysql"
-  | "onelake";
+  | "onelake"
+  | "sharepoint";
 type SemanticErrorMode = "fail" | "partial";
 type SemanticErrorReason = "capacityOverloaded" | "maxWaitExceeded" | "transient";
 type SemanticSearchResultsType = "baseResults" | "rerankedResults";
-type SentimentSkillLanguage =
-  | "da"
-  | "de"
-  | "el"
-  | "en"
-  | "es"
-  | "fi"
-  | "fr"
-  | "it"
-  | "nl"
-  | "no"
-  | "pl"
-  | "pt-PT"
-  | "ru"
-  | "sv"
-  | "tr";
 type SplitSkillLanguage =
   | "am"
   | "bs"
@@ -524,18 +463,12 @@ type TextTranslationSkillLanguage =
   | "yue"
   | "zh-Hans"
   | "zh-Hant";
-type VectorFilterMode = "postFilter" | "preFilter";
+type VectorFilterMode = "postFilter" | "preFilter" | "strictPostFilter";
 type VectorQueryKind = "imageBinary" | "imageUrl" | "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
 type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =
-  | "adult"
-  | "brands"
-  | "categories"
-  | "description"
-  | "faces"
-  | "objects"
-  | "tags";
+  "adult" | "brands" | "categories" | "description" | "faces" | "objects" | "tags";
 
 const foo: [
   IsEqual<
@@ -556,13 +489,6 @@ const foo: [
     ExpectCustomEntityLookupSkillLanguage,
     CustomEntityLookupSkillLanguage,
     "CustomEntityLookupSkillLanguage",
-    never
-  >,
-  IsEqual<ExpectEntityCategory, EntityCategory, "EntityCategory", never>,
-  IsEqual<
-    ExpectEntityRecognitionSkillLanguage,
-    EntityRecognitionSkillLanguage,
-    "EntityRecognitionSkillLanguage",
     never
   >,
   IsEqual<
@@ -607,7 +533,6 @@ const foo: [
     "SemanticSearchResultsType",
     never
   >,
-  IsEqual<ExpectSentimentSkillLanguage, SentimentSkillLanguage, "SentimentSkillLanguage", never>,
   IsEqual<ExpectSplitSkillLanguage, SplitSkillLanguage, "SplitSkillLanguage", never>,
   IsEqual<ExpectTextSplitMode, TextSplitMode, "TextSplitMode", never>,
   IsEqual<
@@ -638,8 +563,6 @@ const foo: [
   "BlobIndexerParsingMode",
   "BlobIndexerPDFTextRotationAlgorithm",
   "CustomEntityLookupSkillLanguage",
-  "EntityCategory",
-  "EntityRecognitionSkillLanguage",
   "ImageAnalysisSkillLanguage",
   "ImageDetail",
   "IndexerExecutionEnvironment",
@@ -652,7 +575,6 @@ const foo: [
   "SemanticErrorMode",
   "SemanticErrorReason",
   "SemanticSearchResultsType",
-  "SentimentSkillLanguage",
   "SplitSkillLanguage",
   "TextSplitMode",
   "TextTranslationSkillLanguage",

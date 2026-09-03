@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list CloudLink resources by PrivateCloud
  *
  * @summary list CloudLink resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/CloudLinks_List.json
+ * x-ms-original-file: 2025-09-01/CloudLinks_List.json
  */
 async function cloudLinksList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -309,7 +309,6 @@ For example, the following function creates an encoded and signed JWT assertion 
 import * as tls from "tls";
 import * as net from "net";
 import * as fs from "fs";
-import * as uuid from "uuid";
 import * as jwt from "jsonwebtoken";
 import ms from "ms";
 
@@ -334,7 +333,7 @@ async function createJWTTokenFromCertificate(
     },
     algorithm: "RS256",
     audience: audience,
-    jwtid: uuid.v4(),
+    jwtid: crypto.randomUUID(),
     expiresIn: ms("1 h"),
     subject: clientId,
     issuer: clientId,
@@ -697,7 +696,7 @@ function withAzurePipelinesCredential() {
 
 ## Chaining credentials
 
-The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. For more information, see [ChainedTokenCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-chainedtokencredential-for-granularity).
+The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. For more information, see [ChainedTokenCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#chainedtokencredential-overview).
 
 ## Authenticating With Azure Stack using Azure Identity
 

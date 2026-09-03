@@ -6,7 +6,7 @@ import { IdentityTestContext, prepareMSALResponses } from "./httpRequests.js";
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";
 import { OnBehalfOfCredential } from "@azure/identity";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, afterEach, beforeEach } from "vitest";
 
 describe("OnBehalfOfCredential", function () {
@@ -17,7 +17,7 @@ describe("OnBehalfOfCredential", function () {
   });
 
   afterEach(async function () {
-    if (isNode) {
+    if (isNodeLike) {
       delete process.env.AZURE_AUTHORITY_HOST;
     }
     await testContext.restore();

@@ -5,17 +5,24 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "analyze-deps": "node index.js"
+    "analyze-deps": "node index.js",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore  \"./**/*.{js,json}\"",
+    "typecheck": "tsc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "argparse": "^2.0.1",
-    "handlebars": "^4.7.8",
+    "handlebars": "^4.7.9",
     "json5": "^2.2.3",
-    "js-yaml": "^4.0.0",
-    "semver": "^7.5.4",
-    "tar": "^6.2.1",
+    "js-yaml": "^4.3.0",
+    "semver": "^7.8.5",
+    "tar": "^7.5.20",
     "@azure-tools/eng-package-utils": "file:../eng-package-utils"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "prettier": "^3.9.5",
+    "typescript": "~6.0.2"
   }
 }

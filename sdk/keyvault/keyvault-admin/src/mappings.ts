@@ -7,8 +7,8 @@ import type {
   KeyVaultRoleDefinition,
   KeyVaultRoleScope,
 } from "./accessControlModels.js";
-import type { PagedAsyncIterableIterator, PageSettings } from "./generated/src/index.js";
-import type { RoleAssignment, RoleDefinition } from "./generated/src/models/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "./static-helpers/pagingHelpers.js";
+import type { RoleAssignment, RoleDefinition } from "./models/index.js";
 
 export const mappings = {
   roleAssignment: {

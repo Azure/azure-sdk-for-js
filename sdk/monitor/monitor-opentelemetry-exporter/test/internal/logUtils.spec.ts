@@ -33,9 +33,11 @@ import { logToEnvelope } from "../../src/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import type { HrTime } from "@opentelemetry/api";
 import { TraceFlags } from "@opentelemetry/api";
-import { hrTimeToDate } from "../../src/utils/common.js";
+import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
+import { ApplicationInsightsCustomMeasurements } from "../../src/utils/constants/applicationinsights.js";
 
 const context = getInstance();
 
@@ -63,9 +65,9 @@ function assertEnvelope(
   assert.deepStrictEqual(envelope?.data?.baseType, baseType);
 
   assert.strictEqual(envelope?.instrumentationKey, "ikey");
-  assert.ok(envelope?.time);
-  assert.ok(envelope?.version);
-  assert.ok(envelope?.data);
+  assert.isDefined(envelope?.time);
+  assert.isDefined(envelope?.version);
+  assert.isDefined(envelope?.data);
 
   if (expectedTime) {
     assert.deepStrictEqual(envelope?.time, expectedTime);
@@ -78,7 +80,10 @@ function assertEnvelope(
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
-  assert.deepStrictEqual(envelope?.data?.baseData, expectedBaseData);
+  // Strip the `kind` discriminator before comparing — it's a TypeScript-only property
+  // used for union dispatch and is not part of the domain data contract.
+  const { kind: _kind, ...baseDataWithoutKind } = (envelope?.data?.baseData ?? {}) as any;
+  assert.deepStrictEqual(baseDataWithoutKind, expectedBaseData);
 }
 
 const emptyMeasurements: Measurements = {};
@@ -113,6 +118,31 @@ describe("logUtils.ts", () => {
   };
 
   describe("#logToEnvelope", () => {
+    it("does not attach applicationId to log envelopes", () => {
+      const logRecordWithAppId: any = {
+        ...testLogRecord,
+        resource: resourceFromAttributes({
+          [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
+          [SEMRESATTRS_SERVICE_NAME]: "svc",
+          [SEMRESATTRS_SERVICE_NAMESPACE]: "ns",
+          [APPLICATION_ID_RESOURCE_KEY]: "app-from-resource",
+        }),
+        attributes: {
+          ...testLogRecord.attributes,
+          "extra.attribute": "foo",
+        },
+      };
+
+      const envelope = logToEnvelope(logRecordWithAppId as ReadableLogRecord, "ikey");
+
+      assert.isDefined(envelope);
+      assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
+      const baseDataProperties = (envelope?.data?.baseData as any)?.properties?.[
+        APPLICATION_ID_RESOURCE_KEY
+      ];
+      assert.isUndefined(baseDataProperties);
+    });
+
     it("should create a Message Envelope for Logs", () => {
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       testLogRecord.body = "Test message";
@@ -147,6 +177,73 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
+    });
+
+    it("should route custom measurements on logs to measurements", () => {
+      testLogRecord.body = "Test message";
+      testLogRecord.attributes = {
+        "extra.attribute": "foo",
+        [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42,"queueDepth":7}',
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const baseData = envelope?.data?.baseData as MessageData;
+
+      assert.deepStrictEqual(baseData.measurements, {
+        itemsProcessed: 42,
+        queueDepth: 7,
+      });
+      assert.deepStrictEqual(baseData.properties, {
+        "extra.attribute": "foo",
+      });
+    });
+
+    it("should serialize complex objects in message body as JSON", () => {
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const complexObject = {
+        userId: 123,
+        action: "login",
+        metadata: {
+          ip: "192.168.1.1",
+          browser: "Chrome",
+        },
+      };
+      testLogRecord.body = complexObject;
+      testLogRecord.severityLevel = "Information";
+      testLogRecord.attributes = {
+        "extra.attribute": "foo",
+        [ATTR_NETWORK_PEER_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
+      };
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: serializeAttribute(complexObject),
+        severityLevel: `Information`,
+        version: 2,
+        properties: expectedProperties,
+        measurements: emptyMeasurements,
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+
+      // Verify the message is properly serialized JSON, not "[object Object]"
+      const actualMessage = (envelope?.data?.baseData as MessageData)?.message;
+      assert.notStrictEqual(actualMessage, "[object Object]");
+      assert.strictEqual(actualMessage, serializeAttribute(complexObject));
     });
 
     it("should not populate synthetic source on envelope if synthetic type is not defined", () => {
@@ -210,11 +307,108 @@ describe("logUtils.ts", () => {
         expectedServiceTagsBase,
       );
     });
+
+    it("should create a Message Envelope with undefined severityLevel when severityNumber is undefined", () => {
+      const logRecordNoSeverity: any = {
+        ...testLogRecord,
+        body: "Log without severity number",
+        severityNumber: undefined,
+        severityText: "WARN",
+        attributes: {
+          "extra.attribute": "foo",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+        },
+      };
+      const expectedTime = hrTimeToDate(logRecordNoSeverity.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: "Log without severity number",
+        severityLevel: undefined,
+        version: 2,
+        properties: expectedProperties,
+        measurements: emptyMeasurements,
+      };
+
+      const envelope = logToEnvelope(logRecordNoSeverity as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+      // Verify severityLevel is NOT the string "undefined" — that was the bug
+      const actualSeverity = (envelope?.data?.baseData as MessageData)?.severityLevel;
+      assert.notStrictEqual(
+        actualSeverity,
+        "undefined",
+        "severityLevel must not be the literal string 'undefined'",
+      );
+    });
+
+    it("should create an Exception Envelope with undefined severityLevel when severityNumber is undefined", () => {
+      const logRecordNoSeverity: any = {
+        ...testLogRecord,
+        body: "Exception without severity number",
+        severityNumber: undefined,
+        attributes: {
+          "extra.attribute": "foo",
+          [SEMATTRS_EXCEPTION_TYPE]: "Error",
+          [SEMATTRS_EXCEPTION_MESSAGE]: "test error",
+          [SEMATTRS_EXCEPTION_STACKTRACE]: "Error: test\n    at test.ts:1",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+        },
+      };
+      const expectedTime = hrTimeToDate(logRecordNoSeverity.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedException: TelemetryExceptionDetails = {
+        message: "test error",
+        hasFullStack: true,
+        stack: "Error: test\n    at test.ts:1",
+        typeName: "Error",
+      };
+      const expectedBaseData: Partial<TelemetryExceptionData> = {
+        exceptions: [expectedException],
+        severityLevel: undefined,
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(logRecordNoSeverity as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Exception",
+        100,
+        "ExceptionData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+      // Verify severityLevel is NOT the string "undefined" — that was the bug
+      const actualSeverity = (envelope?.data?.baseData as TelemetryExceptionData)?.severityLevel;
+      assert.notStrictEqual(
+        actualSeverity,
+        "undefined",
+        "severityLevel must not be the literal string 'undefined'",
+      );
+    });
   });
 
   describe("#legacyApplicationInsights logs", () => {
     it("should create a Message Envelope", () => {
       const data: MessageData = {
+        kind: "MessageData",
         message: "testMessage",
         severityLevel: "Verbose",
         measurements: { testMeasurement: 1 },
@@ -259,8 +453,31 @@ describe("logUtils.ts", () => {
       );
     });
 
+    it("should truncate custom properties at 13-bit limit", () => {
+      // Create a property value that exceeds the 13-bit (8192 byte) limit
+      const longPropertyValue = "a".repeat(MaxPropertyLengths.THIRTEEN_BIT + 1000);
+      testLogRecord.body = "Test message";
+      testLogRecord.severityLevel = "Information";
+      testLogRecord.attributes = {
+        "custom.longProperty": longPropertyValue,
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      // Verify the property value IS truncated to 8KB
+      const resultValue = (envelope?.data?.baseData as MessageData)?.properties?.[
+        "custom.longProperty"
+      ];
+      assert.isTrue(
+        Buffer.byteLength(resultValue!, "utf-8") <= MaxPropertyLengths.THIRTEEN_BIT,
+        "Custom properties should be truncated at 13-bit limit",
+      );
+    });
+
     it("should truncate properties of a Message Envelope", () => {
       const data: MessageData = {
+        kind: "MessageData",
         message: "a".repeat(MaxPropertyLengths.FIFTEEN_BIT + 1),
         severityLevel: "Verbose",
         measurements: { testMeasurement: 1 },
@@ -307,7 +524,7 @@ describe("logUtils.ts", () => {
 
     it("should create a Exception Envelope", () => {
       const data: TelemetryExceptionData = {
-        message: "testMessage",
+        kind: "ExceptionData",
         severityLevel: "Error",
         exceptions: [
           {
@@ -332,7 +549,6 @@ describe("logUtils.ts", () => {
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedBaseData: Partial<TelemetryExceptionData> = {
-        message: `testMessage`,
         severityLevel: `Error`,
         exceptions: [
           {
@@ -362,6 +578,7 @@ describe("logUtils.ts", () => {
 
     it("should create a Availability Envelope", () => {
       const data: AvailabilityData = {
+        kind: "AvailabilityData",
         id: "testId",
         name: "testName",
         duration: "123",
@@ -411,6 +628,7 @@ describe("logUtils.ts", () => {
 
     it("should create a PageView Envelope", () => {
       const data: PageViewData = {
+        kind: "PageViewData",
         id: "testId",
         name: "testName",
         duration: "123",
@@ -420,6 +638,7 @@ describe("logUtils.ts", () => {
       };
       testLogRecord.attributes = {
         "_MS.baseType": "PageViewData",
+        [ApplicationInsightsCustomMeasurements]: '{"ignoredMeasurement":42}',
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
@@ -440,7 +659,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -458,6 +677,7 @@ describe("logUtils.ts", () => {
 
     it("should create an Event Envelope", () => {
       const data: TelemetryEventData = {
+        kind: "EventData",
         name: "testName",
         version: 2,
       };
@@ -479,7 +699,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -511,7 +731,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -525,6 +745,280 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
+    });
+
+    it("should create a Custom Event Envelope when the log body is a string", () => {
+      testLogRecord.attributes = {
+        "microsoft.custom_event.name": "testing name",
+        "extra.attribute": "foo",
+        [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "MyEventName";
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: TelemetryEventData = {
+        name: "testing name",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      } as any;
+
+      // Should not throw a TypeError when the body is a string (regression for #38497).
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Event",
+        100,
+        "EventData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+    });
+
+    it("should merge custom measurements with legacy custom event measurements", () => {
+      testLogRecord.attributes = {
+        "microsoft.custom_event.name": "testing name",
+        [ApplicationInsightsCustomMeasurements]: {
+          attributeMeasurement: 42,
+          sharedMeasurement: 2,
+        },
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = {
+        measurements: {
+          legacyMeasurement: 7,
+          sharedMeasurement: 1,
+        },
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const baseData = envelope?.data?.baseData as TelemetryEventData;
+
+      assert.deepStrictEqual(baseData.measurements, {
+        legacyMeasurement: 7,
+        sharedMeasurement: 2,
+        attributeMeasurement: 42,
+      });
+      assert.isUndefined(baseData.properties?.[ApplicationInsightsCustomMeasurements]);
+    });
+  });
+
+  describe("#availability logs", () => {
+    it("should create an availability envelope from availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:05",
+        "microsoft.availability.success": true,
+        "microsoft.availability.runLocation": "test-location",
+        "microsoft.availability.message": "test-message",
+        "extra.attribute": "foo",
+        [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<AvailabilityData> = {
+        id: "test-id",
+        name: "test-name",
+        duration: "00:00:05",
+        success: true,
+        runLocation: "test-location",
+        message: "test-message",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Availability",
+        100,
+        "AvailabilityData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        hrTimeToDate(testLogRecord.hrTime),
+        expectedServiceTagsBase,
+      );
+    });
+
+    it("should create an availability envelope with only required attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": false,
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedBaseData: Partial<AvailabilityData> = {
+        id: "test-id",
+        name: "test-name",
+        duration: "00:00:02",
+        success: false,
+        runLocation: undefined,
+        message: "availability log",
+        version: 2,
+        properties: {},
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Availability",
+        100,
+        "AvailabilityData",
+        {},
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+    });
+
+    it("should preserve span correlation on availability telemetry", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        [KnownContextTagKeys.AiOperationId]: "attribute-operation-id",
+        [KnownContextTagKeys.AiOperationParentId]: "attribute-parent-id",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        [KnownContextTagKeys.AiOperationId]: "attribute-operation-id",
+        [KnownContextTagKeys.AiOperationParentId]: "attribute-parent-id",
+      };
+      const expectedBaseData: Partial<AvailabilityData> = {
+        id: "test-id",
+        name: "test-name",
+        duration: "00:00:02",
+        success: true,
+        runLocation: undefined,
+        message: "availability log",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Availability",
+        100,
+        "AvailabilityData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+    });
+
+    it("should fall back to a message envelope for incomplete availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        "extra.attribute": "foo",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+      testLogRecord.severityNumber = SeverityNumber.INFO;
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: "availability log",
+        severityLevel: "Information",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+    });
+
+    it("should ignore a customer-supplied availability test timestamp", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        "microsoft.availability.testTimestamp": "2025-04-19T12:10:59.9930000+00:00",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assert.deepStrictEqual(envelope?.time, hrTimeToDate(testLogRecord.hrTime));
+      assert.strictEqual(envelope?.data?.baseType, "AvailabilityData");
+    });
+
+    it("should give custom event telemetry precedence over availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        "microsoft.custom_event.name": "test-event",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assert.strictEqual(envelope?.name, "Microsoft.ApplicationInsights.Event");
+      assert.strictEqual(envelope?.data?.baseType, "EventData");
+      assert.strictEqual((envelope?.data?.baseData as TelemetryEventData).name, "test-event");
+    });
+
+    it("should give exception telemetry precedence over availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        [SEMATTRS_EXCEPTION_TYPE]: "Error",
+        [SEMATTRS_EXCEPTION_MESSAGE]: "test exception",
+        [SEMATTRS_EXCEPTION_STACKTRACE]: "test stack",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assert.strictEqual(envelope?.name, "Microsoft.ApplicationInsights.Exception");
+      assert.strictEqual(envelope?.data?.baseType, "ExceptionData");
     });
   });
 
@@ -594,7 +1088,9 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
       envelope &&
-        !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+        !(envelope as any)?.data?.baseData?.properties?.[
+          experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
+        ],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -625,7 +1121,7 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
       envelope &&
-        !envelope.data?.baseData?.properties?.[
+        !(envelope as any).data?.baseData?.properties?.[
           experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
         ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",

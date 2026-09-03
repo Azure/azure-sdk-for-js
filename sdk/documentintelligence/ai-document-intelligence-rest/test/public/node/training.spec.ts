@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { testPollingOptions } from "@azure-tools/test-recorder";
-import { createRecorder } from "../utils/recorderUtils.js";
+import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getRandomNumber, containerSasUrl } from "../utils/utils.js";
@@ -76,7 +75,7 @@ describe("model management", () => {
           if (isUnexpected(initialResponse)) {
             throw initialResponse.body.error;
           }
-          const response = await getLongRunningPoller(client, initialResponse);
+          const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
           const result = response.body as DocumentModelDetailsOutput;
           _model = result;
 
@@ -95,17 +94,14 @@ describe("model management", () => {
       it("validate model training response", async () => {
         const model = await requireModel();
 
-        assert.ok(model, "Expecting valid response");
-        assert.ok(model.modelId);
+        assert.isDefined(model);
+        assert.isDefined(model.modelId);
 
         assert.isNotEmpty(model.docTypes);
         const submodel = model.docTypes![model.modelId];
 
         // When training with labels, we will have expectations for the names
-        assert.ok(
-          submodel.fieldSchema!["Signature"],
-          "Expecting field with name 'Signature' to be valid",
-        );
+        assert.isDefined(submodel.fieldSchema!["Signature"]);
       });
 
       /*
@@ -130,9 +126,7 @@ describe("model management", () => {
             throw initialResponse.body.error;
           }
 
-          const response = await getLongRunningPoller(client, initialResponse, {
-            intervalInMs: testPollingOptions.updateIntervalInMs,
-          });
+          const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
           const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
           const documents = analyzeResult?.documents;
@@ -145,15 +139,15 @@ describe("model management", () => {
           assert.isNotEmpty(tables);
           const [table] = tables!;
 
-          assert.ok(table.boundingRegions?.[0].polygon);
+          assert.isDefined(table.boundingRegions?.[0].polygon);
           assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-          assert.ok(document?.fields);
-          assert.ok(document?.fields?.["Merchant"]);
-          assert.ok(document?.fields?.["DatedAs"]);
-          assert.ok(document?.fields?.["CompanyPhoneNumber"]);
-          assert.ok(document?.fields?.["CompanyName"]);
-          assert.ok(document?.fields?.["Signature"]);
+          assert.isDefined(document?.fields);
+          assert.isDefined(document?.fields?.["Merchant"]);
+          assert.isDefined(document?.fields?.["DatedAs"]);
+          assert.isDefined(document?.fields?.["CompanyPhoneNumber"]);
+          assert.isDefined(document?.fields?.["CompanyName"]);
+          assert.isDefined(document?.fields?.["Signature"]);
         });
       });
 
@@ -168,7 +162,7 @@ describe("model management", () => {
 
         assert.strictEqual(modelDetails.body.modelId, model.modelId);
         assert.strictEqual(modelDetails.body.description, model.description);
-        assert.ok(modelDetails.body.docTypes);
+        assert.isDefined(modelDetails.body.docTypes);
       });
     });
 
@@ -185,7 +179,7 @@ describe("model management", () => {
 
         const modelsInAccount: string[] = [];
         for await (const model of paginate(client, response)) {
-          assert.ok(model.modelId);
+          assert.isDefined(model.modelId);
           modelsInAccount.push(model.modelId);
         }
 
@@ -240,7 +234,7 @@ describe("model management", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const response = await getLongRunningPoller(client, initialResponse);
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const { modelId, docTypes } = response.body as DocumentModelDetailsOutput;
 
       assert.equal(modelId, testModelId);
@@ -270,12 +264,12 @@ describe("model management", () => {
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
     }
-    const response = await getLongRunningPoller(client, initialResponse);
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
 
     const composedModel = response.body as DocumentModelDetailsOutput;
-    assert.ok(composedModel.modelId);
+    assert.isDefined(composedModel.modelId);
     assert.equal(composedModel.modelId, modelId);
-    assert.ok(composedModel.docTypes);
+    assert.isDefined(composedModel.docTypes);
 
     // Submodels
     assert.equal(Object.entries(composedModel.docTypes ?? {}).length, 2);
@@ -296,7 +290,7 @@ describe("model management", () => {
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
     }
-    const response = await getLongRunningPoller(client, initialResponse);
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const sourceModel = response.body as DocumentModelDetailsOutput;
 
     assert.equal(sourceModel.modelId, modelId);
@@ -320,13 +314,13 @@ describe("model management", () => {
     if (isUnexpected(copyInitResponse)) {
       throw copyInitResponse.body.error;
     }
-    const copyResponse = await getLongRunningPoller(client, copyInitResponse);
+    const copyResponse = await getLongRunningPoller(client, copyInitResponse, testPollingOptions);
     const copyResult = copyResponse.body as DocumentModelDetailsOutput;
 
-    assert.ok(copyResult, "Expecting valid copy result");
+    assert.isDefined(copyResult);
     assert.equal(copyResult.modelId, targetAuth.body.targetModelId);
 
-    assert.ok(copyResult.createdDateTime, "Expecting valid 'trainingStartedOn' property");
+    assert.isDefined(copyResult.createdDateTime);
 
     const targetModel = await client.path("/documentModels/{modelId}", copyResult.modelId).get();
 

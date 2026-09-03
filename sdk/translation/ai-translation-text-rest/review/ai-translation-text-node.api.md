@@ -7,29 +7,14 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
-
-// @public
-export interface BackTranslationOutput {
-    displayText: string;
-    frequencyCount: number;
-    normalizedText: string;
-    numExamples: number;
-}
-
-// @public
-export interface BreakSentenceItemOutput {
-    detectedLanguage?: DetectedLanguageOutput;
-    sentLen: number[];
-}
-
-// @public (undocumented)
-export function buildMultiCollection(items: string[], parameterName: string): string;
 
 // @public
 function createClient(credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
@@ -48,119 +33,14 @@ export interface DetectedLanguageOutput {
 }
 
 // @public
-export interface DictionaryExampleItemOutput {
-    examples: Array<DictionaryExampleOutput>;
-    normalizedSource: string;
-    normalizedTarget: string;
-}
-
-// @public
-export interface DictionaryExampleOutput {
-    sourcePrefix: string;
-    sourceSuffix: string;
-    sourceTerm: string;
-    targetPrefix: string;
-    targetSuffix: string;
-    targetTerm: string;
-}
-
-// @public
-export interface DictionaryExampleTextItem extends InputTextItem {
-    translation: string;
-}
-
-// @public
-export interface DictionaryLookupItemOutput {
-    displaySource: string;
-    normalizedSource: string;
-    translations: Array<DictionaryTranslationOutput>;
-}
-
-// @public
-export interface DictionaryTranslationOutput {
-    backTranslations: Array<BackTranslationOutput>;
-    confidence: number;
-    displayTarget: string;
-    normalizedTarget: string;
-    posTag: string;
-    prefixWord: string;
-}
-
-// @public
 export interface ErrorDetailsOutput {
-    code: number;
+    code: string;
     message: string;
 }
 
 // @public
 export interface ErrorResponseOutput {
     error: ErrorDetailsOutput;
-}
-
-// @public (undocumented)
-export interface FindSentenceBoundaries {
-    post(options: FindSentenceBoundariesParameters): StreamableMethod<FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface FindSentenceBoundaries200Headers {
-    "x-requestid": string;
-}
-
-// @public
-export interface FindSentenceBoundaries200Response extends HttpResponse {
-    // (undocumented)
-    body: Array<BreakSentenceItemOutput>;
-    // (undocumented)
-    headers: RawHttpHeaders & FindSentenceBoundaries200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface FindSentenceBoundariesBodyParam {
-    body: Array<InputTextItem>;
-}
-
-// @public (undocumented)
-export interface FindSentenceBoundariesDefaultHeaders {
-    "x-requestid": string;
-}
-
-// @public (undocumented)
-export interface FindSentenceBoundariesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & FindSentenceBoundariesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface FindSentenceBoundariesHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
-}
-
-// @public (undocumented)
-export interface FindSentenceBoundariesHeaders {
-    "X-ClientTraceId"?: string;
-}
-
-// @public (undocumented)
-export type FindSentenceBoundariesParameters = FindSentenceBoundariesQueryParam & FindSentenceBoundariesHeaderParam & FindSentenceBoundariesBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface FindSentenceBoundariesQueryParam {
-    // (undocumented)
-    queryParameters?: FindSentenceBoundariesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface FindSentenceBoundariesQueryParamProperties {
-    language?: string;
-    script?: string;
 }
 
 // @public (undocumented)
@@ -228,15 +108,17 @@ export interface GetSupportedLanguagesQueryParamProperties {
 
 // @public
 export interface GetSupportedLanguagesResultOutput {
-    dictionary?: Record<string, SourceDictionaryLanguageOutput>;
-    translation?: Record<string, TranslationLanguageOutput>;
-    transliteration?: Record<string, TransliterationLanguageOutput>;
+    readonly models?: string[];
+    readonly translation?: Record<string, TranslationLanguageOutput>;
+    readonly transliteration?: Record<string, TransliterationLanguageOutput>;
 }
 
 // @public
 export interface InputTextItem {
     text: string;
 }
+
+export { isRestError }
 
 // @public (undocumented)
 export function isUnexpected(response: GetSupportedLanguages200Response | GetSupportedLanguagesDefaultResponse): response is GetSupportedLanguagesDefaultResponse;
@@ -246,15 +128,6 @@ export function isUnexpected(response: Translate200Response | TranslateDefaultRe
 
 // @public (undocumented)
 export function isUnexpected(response: Transliterate200Response | TransliterateDefaultResponse): response is TransliterateDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse): response is FindSentenceBoundariesDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse): response is LookupDictionaryEntriesDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse): response is LookupDictionaryExamplesDefaultResponse;
 
 // @public
 export type LanguageDirectionalityOutput = "ltr" | "rtl";
@@ -267,179 +140,25 @@ export interface LanguageScriptOutput {
     nativeName: string;
 }
 
-// @public (undocumented)
-export interface LookupDictionaryEntries {
-    post(options: LookupDictionaryEntriesParameters): StreamableMethod<LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryEntries200Headers {
-    "x-requestid": string;
-}
-
-// @public
-export interface LookupDictionaryEntries200Response extends HttpResponse {
-    // (undocumented)
-    body: Array<DictionaryLookupItemOutput>;
-    // (undocumented)
-    headers: RawHttpHeaders & LookupDictionaryEntries200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface LookupDictionaryEntriesBodyParam {
-    body: Array<InputTextItem>;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryEntriesDefaultHeaders {
-    "x-requestid": string;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryEntriesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & LookupDictionaryEntriesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryEntriesHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryEntriesHeaders {
-    "X-ClientTraceId"?: string;
-}
-
-// @public (undocumented)
-export type LookupDictionaryEntriesParameters = LookupDictionaryEntriesQueryParam & LookupDictionaryEntriesHeaderParam & LookupDictionaryEntriesBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface LookupDictionaryEntriesQueryParam {
-    // (undocumented)
-    queryParameters: LookupDictionaryEntriesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryEntriesQueryParamProperties {
-    from: string;
-    to: string;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryExamples {
-    post(options: LookupDictionaryExamplesParameters): StreamableMethod<LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryExamples200Headers {
-    "x-requestid": string;
-}
-
-// @public
-export interface LookupDictionaryExamples200Response extends HttpResponse {
-    // (undocumented)
-    body: Array<DictionaryExampleItemOutput>;
-    // (undocumented)
-    headers: RawHttpHeaders & LookupDictionaryExamples200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface LookupDictionaryExamplesBodyParam {
-    body: Array<DictionaryExampleTextItem>;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryExamplesDefaultHeaders {
-    "x-requestid": string;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryExamplesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & LookupDictionaryExamplesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryExamplesHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryExamplesHeaders {
-    "X-ClientTraceId"?: string;
-}
-
-// @public (undocumented)
-export type LookupDictionaryExamplesParameters = LookupDictionaryExamplesQueryParam & LookupDictionaryExamplesHeaderParam & LookupDictionaryExamplesBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface LookupDictionaryExamplesQueryParam {
-    // (undocumented)
-    queryParameters: LookupDictionaryExamplesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface LookupDictionaryExamplesQueryParamProperties {
-    from: string;
-    to: string;
-}
-
 // @public
 export type ProfanityAction = "NoAction" | "Marked" | "Deleted";
 
 // @public
 export type ProfanityMarker = "Asterisk" | "Tag";
 
+// @public
+export interface ReferenceTextPair {
+    source: string;
+    target: string;
+}
+
+export { RestError }
+
 // @public (undocumented)
 export interface Routes {
     (path: "/languages"): GetSupportedLanguages;
     (path: "/translate"): Translate;
     (path: "/transliterate"): Transliterate;
-    (path: "/breaksentence"): FindSentenceBoundaries;
-    (path: "/dictionary/lookup"): LookupDictionaryEntries;
-    (path: "/dictionary/examples"): LookupDictionaryExamples;
-}
-
-// @public
-export interface SentenceBoundariesOutput {
-    srcSentLen: number[];
-    transSentLen: number[];
-}
-
-// @public
-export interface SourceDictionaryLanguageOutput {
-    dir: LanguageDirectionalityOutput;
-    name: string;
-    nativeName: string;
-    translations: Array<TargetDictionaryLanguageOutput>;
-}
-
-// @public
-export interface SourceTextOutput {
-    text: string;
-}
-
-// @public
-export interface TargetDictionaryLanguageOutput {
-    code: string;
-    dir: LanguageDirectionalityOutput;
-    name: string;
-    nativeName: string;
 }
 
 // @public (undocumented)
@@ -465,16 +184,21 @@ export interface Translate200Headers {
 // @public
 export interface Translate200Response extends HttpResponse {
     // (undocumented)
-    body: Array<TranslatedTextItemOutput>;
+    body: TranslationResultOutput;
     // (undocumented)
     headers: RawHttpHeaders & Translate200Headers;
     // (undocumented)
     status: "200";
 }
 
+// @public
+export interface TranslateBody {
+    inputs: Array<TranslateInputItem>;
+}
+
 // @public (undocumented)
 export interface TranslateBodyParam {
-    body: Array<InputTextItem>;
+    body: TranslateBody;
 }
 
 // @public (undocumented)
@@ -493,15 +217,9 @@ export interface TranslateDefaultResponse extends HttpResponse {
 }
 
 // @public
-export interface TranslatedTextAlignmentOutput {
-    proj: string;
-}
-
-// @public
 export interface TranslatedTextItemOutput {
     detectedLanguage?: DetectedLanguageOutput;
-    sourceText?: SourceTextOutput;
-    translations: Array<TranslationTextOutput>;
+    readonly translations: Array<TranslationTextOutput>;
 }
 
 // @public (undocumented)
@@ -515,46 +233,61 @@ export interface TranslateHeaders {
     "X-ClientTraceId"?: string;
 }
 
-// @public (undocumented)
-export type TranslateParameters = TranslateQueryParam & TranslateHeaderParam & TranslateBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface TranslateQueryParam {
-    // (undocumented)
-    queryParameters: TranslateQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TranslateQueryParamProperties {
-    allowFallback?: boolean;
-    category?: string;
-    from?: string;
-    fromScript?: string;
-    includeAlignment?: boolean;
-    includeSentenceLength?: boolean;
-    profanityAction?: ProfanityAction;
-    profanityMarker?: ProfanityMarker;
-    suggestedFrom?: string;
+// @public
+export interface TranslateInputItem {
+    language?: string;
+    script?: string;
+    targets: Array<TranslationTarget>;
+    text: string;
     textType?: TextType;
-    to: string;
-    toScript?: string;
 }
+
+// @public (undocumented)
+export type TranslateParameters = TranslateHeaderParam & TranslateBodyParam & RequestParameters;
+
+// @public
+export type TranslationGender = string;
 
 // @public
 export interface TranslationLanguageOutput {
     dir: LanguageDirectionalityOutput;
+    readonly models: string[];
     name: string;
     nativeName: string;
 }
 
 // @public
-export interface TranslationTextOutput {
-    alignment?: TranslatedTextAlignmentOutput;
-    sentLen?: SentenceBoundariesOutput;
-    text: string;
-    to: string;
-    transliteration?: TransliteratedTextOutput;
+export interface TranslationResultOutput {
+    readonly value: Array<TranslatedTextItemOutput>;
 }
+
+// @public
+export interface TranslationTarget {
+    adaptiveDatasetId?: string;
+    allowFallback?: boolean;
+    deploymentName?: string;
+    gender?: TranslationGender;
+    language: string;
+    profanityAction?: ProfanityAction;
+    profanityMarker?: ProfanityMarker;
+    referenceTextPairs?: Array<ReferenceTextPair>;
+    script?: string;
+    tone?: TranslationTone;
+}
+
+// @public
+export interface TranslationTextOutput {
+    instructionTokens?: number;
+    language: string;
+    responseTokens?: number;
+    sourceCharacters?: number;
+    sourceTokens?: number;
+    targetTokens?: number;
+    text: string;
+}
+
+// @public
+export type TranslationTone = string;
 
 // @public (undocumented)
 export interface TranslatorCredential {
@@ -592,16 +325,21 @@ export interface Transliterate200Headers {
 // @public
 export interface Transliterate200Response extends HttpResponse {
     // (undocumented)
-    body: Array<TransliteratedTextOutput>;
+    body: TransliterateResultOutput;
     // (undocumented)
     headers: RawHttpHeaders & Transliterate200Headers;
     // (undocumented)
     status: "200";
 }
 
+// @public
+export interface TransliterateBody {
+    inputs: Array<InputTextItem>;
+}
+
 // @public (undocumented)
 export interface TransliterateBodyParam {
-    body: Array<InputTextItem>;
+    body: TransliterateBody;
 }
 
 // @public (undocumented)
@@ -653,10 +391,15 @@ export interface TransliterateQueryParamProperties {
 }
 
 // @public
+export interface TransliterateResultOutput {
+    readonly value: Array<TransliteratedTextOutput>;
+}
+
+// @public
 export interface TransliterationLanguageOutput {
     name: string;
     nativeName: string;
-    scripts: Array<TransliterableScriptOutput>;
+    readonly scripts: Array<TransliterableScriptOutput>;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -4,23 +4,25 @@
 
 ```ts
 
-import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
-import { ChatMessageEditedEvent } from '@azure/communication-signaling';
-import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
-import { ChatThreadCreatedEvent } from '@azure/communication-signaling';
-import { ChatThreadDeletedEvent } from '@azure/communication-signaling';
-import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
+import type { ChatMessageDeletedEvent } from '@azure/communication-signaling';
+import type { ChatMessageEditedEvent } from '@azure/communication-signaling';
+import type { ChatMessageReceivedEvent } from '@azure/communication-signaling';
+import type { ChatThreadCreatedEvent } from '@azure/communication-signaling';
+import type { ChatThreadDeletedEvent } from '@azure/communication-signaling';
+import type { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
 import type { CommonClientOptions } from '@azure/core-client';
 import type { CommunicationIdentifier } from '@azure/communication-common';
 import type { CommunicationIdentifierKind } from '@azure/communication-common';
 import type { CommunicationTokenCredential } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ParticipantsAddedEvent } from '@azure/communication-signaling';
-import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
-import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
-import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
+import type { ParticipantsAddedEvent } from '@azure/communication-signaling';
+import type { ParticipantsRemovedEvent } from '@azure/communication-signaling';
+import type { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
 export interface AddChatParticipantsResult {
@@ -227,6 +229,8 @@ export type GetMessageOptions = OperationOptions;
 // @public
 export type GetPropertiesOptions = OperationOptions;
 
+export { isRestError }
+
 // @public
 export type ListChatThreadsOptions = RestListChatThreadsOptions;
 
@@ -257,6 +261,8 @@ export { ReadReceiptReceivedEvent }
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;
+
+export { RestError }
 
 // @public
 export interface RestListChatThreadsOptions extends coreClient.OperationOptions {

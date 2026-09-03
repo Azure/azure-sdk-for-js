@@ -828,8 +828,7 @@ export interface StatelessServiceUpdateProperties extends ServiceResourceUpdateP
 }
 
 /** Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions. */
-export interface UniformInt64RangePartitionSchemeDescription
-  extends PartitionSchemeDescriptionParent {
+export interface UniformInt64RangePartitionSchemeDescription extends PartitionSchemeDescriptionParent {
   /** The number of partitions. */
   count: number;
   /**
@@ -856,5 +855,4 @@ export type PartitionSchemeDescription =
   | UniformInt64RangePartitionSchemeDescription;
 /** The service resource properties for patch operations. */
 export type ServiceResourceUpdateProperties =
-  | StatefulServiceUpdateProperties
-  | StatelessServiceUpdateProperties;
+  StatefulServiceUpdateProperties | StatelessServiceUpdateProperties;

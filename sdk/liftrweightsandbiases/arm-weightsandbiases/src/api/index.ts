@@ -3,6 +3,6 @@
 
 export {
   createWeightsAndBiases,
-  WeightsAndBiasesContext,
-  WeightsAndBiasesClientOptionalParams,
+  type WeightsAndBiasesContext,
+  type WeightsAndBiasesClientOptionalParams,
 } from "./weightsAndBiasesContext.js";

@@ -4,6 +4,8 @@ parameters:
   TestPipeline: false
 
 steps:
+  # NOTE: common.yml is job-scoped and is included by the job template that
+  # consumes this file (jobs/ci.yml). Do not include it here.
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -14,6 +16,8 @@ steps:
       Artifacts: ${{ parameters.Artifacts }}
 
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
+    parameters:
+      ScriptToValidateUpgrade: eng/scripts/spell-check-public-api.ps1
 
   - task: PowerShell@2
     inputs:
@@ -36,14 +40,9 @@ steps:
     parameters:
       SourceDirectory: $(Build.SourcesDirectory)
 
-  - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: ""
-        Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
-      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: sdk/${{ parameters.ServiceDirectory }}
-      CheckLinkGuidance: $true
+  - pwsh: |
+      node eng/tools/check-pipeline-templates.mjs
+    displayName: "Check pipeline template structure"
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
@@ -60,13 +59,11 @@ steps:
     displayName: "Install tool dependencies"
 
   - script: |
-      node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)/data.js" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
+      node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 
-  - script: |
-      npm install -g pnpm
-    displayName: "Install Pnpm"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
       pnpm install
@@ -89,6 +86,11 @@ steps:
   - pwsh: |
       eng/tools/check-snippet-changes.ps1
     displayName: "Check snippet changes"
+
+  - pwsh: |
+      node eng/tools/ci-runner/index.js check-package-version $(ChangedServices) -packages "$(DirectArtifactPackageNames)"
+    displayName: "Check package version"
+    condition: and(succeeded(), ne(variables['DirectArtifactPackageNames'], ''))
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:

@@ -3,7 +3,7 @@
 
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { publicEncrypt } from "node:crypto";
-import { createVerify } from "./crypto.js";
+import { createVerify } from "#platform/cryptography/crypto";
 import type {
   DecryptOptions,
   DecryptParameters,

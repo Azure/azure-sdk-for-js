@@ -491,12 +491,10 @@ function serializeBase64UrlType(objectName: string, value: any): any {
 function serializeDateTypes(typeName: string, value: any, objectName: string): any {
   if (value !== undefined && value !== null) {
     if (typeName.match(/^Date$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
+      if (!(
+        value instanceof Date ||
+        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+      )) {
         throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
       }
       value =
@@ -504,32 +502,26 @@ function serializeDateTypes(typeName: string, value: any, objectName: string): a
           ? value.toISOString().substring(0, 10)
           : new Date(value).toISOString().substring(0, 10);
     } else if (typeName.match(/^DateTime$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
+      if (!(
+        value instanceof Date ||
+        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+      )) {
         throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
       }
       value = value instanceof Date ? value.toISOString() : new Date(value).toISOString();
     } else if (typeName.match(/^DateTimeRfc1123$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
+      if (!(
+        value instanceof Date ||
+        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+      )) {
         throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123 format.`);
       }
       value = value instanceof Date ? value.toUTCString() : new Date(value).toUTCString();
     } else if (typeName.match(/^UnixTime$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
+      if (!(
+        value instanceof Date ||
+        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+      )) {
         throw new Error(
           `${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
             `for it to be serialized in UnixTime/Epoch format.`,
@@ -561,8 +553,8 @@ function serializeSequenceType(
   let elementType = mapper.type.element;
   if (!elementType || typeof elementType !== "object") {
     throw new Error(
-      `element" metadata for an Array must be defined in the ` +
-        `mapper and it must of type "object" in ${objectName}.`,
+      `"element" metadata for an Array must be defined in the ` +
+        `mapper and it must be of type "object" in ${objectName}.`,
     );
   }
   // Quirk: Composite mappers referenced by `element` might
@@ -802,15 +794,20 @@ function serializeCompositeType(
     const additionalPropertiesMapper = resolveAdditionalProperties(serializer, mapper, objectName);
     if (additionalPropertiesMapper) {
       const propNames = Object.keys(modelProps);
-      for (const clientPropName in object) {
+      for (const clientPropName of Object.keys(object)) {
         const isAdditionalProperty = propNames.every((pn) => pn !== clientPropName);
         if (isAdditionalProperty) {
-          payload[clientPropName] = serializer.serialize(
-            additionalPropertiesMapper,
-            object[clientPropName],
-            objectName + '["' + clientPropName + '"]',
-            options,
-          );
+          Object.defineProperty(payload, clientPropName, {
+            value: serializer.serialize(
+              additionalPropertiesMapper,
+              object[clientPropName],
+              objectName + '["' + clientPropName + '"]',
+              options,
+            ),
+            enumerable: true,
+            configurable: true,
+            writable: true,
+          });
         }
       }
     }
@@ -931,12 +928,12 @@ function deserializeCompositeType(
           */
           const wrapped = responseBody[xmlName!];
           const elementList = wrapped?.[xmlElementName!] ?? [];
-          instance[key] = serializer.deserialize(
-            propertyMapper,
-            elementList,
-            propertyObjectName,
-            options,
-          );
+          Object.defineProperty(instance, key, {
+            value: serializer.deserialize(propertyMapper, elementList, propertyObjectName, options),
+            enumerable: true,
+            configurable: true,
+            writable: true,
+          });
           handledPropertyNames.push(xmlName!);
         } else {
           const property = responseBody[propertyName!];
@@ -1016,7 +1013,7 @@ function deserializeCompositeType(
   const additionalPropertiesMapper = mapper.type.additionalProperties;
   if (additionalPropertiesMapper) {
     const isAdditionalProperty = (responsePropName: string): boolean => {
-      for (const clientPropName in modelProps) {
+      for (const clientPropName of Object.keys(modelProps)) {
         const paths = splitSerializeName(modelProps[clientPropName].serializedName);
         if (paths[0] === responsePropName) {
           return false;
@@ -1025,14 +1022,20 @@ function deserializeCompositeType(
       return true;
     };
 
-    for (const responsePropName in responseBody) {
+    for (const responsePropName of Object.keys(responseBody)) {
       if (isAdditionalProperty(responsePropName)) {
-        instance[responsePropName] = serializer.deserialize(
+        const deserializedValue = serializer.deserialize(
           additionalPropertiesMapper,
           responseBody[responsePropName],
           objectName + '["' + responsePropName + '"]',
           options,
         );
+        Object.defineProperty(instance, responsePropName, {
+          value: deserializedValue,
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
       }
     }
   } else if (responseBody && !options.ignoreUnknownProperties) {
@@ -1042,7 +1045,12 @@ function deserializeCompositeType(
         !handledPropertyNames.includes(key) &&
         !isSpecialXmlProperty(key, options)
       ) {
-        instance[key] = responseBody[key];
+        Object.defineProperty(instance, key, {
+          value: responseBody[key],
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
       }
     }
   }
@@ -1085,8 +1093,8 @@ function deserializeSequenceType(
   let element = mapper.type.element;
   if (!element || typeof element !== "object") {
     throw new Error(
-      `element" metadata for an Array must be defined in the ` +
-        `mapper and it must of type "object" in ${objectName}`,
+      `"element" metadata for an Array must be defined in the ` +
+        `mapper and it must be of type "object" in ${objectName}`,
     );
   }
   if (responseBody) {

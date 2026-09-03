@@ -1,0 +1,191 @@
+name: SDK Format Auto-Fix
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: PR number to run format fix on
+        required: true
+        type: string
+
+jobs:
+  fix-format:
+    runs-on: ubuntu-latest
+    # One run per PR at a time; queued runs wait rather than being cancelled.
+    concurrency:
+      group: format-auto-fix-${{ github.event.inputs.pr_number }}
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Fetch and validate PR
+        id: find-pr
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const prNumberStr = context.payload.inputs?.pr_number;
+            if (!prNumberStr) {
+              core.warning('No pr_number input provided');
+              core.setOutput('has-pr', 'false');
+              return;
+            }
+            const prNumber = parseInt(prNumberStr);
+            core.info(`Got PR #${prNumber} from workflow_dispatch input`);
+            const { data: pr } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: prNumber,
+            });
+            if (pr.state !== 'open') {
+              core.info(`PR #${prNumber} is not open — skipping`);
+              core.setOutput('has-pr', 'false');
+              core.setOutput('is-fork', 'false');
+              return;
+            }
+            // Security: only auto-fix branches in the base repository.
+            // Checking out a fork and running its package.json scripts with a
+            // write token would allow an attacker to execute arbitrary code.
+            const baseRepo = `${context.repo.owner}/${context.repo.repo}`;
+            if (pr.head.repo.full_name !== baseRepo) {
+              core.warning(`PR #${prNumber} is from fork ${pr.head.repo.full_name} — skipping auto-fix`);
+              core.setOutput('has-pr', 'false');
+              core.setOutput('is-fork', 'true');
+              return;
+            }
+            core.info(`Processing PR #${pr.number} on branch ${pr.head.ref}`);
+            core.setOutput('has-pr', 'true');
+            core.setOutput('is-fork', 'false');
+            core.setOutput('pr-branch', pr.head.ref);
+            core.setOutput('pr-repo', pr.head.repo.full_name);
+
+      - name: Notify fork PR author
+        if: steps.find-pr.outputs.is-fork == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: parseInt(context.payload.inputs.pr_number),
+              body: [
+                '⚠️ **Format auto-fix skipped for fork PR.**',
+                '',
+                'The auto-fix workflow does not run on pull requests from forks to avoid',
+                'executing untrusted code with repository write access.',
+                '',
+                'Please run `pnpm format` locally in the affected package(s) and push the',
+                'formatting changes to your branch.',
+              ].join('\n'),
+            });
+
+      - name: Checkout PR branch
+        if: steps.find-pr.outputs.has-pr == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.find-pr.outputs.pr-branch }}
+          repository: ${{ steps.find-pr.outputs.pr-repo }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        if: steps.find-pr.outputs.has-pr == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Setup pnpm
+        if: steps.find-pr.outputs.has-pr == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.33.0'
+
+      - name: Find affected packages and run pnpm format
+        if: steps.find-pr.outputs.has-pr == 'true'
+        run: |
+          UPSTREAM_REPO_URL="${{ github.server_url }}/${{ github.repository }}.git"
+          UPSTREAM_DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
+
+          # `origin` points at the PR head repository after checkout, which may be a fork.
+          # Fetch the workflow repository's default branch explicitly and diff against that.
+          if git remote get-url upstream >/dev/null 2>&1; then
+            git remote set-url upstream "$UPSTREAM_REPO_URL"
+          else
+            git remote add upstream "$UPSTREAM_REPO_URL"
+          fi
+          git fetch --no-tags upstream "${UPSTREAM_DEFAULT_BRANCH}:refs/remotes/upstream/${UPSTREAM_DEFAULT_BRANCH}"
+
+          # Find unique package directories (sdk/<service>/<package>) from changed files
+          PKGS=$(git diff --name-only "upstream/${UPSTREAM_DEFAULT_BRANCH}...HEAD" \
+            | grep '^sdk/' \
+            | sed 's|\(sdk/[^/]*/[^/]*\)/.*|\1|' \
+            | sort -u)
+
+          echo "Affected packages:"
+          echo "$PKGS"
+
+          if [ -z "$PKGS" ]; then
+            echo "No sdk/ packages changed, nothing to format"
+            exit 0
+          fi
+
+          # Build pnpm/turbo filter args (e.g. --filter=@azure/arm-foo...)
+          FILTERS=""
+          for pkg in $PKGS; do
+            if [ -f "$pkg/package.json" ]; then
+              PKG_NAME=$(node -p "require('./$pkg/package.json').name")
+              FILTERS="$FILTERS --filter=${PKG_NAME}"
+            fi
+          done
+
+          # Install only the affected packages and their dependencies.
+          # --ignore-scripts prevents pre/postinstall lifecycle scripts from running.
+          # Frozen lockfile is the default in CI; if the lockfile is out of sync the
+          # PR author must fix it — this workflow only fixes formatting.
+          pnpm install $FILTERS --ignore-scripts
+
+          # Run format across all affected packages in one turbo invocation
+          pnpm turbo run format $FILTERS
+
+      - name: Commit and push formatting changes
+        if: steps.find-pr.outputs.has-pr == 'true'
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No formatting changes needed"
+            echo "CHANGES=false" >> $GITHUB_OUTPUT
+          else
+            git diff --name-only \
+              | grep -E '\.(ts|mts|cts|tsx|js|mjs|cjs|jsx|json|md|yaml|yml)$' \
+              | grep -v '^pnpm-lock\.yaml$' \
+              | xargs -r git add --
+
+            if git diff --cached --quiet; then
+              echo "Formatting changes were detected, but none matched the commit allow-list"
+              echo "CHANGES=false" >> $GITHUB_OUTPUT
+            else
+              git commit -m "chore: apply prettier format fixes"
+              git push
+              echo "CHANGES=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Post result comment
+        if: steps.find-pr.outputs.has-pr == 'true'
+        uses: actions/github-script@v9
+        env:
+          CHANGES: ${{ steps.commit.outputs.CHANGES }}
+        with:
+          script: |
+            const prNumber = parseInt(context.payload.inputs.pr_number);
+
+            if (process.env.CHANGES === 'true') {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: prNumber,
+                body: '✅ Automatically ran `pnpm format` and pushed the formatting fixes. Check-format should now pass.'
+              });
+              core.info(`Posted success comment on PR #${prNumber}`);
+            } else {
+              core.info(`No formatting changes were needed for PR #${prNumber}`);
+            }

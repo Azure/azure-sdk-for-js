@@ -162,7 +162,7 @@ export enum KnownEmailSendStatus {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**

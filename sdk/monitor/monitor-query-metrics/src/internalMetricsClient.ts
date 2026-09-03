@@ -9,7 +9,7 @@ import type { ResourceIdList, MetricResultsResponse } from "./models/models.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { MetricsClientOptionalParams } from "./api/metricsContext.js";
+export type { MetricsClientOptionalParams } from "./api/metricsContext.js";
 
 export class MetricsClient {
   private _client: MetricsContext;

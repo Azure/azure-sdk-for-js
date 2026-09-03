@@ -16,6 +16,8 @@ import {
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   ATTR_CLIENT_ADDRESS,
+  ATTR_EXCEPTION_MESSAGE,
+  ATTR_EXCEPTION_TYPE,
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
   ATTR_HTTP_ROUTE,
@@ -60,10 +62,14 @@ import type {
 } from "../../src/generated/index.js";
 import { KnownContextTagKeys } from "../../src/generated/index.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
-import { DependencyTypes } from "../../src/utils/constants/applicationinsights.js";
+import {
+  ApplicationInsightsCustomMeasurements,
+  DependencyTypes,
+} from "../../src/utils/constants/applicationinsights.js";
 import { hrTimeToDate } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 
 const context = getInstance();
 
@@ -87,19 +93,21 @@ function assertEnvelope(
   expectedTags: Tags,
   expectedProperties: Properties,
   expectedMeasurements: Measurements | undefined,
-  expectedBaseData: Partial<RequestData | RemoteDependencyData>,
+  expectedBaseData: Partial<
+    RequestData | RemoteDependencyData | TelemetryExceptionData | MessageData
+  >,
   expectedTime?: Date,
 ): void {
   assert.strictEqual(Context.sdkVersion, packageJson.version);
-  assert.ok(envelope);
+  assert.isDefined(envelope);
   assert.strictEqual(envelope.name, name);
   assert.strictEqual(envelope.sampleRate, sampleRate);
   assert.deepStrictEqual(envelope.data?.baseType, baseType);
 
   assert.strictEqual(envelope.instrumentationKey, "ikey");
-  assert.ok(envelope.time);
-  assert.ok(envelope.version);
-  assert.ok(envelope.data);
+  assert.isDefined(envelope.time);
+  assert.isDefined(envelope.version);
+  assert.isDefined(envelope.data);
 
   if (expectedTime) {
     assert.deepStrictEqual(envelope.time, expectedTime);
@@ -123,8 +131,10 @@ function assertEnvelope(
     expectedMeasurements,
   );
   // Not posibble to get specific time + duration in these tests
-  if (envelope.data?.baseData) {
-    delete envelope.data.baseData.duration;
+  const baseData = envelope.data?.baseData as any;
+  if (baseData) {
+    delete baseData.duration;
+    delete baseData.kind;
   }
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData as MonitorDomain);
 }
@@ -133,6 +143,84 @@ const emptyMeasurements: Measurements = {};
 
 describe("spanUtils.ts", () => {
   describe("#readableSpanToEnvelope", () => {
+    it("does not attach applicationId to span envelopes", () => {
+      const tracerWithAppId = new BasicTracerProvider({
+        resource: resourceFromAttributes({
+          [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
+          [SEMRESATTRS_SERVICE_NAME]: "svc",
+          [SEMRESATTRS_SERVICE_NAMESPACE]: "ns",
+          [APPLICATION_ID_RESOURCE_KEY]: "app-from-resource",
+        }),
+      }).getTracer("appIdTracer");
+
+      const span = tracerWithAppId.startSpan("span-with-app-id", { kind: SpanKind.CLIENT });
+      span.end();
+      const readableSpan = spanToReadableSpan(span);
+
+      const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+
+      assert.isUndefined(envelope.tags?.[APPLICATION_ID_RESOURCE_KEY]);
+      assert.isUndefined(
+        (envelope.data?.baseData as Partial<RequestData | RemoteDependencyData>)?.properties?.[
+          APPLICATION_ID_RESOURCE_KEY
+        ],
+      );
+    });
+
+    it.each([
+      { kind: SpanKind.SERVER, expectedBaseType: "RequestData" },
+      { kind: SpanKind.CLIENT, expectedBaseType: "RemoteDependencyData" },
+    ])(
+      "should route custom measurements on $expectedBaseType spans to measurements",
+      ({ kind, expectedBaseType }) => {
+        const span = tracer.startSpan("span-with-custom-measurements", { kind });
+        span.setAttributes({
+          "extra.attribute": "foo",
+          [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42,"queueDepth":7}',
+        });
+        span.end();
+
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
+        const baseData = envelope.data?.baseData as RequestData | RemoteDependencyData;
+
+        assert.strictEqual(envelope.data?.baseType, expectedBaseType);
+        assert.deepStrictEqual(baseData.measurements, {
+          itemsProcessed: 42,
+          queueDepth: 7,
+        });
+        assert.deepStrictEqual(baseData.properties, {
+          "extra.attribute": "foo",
+        });
+      },
+    );
+
+    it("should preserve exporter-generated measurements on Event Hubs spans", () => {
+      const linkSpan = tracer.startSpan("linked span");
+      const span = tracer.startSpan("event hubs consumer", {
+        kind: SpanKind.CONSUMER,
+        attributes: {
+          "az.namespace": "Microsoft.EventHub",
+          [ApplicationInsightsCustomMeasurements]: '{"timeSinceEnqueued":1,"custom":2}',
+        },
+        links: [
+          {
+            context: linkSpan.spanContext(),
+            attributes: {
+              enqueuedTime: Date.now() - 1000,
+            },
+          },
+        ],
+      });
+      span.end();
+      linkSpan.end();
+
+      const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
+      const baseData = envelope.data?.baseData as RequestData;
+
+      assert.strictEqual(baseData.measurements?.custom, 2);
+      assert.isAbove(baseData.measurements?.timeSinceEnqueued ?? 0, 1);
+    });
+
     describe("GRPC", () => {
       it("should create a Request Envelope for Server Spans", () => {
         const spanOptions: SpanOptions = {
@@ -433,6 +521,63 @@ describe("spanUtils.ts", () => {
         );
       });
 
+      it("should preserve allowlisted microsoft.gen_ai.main_agent.* attributes on Request Envelopes", () => {
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan("child span", spanOptions, ctx);
+        childSpan.setAttributes({
+          // dropped by the generic microsoft.* filter (negative control)
+          "microsoft.internal.foo": "bar",
+          // explicitly allowlisted GenAI main-agent attributes
+          "microsoft.gen_ai.main_agent.name": "TravelBot",
+          "microsoft.gen_ai.main_agent.id": "agent-123",
+          "microsoft.gen_ai.main_agent.version": "1.0.0",
+          "microsoft.gen_ai.main_agent.conversation_id": "conv-abc",
+        });
+        childSpan.setStatus({ code: SpanStatusCode.OK });
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan);
+        const expectedTime = hrTimeToDate(readableSpan.startTime);
+        const expectedTags: Tags = {
+          [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
+          [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
+          [KnownContextTagKeys.AiOperationName]: "child span",
+        };
+        const expectedProperties = {
+          "microsoft.gen_ai.main_agent.name": "TravelBot",
+          "microsoft.gen_ai.main_agent.id": "agent-123",
+          "microsoft.gen_ai.main_agent.version": "1.0.0",
+          "microsoft.gen_ai.main_agent.conversation_id": "conv-abc",
+        };
+        const expectedBaseData: Partial<RequestData> = {
+          id: `${childSpan.spanContext().spanId}`,
+          success: true,
+          responseCode: "0",
+          name: `child span`,
+          version: 2,
+          source: undefined,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.Request",
+          100,
+          "RequestData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+          expectedTime,
+        );
+      });
+
       it("should create a success:false Request Envelope for Server Spans with 4xx status codes", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
@@ -501,7 +646,7 @@ describe("spanUtils.ts", () => {
         const expectedProperties = {
           "az.namespace": "Microsoft.EventHub",
         };
-        const expectedBaseData: Partial<RequestData> = {
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `${span.spanContext().spanId}`,
           name: "span",
           success: true,
@@ -995,7 +1140,11 @@ describe("spanUtils.ts", () => {
         const readableSpan = spanToReadableSpan(span);
 
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, false);
+        const requestData = (envelope as any).data?.baseData;
+        if (!requestData || !("responseCode" in requestData)) {
+          assert.fail("Expected RequestData");
+        }
+        assert.strictEqual(requestData.success, false);
       });
       it("Request Envelope should not override user set SpanStatus", () => {
         const spanOptions: SpanOptions = {
@@ -1010,7 +1159,11 @@ describe("spanUtils.ts", () => {
         span.end();
         const readableSpan = spanToReadableSpan(span);
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, true);
+        const requestData = (envelope as any).data?.baseData;
+        if (!requestData || !("responseCode" in requestData)) {
+          assert.fail("Expected RequestData");
+        }
+        assert.strictEqual(requestData.success, true);
       });
     });
 
@@ -1459,6 +1612,31 @@ describe("spanUtils.ts", () => {
         expectedBaseData,
       );
     });
+
+    it("should route custom measurements on span events to measurements", () => {
+      const span = tracer.startSpan("parent span", {}, ROOT_CONTEXT);
+      span.addEvent("test event", {
+        [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42}',
+      });
+      span.addEvent("exception", {
+        [ATTR_EXCEPTION_TYPE]: "Error",
+        [ATTR_EXCEPTION_MESSAGE]: "test error",
+        [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42}',
+      });
+      span.end();
+
+      const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
+
+      assert.strictEqual(envelopes.length, 2);
+      const messageData = envelopes[0].data?.baseData as MessageData;
+      const exceptionData = envelopes[1].data?.baseData as TelemetryExceptionData;
+      assert.deepStrictEqual(messageData.measurements, {
+        itemsProcessed: 42,
+      });
+      assert.deepStrictEqual(exceptionData.measurements, {
+        itemsProcessed: 42,
+      });
+    });
   });
   it("should create an envelope for internal exception span events", () => {
     const testError = new Error("test error");
@@ -1472,7 +1650,7 @@ describe("spanUtils.ts", () => {
 
     const expectedTags: Tags = {};
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-    assert.ok(envelopes.length === 1);
+    assert.equal(envelopes.length, 1);
   });
   it("should create message envelope for span events", () => {
     const spanOptions: SpanOptions = {
@@ -1535,6 +1713,52 @@ describe("spanUtils.ts", () => {
       expectedBaseData,
     );
   });
+  it("should truncate custom properties at 13-bit limit for spans", () => {
+    // Create a property value that exceeds the 13-bit (8192 byte) limit
+    const longPropertyValue = "a".repeat(MaxPropertyLengths.THIRTEEN_BIT + 1000);
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+    span.setAttributes({
+      "custom.longProperty": longPropertyValue,
+    });
+    span.setStatus({
+      code: SpanStatusCode.OK,
+    });
+    span.end();
+    const readableSpan = spanToReadableSpan(span);
+    const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+
+    // Verify the property value IS truncated to 8KB
+    const resultValue = (envelope as any).data?.baseData?.properties?.["custom.longProperty"];
+    assert.isTrue(
+      Buffer.byteLength(resultValue, "utf-8") <= MaxPropertyLengths.THIRTEEN_BIT,
+      "Custom properties should be truncated at 13-bit limit",
+    );
+  });
+  it("should truncate custom properties at 13-bit limit for span events", () => {
+    // Create a property value that exceeds the 13-bit (8192 byte) limit
+    const longPropertyValue = "b".repeat(MaxPropertyLengths.THIRTEEN_BIT + 500);
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+    span.addEvent("test-event", {
+      "custom.longEventProperty": longPropertyValue,
+    });
+    span.end();
+    const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
+
+    // Verify the property value IS truncated to 8KB
+    const resultValue = (envelopes[0].data?.baseData as MessageData)?.properties?.[
+      "custom.longEventProperty"
+    ];
+    assert.isTrue(
+      Buffer.byteLength(resultValue!, "utf-8") <= MaxPropertyLengths.THIRTEEN_BIT,
+      "Custom properties on span events should be truncated at 13-bit limit",
+    );
+  });
   it("should ensure ATTR_ENDUSER_ID is not included in properties", () => {
     const spanOptions: SpanOptions = {
       kind: SpanKind.SERVER,
@@ -1583,7 +1807,9 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+      !(envelope as any).data?.baseData?.properties?.[
+        experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
+      ],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -1636,7 +1862,7 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[
+      !(envelope as any).data?.baseData?.properties?.[
         experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
       ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",

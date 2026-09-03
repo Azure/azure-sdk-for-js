@@ -2,15 +2,6 @@
 
 [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-For applications that **only need to read configuration values**, we suggest using the [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead.
-
-Use *@azure/app-configuration* (this library) to:
-
-- Create flexible key representations and mappings
-- Tag keys with labels
-- Replay settings from any point in time
-- Manage snapshots of an app's configuration
-
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/)
@@ -19,6 +10,24 @@ Key links:
 - [Product documentation](https://learn.microsoft.com/azure/azure-app-configuration/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
 
+## Choose the right package
+
+Use _@azure/app-configuration_ (this library) to:
+
+- Manage configuration settings and snapshots in Azure App Configuration
+- Perform granular reads that operate outside the realm of normal configuration consumption
+
+Most applications should start with the [_@azure/app-configuration-provider_](https://www.npmjs.com/package/@azure/app-configuration-provider) library, which builds on this low-level client library and is the recommended way to consume configuration at runtime. It adds:
+
+- Flexible access patterns using configuration as a key/value map or a structured JSON object
+- Query mechanism to declaratively compose app configuration
+- Configuration refresh during runtime
+- High reliability with caching, replica discovery, failover, and load balancing
+- Key vault reference resolution and auto-refresh
+- Feature flag integration for [@microsoft/feature-management](https://www.npmjs.com/package/@microsoft/feature-management) library
+
+For more information, please go to [configuration provider overview](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview).
+
 ## Getting started
 
 ### Install the package
@@ -26,6 +35,8 @@ Key links:
 ```bash
 npm install @azure/app-configuration
 ```
+
+**Note:** For applications that **only need to read configuration values**, we suggest using the [_@azure/app-configuration-provider_](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead.
 
 ### Currently supported environments
 
@@ -169,6 +180,8 @@ setting = await client.getConfigurationSetting(setting);
 The `2022-11-01-preview` API version supports configuration snapshots: immutable, point-in-time copies of a configuration store. Snapshots can be created with filters that determine which key-value pairs are contained within the snapshot, creating an immutable, composed view of the configuration store. This feature enables applications to hold a consistent view of configuration, ensuring that there are no version mismatches to individual settings due to reading as updates were made. For example, this feature can be used to create "release configuration snapshots" within an App Configuration. See [the _create and get a snapshot_ section](#create-and-get-a-setting) in the example below.
 
 ## Examples
+
+**Note:** If your application only needs to retrieve configuration values and does not require performing create, update, or delete operations on configuration settings, consider using the [_@azure/app-configuration-provider_](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead. The provider library offers a simplified experience for loading configuration data at runtime and [additional features](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview#feature-development-status). You can find lots of code samples in the Azure App Configuration documentation on [Microsoft Learn](https://learn.microsoft.com/azure/azure-app-configuration/quickstart-javascript-provider).
 
 ### Create and get a setting
 

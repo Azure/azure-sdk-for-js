@@ -3,8 +3,8 @@
 
 export { $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  CopilotSettingsDeleteOptionalParams,
-  CopilotSettingsUpdateOptionalParams,
-  CopilotSettingsCreateOrUpdateOptionalParams,
-  CopilotSettingsGetOptionalParams,
+  type CopilotSettingsDeleteOptionalParams,
+  type CopilotSettingsUpdateOptionalParams,
+  type CopilotSettingsCreateOrUpdateOptionalParams,
+  type CopilotSettingsGetOptionalParams,
 } from "./options.js";

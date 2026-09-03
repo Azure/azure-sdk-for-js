@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import {
+  createPowerShellEnvironment,
   formatCommand,
   parseJsonToken,
   powerShellErrors,
@@ -41,6 +42,20 @@ describe("AzurePowerShellCredential", function () {
     );
   });
 
+  it("replaces private environment variables case-insensitively", function () {
+    const environment = createPowerShellEnvironment("resource", "tenant", {
+      Path: "path",
+      azure_identity_powershell_resource: "stale-resource",
+      Azure_Identity_PowerShell_Tenant_Id: "stale-tenant",
+    });
+
+    assert.deepEqual(environment, {
+      Path: "path",
+      AZURE_IDENTITY_POWERSHELL_RESOURCE: "resource",
+      AZURE_IDENTITY_POWERSHELL_TENANT_ID: "tenant",
+    });
+  });
+
   it("throws an expected error if the user hasn't logged in through PowerShell", async function () {
     vi.spyOn(processUtils, "execFile")
       .mockResolvedValueOnce("") // The first call checks that the command is available.
@@ -57,7 +72,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(error?.message, powerShellPublicErrorMessages.login);
   });
@@ -78,7 +93,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(error?.message, powerShellPublicErrorMessages.installed);
   });
@@ -95,7 +110,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -119,7 +134,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -206,7 +221,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -228,7 +243,7 @@ describe("AzurePowerShellCredential", function () {
       error = e;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
@@ -254,7 +269,7 @@ describe("AzurePowerShellCredential", function () {
         error = e;
       }
 
-      assert.ok(error);
+      assert.isDefined(error);
       assert.equal(error?.name, "CredentialUnavailableError");
       assert.equal(
         error?.message,
@@ -307,8 +322,8 @@ describe("AzurePowerShellCredential", function () {
   it.skip("authenticates without mocks", async function () {
     const credential = new AzurePowerShellCredential();
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp!);
+    assert.isDefined(token?.token);
+    assert.isDefined(token?.expiresOnTimestamp!);
   });
 
   for (const tenantId of [
@@ -444,12 +459,20 @@ CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying 
     assert.include(checkArgs, "/?");
 
     // PowerShell script execution
-    const [, scriptArgs] = calls[1];
+    const [, scriptArgs, scriptOptions] = calls[1];
     const commandIndex = scriptArgs?.indexOf("-Command");
     assert.isAtLeast(commandIndex ?? -1, 0);
 
     const scriptContent = scriptArgs?.[commandIndex + 1];
     assert.isString(scriptContent);
+    assert.include(scriptContent, "$env:AZURE_IDENTITY_POWERSHELL_RESOURCE");
+    assert.include(scriptContent, "$env:AZURE_IDENTITY_POWERSHELL_TENANT_ID");
+    assert.notInclude(scriptContent, "https://vault.azure.net");
+    assert.equal(
+      scriptOptions?.env?.["AZURE_IDENTITY_POWERSHELL_RESOURCE"],
+      "https://vault.azure.net",
+    );
+    assert.equal(scriptOptions?.env?.["AZURE_IDENTITY_POWERSHELL_TENANT_ID"], "");
 
     // Verify PowerShell script checks for and handles Az.Accounts module version 5.0.0+
     assert.include(scriptContent, "if ($token.Token -is [System.Security.SecureString])");

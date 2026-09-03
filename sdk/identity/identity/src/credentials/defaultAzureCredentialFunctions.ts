@@ -7,18 +7,18 @@ import type {
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
 } from "./defaultAzureCredentialOptions.js";
-import { EnvironmentCredential } from "./environmentCredential.js";
+import { EnvironmentCredential } from "#platform/credentials/environmentCredential";
 import type {
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
 } from "./managedIdentityCredential/options.js";
-import { ManagedIdentityCredential } from "./managedIdentityCredential/index.js";
-import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
-import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
-import { AzureCliCredential } from "./azureCliCredential.js";
-import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
+import { ManagedIdentityCredential } from "#platform/credentials/managedIdentityCredential/index";
+import { WorkloadIdentityCredential } from "#platform/credentials/workloadIdentityCredential";
+import { AzureDeveloperCliCredential } from "#platform/credentials/azureDeveloperCliCredential";
+import { AzureCliCredential } from "#platform/credentials/azureCliCredential";
+import { AzurePowerShellCredential } from "#platform/credentials/azurePowerShellCredential";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
-import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
+import { VisualStudioCodeCredential } from "#platform/credentials/visualStudioCodeCredential";
 import { BrokerCredential } from "./brokerCredential.js";
 
 /**
@@ -55,15 +55,20 @@ export function createDefaultVisualStudioCodeCredential(
  * @internal
  */
 export function createDefaultManagedIdentityCredential(
-  options:
+  options: (
     | DefaultAzureCredentialOptions
     | DefaultAzureCredentialResourceIdOptions
-    | DefaultAzureCredentialClientIdOptions = {},
+    | DefaultAzureCredentialClientIdOptions
+  ) & { sendProbeRequest?: boolean } = {},
 ): TokenCredential {
   options.retryOptions ??= {
     maxRetries: 5,
     retryDelayInMs: 800,
   };
+  // ManagedIdentityCredential inside DAC chain should send a probe request by default.
+  // This is different from standalone ManagedIdentityCredential behavior
+  // or when AZURE_TOKEN_CREDENTIALS is set to only ManagedIdentityCredential.
+  options.sendProbeRequest ??= true;
   const managedIdentityClientId =
     (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
     process.env.AZURE_CLIENT_ID;

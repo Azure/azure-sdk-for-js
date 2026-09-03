@@ -1,56 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningContext } from "../../api/codeSigningContext.js";
+import type { CodeSigningContext } from "../../api/codeSigningContext.js";
 import {
+  checkNameAvailability,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  create,
+  get,
+} from "../../api/codeSigningAccounts/operations.js";
+import type {
+  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
+  CodeSigningAccountsListBySubscriptionOptionalParams,
+  CodeSigningAccountsListByResourceGroupOptionalParams,
+  CodeSigningAccountsDeleteOptionalParams,
+  CodeSigningAccountsUpdateOptionalParams,
+  CodeSigningAccountsCreateOptionalParams,
+  CodeSigningAccountsGetOptionalParams,
+} from "../../api/codeSigningAccounts/options.js";
+import type {
   CodeSigningAccount,
   CodeSigningAccountPatch,
   CheckNameAvailability,
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
-import {
-  get,
-  create,
-  update,
-  $delete,
-  listByResourceGroup,
-  listBySubscription,
-  checkNameAvailability,
-} from "../../api/codeSigningAccounts/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  CodeSigningAccountsGetOptionalParams,
-  CodeSigningAccountsCreateOptionalParams,
-  CodeSigningAccountsUpdateOptionalParams,
-  CodeSigningAccountsDeleteOptionalParams,
-  CodeSigningAccountsListByResourceGroupOptionalParams,
-  CodeSigningAccountsListBySubscriptionOptionalParams,
-  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-} from "../../models/options.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CodeSigningAccounts operations. */
 export interface CodeSigningAccountsOperations {
-  /** Get a trusted Signing Account. */
-  get: (
+  /** Checks that the trusted signing account name is valid and is not already in use. */
+  checkNameAvailability: (
+    body: CheckNameAvailability,
+    options?: CodeSigningAccountsCheckNameAvailabilityOptionalParams,
+  ) => Promise<CheckNameAvailabilityResult>;
+  /** Lists trusted signing accounts within a subscription. */
+  listBySubscription: (
+    options?: CodeSigningAccountsListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<CodeSigningAccount>;
+  /** Lists trusted signing accounts within a resource group. */
+  listByResourceGroup: (
     resourceGroupName: string,
-    accountName: string,
-    options?: CodeSigningAccountsGetOptionalParams,
-  ) => Promise<CodeSigningAccount>;
-  /** Create a trusted Signing Account. */
-  create: (
-    resourceGroupName: string,
-    accountName: string,
-    resource: CodeSigningAccount,
-    options?: CodeSigningAccountsCreateOptionalParams,
-  ) => PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
-  /** Update a trusted signing account. */
-  update: (
-    resourceGroupName: string,
-    accountName: string,
-    properties: CodeSigningAccountPatch,
-    options?: CodeSigningAccountsUpdateOptionalParams,
-  ) => PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
+    options?: CodeSigningAccountsListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<CodeSigningAccount>;
   /** Delete a trusted signing account. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -62,64 +56,69 @@ export interface CodeSigningAccountsOperations {
     accountName: string,
     options?: CodeSigningAccountsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Lists trusted signing accounts within a resource group. */
-  listByResourceGroup: (
+  /** Update a trusted signing account. */
+  update: (
     resourceGroupName: string,
-    options?: CodeSigningAccountsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<CodeSigningAccount>;
-  /** Lists trusted signing accounts within a subscription. */
-  listBySubscription: (
-    options?: CodeSigningAccountsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<CodeSigningAccount>;
-  /** Checks that the trusted signing account name is valid and is not already in use. */
-  checkNameAvailability: (
-    body: CheckNameAvailability,
-    options?: CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-  ) => Promise<CheckNameAvailabilityResult>;
+    accountName: string,
+    properties: CodeSigningAccountPatch,
+    options?: CodeSigningAccountsUpdateOptionalParams,
+  ) => PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
+  /** Create a trusted Signing Account. */
+  create: (
+    resourceGroupName: string,
+    accountName: string,
+    resource: CodeSigningAccount,
+    options?: CodeSigningAccountsCreateOptionalParams,
+  ) => PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
+  /** Get a trusted Signing Account. */
+  get: (
+    resourceGroupName: string,
+    accountName: string,
+    options?: CodeSigningAccountsGetOptionalParams,
+  ) => Promise<CodeSigningAccount>;
 }
 
-export function getCodeSigningAccounts(context: CodeSigningContext, subscriptionId: string) {
+function _getCodeSigningAccounts(context: CodeSigningContext) {
   return {
-    get: (
+    checkNameAvailability: (
+      body: CheckNameAvailability,
+      options?: CodeSigningAccountsCheckNameAvailabilityOptionalParams,
+    ) => checkNameAvailability(context, body, options),
+    listBySubscription: (options?: CodeSigningAccountsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: CodeSigningAccountsListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, resourceGroupName, options),
+    delete: (
       resourceGroupName: string,
       accountName: string,
-      options?: CodeSigningAccountsGetOptionalParams,
-    ) => get(context, subscriptionId, resourceGroupName, accountName, options),
-    create: (
-      resourceGroupName: string,
-      accountName: string,
-      resource: CodeSigningAccount,
-      options?: CodeSigningAccountsCreateOptionalParams,
-    ) => create(context, subscriptionId, resourceGroupName, accountName, resource, options),
+      options?: CodeSigningAccountsDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, accountName, options),
     update: (
       resourceGroupName: string,
       accountName: string,
       properties: CodeSigningAccountPatch,
       options?: CodeSigningAccountsUpdateOptionalParams,
-    ) => update(context, subscriptionId, resourceGroupName, accountName, properties, options),
-    delete: (
+    ) => update(context, resourceGroupName, accountName, properties, options),
+    create: (
       resourceGroupName: string,
       accountName: string,
-      options?: CodeSigningAccountsDeleteOptionalParams,
-    ) => $delete(context, subscriptionId, resourceGroupName, accountName, options),
-    listByResourceGroup: (
+      resource: CodeSigningAccount,
+      options?: CodeSigningAccountsCreateOptionalParams,
+    ) => create(context, resourceGroupName, accountName, resource, options),
+    get: (
       resourceGroupName: string,
-      options?: CodeSigningAccountsListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: CodeSigningAccountsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, subscriptionId, options),
-    checkNameAvailability: (
-      body: CheckNameAvailability,
-      options?: CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-    ) => checkNameAvailability(context, subscriptionId, body, options),
+      accountName: string,
+      options?: CodeSigningAccountsGetOptionalParams,
+    ) => get(context, resourceGroupName, accountName, options),
   };
 }
 
-export function getCodeSigningAccountsOperations(
+export function _getCodeSigningAccountsOperations(
   context: CodeSigningContext,
-  subscriptionId: string,
 ): CodeSigningAccountsOperations {
   return {
-    ...getCodeSigningAccounts(context, subscriptionId),
+    ..._getCodeSigningAccounts(context),
   };
 }

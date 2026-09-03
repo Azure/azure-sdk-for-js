@@ -12,7 +12,7 @@ import type {
 } from "../../certificatesModels.js";
 import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
 import { cleanState, KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
@@ -22,8 +22,7 @@ import { tracingClient } from "../../tracing.js";
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
  */
-export interface CertificateOperationState
-  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
+export interface CertificateOperationState extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The operation of the certificate
    */

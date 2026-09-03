@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -191,7 +197,9 @@ export function mongoClusterSerializer(item: MongoCluster): any {
 
 export function mongoClusterDeserializer(item: any): MongoCluster {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -252,6 +260,8 @@ export interface MongoClusterProperties {
   authConfig?: AuthConfigProperties;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
   encryption?: EncryptionProperties;
+  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
+  networkBypassMode?: NetworkBypassMode;
 }
 
 export function mongoClusterPropertiesSerializer(item: MongoClusterProperties): any {
@@ -287,6 +297,7 @@ export function mongoClusterPropertiesSerializer(item: MongoClusterProperties): 
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionPropertiesSerializer(item["encryption"]),
+    networkBypassMode: item["networkBypassMode"],
   };
 }
 
@@ -335,6 +346,7 @@ export function mongoClusterPropertiesDeserializer(item: any): MongoClusterPrope
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionPropertiesDeserializer(item["encryption"]),
+    networkBypassMode: item["networkBypassMode"],
   };
 }
 
@@ -399,10 +411,7 @@ export interface MongoClusterReplicaParameters {
 }
 
 export function mongoClusterReplicaParametersSerializer(item: MongoClusterReplicaParameters): any {
-  return {
-    sourceResourceId: item["sourceResourceId"],
-    sourceLocation: item["sourceLocation"],
-  };
+  return { sourceResourceId: item["sourceResourceId"], sourceLocation: item["sourceLocation"] };
 }
 
 export function mongoClusterReplicaParametersDeserializer(
@@ -557,27 +566,16 @@ export interface StorageProperties {
   sizeGb?: number;
   /** The type of storage to provision the cluster servers with. */
   type?: StorageType;
-  /** The IOPs of the storage assigned to each server. Only applicable if the type is 'PremiumSSDv2'. */
-  iops?: number;
-  /** The throughput of the storage assigned to each server. Only applicable if the type is 'PremiumSSDv2'. */
-  throughput?: number;
 }
 
 export function storagePropertiesSerializer(item: StorageProperties): any {
-  return {
-    sizeGb: item["sizeGb"],
-    type: item["type"],
-    iops: item["iops"],
-    throughput: item["throughput"],
-  };
+  return { sizeGb: item["sizeGb"], type: item["type"] };
 }
 
 export function storagePropertiesDeserializer(item: any): StorageProperties {
   return {
     sizeGb: item["sizeGb"],
     type: item["type"],
-    iops: item["iops"],
-    throughput: item["throughput"],
   };
 }
 
@@ -637,8 +635,8 @@ export interface BackupProperties {
   readonly earliestRestoreTime?: string;
 }
 
-export function backupPropertiesSerializer(item: BackupProperties): any {
-  return item;
+export function backupPropertiesSerializer(_item: BackupProperties): any {
+  return {};
 }
 
 export function backupPropertiesDeserializer(item: any): BackupProperties {
@@ -759,8 +757,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -997,16 +995,18 @@ export function encryptionPropertiesDeserializer(item: any): EncryptionPropertie
 /** Customer managed key encryption settings. */
 export interface CustomerManagedKeyEncryptionProperties {
   /** The identity used to access the key encryption key. */
-  keyEncryptionKeyIdentity: KeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
   /** The URI of the key vault key used for encryption. */
-  keyEncryptionKeyUrl: string;
+  keyEncryptionKeyUrl?: string;
 }
 
 export function customerManagedKeyEncryptionPropertiesSerializer(
   item: CustomerManagedKeyEncryptionProperties,
 ): any {
   return {
-    keyEncryptionKeyIdentity: keyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
+    keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
+      ? item["keyEncryptionKeyIdentity"]
+      : keyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
     keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
   };
 }
@@ -1015,9 +1015,9 @@ export function customerManagedKeyEncryptionPropertiesDeserializer(
   item: any,
 ): CustomerManagedKeyEncryptionProperties {
   return {
-    keyEncryptionKeyIdentity: keyEncryptionKeyIdentityDeserializer(
-      item["keyEncryptionKeyIdentity"],
-    ),
+    keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
+      ? item["keyEncryptionKeyIdentity"]
+      : keyEncryptionKeyIdentityDeserializer(item["keyEncryptionKeyIdentity"]),
     keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
   };
 }
@@ -1025,9 +1025,9 @@ export function customerManagedKeyEncryptionPropertiesDeserializer(
 /** The identity used for key encryption key. */
 export interface KeyEncryptionKeyIdentity {
   /** The type of identity. Only 'UserAssignedIdentity' is supported. */
-  identityType: KeyEncryptionKeyIdentityType;
+  identityType?: KeyEncryptionKeyIdentityType;
   /** The user assigned identity resource id. */
-  userAssignedIdentityResourceId: string;
+  userAssignedIdentityResourceId?: string;
 }
 
 export function keyEncryptionKeyIdentitySerializer(item: KeyEncryptionKeyIdentity): any {
@@ -1059,6 +1059,24 @@ export enum KnownKeyEncryptionKeyIdentityType {
  */
 export type KeyEncryptionKeyIdentityType = string;
 
+/** The network bypass mode for the Mongo cluster. */
+export enum KnownNetworkBypassMode {
+  /** No network bypass is enabled. */
+  None = "None",
+  /** Allows Azure Cosmos DB service to bypass network restrictions. */
+  AzureCosmosDB = "AzureCosmosDB",
+}
+
+/**
+ * The network bypass mode for the Mongo cluster. \
+ * {@link KnownNetworkBypassMode} can be used interchangeably with NetworkBypassMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No network bypass is enabled. \
+ * **AzureCosmosDB**: Allows Azure Cosmos DB service to bypass network restrictions.
+ */
+export type NetworkBypassMode = string;
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
@@ -1072,10 +1090,7 @@ export interface ManagedServiceIdentity {
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -1083,7 +1098,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -1119,8 +1141,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -1142,8 +1164,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1200,7 +1222,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -1230,7 +1252,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1281,6 +1305,10 @@ export interface MongoClusterUpdateProperties {
   previewFeatures?: PreviewFeature[];
   /** The authentication configuration for the cluster. */
   authConfig?: AuthConfigProperties;
+  /** The encryption configuration for the cluster. Depends on identity being configured. */
+  encryption?: EncryptionProperties;
+  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
+  networkBypassMode?: NetworkBypassMode;
 }
 
 export function mongoClusterUpdatePropertiesSerializer(item: MongoClusterUpdateProperties): any {
@@ -1306,6 +1334,10 @@ export function mongoClusterUpdatePropertiesSerializer(item: MongoClusterUpdateP
     authConfig: !item["authConfig"]
       ? item["authConfig"]
       : authConfigPropertiesSerializer(item["authConfig"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionPropertiesSerializer(item["encryption"]),
+    networkBypassMode: item["networkBypassMode"],
   };
 }
 
@@ -1505,10 +1537,7 @@ export interface FirewallRuleProperties {
 }
 
 export function firewallRulePropertiesSerializer(item: FirewallRuleProperties): any {
-  return {
-    startIpAddress: item["startIpAddress"],
-    endIpAddress: item["endIpAddress"],
-  };
+  return { startIpAddress: item["startIpAddress"], endIpAddress: item["endIpAddress"] };
 }
 
 export function firewallRulePropertiesDeserializer(item: any): FirewallRuleProperties {
@@ -1522,8 +1551,8 @@ export function firewallRulePropertiesDeserializer(item: any): FirewallRulePrope
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1829,7 +1858,7 @@ export function identityProviderUnionSerializer(item: IdentityProviderUnion): an
 }
 
 export function identityProviderUnionDeserializer(item: any): IdentityProviderUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "MicrosoftEntraID":
       return entraIdentityProviderDeserializer(item as EntraIdentityProvider);
 
@@ -1988,16 +2017,10 @@ export function userArrayDeserializer(result: Array<User>): any[] {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-03-01-preview. */
-  V20240301Preview = "2024-03-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-06-01-preview. */
-  V20240601Preview = "2024-06-01-preview",
   /** Azure Cosmos DB for Mongo vCore clusters api version 2024-07-01. */
   V20240701 = "2024-07-01",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-10-01-preview. */
-  V20241001Preview = "2024-10-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-04-01-preview. */
-  V20250401Preview = "2025-04-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-07-01-preview. */
-  V20250701Preview = "2025-07-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-09-01. */
+  V20250901 = "2025-09-01",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2026-06-01. */
+  V20260601 = "2026-06-01",
 }

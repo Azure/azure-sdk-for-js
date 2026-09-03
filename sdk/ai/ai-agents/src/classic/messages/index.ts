@@ -1,24 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import { MessageRole, MessageInputContent, ThreadMessage } from "../../models/models.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type {
+  MessageRole,
+  MessageInputContent,
+  ThreadMessage,
+  MessageDeletionStatus,
+} from "../../models/models.js";
+import type {
+  MessagesDeleteOptionalParams,
   MessagesUpdateMessageOptionalParams,
   MessagesGetMessageOptionalParams,
   MessagesListMessagesOptionalParams,
   MessagesCreateMessageOptionalParams,
 } from "../../api/messages/options.js";
 import {
+  $delete,
   updateMessage,
   getMessage,
   listMessages,
   createMessage,
 } from "../../api/messages/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Messages operations. */
 export interface MessagesOperations {
+  /** Deletes an existing message on an existing thread. */
+  delete: (
+    threadId: string,
+    messageId: string,
+    options?: MessagesDeleteOptionalParams,
+  ) => Promise<MessageDeletionStatus>;
   /** Modifies an existing message on an existing thread. */
   update: (
     threadId: string,
@@ -47,6 +60,8 @@ export interface MessagesOperations {
 
 function _getMessages(context: AgentsContext) {
   return {
+    delete: (threadId: string, messageId: string, options?: MessagesDeleteOptionalParams) =>
+      $delete(context, threadId, messageId, options),
     update: (threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams) =>
       updateMessage(context, threadId, messageId, options),
     get: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) =>

@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { StorageManagementClient } = require("@azure/arm-storage");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets the usages of file service in storage account.
+ *
+ * @summary gets the usages of file service in storage account.
+ * x-ms-original-file: 2026-04-01/FileServicesListUsages.json
+ */
+async function listFileServiceUsages() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.fileServices.listServiceUsages("res4410", "sto8607")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await listFileServiceUsages();
+}
+
+main().catch(console.error);

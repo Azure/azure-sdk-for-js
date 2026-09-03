@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import os from "node:os";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import {
   SEMRESATTRS_DEVICE_ID,
   SEMRESATTRS_DEVICE_MODEL_NAME,
@@ -30,15 +31,30 @@ import {
   ATTR_TELEMETRY_SDK_NAME,
   DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import { experimentalOpenTelemetryValues, type Tags } from "../types.js";
+import {
+  experimentalOpenTelemetryValues,
+  MaxPropertyLengths,
+  type Measurements,
+  type Tags,
+} from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
 import { KnownContextTagKeys } from "../generated/index.js";
-import type { Resource } from "@opentelemetry/resources";
+import { type Resource } from "@opentelemetry/resources";
+import { diag } from "@opentelemetry/api";
 import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
-import { ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED } from "../Declarations/Constants.js";
+import {
+  APPLICATION_ID_RESOURCE_KEY,
+  CUSTOM_DIMENSIONS_GENAI_KEYS,
+  ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
+  isEnvVarTrue,
+} from "../Declarations/Constants.js";
+import {
+  ApplicationInsightsCustomMeasurements,
+  DEFAULT_BREEZE_DATA_VERSION,
+} from "./constants/applicationinsights.js";
 import {
   getHttpHost,
   getHttpMethod,
@@ -57,21 +73,18 @@ export function hrTimeToDate(hrTime: HrTime): Date {
 export function createTagsFromResource(resource: Resource): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
-  if (resource && resource.attributes) {
+  const attributes = resource?.attributes;
+  if (attributes) {
     tags[KnownContextTagKeys.AiCloudRole] = getCloudRole(resource);
     tags[KnownContextTagKeys.AiCloudRoleInstance] = getCloudRoleInstance(resource);
-    if (resource.attributes[SEMRESATTRS_DEVICE_ID]) {
-      tags[KnownContextTagKeys.AiDeviceId] = String(resource.attributes[SEMRESATTRS_DEVICE_ID]);
+    if (attributes[SEMRESATTRS_DEVICE_ID]) {
+      tags[KnownContextTagKeys.AiDeviceId] = String(attributes[SEMRESATTRS_DEVICE_ID]);
     }
-    if (resource.attributes[SEMRESATTRS_DEVICE_MODEL_NAME]) {
-      tags[KnownContextTagKeys.AiDeviceModel] = String(
-        resource.attributes[SEMRESATTRS_DEVICE_MODEL_NAME],
-      );
+    if (attributes[SEMRESATTRS_DEVICE_MODEL_NAME]) {
+      tags[KnownContextTagKeys.AiDeviceModel] = String(attributes[SEMRESATTRS_DEVICE_MODEL_NAME]);
     }
-    if (resource.attributes[SEMRESATTRS_SERVICE_VERSION]) {
-      tags[KnownContextTagKeys.AiApplicationVer] = String(
-        resource.attributes[SEMRESATTRS_SERVICE_VERSION],
-      );
+    if (attributes[SEMRESATTRS_SERVICE_VERSION]) {
+      tags[KnownContextTagKeys.AiApplicationVer] = String(attributes[SEMRESATTRS_SERVICE_VERSION]);
     }
   }
   return tags;
@@ -218,29 +231,35 @@ export function getDependencyTarget(attributes: Attributes): string {
 export function createResourceMetricEnvelope(
   resource: Resource,
   instrumentationKey: string,
+  applicationId?: string,
 ): Envelope | undefined {
-  if (resource && resource.attributes) {
+  const attributes = resource.attributes;
+  if (attributes) {
     const tags = createTagsFromResource(resource);
     const resourceAttributes: { [propertyName: string]: string } = {};
-    for (const key of Object.keys(resource.attributes)) {
+
+    if (applicationId && !attributes[APPLICATION_ID_RESOURCE_KEY]) {
+      resourceAttributes[APPLICATION_ID_RESOURCE_KEY] = applicationId;
+    }
+
+    for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
-      if (
-        !(
-          key.startsWith("_MS.") ||
-          key === ATTR_TELEMETRY_SDK_VERSION ||
-          key === ATTR_TELEMETRY_SDK_LANGUAGE ||
-          key === ATTR_TELEMETRY_SDK_NAME
-        )
-      ) {
-        resourceAttributes[key] = resource.attributes[key] as string;
+      if (!(
+        key.startsWith("_MS.") ||
+        key === ATTR_TELEMETRY_SDK_VERSION ||
+        key === ATTR_TELEMETRY_SDK_LANGUAGE ||
+        key === ATTR_TELEMETRY_SDK_NAME
+      )) {
+        resourceAttributes[key] = attributes[key] as string;
       }
     }
     // Only send event when resource attributes are available
     if (Object.keys(resourceAttributes).length > 0) {
       const baseData: MetricsData = {
-        version: 2,
+        kind: "MetricsData",
+        version: DEFAULT_BREEZE_DATA_VERSION,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
-        properties: resourceAttributes,
+        properties: truncateCustomDimensions(resourceAttributes),
       };
       const envelope: Envelope = {
         name: "Microsoft.ApplicationInsights.Metric",
@@ -285,9 +304,92 @@ export function serializeAttribute(value: AnyValue): string {
 }
 
 export function shouldCreateResourceMetric(): boolean {
-  return !(process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED]?.toLowerCase() === "true");
+  return !isEnvVarTrue(ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED);
 }
 
 export function isSyntheticSource(attributes: Attributes): boolean {
   return !!attributes[experimentalOpenTelemetryValues.SYNTHETIC_TYPE];
+}
+
+const MAX_CUSTOM_MEASUREMENT_KEY_LENGTH = 150;
+
+/**
+ * Extracts finite numeric custom measurements from OpenTelemetry attributes.
+ * @internal
+ */
+export function createCustomMeasurements(
+  attributes?: Readonly<Record<string, unknown>>,
+): Measurements {
+  const measurements: Measurements = {};
+  let customMeasurements = attributes?.[ApplicationInsightsCustomMeasurements];
+  if (typeof customMeasurements === "string") {
+    try {
+      customMeasurements = JSON.parse(customMeasurements);
+    } catch (error) {
+      if (error instanceof SyntaxError || error instanceof RangeError) {
+        return measurements;
+      }
+      throw error;
+    }
+  }
+  if (
+    customMeasurements === null ||
+    typeof customMeasurements !== "object" ||
+    Array.isArray(customMeasurements)
+  ) {
+    return measurements;
+  }
+
+  const entries =
+    customMeasurements instanceof Map
+      ? customMeasurements.entries()
+      : Object.entries(customMeasurements);
+  for (const [key, value] of entries) {
+    if (
+      typeof key === "string" &&
+      key.length > 0 &&
+      typeof value === "number" &&
+      Number.isFinite(value)
+    ) {
+      measurements[key.substring(0, MAX_CUSTOM_MEASUREMENT_KEY_LENGTH)] = value;
+    }
+  }
+  return measurements;
+}
+
+/**
+ * Truncates each custom dimension value individually.
+ * Gen AI properties in {@link CUSTOM_DIMENSIONS_GENAI_KEYS} are truncated to 256KB;
+ * all other properties are truncated to 8KB.
+ * @internal
+ */
+export function truncateCustomDimensions(properties: Record<string, unknown>): {
+  [propertyName: string]: string;
+} {
+  const defaultMaxSize = MaxPropertyLengths.THIRTEEN_BIT;
+  const genaiMaxSize = MaxPropertyLengths.EIGHTEEN_BIT;
+  const result: { [propertyName: string]: string } = {};
+  let truncated = false;
+
+  for (const key of Object.keys(properties)) {
+    let value =
+      typeof properties[key] === "string"
+        ? (properties[key] as string)
+        : serializeAttribute(properties[key] as AnyValue);
+
+    const maxSize = CUSTOM_DIMENSIONS_GENAI_KEYS.has(key) ? genaiMaxSize : defaultMaxSize;
+    const valueBytes = stringToUint8Array(value, "utf-8");
+    if (valueBytes.byteLength > maxSize) {
+      value = uint8ArrayToString(valueBytes.subarray(0, maxSize), "utf-8");
+      truncated = true;
+    }
+
+    result[key] = value;
+  }
+
+  if (truncated) {
+    diag.debug("Custom dimension value exceeded size limit. Property value has been truncated.");
+  }
+
+  return result;
 }

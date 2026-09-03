@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list WorkloadNetwork resources by PrivateCloud
  *
  * @summary list WorkloadNetwork resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_List.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_List.json
  */
 async function workloadNetworksList() {
   const credential = new DefaultAzureCredential();

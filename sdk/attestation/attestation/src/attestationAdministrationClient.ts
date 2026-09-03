@@ -64,8 +64,7 @@ export interface AttestationAdministrationClientOperationOptions extends Operati
 /**
  * Operation options for the administration Policy operations.
  */
-export interface AttestationAdministrationClientPolicyOperationOptions
-  extends AttestationAdministrationClientOperationOptions {
+export interface AttestationAdministrationClientPolicyOperationOptions extends AttestationAdministrationClientOperationOptions {
   /**
    * Optional Private key used to sign the token sent to the attestation service.
    *
@@ -87,8 +86,7 @@ export interface AttestationAdministrationClientPolicyOperationOptions
 /**
  * Operation options for the Policy Certificates operations.
  */
-export interface AttestationAdministrationClientPolicyCertificateOperationOptions
-  extends AttestationAdministrationClientOperationOptions {}
+export interface AttestationAdministrationClientPolicyCertificateOperationOptions extends AttestationAdministrationClientOperationOptions {}
 
 /**
  * Attestation Client class.

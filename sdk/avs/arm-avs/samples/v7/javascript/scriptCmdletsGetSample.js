@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a ScriptCmdlet
  *
  * @summary get a ScriptCmdlet
- * x-ms-original-file: 2024-09-01/ScriptCmdlets_Get.json
+ * x-ms-original-file: 2025-09-01/ScriptCmdlets_Get.json
  */
 async function scriptCmdletsGet() {
   const credential = new DefaultAzureCredential();

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { resolveRoot } from "./resolveProject";
-import { run } from "./run";
+import { resolveRoot } from "./resolveProject.ts";
+import { run } from "./run.ts";
 
 /**
  * The shape of a rush.json `projects` entry.
@@ -57,13 +57,11 @@ export async function getRushJson(): Promise<any> {
 
   _workspaceRoot = await resolveRoot();
 
-  const listPackagesCommand = await run(
-    ["pnpm", "list", "--recursive", "--json", "--depth=1", "--only-projects"],
-    {
-      captureOutput: true,
-      cwd: _workspaceRoot,
-    },
-  );
+  const listPackagesCommand = await run(["pnpm", "list", "--recursive", "--json", "--depth=-1"], {
+    allowWindowsBatchFiles: true,
+    captureOutput: true,
+    cwd: _workspaceRoot,
+  });
 
   // console.log(listPackagesCommand.output);
   if (listPackagesCommand.exitCode !== 0) {

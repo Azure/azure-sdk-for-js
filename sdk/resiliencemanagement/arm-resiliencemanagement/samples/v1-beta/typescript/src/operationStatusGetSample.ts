@@ -1,0 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AzureResilienceManagementClient } from "@azure/arm-resiliencemanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to returns the current status of an async operation.
+ *
+ * @summary returns the current status of an async operation.
+ * x-ms-original-file: 2026-04-01-preview/OperationStatus_Get_MaximumSet_Gen.json
+ */
+async function operationStatusGetMaximumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new AzureResilienceManagementClient(credential);
+  const result = await client.operationStatus.get("eastus", "12345678-1234-1234-1234-123456789012");
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await operationStatusGetMaximumSet();
+}
+
+main().catch(console.error);

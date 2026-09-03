@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { AutonomousDatabaseBackup, AutonomousDatabaseBackupUpdate } from "../../models/models.js";
-import {
-  AutonomousDatabaseBackupsListByParentOptionalParams,
-  AutonomousDatabaseBackupsUpdateOptionalParams,
-  AutonomousDatabaseBackupsDeleteOptionalParams,
-  AutonomousDatabaseBackupsGetOptionalParams,
-  AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
-} from "../../api/autonomousDatabaseBackups/options.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listByParent,
   update,
@@ -17,8 +9,19 @@ import {
   get,
   createOrUpdate,
 } from "../../api/autonomousDatabaseBackups/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  AutonomousDatabaseBackupsListByParentOptionalParams,
+  AutonomousDatabaseBackupsUpdateOptionalParams,
+  AutonomousDatabaseBackupsDeleteOptionalParams,
+  AutonomousDatabaseBackupsGetOptionalParams,
+  AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
+} from "../../api/autonomousDatabaseBackups/options.js";
+import type {
+  AutonomousDatabaseBackup,
+  AutonomousDatabaseBackupUpdate,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutonomousDatabaseBackups operations. */
 export interface AutonomousDatabaseBackupsOperations {

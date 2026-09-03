@@ -38,6 +38,13 @@ export interface CosmosClientOptions {
    * to authenticate requests to Cosmos
    */
   aadCredentials?: TokenCredential;
+  /**
+   * @internal
+   * Optional custom AAD scope to override the default account-based scope for authentication.
+   * If not provided, the default scope will be constructed from the endpoint URL.
+   * When provided, no fallback mechanism will be applied if authentication fails.
+   */
+  aadScope?: string;
   /** An array of {@link Permission} objects. */
   permissionFeed?: PermissionDefinition[];
   /** An instance of {@link ConnectionPolicy} class.
@@ -68,10 +75,18 @@ export interface CosmosClientOptions {
   plugins?: PluginConfig[];
 
   /** An optional parameter to set throughput bucket number. This value can be overridden at request level
-   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmsodb-bucketing).
+   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmosdb-bucketing).
    */
   throughputBucket?: number;
 
   /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
   connectionString?: string;
+
+  /**
+   * A dictionary for opting into preview features of the SDK.
+   *
+   * Preview features are not generally available and may change in backward-incompatible
+   * ways before they become GA; they are not recommended for production use.
+   */
+  enablePreviewFeatures?: Record<string, unknown>;
 }

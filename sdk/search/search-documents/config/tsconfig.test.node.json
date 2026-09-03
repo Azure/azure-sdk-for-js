@@ -1,0 +1,16 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/search-documents": ["../src/index.ts"],
+      "@azure/search-documents/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  },
+  "exclude": [
+    "../test/**/browser",
+    "../test/**/react-native",
+    "../test/snippets.spec.ts",
+    "../test/stress"
+  ]
+}

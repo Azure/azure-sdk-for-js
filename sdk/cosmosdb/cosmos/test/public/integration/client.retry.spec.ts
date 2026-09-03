@@ -123,6 +123,10 @@ describe("RetryPolicy", () => {
       const options = {
         endpoint,
         key: masterKey,
+        connectionPolicy: {
+          enablePartitionLevelFailover: false,
+          enablePartitionLevelCircuitBreaker: false,
+        },
       };
       const plugins = getPlugins(responses, lastEndpointCalled);
       const client = new CosmosClient(Object.assign(Object.assign({}, options), { plugins }));
@@ -150,6 +154,10 @@ describe("RetryPolicy", () => {
       const options = {
         endpoint,
         key: masterKey,
+        connectionPolicy: {
+          enablePartitionLevelFailover: false,
+          enablePartitionLevelCircuitBreaker: false,
+        },
       };
       const plugins = getPlugins(responses, lastEndpointCalled);
       const client = new CosmosClient({ ...options, plugins } as any);
@@ -206,6 +214,10 @@ describe("RetryPolicy", () => {
       const options = {
         endpoint,
         key: masterKey,
+        connectionPolicy: {
+          enablePartitionLevelFailover: false,
+          enablePartitionLevelCircuitBreaker: false,
+        },
       };
       const lastEndpointCalled: string[] = [];
       const plugins = getPlugins(responses, lastEndpointCalled);
@@ -253,6 +265,10 @@ describe("RetryPolicy", () => {
       const options = {
         endpoint,
         key: masterKey,
+        connectionPolicy: {
+          enablePartitionLevelFailover: false,
+          enablePartitionLevelCircuitBreaker: false,
+        },
       };
       const plugins = getPlugins(responses, lastEndpointCalled);
       const client = new CosmosClient({ ...options, plugins } as any);

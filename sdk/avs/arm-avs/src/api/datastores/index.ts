@@ -3,8 +3,8 @@
 
 export { $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  DatastoresDeleteOptionalParams,
-  DatastoresCreateOrUpdateOptionalParams,
-  DatastoresGetOptionalParams,
-  DatastoresListOptionalParams,
+  type DatastoresDeleteOptionalParams,
+  type DatastoresCreateOrUpdateOptionalParams,
+  type DatastoresGetOptionalParams,
+  type DatastoresListOptionalParams,
 } from "./options.js";

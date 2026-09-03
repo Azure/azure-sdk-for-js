@@ -2,20 +2,39 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
-import { AgentsClient } from "@azure/ai-agents";
-import type { AzureOpenAI } from "openai";
-import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
-import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
-import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
-import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
-import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
-import { InferenceOperations, _getInferenceOperations } from "./classic/inference/index.js";
-import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
-import { GetAzureOpenAIClientOptions } from "./api/inference/options.js";
-import type { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import OpenAI from "openai";
+import { getBearerTokenProvider } from "@azure/identity";
+import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
+import { createAIProject } from "./api/index.js";
+import type { AgentsOperations } from "./classic/agents/index.js";
+import { _getAgentsOperations } from "./classic/agents/index.js";
+import type { ToolboxesOperations } from "./classic/toolboxes/index.js";
+import { _getToolboxesOperations } from "./classic/toolboxes/index.js";
+import type { BetaOperations } from "./classic/beta/index.js";
+import { _getBetaOperations } from "./classic/beta/index.js";
+import type { ConnectionsOperations } from "./classic/connections/index.js";
+import { _getConnectionsOperations } from "./classic/connections/index.js";
+import type { DatasetsOperations } from "./classic/datasets/index.js";
+import { _getDatasetsOperations } from "./classic/datasets/index.js";
+import type { DeploymentsOperations } from "./classic/deployments/index.js";
+import { _getDeploymentsOperations } from "./classic/deployments/index.js";
+import type { EvaluationRulesOperations } from "./classic/evaluationRules/index.js";
+import { _getEvaluationRulesOperations } from "./classic/evaluationRules/index.js";
+import type { IndexesOperations } from "./classic/indexes/index.js";
+import { _getIndexesOperations } from "./classic/indexes/index.js";
+import type { TelemetryOperations } from "./classic/telemetry/index.js";
+import { _getTelemetryOperations } from "./classic/telemetry/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
+import { getCustomFetch } from "#platform/getCustomFetch";
+import { getOpenAIDefaultHeaders } from "./util.js";
+import type { OpenAIClientOptionsWithAzureAgent } from "./azureAgent.interface.js";
+import { KnownApiVersions } from "./models/models.js";
+import { getTracingFetch } from "./tracing/tracingFetch.js";
+import { resolveTracingConfig } from "./tracing/configuration.js";
+import type { ResolvedTracingConfig } from "./tracing/configuration.js";
 
-export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
+export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
 /**
  * The main client for the AIProjectClient service. It provides access to the various operations available in the service.
@@ -30,111 +49,170 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {IndexesOperations} indexes - The operation groups for indexes
  * @property {DatasetsOperations} datasets - The operation groups for datasets
  * @property {ConnectionsOperations} connections - The operation groups for connections
- * @method {getAzureOpenAIClient} getAzureOpenAIClient - get the Azure OpenAI client for the project
+ * @property {AgentsOperations} agents - The operation groups for agents
+ * @property {ToolboxesOperations} toolboxes - The operation groups for toolboxes
+ * @property {BetaOperations} beta - The operation groups for beta include beta features:
+ * - Memory Stores
+ * - Evaluators
+ * - Evaluation Taxonomies
+ * - Insights
+ * - Schedules
+ * - Red Teams
+ * - agents
+ * - skills
+ * - routines
+ * - models
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
+ * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
+ * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
  */
 export class AIProjectClient {
   private _cognitiveScopeClient: AIProjectContext;
   private _azureScopeClient: AIProjectContext;
   private _endpoint: string;
   private _credential: TokenCredential;
-  private _agents: AgentsClient | undefined;
   private _options: AIProjectClientOptionalParams;
-  private readonly _inference: InferenceOperations;
-  /** The pipeline used by this client to make requests */
-  public readonly pipeline: Pipeline;
+  private _tracingConfig: ResolvedTracingConfig;
 
   constructor(
-    endpointParam: string,
+    endpoint: string,
     credential: TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
-    this._endpoint = endpointParam;
+    this._endpoint = endpoint;
     this._credential = credential;
     this._options = options;
+    this._tracingConfig = resolveTracingConfig(options.tracingOptions);
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._cognitiveScopeClient = createAIProject(endpointParam, credential, {
+    this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
-    });
-
-    this._azureScopeClient = createAIProject(endpointParam, credential, {
-      ...options,
       credentials: {
         ...options.credentials,
         scopes: ["https://ai.azure.com/.default"],
       },
+    });
+    this._azureScopeClient = createAIProject(endpoint, credential, {
+      ...options,
       userAgentOptions: { userAgentPrefix },
     });
 
-    this.pipeline = this._cognitiveScopeClient.pipeline;
-    this.deployments = _getDeploymentsOperations(this._azureScopeClient);
+    this.toolboxes = _getToolboxesOperations(this._cognitiveScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
+    this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
-    this._inference = _getInferenceOperations(this._cognitiveScopeClient, this.connections);
+    this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
+    this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
+    this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
   }
 
-  /** The operation groups for deployments */
-  public readonly deployments: DeploymentsOperations;
+  /** The operation groups for toolboxes */
+  public readonly toolboxes: ToolboxesOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
+  /** The operation groups for deployments */
+  public readonly deployments: DeploymentsOperations;
   /** The operation groups for datasets */
   public readonly datasets: DatasetsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
-  /** The operation groups for inference */
+  /** The operation groups for evaluationRules */
+  public readonly evaluationRules: EvaluationRulesOperations;
+  /** The operation groups for agents */
+  public readonly agents: AgentsOperations;
+  /** The operation groups for beta include beta features:
+   * - Memory Stores
+   * - Evaluators
+   * - Evaluation Taxonomies
+   * - Insights
+   * - Schedules
+   * - Red Teams
+   * - agents
+   * - skills
+   * - routines
+   * - models
+   */
+  public readonly beta: BetaOperations;
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;
+  /**
+   * gets the OpenAI client
+   * @returns the OpenAI client
+   */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  public getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI {
+    const scope = "https://ai.azure.com/.default";
+    const { azureConfig, ...opts } = optsWithAzureAgent || {};
+    let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
+
+    if (
+      this._options.additionalPolicies?.find((policy) => policy.policy.name === "recording policy")
+    ) {
+      customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
+    }
+
+    // Wrap fetch with tracing to inject traceparent/tracestate headers
+    customFetch = getTracingFetch(customFetch, this._tracingConfig);
+
+    let baseURL: string;
+    if (opts?.baseURL) {
+      baseURL = opts.baseURL;
+    } else if (azureConfig?.agentName) {
+      if (!azureConfig.allowPreview) {
+        throw new Error(
+          "Calling `getOpenAIClient` with an `agentName` requires you to set `allowPreview: true`" +
+            "\nwhen providing azureConfig. Note that preview features are under development and " +
+            "\nsubject to change. They should not be used in production environments.",
+        );
+      }
+      baseURL = `${this._endpoint}/agents/${azureConfig.agentName}/endpoint/protocols/openai`;
+    } else {
+      baseURL = `${this._endpoint}/openai/v1`;
+    }
+
+    const defaultHeaders = getOpenAIDefaultHeaders(
+      opts?.defaultHeaders,
+      this._options?.userAgentOptions?.userAgentPrefix,
+    );
+
+    // When targeting an agent endpoint, add api-version to defaultQuery if not already present
+    const defaultQuery = {
+      ...(opts?.defaultQuery || {}),
+    };
+    if (azureConfig?.agentName && !defaultQuery["api-version"]) {
+      defaultQuery["api-version"] = this._options.apiVersion ?? KnownApiVersions.v1;
+    }
+
+    // Destructure opts to exclude defaultHeaders, baseURL, and defaultQuery, then override specific properties
+    const {
+      defaultHeaders: _ignoredHeaders,
+      baseURL: _ignoredBaseURL,
+      defaultQuery: _ignoredQuery,
+      ...restOpts
+    } = opts || {};
+    const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
+      ...restOpts,
+      apiKey: getBearerTokenProvider(this._credential, scope),
+      baseURL,
+      dangerouslyAllowBrowser: true,
+      defaultHeaders: defaultHeaders.toJSON({ preserveCase: true }),
+      defaultQuery: Object.keys(defaultQuery).length > 0 ? defaultQuery : undefined,
+      fetch: customFetch,
+    };
+
+    const openaiClient = new OpenAI(openAIOptions);
+    return overwriteOpenAIClient(openaiClient, this._endpoint, this._tracingConfig);
+  }
   /**
    * gets the endpoint of the client
    * @returns the endpoint of the client
    */
-  public getEndpointUrl(): string {
+  public get endpoint(): string {
     return this._endpoint;
-  }
-
-  /**
-   * Gets the Azure OpenAI client for the project.
-   * @returns The Azure OpenAI client for the project.
-   */
-  public getAzureOpenAIClient(options?: GetAzureOpenAIClientOptions): Promise<AzureOpenAI> {
-    return this._inference.azureOpenAI(options);
-  }
-
-  /**
-   * Creates a new instance of AzureAIProjectClient
-   * @param endpoint - The endpoint to use
-   * @param credential - The credential to use
-   * @param options - The parameter for all optional parameters
-   */
-  static fromEndpoint(
-    endpoint: string,
-    credential: TokenCredential,
-    options: AIProjectClientOptionalParams = {},
-  ): AIProjectClient {
-    return new AIProjectClient(endpoint, credential, options);
-  }
-
-  /**
-   * Get the AgentsClient associated with this AIProjectClient.
-   *
-   * @returns The AgentsClient associated with this AIProjectClient
-   */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients
-  public get agents(): AgentsClient {
-    const { apiVersion, ...clientOptions } = this._options;
-
-    if (!this._agents) {
-      this._agents = new AgentsClient(this._endpoint, this._credential, {
-        ...clientOptions,
-        userAgentOptions: this._cognitiveScopeClient.getUserAgent(),
-      });
-    }
-    return this._agents;
   }
 }

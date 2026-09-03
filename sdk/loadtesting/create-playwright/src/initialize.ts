@@ -10,7 +10,7 @@ import type {
   PackageManager,
   PlaywrightServiceInitConfig,
 } from "./types.js";
-import { executeCommand, getFileReferenceForImport } from "./utils.js";
+import { executeCommand, formatCommand, getFileReferenceForImport } from "./utils.js";
 import { getPackageManager } from "./packageManager.js";
 
 const questions: PromptObject[] = [
@@ -66,13 +66,15 @@ export class PlaywrightServiceInitialize {
   };
 
   private displayAdditionalInformation = (): void => {
-    const runCommandParallelWorkers = this._packageManager.runCommand(
-      "playwright",
-      `test -c ${this.createAzurePlaywrightConfigFileName()} --workers=20`,
-    );
+    const runCommandParallelWorkers = this._packageManager.runCommand("playwright", [
+      "test",
+      "-c",
+      this.createAzurePlaywrightConfigFileName(),
+      "--workers=20",
+    ]);
 
     console.log(`\n\nTo run playwrights tests using Playwright Workspaces\n`);
-    console.log(`\t${runCommandParallelWorkers}\n`);
+    console.log(`\t${formatCommand(runCommandParallelWorkers)}\n`);
 
     console.log("Getting Started - https://aka.ms/pww/docs/quickstart\n");
 
@@ -82,10 +84,11 @@ export class PlaywrightServiceInitialize {
   };
 
   private installServicePackage = async (): Promise<void> => {
-    const command = this._packageManager.installDevDependencyCommand(
-      "@azure/playwright @azure/identity",
-    );
-    console.log(`Installing Service package (${command})`);
+    const command = this._packageManager.installDevDependencyCommand([
+      "@azure/playwright",
+      "@azure/identity",
+    ]);
+    console.log(`Installing Service package (${formatCommand(command)})`);
     await executeCommand(command);
   };
 
@@ -129,7 +132,21 @@ export default defineConfig(
     connectTimeout: 3 * 60 * 1000, // 3 minutes
     os: ServiceOS.LINUX,
     credential: new DefaultAzureCredential(),
-  })
+  }),
+  {
+    /*
+    Enable Playwright Workspaces Reporter:
+    Uncomment the reporter section below to upload test results and reports to Playwright Workspaces.
+
+    Note: The HTML reporter must be included before Playwright Workspaces Reporter.
+    This configuration will replace any existing reporter settings from your base config.
+    If you're already using other reporters, add them to this array.
+    */
+    // reporter: [
+    //   ["html", { open: "never" }],
+    //   ["@azure/playwright/reporter"],
+    // ],
+  }
 );
 `;
     return content;

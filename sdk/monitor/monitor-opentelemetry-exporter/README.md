@@ -95,13 +95,50 @@ const exporter = new AzureMonitorLogExporter({
   connectionString: "<connection string>",
 });
 
-const logRecordProcessor = new BatchLogRecordProcessor(exporter);
-const loggerProvider = new LoggerProvider();
-loggerProvider.addLogRecordProcessor(logRecordProcessor);
+const logRecordProcessor = new BatchLogRecordProcessor({ exporter });
+const loggerProvider = new LoggerProvider({
+  processors: [logRecordProcessor],
+});
 
 // Register logger Provider as global
 logs.setGlobalLoggerProvider(loggerProvider);
 ```
+
+#### Availability results
+
+After registering the logger provider, emit an OpenTelemetry log record with the availability attributes below. The exporter converts the record to Application Insights availability telemetry.
+
+```ts snippet:ReadmeSampleAvailability
+import { logs } from "@opentelemetry/api-logs";
+
+const logger = logs.getLogger("availability");
+logger.emit({
+  body: "Homepage availability test completed.",
+  attributes: {
+    "microsoft.availability.id": "availability-test-run-123",
+    "microsoft.availability.name": "Homepage",
+    "microsoft.availability.duration": "00:00:00.250",
+    "microsoft.availability.success": true,
+    "microsoft.availability.runLocation": "westus2",
+    "microsoft.availability.message": "HTTP 200",
+  },
+});
+```
+
+The following attributes are required:
+
+| Attribute | Description |
+| --- | --- |
+| `microsoft.availability.id` | Identifier for this test run. |
+| `microsoft.availability.name` | Name of the availability test. |
+| `microsoft.availability.duration` | Test duration, for example `00:00:00.250`. |
+| `microsoft.availability.success` | Whether the test succeeded. |
+
+`microsoft.availability.runLocation` and `microsoft.availability.message` are optional. If the message attribute is omitted, the log body is used as the availability message. The availability result timestamp comes from the OpenTelemetry log record.
+
+Availability records use the same correlation context as other OpenTelemetry logs. When a record is emitted with an active span (or an explicit OpenTelemetry context), the span trace ID and span ID populate the Application Insights operation ID and parent ID. These values are authoritative and cannot be overridden by log attributes. The availability test-run ID remains separate from the operation ID.
+
+If any required attribute is missing or empty, the exporter sends the record as regular message telemetry instead. Exception and custom event attributes take precedence over availability attributes.
 
 ### Sampling
 
@@ -133,6 +170,10 @@ For complete samples of a few champion scenarios, see the [`samples/`](https://g
 ## Key concepts
 
 For more information on the OpenTelemetry project, please review the [**OpenTelemetry Specifications**](https://github.com/open-telemetry/opentelemetry-specification#opentelemetry-specification).
+
+### Custom Dimensions Size Limit
+
+By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads.
 
 ## Troubleshooting
 

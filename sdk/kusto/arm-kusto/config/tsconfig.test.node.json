@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-kusto": ["../src/index.ts"],
+      "@azure/arm-kusto/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/volumeGroupSnapshots": "./src/api/volumeGroupSnapshots/index.ts"
+  "./api/saaSOperationGroup": "./src/api/saaSOperationGroup/index.ts"
+  "./api/recoverableVolumeGroups": "./src/api/recoverableVolumeGroups/index.ts"
+  "./api/volumes": "./src/api/volumes/index.ts"
+  "./api/volumeGroups": "./src/api/volumeGroups/index.ts"
+  "./api/avsVmVolumes": "./src/api/avsVmVolumes/index.ts"
+  "./api/avsVms": "./src/api/avsVms/index.ts"
+  "./api/avsStorageContainerVolumes": "./src/api/avsStorageContainerVolumes/index.ts"
+  "./api/avsStorageContainers": "./src/api/avsStorageContainers/index.ts"
+  "./api/storagePools": "./src/api/storagePools/index.ts"
+  "./api/reservations": "./src/api/reservations/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

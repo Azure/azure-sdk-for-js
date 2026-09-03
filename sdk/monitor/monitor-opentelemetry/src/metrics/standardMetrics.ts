@@ -21,6 +21,7 @@ import {
   isSyntheticLoad,
   isTraceTelemetry,
 } from "./utils.js";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { StandardMetricIds } from "./types.js";
 
 /**
@@ -48,7 +49,7 @@ export class StandardMetrics {
     this._config = config;
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this._azureExporter as any,
+      exporter: this._azureExporter,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
@@ -121,7 +122,7 @@ export class StandardMetrics {
    * @internal
    */
   public recordSpan(span: ReadableSpan): void {
-    const durationMs = span.duration[0];
+    const durationMs = hrTimeToMilliseconds(span.duration);
     if (span.kind === SpanKind.SERVER) {
       this._incomingRequestDurationHistogram.record(durationMs, getRequestDimensions(span));
     } else {

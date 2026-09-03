@@ -140,10 +140,6 @@ class NodeHttpClient implements HttpClient {
 
       const res = await this.makeRequest(request, abortController, body);
 
-      if (timeoutId !== undefined) {
-        clearTimeout(timeoutId);
-      }
-
       const headers = getResponseHeaders(res);
 
       const status = res.statusCode ?? 0;
@@ -186,6 +182,10 @@ class NodeHttpClient implements HttpClient {
 
       return response;
     } finally {
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
+
       // clean up event listener
       if (request.abortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();
@@ -256,7 +256,11 @@ class NodeHttpClient implements HttpClient {
         if (typeof body === "string" || Buffer.isBuffer(body)) {
           req.end(body);
         } else if (isArrayBuffer(body)) {
-          req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
+          req.end(
+            ArrayBuffer.isView(body)
+              ? Buffer.from(body.buffer, body.byteOffset, body.byteLength)
+              : Buffer.from(body),
+          );
         } else {
           logger.error("Unrecognized body type", body);
           reject(new RestError("Unrecognized body type"));

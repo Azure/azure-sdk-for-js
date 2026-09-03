@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/core-client": ["../src/index.ts"],
+      "@azure-rest/core-client/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

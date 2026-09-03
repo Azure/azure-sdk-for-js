@@ -1,10 +1,14 @@
 {
   "name": "@azure/create-playwright",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "Package to setup @azure/playwright",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/create-playwright/README.md",
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/loadtesting/create-playwright"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -18,7 +22,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "type": "module",
@@ -36,11 +40,11 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Skipped.",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
     "execute:samples": "echo skipped",
     "extract-api": "echo skipped",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint package.json CHANGELOG.md README.md src",
     "lint:fix": "eslint package.json CHANGELOG.md README.md src --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -50,6 +54,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
+    "@azure/core-process": "^1.0.0",
     "prompts": "^2.4.2",
     "tslib": "^2.8.1"
   },
@@ -60,8 +65,12 @@
     "@azure/logger": "^1.1.4",
     "@types/node": "catalog:",
     "@types/prompts": "^2.4.9",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -76,18 +85,6 @@
       "Azure Playwright workspace": "https://learn.microsoft.com/azure/playwright-testing/"
     }
   },
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -99,6 +96,11 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

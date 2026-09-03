@@ -66,9 +66,6 @@ export async function main(): Promise<void> {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
   });
   console.log(`Run finished with status: ${run.status}`);
 

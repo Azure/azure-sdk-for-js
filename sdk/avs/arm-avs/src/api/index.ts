@@ -3,6 +3,6 @@
 
 export {
   createAzureVMwareSolutionAPI,
-  AzureVMwareSolutionAPIContext,
-  AzureVMwareSolutionAPIOptionalParams,
+  type AzureVMwareSolutionAPIContext,
+  type AzureVMwareSolutionAPIOptionalParams,
 } from "./azureVMwareSolutionAPIContext.js";

@@ -8,7 +8,7 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new ManagementGroupsAPI(new DefaultAzureCredential(), subscriptionId);
+    const client = new ManagementGroupsAPI(new DefaultAzureCredential());
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -16,7 +16,7 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new ManagementGroupsAPI(credential, subscriptionId);
+    const client = new ManagementGroupsAPI(credential);
   });
 
   it("SetLogLevel", async () => {

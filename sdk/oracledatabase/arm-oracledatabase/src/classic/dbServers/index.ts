@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { DbServer } from "../../models/models.js";
-import {
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { listByParent, get } from "../../api/dbServers/operations.js";
+import type {
   DbServersListByParentOptionalParams,
   DbServersGetOptionalParams,
 } from "../../api/dbServers/options.js";
-import { listByParent, get } from "../../api/dbServers/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DbServer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DbServers operations. */
 export interface DbServersOperations {

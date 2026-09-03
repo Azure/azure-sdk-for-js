@@ -1,0 +1,6 @@
+{
+  "extends": "../../../tsconfig.src.cjs.json",
+  "compilerOptions": {
+    "noFallthroughCasesInSwitch": false
+  }
+}

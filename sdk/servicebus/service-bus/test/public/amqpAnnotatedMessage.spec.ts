@@ -149,12 +149,12 @@ import { assert, should } from "./utils/chai.js";
         assert.equal(msgs.length, 1, "Unexpected number of messages");
 
         assert.equal(msgs[0]._rawAmqpMessage.header?.timeToLive, ttl);
-        assert.ok(
+        assert.isDefined(
           msgs[0]._rawAmqpMessage.properties,
           "Expecting valid 'msgs[0]._rawAmqpMessage.properties'",
         );
         const { absoluteExpiryTime, creationTime } = msgs[0]._rawAmqpMessage.properties!;
-        assert.ok(creationTime, "Expecting valid 'creationTime'");
+        assert.isDefined(creationTime, "Expecting valid 'creationTime'");
         assert.equal(creationTime! + ttl, absoluteExpiryTime);
       },
     );

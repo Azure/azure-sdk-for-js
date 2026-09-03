@@ -1,0 +1,27 @@
+# Known positional-parameter rename pairs that the customization layer applies
+# to operation signatures but does NOT propagate into function bodies or helper
+# invocations. Step 5b of SKILL.md walks this list: for each entry, fix the
+# body of the named file so it uses `new` wherever the regenerated signature
+# was rewritten from `old`.
+#
+# Add a new entry whenever a regen surfaces a TS2304 `Cannot find name '<old>'`
+# error in one of the files below (or in a new file). Use word-boundary regex
+# replacements only — see the "never use a global string-replace" gotcha in
+# SKILL.md Step 5b.
+#
+# Schema:
+#   - file: workspace-relative path under sdk/ai/ai-projects/
+#     old:  identifier as it appears in the emitted (spec) signature
+#     new:  identifier as the customization layer renames it
+#     note: optional free-form context
+
+renames:
+  - file: src/api/beta/agents/operations.ts
+    old: agentSessionId
+    new: sessionId
+  - file: src/api/beta/toolboxes/operations.ts
+    old: name
+    new: toolboxName
+  - file: src/classic/beta/toolboxes/index.ts
+    old: name
+    new: toolboxName

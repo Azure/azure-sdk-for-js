@@ -75,4 +75,11 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
     diag.info("AzureMonitorLogExporter shutting down");
     return this._sender.shutdown();
   }
+
+  /**
+   * Force flush
+   */
+  public async forceFlush(): Promise<void> {
+    return Promise.resolve();
+  }
 }

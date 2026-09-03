@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import type { GetKeyOptions, KeyVaultKey, RecoverDeletedKeyOptions } from "../../keysModels.js";
 import { tracingClient } from "../../tracing.js";
 import { getKeyFromKeyBundle } from "../../transformations.js";
@@ -13,8 +13,7 @@ import { KeyVaultKeyPollOperation } from "../keyVaultKeyPoller.js";
 /**
  * An interface representing the state of a delete key's poll operation
  */
-export interface RecoverDeletedKeyPollOperationState
-  extends KeyVaultKeyPollOperationState<KeyVaultKey> {}
+export interface RecoverDeletedKeyPollOperationState extends KeyVaultKeyPollOperationState<KeyVaultKey> {}
 
 export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   RecoverDeletedKeyPollOperationState,

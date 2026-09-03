@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
+import type { AgentsContext as Client } from "../index.js";
+import type { RunStep, _AgentsPagedResultRunStep } from "../../models/models.js";
 import {
   agentV1ErrorDeserializer,
-  RunStep,
   runStepDeserializer,
-  _AgentsPagedResultRunStep,
   _agentsPagedResultRunStepDeserializer,
 } from "../../models/models.js";
-import { RunStepsListRunStepsOptionalParams, RunStepsGetRunStepOptionalParams } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type {
+  RunStepsListRunStepsOptionalParams,
+  RunStepsGetRunStepOptionalParams,
+} from "./options.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listRunStepsSend(
   context: Client,
@@ -33,7 +29,7 @@ export function _listRunStepsSend(
     {
       threadId: threadId,
       runId: runId,
-      "include%5B%5D": !options?.include
+      "include[]": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;
@@ -94,13 +90,13 @@ export function _getRunStepSend(
   options: RunStepsGetRunStepOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api-version,include%5B%5D}",
+    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api-version,include[]}",
     {
       threadId: threadId,
       runId: runId,
       stepId: stepId,
       "api-version": context.apiVersion,
-      "include%5B%5D": !options?.include
+      "include[]": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;

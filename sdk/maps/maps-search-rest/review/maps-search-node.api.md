@@ -9,8 +9,10 @@ import type { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -316,6 +318,8 @@ export interface IntersectionOutput {
     secondaryStreet2?: string;
 }
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: SearchGetGeocoding200Response | SearchGetGeocodingDefaultResponse): response is SearchGetGeocodingDefaultResponse;
 
@@ -350,6 +354,8 @@ export type MapsSearchClient = Client & {
 export interface MapsSearchClientOptions extends ClientOptions {
     apiVersion?: string;
 }
+
+export { RestError }
 
 // @public
 export interface ReverseGeocodingBatchRequestBody {

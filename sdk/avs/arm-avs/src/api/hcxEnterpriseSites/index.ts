@@ -3,8 +3,8 @@
 
 export { $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  HcxEnterpriseSitesDeleteOptionalParams,
-  HcxEnterpriseSitesCreateOrUpdateOptionalParams,
-  HcxEnterpriseSitesGetOptionalParams,
-  HcxEnterpriseSitesListOptionalParams,
+  type HcxEnterpriseSitesDeleteOptionalParams,
+  type HcxEnterpriseSitesCreateOrUpdateOptionalParams,
+  type HcxEnterpriseSitesGetOptionalParams,
+  type HcxEnterpriseSitesListOptionalParams,
 } from "./options.js";

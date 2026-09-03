@@ -1,0 +1,11 @@
+{
+  "references": [
+    { "path": "./tsconfig.test.browser.public.json" },
+    { "path": "./tsconfig.test.browser.internal.json" }
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": true
+  },
+  "files": []
+}

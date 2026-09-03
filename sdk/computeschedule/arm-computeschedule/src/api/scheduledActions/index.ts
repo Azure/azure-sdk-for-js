@@ -21,6 +21,7 @@ export {
   virtualMachinesGetOperationStatus,
   virtualMachinesExecuteDelete,
   virtualMachinesExecuteCreate,
+  virtualMachinesExecuteCreateFlex,
   virtualMachinesExecuteStart,
   virtualMachinesExecuteHibernate,
   virtualMachinesExecuteDeallocate,
@@ -28,7 +29,7 @@ export {
   virtualMachinesSubmitHibernate,
   virtualMachinesSubmitDeallocate,
 } from "./operations.js";
-export {
+export type {
   ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ScheduledActionsCancelNextOccurrenceOptionalParams,
   ScheduledActionsEnableOptionalParams,
@@ -48,6 +49,7 @@ export {
   ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
   ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams,
   ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
   ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,

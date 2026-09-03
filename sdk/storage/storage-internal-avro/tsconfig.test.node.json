@@ -2,8 +2,8 @@
   "extends": "../../../tsconfig.test.node.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/storage-blob": ["./src/index.ts"],
-      "@azure/storage-blob/*": ["./src/*"],
+      "@azure/storage-internal-avro": ["./src/index.ts"],
+      "@azure/storage-internal-avro/*": ["./src/*"],
       "$internal/*": ["./src/*"]
     }
   },

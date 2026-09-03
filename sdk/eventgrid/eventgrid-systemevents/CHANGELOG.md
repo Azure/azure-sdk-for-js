@@ -1,10 +1,20 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
 
 ### Bugs Fixed
 
-- Add types that are missing from public API surface.
+### Other Changes
+
+## 1.1.0 (2026-06-25)
+
+### Features Added
+
+- Added types that were missing from the public API surface. Refer [PR #39235](https://github.com/Azure/azure-sdk-for-js/pull/39235/) for further details.
 
 ## 1.0.1 (2025-06-27)
 

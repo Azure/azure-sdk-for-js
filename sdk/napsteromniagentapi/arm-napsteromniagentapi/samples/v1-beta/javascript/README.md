@@ -1,0 +1,68 @@
+# @azure/arm-napsteromniagentapi client library samples for JavaScript (Beta)
+
+These sample programs show how to use the JavaScript client libraries for @azure/arm-napsteromniagentapi in some common scenarios.
+
+| **File Name**                                                                           | **Description**                                                                                                                                                                 |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [operationsListSample.js][operationslistsample]                                         | list the operations for the provider x-ms-original-file: 2025-12-24-preview/Operations_List_MaximumSet_Gen.json                                                                 |
+| [organizationsCreateOrUpdateSample.js][organizationscreateorupdatesample]               | create a OrganizationResource x-ms-original-file: 2025-12-24-preview/Organizations_CreateOrUpdate_MaximumSet_Gen.json                                                           |
+| [organizationsDeleteSample.js][organizationsdeletesample]                               | delete a OrganizationResource x-ms-original-file: 2025-12-24-preview/Organizations_Delete_MaximumSet_Gen.json                                                                   |
+| [organizationsGetSample.js][organizationsgetsample]                                     | get a OrganizationResource x-ms-original-file: 2025-12-24-preview/Organizations_Get_MaximumSet_Gen.json                                                                         |
+| [organizationsLatestLinkedSaaSSample.js][organizationslatestlinkedsaassample]           | returns the latest SaaS linked to the Napster organization of the underlying monitor. x-ms-original-file: 2025-12-24-preview/Organizations_LatestLinkedSaaS_MaximumSet_Gen.json |
+| [organizationsLinkSaaSSample.js][organizationslinksaassample]                           | links a new SaaS to the Napster organization of the underlying monitor. x-ms-original-file: 2025-12-24-preview/Organizations_LinkSaaS_MaximumSet_Gen.json                       |
+| [organizationsListByResourceGroupSample.js][organizationslistbyresourcegroupsample]     | list OrganizationResource resources by resource group x-ms-original-file: 2025-12-24-preview/Organizations_ListByResourceGroup_MaximumSet_Gen.json                              |
+| [organizationsListBySubscriptionSample.js][organizationslistbysubscriptionsample]       | list OrganizationResource resources by subscription ID x-ms-original-file: 2025-12-24-preview/Organizations_ListBySubscription_MaximumSet_Gen.json                              |
+| [organizationsUpdateSample.js][organizationsupdatesample]                               | update a OrganizationResource x-ms-original-file: 2025-12-24-preview/Organizations_Update_MaximumSet_Gen.json                                                                   |
+| [saaSOperationGroupActivateResourceSample.js][saasoperationgroupactivateresourcesample] | resolve the token to get the SaaS resource ID and activate the SaaS resource x-ms-original-file: 2025-12-24-preview/SaaSOperationGroup_ActivateResource_MaximumSet_Gen.json     |
+
+## Prerequisites
+
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+
+You need [an Azure subscription][freesub] to run these sample programs.
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
+
+## Setup
+
+To run the samples using the published version of the package:
+
+1. Install the dependencies using `npm`:
+
+```bash
+npm install
+```
+
+2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node operationsListSample.js
+```
+
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+
+```bash
+node operationsListSample.js
+```
+
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/operationsListSample.js
+[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/organizationsCreateOrUpdateSample.js
+[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/organizationsDeleteSample.js
+[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/organizationsGetSample.js
+[organizationslatestlinkedsaassample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/organizationsLatestLinkedSaaSSample.js
+[organizationslinksaassample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/organizationsLinkSaaSSample.js
+[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/organizationsListByResourceGroupSample.js
+[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/organizationsListBySubscriptionSample.js
+[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/organizationsUpdateSample.js
+[saasoperationgroupactivateresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/samples/v1-beta/javascript/saaSOperationGroupActivateResourceSample.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-napsteromniagentapi?view=azure-node-preview
+[freesub]: https://azure.microsoft.com/free/
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/napsteromniagentapi/arm-napsteromniagentapi/README.md

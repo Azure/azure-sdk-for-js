@@ -1,8 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { TokenCredential } from "@azure/core-auth";
+import type { ServiceClientOptions } from "@azure/core-client";
 import type { ServiceApiVersion } from "./Declarations/Constants.js";
-import type { ApplicationInsightsClientOptionalParams } from "./generated/index.js";
+import type { ClientOptions } from "@azure-rest/core-client";
+
+/**
+ * Optional parameters for the Application Insights client.
+ * Extends both ServiceClientOptions (for backward compatibility) and ClientOptions (REST client).
+ */
+export interface ApplicationInsightsClientOptionalParams
+  extends ServiceClientOptions, ClientOptions {
+  /** Breeze endpoint: https://dc.services.visualstudio.com */
+  host?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}
 
 /**
  * Provides configuration options for AzureMonitorTraceExporter.

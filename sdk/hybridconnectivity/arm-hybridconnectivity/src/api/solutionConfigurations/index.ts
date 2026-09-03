@@ -3,10 +3,10 @@
 
 export { syncNow, list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  SolutionConfigurationsSyncNowOptionalParams,
-  SolutionConfigurationsListOptionalParams,
-  SolutionConfigurationsDeleteOptionalParams,
-  SolutionConfigurationsUpdateOptionalParams,
-  SolutionConfigurationsCreateOrUpdateOptionalParams,
-  SolutionConfigurationsGetOptionalParams,
+  type SolutionConfigurationsSyncNowOptionalParams,
+  type SolutionConfigurationsListOptionalParams,
+  type SolutionConfigurationsDeleteOptionalParams,
+  type SolutionConfigurationsUpdateOptionalParams,
+  type SolutionConfigurationsCreateOrUpdateOptionalParams,
+  type SolutionConfigurationsGetOptionalParams,
 } from "./options.js";

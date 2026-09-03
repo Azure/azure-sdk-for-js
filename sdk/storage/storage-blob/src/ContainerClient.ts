@@ -7,9 +7,23 @@ import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import type { Container } from "./generated/src/operationsInterfaces/index.js";
+import type { UserDelegationKey } from "@azure/storage-common";
+import {
+  AnonymousCredential,
+  StorageResponseFormat,
+  StorageSharedKeyCredential,
+} from "@azure/storage-common";
+import type {
+  ContainerOperations,
+  BlobItem as BlobItemTsp,
+  ListBlobsResponse,
+  ListBlobsHierarchicalResponse,
+} from "./generated/index.js";
+import type {
+  BlobPrefix as BlobPrefixInternal,
+  ContainerListBlobHierarchySegmentApacheArrowHeaders,
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
+} from "./generated-classic-models.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -21,7 +35,6 @@ import type {
   ContainerFilterBlobsHeaders,
   ContainerFilterBlobsResponse,
   ContainerGetAccessPolicyHeaders,
-  ContainerGetAccessPolicyResponseModel,
   ContainerGetAccountInfoResponse,
   ContainerGetPropertiesResponse,
   ContainerListBlobFlatSegmentHeaders,
@@ -43,27 +56,42 @@ import type {
   Tags,
   ContainerRequestConditions,
   ModifiedAccessConditions,
+  BlobClientConfig,
+  ContainerClientOptions,
+} from "./models.js";
+import {
+  fromTspImmutabilityPolicyMode,
+  metadataToRawHeaders,
+  rawHeadersToMetadata,
 } from "./models.js";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import { tracingClient } from "./utils/tracing.js";
-import type { WithResponse } from "./utils/utils.common.js";
+import type { HttpResponse, WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   assertResponse,
+  adjustResponse,
   BlobNameToString,
-  ConvertInternalResponseOfListBlobFlat,
-  ConvertInternalResponseOfListBlobHierarchy,
   EscapePath,
   extractConnectionStringParts,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
+  resolveResponseFormat,
   toTags,
   truncatedISO8061Date,
+  ConvertInternalResponseOfListBlobFlat,
+  ConvertInternalResponseOfListBlobHierarchy,
 } from "./utils/utils.common.js";
+import { parseBlobListArrowResponse } from "./utils/blobListArrowParser.js";
+import {
+  deserializeListBlobFlatSegmentXml,
+  deserializeListBlobHierarchySegmentXml,
+} from "./utils/blobListXmlParser.js";
+import { ApacheArrowContentType } from "./utils/constants.js";
 import type { ContainerSASPermissions } from "./sas/ContainerSASPermissions.js";
 import {
   generateBlobSASQueryParameters,
@@ -84,12 +112,8 @@ import type {
   ContainerDeleteHeaders,
   ContainerSetMetadataHeaders,
   ContainerSetAccessPolicyHeaders,
-  ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
-  ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
-  ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerGetAccountInfoHeaders,
-} from "./generated/src/index.js";
-import type { UserDelegationKey } from "./BlobServiceClient.js";
+} from "./generated-classic-models.js";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -366,6 +390,20 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    * specify one or more datasets to include in the response.
    */
   include?: ListBlobsIncludeItem[];
+  /** Specifies the relative path to list paths from.
+   * For non-recursive list, only one entity level is supported;
+   * For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
+  /**
+   * Specifies the format the service should use to return list results.
+   * Defaults to {@link StorageResponseFormat.Auto}.
+   */
+  responseFormat?: StorageResponseFormat;
+  /**
+   * Optional. Specifies the relative path within the container before which listing ends.
+   * Only supported when the response format is {@link StorageResponseFormat.Arrow}.
+   */
+  endBefore?: string;
 }
 
 /**
@@ -503,6 +541,20 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blob legal hold be returned in the response.
    */
   includeLegalHold?: boolean;
+  /** Specifies the relative path to list paths from.
+   * For non-recursive list, only one entity level is supported;
+   * For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
+  /**
+   * Specifies the format the service should use to return list results.
+   * Defaults to {@link StorageResponseFormat.Auto}.
+   */
+  responseFormat?: StorageResponseFormat;
+  /**
+   * Optional. Specifies the relative path within the container before which listing ends.
+   * Only supported when the response format is {@link StorageResponseFormat.Arrow}.
+   */
+  endBefore?: string;
 }
 
 /**
@@ -588,15 +640,102 @@ export interface ContainerGetAccountInfoOptions extends CommonOptions {
 }
 
 /**
+ * Maps a typespec generated internal blob item (with a structured `name`) to the public
+ * {@link BlobItem} shape, decoding the name and parsing tags / object-replication
+ * metadata. Shared by the XML and Apache Arrow list paths so they cannot drift.
+ */
+function mapBlobItemTsp(blobItemTsp: BlobItemTsp): BlobItem {
+  const blobItem: BlobItem = {
+    ...blobItemTsp,
+    metadata: blobItemTsp.metadata?.additionalProperties,
+    properties: {
+      ...blobItemTsp.properties,
+      immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+        blobItemTsp.properties.immutabilityPolicyMode,
+      ),
+    },
+    name: BlobNameToString(blobItemTsp.name),
+    tags: toTags(blobItemTsp.blobTags),
+    objectReplicationSourceProperties: parseObjectReplicationRecord(
+      blobItemTsp.objectReplicationMetadata?.additionalProperties,
+    ),
+  };
+  return blobItem;
+}
+
+/**
+ * Maps a generated internal blob prefix (with a structured `name`) to the public
+ * {@link BlobPrefix} shape. Shared by the XML and Apache Arrow list paths.
+ */
+function mapBlobPrefixInternal(blobPrefixInternal: BlobPrefixInternal): BlobPrefix {
+  const blobPrefix: BlobPrefix = {
+    ...blobPrefixInternal,
+    name: BlobNameToString(blobPrefixInternal.name),
+  };
+  return blobPrefix;
+}
+
+/**
+ * Returns true when a raw List Blobs response was actually returned as Apache Arrow.
+ * The service falls back to XML for accounts that do not support Apache Arrow, so the
+ * Content-Type header (ignoring parameters such as charset) is how the two are told apart.
+ */
+function isApacheArrow(contentType: string | undefined): boolean {
+  return (contentType ?? "").split(";")[0].trim().toLowerCase() === ApacheArrowContentType;
+}
+
+/**
+ * Attaches the response metadata common to every List Blobs segment response - the
+ * request IDs, service version, date, content-type, and `_response` - so the
+ * flat/hierarchy and Apache Arrow/XML paths don't each repeat it.
+ *
+ * The raw stream body has already been consumed by the caller, so the stream
+ * operation's `_response` carries only headers/status. To honor the
+ * `ContainerListBlob*SegmentResponse` contract (whose `_response.parsedBody` is
+ * non-optional), the caller passes the segment it just parsed as `parsedBody`, which
+ * mirrors what the XML path exposes. `bodyAsText` carries the decoded XML for the
+ * XML-fallback path, or `""` for a native Apache Arrow body (binary, no text form).
+ */
+function withListSegmentResponseMetadata<T>(
+  base: Omit<T, "clientRequestId" | "requestId" | "version" | "date" | "contentType" | "_response">,
+  rawResponse: {
+    clientRequestId?: string;
+    requestId?: string;
+    version?: string;
+    date?: Date;
+    contentType?: string;
+    _response: object;
+  },
+  parsedBody: unknown,
+  bodyAsText = "",
+): T {
+  return {
+    ...base,
+    clientRequestId: rawResponse.clientRequestId,
+    requestId: rawResponse.requestId,
+    version: rawResponse.version,
+    date: rawResponse.date,
+    contentType: rawResponse.contentType,
+    _response: {
+      ...rawResponse._response,
+      bodyAsText,
+      parsedBody,
+    },
+  } as T;
+}
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  */
 export class ContainerClient extends StorageClient {
   /**
    * containerContext provided by protocol layer.
    */
-  private containerContext: Container;
+  private containerContext: ContainerOperations;
 
   private _containerName: string;
+
+  private blobClientConfig?: BlobClientConfig;
 
   /**
    * The name of the container.
@@ -638,7 +777,7 @@ export class ContainerClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: ContainerClientOptions,
   );
   /**
    * Creates an instance of ContainerClient.
@@ -653,24 +792,20 @@ export class ContainerClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: ContainerClientOptions,
   ) {
     let pipeline: PipelineLike;
     let url: string;
     options = options || {};
     if (isPipelineLike(credentialOrPipelineOrContainerName)) {
-      // (url: string, pipeline: Pipeline)
+      // (url: string, pipeline: Pipeline, options?: BlobClientConfig)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
@@ -730,6 +865,7 @@ export class ContainerClient extends StorageClient {
     super(url, pipeline);
     this._containerName = this.getContainerNameFromUrl();
     this.containerContext = this.storageClientContext.container;
+    this.blobClientConfig = options;
   }
 
   /**
@@ -761,8 +897,18 @@ export class ContainerClient extends StorageClient {
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
     return tracingClient.withSpan("ContainerClient-create", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(options.metadata);
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
-        await this.containerContext.create(updatedOptions),
+        adjustResponse(
+          await this.containerContext.create({
+            ...updatedOptions,
+            ...updatedOptions.containerEncryptionScope,
+            requestOptions: {
+              headers: metadataHeaders,
+            },
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        ),
       );
     });
   }
@@ -794,6 +940,7 @@ export class ContainerClient extends StorageClient {
             return {
               succeeded: false,
               ...e.response?.parsedHeaders,
+              errorCode: e.details?.errorCode,
               _response: e.response,
             };
           } else {
@@ -837,7 +984,11 @@ export class ContainerClient extends StorageClient {
    * @returns A new BlobClient object for the given blob name.
    */
   public getBlobClient(blobName: string): BlobClient {
-    return new BlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new BlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -846,7 +997,11 @@ export class ContainerClient extends StorageClient {
    * @param blobName - An append blob name
    */
   public getAppendBlobClient(blobName: string): AppendBlobClient {
-    return new AppendBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new AppendBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -877,7 +1032,11 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {
-    return new BlockBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new BlockBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -886,7 +1045,11 @@ export class ContainerClient extends StorageClient {
    * @param blobName - A page blob name
    */
   public getPageBlobClient(blobName: string): PageBlobClient {
-    return new PageBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new PageBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -912,13 +1075,16 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getProperties",
       options,
       async (updatedOptions) => {
-        return assertResponse<ContainerGetPropertiesHeaders, ContainerGetPropertiesHeaders>(
+        const result = adjustResponse(
           await this.containerContext.getProperties({
             abortSignal: options.abortSignal,
-            ...options.conditions,
+            ...updatedOptions.conditions,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
+        (result as any).metadata = rawHeadersToMetadata(result._response.headers.rawHeaders());
+        return assertResponse<ContainerGetPropertiesHeaders, ContainerGetPropertiesHeaders>(result);
       },
     );
   }
@@ -939,12 +1105,14 @@ export class ContainerClient extends StorageClient {
 
     return tracingClient.withSpan("ContainerClient-delete", options, async (updatedOptions) => {
       return assertResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>(
-        await this.containerContext.delete({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        }),
+        adjustResponse(
+          await this.containerContext.deleteContainer({
+            abortSignal: options.abortSignal,
+            ...options.conditions,
+            ...updatedOptions,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        ),
       );
     });
   }
@@ -975,6 +1143,7 @@ export class ContainerClient extends StorageClient {
             return {
               succeeded: false,
               ...e.response?.parsedHeaders,
+              errorCode: e.details?.errorCode,
               _response: e.response,
             };
           }
@@ -1015,13 +1184,17 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>(
-          await this.containerContext.setMetadata({
-            abortSignal: options.abortSignal,
-            leaseAccessConditions: options.conditions,
-            metadata,
-            modifiedAccessConditions: options.conditions,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.containerContext.setMetadata({
+              abortSignal: options.abortSignal,
+              ...options.conditions,
+              ...updatedOptions,
+              requestOptions: {
+                headers: metadataToRawHeaders(metadata),
+              },
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -1049,32 +1222,28 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getAccessPolicy",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
-          ContainerGetAccessPolicyResponseModel,
-          ContainerGetAccessPolicyHeaders,
-          SignedIdentifierModel
-        >(
+        const response = adjustResponse(
           await this.containerContext.getAccessPolicy({
             abortSignal: options.abortSignal,
-            leaseAccessConditions: options.conditions,
+            leaseId: options.conditions?.leaseId,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
 
-        const res: ContainerGetAccessPolicyResponse = {
+        const res = {
           _response: response._response,
           blobPublicAccess: response.blobPublicAccess,
           date: response.date,
           etag: response.etag,
-          errorCode: response.errorCode,
           lastModified: response.lastModified,
           requestId: response.requestId,
           clientRequestId: response.clientRequestId,
-          signedIdentifiers: [],
+          signedIdentifiers: [] as SignedIdentifier[],
           version: response.version,
         };
 
-        for (const identifier of response) {
+        for (const identifier of response.items || []) {
           let accessPolicy: any = undefined;
           if (identifier.accessPolicy) {
             accessPolicy = {
@@ -1095,8 +1264,13 @@ export class ContainerClient extends StorageClient {
             id: identifier.id,
           });
         }
-
-        return res;
+        return res as unknown as WithResponse<
+          {
+            signedIdentifiers: SignedIdentifier[];
+          } & ContainerGetAccessPolicyHeaders,
+          ContainerGetAccessPolicyHeaders,
+          SignedIdentifierModel
+        >;
       },
     );
   }
@@ -1145,14 +1319,16 @@ export class ContainerClient extends StorageClient {
         }
 
         return assertResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>(
-          await this.containerContext.setAccessPolicy({
-            abortSignal: options.abortSignal,
-            access,
-            containerAcl: acl,
-            leaseAccessConditions: options.conditions,
-            modifiedAccessConditions: options.conditions,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.containerContext.setAccessPolicy({
+              containerAcl: { items: acl },
+              abortSignal: options.abortSignal,
+              access,
+              ...options.conditions,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -1194,6 +1370,7 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     body: HttpRequestBody,
     contentLength: number,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: BlockBlobUploadOptions = {},
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
     return tracingClient.withSpan(
@@ -1229,6 +1406,7 @@ export class ContainerClient extends StorageClient {
       let blobClient = this.getBlobClient(blobName);
       if (options.versionId) {
         blobClient = blobClient.withVersion(options.versionId);
+        delete updatedOptions.versionId; // already put in url by `.withVersion` above.
       }
       return blobClient.delete(updatedOptions);
     });
@@ -1252,42 +1430,136 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobFlatSegment",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
-          ListBlobsFlatSegmentResponseInternal,
-          ContainerListBlobFlatSegmentHeaders,
-          ListBlobsFlatSegmentResponseInternal
-        >(
-          await this.containerContext.listBlobFlatSegment({
-            marker,
+        if (resolveResponseFormat(options.responseFormat) === StorageResponseFormat.Arrow) {
+          return this.listBlobFlatSegmentApacheArrow(marker, {
             ...options,
+            tracingOptions: updatedOptions.tracingOptions,
+          });
+        }
+        const original = adjustResponse(
+          await this.containerContext.listBlobs({
+            marker,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
-
-        const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
-          ...response,
-          _response: {
-            ...response._response,
-            parsedBody: ConvertInternalResponseOfListBlobFlat(response._response.parsedBody),
-          }, // _response is made non-enumerable
+        const transformed: ListBlobsFlatSegmentResponse & {
+          _response: HttpResponse;
+        } = {
+          ...original,
+          _response: original._response, // non-enumerable
           segment: {
-            ...response.segment,
-            blobItems: response.segment.blobItems.map((blobItemInternal) => {
+            // ...original.segment,
+            blobItems: original.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,
+                properties: {
+                  ...blobItemInternal.properties,
+                  immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+                    blobItemInternal.properties.immutabilityPolicyMode,
+                  ),
+                },
+                metadata: blobItemInternal.metadata?.additionalProperties,
                 name: BlobNameToString(blobItemInternal.name),
                 tags: toTags(blobItemInternal.blobTags),
                 objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata,
+                  blobItemInternal.objectReplicationMetadata?.additionalProperties,
                 ),
               };
               return blobItem;
             }),
           },
         };
-        return wrappedResponse;
+        const response = assertResponse<
+          ListBlobsFlatSegmentResponse,
+          ContainerListBlobFlatSegmentHeaders,
+          ListBlobsFlatSegmentResponseModel
+        >(transformed);
+
+        return response;
       },
     );
+  }
+
+  /**
+   * Lists a single segment of blobs using the Apache Arrow response format. The service
+   * returns a raw stream that is either Apache Arrow or XML (when the account does not
+   * support Apache Arrow); both formats are parsed here and produce the same result.
+   *
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to Container List Blob Flat Segment operation.
+   */
+  private async listBlobFlatSegmentApacheArrow(
+    marker: string | undefined,
+    options: ContainerListBlobsSegmentOptions,
+  ): Promise<ContainerListBlobFlatSegmentResponse> {
+    const rawResponse = await this.containerContext.listBlobFlatSegmentApacheArrow({
+      marker,
+      ...options,
+    });
+
+    const adjustedResponse = adjustResponse(rawResponse);
+
+    // The service falls back to XML for accounts that do not support Apache Arrow.
+    // The Content-Type header indicates which format we actually received. When it
+    // is not Apache Arrow, parse the already-received XML stream in place
+    // instead of issuing a second request.
+    if (!isApacheArrow(rawResponse.contentType)) {
+      const { parsed: nonArrowResponse, bodyAsText } =
+        await deserializeListBlobFlatSegmentXml(rawResponse);
+      const converted1 = ConvertInternalResponseOfListBlobFlat(nonArrowResponse);
+      return {
+        ...adjustedResponse,
+        _response: { ...adjustedResponse._response, bodyAsText }, // _response is made non-enumerable
+        ...converted1,
+        segment: {
+          blobItems: converted1.segment.blobItems.map((b) => {
+            return {
+              ...b,
+              tags: toTags(b.blobTags),
+            };
+          }),
+        },
+      } as unknown as WithResponse<
+        ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
+        ContainerListBlobFlatSegmentHeaders,
+        ListBlobsFlatSegmentResponseModel
+      >;
+    }
+
+    const parsed = await parseBlobListArrowResponse(rawResponse);
+    const serviceUrl = new URL(this.url);
+    const containerPath = serviceUrl.pathname.replace(/\/+$/, "");
+    serviceUrl.pathname = containerPath.slice(0, containerPath.lastIndexOf("/") + 1);
+    serviceUrl.search = "";
+    serviceUrl.hash = "";
+    const serviceEndpoint = serviceUrl.toString();
+    const arrowResponse: ListBlobsResponse = {
+      serviceEndpoint,
+      containerName: this.containerName,
+      prefix: options.prefix,
+      marker,
+      maxPageSize: options.maxPageSize,
+      blobItems: parsed.blobItems,
+      continuationToken: parsed.nextMarker,
+    };
+    const converted2 = ConvertInternalResponseOfListBlobFlat(arrowResponse);
+    return {
+      ...adjustedResponse,
+      ...converted2,
+      segment: {
+        blobItems: converted2.segment.blobItems.map((b) => {
+          return {
+            ...b,
+            tags: toTags(b.blobTags),
+          };
+        }),
+      },
+    } as unknown as WithResponse<
+      ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
+      ContainerListBlobFlatSegmentHeaders,
+      ListBlobsFlatSegmentResponseModel
+    >;
   }
 
   /**
@@ -1310,38 +1582,45 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobHierarchySegment",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<
-          ContainerListBlobHierarchySegmentResponseModel,
-          ContainerListBlobHierarchySegmentHeaders,
-          ListBlobsHierarchySegmentResponseInternal
-        >(
+        if (resolveResponseFormat(options.responseFormat) === StorageResponseFormat.Arrow) {
+          return this.listBlobHierarchySegmentApacheArrow(delimiter, marker, {
+            ...options,
+            tracingOptions: updatedOptions.tracingOptions,
+          });
+        }
+        const original = adjustResponse(
           await this.containerContext.listBlobHierarchySegment(delimiter, {
             marker,
-            ...options,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
-
-        const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
-          ...response,
-          _response: {
-            ...response._response,
-            parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody),
-          }, // _response is made non-enumerable
+        const transformed: ListBlobsHierarchySegmentResponseModel & {
+          _response: HttpResponse;
+        } = {
+          ...original,
+          _response: original._response,
           segment: {
-            ...response.segment,
-            blobItems: response.segment.blobItems.map((blobItemInternal) => {
+            ...original.hierarchicalList,
+            blobItems: original.hierarchicalList.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,
+                properties: {
+                  ...blobItemInternal.properties,
+                  immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+                    blobItemInternal.properties.immutabilityPolicyMode,
+                  ),
+                },
+                metadata: blobItemInternal.metadata?.additionalProperties,
                 name: BlobNameToString(blobItemInternal.name),
                 tags: toTags(blobItemInternal.blobTags),
                 objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata,
+                  blobItemInternal.objectReplicationMetadata?.additionalProperties,
                 ),
               };
               return blobItem;
             }),
-            blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
+            blobPrefixes: original.hierarchicalList.blobPrefixes?.map((blobPrefixInternal) => {
               const blobPrefix: BlobPrefix = {
                 ...blobPrefixInternal,
                 name: BlobNameToString(blobPrefixInternal.name),
@@ -1350,8 +1629,96 @@ export class ContainerClient extends StorageClient {
             }),
           },
         };
-        return wrappedResponse;
+        const response = assertResponse<
+          ListBlobsHierarchySegmentResponse,
+          ContainerListBlobHierarchySegmentHeaders,
+          ListBlobsHierarchySegmentResponseModel
+        >(transformed);
+
+        return response;
       },
+    );
+  }
+
+  /**
+   * Lists a single segment of blobs by hierarchy using the Apache Arrow response format.
+   * The service returns a raw stream that is either Apache Arrow or XML (when the account
+   * does not support Apache Arrow); both formats are parsed here and produce the same result.
+   *
+   * @param delimiter - The character or string used to define the virtual hierarchy
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to Container List Blob Hierarchy Segment operation.
+   */
+  private async listBlobHierarchySegmentApacheArrow(
+    delimiter: string,
+    marker: string | undefined,
+    options: ContainerListBlobsSegmentOptions,
+  ): Promise<ContainerListBlobHierarchySegmentResponse> {
+    const rawResponse = assertResponse<
+      ContainerListBlobHierarchySegmentApacheArrowResponse,
+      ContainerListBlobHierarchySegmentApacheArrowHeaders
+    >(
+      await this.containerContext.listBlobHierarchySegmentApacheArrow(delimiter, {
+        marker,
+        ...options,
+      }),
+    );
+
+    // The service falls back to XML for accounts that do not support Apache Arrow.
+    // The Content-Type header indicates which format we actually received. When it
+    // is not Apache Arrow, parse the already-received XML stream in place instead of
+    // issuing a second request.
+    if (!isApacheArrow(rawResponse.contentType)) {
+      const { parsed: internalResponse, bodyAsText } =
+        await deserializeListBlobHierarchySegmentXml(rawResponse);
+      return withListSegmentResponseMetadata<ContainerListBlobHierarchySegmentResponse>(
+        {
+          ...internalResponse,
+          segment: {
+            blobItems: (internalResponse.hierarchicalList?.blobItems ?? []).map(mapBlobItemTsp),
+            blobPrefixes:
+              internalResponse.hierarchicalList?.blobPrefixes?.map(mapBlobPrefixInternal),
+          },
+        },
+        rawResponse,
+        ConvertInternalResponseOfListBlobHierarchy(internalResponse),
+        bodyAsText,
+      );
+    }
+
+    const parsed = await parseBlobListArrowResponse(rawResponse);
+    const serviceUrl = new URL(this.url);
+    const containerPath = serviceUrl.pathname.replace(/\/+$/, "");
+    serviceUrl.pathname = containerPath.slice(0, containerPath.lastIndexOf("/") + 1);
+    serviceUrl.search = "";
+    serviceUrl.hash = "";
+    const serviceEndpoint = serviceUrl.toString();
+    const internalResponse: ListBlobsHierarchicalResponse = {
+      serviceEndpoint,
+      containerName: this.containerName,
+      prefix: options.prefix,
+      marker,
+      maxPageSize: options.maxPageSize,
+      delimiter,
+      hierarchicalList: { blobItems: parsed.blobItems, blobPrefixes: parsed.blobPrefixes },
+      continuationToken: parsed.nextMarker,
+    };
+    return withListSegmentResponseMetadata<ContainerListBlobHierarchySegmentResponse>(
+      {
+        serviceEndpoint,
+        containerName: this.containerName,
+        prefix: options.prefix,
+        marker,
+        maxPageSize: options.maxPageSize,
+        delimiter,
+        segment: {
+          blobItems: parsed.blobItems.map(mapBlobItemTsp),
+          blobPrefixes: parsed.blobPrefixes.map(mapBlobPrefixInternal),
+        },
+        continuationToken: parsed.nextMarker,
+      },
+      rawResponse,
+      ConvertInternalResponseOfListBlobHierarchy(internalResponse),
     );
   }
 
@@ -1389,8 +1756,7 @@ export class ContainerClient extends StorageClient {
   private async *listItems(
     options: ContainerListBlobsSegmentOptions = {},
   ): AsyncIterableIterator<BlobItem> {
-    let marker: string | undefined;
-    for await (const listBlobsFlatSegmentResponse of this.listSegments(marker, options)) {
+    for await (const listBlobsFlatSegmentResponse of this.listSegments(undefined, options)) {
       yield* listBlobsFlatSegmentResponse.segment.blobItems;
     }
   }
@@ -1465,8 +1831,17 @@ export class ContainerClient extends StorageClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listBlobsFlat(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ContainerListBlobsOptions = {},
   ): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse> {
+    if (
+      options.endBefore !== undefined &&
+      resolveResponseFormat(options.responseFormat) !== StorageResponseFormat.Arrow
+    ) {
+      throw new RangeError(
+        "The 'endBefore' option is only supported when 'responseFormat' is StorageResponseFormat.Arrow.",
+      );
+    }
     const include: ListBlobsIncludeItem[] = [];
     if (options.includeCopy) {
       include.push("copy");
@@ -1576,10 +1951,9 @@ export class ContainerClient extends StorageClient {
     delimiter: string,
     options: ContainerListBlobsSegmentOptions = {},
   ): AsyncIterableIterator<({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem)> {
-    let marker: string | undefined;
     for await (const listBlobsHierarchySegmentResponse of this.listHierarchySegments(
       delimiter,
-      marker,
+      undefined,
       options,
     )) {
       const segment = listBlobsHierarchySegmentResponse.segment;
@@ -1703,6 +2077,15 @@ export class ContainerClient extends StorageClient {
       throw new RangeError("delimiter should contain one or more characters");
     }
 
+    if (
+      options.endBefore !== undefined &&
+      resolveResponseFormat(options.responseFormat) !== StorageResponseFormat.Arrow
+    ) {
+      throw new RangeError(
+        "The 'endBefore' option is only supported when 'responseFormat' is StorageResponseFormat.Arrow.",
+      );
+    }
+
     const include: ListBlobsIncludeItem[] = [];
     if (options.includeCopy) {
       include.push("copy");
@@ -1800,13 +2183,14 @@ export class ContainerClient extends StorageClient {
           ContainerFilterBlobsHeaders,
           FilterBlobSegmentModel
         >(
-          await this.containerContext.filterBlobs({
-            abortSignal: options.abortSignal,
-            where: tagFilterSqlExpression,
-            marker,
-            maxPageSize: options.maxPageSize,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
+              abortSignal: options.abortSignal,
+              marker,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
 
         const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {
@@ -1870,10 +2254,9 @@ export class ContainerClient extends StorageClient {
     tagFilterSqlExpression: string,
     options: ContainerFindBlobsByTagsSegmentOptions = {},
   ): AsyncIterableIterator<FilterBlobItem> {
-    let marker: string | undefined;
     for await (const segment of this.findBlobsByTagsSegments(
       tagFilterSqlExpression,
-      marker,
+      undefined,
       options,
     )) {
       yield* segment.blobs;
@@ -2010,10 +2393,13 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>(
-          await this.containerContext.getAccountInfo({
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.containerContext.getAccountInfo({
+              abortSignal: options.abortSignal,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -2055,7 +2441,9 @@ export class ContainerClient extends StorageClient {
 
       return containerName;
     } catch (error: any) {
-      throw new Error("Unable to extract containerName with provided information.");
+      throw new Error("Unable to extract containerName with provided information.", {
+        cause: error,
+      });
     }
   }
 

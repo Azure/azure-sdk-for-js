@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a WorkloadNetworkVirtualMachine
  *
  * @summary get a WorkloadNetworkVirtualMachine
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_GetVirtualMachine.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_GetVirtualMachine.json
  */
 async function workloadNetworksGetVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

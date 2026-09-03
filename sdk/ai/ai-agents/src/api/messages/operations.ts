@@ -1,35 +1,84 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
-import {
-  agentV1ErrorDeserializer,
+import type { AgentsContext as Client } from "../index.js";
+import type {
   MessageRole,
   MessageInputContent,
-  messageInputContentSerializer,
-  messageAttachmentArraySerializer,
   ThreadMessage,
-  threadMessageDeserializer,
   _AgentsPagedResultThreadMessage,
-  _agentsPagedResultThreadMessageDeserializer,
+  MessageDeletionStatus,
 } from "../../models/models.js";
 import {
+  agentV1ErrorDeserializer,
+  messageInputContentSerializer,
+  messageAttachmentArraySerializer,
+  threadMessageDeserializer,
+  _agentsPagedResultThreadMessageDeserializer,
+  messageDeletionStatusDeserializer,
+} from "../../models/models.js";
+import type {
+  MessagesDeleteOptionalParams,
   MessagesUpdateMessageOptionalParams,
   MessagesGetMessageOptionalParams,
   MessagesListMessagesOptionalParams,
   MessagesCreateMessageOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _$deleteSend(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: MessagesDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/threads/{threadId}/messages/{messageId}{?api-version}",
+    {
+      threadId: threadId,
+      messageId: messageId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MessageDeletionStatus> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return messageDeletionStatusDeserializer(result.body);
+}
+
+/** Deletes an existing message on an existing thread. */
+export async function $delete(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: MessagesDeleteOptionalParams = { requestOptions: {} },
+): Promise<MessageDeletionStatus> {
+  const result = await _$deleteSend(context, threadId, messageId, options);
+  return _$deleteDeserialize(result);
+}
 
 export function _updateMessageSend(
   context: Client,

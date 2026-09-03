@@ -315,13 +315,13 @@ describe("serviceBusClient unit tests", () => {
     it("unique client identifier is created if not specified via options", () => {
       const client1 = new ServiceBusClient(connectionString);
       const client2 = new ServiceBusClient(connectionString);
-      assert.ok(client1.identifier, "expect valid identifier for client1");
-      assert.ok(client2.identifier, "expect valid identifier for client2");
+      assert.isDefined(client1.identifier, "expect valid identifier for client1");
+      assert.isDefined(client2.identifier, "expect valid identifier for client2");
       assert.notEqual(client1.identifier, client2.identifier, "client identifier should be unique");
       const uuidRegex =
         /^testnamespace-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-      assert.ok(uuidRegex.test(client1.identifier), "expect random identifier for client1");
-      assert.ok(uuidRegex.test(client2.identifier), "expect random identifier for client2");
+      assert.isTrue(uuidRegex.test(client1.identifier), "expect random identifier for client1");
+      assert.isTrue(uuidRegex.test(client2.identifier), "expect random identifier for client2");
     });
 
     it("unique sender identifier is created if not specified via options", () => {
@@ -331,7 +331,7 @@ describe("serviceBusClient unit tests", () => {
       const uuidRegex =
         /^testEntityPath-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-      assert.ok(
+      assert.isTrue(
         uuidRegex.test((sender as ServiceBusSenderImpl)["_sender"]["identifier"]),
         "expect random receiver identifier",
       );
@@ -343,7 +343,7 @@ describe("serviceBusClient unit tests", () => {
       const uuidRegex =
         /^testEntityPath-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-      assert.ok(
+      assert.isTrue(
         uuidRegex.test((receiver as unknown as MessageReceiver)["identifier"]),
         "expect random receiver identifier",
       );
@@ -432,7 +432,7 @@ describe("serviceBusClient unit tests", () => {
               /^thetopic\/Subscriptions\/thesubscription-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
           }
 
-          assert.ok(
+          assert.isTrue(
             uuidRegex.test((receiver as unknown as ServiceBusSessionReceiver)["identifier"]),
             "expect random session receiver identifier",
           );

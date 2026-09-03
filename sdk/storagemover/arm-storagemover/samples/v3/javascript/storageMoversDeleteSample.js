@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a Storage Mover resource.
  *
  * @summary deletes a Storage Mover resource.
- * x-ms-original-file: 2025-07-01/StorageMovers_Delete.json
+ * x-ms-original-file: 2025-12-01/StorageMovers_Delete.json
  */
 async function storageMoversDelete() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/durabletask/arm-durabletask)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-durabletask)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-durabletask?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-durabletask)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/durabletask/arm-durabletask/samples)
 
 ## Getting started
@@ -65,11 +65,11 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { DurableTaskClient } from "@azure/arm-durabletask";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new DurableTaskClient(credential, subscriptionId);
 ```
 

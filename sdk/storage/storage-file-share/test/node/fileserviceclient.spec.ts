@@ -7,25 +7,51 @@ import {
   getSoftDeleteBSUWithDefaultCredential,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import type { StorageSharedKeyCredential, ShareItem } from "../../src/index.js";
 import { ShareServiceClient, newPipeline } from "../../src/index.js";
-import { delay, Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it("IPv6 Test", async () => {
+    const accountName = "storageaccount";
+
+    let shareServiceURL = `https://${accountName}-ipv6.file.core.windows.net/`;
+    let shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary-ipv6.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary-dualstack.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-dualstack.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-something.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName + "-something");
   });
 
   it("can be created with a url and a credential", async () => {
@@ -35,10 +61,10 @@ describe("FileServiceClient Node.js only", () => {
     configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -51,10 +77,10 @@ describe("FileServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -66,10 +92,10 @@ describe("FileServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created from a connection string", async () => {
@@ -78,8 +104,8 @@ describe("FileServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 
   it("can be created from a connection string and an option bag", async () => {
@@ -96,8 +122,8 @@ describe("FileServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 });
 
@@ -105,9 +131,7 @@ describe("FileServiceClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
@@ -121,19 +145,19 @@ describe("FileServiceClient Node.js only - OAuth", () => {
 
     const result = (await serviceClient.listShares().byPage().next()).value;
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(result.shareItems!.length >= 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.shareItems!.length, 0);
 
     if (result.shareItems!.length > 0) {
       const share = result.shareItems![0];
-      assert.ok(share.name.length > 0);
-      assert.ok(share.properties.etag.length > 0);
-      assert.ok(share.properties.lastModified);
+      assert.isAbove(share.name.length, 0);
+      assert.isAbove(share.properties.etag.length, 0);
+      assert.isDefined(share.properties.lastModified);
     }
   });
 
@@ -152,16 +176,16 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     for await (const share of serviceClient.listShares({ includeDeleted: true })) {
       if (share.name === shareClient.name) {
         found = true;
-        assert.ok(share.version);
-        assert.ok(share.deleted);
-        assert.ok(share.properties.deletedTime);
-        assert.ok(share.properties.remainingRetentionDays);
+        assert.isDefined(share.version);
+        assert.isDefined(share.deleted);
+        assert.isDefined(share.properties.deletedTime);
+        assert.isDefined(share.properties.remainingRetentionDays);
 
         shareDeleted = share;
       }
     }
-    assert.ok(found);
-    assert.ok(shareDeleted);
+    assert.isTrue(found);
+    assert.isDefined(shareDeleted);
 
     // Await share to be deleted.
     await delay(30 * 1000);
@@ -181,17 +205,17 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     });
     const result = await serviceClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
     if (result.cors && result.cors!.length > 0) {
-      assert.ok(result.cors![0].allowedHeaders.length > 0);
-      assert.ok(result.cors![0].allowedMethods.length > 0);
-      assert.ok(result.cors![0].allowedOrigins.length > 0);
-      assert.ok(result.cors![0].exposedHeaders.length > 0);
-      assert.ok(result.cors![0].maxAgeInSeconds >= 0);
+      assert.isAbove(result.cors![0].allowedHeaders.length, 0);
+      assert.isAbove(result.cors![0].allowedMethods.length, 0);
+      assert.isAbove(result.cors![0].allowedOrigins.length, 0);
+      assert.isAbove(result.cors![0].exposedHeaders.length, 0);
+      assert.isAtLeast(result.cors![0].maxAgeInSeconds, 0);
     }
   });
 
@@ -246,10 +270,10 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     await delay(5 * 1000);
 
     const result = await serviceClient.getProperties();
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 });
@@ -259,9 +283,7 @@ describe("FileServiceClient Premium Node.js only", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", {
         fileRequestIntent: "backup",

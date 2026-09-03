@@ -9,6 +9,13 @@ import jwt from "jsonwebtoken";
 import ms from "ms";
 import { randomUUID } from "@azure/core-util";
 
+/**
+ * Check if the service principal tests should be skipped
+ */
+export function shouldRunSPTest(): boolean {
+  return process.env.SKIP_SP_LIVE_TESTS?.toLowerCase() === "true";
+}
+
 export async function createJWTTokenFromCertificate(
   authorityHost: string,
   clientId: string,

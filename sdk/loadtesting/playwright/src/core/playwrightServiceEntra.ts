@@ -29,6 +29,7 @@ class PlaywrightServiceEntra {
   public globalSetup = async (): Promise<void> => {
     coreLogger.info("Entra id access token setup start");
     await this._entraIdAccessToken.fetchEntraIdAccessToken();
+    await this._entraIdAccessToken.prefetchStorageAccessToken();
     this.entraIdGlobalSetupRotationHandler();
   };
 

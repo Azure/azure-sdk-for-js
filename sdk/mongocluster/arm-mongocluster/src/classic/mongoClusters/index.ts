@@ -1,26 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import {
-  MongoCluster,
-  MongoClusterUpdate,
-  ListConnectionStringsResult,
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityResponse,
-  PromoteReplicaRequest,
-} from "../../models/models.js";
-import {
-  MongoClustersPromoteOptionalParams,
-  MongoClustersCheckNameAvailabilityOptionalParams,
-  MongoClustersListConnectionStringsOptionalParams,
-  MongoClustersListOptionalParams,
-  MongoClustersListByResourceGroupOptionalParams,
-  MongoClustersDeleteOptionalParams,
-  MongoClustersUpdateOptionalParams,
-  MongoClustersCreateOrUpdateOptionalParams,
-  MongoClustersGetOptionalParams,
-} from "../../api/mongoClusters/options.js";
+import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import {
   promote,
   checkNameAvailability,
@@ -32,8 +13,27 @@ import {
   createOrUpdate,
   get,
 } from "../../api/mongoClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  MongoClustersPromoteOptionalParams,
+  MongoClustersCheckNameAvailabilityOptionalParams,
+  MongoClustersListConnectionStringsOptionalParams,
+  MongoClustersListOptionalParams,
+  MongoClustersListByResourceGroupOptionalParams,
+  MongoClustersDeleteOptionalParams,
+  MongoClustersUpdateOptionalParams,
+  MongoClustersCreateOrUpdateOptionalParams,
+  MongoClustersGetOptionalParams,
+} from "../../api/mongoClusters/options.js";
+import type {
+  MongoCluster,
+  MongoClusterUpdate,
+  ListConnectionStringsResult,
+  CheckNameAvailabilityRequest,
+  CheckNameAvailabilityResponse,
+  PromoteReplicaRequest,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MongoClusters operations. */
 export interface MongoClustersOperations {
@@ -64,11 +64,6 @@ export interface MongoClustersOperations {
     options?: MongoClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MongoCluster>;
   /** Deletes a mongo cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,

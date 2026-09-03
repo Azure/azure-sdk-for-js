@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a HcxEnterpriseSite
  *
  * @summary delete a HcxEnterpriseSite
- * x-ms-original-file: 2024-09-01/HcxEnterpriseSites_Delete.json
+ * x-ms-original-file: 2025-09-01/HcxEnterpriseSites_Delete.json
  */
 async function hcxEnterpriseSitesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

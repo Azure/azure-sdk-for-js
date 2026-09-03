@@ -3,17 +3,18 @@
 /// <reference lib="esnext.asynciterable" />
 
 import type { TokenCredential } from "@azure/core-auth";
-import { logger } from "./log.js";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { DeletionRecoveryLevel, KnownDeletionRecoveryLevel } from "./generated/src/models/index.js";
-import type { KeyVaultClientOptionalParams } from "./generated/src/keyVaultClient.js";
-import { KeyVaultClient } from "./generated/src/keyVaultClient.js";
+import { logger } from "./logger.js";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PollOperationState, PollerLike } from "@azure/core-lro";
+import type { DeletionRecoveryLevel, KeyCreateParameters } from "./models/models.js";
+import { KnownDeletionRecoveryLevel } from "./models/models.js";
+import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
+import { KeyVaultClient } from "./keyVaultClient.js";
 import { SDK_VERSION } from "./constants.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { DeleteKeyPoller } from "./lro/delete/poller.js";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller.js";
-import {
+import type {
   BackupKeyOptions,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
@@ -24,6 +25,7 @@ import {
   CryptographyClientOptions,
   CryptographyOptions,
   DeletedKey,
+  ExternalKey,
   GetCryptographyClientOptions,
   GetDeletedKeyOptions,
   GetKeyAttestationOptions,
@@ -45,8 +47,6 @@ import {
   KeyRotationPolicyProperties,
   KeyType,
   KeyVaultKey,
-  KnownKeyOperations,
-  LATEST_API_VERSION,
   ListDeletedKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListPropertiesOfKeysOptions,
@@ -55,11 +55,16 @@ import {
   ReleaseKeyResult,
   RestoreKeyBackupOptions,
   RotateKeyOptions,
+  SecureKeyOperationResult,
+  SecureKeyWrapAlgorithm,
+  SecureUnwrapKeyOptions,
+  SecureWrapKeyOptions,
   UpdateKeyPropertiesOptions,
   UpdateKeyRotationPolicyOptions,
 } from "./keysModels.js";
+import { KnownKeyOperations, LATEST_API_VERSION } from "./keysModels.js";
 import { CryptographyClient } from "./cryptographyClient.js";
-import {
+import type {
   AesCbcDecryptParameters,
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
@@ -75,11 +80,6 @@ import {
   EncryptionAlgorithm,
   KeyCurveName,
   KeyWrapAlgorithm,
-  KnownKeyExportEncryptionAlgorithm,
-  KnownEncryptionAlgorithms,
-  KnownKeyTypes,
-  KnownKeyCurveNames,
-  KnownSignatureAlgorithms,
   RsaDecryptParameters,
   RsaEncryptParameters,
   RsaEncryptionAlgorithm,
@@ -94,7 +94,15 @@ import {
   WrapKeyOptions,
   WrapResult,
 } from "./cryptographyClientModels.js";
-import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier.js";
+import {
+  KnownKeyExportEncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
+  KnownKeyTypes,
+  KnownKeyCurveNames,
+  KnownSignatureAlgorithms,
+} from "./cryptographyClientModels.js";
+import type { KeyVaultKeyIdentifier } from "./identifier.js";
+import { parseKeyVaultKeyIdentifier } from "./identifier.js";
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
@@ -106,90 +114,95 @@ import { tracingClient } from "./tracing.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 
 export {
-  CryptographyClientOptions,
-  KeyClientOptions,
-  BackupKeyOptions,
-  CreateEcKeyOptions,
-  CreateKeyOptions,
-  CreateRsaKeyOptions,
-  CreateOctKeyOptions,
+  type CryptographyClientOptions,
+  type KeyClientOptions,
+  type BackupKeyOptions,
+  type CreateEcKeyOptions,
+  type CreateKeyOptions,
+  type CreateRsaKeyOptions,
+  type CreateOctKeyOptions,
   CryptographyClient,
-  CryptographyOptions,
-  RsaEncryptionAlgorithm,
-  RsaDecryptParameters,
-  AesGcmEncryptionAlgorithm,
-  AesGcmDecryptParameters,
-  AesCbcEncryptionAlgorithm,
-  AesCbcDecryptParameters,
-  DecryptParameters,
-  DecryptOptions,
-  DecryptResult,
-  DeletedKey,
-  DeletionRecoveryLevel,
+  type CryptographyOptions,
+  type RsaEncryptionAlgorithm,
+  type RsaDecryptParameters,
+  type AesGcmEncryptionAlgorithm,
+  type AesGcmDecryptParameters,
+  type AesCbcEncryptionAlgorithm,
+  type AesCbcDecryptParameters,
+  type DecryptParameters,
+  type DecryptOptions,
+  type DecryptResult,
+  type DeletedKey,
+  type DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
-  RsaEncryptParameters,
-  AesGcmEncryptParameters,
-  AesCbcEncryptParameters,
-  EncryptParameters,
-  EncryptOptions,
-  EncryptResult,
-  GetDeletedKeyOptions,
-  GetKeyAttestationOptions,
-  GetKeyOptions,
-  GetRandomBytesOptions,
-  ImportKeyOptions,
-  JsonWebKey,
-  KeyAttestation,
-  KeyCurveName,
+  type ExternalKey,
+  type RsaEncryptParameters,
+  type AesGcmEncryptParameters,
+  type AesCbcEncryptParameters,
+  type EncryptParameters,
+  type EncryptOptions,
+  type EncryptResult,
+  type GetDeletedKeyOptions,
+  type GetKeyAttestationOptions,
+  type GetKeyOptions,
+  type GetRandomBytesOptions,
+  type ImportKeyOptions,
+  type JsonWebKey,
+  type KeyAttestation,
+  type KeyCurveName,
   KnownKeyCurveNames,
   KnownKeyExportEncryptionAlgorithm,
-  EncryptionAlgorithm,
+  type EncryptionAlgorithm,
   KnownEncryptionAlgorithms,
-  KeyOperation,
+  type KeyOperation,
   KnownKeyOperations,
-  KeyType,
+  type KeyType,
   KnownKeyTypes,
-  KeyPollerOptions,
-  BeginDeleteKeyOptions,
-  BeginRecoverDeletedKeyOptions,
-  KeyProperties,
-  SignatureAlgorithm,
+  type KeyPollerOptions,
+  type BeginDeleteKeyOptions,
+  type BeginRecoverDeletedKeyOptions,
+  type KeyProperties,
+  type SignatureAlgorithm,
   KnownSignatureAlgorithms,
-  KeyVaultKey,
-  KeyWrapAlgorithm,
-  ListPropertiesOfKeysOptions,
-  ListPropertiesOfKeyVersionsOptions,
-  ListDeletedKeysOptions,
-  PageSettings,
-  PagedAsyncIterableIterator,
-  KeyVaultKeyIdentifier,
+  type KeyVaultKey,
+  type KeyWrapAlgorithm,
+  type ListPropertiesOfKeysOptions,
+  type ListPropertiesOfKeyVersionsOptions,
+  type ListDeletedKeysOptions,
+  type PageSettings,
+  type PagedAsyncIterableIterator,
+  type KeyVaultKeyIdentifier,
   parseKeyVaultKeyIdentifier,
-  PollOperationState,
-  PollerLike,
-  PurgeDeletedKeyOptions,
-  RestoreKeyBackupOptions,
-  RotateKeyOptions,
-  SignOptions,
-  SignResult,
-  UnwrapKeyOptions,
-  UnwrapResult,
-  UpdateKeyPropertiesOptions,
-  VerifyOptions,
-  VerifyDataOptions,
-  VerifyResult,
-  WrapKeyOptions,
-  WrapResult,
-  ReleaseKeyOptions,
-  ReleaseKeyResult,
-  KeyReleasePolicy,
-  KeyExportEncryptionAlgorithm,
-  GetCryptographyClientOptions,
-  KeyRotationPolicyAction,
-  KeyRotationPolicyProperties,
-  KeyRotationPolicy,
-  KeyRotationLifetimeAction,
-  UpdateKeyRotationPolicyOptions,
-  GetKeyRotationPolicyOptions,
+  type PollOperationState,
+  type PollerLike,
+  type PurgeDeletedKeyOptions,
+  type RestoreKeyBackupOptions,
+  type RotateKeyOptions,
+  type SignOptions,
+  type SignResult,
+  type UnwrapKeyOptions,
+  type UnwrapResult,
+  type UpdateKeyPropertiesOptions,
+  type VerifyOptions,
+  type VerifyDataOptions,
+  type VerifyResult,
+  type WrapKeyOptions,
+  type WrapResult,
+  type ReleaseKeyOptions,
+  type ReleaseKeyResult,
+  type SecureKeyOperationResult,
+  type SecureKeyWrapAlgorithm,
+  type SecureUnwrapKeyOptions,
+  type SecureWrapKeyOptions,
+  type KeyReleasePolicy,
+  type KeyExportEncryptionAlgorithm,
+  type GetCryptographyClientOptions,
+  type KeyRotationPolicyAction,
+  type KeyRotationPolicyProperties,
+  type KeyRotationPolicy,
+  type KeyRotationLifetimeAction,
+  type UpdateKeyRotationPolicyOptions,
+  type GetKeyRotationPolicyOptions,
   logger,
 };
 
@@ -429,6 +442,64 @@ export class KeyClient {
   public async createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey> {
     const keyType = options?.hsm ? KnownKeyTypes.OctHSM : KnownKeyTypes.Oct;
     return this.createKey(name, keyType, options);
+  }
+
+  /**
+   * The createExternalKey method creates a new key in Azure Key Vault that is backed by a key
+   * stored in an external key management system. If the named key already exists, Azure Key Vault
+   * creates a new version of the key. It requires the keys/create permission.
+   *
+   * The key type and key size must not be specified for external keys; the service derives them
+   * from the referenced external key.
+   *
+   * Example usage:
+   * ```ts snippet:ReadmeSampleCreateExternalKey
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.managedhsm.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const keyName = "MyKeyName";
+   * const result = await client.createExternalKey(keyName, { id: "my-external-key-id" });
+   * console.log("result: ", result);
+   * ```
+   * Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @param name - The name of the key.
+   * @param externalKey - A reference to the key stored in the external key management system.
+   * @param options - The optional parameters.
+   */
+  public async createExternalKey(
+    name: string,
+    externalKey: ExternalKey,
+    options: CreateKeyOptions = {},
+  ): Promise<KeyVaultKey> {
+    return tracingClient.withSpan(
+      "KeyClient.createExternalKey",
+      options,
+      async (updatedOptions) => {
+        // Key type and key size must not be specified for external keys; the
+        // service derives the key type from the referenced external key.
+        const parameters = {
+          keyAttributes: {
+            enabled: options?.enabled,
+            notBefore: options?.notBefore,
+            expires: options?.expiresOn,
+            exportable: options?.exportable,
+            externalKey,
+          },
+          keyOps: options?.keyOps,
+          releasePolicy: options?.releasePolicy,
+          tags: options?.tags,
+        } as KeyCreateParameters;
+        const response = await this.client.createKey(name, parameters, updatedOptions);
+        return getKeyFromKeyBundle(response);
+      },
+    );
   }
 
   /**
@@ -777,7 +848,7 @@ export class KeyClient {
       async (updatedOptions) => {
         const response = await this.client.getKeyAttestation(
           name,
-          updatedOptions.version ?? "",
+          updatedOptions.version,
           updatedOptions,
         );
         return getKeyFromKeyBundle(response);
@@ -1075,7 +1146,7 @@ export class KeyClient {
       const { nonce, algorithm, ...rest } = updatedOptions;
       const result = await this.client.release(
         name,
-        options?.version || "",
+        updatedOptions.version,
         {
           targetAttestationToken,
           enc: algorithm,
@@ -1086,6 +1157,120 @@ export class KeyClient {
 
       return { value: result.value! };
     });
+  }
+
+  /**
+   * Wraps a 256-bit AES key generated inside a Trusted Execution Environment
+   * (TEE) using a key encryption key previously stored in Azure Key Vault.
+   *
+   * Unlike {@link CryptographyClient.wrapKey}, the key being wrapped is
+   * generated by the service inside a TEE rather than supplied by the caller,
+   * which provides additional protection for the symmetric key material.
+   *
+   * This operation requires the `keys/wrapKey` permission.
+   *
+   * Example usage:
+   * ```ts snippet:ReadmeSampleSecureWrapKey
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.managedhsm.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+   * console.log(wrapped.keyID, wrapped.algorithm, wrapped.result);
+   * ```
+   *
+   * @param name - The name of the key encryption key.
+   * @param algorithm - The algorithm to use to wrap the generated key.
+   * @param options - The optional parameters.
+   */
+  public secureWrapKey(
+    name: string,
+    algorithm: SecureKeyWrapAlgorithm,
+    options: SecureWrapKeyOptions = {},
+  ): Promise<SecureKeyOperationResult> {
+    return tracingClient.withSpan(
+      "KeyClient.secureWrapKey",
+      options,
+      async (updatedOptions): Promise<SecureKeyOperationResult> => {
+        const { version, ...rest } = updatedOptions;
+        const result = await this.client.secureWrapKey(name, version, { algorithm }, rest);
+        return {
+          keyID: result.kid ?? "",
+          algorithm: (result.algorithm as SecureKeyWrapAlgorithm | undefined) ?? algorithm,
+          result: result.result ?? new Uint8Array(),
+        };
+      },
+    );
+  }
+
+  /**
+   * Unwraps a symmetric key that was previously wrapped via
+   * {@link KeyClient.secureWrapKey}. The unwrap operation runs inside a
+   * Trusted Execution Environment (TEE) attested by the Microsoft Azure
+   * Attestation Service (MAA).
+   *
+   * This operation requires the `keys/unwrapKey` permission.
+   *
+   * Example usage:
+   * ```ts snippet:ReadmeSampleSecureUnwrapKey
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.managedhsm.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+   * const unwrapped = await client.secureUnwrapKey(
+   *   "myKey",
+   *   wrapped.algorithm,
+   *   wrapped.result,
+   *   "<attestation-target>",
+   * );
+   * console.log(unwrapped.keyID, unwrapped.algorithm, unwrapped.result);
+   * ```
+   *
+   * @param name - The name of the key encryption key.
+   * @param algorithm - The algorithm originally used to wrap the value.
+   * @param value - The wrapped key value to unwrap.
+   * @param targetAttestationToken - The attestation assertion for the target
+   *   of the key release.
+   * @param options - The optional parameters.
+   */
+  public secureUnwrapKey(
+    name: string,
+    algorithm: SecureKeyWrapAlgorithm,
+    value: Uint8Array,
+    targetAttestationToken: string,
+    options: SecureUnwrapKeyOptions = {},
+  ): Promise<SecureKeyOperationResult> {
+    return tracingClient.withSpan(
+      "KeyClient.secureUnwrapKey",
+      options,
+      async (updatedOptions): Promise<SecureKeyOperationResult> => {
+        const { version, ...rest } = updatedOptions;
+        const result = await this.client.secureUnwrapKey(
+          name,
+          version,
+          { algorithm, value, targetAttestationToken },
+          rest,
+        );
+        return {
+          keyID: result.kid ?? "",
+          algorithm: (result.algorithm as SecureKeyWrapAlgorithm | undefined) ?? algorithm,
+          result: result.result ?? new Uint8Array(),
+        };
+      },
+    );
   }
 
   /**
@@ -1299,3 +1484,4 @@ export class KeyClient {
     );
   }
 }
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

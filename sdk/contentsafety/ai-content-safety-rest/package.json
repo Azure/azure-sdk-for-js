@@ -2,7 +2,7 @@
   "name": "@azure-rest/ai-content-safety",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ContentSafety Service",
   "keywords": [
     "node",
@@ -16,7 +16,11 @@
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/contentsafety/ai-content-safety-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -28,16 +32,16 @@
     "CHANGELOG.md"
   ],
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "generate:client": "echo skipped",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
@@ -66,12 +70,16 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "autorest": "catalog:",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "react-native": "catalog:testing",
+    "rimraf": "catalog:",
     "rollup-plugin-copy": "^3.5.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -100,22 +108,6 @@
     "disableDocsMs": true
   },
   "type": "module",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -135,6 +127,13 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   }
 }

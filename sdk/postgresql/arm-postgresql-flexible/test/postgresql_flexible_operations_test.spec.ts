@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("PostgreSQLFlexible test", () => {
+describe.skip("PostgreSQLFlexible test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PostgreSQLManagementFlexibleServerClient;

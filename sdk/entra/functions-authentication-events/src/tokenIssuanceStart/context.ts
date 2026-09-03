@@ -14,8 +14,10 @@ import type {
 /**
  * The main request interface, this will relate it's response and payload.
  */
-export interface TokenIssuanceStartRequest
-  extends CloudEventRequest<TokenIssuanceStartResponse, TokenIssuanceStartData> {
+export interface TokenIssuanceStartRequest extends CloudEventRequest<
+  TokenIssuanceStartResponse,
+  TokenIssuanceStartData
+> {
   /** A dictionary of token claims. */
   tokenClaims?: Record<string, string>;
 }

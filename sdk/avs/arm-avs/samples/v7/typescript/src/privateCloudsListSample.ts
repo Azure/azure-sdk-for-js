@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list PrivateCloud resources by resource group
  *
  * @summary list PrivateCloud resources by resource group
- * x-ms-original-file: 2024-09-01/PrivateClouds_List.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_List.json
  */
 async function privateCloudsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function privateCloudsList(): Promise<void> {
  * This sample demonstrates how to list PrivateCloud resources by resource group
  *
  * @summary list PrivateCloud resources by resource group
- * x-ms-original-file: 2024-09-01/PrivateClouds_List_Stretched.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_List_Stretched.json
  */
 async function privateCloudsListStretched(): Promise<void> {
   const credential = new DefaultAzureCredential();

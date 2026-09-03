@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
+import type { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
 import { list, $delete, approve, get } from "../../api/privateEndpointConnections/operations.js";
-import {
+import type {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsApproveOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
-import { PrivateEndpointConnection } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PrivateEndpointConnection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {

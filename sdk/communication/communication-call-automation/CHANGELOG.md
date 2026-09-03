@@ -1,5 +1,28 @@
 # Release History
 
+## 1.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.6.0 (2026-06-17)
+
+### Features Added
+
+- Added support for moving a participant from one call to another, enabling seamless participant transfer between active calls.
+- Added support for retrieving Teams phone call details, including the ability to specify a custom calling context for enhanced integration scenarios.
+
+## 1.5.1 (2026-01-22)
+
+### Bugs Fixed
+
+- Fixed `speechLanguage` property support in `CallMediaRecognizeSpeechOrDtmfOptions` to correctly pass speech language configuration for speech-or-DTMF recognition requests.
+
 ## 1.5.0 (2025-08-25)
 
 ### Features Added

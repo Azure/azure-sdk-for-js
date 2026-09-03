@@ -1,37 +1,108 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
+import type {
   ServiceResource,
-  serviceResourceSerializer,
-  serviceResourceDeserializer,
   ServiceUpdateParameters,
-  serviceUpdateParametersSerializer,
   _ServiceResourceList,
-  _serviceResourceListDeserializer,
+  RestartReplicaRequest,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  serviceResourceSerializer,
+  serviceResourceDeserializer,
+  serviceUpdateParametersSerializer,
+  _serviceResourceListDeserializer,
+  restartReplicaRequestSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  ServicesRestartReplicaOptionalParams,
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
   ServicesUpdateOptionalParams,
   ServicesCreateOrUpdateOptionalParams,
   ServicesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _restartReplicaSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  applicationName: string,
+  serviceName: string,
+  parameters: RestartReplicaRequest,
+  options: ServicesRestartReplicaOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}/restartReplica{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      applicationName: applicationName,
+      serviceName: serviceName,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: restartReplicaRequestSerializer(parameters),
+  });
+}
+
+export async function _restartReplicaDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** A long-running resource action. */
+export function restartReplica(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  applicationName: string,
+  serviceName: string,
+  parameters: RestartReplicaRequest,
+  options: ServicesRestartReplicaOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _restartReplicaDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _restartReplicaSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        serviceName,
+        parameters,
+        options,
+      ),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _listByApplicationsSend(
   context: Client,
@@ -47,7 +118,7 @@ export function _listByApplicationsSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,10 +126,7 @@ export function _listByApplicationsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -68,7 +136,10 @@ export async function _listByApplicationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -89,7 +160,11 @@ export function listByApplications(
       _listByApplicationsSend(context, resourceGroupName, clusterName, applicationName, options),
     _listByApplicationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -109,26 +184,23 @@ export function _$deleteSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -136,11 +208,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Service Fabric managed service resource with the specified name. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -155,6 +222,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, applicationName, serviceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -175,7 +243,7 @@ export function _updateSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,10 +252,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: serviceUpdateParametersSerializer(parameters),
   });
 }
@@ -196,7 +261,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -242,7 +310,7 @@ export function _createOrUpdateSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,10 +319,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: serviceResourceSerializer(parameters),
   });
 }
@@ -262,10 +327,13 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ServiceResource> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -282,7 +350,7 @@ export function createOrUpdate(
   parameters: ServiceResource,
   options: ServicesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ServiceResource>, ServiceResource> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -296,6 +364,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<ServiceResource>, ServiceResource>;
 }
 
@@ -315,7 +384,7 @@ export function _getSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -323,10 +392,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -334,7 +400,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

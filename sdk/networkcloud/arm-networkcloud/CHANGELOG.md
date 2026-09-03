@@ -1,4 +1,784 @@
 # Release History
+
+## 2.0.0 (2026-08-18)
+
+### Features Added
+  - Added operation group AccessBridgesOperations
+  - Added operation group KubernetesVersionsOperations
+  - Added operation AgentPoolsOperations.createOrUpdate
+  - Added operation AgentPoolsOperations.delete
+  - Added operation AgentPoolsOperations.update
+  - Added operation BareMetalMachineKeySetsOperations.createOrUpdate
+  - Added operation BareMetalMachineKeySetsOperations.delete
+  - Added operation BareMetalMachineKeySetsOperations.update
+  - Added operation BareMetalMachinesOperations.cordon
+  - Added operation BareMetalMachinesOperations.createOrUpdate
+  - Added operation BareMetalMachinesOperations.delete
+  - Added operation BareMetalMachinesOperations.powerOff
+  - Added operation BareMetalMachinesOperations.reimage
+  - Added operation BareMetalMachinesOperations.replace
+  - Added operation BareMetalMachinesOperations.restart
+  - Added operation BareMetalMachinesOperations.runCommand
+  - Added operation BareMetalMachinesOperations.runDataExtracts
+  - Added operation BareMetalMachinesOperations.runDataExtractsRestricted
+  - Added operation BareMetalMachinesOperations.runReadCommands
+  - Added operation BareMetalMachinesOperations.start
+  - Added operation BareMetalMachinesOperations.uncordon
+  - Added operation BareMetalMachinesOperations.update
+  - Added operation BmcKeySetsOperations.createOrUpdate
+  - Added operation BmcKeySetsOperations.delete
+  - Added operation BmcKeySetsOperations.update
+  - Added operation CloudServicesNetworksOperations.createOrUpdate
+  - Added operation CloudServicesNetworksOperations.delete
+  - Added operation CloudServicesNetworksOperations.update
+  - Added operation ClusterManagersOperations.beginUpdateRelayPrivateEndpointConnection
+  - Added operation ClusterManagersOperations.beginUpdateRelayPrivateEndpointConnectionAndWait
+  - Added operation ClusterManagersOperations.createOrUpdate
+  - Added operation ClusterManagersOperations.delete
+  - Added operation ClusterManagersOperations.updateRelayPrivateEndpointConnection
+  - Added operation ClustersOperations.beginInspect
+  - Added operation ClustersOperations.beginInspectAndWait
+  - Added operation ClustersOperations.beginRotateCredential
+  - Added operation ClustersOperations.beginRotateCredentialAndWait
+  - Added operation ClustersOperations.continueUpdateVersion
+  - Added operation ClustersOperations.createOrUpdate
+  - Added operation ClustersOperations.delete
+  - Added operation ClustersOperations.deploy
+  - Added operation ClustersOperations.inspect
+  - Added operation ClustersOperations.rotateCredential
+  - Added operation ClustersOperations.scanRuntime
+  - Added operation ClustersOperations.update
+  - Added operation ClustersOperations.updateVersion
+  - Added operation ConsolesOperations.createOrUpdate
+  - Added operation ConsolesOperations.delete
+  - Added operation ConsolesOperations.update
+  - Added operation KubernetesClusterFeaturesOperations.createOrUpdate
+  - Added operation KubernetesClusterFeaturesOperations.delete
+  - Added operation KubernetesClusterFeaturesOperations.update
+  - Added operation KubernetesClustersOperations.createOrUpdate
+  - Added operation KubernetesClustersOperations.delete
+  - Added operation KubernetesClustersOperations.restartNode
+  - Added operation KubernetesClustersOperations.update
+  - Added operation L2NetworksOperations.createOrUpdate
+  - Added operation L2NetworksOperations.delete
+  - Added operation L3NetworksOperations.createOrUpdate
+  - Added operation L3NetworksOperations.delete
+  - Added operation MetricsConfigurationsOperations.createOrUpdate
+  - Added operation MetricsConfigurationsOperations.delete
+  - Added operation MetricsConfigurationsOperations.update
+  - Added operation RacksOperations.createOrUpdate
+  - Added operation RacksOperations.delete
+  - Added operation RacksOperations.update
+  - Added operation StorageAppliancesOperations.createOrUpdate
+  - Added operation StorageAppliancesOperations.delete
+  - Added operation StorageAppliancesOperations.disableRemoteVendorManagement
+  - Added operation StorageAppliancesOperations.enableRemoteVendorManagement
+  - Added operation StorageAppliancesOperations.runReadCommands
+  - Added operation StorageAppliancesOperations.update
+  - Added operation TrunkedNetworksOperations.createOrUpdate
+  - Added operation TrunkedNetworksOperations.delete
+  - Added operation VirtualMachinesOperations.assignRelay
+  - Added operation VirtualMachinesOperations.createOrUpdate
+  - Added operation VirtualMachinesOperations.delete
+  - Added operation VirtualMachinesOperations.powerOff
+  - Added operation VirtualMachinesOperations.reimage
+  - Added operation VirtualMachinesOperations.restart
+  - Added operation VirtualMachinesOperations.start
+  - Added operation VirtualMachinesOperations.update
+  - Added operation VolumesOperations.createOrUpdate
+  - Added operation VolumesOperations.delete
+  - Added Interface AccessBridge
+  - Added Interface AccessBridgeEndpoint
+  - Added Interface AccessBridgePatchParameters
+  - Added Interface AccessBridgePatchProperties
+  - Added Interface AccessBridgeProperties
+  - Added Interface AccessBridgesCreateOrUpdateOptionalParams
+  - Added Interface AccessBridgesDeleteOptionalParams
+  - Added Interface AccessBridgeSecurityRule
+  - Added Interface AccessBridgesGetOptionalParams
+  - Added Interface AccessBridgesListByResourceGroupOptionalParams
+  - Added Interface AccessBridgesListBySubscriptionOptionalParams
+  - Added Interface AccessBridgesUpdateOptionalParams
+  - Added Interface AdministrativeCredentialsPatch
+  - Added Interface AgentPoolPatchProperties
+  - Added Interface AgentPoolProperties
+  - Added Interface BareMetalMachineConfigurationDataPatch
+  - Added Interface BareMetalMachineKeySetPatchProperties
+  - Added Interface BareMetalMachineKeySetProperties
+  - Added Interface BareMetalMachineMonitoringConfigurationStatus
+  - Added Interface BareMetalMachinePatchProperties
+  - Added Interface BareMetalMachineProperties
+  - Added Interface BareMetalMachineReimageParameters
+  - Added Interface BmcKeySetPatchProperties
+  - Added Interface BmcKeySetProperties
+  - Added Interface CloudServicesNetworkPatchProperties
+  - Added Interface CloudServicesNetworkProperties
+  - Added Interface ClusterInspectParameters
+  - Added Interface ClusterManagerProperties
+  - Added Interface ClusterManagerRelayConfiguration
+  - Added Interface ClusterManagersUpdateRelayPrivateEndpointConnectionOptionalParams
+  - Added Interface ClusterManagerUpdateRelayPrivateEndpointConnectionParameters
+  - Added Interface ClusterMetricsConfigurationPatchProperties
+  - Added Interface ClusterMetricsConfigurationProperties
+  - Added Interface ClusterPatchProperties
+  - Added Interface ClusterProperties
+  - Added Interface ClusterRotateCredentialParameters
+  - Added Interface ClusterSecretArchivePatch
+  - Added Interface ClustersInspectOptionalParams
+  - Added Interface ClustersRotateCredentialOptionalParams
+  - Added Interface ClusterUpdateStrategyPatch
+  - Added Interface ConsolePatchProperties
+  - Added Interface ConsoleProperties
+  - Added Interface FilterDevices
+  - Added Interface ImageRepositoryCredentialsPatch
+  - Added Interface KubernetesClusterFeaturePatchProperties
+  - Added Interface KubernetesClusterFeatureProperties
+  - Added Interface KubernetesClusterPatchProperties
+  - Added Interface KubernetesClusterProperties
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionPatchParameters
+  - Added Interface KubernetesVersionProperties
+  - Added Interface KubernetesVersionsCreateOrUpdateOptionalParams
+  - Added Interface KubernetesVersionsDeleteOptionalParams
+  - Added Interface KubernetesVersionsGetOptionalParams
+  - Added Interface KubernetesVersionsListByResourceGroupOptionalParams
+  - Added Interface KubernetesVersionsListBySubscriptionOptionalParams
+  - Added Interface KubernetesVersionsUpdateOptionalParams
+  - Added Interface KubernetesVersionValue
+  - Added Interface L2NetworkProperties
+  - Added Interface L3NetworkProperties
+  - Added Interface MachineSkuProperties
+  - Added Interface OperationStatusResultProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface RackDefinitionPatch
+  - Added Interface RackProperties
+  - Added Interface RackSkuProperties
+  - Added Interface RacksPatchProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface RuntimeProtectionConfigurationPatch
+  - Added Interface ServicePrincipalInformationPatch
+  - Added Interface SimplePollerLike
+  - Added Interface SshPublicKeyPatch
+  - Added Interface StorageApplianceConfigurationDataPatch
+  - Added Interface StorageApplianceExpansionShelf
+  - Added Interface StorageApplianceMonitoringConfigurationStatus
+  - Added Interface StorageAppliancePatchProperties
+  - Added Interface StorageApplianceProperties
+  - Added Interface StorageApplianceSkuProperties
+  - Added Interface TrunkedNetworkProperties
+  - Added Interface ValidationThresholdPatch
+  - Added Interface VirtualMachinePatchProperties
+  - Added Interface VirtualMachineProperties
+  - Added Interface VolumeProperties
+  - Interface BareMetalMachine has a new optional parameter bmcIpv4Address
+  - Interface BareMetalMachine has a new optional parameter bmcIpv6Address
+  - Interface BareMetalMachine has a new optional parameter monitoringConfigurationStatus
+  - Interface Cluster has a new optional parameter kind
+  - Interface Cluster has a new optional parameter lastSuccessfulVersionUpdateTime
+  - Interface Cluster has a new optional parameter managedCredentials
+  - Interface ClusterContinueUpdateVersionParameters has a new optional parameter safeguardMode
+  - Interface ClusterManager has a new optional parameter kind
+  - Interface ClusterManager has a new optional parameter relayConfiguration
+  - Interface ClusterUpdateVersionParameters has a new optional parameter safeguardMode
+  - Interface RackSku has a new optional parameter deploymentType
+  - Interface RuntimeProtectionConfiguration has a new optional parameter definitionUpdateMode
+  - Interface RuntimeProtectionStatus has a new optional parameter agentHealthStatus
+  - Interface RuntimeProtectionStatus has a new optional parameter agentHealthStatusIssues
+  - Interface RuntimeProtectionStatus has a new optional parameter agentLicenseStatus
+  - Interface RuntimeProtectionStatus has a new optional parameter definitionUpdateMode
+  - Interface RuntimeProtectionStatus has a new optional parameter enforcementLevel
+  - Interface StorageAppliance has a new optional parameter expansionShelves
+  - Interface StorageAppliance has a new optional parameter monitoringConfigurationStatus
+  - Interface Volume has a new optional parameter assignedStorageApplianceId
+  - Added Type Alias AccessBridgeAllowedName
+  - Added Type Alias AccessBridgeDetailedStatus
+  - Added Type Alias AccessBridgeProvisioningState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BareMetalMachineMonitoringConfigurationStatusLogLevel
+  - Added Type Alias BareMetalMachineMonitoringConfigurationStatusMetricsLevel
+  - Added Type Alias BareMetalMachineReimageSafeguardMode
+  - Added Type Alias ClusterContinueUpdateVersionSafeguardMode
+  - Added Type Alias ClusterInspectAdditionalAction
+  - Added Type Alias ClusterUpdateVersionSafeguardMode
+  - Added Type Alias DeploymentType
+  - Added Type Alias ExtendedLocationType
+  - Added Type Alias KubernetesVersionProvisioningState
+  - Added Type Alias RelayPrivateEndpointConnectionState
+  - Added Type Alias RuntimeProtectionAgentHealthStatus
+  - Added Type Alias RuntimeProtectionAgentLicenseStatus
+  - Added Type Alias RuntimeProtectionDefinitionUpdateMode
+  - Added Type Alias SecurityRuleDirection
+  - Added Type Alias StorageApplianceMonitoringConfigurationStatusLogLevel
+  - Added Type Alias StorageApplianceMonitoringConfigurationStatusMetricsLevel
+  - Added Type Alias TransportProtocol
+  - Added Enum AzureClouds
+  - Added Enum KnownAccessBridgeAllowedName
+  - Added Enum KnownAccessBridgeDetailedStatus
+  - Added Enum KnownAccessBridgeProvisioningState
+  - Added Enum KnownBareMetalMachineMonitoringConfigurationStatusLogLevel
+  - Added Enum KnownBareMetalMachineMonitoringConfigurationStatusMetricsLevel
+  - Added Enum KnownBareMetalMachineReimageSafeguardMode
+  - Added Enum KnownClusterContinueUpdateVersionSafeguardMode
+  - Added Enum KnownClusterInspectAdditionalAction
+  - Added Enum KnownClusterUpdateVersionSafeguardMode
+  - Added Enum KnownDeploymentType
+  - Added Enum KnownExtendedLocationType
+  - Added Enum KnownKubernetesVersionProvisioningState
+  - Added Enum KnownRelayPrivateEndpointConnectionState
+  - Added Enum KnownRuntimeProtectionAgentHealthStatus
+  - Added Enum KnownRuntimeProtectionAgentLicenseStatus
+  - Added Enum KnownRuntimeProtectionDefinitionUpdateMode
+  - Added Enum KnownSecurityRuleDirection
+  - Added Enum KnownStorageApplianceMonitoringConfigurationStatusLogLevel
+  - Added Enum KnownStorageApplianceMonitoringConfigurationStatusMetricsLevel
+  - Added Enum KnownTransportProtocol
+  - Added Enum KnownVersions
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value Initializing
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value None
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value Repairing
+  - Enum KnownCommandOutputType has a new value ClusterSupportAdministrativeActions
+
+### Breaking Changes
+  - Operation Clusters.beginUpdate has a new signature
+  - Operation Clusters.beginUpdateAndWait has a new signature
+  - Operation Consoles.beginUpdate has a new signature
+  - Operation Consoles.beginUpdateAndWait has a new signature
+  - Operation VirtualMachines.beginUpdate has a new signature
+  - Operation VirtualMachines.beginUpdateAndWait has a new signature
+  - Removed Interface AgentPoolConfiguration
+  - Removed Interface AgentPoolList
+  - Removed Interface BareMetalMachineKeySetList
+  - Removed Interface BareMetalMachineList
+  - Removed Interface BmcKeySetList
+  - Removed Interface CloudServicesNetworkList
+  - Removed Interface ClusterList
+  - Removed Interface ClusterManagerList
+  - Removed Interface ClusterMetricsConfigurationList
+  - Removed Interface ConsoleList
+  - Removed Interface KubernetesClusterFeatureList
+  - Removed Interface KubernetesClusterList
+  - Removed Interface L2NetworkList
+  - Removed Interface L3NetworkList
+  - Removed Interface RackList
+  - Removed Interface RackSkuList
+  - Removed Interface StorageApplianceList
+  - Removed Interface TagsParameter
+  - Removed Interface TrunkedNetworkList
+  - Removed Interface VirtualMachineList
+  - Removed Interface VolumeList
+  - Type of parameter aggregatorOrSingleRackDefinition of interface ClusterPatchParameters is changed from RackDefinition to RackDefinitionPatch
+  - Type of parameter clusterServicePrincipal of interface ClusterPatchParameters is changed from ServicePrincipalInformation to ServicePrincipalInformationPatch
+  - Type of parameter computeDeploymentThreshold of interface ClusterPatchParameters is changed from ValidationThreshold to ValidationThresholdPatch
+  - Type of parameter computeRackDefinitions of interface ClusterPatchParameters is changed from RackDefinition[] to RackDefinitionPatch[]
+  - Type of parameter secretArchive of interface ClusterPatchParameters is changed from ClusterSecretArchive to ClusterSecretArchivePatch
+  - Type of parameter updateStrategy of interface ClusterPatchParameters is changed from ClusterUpdateStrategy to ClusterUpdateStrategyPatch
+  - Type of parameter sshPublicKey of interface ConsolePatchParameters is changed from SshPublicKey to SshPublicKeyPatch
+  - Type of parameter vmImageRepositoryCredentials of interface VirtualMachinePatchParameters is changed from ImageRepositoryCredentials to ImageRepositoryCredentialsPatch
+
+## 2.0.0-beta.2 (2026-05-07)
+Compared with version 1.3.0
+
+### Features Added
+  - Added operation group AccessBridgesOperations
+  - Added operation group KubernetesVersionsOperations
+  - Added operation AgentPoolsOperations.createOrUpdate
+  - Added operation AgentPoolsOperations.delete
+  - Added operation AgentPoolsOperations.update
+  - Added operation BareMetalMachineKeySetsOperations.createOrUpdate
+  - Added operation BareMetalMachineKeySetsOperations.delete
+  - Added operation BareMetalMachineKeySetsOperations.update
+  - Added operation BareMetalMachinesOperations.cordon
+  - Added operation BareMetalMachinesOperations.createOrUpdate
+  - Added operation BareMetalMachinesOperations.delete
+  - Added operation BareMetalMachinesOperations.powerOff
+  - Added operation BareMetalMachinesOperations.reimage
+  - Added operation BareMetalMachinesOperations.replace
+  - Added operation BareMetalMachinesOperations.restart
+  - Added operation BareMetalMachinesOperations.runCommand
+  - Added operation BareMetalMachinesOperations.runDataExtracts
+  - Added operation BareMetalMachinesOperations.runDataExtractsRestricted
+  - Added operation BareMetalMachinesOperations.runReadCommands
+  - Added operation BareMetalMachinesOperations.start
+  - Added operation BareMetalMachinesOperations.uncordon
+  - Added operation BareMetalMachinesOperations.update
+  - Added operation BmcKeySetsOperations.createOrUpdate
+  - Added operation BmcKeySetsOperations.delete
+  - Added operation BmcKeySetsOperations.update
+  - Added operation CloudServicesNetworksOperations.createOrUpdate
+  - Added operation CloudServicesNetworksOperations.delete
+  - Added operation CloudServicesNetworksOperations.update
+  - Added operation ClusterManagersOperations.beginUpdateRelayPrivateEndpointConnection
+  - Added operation ClusterManagersOperations.beginUpdateRelayPrivateEndpointConnectionAndWait
+  - Added operation ClusterManagersOperations.createOrUpdate
+  - Added operation ClusterManagersOperations.delete
+  - Added operation ClusterManagersOperations.updateRelayPrivateEndpointConnection
+  - Added operation ClustersOperations.beginInspect
+  - Added operation ClustersOperations.beginInspectAndWait
+  - Added operation ClustersOperations.beginRotateCredential
+  - Added operation ClustersOperations.beginRotateCredentialAndWait
+  - Added operation ClustersOperations.continueUpdateVersion
+  - Added operation ClustersOperations.createOrUpdate
+  - Added operation ClustersOperations.delete
+  - Added operation ClustersOperations.deploy
+  - Added operation ClustersOperations.inspect
+  - Added operation ClustersOperations.rotateCredential
+  - Added operation ClustersOperations.scanRuntime
+  - Added operation ClustersOperations.update
+  - Added operation ClustersOperations.updateVersion
+  - Added operation ConsolesOperations.createOrUpdate
+  - Added operation ConsolesOperations.delete
+  - Added operation ConsolesOperations.update
+  - Added operation KubernetesClusterFeaturesOperations.createOrUpdate
+  - Added operation KubernetesClusterFeaturesOperations.delete
+  - Added operation KubernetesClusterFeaturesOperations.update
+  - Added operation KubernetesClustersOperations.createOrUpdate
+  - Added operation KubernetesClustersOperations.delete
+  - Added operation KubernetesClustersOperations.restartNode
+  - Added operation KubernetesClustersOperations.update
+  - Added operation L2NetworksOperations.createOrUpdate
+  - Added operation L2NetworksOperations.delete
+  - Added operation L3NetworksOperations.createOrUpdate
+  - Added operation L3NetworksOperations.delete
+  - Added operation MetricsConfigurationsOperations.createOrUpdate
+  - Added operation MetricsConfigurationsOperations.delete
+  - Added operation MetricsConfigurationsOperations.update
+  - Added operation RacksOperations.createOrUpdate
+  - Added operation RacksOperations.delete
+  - Added operation RacksOperations.update
+  - Added operation StorageAppliancesOperations.createOrUpdate
+  - Added operation StorageAppliancesOperations.delete
+  - Added operation StorageAppliancesOperations.disableRemoteVendorManagement
+  - Added operation StorageAppliancesOperations.enableRemoteVendorManagement
+  - Added operation StorageAppliancesOperations.runReadCommands
+  - Added operation StorageAppliancesOperations.update
+  - Added operation TrunkedNetworksOperations.createOrUpdate
+  - Added operation TrunkedNetworksOperations.delete
+  - Added operation VirtualMachinesOperations.assignRelay
+  - Added operation VirtualMachinesOperations.createOrUpdate
+  - Added operation VirtualMachinesOperations.delete
+  - Added operation VirtualMachinesOperations.powerOff
+  - Added operation VirtualMachinesOperations.reimage
+  - Added operation VirtualMachinesOperations.restart
+  - Added operation VirtualMachinesOperations.start
+  - Added operation VirtualMachinesOperations.update
+  - Added operation VolumesOperations.createOrUpdate
+  - Added operation VolumesOperations.delete
+  - Added Interface AccessBridge
+  - Added Interface AccessBridgeEndpoint
+  - Added Interface AccessBridgePatchParameters
+  - Added Interface AccessBridgePatchProperties
+  - Added Interface AccessBridgeProperties
+  - Added Interface AccessBridgesCreateOrUpdateOptionalParams
+  - Added Interface AccessBridgesDeleteOptionalParams
+  - Added Interface AccessBridgeSecurityRule
+  - Added Interface AccessBridgesGetOptionalParams
+  - Added Interface AccessBridgesListByResourceGroupOptionalParams
+  - Added Interface AccessBridgesListBySubscriptionOptionalParams
+  - Added Interface AccessBridgesUpdateOptionalParams
+  - Added Interface AgentPoolPatchProperties
+  - Added Interface AgentPoolProperties
+  - Added Interface BareMetalMachineKeySetPatchProperties
+  - Added Interface BareMetalMachineKeySetProperties
+  - Added Interface BareMetalMachineMonitoringConfigurationStatus
+  - Added Interface BareMetalMachinePatchProperties
+  - Added Interface BareMetalMachineProperties
+  - Added Interface BareMetalMachineReimageParameters
+  - Added Interface BmcKeySetPatchProperties
+  - Added Interface BmcKeySetProperties
+  - Added Interface CloudServicesNetworkPatchProperties
+  - Added Interface CloudServicesNetworkProperties
+  - Added Interface ClusterInspectParameters
+  - Added Interface ClusterManagerProperties
+  - Added Interface ClusterManagerRelayConfiguration
+  - Added Interface ClusterManagersUpdateRelayPrivateEndpointConnectionOptionalParams
+  - Added Interface ClusterManagerUpdateRelayPrivateEndpointConnectionParameters
+  - Added Interface ClusterMetricsConfigurationPatchProperties
+  - Added Interface ClusterMetricsConfigurationProperties
+  - Added Interface ClusterPatchProperties
+  - Added Interface ClusterProperties
+  - Added Interface ClusterRotateCredentialParameters
+  - Added Interface ClustersInspectOptionalParams
+  - Added Interface ClustersRotateCredentialOptionalParams
+  - Added Interface ConsolePatchProperties
+  - Added Interface ConsoleProperties
+  - Added Interface FilterDevices
+  - Added Interface KubernetesClusterFeaturePatchProperties
+  - Added Interface KubernetesClusterFeatureProperties
+  - Added Interface KubernetesClusterPatchProperties
+  - Added Interface KubernetesClusterProperties
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionPatchParameters
+  - Added Interface KubernetesVersionProperties
+  - Added Interface KubernetesVersionsCreateOrUpdateOptionalParams
+  - Added Interface KubernetesVersionsDeleteOptionalParams
+  - Added Interface KubernetesVersionsGetOptionalParams
+  - Added Interface KubernetesVersionsListByResourceGroupOptionalParams
+  - Added Interface KubernetesVersionsListBySubscriptionOptionalParams
+  - Added Interface KubernetesVersionsUpdateOptionalParams
+  - Added Interface KubernetesVersionValue
+  - Added Interface L2NetworkProperties
+  - Added Interface L3NetworkProperties
+  - Added Interface MachineSkuProperties
+  - Added Interface OperationStatusResultProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface RackProperties
+  - Added Interface RackSkuProperties
+  - Added Interface RacksPatchProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface StorageApplianceExpansionShelf
+  - Added Interface StorageApplianceMonitoringConfigurationStatus
+  - Added Interface StorageAppliancePatchProperties
+  - Added Interface StorageApplianceProperties
+  - Added Interface StorageApplianceSkuProperties
+  - Added Interface TrunkedNetworkProperties
+  - Added Interface VirtualMachinePatchProperties
+  - Added Interface VirtualMachineProperties
+  - Added Interface VolumeProperties
+  - Interface BareMetalMachine has a new optional parameter bmcIpv4Address
+  - Interface BareMetalMachine has a new optional parameter bmcIpv6Address
+  - Interface BareMetalMachine has a new optional parameter monitoringConfigurationStatus
+  - Interface Cluster has a new optional parameter kind
+  - Interface Cluster has a new optional parameter lastSuccessfulVersionUpdateTime
+  - Interface Cluster has a new optional parameter managedCredentials
+  - Interface ClusterContinueUpdateVersionParameters has a new optional parameter safeguardMode
+  - Interface ClusterManager has a new optional parameter kind
+  - Interface ClusterManager has a new optional parameter relayConfiguration
+  - Interface ClusterUpdateVersionParameters has a new optional parameter safeguardMode
+  - Interface RackSku has a new optional parameter deploymentType
+  - Interface RuntimeProtectionConfiguration has a new optional parameter definitionUpdateMode
+  - Interface RuntimeProtectionStatus has a new optional parameter agentHealthStatus
+  - Interface RuntimeProtectionStatus has a new optional parameter agentHealthStatusIssues
+  - Interface RuntimeProtectionStatus has a new optional parameter agentLicenseStatus
+  - Interface RuntimeProtectionStatus has a new optional parameter definitionUpdateMode
+  - Interface RuntimeProtectionStatus has a new optional parameter enforcementLevel
+  - Interface StorageAppliance has a new optional parameter expansionShelves
+  - Interface StorageAppliance has a new optional parameter monitoringConfigurationStatus
+  - Interface Volume has a new optional parameter assignedStorageApplianceId
+  - Added Type Alias AccessBridgeAllowedName
+  - Added Type Alias AccessBridgeDetailedStatus
+  - Added Type Alias AccessBridgeProvisioningState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BareMetalMachineMetricsConfigurationStatusLogLevel
+  - Added Type Alias BareMetalMachineMetricsConfigurationStatusMetricsLevel
+  - Added Type Alias BareMetalMachineReimageSafeguardMode
+  - Added Type Alias ClusterContinueUpdateVersionSafeguardMode
+  - Added Type Alias ClusterInspectAdditionalAction
+  - Added Type Alias ClusterUpdateVersionSafeguardMode
+  - Added Type Alias DeploymentType
+  - Added Type Alias ExtendedLocationType
+  - Added Type Alias KubernetesVersionProvisioningState
+  - Added Type Alias RelayPrivateEndpointConnectionState
+  - Added Type Alias RuntimeProtectionAgentHealthStatus
+  - Added Type Alias RuntimeProtectionAgentLicenseStatus
+  - Added Type Alias RuntimeProtectionDefinitionUpdateMode
+  - Added Type Alias SecurityRuleDirection
+  - Added Type Alias StorageApplianceMetricsConfigurationStatusLogLevel
+  - Added Type Alias StorageApplianceMetricsConfigurationStatusMetricsLevel
+  - Added Type Alias TransportProtocol
+  - Added Enum AzureClouds
+  - Added Enum KnownAccessBridgeAllowedName
+  - Added Enum KnownAccessBridgeDetailedStatus
+  - Added Enum KnownAccessBridgeProvisioningState
+  - Added Enum KnownBareMetalMachineMetricsConfigurationStatusLogLevel
+  - Added Enum KnownBareMetalMachineMetricsConfigurationStatusMetricsLevel
+  - Added Enum KnownBareMetalMachineReimageSafeguardMode
+  - Added Enum KnownClusterContinueUpdateVersionSafeguardMode
+  - Added Enum KnownClusterInspectAdditionalAction
+  - Added Enum KnownClusterUpdateVersionSafeguardMode
+  - Added Enum KnownDeploymentType
+  - Added Enum KnownExtendedLocationType
+  - Added Enum KnownKubernetesVersionProvisioningState
+  - Added Enum KnownRelayPrivateEndpointConnectionState
+  - Added Enum KnownRuntimeProtectionAgentHealthStatus
+  - Added Enum KnownRuntimeProtectionAgentLicenseStatus
+  - Added Enum KnownRuntimeProtectionDefinitionUpdateMode
+  - Added Enum KnownSecurityRuleDirection
+  - Added Enum KnownStorageApplianceMetricsConfigurationStatusLogLevel
+  - Added Enum KnownStorageApplianceMetricsConfigurationStatusMetricsLevel
+  - Added Enum KnownTransportProtocol
+  - Added Enum KnownVersions
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value Initializing
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value None
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value Repairing
+  - Enum KnownCommandOutputType has a new value ClusterSupportAdministrativeActions
+
+### Breaking Changes
+  - Removed Interface AgentPoolConfiguration
+  - Removed Interface AgentPoolList
+  - Removed Interface BareMetalMachineKeySetList
+  - Removed Interface BareMetalMachineList
+  - Removed Interface BmcKeySetList
+  - Removed Interface CloudServicesNetworkList
+  - Removed Interface ClusterList
+  - Removed Interface ClusterManagerList
+  - Removed Interface ClusterMetricsConfigurationList
+  - Removed Interface ConsoleList
+  - Removed Interface KubernetesClusterFeatureList
+  - Removed Interface KubernetesClusterList
+  - Removed Interface L2NetworkList
+  - Removed Interface L3NetworkList
+  - Removed Interface RackList
+  - Removed Interface RackSkuList
+  - Removed Interface StorageApplianceList
+  - Removed Interface TagsParameter
+  - Removed Interface TrunkedNetworkList
+  - Removed Interface VirtualMachineList
+  - Removed Interface VolumeList
+
+## 1.3.0 (2025-12-16)
+
+### Features Added
+  - Added operation BareMetalMachines.beginRunDataExtractsRestricted
+  - Added operation BareMetalMachines.beginRunDataExtractsRestrictedAndWait
+  - Added operation StorageAppliances.beginRunReadCommands
+  - Added operation StorageAppliances.beginRunReadCommandsAndWait
+  - Added operation VirtualMachines.beginAssignRelay
+  - Added operation VirtualMachines.beginAssignRelayAndWait
+  - Added Interface ActionState
+  - Added Interface BareMetalMachinesRunDataExtractsRestrictedHeaders
+  - Added Interface BareMetalMachinesRunDataExtractsRestrictedOptionalParams
+  - Added Interface CertificateInfo
+  - Added Interface CloudServicesNetworkStorageOptions
+  - Added Interface CloudServicesNetworkStorageOptionsPatch
+  - Added Interface CloudServicesNetworkStorageStatus
+  - Added Interface CommandOutputOverride
+  - Added Interface StepState
+  - Added Interface StorageApplianceCommandSpecification
+  - Added Interface StorageApplianceRunReadCommandsParameters
+  - Added Interface StorageAppliancesRunReadCommandsHeaders
+  - Added Interface StorageAppliancesRunReadCommandsOptionalParams
+  - Added Interface VirtualMachineAssignRelayParameters
+  - Added Interface VirtualMachinesAssignRelayHeaders
+  - Added Interface VirtualMachinesAssignRelayOptionalParams
+  - Interface AgentPoolsListByKubernetesClusterOptionalParams has a new optional parameter skipToken
+  - Interface AgentPoolsListByKubernetesClusterOptionalParams has a new optional parameter top
+  - Interface BareMetalMachine has a new optional parameter actionStates
+  - Interface BareMetalMachine has a new optional parameter caCertificate
+  - Interface BareMetalMachineKeySet has a new optional parameter privilegeLevelName
+  - Interface BareMetalMachineKeySetsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachineKeySetsListByClusterOptionalParams has a new optional parameter top
+  - Interface BareMetalMachineReplaceParameters has a new optional parameter safeguardMode
+  - Interface BareMetalMachineReplaceParameters has a new optional parameter storagePolicy
+  - Interface BareMetalMachinesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachinesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface BareMetalMachinesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachinesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface BmcKeySetsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface BmcKeySetsListByClusterOptionalParams has a new optional parameter top
+  - Interface CloudServicesNetwork has a new optional parameter storageOptions
+  - Interface CloudServicesNetwork has a new optional parameter storageStatus
+  - Interface CloudServicesNetworkPatchParameters has a new optional parameter storageOptions
+  - Interface CloudServicesNetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface CloudServicesNetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface CloudServicesNetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface CloudServicesNetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface Cluster has a new optional parameter actionStates
+  - Interface ClusterManagersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface ClusterManagersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface ClusterManagersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface ClusterManagersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface ClustersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface ClustersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface ClustersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface ClustersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface CommandOutputSettings has a new optional parameter overrides
+  - Interface ConsolesListByVirtualMachineOptionalParams has a new optional parameter skipToken
+  - Interface ConsolesListByVirtualMachineOptionalParams has a new optional parameter top
+  - Interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams has a new optional parameter top
+  - Interface KubernetesClustersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClustersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface KubernetesClustersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClustersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface L2NetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface L2NetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface L2NetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface L2NetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface L3NetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface L3NetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface L3NetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface L3NetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface MetricsConfigurationsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface MetricsConfigurationsListByClusterOptionalParams has a new optional parameter top
+  - Interface RacksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface RacksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface RacksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface RacksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface SecretArchiveReference has a new optional parameter keyVaultUri
+  - Interface StorageAppliance has a new optional parameter caCertificate
+  - Interface StorageAppliancesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface StorageAppliancesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface StorageAppliancesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface StorageAppliancesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface TrunkedNetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface TrunkedNetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface TrunkedNetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface TrunkedNetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface VirtualMachine has a new optional parameter identity
+  - Interface VirtualMachine has a new optional parameter networkDataContent
+  - Interface VirtualMachine has a new optional parameter userDataContent
+  - Interface VirtualMachinePatchParameters has a new optional parameter identity
+  - Interface VirtualMachinesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface VirtualMachinesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface VirtualMachinesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface VirtualMachinesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface Volume has a new optional parameter allocatedSizeMiB
+  - Interface Volume has a new optional parameter storageApplianceId
+  - Interface VolumesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface VolumesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface VolumesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface VolumesListBySubscriptionOptionalParams has a new optional parameter top
+  - Added Type Alias ActionStateStatus
+  - Added Type Alias BareMetalMachineReplaceSafeguardMode
+  - Added Type Alias BareMetalMachineReplaceStoragePolicy
+  - Added Type Alias BareMetalMachinesRunDataExtractsRestrictedResponse
+  - Added Type Alias CloudServicesNetworkStorageMode
+  - Added Type Alias CloudServicesNetworkStorageStatusStatus
+  - Added Type Alias CommandOutputType
+  - Added Type Alias RelayType
+  - Added Type Alias StepStateStatus
+  - Added Type Alias StorageAppliancesRunReadCommandsResponse
+  - Added Type Alias VirtualMachinesAssignRelayResponse
+  - Added Enum KnownActionStateStatus
+  - Added Enum KnownBareMetalMachineReplaceSafeguardMode
+  - Added Enum KnownBareMetalMachineReplaceStoragePolicy
+  - Added Enum KnownCloudServicesNetworkStorageMode
+  - Added Enum KnownCloudServicesNetworkStorageStatusStatus
+  - Added Enum KnownCommandOutputType
+  - Added Enum KnownRelayType
+  - Added Enum KnownStepStateStatus
+  - Enum KnownBareMetalMachineKeySetPrivilegeLevel has a new value Other
+
+## 1.3.0-beta.1 (2025-11-11)
+Compared with version 1.2.0
+
+### Features Added
+  - Added operation BareMetalMachines.beginRunDataExtractsRestricted
+  - Added operation BareMetalMachines.beginRunDataExtractsRestrictedAndWait
+  - Added operation StorageAppliances.beginRunReadCommands
+  - Added operation StorageAppliances.beginRunReadCommandsAndWait
+  - Added operation VirtualMachines.beginAssignRelay
+  - Added operation VirtualMachines.beginAssignRelayAndWait
+  - Added Interface ActionState
+  - Added Interface BareMetalMachinesRunDataExtractsRestrictedHeaders
+  - Added Interface BareMetalMachinesRunDataExtractsRestrictedOptionalParams
+  - Added Interface CertificateInfo
+  - Added Interface CloudServicesNetworkStorageOptions
+  - Added Interface CloudServicesNetworkStorageOptionsPatch
+  - Added Interface CloudServicesNetworkStorageStatus
+  - Added Interface CommandOutputOverride
+  - Added Interface StepState
+  - Added Interface StorageApplianceCommandSpecification
+  - Added Interface StorageApplianceRunReadCommandsParameters
+  - Added Interface StorageAppliancesRunReadCommandsHeaders
+  - Added Interface StorageAppliancesRunReadCommandsOptionalParams
+  - Added Interface VirtualMachineAssignRelayParameters
+  - Added Interface VirtualMachinesAssignRelayHeaders
+  - Added Interface VirtualMachinesAssignRelayOptionalParams
+  - Interface AgentPoolsListByKubernetesClusterOptionalParams has a new optional parameter skipToken
+  - Interface AgentPoolsListByKubernetesClusterOptionalParams has a new optional parameter top
+  - Interface BareMetalMachine has a new optional parameter actionStates
+  - Interface BareMetalMachine has a new optional parameter caCertificate
+  - Interface BareMetalMachineKeySet has a new optional parameter privilegeLevelName
+  - Interface BareMetalMachineKeySetsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachineKeySetsListByClusterOptionalParams has a new optional parameter top
+  - Interface BareMetalMachineReplaceParameters has a new optional parameter safeguardMode
+  - Interface BareMetalMachineReplaceParameters has a new optional parameter storagePolicy
+  - Interface BareMetalMachinesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachinesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface BareMetalMachinesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface BareMetalMachinesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface BmcKeySetsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface BmcKeySetsListByClusterOptionalParams has a new optional parameter top
+  - Interface CloudServicesNetwork has a new optional parameter storageOptions
+  - Interface CloudServicesNetwork has a new optional parameter storageStatus
+  - Interface CloudServicesNetworkPatchParameters has a new optional parameter storageOptions
+  - Interface CloudServicesNetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface CloudServicesNetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface CloudServicesNetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface CloudServicesNetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface Cluster has a new optional parameter actionStates
+  - Interface ClusterManagersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface ClusterManagersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface ClusterManagersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface ClusterManagersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface ClustersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface ClustersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface ClustersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface ClustersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface CommandOutputSettings has a new optional parameter overrides
+  - Interface ConsolesListByVirtualMachineOptionalParams has a new optional parameter skipToken
+  - Interface ConsolesListByVirtualMachineOptionalParams has a new optional parameter top
+  - Interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams has a new optional parameter top
+  - Interface KubernetesClustersListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClustersListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface KubernetesClustersListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface KubernetesClustersListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface L2NetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface L2NetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface L2NetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface L2NetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface L3NetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface L3NetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface L3NetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface L3NetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface MetricsConfigurationsListByClusterOptionalParams has a new optional parameter skipToken
+  - Interface MetricsConfigurationsListByClusterOptionalParams has a new optional parameter top
+  - Interface RacksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface RacksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface RacksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface RacksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface SecretArchiveReference has a new optional parameter keyVaultUri
+  - Interface StorageAppliance has a new optional parameter caCertificate
+  - Interface StorageAppliancesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface StorageAppliancesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface StorageAppliancesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface StorageAppliancesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface TrunkedNetworksListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface TrunkedNetworksListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface TrunkedNetworksListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface TrunkedNetworksListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface VirtualMachine has a new optional parameter identity
+  - Interface VirtualMachine has a new optional parameter networkDataContent
+  - Interface VirtualMachine has a new optional parameter userDataContent
+  - Interface VirtualMachinePatchParameters has a new optional parameter identity
+  - Interface VirtualMachinesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface VirtualMachinesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface VirtualMachinesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface VirtualMachinesListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface Volume has a new optional parameter allocatedSizeMiB
+  - Interface Volume has a new optional parameter storageApplianceId
+  - Interface VolumesListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface VolumesListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface VolumesListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface VolumesListBySubscriptionOptionalParams has a new optional parameter top
+  - Added Type Alias ActionStateStatus
+  - Added Type Alias BareMetalMachineReplaceSafeguardMode
+  - Added Type Alias BareMetalMachineReplaceStoragePolicy
+  - Added Type Alias BareMetalMachinesRunDataExtractsRestrictedResponse
+  - Added Type Alias CloudServicesNetworkStorageMode
+  - Added Type Alias CloudServicesNetworkStorageStatusStatus
+  - Added Type Alias CommandOutputType
+  - Added Type Alias RelayType
+  - Added Type Alias StepStateStatus
+  - Added Type Alias StorageAppliancesRunReadCommandsResponse
+  - Added Type Alias VirtualMachinesAssignRelayResponse
+  - Added Enum KnownActionStateStatus
+  - Added Enum KnownBareMetalMachineReplaceSafeguardMode
+  - Added Enum KnownBareMetalMachineReplaceStoragePolicy
+  - Added Enum KnownCloudServicesNetworkStorageMode
+  - Added Enum KnownCloudServicesNetworkStorageStatusStatus
+  - Added Enum KnownCommandOutputType
+  - Added Enum KnownRelayType
+  - Added Enum KnownStepStateStatus
+  - Enum KnownBareMetalMachineKeySetPrivilegeLevel has a new value Other
+
     
 ## 1.2.0 (2025-06-09)
     

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a WorkloadNetworkSegment
  *
  * @summary create a WorkloadNetworkSegment
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_CreateSegments.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_CreateSegments.json
  */
 async function workloadNetworksCreateSegments() {
   const credential = new DefaultAzureCredential();
@@ -18,10 +18,7 @@ async function workloadNetworksCreateSegments() {
     properties: {
       displayName: "segment1",
       connectedGateway: "/infra/tier-1s/gateway",
-      subnet: {
-        dhcpRanges: ["40.20.0.0-40.20.0.1"],
-        gatewayAddress: "40.20.20.20/16",
-      },
+      subnet: { dhcpRanges: ["40.20.0.0-40.20.0.1"], gatewayAddress: "40.20.20.20/16" },
       revision: 1,
     },
   });

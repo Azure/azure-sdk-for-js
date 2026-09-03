@@ -70,3 +70,5 @@ output IDENTITY_TENANT_ID string = deployMIResources ? managedIdentityModule.out
 output IDENTITY_CLIENT_ID string = deployMIResources ? managedIdentityModule.outputs.IdentityClientID : ''
 output IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT string = deployMIResources ? managedIdentityModule.outputs.IdentityFunctionsCustomHandlerPort : ''
 output IDENTITY_USER_DEFINED_OBJECT_ID string = deployMIResources ? managedIdentityModule.outputs.IdentityUserDefinedObjectId : ''
+output IDENTITY_VM_NAME string = deployMIResources ? managedIdentityModule.outputs.IdentityVMName : ''
+output IDENTITY_VM_PUBLIC_IP string = deployMIResources ? managedIdentityModule.outputs.IdentityVMPublicIP : ''

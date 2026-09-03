@@ -1,15 +1,175 @@
 # Release History
 
-## 6.3.1 (Unreleased)
+## 7.0.0-beta.3 (2026-07-21)
+Compared with version 6.3.0
 
 ### Features Added
+  - Added operation IotHubOperations.manualFailover
+  - Added operation IotHubResourceOperations.createOrUpdate
+  - Added operation IotHubResourceOperations.delete
+  - Added operation IotHubResourceOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.update
+  - Class IotHubClient has a new constructor "constructor(credential: TokenCredential, options?: IotHubClientOptionalParams);"
+  - Added Interface DeviceRegistry
+  - Added Interface EncryptionPropertiesDescription
+  - Added Interface IotHubDetails
+  - Added Interface IotHubPropertiesDeviceStreams
+  - Added Interface IotHubResourceListEndpointHealthOptionalParams
+  - Added Interface IotHubResourceListQuotaMetricsOptionalParams
+  - Added Interface IotHubResourceListValidSkusOptionalParams
+  - Added Interface KeyVaultKeyProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateLinkResourcesOperationsGetOptionalParams
+  - Added Interface PrivateLinkResourcesOperationsListOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface RestorePollerOptions
+  - Added Interface RootCertificateProperties
+  - Added Interface RoutingEventStreamProperties
+  - Added Interface SimplePollerLike
+  - Added Interface TrackedResource
+  - Interface CertificateDescription has a new optional parameter systemData
+  - Interface CertificateProperties has a new optional parameter policyResourceId
+  - Interface CertificatePropertiesWithNonce has a new optional parameter policyResourceId
+  - Interface EventHubConsumerGroupInfo has a new optional parameter systemData
+  - Interface IotHubProperties has a new optional parameter deviceHostName
+  - Interface IotHubProperties has a new optional parameter deviceRegistry
+  - Interface IotHubProperties has a new optional parameter deviceStreams
+  - Interface IotHubProperties has a new optional parameter encryption
+  - Interface IotHubProperties has a new optional parameter iotHubDetails
+  - Interface IotHubProperties has a new optional parameter ipVersion
+  - Interface IotHubProperties has a new optional parameter rootCertificate
+  - Interface IotHubProperties has a new optional parameter serviceHostName
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface RoutingEndpoints has a new optional parameter eventStreams
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias EventStreamAuthenticationType
+  - Added Type Alias GatewayVersion
+  - Added Type Alias IpVersion
+  - Added Enum AzureClouds
+  - Added Enum KnownEventStreamAuthenticationType
+  - Added Enum KnownGatewayVersion
+  - Added Enum KnownIpVersion
+  - Added Enum KnownVersions
+  - Enum KnownRoutingSource has a new value DigitalTwinChangeEvents
+  - Enum KnownRoutingSource has a new value MqttBrokerMessages
 
 ### Breaking Changes
+  - Removed Interface CertificateBodyDescription
+  - Removed Interface IotHubResourceGetEndpointHealthOptionalParams
+  - Removed Interface IotHubResourceGetQuotaMetricsOptionalParams
+  - Removed Interface IotHubResourceGetValidSkusOptionalParams
+  - Removed Interface PrivateLinkResourcesGetOptionalParams
+  - Removed Interface PrivateLinkResourcesListOptionalParams
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
 
-### Bugs Fixed
+## 7.0.0-beta.2 (2026-06-08)
+Compared with version 6.3.0
 
-### Other Changes
+### Features Added
+  - Added operation IotHubOperations.manualFailover
+  - Added operation IotHubResourceOperations.createOrUpdate
+  - Added operation IotHubResourceOperations.delete
+  - Added operation IotHubResourceOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.update
+  - Class IotHubClient has a new constructor "constructor(credential: TokenCredential, options?: IotHubClientOptionalParams);"
+  - Added Interface DeviceRegistry
+  - Added Interface EncryptionPropertiesDescription
+  - Added Interface IotHubDetails
+  - Added Interface IotHubPropertiesDeviceStreams
+  - Added Interface IotHubResourceListEndpointHealthOptionalParams
+  - Added Interface IotHubResourceListQuotaMetricsOptionalParams
+  - Added Interface IotHubResourceListValidSkusOptionalParams
+  - Added Interface KeyVaultKeyProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateLinkResourcesOperationsGetOptionalParams
+  - Added Interface PrivateLinkResourcesOperationsListOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface RestorePollerOptions
+  - Added Interface RootCertificateProperties
+  - Added Interface SimplePollerLike
+  - Added Interface TrackedResource
+  - Interface CertificateDescription has a new optional parameter systemData
+  - Interface CertificateProperties has a new optional parameter policyResourceId
+  - Interface CertificatePropertiesWithNonce has a new optional parameter policyResourceId
+  - Interface EventHubConsumerGroupInfo has a new optional parameter systemData
+  - Interface IotHubProperties has a new optional parameter deviceHostName
+  - Interface IotHubProperties has a new optional parameter deviceRegistry
+  - Interface IotHubProperties has a new optional parameter deviceStreams
+  - Interface IotHubProperties has a new optional parameter encryption
+  - Interface IotHubProperties has a new optional parameter iotHubDetails
+  - Interface IotHubProperties has a new optional parameter ipVersion
+  - Interface IotHubProperties has a new optional parameter rootCertificate
+  - Interface IotHubProperties has a new optional parameter serviceHostName
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias GatewayVersion
+  - Added Type Alias IpVersion
+  - Added Enum AzureClouds
+  - Added Enum KnownGatewayVersion
+  - Added Enum KnownIpVersion
+  - Added Enum KnownVersions
+  - Enum KnownIotHubSku has a new value GEN2
+  - Enum KnownRoutingSource has a new value DigitalTwinChangeEvents
+  - Enum KnownRoutingSource has a new value MqttBrokerMessages
 
+### Breaking Changes
+  - Operation IotHubResource.beginCreateOrUpdate has a new signature
+  - Operation IotHubResource.beginCreateOrUpdateAndWait has a new signature
+  - Operation IotHubResource.beginDeleteAndWait has a new signature
+  - Operation IotHubResource.beginUpdateAndWait has a new signature
+  - Operation IotHubResource.get has a new signature
+  - Removed Interface CertificateBodyDescription
+  - Removed Interface IotHubResourceGetEndpointHealthOptionalParams
+  - Removed Interface IotHubResourceGetQuotaMetricsOptionalParams
+  - Removed Interface IotHubResourceGetValidSkusOptionalParams
+  - Removed Interface PrivateLinkResourcesGetOptionalParams
+  - Removed Interface PrivateLinkResourcesListOptionalParams
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Type alias "IotHubSkuTier" has been changed
+
+## 7.0.0-beta.1 (2025-11-06)
+Compared with version 6.3.0
+
+### Features Added
+  - Added Interface DeviceRegistry
+  - Added Interface EncryptionPropertiesDescription
+  - Added Interface IotHubPropertiesDeviceStreams
+  - Added Interface IotHubResourceCreateOrUpdateHeaders
+  - Added Interface IotHubResourceUpdateHeaders
+  - Added Interface KeyVaultKeyProperties
+  - Added Interface PrivateEndpointConnectionsUpdateHeaders
+  - Added Interface RootCertificateProperties
+  - Interface CertificateProperties has a new optional parameter policyResourceId
+  - Interface CertificatePropertiesWithNonce has a new optional parameter policyResourceId
+  - Interface IotHubProperties has a new optional parameter deviceRegistry
+  - Interface IotHubProperties has a new optional parameter deviceStreams
+  - Interface IotHubProperties has a new optional parameter encryption
+  - Interface IotHubProperties has a new optional parameter ipVersion
+  - Interface IotHubProperties has a new optional parameter rootCertificate
+  - Added Type Alias IpVersion
+  - Added Enum KnownIpVersion
+  - Enum KnownIotHubSku has a new value GEN2
+  - Enum KnownRoutingSource has a new value DigitalTwinChangeEvents
+  - Enum KnownRoutingSource has a new value MqttBrokerMessages
+
+### Breaking Changes
+  - Operation IotHubResource.beginCreateOrUpdate has a new signature
+  - Operation IotHubResource.beginCreateOrUpdateAndWait has a new signature
+  - Operation IotHubResource.beginDeleteAndWait has a new signature
+  - Operation IotHubResource.beginUpdateAndWait has a new signature
+  - Operation IotHubResource.get has a new signature
+  - Type alias "IotHubResourceUpdateResponse" has been changed
+  - Type alias "IotHubSkuTier" has been changed
+
+    
 ## 6.3.0 (2023-09-15)
     
 ### Features Added
@@ -59,4 +219,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

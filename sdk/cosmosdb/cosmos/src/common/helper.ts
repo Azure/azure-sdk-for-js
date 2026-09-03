@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosClientOptions } from "../CosmosClientOptions.js";
-import { PartitionKeyDefinition } from "../documents/index.js";
-import { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
+import type { CosmosClientOptions } from "../CosmosClientOptions.js";
+import type { PartitionKeyDefinition } from "../documents/index.js";
+import type { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
+import type { Serializer } from "../encryption/Serializers/index.js";
 import {
-  Serializer,
   NumberSerializer,
   FloatSerializer,
   StringSerializer,
@@ -171,7 +171,7 @@ export function parsePath(path: string): string[] {
 
   const getToken = (): string => {
     const newIndex = path.indexOf("/", currentIndex);
-    let token = null;
+    let token: string;
     if (newIndex === -1) {
       token = path.substr(currentIndex);
       currentIndex = path.length;

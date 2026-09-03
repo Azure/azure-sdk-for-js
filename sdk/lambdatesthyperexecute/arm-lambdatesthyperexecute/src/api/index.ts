@@ -3,6 +3,6 @@
 
 export {
   createHyperExecute,
-  HyperExecuteContext,
-  HyperExecuteClientOptionalParams,
+  type HyperExecuteContext,
+  type HyperExecuteClientOptionalParams,
 } from "./hyperExecuteContext.js";

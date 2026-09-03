@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageContext } from "../../api/storageContext.js";
-import { FileSystemResource, FileSystemResourceUpdate } from "../../models/models.js";
-import {
-  FileSystemsListBySubscriptionOptionalParams,
-  FileSystemsListByResourceGroupOptionalParams,
-  FileSystemsDeleteOptionalParams,
-  FileSystemsUpdateOptionalParams,
-  FileSystemsCreateOrUpdateOptionalParams,
-  FileSystemsGetOptionalParams,
-} from "../../api/fileSystems/options.js";
+import type { StorageContext } from "../../api/storageContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,8 +10,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/fileSystems/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  FileSystemsListBySubscriptionOptionalParams,
+  FileSystemsListByResourceGroupOptionalParams,
+  FileSystemsDeleteOptionalParams,
+  FileSystemsUpdateOptionalParams,
+  FileSystemsCreateOrUpdateOptionalParams,
+  FileSystemsGetOptionalParams,
+} from "../../api/fileSystems/options.js";
+import type { FileSystemResource, FileSystemResourceUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FileSystems operations. */
 export interface FileSystemsOperations {

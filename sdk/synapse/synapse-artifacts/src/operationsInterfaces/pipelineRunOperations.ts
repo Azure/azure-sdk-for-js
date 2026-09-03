@@ -21,8 +21,8 @@ import type {
 export interface PipelineRunOperations {
   /**
    * Query pipeline runs in the workspace based on input filter conditions.
-   * @param filterParameters - Parameters to filter the pipeline run.
-   * @param options - The options parameters.
+   * @param filterParameters Parameters to filter the pipeline run.
+   * @param options The options parameters.
    */
   queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
@@ -30,8 +30,8 @@ export interface PipelineRunOperations {
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
   /**
    * Get a pipeline run by its run ID.
-   * @param runId - The pipeline run identifier.
-   * @param options - The options parameters.
+   * @param runId The pipeline run identifier.
+   * @param options The options parameters.
    */
   getPipelineRun(
     runId: string,
@@ -39,10 +39,10 @@ export interface PipelineRunOperations {
   ): Promise<PipelineRunGetPipelineRunResponse>;
   /**
    * Query activity runs based on input filter conditions.
-   * @param pipelineName - The pipeline name.
-   * @param runId - The pipeline run identifier.
-   * @param filterParameters - Parameters to filter the activity runs.
-   * @param options - The options parameters.
+   * @param pipelineName The pipeline name.
+   * @param runId The pipeline run identifier.
+   * @param filterParameters Parameters to filter the activity runs.
+   * @param options The options parameters.
    */
   queryActivityRuns(
     pipelineName: string,
@@ -52,8 +52,8 @@ export interface PipelineRunOperations {
   ): Promise<PipelineRunQueryActivityRunsResponse>;
   /**
    * Cancel a pipeline run by its run ID.
-   * @param runId - The pipeline run identifier.
-   * @param options - The options parameters.
+   * @param runId The pipeline run identifier.
+   * @param options The options parameters.
    */
   cancelPipelineRun(
     runId: string,

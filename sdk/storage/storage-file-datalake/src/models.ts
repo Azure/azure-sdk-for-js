@@ -12,6 +12,9 @@ import type {
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   WithResponse,
+  NodeJSReadableStream,
+  BlobTags,
+  Tags,
 } from "@azure/storage-blob";
 import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -51,24 +54,26 @@ import type {
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
   PathUndeleteHeaders,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 import type { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions.js";
 import type { DirectorySASPermissions } from "./sas/DirectorySASPermissions.js";
 import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions.js";
 import type { SasIPRange } from "./sas/SasIPRange.js";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { CommonOptions } from "./StorageClient.js";
+import type { UserDelegationKey } from "@azure/storage-common";
+import type { StoragePipelineOptions } from "./Pipeline.js";
 
 export {
-  LeaseAccessConditions,
-  UserDelegationKeyModel,
-  ServiceListContainersSegmentResponse,
-  Lease,
-  LeaseOperationOptions,
-  LeaseOperationResponse,
+  type LeaseAccessConditions,
+  type UserDelegationKeyModel,
+  type ServiceListContainersSegmentResponse,
+  type Lease,
+  type LeaseOperationOptions,
+  type LeaseOperationResponse,
 } from "@azure/storage-blob";
 
-export {
+export type {
   BlobHierarchyListSegment,
   BlobItemModel,
   BlobPrefix,
@@ -93,7 +98,7 @@ export {
   PathRenameMode as PathRenameModeModel,
   PathExpiryOptions as FileExpiryMode,
   PathSetExpiryHeaders as FileSetExpiryHeaders,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 
 export type PathCreateResponse = WithResponse<PathCreateHeaders, PathCreateHeaders>;
 export type PathDeleteResponse = WithResponse<PathDeleteHeaders, PathDeleteHeaders>;
@@ -177,6 +182,15 @@ export interface CommonGenerateSasUrlOptions {
    * Optional. The content-type header for the SAS.
    */
   contentType?: string;
+
+  /**
+   * Request headers used in generating a SAS token
+   */
+  requestHeaders?: RequestHeaders;
+  /**
+   * Request query parameters used in generating a SAS token
+   */
+  requestQueryParameters?: RequestQueryParameters;
 }
 
 /** ***********************************************************/
@@ -187,22 +201,30 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Parameters for getting user delegation key.
+ */
+export interface DataLakeGetUserDelegationKeyParameters {
+  /**
+   * The start time for the user delegation key. Must be within 7 days of the current time
+   */
+  startsOn: Date;
+  /**
+   * The end time for the user delegation key. Must be within 7 days of the current time
+   */
+  expiresOn: Date;
+  /**
+   * The tenant ID for the user delegation key.
+   */
+  delegatedUserTenantId: string;
+}
+
 // TODO: Leverage interface definitions from blob package directly, or duplicate create a copy here which will not have generation benefits
 export interface ServiceGetUserDelegationKeyHeaders {
   clientRequestId?: string;
   requestId?: string;
   version?: string;
   date?: Date;
-}
-
-export interface UserDelegationKey {
-  signedObjectId: string;
-  signedTenantId: string;
-  signedStartsOn: Date;
-  signedExpiresOn: Date;
-  signedService: string;
-  signedVersion: string;
-  value: string;
 }
 
 export type ServiceGetUserDelegationKeyResponse = WithResponse<
@@ -475,6 +497,12 @@ export interface ListPathsOptions extends CommonOptions {
   recursive?: boolean;
   path?: string;
   userPrincipalName?: boolean;
+  /** Optional.
+   * A relative path within the specified directory where the listing will start from.
+   * For example, a recursive listing under directory folder1/folder2 with startFrom as folder3/readmefile.txt will start listing from folder1/folder2/folder3/readmefile.txt.
+   * Please note that, multiple entity levels are supported for recursive listing. Non-recursive listing supports only one entity level.
+   * An error will appear if multiple entity levels are specified for non-recursive listing. */
+  startFrom?: string;
 }
 
 export interface ListPathsSegmentOptions extends ListPathsOptions {
@@ -609,8 +637,7 @@ export interface Metadata {
 }
 
 export interface DataLakeRequestConditions
-  extends ModifiedAccessConditions,
-    LeaseAccessConditions {}
+  extends ModifiedAccessConditions, LeaseAccessConditions {}
 
 export interface RolePermissions {
   read: boolean;
@@ -794,6 +821,78 @@ export type PathGetAccessControlResponse = WithResponse<
   PathGetPropertiesHeadersModel
 >;
 
+/** Defines headers for Path_getProperties operation. */
+export interface PathGetSystemPropertiesHeaders {
+  /** Indicates that the service supports requests for partial file content. */
+  acceptRanges?: string;
+  /** If the Cache-Control request header has previously been set for the resource, that value is returned in this header. */
+  cacheControl?: string;
+  /** If the Content-Disposition request header has previously been set for the resource, that value is returned in this header. */
+  contentDisposition?: string;
+  /** If the Content-Encoding request header has previously been set for the resource, that value is returned in this header. */
+  contentEncoding?: string;
+  /** If the Content-Language request header has previously been set for the resource, that value is returned in this header. */
+  contentLanguage?: string;
+  /** The size of the resource in bytes. */
+  contentLength?: number;
+  /** Indicates the range of bytes returned in the event that the client requested a subset of the file by setting the Range request header. */
+  contentRange?: string;
+  /** The content type specified for the resource. If no content type was specified, the default content type is application/octet-stream. */
+  contentType?: string;
+  /** The MD5 hash of complete file stored in storage. This header is returned only for "GetProperties" operation. If the Content-MD5 header has been set for the file, this response header is returned for GetProperties call so that the client can check for message content integrity. */
+  contentMD5?: string;
+  /** A UTC date/time value generated by the service that indicates the time at which the response was initiated. */
+  date?: Date;
+  /** An HTTP entity tag associated with the file or directory. */
+  etag?: string;
+  /** The data and time the file or directory was last modified.  Write operations on the file or directory update the last modified time. */
+  lastModified?: Date;
+  /** A server-generated UUID recorded in the analytics logs for troubleshooting and correlation. */
+  requestId?: string;
+  /** The version of the REST protocol used to process the request. */
+  version?: string;
+  /** Specifies whether the resource is a directory or a file */
+  isDirectory?: boolean;
+  /** The user-defined properties associated with the file or directory, in the format of a comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is a base64 encoded string. Note that the string may only contain ASCII characters in the ISO-8859-1 character set. */
+  properties?: string;
+  /** The owner of the file or directory. Included in the response if Hierarchical Namespace is enabled for the account. */
+  owner?: string;
+  /** The owning group of the file or directory. Included in the response if Hierarchical Namespace is enabled for the account. */
+  group?: string;
+  /** The POSIX access permissions for the file owner, the file owning group, and others. Included in the response if Hierarchical Namespace is enabled for the account. */
+  permissions?: PathPermissions;
+  /** The POSIX access control list for the file or directory.  Included in the response only if the action is "getAccessControl" and Hierarchical Namespace is enabled for the account. */
+  acl?: string;
+  /** When a resource is leased, specifies whether the lease is of infinite or fixed duration. */
+  leaseDuration?: string;
+  /** Lease state of the resource. */
+  leaseState?: string;
+  /** The lease status of the resource. */
+  leaseStatus?: string;
+  /** The value of this header is set to true if the directory metadata is completely encrypted using the specified algorithm. Otherwise, the value is set to false. */
+  isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
+  /** The encryption context used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionContext?: string;
+  /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+  encryptionScope?: string;
+  /** Returns the date and time the blob was created. */
+  creationTime?: Date;
+  /** The time this blob will expire. */
+  expiresOn?: Date;
+  /** Error Code */
+  errorCode?: string;
+}
+
+/**
+ * Contains response data for the {@link DataLakePathClient.getSystemProperties} operation.
+ */
+export type PathGetSystemPropertiesResponse = WithResponse<
+  PathGetSystemPropertiesHeaders,
+  PathGetPropertiesHeadersModel
+>;
+
 export interface PathSetAccessControlOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   conditions?: DataLakeRequestConditions;
@@ -926,6 +1025,26 @@ export interface PathGetPropertiesOptions extends CommonOptions {
   customerProvidedKey?: CpkInfo;
 }
 
+/**
+ * Options to configure the {@link DataLakePathClient.getSystemProperties} operation.
+ */
+export interface PathGetSystemPropertiesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet for the target path when fetching the properties.
+   */
+  conditions?: DataLakeRequestConditions;
+  /** Optional.
+   * If "true", the user identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be transformed from Azure Active Directory Object IDs to User Principal Names.
+   * If "false", the values will be returned as Azure Active Directory Object IDs. The default value is false. Note that group and application Object IDs are not translated because they do not have unique friendly names.
+   */
+  userPrincipalName?: boolean;
+}
+
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 
 export interface PathGetPropertiesHeaders {
@@ -1004,6 +1123,8 @@ export interface PathHttpHeaders {
   contentDisposition?: string;
   contentType?: string;
   contentMD5?: Uint8Array;
+  /** Specify the transactional md5 for the body, to be validated by the service. */
+  transactionalContentHash?: Uint8Array;
 }
 
 export interface PathSetHttpHeadersHeaders {
@@ -1028,6 +1149,88 @@ export interface PathSetMetadataOptions extends CommonOptions {
    */
   customerProvidedKey?: CpkInfo;
 }
+
+/**
+ * Specifies HTTP options for conditional requests based on path tags.
+ */
+export interface TagConditions {
+  /**
+   * Optional SQL statement to apply to the tags of the path.
+   */
+  tagConditions?: string;
+}
+
+/**
+ * Options to configure the {@link DataLakePathClient.getTags} operation.
+ */
+export interface PathGetTagsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet for the blob to perform this operation.
+   */
+  conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
+}
+
+/** Defines headers for Blob_getTags operation. */
+export interface PathGetTagsHeaders {
+  /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+  clientRequestId?: string;
+  /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+  requestId?: string;
+  /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+  version?: string;
+  /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+  date?: Date;
+  /** Error Code */
+  errorCode?: string;
+}
+
+/**
+ * Contains response data for the {@link DataLakePathClient.getTags} operation.
+ */
+export type PathGetTagsResponse = WithResponse<
+  { tags: Tags } & PathGetTagsHeaders,
+  PathGetTagsHeaders,
+  BlobTags
+>;
+
+/**
+ * Options to configure the {@link DataLakePathClient.setTags} operation.
+ */
+export interface PathSetTagsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet for the blob to perform this operation.
+   */
+  conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
+}
+
+/** Defines headers for Path_setTags operation. */
+export interface PathSetTagsHeaders {
+  /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+  clientRequestId?: string;
+  /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+  requestId?: string;
+  /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+  version?: string;
+  /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+  date?: Date;
+  /** Error Code */
+  errorCode?: string;
+}
+
+/**
+ * Contains response data for the {@link DataLakePathClient.setTags} operation.
+ */
+export type PathSetTagsResponse = WithResponse<PathSetTagsHeaders, PathSetTagsHeaders>;
 
 export interface PathSetMetadataHeaders {
   etag?: string;
@@ -1156,6 +1359,10 @@ export interface FileReadOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   rangeGetContentMD5?: boolean;
   rangeGetContentCrc64?: boolean;
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   conditions?: DataLakeRequestConditions;
   onProgress?: (progress: TransferProgressEvent) => void;
   maxRetryRequests?: number;
@@ -1212,12 +1419,16 @@ export interface FileReadHeaders {
    * POSIX access control rights on files and directories.
    */
   acl: PathAccessControlItem[];
+  /** Indicates the response body contains a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 export type FileReadResponse = WithResponse<
   FileReadHeaders & {
     contentAsBlob?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
   },
   FileReadHeaders
 >;
@@ -1235,6 +1446,11 @@ export interface FileAppendOptions extends CommonOptions {
    * If file should be flushed automatically after the append
    */
   flush?: boolean;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
    * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats.
    * */
@@ -1345,6 +1561,11 @@ export interface FileParallelUploadOptions extends CommonOptions {
    */
   close?: boolean;
 
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
   // For parallel transfer control.
 
   /**
@@ -1405,6 +1626,10 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * because they doesn't emit network errors. Default value is 5.
    */
   maxRetryRequestsPerChunk?: number;
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 
   /**
    * chunkSize is size of data every request trying to read.
@@ -1515,16 +1740,12 @@ export interface FileQueryOptions extends CommonOptions {
    * Configurations for the query input.
    */
   inputTextConfiguration?:
-    | FileQueryJsonTextConfiguration
-    | FileQueryCsvTextConfiguration
-    | FileQueryParquetConfiguration;
+    FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryParquetConfiguration;
   /**
    * Configurations for the query output.
    */
   outputTextConfiguration?:
-    | FileQueryJsonTextConfiguration
-    | FileQueryCsvTextConfiguration
-    | FileQueryArrowConfiguration;
+    FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
    */
@@ -1602,6 +1823,53 @@ export enum StorageDataLakeAudience {
 export function getDataLakeServiceAccountAudience(storageAccountName: string): string {
   return `https://${storageAccountName}.dfs.core.windows.net/.default`;
 }
+
+/**
+ * To indicate check sum algorithm used in content validation.
+ */
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
+/**
+ * Config used in creating datalake client instances.
+ */
+export interface DataLakeClientConfig {
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+/**
+ * Options for creating DataLakeFileSystemClient instances
+ */
+export type DataLakeFileSystemClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+/**
+ * Options for creating DataLakeServiceClient instances
+ */
+export type DataLakeServiceClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+/**
+ * Options for creating DataLakePathClient instances
+ */
+export type DataLakePathClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+/**
+ * Options for creating DataLakeFileClient instances
+ */
+export type DataLakeFileClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+
+/**
+ * Request headers used in generating a SAS token
+ */
+export type RequestHeaders = Record<string, string>;
+
+/**
+ * Request query parameters used in generating a SAS token
+ */
+export type RequestQueryParameters = Record<string, string>;
 
 /** *********************************************************/
 /** DataLakeLeaseClient option and response related models */

@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import {
+  createAndStartRecorder,
+  getBSU,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
@@ -27,6 +33,10 @@ describe("LeaseClient from Container", () => {
       },
       ["record", "playback"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -92,7 +102,7 @@ describe("LeaseClient from Container", () => {
 
     await delay(16 * 1000);
     const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     assert.equal(result2.leaseStatus, "unlocked");
 
@@ -137,14 +147,14 @@ describe("LeaseClient from Container", () => {
     await leaseClient.breakLease(3);
 
     const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(3 * 1000);
 
     const result3 = await containerClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     assert.equal(result3.leaseStatus, "unlocked");
   });
@@ -160,9 +170,7 @@ describe("LeaseClient from Blob", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = await createAndStartRecorder(ctx);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -220,7 +228,7 @@ describe("LeaseClient from Blob", () => {
     await delay(20 * 1000);
 
     const result2 = await blobClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     assert.equal(result2.leaseStatus, "unlocked");
 
@@ -265,14 +273,14 @@ describe("LeaseClient from Blob", () => {
     await leaseClient.breakLease(5);
 
     const result2 = await blobClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(5 * 1000);
 
     const result3 = await blobClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     assert.equal(result3.leaseStatus, "unlocked");
   });

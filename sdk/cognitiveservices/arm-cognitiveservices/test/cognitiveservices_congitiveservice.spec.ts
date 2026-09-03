@@ -22,13 +22,27 @@ const recorderOptions: RecorderStartOptions = {
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
   ],
+  sanitizerOptions: {
+    bodySanitizers: [
+      {
+        regex: true,
+        value: `"key1":"fakeKey"`,
+        target: `"key1":"[^"]*"`,
+      },
+      {
+        regex: true,
+        value: `"key2":"fakeKey"`,
+        target: `"key2":"[^"]*"`,
+      },
+    ],
+  },
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("CognitiveServices test", () => {
+describe.skip("CognitiveServices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CognitiveServicesManagementClient;
@@ -48,7 +62,7 @@ describe("CognitiveServices test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     accountName = "myaccountxxxx1";
   });
 

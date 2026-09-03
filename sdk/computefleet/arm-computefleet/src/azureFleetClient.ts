@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createAzureFleet,
-  AzureFleetContext,
-  AzureFleetClientOptionalParams,
-} from "./api/index.js";
-import { FleetsOperations, _getFleetsOperations } from "./classic/fleets/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { AzureFleetContext, AzureFleetClientOptionalParams } from "./api/index.js";
+import { createAzureFleet } from "./api/index.js";
+import type { FleetsOperations } from "./classic/fleets/index.js";
+import { _getFleetsOperations } from "./classic/fleets/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureFleetClientOptionalParams } from "./api/azureFleetContext.js";
+export type { AzureFleetClientOptionalParams } from "./api/azureFleetContext.js";
 
 export class AzureFleetClient {
   private _client: AzureFleetContext;
@@ -23,14 +22,7 @@ export class AzureFleetClient {
     subscriptionId: string,
     options: AzureFleetClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAzureFleet(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAzureFleet(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.fleets = _getFleetsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);

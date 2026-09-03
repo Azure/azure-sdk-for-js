@@ -8,7 +8,7 @@ import { config } from "dotenv";
 import { configureFileStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { StoragePipelineOptions } from "../../src/index.js";
-import { StorageSharedKeyCredential } from "../../src/index.js";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { BlobServiceClient } from "../../src/index.js";
 import { getUniqueName, configureBlobStorageClient } from "./testutils.common.js";
 import { newPipeline } from "../../src/index.js";
@@ -27,6 +27,7 @@ import {
   ShareServiceClient,
   StorageSharedKeyCredential as FileStorageSharedKeyCredential,
 } from "@azure/storage-file-share";
+import { BlobClientOptions } from "../../src/models.js";
 
 export * from "./testutils.common.js";
 config();
@@ -45,6 +46,10 @@ export function getFileGenericCredential(): FileStorageSharedKeyCredential {
   }
 
   return new FileStorageSharedKeyCredential(accountName, accountKey);
+}
+
+export function parseJwt(token: string): any {
+  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
 }
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
@@ -89,19 +94,22 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {},
+  pipelineOptions: BlobClientOptions = {},
 ): BlobServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
     env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")
   ) {
-    return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+    return BlobServiceClient.fromConnectionString(
+      getConnectionStringFromEnvironment(),
+      pipelineOptions,
+    );
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const pipeline = newPipeline(credential, pipelineOptions);
     const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
-    const client = new BlobServiceClient(blobPrimaryURL, pipeline);
+    const client = new BlobServiceClient(blobPrimaryURL, pipeline, pipelineOptions);
     configureBlobStorageClient(recorder, client);
     return client;
   }
@@ -164,6 +172,8 @@ export function getTokenBSUWithDefaultCredential(
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
+  const now = new Date();
+  now.setDate(now.getDate() + 1);
   const credential = createTestCredential();
   const pipeline = newPipeline(credential, {
     ...pipelineOptions,
@@ -181,7 +191,7 @@ export async function getStorageAccessTokenWithDefaultCredential(): Promise<Acce
 
 export function getBSU(
   recorder: Recorder,
-  pipelineOptions: StoragePipelineOptions = {},
+  pipelineOptions: BlobClientOptions = {},
 ): BlobServiceClient {
   return getGenericBSU(recorder, "", undefined, pipelineOptions);
 }
@@ -237,6 +247,28 @@ export async function bodyToString(
     response.readableStreamBody!.on("error", reject);
     response.readableStreamBody!.on("end", () => {
       resolve("");
+    });
+  });
+}
+
+export async function readBuffer(
+  response: {
+    readableStreamBody?: NodeJS.ReadableStream;
+    blobBody?: Promise<Blob>;
+  },
+  length?: number,
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    response.readableStreamBody!.on("readable", () => {
+      const chunk = response.readableStreamBody!.read(length);
+      if (chunk) {
+        resolve();
+      }
+    });
+
+    response.readableStreamBody!.on("error", reject);
+    response.readableStreamBody!.on("end", () => {
+      resolve();
     });
   });
 }

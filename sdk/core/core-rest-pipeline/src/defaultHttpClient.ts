@@ -3,7 +3,7 @@
 
 import type { HttpClient } from "./interfaces.js";
 import { createDefaultHttpClient as tspCreateDefaultHttpClient } from "@typespec/ts-http-runtime";
-import { wrapAbortSignalLike } from "./util/wrapAbortSignal.js";
+import { wrapAbortSignalLike } from "#platform/wrapAbortSignal";
 import { type PipelineRequest as TspPipelineRequest } from "@typespec/ts-http-runtime";
 
 /**
@@ -19,7 +19,6 @@ export function createDefaultHttpClient(): HttpClient {
         ? wrapAbortSignalLike(request.abortSignal)
         : {};
       try {
-        // eslint-disable-next-line no-param-reassign
         request.abortSignal = abortSignal;
         return await client.sendRequest(request as TspPipelineRequest);
       } finally {

@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export { StorageTaskAssignmentListOptionalParams } from "./options.js";
+export { type StorageTaskAssignmentListOptionalParams } from "./options.js";

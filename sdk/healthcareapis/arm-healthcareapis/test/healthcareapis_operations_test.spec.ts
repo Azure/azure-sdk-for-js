@@ -49,7 +49,7 @@ describe("HealthcareApis test", () => {
     );
     location = "eastus";
     resourceGroup = "myjstest";
-    resourcename = "resourcetest1";
+    resourcename = "resourcetest11";
   });
 
   afterEach(async () => {
@@ -83,6 +83,7 @@ describe("HealthcareApis test", () => {
   });
 
   it("workspaces delete test", async () => {
+    await client.workspaces.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
     const resArray = new Array();
     for await (const item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-billing-trust": ["../src/index.ts"],
+      "@azure/arm-billing-trust/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

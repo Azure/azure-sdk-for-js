@@ -1,6 +1,6 @@
 # Release History
-
-## 4.0.0-beta.4 (Unreleased)
+    
+## 4.0.0-beta.6 (Unreleased)
 
 ### Features Added
 
@@ -10,12 +10,9 @@
 
 ### Other Changes
 
-## 4.0.0-beta.3 (2022-11-23)
+## 4.0.0-beta.5 (2026-06-05)
+### Features Added
 
-The package of @azure/arm-hanaonazure is using our next generation design principles since version 4.0.0-beta.3, which contains breaking changes.
+The @azure/arm-hanaonazure package has been upgraded to a new SDK generation that provides layered APIs, smaller bundles, and improved ergonomics. Starting from version 4.0.0-beta.5, this release includes breaking changes.
 
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To migrate existing applications, see the https://aka.ms/azsdk/js/sdk/migration. For more information, refer to the https://aka.ms/azsdk/js/sdk/quickstart.

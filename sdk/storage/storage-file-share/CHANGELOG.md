@@ -1,6 +1,6 @@
 # Release History
 
-## 12.29.0 (Unreleased)
+## 12.33.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,75 @@
 
 ### Bugs Fixed
 
+- Restored the core v1 user agent string prefix, `azsdk-js-storagefile`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+
 ### Other Changes
+
+## 12.33.0-beta.1 (2026-08-03)
+
+### Features Added
+
+- Added support for service version 2026-10-06.
+- Added `ShareFileClient.listRanges()` and `ShareFileClient.listRangesDiff()` to list file ranges as a paginated async iterable with continuation-token support.
+- Deprecated `ShareFileClient.getRangeList()` and `ShareFileClient.getRangeListDiff()` in favor of `listRanges()` and `listRangesDiff()`.
+
+### Bugs Fixed
+
+- Stopped exporting the internal-only `FileDownloadOptionalParams` and `FileUploadRangeFromURLOptionalParams` types, which are not referenced by any public API.
+
+### Other Changes
+
+- Migrate to TypeSpec-based code generation [PR #38227](https://github.com/Azure/azure-sdk-for-js/pull/38227)
+
+## 12.32.0 (2026-06-24)
+
+### Features Added
+
+- Includes all features released in 12.32.0-beta.1.
+
+## 12.31.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.31.0-beta.1.
+
+## 12.32.0-beta.1 (2026-04-29)
+
+### Features Added
+
+- Added support for service version 2026-06-06.
+- Added support for uploading up to 4 MiB of data with shareFileClient.create().
+
+## 12.31.0-beta.1 (2026-03-05)
+
+### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+- Added support for service version 2026-04-06.
+- Added support for Content Validation via Structured Message
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
+- Added support for Files Provisioned V2 Guardrails
+
+## 12.30.0 (2026-01-16)
+
+### Features Added
+
+- Includes all features released in 12.30.0-beta.1.
+
+## 12.30.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for service version 2026-02-06.
+- Added support for User Delegation SAS.
+- Added support for Principal-Bound Identity User Delegation SAS.
+- Added support for the ShareServiceProperties.Protocol.SMB.EncryptionInTransit parameter on ShareServiceClient.setProperties().
+
+## 12.29.1 (2025-10-16)
+
+### Features Added
+
+- Includes all features released in 12.29.0-beta.1.
 
 ## 12.28.0 (2025-07-22)
 

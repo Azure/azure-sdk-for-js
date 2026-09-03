@@ -3,13 +3,22 @@
 import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { delay, extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import {
+  delay,
+  extractConnectionStringParts,
+  readResponseBodyToBytes,
+} from "../../src/utils/utils.common.js";
 import type { ReadableOptions } from "node:stream";
 import { Readable, PassThrough } from "node:stream";
-import { readStreamToLocalFile, streamToBuffer2, streamToBuffer3 } from "../../src/utils/utils.js";
+import {
+  readStreamToLocalFile,
+  streamToBuffer,
+  streamToBuffer2,
+  streamToBuffer3,
+} from "../../src/utils/utils.js";
 import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream.js";
-import { describe, it, assert, afterEach } from "vitest";
+import { describe, it, assert, afterEach, expect } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";
@@ -44,7 +53,7 @@ describe("Utility Helpers Node.js only", () => {
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
-      assert.ok(
+      assert.isTrue(
         error.message ===
           "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
       );
@@ -382,6 +391,73 @@ describe("Utility Helpers Node.js only", () => {
       });
     });
   });
+
+  describe("streamToBuffer", () => {
+    // Build a Readable that already has multiple chunks queued internally before any
+    // consumer attaches a `readable` listener. This forces the consumer to drain
+    // multiple buffered chunks from a single `readable` event - the exact scenario
+    // that regressed in Node.js v26 (see nodejs/node#60441).
+    function makeMultiChunkStream(chunks: Buffer[]): Readable {
+      const stream = new Readable({ read() {} });
+      for (const chunk of chunks) {
+        stream.push(chunk);
+      }
+      stream.push(null);
+      return stream;
+    }
+
+    it("reads exactly `count` bytes when multiple chunks are pre-buffered", async () => {
+      const chunks = [Buffer.from("hello "), Buffer.from("buffered "), Buffer.from("world!")];
+      const expected = Buffer.concat(chunks);
+      const stream = makeMultiChunkStream(chunks);
+
+      const output = Buffer.alloc(expected.length);
+      await streamToBuffer(stream, output, 0, expected.length);
+
+      assert.deepEqual(output, expected);
+    });
+
+    it("fills the requested slice with multi-chunk data and stops at `count`", async () => {
+      const chunks = [Buffer.from("AAAA"), Buffer.from("BBBB"), Buffer.from("CCCC")];
+      const stream = makeMultiChunkStream(chunks);
+
+      // Pre-fill output with marker bytes so we can verify only [offset, end) is touched.
+      const marker = 0xff;
+      const output = Buffer.alloc(20, marker);
+      const offset = 4;
+      const end = 14; // request 10 bytes; stream has 12 available
+
+      await streamToBuffer(stream, output, offset, end);
+
+      // Bytes outside [offset, end) must remain marker.
+      for (let i = 0; i < offset; i++) {
+        assert.strictEqual(output[i], marker, `byte ${i} (before offset) modified`);
+      }
+      for (let i = end; i < output.length; i++) {
+        assert.strictEqual(output[i], marker, `byte ${i} (after end) modified`);
+      }
+      // Filled region must contain the first 10 bytes of the concatenated input.
+      assert.deepEqual(
+        output.subarray(offset, end),
+        Buffer.concat(chunks).subarray(0, end - offset),
+      );
+    });
+
+    it("rejects when the stream ends before `count` bytes are read", async () => {
+      const chunks = [Buffer.from("abc"), Buffer.from("def")];
+      const stream = makeMultiChunkStream(chunks);
+
+      const output = Buffer.alloc(10);
+      let caught: Error | undefined;
+      try {
+        await streamToBuffer(stream, output, 0, 10);
+      } catch (err: any) {
+        caught = err;
+      }
+      assert.isDefined(caught, "Expected streamToBuffer to reject");
+      assert.match(caught!.message, /Stream drains before/);
+    });
+  });
 });
 
 describe("RetriableReadableStream", () => {
@@ -429,8 +505,8 @@ describe("RetriableReadableStream", () => {
     retriable.destroy(passedInError);
     // spare time for events to fire
     await delay(delayTimeInMs);
-    assert.ok((counter as any).destroyed);
-    assert.ok(errorCaught);
+    assert.isTrue((counter as any).destroyed);
+    assert.isDefined(errorCaught);
   });
 
   it("setEncoding should work", async () => {
@@ -486,5 +562,25 @@ describe("RetriableReadableStream", () => {
 
     const resBuf = await streamToBuffer3(retriable);
     assert.deepStrictEqual(resBuf.toString(), "0123456789");
+  });
+});
+
+describe("readResponseBodyToBytes", () => {
+  it("reads a Node.js readable stream into a single byte array", async () => {
+    const bytes = await readResponseBodyToBytes({
+      readableStreamBody: Readable.from([Buffer.from("hello "), Buffer.from("world")]),
+    });
+    assert.strictEqual(new TextDecoder().decode(bytes), "hello world");
+  });
+
+  it("reads a Blob into a single byte array", async () => {
+    const bytes = await readResponseBodyToBytes({
+      blobBody: Promise.resolve(new Blob(["hello world"])),
+    });
+    assert.strictEqual(new TextDecoder().decode(bytes), "hello world");
+  });
+
+  it("throws a RangeError when the response body is empty or unavailable", async () => {
+    await expect(readResponseBodyToBytes({})).rejects.toThrow(RangeError);
   });
 });

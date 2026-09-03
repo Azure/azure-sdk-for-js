@@ -10,7 +10,7 @@ import type {
 } from "../../secretsModels.js";
 import type { KeyVaultSecretPollOperationState } from "../keyVaultSecretPoller.js";
 import { KeyVaultSecretPollOperation } from "../keyVaultSecretPoller.js";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import { getSecretFromSecretBundle } from "../../transformations.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../../tracing.js";
@@ -18,8 +18,7 @@ import { tracingClient } from "../../tracing.js";
 /**
  * An interface representing the state of a delete secret's poll operation
  */
-export interface RecoverDeletedSecretPollOperationState
-  extends KeyVaultSecretPollOperationState<SecretProperties> {}
+export interface RecoverDeletedSecretPollOperationState extends KeyVaultSecretPollOperationState<SecretProperties> {}
 
 /**
  * An interface representing a delete secret's poll operation

@@ -14,10 +14,10 @@ import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
 
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   // List the details of all the connections
   const connections: Connection[] = [];
@@ -55,7 +55,9 @@ export async function main(): Promise<void> {
   console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
 
   // Get the details of a default connection
-  const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
+  const defaultConnection = await project.connections.getDefault("AzureOpenAI", {
+    includeCredentials: true,
+  });
   console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
 }
 

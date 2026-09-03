@@ -48,7 +48,7 @@ export function serializationPolicy(options: SerializationPolicyOptions = {}): P
 
   return {
     name: serializationPolicyName,
-    async sendRequest(request: OperationRequest, next: SendRequest): Promise<PipelineResponse> {
+    sendRequest(request: OperationRequest, next: SendRequest): Promise<PipelineResponse> {
       const operationInfo = getOperationRequestInfo(request);
       const operationSpec = operationInfo?.operationSpec;
       const operationArguments = operationInfo?.operationArguments;
@@ -202,6 +202,7 @@ export function serializeRequestBody(
           undefined,
           "  ",
         )}.`,
+        { cause: error },
       );
     }
   } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {

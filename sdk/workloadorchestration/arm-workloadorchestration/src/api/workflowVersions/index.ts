@@ -3,9 +3,9 @@
 
 export { listByWorkflow, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  WorkflowVersionsListByWorkflowOptionalParams,
-  WorkflowVersionsDeleteOptionalParams,
-  WorkflowVersionsUpdateOptionalParams,
-  WorkflowVersionsCreateOrUpdateOptionalParams,
-  WorkflowVersionsGetOptionalParams,
+  type WorkflowVersionsListByWorkflowOptionalParams,
+  type WorkflowVersionsDeleteOptionalParams,
+  type WorkflowVersionsUpdateOptionalParams,
+  type WorkflowVersionsCreateOrUpdateOptionalParams,
+  type WorkflowVersionsGetOptionalParams,
 } from "./options.js";

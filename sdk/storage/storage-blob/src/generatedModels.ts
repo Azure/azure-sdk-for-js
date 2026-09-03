@@ -2,8 +2,12 @@
 // Licensed under the MIT License.
 
 import type { Tags } from "./index.js";
-import type { BlobPropertiesInternal as BlobProperties } from "./generated/src/models/index.js";
-import {
+import type {
+  BlobPropertiesInternal as BlobProperties,
+  BlobServiceProperties,
+} from "./generated-classic-models.js";
+import type { NodeJSReadableStream } from "@azure/storage-common";
+import type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
   AppendBlobCreateHeaders,
@@ -12,12 +16,10 @@ import {
   BlobCreateSnapshotHeaders,
   BlobDeleteHeaders,
   BlobDeleteImmutabilityPolicyHeaders,
-  BlobDownloadResponse as BlobDownloadResponseInternal,
   BlobDownloadHeaders,
   BlobGetPropertiesHeaders,
   BlobGetTagsHeaders,
   BlobTags,
-  BlobQueryResponse as BlobQueryResponseInternal,
   BlobQueryHeaders,
   BlobSetHttpHeadersHeaders,
   BlobSetImmutabilityPolicyHeaders,
@@ -65,21 +67,83 @@ import {
   ServiceListContainersSegmentResponse as ServiceListContainersSegmentResponseInternal,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
-  ServiceSubmitBatchResponse as ServiceSubmitBatchResponseInternal,
   ServiceSubmitBatchHeaders,
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
   PageRange,
   BlobGetAccountInfoHeaders,
   ContainerGetAccountInfoHeaders,
-} from "./generated/src/models/index.js";
-import {
+} from "./generated-classic-models.js";
+import type {
   WithResponse,
   ResponseWithBody,
   ResponseLike,
   ResponseWithHeaders,
   HttpResponse,
 } from "./utils/utils.common.js";
+
+/**
+ * Contains response data for the download operation (internal).
+ * This is a redefined version that uses NodeJSReadableStream instead of NodeJS.ReadableStream.
+ */
+export type BlobDownloadResponseInternal = BlobDownloadHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJSReadableStream;
+};
+
+/**
+ * Contains response data for the query operation (internal).
+ * This is a redefined version that uses NodeJSReadableStream instead of NodeJS.ReadableStream.
+ */
+export type BlobQueryResponseInternal = BlobQueryHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJSReadableStream;
+};
+
+/**
+ * Contains response data for the submitBatch operation (internal).
+ * This is a redefined version that uses NodeJSReadableStream instead of NodeJS.ReadableStream.
+ */
+export type ServiceSubmitBatchResponseInternal = ServiceSubmitBatchHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJSReadableStream;
+};
 
 /** Contains response data for the appendBlockFromUrl operation. */
 export type AppendBlobAppendBlockFromUrlResponse = WithResponse<
@@ -267,7 +331,8 @@ export type ServiceGetAccountInfoResponse = WithResponse<
 /** Contains response data for the getProperties operation. */
 export type ServiceGetPropertiesResponse = WithResponse<
   ServiceGetPropertiesResponseInternal,
-  ServiceGetPropertiesHeaders
+  ServiceGetPropertiesHeaders,
+  BlobServiceProperties
 >;
 /** Contains response data for the getStatistics operation. */
 export type ServiceGetStatisticsResponse = WithResponse<
@@ -289,7 +354,7 @@ export type ServiceSubmitBatchResponseModel = WithResponse<
   ServiceSubmitBatchResponseInternal,
   ServiceSubmitBatchHeaders
 >;
-export {
+export type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
   AppendBlobCreateHeaders,
@@ -299,13 +364,11 @@ export {
   BlobDeleteHeaders,
   BlobDeleteImmutabilityPolicyHeaders,
   BlobDownloadHeaders,
-  BlobDownloadResponseInternal,
   BlobGetAccountInfoHeaders,
   BlobGetPropertiesHeaders,
   BlobGetTagsHeaders,
   BlobTags,
   BlobQueryHeaders,
-  BlobQueryResponseInternal,
   BlobSetHttpHeadersHeaders as BlobSetHTTPHeadersHeaders,
   BlobSetImmutabilityPolicyHeaders,
   BlobSetLegalHoldHeaders,
@@ -354,7 +417,6 @@ export {
   ServiceListContainersSegmentResponseInternal,
   ServiceSetPropertiesHeaders,
   ServiceSubmitBatchHeaders,
-  ServiceSubmitBatchResponseInternal,
   SignedIdentifierModel,
   UserDelegationKeyModel,
   WithResponse,
@@ -365,7 +427,7 @@ export {
   PageRange,
 };
 
-export {
+export type {
   AccessPolicy,
   AccessTier,
   AccountKind,
@@ -407,6 +469,7 @@ export {
   Logging,
   Metrics,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
+  BlobModifiedAccessConditions,
   PublicAccessType,
   SequenceNumberActionType,
   RehydratePriority,
@@ -418,10 +481,13 @@ export {
   ContainerItem,
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
   ContainerEncryptionScope,
-  SyncCopyStatusType,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 
 // Following definitions are to avoid breaking change.
+
+/** Defines values for SyncCopyStatusType. */
+export type SyncCopyStatusType = "success";
+
 export interface BlobPrefix {
   name: string;
 }

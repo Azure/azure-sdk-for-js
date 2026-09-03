@@ -7,7 +7,7 @@ import type {
 } from "@azure/communication-common";
 import type { ChatError, ChatMessageType } from "../generated/src/index.js";
 
-export {
+export type {
   AddChatParticipantsResult,
   ChatMessageType,
   ChatThreadItem,

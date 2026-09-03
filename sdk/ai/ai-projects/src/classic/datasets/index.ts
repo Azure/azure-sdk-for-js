@@ -1,23 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
-import { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
-import {
-  DatasetVersionUnion,
-  PendingUploadRequest,
-  PendingUploadResponse,
-  AssetCredentialResponse,
-} from "../../models/models.js";
-import {
-  DatasetsGetCredentialsOptionalParams,
-  DatasetsPendingUploadOptionalParams,
-  DatasetsCreateOrUpdateOptionalParams,
-  DatasetsDeleteOptionalParams,
-  DatasetsGetOptionalParams,
-  DatasetsListOptionalParams,
-  DatasetsListVersionsOptionalParams,
-} from "../../api/datasets/options.js";
+import type {
+  AIProjectClientOptionalParams,
+  AIProjectContext,
+} from "../../api/aiProjectContext.js";
 import {
   getCredentials,
   pendingUpload,
@@ -29,8 +16,23 @@ import {
   uploadFile,
   uploadFolder,
 } from "../../api/datasets/operations.js";
-import { DatasetUploadOptions } from "../../api/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  DatasetsGetCredentialsOptionalParams,
+  DatasetsPendingUploadOptionalParams,
+  DatasetsCreateOrUpdateOptionalParams,
+  DatasetsDeleteOptionalParams,
+  DatasetsGetOptionalParams,
+  DatasetsListOptionalParams,
+  DatasetsListVersionsOptionalParams,
+} from "../../api/datasets/options.js";
+import type {
+  DatasetVersionUnion,
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+} from "../../models/models.js";
+import type { DatasetUploadOptions } from "../../api/index.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {
@@ -39,7 +41,7 @@ export interface DatasetsOperations {
     name: string,
     version: string,
     options?: DatasetsGetCredentialsOptionalParams,
-  ) => Promise<AssetCredentialResponse>;
+  ) => Promise<DatasetCredential>;
   /** Start a new or get an existing pending upload of a dataset for a specific version. */
   pendingUpload: (
     name: string,
@@ -54,14 +56,9 @@ export interface DatasetsOperations {
     datasetVersion: DatasetVersionUnion,
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
-  /** Delete the specific version of the DatasetVersion */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
   delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
-  /** Get the specific version of the DatasetVersion */
+  /** Get the specific version of the DatasetVersion. The service returns 404 Not Found error if the DatasetVersion does not exist. */
   get: (
     name: string,
     version: string,

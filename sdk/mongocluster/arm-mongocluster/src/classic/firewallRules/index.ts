@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import { FirewallRule } from "../../models/models.js";
-import {
-  FirewallRulesListByMongoClusterOptionalParams,
-  FirewallRulesDeleteOptionalParams,
-  FirewallRulesCreateOrUpdateOptionalParams,
-  FirewallRulesGetOptionalParams,
-} from "../../api/firewallRules/options.js";
+import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import {
   listByMongoCluster,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/firewallRules/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  FirewallRulesListByMongoClusterOptionalParams,
+  FirewallRulesDeleteOptionalParams,
+  FirewallRulesCreateOrUpdateOptionalParams,
+  FirewallRulesGetOptionalParams,
+} from "../../api/firewallRules/options.js";
+import type { FirewallRule } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FirewallRules operations. */
 export interface FirewallRulesOperations {
@@ -27,11 +27,6 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<FirewallRule>;
   /** Deletes a mongo cluster firewall rule. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,

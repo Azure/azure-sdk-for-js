@@ -167,7 +167,7 @@ export async function main(): Promise<void> {
   }
 
   // Wait for a bit before cleaning up the sample
-  await setTimeout(async () => {
+  setTimeout(async () => {
     await eventHubsProducerClient.close();
     console.log(`Exiting sample`);
   }, 3 * 1000);

@@ -5,26 +5,21 @@
  * @summary Azure Batch quickstart sample
  */
 
-import createClient, {
+import type {
   BatchClient,
   CreateJobParameters,
   CreatePoolParameters,
   CreateTaskParameters,
-  isUnexpected,
-  paginate,
 } from "@azure-rest/batch";
+import createClient, { isUnexpected, paginate } from "@azure-rest/batch";
 import { DefaultAzureCredential } from "@azure/identity";
-
-// Load the .env file if it exists
-// eslint-disable-next-line import/no-extraneous-dependencies
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const batchAccountEndpoint = process.env["BATCH_ACCOUNT_ENDPOINT"] || "<batch account endpoint>";
 const poolName = "samplepool";
 const jobId = "samplejob2";
 
-async function main() {
+async function main(): Promise<void> {
   const credentials = new DefaultAzureCredential();
   const client = createClient(batchAccountEndpoint, credentials);
 
@@ -41,7 +36,7 @@ async function main() {
   await cleanup(client);
 }
 
-async function createPool(client: BatchClient) {
+async function createPool(client: BatchClient): Promise<void> {
   const poolParams: CreatePoolParameters = {
     body: {
       id: poolName,
@@ -69,7 +64,7 @@ async function createPool(client: BatchClient) {
   console.log(`Pool ${poolName} created`);
 }
 
-async function createJob(client: BatchClient) {
+async function createJob(client: BatchClient): Promise<void> {
   const jobAddParam: CreateJobParameters = {
     body: {
       id: jobId,
@@ -85,7 +80,7 @@ async function createJob(client: BatchClient) {
   console.log(`Job ${jobId} created`);
 }
 
-async function submitTasks(client: BatchClient) {
+async function submitTasks(client: BatchClient): Promise<void> {
   for (let i = 1; i < 6; i++) {
     const addTaskParam: CreateTaskParameters = {
       body: {
@@ -103,7 +98,7 @@ async function submitTasks(client: BatchClient) {
   }
 }
 
-async function listTasks(client: BatchClient) {
+async function listTasks(client: BatchClient): Promise<void> {
   const result = await client
     .path("/jobs/{jobId}/tasks", jobId)
     .get({ queryParameters: { maxresults: 1 } });
@@ -118,7 +113,7 @@ async function listTasks(client: BatchClient) {
   }
 }
 
-async function waitForTasks(client: BatchClient) {
+async function waitForTasks(client: BatchClient): Promise<void> {
   console.log("Waiting for tasks to complete");
   while (true) {
     const result = await client
@@ -144,7 +139,7 @@ async function waitForTasks(client: BatchClient) {
   }
 }
 
-async function cleanup(client: BatchClient) {
+async function cleanup(client: BatchClient): Promise<void> {
   const result = await client.path("/pools/{poolId}", poolName).delete();
   if (isUnexpected(result)) {
     throw new Error(`Failed to delete pool: ${result.body.message}`);

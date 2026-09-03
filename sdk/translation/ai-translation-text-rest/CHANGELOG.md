@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,47 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.0.0 (2026-06-06)
+
+### Features Added
+
+- GA release based on the Azure AI Translator API stable version 2026-06-06.
+- Added `TranslationGender` and `TranslationTone` types for improved type safety on translation parameters.
+
+### Breaking Changes
+
+- Removed `grade` property from `TranslationTarget`.
+- Changed `gender` property in `TranslationTarget` to use `TranslationGender` type.
+- Changed `tone` property in `TranslationTarget` to use `TranslationTone` type.
+
+### Other Changes
+
+- Optimized type imports for improved tree-shaking and build performance.
+
+## 2.0.0-beta.1 (2026-01-08)
+
+### Features Added
+
+- Added support for the Azure AI Translator API 2025-10-01-preview, including translations using LLM models, adaptive custom translation, tone variant translations, and gender-specific translations.
+- Added `TranslationTarget` for configuring translation options.
+
+### Breaking Changes
+
+- Added `Models` property to `GetSupportedLanguagesResultOutput` to list the LLM models available for translations.
+- Removed `transliteration` in `TranslationTextOutput`.
+- Removed `sourceText` in `TranslatedTextItemOutput`.
+- Dictionary, sentence boundaries and text alignments features have been deprecated and relevant classes and properties have been removed.
+
+### Other Changes
+
+- Updated dependencies to latest versions
+
+## 1.0.2 (2025-08-22)
+
+### Other Changes
+
+  - Other fixes
 
 ## 1.0.1 (2025-02-10)
 

@@ -3,19 +3,20 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type * as coreClient from "@azure-rest/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type { ExtendedCommonClientOptions } from "@azure/keyvault-common";
 import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
 import type {
   DeletionRecoveryLevel,
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
-} from "./generated/src/models/index.js";
+  PlatformManaged,
+} from "./models/models.js";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.6";
+export const LATEST_API_VERSION = "2026-03-01-preview";
 
 /**
  * The optional parameters accepted by the KeyVault's CertificateClient
@@ -24,7 +25,8 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
+  serviceVersion?:
+    "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-03-01-preview";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
@@ -227,6 +229,14 @@ export interface SubjectAlternativeNamesAll {
    * User principal names.
    */
   userPrincipalNames: ArrayOneOrMore<string>;
+  /**
+   * Uniform Resource Identifiers (URIs).
+   */
+  uniformResourceIdentifiers: ArrayOneOrMore<string>;
+  /**
+   * IP addresses; supports IPv4 and IPv6.
+   */
+  ipAddresses: ArrayOneOrMore<string>;
 }
 
 /**
@@ -362,6 +372,14 @@ export interface CertificatePolicyProperties {
    * The duration that the certificate is valid in months.
    */
   validityInMonths?: number;
+  /**
+   * Configuration that enables the platform to manage the certificate on behalf of the user.
+   *
+   * @remarks This feature is currently intended for internal Azure Key Vault usage only.
+   * Any calls using this property will fail and it is not recommended to be used at this point.
+   * Requires `serviceVersion: "2026-03-01-preview"` on the {@link CertificateClient}.
+   */
+  platformManaged?: PlatformManaged;
 }
 
 /**
@@ -522,8 +540,7 @@ export interface CertificatePollerOptions extends coreClient.OperationOptions {
  * passed to {@link beginCreateCertificate}
  */
 export interface BeginCreateCertificateOptions
-  extends CreateCertificateOptions,
-    CertificatePollerOptions {}
+  extends CreateCertificateOptions, CertificatePollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
@@ -546,8 +563,7 @@ export type GetCertificateOperationOptions = CertificatePollerOptions;
  * Options for {@link createCertificate}.
  */
 export interface CreateCertificateOptions
-  extends CertificateProperties,
-    coreClient.OperationOptions {}
+  extends CertificateProperties, coreClient.OperationOptions {}
 
 /**
  * Options for {@link cancelCertificateOperation}.
@@ -697,8 +713,7 @@ export type CertificateTags = { [propertyName: string]: string };
  * Options for {@link updateCertificate}.
  */
 export interface UpdateCertificatePropertiesOptions
-  extends CertificateProperties,
-    coreClient.OperationOptions {}
+  extends CertificateProperties, coreClient.OperationOptions {}
 
 /**
  * Options for {@link updateCertificatePolicy}.

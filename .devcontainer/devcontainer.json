@@ -13,6 +13,9 @@
     "seccomp=unconfined",
     "--privileged"
   ],
+  "features": {
+    "ghcr.io/devcontainers/features/copilot-cli:1": {}
+  },
   "postCreateCommand": "bash .devcontainer/init.sh",
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

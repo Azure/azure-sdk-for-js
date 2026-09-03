@@ -84,6 +84,14 @@ export async function createTableClient(
   mode: CreateClientMode,
   recorder?: Recorder,
 ): Promise<TableClient | undefined> {
+  // Check early before starting recorder
+  if (
+    !isSharedKeyAccessAllowed() &&
+    ["SASConnectionString", "SASToken", "AccountKey", "AccountConnectionString"].includes(mode)
+  ) {
+    return undefined;
+  }
+
   let options: TableServiceClientOptions = {};
 
   if (recorder) {
@@ -93,12 +101,6 @@ export async function createTableClient(
   }
 
   let client: TableClient;
-  if (
-    !isSharedKeyAccessAllowed() &&
-    ["SASConnectionString", "SasToken", "AccountKey", "AccountConnectionString"].includes(mode)
-  ) {
-    return undefined;
-  }
   switch (mode) {
     case "SASConnectionString":
       client = TableClient.fromConnectionString(getSasConnectionString(), tableName, options);

@@ -25,8 +25,8 @@ async function main() {
   // Create and upload file
   const fileContent = "Hello, Vector Store!";
   const readable = new Readable();
-  await readable.push(fileContent);
-  await readable.push(null); // end the stream
+  readable.push(fileContent);
+  readable.push(null); // end the stream
   const file = await client.files.upload(readable, "assistants", {
     fileName: "vectorFile.txt",
   });

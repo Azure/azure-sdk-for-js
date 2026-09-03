@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import { stringToUint8Array } from "@azure/core-util";
+
 export function getBinarySize(
-  text: string | ArrayBuffer | NodeJS.ArrayBufferView | SharedArrayBuffer,
+  text: string | ArrayBuffer | ArrayBufferView | SharedArrayBuffer,
 ): number {
-  return Buffer.byteLength(text, "utf8");
+  if (typeof text === "string") {
+    return stringToUint8Array(text, "utf-8").byteLength;
+  }
+  return text.byteLength;
 }

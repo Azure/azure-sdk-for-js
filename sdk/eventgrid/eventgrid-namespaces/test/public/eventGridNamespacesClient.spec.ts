@@ -110,14 +110,20 @@ describe("Event Grid Namespace Client", () => {
       ];
       await senderClient.sendEvents(cloudEvents);
 
-      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-        maxEvents: 2,
-      });
+      // receiveEvents may return fewer than maxEvents, so loop until we collect all 2 events
+      const allDetails: ReceiveResult<any>["details"] = [];
+      const maxAttempts = 5;
+      for (let attempt = 0; attempt < maxAttempts && allDetails.length < 2; attempt++) {
+        const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
+          maxEvents: 2 - allDetails.length,
+        });
+        allDetails.push(...receiveResult.details);
+      }
 
-      assert.equal(2, receiveResult.details.length);
+      assert.equal(allDetails.length, 2, "Expected to receive exactly 2 events");
 
       const deserializer: EventGridDeserializer = new EventGridDeserializer();
-      for (const value of receiveResult.details) {
+      for (const value of allDetails) {
         const result: CloudEvent<any>[] = await deserializer.deserializeCloudEvents(
           JSON.stringify(value.event),
         );

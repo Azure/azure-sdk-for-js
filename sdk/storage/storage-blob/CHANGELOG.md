@@ -1,6 +1,6 @@
 # Release History
 
-## 12.29.0 (Unreleased)
+## 12.35.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,89 @@
 
 ### Bugs Fixed
 
+- Restored the core v1 user agent string prefix, `azsdk-js-storageblob`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+
 ### Other Changes
+
+- Migrate to Typespec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+
+## 12.34.0-beta.1 (2026-08-03)
+
+### Features Added
+
+- Added support for service version 2026-10-06.
+- Added `accessTier`, `accessTierInferred`, `accessTierChangedOn`, and `smartAccessTier` to the blob download response.
+- Added an opt-in Apache Arrow response format for `listBlobsFlat` and `listBlobsByHierarchy` (set `responseFormat` to `StorageResponseFormat.Arrow`), plus a new `endBefore` list option. The default remains XML.
+
+### Other Changes
+
+- For service version 2026-10-06 and later, upload operations now return the service-computed CRC64 checksum (`xMsContentCrc64`) in addition to `contentMD5` when a Content-MD5 is provided. This applies to `stageBlock`, `stageBlockFromURL`, `uploadPages`, `uploadPagesFromURL`, `appendBlock`, `appendBlockFromURL`, `upload`, and `syncUploadFromURL`.
+
+## 12.33.0 (2026-06-24)
+
+### Features Added
+
+- Includes all features released in 12.33.0-beta.1.
+
+## 12.33.0-beta.1 (2026-04-29)
+
+### Features Added
+
+- Added support for service version 2026-06-06.
+- Added support for Blob Smart Tier.
+- Added support for Directory-level SAS and User Delegation SAS.
+
+## 12.32.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.32.0-beta.1.
+
+## 12.32.0-beta.1 (2026-03-05)
+
+### Features Added
+
+- Added support for service version 2026-04-06.
+- Added support for Content Validation via Structured Message.
+- Added support for Delete Blob Conditional Tier.
+- Added support for Server-side Encryption Rekeying.
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
+- Added support for Dynamic User Delegation SAS.
+
+## 12.31.0 (2026-02-10)
+
+### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+
+### Other Changes
+
+- Updated minimum version of `@azure/storage-common` to `^12.3.0`.
+
+## 12.30.0 (2026-01-16)
+
+### Features Added
+
+- Includes all features released in 12.30.0-beta.1.
+
+## 12.30.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for service version 2026-02-06.
+- Added support for the StartFrom parameter on BlobContainerClient.listBlobs() and .listBlobsByHierarchy().
+- Added support for Principal-Bound Identity User Delegation SAS
+- Added support for conditional headers on BlobBaseClient.getTags(), and .getTags().
+
+### Other Changes
+
+- Refactor to import and re-export common APIs from `@azure/storage-common`
+
+## 12.29.1 (2025-10-16)
+
+### Features Added
+
+- Includes all features released in 12.29.0-beta.1.
 
 ## 12.28.0 (2025-07-22)
 

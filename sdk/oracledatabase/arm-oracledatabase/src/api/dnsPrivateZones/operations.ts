@@ -1,29 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext as Client } from "../index.js";
+import type { OracleDatabaseManagementContext as Client } from "../index.js";
+import type { DnsPrivateZone, _DnsPrivateZoneListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  DnsPrivateZone,
   dnsPrivateZoneDeserializer,
-  _DnsPrivateZoneListResult,
   _dnsPrivateZoneListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   DnsPrivateZonesListByLocationOptionalParams,
   DnsPrivateZonesGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByLocationSend(
   context: Client,

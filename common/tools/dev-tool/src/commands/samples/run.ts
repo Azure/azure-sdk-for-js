@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { stat } from "node:fs/promises";
 import path from "node:path";
-import { findMatchingFiles } from "../../util/findMatchingFiles";
-import { createPrinter } from "../../util/printer";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { resolveProject } from "../../util/resolveProject";
-import { getSampleConfiguration } from "../../util/samples/configuration";
+import { findMatchingFiles } from "../../util/findMatchingFiles.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { getSampleConfiguration } from "../../util/samples/configuration.ts";
 import { pathToFileURL } from "node:url";
 
 const log = createPrinter("run-samples");
@@ -75,7 +75,7 @@ export default leafCommand(commandInfo, async (options) => {
   const errors: Array<[string, string]> = [];
 
   for (const sample of samples) {
-    const stats = await fs.stat(sample);
+    const stats = await stat(sample);
     if (stats.isFile()) {
       // We don't consider the skips if the file was _explicitly_ asked for
       runSingle(sample, errors);

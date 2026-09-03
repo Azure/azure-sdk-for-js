@@ -74,12 +74,12 @@ async function main(): Promise<void> {
   if (isUnexpected(filesResult)) {
     throw filesResult.body;
   }
-  await filesResult.body.value.forEach((file: string) => {
+  filesResult.body.value.forEach((file: string) => {
     console.log(file);
   });
 
   console.log("\nGet file data:");
-  await filesResult.body.value.forEach(async (fileId: string) => {
+  filesResult.body.value.forEach(async (fileId: string) => {
     const fileResult = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",

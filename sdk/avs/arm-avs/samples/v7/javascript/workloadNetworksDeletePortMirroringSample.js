@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a WorkloadNetworkPortMirroring
  *
  * @summary delete a WorkloadNetworkPortMirroring
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_DeletePortMirroring.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_DeletePortMirroring.json
  */
 async function workloadNetworksDeletePortMirroring() {
   const credential = new DefaultAzureCredential();

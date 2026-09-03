@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all bookmarks.
- *
- * @summary Gets all bookmarks.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/bookmarks/GetBookmarks.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets all bookmarks.
+ *
+ * @summary gets all bookmarks.
+ * x-ms-original-file: 2025-07-01-preview/bookmarks/GetBookmarks.json
+ */
 async function getAllBookmarks(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.bookmarks.list(resourceGroupName, workspaceName)) {
+  for await (const item of client.bookmarks.list("myRg", "myWorkspace")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

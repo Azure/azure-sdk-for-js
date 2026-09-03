@@ -4,50 +4,44 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AnalyticsItems {
-    delete(resourceGroupName: string, resourceName: string, scopePath: ItemScopePath, options?: AnalyticsItemsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, scopePath: ItemScopePath, options?: AnalyticsItemsGetOptionalParams): Promise<AnalyticsItemsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, scopePath: ItemScopePath, options?: AnalyticsItemsListOptionalParams): Promise<AnalyticsItemsListResponse>;
-    put(resourceGroupName: string, resourceName: string, scopePath: ItemScopePath, itemProperties: ApplicationInsightsComponentAnalyticsItem, options?: AnalyticsItemsPutOptionalParams): Promise<AnalyticsItemsPutResponse>;
-}
-
-// @public
-export interface AnalyticsItemsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AnalyticsItemsDeleteOptionalParams extends OperationOptions {
     id?: string;
     name?: string;
 }
 
 // @public
-export interface AnalyticsItemsGetOptionalParams extends coreClient.OperationOptions {
+export interface AnalyticsItemsGetOptionalParams extends OperationOptions {
     id?: string;
     name?: string;
 }
 
 // @public
-export type AnalyticsItemsGetResponse = ApplicationInsightsComponentAnalyticsItem;
-
-// @public
-export interface AnalyticsItemsListOptionalParams extends coreClient.OperationOptions {
+export interface AnalyticsItemsListOptionalParams extends OperationOptions {
     includeContent?: boolean;
     scope?: ItemScope;
     type?: ItemTypeParameter;
 }
 
 // @public
-export type AnalyticsItemsListResponse = ApplicationInsightsComponentAnalyticsItem[];
-
-// @public
-export interface AnalyticsItemsPutOptionalParams extends coreClient.OperationOptions {
-    overrideItem?: boolean;
+export interface AnalyticsItemsOperations {
+    delete: (resourceGroupName: string, resourceName: string, scopePath: ItemScopePath, options?: AnalyticsItemsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, scopePath: ItemScopePath, options?: AnalyticsItemsGetOptionalParams) => Promise<ApplicationInsightsComponentAnalyticsItem>;
+    list: (resourceGroupName: string, resourceName: string, scopePath: ItemScopePath, options?: AnalyticsItemsListOptionalParams) => Promise<ApplicationInsightsComponentAnalyticsItem[]>;
+    put: (resourceGroupName: string, resourceName: string, scopePath: ItemScopePath, itemProperties: ApplicationInsightsComponentAnalyticsItem, options?: AnalyticsItemsPutOptionalParams) => Promise<ApplicationInsightsComponentAnalyticsItem>;
 }
 
 // @public
-export type AnalyticsItemsPutResponse = ApplicationInsightsComponentAnalyticsItem;
+export interface AnalyticsItemsPutOptionalParams extends OperationOptions {
+    overrideItem?: boolean;
+}
 
 // @public
 export interface Annotation {
@@ -67,41 +61,27 @@ export interface AnnotationError {
 }
 
 // @public
-export interface Annotations {
-    create(resourceGroupName: string, resourceName: string, annotationProperties: Annotation, options?: AnnotationsCreateOptionalParams): Promise<AnnotationsCreateResponse>;
-    delete(resourceGroupName: string, resourceName: string, annotationId: string, options?: AnnotationsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, annotationId: string, options?: AnnotationsGetOptionalParams): Promise<AnnotationsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, start: string, end: string, options?: AnnotationsListOptionalParams): PagedAsyncIterableIterator<Annotation>;
+export interface AnnotationsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AnnotationsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AnnotationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AnnotationsCreateResponse = Annotation[];
-
-// @public
-export interface AnnotationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AnnotationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AnnotationsGetOptionalParams extends coreClient.OperationOptions {
+export interface AnnotationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AnnotationsGetResponse = Annotation[];
-
-// @public
-export interface AnnotationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AnnotationsListResponse = AnnotationsListResult;
-
-// @public
-export interface AnnotationsListResult {
-    readonly value?: Annotation[];
+export interface AnnotationsOperations {
+    create: (resourceGroupName: string, resourceName: string, annotationProperties: Annotation, options?: AnnotationsCreateOptionalParams) => Promise<Annotation[]>;
+    delete: (resourceGroupName: string, resourceName: string, annotationId: string, options?: AnnotationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, annotationId: string, options?: AnnotationsGetOptionalParams) => Promise<Annotation[]>;
+    list: (resourceGroupName: string, resourceName: string, start: string, end: string, options?: AnnotationsListOptionalParams) => PagedAsyncIterableIterator<Annotation>;
 }
 
 // @public
@@ -112,40 +92,28 @@ export interface APIKeyRequest {
 }
 
 // @public
-export interface APIKeys {
-    create(resourceGroupName: string, resourceName: string, aPIKeyProperties: APIKeyRequest, options?: APIKeysCreateOptionalParams): Promise<APIKeysCreateResponse>;
-    delete(resourceGroupName: string, resourceName: string, keyId: string, options?: APIKeysDeleteOptionalParams): Promise<APIKeysDeleteResponse>;
-    get(resourceGroupName: string, resourceName: string, keyId: string, options?: APIKeysGetOptionalParams): Promise<APIKeysGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: APIKeysListOptionalParams): PagedAsyncIterableIterator<ApplicationInsightsComponentAPIKey>;
+export interface APIKeysCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface APIKeysCreateOptionalParams extends coreClient.OperationOptions {
+export interface APIKeysDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type APIKeysCreateResponse = ApplicationInsightsComponentAPIKey;
-
-// @public
-export interface APIKeysDeleteOptionalParams extends coreClient.OperationOptions {
+export interface APIKeysGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type APIKeysDeleteResponse = ApplicationInsightsComponentAPIKey;
-
-// @public
-export interface APIKeysGetOptionalParams extends coreClient.OperationOptions {
+export interface APIKeysListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type APIKeysGetResponse = ApplicationInsightsComponentAPIKey;
-
-// @public
-export interface APIKeysListOptionalParams extends coreClient.OperationOptions {
+export interface APIKeysOperations {
+    create: (resourceGroupName: string, resourceName: string, apiKeyProperties: APIKeyRequest, options?: APIKeysCreateOptionalParams) => Promise<ApplicationInsightsComponentAPIKey>;
+    delete: (resourceGroupName: string, resourceName: string, keyId: string, options?: APIKeysDeleteOptionalParams) => Promise<ApplicationInsightsComponentAPIKey>;
+    get: (resourceGroupName: string, resourceName: string, keyId: string, options?: APIKeysGetOptionalParams) => Promise<ApplicationInsightsComponentAPIKey>;
+    list: (resourceGroupName: string, resourceName: string, options?: APIKeysListOptionalParams) => PagedAsyncIterableIterator<ApplicationInsightsComponentAPIKey>;
 }
-
-// @public
-export type APIKeysListResponse = ApplicationInsightsComponentAPIKeyListResult;
 
 // @public
 export interface ApplicationInsightsComponent extends ComponentsResource {
@@ -204,11 +172,6 @@ export interface ApplicationInsightsComponentAPIKey {
     linkedReadProperties?: string[];
     linkedWriteProperties?: string[];
     name?: string;
-}
-
-// @public
-export interface ApplicationInsightsComponentAPIKeyListResult {
-    value: ApplicationInsightsComponentAPIKey[];
 }
 
 // @public
@@ -327,12 +290,6 @@ export interface ApplicationInsightsComponentFeatureCapability {
 }
 
 // @public
-export interface ApplicationInsightsComponentListResult {
-    nextLink?: string;
-    value: ApplicationInsightsComponent[];
-}
-
-// @public
 export interface ApplicationInsightsComponentProactiveDetectionConfiguration {
     customEmails?: string[];
     enabled?: boolean;
@@ -355,6 +312,35 @@ export interface ApplicationInsightsComponentProactiveDetectionConfigurationRule
 }
 
 // @public
+export interface ApplicationInsightsComponentProperties {
+    readonly appId?: string;
+    readonly applicationId?: string;
+    applicationType: ApplicationType;
+    readonly connectionString?: string;
+    readonly creationDate?: Date;
+    disableIpMasking?: boolean;
+    disableLocalAuth?: boolean;
+    flowType?: FlowType;
+    forceCustomerStorageForProfiler?: boolean;
+    hockeyAppId?: string;
+    readonly hockeyAppToken?: string;
+    immediatePurgeDataOn30Days?: boolean;
+    ingestionMode?: IngestionMode;
+    readonly instrumentationKey?: string;
+    readonly laMigrationDate?: Date;
+    readonly name?: string;
+    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: string;
+    publicNetworkAccessForIngestion?: PublicNetworkAccessType;
+    publicNetworkAccessForQuery?: PublicNetworkAccessType;
+    requestSource?: RequestSource;
+    retentionInDays?: number;
+    samplingPercentage?: number;
+    readonly tenantId?: string;
+    workspaceResourceId?: string;
+}
+
+// @public
 export interface ApplicationInsightsComponentQuotaStatus {
     readonly appId?: string;
     readonly expirationTime?: string;
@@ -368,115 +354,84 @@ export interface ApplicationInsightsComponentWebTestLocation {
 }
 
 // @public (undocumented)
-export class ApplicationInsightsManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ApplicationInsightsManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: ApplicationInsightsManagementClientOptionalParams);
-    // (undocumented)
-    analyticsItems: AnalyticsItems;
-    // (undocumented)
-    annotations: Annotations;
-    // (undocumented)
-    aPIKeys: APIKeys;
-    // (undocumented)
-    componentAvailableFeatures: ComponentAvailableFeatures;
-    // (undocumented)
-    componentCurrentBillingFeatures: ComponentCurrentBillingFeatures;
-    // (undocumented)
-    componentFeatureCapabilities: ComponentFeatureCapabilities;
-    // (undocumented)
-    componentLinkedStorageAccountsOperations: ComponentLinkedStorageAccountsOperations;
-    // (undocumented)
-    componentQuotaStatus: ComponentQuotaStatus;
-    // (undocumented)
-    components: Components;
-    // (undocumented)
-    deletedWorkbooks: DeletedWorkbooks;
-    // (undocumented)
-    exportConfigurations: ExportConfigurations;
-    // (undocumented)
-    favorites: Favorites;
-    // (undocumented)
-    liveToken: LiveToken;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    proactiveDetectionConfigurations: ProactiveDetectionConfigurations;
-    // (undocumented)
-    subscriptionId?: string;
-    // (undocumented)
-    webTestLocations: WebTestLocations;
-    // (undocumented)
-    webTests: WebTests;
-    // (undocumented)
-    workbooks: Workbooks;
-    // (undocumented)
-    workbookTemplates: WorkbookTemplates;
-    // (undocumented)
-    workItemConfigurations: WorkItemConfigurations;
+export class ApplicationInsightsManagementClient {
+    constructor(credential: TokenCredential, options?: ApplicationInsightsManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ApplicationInsightsManagementClientOptionalParams);
+    readonly analyticsItems: AnalyticsItemsOperations;
+    readonly annotations: AnnotationsOperations;
+    readonly apiKeys: APIKeysOperations;
+    readonly componentAvailableFeatures: ComponentAvailableFeaturesOperations;
+    readonly componentCurrentBillingFeatures: ComponentCurrentBillingFeaturesOperations;
+    readonly componentFeatureCapabilities: ComponentFeatureCapabilitiesOperations;
+    readonly componentLinkedStorageAccounts: ComponentLinkedStorageAccountsOperations;
+    readonly componentQuotaStatus: ComponentQuotaStatusOperations;
+    readonly components: ComponentsOperations;
+    readonly deletedWorkbooks: DeletedWorkbooksOperations;
+    readonly exportConfigurations: ExportConfigurationsOperations;
+    readonly favorites: FavoritesOperations;
+    readonly liveToken: LiveTokenOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly proactiveDetectionConfigurations: ProactiveDetectionConfigurationsOperations;
+    readonly webTestLocations: WebTestLocationsOperations;
+    readonly webTests: WebTestsOperations;
+    readonly workbooks: WorkbooksOperations;
+    readonly workbookTemplates: WorkbookTemplatesOperations;
+    readonly workItemConfigurations: WorkItemConfigurationsOperations;
 }
 
 // @public
-export interface ApplicationInsightsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface ApplicationInsightsWebTestLocationsListResult {
-    value: ApplicationInsightsComponentWebTestLocation[];
+export interface ApplicationInsightsManagementClientOptionalParams extends ClientOptions {
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export type ApplicationType = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type CategoryType = string;
 
 // @public
-export interface ComponentAvailableFeatures {
-    get(resourceGroupName: string, resourceName: string, options?: ComponentAvailableFeaturesGetOptionalParams): Promise<ComponentAvailableFeaturesGetResponse>;
+export interface ComponentAvailableFeaturesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ComponentAvailableFeaturesGetOptionalParams extends coreClient.OperationOptions {
+export interface ComponentAvailableFeaturesOperations {
+    get: (resourceGroupName: string, resourceName: string, options?: ComponentAvailableFeaturesGetOptionalParams) => Promise<ApplicationInsightsComponentAvailableFeatures>;
 }
 
 // @public
-export type ComponentAvailableFeaturesGetResponse = ApplicationInsightsComponentAvailableFeatures;
-
-// @public
-export interface ComponentCurrentBillingFeatures {
-    get(resourceGroupName: string, resourceName: string, options?: ComponentCurrentBillingFeaturesGetOptionalParams): Promise<ComponentCurrentBillingFeaturesGetResponse>;
-    update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: ApplicationInsightsComponentBillingFeatures, options?: ComponentCurrentBillingFeaturesUpdateOptionalParams): Promise<ComponentCurrentBillingFeaturesUpdateResponse>;
+export interface ComponentCurrentBillingFeaturesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ComponentCurrentBillingFeaturesGetOptionalParams extends coreClient.OperationOptions {
+export interface ComponentCurrentBillingFeaturesOperations {
+    get: (resourceGroupName: string, resourceName: string, options?: ComponentCurrentBillingFeaturesGetOptionalParams) => Promise<ApplicationInsightsComponentBillingFeatures>;
+    update: (resourceGroupName: string, resourceName: string, billingFeaturesProperties: ApplicationInsightsComponentBillingFeatures, options?: ComponentCurrentBillingFeaturesUpdateOptionalParams) => Promise<ApplicationInsightsComponentBillingFeatures>;
 }
 
 // @public
-export type ComponentCurrentBillingFeaturesGetResponse = ApplicationInsightsComponentBillingFeatures;
-
-// @public
-export interface ComponentCurrentBillingFeaturesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ComponentCurrentBillingFeaturesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ComponentCurrentBillingFeaturesUpdateResponse = ApplicationInsightsComponentBillingFeatures;
-
-// @public
-export interface ComponentFeatureCapabilities {
-    get(resourceGroupName: string, resourceName: string, options?: ComponentFeatureCapabilitiesGetOptionalParams): Promise<ComponentFeatureCapabilitiesGetResponse>;
+export interface ComponentFeatureCapabilitiesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ComponentFeatureCapabilitiesGetOptionalParams extends coreClient.OperationOptions {
+export interface ComponentFeatureCapabilitiesOperations {
+    get: (resourceGroupName: string, resourceName: string, options?: ComponentFeatureCapabilitiesGetOptionalParams) => Promise<ApplicationInsightsComponentFeatureCapabilities>;
 }
-
-// @public
-export type ComponentFeatureCapabilitiesGetResponse = ApplicationInsightsComponentFeatureCapabilities;
 
 // @public
 export interface ComponentLinkedStorageAccounts extends ProxyResource {
@@ -484,29 +439,23 @@ export interface ComponentLinkedStorageAccounts extends ProxyResource {
 }
 
 // @public
-export interface ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ComponentLinkedStorageAccountsCreateAndUpdateResponse = ComponentLinkedStorageAccounts;
-
-// @public
-export interface ComponentLinkedStorageAccountsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ComponentLinkedStorageAccountsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ComponentLinkedStorageAccountsGetOptionalParams extends coreClient.OperationOptions {
+export interface ComponentLinkedStorageAccountsGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ComponentLinkedStorageAccountsGetResponse = ComponentLinkedStorageAccounts;
 
 // @public
 export interface ComponentLinkedStorageAccountsOperations {
-    createAndUpdate(resourceGroupName: string, resourceName: string, storageType: StorageType, linkedStorageAccountsProperties: ComponentLinkedStorageAccounts, options?: ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams): Promise<ComponentLinkedStorageAccountsCreateAndUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, storageType: StorageType, options?: ComponentLinkedStorageAccountsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, storageType: StorageType, options?: ComponentLinkedStorageAccountsGetOptionalParams): Promise<ComponentLinkedStorageAccountsGetResponse>;
-    update(resourceGroupName: string, resourceName: string, storageType: StorageType, linkedStorageAccountsProperties: ComponentLinkedStorageAccountsPatch, options?: ComponentLinkedStorageAccountsUpdateOptionalParams): Promise<ComponentLinkedStorageAccountsUpdateResponse>;
+    createAndUpdate: (resourceGroupName: string, resourceName: string, storageType: StorageType, linkedStorageAccountsProperties: ComponentLinkedStorageAccounts, options?: ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams) => Promise<ComponentLinkedStorageAccounts>;
+    delete: (resourceGroupName: string, resourceName: string, storageType: StorageType, options?: ComponentLinkedStorageAccountsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, storageType: StorageType, options?: ComponentLinkedStorageAccountsGetOptionalParams) => Promise<ComponentLinkedStorageAccounts>;
+    update: (resourceGroupName: string, resourceName: string, storageType: StorageType, linkedStorageAccountsProperties: ComponentLinkedStorageAccountsPatch, options?: ComponentLinkedStorageAccountsUpdateOptionalParams) => Promise<ComponentLinkedStorageAccounts>;
 }
 
 // @public
@@ -515,11 +464,8 @@ export interface ComponentLinkedStorageAccountsPatch {
 }
 
 // @public
-export interface ComponentLinkedStorageAccountsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ComponentLinkedStorageAccountsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ComponentLinkedStorageAccountsUpdateResponse = ComponentLinkedStorageAccounts;
 
 // @public
 export interface ComponentPurgeBody {
@@ -546,106 +492,71 @@ export interface ComponentPurgeStatusResponse {
 }
 
 // @public
-export interface ComponentQuotaStatus {
-    get(resourceGroupName: string, resourceName: string, options?: ComponentQuotaStatusGetOptionalParams): Promise<ComponentQuotaStatusGetResponse>;
+export interface ComponentQuotaStatusGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ComponentQuotaStatusGetOptionalParams extends coreClient.OperationOptions {
+export interface ComponentQuotaStatusOperations {
+    get: (resourceGroupName: string, resourceName: string, options?: ComponentQuotaStatusGetOptionalParams) => Promise<ApplicationInsightsComponentQuotaStatus>;
 }
 
 // @public
-export type ComponentQuotaStatusGetResponse = ApplicationInsightsComponentQuotaStatus;
-
-// @public
-export interface Components {
-    createOrUpdate(resourceGroupName: string, resourceName: string, insightProperties: ApplicationInsightsComponent, options?: ComponentsCreateOrUpdateOptionalParams): Promise<ComponentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, options?: ComponentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, options?: ComponentsGetOptionalParams): Promise<ComponentsGetResponse>;
-    getPurgeStatus(resourceGroupName: string, resourceName: string, purgeId: string, options?: ComponentsGetPurgeStatusOptionalParams): Promise<ComponentsGetPurgeStatusResponse>;
-    list(options?: ComponentsListOptionalParams): PagedAsyncIterableIterator<ApplicationInsightsComponent>;
-    listByResourceGroup(resourceGroupName: string, options?: ComponentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ApplicationInsightsComponent>;
-    purge(resourceGroupName: string, resourceName: string, body: ComponentPurgeBody, options?: ComponentsPurgeOptionalParams): Promise<ComponentsPurgeResponse>;
-    updateTags(resourceGroupName: string, resourceName: string, componentTags: TagsResource, options?: ComponentsUpdateTagsOptionalParams): Promise<ComponentsUpdateTagsResponse>;
+export interface ComponentsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ComponentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ComponentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ComponentsCreateOrUpdateResponse = ApplicationInsightsComponent;
-
-// @public
-export interface ComponentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ComponentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ComponentsGetOptionalParams extends coreClient.OperationOptions {
+export interface ComponentsGetPurgeStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ComponentsGetPurgeStatusOptionalParams extends coreClient.OperationOptions {
+export interface ComponentsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ComponentsGetPurgeStatusResponse = ComponentPurgeStatusResponse;
-
-// @public
-export type ComponentsGetResponse = ApplicationInsightsComponent;
-
-// @public
-export interface ComponentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ComponentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ComponentsListByResourceGroupNextResponse = ApplicationInsightsComponentListResult;
-
-// @public
-export interface ComponentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ComponentsOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, insightProperties: ApplicationInsightsComponent, options?: ComponentsCreateOrUpdateOptionalParams) => Promise<ApplicationInsightsComponent>;
+    delete: (resourceGroupName: string, resourceName: string, options?: ComponentsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, options?: ComponentsGetOptionalParams) => Promise<ApplicationInsightsComponent>;
+    getPurgeStatus: (resourceGroupName: string, resourceName: string, purgeId: string, options?: ComponentsGetPurgeStatusOptionalParams) => Promise<ComponentPurgeStatusResponse>;
+    list: (options?: ComponentsListOptionalParams) => PagedAsyncIterableIterator<ApplicationInsightsComponent>;
+    listByResourceGroup: (resourceGroupName: string, options?: ComponentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ApplicationInsightsComponent>;
+    purge: (resourceGroupName: string, resourceName: string, body: ComponentPurgeBody, options?: ComponentsPurgeOptionalParams) => Promise<ComponentPurgeResponse>;
+    updateTags: (resourceGroupName: string, resourceName: string, componentTags: TagsResource, options?: ComponentsUpdateTagsOptionalParams) => Promise<ApplicationInsightsComponent>;
 }
 
 // @public
-export type ComponentsListByResourceGroupResponse = ApplicationInsightsComponentListResult;
-
-// @public
-export interface ComponentsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ComponentsPurgeOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ComponentsListNextResponse = ApplicationInsightsComponentListResult;
-
-// @public
-export interface ComponentsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ComponentsListResponse = ApplicationInsightsComponentListResult;
-
-// @public
-export interface ComponentsPurgeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ComponentsPurgeResponse = ComponentPurgeResponse;
 
 // @public
 export interface ComponentsResource {
     readonly id?: string;
     location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     readonly type?: string;
 }
 
 // @public
-export interface ComponentsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+export interface ComponentsUpdateTagsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ComponentsUpdateTagsResponse = ApplicationInsightsComponent;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -683,37 +594,35 @@ export interface DeletedWorkbookInnerErrorTrace {
 }
 
 // @public
-export interface DeletedWorkbookResource extends TrackedResourceAutoGenerated {
+export interface DeletedWorkbookProperties {
+    category: string;
+    description?: string;
+    displayName: string;
+    readonly revision?: string;
+    serializedData: string | null;
+    sourceId?: string;
+    storageUri?: string;
+    tags?: string[];
+    readonly timeModified?: Date;
+    readonly userId?: string;
+    version?: string;
+}
+
+// @public
+export interface DeletedWorkbookResource extends TrackedResource {
     etag?: string;
     kind?: WorkbookSharedTypeKind;
 }
 
 // @public
-export interface DeletedWorkbooks {
-    listBySubscription(options?: DeletedWorkbooksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DeletedWorkbook>;
-}
-
-// @public
-export interface DeletedWorkbooksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeletedWorkbooksListBySubscriptionNextResponse = DeletedWorkbooksListResult;
-
-// @public
-export interface DeletedWorkbooksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface DeletedWorkbooksListBySubscriptionOptionalParams extends OperationOptions {
     category?: CategoryType;
     tags?: string[];
 }
 
 // @public
-export type DeletedWorkbooksListBySubscriptionResponse = DeletedWorkbooksListResult;
-
-// @public
-export interface DeletedWorkbooksListResult {
-    // (undocumented)
-    nextLink?: string;
-    readonly value?: DeletedWorkbook[];
+export interface DeletedWorkbooksOperations {
+    listBySubscription: (options?: DeletedWorkbooksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DeletedWorkbook>;
 }
 
 // @public
@@ -730,7 +639,7 @@ export interface ErrorResponse {
     message?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorResponseComponents {
     error?: ErrorResponseComponentsError;
 }
@@ -741,7 +650,7 @@ export interface ErrorResponseComponentsError {
     readonly message?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorResponseLinkedStorage {
     error?: ErrorResponseLinkedStorageError;
 }
@@ -753,78 +662,48 @@ export interface ErrorResponseLinkedStorageError {
 }
 
 // @public
-export interface ExportConfigurations {
-    create(resourceGroupName: string, resourceName: string, exportProperties: ApplicationInsightsComponentExportRequest, options?: ExportConfigurationsCreateOptionalParams): Promise<ExportConfigurationsCreateResponse>;
-    delete(resourceGroupName: string, resourceName: string, exportId: string, options?: ExportConfigurationsDeleteOptionalParams): Promise<ExportConfigurationsDeleteResponse>;
-    get(resourceGroupName: string, resourceName: string, exportId: string, options?: ExportConfigurationsGetOptionalParams): Promise<ExportConfigurationsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ExportConfigurationsListOptionalParams): Promise<ExportConfigurationsListResponse>;
-    update(resourceGroupName: string, resourceName: string, exportId: string, exportProperties: ApplicationInsightsComponentExportRequest, options?: ExportConfigurationsUpdateOptionalParams): Promise<ExportConfigurationsUpdateResponse>;
+export interface ExportConfigurationsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ExportConfigurationsCreateOptionalParams extends coreClient.OperationOptions {
+export interface ExportConfigurationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExportConfigurationsCreateResponse = ApplicationInsightsComponentExportConfiguration[];
-
-// @public
-export interface ExportConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ExportConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExportConfigurationsDeleteResponse = ApplicationInsightsComponentExportConfiguration;
-
-// @public
-export interface ExportConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ExportConfigurationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExportConfigurationsGetResponse = ApplicationInsightsComponentExportConfiguration;
-
-// @public
-export interface ExportConfigurationsListOptionalParams extends coreClient.OperationOptions {
+export interface ExportConfigurationsOperations {
+    create: (resourceGroupName: string, resourceName: string, exportProperties: ApplicationInsightsComponentExportRequest, options?: ExportConfigurationsCreateOptionalParams) => Promise<ApplicationInsightsComponentExportConfiguration[]>;
+    delete: (resourceGroupName: string, resourceName: string, exportId: string, options?: ExportConfigurationsDeleteOptionalParams) => Promise<ApplicationInsightsComponentExportConfiguration>;
+    get: (resourceGroupName: string, resourceName: string, exportId: string, options?: ExportConfigurationsGetOptionalParams) => Promise<ApplicationInsightsComponentExportConfiguration>;
+    list: (resourceGroupName: string, resourceName: string, options?: ExportConfigurationsListOptionalParams) => Promise<ApplicationInsightsComponentExportConfiguration[]>;
+    update: (resourceGroupName: string, resourceName: string, exportId: string, exportProperties: ApplicationInsightsComponentExportRequest, options?: ExportConfigurationsUpdateOptionalParams) => Promise<ApplicationInsightsComponentExportConfiguration>;
 }
 
 // @public
-export type ExportConfigurationsListResponse = ApplicationInsightsComponentExportConfiguration[];
-
-// @public
-export interface ExportConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ExportConfigurationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExportConfigurationsUpdateResponse = ApplicationInsightsComponentExportConfiguration;
-
-// @public
-export interface Favorites {
-    add(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: ApplicationInsightsComponentFavorite, options?: FavoritesAddOptionalParams): Promise<FavoritesAddResponse>;
-    delete(resourceGroupName: string, resourceName: string, favoriteId: string, options?: FavoritesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, favoriteId: string, options?: FavoritesGetOptionalParams): Promise<FavoritesGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: FavoritesListOptionalParams): Promise<FavoritesListResponse>;
-    update(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: ApplicationInsightsComponentFavorite, options?: FavoritesUpdateOptionalParams): Promise<FavoritesUpdateResponse>;
+export interface FavoritesAddOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FavoritesAddOptionalParams extends coreClient.OperationOptions {
+export interface FavoritesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FavoritesAddResponse = ApplicationInsightsComponentFavorite;
-
-// @public
-export interface FavoritesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface FavoritesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FavoritesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FavoritesGetResponse = ApplicationInsightsComponentFavorite;
-
-// @public
-export interface FavoritesListOptionalParams extends coreClient.OperationOptions {
+export interface FavoritesListOptionalParams extends OperationOptions {
     canFetchContent?: boolean;
     favoriteType?: FavoriteType;
     sourceType?: FavoriteSourceType;
@@ -832,26 +711,26 @@ export interface FavoritesListOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type FavoritesListResponse = ApplicationInsightsComponentFavorite[];
+export interface FavoritesOperations {
+    add: (resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: ApplicationInsightsComponentFavorite, options?: FavoritesAddOptionalParams) => Promise<ApplicationInsightsComponentFavorite>;
+    delete: (resourceGroupName: string, resourceName: string, favoriteId: string, options?: FavoritesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, favoriteId: string, options?: FavoritesGetOptionalParams) => Promise<ApplicationInsightsComponentFavorite>;
+    list: (resourceGroupName: string, resourceName: string, options?: FavoritesListOptionalParams) => Promise<ApplicationInsightsComponentFavorite[]>;
+    update: (resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: ApplicationInsightsComponentFavorite, options?: FavoritesUpdateOptionalParams) => Promise<ApplicationInsightsComponentFavorite>;
+}
 
 // @public
 export type FavoriteSourceType = string;
 
 // @public
-export interface FavoritesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface FavoritesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type FavoritesUpdateResponse = ApplicationInsightsComponentFavorite;
 
 // @public
 export type FavoriteType = "shared" | "user";
 
 // @public
 export type FlowType = string;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HeaderField {
@@ -867,6 +746,8 @@ export interface InnerError {
     diagnosticcontext?: string;
     time?: Date;
 }
+
+export { isRestError }
 
 // @public
 export type ItemScope = string;
@@ -996,16 +877,18 @@ export enum KnownWorkbookUpdateSharedTypeKind {
 }
 
 // @public
-export interface LiveToken {
-    get(resourceUri: string, options?: LiveTokenGetOptionalParams): Promise<LiveTokenGetResponse>;
+export interface LinkedStorageAccountsProperties {
+    linkedStorageAccount?: string;
 }
 
 // @public
-export interface LiveTokenGetOptionalParams extends coreClient.OperationOptions {
+export interface LiveTokenGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LiveTokenGetResponse = LiveTokenResponse;
+export interface LiveTokenOperations {
+    get: (resourceUri: string, options?: LiveTokenGetOptionalParams) => Promise<LiveTokenResponse>;
+}
 
 // @public
 export interface LiveTokenResponse {
@@ -1017,9 +900,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -1039,51 +920,24 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationInfo {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationLive {
-    display?: OperationInfo;
-    isDataAction?: boolean;
-    name?: string;
-    origin?: string;
-    properties?: Record<string, unknown>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export interface OperationsListResult {
-    nextLink?: string;
-    value?: OperationLive[];
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -1093,32 +947,23 @@ export interface PrivateLinkScopedResource {
 }
 
 // @public
-export interface ProactiveDetectionConfigurations {
-    get(resourceGroupName: string, resourceName: string, configurationId: string, options?: ProactiveDetectionConfigurationsGetOptionalParams): Promise<ProactiveDetectionConfigurationsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ProactiveDetectionConfigurationsListOptionalParams): Promise<ProactiveDetectionConfigurationsListResponse>;
-    update(resourceGroupName: string, resourceName: string, configurationId: string, proactiveDetectionProperties: ApplicationInsightsComponentProactiveDetectionConfiguration, options?: ProactiveDetectionConfigurationsUpdateOptionalParams): Promise<ProactiveDetectionConfigurationsUpdateResponse>;
+export interface ProactiveDetectionConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ProactiveDetectionConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ProactiveDetectionConfigurationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProactiveDetectionConfigurationsGetResponse = ApplicationInsightsComponentProactiveDetectionConfiguration;
-
-// @public
-export interface ProactiveDetectionConfigurationsListOptionalParams extends coreClient.OperationOptions {
+export interface ProactiveDetectionConfigurationsOperations {
+    get: (resourceGroupName: string, resourceName: string, configurationId: string, options?: ProactiveDetectionConfigurationsGetOptionalParams) => Promise<ApplicationInsightsComponentProactiveDetectionConfiguration>;
+    list: (resourceGroupName: string, resourceName: string, options?: ProactiveDetectionConfigurationsListOptionalParams) => Promise<ApplicationInsightsComponentProactiveDetectionConfiguration[]>;
+    update: (resourceGroupName: string, resourceName: string, configurationId: string, proactiveDetectionProperties: ApplicationInsightsComponentProactiveDetectionConfiguration, options?: ProactiveDetectionConfigurationsUpdateOptionalParams) => Promise<ApplicationInsightsComponentProactiveDetectionConfiguration>;
 }
 
 // @public
-export type ProactiveDetectionConfigurationsListResponse = ApplicationInsightsComponentProactiveDetectionConfiguration[];
-
-// @public
-export interface ProactiveDetectionConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ProactiveDetectionConfigurationsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ProactiveDetectionConfigurationsUpdateResponse = ApplicationInsightsComponentProactiveDetectionConfiguration;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -1137,16 +982,11 @@ export type RequestSource = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceAutoGenerated {
-    readonly id?: string;
-    readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export type StorageType = string;
@@ -1163,25 +1003,13 @@ export interface SystemData {
 
 // @public
 export interface TagsResource {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated {
-    location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1217,22 +1045,30 @@ export interface WebTestGeolocation {
 export type WebTestKind = "ping" | "multistep" | "standard";
 
 // @public
-export interface WebTestListResult {
-    nextLink?: string;
-    value: WebTest[];
+export interface WebTestLocationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebTestLocations {
-    list(resourceGroupName: string, resourceName: string, options?: WebTestLocationsListOptionalParams): PagedAsyncIterableIterator<ApplicationInsightsComponentWebTestLocation>;
+export interface WebTestLocationsOperations {
+    list: (resourceGroupName: string, resourceName: string, options?: WebTestLocationsListOptionalParams) => PagedAsyncIterableIterator<ApplicationInsightsComponentWebTestLocation>;
 }
 
 // @public
-export interface WebTestLocationsListOptionalParams extends coreClient.OperationOptions {
+export interface WebTestProperties {
+    configuration?: WebTestPropertiesConfiguration;
+    description?: string;
+    enabled?: boolean;
+    frequency?: number;
+    locations: WebTestGeolocation[];
+    readonly provisioningState?: string;
+    request?: WebTestPropertiesRequest;
+    retryEnabled?: boolean;
+    syntheticMonitorId: string;
+    timeout?: number;
+    validationRules?: WebTestPropertiesValidationRules;
+    webTestKind: WebTestKind;
+    webTestName: string;
 }
-
-// @public
-export type WebTestLocationsListResponse = ApplicationInsightsWebTestLocationsListResult;
 
 // @public
 export interface WebTestPropertiesConfiguration {
@@ -1266,104 +1102,65 @@ export interface WebTestPropertiesValidationRulesContentValidation {
 }
 
 // @public
-export interface WebTests {
-    createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: WebTest, options?: WebTestsCreateOrUpdateOptionalParams): Promise<WebTestsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, webTestName: string, options?: WebTestsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, webTestName: string, options?: WebTestsGetOptionalParams): Promise<WebTestsGetResponse>;
-    list(options?: WebTestsListOptionalParams): PagedAsyncIterableIterator<WebTest>;
-    listByComponent(componentName: string, resourceGroupName: string, options?: WebTestsListByComponentOptionalParams): PagedAsyncIterableIterator<WebTest>;
-    listByResourceGroup(resourceGroupName: string, options?: WebTestsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<WebTest>;
-    updateTags(resourceGroupName: string, webTestName: string, webTestTags: TagsResource, options?: WebTestsUpdateTagsOptionalParams): Promise<WebTestsUpdateTagsResponse>;
+export interface WebTestsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebTestsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WebTestsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebTestsCreateOrUpdateResponse = WebTest;
-
-// @public
-export interface WebTestsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface WebTestsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebTestsGetOptionalParams extends coreClient.OperationOptions {
+export interface WebTestsListByComponentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebTestsGetResponse = WebTest;
-
-// @public
-export interface WebTestsListByComponentNextOptionalParams extends coreClient.OperationOptions {
+export interface WebTestsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebTestsListByComponentNextResponse = WebTestListResult;
-
-// @public
-export interface WebTestsListByComponentOptionalParams extends coreClient.OperationOptions {
+export interface WebTestsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebTestsListByComponentResponse = WebTestListResult;
-
-// @public
-export interface WebTestsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface WebTestsOperations {
+    createOrUpdate: (resourceGroupName: string, webTestName: string, webTestDefinition: WebTest, options?: WebTestsCreateOrUpdateOptionalParams) => Promise<WebTest>;
+    delete: (resourceGroupName: string, webTestName: string, options?: WebTestsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, webTestName: string, options?: WebTestsGetOptionalParams) => Promise<WebTest>;
+    list: (options?: WebTestsListOptionalParams) => PagedAsyncIterableIterator<WebTest>;
+    listByComponent: (componentName: string, resourceGroupName: string, options?: WebTestsListByComponentOptionalParams) => PagedAsyncIterableIterator<WebTest>;
+    listByResourceGroup: (resourceGroupName: string, options?: WebTestsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<WebTest>;
+    updateTags: (resourceGroupName: string, webTestName: string, webTestTags: TagsResource, options?: WebTestsUpdateTagsOptionalParams) => Promise<WebTest>;
 }
-
-// @public
-export type WebTestsListByResourceGroupNextResponse = WebTestListResult;
-
-// @public
-export interface WebTestsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebTestsListByResourceGroupResponse = WebTestListResult;
-
-// @public
-export interface WebTestsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebTestsListNextResponse = WebTestListResult;
-
-// @public
-export interface WebTestsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebTestsListResponse = WebTestListResult;
 
 // @public
 export interface WebtestsResource {
     readonly id?: string;
     location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     readonly type?: string;
 }
 
 // @public
-export interface WebTestsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+export interface WebTestsUpdateTagsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebTestsUpdateTagsResponse = WebTest;
-
-// @public
-export interface Workbook extends WorkbookResource {
+export interface Workbook extends TrackedResource {
     category?: string;
     description?: string;
     displayName?: string;
+    etag?: string;
+    identity?: WorkbookResourceIdentity;
+    kind?: WorkbookSharedTypeKind;
     readonly revision?: string;
     serializedData?: string;
     sourceId?: string;
     storageUri?: string;
-    readonly systemData?: SystemData;
     tagsPropertiesTags?: string[];
     readonly timeModified?: Date;
     readonly userId?: string;
@@ -1388,10 +1185,28 @@ export interface WorkbookInnerErrorTrace {
 }
 
 // @public
-export interface WorkbookResource extends TrackedResource {
-    etag?: string;
-    identity?: WorkbookResourceIdentity;
-    kind?: WorkbookSharedTypeKind;
+export interface WorkbookProperties {
+    category: string;
+    description?: string;
+    displayName: string;
+    readonly revision?: string;
+    serializedData: string | null;
+    sourceId?: string;
+    storageUri?: string;
+    tags?: string[];
+    readonly timeModified?: Date;
+    readonly userId?: string;
+    version?: string;
+}
+
+// @public
+export interface WorkbookPropertiesUpdateParameters {
+    category?: string;
+    description?: string;
+    displayName?: string;
+    revision?: string;
+    serializedData?: string;
+    tags?: string[];
 }
 
 // @public
@@ -1399,119 +1214,68 @@ export interface WorkbookResourceIdentity extends ManagedServiceIdentity {
 }
 
 // @public
-export interface Workbooks {
-    createOrUpdate(resourceGroupName: string, resourceName: string, workbookProperties: Workbook, options?: WorkbooksCreateOrUpdateOptionalParams): Promise<WorkbooksCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, options?: WorkbooksDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, options?: WorkbooksGetOptionalParams): Promise<WorkbooksGetResponse>;
-    listByResourceGroup(resourceGroupName: string, category: CategoryType, options?: WorkbooksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workbook>;
-    listBySubscription(category: CategoryType, options?: WorkbooksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Workbook>;
-    listRevisionsList(resourceGroupName: string, resourceName: string, options?: WorkbooksRevisionsListOptionalParams): PagedAsyncIterableIterator<Workbook>;
-    revisionGet(resourceGroupName: string, resourceName: string, revisionId: string, options?: WorkbooksRevisionGetOptionalParams): Promise<WorkbooksRevisionGetResponse>;
-    update(resourceGroupName: string, resourceName: string, options?: WorkbooksUpdateOptionalParams): Promise<WorkbooksUpdateResponse>;
-}
-
-// @public
-export interface WorkbooksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WorkbooksCreateOrUpdateOptionalParams extends OperationOptions {
     sourceId?: string;
 }
 
 // @public
-export type WorkbooksCreateOrUpdateResponse = Workbook;
-
-// @public
-export interface WorkbooksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface WorkbooksDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkbooksGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkbooksGetOptionalParams extends OperationOptions {
     canFetchContent?: boolean;
 }
-
-// @public
-export type WorkbooksGetResponse = Workbook;
 
 // @public
 export type WorkbookSharedTypeKind = string;
 
 // @public
-export interface WorkbooksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkbooksListByResourceGroupNextResponse = WorkbooksListResult;
-
-// @public
-export interface WorkbooksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface WorkbooksListByResourceGroupOptionalParams extends OperationOptions {
     canFetchContent?: boolean;
     sourceId?: string;
     tags?: string[];
 }
 
 // @public
-export type WorkbooksListByResourceGroupResponse = WorkbooksListResult;
-
-// @public
-export interface WorkbooksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkbooksListBySubscriptionNextResponse = WorkbooksListResult;
-
-// @public
-export interface WorkbooksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface WorkbooksListBySubscriptionOptionalParams extends OperationOptions {
     canFetchContent?: boolean;
     tags?: string[];
 }
 
 // @public
-export type WorkbooksListBySubscriptionResponse = WorkbooksListResult;
-
-// @public
-export interface WorkbooksListResult {
-    // (undocumented)
-    nextLink?: string;
-    readonly value?: Workbook[];
+export interface WorkbooksListRevisionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkbooksRevisionGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkbooksOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, workbookProperties: Workbook, options?: WorkbooksCreateOrUpdateOptionalParams) => Promise<Workbook>;
+    delete: (resourceGroupName: string, resourceName: string, options?: WorkbooksDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, options?: WorkbooksGetOptionalParams) => Promise<Workbook>;
+    listByResourceGroup: (resourceGroupName: string, category: CategoryType, options?: WorkbooksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Workbook>;
+    listBySubscription: (category: CategoryType, options?: WorkbooksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Workbook>;
+    listRevisionsList: (resourceGroupName: string, resourceName: string, options?: WorkbooksListRevisionsListOptionalParams) => PagedAsyncIterableIterator<Workbook>;
+    revisionGet: (resourceGroupName: string, resourceName: string, revisionId: string, options?: WorkbooksRevisionGetOptionalParams) => Promise<Workbook>;
+    update: (resourceGroupName: string, resourceName: string, options?: WorkbooksUpdateOptionalParams) => Promise<Workbook>;
 }
 
 // @public
-export type WorkbooksRevisionGetResponse = Workbook;
-
-// @public
-export interface WorkbooksRevisionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkbooksRevisionGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkbooksRevisionsListNextResponse = WorkbooksListResult;
-
-// @public
-export interface WorkbooksRevisionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkbooksRevisionsListResponse = WorkbooksListResult;
-
-// @public
-export interface WorkbooksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WorkbooksUpdateOptionalParams extends OperationOptions {
     sourceId?: string;
     workbookUpdateParameters?: WorkbookUpdateParameters;
 }
 
 // @public
-export type WorkbooksUpdateResponse = Workbook;
-
-// @public
-export interface WorkbookTemplate extends WorkbookTemplateResource {
+export interface WorkbookTemplate extends TrackedResource {
     author?: string;
     galleries?: WorkbookTemplateGallery[];
-    localized?: {
-        [propertyName: string]: WorkbookTemplateLocalizedGallery[];
-    };
+    localized?: Record<string, WorkbookTemplateLocalizedGallery[]>;
     priority?: number;
-    templateData?: Record<string, unknown>;
+    templateData?: any;
 }
 
 // @public
@@ -1545,79 +1309,56 @@ export interface WorkbookTemplateGallery {
 // @public
 export interface WorkbookTemplateLocalizedGallery {
     galleries?: WorkbookTemplateGallery[];
-    templateData?: Record<string, unknown>;
+    templateData?: any;
 }
 
 // @public
-export interface WorkbookTemplateResource {
-    readonly id?: string;
-    location: string;
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+export interface WorkbookTemplateProperties {
+    author?: string;
+    galleries: WorkbookTemplateGallery[];
+    localized?: Record<string, WorkbookTemplateLocalizedGallery[]>;
+    priority?: number;
+    templateData: any;
 }
 
 // @public
-export interface WorkbookTemplates {
-    createOrUpdate(resourceGroupName: string, resourceName: string, workbookTemplateProperties: WorkbookTemplate, options?: WorkbookTemplatesCreateOrUpdateOptionalParams): Promise<WorkbookTemplatesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, options?: WorkbookTemplatesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, options?: WorkbookTemplatesGetOptionalParams): Promise<WorkbookTemplatesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: WorkbookTemplatesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<WorkbookTemplate>;
-    update(resourceGroupName: string, resourceName: string, options?: WorkbookTemplatesUpdateOptionalParams): Promise<WorkbookTemplatesUpdateResponse>;
+export interface WorkbookTemplatesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkbookTemplatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WorkbookTemplatesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkbookTemplatesCreateOrUpdateResponse = WorkbookTemplate;
-
-// @public
-export interface WorkbookTemplatesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface WorkbookTemplatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkbookTemplatesGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkbookTemplatesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkbookTemplatesGetResponse = WorkbookTemplate;
-
-// @public
-export interface WorkbookTemplatesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface WorkbookTemplatesOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, workbookTemplateProperties: WorkbookTemplate, options?: WorkbookTemplatesCreateOrUpdateOptionalParams) => Promise<WorkbookTemplate>;
+    delete: (resourceGroupName: string, resourceName: string, options?: WorkbookTemplatesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, options?: WorkbookTemplatesGetOptionalParams) => Promise<WorkbookTemplate>;
+    listByResourceGroup: (resourceGroupName: string, options?: WorkbookTemplatesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<WorkbookTemplate>;
+    update: (resourceGroupName: string, resourceName: string, options?: WorkbookTemplatesUpdateOptionalParams) => Promise<WorkbookTemplate>;
 }
 
 // @public
-export type WorkbookTemplatesListByResourceGroupResponse = WorkbookTemplatesListResult;
-
-// @public
-export interface WorkbookTemplatesListResult {
-    value?: WorkbookTemplate[];
-}
-
-// @public
-export interface WorkbookTemplatesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WorkbookTemplatesUpdateOptionalParams extends OperationOptions {
     workbookTemplateUpdateParameters?: WorkbookTemplateUpdateParameters;
 }
-
-// @public
-export type WorkbookTemplatesUpdateResponse = WorkbookTemplate;
 
 // @public
 export interface WorkbookTemplateUpdateParameters {
     author?: string;
     galleries?: WorkbookTemplateGallery[];
-    localized?: {
-        [propertyName: string]: WorkbookTemplateLocalizedGallery[];
-    };
+    localized?: Record<string, WorkbookTemplateLocalizedGallery[]>;
     priority?: number;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    templateData?: Record<string, unknown>;
+    tags?: Record<string, string>;
+    templateData?: any;
 }
 
 // @public
@@ -1628,9 +1369,7 @@ export interface WorkbookUpdateParameters {
     kind?: WorkbookUpdateSharedTypeKind;
     revision?: string;
     serializedData?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     tagsPropertiesTags?: string[];
 }
 
@@ -1654,67 +1393,45 @@ export interface WorkItemConfigurationError {
 }
 
 // @public
-export interface WorkItemConfigurations {
-    create(resourceGroupName: string, resourceName: string, workItemConfigurationProperties: WorkItemCreateConfiguration, options?: WorkItemConfigurationsCreateOptionalParams): Promise<WorkItemConfigurationsCreateResponse>;
-    delete(resourceGroupName: string, resourceName: string, workItemConfigId: string, options?: WorkItemConfigurationsDeleteOptionalParams): Promise<void>;
-    getDefault(resourceGroupName: string, resourceName: string, options?: WorkItemConfigurationsGetDefaultOptionalParams): Promise<WorkItemConfigurationsGetDefaultResponse>;
-    getItem(resourceGroupName: string, resourceName: string, workItemConfigId: string, options?: WorkItemConfigurationsGetItemOptionalParams): Promise<WorkItemConfigurationsGetItemResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: WorkItemConfigurationsListOptionalParams): PagedAsyncIterableIterator<WorkItemConfiguration>;
-    updateItem(resourceGroupName: string, resourceName: string, workItemConfigId: string, workItemConfigurationProperties: WorkItemCreateConfiguration, options?: WorkItemConfigurationsUpdateItemOptionalParams): Promise<WorkItemConfigurationsUpdateItemResponse>;
+export interface WorkItemConfigurationsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkItemConfigurationsCreateOptionalParams extends coreClient.OperationOptions {
+export interface WorkItemConfigurationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkItemConfigurationsCreateResponse = WorkItemConfiguration;
-
-// @public
-export interface WorkItemConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface WorkItemConfigurationsGetDefaultOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkItemConfigurationsGetDefaultOptionalParams extends coreClient.OperationOptions {
+export interface WorkItemConfigurationsGetItemOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkItemConfigurationsGetDefaultResponse = WorkItemConfiguration;
-
-// @public
-export interface WorkItemConfigurationsGetItemOptionalParams extends coreClient.OperationOptions {
+export interface WorkItemConfigurationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkItemConfigurationsGetItemResponse = WorkItemConfiguration;
-
-// @public
-export interface WorkItemConfigurationsListOptionalParams extends coreClient.OperationOptions {
+export interface WorkItemConfigurationsOperations {
+    create: (resourceGroupName: string, resourceName: string, workItemConfigurationProperties: WorkItemCreateConfiguration, options?: WorkItemConfigurationsCreateOptionalParams) => Promise<WorkItemConfiguration>;
+    delete: (resourceGroupName: string, resourceName: string, workItemConfigId: string, options?: WorkItemConfigurationsDeleteOptionalParams) => Promise<void>;
+    getDefault: (resourceGroupName: string, resourceName: string, options?: WorkItemConfigurationsGetDefaultOptionalParams) => Promise<WorkItemConfiguration>;
+    getItem: (resourceGroupName: string, resourceName: string, workItemConfigId: string, options?: WorkItemConfigurationsGetItemOptionalParams) => Promise<WorkItemConfiguration>;
+    list: (resourceGroupName: string, resourceName: string, options?: WorkItemConfigurationsListOptionalParams) => PagedAsyncIterableIterator<WorkItemConfiguration>;
+    updateItem: (resourceGroupName: string, resourceName: string, workItemConfigId: string, workItemConfigurationProperties: WorkItemCreateConfiguration, options?: WorkItemConfigurationsUpdateItemOptionalParams) => Promise<WorkItemConfiguration>;
 }
 
 // @public
-export type WorkItemConfigurationsListResponse = WorkItemConfigurationsListResult;
-
-// @public
-export interface WorkItemConfigurationsListResult {
-    readonly value?: WorkItemConfiguration[];
+export interface WorkItemConfigurationsUpdateItemOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface WorkItemConfigurationsUpdateItemOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkItemConfigurationsUpdateItemResponse = WorkItemConfiguration;
 
 // @public
 export interface WorkItemCreateConfiguration {
     connectorDataConfiguration?: string;
     connectorId?: string;
     validateOnly?: boolean;
-    workItemProperties?: {
-        [propertyName: string]: string;
-    };
+    workItemProperties?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "@azure/arm-containerservicesafeguards client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -35,8 +35,9 @@
     "@azure/identity": "^4.9.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "@types/node": "^22.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

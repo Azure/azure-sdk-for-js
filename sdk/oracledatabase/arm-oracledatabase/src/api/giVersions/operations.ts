@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext as Client } from "../index.js";
+import type { OracleDatabaseManagementContext as Client } from "../index.js";
+import type { GiVersion, _GiVersionListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  GiVersion,
   giVersionDeserializer,
-  _GiVersionListResult,
   _giVersionListResultDeserializer,
 } from "../../models/models.js";
-import { GiVersionsListByLocationOptionalParams, GiVersionsGetOptionalParams } from "./options.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type {
+  GiVersionsListByLocationOptionalParams,
+  GiVersionsGetOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByLocationSend(
   context: Client,
@@ -28,13 +24,14 @@ export function _listByLocationSend(
   options: GiVersionsListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions{?api%2Dversion,shape,zone}",
+    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions{?api%2Dversion,shape,zone,shapeAttribute}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
       "api%2Dversion": context.apiVersion,
       shape: options?.shape,
       zone: options?.zone,
+      shapeAttribute: options?.shapeAttribute,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

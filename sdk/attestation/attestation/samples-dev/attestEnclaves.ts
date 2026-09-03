@@ -144,7 +144,7 @@ const _openEnclaveReport =
   "tLQoA";
 
 async function attestOpenEnclave(): Promise<void> {
-  await writeBanner("Attest Open Enclave.");
+  writeBanner("Attest Open Enclave.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
     throw new Error("ATTESTATION_AAD_URL must be provided.");
@@ -171,7 +171,7 @@ async function attestOpenEnclave(): Promise<void> {
 }
 
 async function attestOpenEnclaveSharedAnonymously(): Promise<void> {
-  await writeBanner("Attest Open Enclave - Anonymously");
+  writeBanner("Attest Open Enclave - Anonymously");
 
   let location = process.env.ATTESTATION_LOCATION_SHORT_NAME;
   if (location === undefined) {
@@ -200,7 +200,7 @@ async function attestOpenEnclaveSharedAnonymously(): Promise<void> {
 }
 
 async function attestOpenEnclaveWithRuntimeData(): Promise<void> {
-  await writeBanner("Attest Open Enclave With Runtime Data.");
+  writeBanner("Attest Open Enclave With Runtime Data.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
     throw new Error("ATTESTATION_AAD_URL must be provided.");
@@ -243,7 +243,7 @@ async function attestOpenEnclaveWithRuntimeData(): Promise<void> {
 }
 
 async function attestOpenEnclaveWithRuntimeJson(): Promise<void> {
-  await writeBanner("Attest Open Enclave With Runtime JSON.");
+  writeBanner("Attest Open Enclave With Runtime JSON.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
     throw new Error("ATTESTATION_AAD_URL must be provided.");
@@ -294,7 +294,7 @@ async function attestOpenEnclaveWithRuntimeJson(): Promise<void> {
 }
 
 async function attestOpenEnclaveWithExperimentalPolicy(): Promise<void> {
-  await writeBanner("Attest Open Enclave with Experimental Policy.");
+  writeBanner("Attest Open Enclave with Experimental Policy.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
     throw new Error("ATTESTATION_AAD_URL must be provided.");
@@ -345,7 +345,7 @@ issuancerules
 }
 
 async function attestOpenEnclaveWithExperimentalPolicyFailure(): Promise<void> {
-  await writeBanner("Attest Open Enclave with Failing Experimental Policy.");
+  writeBanner("Attest Open Enclave with Failing Experimental Policy.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
   if (!endpoint) {
     throw new Error("ATTESTATION_AAD_URL must be provided.");
@@ -383,23 +383,8 @@ issuancerules
   }
 }
 
-declare let TextDecoder:
-  | undefined
-  | (new () => { decode(buffer: ArrayBuffer | ArrayBufferView): string });
-
-// TextDecoder and TextEncoder are in the global namespace for Node version 11 and
-// higher, but before that, they were in the "util" namespace. If we're running
-// under node ("Buffer" is defined), then check to see if the global namespace version
-// of the decoders are present, if not, import them from the util namespace.
-const decoder =
-  typeof Buffer === "undefined"
-    ? // eslint-disable-next-line @typescript-eslint/no-require-imports
-      new (TextDecoder ?? require("util").TextDecoder)("ascii")
-    : undefined;
-
-const decode: (buffer: ArrayBuffer) => string = decoder
-  ? (buffer) => decoder.decode(buffer)
-  : (buffer) => (buffer as Buffer).toString("ascii");
+const decoder = new TextDecoder("ascii");
+const decode: (buffer: Uint8Array) => string = (buffer) => decoder.decode(buffer);
 
 /**
  * Converts a utf8 string into a byte array.

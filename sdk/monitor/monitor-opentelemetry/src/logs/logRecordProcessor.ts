@@ -3,7 +3,11 @@
 
 import type { MetricHandler } from "../metrics/handler.js";
 import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { Context } from "@opentelemetry/api";
+import { trace } from "@opentelemetry/api";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { Logger } from "../shared/logging/index.js";
+import { MAIN_AGENT_TARGET_ATTRIBUTES } from "../utils/genaiAttributes.js";
 
 /**
  * Azure Monitor LogRecord Processor.
@@ -16,11 +20,43 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
     this._metricHandler = metricHandler;
   }
 
-  public onEmit(logRecord: SdkLogRecord): void {
+  public onEmit(logRecord: SdkLogRecord, context?: Context): void {
+    try {
+      this._propagateMainAgentAttributesFromActiveSpan(logRecord, context);
+    } catch (error) {
+      Logger.getInstance().warn("Error while propagating main agent attributes onEmit", error);
+    }
     try {
       this._metricHandler.recordLog(logRecord);
     } catch (error) {
       Logger.getInstance().warn("Error while recording log", error);
+    }
+  }
+
+  private _propagateMainAgentAttributesFromActiveSpan(
+    logRecord: SdkLogRecord,
+    context?: Context,
+  ): void {
+    if (!context) {
+      return;
+    }
+    const span = trace.getSpan(context);
+    if (!span) {
+      return;
+    }
+    // The Span returned by trace.getSpan may be a non-recording span or a
+    // foreign implementation that does not expose `attributes`.
+    const spanAttributes = (span as Partial<ReadableSpan>).attributes;
+    if (!spanAttributes) {
+      return;
+    }
+    // Copy only the spec-defined main-agent attributes rather than scanning
+    // every attribute on the span by prefix.
+    for (const key of MAIN_AGENT_TARGET_ATTRIBUTES) {
+      const value = spanAttributes[key];
+      if (value !== undefined) {
+        logRecord.setAttribute(key, value);
+      }
     }
   }
 

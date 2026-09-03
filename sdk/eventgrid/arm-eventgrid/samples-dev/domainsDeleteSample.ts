@@ -1,31 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete existing domain.
- *
- * @summary Delete existing domain.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/Domains_Delete.json
- */
-
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete existing domain.
+ *
+ * @summary delete existing domain.
+ * x-ms-original-file: 2025-07-15-preview/Domains_Delete.json
+ */
 async function domainsDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
-  const resourceGroupName =
-    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
-  const domainName = "exampledomain1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const client = new EventGridManagementClient(credential, subscriptionId);
-  const result = await client.domains.beginDeleteAndWait(
-    resourceGroupName,
-    domainName,
-  );
-  console.log(result);
+  await client.domains.delete("examplerg", "exampledomain1");
 }
 
 async function main(): Promise<void> {

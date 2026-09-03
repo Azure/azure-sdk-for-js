@@ -3,7 +3,7 @@
 
 # IMPORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
 
-param (
+param(
   [Parameter()]
   [hashtable] $DeploymentOutputs,
 
@@ -31,13 +31,14 @@ param (
   $RemainingArguments
 )
 
-if (!$AdditionalParameters['deployMIResources']) {
+if ([string]::IsNullOrEmpty($DeploymentOutputs['IDENTITY_WEBAPP_NAME'])) {
     Write-Host "Skipping post-provisioning script because resources weren't deployed"
-    return
+    exit
 }
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 $MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
+$MIId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY']
 $MIObjectId = $DeploymentOutputs['IDENTITY_USER_DEFINED_OBJECT_ID']
 $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
@@ -60,40 +61,89 @@ if ($CI) {
 }
 
 # Azure Functions app deployment
-# TODO: Skip Azure Functions deployment for timeout error
-# Write-Host "Building the code for functions app"
-# Push-Location "$webappRoot/AzureFunctions/RunTest"
-# npm install
-# npm run build
-# Pop-Location
-# Write-Host "starting azure functions deployment"
-# Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-# az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
-# Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
-# Write-Host "Deployed function app"
+Write-Host "##[group]Deploying Azure Functions App"
+Write-Host "Building the code for functions app"
+Push-Location "$webappRoot/AzureFunctions/RunTest"
+npm install
+npm run build
+Pop-Location
+Write-Host "starting azure functions deployment"
+Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
+az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
+Write-Host "Deployed function app"
+Write-Host "##[endgroup]"
 
-# TODO: The deployment step runs into 504 Gateway Timeout error
-# Write-Host "Deplying Identity Web App"
-# Push-Location "$webappRoot/AzureWebApps"
-# npm install
-# npm run build
-# az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
-# Pop-Location
-# Write-Host "Deployed Identity Web App"
+Write-Host "##[group]Deploying Identity Web App"
+Push-Location "$webappRoot/AzureWebApps"
+npm install
+npm run build
+az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:22-lts
+Pop-Location
+Write-Host "Deployed Identity Web App"
+Write-Host "##[endgroup]"
 
-Write-Host "Deploying Identity Docker image to ACR"
+Write-Host "##[group]Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
 $loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 $image = "$loginServer/identity-aks-test-image"
-docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
-docker push $image
+
+$kubernetesContext = "$workingFolder/AzureKubernetes"
+$kubernetesNpmrc = "$kubernetesContext/.npmrc"
+$sourceNpmrc = $env:NPM_CONFIG_USERCONFIG
+if ([string]::IsNullOrEmpty($sourceNpmrc)) {
+  $sourceNpmrc = Join-Path $HOME '.npmrc'
+}
+
+if (-not (Test-Path -LiteralPath $sourceNpmrc)) {
+  throw "No authenticated npmrc found. Checked NPM_CONFIG_USERCONFIG and fallback path: '$sourceNpmrc'"
+}
+
+Write-Host "Copying authenticated .npmrc from $sourceNpmrc to $kubernetesNpmrc"
+try {
+  Copy-Item -Path $sourceNpmrc -Destination $kubernetesNpmrc -Force -ErrorAction Stop
+
+  docker build --no-cache -t $image $kubernetesContext
+  if ($LASTEXITCODE -ne 0) { throw "docker build failed with exit code $LASTEXITCODE" }
+
+  docker push $image
+  if ($LASTEXITCODE -ne 0) { throw "docker push failed with exit code $LASTEXITCODE" }
+}
+finally {
+  Remove-Item -LiteralPath $kubernetesNpmrc -Force -ErrorAction SilentlyContinue
+}
+
 Write-Host "Deployed image to ACR"
+Write-Host "##[endgroup]"
 
-Write-Host "Deploying Azure Container Instance"
+# TODO: VM test is consistently timing out — skip deployment until infra issue is resolved
+# Write-Host "##[group]Deploying to VM"
+# Write-Host "##vso[task.setvariable variable=IDENTITY_VM_PUBLIC_IP;]$($DeploymentOutputs['IDENTITY_VM_PUBLIC_IP'])"
+# $uuid = [guid]::NewGuid().ToString()
+# $vmScript = @"
+# az login --identity --client-id $MIClientId --allow-no-subscriptions && \
+# az acr login -n $($DeploymentOutputs['IDENTITY_ACR_NAME']) && \
+# sudo docker run \
+# -e IDENTITY_STORAGE_NAME=$storageName1 \
+# -e IDENTITY_STORAGE_NAME_USER_ASSIGNED=$storageNameUserAssigned \
+# -e IDENTITY_USER_DEFINED_IDENTITY=$MIId \
+# -e IDENTITY_USER_DEFINED_CLIENT_ID=$MIClientId \
+# -e IDENTITY_USER_DEFINED_OBJECT_ID=$MIObjectId \
+# -p 80:8080 -d \
+# $image && \
+# /usr/bin/echo $uuid
+# "@
+# $output = az vm run-command invoke -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] --command-id RunShellScript --scripts "$vmScript" | Out-String
+# Write-Host $output
+# if (-not $output.Contains($uuid)) {
+#   throw "couldn't start container on VM"
+# }
+# Write-Host "##[endgroup]"
 
+Write-Host "##[group]Deploying Azure Container Instance"
 az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --image $image `
-  --acr-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
-  --assign-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
+  --acr-identity $MIId `
+  --assign-identity $MIId `
   --cpu "1" `
   --ports 80 `
   --ip-address "Public" `
@@ -107,8 +157,9 @@ $aciIP = az container show -g $identityResourceGroup -n $DeploymentOutputs['IDEN
 Write-Host "##vso[task.setvariable variable=IDENTITY_ACI_IP;]$aciIP"
 
 Write-Host "Deployed Azure Container Instance"
+Write-Host "##[endgroup]"
 
-Write-Host "Configuring kubernetes to use our image"
+Write-Host "##[group]Deploying to AKS Cluster"
 az aks update -n $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME'] -g $identityResourceGroup --attach-acr $DeploymentOutputs['IDENTITY_ACR_NAME']
 
 # Get the aks cluster credentials
@@ -165,3 +216,4 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+Write-Host "##[endgroup]"

@@ -6,7 +6,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { Duplex } from "node:stream";
 import * as zlib from "zlib";
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   ShareClient,
   ShareDirectoryClient,
@@ -29,9 +30,8 @@ import {
   getBSU,
   getTokenCredential,
   getUniqueName,
-  recorderEnvSetup,
   SimpleTokenCredential,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -50,8 +50,7 @@ describe("FileClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getBSU(recorder);
     await recorder.addSanitizers(
       {
@@ -62,7 +61,6 @@ describe("FileClient Node.js only", () => {
             "x-ms-copy-source-authorization",
           ],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -163,7 +161,7 @@ describe("FileClient Node.js only", () => {
       const uploadedData = await fs.readFileSync(tempFileLarge);
 
       fs.unlinkSync(downloadedFile);
-      assert.ok(downloadedData.equals(uploadedData));
+      assert.isTrue(downloadedData.equals(uploadedData));
     },
   );
 
@@ -225,11 +223,11 @@ describe("FileClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -250,11 +248,11 @@ describe("FileClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -272,11 +270,11 @@ describe("FileClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("uploadRangeFromURL", async () => {

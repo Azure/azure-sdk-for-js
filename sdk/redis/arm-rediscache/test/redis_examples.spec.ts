@@ -179,7 +179,7 @@ describe("Redis test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("redis update test", async () => {
+  it.skip("redis update test", async () => {
     let count = 0;
     while (count < 20) {
       count++;

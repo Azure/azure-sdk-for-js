@@ -10,8 +10,12 @@ const {
   StorageSharedKeyCredential,
 } = require("@azure/storage-file-datalake");
 
+const { buffer } = require("node:stream/consumers");
+// Use `text` from "node:stream/consumers" if you want the content as a string directly.
+// import { text } from "node:stream/consumers";
+
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -19,7 +23,7 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
@@ -46,7 +50,7 @@ async function main() {
   const serviceClient = new DataLakeServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.dfs.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("File Systems:");
@@ -60,7 +64,7 @@ async function main() {
 
   const fileSystemResponse = await fileSystemClient.create();
   console.log(
-    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`
+    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`,
   );
 
   // Create a file
@@ -86,28 +90,16 @@ async function main() {
     throw new Error("Expected a readable stream body, but none was returned.");
   }
 
-  const readFileContent = (await streamToBuffer(readFileResponse.readableStreamBody)).toString();
+  // Download the raw bytes of the file. Use `text(...)` from "node:stream/consumers"
+  // instead if you want to read the content as a string directly.
+  const readFileContent = await buffer(readFileResponse.readableStreamBody);
 
-  console.log(`Downloaded file content: ${readFileContent}`);
+  console.log(`Downloaded file content: ${readFileContent.toString()}`);
 
   // Finally, delete the example file system.
   await fileSystemClient.delete();
 
   console.log(`Deleted file system ${fileSystemClient.name}.`);
-}
-
-// A helper method used to read a Node.js readable stream into a Buffer
-async function streamToBuffer(readableStream) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on("data", (data) => {
-      chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
 }
 
 main().catch((error) => {

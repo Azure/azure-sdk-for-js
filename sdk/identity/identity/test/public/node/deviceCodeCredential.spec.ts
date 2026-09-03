@@ -33,23 +33,17 @@ describe("DeviceCodeCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates with default values", async function (ctx) {
+  it.skipIf(isLiveMode())("authenticates with default values", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with provided values", async function (ctx) {
+  it.skipIf(isLiveMode())("authenticates with provided values", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
@@ -58,15 +52,12 @@ describe("DeviceCodeCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with specific permissions", async function (ctx) {
+  it.skipIf(isLiveMode())("authenticates with specific permissions", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
@@ -76,73 +67,66 @@ describe("DeviceCodeCredential", function () {
 
     // Important: Specifying permissions on the scope parameter of getToken won't work on client credential flows.
     const token = await credential.getToken("https://graph.microsoft.com/Calendars.Read");
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates and allows the customization of the prompt callback", async function (ctx) {
+  it.skipIf(isLiveMode())(
+    "authenticates and allows the customization of the prompt callback",
+    async function () {
+      // These tests should not run live because this credential requires user interaction.
+      const callback: DeviceCodePromptCallback = (info) => {
+        console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
+      };
+      const credential = new DeviceCodeCredential(
+        recorder.configureClientOptions({
+          tenantId: env.AZURE_TENANT_ID,
+          clientId: env.AZURE_CLIENT_ID,
+          userPromptCallback: callback,
+        }),
+      );
+
+      const token = await credential.getToken(scope);
+      assert.isDefined(token?.token);
+      assert.isTrue(token?.expiresOnTimestamp! > Date.now());
+    },
+  );
+
+  // Because of the user interaction, this test works inconsistently in our live test pipelines.
+  // On playback we can't quite control the time needed to trigger this error.
+  it.skipIf(isLiveMode() || isPlaybackMode())(
+    "allows cancelling the authentication",
+    async function () {
+      const credential = new DeviceCodeCredential(
+        recorder.configureClientOptions({
+          tenantId: env.AZURE_TENANT_ID,
+          clientId: env.AZURE_CLIENT_ID,
+        }),
+      );
+
+      const controller = new AbortController();
+      const getTokenPromise = credential.getToken(scope, {
+        abortSignal: controller.signal,
+      });
+
+      await delay(500);
+      controller.abort();
+
+      let error: AbortError | undefined;
+      try {
+        await getTokenPromise;
+      } catch (e: any) {
+        error = e;
+      }
+
+      assert.equal(error?.name, "AbortError");
+      assert.isDefined(error);
+      assert.match(error.message, /The authentication has been aborted by the caller\./);
+    },
+  );
+
+  it.skipIf(isLiveMode())("allows setting disableAutomaticAuthentication", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
-    const callback: DeviceCodePromptCallback = (info) => {
-      console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
-    };
-    const credential = new DeviceCodeCredential(
-      recorder.configureClientOptions({
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
-        userPromptCallback: callback,
-      }),
-    );
-
-    const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
-  });
-
-  it("allows cancelling the authentication", async function (ctx) {
-    // Because of the user interaction, this test works inconsistently in our live test pipelines.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
-
-    // On playback we can't quite control the time needed to trigger this error.
-    if (isPlaybackMode()) {
-      ctx.skip();
-    }
-
-    const credential = new DeviceCodeCredential(
-      recorder.configureClientOptions({
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
-      }),
-    );
-
-    const controller = new AbortController();
-    const getTokenPromise = credential.getToken(scope, {
-      abortSignal: controller.signal,
-    });
-
-    await delay(500);
-    controller.abort();
-
-    let error: AbortError | undefined;
-    try {
-      await getTokenPromise;
-    } catch (e: any) {
-      error = e;
-    }
-
-    assert.equal(error?.name, "AbortError");
-    assert.ok(error?.message.match("The authentication has been aborted by the caller."));
-  });
-
-  it("allows setting disableAutomaticAuthentication", async function (ctx) {
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         disableAutomaticAuthentication: true,
@@ -161,14 +145,11 @@ describe("DeviceCodeCredential", function () {
     );
 
     const account = await credential.authenticate(scope);
-    assert.ok(account);
+    assert.isDefined(account);
   });
 
-  it("supports tracing", async function (ctx) {
+  it.skipIf(isLiveMode())("supports tracing", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     await expect(async (tracingOptions: any) => {
       const credential = new DeviceCodeCredential(
         recorder.configureClientOptions({

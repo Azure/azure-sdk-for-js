@@ -9,7 +9,7 @@ import type {
   KeyBundle,
   KeyItem,
   LifetimeActions,
-} from "./generated/src/models/index.js";
+} from "./models/models.js";
 import { parseKeyVaultKeyIdentifier } from "./identifier.js";
 import type {
   DeletedKey,
@@ -19,7 +19,7 @@ import type {
   KeyRotationPolicyProperties,
   KeyVaultKey,
 } from "./keysModels.js";
-import type { PagedAsyncIterableIterator, PageSettings } from "./generated/src/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "./static-helpers/pagingHelpers.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
@@ -75,6 +75,14 @@ export function getKeyFromKeyBundle(
     resultObject.properties.attestation = attributes.attestation;
   }
 
+  if (attributes.externalKey) {
+    resultObject.properties.externalKey = attributes.externalKey;
+  }
+
+  if (attributes.keySize !== undefined) {
+    (resultObject.properties as any).keySize = attributes.keySize;
+  }
+
   return resultObject;
 }
 
@@ -124,6 +132,14 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
     vaultUrl: parsedId.vaultUrl,
     version: parsedId.version,
   };
+
+  if (attributes.externalKey) {
+    resultObject.externalKey = attributes.externalKey;
+  }
+
+  if (attributes.keySize !== undefined) {
+    (resultObject as any).keySize = attributes.keySize;
+  }
 
   return resultObject;
 }

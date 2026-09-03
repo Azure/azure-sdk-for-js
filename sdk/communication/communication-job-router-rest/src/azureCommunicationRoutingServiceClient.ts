@@ -25,7 +25,7 @@ export default function createClient(
   }: AzureCommunicationRoutingServiceClientOptions = {},
 ): AzureCommunicationRoutingServiceClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-communication-job-router-rest/1.1.0-beta.3`;
+  const userAgentInfo = `azsdk-js-communication-job-router-rest/1.1.0-beta.4`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

@@ -1,56 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update an existing Kubernetes Flux Configuration.
- *
- * @summary Update an existing Kubernetes Flux Configuration.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/PatchFluxConfiguration.json
- */
-
-import {
-  FluxConfigurationPatch,
-  FluxConfigurationClient,
-} from "@azure/arm-kubernetesconfiguration-fluxconfigurations";
+import { FluxConfigurationClient } from "@azure/arm-kubernetesconfiguration-fluxconfigurations";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update an existing Kubernetes Flux Configuration.
+ *
+ * @summary update an existing Kubernetes Flux Configuration.
+ * x-ms-original-file: 2025-04-01/PatchFluxConfiguration.json
+ */
 async function patchFluxConfiguration(): Promise<void> {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const resourceGroupName =
-    process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
-  const clusterRp = "Microsoft.Kubernetes";
-  const clusterResourceName = "connectedClusters";
-  const clusterName = "clusterName1";
-  const fluxConfigurationName = "srs-fluxconfig";
-  const fluxConfigurationPatch: FluxConfigurationPatch = {
-    gitRepository: {
-      url: "https://github.com/jonathan-innis/flux2-kustomize-helm-example.git",
-    },
-    kustomizations: {
-      srsKustomization1: {},
-      srsKustomization2: {
-        path: "./test/alt-path",
-        dependsOn: [],
-        syncIntervalInSeconds: 300,
-      },
-      srsKustomization3: {
-        path: "./test/another-path",
-        syncIntervalInSeconds: 300,
-      },
-    },
-    suspend: true,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId1";
   const client = new FluxConfigurationClient(credential, subscriptionId);
-  const result = await client.fluxConfigurations.beginUpdateAndWait(
-    resourceGroupName,
-    clusterRp,
-    clusterResourceName,
-    clusterName,
-    fluxConfigurationName,
-    fluxConfigurationPatch,
+  const result = await client.fluxConfigurations.update(
+    "rg1",
+    "Microsoft.Kubernetes",
+    "connectedClusters",
+    "clusterName1",
+    "srs-fluxconfig",
+    {
+      gitRepository: { url: "https://github.com/jonathan-innis/flux2-kustomize-helm-example.git" },
+      kustomizations: {
+        "srs-kustomization2": {
+          path: "./test/alt-path",
+          dependsOn: [],
+          syncIntervalInSeconds: 300,
+        },
+        "srs-kustomization3": { path: "./test/another-path", syncIntervalInSeconds: 300 },
+      },
+      suspend: true,
+    },
   );
   console.log(result);
 }

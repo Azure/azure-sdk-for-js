@@ -1,31 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import { PrivateEndpointConnectionResource } from "../../models/models.js";
-import {
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-} from "../../api/privateEndpointConnections/options.js";
+import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import {
   $delete,
   create,
   get,
   listByMongoCluster,
 } from "../../api/privateEndpointConnections/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+} from "../../api/privateEndpointConnections/options.js";
+import type { PrivateEndpointConnectionResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {
   /** Delete the private endpoint connection */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,

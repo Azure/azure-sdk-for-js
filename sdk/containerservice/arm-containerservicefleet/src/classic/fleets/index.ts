@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   listCredentials,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/fleets/operations.js";
-import {
+import type {
   FleetsListCredentialsOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListByResourceGroupOptionalParams,
@@ -20,9 +20,9 @@ import {
   FleetsCreateOptionalParams,
   FleetsGetOptionalParams,
 } from "../../api/fleets/options.js";
-import { Fleet, FleetPatch, FleetCredentialResults } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Fleet, FleetPatch, FleetCredentialResults } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Fleets operations. */
 export interface FleetsOperations {
@@ -42,11 +42,6 @@ export interface FleetsOperations {
     options?: FleetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Fleet>;
   /** Delete a Fleet */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -73,7 +68,6 @@ export interface FleetsOperations {
     options?: FleetsGetOptionalParams,
   ) => Promise<Fleet>;
 }
-
 function _getFleets(context: ContainerServiceFleetContext) {
   return {
     listCredentials: (
@@ -105,7 +99,6 @@ function _getFleets(context: ContainerServiceFleetContext) {
       get(context, resourceGroupName, fleetName, options),
   };
 }
-
 export function _getFleetsOperations(context: ContainerServiceFleetContext): FleetsOperations {
   return {
     ..._getFleets(context),

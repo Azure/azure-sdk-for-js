@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
-  AzureOpenAIVectorizer,
   SearchIndex,
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
@@ -16,12 +16,11 @@ import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import {
   createRandomIndexName,
-  createSimpleIndex,
+  createIndex,
   createSynonymMaps,
   deleteSynonymMaps,
   WAIT_TIME,
 } from "../utils/setup.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("SearchIndexClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {
@@ -62,7 +61,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
   });
 
-  describe("stable", { skip: true }, () => {
+  describe("CRUD operations", () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
@@ -77,15 +76,18 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       ));
 
       await createSynonymMaps(indexClient);
-      await createSimpleIndex(indexClient, TEST_INDEX_NAME);
+      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
     });
 
     afterEach(async () => {
-      await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await delay(WAIT_TIME);
-      await deleteSynonymMaps(indexClient);
-      await recorder?.stop();
+      try {
+        await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+        await delay(WAIT_TIME);
+        await deleteSynonymMaps(indexClient).catch(() => {});
+      } finally {
+        await recorder?.stop();
+      }
     });
 
     describe("#synonymmaps", () => {
@@ -188,7 +190,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       it("gets the correct index object", async () => {
         const index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.name, TEST_INDEX_NAME);
-        assert.equal(index.fields.length, 5);
+        assert.equal(index.fields.length, 15);
       });
 
       it("throws error for invalid index object", async () => {
@@ -260,7 +262,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         });
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(TEST_INDEX_NAME);
-        assert.equal(index.fields.length, 6);
+        assert.equal(index.fields.length, 16);
       });
     });
 
@@ -272,19 +274,9 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         kind: "hnsw",
         parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
       };
-      const vectorizer: AzureOpenAIVectorizer = {
-        kind: "azureOpenAI",
-        vectorizerName: "vectorizer",
-        parameters: {
-          deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
-          resourceUrl: env.AZURE_OPENAI_ENDPOINT,
-          modelName: "text-embedding-ada-002",
-        },
-      };
       const profile: VectorSearchProfile = {
         name: "profile",
         algorithmConfigurationName: algorithm.name,
-        vectorizerName: vectorizer.vectorizerName,
       };
 
       let index: SearchIndex = {
@@ -305,7 +297,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         ],
         vectorSearch: {
           algorithms: [algorithm],
-          vectorizers: [vectorizer],
           profiles: [profile],
         },
       };
@@ -313,10 +304,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(indexName);
         assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
-        assert.deepEqual(
-          index.vectorSearch?.vectorizers?.[0].vectorizerName,
-          vectorizer.vectorizerName,
-        );
         assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
       } finally {
         await indexClient.deleteIndex(index);

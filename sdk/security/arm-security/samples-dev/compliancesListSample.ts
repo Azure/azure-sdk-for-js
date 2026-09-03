@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The Compliance scores of the specific management group.
- *
- * @summary The Compliance scores of the specific management group.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/Compliances/GetCompliances_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the Compliance scores of the specific management group.
+ *
+ * @summary the Compliance scores of the specific management group.
+ * x-ms-original-file: 2017-08-01-preview/Compliances/GetCompliances_example.json
+ */
 async function getSecurityComplianceDataOverTime(): Promise<void> {
-  const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (const item of client.compliances.list(scope)) {
+  for await (const item of client.compliances.list(
+    "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23",
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

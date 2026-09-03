@@ -8,16 +8,16 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Skipped.",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-esm test-dist typings *.tgz *.log",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-esm test-dist typings *.tgz *.log",
     "docs": "echo Skipped.",
     "extract-api": "echo skipped",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "dev-tool run build-package && dev-tool run build-test && concurrently \"npm run tests:server\" \"npm run test:browser:proxy\" --kill-others --success first",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "concurrently \"npm run tests:server\" \"npm run test:browser:proxy\" --kill-others --success first",
     "test:browser:proxy": "dev-tool run test:vitest --browser",
     "test:node": "concurrently \"npm run tests:server\" \"npm run test:node:proxy\" --kill-others --success first",
     "test:node:proxy": "dev-tool run test:vitest",
@@ -29,7 +29,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/test-utils/recorder"
+  },
   "keywords": [
     "azure",
     "recording",
@@ -42,9 +46,9 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/recorder/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/recorder/README.md",
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.3.2",
@@ -54,35 +58,23 @@
     "@azure/logger": "^1.0.0"
   },
   "devDependencies": {
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "concurrently": "^9.2.1",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
-    "express": "^5.1.0",
+    "express": "catalog:internal",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "react-native": "catalog:testing",
+    "rimraf": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -90,10 +82,6 @@
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
@@ -106,5 +94,15 @@
     }
   },
   "type": "module",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/env": {
+      "browser": "./src/utils/env-browser.mts",
+      "default": "./src/utils/env.ts"
+    },
+    "#platform/relativeRecordingsPath": {
+      "browser": "./src/utils/relativePathCalculator-browser.mts",
+      "default": "./src/utils/relativePathCalculator.ts"
+    }
+  }
 }

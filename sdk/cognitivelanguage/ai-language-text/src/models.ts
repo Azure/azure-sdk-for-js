@@ -254,8 +254,7 @@ export type EntityRecognitionErrorResult = TextAnalysisErrorResult;
  * The result of an entity recognition action on a single document.
  */
 export type PiiEntityRecognitionResult =
-  | PiiEntityRecognitionSuccessResult
-  | PiiEntityRecognitionErrorResult;
+  PiiEntityRecognitionSuccessResult | PiiEntityRecognitionErrorResult;
 
 /**
  * The result of a pii entity recognition action on a single document,
@@ -324,8 +323,7 @@ export type LanguageDetectionErrorResult = TextAnalysisErrorResult;
  * The result of a sentiment analysis action on a single document.
  */
 export type KeyPhraseExtractionResult =
-  | KeyPhraseExtractionSuccessResult
-  | KeyPhraseExtractionErrorResult;
+  KeyPhraseExtractionSuccessResult | KeyPhraseExtractionErrorResult;
 
 /**
  * The result of a key phrase extraction action on a single document,
@@ -572,8 +570,7 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
  * The result of the extractive summarization action on a single document.
  */
 export type ExtractiveSummarizationResult =
-  | ExtractiveSummarizationSuccessResult
-  | ExtractiveSummarizationErrorResult;
+  ExtractiveSummarizationSuccessResult | ExtractiveSummarizationErrorResult;
 
 /**
  * The result of the extractive summarization action on a single document,
@@ -595,8 +592,7 @@ export type ExtractiveSummarizationErrorResult = TextAnalysisErrorResult;
  * The result of the abstractive summarization action on a single document.
  */
 export type AbstractiveSummarizationResult =
-  | AbstractiveSummarizationSuccessResult
-  | AbstractiveSummarizationErrorResult;
+  AbstractiveSummarizationSuccessResult | AbstractiveSummarizationErrorResult;
 
 /**
  * The result of the abstractive summarization action on a single document,
@@ -618,8 +614,7 @@ export type AbstractiveSummarizationErrorResult = TextAnalysisErrorResult;
  * The result of the custom entity recognition action on a single document.
  */
 export type CustomEntityRecognitionResult =
-  | CustomEntityRecognitionSuccessResult
-  | CustomEntityRecognitionErrorResult;
+  CustomEntityRecognitionSuccessResult | CustomEntityRecognitionErrorResult;
 
 /**
  * The result of the custom entity recognition action on a single document,
@@ -641,8 +636,7 @@ export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
  * The result of the single-label classification action on a single document.
  */
 export type CustomSingleLabelClassificationResult =
-  | CustomSingleLabelClassificationSuccessResult
-  | CustomSingleLabelClassificationErrorResult;
+  CustomSingleLabelClassificationSuccessResult | CustomSingleLabelClassificationErrorResult;
 
 /**
  * The result of a successful single-label classification action on a single document,
@@ -664,8 +658,7 @@ export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult
  * The result of the multi-label classification action on a multi document.
  */
 export type CustomMultiLabelClassificationResult =
-  | CustomMultiLabelClassificationSuccessResult
-  | CustomMultiLabelClassificationErrorResult;
+  CustomMultiLabelClassificationSuccessResult | CustomMultiLabelClassificationErrorResult;
 
 /**
  * The result of a successful multi-label classification action on a multi document,
@@ -703,8 +696,7 @@ export interface EntityLinkingBatchAction extends AnalyzeBatchActionCommon, Enti
 
 /** Options for an entity recognition batch action. */
 export interface EntityRecognitionBatchAction
-  extends AnalyzeBatchActionCommon,
-    EntityRecognitionAction {
+  extends AnalyzeBatchActionCommon, EntityRecognitionAction {
   /**
    * The kind of the action.
    */
@@ -713,8 +705,7 @@ export interface EntityRecognitionBatchAction
 
 /** Options for an key phrase extraction batch action. */
 export interface KeyPhraseExtractionBatchAction
-  extends AnalyzeBatchActionCommon,
-    KeyPhraseExtractionAction {
+  extends AnalyzeBatchActionCommon, KeyPhraseExtractionAction {
   /**
    * The kind of the action.
    */
@@ -723,8 +714,7 @@ export interface KeyPhraseExtractionBatchAction
 
 /** Options for a pii entity recognition batch action. */
 export interface PiiEntityRecognitionBatchAction
-  extends AnalyzeBatchActionCommon,
-    PiiEntityRecognitionAction {
+  extends AnalyzeBatchActionCommon, PiiEntityRecognitionAction {
   /**
    * The kind of the action.
    */
@@ -741,8 +731,7 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
 
 /** Options for a sentiment analysis batch action. */
 export interface SentimentAnalysisBatchAction
-  extends AnalyzeBatchActionCommon,
-    SentimentAnalysisAction {
+  extends AnalyzeBatchActionCommon, SentimentAnalysisAction {
   /**
    * The kind of the action.
    */
@@ -751,8 +740,7 @@ export interface SentimentAnalysisBatchAction
 
 /** Options for an extractive summarization batch action. */
 export interface ExtractiveSummarizationBatchAction
-  extends AnalyzeBatchActionCommon,
-    ExtractiveSummarizationAction {
+  extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
   /**
    * The kind of the action.
    */
@@ -761,8 +749,7 @@ export interface ExtractiveSummarizationBatchAction
 
 /** Options for an abstractive summarization batch action. */
 export interface AbstractiveSummarizationBatchAction
-  extends AnalyzeBatchActionCommon,
-    AbstractiveSummarizationAction {
+  extends AnalyzeBatchActionCommon, AbstractiveSummarizationAction {
   /**
    * The kind of the action.
    */
@@ -771,8 +758,7 @@ export interface AbstractiveSummarizationBatchAction
 
 /** Options for a custom entity recognition batch action. */
 export interface CustomEntityRecognitionBatchAction
-  extends AnalyzeBatchActionCommon,
-    CustomEntityRecognitionAction {
+  extends AnalyzeBatchActionCommon, CustomEntityRecognitionAction {
   /**
    * The kind of the action.
    */
@@ -781,8 +767,7 @@ export interface CustomEntityRecognitionBatchAction
 
 /** Options for a custom single-label classification batch action. */
 export interface CustomSingleLabelClassificationBatchAction
-  extends AnalyzeBatchActionCommon,
-    CustomSingleLabelClassificationAction {
+  extends AnalyzeBatchActionCommon, CustomSingleLabelClassificationAction {
   /**
    * The kind of the action.
    */
@@ -791,8 +776,7 @@ export interface CustomSingleLabelClassificationBatchAction
 
 /** Options for a custom multi-label classification batch action. */
 export interface CustomMultiLabelClassificationBatchAction
-  extends AnalyzeBatchActionCommon,
-    CustomMultiLabelClassificationAction {
+  extends AnalyzeBatchActionCommon, CustomMultiLabelClassificationAction {
   /**
    * The kind of the action.
    */
@@ -863,8 +847,10 @@ export interface CustomActionMetadata {
 /**
  * The state of a succeeded batched action.
  */
-export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName>
-  extends BatchActionState<Kind> {
+export interface BatchActionSuccessResult<
+  T,
+  Kind extends AnalyzeBatchActionName,
+> extends BatchActionState<Kind> {
   /**
    * The list of document results.
    */
@@ -882,8 +868,9 @@ export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName
 /**
  * The error of an analyze batch action.
  */
-export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName>
-  extends BatchActionState<Kind> {
+export interface BatchActionErrorResult<
+  Kind extends AnalyzeBatchActionName,
+> extends BatchActionState<Kind> {
   /**
    * When this action was completed by the service.
    */
@@ -898,8 +885,7 @@ export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName>
  * The result of a batched action.
  */
 export type BatchActionResult<T, Kind extends AnalyzeBatchActionName> =
-  | BatchActionSuccessResult<T, Kind>
-  | BatchActionErrorResult<Kind>;
+  BatchActionSuccessResult<T, Kind> | BatchActionErrorResult<Kind>;
 
 /**
  * The result of an entity linking batch action.
@@ -1039,14 +1025,15 @@ export interface AnalyzeBatchOperationMetadata {
  * The state of the begin analyze polling operation.
  */
 export interface AnalyzeBatchOperationState
-  extends OperationState<PagedAnalyzeBatchResult>,
-    AnalyzeBatchOperationMetadata {}
+  extends OperationState<PagedAnalyzeBatchResult>, AnalyzeBatchOperationMetadata {}
 
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
-export interface PollerLike<TState extends OperationState<TResult>, TResult>
-  extends SimplePollerLike<TState, TResult> {
+export interface PollerLike<
+  TState extends OperationState<TResult>,
+  TResult,
+> extends SimplePollerLike<TState, TResult> {
   /**
    * sends a cancellation request.
    */

@@ -3,8 +3,8 @@
 
 export {
   createEventGrid,
-  EventGridContext,
-  EventGridClientOptionalParams,
+  type EventGridContext,
+  type EventGridClientOptionalParams,
 } from "./eventGridContext.js";
 export {
   renewCloudEventLocks,
@@ -16,11 +16,11 @@ export {
   publishCloudEvent,
 } from "./operations.js";
 export {
-  RenewCloudEventLocksOptionalParams,
-  RejectCloudEventsOptionalParams,
-  ReleaseCloudEventsOptionalParams,
-  AcknowledgeCloudEventsOptionalParams,
-  ReceiveCloudEventsOptionalParams,
-  PublishCloudEventsOptionalParams,
-  PublishCloudEventOptionalParams,
+  type RenewCloudEventLocksOptionalParams,
+  type RejectCloudEventsOptionalParams,
+  type ReleaseCloudEventsOptionalParams,
+  type AcknowledgeCloudEventsOptionalParams,
+  type ReceiveCloudEventsOptionalParams,
+  type PublishCloudEventsOptionalParams,
+  type PublishCloudEventOptionalParams,
 } from "./options.js";

@@ -10,6 +10,8 @@ import { createAggregator } from "../Aggregators/index.js";
 import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
+import { createParallelQueryResult } from "../parallelQueryResult.js";
 
 interface GroupByResult {
   groupByItems: any[];
@@ -40,9 +42,8 @@ export class GroupByEndpointComponent implements ExecutionContext {
     }
     const aggregateHeaders = getInitialHeader();
     const response = await this.executionContext.fetchMore(diagnosticNode);
-    mergeHeaders(aggregateHeaders, response.headers);
 
-    if (response === undefined || response.result === undefined) {
+    if (!response) {
       // If there are any groupings, consolidate and return them
       if (this.groupings.size > 0) {
         return this.consolidateGroupResults(aggregateHeaders);
@@ -50,7 +51,25 @@ export class GroupByEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: aggregateHeaders };
     }
 
-    for (const item of response.result as GroupByResult[]) {
+    mergeHeaders(aggregateHeaders, response.headers);
+
+    if (
+      response.result === undefined ||
+      !Array.isArray(response.result.buffer) ||
+      response.result.buffer.length === 0
+    ) {
+      // If there are any groupings, consolidate and return them
+      if (this.groupings.size > 0) {
+        return this.consolidateGroupResults(aggregateHeaders);
+      }
+      return { result: undefined, headers: aggregateHeaders };
+    }
+
+    const parallelResult = response.result as ParallelQueryResult;
+    const dataToProcess: GroupByResult[] = parallelResult.buffer as GroupByResult[];
+
+    // Process GROUP BY aggregation logic
+    for (const item of dataToProcess) {
       // If it exists, process it via aggregators
       if (item) {
         const group = item.groupByItems ? await hashObject(item.groupByItems) : emptyGroup;
@@ -88,10 +107,13 @@ export class GroupByEndpointComponent implements ExecutionContext {
     }
 
     if (this.executionContext.hasMoreResults()) {
-      return {
-        result: [],
-        headers: aggregateHeaders,
-      };
+      // Return empty buffer but preserve the structure and pass-through fields
+      const result = createParallelQueryResult(
+        [], // empty buffer
+        new Map(),
+      );
+
+      return { result, headers: aggregateHeaders };
     } else {
       return this.consolidateGroupResults(aggregateHeaders);
     }
@@ -106,6 +128,10 @@ export class GroupByEndpointComponent implements ExecutionContext {
       this.aggregateResultArray.push(groupResult);
     }
     this.completed = true;
-    return { result: this.aggregateResultArray, headers: aggregateHeaders };
+
+    // Return in the new structure format using the utility function
+    const result = createParallelQueryResult(this.aggregateResultArray, new Map());
+
+    return { result, headers: aggregateHeaders };
   }
 }

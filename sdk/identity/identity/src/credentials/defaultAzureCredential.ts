@@ -7,15 +7,15 @@ import type {
   DefaultAzureCredentialResourceIdOptions,
 } from "./defaultAzureCredentialOptions.js";
 
-import { ManagedIdentityCredential } from "./managedIdentityCredential/index.js";
-import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
-import { AzureCliCredential } from "./azureCliCredential.js";
-import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
-import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
+import { ManagedIdentityCredential } from "#platform/credentials/managedIdentityCredential/index";
+import { VisualStudioCodeCredential } from "#platform/credentials/visualStudioCodeCredential";
+import { AzureCliCredential } from "#platform/credentials/azureCliCredential";
+import { AzureDeveloperCliCredential } from "#platform/credentials/azureDeveloperCliCredential";
+import { AzurePowerShellCredential } from "#platform/credentials/azurePowerShellCredential";
 import { ChainedTokenCredential } from "./chainedTokenCredential.js";
-import { EnvironmentCredential } from "./environmentCredential.js";
+import { EnvironmentCredential } from "#platform/credentials/environmentCredential";
 import type { TokenCredential } from "@azure/core-auth";
-import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
+import { WorkloadIdentityCredential } from "#platform/credentials/workloadIdentityCredential";
 import { credentialLogger } from "../util/logging.js";
 import {
   createDefaultAzureCliCredential,
@@ -54,7 +54,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
 /**
  * Provides a default {@link ChainedTokenCredential} configuration that works for most
  * applications that use Azure SDK client libraries. For more information, see
- * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-defaultazurecredential-for-flexibility).
+ * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#defaultazurecredential-overview).
  *
  * The following credential types will be tried, in order:
  *
@@ -65,7 +65,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * - {@link AzureCliCredential}
  * - {@link AzurePowerShellCredential}
  * - {@link AzureDeveloperCliCredential}
- * - {@link BrokerCredential}
+ * - BrokerCredential (a broker-enabled credential that requires \@azure/identity-broker is installed)
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
@@ -127,7 +127,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultWorkloadIdentityCredential,
       createDefaultManagedIdentityCredential,
     ];
-    let credentialFunctions = [];
+    let credentialFunctions: Array<(options: DefaultAzureCredentialOptions) => TokenCredential>;
     const validCredentialNames =
       "EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, VisualStudioCodeCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential";
     // If AZURE_TOKEN_CREDENTIALS is set, use it to determine which credentials to use.
@@ -147,7 +147,11 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
           credentialFunctions = [createDefaultWorkloadIdentityCredential];
           break;
         case "managedidentitycredential":
-          credentialFunctions = [createDefaultManagedIdentityCredential];
+          // Setting `sendProbeRequest` to false to ensure ManagedIdentityCredential behavior
+          // is consistent when used standalone in DAC chain or used directly.
+          credentialFunctions = [
+            () => createDefaultManagedIdentityCredential({ sendProbeRequest: false }),
+          ];
           break;
         case "visualstudiocodecredential":
           credentialFunctions = [createDefaultVisualStudioCodeCredential];
@@ -181,7 +185,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     // 3. Returning a UnavailableDefaultCredential from the factory function if a credential is unavailable for any reason
     const credentials: TokenCredential[] = credentialFunctions.map((createCredentialFn) => {
       try {
-        return createCredentialFn(options);
+        return createCredentialFn(options ?? {});
       } catch (err: any) {
         logger.warning(
           `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`,
@@ -195,7 +199,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 }
 
 /**
- * @internal This function checks that all environment variables in `options.requiredEnvVars` are set and non-empty.
+ * This function checks that all environment variables in `options.requiredEnvVars` are set and non-empty.
  * If any are missing or empty, it throws an error.
  */
 function validateRequiredEnvVars(options?: DefaultAzureCredentialOptions) {

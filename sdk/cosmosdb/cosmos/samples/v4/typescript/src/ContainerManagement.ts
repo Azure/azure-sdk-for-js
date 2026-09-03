@@ -209,6 +209,42 @@ async function run(): Promise<void> {
   });
   console.log("Container with full text search policy created");
 
+  logStep("Delete all items for a specific partition key");
+
+  // Create a container with partition key on 'state' for the deleteAllItemsForPartitionKey demo
+  const { container: containerForDeletion } = await database.containers.createIfNotExists({
+    id: "ContainerForDeletion",
+    partitionKey: { paths: ["/state"] },
+  });
+
+  // Create some sample items with different partition key values
+  const cities = [
+    { id: "1", name: "Olympia", state: "WA", isCapital: true },
+    { id: "2", name: "Redmond", state: "WA", isCapital: false },
+    { id: "3", name: "Seattle", state: "WA", isCapital: false },
+    { id: "4", name: "Springfield", state: "IL", isCapital: true },
+    { id: "5", name: "Chicago", state: "IL", isCapital: false },
+  ];
+
+  console.log("Creating sample cities...");
+  for (const city of cities) {
+    await containerForDeletion.items.create(city);
+  }
+
+  // Delete all items for partition key 'WA'
+  await containerForDeletion.deleteAllItemsForPartitionKey("WA");
+  console.log("Deleted all items for partition key 'WA'");
+
+  // Query to verify items after deletion
+  const queryToVerify = "SELECT c.id, c.name, c.state FROM c WHERE c.state = 'WA'";
+  const { resources: waItems } = await containerForDeletion.items
+    .query(queryToVerify)
+    .fetchAll();
+  console.log(`Items in WA after deletion: ${waItems.length}`);
+
+  // Clean up the container
+  await containerForDeletion.delete();
+
   await finish();
 }
 

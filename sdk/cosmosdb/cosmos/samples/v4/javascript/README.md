@@ -33,6 +33,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [QueryThroughput.js][querythroughput]                                                                                       | Demonstrates query throughput scenarios.                                                                              |
 | [Query/FullTextSearch.js][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [SasTokenAuth.js][sastokenauth]                                                                                             | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_                        |
+| [SemanticRerank.js][semanticrerank]                                                                                         | Demonstrates semantic reranking of query results using the Cosmos DB Inference Service.                                |
 | [ServerSideScripts.js][serversidescripts]                                                                                   | Demonstrates using stored procedures for server side run functions                                                    |
 
 ## Prerequisites
@@ -68,7 +69,7 @@ node AlterQueryThroughput.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env COSMOS_KEY="<cosmos key>" COSMOS_ENDPOINT="<cosmos endpoint>" COSMOS_DATABASE="<cosmos database>" COSMOS_CONTAINER="<cosmos container>" node AlterQueryThroughput.js
+cross-env COSMOS_KEY="<cosmos key>" COSMOS_ENDPOINT="<cosmos endpoint>" COSMOS_DATABASE="<cosmos database>" COSMOS_CONTAINER="<cosmos container>" node AlterQueryThroughput.js
 ```
 
 ## Next Steps
@@ -95,6 +96,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/QueryThroughput.js
 [query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Query/FullTextSearch.js
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/SasTokenAuth.js
+[semanticrerank]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/SemanticRerank.js
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ServerSideScripts.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/

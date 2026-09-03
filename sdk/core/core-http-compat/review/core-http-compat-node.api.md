@@ -133,6 +133,11 @@ export interface RequestPolicyOptionsLike {
 }
 
 // @public
+export function toCompatResponse(response: FullOperationResponse, options?: {
+    createProxy?: boolean;
+}): CompatResponse;
+
+// @public
 export function toHttpHeadersLike(headers: HttpHeaders): HttpHeadersLike;
 
 // @public

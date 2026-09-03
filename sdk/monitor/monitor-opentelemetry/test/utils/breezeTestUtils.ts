@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { SeverityNumber } from "@opentelemetry/api-logs";
-import { Resource } from "@opentelemetry/resources";
+import type { Resource } from "@opentelemetry/resources";
 import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 
 export function successfulBreezeResponse(count: number): any {

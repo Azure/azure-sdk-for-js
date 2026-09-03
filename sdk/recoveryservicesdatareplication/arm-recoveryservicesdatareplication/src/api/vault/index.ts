@@ -3,10 +3,10 @@
 
 export { listBySubscription, list, $delete, update, create, get } from "./operations.js";
 export {
-  VaultListBySubscriptionOptionalParams,
-  VaultListOptionalParams,
-  VaultDeleteOptionalParams,
-  VaultUpdateOptionalParams,
-  VaultCreateOptionalParams,
-  VaultGetOptionalParams,
+  type VaultListBySubscriptionOptionalParams,
+  type VaultListOptionalParams,
+  type VaultDeleteOptionalParams,
+  type VaultUpdateOptionalParams,
+  type VaultCreateOptionalParams,
+  type VaultGetOptionalParams,
 } from "./options.js";

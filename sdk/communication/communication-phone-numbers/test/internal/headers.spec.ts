@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
 import { PhoneNumbersClient } from "../../src/phoneNumbersClient.js";
 import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients.js";
@@ -31,14 +30,14 @@ describe("PhoneNumbersClient - headers", () => {
     request = spy.mock.calls[0][0];
   });
 
-  it.skipIf(!isNodeLike)("[node] sets correct host", () => {
+  it("sets correct host", () => {
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
 
   it("sets correct default user-agent", () => {
-    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
-      request.headers.get(userAgentHeader) as string,
+      userAgent as string,
       new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g"),
     );
   });
@@ -103,9 +102,9 @@ describe("PhoneNumbersClient - headers", () => {
 
     request = spy.mock.calls[0][0];
 
-    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
-      request.headers.get(userAgentHeader) as string,
+      userAgent as string,
       new RegExp(
         `phonenumbersclient-headers-test azsdk-js-communication-phone-numbers/${SDK_VERSION}`,
         "g",

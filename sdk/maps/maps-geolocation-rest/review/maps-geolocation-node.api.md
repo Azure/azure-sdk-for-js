@@ -9,7 +9,9 @@ import type { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -79,6 +81,8 @@ export interface IpAddressToLocationResultOutput {
     readonly ipAddress?: string;
 }
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: GeolocationGetLocation200Response | GeolocationGetLocationDefaultResponse): response is GeolocationGetLocationDefaultResponse;
 
@@ -101,6 +105,8 @@ export type MapsGeolocationClient = Client & {
 export interface MapsGeolocationClientOptions extends ClientOptions {
     apiVersion?: string;
 }
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

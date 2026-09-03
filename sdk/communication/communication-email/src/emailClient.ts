@@ -4,7 +4,7 @@
 import type { EmailClientOptions, EmailMessage, EmailSendOptionalParams } from "./models.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
@@ -79,7 +79,7 @@ export class EmailClient {
   beginSend(
     message: EmailMessage,
     options?: EmailSendOptionalParams,
-  ): Promise<PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>> {
+  ): Promise<SimplePollerLike<OperationState<EmailSendResponse>, EmailSendResponse>> {
     return this.generatedClient.email.beginSend(message, options);
   }
 }

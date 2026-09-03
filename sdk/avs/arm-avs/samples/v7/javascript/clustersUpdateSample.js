@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Cluster
  *
  * @summary update a Cluster
- * x-ms-original-file: 2024-09-01/Clusters_Update.json
+ * x-ms-original-file: 2025-09-01/Clusters_Update.json
  */
 async function clustersUpdate() {
   const credential = new DefaultAzureCredential();

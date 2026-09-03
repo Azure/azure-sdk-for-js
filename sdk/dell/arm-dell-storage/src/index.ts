@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -8,57 +9,58 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { StorageClient } from "./storageClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  FileSystemResource,
-  FileSystemResourceProperties,
-  Capacity,
-  MarketplaceDetails,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type FileSystemResource,
+  type FileSystemResourceProperties,
+  type Capacity,
+  type MarketplaceDetails,
   KnownMarketplaceSubscriptionStatus,
-  MarketplaceSubscriptionStatus,
+  type MarketplaceSubscriptionStatus,
   KnownProvisioningState,
-  ProvisioningState,
-  UserDetails,
-  EncryptionProperties,
+  type ProvisioningState,
+  type UserDetails,
+  type EncryptionProperties,
   KnownResourceEncryptionType,
-  ResourceEncryptionType,
-  EncryptionIdentityProperties,
+  type ResourceEncryptionType,
+  type EncryptionIdentityProperties,
   KnownEncryptionIdentityType,
-  EncryptionIdentityType,
-  ManagedServiceIdentity,
+  type EncryptionIdentityType,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  FileSystemResourceUpdate,
-  ManagedServiceIdentityUpdate,
-  FileSystemResourceUpdateProperties,
-  EncryptionUpdateProperties,
-  EncryptionIdentityUpdateProperties,
+  type CreatedByType,
+  type FileSystemResourceUpdate,
+  type ManagedServiceIdentityUpdate,
+  type FileSystemResourceUpdateProperties,
+  type EncryptionUpdateProperties,
+  type EncryptionIdentityUpdateProperties,
   KnownVersions,
 } from "./models/index.js";
-export { StorageClientOptionalParams } from "./api/index.js";
+export { type StorageClientOptionalParams } from "./api/index.js";
 export {
-  FileSystemsListBySubscriptionOptionalParams,
-  FileSystemsListByResourceGroupOptionalParams,
-  FileSystemsDeleteOptionalParams,
-  FileSystemsUpdateOptionalParams,
-  FileSystemsCreateOrUpdateOptionalParams,
-  FileSystemsGetOptionalParams,
+  type FileSystemsListBySubscriptionOptionalParams,
+  type FileSystemsListByResourceGroupOptionalParams,
+  type FileSystemsDeleteOptionalParams,
+  type FileSystemsUpdateOptionalParams,
+  type FileSystemsCreateOrUpdateOptionalParams,
+  type FileSystemsGetOptionalParams,
 } from "./api/fileSystems/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { FileSystemsOperations, OperationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
+export { type FileSystemsOperations, type OperationsOperations } from "./classic/index.js";
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

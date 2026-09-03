@@ -1,17 +1,21 @@
 {
   "name": "@azure/monitor-ingestion",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Azure Monitor Ingestion library",
   "keywords": [
     "azure",
     "cloud",
     "typescript"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/README.md",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/monitor/monitor-ingestion"
+  },
   "license": "MIT",
   "author": "Microsoft Corporation",
   "sideEffects": false,
@@ -50,11 +54,11 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "dev-tool samples run samples-dev",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo Obsolete",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
@@ -62,7 +66,8 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "dev-tool customization apply -s ./generated -t ./src && npm run format"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
@@ -74,7 +79,7 @@
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
-    "pako": "^2.1.0",
+    "pako": "^3.0.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -86,31 +91,26 @@
     "@azure/identity": "catalog:internal",
     "@azure/monitor-query-logs": "^1.0.0",
     "@types/node": "catalog:",
-    "@types/pako": "^2.0.0",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "react-native": "catalog:testing",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedMonitorIngestionClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
+        "path": "src/api/logsIngestionContext.ts",
+        "prefix": "const userAgentInfo"
       }
     ]
   },
@@ -125,20 +125,9 @@
     }
   },
   "sdk-type": "client",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }

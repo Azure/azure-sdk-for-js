@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-tools/communication-tiering": ["../src/index.ts"],
+      "@azure-tools/communication-tiering/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

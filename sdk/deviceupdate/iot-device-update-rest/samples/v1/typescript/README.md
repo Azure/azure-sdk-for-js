@@ -56,7 +56,7 @@ node dist/deleteUpdate.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" INSTANCE_ID="<instance id>" DEVICEUPDATE_UPDATE_PROVIDER="<deviceupdate update provider>" DEVICEUPDATE_UPDATE_NAME="<deviceupdate update name>" DEVICEUPDATE_UPDATE_VERSION="<deviceupdate update version>" node dist/deleteUpdate.js
+cross-env ENDPOINT="<endpoint>" INSTANCE_ID="<instance id>" DEVICEUPDATE_UPDATE_PROVIDER="<deviceupdate update provider>" DEVICEUPDATE_UPDATE_NAME="<deviceupdate update name>" DEVICEUPDATE_UPDATE_VERSION="<deviceupdate update version>" node dist/deleteUpdate.js
 ```
 
 ## Next Steps

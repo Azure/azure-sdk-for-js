@@ -1,26 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import {
-  ManagedCluster,
-  ManagedClusterUpdateParameters,
-  FaultSimulationIdContent,
-  FaultSimulation,
-  FaultSimulationContentWrapper,
-} from "../../models/models.js";
-import {
-  ManagedClustersStopFaultSimulationOptionalParams,
-  ManagedClustersStartFaultSimulationOptionalParams,
-  ManagedClustersListFaultSimulationOptionalParams,
-  ManagedClustersGetFaultSimulationOptionalParams,
-  ManagedClustersListBySubscriptionOptionalParams,
-  ManagedClustersListByResourceGroupOptionalParams,
-  ManagedClustersDeleteOptionalParams,
-  ManagedClustersUpdateOptionalParams,
-  ManagedClustersCreateOrUpdateOptionalParams,
-  ManagedClustersGetOptionalParams,
-} from "../../api/managedClusters/options.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   stopFaultSimulation,
   startFaultSimulation,
@@ -33,8 +14,27 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ManagedClustersStopFaultSimulationOptionalParams,
+  ManagedClustersStartFaultSimulationOptionalParams,
+  ManagedClustersListFaultSimulationOptionalParams,
+  ManagedClustersGetFaultSimulationOptionalParams,
+  ManagedClustersListBySubscriptionOptionalParams,
+  ManagedClustersListByResourceGroupOptionalParams,
+  ManagedClustersDeleteOptionalParams,
+  ManagedClustersUpdateOptionalParams,
+  ManagedClustersCreateOrUpdateOptionalParams,
+  ManagedClustersGetOptionalParams,
+} from "../../api/managedClusters/options.js";
+import type {
+  ManagedCluster,
+  ManagedClusterUpdateParameters,
+  FaultSimulationIdContent,
+  FaultSimulation,
+  FaultSimulationContentWrapper,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedClusters operations. */
 export interface ManagedClustersOperations {
@@ -75,11 +75,6 @@ export interface ManagedClustersOperations {
     options?: ManagedClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ManagedCluster>;
   /** Delete a Service Fabric managed cluster resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -91,7 +86,7 @@ export interface ManagedClustersOperations {
     clusterName: string,
     parameters: ManagedClusterUpdateParameters,
     options?: ManagedClustersUpdateOptionalParams,
-  ) => Promise<ManagedCluster>;
+  ) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
   /** Create or update a Service Fabric managed cluster resource with the specified name. */
   createOrUpdate: (
     resourceGroupName: string,

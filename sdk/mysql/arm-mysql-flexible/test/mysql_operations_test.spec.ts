@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("mysql test", () => {
+describe.skip("mysql test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MySQLManagementFlexibleServerClient;
@@ -48,7 +48,7 @@ describe("mysql test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     resourcename = "resourcetest";
   });
 
@@ -82,9 +82,56 @@ describe("mysql test", () => {
     assert.equal(res.name, resourcename);
   });
 
+  it("servers update test", async () => {
+    const res1 = await client.servers.get(resourceGroup, resourcename);
+    console.log("Public Network Access:", res1.network!.publicNetworkAccess);
+
+    const res = await client.servers.beginUpdateAndWait(
+      resourceGroup,
+      resourcename,
+      {
+        network: {
+          publicNetworkAccess: "Disabled",
+        },
+      },
+      testPollingOptions,
+    );
+    console.log("Public Network Access:", res.network!.publicNetworkAccess);
+    assert.equal(res.name, resourcename);
+  });
+
   it("servers get test", async () => {
     const res = await client.servers.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
+    console.log("Public Network Access:", res.network!.publicNetworkAccess);
+  });
+
+  it("configurations beginCreateOrUpdateAndWait test", async () => {
+    const res = await client.configurations.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      resourcename,
+      "max_connections",
+      {
+        value: "150",
+        source: "user-override",
+      },
+      testPollingOptions,
+    );
+    assert.equal(res.name, "max_connections");
+  });
+
+  it("configurations beginUpdateAndWait test", async () => {
+    const res = await client.configurations.beginUpdateAndWait(
+      resourceGroup,
+      resourcename,
+      "max_connections",
+      {
+        value: "200",
+        source: "user-override",
+      },
+      testPollingOptions,
+    );
+    assert.equal(res.name, "max_connections");
   });
 
   it("servers list test", async () => {

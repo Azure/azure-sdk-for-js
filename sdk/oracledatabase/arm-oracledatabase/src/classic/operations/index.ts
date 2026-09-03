@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { Operation } from "../../models/models.js";
-import { OperationsListOptionalParams } from "../../api/operations/options.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import { list } from "../../api/operations/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OperationsListOptionalParams } from "../../api/operations/options.js";
+import type { Operation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {

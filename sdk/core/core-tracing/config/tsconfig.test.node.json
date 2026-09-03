@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-tracing": ["../src/index.ts"],
+      "@azure/core-tracing/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

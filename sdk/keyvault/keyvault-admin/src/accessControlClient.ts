@@ -16,7 +16,7 @@ import type {
   ListRoleDefinitionsOptions,
   SetRoleDefinitionOptions,
 } from "./accessControlModels.js";
-import type { KeyVaultClient } from "./generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "./keyVaultClient.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { TokenCredential } from "@azure/core-auth";
 import { mapPagedAsyncIterable, mappings } from "./mappings.js";

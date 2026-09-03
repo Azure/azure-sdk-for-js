@@ -3,9 +3,9 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AgriFoodMgmtClient.",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
@@ -34,13 +34,21 @@
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
+    "@azure/logger": "workspace:^",
     "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/arm-agrifood",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/arm-agrifood/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/agrifood/arm-agrifood"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -53,17 +61,17 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "echo skipped",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
     "format": "echo skipped",
     "lint": "echo skipped",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -85,18 +93,6 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-agrifood?view=azure-node-preview"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -108,6 +104,11 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

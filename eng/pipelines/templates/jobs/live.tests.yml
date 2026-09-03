@@ -109,9 +109,7 @@ jobs:
                 Pool: $(Pool)
                 ${{ insert }}: ${{ parameters.EnvVars }}
 
-      - script: |
-          npm install -g pnpm
-        displayName: "Install Pnpm"
+      - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
       - script: |
           pnpm install
@@ -163,7 +161,7 @@ jobs:
             pwsh: true
             ScriptType: InlineScript
             Inline: |
-              Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+              Start-Process "node" -ArgumentList "launch.ts run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool" -RedirectStandardOutput "$(Agent.TempDirectory)/browser-relay.out.log" -RedirectStandardError "$(Agent.TempDirectory)/browser-relay.err.log"
               for ($i = 0; $i -lt 10; $i++) {
                   try {
                       Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
@@ -173,6 +171,8 @@ jobs:
                       Start-Sleep 6
                   }
               }
+              if (Test-Path "$(Agent.TempDirectory)/browser-relay.out.log") { Write-Host '----- browser-relay stdout -----'; Get-Content "$(Agent.TempDirectory)/browser-relay.out.log" }
+              if (Test-Path "$(Agent.TempDirectory)/browser-relay.err.log") { Write-Host '----- browser-relay stderr -----'; Get-Content "$(Agent.TempDirectory)/browser-relay.err.log" }
               Write-Error "Could not connect to browser credential relay."
               exit 1
           displayName: "Start browser credential relay"
@@ -184,7 +184,7 @@ jobs:
 
       - ${{ else }}:
         - pwsh: |
-            Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+            Start-Process "node" -ArgumentList "launch.ts run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool" -RedirectStandardOutput "$(Agent.TempDirectory)/browser-relay.out.log" -RedirectStandardError "$(Agent.TempDirectory)/browser-relay.err.log"
             for ($i = 0; $i -lt 10; $i++) {
                 try {
                     Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
@@ -194,6 +194,8 @@ jobs:
                     Start-Sleep 6
                 }
             }
+            if (Test-Path "$(Agent.TempDirectory)/browser-relay.out.log") { Write-Host '----- browser-relay stdout -----'; Get-Content "$(Agent.TempDirectory)/browser-relay.out.log" }
+            if (Test-Path "$(Agent.TempDirectory)/browser-relay.err.log") { Write-Host '----- browser-relay stderr -----'; Get-Content "$(Agent.TempDirectory)/browser-relay.err.log" }
             Write-Error "Could not connect to browser credential relay."
             exit 1
           displayName: "Start browser credential relay"
@@ -313,6 +315,12 @@ jobs:
 
       # ===== END LIVE TEST RUNS =====
 
+      - pwsh: |
+          Write-Host "Filesystem usage after browser tests:"
+          df -h / /mnt
+        displayName: "Report disk usage after browser tests (Linux)"
+        condition: and(always(),eq(variables['Agent.OS'], 'Linux'),eq(variables['TestType'], 'browser'))
+
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - ${{ each directory in coalesce(parameters.TestResourceDirectories, split(parameters.ServiceDirectory, '|')) }}:
           - template: /eng/common/TestResources/remove-test-resources.yml
@@ -338,17 +346,9 @@ jobs:
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
-      # Retry for 30 seconds, since this command may fail with error.
-      - pwsh: |
-          for ($i=0; $i -lt 30; $i++) {
-            pnpm purge
-            if ($lastexitcode -eq 0) {
-              break
-            }
-            else {
-              start-sleep 1
-            }
-          }
+      # The script retries removal internally (up to ~30 seconds) to handle transient errors.
+      - script: |
+          node eng/tools/purge-node-modules.mjs sdk common
         condition: always()
         displayName: "Purge dependencies"
 

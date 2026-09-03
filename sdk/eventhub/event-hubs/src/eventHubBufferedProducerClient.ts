@@ -272,10 +272,7 @@ export class EventHubBufferedProducerClient {
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2: string | EventHubBufferedProducerClientOptions,
     credentialOrOptions3?:
-      | TokenCredential
-      | NamedKeyCredential
-      | SASCredential
-      | EventHubBufferedProducerClientOptions,
+      TokenCredential | NamedKeyCredential | SASCredential | EventHubBufferedProducerClientOptions,
     options4?: EventHubBufferedProducerClientOptions,
   ) {
     if (typeof eventHubNameOrOptions2 !== "string") {
@@ -364,9 +361,10 @@ export class EventHubBufferedProducerClient {
       await this._updatePartitionIds();
     }
     if (!this._isBackgroundManagementRunning) {
+      // Fire-and-forget background loop with error handling
       this._startPartitionIdsUpdateLoop().catch((e) => {
         logger.error(
-          `The following error occured during batch creation or sending: ${JSON.stringify(
+          `The following error occurred during partition ID update loop: ${JSON.stringify(
             e,
             undefined,
             "  ",

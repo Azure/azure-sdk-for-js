@@ -38,7 +38,7 @@ npm install @azure/web-pubsub-client
 
 ### 2. Connect with your Web PubSub resource
 
-A client uses a Client Access URL to connect and authenticate with the service, which follows a pattern of `wss://<service_name>.webpubsub.azure.com/client/hubs/<hub_name>?access_token=<token>`. A client can have a few ways to obtain the Client Access URL. For this quick start, you can copy and paste one from Azure Portal shown below. (For production, your clients usually get the Client Access URL genegrated on your application server. [See details below](#use-negotiation-server-to-generate-client-access-url) )
+A client uses a Client Access URL to connect and authenticate with the service, which follows a pattern of `wss://<service_name>.webpubsub.azure.com/client/hubs/<hub_name>?access_token=<token>`. A client can have a few ways to obtain the Client Access URL. For this quick start, you can copy and paste one from Azure Portal shown below. (For production, your clients usually get the Client Access URL generated on your application server. [See details below](#use-negotiation-server-to-generate-client-access-url) )
 
 ![get_client_url](https://learn.microsoft.com/azure/azure-web-pubsub/media/howto-websocket-connect/generate-client-url.png)
 
@@ -89,6 +89,94 @@ await client.joinGroup(groupName);
 
 // Send a message to a joined group
 await client.sendToGroup(groupName, "hello world", "text");
+```
+
+### 5. Invoke upstream events
+
+```ts snippet:ReadmeSampleInvokeEvent
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+await client.start();
+
+const result = await client.invokeEvent("processOrder", { orderId: 1 }, "json");
+console.log(`Invocation result: ${JSON.stringify(result.data)}`);
+```
+
+`invokeEvent` sends an `invoke` request to the service, awaits the correlated `invokeResponse`, and returns the payload. You can abort the invocation by passing `{ abortSignal }`.
+_Service-initiated invocations are not yet supported._
+
+### 6. Stream messages to a group (preview)
+
+You can send a large or continuous payload to a group as an ordered stream of fragments, and consume each inbound stream as a whole unit on the receiving side.
+
+```ts snippet:ReadmeSampleStreaming
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+
+// Receiving side: subscribe once, then consume each inbound stream with for-await.
+client.onGroupStream(
+  async (stream) => {
+    const parts: string[] = [];
+    try {
+      for await (const message of stream) {
+        parts.push(message.data as string);
+      }
+      console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`);
+    } catch (err) {
+      console.log(
+        `Stream ${stream.streamId} failed: ${
+          (
+            err as {
+              name?: string;
+            }
+          ).name
+        }`,
+      );
+    }
+  },
+  { handleFromStart: true },
+);
+
+await client.start();
+const groupName = "group1";
+await client.joinGroup(groupName);
+
+// Sending side: write a logical stream in ordered fragments, then end it.
+const stream = await client.openGroupStream(groupName);
+await stream.write("hello ", "text");
+await stream.write("world", "text");
+await stream.end();
+```
+
+`onGroupStream` returns a subscription with `close()` for unregistering the listener. Each callback receives a `GroupStream` that is async iterable over its fragments. `openGroupStream` returns a `GroupStreamWriter` you use to `write` fragments, `end` the stream successfully, or `abort` it with an error.
+
+### 6. Use group state
+
+```ts snippet:ReadmeSampleGroupState
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+await client.start();
+
+const groupName = "group1";
+await client.joinGroup(groupName);
+
+await client.setGroupState(groupName, { status: "typing" });
+const ownState = client.getGroupState(groupName);
+console.log(`Own status: ${ownState?.status}`);
+
+client.on("group-states-changed", (e) => {
+  if (e.group === groupName) {
+    const members = client.listGroupStates(groupName);
+    console.log(`Tracked state records: ${members.length}`);
+  }
+});
+
+await client.subscribeGroupStates(groupName);
+await client.clearGroupState(groupName);
+await client.unsubscribeGroupStates(groupName);
 ```
 
 ---
@@ -144,14 +232,22 @@ const hubName = "sample_chat";
 const serviceClient = new WebPubSubServiceClient("<web-pubsub-connectionstring>", hubName);
 
 // Note that the token allows the client to join and send messages to any groups. It is specified with the "roles" option.
-app.get("/negotiate", async (req, res) => {
-  const token = await serviceClient.getClientAccessToken({
-    roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
-  });
-  res.json({
-    url: token.url,
-  });
-});
+app.get(
+  "/negotiate",
+  async (
+    _req: unknown,
+    res: {
+      json: (body: { url: string }) => void;
+    },
+  ) => {
+    const token = await serviceClient.getClientAccessToken({
+      roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
+    });
+    res.json({
+      url: token.url,
+    });
+  },
+);
 
 app.listen(port, () =>
   console.log(`Application server listening at http://localhost:${port}/negotiate`),
@@ -168,7 +264,9 @@ import { WebPubSubClient } from "@azure/web-pubsub-client";
 const client = new WebPubSubClient({
   getClientAccessUrl: async () => {
     const negotiate = await fetch("/negotiate");
-    const { url } = await negotiate.json();
+    const { url } = (await negotiate.json()) as {
+      url: string;
+    };
     return url;
   },
 });
@@ -236,7 +334,7 @@ const groupName = "group1";
 try {
   await client.joinGroup(groupName);
 } catch (err) {
-  let id = null;
+  let id: number | undefined;
   if (err instanceof SendMessageError) {
     id = err.ackId;
   }

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-serialconsole": ["../src/index.ts"],
+      "@azure/arm-serialconsole/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

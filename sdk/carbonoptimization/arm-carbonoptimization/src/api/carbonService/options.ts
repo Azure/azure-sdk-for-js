@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams
-  extends OperationOptions {}
+export interface CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CarbonServiceQueryCarbonEmissionReportsOptionalParams extends OperationOptions {}

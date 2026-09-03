@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/identity": "^4.2.0",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "microsoft-cognitiveservices-speech-sdk": "^1.36.0",
     "openai": "^4.47.2"
   },

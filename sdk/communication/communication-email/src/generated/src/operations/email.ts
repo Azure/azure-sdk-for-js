@@ -11,14 +11,18 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EmailRestApiClient } from "../emailRestApiClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   EmailGetSendResultOptionalParams,
   EmailGetSendResultResponse,
   EmailMessage,
   EmailSendOptionalParams,
-  EmailSendResponse
+  EmailSendResponse,
 } from "../models/index.js";
 
 /** Class containing Email operations. */
@@ -41,11 +45,11 @@ export class EmailImpl implements Email {
    */
   getSendResult(
     operationId: string,
-    options?: EmailGetSendResultOptionalParams
+    options?: EmailGetSendResultOptionalParams,
   ): Promise<EmailGetSendResultResponse> {
     return this.client.sendOperationRequest(
       { operationId, options },
-      getSendResultOperationSpec
+      getSendResultOperationSpec,
     );
   }
 
@@ -56,27 +60,26 @@ export class EmailImpl implements Email {
    */
   async beginSend(
     message: EmailMessage,
-    options?: EmailSendOptionalParams
+    options?: EmailSendOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>
+    SimplePollerLike<OperationState<EmailSendResponse>, EmailSendResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<EmailSendResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -85,8 +88,8 @@ export class EmailImpl implements Email {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -94,20 +97,23 @@ export class EmailImpl implements Email {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { message, options },
-      sendOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { message, options },
+      spec: sendOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      EmailSendResponse,
+      OperationState<EmailSendResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -120,7 +126,7 @@ export class EmailImpl implements Email {
    */
   async beginSendAndWait(
     message: EmailMessage,
-    options?: EmailSendOptionalParams
+    options?: EmailSendOptionalParams,
   ): Promise<EmailSendResponse> {
     const poller = await this.beginSend(message, options);
     return poller.pollUntilDone();
@@ -135,17 +141,17 @@ const getSendResultOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.EmailSendResult,
-      headersMapper: Mappers.EmailGetSendResultHeaders
+      headersMapper: Mappers.EmailGetSendResultHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.EmailGetSendResultExceptionHeaders
-    }
+      headersMapper: Mappers.EmailGetSendResultExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const sendOperationSpec: coreClient.OperationSpec = {
   path: "/emails:send",
@@ -153,24 +159,24 @@ const sendOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.EmailSendResult,
-      headersMapper: Mappers.EmailSendHeaders
+      headersMapper: Mappers.EmailSendHeaders,
     },
     201: {
       bodyMapper: Mappers.EmailSendResult,
-      headersMapper: Mappers.EmailSendHeaders
+      headersMapper: Mappers.EmailSendHeaders,
     },
     202: {
       bodyMapper: Mappers.EmailSendResult,
-      headersMapper: Mappers.EmailSendHeaders
+      headersMapper: Mappers.EmailSendHeaders,
     },
     204: {
       bodyMapper: Mappers.EmailSendResult,
-      headersMapper: Mappers.EmailSendHeaders
+      headersMapper: Mappers.EmailSendHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.EmailSendExceptionHeaders
-    }
+      headersMapper: Mappers.EmailSendExceptionHeaders,
+    },
   },
   requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
@@ -179,8 +185,8 @@ const sendOperationSpec: coreClient.OperationSpec = {
     Parameters.accept,
     Parameters.contentType,
     Parameters.operationId1,
-    Parameters.clientRequestId
+    Parameters.clientRequestId,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };

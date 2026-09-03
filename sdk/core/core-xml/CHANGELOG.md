@@ -1,14 +1,16 @@
 # Release History
 
-## 1.5.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.6.0 (2026-07-13)
 
 ### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 1.5.1 (2026-04-07)
+
+### Other Changes
+
+- Bump `fast-xml-parser` dependency to `^5.5.9` [#37665](https://github.com/Azure/azure-sdk-for-js/issues/37665)
 
 ## 1.5.0 (2025-07-10)
 

@@ -13,7 +13,7 @@ import {
   type TokenCredential,
 } from "@azure/identity";
 import { randomUUID } from "node:crypto";
-import { createPrinter } from "./printer";
+import { createPrinter } from "./printer.ts";
 
 const printer = createPrinter("browser-relay");
 

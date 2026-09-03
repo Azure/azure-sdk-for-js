@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
+  adjustResponse,
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
   setURLParameter,
 } from "../src/utils/utils.common.js";
+import { addStorageCompatResponse } from "../src/generated/static-helpers/storageCompatResponse.js";
+import type { FullOperationResponse } from "@azure-rest/core-client";
 import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
@@ -37,6 +40,33 @@ describe("Utility Helpers", () => {
       "extractConnectionStringParts().accountName is different than expected.",
     );
   }
+
+  it("preserves the parsed body before flattening response headers", () => {
+    const parsedBody = { etag: "body-etag", value: "body-value" };
+    const parsedHeaders = { etag: "header-etag", requestId: "request-id" };
+    const rawResponse = {
+      request: createPipelineRequest({ url: "https://example.com" }),
+      status: 200,
+      headers: createHttpHeaders({ "x-ms-request-id": "request-id" }),
+      bodyAsText: "response body",
+    } as FullOperationResponse;
+
+    const result = addStorageCompatResponse(rawResponse, parsedBody, parsedHeaders);
+
+    assert.equal(result.etag, "header-etag");
+    assert.deepEqual(result._response.parsedBody, {
+      etag: "body-etag",
+      value: "body-value",
+    });
+    assert.notStrictEqual(result._response.parsedBody, result);
+
+    const adjustedResult = adjustResponse(result);
+    assert.equal(adjustedResult._response.status, 200);
+    assert.equal(adjustedResult._response.headers.get("x-ms-request-id"), "request-id");
+    assert.equal(adjustedResult._response.bodyAsText, "response body");
+    assert.deepEqual(adjustedResult._response.parsedBody, parsedBody);
+    assert.notProperty(adjustedResult._response, "rawResponse");
+  });
 
   it("setURLParameter correctly updates parameters", () => {
     assert.equal(setURLParameter("http://test.com/", "a", "b"), "http://test.com/?a=b");
@@ -77,8 +107,8 @@ describe("Utility Helpers", () => {
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
     const sanitized = sanitizeURL(url);
-    assert.ok(sanitized.indexOf("sasstring") === -1, "Expecting SAS string to be redacted.");
-    assert.ok(sanitized.indexOf("*****") !== -1, "Expecting SAS string to be redacted.");
+    assert.strictEqual(sanitized.indexOf("sasstring"), -1, "Expecting SAS string to be redacted.");
+    assert.notStrictEqual(sanitized.indexOf("*****"), -1, "Expecting SAS string to be redacted.");
   });
 
   it("sanitizeHeaders redacts SAS token", () => {
@@ -89,21 +119,25 @@ describe("Utility Helpers", () => {
     headers.set("otherheader", url);
 
     const sanitized = sanitizeHeaders(headers);
-    assert.ok(
-      sanitized.get("x-ms-copy-source")!.indexOf("sasstring") === -1,
+    assert.strictEqual(
+      sanitized.get("x-ms-copy-source")!.indexOf("sasstring"),
+      -1,
       "Expecting SAS string to be redacted.",
     );
-    assert.ok(
-      sanitized.get("x-ms-copy-source")!.indexOf("*****") !== -1,
+    assert.notStrictEqual(
+      sanitized.get("x-ms-copy-source")!.indexOf("*****"),
+      -1,
       "Expecting SAS string to be redacted.",
     );
-    assert.ok(
-      sanitized.get("authorization")! === "*****",
+    assert.strictEqual(
+      sanitized.get("authorization"),
+      "*****",
       "Expecting authorization header value to be redacted.",
     );
 
-    assert.ok(
-      sanitized.get("otherheader")!.indexOf("sasstring") !== -1,
+    assert.notStrictEqual(
+      sanitized.get("otherheader")!.indexOf("sasstring"),
+      -1,
       "Other header should not be changed.",
     );
   });

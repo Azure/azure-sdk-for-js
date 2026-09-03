@@ -45,7 +45,7 @@ export async function main(): Promise<void> {
   const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
     key.name,
     backupResult.folderUri!,
-    sasToken
+    sasToken,
   );
   const restoreResult = await selectiveKeyRestorePoller.pollUntilDone();
   console.log("restoreResult", restoreResult);

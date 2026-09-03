@@ -10,7 +10,7 @@ import type {
 } from "../../certificatesModels.js";
 import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
 import { KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations.js";
 import { tracingClient } from "../../tracing.js";
 
@@ -22,8 +22,7 @@ export type DeleteCertificateState = KeyVaultCertificatePollOperationState<Delet
 /**
  * An interface representing the state of a delete certificate's poll operation
  */
-export interface DeleteCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<DeletedCertificate> {}
+export interface DeleteCertificatePollOperationState extends KeyVaultCertificatePollOperationState<DeletedCertificate> {}
 
 /**
  * An interface representing a delete certificate's poll operation

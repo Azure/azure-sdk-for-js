@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a WorkloadNetworkVMGroup
  *
  * @summary delete a WorkloadNetworkVMGroup
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_DeleteVMGroup.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_DeleteVMGroup.json
  */
 async function workloadNetworksDeleteVMGroup() {
   const credential = new DefaultAzureCredential();

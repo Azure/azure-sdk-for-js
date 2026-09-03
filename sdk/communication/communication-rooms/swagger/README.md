@@ -8,7 +8,7 @@
 package-name: "@azure/communication-rooms"
 override-client-name: RoomsRestClient
 description: Communication Rooms client
-package-version: 1.2.1
+package-version: 1.2.2
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-rooms-2025-03-13

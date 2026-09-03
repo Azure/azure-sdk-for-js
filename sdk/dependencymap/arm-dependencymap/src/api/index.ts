@@ -3,6 +3,6 @@
 
 export {
   createDependencyMap,
-  DependencyMapContext,
-  DependencyMapClientOptionalParams,
+  type DependencyMapContext,
+  type DependencyMapClientOptionalParams,
 } from "./dependencyMapContext.js";

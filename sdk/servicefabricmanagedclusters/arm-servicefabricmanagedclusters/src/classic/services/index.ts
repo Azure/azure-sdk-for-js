@@ -1,27 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ServiceResource, ServiceUpdateParameters } from "../../models/models.js";
+import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  ServicesListByApplicationsOptionalParams,
-  ServicesDeleteOptionalParams,
-  ServicesUpdateOptionalParams,
-  ServicesCreateOrUpdateOptionalParams,
-  ServicesGetOptionalParams,
-} from "../../api/services/options.js";
-import {
+  restartReplica,
   listByApplications,
   $delete,
   update,
   createOrUpdate,
   get,
 } from "../../api/services/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ServicesRestartReplicaOptionalParams,
+  ServicesListByApplicationsOptionalParams,
+  ServicesDeleteOptionalParams,
+  ServicesUpdateOptionalParams,
+  ServicesCreateOrUpdateOptionalParams,
+  ServicesGetOptionalParams,
+} from "../../api/services/options.js";
+import type {
+  ServiceResource,
+  ServiceUpdateParameters,
+  RestartReplicaRequest,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Services operations. */
 export interface ServicesOperations {
+  /** A long-running resource action. */
+  restartReplica: (
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    serviceName: string,
+    parameters: RestartReplicaRequest,
+    options?: ServicesRestartReplicaOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Gets all service resources created or in the process of being created in the Service Fabric managed application resource. */
   listByApplications: (
     resourceGroupName: string,
@@ -30,11 +45,6 @@ export interface ServicesOperations {
     options?: ServicesListByApplicationsOptionalParams,
   ) => PagedAsyncIterableIterator<ServiceResource>;
   /** Delete a Service Fabric managed service resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -72,6 +82,23 @@ export interface ServicesOperations {
 
 function _getServices(context: ServiceFabricManagedClustersManagementContext) {
   return {
+    restartReplica: (
+      resourceGroupName: string,
+      clusterName: string,
+      applicationName: string,
+      serviceName: string,
+      parameters: RestartReplicaRequest,
+      options?: ServicesRestartReplicaOptionalParams,
+    ) =>
+      restartReplica(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        serviceName,
+        parameters,
+        options,
+      ),
     listByApplications: (
       resourceGroupName: string,
       clusterName: string,

@@ -3,20 +3,26 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
+import { createBatchClientV2, createRecorder } from "./utils/recordedClient.js";
 import type {
   BatchClient,
   BatchTask,
   CreateJobParameters,
-  CreatePoolParameters,
   CreateTaskParameters,
 } from "../src/index.js";
 import { isUnexpected, paginate, type GetTask200Response } from "../src/index.js";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
+import { fakeAzureBatchEndpoint, fakeTestPasswordPlaceholder2 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
+import {
+  getBatchAccountKeys,
+  getExistingBatchAccount,
+} from "./utils/arm-resources/batch-account.js";
+import { createBatchWindowsPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
+import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
+const BASIC_POOL_NUM_VMS = 4;
 const JOB_NAME = getResourceName("Job-Basic");
 const TASK_NAME = `${JOB_NAME}-task1`;
 const TASK2_NAME = `${JOB_NAME}-task2`;
@@ -28,98 +34,93 @@ const NON_ADMIN_POOL_USER = "nonAdminUser";
 describe("Task Operations Test", () => {
   let recorder: Recorder;
   let batchClient: BatchClient;
+  let batchAccountEndpoint = fakeAzureBatchEndpoint;
+  let batchAccountKey = fakeTestPasswordPlaceholder2;
 
   /**
    * Provision helper resources needed for testing Batch tasks
    */
   beforeAll(async () => {
-    if (!isPlaybackMode()) {
-      batchClient = createBatchClient();
-
-      const poolParams: CreatePoolParameters = {
-        body: {
-          id: BASIC_POOL,
-          vmSize: "Standard_D1_v2",
-          virtualMachineConfiguration: {
-            nodeAgentSKUId: "batch.node.windows amd64",
-            imageReference: {
-              publisher: "microsoftwindowsserver",
-              offer: "windowsserver",
-              sku: "2022-datacenter",
-            },
-          },
-          targetDedicatedNodes: 4,
-          // Ensures there's a compute node file we can reference later
-          startTask: { commandLine: "cmd /c echo hello > hello.txt" },
-          // Sets up pool user we can reference later
-          userAccounts: [
-            {
-              name: NON_ADMIN_POOL_USER,
-              password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2", // Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
-              elevationLevel: "nonadmin",
-            },
-          ],
-        },
-        contentType: "application/json; odata=minimalmetadata",
-      };
-
-      const poolPostResult = await batchClient.path("/pools").post(poolParams);
-      if (isUnexpected(poolPostResult)) {
-        assert.fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
-              Unable to provision resource needed for Task Testing.
-              Response Body: ${poolPostResult.body.message}`);
-      }
-
-      const jobAddParam: CreateJobParameters = {
-        body: {
-          id: JOB_NAME,
-          poolInfo: { poolId: BASIC_POOL },
-        },
-        contentType: "application/json; odata=minimalmetadata",
-      };
-
-      const jobAddResult = await batchClient.path("/jobs").post(jobAddParam);
-      if (isUnexpected(jobAddResult)) {
-        assert.fail(`Received unexpected status code from creating job: ${jobAddResult.status}
-            Unable to provision resources needed for Task Testing.
-            Response Body: ${jobAddResult.body.message}`);
-      }
+    if (isPlaybackMode()) {
+      return;
     }
+
+    const account = await getExistingBatchAccount(getHoboBatchAccountName());
+    batchAccountEndpoint = `https://${account.accountEndpoint!}`;
+
+    const accountKeys = await getBatchAccountKeys(getHoboBatchAccountName());
+    console.log("created Batch Account:", getHoboBatchAccountName());
+
+    batchAccountKey = accountKeys.primary!;
+
+    await createBatchWindowsPool(getHoboBatchAccountName(), BASIC_POOL, BASIC_POOL_NUM_VMS);
+    console.log("created Batch Pool:", BASIC_POOL);
+
+    // Create a job for tasks
+    const jobClient = createBatchClientV2({
+      accountEndpoint: batchAccountEndpoint,
+      accountName: getHoboBatchAccountName(),
+      accountKey: batchAccountKey,
+    });
+
+    const jobAddParam: CreateJobParameters = {
+      body: {
+        id: JOB_NAME,
+        poolInfo: { poolId: BASIC_POOL },
+      },
+      contentType: "application/json; odata=minimalmetadata",
+    };
+
+    const jobAddResult = await jobClient.path("/jobs").post(jobAddParam);
+    if (isUnexpected(jobAddResult)) {
+      throw new Error(`Failed to create job: ${jobAddResult.body.message}`);
+    }
+    console.log("created Job:", JOB_NAME);
   });
 
   /**
    * Unprovision helper resources after all tests ran
    */
   afterAll(async () => {
-    if (!isPlaybackMode()) {
-      type resourceDeleteErr = { id: string; error: any };
-      const failedDeletedResources: resourceDeleteErr[] = [];
-      batchClient = createBatchClient();
-
-      const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
-      if (isUnexpected(poolDeleteResponse)) {
-        failedDeletedResources.push({ id: BASIC_POOL, error: poolDeleteResponse.body.message });
-      }
-
-      const JobDelete202Response = await batchClient.path("/jobs/{jobId}", JOB_NAME).delete();
-      if (isUnexpected(JobDelete202Response)) {
-        failedDeletedResources.push({ id: JOB_NAME, error: JobDelete202Response.body.message });
-      }
-
-      if (failedDeletedResources.length > 0) {
-        console.log(
-          "Failed to unprovision helper resources for Task Test. The following resources may be leaked:",
-        );
-        failedDeletedResources.forEach((resource) =>
-          console.log(`Failed to delete ${resource.id} Error Response: ${resource.error}`),
-        );
-      }
+    if (isPlaybackMode()) {
+      return;
     }
+
+    const cleanupClient = createBatchClientV2({
+      accountEndpoint: batchAccountEndpoint,
+      accountName: getHoboBatchAccountName(),
+      accountKey: batchAccountKey,
+    });
+
+    // Delete job first
+    const jobDeleteResponse = await cleanupClient.path("/jobs/{jobId}", JOB_NAME).delete();
+    if (isUnexpected(jobDeleteResponse)) {
+      console.error(`Failed to delete job ${JOB_NAME}: ${jobDeleteResponse.body.message}`);
+    } else {
+      console.log("deleted Job:", JOB_NAME);
+    }
+
+    await deleteBatchPool(getHoboBatchAccountName(), BASIC_POOL);
+    console.log("deleted Batch Pool:", BASIC_POOL);
   });
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    batchClient = createBatchClient(recorder);
+    batchClient = createBatchClientV2({
+      recorder,
+      accountEndpoint: batchAccountEndpoint,
+      accountName: getHoboBatchAccountName(),
+      accountKey: batchAccountKey,
+    });
+
+    recorder.addSanitizers({
+      generalSanitizers: [
+        {
+          target: batchAccountEndpoint,
+          value: fakeAzureBatchEndpoint,
+        },
+      ],
+    });
   });
 
   afterEach(async () => {

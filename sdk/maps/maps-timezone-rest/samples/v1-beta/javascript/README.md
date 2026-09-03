@@ -44,7 +44,7 @@ node getIanaVersion.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node getIanaVersion.js
+cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node getIanaVersion.js
 ```
 
 [getTimezoneById]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getTimezoneById.js

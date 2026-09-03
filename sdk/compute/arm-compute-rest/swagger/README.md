@@ -17,7 +17,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
 require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a5df773378a8b52f84bee08b3edaaa6ef520f058/specification/compute/resource-manager/readme.md
-package-version: 1.0.0-beta.3
+package-version: 1.0.0-beta.4
 rest-level-client: true
 add-credentials: true
 security: AADToken

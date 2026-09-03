@@ -612,8 +612,7 @@ export function discoverySourceResourcePropertiesDeserializer(
 
 /** Alias for DiscoverySourceResourcePropertiesUnion */
 export type DiscoverySourceResourcePropertiesUnion =
-  | OffAzureDiscoverySourceResourceProperties
-  | DiscoverySourceResourceProperties;
+  OffAzureDiscoverySourceResourceProperties | DiscoverySourceResourceProperties;
 
 export function discoverySourceResourcePropertiesUnionSerializer(
   item: DiscoverySourceResourcePropertiesUnion,
@@ -659,8 +658,7 @@ export enum KnownSourceType {
 export type SourceType = string;
 
 /** OffAzure discovery source resource properties */
-export interface OffAzureDiscoverySourceResourceProperties
-  extends DiscoverySourceResourceProperties {
+export interface OffAzureDiscoverySourceResourceProperties extends DiscoverySourceResourceProperties {
   /** OffAzure discovery source type */
   sourceType: "OffAzure";
 }
