@@ -52,7 +52,7 @@ export interface BetaAgentInsightMonitorsOperations {
   updateInsight: (
     monitorId: string,
     insightId: string,
-    update: AgentInsightUpdate,
+    insightUpdate: AgentInsightUpdate,
     options?: BetaAgentInsightMonitorsUpdateInsightOptionalParams,
   ) => Promise<AgentInsight>;
   /** Get a full insight for an Agent Insights monitor. */
@@ -126,9 +126,9 @@ function _getBetaAgentInsightMonitors(context: AIProjectContext) {
     updateInsight: (
       monitorId: string,
       insightId: string,
-      update: AgentInsightUpdate,
+      insightUpdate: AgentInsightUpdate,
       options?: BetaAgentInsightMonitorsUpdateInsightOptionalParams,
-    ) => updateInsight(context, monitorId, insightId, update, options),
+    ) => updateInsight(context, monitorId, insightId, insightUpdate, options),
     getInsight: (
       monitorId: string,
       insightId: string,
