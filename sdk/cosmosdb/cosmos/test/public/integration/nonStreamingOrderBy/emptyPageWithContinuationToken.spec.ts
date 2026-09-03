@@ -44,6 +44,9 @@ interface NonStreamingEndpoint {
 
 interface PipelinedExecutionContext {
   endpoint: NonStreamingEndpoint;
+  fetchImplementation: {
+    constructor: { name: string };
+  };
 }
 
 interface QueryIteratorInternals {
@@ -71,10 +74,28 @@ interface QueryCase {
   name: string;
 }
 
+interface FetchImplementationCase {
+  enableQueryControl: boolean;
+  implementationName: "LegacyFetchImplementation" | "QueryControlFetchImplementation";
+  name: string;
+}
+
 describe("NSOB empty pages with continuation tokens", { timeout: 60000 }, () => {
   const continuationHeader = "x-ms-continuation";
   const itemCount = 6;
   const maxIteratorPages = 20;
+  const fetchImplementationCases: FetchImplementationCase[] = [
+    {
+      enableQueryControl: false,
+      implementationName: "LegacyFetchImplementation",
+      name: "legacy fetch path",
+    },
+    {
+      enableQueryControl: true,
+      implementationName: "QueryControlFetchImplementation",
+      name: "query control path",
+    },
+  ];
   const queryCases: QueryCase[] = [
     {
       distinct: false,
@@ -253,15 +274,21 @@ describe("NSOB empty pages with continuation tokens", { timeout: 60000 }, () => 
   function getEndpoint(
     iterator: QueryIterator<{ id: string }>,
     expectedEndpointName: QueryCase["endpointName"],
+    expectedFetchImplementationName: FetchImplementationCase["implementationName"],
   ): NonStreamingEndpoint {
-    const endpointComponent = (iterator as unknown as QueryIteratorInternals).queryExecutionContext
-      .endpoint;
+    const queryExecutionContext = (iterator as unknown as QueryIteratorInternals)
+      .queryExecutionContext;
+    const endpointComponent = queryExecutionContext.endpoint;
+    expect(queryExecutionContext.fetchImplementation.constructor.name).toBe(
+      expectedFetchImplementationName,
+    );
     expect(endpointComponent.constructor.name).toBe(expectedEndpointName);
     return endpointComponent;
   }
 
   async function executeQuery(
     queryCase: QueryCase,
+    fetchImplementationCase: FetchImplementationCase,
     mode: EmptyPageMode,
   ): Promise<{
     endpointComponent: NonStreamingEndpoint;
@@ -272,6 +299,7 @@ describe("NSOB empty pages with continuation tokens", { timeout: 60000 }, () => 
   }> {
     const run = createRunState(mode);
     const iterator = container.items.query<{ id: string }>(createQuery(queryCase.distinct), {
+      enableQueryControl: fetchImplementationCase.enableQueryControl,
       forceQueryPlan: true,
       maxDegreeOfParallelism: 1,
       maxItemCount: 1,
@@ -287,7 +315,11 @@ describe("NSOB empty pages with continuation tokens", { timeout: 60000 }, () => 
     }
 
     return {
-      endpointComponent: getEndpoint(iterator, queryCase.endpointName),
+      endpointComponent: getEndpoint(
+        iterator,
+        queryCase.endpointName,
+        fetchImplementationCase.implementationName,
+      ),
       iterator,
       iteratorPages,
       resultIds,
@@ -304,53 +336,66 @@ describe("NSOB empty pages with continuation tokens", { timeout: 60000 }, () => 
 
   for (const queryCase of queryCases) {
     describe(`${queryCase.name} component`, () => {
-      it("terminates when every backend page is empty", async () => {
-        const { iterator, iteratorPages, resultIds, run } = await executeQuery(queryCase, "all");
+      for (const fetchImplementationCase of fetchImplementationCases) {
+        describe(fetchImplementationCase.name, () => {
+          it("terminates when every backend page is empty", async () => {
+            const { iterator, iteratorPages, resultIds, run } = await executeQuery(
+              queryCase,
+              fetchImplementationCase,
+              "all",
+            );
 
-        expect(run.rewrittenRequestCount).toBeGreaterThan(0);
-        expect(run.emptiedPageCount).toBeGreaterThan(1);
-        expectEmptiedTokensWereReused(run);
-        expect(run.sawTerminalResponse).toBe(true);
-        expect(run.removedDocumentCount).toBe(itemCount);
-        expect(resultIds).toEqual([]);
-        expect(iteratorPages).toBeLessThan(maxIteratorPages);
-        expect(iterator.hasMoreResults()).toBe(false);
-      });
+            expect(run.rewrittenRequestCount).toBeGreaterThan(0);
+            expect(run.emptiedPageCount).toBeGreaterThan(1);
+            expectEmptiedTokensWereReused(run);
+            expect(run.sawTerminalResponse).toBe(true);
+            expect(run.removedDocumentCount).toBe(itemCount);
+            expect(resultIds).toEqual([]);
+            expect(iteratorPages).toBeLessThan(maxIteratorPages);
+            expect(iterator.hasMoreResults()).toBe(false);
+          });
 
-      it("stays completed when the underlying context reports stale results", async () => {
-        const { endpointComponent, iterator, resultIds, run } = await executeQuery(
-          queryCase,
-          "none",
-        );
+          it("stays completed when the underlying context reports stale results", async () => {
+            const { endpointComponent, iterator, resultIds, run } = await executeQuery(
+              queryCase,
+              fetchImplementationCase,
+              "none",
+            );
 
-        expect(run.rewrittenRequestCount).toBeGreaterThan(0);
-        expect(resultIds).toHaveLength(itemCount);
-        expect(endpointComponent.isCompleted).toBe(true);
+            expect(run.rewrittenRequestCount).toBeGreaterThan(0);
+            expect(resultIds).toHaveLength(itemCount);
+            expect(endpointComponent.isCompleted).toBe(true);
 
-        let innerFetchMoreCalls = 0;
-        endpointComponent.executionContext.hasMoreResults = () => true;
-        endpointComponent.executionContext.fetchMore = async () => {
-          innerFetchMoreCalls++;
-          return undefined;
-        };
+            let innerFetchMoreCalls = 0;
+            endpointComponent.executionContext.hasMoreResults = () => true;
+            endpointComponent.executionContext.fetchMore = async () => {
+              innerFetchMoreCalls++;
+              return undefined;
+            };
 
-        expect(iterator.hasMoreResults()).toBe(false);
-        const response = await endpointComponent.fetchMore();
-        expect(response.result).toBeUndefined();
-        expect(innerFetchMoreCalls).toBe(0);
-      });
+            expect(iterator.hasMoreResults()).toBe(false);
+            const response = await endpointComponent.fetchMore();
+            expect(response.result).toBeUndefined();
+            expect(innerFetchMoreCalls).toBe(0);
+          });
 
-      it("returns documents that arrive after an empty page", async () => {
-        const { iterator, iteratorPages, resultIds, run } = await executeQuery(queryCase, "one");
+          it("returns documents that arrive after an empty page", async () => {
+            const { iterator, iteratorPages, resultIds, run } = await executeQuery(
+              queryCase,
+              fetchImplementationCase,
+              "one",
+            );
 
-        expect(run.rewrittenRequestCount).toBeGreaterThan(0);
-        expect(run.emptiedPageCount).toBe(1);
-        expectEmptiedTokensWereReused(run);
-        expect(run.sawDocumentsAfterEmptyPage).toBe(true);
-        expect(resultIds).toHaveLength(itemCount - run.removedDocumentCount);
-        expect(iteratorPages).toBeLessThan(maxIteratorPages);
-        expect(iterator.hasMoreResults()).toBe(false);
-      });
+            expect(run.rewrittenRequestCount).toBeGreaterThan(0);
+            expect(run.emptiedPageCount).toBe(1);
+            expectEmptiedTokensWereReused(run);
+            expect(run.sawDocumentsAfterEmptyPage).toBe(true);
+            expect(resultIds).toHaveLength(itemCount - run.removedDocumentCount);
+            expect(iteratorPages).toBeLessThan(maxIteratorPages);
+            expect(iterator.hasMoreResults()).toBe(false);
+          });
+        });
+      }
     });
   }
 });
