@@ -1,6 +1,6 @@
 # Release History
 
-## 2.6.0 (Unreleased)
+## 2.6.0-alpha.20260903.1 (2026-09-03)
 
 ### Features Added
 
@@ -13,6 +13,8 @@
 - Added WebRTC signaling events and transport selection for Voice Agent connections.
 - Added Voice Agent telephony binding, call history, transfer, and hang-up operations.
 - Added metadata and content operations for generated audio that was rendered beyond the portion heard by the user.
+- Added `project.beta.agentInsightMonitors` for configuring monitors, running Agent Insights analysis, and reviewing or updating the resulting insights.
+- Added invocation moderation configuration to `RaiConfig` for selecting and moderating content from hosted-agent invocation requests and responses.
 - Added Microsoft 365 publishing operations and digital-worker configuration for agents.
 - Added optional identity selection for routine dispatch authorization.
 
