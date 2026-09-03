@@ -68,7 +68,7 @@ describe("Batch delete messages", function (): void {
       }
     });
 
-    it("maps any 204 response to zero", async function (): Promise<void> {
+    it("rejects a bodyless 204 response", async function (): Promise<void> {
       const client = new ServiceBusClient(connectionString);
       try {
         const managementClient: any = client["_connectionContext"].getManagementClient("q");
@@ -77,7 +77,7 @@ describe("Batch delete messages", function (): void {
           application_properties: { statusCode: 204 },
         });
 
-        assert.equal(await managementClient.deleteMessages(1), 0);
+        await assert.isRejected(managementClient.deleteMessages(1), /Unexpected response/);
       } finally {
         await client.close();
       }

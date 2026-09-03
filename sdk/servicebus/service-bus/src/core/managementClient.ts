@@ -983,11 +983,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           throw new Error("Batch delete response did not contain a valid message-count.");
         }
         return deletedCount;
-      } else if (statusCode === 204) {
-        return 0;
-      } else {
-        throw new Error(`Unexpected response with status code of ${statusCode}`);
       }
+      throw new Error(`Unexpected response with status code of ${statusCode}`);
     } catch (err: any) {
       const error = translateServiceBusError(err) as MessagingError;
       receiverLogger.logError(
