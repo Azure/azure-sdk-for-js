@@ -14,7 +14,7 @@ function parseSource(source, fileName) {
   return ts.createSourceFile(fileName, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
 }
 
-function declarationNameNodes(statement) {
+function declarationEntries(statement) {
   if (
     (ts.isInterfaceDeclaration(statement) ||
       ts.isTypeAliasDeclaration(statement) ||
@@ -23,20 +23,21 @@ function declarationNameNodes(statement) {
       ts.isEnumDeclaration(statement)) &&
     statement.name
   ) {
-    return [statement.name];
+    return [{ statement, node: statement, nameNodes: [statement.name] }];
   }
 
   if (ts.isVariableStatement(statement)) {
     return statement.declarationList.declarations
       .filter((declaration) => ts.isIdentifier(declaration.name))
-      .map((declaration) => declaration.name);
+      .map((declaration) => ({
+        statement,
+        node: declaration,
+        declaration,
+        nameNodes: [declaration.name],
+      }));
   }
 
   return [];
-}
-
-function declarationNames(statement) {
-  return declarationNameNodes(statement).map((name) => name.text);
 }
 
 function isExported(statement) {
@@ -53,12 +54,12 @@ function collectDeclarationGraph(source, fileName) {
   host.readFile = (requestedFileName) => (requestedFileName === fileName ? source : undefined);
   const checker = ts.createProgram([fileName], compilerOptions, host).getTypeChecker();
   const entries = sourceFile.statements
-    .map((statement) => ({
-      statement,
-      nameNodes: declarationNameNodes(statement),
-      names: declarationNames(statement),
-    }))
-    .filter((entry) => entry.names.length > 0);
+    .flatMap((statement) => declarationEntries(statement))
+    .map((entry) => ({
+      ...entry,
+      names: entry.nameNodes.map((name) => name.text),
+      exported: isExported(entry.statement),
+    }));
   const topLevelSymbols = new Map();
   for (const entry of entries) {
     for (const nameNode of entry.nameNodes) {
@@ -80,7 +81,7 @@ function collectDeclarationGraph(source, fileName) {
       }
       ts.forEachChild(node, visit);
     }
-    visit(entry.statement);
+    visit(entry.node);
     for (const name of entry.names) {
       references.delete(name);
     }
@@ -88,7 +89,7 @@ function collectDeclarationGraph(source, fileName) {
   }
 
   const exportedNames = new Set(
-    entries.filter((entry) => isExported(entry.statement)).flatMap((entry) => entry.names),
+    entries.filter((entry) => entry.exported).flatMap((entry) => entry.names),
   );
   return { sourceFile, entries, exportedNames };
 }
@@ -161,13 +162,53 @@ function applyEdits(source, edits) {
 
 export function removeModelDeclarations(source, namesToRemove) {
   const graph = collectDeclarationGraph(source, "src/models/models.ts");
-  const edits = graph.entries
-    .filter((entry) => entry.names.some((name) => namesToRemove.has(name)))
-    .map((entry) => ({
+  const edits = [];
+  const variableRemovals = new Map();
+
+  for (const entry of graph.entries) {
+    if (!entry.names.some((name) => namesToRemove.has(name))) {
+      continue;
+    }
+
+    if (entry.declaration) {
+      const declarations = variableRemovals.get(entry.statement) ?? new Set();
+      declarations.add(entry.declaration);
+      variableRemovals.set(entry.statement, declarations);
+      continue;
+    }
+
+    edits.push({
       start: entry.statement.getFullStart(),
       end: entry.statement.getEnd(),
       text: "",
-    }));
+    });
+  }
+
+  const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
+  for (const [statement, declarationsToRemove] of variableRemovals) {
+    const keptDeclarations = statement.declarationList.declarations.filter(
+      (declaration) => !declarationsToRemove.has(declaration),
+    );
+    if (keptDeclarations.length === 0) {
+      edits.push({
+        start: statement.getFullStart(),
+        end: statement.getEnd(),
+        text: "",
+      });
+      continue;
+    }
+
+    const nextDeclarationList = ts.factory.updateVariableDeclarationList(
+      statement.declarationList,
+      keptDeclarations,
+    );
+    edits.push({
+      start: statement.declarationList.getStart(graph.sourceFile),
+      end: statement.declarationList.getEnd(),
+      text: printer.printNode(ts.EmitHint.Unspecified, nextDeclarationList, graph.sourceFile),
+    });
+  }
+
   return applyEdits(source, edits);
 }
 

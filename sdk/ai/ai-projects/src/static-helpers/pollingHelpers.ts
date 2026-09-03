@@ -207,8 +207,8 @@ function getIdentifiedPoller<
  * Reads the created resource's id from the initial response.
  *
  * The create response body is the resource with a required `id`, so it is authoritative.
- * The headers are a fallback for an empty body, preferring `location` (the resource URL) over
- * `operation-location` (the polling URL).
+ * The `location` header is a fallback for an empty body because it identifies the resource.
+ * `operation-location` identifies the polling operation and is not a resource id.
  */
 function extractResourceId(response: PathUncheckedResponse): string | undefined {
   const id = (response.body as { id?: unknown } | undefined)?.id;
@@ -216,7 +216,7 @@ function extractResourceId(response: PathUncheckedResponse): string | undefined 
     return id;
   }
 
-  const url = response.headers["location"] ?? response.headers["operation-location"];
+  const url = response.headers["location"];
   if (!url) {
     return undefined;
   }

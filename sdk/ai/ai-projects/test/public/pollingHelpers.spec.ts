@@ -116,6 +116,21 @@ describe("identified long-running operation pollers", function () {
     assert.equal(poller.operationState?.runId, "run 42");
   });
 
+  it("does not treat the polling operation id as the run id", async function () {
+    const initialResponse = createResponse(
+      "202",
+      { status: "queued" },
+      { "operation-location": "https://example.com/operations/operation-1" },
+    );
+    const poller = getRunPoller(createClient(), async () => runResult, ["202"], {
+      getInitialResponse: async () => initialResponse,
+      resourceLocationConfig: "operation-location",
+    });
+
+    await poller.submitted();
+    assert.isUndefined(poller.operationState?.runId);
+  });
+
   it("keeps job identifiers on the existing JobPoller shape", async function () {
     const initialResponse = createResponse(
       "202",

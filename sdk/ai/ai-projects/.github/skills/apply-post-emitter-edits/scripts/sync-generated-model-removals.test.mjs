@@ -55,6 +55,27 @@ export const independentModel = {
   assert.deepEqual(plan.sourceNames, ["RemovedModel"]);
 });
 
+test("preserves retained declarators in a partially removed variable statement", () => {
+  const previousGenerated = `
+export const removed = 1, retained = 2;
+`;
+  const currentGenerated = `
+export const retained = 2;
+`;
+  const previousSource = `
+export const removed = 1, retained = 2;
+`;
+
+  const plan = planModelRemovals({ previousGenerated, currentGenerated, previousSource });
+  assert.deepEqual([...plan.generatedRemovedNames], ["removed"]);
+  assert.deepEqual(plan.sourceNames, ["removed"]);
+
+  const nextSource = removeModelDeclarations(previousSource, new Set(plan.sourceNames));
+  assert.doesNotMatch(nextSource, /\bremoved\b/);
+  assert.match(nextSource, /export const retained = 2;/);
+  assert.deepEqual([...collectModelExports(nextSource)], ["retained"]);
+});
+
 test("removes planned declarations and filters only stale model reexports", () => {
   const models = `
 export interface StableModel {}
