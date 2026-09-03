@@ -59,6 +59,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _updateInsightSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   insightId: string,
   update: AgentInsightUpdate,
@@ -81,9 +82,7 @@ export function _updateInsightSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/merge-patch+json",
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -110,17 +109,26 @@ export async function _updateInsightDeserialize(
 /** Update the lifecycle status of an insight. */
 export async function updateInsight(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   insightId: string,
   update: AgentInsightUpdate,
   options: BetaAgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsight> {
-  const result = await _updateInsightSend(context, monitorId, insightId, update, options);
+  const result = await _updateInsightSend(
+    context,
+    foundryFeatures,
+    monitorId,
+    insightId,
+    update,
+    options,
+  );
   return _updateInsightDeserialize(result);
 }
 
 export function _getInsightSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   insightId: string,
   options: BetaAgentInsightMonitorsGetInsightOptionalParams = { requestOptions: {} },
@@ -142,9 +150,7 @@ export function _getInsightSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -168,16 +174,18 @@ export async function _getInsightDeserialize(result: PathUncheckedResponse): Pro
 /** Get a full insight for an Agent Insights monitor. */
 export async function getInsight(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   insightId: string,
   options: BetaAgentInsightMonitorsGetInsightOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsight> {
-  const result = await _getInsightSend(context, monitorId, insightId, options);
+  const result = await _getInsightSend(context, foundryFeatures, monitorId, insightId, options);
   return _getInsightDeserialize(result);
 }
 
 export function _listInsightsSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -204,9 +212,7 @@ export function _listInsightsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -232,12 +238,13 @@ export async function _listInsightsDeserialize(
 /** List current insights for an Agent Insights monitor. */
 export function listInsights(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsight> {
   return buildPagedAsyncIterator(
     context,
-    () => _listInsightsSend(context, monitorId, options),
+    () => _listInsightsSend(context, foundryFeatures, monitorId, options),
     _listInsightsDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
@@ -246,6 +253,7 @@ export function listInsights(
 
 export function _cancelRunSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   runId: string,
   options: BetaAgentInsightMonitorsCancelRunOptionalParams = { requestOptions: {} },
@@ -266,9 +274,7 @@ export function _cancelRunSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -294,16 +300,18 @@ export async function _cancelRunDeserialize(
 /** Cancel an Agent Insights run. */
 export async function cancelRun(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   runId: string,
   options: BetaAgentInsightMonitorsCancelRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightRun> {
-  const result = await _cancelRunSend(context, monitorId, runId, options);
+  const result = await _cancelRunSend(context, foundryFeatures, monitorId, runId, options);
   return _cancelRunDeserialize(result);
 }
 
 export function _getRunSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   runId: string,
   options: BetaAgentInsightMonitorsGetRunOptionalParams = { requestOptions: {} },
@@ -324,9 +332,7 @@ export function _getRunSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -350,16 +356,18 @@ export async function _getRunDeserialize(result: PathUncheckedResponse): Promise
 /** Get an Agent Insights run. */
 export async function getRun(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   runId: string,
   options: BetaAgentInsightMonitorsGetRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightRun> {
-  const result = await _getRunSend(context, monitorId, runId, options);
+  const result = await _getRunSend(context, foundryFeatures, monitorId, runId, options);
   return _getRunDeserialize(result);
 }
 
 export function _listRunsSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -384,9 +392,7 @@ export function _listRunsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -412,12 +418,13 @@ export async function _listRunsDeserialize(
 /** List Agent Insights runs for a monitor. */
 export function listRuns(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightRun> {
   return buildPagedAsyncIterator(
     context,
-    () => _listRunsSend(context, monitorId, options),
+    () => _listRunsSend(context, foundryFeatures, monitorId, options),
     _listRunsDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
@@ -426,6 +433,7 @@ export function listRuns(
 
 export function _createRunSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   run: AgentInsightRunCreate,
   options: BetaAgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
@@ -446,9 +454,8 @@ export function _createRunSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -482,6 +489,7 @@ export async function _createRunDeserialize(
 /** Start an Agent Insights run for a monitor. */
 export function createRun(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   run: AgentInsightRunCreate,
   options: BetaAgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
@@ -489,7 +497,7 @@ export function createRun(
   return getLongRunningPoller(context, _createRunDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _createRunSend(context, monitorId, run, options),
+    getInitialResponse: () => _createRunSend(context, foundryFeatures, monitorId, run, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
   }) as PollerLike<OperationState<AgentInsightRunResult>, AgentInsightRunResult>;
@@ -497,6 +505,7 @@ export function createRun(
 
 export function _resetSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsResetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -514,12 +523,7 @@ export function _resetSend(
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
+      headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
     });
 }
 
@@ -540,15 +544,17 @@ export async function _resetDeserialize(result: PathUncheckedResponse): Promise<
 /** Reset an Agent Insights monitor's overview, checkpoint, and active insight state. */
 export async function reset(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsResetOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _resetSend(context, monitorId, options);
+  const result = await _resetSend(context, foundryFeatures, monitorId, options);
   return _resetDeserialize(result);
 }
 
 export function _updateSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   monitor: AgentInsightMonitorUpdate,
   options: BetaAgentInsightMonitorsUpdateOptionalParams = { requestOptions: {} },
@@ -569,9 +575,7 @@ export function _updateSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/merge-patch+json",
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -598,16 +602,18 @@ export async function _updateDeserialize(
 /** Update an Agent Insights monitor. */
 export async function update(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   monitor: AgentInsightMonitorUpdate,
   options: BetaAgentInsightMonitorsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightMonitor> {
-  const result = await _updateSend(context, monitorId, monitor, options);
+  const result = await _updateSend(context, foundryFeatures, monitorId, monitor, options);
   return _updateDeserialize(result);
 }
 
 export function _$deleteSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -625,12 +631,7 @@ export function _$deleteSend(
     .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
+      headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
     });
 }
 
@@ -651,15 +652,17 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 /** Delete an Agent Insights monitor and all of its runs, insights, and state. */
 export async function $delete(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, monitorId, options);
+  const result = await _$deleteSend(context, foundryFeatures, monitorId, options);
   return _$deleteDeserialize(result);
 }
 
 export function _getSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -678,9 +681,7 @@ export function _getSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -704,15 +705,17 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ag
 /** Get an Agent Insights monitor. */
 export async function get(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitorId: string,
   options: BetaAgentInsightMonitorsGetOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightMonitor> {
-  const result = await _getSend(context, monitorId, options);
+  const result = await _getSend(context, foundryFeatures, monitorId, options);
   return _getDeserialize(result);
 }
 
 export function _createSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitor: AgentInsightMonitorCreate,
   options: BetaAgentInsightMonitorsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -731,9 +734,7 @@ export function _createSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -760,15 +761,17 @@ export async function _createDeserialize(
 /** Create an Agent Insights monitor for an agent. */
 export async function create(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   monitor: AgentInsightMonitorCreate,
   options: BetaAgentInsightMonitorsCreateOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightMonitor> {
-  const result = await _createSend(context, monitor, options);
+  const result = await _createSend(context, foundryFeatures, monitor, options);
   return _createDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   options: BetaAgentInsightMonitorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -790,9 +793,7 @@ export function _listSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -818,11 +819,12 @@ export async function _listDeserialize(
 /** List Agent Insights monitors, optionally filtered by agent name. */
 export function list(
   context: Client,
+  foundryFeatures: "AgentInsights=V1Preview",
   options: BetaAgentInsightMonitorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightMonitorListItem> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
+    () => _listSend(context, foundryFeatures, options),
     _listDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },

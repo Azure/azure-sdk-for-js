@@ -227,15 +227,125 @@ export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
 export interface RaiConfig {
   /** The name of the RAI policy to apply. */
   rai_policy_name: string;
+  /**
+   * Author-declared configuration telling the platform where user/agent text lives in the
+   * agent-defined invocations request/response bodies, so content-safety guardrails can extract
+   * and moderate it. Optional; a rai_config without it leaves the invocations path without
+   * content-safety moderation.
+   */
+  invocations_moderation?: RaiInvocationModeration;
 }
 
 export function raiConfigSerializer(item: RaiConfig): any {
-  return { rai_policy_name: item["rai_policy_name"] };
+  return {
+    rai_policy_name: item["rai_policy_name"],
+    invocations_moderation: !item["invocations_moderation"]
+      ? item["invocations_moderation"]
+      : raiInvocationModerationSerializer(item["invocations_moderation"]),
+  };
 }
 
 export function raiConfigDeserializer(item: any): RaiConfig {
   return {
     rai_policy_name: item["rai_policy_name"],
+    invocations_moderation: !item["invocations_moderation"]
+      ? item["invocations_moderation"]
+      : raiInvocationModerationDeserializer(item["invocations_moderation"]),
+  };
+}
+
+/** Declares where request/response text lives so content-safety guardrails can extract it. */
+export interface RaiInvocationModeration {
+  /** How the REQUEST body is parsed. When omitted, the service defaults to `json`. */
+  input_content_type?: RaiInvocationContentType;
+  /** How the RESPONSE body is parsed. When omitted, the service defaults to `json`. */
+  output_content_type?: RaiInvocationContentType;
+  /** Author-declared response shape; drives which output gate runs and which fields are required. */
+  response_mode: RaiInvocationMode;
+  /** Path(s) to user text in the REQUEST body. Required when input_content_type is `json`. */
+  input_paths?: string[];
+  /** Path(s) to agent text in a NON-STREAMING response body. Required when response_mode is non_streaming/both and output_content_type is `json`. */
+  output_paths?: string[];
+  /** One SSE event->field selector per event type carrying text. Required when response_mode is streaming/both and output_content_type is `json`. */
+  stream_selectors?: RaiSseTextSelector[];
+}
+
+export function raiInvocationModerationSerializer(item: RaiInvocationModeration): any {
+  return {
+    input_content_type: item["input_content_type"],
+    output_content_type: item["output_content_type"],
+    response_mode: item["response_mode"],
+    input_paths: !item["input_paths"]
+      ? item["input_paths"]
+      : item["input_paths"].map((p: any) => {
+          return p;
+        }),
+    output_paths: !item["output_paths"]
+      ? item["output_paths"]
+      : item["output_paths"].map((p: any) => {
+          return p;
+        }),
+    stream_selectors: !item["stream_selectors"]
+      ? item["stream_selectors"]
+      : raiSseTextSelectorArraySerializer(item["stream_selectors"]),
+  };
+}
+
+export function raiInvocationModerationDeserializer(item: any): RaiInvocationModeration {
+  return {
+    input_content_type: item["input_content_type"],
+    output_content_type: item["output_content_type"],
+    response_mode: item["response_mode"],
+    input_paths: !item["input_paths"]
+      ? item["input_paths"]
+      : item["input_paths"].map((p: any) => {
+          return p;
+        }),
+    output_paths: !item["output_paths"]
+      ? item["output_paths"]
+      : item["output_paths"].map((p: any) => {
+          return p;
+        }),
+    stream_selectors: !item["stream_selectors"]
+      ? item["stream_selectors"]
+      : raiSseTextSelectorArrayDeserializer(item["stream_selectors"]),
+  };
+}
+
+/** How an invocations request/response body is parsed to locate text for content-safety moderation. */
+export type RaiInvocationContentType = "json" | "text";
+
+/** Author-declared response shape for the invocations protocol. */
+export type RaiInvocationMode = "non_streaming" | "streaming" | "both";
+
+export function raiSseTextSelectorArraySerializer(result: Array<RaiSseTextSelector>): any[] {
+  return result.map((item) => {
+    return raiSseTextSelectorSerializer(item);
+  });
+}
+
+export function raiSseTextSelectorArrayDeserializer(result: Array<RaiSseTextSelector>): any[] {
+  return result.map((item) => {
+    return raiSseTextSelectorDeserializer(item);
+  });
+}
+
+/** An SSE event-type to text-field selector for streaming invocation output. */
+export interface RaiSseTextSelector {
+  /** The SSE event `type` value that carries text. */
+  event_type: string;
+  /** The field on a matched event holding the text delta. When omitted, the service defaults to `delta`. */
+  text_field?: string;
+}
+
+export function raiSseTextSelectorSerializer(item: RaiSseTextSelector): any {
+  return { event_type: item["event_type"], text_field: item["text_field"] };
+}
+
+export function raiSseTextSelectorDeserializer(item: any): RaiSseTextSelector {
+  return {
+    event_type: item["event_type"],
+    text_field: item["text_field"],
   };
 }
 
