@@ -958,39 +958,33 @@ export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | Cust
 
 // @public
 export interface BetaAgentInsightMonitorsCancelRunOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsCreateOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsCreateRunOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
+    operationId?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface BetaAgentInsightMonitorsDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsGetInsightOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
     includeDetails?: boolean;
 }
 
 // @public
 export interface BetaAgentInsightMonitorsGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsGetRunOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
@@ -998,7 +992,6 @@ export interface BetaAgentInsightMonitorsListInsightsOptionalParams extends Oper
     after?: string;
     before?: string;
     category?: string;
-    foundryFeatures?: "AgentInsights=V1Preview";
     includeDetails?: boolean;
     limit?: number;
     order?: PageOrder;
@@ -1011,7 +1004,6 @@ export interface BetaAgentInsightMonitorsListOptionalParams extends OperationOpt
     after?: string;
     agentName?: string;
     before?: string;
-    foundryFeatures?: "AgentInsights=V1Preview";
     limit?: number;
     order?: PageOrder;
 }
@@ -1020,7 +1012,6 @@ export interface BetaAgentInsightMonitorsListOptionalParams extends OperationOpt
 export interface BetaAgentInsightMonitorsListRunsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
-    foundryFeatures?: "AgentInsights=V1Preview";
     limit?: number;
     order?: PageOrder;
     status?: JobStatus;
@@ -1046,17 +1037,14 @@ export interface BetaAgentInsightMonitorsOperations {
 
 // @public
 export interface BetaAgentInsightMonitorsResetOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsUpdateInsightOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsUpdateOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
@@ -3798,7 +3786,30 @@ export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
 
 // @public
 export interface RaiConfig {
+    invocations_moderation?: RaiInvocationModeration;
     rai_policy_name: string;
+}
+
+// @public
+export type RaiInvocationContentType = "json" | "text";
+
+// @public
+export type RaiInvocationMode = "non_streaming" | "streaming" | "both";
+
+// @public
+export interface RaiInvocationModeration {
+    input_content_type?: RaiInvocationContentType;
+    input_paths?: string[];
+    output_content_type?: RaiInvocationContentType;
+    output_paths?: string[];
+    response_mode: RaiInvocationMode;
+    stream_selectors?: RaiSseTextSelector[];
+}
+
+// @public
+export interface RaiSseTextSelector {
+    event_type: string;
+    text_field?: string;
 }
 
 // @public
