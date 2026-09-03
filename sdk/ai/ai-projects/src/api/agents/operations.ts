@@ -19,8 +19,9 @@ import type {
   SessionFileWriteResponse,
   SessionDirectoryEntry,
   _AgentsPagedResultTelephonyBindingListItem,
-  TelephonyBindingListItem,
+  TelephonyBindingListItemUnion,
   UpdateTelephonyBindingRequest,
+  TelephonyBindingUnion,
   _AgentsPagedResultTelephonyCallSummary,
   TelephonyCallSummary,
   TelephonyCallRecord,
@@ -29,12 +30,9 @@ import type {
   Microsoft365PublishScope,
   Microsoft365PublishResponse,
   Microsoft365PublishDefaults,
-  CreateTelephonyBindingRequest,
+  CreateTelephonyBindingRequestUnion,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
-  AgentsUpdateTelephonyBindingResponse,
-  AgentsGetTelephonyBindingResponse,
-  AgentsCreateTelephonyBindingResponse,
   AgentsDownloadAgentCodeResponse,
   GenerateAgentRequest,
 } from "../../models/models.js";
@@ -57,6 +55,7 @@ import {
   sessionFileWriteResponseDeserializer,
   _sessionDirectoryListResponseDeserializer,
   _agentsPagedResultTelephonyBindingListItemDeserializer,
+  telephonyBindingUnionDeserializer,
   updateTelephonyBindingRequestSerializer,
   _agentsPagedResultTelephonyCallSummaryDeserializer,
   telephonyCallRecordDeserializer,
@@ -65,7 +64,7 @@ import {
   microsoft365PermissionScopesArraySerializer,
   microsoft365PublishResponseDeserializer,
   microsoft365PublishDefaultsDeserializer,
-  createTelephonyBindingRequestSerializer,
+  createTelephonyBindingRequestUnionSerializer,
   generateAgentRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -76,9 +75,6 @@ import type {
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
-  GetMicrosoft365PublishDefaultsOptionalParams,
-  GetMicrosoft365PackageOptionalParams,
-  PublishToMicrosoft365OptionalParams,
   AgentsReplaceTelephonyTransferTargetsOptionalParams,
   AgentsGetTelephonyTransferTargetsOptionalParams,
   AgentsEndTelephonyCallOptionalParams,
@@ -90,6 +86,9 @@ import type {
   AgentsGetTelephonyBindingOptionalParams,
   AgentsListTelephonyBindingsOptionalParams,
   AgentsCreateTelephonyBindingOptionalParams,
+  GetMicrosoft365PublishDefaultsOptionalParams,
+  GetMicrosoft365PackageOptionalParams,
+  PublishToMicrosoft365OptionalParams,
   AgentsGetSessionLogStreamOptionalParams,
   AgentsListSessionsOptionalParams,
   AgentsStopSessionOptionalParams,
@@ -1042,7 +1041,7 @@ export function _updateTelephonyBindingSend(
 
 export async function _updateTelephonyBindingDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsUpdateTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1053,7 +1052,7 @@ export async function _updateTelephonyBindingDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return telephonyBindingUnionDeserializer(result.body);
 }
 
 /** Updates a telephony binding owned by the voice agent named in the path. */
@@ -1064,7 +1063,7 @@ export async function updateTelephonyBinding(
   ifMatch: string,
   body: UpdateTelephonyBindingRequest,
   options: AgentsUpdateTelephonyBindingOptionalParams = { requestOptions: {} },
-): Promise<AgentsUpdateTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const result = await _updateTelephonyBindingSend(
     context,
     agentName,
@@ -1107,7 +1106,7 @@ export function _getTelephonyBindingSend(
 
 export async function _getTelephonyBindingDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsGetTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1118,7 +1117,7 @@ export async function _getTelephonyBindingDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return telephonyBindingUnionDeserializer(result.body);
 }
 
 /** Retrieves a telephony binding owned by the voice agent named in the path. */
@@ -1127,7 +1126,7 @@ export async function getTelephonyBinding(
   agentName: string,
   bindingId: string,
   options: AgentsGetTelephonyBindingOptionalParams = { requestOptions: {} },
-): Promise<AgentsGetTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const result = await _getTelephonyBindingSend(context, agentName, bindingId, options);
   return _getTelephonyBindingDeserialize(result);
 }
@@ -1186,7 +1185,7 @@ export function listTelephonyBindings(
   context: Client,
   agentName: string,
   options: AgentsListTelephonyBindingsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TelephonyBindingListItem> {
+): PagedAsyncIterableIterator<TelephonyBindingListItemUnion> {
   return buildPagedAsyncIterator(
     context,
     () => _listTelephonyBindingsSend(context, agentName, options),
@@ -1199,7 +1198,7 @@ export function listTelephonyBindings(
 export function _createTelephonyBindingSend(
   context: Client,
   agentName: string,
-  body: CreateTelephonyBindingRequest,
+  body: CreateTelephonyBindingRequestUnion,
   options: AgentsCreateTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1232,13 +1231,13 @@ export function _createTelephonyBindingSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: createTelephonyBindingRequestSerializer(body),
+    body: createTelephonyBindingRequestUnionSerializer(body),
   });
 }
 
 export async function _createTelephonyBindingDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsCreateTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1249,16 +1248,16 @@ export async function _createTelephonyBindingDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return telephonyBindingUnionDeserializer(result.body);
 }
 
 /** Creates a telephony binding for the voice agent named in the path. */
 export async function createTelephonyBinding(
   context: Client,
   agentName: string,
-  body: CreateTelephonyBindingRequest,
+  body: CreateTelephonyBindingRequestUnion,
   options: AgentsCreateTelephonyBindingOptionalParams = { requestOptions: {} },
-): Promise<AgentsCreateTelephonyBindingResponse> {
+): Promise<TelephonyBindingUnion> {
   const result = await _createTelephonyBindingSend(context, agentName, body, options);
   return _createTelephonyBindingDeserialize(result);
 }

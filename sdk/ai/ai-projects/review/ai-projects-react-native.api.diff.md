@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -3619,9 +3619,9 @@
+@@ -3910,9 +3910,9 @@
      readonly type: "None";
  }
  
@@ -16,7 +16,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 +export type NodeReadableStream = never;
  
  // @public
- export interface OmitPropertiesRealtimeResponse {
-     conversation_id?: string;
+ export interface OneTimeTrigger extends Trigger {
+     timeZone?: string;
 
 ```
