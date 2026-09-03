@@ -6,21 +6,36 @@ import type { StreamableMethod } from "@azure-rest/core-client";
 import { describe, expect, it, vi } from "vitest";
 import { getBinaryStreamResponse } from "../../../src/static-helpers/serialization/get-binary-stream-response.js";
 
+function createStreamableMethod(chunks: string[]): StreamableMethod {
+  return {
+    asNodeStream: vi.fn().mockResolvedValue({
+      status: "400",
+      headers: {},
+      request: {},
+      body: Readable.from(chunks),
+    }),
+  } as unknown as StreamableMethod;
+}
+
 describe("getBinaryStreamResponse", () => {
   it("buffers and parses streamed error responses", async () => {
     const body = { error: { code: "InvalidRequest", message: "The request is invalid." } };
-    const streamableMethod = {
-      asNodeStream: vi.fn().mockResolvedValue({
-        status: "400",
-        headers: {},
-        request: {},
-        body: Readable.from([JSON.stringify(body)]),
-      }),
-    } as unknown as StreamableMethod;
+    const streamableMethod = createStreamableMethod([JSON.stringify(body)]);
 
     const response = await getBinaryStreamResponse(streamableMethod);
 
     expect(response.body).toEqual(body);
+    expect(response.readableStreamBody).toBeUndefined();
+  });
+
+  it.each([
+    ["an empty", []],
+    ["a non-JSON", ["<html>bad gateway</html>"]],
+    ["a non-object JSON", ["[]"]],
+  ])("leaves the body undefined for %s error stream", async (_description, chunks) => {
+    const response = await getBinaryStreamResponse(createStreamableMethod(chunks));
+
+    expect(response.body).toBeUndefined();
     expect(response.readableStreamBody).toBeUndefined();
   });
 });

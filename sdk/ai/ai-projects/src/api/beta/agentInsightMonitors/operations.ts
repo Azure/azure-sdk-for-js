@@ -219,6 +219,7 @@ export function listInsights(
   monitorId: string,
   options: BetaAgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsight> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listInsightsSend(context, monitorId, options),
@@ -228,8 +229,10 @@ export function listInsights(
       itemName: "data",
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
+        ...requestParameters,
         headers: {
           "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+          ...requestParameters.headers,
         },
       },
       cursorFieldName: "last_id",
@@ -397,6 +400,7 @@ export function listRuns(
   monitorId: string,
   options: BetaAgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightRun> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listRunsSend(context, monitorId, options),
@@ -406,8 +410,10 @@ export function listRuns(
       itemName: "data",
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
+        ...requestParameters,
         headers: {
           "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+          ...requestParameters.headers,
         },
       },
       cursorFieldName: "last_id",
@@ -791,6 +797,7 @@ export function list(
   context: Client,
   options: BetaAgentInsightMonitorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightMonitorListItem> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -800,8 +807,10 @@ export function list(
       itemName: "data",
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
+        ...requestParameters,
         headers: {
           "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+          ...requestParameters.headers,
         },
       },
       cursorFieldName: "last_id",
