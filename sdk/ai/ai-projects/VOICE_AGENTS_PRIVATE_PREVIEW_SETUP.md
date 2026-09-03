@@ -351,6 +351,8 @@ The browser app also exposes REST management operations under **Management**, in
 
 Browser source uses the same public import as Node:
 
+<!-- dev-tool snippets ignore -->
+
 ```ts
 import { AIProjectClient } from "@azure/ai-projects";
 ```
