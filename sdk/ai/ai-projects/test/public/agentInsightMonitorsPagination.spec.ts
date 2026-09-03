@@ -15,13 +15,9 @@ import {
   listRuns,
 } from "../../src/api/beta/agentInsightMonitors/operations.js";
 
-type AgentInsightPagingOptions = OperationOptions & {
-  foundryFeatures?: "AgentInsights=V1Preview";
-};
-
 type ListFactory = (
   context: AIProjectContext,
-  options: AgentInsightPagingOptions,
+  options: OperationOptions,
 ) => {
   byPage(): AsyncIterableIterator<unknown>;
 };
@@ -78,7 +74,6 @@ describe("Agent Insights pagination", () => {
       const pages = createIterator(context, {
         abortSignal: abortController.signal,
         onResponse,
-        foundryFeatures: "AgentInsights=V1Preview",
         requestOptions: {
           timeout: 1234,
           onUploadProgress,

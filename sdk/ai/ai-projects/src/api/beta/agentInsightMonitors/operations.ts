@@ -60,6 +60,7 @@ export function _updateInsightSend(
   insightUpdate: AgentInsightUpdate,
   options: BetaAgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?api%2Dversion}",
     {
@@ -75,7 +76,7 @@ export function _updateInsightSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -117,6 +118,7 @@ export function _getInsightSend(
   insightId: string,
   options: BetaAgentInsightMonitorsGetInsightOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?include_details,api%2Dversion}",
     {
@@ -132,7 +134,7 @@ export function _getInsightSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -169,6 +171,7 @@ export function _listInsightsSend(
   monitorId: string,
   options: BetaAgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}/insights{?after,before,limit,order,category,severity,status,include_details,api%2Dversion}",
     {
@@ -190,7 +193,7 @@ export function _listInsightsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -219,6 +222,7 @@ export function listInsights(
   monitorId: string,
   options: BetaAgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsight> {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
@@ -231,7 +235,7 @@ export function listInsights(
       nextPageRequestOptions: {
         ...requestParameters,
         headers: {
-          "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+          "foundry-features": foundryFeatures,
           ...requestParameters.headers,
         },
       },
@@ -247,6 +251,7 @@ export function _cancelRunSend(
   runId: string,
   options: BetaAgentInsightMonitorsCancelRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}/runs/{run_id}:cancel{?api%2Dversion}",
     {
@@ -261,7 +266,7 @@ export function _cancelRunSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -301,6 +306,7 @@ export function _getRunSend(
   runId: string,
   options: BetaAgentInsightMonitorsGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}/runs/{run_id}{?api%2Dversion}",
     {
@@ -315,7 +321,7 @@ export function _getRunSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -352,6 +358,7 @@ export function _listRunsSend(
   monitorId: string,
   options: BetaAgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}/runs{?after,before,limit,order,status,trigger,api%2Dversion}",
     {
@@ -371,7 +378,7 @@ export function _listRunsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -400,6 +407,7 @@ export function listRuns(
   monitorId: string,
   options: BetaAgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightRun> {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
@@ -412,7 +420,7 @@ export function listRuns(
       nextPageRequestOptions: {
         ...requestParameters,
         headers: {
-          "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+          "foundry-features": foundryFeatures,
           ...requestParameters.headers,
         },
       },
@@ -428,6 +436,7 @@ export function _createRunSend(
   run: AgentInsightRunCreate,
   options: BetaAgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}/runs{?api%2Dversion}",
     {
@@ -442,7 +451,7 @@ export function _createRunSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -481,6 +490,7 @@ export function createRun(
   run: AgentInsightRunCreate,
   options: BetaAgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
 ): RunPoller<AgentInsightRunResult> {
+  const foundryFeatures = "AgentInsights=V1Preview";
   // CUSTOMIZATION: SDK-IMPROVEMENT: the emitted result omits the created run id.
   return getRunPoller(context, _createRunDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -490,7 +500,7 @@ export function createRun(
     apiVersion: context.apiVersion ?? "v1",
     pollHeaders: {
       ...options?.requestOptions?.headers,
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
     },
   });
 }
@@ -500,6 +510,7 @@ export function _resetSend(
   monitorId: string,
   options: BetaAgentInsightMonitorsResetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}:reset{?api%2Dversion}",
     {
@@ -513,7 +524,7 @@ export function _resetSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       ...options.requestOptions?.headers,
     },
   });
@@ -549,6 +560,7 @@ export function _updateSend(
   monitor: AgentInsightMonitorUpdate,
   options: BetaAgentInsightMonitorsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
     {
@@ -563,7 +575,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -603,6 +615,7 @@ export function _deleteAgentInsightMonitorSend(
   monitorId: string,
   options: BetaAgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
     {
@@ -616,7 +629,7 @@ export function _deleteAgentInsightMonitorSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       ...options.requestOptions?.headers,
     },
   });
@@ -653,6 +666,7 @@ export function _getSend(
   monitorId: string,
   options: BetaAgentInsightMonitorsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
     {
@@ -666,7 +680,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -702,6 +716,7 @@ export function _createSend(
   monitor: AgentInsightMonitorCreate,
   options: BetaAgentInsightMonitorsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors{?api%2Dversion}",
     {
@@ -715,7 +730,7 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -753,6 +768,7 @@ export function _listSend(
   context: Client,
   options: BetaAgentInsightMonitorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
     "/agent_insight_monitors{?after,before,limit,order,agent_name,api%2Dversion}",
     {
@@ -770,7 +786,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -798,6 +814,7 @@ export function list(
   context: Client,
   options: BetaAgentInsightMonitorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightMonitorListItem> {
+  const foundryFeatures = "AgentInsights=V1Preview";
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
@@ -810,7 +827,7 @@ export function list(
       nextPageRequestOptions: {
         ...requestParameters,
         headers: {
-          "foundry-features": options?.foundryFeatures ?? "AgentInsights=V1Preview",
+          "foundry-features": foundryFeatures,
           ...requestParameters.headers,
         },
       },
