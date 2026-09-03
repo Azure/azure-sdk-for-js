@@ -2,6 +2,19 @@
 
 ## 1.4.0-beta.2 (Unreleased)
 
+### Breaking Changes
+
+> These changes remove surface that only ever shipped in `1.4.0-beta.1`. The
+> last stable release, `1.3.1`, is unaffected.
+
+- Removed `CommunicationIdentityClient.getUserDetail` and the
+  `CommunicationUserDetail` type.
+- Removed `customId` from `CreateUserOptions` and `CreateUserAndTokenOptions`.
+
+These features depend on the `2025-03-02-preview` API version. They are not
+present in the stable `2025-06-30` API version, which is the migration target
+for the upcoming preview retirement.
+
 ### Other Changes
 
 - Optimized type imports for improved tree-shaking and build performance.
