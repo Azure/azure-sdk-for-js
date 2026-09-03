@@ -16,12 +16,12 @@ For the complete API surface, see the corresponding -node.api.md file.
 +    permissions: Permissions_2;
      tenantId: string;
  }
-
+ 
  // @public
 @@ -1139,17 +1139,18 @@
  // @public
  export type NetworkRuleSetView = NetworkRuleSetInput;
-
+ 
  // @public
 -export interface Permissions {
 +interface Permissions_2 {
@@ -31,7 +31,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      storage?: StoragePermissions[];
  }
 +export { Permissions_2 as Permissions }
-
+ 
  // @public
 -export interface PermissionsInput extends InputOf<Permissions> {
 +export interface PermissionsInput extends InputOf<Permissions_2> {
