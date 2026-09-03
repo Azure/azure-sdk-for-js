@@ -182,7 +182,8 @@ node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-pari
 The guard has intentionally narrow scope. For TypeScript files changed under `generated/` relative to `HEAD`, it checks:
 
 - direct members newly added to an existing interface;
-- properties newly added to a request `body` object in an existing `*Send` function.
+- properties newly returned by an existing serializer or deserializer function;
+- properties newly added to a request `body` object in an existing `*Send` function;
 - the hand-maintained `src/index.ts` import scaffold: `PageSettings` and
   `PagedAsyncIterableIterator` remain type imports from `@azure/core-paging`,
   `ContinuablePage` remains a type import from the local paging helper, and no

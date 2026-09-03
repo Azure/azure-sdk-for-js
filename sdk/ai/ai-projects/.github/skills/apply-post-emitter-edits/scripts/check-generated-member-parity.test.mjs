@@ -41,6 +41,31 @@ export function _createAgentSend() {
 }
 `;
 
+const previousGeneratedModels = `
+export interface Widget {
+  name: string;
+}
+export function widgetSerializer(item: Widget): any {
+  return { widget_name: item["name"] };
+}
+export function widgetDeserializer(item: any): Widget {
+  return { name: item["widget_name"] };
+}
+`;
+
+const currentGeneratedModels = `
+export interface Widget {
+  name: string;
+  description?: string;
+}
+export function widgetSerializer(item: Widget): any {
+  return { widget_name: item["name"], widget_description: item["description"] };
+}
+export function widgetDeserializer(item: any): Widget {
+  return { name: item["widget_name"], description: item["widget_description"] };
+}
+`;
+
 test("reports new members missing from customized declarations", () => {
   const currentSource = `
 export interface AgentsCreateOptionalParams {
@@ -104,6 +129,45 @@ export function _createSend() {
       ["request body property", "draft"],
     ],
   );
+});
+
+test("reports serializer and deserializer properties missing from customized models", () => {
+  const currentSource = `
+export interface Widget {
+  name: string;
+  description?: string;
+}
+export function widgetSerializer(item: Widget): any {
+  return { widget_name: item["name"] };
+}
+export function widgetDeserializer(item: any): Widget {
+  return { name: item["widget_name"] };
+}
+`;
+
+  const missing = findMissingAdditions({
+    previousGenerated: previousGeneratedModels,
+    currentGenerated: currentGeneratedModels,
+    currentSource,
+    file: "models/models.ts",
+  });
+  assert.deepEqual(
+    missing.map(({ kind, member }) => [kind, member]),
+    [
+      ["serializer property", "widget_description"],
+      ["deserializer property", "description"],
+    ],
+  );
+});
+
+test("accepts serializer and deserializer properties carried into customized models", () => {
+  const missing = findMissingAdditions({
+    previousGenerated: previousGeneratedModels,
+    currentGenerated: currentGeneratedModels,
+    currentSource: currentGeneratedModels,
+    file: "models/models.ts",
+  });
+  assert.deepEqual(missing, []);
 });
 
 test("reports customized exports removed by a destructive merge", () => {

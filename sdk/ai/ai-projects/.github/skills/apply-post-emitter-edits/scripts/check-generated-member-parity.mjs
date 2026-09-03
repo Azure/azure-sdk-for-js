@@ -126,6 +126,50 @@ function collectSendBodyProperties(sourceFile) {
   return functions;
 }
 
+function collectModelConverterProperties(sourceFile) {
+  const functions = new Map();
+  for (const statement of sourceFile.statements) {
+    if (!ts.isFunctionDeclaration(statement) || !statement.name || !statement.body) {
+      continue;
+    }
+
+    const functionName = statement.name.text;
+    const kind = functionName.endsWith("Serializer")
+      ? "serializer"
+      : functionName.endsWith("Deserializer")
+        ? "deserializer"
+        : undefined;
+    if (!kind) {
+      continue;
+    }
+
+    const properties = new Set();
+    function visit(node) {
+      if (ts.isFunctionLike(node)) {
+        return;
+      }
+      if (
+        ts.isReturnStatement(node) &&
+        node.expression &&
+        ts.isObjectLiteralExpression(node.expression)
+      ) {
+        for (const property of node.expression.properties) {
+          if (property.name) {
+            const name = propertyName(property.name);
+            if (name) {
+              properties.add(name);
+            }
+          }
+        }
+      }
+      ts.forEachChild(node, visit);
+    }
+    visit(statement.body);
+    functions.set(functionName, { kind, properties });
+  }
+  return functions;
+}
+
 function addedValues(previous, current) {
   return [...current].filter((value) => !previous.has(value));
 }
@@ -223,6 +267,30 @@ export function findMissingAdditions({ previousGenerated, currentGenerated, curr
     for (const member of addedValues(previousProperties, currentProperties)) {
       if (!sourceProperties.has(member)) {
         missing.push({ file, kind: "request body property", generatedName, sourceName, member });
+      }
+    }
+  }
+
+  const previousConverters = collectModelConverterProperties(previousFile);
+  const currentConverters = collectModelConverterProperties(currentFile);
+  const sourceConverters = collectModelConverterProperties(sourceFile);
+  for (const [generatedName, currentConverter] of currentConverters) {
+    const previousConverter = previousConverters.get(generatedName);
+    if (!previousConverter) {
+      continue;
+    }
+
+    const sourceName = renames[generatedName] ?? generatedName;
+    const sourceProperties = sourceConverters.get(sourceName)?.properties ?? new Set();
+    for (const member of addedValues(previousConverter.properties, currentConverter.properties)) {
+      if (!sourceProperties.has(member)) {
+        missing.push({
+          file,
+          kind: `${currentConverter.kind} property`,
+          generatedName,
+          sourceName,
+          member,
+        });
       }
     }
   }
