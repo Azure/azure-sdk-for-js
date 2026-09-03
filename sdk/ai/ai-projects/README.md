@@ -291,7 +291,7 @@ See the full sample code in [agentCodeInterpreter.ts](https://github.com/Azure/a
 
 **File Search**
 
-Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://platform.openai.com/docs/assistants/tools/file-search)
+Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-file-search)
 
 ```ts snippet:agent-file-search
 const openAIClient = project.getOpenAIClient();

@@ -57,7 +57,7 @@ export function _updateInsightSend(
   context: Client,
   monitorId: string,
   insightId: string,
-  update: AgentInsightUpdate,
+  insightUpdate: AgentInsightUpdate,
   options: BetaAgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -83,7 +83,7 @@ export function _updateInsightSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: agentInsightUpdateSerializer(update),
+      body: agentInsightUpdateSerializer(insightUpdate),
     });
 }
 
@@ -108,10 +108,10 @@ export async function updateInsight(
   context: Client,
   monitorId: string,
   insightId: string,
-  update: AgentInsightUpdate,
+  insightUpdate: AgentInsightUpdate,
   options: BetaAgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsight> {
-  const result = await _updateInsightSend(context, monitorId, insightId, update, options);
+  const result = await _updateInsightSend(context, monitorId, insightId, insightUpdate, options);
   return _updateInsightDeserialize(result);
 }
 
