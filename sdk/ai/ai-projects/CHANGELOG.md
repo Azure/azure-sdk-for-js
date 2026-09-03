@@ -10,10 +10,13 @@
 - Add A2A tools and protocol configuration, shell tools for agents and toolboxes, and Model Router control contracts. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
 - Add hosted-agent session configuration and routine dispatch authorization options. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
 - Add opt-in preview support for creating and listing draft agent versions through the `draft` and `includeDrafts` options when callers set `foundryFeatures: "DraftAgents=V1Preview"`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add invocation content moderation configuration to `RaiConfig`, including request and response text selectors. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
+- Add the optional `operationId` property to `BetaAgentInsightMonitorsCreateRunOptionalParams` for idempotent retries. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
 
 ### Other Changes
 
 - Regenerate the client from azure-rest-api-specs commit `3c4aab72901077a0fc50da18f4aef6832d36d60f`. [#39759](https://github.com/Azure/azure-sdk-for-js/issues/39759)
+- Regenerate the client from azure-rest-api-specs commit `6f811444bc23843aaf3c226c83ce8e3e6525b0f9`. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
 
 ## 2.5.0 (2026-08-20)
 
