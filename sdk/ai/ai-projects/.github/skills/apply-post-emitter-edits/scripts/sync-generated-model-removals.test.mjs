@@ -36,6 +36,25 @@ export interface UnrelatedCustomModel {}
   assert.equal(plan.sourceNames.includes("CustomSupport"), false);
 });
 
+test("ignores property-name collisions with removed models", () => {
+  const previousGenerated = `
+export interface RemovedModel {}
+`;
+  const currentGenerated = "";
+  const previousSource = `
+export interface RemovedModel {}
+export interface IndependentModel {
+  RemovedModel?: string;
+}
+export const independentModel = {
+  RemovedModel: "value",
+};
+`;
+
+  const plan = planModelRemovals({ previousGenerated, currentGenerated, previousSource });
+  assert.deepEqual(plan.sourceNames, ["RemovedModel"]);
+});
+
 test("removes planned declarations and filters only stale model reexports", () => {
   const models = `
 export interface StableModel {}

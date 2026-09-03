@@ -14,7 +14,7 @@ function parseSource(source, fileName) {
   return ts.createSourceFile(fileName, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
 }
 
-function declarationNames(statement) {
+function declarationNameNodes(statement) {
   if (
     (ts.isInterfaceDeclaration(statement) ||
       ts.isTypeAliasDeclaration(statement) ||
@@ -23,16 +23,20 @@ function declarationNames(statement) {
       ts.isEnumDeclaration(statement)) &&
     statement.name
   ) {
-    return [statement.name.text];
+    return [statement.name];
   }
 
   if (ts.isVariableStatement(statement)) {
     return statement.declarationList.declarations
       .filter((declaration) => ts.isIdentifier(declaration.name))
-      .map((declaration) => declaration.name.text);
+      .map((declaration) => declaration.name);
   }
 
   return [];
+}
+
+function declarationNames(statement) {
+  return declarationNameNodes(statement).map((name) => name.text);
 }
 
 function isExported(statement) {
@@ -40,17 +44,39 @@ function isExported(statement) {
 }
 
 function collectDeclarationGraph(source, fileName) {
+  const compilerOptions = { noLib: true, target: ts.ScriptTarget.Latest };
   const sourceFile = parseSource(source, fileName);
+  const host = ts.createCompilerHost(compilerOptions);
+  host.getSourceFile = (requestedFileName) =>
+    requestedFileName === fileName ? sourceFile : undefined;
+  host.fileExists = (requestedFileName) => requestedFileName === fileName;
+  host.readFile = (requestedFileName) => (requestedFileName === fileName ? source : undefined);
+  const checker = ts.createProgram([fileName], compilerOptions, host).getTypeChecker();
   const entries = sourceFile.statements
-    .map((statement) => ({ statement, names: declarationNames(statement) }))
+    .map((statement) => ({
+      statement,
+      nameNodes: declarationNameNodes(statement),
+      names: declarationNames(statement),
+    }))
     .filter((entry) => entry.names.length > 0);
-  const allNames = new Set(entries.flatMap((entry) => entry.names));
+  const topLevelSymbols = new Map();
+  for (const entry of entries) {
+    for (const nameNode of entry.nameNodes) {
+      const symbol = checker.getSymbolAtLocation(nameNode);
+      if (symbol) {
+        topLevelSymbols.set(symbol, nameNode.text);
+      }
+    }
+  }
 
   for (const entry of entries) {
     const references = new Set();
     function visit(node) {
-      if (ts.isIdentifier(node) && allNames.has(node.text)) {
-        references.add(node.text);
+      if (ts.isIdentifier(node)) {
+        const referencedName = topLevelSymbols.get(checker.getSymbolAtLocation(node));
+        if (referencedName) {
+          references.add(referencedName);
+        }
       }
       ts.forEachChild(node, visit);
     }

@@ -1264,6 +1264,13 @@ export function listVersions(
       apiVersion: context.apiVersion,
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        headers: {
+          ...(options?.foundryFeatures !== undefined
+            ? { "foundry-features": options?.foundryFeatures }
+            : {}),
+        },
+      },
     },
   );
 }
