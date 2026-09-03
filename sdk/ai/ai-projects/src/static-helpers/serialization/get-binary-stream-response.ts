@@ -3,7 +3,7 @@
 
 import type { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
 import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
-import { parseJsonObject } from "./parse-json-object.js";
+import { parseJsonOrText } from "./parse-json-or-text.js";
 
 /**
  * Resolves a StreamableMethod into a binary stream response using Node.js streaming.
@@ -27,7 +27,7 @@ export async function getBinaryStreamResponse(streamableMethod: StreamableMethod
     }
     return {
       ...response,
-      body: parseJsonObject(Buffer.concat(chunks).toString("utf8")),
+      body: parseJsonOrText(Buffer.concat(chunks).toString("utf8")),
       blobBody: undefined,
       readableStreamBody: undefined,
     };

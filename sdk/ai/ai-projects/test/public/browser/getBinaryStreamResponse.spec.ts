@@ -16,6 +16,12 @@ function createStreamableMethod(bodyText: string): StreamableMethod {
   } as unknown as StreamableMethod;
 }
 
+const rawErrorCases: Array<[string, string, string]> = [
+  ["an empty", "", ""],
+  ["a plain-text", "bad gateway", "bad gateway"],
+  ["an HTML", "<html>bad gateway</html>", "<html>bad gateway</html>"],
+];
+
 describe("getBinaryStreamResponse", () => {
   it("buffers and parses streamed error responses", async () => {
     const body = { error: { code: "InvalidRequest", message: "The request is invalid." } };
@@ -25,14 +31,19 @@ describe("getBinaryStreamResponse", () => {
     expect(response.blobBody).toBeUndefined();
   });
 
-  it.each([
-    ["an empty", ""],
-    ["a non-JSON", "<html>bad gateway</html>"],
-    ["a non-object JSON", "[]"],
-  ])("leaves the body undefined for %s error stream", async (_description, bodyText) => {
-    const response = await getBinaryStreamResponse(createStreamableMethod(bodyText));
+  it.each(rawErrorCases)(
+    "preserves %s error stream as text",
+    async (_description, bodyText, text) => {
+      const response = await getBinaryStreamResponse(createStreamableMethod(bodyText));
 
-    expect(response.body).toBeUndefined();
-    expect(response.blobBody).toBeUndefined();
+      expect(response.body).toBe(text);
+      expect(response.blobBody).toBeUndefined();
+    },
+  );
+
+  it("preserves parsed non-object JSON values", async () => {
+    const response = await getBinaryStreamResponse(createStreamableMethod("[]"));
+
+    expect(response.body).toEqual([]);
   });
 });

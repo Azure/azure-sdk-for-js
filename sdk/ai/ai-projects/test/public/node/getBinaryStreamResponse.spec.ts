@@ -17,6 +17,12 @@ function createStreamableMethod(chunks: string[]): StreamableMethod {
   } as unknown as StreamableMethod;
 }
 
+const rawErrorCases: Array<[string, string[], string]> = [
+  ["an empty", [], ""],
+  ["a plain-text", ["bad gateway"], "bad gateway"],
+  ["an HTML", ["<html>bad gateway</html>"], "<html>bad gateway</html>"],
+];
+
 describe("getBinaryStreamResponse", () => {
   it("buffers and parses streamed error responses", async () => {
     const body = { error: { code: "InvalidRequest", message: "The request is invalid." } };
@@ -28,14 +34,19 @@ describe("getBinaryStreamResponse", () => {
     expect(response.readableStreamBody).toBeUndefined();
   });
 
-  it.each([
-    ["an empty", []],
-    ["a non-JSON", ["<html>bad gateway</html>"]],
-    ["a non-object JSON", ["[]"]],
-  ])("leaves the body undefined for %s error stream", async (_description, chunks) => {
-    const response = await getBinaryStreamResponse(createStreamableMethod(chunks));
+  it.each(rawErrorCases)(
+    "preserves %s error stream as text",
+    async (_description, chunks, text) => {
+      const response = await getBinaryStreamResponse(createStreamableMethod(chunks));
 
-    expect(response.body).toBeUndefined();
-    expect(response.readableStreamBody).toBeUndefined();
+      expect(response.body).toBe(text);
+      expect(response.readableStreamBody).toBeUndefined();
+    },
+  );
+
+  it("preserves parsed non-object JSON values", async () => {
+    const response = await getBinaryStreamResponse(createStreamableMethod(["[]"]));
+
+    expect(response.body).toEqual([]);
   });
 });
