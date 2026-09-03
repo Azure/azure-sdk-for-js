@@ -94,6 +94,32 @@ export interface DependencyOfRelationshipPropertiesCreateOrUpdate {
 }
 
 // @public
+export interface DependencyOfRelationshipsByServiceGroupCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DependencyOfRelationshipsByServiceGroupDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DependencyOfRelationshipsByServiceGroupGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DependencyOfRelationshipsByServiceGroupListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DependencyOfRelationshipsByServiceGroupOperations {
+    createOrUpdate: (serviceGroupName: string, name: string, resource: DependencyOfRelationship, options?: DependencyOfRelationshipsByServiceGroupCreateOrUpdateOptionalParams) => PollerLike<OperationState<DependencyOfRelationship>, DependencyOfRelationship>;
+    delete: (serviceGroupName: string, name: string, options?: DependencyOfRelationshipsByServiceGroupDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (serviceGroupName: string, name: string, options?: DependencyOfRelationshipsByServiceGroupGetOptionalParams) => Promise<DependencyOfRelationship>;
+    list: (serviceGroupName: string, options?: DependencyOfRelationshipsByServiceGroupListOptionalParams) => PagedAsyncIterableIterator<DependencyOfRelationship>;
+}
+
+// @public
 export interface DependencyOfRelationshipsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -186,8 +212,7 @@ export enum KnownRelationshipOrigins {
 
 // @public
 export enum KnownVersions {
-    V20230901Preview = "2023-09-01-preview",
-    V20260301Preview = "2026-03-01-preview"
+    V20260801 = "2026-08-01"
 }
 
 // @public
@@ -255,6 +280,7 @@ export class RelationshipsClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: RelationshipsClientOptionalParams);
     readonly containsRelationships: ContainsRelationshipsOperations;
     readonly dependencyOfRelationships: DependencyOfRelationshipsOperations;
+    readonly dependencyOfRelationshipsByServiceGroup: DependencyOfRelationshipsByServiceGroupOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly serviceGroupMemberRelationships: ServiceGroupMemberRelationshipsOperations;

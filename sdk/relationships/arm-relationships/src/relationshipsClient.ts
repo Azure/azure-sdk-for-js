@@ -7,6 +7,8 @@ import type { ContainsRelationshipsOperations } from "./classic/containsRelation
 import { _getContainsRelationshipsOperations } from "./classic/containsRelationships/index.js";
 import type { DependencyOfRelationshipsOperations } from "./classic/dependencyOfRelationships/index.js";
 import { _getDependencyOfRelationshipsOperations } from "./classic/dependencyOfRelationships/index.js";
+import type { DependencyOfRelationshipsByServiceGroupOperations } from "./classic/dependencyOfRelationshipsByServiceGroup/index.js";
+import { _getDependencyOfRelationshipsByServiceGroupOperations } from "./classic/dependencyOfRelationshipsByServiceGroup/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { ServiceGroupMemberRelationshipsOperations } from "./classic/serviceGroupMemberRelationships/index.js";
@@ -48,6 +50,8 @@ export class RelationshipsClient {
     this.serviceGroupMemberRelationships = _getServiceGroupMemberRelationshipsOperations(
       this._client,
     );
+    this.dependencyOfRelationshipsByServiceGroup =
+      _getDependencyOfRelationshipsByServiceGroupOperations(this._client);
     this.dependencyOfRelationships = _getDependencyOfRelationshipsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
@@ -56,6 +60,8 @@ export class RelationshipsClient {
   public readonly containsRelationships: ContainsRelationshipsOperations;
   /** The operation groups for serviceGroupMemberRelationships */
   public readonly serviceGroupMemberRelationships: ServiceGroupMemberRelationshipsOperations;
+  /** The operation groups for dependencyOfRelationshipsByServiceGroup */
+  public readonly dependencyOfRelationshipsByServiceGroup: DependencyOfRelationshipsByServiceGroupOperations;
   /** The operation groups for dependencyOfRelationships */
   public readonly dependencyOfRelationships: DependencyOfRelationshipsOperations;
   /** The operation groups for operations */

@@ -3,5 +3,6 @@
 
 export type { ContainsRelationshipsOperations } from "./containsRelationships/index.js";
 export type { DependencyOfRelationshipsOperations } from "./dependencyOfRelationships/index.js";
+export type { DependencyOfRelationshipsByServiceGroupOperations } from "./dependencyOfRelationshipsByServiceGroup/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { ServiceGroupMemberRelationshipsOperations } from "./serviceGroupMemberRelationships/index.js";

@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Microsoft.Relationships": "2026-03-01-preview"
+    "Microsoft.Relationships": "2026-08-01"
   },
   "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
@@ -44,6 +44,10 @@
       "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#delete:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.delete",
       "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#get:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.get",
       "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#createOrUpdate:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.createOrUpdate",
+      "@azure/arm-relationships!DependencyOfRelationshipsByServiceGroupOperations#list:member": "Microsoft.Relationships.DependencyOfRelationshipsByServiceGroup.list",
+      "@azure/arm-relationships!DependencyOfRelationshipsByServiceGroupOperations#delete:member": "Microsoft.Relationships.DependencyOfRelationshipsByServiceGroup.delete",
+      "@azure/arm-relationships!DependencyOfRelationshipsByServiceGroupOperations#createOrUpdate:member": "Microsoft.Relationships.DependencyOfRelationshipsByServiceGroup.createOrUpdate",
+      "@azure/arm-relationships!DependencyOfRelationshipsByServiceGroupOperations#get:member": "Microsoft.Relationships.DependencyOfRelationshipsByServiceGroup.get",
       "@azure/arm-relationships!DependencyOfRelationshipsOperations#listByParent:member": "Microsoft.Relationships.DependencyOfRelationships.listByParent",
       "@azure/arm-relationships!DependencyOfRelationshipsOperations#delete:member": "Microsoft.Relationships.DependencyOfRelationships.delete",
       "@azure/arm-relationships!DependencyOfRelationshipsOperations#get:member": "Microsoft.Relationships.DependencyOfRelationships.get",

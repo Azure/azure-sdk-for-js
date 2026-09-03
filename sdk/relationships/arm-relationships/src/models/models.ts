@@ -308,6 +308,14 @@ export interface DependencyOfRelationship extends ExtensionResource {
   properties?: DependencyOfRelationshipProperties;
 }
 
+export function dependencyOfRelationshipSerializer(item: DependencyOfRelationship): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : dependencyOfRelationshipPropertiesSerializer(item["properties"]),
+  };
+}
+
 export function dependencyOfRelationshipDeserializer(item: any): DependencyOfRelationship {
   return {
     id: item["id"],
@@ -336,6 +344,12 @@ export interface DependencyOfRelationshipProperties {
   readonly metadata?: RelationshipMetadata;
   /** The provisioning state of the relationship. */
   readonly provisioningState?: ProvisioningState;
+}
+
+export function dependencyOfRelationshipPropertiesSerializer(
+  item: DependencyOfRelationshipProperties,
+): any {
+  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
 }
 
 export function dependencyOfRelationshipPropertiesDeserializer(
@@ -459,6 +473,14 @@ export function _dependencyOfRelationshipListResultDeserializer(
     value: dependencyOfRelationshipArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function dependencyOfRelationshipArraySerializer(
+  result: Array<DependencyOfRelationship>,
+): any[] {
+  return result.map((item) => {
+    return dependencyOfRelationshipSerializer(item);
+  });
 }
 
 export function dependencyOfRelationshipArrayDeserializer(
@@ -657,8 +679,6 @@ export function containsRelationshipPropertiesDeserializer(
 
 /** Relationships RP API Versions */
 export enum KnownVersions {
-  /** 2023-09-01-preview version */
-  V20230901Preview = "2023-09-01-preview",
-  /** 2026-03-01-preview version */
-  V20260301Preview = "2026-03-01-preview",
+  /** 2026-08-01 version */
+  V20260801 = "2026-08-01",
 }

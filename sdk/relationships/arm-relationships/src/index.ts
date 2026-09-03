@@ -58,6 +58,12 @@ export type {
   DependencyOfRelationshipsGetOptionalParams,
   DependencyOfRelationshipsCreateOrUpdateOptionalParams,
 } from "./api/dependencyOfRelationships/index.js";
+export type {
+  DependencyOfRelationshipsByServiceGroupListOptionalParams,
+  DependencyOfRelationshipsByServiceGroupDeleteOptionalParams,
+  DependencyOfRelationshipsByServiceGroupCreateOrUpdateOptionalParams,
+  DependencyOfRelationshipsByServiceGroupGetOptionalParams,
+} from "./api/dependencyOfRelationshipsByServiceGroup/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
   ServiceGroupMemberRelationshipsListByParentOptionalParams,
@@ -68,6 +74,7 @@ export type {
 export type {
   ContainsRelationshipsOperations,
   DependencyOfRelationshipsOperations,
+  DependencyOfRelationshipsByServiceGroupOperations,
   OperationsOperations,
   ServiceGroupMemberRelationshipsOperations,
 } from "./classic/index.js";
