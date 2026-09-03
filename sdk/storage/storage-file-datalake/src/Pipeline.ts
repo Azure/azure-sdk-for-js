@@ -62,6 +62,7 @@ import {
   isPipelineLike,
   Pipeline,
 } from "@azure/storage-blob";
+import type { SessionMode, SessionOptions } from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -78,6 +79,8 @@ export {
   type ServiceClientOptions,
   type PipelineOptions,
   type PipelineLike,
+  type SessionMode,
+  type SessionOptions,
   Pipeline,
   isPipelineLike,
 };
@@ -111,6 +114,13 @@ export interface StoragePipelineOptions {
    * By default, audience 'https://storage.azure.com/.default' will be used.
    */
   audience?: string;
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Configures session token authentication. Sessions apply only to requests that reach the blob
+   * endpoint, so within Data Lake this affects file reads and nothing else.
+   */
+  sessionOptions?: SessionOptions;
 }
 
 /**

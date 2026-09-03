@@ -13,7 +13,11 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import type { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder";
+import type {
+  FindReplaceSanitizer,
+  HeaderSanitizer,
+  RegexSanitizer,
+} from "@azure-tools/test-recorder";
 import type { TestContext } from "vitest";
 import type { ShareServiceClient } from "@azure/storage-file-share";
 import { isNodeLike } from "@azure/core-util";
@@ -59,6 +63,51 @@ const mockAccountKey = "aaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 
+const mockSessionToken = "fakesessiontoken";
+// Must stay valid base64: the session policy signs requests with this value during playback.
+const mockSessionKey = mockAccountKey;
+
+// Session credentials are returned in the Create Session response body and then used to sign
+// subsequent requests, so both the body and the Authorization header have to be redacted.
+const sessionSanitizers: FindReplaceSanitizer[] = [
+  {
+    regex: true,
+    target: "<SessionToken>(?<session_token>.*?)</SessionToken>",
+    groupForReplace: "session_token",
+    value: mockSessionToken,
+  },
+  {
+    regex: true,
+    target: "<SessionKey>(?<session_key>.*?)</SessionKey>",
+    groupForReplace: "session_key",
+    value: mockSessionKey,
+  },
+  {
+    // Not a secret: a real session expires ~5 minutes after recording, which would make every
+    // playback treat it as expired and mint a new one. Pinning it keeps playback deterministic.
+    regex: true,
+    target: "<Expiration>(?<session_expiration>.*?)</Expiration>",
+    groupForReplace: "session_expiration",
+    value: "Fri, 01 Jan 2100 00:00:00 GMT",
+  },
+  {
+    regex: true,
+    target: "Authorization: Session (?<session_auth>[^\\\\]+)",
+    groupForReplace: "session_auth",
+    value: `${mockSessionToken}:signature`,
+  },
+];
+
+const sessionHeaderSanitizers: HeaderSanitizer[] = [
+  {
+    key: "Authorization",
+    regex: true,
+    target: "Session (?<session_auth>.+)",
+    groupForReplace: "session_auth",
+    value: `${mockSessionToken}:signature`,
+  },
+];
+
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv", "sktid"];
 if (!isNodeLike) {
   sasParams.push("_");
@@ -99,6 +148,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
     removeHeaderSanitizer: {
       headersForRemoval: ["x-ms-copy-source-authorization", "x-ms-copy-source"],
     },
+    headerSanitizers: sessionHeaderSanitizers,
     bodySanitizers: [
       {
         regex: true,
@@ -112,6 +162,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
         groupForReplace: "shared_key",
         value: "fakestorageaccount:pass123",
       },
+      ...sessionSanitizers,
     ],
   },
   removeCentralSanitizers: [
@@ -149,6 +200,7 @@ export const recorderEnvSetupWithCopySource: RecorderStartOptions = {
     ACCOUNT_NAME: `${mockAccountName}`,
   },
   sanitizerOptions: {
+    headerSanitizers: sessionHeaderSanitizers,
     bodySanitizers: [
       {
         regex: true,
@@ -162,6 +214,7 @@ export const recorderEnvSetupWithCopySource: RecorderStartOptions = {
         groupForReplace: "shared_key",
         value: "fakestorageaccount:pass123",
       },
+      ...sessionSanitizers,
     ],
   },
   removeCentralSanitizers: [

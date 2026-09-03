@@ -3239,6 +3239,15 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
 }
 
 // @public
+export type SessionMode = "auto" | "disabled" | "enabled";
+
+// @public
+export interface SessionOptions {
+    accountName?: string;
+    mode?: SessionMode;
+}
+
+// @public
 export interface SignedIdentifier {
     accessPolicy: {
         startsOn?: Date;
@@ -3288,6 +3297,7 @@ export interface StoragePipelineOptions {
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
     retryOptions?: StorageRetryOptions;
+    sessionOptions?: SessionOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 

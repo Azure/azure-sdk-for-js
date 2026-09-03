@@ -14,6 +14,10 @@ import {
   SignedIdentifiers,
   signedIdentifiersXmlSerializer,
   signedIdentifiersXmlDeserializer,
+  CreateSessionConfiguration,
+  createSessionConfigurationXmlSerializer,
+  CreateSessionResponse,
+  createSessionResponseXmlDeserializer,
   ListBlobsResponse,
   listBlobsResponseXmlDeserializer,
   ListBlobsHierarchicalResponse,
@@ -43,6 +47,7 @@ import {
   ContainerAcquireLeaseOptionalParams,
   ContainerFindBlobsByTagsOptionalParams,
   ContainerSubmitBatchOptionalParams,
+  ContainerCreateSessionOptionalParams,
   ContainerRenameOptionalParams,
   ContainerRestoreOptionalParams,
   ContainerSetAccessPolicyOptionalParams,
@@ -1802,6 +1807,141 @@ export async function submitBatch(
   });
   const parsedBody = await _submitBatchDeserialize(result);
   const parsedHeaders = _submitBatchDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
+}
+
+export function _createSessionSend(
+  context: Client,
+  createSessionConfiguration: CreateSessionConfiguration,
+  options: ContainerCreateSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "?restype=container&comp=session{?timeout}",
+    {
+      timeout: options?.timeout,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/xml",
+      headers: {
+        "x-ms-version": context.version ?? "2026-12-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/xml",
+        ...options.requestOptions?.headers,
+      },
+      body: createSessionConfigurationXmlSerializer(createSessionConfiguration),
+    });
+}
+
+export async function _createSessionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CreateSessionResponse> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._createSessionDeserializeExceptionHeaders(result),
+    };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
+    throw error;
+  }
+
+  return createSessionResponseXmlDeserializer(result.body);
+}
+
+export function _createSessionDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _createSessionDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
+  };
+}
+
+/** The Create Session operation enables users to create a session scoped to a container. */
+export async function createSession(
+  context: Client,
+  createSessionConfiguration: CreateSessionConfiguration,
+  options: ContainerCreateSessionOptionalParams = { requestOptions: {} },
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  } & CreateSessionResponse &
+    StorageCompatResponseInfo<
+      CreateSessionResponse,
+      {
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _createSessionSend(context, createSessionConfiguration, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _createSessionDeserialize(result);
+  const parsedHeaders = _createSessionDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 

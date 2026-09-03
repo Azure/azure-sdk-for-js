@@ -406,6 +406,28 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleSessionAuthentication", async () => {
+    const account = "<account>";
+    // @ts-preserve-whitespace
+    // Session token authentication is only available in the Node.js runtime. In browsers and
+    // React Native these options are ignored and requests keep using a bearer token.
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+      { sessionOptions: { mode: "enabled" } },
+    );
+    // @ts-preserve-whitespace
+    // Eligible downloads are now signed with a container-scoped session token instead of a
+    // bearer token. Everything else, including this container listing, is unaffected.
+    const containerClient = blobServiceClient.getContainerClient("<container name>");
+    const blobClient = containerClient.getBlobClient("<blob name>");
+    const downloadBlockBlobResponse = await blobClient.download();
+    if (downloadBlockBlobResponse.readableStreamBody) {
+      const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+      console.log(`Downloaded blob content: ${downloaded.toString()}`);
+    }
+  });
+
   it("ReadmeSampleDownloadBlob_Browser", async () => {
     const account = "<account>";
     const blobServiceClient = new BlobServiceClient(
