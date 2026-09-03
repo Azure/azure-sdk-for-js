@@ -1,43 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubChatServiceContext as Client } from "./index.js";
-import {
+import type { WebPubSubChatServiceContext as Client } from "./index.js";
+import type {
   ChatConversation,
-  chatConversationDeserializer,
   _PagedChatMessage,
-  _pagedChatMessageDeserializer,
   ChatMessage,
   ChatMessageInput,
-  chatMessageSerializer,
-  chatMessageDeserializer,
   _PagedChatRole,
-  _pagedChatRoleDeserializer,
   ChatRole,
   ChatRoleInput,
-  chatRoleSerializer,
-  chatRoleDeserializer,
   ChatRoom,
   ChatRoomInput,
-  chatRoomSerializer,
-  chatRoomDeserializer,
   _PagedChatRoomMember,
-  _pagedChatRoomMemberDeserializer,
   ChatRoomMember,
   ChatRoomMemberInput,
+  ChatUserInputUnion,
+  ChatUserUnion,
+  GenerateClientTokenResponse,
+} from "../models/models.js";
+import {
+  chatConversationDeserializer,
+  _pagedChatMessageDeserializer,
+  chatMessageSerializer,
+  chatMessageDeserializer,
+  _pagedChatRoleDeserializer,
+  chatRoleSerializer,
+  chatRoleDeserializer,
+  chatRoomSerializer,
+  chatRoomDeserializer,
+  _pagedChatRoomMemberDeserializer,
   chatRoomMemberSerializer,
   chatRoomMemberDeserializer,
   chatUserUnionSerializer,
   chatUserUnionDeserializer,
-  ChatUserInputUnion,
-  ChatUserUnion,
+  generateClientTokenResponseDeserializer,
 } from "../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
+  GenerateClientTokenOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
@@ -56,12 +59,56 @@ import {
   ListMessagesOptionalParams,
   GetConversationOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _generateClientTokenSend(
+  context: Client,
+  options: GenerateClientTokenOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/:generateToken{?userId,role*,minutesToExpire,api%2Dversion,clientType}",
+    {
+      hub: context.hub,
+      userId: options?.userId,
+      role: !options?.role
+        ? options?.role
+        : options?.role.map((p: any) => {
+            return p;
+          }),
+      minutesToExpire: options?.minutesToExpire,
+      "api%2Dversion": "2024-12-01",
+      clientType: "default",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _generateClientTokenDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GenerateClientTokenResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return generateClientTokenResponseDeserializer(result.body);
+}
+
+/** Generate a token for connecting a client to Azure Web PubSub. */
+export async function generateClientToken(
+  context: Client,
+  options: GenerateClientTokenOptionalParams = { requestOptions: {} },
+): Promise<GenerateClientTokenResponse> {
+  const result = await _generateClientTokenSend(context, options);
+  return _generateClientTokenDeserialize(result);
+}
 
 export function _deleteUserSend(
   context: Client,

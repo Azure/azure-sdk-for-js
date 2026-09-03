@@ -35291,9 +35291,6 @@ importers:
       '@azure/logger':
         specifier: ^1.2.0
         version: link:../../core/logger
-      '@azure/web-pubsub':
-        specifier: ^1.2.0
-        version: link:../web-pubsub
       jsonwebtoken:
         specifier: ^9.0.0
         version: 9.0.3

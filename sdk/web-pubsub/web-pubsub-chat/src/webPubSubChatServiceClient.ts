@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   WebPubSubChatServiceContext,
   WebPubSubChatServiceClientOptionalParams,
-  createWebPubSubChatService,
 } from "./api/index.js";
+import { createWebPubSubChatService } from "./api/index.js";
 import {
+  generateClientToken as generatedGenerateClientToken,
   deleteUser,
   createOrReplaceUser,
   getUser,
@@ -25,7 +26,7 @@ import {
   listMessages,
   getConversation,
 } from "./api/operations.js";
-import {
+import type {
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
@@ -44,7 +45,7 @@ import {
   ListMessagesOptionalParams,
   GetConversationOptionalParams,
 } from "./api/options.js";
-import {
+import type {
   ChatConversation,
   ChatMessage,
   ChatMessageInput,
@@ -57,16 +58,16 @@ import {
   ChatUserInputUnion,
   ChatUserUnion,
 } from "./models/models.js";
-import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { TokenCredential, AzureKeyCredential } from "@azure/core-auth";
-import { isKeyCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import type { TokenCredential, AzureKeyCredential } from "@azure/core-auth";
+import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 import { parseConnectionString } from "./parseConnectionString.js";
 import { webPubSubChatCredentialPolicy } from "./webPubSubChatCredentialPolicy.js";
 import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy.js";
 import type { ClientAccessToken, GetClientAccessTokenOptions } from "./models/clientToken.js";
 import { tracingClient } from "./tracing.js";
+import jwt from "jsonwebtoken";
 
 export type { WebPubSubChatServiceClientOptionalParams } from "./api/webPubSubChatServiceContext.js";
 
@@ -81,7 +82,9 @@ const chatClientRoles = ["webpubsub.getGroupState", "webpubsub.setGroupState"];
 /** A client for managing chat resources in an Azure Web PubSub Chat hub. */
 export class WebPubSubChatServiceClient {
   private _client: WebPubSubChatServiceContext;
-  private _webPubSubServiceClient: WebPubSubServiceClient;
+  readonly #credential: TokenCredential | AzureKeyCredential;
+  private endpoint: string;
+  private hub: string;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -120,7 +123,6 @@ export class WebPubSubChatServiceClient {
       options = maybeOptions ?? {};
     }
 
-    const webPubSubPipeline = options.pipeline?.clone();
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
@@ -150,23 +152,9 @@ export class WebPubSubChatServiceClient {
       this._client.pipeline.addPolicy(webPubSubReverseProxyPolicy(options.reverseProxyEndpoint));
     }
 
-    const { apiVersion: _apiVersion, ...webPubSubOptions } = options;
-    webPubSubOptions.pipeline = webPubSubPipeline;
-    if (isConnectionString) {
-      this._webPubSubServiceClient = new WebPubSubServiceClient(
-        endpointOrConnectionString,
-        hub,
-        webPubSubOptions,
-      );
-    } else {
-      this._webPubSubServiceClient = new WebPubSubServiceClient(
-        endpoint,
-        credential,
-        hub,
-        webPubSubOptions,
-      );
-    }
-
+    this.#credential = credential;
+    this.endpoint = endpoint;
+    this.hub = hub;
     this.pipeline = this._client.pipeline;
   }
 
@@ -412,11 +400,44 @@ export class WebPubSubChatServiceClient {
     return tracingClient.withSpan(
       "WebPubSubChatServiceClient.getClientAccessToken",
       options,
-      (updatedOptions) =>
-        this._webPubSubServiceClient.getClientAccessToken({
-          ...updatedOptions,
-          roles: chatClientRoles,
-        }),
+      async (updatedOptions) => {
+        const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
+        const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
+        const clientPath = `client/hubs/${this.hub}`;
+        const baseUrl = clientEndpoint + clientPath;
+
+        let token: string;
+        if (isTokenCredential(this.#credential)) {
+          const response = await generatedGenerateClientToken(this._client, {
+            ...updatedOptions,
+            minutesToExpire: updatedOptions.expirationTimeInMinutes,
+            role: chatClientRoles,
+          });
+          token = response.token;
+        } else {
+          const key = this.#credential.key;
+          const audience = endpoint + clientPath;
+          const payload = { role: chatClientRoles };
+          const signOptions: jwt.SignOptions = {
+            audience,
+            expiresIn:
+              updatedOptions.expirationTimeInMinutes === undefined
+                ? "1h"
+                : `${updatedOptions.expirationTimeInMinutes}m`,
+            algorithm: "HS256",
+          };
+          if (updatedOptions.userId) {
+            signOptions.subject = updatedOptions.userId;
+          }
+          token = jwt.sign(payload, key, signOptions);
+        }
+
+        return {
+          token,
+          baseUrl,
+          url: `${baseUrl}?access_token=${token}`,
+        };
+      },
     );
   }
 }
