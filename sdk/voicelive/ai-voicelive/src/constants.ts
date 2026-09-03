@@ -7,7 +7,7 @@
  *
  * @internal
  */
-export const SDK_VERSION = "1.1.0";
+export const SDK_VERSION = "1.1.1";
 
 /**
  * The default API version used by the Voice Live service when the user does

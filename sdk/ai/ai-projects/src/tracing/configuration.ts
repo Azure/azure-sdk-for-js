@@ -87,7 +87,7 @@ export function resolveTracingConfig(options?: GenAITracingOptions): ResolvedTra
   }
 
   // Resolve contentRecording
-  let contentRecording = false;
+  let contentRecording: boolean;
   if (options?.contentRecording !== undefined) {
     contentRecording = options.contentRecording;
   } else {
