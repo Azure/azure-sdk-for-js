@@ -17,7 +17,7 @@
 - Wired the OneSettings `FEATURE_SDK_STATS` setting to dynamically stop and restart process-wide internal Network and Long Interval Statsbeat. [#39807](https://github.com/Azure/azure-sdk-for-js/pull/39807)
 - Enabled process-wide OneSettings polling from exporter initialization and populated the standalone exporter profile for future feature targeting. Feature callbacks remain disabled. [#39764](https://github.com/Azure/azure-sdk-for-js/pull/39764)
 - Refactored internal Network and Long Interval Statsbeat lifecycle management behind a process-global manager. [#39693](https://github.com/Azure/azure-sdk-for-js/pull/39693)
-- Updated OpenTelemetry stable dependencies to `^2.11.0`, experimental dependencies to `^0.222.0`, and semantic conventions to `^1.43.0`. [#39868](https://github.com/Azure/azure-sdk-for-js/pull/39868)
+- Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, and semantic conventions to `^1.43.0`. [#39649](https://github.com/Azure/azure-sdk-for-js/pull/39649)
 - Centralized native process execution and hardened Windows system executable
   resolution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 - Added an internal OneSettings HTTP request utility (`makeOneSettingsRequest`) that fetches dynamic configuration and parses the response, ETag, and refresh interval. Requests honor the standard proxy environment variables (`HTTPS_PROXY`/`HTTP_PROXY`/`ALL_PROXY`/`NO_PROXY`). This is groundwork with no user-facing behavior yet. [#39492](https://github.com/Azure/azure-sdk-for-js/pull/39492)
