@@ -531,7 +531,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datamigration/arm-datamigration/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dataprotection/arm-dataprotection/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
