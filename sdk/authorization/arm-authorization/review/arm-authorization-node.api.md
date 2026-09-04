@@ -1726,6 +1726,7 @@ export interface RoleAssignment extends ExtensionResource {
     readonly createdOn?: Date;
     delegatedManagedIdentityResourceId?: string;
     description?: string;
+    readonly expirationTime?: string;
     principalId?: string;
     principalType?: PrincipalType;
     roleDefinitionId?: string;
@@ -1758,6 +1759,7 @@ export interface RoleAssignmentProperties {
     readonly createdOn?: Date;
     delegatedManagedIdentityResourceId?: string;
     description?: string;
+    readonly expirationTime?: string;
     principalId: string;
     principalType?: PrincipalType;
     roleDefinitionId: string;
