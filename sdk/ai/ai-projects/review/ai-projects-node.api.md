@@ -9,7 +9,7 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import { isRestError } from '@azure/core-rest-pipeline';
 import OpenAI from 'openai';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
@@ -179,6 +179,38 @@ export interface AgentEndpointConfig {
 }
 
 // @public
+export interface AgentEndpointConversationsDeleteAgentConversationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type AgentEndpointConversationsGetAgentConversationAudioContentResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type AgentEndpointConversationsGetAgentConversationItemAudioContentResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams extends OperationOptions {
 }
 
@@ -193,9 +225,65 @@ export interface AgentEndpointConversationsGetAgentConversationItemGeneratedAudi
 }
 
 // @public
+export interface AgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationResponseOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsListAgentConversationItemsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentEndpointConversationsListAgentConversationResponsesOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentEndpointConversationsListAgentConversationsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
 export interface AgentEndpointConversationsOperations {
+    deleteAgentConversation: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsDeleteAgentConversationOptionalParams) => Promise<void>;
+    getAgentConversation: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationOptionalParams) => Promise<VoiceConversation>;
+    getAgentConversationAudio: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams) => Promise<VoiceRecordingResponse>;
+    getAgentConversationAudioContent: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse>;
+    getAgentConversationItem: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
+    getAgentConversationItemAudio: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams) => Promise<VoiceItemAudioResponse>;
+    getAgentConversationItemAudioContent: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse>;
     getAgentConversationItemGeneratedAudio: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams) => Promise<VoiceGeneratedItemAudioResponse>;
     getAgentConversationItemGeneratedAudioContent: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentResponse>;
+    getAgentConversationResponse: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsGetAgentConversationResponseOptionalParams) => Promise<VoiceResponse>;
+    listAgentConversationItems: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listAgentConversationResponseItems: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listAgentConversationResponses: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
+    listAgentConversations: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, options?: AgentEndpointConversationsListAgentConversationsOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
 }
 
 // @public
@@ -920,6 +1008,7 @@ export class AIProjectClient {
     readonly realtime: VoiceAgentRealtimeClient;
     readonly telemetry: TelemetryOperations;
     readonly toolboxes: ToolboxesOperations;
+    readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
 }
 
 // @public
@@ -1111,98 +1200,6 @@ export interface BaseCredentials {
 
 // @public
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
-
-// @public
-export interface BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export type BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export type BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaAgentEndpointConversationsListAgentConversationsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaAgentEndpointConversationsOperations {
-    deleteAgentConversation: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams) => Promise<void>;
-    getAgentConversation: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationOptionalParams) => Promise<VoiceConversation>;
-    getAgentConversationAudio: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams) => Promise<VoiceRecordingResponse>;
-    getAgentConversationAudioContent: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams) => Promise<BetaAgentEndpointConversationsGetAgentConversationAudioContentResponse>;
-    getAgentConversationItem: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
-    getAgentConversationItemAudio: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams) => Promise<VoiceItemAudioResponse>;
-    getAgentConversationItemAudioContent: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams) => Promise<BetaAgentEndpointConversationsGetAgentConversationItemAudioContentResponse>;
-    getAgentConversationResponse: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, responseId: string, options?: BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams) => Promise<VoiceResponse>;
-    listAgentConversationItems: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
-    listAgentConversationResponseItems: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, responseId: string, options?: BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
-    listAgentConversationResponses: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
-    listAgentConversations: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, options?: BetaAgentEndpointConversationsListAgentConversationsOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
-}
 
 // @public
 export interface BetaAgentInsightMonitorsCancelRunOptionalParams extends OperationOptions {
@@ -1677,8 +1674,6 @@ export interface BetaModelsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
-    // (undocumented)
-    agentEndpointConversations: BetaAgentEndpointConversationsOperations;
     agentInsightMonitors: BetaAgentInsightMonitorsOperations;
     agents: BetaAgentsOperations;
     datasets: BetaDatasetsOperations;
@@ -1691,7 +1686,6 @@ export interface BetaOperations {
     routines: BetaRoutinesOperations;
     schedules: BetaSchedulesOperations;
     skills: BetaSkillsOperations;
-    voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
 
 // @public
@@ -1867,21 +1861,6 @@ export interface BetaSkillsOperations {
 
 // @public
 export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
-    agentVersionOverride?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    foundryFeaturesQuery?: "VoiceAgents=V1Preview";
-    store?: boolean;
-    transport?: VoiceAgentTransport;
-    websocketSubprotocol?: VoiceAgentWebSocketSubprotocol;
-}
-
-// @public
-export interface BetaVoiceAgentWebSocketOperations {
-    connectVoiceAgent: (agentName: string, options?: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -3216,7 +3195,7 @@ export interface GetMicrosoft365PackageOptionalParams extends OperationOptions {
     termsOfUseUrl?: string;
 }
 
-// @public
+// @public (undocumented)
 export type GetMicrosoft365PackageResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;
@@ -6277,7 +6256,7 @@ export interface VoiceAgentAvatarIceServer {
 }
 
 // @public
-export type VoiceAgentAvatarOutputProtocol = "webrtc" | "websocket" | "websocket-binary";
+export type VoiceAgentAvatarOutputProtocol = "webrtc" | "websocket";
 
 // @public
 export interface VoiceAgentAvatarScene {
@@ -6483,7 +6462,7 @@ export interface VoiceAgentDefinition extends AgentDefinition {
     parallel_tool_calls?: boolean;
     store?: boolean;
     structured_inputs?: Record<string, StructuredInputDefinition>;
-    subagent_config?: VoiceAgentSubAgentConfig;
+    subagent_config?: VoiceAgentSubagentConfig;
     tool_choice?: VoiceAgentToolChoice;
     tools?: VoiceAgentToolUnion[];
 }
@@ -7047,7 +7026,7 @@ export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterim
 }
 
 // @public
-export interface VoiceAgentSubAgent {
+export interface VoiceAgentSubagent {
     agent_capabilities: string;
     agent_name: string;
     agent_version?: string;
@@ -7059,8 +7038,8 @@ export interface VoiceAgentSubAgent {
 export type VoiceAgentSubagentAbortReason = "unknown_target" | "timeout" | "cancelled" | "stopped_by_user" | "superseded" | "failed";
 
 // @public
-export interface VoiceAgentSubAgentConfig {
-    subagents: VoiceAgentSubAgent[];
+export interface VoiceAgentSubagentConfig {
+    subagents: VoiceAgentSubagent[];
 }
 
 // @public
@@ -7155,6 +7134,17 @@ export interface VoiceAgentWebSocketConnectOptions {
 }
 
 // @public
+export interface VoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
+    agentVersionOverride?: string;
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    foundryFeaturesQuery?: "VoiceAgents=V1Preview";
+    store?: boolean;
+    structuredInput?: string;
+    transport?: VoiceAgentTransport;
+    websocketSubprotocol?: VoiceAgentWebSocketSubprotocol;
+}
+
+// @public
 export interface VoiceAgentWebSocketFactory {
     create(): VoiceAgentWebSocketTransport;
 }
@@ -7168,6 +7158,11 @@ export interface VoiceAgentWebSocketHandlers {
 
 // @public
 export type VoiceAgentWebSocketMessage = VoiceAgentClientEvent | VoiceAgentServerEvent;
+
+// @public
+export interface VoiceAgentWebSocketOperations {
+    connectVoiceAgent: (agentName: string, options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams) => Promise<void>;
+}
 
 // @public
 export type VoiceAgentWebSocketSubprotocol = "realtime";

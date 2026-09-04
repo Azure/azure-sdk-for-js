@@ -2,10 +2,34 @@
 // Licensed under the MIT License.
 
 export {
+  getAgentConversationAudioContent,
+  getAgentConversationAudio,
   getAgentConversationItemGeneratedAudioContent,
   getAgentConversationItemGeneratedAudio,
+  getAgentConversationItemAudioContent,
+  getAgentConversationItemAudio,
+  getAgentConversationItem,
+  listAgentConversationItems,
+  listAgentConversationResponseItems,
+  getAgentConversationResponse,
+  listAgentConversationResponses,
+  deleteAgentConversation,
+  getAgentConversation,
+  listAgentConversations,
 } from "./operations.js";
 export type {
+  AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
+  AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams,
+  AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
+  AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
+  AgentEndpointConversationsGetAgentConversationItemOptionalParams,
+  AgentEndpointConversationsListAgentConversationItemsOptionalParams,
+  AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
+  AgentEndpointConversationsGetAgentConversationResponseOptionalParams,
+  AgentEndpointConversationsListAgentConversationResponsesOptionalParams,
+  AgentEndpointConversationsDeleteAgentConversationOptionalParams,
+  AgentEndpointConversationsGetAgentConversationOptionalParams,
+  AgentEndpointConversationsListAgentConversationsOptionalParams,
 } from "./options.js";

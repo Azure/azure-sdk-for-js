@@ -375,7 +375,7 @@ export function _replaceTelephonyTransferTargetsSend(
   options: AgentsReplaceTelephonyTransferTargetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
     {
       agent_name: agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
@@ -441,7 +441,7 @@ export function _getTelephonyTransferTargetsSend(
   options: AgentsGetTelephonyTransferTargetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
     {
       agent_name: agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
@@ -497,7 +497,7 @@ export function _endTelephonyCallSend(
   options: AgentsEndTelephonyCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_calls/{call_id}:end{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}:end{?api%2Dversion}",
     {
       agent_name: agentName,
       call_id: callId,
@@ -556,7 +556,7 @@ export function _transferTelephonyCallSend(
   options: AgentsTransferTelephonyCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_calls/{call_id}:transfer{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}:transfer{?api%2Dversion}",
     {
       agent_name: agentName,
       call_id: callId,
@@ -617,7 +617,7 @@ export function _getTelephonyCallSend(
   options: AgentsGetTelephonyCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_calls/{call_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       call_id: callId,
@@ -674,7 +674,7 @@ export function _listTelephonyCallsSend(
   options: AgentsListTelephonyCallsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_calls{?provider,status,started_after,started_before,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls{?provider,status,started_after,started_before,limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       provider: options?.provider,
@@ -748,7 +748,7 @@ export function _deleteTelephonyBindingSend(
   options: AgentsDeleteTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       binding_id: bindingId,
@@ -809,7 +809,7 @@ export function _updateTelephonyBindingSend(
   options: AgentsUpdateTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       binding_id: bindingId,
@@ -879,7 +879,7 @@ export function _getTelephonyBindingSend(
   options: AgentsGetTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       binding_id: bindingId,
@@ -936,7 +936,7 @@ export function _listTelephonyBindingsSend(
   options: AgentsListTelephonyBindingsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings{?provider,status,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?provider,status,limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       provider: options?.provider,
@@ -1003,7 +1003,7 @@ export function _createTelephonyBindingSend(
   options: AgentsCreateTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?api%2Dversion}",
     {
       agent_name: agentName,
       "api%2Dversion": context.apiVersion ?? "v1",

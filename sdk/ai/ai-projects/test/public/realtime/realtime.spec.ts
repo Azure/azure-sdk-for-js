@@ -210,10 +210,7 @@ describe("AIProjectClient realtime", () => {
     assert.equal(url.searchParams.get("api-version"), "v1");
     assert.deepEqual(credential.requestedScopes, ["https://example.test/.default"]);
     assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
-    assert.equal(
-      connectOptions.headers["x-ms-client-sdk"],
-      `azsdk-js-ai-projects/${SDK_VERSION}`,
-    );
+    assert.equal(connectOptions.headers["x-ms-client-sdk"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(
       connectOptions.headers["user-agent"],
       `custom-prefix azsdk-js-ai-projects/${SDK_VERSION}`,
@@ -244,10 +241,7 @@ describe("AIProjectClient realtime", () => {
     assert.equal(connectOptions.headers["foundry-features"], "VoiceAgents=V1Preview");
     assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], '{"customer":"Ada"}');
     assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
-    assert.equal(
-      connectOptions.headers["x-ms-client-sdk"],
-      `azsdk-js-ai-projects/${SDK_VERSION}`,
-    );
+    assert.equal(connectOptions.headers["x-ms-client-sdk"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["user-agent"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.deepEqual(states, [
       VoiceAgentConnectionState.Connecting,

@@ -93,7 +93,9 @@ export async function main(): Promise<void> {
         }
       })();
 
-      for await (const chunk of createReadStream(audioInputPath, { highWaterMark: inputChunkSize })) {
+      for await (const chunk of createReadStream(audioInputPath, {
+        highWaterMark: inputChunkSize,
+      })) {
         await connection.sendAudio(chunk);
         await delay((chunk.byteLength / (pcmSampleRate * pcmBytesPerSample)) * 1000);
       }
@@ -187,7 +189,12 @@ function withTurnDetectionOverrides(
     // Unlike every other turn-detection type, `semantic_vad` has no `silence_duration_ms` field.
     return { ...turnDetection, create_response: true, interrupt_response: true };
   }
-  return { ...turnDetection, create_response: true, interrupt_response: true, silence_duration_ms: 500 };
+  return {
+    ...turnDetection,
+    create_response: true,
+    interrupt_response: true,
+    silence_duration_ms: 500,
+  };
 }
 
 function isVoiceAgentDefinition(

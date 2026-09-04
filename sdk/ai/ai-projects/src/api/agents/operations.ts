@@ -22,6 +22,19 @@ import type {
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
   GenerateAgentRequest,
+  Microsoft365PublishScope,
+  Microsoft365PublishResponse,
+  Microsoft365PublishDefaults,
+  CreateTelephonyBindingRequestUnion,
+  TelephonyBindingUnion,
+  _AgentsPagedResultTelephonyBindingListItem,
+  TelephonyBindingListItemUnion,
+  UpdateTelephonyBindingRequest,
+  _AgentsPagedResultTelephonyCallSummary,
+  TelephonyCallSummary,
+  TelephonyCallRecord,
+  TelephonyTransferTargets,
+  TelephonyTransferTarget,
 } from "../../models/models.js";
 import {
   agentDeserializer,
@@ -40,29 +53,16 @@ import {
   agentSessionResourceDeserializer,
   _agentsPagedResultAgentSessionResourceDeserializer,
   microsoft365PermissionScopesArraySerializer,
-  Microsoft365PublishScope,
-  Microsoft365PublishResponse,
   microsoft365PublishResponseDeserializer,
-  Microsoft365PublishDefaults,
   microsoft365PublishDefaultsDeserializer,
   createTelephonyBindingRequestUnionSerializer,
-  CreateTelephonyBindingRequestUnion,
   telephonyBindingUnionDeserializer,
-  TelephonyBindingUnion,
-  _AgentsPagedResultTelephonyBindingListItem,
   _agentsPagedResultTelephonyBindingListItemDeserializer,
-  TelephonyBindingListItemUnion,
-  UpdateTelephonyBindingRequest,
   updateTelephonyBindingRequestSerializer,
-  _AgentsPagedResultTelephonyCallSummary,
   _agentsPagedResultTelephonyCallSummaryDeserializer,
-  TelephonyCallSummary,
-  TelephonyCallRecord,
   telephonyCallRecordDeserializer,
-  TelephonyTransferTargets,
   telephonyTransferTargetsDeserializer,
   telephonyTransferTargetArraySerializer,
-  TelephonyTransferTarget,
   sessionFileWriteResponseDeserializer,
   _sessionDirectoryListResponseDeserializer,
   generateAgentRequestSerializer,
@@ -388,7 +388,7 @@ export function _replaceTelephonyTransferTargetsSend(
   options: AgentsReplaceTelephonyTransferTargetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
     {
       agent_name: agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
@@ -397,21 +397,19 @@ export function _replaceTelephonyTransferTargetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { transfer_targets: telephonyTransferTargetArraySerializer(transferTargets) },
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "if-match": ifMatch,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { transfer_targets: telephonyTransferTargetArraySerializer(transferTargets) },
+  });
 }
 
 export async function _replaceTelephonyTransferTargetsDeserialize(
@@ -454,7 +452,7 @@ export function _getTelephonyTransferTargetsSend(
   options: AgentsGetTelephonyTransferTargetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
     {
       agent_name: agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
@@ -463,18 +461,16 @@ export function _getTelephonyTransferTargetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getTelephonyTransferTargetsDeserialize(
@@ -510,7 +506,7 @@ export function _endTelephonyCallSend(
   options: AgentsEndTelephonyCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_calls/{call_id}:end{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}:end{?api%2Dversion}",
     {
       agent_name: agentName,
       call_id: callId,
@@ -520,18 +516,16 @@ export function _endTelephonyCallSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _endTelephonyCallDeserialize(
@@ -569,7 +563,7 @@ export function _transferTelephonyCallSend(
   options: AgentsTransferTelephonyCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_calls/{call_id}:transfer{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}:transfer{?api%2Dversion}",
     {
       agent_name: agentName,
       call_id: callId,
@@ -579,20 +573,18 @@ export function _transferTelephonyCallSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { target: target },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { target: target },
+  });
 }
 
 export async function _transferTelephonyCallDeserialize(
@@ -630,7 +622,7 @@ export function _getTelephonyCallSend(
   options: AgentsGetTelephonyCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_calls/{call_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       call_id: callId,
@@ -640,18 +632,16 @@ export function _getTelephonyCallSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getTelephonyCallDeserialize(
@@ -687,7 +677,7 @@ export function _listTelephonyCallsSend(
   options: AgentsListTelephonyCallsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_calls{?provider,status,started_after,started_before,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls{?provider,status,started_after,started_before,limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       provider: options?.provider,
@@ -708,18 +698,16 @@ export function _listTelephonyCallsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listTelephonyCallsDeserialize(
@@ -761,7 +749,7 @@ export function _deleteTelephonyBindingSend(
   options: AgentsDeleteTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       binding_id: bindingId,
@@ -771,18 +759,16 @@ export function _deleteTelephonyBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "if-match": ifMatch,
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteTelephonyBindingDeserialize(
@@ -822,7 +808,7 @@ export function _updateTelephonyBindingSend(
   options: AgentsUpdateTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       binding_id: bindingId,
@@ -832,21 +818,19 @@ export function _updateTelephonyBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: updateTelephonyBindingRequestSerializer(body),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "if-match": ifMatch,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: updateTelephonyBindingRequestSerializer(body),
+  });
 }
 
 export async function _updateTelephonyBindingDeserialize(
@@ -892,7 +876,7 @@ export function _getTelephonyBindingSend(
   options: AgentsGetTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       binding_id: bindingId,
@@ -902,18 +886,16 @@ export function _getTelephonyBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getTelephonyBindingDeserialize(
@@ -949,7 +931,7 @@ export function _listTelephonyBindingsSend(
   options: AgentsListTelephonyBindingsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings{?provider,status,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?provider,status,limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       provider: options?.provider,
@@ -964,18 +946,16 @@ export function _listTelephonyBindingsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listTelephonyBindingsDeserialize(
@@ -1016,7 +996,7 @@ export function _createTelephonyBindingSend(
   options: AgentsCreateTelephonyBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony_bindings{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?api%2Dversion}",
     {
       agent_name: agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
@@ -1025,30 +1005,28 @@ export function _createTelephonyBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...(options?.repeatabilityRequestId !== undefined
-          ? { "repeatability-request-id": options?.repeatabilityRequestId }
-          : {}),
-        ...(options?.repeatabilityFirstSent !== undefined
-          ? {
-              "repeatability-first-sent": !options?.repeatabilityFirstSent
-                ? options?.repeatabilityFirstSent
-                : options?.repeatabilityFirstSent.toUTCString(),
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: createTelephonyBindingRequestUnionSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...(options?.repeatabilityRequestId !== undefined
+        ? { "repeatability-request-id": options?.repeatabilityRequestId }
+        : {}),
+      ...(options?.repeatabilityFirstSent !== undefined
+        ? {
+            "repeatability-first-sent": !options?.repeatabilityFirstSent
+              ? options?.repeatabilityFirstSent
+              : options?.repeatabilityFirstSent.toUTCString(),
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createTelephonyBindingRequestUnionSerializer(body),
+  });
 }
 
 export async function _createTelephonyBindingDeserialize(

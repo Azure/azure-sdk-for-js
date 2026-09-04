@@ -17,6 +17,10 @@ import {
 } from "./classic/evaluationRules/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
 import { ToolboxesOperations, _getToolboxesOperations } from "./classic/toolboxes/index.js";
+import {
+  VoiceAgentWebSocketOperations,
+  _getVoiceAgentWebSocketOperations,
+} from "./classic/voiceAgentWebSocket/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -36,6 +40,7 @@ export class AIProjectClient {
     this.pipeline = this._client.pipeline;
     this.toolboxes = _getToolboxesOperations(this._client);
     this.agentEndpointConversations = _getAgentEndpointConversationsOperations(this._client);
+    this.voiceAgentWebSocket = _getVoiceAgentWebSocketOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.datasets = _getDatasetsOperations(this._client);
@@ -49,6 +54,8 @@ export class AIProjectClient {
   public readonly toolboxes: ToolboxesOperations;
   /** The operation groups for agentEndpointConversations */
   public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
+  /** The operation groups for voiceAgentWebSocket */
+  public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */

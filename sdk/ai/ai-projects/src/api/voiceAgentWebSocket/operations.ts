@@ -1,50 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../../index.js";
-import { apiErrorResponseDeserializer } from "../../../models/models.js";
-import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import { BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { AIProjectContext as Client } from "../index.js";
+import { apiErrorResponseDeserializer } from "../../models/models.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type { VoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _connectVoiceAgentSend(
   context: Client,
   agentName: string,
-  options: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
+  options: VoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,transport,store,x-agent-version-override,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,transport,store,structured_input,x%2Dagent%2Dversion%2Doverride,api%2Dversion}",
     {
       agent_name: agentName,
       foundry_features: options?.foundryFeaturesQuery,
       transport: options?.transport,
       store: options?.store,
-      "x-agent-version-override": options?.agentVersionOverride,
-      "api-version": context.apiVersion ?? "v1",
+      structured_input: options?.structuredInput,
+      "x%2Dagent%2Dversion%2Doverride": options?.agentVersionOverride,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...(options?.websocketSubprotocol !== undefined
-          ? { "sec-websocket-protocol": options?.websocketSubprotocol }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...(options?.websocketSubprotocol !== undefined
+        ? { "sec-websocket-protocol": options?.websocketSubprotocol }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _connectVoiceAgentDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -83,7 +78,7 @@ export async function _connectVoiceAgentDeserialize(result: PathUncheckedRespons
 export async function connectVoiceAgent(
   context: Client,
   agentName: string,
-  options: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
+  options: VoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _connectVoiceAgentSend(context, agentName, options);
   return _connectVoiceAgentDeserialize(result);
