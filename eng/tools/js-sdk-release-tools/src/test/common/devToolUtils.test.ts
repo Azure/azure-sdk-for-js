@@ -1,6 +1,4 @@
-import fs from "fs";
-import path from "path";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
   runCommand: vi.fn(),
@@ -27,41 +25,25 @@ describe("customizeCodes", () => {
     mocks.loggerWarn.mockReset();
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  test("applies customizations when a root-level generated folder exists", async () => {
-    const packageDirectory = path.join(__dirname, "testCases", "customized-package");
-    const existsSync = vi.spyOn(fs, "existsSync").mockReturnValue(true);
+  test("runs the package customize script from the package directory", async () => {
+    const packageDirectory = "/sdk/example";
     const { customizeCodes } = await import("../../common/devToolUtils.js");
 
     await expect(customizeCodes(packageDirectory)).resolves.toBeUndefined();
-    expect(existsSync).toHaveBeenCalledWith(path.join(packageDirectory, "generated"));
+
+    // `--if-present` makes this a no-op for packages without a `customize` script,
+    // so the caller does not need to know whether a package opts into customization.
     expect(mocks.runCommand).toHaveBeenCalledWith(
       "npm",
-      ["exec", "--", "dev-tool", "customization", "apply", "-s", "./generated", "-t", "./src"],
+      ["run", "--if-present", "customize"],
       { shell: true, cwd: packageDirectory },
       true,
       600,
     );
   });
 
-  test("skips src/generated packages without a root-level generated folder", async () => {
-    const packageDirectory = path.join(__dirname, "testCases", "src-generated-package");
-    vi.spyOn(fs, "existsSync").mockReturnValue(false);
-    const { customizeCodes } = await import("../../common/devToolUtils.js");
-
-    await expect(customizeCodes(packageDirectory)).resolves.toBeUndefined();
-    expect(mocks.runCommand).not.toHaveBeenCalled();
-    expect(mocks.loggerInfo).toHaveBeenCalledWith(
-      `Skip customization because '${path.join(packageDirectory, "generated")}' does not exist.`,
-    );
-  });
-
   test("logs failures without blocking generation", async () => {
-    const packageDirectory = path.join(__dirname, "testCases", "conflicting-package");
-    vi.spyOn(fs, "existsSync").mockReturnValue(true);
+    const packageDirectory = "/sdk/example";
     const error = new Error("merge conflict");
     mocks.runCommand.mockRejectedValue(error);
     const { customizeCodes } = await import("../../common/devToolUtils.js");
