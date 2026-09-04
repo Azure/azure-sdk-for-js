@@ -3,6 +3,7 @@
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AIProjectClient, VoiceAgentProtocolError } from "@azure/ai-projects";
+import { SDK_VERSION } from "$internal/constants.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 class BrowserTestCredential implements TokenCredential {
@@ -93,13 +94,27 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.get("agent_session_id")).toBe("session-1");
     expect(url.searchParams.get("store")).toBe("false");
     expect(url.searchParams.has("authorization")).toBe(false);
+    expect(url.searchParams.get("x-ms-client-sdk")).toBe(`azsdk-js-ai-projects/${SDK_VERSION}`);
     expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
     expect(socket.url).toContain("foundry_features=VoiceAgents=V1Preview");
     expect(url.searchParams.get("h-x-ms-voice-structured-inputs")).toBe(
       JSON.stringify({ customer: "Ada" }),
     );
     expect(url.searchParams.has("user-agent")).toBe(false);
+    expect(url.searchParams.get("h-user-agent")).toBe(`azsdk-js-ai-projects/${SDK_VERSION}`);
     expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
+
+    await connection.close();
+  });
+
+  it("prefixes the user-agent query parameter with a custom userAgentPrefix", async () => {
+    const connection = await createClient("custom-prefix").realtime.connect("browser-agent");
+    const url = new URL(getSocket().url);
+
+    expect(url.searchParams.has("user-agent")).toBe(false);
+    expect(url.searchParams.get("h-user-agent")).toBe(
+      `custom-prefix azsdk-js-ai-projects/${SDK_VERSION}`,
+    );
 
     await connection.close();
   });
@@ -162,10 +177,11 @@ describe("AIProjectClient browser realtime", () => {
   });
 });
 
-function createClient(): AIProjectClient {
+function createClient(userAgentPrefix?: string): AIProjectClient {
   return new AIProjectClient(
     "https://example.services.ai.azure.com/api/projects/browser-project",
     new BrowserTestCredential(),
+    userAgentPrefix ? { userAgentOptions: { userAgentPrefix } } : undefined,
   );
 }
 

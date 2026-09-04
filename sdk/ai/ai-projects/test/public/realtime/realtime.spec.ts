@@ -20,6 +20,7 @@ import {
   deserializeVoiceAgentServerEvent,
   serializeVoiceAgentClientEvent,
 } from "$internal/realtime/protocol.js";
+import { SDK_VERSION } from "$internal/constants.js";
 import { assert, describe, expect, it } from "vitest";
 
 class TestCredential implements TokenCredential {
@@ -208,7 +209,15 @@ describe("AIProjectClient realtime", () => {
     );
     assert.equal(url.searchParams.get("api-version"), "v1");
     assert.deepEqual(credential.requestedScopes, ["https://example.test/.default"]);
-    assert.match(connectOptions.headers["user-agent"], /^custom-prefix /);
+    assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
+    assert.equal(
+      connectOptions.headers["x-ms-client-sdk"],
+      `azsdk-js-ai-projects/${SDK_VERSION}`,
+    );
+    assert.equal(
+      connectOptions.headers["user-agent"],
+      `custom-prefix azsdk-js-ai-projects/${SDK_VERSION}`,
+    );
 
     await connection.close();
   });
@@ -234,6 +243,12 @@ describe("AIProjectClient realtime", () => {
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
     assert.equal(connectOptions.headers["foundry-features"], "VoiceAgents=V1Preview");
     assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], '{"customer":"Ada"}');
+    assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
+    assert.equal(
+      connectOptions.headers["x-ms-client-sdk"],
+      `azsdk-js-ai-projects/${SDK_VERSION}`,
+    );
+    assert.equal(connectOptions.headers["user-agent"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.deepEqual(states, [
       VoiceAgentConnectionState.Connecting,
       VoiceAgentConnectionState.Connected,

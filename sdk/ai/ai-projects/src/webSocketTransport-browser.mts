@@ -166,8 +166,6 @@ export function addHeadersToUrl(url: string, headers: Record<string, string>): s
       case "x-ms-client-request-id":
         target.searchParams.set("client-request-id", value);
         break;
-      case "user-agent":
-        break;
       default:
         target.searchParams.set(`h-${name.toLowerCase()}`, value);
         break;
