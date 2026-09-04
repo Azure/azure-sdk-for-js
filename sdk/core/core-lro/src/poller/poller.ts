@@ -11,8 +11,42 @@ import type {
   PollerLike,
 } from "./models.js";
 import { deserializeState, initOperation, pollOperation } from "./operation.js";
-import { POLL_INTERVAL_IN_MS } from "./constants.js";
+import { MAX_POLLING_INTERVAL_IN_MS, POLL_INTERVAL_IN_MS } from "./constants.js";
 import { delay } from "@azure/core-util";
+
+/**
+ * Bounds a polling interval to the range supported by the platform timer.
+ * Node.js clamps a `setTimeout` delay greater than {@link MAX_POLLING_INTERVAL_IN_MS}
+ * to `1`, which would turn an intended long delay into a near-continuous polling
+ * loop. This guard is applied to every source of the polling interval — the
+ * caller-supplied `intervalInMs` and any server-provided `Retry-After` value —
+ * so invalid or oversized values are never scheduled directly on the timer.
+ */
+function boundPollingInterval(
+  intervalInMs: number,
+  fallbackIntervalInMs = POLL_INTERVAL_IN_MS,
+): number {
+  if (!Number.isFinite(intervalInMs) || intervalInMs < 0) {
+    return fallbackIntervalInMs;
+  }
+  return Math.min(intervalInMs, MAX_POLLING_INTERVAL_IN_MS);
+}
+
+/**
+ * Bounds a server-provided polling interval, such as one derived from a
+ * `Retry-After` header, to the range supported by the platform timer.
+ *
+ * A value that cannot be honored — unparseable, not finite, or not a positive
+ * number of milliseconds — falls back to the caller's configured interval
+ * rather than leaving the delay from an earlier response in effect.
+ */
+function boundServerPollingInterval(intervalInMs: number, configuredIntervalInMs: number): number {
+  if (!Number.isFinite(intervalInMs) || intervalInMs <= 0) {
+    return configuredIntervalInMs;
+  }
+  return Math.min(intervalInMs, MAX_POLLING_INTERVAL_IN_MS);
+}
+
 /**
  * Returns a poller factory.
  */
@@ -74,7 +108,8 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const handlers = new Map<symbol, Handler>();
     const handleProgressEvents = async (): Promise<void> => handlers.forEach((h) => h(state));
     const cancelErrMsg = "Operation was canceled";
-    let currentPollIntervalInMs = intervalInMs;
+    const configuredPollIntervalInMs = boundPollingInterval(intervalInMs);
+    let currentPollIntervalInMs = configuredPollIntervalInMs;
 
     const poller: PollerLike<TState, TResult> = {
       get operationState(): TState | undefined {
@@ -180,7 +215,10 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           updateState,
           options: pollOptions,
           setDelay: (pollIntervalInMs) => {
-            currentPollIntervalInMs = pollIntervalInMs;
+            currentPollIntervalInMs = boundServerPollingInterval(
+              pollIntervalInMs,
+              configuredPollIntervalInMs,
+            );
           },
           setErrorAsResult: !resolveOnUnsuccessful,
         });
