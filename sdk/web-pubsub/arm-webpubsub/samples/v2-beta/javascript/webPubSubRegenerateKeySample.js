@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
  *
  * @summary regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
- * x-ms-original-file: 2025-08-01-preview/WebPubSub_RegenerateKey.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSub_RegenerateKey.json
  */
 async function webPubSubRegenerateKey() {
   const credential = new DefaultAzureCredential();

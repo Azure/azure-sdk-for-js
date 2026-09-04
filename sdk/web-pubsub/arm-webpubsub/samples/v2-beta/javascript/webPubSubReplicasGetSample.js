@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the replica and its properties.
  *
  * @summary get the replica and its properties.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubReplicas_Get.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubReplicas_Get.json
  */
 async function webPubSubReplicasGet() {
   const credential = new DefaultAzureCredential();

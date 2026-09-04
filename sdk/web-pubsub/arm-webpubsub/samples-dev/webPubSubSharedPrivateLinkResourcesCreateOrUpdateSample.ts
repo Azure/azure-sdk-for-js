@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a shared private link resource
  *
  * @summary create or update a shared private link resource
- * x-ms-original-file: 2025-08-01-preview/WebPubSubSharedPrivateLinkResources_CreateOrUpdate.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubSharedPrivateLinkResources_CreateOrUpdate.json
  */
 async function webPubSubSharedPrivateLinkResourcesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

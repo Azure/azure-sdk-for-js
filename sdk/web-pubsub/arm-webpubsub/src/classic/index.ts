@@ -7,6 +7,7 @@ export type { WebPubSubOperations } from "./webPubSub/index.js";
 export type { WebPubSubCustomCertificatesOperations } from "./webPubSubCustomCertificates/index.js";
 export type { WebPubSubCustomDomainsOperations } from "./webPubSubCustomDomains/index.js";
 export type { WebPubSubHubsOperations } from "./webPubSubHubs/index.js";
+export type { WebPubSubPersistentStoragesOperations } from "./webPubSubPersistentStorages/index.js";
 export type { WebPubSubPrivateEndpointConnectionsOperations } from "./webPubSubPrivateEndpointConnections/index.js";
 export type { WebPubSubPrivateLinkResourcesOperations } from "./webPubSubPrivateLinkResources/index.js";
 export type { WebPubSubReplicasOperations } from "./webPubSubReplicas/index.js";

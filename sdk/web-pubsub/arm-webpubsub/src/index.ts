@@ -41,6 +41,8 @@ export type {
   EventListenerEndpointUnion,
   EventListenerEndpointDiscriminator,
   EventHubEndpoint,
+  ChatSettings,
+  ResourceReference,
   ProxyResource,
   Resource,
   SystemData,
@@ -105,9 +107,10 @@ export type {
   CustomCertificateProperties,
   CustomDomain,
   CustomDomainProperties,
-  ResourceReference,
   Replica,
   ReplicaProperties,
+  PersistentStorage,
+  PersistentStorageProperties,
   SignalRServiceUsage,
   SignalRServiceUsageName,
 } from "./models/index.js";
@@ -167,6 +170,12 @@ export type {
   WebPubSubHubsGetOptionalParams,
 } from "./api/webPubSubHubs/index.js";
 export type {
+  WebPubSubPersistentStoragesListOptionalParams,
+  WebPubSubPersistentStoragesDeleteOptionalParams,
+  WebPubSubPersistentStoragesCreateOrUpdateOptionalParams,
+  WebPubSubPersistentStoragesGetOptionalParams,
+} from "./api/webPubSubPersistentStorages/index.js";
+export type {
   WebPubSubPrivateEndpointConnectionsListOptionalParams,
   WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
   WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
@@ -199,6 +208,7 @@ export type {
   WebPubSubCustomCertificatesOperations,
   WebPubSubCustomDomainsOperations,
   WebPubSubHubsOperations,
+  WebPubSubPersistentStoragesOperations,
   WebPubSubPrivateEndpointConnectionsOperations,
   WebPubSubPrivateLinkResourcesOperations,
   WebPubSubReplicasOperations,

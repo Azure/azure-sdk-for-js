@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all custom domains.
  *
  * @summary list all custom domains.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubCustomDomains_List.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubCustomDomains_List.json
  */
 async function webPubSubCustomDomainsList() {
   const credential = new DefaultAzureCredential();

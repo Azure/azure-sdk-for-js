@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.SignalRService": "2025-08-01-preview"
+    "Microsoft.SignalRService": "2025-12-01-preview"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.SignalRService",
     "CrossLanguageDefinitionId": {
@@ -28,6 +28,8 @@
       "@azure/arm-webpubsub!EventNameFilter:interface": "Microsoft.SignalRService.EventNameFilter",
       "@azure/arm-webpubsub!EventListenerEndpoint:interface": "Microsoft.SignalRService.EventListenerEndpoint",
       "@azure/arm-webpubsub!EventHubEndpoint:interface": "Microsoft.SignalRService.EventHubEndpoint",
+      "@azure/arm-webpubsub!ChatSettings:interface": "Microsoft.SignalRService.ChatSettings",
+      "@azure/arm-webpubsub!ResourceReference:interface": "Microsoft.SignalRService.ResourceReference",
       "@azure/arm-webpubsub!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
       "@azure/arm-webpubsub!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
       "@azure/arm-webpubsub!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
@@ -83,12 +85,14 @@
       "@azure/arm-webpubsub!CustomCertificateList:interface": "Microsoft.SignalRService.CustomCertificateList",
       "@azure/arm-webpubsub!CustomDomain:interface": "Microsoft.SignalRService.CustomDomain",
       "@azure/arm-webpubsub!CustomDomainProperties:interface": "Microsoft.SignalRService.CustomDomainProperties",
-      "@azure/arm-webpubsub!ResourceReference:interface": "Microsoft.SignalRService.ResourceReference",
       "@azure/arm-webpubsub!CustomDomainList:interface": "Microsoft.SignalRService.CustomDomainList",
       "@azure/arm-webpubsub!PrivateEndpointConnectionList:interface": "Microsoft.SignalRService.PrivateEndpointConnectionList",
       "@azure/arm-webpubsub!Replica:interface": "Microsoft.SignalRService.Replica",
       "@azure/arm-webpubsub!ReplicaProperties:interface": "Microsoft.SignalRService.ReplicaProperties",
       "@azure/arm-webpubsub!ReplicaList:interface": "Microsoft.SignalRService.ReplicaList",
+      "@azure/arm-webpubsub!PersistentStorage:interface": "Microsoft.SignalRService.PersistentStorage",
+      "@azure/arm-webpubsub!PersistentStorageProperties:interface": "Microsoft.SignalRService.PersistentStorageProperties",
+      "@azure/arm-webpubsub!PersistentStorageList:interface": "Microsoft.SignalRService.PersistentStorageList",
       "@azure/arm-webpubsub!SignalRServiceUsageList:interface": "Microsoft.SignalRService.SignalRServiceUsageList",
       "@azure/arm-webpubsub!SignalRServiceUsage:interface": "Microsoft.SignalRService.SignalRServiceUsage",
       "@azure/arm-webpubsub!SignalRServiceUsageName:interface": "Microsoft.SignalRService.SignalRServiceUsageName",
@@ -112,6 +116,10 @@
       "@azure/arm-webpubsub!KnownScaleType:enum": "Microsoft.SignalRService.ScaleType",
       "@azure/arm-webpubsub!KnownVersions:enum": "Microsoft.SignalRService.Versions",
       "@azure/arm-webpubsub!UsagesOperations#List:member": "Microsoft.SignalRService.UsagesOperationGroup.list",
+      "@azure/arm-webpubsub!WebPubSubPersistentStoragesOperations#List:member": "Microsoft.SignalRService.PersistentStorages.list",
+      "@azure/arm-webpubsub!WebPubSubPersistentStoragesOperations#Delete:member": "Microsoft.SignalRService.PersistentStorages.delete",
+      "@azure/arm-webpubsub!WebPubSubPersistentStoragesOperations#CreateOrUpdate:member": "Microsoft.SignalRService.PersistentStorages.createOrUpdate",
+      "@azure/arm-webpubsub!WebPubSubPersistentStoragesOperations#Get:member": "Microsoft.SignalRService.PersistentStorages.get",
       "@azure/arm-webpubsub!WebPubSubReplicaSharedPrivateLinkResourcesOperations#List:member": "Microsoft.SignalRService.SharedPrivateLinkResources.list",
       "@azure/arm-webpubsub!WebPubSubReplicaSharedPrivateLinkResourcesOperations#CreateOrUpdate:member": "Microsoft.SignalRService.SharedPrivateLinkResources.createOrUpdate",
       "@azure/arm-webpubsub!WebPubSubReplicaSharedPrivateLinkResourcesOperations#Get:member": "Microsoft.SignalRService.SharedPrivateLinkResources.get",

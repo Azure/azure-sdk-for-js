@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all available skus of the replica resource.
  *
  * @summary list all available skus of the replica resource.
- * x-ms-original-file: 2025-08-01-preview/WebPubSub_ListReplicaSkus.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSub_ListReplicaSkus.json
  */
 async function webPubSubListReplicaSkus() {
   const credential = new DefaultAzureCredential();

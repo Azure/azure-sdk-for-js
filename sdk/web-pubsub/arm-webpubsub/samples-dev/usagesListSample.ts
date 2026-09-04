@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list resource usage quotas by location.
  *
  * @summary list resource usage quotas by location.
- * x-ms-original-file: 2025-08-01-preview/Usages_List.json
+ * x-ms-original-file: 2025-12-01-preview/Usages_List.json
  */
 async function usagesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

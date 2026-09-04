@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the resource and its properties.
  *
  * @summary get the resource and its properties.
- * x-ms-original-file: 2025-08-01-preview/WebPubSub_Get.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSub_Get.json
  */
 async function webPubSubGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

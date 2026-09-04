@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a custom certificate.
  *
  * @summary delete a custom certificate.
- * x-ms-original-file: 2025-08-01-preview/WebPubSubCustomCertificates_Delete.json
+ * x-ms-original-file: 2025-12-01-preview/WebPubSubCustomCertificates_Delete.json
  */
 async function webPubSubCustomCertificatesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

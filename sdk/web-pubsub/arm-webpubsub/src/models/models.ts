@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Paged collection of Operation items */
 export interface _OperationList {
   /** The Operation items on this page */
@@ -305,6 +305,8 @@ export interface WebPubSubHubProperties {
   anonymousConnectPolicy?: string;
   /** The settings for configuring the WebSocket ping-pong interval in seconds for all clients in the hub. Valid range: 1 to 120. Default to 20 seconds. */
   webSocketKeepAliveIntervalInSeconds?: number;
+  /** The chat settings for the hub. */
+  chat?: ChatSettings;
 }
 
 export function webPubSubHubPropertiesSerializer(item: WebPubSubHubProperties): any {
@@ -317,6 +319,7 @@ export function webPubSubHubPropertiesSerializer(item: WebPubSubHubProperties): 
       : eventListenerArraySerializer(item["eventListeners"]),
     anonymousConnectPolicy: item["anonymousConnectPolicy"],
     webSocketKeepAliveIntervalInSeconds: item["webSocketKeepAliveIntervalInSeconds"],
+    chat: !item["chat"] ? item["chat"] : chatSettingsSerializer(item["chat"]),
   };
 }
 
@@ -330,6 +333,7 @@ export function webPubSubHubPropertiesDeserializer(item: any): WebPubSubHubPrope
       : eventListenerArrayDeserializer(item["eventListeners"]),
     anonymousConnectPolicy: item["anonymousConnectPolicy"],
     webSocketKeepAliveIntervalInSeconds: item["webSocketKeepAliveIntervalInSeconds"],
+    chat: !item["chat"] ? item["chat"] : chatSettingsDeserializer(item["chat"]),
   };
 }
 
@@ -709,6 +713,48 @@ export function eventHubEndpointDeserializer(item: any): EventHubEndpoint {
     type: item["type"],
     fullyQualifiedNamespace: item["fullyQualifiedNamespace"],
     eventHubName: item["eventHubName"],
+  };
+}
+
+/** Chat settings. */
+export interface ChatSettings {
+  /** Enable or disable the chat feature. */
+  mode?: string;
+  /** Reference to the the persistent storage for perisisting chat states. */
+  persistentStorage?: ResourceReference;
+}
+
+export function chatSettingsSerializer(item: ChatSettings): any {
+  return {
+    mode: item["mode"],
+    persistentStorage: !item["persistentStorage"]
+      ? item["persistentStorage"]
+      : resourceReferenceSerializer(item["persistentStorage"]),
+  };
+}
+
+export function chatSettingsDeserializer(item: any): ChatSettings {
+  return {
+    mode: item["mode"],
+    persistentStorage: !item["persistentStorage"]
+      ? item["persistentStorage"]
+      : resourceReferenceDeserializer(item["persistentStorage"]),
+  };
+}
+
+/** Reference to a resource. */
+export interface ResourceReference {
+  /** Resource ID. */
+  id?: string;
+}
+
+export function resourceReferenceSerializer(item: ResourceReference): any {
+  return { id: item["id"] };
+}
+
+export function resourceReferenceDeserializer(item: any): ResourceReference {
+  return {
+    id: item["id"],
   };
 }
 
@@ -2841,22 +2887,6 @@ export function customDomainPropertiesDeserializer(item: any): CustomDomainPrope
   };
 }
 
-/** Reference to a resource. */
-export interface ResourceReference {
-  /** Resource ID. */
-  id?: string;
-}
-
-export function resourceReferenceSerializer(item: ResourceReference): any {
-  return { id: item["id"] };
-}
-
-export function resourceReferenceDeserializer(item: any): ResourceReference {
-  return {
-    id: item["id"],
-  };
-}
-
 /** Custom domains list */
 export interface _CustomDomainList {
   /** The CustomDomain items on this page */
@@ -3009,6 +3039,76 @@ export function replicaArrayDeserializer(result: Array<Replica>): any[] {
   });
 }
 
+/** A persistent storage */
+export interface PersistentStorage extends ProxyResource {
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** Reference to the storage account to be used for persistent storage. */
+  storageAccount: ResourceReference;
+}
+
+export function persistentStorageSerializer(item: PersistentStorage): any {
+  return { properties: _persistentStoragePropertiesSerializer(item) };
+}
+
+export function persistentStorageDeserializer(item: any): PersistentStorage {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ..._persistentStoragePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a persistent storage. */
+export interface PersistentStorageProperties {
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** Reference to the storage account to be used for persistent storage. */
+  storageAccount: ResourceReference;
+}
+
+export function persistentStoragePropertiesSerializer(item: PersistentStorageProperties): any {
+  return { storageAccount: resourceReferenceSerializer(item["storageAccount"]) };
+}
+
+export function persistentStoragePropertiesDeserializer(item: any): PersistentStorageProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    storageAccount: resourceReferenceDeserializer(item["storageAccount"]),
+  };
+}
+
+/** Persistent storages list */
+export interface _PersistentStorageList {
+  /** The PersistentStorage items on this page */
+  value: PersistentStorage[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _persistentStorageListDeserializer(item: any): _PersistentStorageList {
+  return {
+    value: persistentStorageArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function persistentStorageArraySerializer(result: Array<PersistentStorage>): any[] {
+  return result.map((item) => {
+    return persistentStorageSerializer(item);
+  });
+}
+
+export function persistentStorageArrayDeserializer(result: Array<PersistentStorage>): any[] {
+  return result.map((item) => {
+    return persistentStorageDeserializer(item);
+  });
+}
+
 /** Object that includes an array of the resource usages and a possible link for next set. */
 export interface _SignalRServiceUsageList {
   /** The SignalRServiceUsage items on this page */
@@ -3075,6 +3175,8 @@ export enum KnownVersions {
   V20250101Preview = "2025-01-01-preview",
   /** The 2025-08-01-preview API version. */
   V20250801Preview = "2025-08-01-preview",
+  /** The 2025-12-01-preview API version. */
+  V20251201Preview = "2025-12-01-preview",
 }
 
 export function _sharedPrivateLinkResourcePropertiesSerializer(
@@ -3267,5 +3369,16 @@ export function _replicaPropertiesDeserializer(item: any) {
     provisioningState: item["provisioningState"],
     regionEndpointEnabled: item["regionEndpointEnabled"],
     resourceStopped: item["resourceStopped"],
+  };
+}
+
+export function _persistentStoragePropertiesSerializer(item: PersistentStorage): any {
+  return { storageAccount: resourceReferenceSerializer(item["storageAccount"]) };
+}
+
+export function _persistentStoragePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    storageAccount: resourceReferenceDeserializer(item["storageAccount"]),
   };
 }
