@@ -1,4 +1,14 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
-  "include": ["../src/index.ts"]
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/namespaces/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/wCFRelays/index.ts",
+    "../src/api/hybridConnections/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }
