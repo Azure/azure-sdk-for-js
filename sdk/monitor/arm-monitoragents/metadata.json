@@ -1,0 +1,44 @@
+{
+  "apiVersions": {
+    "Microsoft.Monitor": "2026-05-01-preview"
+  },
+  "emitterVersion": "0.56.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Monitor",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-monitoragents!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-monitoragents!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-monitoragents!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-monitoragents!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-monitoragents!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-monitoragents!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-monitoragents!ObservabilityAgentResource:interface": "Microsoft.Monitor.ObservabilityAgentResource",
+      "@azure/arm-monitoragents!ObservabilityAgentProperties:interface": "Microsoft.Monitor.ObservabilityAgentProperties",
+      "@azure/arm-monitoragents!OperationEntry:interface": "Microsoft.Monitor.OperationEntry",
+      "@azure/arm-monitoragents!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-monitoragents!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-monitoragents!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-monitoragents!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-monitoragents!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-monitoragents!ObservabilityAgentPatch:interface": "Microsoft.Monitor.ObservabilityAgentPatch",
+      "@azure/arm-monitoragents!ObservabilityAgentPropertiesUpdate:interface": "Microsoft.Monitor.ObservabilityAgentPropertiesUpdate",
+      "@azure/arm-monitoragents!ObservabilityAgentResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-monitoragents!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-monitoragents!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-monitoragents!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-monitoragents!KnownOperationType:enum": "Microsoft.Monitor.OperationType",
+      "@azure/arm-monitoragents!KnownOperationMode:enum": "Microsoft.Monitor.OperationMode",
+      "@azure/arm-monitoragents!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-monitoragents!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-monitoragents!KnownVersions:enum": "Microsoft.Monitor.Versions",
+      "@azure/arm-monitoragents!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-monitoragents!ObservabilityAgentsOperations#listBySubscription:member": "Microsoft.Monitor.ObservabilityAgents.listBySubscription",
+      "@azure/arm-monitoragents!ObservabilityAgentsOperations#listByResourceGroup:member": "Microsoft.Monitor.ObservabilityAgents.listByResourceGroup",
+      "@azure/arm-monitoragents!ObservabilityAgentsOperations#delete:member": "Microsoft.Monitor.ObservabilityAgents.delete",
+      "@azure/arm-monitoragents!ObservabilityAgentsOperations#update:member": "Microsoft.Monitor.ObservabilityAgents.update",
+      "@azure/arm-monitoragents!ObservabilityAgentsOperations#createOrUpdate:member": "Microsoft.Monitor.ObservabilityAgents.createOrUpdate",
+      "@azure/arm-monitoragents!ObservabilityAgentsOperations#get:member": "Microsoft.Monitor.ObservabilityAgents.get",
+      "@azure/arm-monitoragents!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

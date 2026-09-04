@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-monitoragents": ["../src/index.ts"],
+      "@azure/arm-monitoragents/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
