@@ -15,8 +15,7 @@
 
 ### Other Changes
 
-- Regenerate the client from azure-rest-api-specs commit `3c4aab72901077a0fc50da18f4aef6832d36d60f`. [#39759](https://github.com/Azure/azure-sdk-for-js/issues/39759)
-- Regenerate the client from azure-rest-api-specs commit `6f811444bc23843aaf3c226c83ce8e3e6525b0f9`. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
+- Regenerate the client from azure-rest-api-specs commit `641d5b415a03c9ca61eb469e46f8ef10b55d9caa`. [#39759](https://github.com/Azure/azure-sdk-for-js/issues/39759)
 
 ## 2.5.0 (2026-08-20)
 
