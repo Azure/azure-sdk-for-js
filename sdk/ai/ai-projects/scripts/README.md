@@ -138,6 +138,6 @@ The recordings may be incomplete. Check the test output for errors and re-run wi
 
 ## Reference
 
-- [Asset-Sync Workflow Guide](../RECORDING_WORKFLOW.md)
-- [Azure SDK Testing Guidelines](https://azure.github.io/azure-sdk/typescript_testing.html)
+- [Asset-Sync Workflow Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/RECORDING_WORKFLOW.md)
+- [Azure SDK Testing Guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#testing)
 - [Test Proxy Documentation](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy)

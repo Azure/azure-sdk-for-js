@@ -146,6 +146,6 @@ Once recordings are published:
 
 ## Reference
 
-- [Asset Sync Workflow](../../../../../test-utils/recorder/ASSET_SYNC_WORKFLOW.md)
+- [Asset Sync Workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md)
 - [Test Proxy Documentation](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy)
-- [Azure SDK Testing Guidelines](https://azure.github.io/azure-sdk/typescript_testing.html)
+- [Azure SDK Testing Guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#testing)
