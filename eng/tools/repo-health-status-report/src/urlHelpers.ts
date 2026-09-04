@@ -83,7 +83,7 @@ export function githubIssueLinkUrl(
   created: string,
 ): string {
   const minus = kind === "question" ? "bug" : "question";
-  return `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+-label%3Aissue-addressed+-label%3A${minus}+-label%3Aneeds-author-feedback+-label%3Afeature-request+label%3A%22${label.replace(" ", "+")}%22+created%3A%3C${created}`;
+  return `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+-label%3Aissue-addressed+-label%3A${minus}+-label%3Aneeds-author-feedback+-label%3Afeature-request+label%3A%22${label.replaceAll(" ", "+")}%22+created%3A%3C${created}`;
 }
 
 /**
@@ -92,5 +92,5 @@ export function githubIssueLinkUrl(
  * @returns {string} - the github issue link
  */
 export function githubTotalIssueLink(label: string): string {
-  return `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+label%3A%22${label.replace(" ", "%20")}%22`;
+  return `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+label%3A%22${label.replaceAll(" ", "%20")}%22`;
 }

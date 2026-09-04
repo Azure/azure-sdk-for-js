@@ -8,6 +8,7 @@ import { getBaseDir } from "./env.js";
 interface PackageJson {
   name: string;
   version: string;
+  private?: boolean;
 }
 
 interface DataplanePackage {
@@ -32,7 +33,11 @@ export async function getDataplanePackages(): Promise<Record<string, DataplanePa
   for (const path of sdkPackageJsonFiles) {
     const jsonFile = await readFile(join(workspaceRoot, path), "utf-8");
     const json = JSON.parse(jsonFile) as PackageJson;
-    if (json.name.startsWith("@azure-tests/") || json.name.startsWith("@azure-tools/")) {
+    if (
+      json.private ||
+      json.name.startsWith("@azure-tests/") ||
+      json.name.startsWith("@azure-tools/")
+    ) {
       continue;
     }
     const [serviceDir, packageDir] = path.replace("sdk/", "").split("/");

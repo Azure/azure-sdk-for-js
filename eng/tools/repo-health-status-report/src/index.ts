@@ -17,12 +17,10 @@ import type {
   DevopsTaskStatus,
   Packages,
   PackageStatus,
-  PackageStatusCode,
   PackagesWithStatus,
   PipelineResult,
   PipelineResults,
   PipelineTaskKind,
-  Status,
 } from "./interfaces.js";
 
 import "dotenv/config";
@@ -33,7 +31,10 @@ import type { CustomerIssue } from "./github.js";
 
 const DEVOPS_RESOURCE_UUID = "499b84ac-1321-427f-aa17-267ca6975798";
 
-const RELEASE_BLOCKERS = ["lint", "ci"];
+const RELEASE_BLOCKERS = ["lint", "ci"] as const;
+
+type BuildKind = "ci" | "tests" | "weeklyTests";
+type BuildResultCache = Map<string, Promise<PipelineResult>>;
 
 const SDK_OWNED = [
   "@azure/container-registry",
@@ -110,7 +111,7 @@ function recordTestResult(
 }
 
 function recordAllPipeline(
-  kind: "ci" | "tests" | "weeklyTests",
+  kind: BuildKind,
   pipeline: PipelineResults,
   status: "succeeded" | "UNKNOWN",
 ): void {
@@ -140,74 +141,70 @@ function recordAllPipeline(
   }
 }
 
-export async function getBuildResult(
-  buildKind: "ci" | "tests" | "weeklyTests",
+async function fetchBuildResult(
+  buildKind: BuildKind,
   pkgName: string,
-  pipelines: Record<string, PipelineResults>,
   token: string,
-  pipelineId?: number,
-) {
-  if (!pipelineId) {
-    console.warn(`No ${buildKind} pipeline ID found for ${pkgName}`);
-    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
-    return;
-  }
+  pipelineId: number,
+): Promise<PipelineResult> {
+  const pipeline: PipelineResults = {
+    [buildKind]: { id: pipelineId, link: "" },
+  };
+  const markUnknown = (): PipelineResult => {
+    recordAllPipeline(buildKind, pipeline, "UNKNOWN");
+    return pipeline[buildKind]!;
+  };
+
   const buildResponse = await getBuild(pipelineId, token);
   await new Promise((resolve) => setTimeout(resolve, 1000));
   console.log("continue after 1 seconds delay");
   if (!buildResponse.ok) {
     console.warn(`No ${buildKind} build found for ${pkgName}`);
-    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
-    return;
+    return markUnknown();
   }
   let buildResult: AzureDevOpsListResponse<AzureDevOpsBuild>;
   try {
     buildResult = (await buildResponse.json()) as AzureDevOpsListResponse<AzureDevOpsBuild>;
   } catch (error) {
     console.warn("Error parsing build response:", error, pipelineId);
-    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
-    return;
+    return markUnknown();
   }
   if (!buildResult.value) {
     console.warn(`No ${buildKind} build found for ${pkgName}`);
-    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
-    return;
+    return markUnknown();
   }
 
   const result = buildResult.value[0];
   if (!result) {
     console.warn(`No ${buildKind} build result found for ${pkgName}`);
-    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
-    return;
+    return markUnknown();
   }
 
   const buildId = result.id;
   const pipelineResult: PipelineResult = {
-    ...pipelines[pkgName][buildKind],
+    ...pipeline[buildKind],
     id: buildId,
     link: result._links.web.href,
     buildNumber: result.buildNumber,
   };
-  pipelines[pkgName][buildKind] = pipelineResult;
+  pipeline[buildKind] = pipelineResult;
 
   if (result.result === "succeeded") {
-    recordAllPipeline(buildKind, pipelines[pkgName], "succeeded");
-    return;
+    recordAllPipeline(buildKind, pipeline, "succeeded");
+    return pipeline[buildKind]!;
   }
 
   pipelineResult.result = result.result;
   const timelineResponse = await getBuildTimeline(buildId, token);
   if (!timelineResponse.ok) {
-    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
-    return;
+    return markUnknown();
   }
   let timelineResult: AzureDevOpsTimeline;
   try {
     timelineResult = (await timelineResponse.json()) as AzureDevOpsTimeline;
   } catch (error) {
     console.warn("Error parsing timeline response:", error, buildId);
-    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
-    return;
+    return markUnknown();
   }
   for (const task of timelineResult.records ?? []) {
     const taskName = task.name ?? "";
@@ -220,7 +217,7 @@ export async function getBuildResult(
         recordTestResult(task, "ci", pipelineResult);
       }
     } else if (buildKind === "tests") {
-      if (taskName.includes("Test libraries")) {
+      if (taskName.includes("Test libraries") || taskName.includes("Integration test libraries")) {
         recordTestResult(task, "tests", pipelineResult);
       } else if (taskName.includes("Execute Samples")) {
         recordTestResult(task, "samples", pipelineResult);
@@ -231,6 +228,30 @@ export async function getBuildResult(
       }
     }
   }
+  return pipelineResult;
+}
+
+export async function getBuildResult(
+  buildKind: BuildKind,
+  pkgName: string,
+  pipelines: Record<string, PipelineResults>,
+  token: string,
+  pipelineId?: number,
+  cache?: BuildResultCache,
+): Promise<void> {
+  if (!pipelineId) {
+    console.warn(`No ${buildKind} pipeline ID found for ${pkgName}`);
+    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
+    return;
+  }
+
+  const cacheKey = `${buildKind}:${pipelineId}`;
+  let result = cache?.get(cacheKey);
+  if (!result) {
+    result = fetchBuildResult(buildKind, pkgName, token, pipelineId);
+    cache?.set(cacheKey, result);
+  }
+  pipelines[pkgName][buildKind] = await result;
 }
 
 async function getCiResult(
@@ -238,8 +259,9 @@ async function getCiResult(
   pipelines: Record<string, PipelineResults>,
   token: string,
   pipelineId?: number,
+  cache?: BuildResultCache,
 ) {
-  await getBuildResult("ci", pkgName, pipelines, token, pipelineId);
+  await getBuildResult("ci", pkgName, pipelines, token, pipelineId, cache);
 }
 
 async function getTestsResult(
@@ -247,8 +269,9 @@ async function getTestsResult(
   pipelines: Record<string, PipelineResults>,
   token: string,
   pipelineId?: number,
+  cache?: BuildResultCache,
 ) {
-  await getBuildResult("tests", pkgName, pipelines, token, pipelineId);
+  await getBuildResult("tests", pkgName, pipelines, token, pipelineId, cache);
 }
 
 async function getWeeklyTestsResult(
@@ -256,8 +279,9 @@ async function getWeeklyTestsResult(
   pipelines: Record<string, PipelineResults>,
   token: string,
   pipelineId?: number,
+  cache?: BuildResultCache,
 ) {
-  await getBuildResult("weeklyTests", pkgName, pipelines, token, pipelineId);
+  await getBuildResult("weeklyTests", pkgName, pipelines, token, pipelineId, cache);
 }
 
 /**
@@ -297,27 +321,14 @@ async function getPipelines(
 }
 
 function reportOverallStatus(packageDetails: PackageStatus): void {
-  let overallStatus: PackageStatusCode = "GOOD";
-  for (const [check, status] of Object.entries(packageDetails)) {
-    if (!RELEASE_BLOCKERS.includes(check)) {
-      continue;
-    }
-    if (
-      ["lint", "tests", "samples", "ci"].includes(check) &&
-      (status as unknown as Status).status === "FAIL"
-    ) {
-      overallStatus = "BLOCKED";
-      break;
-    }
-    if (
-      ["lint", "tests", "samples", "ci"].includes(check) &&
-      ["DISABLED", "WARNING", "UNKNOWN"].includes((status as unknown as Status).status)
-    ) {
-      overallStatus = "NEEDS_ACTION";
-      break;
-    }
-  }
-  packageDetails.status = overallStatus;
+  const blockerStatuses = RELEASE_BLOCKERS.map((check) => packageDetails[check].status);
+  packageDetails.status = blockerStatuses.some((status) => status === "FAIL")
+    ? "BLOCKED"
+    : blockerStatuses.some(
+          (status) => status === "DISABLED" || status === "WARNING" || status === "UNKNOWN",
+        )
+      ? "NEEDS_ACTION"
+      : "GOOD";
 }
 
 function reportTestResult(
@@ -337,7 +348,10 @@ function reportTestResult(
     packageDetails[testKind] = { status: "UNKNOWN" };
     return;
   }
-  const testStatus = pipelineResult[testKind]?.status;
+  const testStatus =
+    testKind === "ci" && pipelineResult.build?.status === "failed"
+      ? "failed"
+      : pipelineResult[testKind]?.status;
   const old = packageDetails[testKind];
   if (testStatus === "succeeded") {
     packageDetails[testKind] = { ...old, status: "PASS", link: pipelineResult.link };
@@ -542,11 +556,18 @@ async function main() {
 
   const dataplane = await getDataplanePackages();
   const pipelines = await getPipelines(dataplane, token);
+  const buildResultCache: BuildResultCache = new Map();
 
   for (const [pkgName, pipelineIds] of Object.entries(pipelines)) {
-    await getCiResult(pkgName, pipelines, token, pipelineIds.ci?.id);
-    await getTestsResult(pkgName, pipelines, token, pipelineIds.tests?.id);
-    await getWeeklyTestsResult(pkgName, pipelines, token, pipelineIds.weeklyTests?.id);
+    await getCiResult(pkgName, pipelines, token, pipelineIds.ci?.id, buildResultCache);
+    await getTestsResult(pkgName, pipelines, token, pipelineIds.tests?.id, buildResultCache);
+    await getWeeklyTestsResult(
+      pkgName,
+      pipelines,
+      token,
+      pipelineIds.weeklyTests?.id,
+      buildResultCache,
+    );
   }
 
   reportStatus(dataplane as unknown as PackagesWithStatus, pipelines);

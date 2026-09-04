@@ -28,6 +28,7 @@ import {
   reportStatus,
   writeToCsv,
 } from "../src/index.js";
+import { getDataplanePackages } from "../src/packages.js";
 import { getBuild, getBuildTimeline } from "../src/urlHelpers.js";
 
 const getBuildMock = vi.mocked(getBuild);
@@ -86,6 +87,21 @@ function createPackageStatus(serviceDir: string, label?: string): PackageStatus 
   };
 }
 
+function createPackageStatusWithCiBeforeLint(serviceDir: string): PackageStatus {
+  return {
+    projectPath: `sdk/${serviceDir}/example/package.json`,
+    serviceDir,
+    packageDir: "example",
+    status: "GOOD",
+    path: `sdk/${serviceDir}/example`,
+    sdkOwned: false,
+    tests: { status: "UNKNOWN" },
+    samples: { status: "UNKNOWN" },
+    ci: { status: "UNKNOWN" },
+    lint: { status: "UNKNOWN" },
+  };
+}
+
 async function runBuild(
   buildKind: (typeof buildKinds)[number]["buildKind"],
   pipelines: Record<string, PipelineResults>,
@@ -98,6 +114,8 @@ async function runBuild(
 describe("getBuildResult", () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    getBuildMock.mockClear();
+    getBuildTimelineMock.mockClear();
     vi.spyOn(console, "log").mockImplementation(() => undefined);
     vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
@@ -121,6 +139,43 @@ describe("getBuildResult", () => {
       expect(pipelines["@azure/example"][buildKind]?.[taskKind]?.status).toBe("succeeded");
     },
   );
+
+  it("records non-federated integration test tasks", async () => {
+    const pipelines = createPipelines("tests");
+    getBuildMock.mockResolvedValue(createBuildResponse());
+    getBuildTimelineMock.mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          records: [{ name: "Integration test libraries", result: "failed" }],
+        }),
+      ),
+    );
+
+    await runBuild("tests", pipelines);
+
+    expect(pipelines["@azure/example"].tests?.tests?.status).toBe("failed");
+  });
+
+  it("fetches a shared pipeline only once", async () => {
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/first": { ci: { id: 123 } },
+      "@azure/second": { ci: { id: 123 } },
+    };
+    const cache = new Map();
+    getBuildMock.mockResolvedValue(createBuildResponse());
+    getBuildTimelineMock.mockResolvedValue(
+      new Response(JSON.stringify({ records: [{ name: "Test libraries", result: "succeeded" }] })),
+    );
+
+    const first = getBuildResult("ci", "@azure/first", pipelines, "token", 123, cache);
+    await vi.advanceTimersByTimeAsync(1000);
+    await first;
+    await getBuildResult("ci", "@azure/second", pipelines, "token", 123, cache);
+
+    expect(getBuildMock).toHaveBeenCalledOnce();
+    expect(getBuildTimelineMock).toHaveBeenCalledOnce();
+    expect(pipelines["@azure/second"].ci?.ci?.status).toBe("succeeded");
+  });
 
   it.each(buildKinds)(
     "records failed $buildKind timeline tasks",
@@ -202,6 +257,48 @@ describe("report aggregation", () => {
     expect(packageDetails.status).toBe("BLOCKED");
   });
 
+  it("prioritizes a failed blocker over an earlier unknown blocker", () => {
+    const packageDetails = createPackageStatusWithCiBeforeLint("example");
+    const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/example": {
+        ci: {
+          ci: { status: "UNKNOWN" },
+          lint: { status: "failed" },
+        },
+        tests: {
+          tests: { status: "succeeded" },
+        },
+      },
+    };
+
+    reportStatus(dataplane, pipelines);
+
+    expect(packageDetails.status).toBe("BLOCKED");
+  });
+
+  it("treats a failed build task as failed CI", () => {
+    const packageDetails = createPackageStatus("example");
+    const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/example": {
+        ci: {
+          build: { status: "failed" },
+          ci: { status: "UNKNOWN" },
+          lint: { status: "succeeded" },
+        },
+        tests: {
+          tests: { status: "succeeded" },
+        },
+      },
+    };
+
+    reportStatus(dataplane, pipelines);
+
+    expect(packageDetails.ci.status).toBe("FAIL");
+    expect(packageDetails.status).toBe("BLOCKED");
+  });
+
   it("records issues for every service directory sharing a label", () => {
     const dataplane: PackagesWithStatus = {
       "@azure/first": createPackageStatus("first", "Shared"),
@@ -225,5 +322,14 @@ describe("report aggregation", () => {
 
     expect(writeFileMock).toHaveBeenCalledOnce();
     expect(writeFileMock.mock.calls[0][1]).toContain("example,@azure/example,GOOD,NO,,,,,,");
+  });
+});
+
+describe("getDataplanePackages", () => {
+  it("excludes private internal packages", async () => {
+    const packages = await getDataplanePackages();
+
+    expect(packages).not.toHaveProperty("@azure/storage-internal-avro");
+    expect(packages).toHaveProperty("@azure/storage-blob");
   });
 });
