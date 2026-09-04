@@ -91,6 +91,10 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "workerd": {
+        "types": "./dist/workerd/index.d.ts",
+        "default": "./dist/workerd/index.js"
+      },
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
@@ -109,6 +113,10 @@
       }
     },
     "./internal/util": {
+      "workerd": {
+        "types": "./dist/workerd/util/internal.d.ts",
+        "default": "./dist/workerd/util/internal.js"
+      },
       "browser": {
         "types": "./dist/browser/util/internal.d.ts",
         "default": "./dist/browser/util/internal.js"
@@ -127,6 +135,10 @@
       }
     },
     "./internal/logger": {
+      "workerd": {
+        "types": "./dist/workerd/logger/internal.d.ts",
+        "default": "./dist/workerd/logger/internal.js"
+      },
       "browser": {
         "types": "./dist/browser/logger/internal.d.ts",
         "default": "./dist/browser/logger/internal.js"
@@ -145,6 +157,10 @@
       }
     },
     "./internal/policies": {
+      "workerd": {
+        "types": "./dist/workerd/policies/internal.d.ts",
+        "default": "./dist/workerd/policies/internal.js"
+      },
       "browser": {
         "types": "./dist/browser/policies/internal.d.ts",
         "default": "./dist/browser/policies/internal.js"
