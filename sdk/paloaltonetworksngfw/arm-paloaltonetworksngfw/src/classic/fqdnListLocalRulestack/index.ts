@@ -83,7 +83,6 @@ export interface FqdnListLocalRulestackOperations {
     options?: FqdnListLocalRulestackGetOptionalParams,
   ) => Promise<FqdnListLocalRulestackResource>;
 }
-
 function _getFqdnListLocalRulestack(context: PaloAltoNetworksCloudngfwContext) {
   return {
     listByLocalRulestacks: (
@@ -164,7 +163,6 @@ function _getFqdnListLocalRulestack(context: PaloAltoNetworksCloudngfwContext) {
     ) => get(context, resourceGroupName, localRulestackName, name, options),
   };
 }
-
 export function _getFqdnListLocalRulestackOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): FqdnListLocalRulestackOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a FirewallResource
  *
  * @summary update a FirewallResource
- * x-ms-original-file: 2026-05-11-preview/Firewalls_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_Update_MaximumSet_Gen.json
  */
 async function firewallsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -146,7 +146,7 @@ async function firewallsUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to update a FirewallResource
  *
  * @summary update a FirewallResource
- * x-ms-original-file: 2026-05-11-preview/Firewalls_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_Update_MinimumSet_Gen.json
  */
 async function firewallsUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

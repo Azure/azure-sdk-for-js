@@ -35,7 +35,7 @@ export function _listByLocalRulestacksSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,6 @@ export async function _listByLocalRulestacksDeserialize(
 
   return _prefixListResourceListResultDeserializer(result.body);
 }
-
 /** List PrefixListResource resources by LocalRulestacks */
 export function listByLocalRulestacks(
   context: Client,
@@ -78,7 +77,7 @@ export function listByLocalRulestacks(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -97,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,7 +118,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a PrefixListResource */
 export function $delete(
   context: Client,
@@ -134,7 +132,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, localRulestackName, name, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +151,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +180,6 @@ export async function _createOrUpdateDeserialize(
 
   return prefixListResourceDeserializer(result.body);
 }
-
 /** Create a PrefixListResource */
 export function createOrUpdate(
   context: Client,
@@ -198,7 +195,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, localRulestackName, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<PrefixListResource>, PrefixListResource>;
 }
 
@@ -216,7 +213,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,7 +238,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 
   return prefixListResourceDeserializer(result.body);
 }
-
 /** Get a PrefixListResource */
 export async function get(
   context: Client,
