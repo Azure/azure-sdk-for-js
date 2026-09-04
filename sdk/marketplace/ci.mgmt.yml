@@ -13,6 +13,7 @@ trigger:
     include:
       - sdk/marketplace/arm-marketplace
       - sdk/marketplace/ci.mgmt.yml
+      - sdk/marketplace/arm-marketplacereviews
 pr:
   branches:
     include:
@@ -26,6 +27,7 @@ pr:
     include:
       - sdk/marketplace/arm-marketplace
       - sdk/marketplace/ci.mgmt.yml
+      - sdk/marketplace/arm-marketplacereviews
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -33,3 +35,5 @@ extends:
     Artifacts:
       - name: azure-arm-marketplace
         safeName: azurearmmarketplace
+      - name: azure-arm-marketplacereviews
+        safeName: azurearmmarketplacereviews
