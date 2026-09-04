@@ -2727,6 +2727,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
+    "Microsoft.Compute.VirtualMachineScaleSets.LifecycleHookEvents": LifecycleHookEventsEventData;
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
