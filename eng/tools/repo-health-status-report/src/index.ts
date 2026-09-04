@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultAzureCredential } from "@azure/identity";
 import { getDataplanePackages } from "./packages.js";
 import {
   getAllDevopsBuilds,
@@ -518,6 +517,7 @@ async function main() {
       throw new Error(`using SYSTEM_ACCESSTOKEN but it is not available`);
     }
   } else {
+    const { DefaultAzureCredential } = await import("@azure/identity");
     const credential = new DefaultAzureCredential();
     token = (await credential.getToken(`${DEVOPS_RESOURCE_UUID}/.default`)).token;
   }
