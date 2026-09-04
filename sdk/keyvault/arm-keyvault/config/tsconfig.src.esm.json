@@ -1,6 +1,19 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/mhsmPrivateEndpointConnections/index.ts",
+    "../src/api/mhsmRegions/index.ts",
+    "../src/api/mhsmPrivateLinkResources/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/managedHsmKeys/index.ts",
+    "../src/api/keys/index.ts",
+    "../src/api/secrets/index.ts",
+    "../src/api/managedHsms/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/vaults/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

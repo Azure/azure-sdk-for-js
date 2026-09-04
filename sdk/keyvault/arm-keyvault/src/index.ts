@@ -48,6 +48,9 @@ export type {
   PrivateEndpointServiceConnectionStatus,
   ActionsRequired,
   PrivateEndpointConnectionProvisioningState,
+  TokenBindingParameters,
+  TokenBindingMode,
+  TokenBindingStrength,
   ProxyResource,
   Resource,
   SystemData,
@@ -82,7 +85,7 @@ export type {
   ActivationStatus,
   ManagedHsmSku,
   ManagedHsmSkuFamily,
-  ManagedHsmSkuName,
+  ManagedHsmSkuNameV2,
   ManagedServiceIdentity,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
@@ -145,6 +148,8 @@ export {
   KnownPrivateEndpointServiceConnectionStatus,
   KnownActionsRequired,
   KnownPrivateEndpointConnectionProvisioningState,
+  KnownTokenBindingMode,
+  KnownTokenBindingStrength,
   KnownCreatedByType,
   KnownReason,
   KnownProvisioningState,
@@ -152,6 +157,7 @@ export {
   KnownPublicNetworkAccess,
   KnownActivationStatus,
   KnownManagedHsmSkuFamily,
+  KnownManagedHsmSkuNameV2,
   KnownManagedServiceIdentityType,
   KnownDeletionRecoveryLevel,
   KnownJsonWebKeyType,
@@ -238,3 +244,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
