@@ -1,0 +1,29 @@
+{
+  "apiVersions": {
+    "Microsoft.EdgeOperator": "2026-06-01-preview"
+  },
+  "emitterVersion": "0.56.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.EdgeOperator",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-edgeoperator!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-edgeoperator!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-edgeoperator!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-edgeoperator!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-edgeoperator!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-edgeoperator!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-edgeoperator!SystemReadiness:interface": "Microsoft.EdgeOperator.SystemReadiness",
+      "@azure/arm-edgeoperator!SystemReadinessProperties:interface": "Microsoft.EdgeOperator.SystemReadinessProperties",
+      "@azure/arm-edgeoperator!SystemReadinessCategory:interface": "Microsoft.EdgeOperator.SystemReadinessCategory",
+      "@azure/arm-edgeoperator!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-edgeoperator!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-edgeoperator!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-edgeoperator!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-edgeoperator!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-edgeoperator!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-edgeoperator!KnownVersions:enum": "Microsoft.EdgeOperator.Versions",
+      "@azure/arm-edgeoperator!SystemReadinessOperationsOperations#get:member": "Microsoft.EdgeOperator.SystemReadinessOperations.get",
+      "@azure/arm-edgeoperator!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
