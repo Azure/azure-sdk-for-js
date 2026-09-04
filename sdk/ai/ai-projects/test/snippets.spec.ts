@@ -54,6 +54,12 @@ describe("snippets", function () {
     }
   });
 
+  it("agent-insight-monitors", async function () {
+    for await (const monitor of project.beta.agentInsightMonitors.list()) {
+      console.log(`${monitor.id}: ${monitor.agent_name}`);
+    }
+  });
+
   it("openAI", async function () {
     const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({
