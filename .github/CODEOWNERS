@@ -235,6 +235,12 @@
 # PRLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/    @dargilco @rhurey
 
+# PRLabel: %Iot
+/sdk/deviceregistry/iot-device-registry-software-update/ @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
+
+# AzureSdkOwners: @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
+# ServiceLabel: %Iot
+
 # PRLabel: %KeyVault
 /sdk/keyvault/    @Azure/azure-sdk-write-keyvault
 
@@ -1714,9 +1720,6 @@ sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Iot
-sdk/deviceregistry/iot-device-registry-software-update/ @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
