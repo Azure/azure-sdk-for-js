@@ -17,6 +17,9 @@ require("dotenv/config");
 const projectEndpoint = getRequiredEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
 const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-audio-${Date.now()}`;
 const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
+// The input file must contain raw PCM16 24kHz mono audio with real, audible speech.
+// Silence or non-speech noise will never trigger server-side turn detection, and the
+// service will eventually drop the connection (observed as a 1006 abnormal close).
 const audioInputPath = process.env["FOUNDRY_VOICE_AGENT_AUDIO_INPUT_FILE"]?.trim() || "./input.pcm";
 const audioOutputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "./output.pcm";
@@ -38,23 +41,17 @@ async function main() {
   let responseComplete = false;
 
   try {
+    // session.update merges into the existing session config; only the changed field needs to be sent.
+    const pcmFormat = { type: "audio/pcm", rate: pcmSampleRate };
     await connection.configureSession({
       type: "realtime",
       output_modalities: ["text", "audio"],
       audio: {
         input: {
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-          turn_detection: {
-            type: "server_vad",
-            create_response: true,
-            interrupt_response: true,
-            silence_duration_ms: 500,
-          },
+          format: pcmFormat,
+          turn_detection: withTurnDetectionOverrides(definition.audio?.input?.turn_detection),
         },
-        output: {
-          ...definition.audio?.output,
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-        },
+        output: { format: pcmFormat },
       },
     });
 
@@ -154,6 +151,25 @@ function getVoiceDefinition(agent) {
     throw new Error(`Agent ${agent.name} is not a voice agent.`);
   }
   return definition;
+}
+
+function withTurnDetectionOverrides(turnDetection) {
+  // Turn-detection type is a session default set when the agent was configured and cannot change
+  // at connect time, so the agent's own type and fields are preserved here; only this sample's
+  // chosen overrides are layered on top.
+  if (!turnDetection) {
+    return {
+      type: "server_vad",
+      create_response: true,
+      interrupt_response: true,
+      silence_duration_ms: 500,
+    };
+  }
+  if (turnDetection.type === "semantic_vad") {
+    // Unlike every other turn-detection type, `semantic_vad` has no `silence_duration_ms` field.
+    return { ...turnDetection, create_response: true, interrupt_response: true };
+  }
+  return { ...turnDetection, create_response: true, interrupt_response: true, silence_duration_ms: 500 };
 }
 
 function isVoiceAgentDefinition(definition) {

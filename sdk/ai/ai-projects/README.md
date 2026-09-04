@@ -243,11 +243,15 @@ streams its response:
 const voiceAgentName = `voice-agent-${Date.now()}`;
 const voiceAgent = await project.agents.generateAgent({ kind: "voice", name: voiceAgentName });
 const connection = await project.realtime.connect(voiceAgent.name);
-
 try {
   await connection.sendText("Hello. Please introduce yourself briefly.");
   for await (const event of connection) {
-    if (event.type === "response.output_text.delta") {
+    // Voice agents speak their reply, so the text form of it streams as an audio transcript
+    // rather than as `response.output_text.delta`.
+    if (
+      event.type === "response.output_text.delta" ||
+      event.type === "response.output_audio_transcript.delta"
+    ) {
       process.stdout.write(event.delta);
     } else if (event.type === "response.done") {
       await connection.close();
