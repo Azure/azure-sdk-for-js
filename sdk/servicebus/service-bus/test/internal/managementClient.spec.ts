@@ -16,8 +16,8 @@ describe("ManagementClient unit tests", () => {
     );
     let sendabilityAttempts = 0;
     let dispatchAttempts = 0;
-    mgmtClient["initWithUniqueReplyTo"] = async (options) => options;
-    mgmtClient["_waitForManagementRequestSendable"] = async (_, options) => {
+    mgmtClient["initWithUniqueReplyTo"] = async (options = {}) => options;
+    mgmtClient["_waitForManagementRequestSendable"] = async (_, options = {}) => {
       sendabilityAttempts++;
       if (sendabilityAttempts === 1) {
         throw retryableErrorForTests;
