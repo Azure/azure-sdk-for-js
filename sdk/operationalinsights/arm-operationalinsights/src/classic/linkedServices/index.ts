@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   listByWorkspace,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/linkedServices/operations.js";
-import {
+import type {
   LinkedServicesListByWorkspaceOptionalParams,
   LinkedServicesDeleteOptionalParams,
   LinkedServicesCreateOrUpdateOptionalParams,
   LinkedServicesGetOptionalParams,
 } from "../../api/linkedServices/options.js";
-import { LinkedService } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { LinkedService } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LinkedServices operations. */
 export interface LinkedServicesOperations {
@@ -80,7 +81,6 @@ export interface LinkedServicesOperations {
     options?: LinkedServicesGetOptionalParams,
   ) => Promise<LinkedService>;
 }
-
 function _getLinkedServices(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -169,7 +169,6 @@ function _getLinkedServices(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, linkedServiceName, options),
   };
 }
-
 export function _getLinkedServicesOperations(
   context: OperationalInsightsManagementContext,
 ): LinkedServicesOperations {

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { listByResourceGroup, list } from "../../api/deletedWorkspaces/operations.js";
-import {
+import type {
   DeletedWorkspacesListByResourceGroupOptionalParams,
   DeletedWorkspacesListOptionalParams,
 } from "../../api/deletedWorkspaces/options.js";
-import { Workspace } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Workspace } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeletedWorkspaces operations. */
 export interface DeletedWorkspacesOperations {
@@ -20,7 +20,6 @@ export interface DeletedWorkspacesOperations {
   /** Gets recently deleted workspaces in a subscription, available for recovery. */
   list: (options?: DeletedWorkspacesListOptionalParams) => PagedAsyncIterableIterator<Workspace>;
 }
-
 function _getDeletedWorkspaces(context: OperationalInsightsManagementContext) {
   return {
     listByResourceGroup: (
@@ -30,7 +29,6 @@ function _getDeletedWorkspaces(context: OperationalInsightsManagementContext) {
     list: (options?: DeletedWorkspacesListOptionalParams) => list(context, options),
   };
 }
-
 export function _getDeletedWorkspacesOperations(
   context: OperationalInsightsManagementContext,
 ): DeletedWorkspacesOperations {

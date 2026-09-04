@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { listByWorkspace, $delete, createOrUpdate, get } from "../../api/dataExports/operations.js";
-import {
+import type {
   DataExportsListByWorkspaceOptionalParams,
   DataExportsDeleteOptionalParams,
   DataExportsCreateOrUpdateOptionalParams,
   DataExportsGetOptionalParams,
 } from "../../api/dataExports/options.js";
-import { DataExport } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DataExport } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataExports operations. */
 export interface DataExportsOperations {
@@ -43,7 +43,6 @@ export interface DataExportsOperations {
     options?: DataExportsGetOptionalParams,
   ) => Promise<DataExport>;
 }
-
 function _getDataExports(context: OperationalInsightsManagementContext) {
   return {
     listByWorkspace: (
@@ -80,7 +79,6 @@ function _getDataExports(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, dataExportName, options),
   };
 }
-
 export function _getDataExportsOperations(
   context: OperationalInsightsManagementContext,
 ): DataExportsOperations {

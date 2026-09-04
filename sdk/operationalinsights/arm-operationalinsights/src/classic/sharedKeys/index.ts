@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { regenerate, getSharedKeys } from "../../api/sharedKeys/operations.js";
-import {
+import type {
   SharedKeysRegenerateOptionalParams,
   SharedKeysGetSharedKeysOptionalParams,
 } from "../../api/sharedKeys/options.js";
-import { SharedKeys } from "../../models/models.js";
+import type { SharedKeys } from "../../models/models.js";
 
 /** Interface representing a SharedKeys operations. */
 export interface SharedKeysOperations {
@@ -24,7 +24,6 @@ export interface SharedKeysOperations {
     options?: SharedKeysGetSharedKeysOptionalParams,
   ) => Promise<SharedKeys>;
 }
-
 function _getSharedKeys(context: OperationalInsightsManagementContext) {
   return {
     regenerate: (
@@ -39,7 +38,6 @@ function _getSharedKeys(context: OperationalInsightsManagementContext) {
     ) => getSharedKeys(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getSharedKeysOperations(
   context: OperationalInsightsManagementContext,
 ): SharedKeysOperations {

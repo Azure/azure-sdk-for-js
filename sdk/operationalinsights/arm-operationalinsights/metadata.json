@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.OperationalInsights": "2025-07-01"
+    "Microsoft.OperationalInsights": "2026-03-01"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.OperationalInsights",
     "CrossLanguageDefinitionId": {
@@ -94,6 +94,8 @@
       "@azure/arm-operationalinsights!WorkspacePurgeBodyFilters:interface": "Microsoft.OperationalInsights.WorkspacePurgeBodyFilters",
       "@azure/arm-operationalinsights!WorkspacePurgeResponse:interface": "Microsoft.OperationalInsights.WorkspacePurgeResponse",
       "@azure/arm-operationalinsights!WorkspacePurgeStatusResponse:interface": "Microsoft.OperationalInsights.WorkspacePurgeStatusResponse",
+      "@azure/arm-operationalinsights!WorkspacePurgeLakeDataBody:interface": "Microsoft.OperationalInsights.WorkspacePurgeLakeDataBody",
+      "@azure/arm-operationalinsights!WorkspacePurgeLakeDataTimeRange:interface": "Microsoft.OperationalInsights.WorkspacePurgeLakeDataTimeRange",
       "@azure/arm-operationalinsights!LinkedStorageAccountsResource:interface": "Microsoft.OperationalInsights.LinkedStorageAccountsResource",
       "@azure/arm-operationalinsights!LinkedStorageAccountsProperties:interface": "Microsoft.OperationalInsights.LinkedStorageAccountsProperties",
       "@azure/arm-operationalinsights!LinkedStorageAccountsListResult:interface": "Microsoft.OperationalInsights.LinkedStorageAccountsListResult",
@@ -115,6 +117,8 @@
       "@azure/arm-operationalinsights!SummaryLogs:interface": "Microsoft.OperationalInsights.SummaryLogs",
       "@azure/arm-operationalinsights!SummaryLogsProperties:interface": "Microsoft.OperationalInsights.SummaryLogsProperties",
       "@azure/arm-operationalinsights!RuleDefinition:interface": "Microsoft.OperationalInsights.RuleDefinition",
+      "@azure/arm-operationalinsights!SummaryLogsIdentity:interface": "Microsoft.OperationalInsights.SummaryLogsIdentity",
+      "@azure/arm-operationalinsights!SummaryLogsUserIdentityProperties:interface": "Microsoft.OperationalInsights.SummaryLogsUserIdentityProperties",
       "@azure/arm-operationalinsights!SummaryLogsListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-operationalinsights!SummaryLogsRetryBin:interface": "Microsoft.OperationalInsights.SummaryLogsRetryBin",
       "@azure/arm-operationalinsights!SummaryLogsRetryBinProperties:interface": "Microsoft.OperationalInsights.SummaryLogsRetryBinProperties",
@@ -142,6 +146,7 @@
       "@azure/arm-operationalinsights!KnownDataSourceKind:enum": "Microsoft.OperationalInsights.DataSourceKind",
       "@azure/arm-operationalinsights!KnownLinkedServiceEntityStatus:enum": "Microsoft.OperationalInsights.LinkedServiceEntityStatus",
       "@azure/arm-operationalinsights!KnownTablePlanEnum:enum": "Microsoft.OperationalInsights.TablePlanEnum",
+      "@azure/arm-operationalinsights!KnownTableProtectionLevelEnum:enum": "Microsoft.OperationalInsights.TableProtectionLevelEnum",
       "@azure/arm-operationalinsights!KnownColumnTypeEnum:enum": "Microsoft.OperationalInsights.ColumnTypeEnum",
       "@azure/arm-operationalinsights!KnownColumnDataTypeHintEnum:enum": "Microsoft.OperationalInsights.ColumnDataTypeHintEnum",
       "@azure/arm-operationalinsights!KnownSourceEnum:enum": "Microsoft.OperationalInsights.SourceEnum",
@@ -157,6 +162,7 @@
       "@azure/arm-operationalinsights!KnownStatusCodeEnum:enum": "Microsoft.OperationalInsights.StatusCodeEnum",
       "@azure/arm-operationalinsights!KnownProvisioningStateEnum:enum": "Microsoft.OperationalInsights.ProvisioningStateEnum",
       "@azure/arm-operationalinsights!KnownTimeSelectorEnum:enum": "Microsoft.OperationalInsights.TimeSelectorEnum",
+      "@azure/arm-operationalinsights!KnownSummaryLogsIdentityType:enum": "Microsoft.OperationalInsights.SummaryLogsIdentityType",
       "@azure/arm-operationalinsights!KnownVersions:enum": "Microsoft.OperationalInsights.Versions",
       "@azure/arm-operationalinsights!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
       "@azure/arm-operationalinsights!ClusterSkuCapacity:type": "Microsoft.OperationalInsights.ClusterSku.capacity.anonymous",
@@ -168,6 +174,7 @@
       "@azure/arm-operationalinsights!WorkspaceFeaturesClusterResourceId:type": "Microsoft.OperationalInsights.WorkspaceFeatures.clusterResourceId.anonymous",
       "@azure/arm-operationalinsights!WorkspaceFeaturesDisableLocalAuth:type": "Microsoft.OperationalInsights.WorkspaceFeatures.disableLocalAuth.anonymous",
       "@azure/arm-operationalinsights!WorkspaceFeaturesUnifiedSentinelBillingOnly:type": "Microsoft.OperationalInsights.WorkspaceFeatures.unifiedSentinelBillingOnly.anonymous",
+      "@azure/arm-operationalinsights!WorkspaceFeaturesDataAuthorizationMode:type": "Microsoft.OperationalInsights.WorkspaceFeatures.dataAuthorizationMode.anonymous",
       "@azure/arm-operationalinsights!DeletedWorkspacesOperations#listByResourceGroup:member": "Microsoft.OperationalInsights.DeletedWorkspacesOperationGroup.listByResourceGroup",
       "@azure/arm-operationalinsights!DeletedWorkspacesOperations#list:member": "Microsoft.OperationalInsights.DeletedWorkspacesOperationGroup.list",
       "@azure/arm-operationalinsights!OperationStatusesOperations#get:member": "Microsoft.OperationalInsights.OperationStatusesOperationGroup.get",
@@ -199,6 +206,7 @@
       "@azure/arm-operationalinsights!LinkedStorageAccountsOperations#delete:member": "Microsoft.OperationalInsights.LinkedStorageAccountsResources.delete",
       "@azure/arm-operationalinsights!LinkedStorageAccountsOperations#createOrUpdate:member": "Microsoft.OperationalInsights.LinkedStorageAccountsResources.createOrUpdate",
       "@azure/arm-operationalinsights!LinkedStorageAccountsOperations#get:member": "Microsoft.OperationalInsights.LinkedStorageAccountsResources.get",
+      "@azure/arm-operationalinsights!WorkspacePurgeOperations#purgeLakeData:member": "Microsoft.OperationalInsights.Workspaces.purgeLakeData",
       "@azure/arm-operationalinsights!WorkspacePurgeOperations#getPurgeStatus:member": "Microsoft.OperationalInsights.Workspaces.getPurgeStatus",
       "@azure/arm-operationalinsights!WorkspacePurgeOperations#purge:member": "Microsoft.OperationalInsights.Workspaces.purge",
       "@azure/arm-operationalinsights!UsagesOperations#List:member": "Microsoft.OperationalInsights.Workspaces.usagesList",
