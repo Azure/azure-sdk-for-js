@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   restartRevision,
   deactivateRevision,
@@ -9,15 +9,15 @@ import {
   listRevisions,
   getRevision,
 } from "../../api/containerAppsRevisions/operations.js";
-import {
+import type {
   ContainerAppsRevisionsRestartRevisionOptionalParams,
   ContainerAppsRevisionsDeactivateRevisionOptionalParams,
   ContainerAppsRevisionsActivateRevisionOptionalParams,
   ContainerAppsRevisionsListRevisionsOptionalParams,
   ContainerAppsRevisionsGetRevisionOptionalParams,
 } from "../../api/containerAppsRevisions/options.js";
-import { Revision } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Revision } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ContainerAppsRevisions operations. */
 export interface ContainerAppsRevisionsOperations {

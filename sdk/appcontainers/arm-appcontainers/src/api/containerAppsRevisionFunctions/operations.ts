@@ -1,29 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext as Client } from "../index.js";
-import {
-  defaultErrorResponseDeserializer,
+import type { ContainerAppsAPIContext as Client } from "../index.js";
+import type {
   ContainerAppsFunction,
-  containerAppsFunctionDeserializer,
   _ContainerAppsFunctionCollection,
-  _containerAppsFunctionCollectionDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  defaultErrorResponseDeserializer,
+  containerAppsFunctionDeserializer,
+  _containerAppsFunctionCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ContainerAppsRevisionFunctionsListOptionalParams,
   ContainerAppsRevisionFunctionsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -39,7 +35,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       revisionName: revisionName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +53,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -65,7 +63,7 @@ export async function _listDeserialize(
   return _containerAppsFunctionCollectionDeserializer(result.body);
 }
 
-/** List the functions for a given Container App Revision. */
+/** Lists the functions available in a specific Container App revision. */
 export function list(
   context: Client,
   resourceGroupName: string,
@@ -78,11 +76,7 @@ export function list(
     () => _listSend(context, resourceGroupName, containerAppName, revisionName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-10-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -102,7 +96,7 @@ export function _getSend(
       containerAppName: containerAppName,
       revisionName: revisionName,
       functionName: functionName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +114,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -128,7 +124,7 @@ export async function _getDeserialize(
   return containerAppsFunctionDeserializer(result.body);
 }
 
-/** Get a specific function of a Container App Revision. */
+/** Gets the details of a specific function in a Container App revision. */
 export async function get(
   context: Client,
   resourceGroupName: string,

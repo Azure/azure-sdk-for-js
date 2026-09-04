@@ -1,14 +1,642 @@
 # Release History
 
-## 4.0.0-beta.2 (Unreleased)
+## 4.0.0 (2026-09-04)
 
 ### Features Added
+  - Added operation group AvailableEnvironmentModesOperations
+  - Added operation group ContainerAppPrivateEndpointConnectionsOperations
+  - Added operation group ContainerAppPrivateLinkResourcesOperations
+  - Added operation group ContainerAppsFunctionsOperations
+  - Added operation group ContainerAppsLabelHistoryOperations
+  - Added operation group ContainerAppsRevisionFunctionsOperations
+  - Added operation group DaprComponentResiliencyPoliciesOperations
+  - Added operation group DotNetComponentsOperations
+  - Added operation group FunctionsExtensionOperations
+  - Added operation group SandboxGroupsOperations
+  - Added operation group VnetConnectionsOperations
+  - Added operation ConnectedEnvironmentsOperations.createOrUpdate
+  - Added operation ConnectedEnvironmentsOperations.delete
+  - Added operation ConnectedEnvironmentsCertificatesOperations.createOrUpdate
+  - Added operation ConnectedEnvironmentsCertificatesOperations.delete
+  - Added operation ConnectedEnvironmentsCertificatesOperations.update
+  - Added operation ConnectedEnvironmentsDaprComponentsOperations.createOrUpdate
+  - Added operation ConnectedEnvironmentsDaprComponentsOperations.delete
+  - Added operation ConnectedEnvironmentsStoragesOperations.createOrUpdate
+  - Added operation ConnectedEnvironmentsStoragesOperations.delete
+  - Added operation ContainerAppsOperations.createOrUpdate
+  - Added operation ContainerAppsOperations.delete
+  - Added operation ContainerAppsOperations.start
+  - Added operation ContainerAppsOperations.stop
+  - Added operation ContainerAppsOperations.update
+  - Added operation ContainerAppsSessionPoolsOperations.createOrUpdate
+  - Added operation ContainerAppsSessionPoolsOperations.delete
+  - Added operation ContainerAppsSessionPoolsOperations.update
+  - Added operation ContainerAppsSourceControlsOperations.createOrUpdate
+  - Added operation ContainerAppsSourceControlsOperations.delete
+  - Added operation HttpRouteConfigOperations.delete
+  - Added operation JavaComponentsOperations.createOrUpdate
+  - Added operation JavaComponentsOperations.delete
+  - Added operation JavaComponentsOperations.update
+  - Added operation JobsOperations.beginResume
+  - Added operation JobsOperations.beginResumeAndWait
+  - Added operation JobsOperations.beginSuspend
+  - Added operation JobsOperations.beginSuspendAndWait
+  - Added operation JobsOperations.createOrUpdate
+  - Added operation JobsOperations.delete
+  - Added operation JobsOperations.resume
+  - Added operation JobsOperations.start
+  - Added operation JobsOperations.stopExecution
+  - Added operation JobsOperations.stopMultipleExecutions
+  - Added operation JobsOperations.suspend
+  - Added operation JobsOperations.update
+  - Added operation ManagedCertificatesOperations.createOrUpdate
+  - Added operation ManagedEnvironmentPrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation ManagedEnvironmentPrivateEndpointConnectionsOperations.delete
+  - Added operation ManagedEnvironmentPrivateLinkResourcesOperations.get
+  - Added operation ManagedEnvironmentsOperations.checkMigrationEligibility
+  - Added operation ManagedEnvironmentsOperations.createOrUpdate
+  - Added operation ManagedEnvironmentsOperations.delete
+  - Added operation ManagedEnvironmentsOperations.update
+  - Class ContainerAppsAPIClient has a new constructor "constructor(credential: TokenCredential, options?: ContainerAppsAPIClientOptionalParams);"
+  - Added Interface AppInsightsConfiguration
+  - Added Interface AuthConfigProperties
+  - Added Interface AvailableEnvironmentMode
+  - Added Interface AvailableEnvironmentModeProperties
+  - Added Interface AvailableEnvironmentModesListOptionalParams
+  - Added Interface AvailableWorkloadProfilesListOptionalParams
+  - Added Interface CheckMigrationEligibilityRequest
+  - Added Interface CheckMigrationEligibilityResponse
+  - Added Interface ConnectedEnvironmentProperties
+  - Added Interface ContainerAppAuthTokenProperties
+  - Added Interface ContainerAppNetworkingConfiguration
+  - Added Interface ContainerAppPrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  - Added Interface ContainerAppPrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface ContainerAppPrivateEndpointConnectionsGetOptionalParams
+  - Added Interface ContainerAppPrivateEndpointConnectionsListOptionalParams
+  - Added Interface ContainerAppPrivateLinkResourcesGetOptionalParams
+  - Added Interface ContainerAppPrivateLinkResourcesListOptionalParams
+  - Added Interface ContainerAppProperties
+  - Added Interface ContainerAppsFunction
+  - Added Interface ContainerAppsFunctionProperties
+  - Added Interface ContainerAppsFunctionsGetOptionalParams
+  - Added Interface ContainerAppsFunctionsListOptionalParams
+  - Added Interface ContainerAppsLabelHistoryDeleteLabelHistoryOptionalParams
+  - Added Interface ContainerAppsLabelHistoryGetLabelHistoryOptionalParams
+  - Added Interface ContainerAppsLabelHistoryListLabelHistoryOptionalParams
+  - Added Interface ContainerAppsRevisionFunctionsGetOptionalParams
+  - Added Interface ContainerAppsRevisionFunctionsListOptionalParams
+  - Added Interface ContainerExecutionStatus
+  - Added Interface DaprComponentProperties
+  - Added Interface DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesDeleteOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesGetOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesListOptionalParams
+  - Added Interface DaprComponentResiliencyPolicy
+  - Added Interface DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration
+  - Added Interface DaprComponentResiliencyPolicyConfiguration
+  - Added Interface DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration
+  - Added Interface DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration
+  - Added Interface DaprComponentResiliencyPolicyProperties
+  - Added Interface DaprComponentResiliencyPolicyTimeoutPolicyConfiguration
+  - Added Interface DataDogConfiguration
+  - Added Interface DestinationsConfiguration
+  - Added Interface DotNetComponent
+  - Added Interface DotNetComponentConfigurationProperty
+  - Added Interface DotNetComponentProperties
+  - Added Interface DotNetComponentsCreateOrUpdateOptionalParams
+  - Added Interface DotNetComponentsDeleteOptionalParams
+  - Added Interface DotNetComponentServiceBind
+  - Added Interface DotNetComponentsGetOptionalParams
+  - Added Interface DotNetComponentsListOptionalParams
+  - Added Interface DotNetComponentsUpdateOptionalParams
+  - Added Interface EnvironmentAuthTokenProperties
+  - Added Interface ExecutionStatus
+  - Added Interface FunctionsExtensionInvokeFunctionsHostOptionalParams
+  - Added Interface Header
+  - Added Interface JobExecutionProperties
+  - Added Interface JobProperties
+  - Added Interface JobsResumeOptionalParams
+  - Added Interface JobsSuspendOptionalParams
+  - Added Interface LabelHistory
+  - Added Interface LabelHistoryProperties
+  - Added Interface LabelHistoryRecordItem
+  - Added Interface LogsConfiguration
+  - Added Interface ManagedEnvironmentPrivateLinkResourcesGetOptionalParams
+  - Added Interface ManagedEnvironmentProperties
+  - Added Interface ManagedEnvironmentsCheckMigrationEligibilityOptionalParams
+  - Added Interface MetricsConfiguration
+  - Added Interface MigrationEligibilityFailureReason
+  - Added Interface OpenTelemetryConfiguration
+  - Added Interface OtlpConfiguration
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ReplicaExecutionStatus
+  - Added Interface ReplicaProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface RevisionProperties
+  - Added Interface SandboxGroup
+  - Added Interface SandboxGroupPatch
+  - Added Interface SandboxGroupPatchProperties
+  - Added Interface SandboxGroupProperties
+  - Added Interface SandboxGroupsCreateOrUpdateOptionalParams
+  - Added Interface SandboxGroupsDeleteOptionalParams
+  - Added Interface SandboxGroupsGetOptionalParams
+  - Added Interface SandboxGroupsListByResourceGroupOptionalParams
+  - Added Interface SandboxGroupsListBySubscriptionOptionalParams
+  - Added Interface SandboxGroupsUpdateOptionalParams
+  - Added Interface ScheduledEntries
+  - Added Interface SessionPoolProperties
+  - Added Interface SessionPoolUpdatablePropertiesProperties
+  - Added Interface SessionProbe
+  - Added Interface SessionProbeHttpGet
+  - Added Interface SessionProbeHttpGetHttpHeadersItem
+  - Added Interface SessionProbeTcpSocket
+  - Added Interface SimplePollerLike
+  - Added Interface SourceControlProperties
+  - Added Interface TracesConfiguration
+  - Added Interface VnetConnection
+  - Added Interface VnetConnectionProperties
+  - Added Interface VnetConnectionsCreateOrUpdateOptionalParams
+  - Added Interface VnetConnectionsDeleteOptionalParams
+  - Added Interface VnetConnectionsGetOptionalParams
+  - Added Interface VnetConnectionsListBySandboxGroupOptionalParams
+  - Interface BillingMetersGetOptionalParams has a new optional parameter abortSignal
+  - Interface BillingMetersGetOptionalParams has a new optional parameter requestOptions
+  - Interface BillingMetersGetOptionalParams has a new optional parameter tracingOptions
+  - Interface BillingMetersGetOptionalParams has a new optional parameter onResponse
+  - Interface BlobStorageTokenStore has a new optional parameter blobContainerUri
+  - Interface BlobStorageTokenStore has a new optional parameter clientId
+  - Interface BlobStorageTokenStore has a new optional parameter managedIdentityResourceId
+  - Interface CertificatesCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface CertificatesDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesDeleteOptionalParams has a new optional parameter onResponse
+  - Interface CertificatesGetOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesGetOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesGetOptionalParams has a new optional parameter onResponse
+  - Interface CertificatesListOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesListOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesListOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesListOptionalParams has a new optional parameter onResponse
+  - Interface CertificatesUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface CertificatesUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface CertificatesUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificatesUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsCertificatesGetOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsCertificatesGetOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsCertificatesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsCertificatesGetOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsCertificatesListOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsCertificatesListOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsCertificatesListOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsCertificatesListOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsDaprComponentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsDaprComponentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsDaprComponentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsDaprComponentsGetOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsDaprComponentsListOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsDaprComponentsListOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsDaprComponentsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsDaprComponentsListOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsGetOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsStoragesGetOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsStoragesGetOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsStoragesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsStoragesGetOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsStoragesListOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsStoragesListOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsStoragesListOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsStoragesListOptionalParams has a new optional parameter onResponse
+  - Interface ConnectedEnvironmentsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ConnectedEnvironmentsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ConnectedEnvironmentsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ConnectedEnvironmentsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ContainerApp has a new optional parameter networking
+  - Interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsAuthConfigsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsAuthConfigsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsAuthConfigsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsAuthConfigsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsAuthConfigsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsAuthConfigsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsAuthConfigsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsAuthConfigsGetOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsAuthConfigsListByContainerAppOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsAuthConfigsListByContainerAppOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsAuthConfigsListByContainerAppOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsAuthConfigsListByContainerAppOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsDiagnosticsGetDetectorOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsDiagnosticsGetDetectorOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsDiagnosticsGetDetectorOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsDiagnosticsGetDetectorOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsDiagnosticsGetRevisionOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsDiagnosticsGetRevisionOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsDiagnosticsGetRevisionOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsDiagnosticsGetRevisionOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsDiagnosticsGetRootOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsDiagnosticsGetRootOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsDiagnosticsGetRootOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsDiagnosticsGetRootOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsDiagnosticsListDetectorsOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsDiagnosticsListDetectorsOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsDiagnosticsListDetectorsOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsDiagnosticsListDetectorsOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsDiagnosticsListRevisionsOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsDiagnosticsListRevisionsOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsDiagnosticsListRevisionsOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsDiagnosticsListRevisionsOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsGetAuthTokenOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsGetAuthTokenOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsGetAuthTokenOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsGetAuthTokenOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsGetOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsListCustomHostNameAnalysisOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsListCustomHostNameAnalysisOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsListCustomHostNameAnalysisOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsListCustomHostNameAnalysisOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsRevisionReplicasGetReplicaOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsRevisionReplicasGetReplicaOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsRevisionReplicasGetReplicaOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsRevisionReplicasGetReplicaOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsRevisionReplicasListReplicasOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsRevisionReplicasListReplicasOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsRevisionReplicasListReplicasOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsRevisionReplicasListReplicasOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsRevisionsActivateRevisionOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsRevisionsActivateRevisionOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsRevisionsActivateRevisionOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsRevisionsActivateRevisionOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsRevisionsDeactivateRevisionOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsRevisionsDeactivateRevisionOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsRevisionsDeactivateRevisionOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsRevisionsDeactivateRevisionOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsRevisionsGetRevisionOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsRevisionsGetRevisionOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsRevisionsGetRevisionOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsRevisionsGetRevisionOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsRevisionsListRevisionsOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsRevisionsListRevisionsOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsRevisionsListRevisionsOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsRevisionsListRevisionsOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsRevisionsRestartRevisionOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsRevisionsRestartRevisionOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsRevisionsRestartRevisionOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsRevisionsRestartRevisionOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsSessionPoolsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsSessionPoolsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsSessionPoolsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsSessionPoolsGetOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsSourceControlsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsSourceControlsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsSourceControlsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsSourceControlsGetOptionalParams has a new optional parameter onResponse
+  - Interface ContainerAppsSourceControlsListByContainerAppOptionalParams has a new optional parameter abortSignal
+  - Interface ContainerAppsSourceControlsListByContainerAppOptionalParams has a new optional parameter requestOptions
+  - Interface ContainerAppsSourceControlsListByContainerAppOptionalParams has a new optional parameter tracingOptions
+  - Interface ContainerAppsSourceControlsListByContainerAppOptionalParams has a new optional parameter onResponse
+  - Interface DaprComponentsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DaprComponentsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DaprComponentsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DaprComponentsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DaprComponentsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface DaprComponentsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface DaprComponentsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface DaprComponentsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface DaprComponentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DaprComponentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DaprComponentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DaprComponentsGetOptionalParams has a new optional parameter onResponse
+  - Interface DaprComponentsListOptionalParams has a new optional parameter abortSignal
+  - Interface DaprComponentsListOptionalParams has a new optional parameter requestOptions
+  - Interface DaprComponentsListOptionalParams has a new optional parameter tracingOptions
+  - Interface DaprComponentsListOptionalParams has a new optional parameter onResponse
+  - Interface DaprComponentsListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface DaprComponentsListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface DaprComponentsListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface DaprComponentsListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface GetCustomDomainVerificationIdOptionalParams has a new optional parameter abortSignal
+  - Interface GetCustomDomainVerificationIdOptionalParams has a new optional parameter requestOptions
+  - Interface GetCustomDomainVerificationIdOptionalParams has a new optional parameter tracingOptions
+  - Interface GetCustomDomainVerificationIdOptionalParams has a new optional parameter onResponse
+  - Interface HttpRouteConfigCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface HttpRouteConfigCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface HttpRouteConfigCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface HttpRouteConfigCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface HttpRouteConfigGetOptionalParams has a new optional parameter abortSignal
+  - Interface HttpRouteConfigGetOptionalParams has a new optional parameter requestOptions
+  - Interface HttpRouteConfigGetOptionalParams has a new optional parameter tracingOptions
+  - Interface HttpRouteConfigGetOptionalParams has a new optional parameter onResponse
+  - Interface HttpRouteConfigListOptionalParams has a new optional parameter abortSignal
+  - Interface HttpRouteConfigListOptionalParams has a new optional parameter requestOptions
+  - Interface HttpRouteConfigListOptionalParams has a new optional parameter tracingOptions
+  - Interface HttpRouteConfigListOptionalParams has a new optional parameter onResponse
+  - Interface HttpRouteConfigUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface HttpRouteConfigUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface HttpRouteConfigUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface HttpRouteConfigUpdateOptionalParams has a new optional parameter onResponse
+  - Interface JavaComponentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface JavaComponentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface JavaComponentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface JavaComponentsGetOptionalParams has a new optional parameter onResponse
+  - Interface JavaComponentsListOptionalParams has a new optional parameter abortSignal
+  - Interface JavaComponentsListOptionalParams has a new optional parameter requestOptions
+  - Interface JavaComponentsListOptionalParams has a new optional parameter tracingOptions
+  - Interface JavaComponentsListOptionalParams has a new optional parameter onResponse
+  - Interface Job has a new optional parameter runningState
+  - Interface JobExecution has a new optional parameter detailedStatus
+  - Interface JobExecution has a new optional parameter message
+  - Interface JobExecution has a new optional parameter reason
+  - Interface JobExecution has a new optional parameter systemData
+  - Interface JobExecutionOptionalParams has a new optional parameter abortSignal
+  - Interface JobExecutionOptionalParams has a new optional parameter requestOptions
+  - Interface JobExecutionOptionalParams has a new optional parameter tracingOptions
+  - Interface JobExecutionOptionalParams has a new optional parameter onResponse
+  - Interface JobsExecutionsListOptionalParams has a new optional parameter abortSignal
+  - Interface JobsExecutionsListOptionalParams has a new optional parameter requestOptions
+  - Interface JobsExecutionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface JobsExecutionsListOptionalParams has a new optional parameter onResponse
+  - Interface JobsGetDetectorOptionalParams has a new optional parameter abortSignal
+  - Interface JobsGetDetectorOptionalParams has a new optional parameter requestOptions
+  - Interface JobsGetDetectorOptionalParams has a new optional parameter tracingOptions
+  - Interface JobsGetDetectorOptionalParams has a new optional parameter onResponse
+  - Interface JobsGetOptionalParams has a new optional parameter abortSignal
+  - Interface JobsGetOptionalParams has a new optional parameter requestOptions
+  - Interface JobsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface JobsGetOptionalParams has a new optional parameter onResponse
+  - Interface JobsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface JobsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface JobsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface JobsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface JobsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface JobsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface JobsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface JobsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface JobsListDetectorsOptionalParams has a new optional parameter abortSignal
+  - Interface JobsListDetectorsOptionalParams has a new optional parameter requestOptions
+  - Interface JobsListDetectorsOptionalParams has a new optional parameter tracingOptions
+  - Interface JobsListDetectorsOptionalParams has a new optional parameter onResponse
+  - Interface JobsListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface JobsListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface JobsListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface JobsListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface JobsProxyGetOptionalParams has a new optional parameter abortSignal
+  - Interface JobsProxyGetOptionalParams has a new optional parameter requestOptions
+  - Interface JobsProxyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface JobsProxyGetOptionalParams has a new optional parameter onResponse
+  - Interface LogicAppsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface LogicAppsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface LogicAppsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface LogicAppsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface LogicAppsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface LogicAppsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface LogicAppsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface LogicAppsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface LogicAppsGetOptionalParams has a new optional parameter abortSignal
+  - Interface LogicAppsGetOptionalParams has a new optional parameter requestOptions
+  - Interface LogicAppsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface LogicAppsGetOptionalParams has a new optional parameter onResponse
+  - Interface LogicAppsGetWorkflowOptionalParams has a new optional parameter abortSignal
+  - Interface LogicAppsGetWorkflowOptionalParams has a new optional parameter requestOptions
+  - Interface LogicAppsGetWorkflowOptionalParams has a new optional parameter tracingOptions
+  - Interface LogicAppsGetWorkflowOptionalParams has a new optional parameter onResponse
+  - Interface LogicAppsListWorkflowsConnectionsOptionalParams has a new optional parameter abortSignal
+  - Interface LogicAppsListWorkflowsConnectionsOptionalParams has a new optional parameter requestOptions
+  - Interface LogicAppsListWorkflowsConnectionsOptionalParams has a new optional parameter tracingOptions
+  - Interface LogicAppsListWorkflowsConnectionsOptionalParams has a new optional parameter onResponse
+  - Interface LogicAppsListWorkflowsOptionalParams has a new optional parameter abortSignal
+  - Interface LogicAppsListWorkflowsOptionalParams has a new optional parameter requestOptions
+  - Interface LogicAppsListWorkflowsOptionalParams has a new optional parameter tracingOptions
+  - Interface LogicAppsListWorkflowsOptionalParams has a new optional parameter onResponse
+  - Interface MaintenanceConfigurationsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface MaintenanceConfigurationsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface MaintenanceConfigurationsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface MaintenanceConfigurationsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface MaintenanceConfigurationsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface MaintenanceConfigurationsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface MaintenanceConfigurationsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface MaintenanceConfigurationsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface MaintenanceConfigurationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface MaintenanceConfigurationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface MaintenanceConfigurationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface MaintenanceConfigurationsGetOptionalParams has a new optional parameter onResponse
+  - Interface MaintenanceConfigurationsListOptionalParams has a new optional parameter abortSignal
+  - Interface MaintenanceConfigurationsListOptionalParams has a new optional parameter requestOptions
+  - Interface MaintenanceConfigurationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface MaintenanceConfigurationsListOptionalParams has a new optional parameter onResponse
+  - Interface ManagedCertificatesDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedCertificatesDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedCertificatesDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedCertificatesDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ManagedCertificatesGetOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedCertificatesGetOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedCertificatesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedCertificatesGetOptionalParams has a new optional parameter onResponse
+  - Interface ManagedCertificatesListOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedCertificatesListOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedCertificatesListOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedCertificatesListOptionalParams has a new optional parameter onResponse
+  - Interface ManagedCertificatesUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedCertificatesUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedCertificatesUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedCertificatesUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironment has a new optional parameter appInsightsConfiguration
+  - Interface ManagedEnvironment has a new optional parameter environmentMode
+  - Interface ManagedEnvironment has a new optional parameter openTelemetryConfiguration
+  - Interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsGetAuthTokenOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsGetAuthTokenOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsGetAuthTokenOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsGetAuthTokenOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsGetOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsStoragesGetOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsStoragesGetOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsStoragesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsStoragesGetOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentsStoragesListOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentsStoragesListOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentsStoragesListOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentsStoragesListOptionalParams has a new optional parameter onResponse
+  - Interface ManagedEnvironmentUsagesListOptionalParams has a new optional parameter abortSignal
+  - Interface ManagedEnvironmentUsagesListOptionalParams has a new optional parameter requestOptions
+  - Interface ManagedEnvironmentUsagesListOptionalParams has a new optional parameter tracingOptions
+  - Interface ManagedEnvironmentUsagesListOptionalParams has a new optional parameter onResponse
+  - Interface NamespacesCheckNameAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface NamespacesCheckNameAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface NamespacesCheckNameAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespacesCheckNameAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface ReplicaContainer has a new optional parameter debugEndpoint
+  - Interface Scale has a new optional parameter allowScalingRuleOverride
+  - Interface SessionContainer has a new optional parameter probes
+  - Interface UsagesListOptionalParams has a new optional parameter abortSignal
+  - Interface UsagesListOptionalParams has a new optional parameter requestOptions
+  - Interface UsagesListOptionalParams has a new optional parameter tracingOptions
+  - Interface UsagesListOptionalParams has a new optional parameter onResponse
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ContainerAppsFunctionState
+  - Added Type Alias DotNetComponentProvisioningState
+  - Added Type Alias DotNetComponentType
+  - Added Type Alias FunctionsExtensionInvokeFunctionsHostResponse
+  - Added Type Alias JobRunningState
+  - Added Type Alias ManagedEnvironmentMode
+  - Added Type Alias SandboxGroupProvisioningState
+  - Added Type Alias SessionPoolIdentityLifeCycle
+  - Added Type Alias SessionProbeType
+  - Added Type Alias Status
+  - Added Type Alias VnetConnectionProvisioningState
+  - Added Enum AzureClouds
+  - Added Enum KnownContainerAppsFunctionState
+  - Added Enum KnownDotNetComponentProvisioningState
+  - Added Enum KnownDotNetComponentType
+  - Added Enum KnownJobRunningState
+  - Added Enum KnownManagedEnvironmentMode
+  - Added Enum KnownSandboxGroupProvisioningState
+  - Added Enum KnownSessionPoolIdentityLifeCycle
+  - Added Enum KnownSessionProbeType
+  - Added Enum KnownStatus
+  - Added Enum KnownVersions
+  - Added Enum KnownVnetConnectionProvisioningState
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation ConnectedEnvironmentsCertificates.beginDeleteAndWait has a new signature
+  - Operation ConnectedEnvironmentsDaprComponents.beginDeleteAndWait has a new signature
+  - Operation ConnectedEnvironmentsStorages.beginDeleteAndWait has a new signature
+  - Operation ContainerAppsAuthConfigs.createOrUpdate has a new signature
+  - Operation ContainerAppsAuthConfigs.get has a new signature
+  - Operation ContainerAppsSessionPools.beginDeleteAndWait has a new signature
+  - Operation HttpRouteConfig.beginDeleteAndWait has a new signature
+  - Operation JavaComponents.beginCreateOrUpdate has a new signature
+  - Operation JavaComponents.beginCreateOrUpdateAndWait has a new signature
+  - Operation JavaComponents.beginDeleteAndWait has a new signature
+  - Operation JavaComponents.beginUpdate has a new signature
+  - Operation JavaComponents.beginUpdateAndWait has a new signature
+  - Operation JavaComponents.get has a new signature
+  - Operation ManagedEnvironmentPrivateEndpointConnections.beginDeleteAndWait has a new signature
+  - Class ContainerAppsAPIClient no longer has parameter httpRouteConfigOperations
+  - Removed Interface AuthConfigCollection
+  - Removed Interface AvailableOperations
+  - Removed Interface AvailableWorkloadProfilesCollection
+  - Removed Interface AvailableWorkloadProfilesGetOptionalParams
+  - Removed Interface CertificateCollection
+  - Removed Interface ConnectedEnvironmentCollection
+  - Removed Interface ContainerAppCollection
+  - Removed Interface DaprComponentsCollection
+  - Removed Interface HttpRouteConfigCollection
+  - Removed Interface JavaComponentsCollection
+  - Removed Interface JobExecutionNamesCollection
+  - Removed Interface JobsCollection
+  - Removed Interface MaintenanceConfigurationCollection
+  - Removed Interface ManagedCertificateCollection
+  - Removed Interface ManagedEnvironmentsCollection
+  - Removed Interface RevisionCollection
+  - Removed Interface SessionPoolCollection
+  - Removed Interface SourceControlCollection
+  - Removed Interface WorkflowEnvelopeCollection
+  - Removed Interface WorkloadProfileStatesCollection
+  - Type of parameter componentType of interface JavaComponentProperties is changed from "SpringBootAdmin" | "SpringCloudEureka" | "SpringCloudConfig" to JavaComponentType
+  - Parameter sasUrlSettingName of interface BlobStorageTokenStore is now optional
+  - Type alias "JavaComponentPropertiesUnion" has been changed
 
 ## 4.0.0-beta.1 (2026-05-20)
 Compared with version 3.0.0

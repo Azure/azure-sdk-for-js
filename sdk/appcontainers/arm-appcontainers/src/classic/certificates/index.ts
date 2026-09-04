@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/certificates/operations.js";
-import {
+import type {
   CertificatesListOptionalParams,
   CertificatesDeleteOptionalParams,
   CertificatesUpdateOptionalParams,
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesGetOptionalParams,
 } from "../../api/certificates/options.js";
-import { Certificate, CertificatePatch } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Certificate, CertificatePatch } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Certificates operations. */
 export interface CertificatesOperations {

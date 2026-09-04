@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { checkNameAvailability } from "../../api/namespaces/operations.js";
-import { NamespacesCheckNameAvailabilityOptionalParams } from "../../api/namespaces/options.js";
-import {
+import type { NamespacesCheckNameAvailabilityOptionalParams } from "../../api/namespaces/options.js";
+import type {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";

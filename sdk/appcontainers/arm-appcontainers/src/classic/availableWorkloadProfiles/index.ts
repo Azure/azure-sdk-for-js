@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { list } from "../../api/availableWorkloadProfiles/operations.js";
-import { AvailableWorkloadProfilesListOptionalParams } from "../../api/availableWorkloadProfiles/options.js";
-import { AvailableWorkloadProfile } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AvailableWorkloadProfilesListOptionalParams } from "../../api/availableWorkloadProfiles/options.js";
+import type { AvailableWorkloadProfile } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AvailableWorkloadProfiles operations. */
 export interface AvailableWorkloadProfilesOperations {

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { getDetector, listDetectors } from "../../api/managedEnvironmentDiagnostics/operations.js";
-import {
+import type {
   ManagedEnvironmentDiagnosticsGetDetectorOptionalParams,
   ManagedEnvironmentDiagnosticsListDetectorsOptionalParams,
 } from "../../api/managedEnvironmentDiagnostics/options.js";
-import { DiagnosticsCollection, Diagnostics } from "../../models/models.js";
+import type { DiagnosticsCollection, Diagnostics } from "../../models/models.js";
 
 /** Interface representing a ManagedEnvironmentDiagnostics operations. */
 export interface ManagedEnvironmentDiagnosticsOperations {

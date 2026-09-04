@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { get } from "../../api/billingMeters/operations.js";
-import { BillingMetersGetOptionalParams } from "../../api/billingMeters/options.js";
-import { BillingMeterCollection } from "../../models/models.js";
+import type { BillingMetersGetOptionalParams } from "../../api/billingMeters/options.js";
+import type { BillingMeterCollection } from "../../models/models.js";
 
 /** Interface representing a BillingMeters operations. */
 export interface BillingMetersOperations {

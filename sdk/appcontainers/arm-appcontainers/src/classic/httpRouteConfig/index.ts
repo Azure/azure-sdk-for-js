@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   list,
   $delete,
@@ -9,17 +9,18 @@ import {
   createOrUpdate,
   get,
 } from "../../api/httpRouteConfig/operations.js";
-import {
+import type {
   HttpRouteConfigListOptionalParams,
   HttpRouteConfigDeleteOptionalParams,
   HttpRouteConfigUpdateOptionalParams,
   HttpRouteConfigCreateOrUpdateOptionalParams,
   HttpRouteConfigGetOptionalParams,
 } from "../../api/httpRouteConfig/options.js";
-import { HttpRouteConfig } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { HttpRouteConfig } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HttpRouteConfig operations. */
 export interface HttpRouteConfigOperations {
