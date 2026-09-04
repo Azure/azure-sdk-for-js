@@ -1,4 +1,20 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/occurrenceExtension/index.ts",
+    "../src/api/occurrences/index.ts",
+    "../src/api/scheduledActionOperationStatus/index.ts",
+    "../src/api/scheduledActionExtension/index.ts",
+    "../src/api/scheduledActions/index.ts",
+    "../src/api/bulkCreateCustom/index.ts",
+    "../src/api/launchBulkInstancesOperation/index.ts",
+    "../src/api/virtualMachineBulkOperations/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }

@@ -4,11 +4,11 @@ These sample programs show how to use the TypeScript client libraries for @azure
 
 | **File Name**                                                         | **Description**                                                                                                                |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| [operationsListSample.ts][operationslistsample]                       | list the operations for the provider x-ms-original-file: 2026-05-05-preview/Operations_List_MaximumSet_Gen.json                |
-| [skuMixPlacementScoresGetSample.ts][skumixplacementscoresgetsample]   | gets SkuMixPlacement scoring metadata. x-ms-original-file: 2026-05-05-preview/GetSkuMixPlacementScores.json                    |
-| [skuMixPlacementScoresPostSample.ts][skumixplacementscorespostsample] | generates placement scores for VM SKU mix placement. x-ms-original-file: 2026-05-05-preview/GenerateSkuMixPlacementScores.json |
-| [spotPlacementScoresGetSample.ts][spotplacementscoresgetsample]       | gets Spot Placement Scores metadata. x-ms-original-file: 2026-05-05-preview/GetSpotPlacementScores.json                        |
-| [spotPlacementScoresPostSample.ts][spotplacementscorespostsample]     | generates placement scores for Spot VM skus. x-ms-original-file: 2026-05-05-preview/GenerateSpotPlacementScores.json           |
+| [operationsListSample.ts][operationslistsample]                       | list the operations for the provider x-ms-original-file: 2026-09-05-preview/Operations_List_MaximumSet_Gen.json                |
+| [skuMixPlacementScoresGetSample.ts][skumixplacementscoresgetsample]   | gets SkuMixPlacement scoring metadata. x-ms-original-file: 2026-09-05-preview/GetSkuMixPlacementScores.json                    |
+| [skuMixPlacementScoresPostSample.ts][skumixplacementscorespostsample] | generates placement scores for VM SKU mix placement. x-ms-original-file: 2026-09-05-preview/GenerateSkuMixPlacementScores.json |
+| [spotPlacementScoresGetSample.ts][spotplacementscoresgetsample]       | gets Spot Placement Scores metadata. x-ms-original-file: 2026-09-05-preview/GetSpotPlacementScores.json                        |
+| [spotPlacementScoresPostSample.ts][spotplacementscorespostsample]     | generates placement scores for Spot VM skus. x-ms-original-file: 2026-09-05-preview/GenerateSpotPlacementScores.json           |
 
 ## Prerequisites
 

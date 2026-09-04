@@ -290,8 +290,9 @@
 # PRLabel: %Search
 /sdk/search/    @Azure/azure-sdk-write-search
 
-# AzureSdkOwners: @srbalakr @efrainretana
+# AzureSdkOwners: @efrainretana
 # ServiceLabel: %Search
+# ServiceOwners: @efrainretana @lc48t @mattgotteiner
 
 # PRLabel: %Service Bus
 /sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
@@ -307,7 +308,7 @@
 
 # ServiceLabel: %Storage
 # PRLabel: %Storage
-/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
+/sdk/storage/    @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
 
 # AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
@@ -824,7 +825,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/policy/arm-policy/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -839,7 +840,7 @@
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/purestorageblock/arm-purestorageblock/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -932,7 +933,7 @@
 # PRLabel: %Mgmt
 /sdk/service-map/arm-servicemap/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/servicenetworking/arm-servicenetworking/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1007,7 +1008,7 @@
 # PRLabel: %Mgmt
 /sdk/timeseriesinsights/arm-timeseriesinsights/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/terraform/arm-terraform/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1714,6 +1715,9 @@ sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -1817,7 +1821,6 @@ sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHua
 /eng/tools @Azure/azure-sdk-for-js-core
 
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
-/eng/tools/js-sdk-release-tools-src @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 

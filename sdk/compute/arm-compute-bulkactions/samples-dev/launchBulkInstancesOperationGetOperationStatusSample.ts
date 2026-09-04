@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the status of a LaunchBulkInstancesOperation.
  *
  * @summary get the status of a LaunchBulkInstancesOperation.
- * x-ms-original-file: 2026-07-06-preview/LaunchBulkInstancesOperation_GetOperationStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/LaunchBulkInstancesOperation_GetOperationStatus_MaximumSet_Gen.json
  */
 async function launchBulkInstancesOperationGetOperationStatusExample(): Promise<void> {
   const credential = new DefaultAzureCredential();

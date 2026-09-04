@@ -38,7 +38,7 @@ export function _listByVaultSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +65,7 @@ export async function _listByVaultDeserialize(
 
   return _elasticBackupListResultDeserializer(result.body);
 }
+
 /** List all elastic backups Under an elastic Backup Vault */
 export function listByVault(
   context: Client,
@@ -81,7 +82,7 @@ export function listByVault(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -102,7 +103,7 @@ export function _$deleteSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,6 +125,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a ElasticBackup */
 export function $delete(
   context: Client,
@@ -139,7 +141,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, backupVaultName, backupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,7 +162,7 @@ export function _updateSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,6 +189,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return elasticBackupDeserializer(result.body);
 }
+
 /** Patch an elastic Backup under the Elastic Backup Vault */
 export function update(
   context: Client,
@@ -211,7 +214,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticBackup>, ElasticBackup>;
 }
 
@@ -232,7 +235,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -261,6 +264,7 @@ export async function _createOrUpdateDeserialize(
 
   return elasticBackupDeserializer(result.body);
 }
+
 /** Create an elastic backup under the elastic Backup Vault */
 export function createOrUpdate(
   context: Client,
@@ -285,7 +289,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticBackup>, ElasticBackup>;
 }
 
@@ -305,7 +309,7 @@ export function _getSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -330,6 +334,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<El
 
   return elasticBackupDeserializer(result.body);
 }
+
 /** Get the specified Elastic Backup under Elastic Backup Vault. */
 export async function get(
   context: Client,

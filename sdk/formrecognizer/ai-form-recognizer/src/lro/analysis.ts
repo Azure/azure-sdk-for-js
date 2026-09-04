@@ -251,7 +251,7 @@ export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: Docum
   items: Spanned[],
 ): IterableIterator<Spanned> {
   let idx = Math.floor(items.length / 2);
-  let prevIdx = idx;
+  let prevIdx: number;
   let min = 0;
   let max = items.length;
 
