@@ -15,6 +15,7 @@ import {
   string_to_uuid,
   types,
   ReceiverEvents,
+  OperationTimeoutError,
 } from "rhea-promise";
 import type {
   MessagingError,
@@ -1050,6 +1051,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       abortSignal: options.abortSignal,
     };
     const updatedOptions = await retry<SendManagementRequestOptions>(config);
+    if (updatedOptions.timeoutInMs !== undefined && updatedOptions.timeoutInMs <= 0) {
+      throw new OperationTimeoutError("The batch delete operation timed out before dispatch.");
+    }
 
     return this._deleteMessages(messageCount, enqueueTimeUtcOlderThan, sessionId, updatedOptions);
   }

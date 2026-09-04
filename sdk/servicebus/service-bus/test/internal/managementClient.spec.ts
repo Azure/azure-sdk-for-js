@@ -41,6 +41,27 @@ describe("ManagementClient unit tests", () => {
     assert.equal(dispatchAttempts, 1);
   });
 
+  it("does not dispatch delete messages after preparation exhausts the timeout", async () => {
+    const connectionContext = createConnectionContextForTests();
+    const mgmtClient = new ManagementClient(
+      connectionContext,
+      connectionContext.config.entityPath || "",
+    );
+    let dispatchAttempts = 0;
+    mgmtClient["initWithUniqueReplyTo"] = async (options = {}) => options;
+    mgmtClient["_waitForManagementRequestSendable"] = async () => ({ timeoutInMs: 0 });
+    mgmtClient["_sendManagementRequest"] = async () => {
+      dispatchAttempts++;
+      return { body: {}, application_properties: {} };
+    };
+
+    await assert.isRejected(
+      mgmtClient.deleteMessages(1),
+      /batch delete operation timed out before dispatch/i,
+    );
+    assert.equal(dispatchAttempts, 0);
+  });
+
   it("actionAfterTimeout throws error that can be caught on timeout", async () => {
     const connectionContext = createConnectionContextForTests();
 
