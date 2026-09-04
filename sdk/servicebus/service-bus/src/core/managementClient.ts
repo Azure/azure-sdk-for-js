@@ -420,22 +420,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     internalLogger: ServiceBusLogger,
     sendRequestOptions: SendManagementRequestOptions = {},
   ): Promise<RheaMessage> {
-    if (request.message_id === undefined) {
-      request.message_id = generate_uuid();
-    }
-
     try {
-      const { timeoutInMs } = sendRequestOptions;
-      await waitForSendable(
+      const updatedOptions = await this._waitForManagementRequestSendable(
         internalLogger,
-        this.logPrefix,
-        this.name,
-        timeoutInMs ?? Constants.defaultOperationTimeoutInMs,
-        this.link?.sender,
-        this.link?.session?.outgoing?.available(),
+        sendRequestOptions,
       );
-
-      return await this.link!.sendRequest(request, sendRequestOptions);
+      return await this._sendManagementRequest(request, updatedOptions);
     } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       internalLogger.logError(
@@ -446,6 +436,36 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       throw translatedError;
     }
+  }
+
+  private async _waitForManagementRequestSendable(
+    internalLogger: ServiceBusLogger,
+    sendRequestOptions: SendManagementRequestOptions = {},
+  ): Promise<SendManagementRequestOptions> {
+    const timeoutInMs = sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
+    const startTime = Date.now();
+    await waitForSendable(
+      internalLogger,
+      this.logPrefix,
+      this.name,
+      timeoutInMs,
+      this.link?.sender,
+      this.link?.session?.outgoing?.available(),
+    );
+    return {
+      ...sendRequestOptions,
+      timeoutInMs: timeoutInMs - (Date.now() - startTime),
+    };
+  }
+
+  private async _sendManagementRequest(
+    request: RheaMessage,
+    sendRequestOptions: SendManagementRequestOptions = {},
+  ): Promise<RheaMessage> {
+    if (request.message_id === undefined) {
+      request.message_id = generate_uuid();
+    }
+    return this.link!.sendRequest(request, sendRequestOptions);
   }
 
   /**
@@ -975,7 +995,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose("%s delete messages request body: %O.", this.logPrefix, request.body);
 
-      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
+      const result = await this._sendManagementRequest(request, updatedOptions);
       const statusCode = result.application_properties!.statusCode;
       const deletedCount = result.body?.["message-count"];
       if (statusCode === 200) {
@@ -1020,7 +1040,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
 
     const config: RetryConfig<SendManagementRequestOptions> = {
-      operation: () => this.initWithUniqueReplyTo(options),
+      operation: async () => {
+        const initializedOptions = await this.initWithUniqueReplyTo(options);
+        return this._waitForManagementRequestSendable(receiverLogger, initializedOptions);
+      },
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: options.retryOptions,

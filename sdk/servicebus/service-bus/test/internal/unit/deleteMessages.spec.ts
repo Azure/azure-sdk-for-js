@@ -45,7 +45,11 @@ describe("Batch delete messages", function (): void {
         const cutoff = new Date("2026-08-27T12:30:00.000Z");
         let capturedRequest: RheaMessage | undefined;
         managementClient.initWithUniqueReplyTo = async (options: any): Promise<any> => options;
-        managementClient._makeManagementRequest = async (request: RheaMessage): Promise<any> => {
+        managementClient._waitForManagementRequestSendable = async (
+          _logger: any,
+          options: any,
+        ): Promise<any> => options;
+        managementClient._sendManagementRequest = async (request: RheaMessage): Promise<any> => {
           capturedRequest = request;
           return { application_properties: { statusCode: 200 }, body: { "message-count": 2 } };
         };
@@ -73,7 +77,11 @@ describe("Batch delete messages", function (): void {
       try {
         const managementClient: any = client["_connectionContext"].getManagementClient("q");
         managementClient.initWithUniqueReplyTo = async (options: any): Promise<any> => options;
-        managementClient._makeManagementRequest = async (): Promise<any> => ({
+        managementClient._waitForManagementRequestSendable = async (
+          _logger: any,
+          options: any,
+        ): Promise<any> => options;
+        managementClient._sendManagementRequest = async (): Promise<any> => ({
           application_properties: { statusCode: 204 },
         });
 
@@ -89,7 +97,11 @@ describe("Batch delete messages", function (): void {
         const managementClient: any = client["_connectionContext"].getManagementClient("q");
         let capturedRequest: RheaMessage | undefined;
         managementClient.initWithUniqueReplyTo = async (options: any): Promise<any> => options;
-        managementClient._makeManagementRequest = async (request: RheaMessage): Promise<any> => {
+        managementClient._waitForManagementRequestSendable = async (
+          _logger: any,
+          options: any,
+        ): Promise<any> => options;
+        managementClient._sendManagementRequest = async (request: RheaMessage): Promise<any> => {
           capturedRequest = request;
           return { application_properties: { statusCode: 200 }, body: { "message-count": 4000 } };
         };
@@ -114,7 +126,11 @@ describe("Batch delete messages", function (): void {
           }
           return options;
         };
-        managementClient._makeManagementRequest = async (): Promise<any> => {
+        managementClient._waitForManagementRequestSendable = async (
+          _logger: any,
+          options: any,
+        ): Promise<any> => options;
+        managementClient._sendManagementRequest = async (): Promise<any> => {
           dispatchCount++;
           return { application_properties: { statusCode: 200 }, body: { "message-count": 1 } };
         };
@@ -137,8 +153,12 @@ describe("Batch delete messages", function (): void {
       try {
         const managementClient: any = client["_connectionContext"].getManagementClient("q");
         managementClient.initWithUniqueReplyTo = async (options: any): Promise<any> => options;
+        managementClient._waitForManagementRequestSendable = async (
+          _logger: any,
+          options: any,
+        ): Promise<any> => options;
         for (const deletedCount of [-1, 1.5, 11, undefined]) {
-          managementClient._makeManagementRequest = async (): Promise<any> => ({
+          managementClient._sendManagementRequest = async (): Promise<any> => ({
             application_properties: { statusCode: 200 },
             body: { "message-count": deletedCount },
           });

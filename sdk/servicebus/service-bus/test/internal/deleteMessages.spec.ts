@@ -169,6 +169,7 @@ describe("Batch Receiver - batch delete messages", function (): void {
         await sender.sendMessages({ body: Buffer.alloc(180 * 1024, i) });
       }
 
+      await delay(10 * 1000);
       const result = await receiver2.purgeMessages();
       assert.equal(
         result.deletedCount,
