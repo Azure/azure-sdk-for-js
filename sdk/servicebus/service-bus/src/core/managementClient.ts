@@ -426,6 +426,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         internalLogger,
         sendRequestOptions,
       );
+      if (updatedOptions.timeoutInMs !== undefined && updatedOptions.timeoutInMs <= 0) {
+        throw new OperationTimeoutError("The management operation timed out before dispatch.");
+      }
       return await this._sendManagementRequest(request, updatedOptions);
     } catch (err: any) {
       const translatedError = translateServiceBusError(err);

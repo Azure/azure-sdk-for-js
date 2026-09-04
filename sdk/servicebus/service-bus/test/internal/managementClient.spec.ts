@@ -8,6 +8,26 @@ import { describe, it } from "vitest";
 import { assert } from "../public/utils/chai.js";
 
 describe("ManagementClient unit tests", () => {
+  it("does not dispatch a management request after sendability exhausts the timeout", async () => {
+    const connectionContext = createConnectionContextForTests();
+    const mgmtClient = new ManagementClient(
+      connectionContext,
+      connectionContext.config.entityPath || "",
+    );
+    let dispatchAttempts = 0;
+    mgmtClient["_waitForManagementRequestSendable"] = async () => ({ timeoutInMs: 0 });
+    mgmtClient["_sendManagementRequest"] = async () => {
+      dispatchAttempts++;
+      return { body: {}, application_properties: {} };
+    };
+
+    await assert.isRejected(
+      mgmtClient["_makeManagementRequest"]({ body: {} }, { logError: () => undefined } as any),
+      /management operation timed out before dispatch/i,
+    );
+    assert.equal(dispatchAttempts, 0);
+  });
+
   it("retries sendability before dispatching delete messages once", async () => {
     const connectionContext = createConnectionContextForTests();
     const mgmtClient = new ManagementClient(
