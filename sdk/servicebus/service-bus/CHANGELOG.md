@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- The preview batch-delete APIs now return `Promise<DeleteMessagesResult>` / `Promise<PurgeMessagesResult>` instead of `Promise<number>`, so the result can grow additional fields in a future release without another breaking change. `deleteMessages` now takes the required count as its first argument (`deleteMessages(maxMessageCount, options?)`), and `PurgeMessagesOptions.maxMessagesPerBatch` configures the per-request purge size. Each result carries the service's actual count as `deletedCount`. Update callers from `const n = await receiver.deleteMessages({ maxMessageCount: 10 })` to `const { deletedCount } = await receiver.deleteMessages(10)`, and likewise destructure the purge result. [#39309](https://github.com/Azure/azure-sdk-for-js/pull/39309)
+
 ### Bugs Fixed
 
 ### Other Changes

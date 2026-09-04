@@ -21,6 +21,8 @@ export type {
   DeleteMessagesOptions,
   ListMessageSessionsOptions,
   PurgeMessagesOptions,
+  DeleteMessagesResult,
+  PurgeMessagesResult,
   CreateMessageBatchOptions,
   GetMessageIteratorOptions,
   MessageHandlers,

@@ -9,6 +9,8 @@ import type {
   SubscribeOptions,
   DeleteMessagesOptions,
   PurgeMessagesOptions,
+  DeleteMessagesResult,
+  PurgeMessagesResult,
 } from "../models.js";
 import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import type { ServiceBusReceivedMessage } from "../serviceBusMessage.js";
@@ -61,6 +63,13 @@ export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
  * @internal
  */
 export const MaxDeleteMessageCount = 500;
+
+/** @internal */
+export function validatePurgeMessageCount(maxMessageCount: number): void {
+  if (!Number.isInteger(maxMessageCount) || maxMessageCount < 1 || maxMessageCount > 0x7fffffff) {
+    throw new TypeError("'maxMessagesPerBatch' must be an integer between 1 and 2147483647.");
+  }
+}
 
 /**
  * A receiver that does not handle sessions.
@@ -150,22 +159,39 @@ export interface ServiceBusReceiver {
   ): Promise<ServiceBusReceivedMessage[]>;
 
   /**
-   * Delete messages. If no option is specified, all messages will be deleted.
+   * Deletes up to the requested number of unlocked, active messages that were enqueued before the cutoff.
+   * Deferred, scheduled, and locked messages are not eligible. Large messages can cause the service to
+   * delete fewer messages than requested.
    *
+   * Currently, batch delete is not supported when partitioning is enabled.
+   *
+   * The request is not automatically retried after dispatch. If an error, cancellation, or timeout occurs,
+   * the deletion outcome is unknown and the returned count is unavailable.
+   *
+   * @param maxMessageCount - The maximum number of messages to delete. The service limit is 500 messages
+   * for Basic and Standard and 4,000 messages for Premium.
    * @param options - Options to configure the operation.
-   * @returns number of messages that have been deleted.
+   * @returns A `DeleteMessagesResult` whose `deletedCount` is the number of messages actually deleted.
    */
-  deleteMessages(options: DeleteMessagesOptions): Promise<number>;
+  deleteMessages(
+    maxMessageCount: number,
+    options?: DeleteMessagesOptions,
+  ): Promise<DeleteMessagesResult>;
 
   /**
-   * Attempts to purge all messages from an entity.  Locked messages are not eligible for removal and
-   * will remain in the entity.
+   * Attempts to purge all eligible messages that were enqueued before the purge started, or before the
+   * time supplied in `options`. The same time is used for every request, so newer messages remain. Purge
+   * continues when a request deletes fewer messages than requested, including for large messages.
    *
-   * @param options - Options that allow to specify the cutoff time for deletion. Only messages that were enqueued
-   *                  before this time will be deleted.  If not specified, current time will be used.
-   * @returns number of messages deleted.
+   * Deferred, scheduled, and locked messages remain. If an error, cancellation, or timeout occurs after
+   * dispatch, the purge can be partial and its exact result is unknown.
+   *
+   * Currently, purge is not supported when partitioning is enabled.
+   *
+   * @param options - Options that set the enqueue-time threshold and per-request message count.
+   * @returns A `PurgeMessagesResult` whose `deletedCount` is the total number of messages actually deleted.
    */
-  purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
+  purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult>;
 
   /**
    * Path of the entity for which the receiver has been created.
@@ -482,33 +508,31 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return retry<ServiceBusReceivedMessage[]>(config);
   }
 
-  async deleteMessages(options: DeleteMessagesOptions): Promise<number> {
+  async deleteMessages(
+    maxMessageCount: number,
+    options: DeleteMessagesOptions = {},
+  ): Promise<DeleteMessagesResult> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const deleteMessagesOperationPromise = (): Promise<number> => {
-      return this._context
-        .getManagementClient(this.entityPath)
-        .deleteMessages(options.maxMessageCount, options?.beforeEnqueueTime, undefined, {
-          ...options,
-          associatedLinkName: this._getAssociatedReceiverName(),
-          requestName: "deleteMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs,
-        });
-    };
-    const config: RetryConfig<number> = {
-      operation: deleteMessagesOperationPromise,
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal,
-    };
-    return retry<number>(config);
+    const deletedCount = await this._context
+      .getManagementClient(this.entityPath)
+      .deleteMessages(maxMessageCount, options.beforeEnqueueTime, undefined, {
+        ...options,
+        associatedLinkName: this._getAssociatedReceiverName(),
+        requestName: "deleteMessages",
+        retryOptions: this._retryOptions,
+        timeoutInMs: this._retryOptions.timeoutInMs,
+      });
+    return { deletedCount };
   }
 
-  async purgeMessages(options?: PurgeMessagesOptions): Promise<number> {
-    let deletedCount = await this.deleteMessages({
-      maxMessageCount: MaxDeleteMessageCount,
-      beforeEnqueueTime: options?.beforeEnqueueTime,
+  async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
+    const beforeEnqueueTime = options?.beforeEnqueueTime ?? new Date();
+    const maxMessagesPerBatch = options?.maxMessagesPerBatch ?? MaxDeleteMessageCount;
+    validatePurgeMessageCount(maxMessagesPerBatch);
+    let { deletedCount } = await this.deleteMessages(maxMessagesPerBatch, {
+      ...options,
+      beforeEnqueueTime,
     });
     logger.verbose(
       `${this.logPrefix} receiver '${this.identifier}' deleted ${deletedCount} messages.`,
@@ -516,10 +540,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     if (deletedCount > 0) {
       let batchCount = deletedCount;
       while (batchCount > 0) {
-        batchCount = await this.deleteMessages({
-          maxMessageCount: MaxDeleteMessageCount,
-          beforeEnqueueTime: options?.beforeEnqueueTime,
-        });
+        ({ deletedCount: batchCount } = await this.deleteMessages(maxMessagesPerBatch, {
+          ...options,
+          beforeEnqueueTime,
+        }));
         logger.verbose(
           `${this.logPrefix} receiver '${this.identifier}' deleted ${batchCount} messages.`,
         );
@@ -529,7 +553,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     logger.verbose(
       `${this.logPrefix} receiver '${this.identifier}' purged ${deletedCount} messages.`,
     );
-    return deletedCount;
+    return { deletedCount };
   }
 
   // ManagementClient methods # Begin

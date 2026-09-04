@@ -10,14 +10,10 @@ import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { assert } from "../public/utils/chai.js";
 
 const sessionTestClientTypes = [
-  TestClientType.PartitionedQueueWithSessions,
-  TestClientType.PartitionedSubscriptionWithSessions,
   TestClientType.UnpartitionedQueueWithSessions,
   TestClientType.UnpartitionedSubscriptionWithSessions,
 ];
 const noSessionTestClientTypes = [
-  TestClientType.PartitionedQueue,
-  TestClientType.PartitionedSubscription,
   TestClientType.UnpartitionedQueue,
   TestClientType.UnpartitionedSubscription,
 ];
@@ -47,7 +43,7 @@ function afterEachTest(): Promise<void> {
   return serviceBusClient.test.afterEach();
 }
 
-describe.skip("Batch Receiver - batch delete messages", function (): void {
+describe("Batch Receiver - batch delete messages", function (): void {
   beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
@@ -80,7 +76,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      const deleteResult = await receiver2.deleteMessages(numMessages);
+      assert.equal(
+        deleteResult.deletedCount,
+        numMessages,
+        "deleteMessages should report the number of deleted messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
@@ -109,17 +110,22 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.purgeMessages();
+      const purgeResult = await receiver2.purgeMessages();
+      assert.equal(
+        purgeResult.deletedCount,
+        numMessages,
+        "purgeMessages should report the total number of purged messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
   });
 
   it(
-    TestClientType.PartitionedQueue +
+    TestClientType.UnpartitionedQueue +
       ": deleteMessages with max message count of zero throws error",
     async function (): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue, "receiveAndDelete");
+      await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
 
       const numMessages = 3;
       const toSend = [];
@@ -131,13 +137,46 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
       await testPeekMsgsLength(receiver, numMessages);
 
       try {
-        await receiver.deleteMessages({ maxMessageCount: 0 });
+        await receiver.deleteMessages(0);
         throw new Error("Test failure");
       } catch (err: any) {
-        err.message.should.equal(
-          "Error 0: TypeError: 'messageCount' must be a number greater than 0.",
-        );
+        err.message.should.equal("'maxMessageCount' must be an integer between 1 and 2147483647.");
       }
+    },
+  );
+
+  it(
+    TestClientType.UnpartitionedQueue +
+      ": deleteMessages above the Standard limit returns the service range",
+    async function (): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+
+      await assert.isRejected(
+        receiver.deleteMessages(501),
+        /Message count should be between 1 and 500/,
+      );
+    },
+  );
+
+  it(
+    TestClientType.UnpartitionedQueue + ": purgeMessages handles large messages",
+    async function (): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+      const numMessages = 12;
+
+      for (let i = 0; i < numMessages; i++) {
+        await sender.sendMessages({ body: Buffer.alloc(180 * 1024, i) });
+      }
+
+      await delay(10 * 1000);
+      const result = await receiver2.purgeMessages();
+      assert.equal(
+        result.deletedCount,
+        numMessages,
+        "purgeMessages should continue after a smaller large-message batch",
+      );
+      await testPeekMsgsLength(receiver2, 0);
     },
   );
 
@@ -170,7 +209,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      const deleteResult = await receiver2.deleteMessages(numMessages);
+      assert.equal(
+        deleteResult.deletedCount,
+        numMessages,
+        "deleteMessages (session) should report the number of deleted messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
@@ -210,7 +254,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
         ...names,
         sessionId: randomSessionId,
       });
-      await receiver2.purgeMessages();
+      const purgeResult = await receiver2.purgeMessages();
+      assert.equal(
+        purgeResult.deletedCount,
+        numMessages,
+        "purgeMessages (session) should report the total number of purged messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
