@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns ResourceGuards collection belonging to a subscription.
  *
  * @summary returns ResourceGuards collection belonging to a subscription.
- * x-ms-original-file: 2026-03-01/ResourceGuardCRUD/GetResourceGuardsInSubscription.json
+ * x-ms-original-file: 2026-04-01-preview/ResourceGuardCRUD/GetResourceGuardsInSubscription.json
  */
 async function getResourceGuardsInSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

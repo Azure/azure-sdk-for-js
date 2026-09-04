@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the operation status for a resource.
  *
  * @summary gets the operation status for a resource.
- * x-ms-original-file: 2026-03-01/GetOperationStatus.json
+ * x-ms-original-file: 2026-04-01-preview/GetOperationStatus.json
  */
 async function getOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

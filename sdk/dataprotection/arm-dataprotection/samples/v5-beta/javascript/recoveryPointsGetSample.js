@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Recovery Point using recoveryPointId for a Datasource.
  *
  * @summary gets a Recovery Point using recoveryPointId for a Datasource.
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetRecoveryPoint.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/GetRecoveryPoint.json
  */
 async function getRecoveryPoint() {
   const credential = new DefaultAzureCredential();

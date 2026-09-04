@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to triggers restore for a BackupInstance
  *
  * @summary triggers restore for a BackupInstance
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/TriggerRestore.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/TriggerRestore.json
  */
 async function triggerRestore() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function triggerRestore() {
       identityDetails: {
         useSystemAssignedIdentity: false,
         userAssignedIdentityArmUrl:
-          "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourcegroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
+          "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
       },
       objectType: "AzureBackupRecoveryPointBasedRestoreRequest",
       recoveryPointId: "hardcodedRP",
@@ -70,7 +70,7 @@ async function triggerRestore() {
  * This sample demonstrates how to triggers restore for a BackupInstance
  *
  * @summary triggers restore for a BackupInstance
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/TriggerRestoreAsFiles.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/TriggerRestoreAsFiles.json
  */
 async function triggerRestoreAsFiles() {
   const credential = new DefaultAzureCredential();
@@ -105,7 +105,7 @@ async function triggerRestoreAsFiles() {
  * This sample demonstrates how to triggers restore for a BackupInstance
  *
  * @summary triggers restore for a BackupInstance
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/TriggerRestoreWithRehydration.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/TriggerRestoreWithRehydration.json
  */
 async function triggerRestoreWithRehydration() {
   const credential = new DefaultAzureCredential();

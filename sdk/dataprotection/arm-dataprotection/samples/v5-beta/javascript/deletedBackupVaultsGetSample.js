@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a deleted backup vault
  *
  * @summary gets a deleted backup vault
- * x-ms-original-file: 2026-03-01/DeletedBackupVaults_Get.json
+ * x-ms-original-file: 2026-04-01-preview/DeletedBackupVaults_Get.json
  */
 async function getADeletedBackupVault() {
   const credential = new DefaultAzureCredential();

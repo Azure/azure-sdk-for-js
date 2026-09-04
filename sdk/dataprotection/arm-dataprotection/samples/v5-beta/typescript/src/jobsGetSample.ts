@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a job with id in a backup vault
  *
  * @summary gets a job with id in a backup vault
- * x-ms-original-file: 2026-03-01/JobCRUD/GetJob.json
+ * x-ms-original-file: 2026-04-01-preview/JobCRUD/GetJob.json
  */
 async function getJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

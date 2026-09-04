@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to rehydrate recovery point for restore for a BackupInstance
  *
  * @summary rehydrate recovery point for restore for a BackupInstance
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/TriggerRehydrate.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/TriggerRehydrate.json
  */
 async function triggerRehydrate() {
   const credential = new DefaultAzureCredential();

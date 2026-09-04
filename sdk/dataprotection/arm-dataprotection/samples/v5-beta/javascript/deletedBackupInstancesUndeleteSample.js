@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to a long-running resource action.
  *
  * @summary a long-running resource action.
- * x-ms-original-file: 2026-03-01/DeletedBackupInstanceOperations/UndeleteDeletedBackupInstance.json
+ * x-ms-original-file: 2026-04-01-preview/DeletedBackupInstanceOperations/UndeleteDeletedBackupInstance.json
  */
 async function undeleteDeletedBackupInstance() {
   const credential = new DefaultAzureCredential();

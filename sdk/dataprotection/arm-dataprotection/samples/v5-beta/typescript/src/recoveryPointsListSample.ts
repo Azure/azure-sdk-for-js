@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a list of Recovery Points for a DataSource in a vault.
  *
  * @summary returns a list of Recovery Points for a DataSource in a vault.
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/ListRecoveryPoints.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/ListRecoveryPoints.json
  */
 async function listRecoveryPointsInAVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
