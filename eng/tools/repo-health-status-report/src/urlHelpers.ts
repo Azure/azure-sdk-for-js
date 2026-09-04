@@ -15,22 +15,36 @@ const LIST_BUILDS_URL = "https://dev.azure.com/azure-sdk/internal/_apis/pipeline
 export async function getAllDevopsBuilds(
   authToken: string,
 ): Promise<AzureDevOpsListResponse<AzureDevOpsPipelineDefinition>> {
-  const response = await fetch(LIST_BUILDS_URL, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  });
-  if (!response.ok) {
-    throw new Error(`Error fetching pipelines: ${response.statusText}`);
-  }
+  const pipelines: AzureDevOpsPipelineDefinition[] = [];
+  let continuationToken: string | null = null;
+  do {
+    const url = new URL(LIST_BUILDS_URL);
+    if (continuationToken) {
+      url.searchParams.set("continuationToken", continuationToken);
+    }
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Error fetching pipelines: ${response.statusText}`);
+    }
 
-  const responseText = await response.text();
-  try {
-    return JSON.parse(responseText) as AzureDevOpsListResponse<AzureDevOpsPipelineDefinition>;
-  } catch {
-    console.error(responseText);
-    throw new Error(`failed to parse response as json`);
-  }
+    const responseText = await response.text();
+    try {
+      const page = JSON.parse(
+        responseText,
+      ) as AzureDevOpsListResponse<AzureDevOpsPipelineDefinition>;
+      pipelines.push(...page.value);
+    } catch {
+      console.error(responseText);
+      throw new Error(`failed to parse response as json`);
+    }
+    continuationToken = response.headers.get("x-ms-continuationtoken");
+  } while (continuationToken);
+
+  return { count: pipelines.length, value: pipelines };
 }
 
 export function getBuild(pipelineId: number, authToken: string) {

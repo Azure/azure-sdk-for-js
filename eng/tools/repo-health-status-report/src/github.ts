@@ -115,7 +115,7 @@ export async function mapCodeownersToLabel(dataplane: PackagesWithStatus) {
     throw new Error("Expected .github/CODEOWNERS to be a base64-encoded file.");
   }
   const content = Buffer.from(codeOwners.content, "base64").toString("utf-8");
-  const trackedLabels: Record<string, string> = {};
+  const trackedLabels: Record<string, string[]> = {};
   const lines = content.split("\n");
   let label = "";
   let count = 0;
@@ -130,7 +130,10 @@ export async function mapCodeownersToLabel(dataplane: PackagesWithStatus) {
       const parts = line.split("@")[0].split("/").slice(2, 4);
       if (label !== "Mgmt") {
         if (parts[0]) {
-          trackedLabels[label] = parts[0];
+          const serviceDirs = (trackedLabels[label] ??= []);
+          if (!serviceDirs.includes(parts[0])) {
+            serviceDirs.push(parts[0]);
+          }
           count++;
         }
         const packageName = tryGetPackageName(parts[1]);

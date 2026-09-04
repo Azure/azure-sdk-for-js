@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it } from "vitest";
+import { afterEach, assert, describe, expect, it, vi } from "vitest";
 import {
   buildUrl,
   buildTimelineUrl,
+  getAllDevopsBuilds,
   githubIssueLinkUrl,
   githubTotalIssueLink,
 } from "../src/urlHelpers.js";
@@ -25,6 +26,38 @@ describe("urlHelpers", () => {
       const expectedUrl = `https://dev.azure.com/azure-sdk/internal/_apis/build/builds/${buildId}/Timeline?api-version=7.0`;
       assert.equal(buildTimelineUrl(buildId), expectedUrl);
       console.log(buildTimelineUrl(buildId));
+    });
+  });
+
+  describe("getAllDevopsBuilds", () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it("combines all paginated pipeline definitions", async () => {
+      const fetchMock = vi
+        .spyOn(globalThis, "fetch")
+        .mockResolvedValueOnce(
+          new Response(JSON.stringify({ count: 1, value: [{ id: 1, name: "js - first" }] }), {
+            headers: { "x-ms-continuationtoken": "next page" },
+          }),
+        )
+        .mockResolvedValueOnce(
+          new Response(JSON.stringify({ count: 1, value: [{ id: 2, name: "js - second" }] })),
+        );
+
+      const result = await getAllDevopsBuilds("token");
+
+      expect(result).toEqual({
+        count: 2,
+        value: [
+          { id: 1, name: "js - first" },
+          { id: 2, name: "js - second" },
+        ],
+      });
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(String(fetchMock.mock.calls[0][0])).not.toContain("continuationToken");
+      expect(String(fetchMock.mock.calls[1][0])).toContain("continuationToken=next+page");
     });
   });
 

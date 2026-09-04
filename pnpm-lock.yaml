@@ -502,8 +502,8 @@ importers:
   eng/tools/repo-health-status-report:
     dependencies:
       '@azure/identity':
-        specifier: ^4.13.0
-        version: 4.13.1(supports-color@8.1.1)
+        specifier: catalog:internal
+        version: 4.13.0(supports-color@8.1.1)
       dotenv:
         specifier: catalog:testing
         version: 16.6.1

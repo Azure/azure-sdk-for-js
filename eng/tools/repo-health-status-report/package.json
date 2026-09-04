@@ -14,7 +14,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@azure/identity": "^4.13.0",
+    "@azure/identity": "catalog:internal",
     "dotenv": "catalog:testing",
     "octokit": "^5.0.5"
   },

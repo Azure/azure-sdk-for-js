@@ -27,6 +27,7 @@ import type {
 
 import "dotenv/config";
 import { writeFile } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
 import { getCustomerIssues, mapCodeownersToLabel, uploadResultToGitHubJsRepo } from "./github.js";
 import type { CustomerIssue } from "./github.js";
 
@@ -139,7 +140,7 @@ function recordAllPipeline(
   }
 }
 
-async function getBuildResult(
+export async function getBuildResult(
   buildKind: "ci" | "tests" | "weeklyTests",
   pkgName: string,
   pipelines: Record<string, PipelineResults>,
@@ -154,8 +155,20 @@ async function getBuildResult(
   const buildResponse = await getBuild(pipelineId, token);
   await new Promise((resolve) => setTimeout(resolve, 1000));
   console.log("continue after 1 seconds delay");
-  const buildResult = (await buildResponse.json()) as AzureDevOpsListResponse<AzureDevOpsBuild>;
-  if (!buildResponse.ok || !buildResult.value) {
+  if (!buildResponse.ok) {
+    console.warn(`No ${buildKind} build found for ${pkgName}`);
+    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
+    return;
+  }
+  let buildResult: AzureDevOpsListResponse<AzureDevOpsBuild>;
+  try {
+    buildResult = (await buildResponse.json()) as AzureDevOpsListResponse<AzureDevOpsBuild>;
+  } catch (error) {
+    console.warn("Error parsing build response:", error, pipelineId);
+    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
+    return;
+  }
+  if (!buildResult.value) {
     console.warn(`No ${buildKind} build found for ${pkgName}`);
     recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
     return;
@@ -185,7 +198,7 @@ async function getBuildResult(
   pipelineResult.result = result.result;
   const timelineResponse = await getBuildTimeline(buildId, token);
   if (!timelineResponse.ok) {
-    recordAllPipeline("tests", pipelines[pkgName], "UNKNOWN");
+    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
     return;
   }
   let timelineResult: AzureDevOpsTimeline;
@@ -193,7 +206,7 @@ async function getBuildResult(
     timelineResult = (await timelineResponse.json()) as AzureDevOpsTimeline;
   } catch (error) {
     console.warn("Error parsing timeline response:", error, buildId);
-    recordAllPipeline("tests", pipelines[pkgName], "UNKNOWN");
+    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
     return;
   }
   for (const task of timelineResult.records ?? []) {
@@ -308,16 +321,17 @@ function reportOverallStatus(packageDetails: PackageStatus): void {
 }
 
 function reportTestResult(
-  testKind: "ci" | "tests",
+  testKind: "ci" | "lint" | "tests",
   pipeline: PipelineResults | undefined,
   packageDetails: PackageStatus,
 ): void {
+  const pipelineKind = testKind === "lint" ? "ci" : testKind;
   if (!pipeline) {
     console.warn(`No ${testKind} pipeline found for ${packageDetails.serviceDir}`);
     packageDetails[testKind] = { status: "UNKNOWN" };
     return;
   }
-  const pipelineResult = pipeline[testKind];
+  const pipelineResult = pipeline[pipelineKind];
   if (!pipelineResult) {
     console.warn(`No ${testKind} pipeline found for ${packageDetails.serviceDir}`);
     packageDetails[testKind] = { status: "UNKNOWN" };
@@ -334,18 +348,18 @@ function reportTestResult(
   }
 }
 
-function recordTotalCustomerIssues(
+export function recordTotalCustomerIssues(
   dataplane: PackagesWithStatus,
-  githubIssues: CustomerIssue[],
-  trackedLabels: Record<string, string>,
+  githubIssues: Pick<CustomerIssue, "labels">[],
+  trackedLabels: Record<string, string[]>,
 ): void {
   for (const issue of githubIssues) {
     for (const label of issue.labels) {
       const labelName = typeof label === "string" ? label : label.name;
       if (labelName && trackedLabels[labelName]) {
-        const serviceDir = trackedLabels[labelName];
-        const packages = Object.keys(dataplane).filter(
-          (pkgName) => (dataplane[pkgName] as PackageStatus).serviceDir === serviceDir,
+        const serviceDirs = trackedLabels[labelName];
+        const packages = Object.keys(dataplane).filter((pkgName) =>
+          serviceDirs.includes((dataplane[pkgName] as PackageStatus).serviceDir),
         );
         for (const pkgName of packages) {
           const packageDetails = dataplane[pkgName] as PackageStatus;
@@ -363,16 +377,16 @@ function recordTotalCustomerIssues(
 function recordSlaStatus(
   dataplane: PackagesWithStatus,
   githubIssue: CustomerIssue,
-  trackedLabels: Record<string, string>,
+  trackedLabels: Record<string, string[]>,
   timePeriod: number,
   kind: "question" | "bug",
 ): void {
   for (const label of githubIssue.labels) {
     const labelName = typeof label === "string" ? label : label.name;
     if (labelName && trackedLabels[labelName]) {
-      const serviceDir = trackedLabels[labelName];
-      const packages = Object.keys(dataplane).filter(
-        (pkgName) => (dataplane[pkgName] as PackageStatus).serviceDir === serviceDir,
+      const serviceDirs = trackedLabels[labelName];
+      const packages = Object.keys(dataplane).filter((pkgName) =>
+        serviceDirs.includes((dataplane[pkgName] as PackageStatus).serviceDir),
       );
       for (const pkgName of packages) {
         const packageDetails = dataplane[pkgName] as PackageStatus;
@@ -439,17 +453,21 @@ async function reportSlaAndTotalIssues(dataplane: PackagesWithStatus) {
   }
 }
 
-function reportStatus(dataplane: PackagesWithStatus, pipelines: Record<string, PipelineResults>) {
+export function reportStatus(
+  dataplane: PackagesWithStatus,
+  pipelines: Record<string, PipelineResults>,
+): void {
   for (const [packageName, packageDetails] of Object.entries(dataplane)) {
     reportTestResult("tests", pipelines[packageName], packageDetails);
     reportTestResult("ci", pipelines[packageName], packageDetails);
+    reportTestResult("lint", pipelines[packageName], packageDetails);
     reportOverallStatus(packageDetails);
   }
 }
 
 const CSV_REPORT_FILE_NAME = "health_report.csv";
 
-async function writeToCsv(
+export async function writeToCsv(
   dataplane: PackagesWithStatus,
   pipelines: Record<string, PipelineResults>,
 ): Promise<void> {
@@ -482,12 +500,12 @@ async function writeToCsv(
       pkgName,
       status,
       SDK_OWNED.includes(pkgName) ? "YES" : "NO",
-      pipelines[pkgName].ci?.ci?.status ?? "",
-      pipelines[pkgName].ci?.link ?? "",
-      pipelines[pkgName].ci?.buildNumber ?? "",
-      pipelines[pkgName].tests?.tests?.status ?? "",
-      pipelines[pkgName].tests?.link ?? "",
-      pipelines[pkgName].tests?.buildNumber ?? "",
+      pipelines[pkgName]?.ci?.ci?.status ?? "",
+      pipelines[pkgName]?.ci?.link ?? "",
+      pipelines[pkgName]?.ci?.buildNumber ?? "",
+      pipelines[pkgName]?.tests?.tests?.status ?? "",
+      pipelines[pkgName]?.tests?.link ?? "",
+      pipelines[pkgName]?.tests?.buildNumber ?? "",
       // pipelines[pkgName].weeklyTests?.weeklyTests?.status ?? "",
       // pipelines[pkgName].weeklyTests?.link ?? "",
       // pipelines[pkgName].weeklyTests?.buildNumber ?? "",
@@ -542,7 +560,10 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error("Error in main:", err);
-  process.exit(1);
-});
+const entryPoint = process.argv[1];
+if (entryPoint && import.meta.url === pathToFileURL(entryPoint).href) {
+  main().catch((err) => {
+    console.error("Error in main:", err);
+    process.exit(1);
+  });
+}
