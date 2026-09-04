@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a validation test execution plan
  *
  * @summary create or update a validation test execution plan
- * x-ms-original-file: 2026-07-01-preview/ValidationExecutionPlans_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ValidationExecutionPlans_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function validationExecutionPlansCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

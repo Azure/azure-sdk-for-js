@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list validation test catalog entries for a subscription
  *
  * @summary list validation test catalog entries for a subscription
- * x-ms-original-file: 2026-07-01-preview/ValidationTests_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ValidationTests_ListBySubscription_MaximumSet_Gen.json
  */
 async function validationTestsListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function validationTestsListBySubscriptionMaximumSet() {
  * This sample demonstrates how to list validation test catalog entries for a subscription
  *
  * @summary list validation test catalog entries for a subscription
- * x-ms-original-file: 2026-07-01-preview/ValidationTests_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ValidationTests_ListBySubscription_MinimumSet_Gen.json
  */
 async function validationTestsListBySubscriptionMinimumSet() {
   const credential = new DefaultAzureCredential();

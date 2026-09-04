@@ -1,27 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformValidationContext as Client } from "../index.js";
-import type { ExecutionPlanRun, _ExecutionPlanRunListResult } from "../../models/models.js";
+import { PlatformValidationContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ExecutionPlanRun,
   executionPlanRunSerializer,
   executionPlanRunDeserializer,
+  _ExecutionPlanRunListResult,
   _executionPlanRunListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ExecutionPlanRunsListByExecutionPlanOptionalParams,
   ExecutionPlanRunsDeleteOptionalParams,
   ExecutionPlanRunsCreateOrUpdateOptionalParams,
   ExecutionPlanRunsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByExecutionPlanSend(
   context: Client,
@@ -37,7 +44,7 @@ export function _listByExecutionPlanSend(
       resourceGroupName: resourceGroupName,
       cloudValidationName: cloudValidationName,
       validationExecutionPlanName: validationExecutionPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -89,7 +96,7 @@ export function listByExecutionPlan(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -110,7 +117,7 @@ export function _$deleteSend(
       cloudValidationName: cloudValidationName,
       validationExecutionPlanName: validationExecutionPlanName,
       executionPlanRunName: executionPlanRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +162,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -176,7 +183,7 @@ export function _createOrUpdateSend(
       cloudValidationName: cloudValidationName,
       validationExecutionPlanName: validationExecutionPlanName,
       executionPlanRunName: executionPlanRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +237,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ExecutionPlanRun>, ExecutionPlanRun>;
 }
 
@@ -250,7 +257,7 @@ export function _getSend(
       cloudValidationName: cloudValidationName,
       validationExecutionPlanName: validationExecutionPlanName,
       executionPlanRunName: executionPlanRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

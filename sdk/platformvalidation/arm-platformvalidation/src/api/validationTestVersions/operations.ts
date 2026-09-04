@@ -1,25 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformValidationContext as Client } from "../index.js";
-import type {
-  ValidationTestVersion,
-  _ValidationTestVersionListResult,
-} from "../../models/models.js";
+import { PlatformValidationContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ValidationTestVersion,
   validationTestVersionDeserializer,
+  _ValidationTestVersionListResult,
   _validationTestVersionListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ValidationTestVersionsListOptionalParams,
   ValidationTestVersionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -31,7 +35,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       validationTestName: validationTestName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -74,7 +78,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -91,7 +95,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       validationTestName: validationTestName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

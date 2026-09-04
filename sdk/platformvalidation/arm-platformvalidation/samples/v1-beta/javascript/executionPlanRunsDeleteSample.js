@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a validation test execution plan run resource
  *
  * @summary delete a validation test execution plan run resource
- * x-ms-original-file: 2026-07-01-preview/ExecutionPlanRuns_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ExecutionPlanRuns_Delete_MaximumSet_Gen.json
  */
 async function executionPlanRunsDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

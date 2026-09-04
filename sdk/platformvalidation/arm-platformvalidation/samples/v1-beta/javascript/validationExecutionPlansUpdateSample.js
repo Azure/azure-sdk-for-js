@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a validation test execution plan
  *
  * @summary update a validation test execution plan
- * x-ms-original-file: 2026-07-01-preview/ValidationExecutionPlans_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ValidationExecutionPlans_Update_MaximumSet_Gen.json
  */
 async function validationExecutionPlansUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

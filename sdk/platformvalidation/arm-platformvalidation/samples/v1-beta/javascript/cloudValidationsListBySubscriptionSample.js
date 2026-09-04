@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list cloud validations by subscription
  *
  * @summary list cloud validations by subscription
- * x-ms-original-file: 2026-07-01-preview/CloudValidations_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudValidations_ListBySubscription_MaximumSet_Gen.json
  */
 async function cloudValidationsListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function cloudValidationsListBySubscriptionMaximumSet() {
  * This sample demonstrates how to list cloud validations by subscription
  *
  * @summary list cloud validations by subscription
- * x-ms-original-file: 2026-07-01-preview/CloudValidations_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudValidations_ListBySubscription_MinimumSet_Gen.json
  */
 async function cloudValidationsListBySubscriptionMinimumSet() {
   const credential = new DefaultAzureCredential();

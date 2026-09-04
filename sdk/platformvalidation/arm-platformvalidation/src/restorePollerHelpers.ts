@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformValidationClient } from "./platformValidationClient.js";
+import { PlatformValidationClient } from "./platformValidationClient.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
-} from "./api/validationTestRuns/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeExecutionPlanRuns,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeExecutionPlanRuns,
 } from "./api/executionPlanRuns/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeValidationExecutionPlans,
@@ -21,10 +17,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeCloudValidations,
 } from "./api/cloudValidations/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -90,17 +90,10 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PlatformValidation/cloudValidations/{cloudValidationName}/validationExecutionPlans/{validationExecutionPlanName}/executionPlanRuns/{executionPlanRunName}/validationTestRuns/{validationTestRunName}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PlatformValidation/cloudValidations/{cloudValidationName}/validationExecutionPlans/{validationExecutionPlanName}/executionPlanRuns/{executionPlanRunName}/validationTestRuns/{validationTestRunName}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PlatformValidation/cloudValidations/{cloudValidationName}/validationExecutionPlans/{validationExecutionPlanName}/executionPlanRuns/{executionPlanRunName}":
-    { deserializer: _$deleteDeserializeExecutionPlanRuns, expectedStatuses: ["202", "204", "200"] },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PlatformValidation/cloudValidations/{cloudValidationName}/validationExecutionPlans/{validationExecutionPlanName}/executionPlanRuns/{executionPlanRunName}":
-    {
-      deserializer: _createOrUpdateDeserializeExecutionPlanRuns,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PlatformValidation/cloudValidations/{cloudValidationName}/validationExecutionPlans/{validationExecutionPlanName}":
     {
       deserializer: _$deleteDeserializeValidationExecutionPlans,

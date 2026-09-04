@@ -4,11 +4,9 @@
 import { logger } from "../logger.js";
 import pkgJson from "@azure/arm-platformvalidation/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
-import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
-import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import type { Client, ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import type { TokenCredential } from "@azure/core-auth";
+import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
 /** Microsoft.PlatformValidation Resource Provider management API. */
 export interface PlatformValidationContext extends Client {

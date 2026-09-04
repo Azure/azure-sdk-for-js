@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the current status of an async operation.
  *
  * @summary returns the current status of an async operation.
- * x-ms-original-file: 2026-07-01-preview/OperationStatus_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/OperationStatus_Get_MaximumSet_Gen.json
  */
 async function operationStatusGetMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function operationStatusGetMaximumSet() {
  * This sample demonstrates how to returns the current status of an async operation.
  *
  * @summary returns the current status of an async operation.
- * x-ms-original-file: 2026-07-01-preview/OperationStatus_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/OperationStatus_Get_MinimumSet_Gen.json
  */
 async function operationStatusGetMaximumSetGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

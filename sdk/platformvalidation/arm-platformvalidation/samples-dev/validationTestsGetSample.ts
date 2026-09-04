@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a validation test catalog entry
  *
  * @summary get a validation test catalog entry
- * x-ms-original-file: 2026-07-01-preview/ValidationTests_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ValidationTests_Get_MaximumSet_Gen.json
  */
 async function validationTestsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

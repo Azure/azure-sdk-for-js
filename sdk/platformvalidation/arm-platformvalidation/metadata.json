@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Microsoft.PlatformValidation": "2026-07-01-preview"
+    "Microsoft.PlatformValidation": "2026-08-01-preview"
   },
   "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
@@ -74,8 +74,6 @@
       "@azure/arm-platformvalidation!ValidationTestsOperations#listBySubscription:member": "Microsoft.PlatformValidation.ValidationTests.listBySubscription",
       "@azure/arm-platformvalidation!ValidationTestsOperations#get:member": "Microsoft.PlatformValidation.ValidationTests.get",
       "@azure/arm-platformvalidation!ValidationTestRunsOperations#listByExecutionPlanRun:member": "Microsoft.PlatformValidation.ValidationTestRuns.listByExecutionPlanRun",
-      "@azure/arm-platformvalidation!ValidationTestRunsOperations#delete:member": "Microsoft.PlatformValidation.ValidationTestRuns.delete",
-      "@azure/arm-platformvalidation!ValidationTestRunsOperations#createOrUpdate:member": "Microsoft.PlatformValidation.ValidationTestRuns.createOrUpdate",
       "@azure/arm-platformvalidation!ValidationTestRunsOperations#get:member": "Microsoft.PlatformValidation.ValidationTestRuns.get",
       "@azure/arm-platformvalidation!ExecutionPlanRunsOperations#listByExecutionPlan:member": "Microsoft.PlatformValidation.ExecutionPlanRuns.listByExecutionPlan",
       "@azure/arm-platformvalidation!ExecutionPlanRunsOperations#delete:member": "Microsoft.PlatformValidation.ExecutionPlanRuns.delete",

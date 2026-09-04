@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a cloud validation
  *
  * @summary update a cloud validation
- * x-ms-original-file: 2026-07-01-preview/CloudValidations_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudValidations_Update_MaximumSet_Gen.json
  */
 async function cloudValidationsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1011,14 +1011,6 @@ export interface ValidationTestRun extends ProxyResource {
   properties?: ValidationTestRunProperties;
 }
 
-export function validationTestRunSerializer(item: ValidationTestRun): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : validationTestRunPropertiesSerializer(item["properties"]),
-  };
-}
-
 export function validationTestRunDeserializer(item: any): ValidationTestRun {
   return {
     id: item["id"],
@@ -1049,8 +1041,6 @@ export interface ValidationTestRunProperties {
   readonly reportedAt?: Date;
   /** The name of the validation test (ValidationTest resource name, not an ARM resource ID) in the validation test catalog. */
   testId?: string;
-  /** The names of the validation test categories (ValidationTestCategory resource names, not ARM resource IDs) associated with this test run. */
-  testCategoryIds?: string[];
   /**
    * Validation test run inputs json, conforming to the input contract declared by `ValidationTestInput` on the corresponding validation test.
    * This value is returned as-is in get responses, so it must not contain credentials or other secrets.
@@ -1062,18 +1052,6 @@ export interface ValidationTestRunProperties {
   readonly failureDetails?: ValidationTestFailureDetails[];
 }
 
-export function validationTestRunPropertiesSerializer(item: ValidationTestRunProperties): any {
-  return {
-    testId: item["testId"],
-    testCategoryIds: !item["testCategoryIds"]
-      ? item["testCategoryIds"]
-      : item["testCategoryIds"].map((p: any) => {
-          return p;
-        }),
-    inputsJson: item["inputsJson"],
-  };
-}
-
 export function validationTestRunPropertiesDeserializer(item: any): ValidationTestRunProperties {
   return {
     status: item["status"],
@@ -1083,11 +1061,6 @@ export function validationTestRunPropertiesDeserializer(item: any): ValidationTe
     completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     reportedAt: !item["reportedAt"] ? item["reportedAt"] : new Date(item["reportedAt"]),
     testId: item["testId"],
-    testCategoryIds: !item["testCategoryIds"]
-      ? item["testCategoryIds"]
-      : item["testCategoryIds"].map((p: any) => {
-          return p;
-        }),
     inputsJson: item["inputsJson"],
     passDetails: !item["passDetails"]
       ? item["passDetails"]
@@ -1230,12 +1203,6 @@ export function _validationTestRunListResultDeserializer(item: any): _Validation
     value: validationTestRunArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
-}
-
-export function validationTestRunArraySerializer(result: Array<ValidationTestRun>): any[] {
-  return result.map((item) => {
-    return validationTestRunSerializer(item);
-  });
 }
 
 export function validationTestRunArrayDeserializer(result: Array<ValidationTestRun>): any[] {
@@ -1648,6 +1615,6 @@ export function validationTestCategoryArrayDeserializer(
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** 2026-07-01-preview version */
-  V20260701Preview = "2026-07-01-preview",
+  /** 2026-08-01-preview version */
+  V20260801Preview = "2026-08-01-preview",
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list validation test version catalog entries
  *
  * @summary list validation test version catalog entries
- * x-ms-original-file: 2026-07-01-preview/ValidationTestVersions_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ValidationTestVersions_List_MaximumSet_Gen.json
  */
 async function validationTestVersionsListMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

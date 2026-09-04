@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformValidationContext } from "../../api/platformValidationContext.js";
+import { PlatformValidationContext } from "../../api/platformValidationContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/cloudValidations/operations.js";
-import type {
+import {
   CloudValidationsListBySubscriptionOptionalParams,
   CloudValidationsListByResourceGroupOptionalParams,
   CloudValidationsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   CloudValidationsCreateOrUpdateOptionalParams,
   CloudValidationsGetOptionalParams,
 } from "../../api/cloudValidations/options.js";
-import type { CloudValidation, CloudValidationUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CloudValidation, CloudValidationUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudValidations operations. */
 export interface CloudValidationsOperations {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a cloud validation
  *
  * @summary delete a cloud validation
- * x-ms-original-file: 2026-07-01-preview/CloudValidations_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudValidations_Delete_MaximumSet_Gen.json
  */
 async function cloudValidationsDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

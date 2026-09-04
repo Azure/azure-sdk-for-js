@@ -1,33 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformValidationContext as Client } from "../index.js";
-import type {
-  ValidationExecutionPlan,
-  ValidationExecutionPlanUpdate,
-  _ValidationExecutionPlanListResult,
-} from "../../models/models.js";
+import { PlatformValidationContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ValidationExecutionPlan,
   validationExecutionPlanSerializer,
   validationExecutionPlanDeserializer,
+  ValidationExecutionPlanUpdate,
   validationExecutionPlanUpdateSerializer,
+  _ValidationExecutionPlanListResult,
   _validationExecutionPlanListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ValidationExecutionPlansListByResourceGroupOptionalParams,
   ValidationExecutionPlansDeleteOptionalParams,
   ValidationExecutionPlansUpdateOptionalParams,
   ValidationExecutionPlansCreateOrUpdateOptionalParams,
   ValidationExecutionPlansGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByResourceGroupSend(
   context: Client,
@@ -41,7 +45,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudValidationName: cloudValidationName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -85,7 +89,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -104,7 +108,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       cloudValidationName: cloudValidationName,
       validationExecutionPlanName: validationExecutionPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,7 +151,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -166,7 +170,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       cloudValidationName: cloudValidationName,
       validationExecutionPlanName: validationExecutionPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,7 +222,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ValidationExecutionPlan>, ValidationExecutionPlan>;
 }
 
@@ -237,7 +241,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       cloudValidationName: cloudValidationName,
       validationExecutionPlanName: validationExecutionPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +293,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ValidationExecutionPlan>, ValidationExecutionPlan>;
 }
 
@@ -307,7 +311,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudValidationName: cloudValidationName,
       validationExecutionPlanName: validationExecutionPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

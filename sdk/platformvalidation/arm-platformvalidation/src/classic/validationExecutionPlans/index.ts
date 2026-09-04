@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformValidationContext } from "../../api/platformValidationContext.js";
+import { PlatformValidationContext } from "../../api/platformValidationContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -9,19 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/validationExecutionPlans/operations.js";
-import type {
+import {
   ValidationExecutionPlansListByResourceGroupOptionalParams,
   ValidationExecutionPlansDeleteOptionalParams,
   ValidationExecutionPlansUpdateOptionalParams,
   ValidationExecutionPlansCreateOrUpdateOptionalParams,
   ValidationExecutionPlansGetOptionalParams,
 } from "../../api/validationExecutionPlans/options.js";
-import type {
-  ValidationExecutionPlan,
-  ValidationExecutionPlanUpdate,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ValidationExecutionPlan, ValidationExecutionPlanUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ValidationExecutionPlans operations. */
 export interface ValidationExecutionPlansOperations {

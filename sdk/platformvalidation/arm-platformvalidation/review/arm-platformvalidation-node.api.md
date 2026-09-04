@@ -4,16 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -315,7 +315,7 @@ export enum KnownValidationTestRunStatus {
 
 // @public
 export enum KnownVersions {
-    V20260701Preview = "2026-07-01-preview"
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public
@@ -642,22 +642,11 @@ export interface ValidationTestRunProperties {
     readonly reportedAt?: Date;
     readonly startedAt?: Date;
     readonly status?: ValidationTestRunStatus;
-    testCategoryIds?: string[];
     testId?: string;
 }
 
 // @public
 export type ValidationTestRunProvisioningState = string;
-
-// @public
-export interface ValidationTestRunsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ValidationTestRunsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface ValidationTestRunsGetOptionalParams extends OperationOptions {
@@ -669,8 +658,6 @@ export interface ValidationTestRunsListByExecutionPlanRunOptionalParams extends 
 
 // @public
 export interface ValidationTestRunsOperations {
-    createOrUpdate: (resourceGroupName: string, cloudValidationName: string, validationExecutionPlanName: string, executionPlanRunName: string, validationTestRunName: string, resource: ValidationTestRun, options?: ValidationTestRunsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ValidationTestRun>, ValidationTestRun>;
-    delete: (resourceGroupName: string, cloudValidationName: string, validationExecutionPlanName: string, executionPlanRunName: string, validationTestRunName: string, options?: ValidationTestRunsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, cloudValidationName: string, validationExecutionPlanName: string, executionPlanRunName: string, validationTestRunName: string, options?: ValidationTestRunsGetOptionalParams) => Promise<ValidationTestRun>;
     listByExecutionPlanRun: (resourceGroupName: string, cloudValidationName: string, validationExecutionPlanName: string, executionPlanRunName: string, options?: ValidationTestRunsListByExecutionPlanRunOptionalParams) => PagedAsyncIterableIterator<ValidationTestRun>;
 }

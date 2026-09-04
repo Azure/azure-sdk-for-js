@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list cloud validations by resource group
  *
  * @summary list cloud validations by resource group
- * x-ms-original-file: 2026-07-01-preview/CloudValidations_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudValidations_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function cloudValidationsListByResourceGroupMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function cloudValidationsListByResourceGroupMaximumSet(): Promise<void> {
  * This sample demonstrates how to list cloud validations by resource group
  *
  * @summary list cloud validations by resource group
- * x-ms-original-file: 2026-07-01-preview/CloudValidations_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/CloudValidations_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function cloudValidationsListByResourceGroupMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

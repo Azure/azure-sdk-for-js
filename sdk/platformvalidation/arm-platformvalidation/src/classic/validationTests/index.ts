@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformValidationContext } from "../../api/platformValidationContext.js";
+import { PlatformValidationContext } from "../../api/platformValidationContext.js";
 import { listBySubscription, get } from "../../api/validationTests/operations.js";
-import type {
+import {
   ValidationTestsListBySubscriptionOptionalParams,
   ValidationTestsGetOptionalParams,
 } from "../../api/validationTests/options.js";
-import type { ValidationTest } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ValidationTest } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ValidationTests operations. */
 export interface ValidationTestsOperations {

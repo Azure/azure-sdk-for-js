@@ -1,31 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   PlatformValidationContext,
   PlatformValidationClientOptionalParams,
+  createPlatformValidation,
 } from "./api/index.js";
-import { createPlatformValidation } from "./api/index.js";
-import type { CloudValidationsOperations } from "./classic/cloudValidations/index.js";
-import { _getCloudValidationsOperations } from "./classic/cloudValidations/index.js";
-import type { ExecutionPlanRunsOperations } from "./classic/executionPlanRuns/index.js";
-import { _getExecutionPlanRunsOperations } from "./classic/executionPlanRuns/index.js";
-import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
-import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { ValidationExecutionPlansOperations } from "./classic/validationExecutionPlans/index.js";
-import { _getValidationExecutionPlansOperations } from "./classic/validationExecutionPlans/index.js";
-import type { ValidationTestCategoriesOperations } from "./classic/validationTestCategories/index.js";
-import { _getValidationTestCategoriesOperations } from "./classic/validationTestCategories/index.js";
-import type { ValidationTestRunsOperations } from "./classic/validationTestRuns/index.js";
-import { _getValidationTestRunsOperations } from "./classic/validationTestRuns/index.js";
-import type { ValidationTestVersionsOperations } from "./classic/validationTestVersions/index.js";
-import { _getValidationTestVersionsOperations } from "./classic/validationTestVersions/index.js";
-import type { ValidationTestsOperations } from "./classic/validationTests/index.js";
-import { _getValidationTestsOperations } from "./classic/validationTests/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CloudValidationsOperations,
+  _getCloudValidationsOperations,
+} from "./classic/cloudValidations/index.js";
+import {
+  ExecutionPlanRunsOperations,
+  _getExecutionPlanRunsOperations,
+} from "./classic/executionPlanRuns/index.js";
+import {
+  OperationStatusOperations,
+  _getOperationStatusOperations,
+} from "./classic/operationStatus/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  ValidationExecutionPlansOperations,
+  _getValidationExecutionPlansOperations,
+} from "./classic/validationExecutionPlans/index.js";
+import {
+  ValidationTestCategoriesOperations,
+  _getValidationTestCategoriesOperations,
+} from "./classic/validationTestCategories/index.js";
+import {
+  ValidationTestRunsOperations,
+  _getValidationTestRunsOperations,
+} from "./classic/validationTestRuns/index.js";
+import {
+  ValidationTestVersionsOperations,
+  _getValidationTestVersionsOperations,
+} from "./classic/validationTestVersions/index.js";
+import {
+  ValidationTestsOperations,
+  _getValidationTestsOperations,
+} from "./classic/validationTests/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { PlatformValidationClientOptionalParams } from "./api/platformValidationContext.js";
 

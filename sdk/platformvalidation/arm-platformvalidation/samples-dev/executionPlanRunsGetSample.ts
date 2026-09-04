@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Validation test execution plan run details
  *
  * @summary get a Validation test execution plan run details
- * x-ms-original-file: 2026-07-01-preview/ExecutionPlanRuns_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ExecutionPlanRuns_Get_MaximumSet_Gen.json
  */
 async function executionPlanRunsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

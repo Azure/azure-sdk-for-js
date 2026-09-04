@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list validation test runs for an execution plan run
  *
  * @summary list validation test runs for an execution plan run
- * x-ms-original-file: 2026-07-01-preview/ValidationTestRuns_ListByExecutionPlanRun_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01-preview/ValidationTestRuns_ListByExecutionPlanRun_MaximumSet_Gen.json
  */
 async function validationTestRunsListByExecutionPlanRunMaximumSet() {
   const credential = new DefaultAzureCredential();
