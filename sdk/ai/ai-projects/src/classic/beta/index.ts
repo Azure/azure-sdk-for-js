@@ -28,6 +28,8 @@ import type { BetaRoutinesOperations } from "./routines/index.js";
 import { _getBetaRoutinesOperations } from "./routines/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
+import type { BetaVoiceAgentWebSocketOperations } from "./voiceAgentWebSocket/index.js";
+import { _getBetaVoiceAgentWebSocketOperations } from "./voiceAgentWebSocket/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
@@ -55,6 +57,8 @@ export interface BetaOperations {
   agentEndpointConversations: BetaAgentEndpointConversationsOperations;
   /** Operations for managing agents. */
   agents: BetaAgentsOperations;
+  /** Operations for establishing voice-agent WebSocket connections. */
+  voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
@@ -83,5 +87,7 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
     /** Operations for managing agents. */
     agents: _getBetaAgentsOperations(context),
+    /** Operations for establishing voice-agent WebSocket connections. */
+    voiceAgentWebSocket: _getBetaVoiceAgentWebSocketOperations(context),
   };
 }

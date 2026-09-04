@@ -24,10 +24,11 @@ describe("AIProjectClient Voice Agent management (recorded)", () => {
   it("generates, gets, updates, lists, and deletes a voice agent", async () => {
     const agentName = "voice-agent-mgmt-test";
     const generated = await client.agents.generateAgent({ kind: "voice", name: agentName });
-    assert.equal(generated.name, agentName);
-    assert.equal(generated.versions.latest.definition.kind, "voice");
 
     try {
+      assert.equal(generated.name, agentName);
+      assert.equal(generated.versions.latest.definition.kind, "voice");
+
       const retrieved = await client.agents.get(agentName);
       const definition = retrieved.versions.latest.definition as VoiceAgentDefinition;
       assert.equal(definition.kind, "voice");

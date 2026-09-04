@@ -32,6 +32,9 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
 
   public async connect(options: VoiceAgentWebSocketConnectOptions): Promise<void> {
     const protocols = addCredentialSubprotocol(options.protocols, options.headers);
+    if (options.abortSignal?.aborted) {
+      throw new Error("WebSocket connection was cancelled.");
+    }
     await new Promise<void>((resolve, reject) => {
       let settled = false;
       const url = addHeadersToUrl(options.url, options.headers);
@@ -82,7 +85,11 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
         };
         clearTimeout(timeout);
         options.abortSignal?.removeEventListener("abort", abortHandler);
-        this.handlers?.onClose(closeEvent.code, closeEvent.reason, closeEvent.wasClean);
+        void this.messageChain
+          .catch(() => undefined)
+          .finally(() => {
+            this.handlers?.onClose(closeEvent.code, closeEvent.reason, closeEvent.wasClean);
+          });
       });
       this.webSocket.addEventListener("error", () => {
         const error = new Error("WebSocket connection failed.");

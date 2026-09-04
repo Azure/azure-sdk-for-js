@@ -152,7 +152,7 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = i
 output ACCOUNT_NAME string = aiServices.name
 
 @description('The AI Services account endpoint')
-output FOUNDRY_PROJECT_ENDPOINT string = 'https://${aiServices.properties.customSubDomainName}.api.cognitive.microsoft.com/api/projects/${defaultProjectName}'
+output FOUNDRY_PROJECT_ENDPOINT string = defaultProject.properties.endpoints['AI Foundry API']
 
 @description('The resource group containing the deployed resources')
 output AZURE_RESOURCE_GROUP string = resourceGroup().name

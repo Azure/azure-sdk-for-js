@@ -119,6 +119,9 @@ export class AIProjectClient {
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
+    // VoiceAgentRealtimeClient defers https-only endpoint validation to connect() (not its
+    // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an
+    // insecure local endpoint for the REST surface and never touch realtime connections.
     this.realtime = new VoiceAgentRealtimeClient(clientOptions.endpoint ?? endpoint, credential, {
       ...realtimeOptions,
       apiVersion: realtimeOptions?.apiVersion ?? clientOptions.apiVersion,

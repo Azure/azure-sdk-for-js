@@ -12,6 +12,10 @@
 
 ### Features Added
 
+- Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
+- Added `project.realtime` (`VoiceAgentRealtimeClient`) for establishing bidirectional realtime WebSocket sessions with voice agents, including text, audio, and tool-call streaming.
+- Added direct browser and React Native realtime connections using Microsoft Entra bearer credentials carried in the WebSocket subprotocol.
+- Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
 - Added `project.beta.agentInsightMonitors` for managing agent insight monitors.
 - Added `project.agentEndpointConversations.getAgentConversationItemGeneratedAudio` and `getAgentConversationItemGeneratedAudioContent`, for retrieving a conversation item's generated audio — a subordinate artifact that exists only when playback was interrupted and the service rendered more audio than the listener heard.
 - Added telephony support to `project.agents`: `createTelephonyBinding`, `getTelephonyBinding`, `listTelephonyBindings`, `updateTelephonyBinding`, and `deleteTelephonyBinding` for managing Teams Phone Extension and Twilio bindings; `getTelephonyCall`, `listTelephonyCalls`, `endTelephonyCall`, and `transferTelephonyCall` for managing calls; and `getTelephonyTransferTargets`/`replaceTelephonyTransferTargets` for configuring transfer targets.
@@ -33,13 +37,6 @@
 - Add `Reasoning.mode`, the `ReasoningModeEnum` type, and the `max` reasoning effort. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 - Add `redact_private_content` to trace data generation jobs and `registry_connection_id` to container configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 - Add the `VoiceAgents=V1Preview` agent definition opt-in key. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
-
-### Features Added
-
-- Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
-- Added `project.realtime` (`VoiceAgentRealtimeClient`) for establishing bidirectional realtime WebSocket sessions with voice agents, including text, audio, and tool-call streaming.
-- Added direct browser and React Native realtime connections using Microsoft Entra bearer credentials carried in the WebSocket subprotocol.
-- Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
 
 ### Bugs Fixed
 

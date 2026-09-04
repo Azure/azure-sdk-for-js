@@ -13,6 +13,8 @@ import {
   type Agent,
   type AgentDefinitionUnion,
   type VoiceAgentDefinition,
+  type VoiceAgentFunctionTool,
+  type RealtimeAudioFormatsUnion,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -30,86 +32,88 @@ const pcmSampleRate = 24_000;
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const { definition, created } = await getOrCreateVoiceAgent(project);
-  const connection = await project.realtime.connect(agentName);
-  const audioOutput = createWriteStream(audioOutputPath);
-  let pendingToolOutputs = 0;
-  let toolCallCount = 0;
-  let textCharacterCount = 0;
-  let audioByteCount = 0;
+  const { created } = await getOrCreateVoiceAgent(project);
 
   try {
-    await connection.configureSession({
-      type: "realtime",
-      output_modalities: ["text", "audio"],
-      audio: {
-        output: {
-          ...definition.audio?.output,
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-        },
-      },
-      tools: [
-        {
-          type: "function",
-          name: "get_weather",
-          description: "Get the current weather for a city.",
-          parameters: {
-            type: "object",
-            properties: { city: { type: "string" } },
-            required: ["city"],
-          },
-        },
-      ],
-    });
+    const connection = await project.realtime.connect(agentName);
+    const audioOutput = createWriteStream(audioOutputPath);
+    let pendingToolOutputs = 0;
+    let toolCallCount = 0;
+    let textCharacterCount = 0;
+    let audioByteCount = 0;
 
-    await connection.sendText("What is the weather in Seattle? Use the weather tool.");
+    try {
+      // session.update merges into the existing session config; only the changed field needs to be sent.
+      const pcmFormat: RealtimeAudioFormatsUnion = { type: "audio/pcm", rate: pcmSampleRate };
+      const weatherTool: VoiceAgentFunctionTool = {
+        type: "function",
+        name: "get_weather",
+        description: "Get the current weather for a city.",
+        parameters: {
+          type: "object",
+          properties: { city: { type: "string" } },
+          required: ["city"],
+        },
+      };
+      await connection.configureSession({
+        type: "realtime",
+        output_modalities: ["text", "audio"],
+        audio: {
+          output: { format: pcmFormat },
+        },
+        tools: [weatherTool],
+      });
 
-    for await (const event of connection) {
-      switch (event.type) {
-        case "response.output_text.delta":
-        case "response.output_audio_transcript.delta":
-          textCharacterCount += event.delta.length;
-          process.stdout.write(event.delta);
-          break;
-        case "response.output_audio.delta":
-          audioByteCount += event.delta.byteLength;
-          await writeAudio(audioOutput, event.delta);
-          break;
-        case "response.function_call_arguments.done": {
-          toolCallCount++;
-          pendingToolOutputs++;
-          const args = parseWeatherToolArguments(event.arguments);
-          await connection.sendToolOutput(
-            event.call_id,
-            JSON.stringify({ city: args.city, temperature: 62, unit: "F" }),
-            { createResponse: false },
-          );
-          break;
-        }
-        case "error":
-          throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
-        case "response.done":
-          if (pendingToolOutputs > 0) {
-            pendingToolOutputs = 0;
-            await connection.requestResponse();
-          } else {
-            await connection.close();
+      await connection.sendText("What is the weather in Seattle? Use the weather tool.");
+
+      for await (const event of connection) {
+        switch (event.type) {
+          case "response.output_text.delta":
+          case "response.output_audio_transcript.delta":
+            textCharacterCount += event.delta.length;
+            process.stdout.write(event.delta);
+            break;
+          case "response.output_audio.delta":
+            audioByteCount += event.delta.byteLength;
+            await writeAudio(audioOutput, event.delta);
+            break;
+          case "response.function_call_arguments.done": {
+            toolCallCount++;
+            pendingToolOutputs++;
+            const args = parseWeatherToolArguments(event.arguments);
+            await connection.sendToolOutput(
+              event.call_id,
+              JSON.stringify({ city: args.city, temperature: 62, unit: "F" }),
+              { createResponse: false },
+            );
+            break;
           }
-          break;
+          case "error":
+            throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
+          case "response.done":
+            if (pendingToolOutputs > 0) {
+              pendingToolOutputs = 0;
+              await connection.requestResponse();
+            } else {
+              await connection.close();
+            }
+            break;
+        }
+      }
+      console.log(
+        `\nCompleted with ${toolCallCount} tool call(s), ${textCharacterCount} text character(s), and ${audioByteCount} audio byte(s).`,
+      );
+    } finally {
+      audioOutput.end();
+      try {
+        await finished(audioOutput);
+      } finally {
+        await connection.dispose();
       }
     }
-    console.log(
-      `\nCompleted with ${toolCallCount} tool call(s), ${textCharacterCount} text character(s), and ${audioByteCount} audio byte(s).`,
-    );
   } finally {
-    audioOutput.end();
-    try {
-      await finished(audioOutput);
-    } finally {
-      await connection.dispose();
-      if (created) {
-        await project.agents.delete(agentName);
-      }
+    if (created) {
+      await project.agents.delete(agentName);
     }
   }
 }

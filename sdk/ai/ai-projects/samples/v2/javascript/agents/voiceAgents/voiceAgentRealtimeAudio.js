@@ -33,84 +33,88 @@ const trailingSilenceDurationInMs = 1_000;
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const { definition, created } = await getOrCreateVoiceAgent(project);
-  const connection = await project.realtime.connect(agentName);
-  const audioOutput = createWriteStream(audioOutputPath);
-  let textCharacterCount = 0;
-  let audioByteCount = 0;
-  let inputComplete = false;
-  let responseComplete = false;
 
   try {
-    // session.update merges into the existing session config; only the changed field needs to be sent.
-    const pcmFormat = { type: "audio/pcm", rate: pcmSampleRate };
-    await connection.configureSession({
-      type: "realtime",
-      output_modalities: ["text", "audio"],
-      audio: {
-        input: {
-          format: pcmFormat,
-          turn_detection: withTurnDetectionOverrides(definition.audio?.input?.turn_detection),
-        },
-        output: { format: pcmFormat },
-      },
-    });
+    const connection = await project.realtime.connect(agentName);
+    const audioOutput = createWriteStream(audioOutputPath);
+    let textCharacterCount = 0;
+    let audioByteCount = 0;
+    let inputComplete = false;
+    let responseComplete = false;
 
-    const consumeEvents = (async () => {
-      for await (const event of connection) {
-        switch (event.type) {
-          case "response.output_audio.delta":
-            audioByteCount += event.delta.byteLength;
-            await writeAudio(audioOutput, event.delta);
-            break;
-          case "response.output_text.delta":
-          case "response.output_audio_transcript.delta":
-            textCharacterCount += event.delta.length;
-            process.stdout.write(event.delta);
-            break;
-          case "error":
-            throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
-          case "response.done":
-            // The response can finish before all input has been sent; remember it happened so the
-            // pending completion isn't dropped once inputComplete flips below.
-            responseComplete = true;
-            if (inputComplete) {
-              await connection.close();
-            }
-            break;
-        }
-      }
-    })();
-
-    for await (const chunk of createReadStream(audioInputPath, { highWaterMark: inputChunkSize })) {
-      await connection.sendAudio(chunk);
-      await delay((chunk.byteLength / (pcmSampleRate * pcmBytesPerSample)) * 1000);
-    }
-    const silence = new Uint8Array(inputChunkSize);
-    for (
-      let durationInMs = 0;
-      durationInMs < trailingSilenceDurationInMs;
-      durationInMs += inputChunkDurationInMs
-    ) {
-      await connection.sendAudio(silence);
-      await delay(inputChunkDurationInMs);
-    }
-    inputComplete = true;
-    if (responseComplete) {
-      await connection.close();
-    }
-    await consumeEvents;
-    console.log(
-      `\nCompleted with ${textCharacterCount} text character(s) and ${audioByteCount} audio byte(s).`,
-    );
-  } finally {
-    audioOutput.end();
     try {
-      await finished(audioOutput);
-    } finally {
-      await connection.dispose();
-      if (created) {
-        await project.agents.delete(agentName);
+      // session.update merges into the existing session config; only the changed field needs to be sent.
+      const pcmFormat = { type: "audio/pcm", rate: pcmSampleRate };
+      await connection.configureSession({
+        type: "realtime",
+        output_modalities: ["text", "audio"],
+        audio: {
+          input: {
+            format: pcmFormat,
+            turn_detection: withTurnDetectionOverrides(definition.audio?.input?.turn_detection),
+          },
+          output: { format: pcmFormat },
+        },
+      });
+
+      const consumeEvents = (async () => {
+        for await (const event of connection) {
+          switch (event.type) {
+            case "response.output_audio.delta":
+              audioByteCount += event.delta.byteLength;
+              await writeAudio(audioOutput, event.delta);
+              break;
+            case "response.output_text.delta":
+            case "response.output_audio_transcript.delta":
+              textCharacterCount += event.delta.length;
+              process.stdout.write(event.delta);
+              break;
+            case "error":
+              throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
+            case "response.done":
+              // The response can finish before all input has been sent; remember it happened so the
+              // pending completion isn't dropped once inputComplete flips below.
+              responseComplete = true;
+              if (inputComplete) {
+                await connection.close();
+              }
+              break;
+          }
+        }
+      })();
+
+      for await (const chunk of createReadStream(audioInputPath, { highWaterMark: inputChunkSize })) {
+        await connection.sendAudio(chunk);
+        await delay((chunk.byteLength / (pcmSampleRate * pcmBytesPerSample)) * 1000);
       }
+      const silence = new Uint8Array(inputChunkSize);
+      for (
+        let durationInMs = 0;
+        durationInMs < trailingSilenceDurationInMs;
+        durationInMs += inputChunkDurationInMs
+      ) {
+        await connection.sendAudio(silence);
+        await delay(inputChunkDurationInMs);
+      }
+      inputComplete = true;
+      if (responseComplete) {
+        await connection.close();
+      }
+      await consumeEvents;
+      console.log(
+        `\nCompleted with ${textCharacterCount} text character(s) and ${audioByteCount} audio byte(s).`,
+      );
+    } finally {
+      audioOutput.end();
+      try {
+        await finished(audioOutput);
+      } finally {
+        await connection.dispose();
+      }
+    }
+  } finally {
+    if (created) {
+      await project.agents.delete(agentName);
     }
   }
 }

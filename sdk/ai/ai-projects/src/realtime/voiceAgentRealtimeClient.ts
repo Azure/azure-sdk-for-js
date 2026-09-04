@@ -191,7 +191,13 @@ export class VoiceAgentRealtimeClient {
     credential: TokenCredential,
     options: VoiceAgentRealtimeClientOptions = {},
   ) {
-    this.endpoint = normalizeEndpoint(endpoint);
+    // Endpoint validation (https-only) is deferred to connect() so that merely constructing an
+    // AIProjectClient (which eagerly creates this client) doesn't reject callers who intentionally
+    // use an insecure local endpoint for the REST surface and never touch realtime connections.
+    if (!endpoint.trim()) {
+      throw new TypeError("endpoint must not be empty.");
+    }
+    this.endpoint = endpoint;
     this.credential = credential;
     this.options = {
       ...options,
@@ -212,7 +218,7 @@ export class VoiceAgentRealtimeClient {
       this.options.webSocketFactory ??
       (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
     const connection = new VoiceAgentConnectionImpl(
-      this.endpoint,
+      normalizeEndpoint(this.endpoint),
       agentName,
       this.credential,
       this.options,
@@ -225,7 +231,7 @@ export class VoiceAgentRealtimeClient {
 }
 
 class VoiceAgentConnectionImpl implements VoiceAgentConnection {
-  private readonly events = new AsyncQueue<VoiceAgentServerEvent>();
+  private readonly events: AsyncQueue<VoiceAgentServerEvent>;
   private readonly transport: VoiceAgentWebSocketTransport;
   private readonly closePromise: Promise<VoiceAgentCloseResult>;
   private resolveClose!: (result: VoiceAgentCloseResult) => void;
@@ -244,6 +250,9 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     private readonly connectOptions: VoiceAgentRealtimeClientConnectOptions,
     factory: VoiceAgentWebSocketFactory,
   ) {
+    this.events = new AsyncQueue<VoiceAgentServerEvent>(10_000, {
+      onOverflow: (error) => this.handleEventQueueOverflow(error),
+    });
     this.transport = factory.create();
     this.closePromise = new Promise<VoiceAgentCloseResult>((resolve) => {
       this.resolveClose = resolve;
@@ -276,6 +285,15 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       }
       token = accessToken.token;
     } catch (error) {
+      if (this.connectOptions.abortSignal?.aborted) {
+        const cancelledError = new VoiceAgentConnectionError(
+          "Voice-agent connection was cancelled.",
+          "operationCancelled",
+          { cause: error },
+        );
+        this.finish(1006, cancelledError.message, false, cancelledError);
+        throw cancelledError;
+      }
       const authenticationError =
         error instanceof VoiceAgentAuthenticationError
           ? error
@@ -451,7 +469,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     try {
       await this.transport.close(code, reason);
     } finally {
-      this.finish(code, reason, code === 1000);
+      this.finish(code, reason, false);
     }
   }
 
@@ -493,6 +511,16 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       this.finish(1002, protocolError.message, false, protocolError);
       void this.transport.close(1002, protocolError.message);
     }
+  }
+
+  private handleEventQueueOverflow(cause: Error): void {
+    if (this.finished) {
+      return;
+    }
+    const error = new VoiceAgentConnectionError(cause.message, "connectionClosed", {
+      cause,
+    });
+    this.finish(1006, error.message, false, error);
   }
 
   private handleClose(code: number, reason: string, wasClean: boolean): void {

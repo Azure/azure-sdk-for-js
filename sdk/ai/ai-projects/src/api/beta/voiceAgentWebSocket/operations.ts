@@ -18,14 +18,14 @@ export function _connectVoiceAgentSend(
   options: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,transport,store,x%2Dagent%2Dversion%2Doverride,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,transport,store,x-agent-version-override,api-version}",
     {
       agent_name: agentName,
       foundry_features: options?.foundryFeaturesQuery,
       transport: options?.transport,
       store: options?.store,
-      "x%2Dagent%2Dversion%2Doverride": options?.agentVersionOverride,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "x-agent-version-override": options?.agentVersionOverride,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

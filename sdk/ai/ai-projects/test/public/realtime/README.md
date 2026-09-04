@@ -114,5 +114,5 @@ Tests are automatically run by Azure Pipelines. New recordings are periodically 
 
 ## Reference
 
-See [`sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md`](../../../../../test-utils/recorder/ASSET_SYNC_WORKFLOW.md) for the complete asset-sync documentation.
+See [`sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md) for the complete asset-sync documentation.
 

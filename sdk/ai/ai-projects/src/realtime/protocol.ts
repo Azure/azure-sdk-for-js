@@ -19,6 +19,7 @@ const clientEventSerializers: Record<string, ClientEventSerializer> = {
   "output_audio_buffer.clear": models.realtimeClientEventOutputAudioBufferClearSerializer,
   "response.cancel": models.realtimeClientEventResponseCancelSerializer,
   "response.create": models.realtimeClientEventResponseCreateSerializer,
+  "rtc.call.sdp.create": models.voiceAgentClientEventRtcCallSdpCreateSerializer,
   "session.update": models.voiceAgentClientEventSessionUpdateSerializer,
   "session.avatar.connect": models.voiceAgentClientEventSessionAvatarConnectSerializer,
 };
@@ -71,13 +72,17 @@ const serverEventDeserializers: Record<string, ServerEventDeserializer> = {
     models.realtimeServerEventResponseMCPCallArgumentsDoneDeserializer,
   "response.mcp_call.completed": models.realtimeServerEventResponseMCPCallCompletedDeserializer,
   "response.mcp_call.failed": models.realtimeServerEventResponseMCPCallFailedDeserializer,
-  "response.mcp_call.in_progress":
-    models.realtimeServerEventResponseMCPCallInProgressDeserializer,
+  "response.mcp_call.in_progress": models.realtimeServerEventResponseMCPCallInProgressDeserializer,
   "response.output_item.added": models.realtimeServerEventResponseOutputItemAddedDeserializer,
   "response.output_item.done": models.realtimeServerEventResponseOutputItemDoneDeserializer,
   "response.output_text.delta": models.realtimeServerEventResponseTextDeltaDeserializer,
   "response.output_text.done": models.realtimeServerEventResponseTextDoneDeserializer,
+  "rtc.call.error": models.voiceAgentServerEventRtcCallErrorDeserializer,
+  "rtc.call.sdp.created": models.voiceAgentServerEventRtcCallSdpCreatedDeserializer,
   "session.created": models.realtimeServerEventSessionCreatedDeserializer,
+  "session.subagent.aborted": models.voiceAgentServerEventSessionSubagentAbortedDeserializer,
+  "session.subagent.completed": models.voiceAgentServerEventSessionSubagentCompletedDeserializer,
+  "session.subagent.started": models.voiceAgentServerEventSessionSubagentStartedDeserializer,
   "session.updated": models.realtimeServerEventSessionUpdatedDeserializer,
   error: models.realtimeServerEventErrorDeserializer,
   warning: models.voiceAgentServerEventWarningDeserializer,
@@ -109,6 +114,8 @@ export function serializeVoiceAgentClientEvent(event: VoiceAgentClientEvent): st
   }
   const serialized = serializer(event as never) as Record<string, unknown>;
   if (event.type === "session.update") {
+    normalizeSessionUnions(event.session, serialized["session"] as Record<string, unknown>);
+  } else if (event.type === "rtc.call.sdp.create" && event.session) {
     normalizeSessionUnions(event.session, serialized["session"] as Record<string, unknown>);
   } else if (event.type === "response.create" && event.response?.interim_response) {
     const response = serialized["response"] as Record<string, unknown>;
@@ -185,15 +192,25 @@ const requiredServerEventFields: Record<string, string[]> = {
   "response.function_call_arguments.done": ["arguments", "call_id"],
   "response.created": ["response"],
   "response.done": ["response"],
+  "rtc.call.error": ["error"],
+  "rtc.call.sdp.created": ["rtc_call_id", "sdp_answer"],
   error: ["error"],
   "session.created": ["session"],
+  "session.subagent.aborted": ["consultation_id", "call_id", "subagent_name", "reason"],
+  "session.subagent.completed": ["consultation_id", "call_id", "subagent_name"],
+  "session.subagent.started": ["consultation_id", "call_id", "subagent_name"],
   "session.updated": ["session"],
 };
+
+const optionalEventIdServerEvents = new Set<string>(["rtc.call.error"]);
 
 function validateRequiredServerEventFields(eventType: string, event: unknown): void {
   const record = event as Record<string, unknown>;
   const eventId = record["event_id"];
-  if (typeof eventId !== "string" || eventId.length === 0) {
+  if (
+    !optionalEventIdServerEvents.has(eventType) &&
+    (typeof eventId !== "string" || eventId.length === 0)
+  ) {
     throw new VoiceAgentProtocolError(
       `The service returned a "${eventType}" event without a required "event_id" field.`,
     );
@@ -255,7 +272,9 @@ function serializeTurnDetection(turnDetection: models.VoiceAgentTurnDetectionCon
 
 // Same fallback-narrowing limitation as above: `VoiceAgentInterimResponseConfig.type` is `string`,
 // so the ternary's branches cannot be excluded from each other without an explicit cast.
-function serializeInterimResponse(interimResponse: models.VoiceAgentInterimResponseConfigUnion): unknown {
+function serializeInterimResponse(
+  interimResponse: models.VoiceAgentInterimResponseConfigUnion,
+): unknown {
   return interimResponse.type === "static_interim_response"
     ? models.voiceAgentStaticInterimResponseConfigSerializer(
         interimResponse as models.VoiceAgentStaticInterimResponseConfig,

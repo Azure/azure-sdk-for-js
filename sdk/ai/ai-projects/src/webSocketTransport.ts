@@ -90,7 +90,7 @@ export class NodeWebSocketTransport implements VoiceAgentWebSocketTransport {
       this.webSocket.on("close", (code: number, reason: Buffer) => {
         clearTimeout(timeout);
         options.abortSignal?.removeEventListener("abort", abortHandler);
-        this.handlers?.onClose(code, reason.toString(), code === 1000);
+        this.handlers?.onClose(code, reason.toString(), isCleanCloseCode(code));
       });
       this.webSocket.on("error", (error: Error) => {
         clearTimeout(timeout);
@@ -189,15 +189,35 @@ function shouldBypassProxy(hostname: string): boolean {
   if (!noProxy || !noProxy.trim()) {
     return false;
   }
-  if (noProxy.trim() === "*") {
-    return true;
-  }
   const host = hostname.toLowerCase();
   return noProxy
     .split(",")
     .map((entry) => entry.trim().toLowerCase())
     .filter((entry) => entry.length > 0)
-    .some((entry) => host === entry || host.endsWith(entry.startsWith(".") ? entry : `.${entry}`));
+    .some((entry) => {
+      if (entry === "*") {
+        return true;
+      }
+      const normalizedEntry = entry.startsWith(".") ? entry.slice(1) : entry;
+      return host === normalizedEntry || host.endsWith(`.${normalizedEntry}`);
+    });
+}
+
+function isCleanCloseCode(code: number): boolean {
+  switch (code) {
+    case 1002:
+    case 1003:
+    case 1006:
+    case 1007:
+    case 1008:
+    case 1009:
+    case 1010:
+    case 1011:
+    case 1015:
+      return false;
+    default:
+      return true;
+  }
 }
 
 /** @internal */
