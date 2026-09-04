@@ -1715,7 +1715,7 @@ sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Iot
 sdk/deviceregistry/iot-device-registry-software-update/ @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
