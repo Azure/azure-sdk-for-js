@@ -23,10 +23,16 @@ Besides public API surfaces, we also need to pay attention to generated files li
 ### 1. Package version and API versions
 - Carefully check that the package version is aligned across `package.json`, the management client context file under `src/api/` (for example, `src/api/*Context.ts` such as `src/api/managedOpsContext.ts`), and `CHANGELOG.md`. The agent should first discover the appropriate `*Context.ts` file in `src/api/` and then validate its version. If versions are inconsistent, use changelog entry details to suggest correct versions and report this as a critical tool issue.
 - Cross-check code references across `README.md`, `snippets.spec.ts`, and the public API. If inconsistent, follow the public API and report a tool issue.
-- Package versions should align with API versions. The first package version can only be a preview version, regardless of API versions. For later cases, preview API versions can only be released in preview package versions.
+- Except for the first package release, cross-check the latest package version in `CHANGELOG.md` against the top-level `apiVersion` in the package's `metadata.json`. Their release channels must match in both directions:
+  - A stable package version such as `2.0.0` requires a stable API version such as `2026-09-02` (no `-preview` suffix).
+  - A preview package version such as `2.0.0-beta.1` requires a preview API version such as `2026-09-02-preview`.
+  - Always report either mismatch as a critical tool issue with an inline comment on the changed `CHANGELOG.md` version or `metadata.json` `apiVersion` line. Examples of mismatches are `1.0.0` with `2026-09-02-preview`, and `1.0.0-beta.1` with `2026-09-02`.
+- The first package version can only be a preview version, but do not validate its release channel against the API version in `metadata.json`; the first release may target either a stable or preview API version.
+- For a new package's first release, always leave an inline comment on the version line in the latest `CHANGELOG.md` entry with this guidance: **Pipeline setup** (release pipelines not created yet): comment `/azp run prepare-pipelines` on this PR to create the release pipelines.
 - The first `CHANGELOG.md` entry is hard-coded. Ignore its content for review and only review its versions.
 - Do not allow alpha versions in `CHANGELOG.md`, context file(s) under `src/api/`, or `package.json`.
 - **CHANGELOG comparison baseline.** The `Compared with version X.Y.Z` line at the top of a changelog entry is selected automatically by the changelog generator. When the package has a released stable (GA) version, the baseline is the **last released stable (GA) version**, and is deliberately **NOT** the version released immediately before this one — any preview versions released after that stable baseline are skipped in the comparison, and the entry is a **cumulative** summary of all changes since that stable baseline (each preview re-lists everything since the baseline rather than only the delta from the previous preview). If the package has **never** had a stable release, the baseline is instead the package's **most recent preview** (the immediately preceding preview), **not** the first published preview. Therefore, do **NOT**:
+  - Flag a missing `Compared with version X.Y.Z` line when the new package version is stable (for example, `6.0.0`). Stable release entries are not expected to contain this line.
   - Flag the comparison line, for a package with a stable release, for skipping intermediate previews. For example `6.0.0-beta.2` comparing with `5.0.0` (skipping `6.0.0-beta.1`) is correct and expected.
   - For a package with a stable release, re-derive the baseline from the version sequence, or claim it should be the immediately preceding release.
   - Ask to restore a "missing" intermediate preview entry (for example a missing `6.0.0-beta.1` section) — the baseline and the preserved history are decided by the generator, not by the version sequence.
@@ -48,6 +54,12 @@ All public API surfaces are exposed in `review/{package-name}-node.api.md`, and 
 
 Breaking changes are acceptable in management SDKs. This usually means any removal or incompatible change to the public surface, plus a `Breaking Changes` section in `CHANGELOG.md` (note that the first changelog entry is fixed content and might not have a `Breaking Changes` section, so do not flag that).
 
+For every new package version, whether stable or preview, evaluate missing `Breaking Changes` entries against the applicable CHANGELOG comparison baseline defined above, not against APIs introduced only after that baseline. When any public API symbol or member appears to have been removed, inspect the intervening `CHANGELOG.md` entries after the comparison baseline and before the new version. This applies to operation groups, interfaces, enums, models, methods, properties, and other public API elements. If one of those entries records that the same API was added after the baseline (for example, `Added operation group <name>`, `Added interface <name>`, or `Added enum <name>`), its removal is not a breaking change relative to that baseline. Do not report a missing `Breaking Changes` entry for that removal. This check only determines whether the new changelog entry is missing a breaking-change entry; it does not override any specific public API design rules below.
+
+When the new version is a beta release for a new major version and its latest `CHANGELOG.md` entry contains breaking changes, find the most recent earlier beta release in the same major-version series whose entry also contains breaking changes. For example, compare `4.0.0-beta.3` with `4.0.0-beta.2`, but do not compare beta releases from different major-version series. Compare the two `Breaking Changes` lists and leave an inline comment on the new version line that identifies entries added to or removed from the list. If the lists have no differences, or no earlier beta in the same major-version series contains breaking changes, do not leave this comparison comment.
+
+Do not report an operation return type changing from `Promise<T>` to `Promise<T | void>`, or from `Promise<T | undefined>` to `Promise<T | void>`, in `review/*.api.md`. Adding `void` to the existing response type or replacing `undefined` with `void` is the expected API surface for the optional response feature. For example, neither `Promise<OperationJobExtendedInfo>` nor `Promise<OperationJobExtendedInfo | undefined>` changing to `Promise<OperationJobExtendedInfo | void>` is a review finding. Do not apply this exception to unrelated union-type changes.
+
 However we should report the following cases:
 
 | Case | Suggestion |
@@ -55,8 +67,10 @@ However we should report the following cases:
 | Client name is changed | Not allowed; rename it back. Use `@clientName` if generated from TypeSpec. |
 | Stable versions are removed in `KnownVersions` | Not allowed. Flag and discuss migration on the spec side. Note: preview versions may be removed. |
 | Constructor parameters like `subscriptionId` are removed | Not recommended; flag and discuss migration. |
+| A client operation-group parameter is removed (`Class X no longer has parameter abcOperations` or `operations`) | Always flag as a public API design issue. Verify the corresponding client/API report change, then ask the service team to restore the operation group on the spec side or provide an explicit migration path before regenerating the SDK. |
 | Last major version was released within 6 months | Frequent breakages are not recommended. Flag and discuss why. |
 | Method parameters are re-ordered | Parameter ordering changes can cause unintentional breakage; restore the original order. Use `@override` if generated from TypeSpec. |
+| An operation return type changes from any `Promise<T>` to `PollerLike<OperationState<void>, void>` in `review/*.api.md` | Always compare the old and new signature of each changed operation and report this LRO return-type change as a public API design issue, regardless of the previous promise result type. Do not flag operations that already returned a poller in the previous API report. Restore the previous non-LRO behavior on the specification side, or provide an explicit migration path, then regenerate the SDK. |
 
 #### 2. Naming validation
 
