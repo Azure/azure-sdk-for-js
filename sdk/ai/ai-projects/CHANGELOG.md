@@ -1,5 +1,32 @@
 # Release History
 
+## 3.0.0-beta.1 (Unreleased)
+
+### Breaking Changes
+
+- `project.agentEndpointConversations` exposes the full set of conversation-history operations (`getAgentConversation`, `listAgentConversations`, `getAgentConversationItem`, `listAgentConversationItems`, `listAgentConversationResponseItems`, `getAgentConversationResponse`, `listAgentConversationResponses`, `deleteAgentConversation`, `getAgentConversationAudio`, `getAgentConversationAudioContent`, `getAgentConversationItemAudio`, `getAgentConversationItemAudioContent`, `getAgentConversationItemGeneratedAudio`, `getAgentConversationItemGeneratedAudioContent`) directly at the top level; every operation still requires a `foundryFeatures: "VoiceAgents=V1Preview"` first argument. There is no separate `project.beta.agentEndpointConversations` surface.
+- `project.voiceAgentWebSocket` is exposed at the top level (not under `project.beta`).
+- Renamed the conversation item model from `VoiceConversationItem` to `RealtimeConversationItemUnion`. The new union no longer enumerates a `message` item variant (it only covers `function_call`, `function_call_output`, `mcp_call`, `mcp_list_tools`, `mcp_approval_request`, and `mcp_approval_response`); persisted user/assistant message items are still returned by the service but must be read through the generic `{ type: "message", role, content }` shape rather than a dedicated type.
+- Renamed `VoiceAudioFormat` to `RealtimeAudioFormatsUnion`, now a discriminated union (`RealtimeAudioFormatsAudioPcm | RealtimeAudioFormatsAudioPcmu | RealtimeAudioFormatsAudioPcma`) instead of a single flat interface. The optional `rate` property only exists on the `audio/pcm` variant (`RealtimeAudioFormatsAudioPcm`, now typed as the literal `24000`) and must be accessed after narrowing on `type`.
+- Renamed `VoiceAgentSubAgentConfig` to `VoiceAgentSubagentConfig` and `VoiceAgentSubAgent` to `VoiceAgentSubagent`.
+- Removed the `"websocket-binary"` variant from `VoiceAgentAvatarOutputProtocol`; only `"webrtc" | "websocket"` are supported.
+
+### Features Added
+
+- Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
+- Added `project.realtime` (`VoiceAgentRealtimeClient`) for establishing bidirectional realtime WebSocket sessions with voice agents, including text, audio, and tool-call streaming.
+- Added direct browser and React Native realtime connections using Microsoft Entra bearer credentials carried in the WebSocket subprotocol.
+- Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
+- Added `project.beta.agentInsightMonitors` for managing agent insight monitors.
+- Added `project.agentEndpointConversations.getAgentConversationItemGeneratedAudio` and `getAgentConversationItemGeneratedAudioContent`, for retrieving a conversation item's generated audio — a subordinate artifact that exists only when playback was interrupted and the service rendered more audio than the listener heard.
+- Added telephony support to `project.agents`: `createTelephonyBinding`, `getTelephonyBinding`, `listTelephonyBindings`, `updateTelephonyBinding`, and `deleteTelephonyBinding` for managing Teams Phone Extension and Twilio bindings; `getTelephonyCall`, `listTelephonyCalls`, `endTelephonyCall`, and `transferTelephonyCall` for managing calls; and `getTelephonyTransferTargets`/`replaceTelephonyTransferTargets` for configuring transfer targets.
+- Added the `structuredInput` optional parameter to `project.voiceAgentWebSocket.connectVoiceAgent`, for overriding per-session values of the agent's declared structured prompt inputs.
+
+### Bugs Fixed
+
+- Fixed `turn_detection_type_change_not_allowed` errors when connecting to a pre-existing voice agent whose configured turn-detection type isn't `server_vad` (e.g. `azure_semantic_vad`). The browser voice-agent sample and `agents/voiceAgents/voiceAgentRealtimeAudio.ts` no longer hardcode `turn_detection: { type: "server_vad", ... }` in `configureSession`; they now derive the session's turn-detection config from the agent's own configured type, since turn-detection type is fixed at agent-configuration time and cannot change on connect.
+- Fixed the pagination result types for `project.beta.routines.list()` and `project.beta.routines.listRuns()`: they incorrectly declared cursor-style `first_id`/`last_id`/`has_more` fields that the service never returns. The actual response is a `next_link` URL-based continuation token, matching what the SDK's pagination helper already consumed at runtime.
+
 ## 2.6.0 (2026-09-03)
 
 ### Features Added

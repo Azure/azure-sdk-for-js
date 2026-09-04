@@ -9,6 +9,9 @@ import type {
   ActivityProtocolAccessBoundary,
   AgentCard,
   Microsoft365PermissionScopes,
+  TelephonyProvider,
+  TelephonyBindingStatus,
+  TelephonyCallStatus,
   AgentDefinitionOptInKeys,
   PageOrder,
   DigitalWorkerType,
@@ -20,7 +23,6 @@ export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions 
   /** Whether to recursively delete directory contents. The service defaults to `false` if a value is not specified by the caller. */
   recursive?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
   /** The directory path to list, relative to the session home directory. Defaults to the home directory if not provided. */
@@ -48,12 +50,135 @@ export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
    */
   before?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsDownloadSessionFileOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {}
+/** Optional parameters. */
+export interface AgentsReplaceTelephonyTransferTargetsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsGetTelephonyTransferTargetsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsEndTelephonyCallOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsTransferTelephonyCallOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsGetTelephonyCallOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsListTelephonyCallsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+  /** Filters calls by provider. */
+  provider?: TelephonyProvider;
+  /** Filters calls by lifecycle status. */
+  status?: TelephonyCallStatus;
+  /** Includes calls that started at or after this Unix timestamp in seconds. */
+  startedAfter?: Date;
+  /** Includes calls that started at or before this Unix timestamp in seconds. */
+  startedBefore?: Date;
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDeleteTelephonyBindingOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsUpdateTelephonyBindingOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsGetTelephonyBindingOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsListTelephonyBindingsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+  /** Filters bindings by provider. */
+  provider?: TelephonyProvider;
+  /** Filters bindings by lifecycle status. */
+  status?: TelephonyBindingStatus;
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsCreateTelephonyBindingOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  repeatabilityRequestId?: string;
+  /** Specifies the date and time at which the request was first created. */
+  repeatabilityFirstSent?: Date;
+}
 
 /** Optional parameters. */
 export interface GetMicrosoft365PublishDefaultsOptionalParams extends OperationOptions {
@@ -199,7 +324,6 @@ export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsGetSessionLogStreamOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsListSessionsOptionalParams extends OperationOptions {
   /**
@@ -225,28 +349,21 @@ export interface AgentsListSessionsOptionalParams extends OperationOptions {
    */
   before?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsStopSessionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsDeleteSessionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsGetSessionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsCreateSessionOptionalParams extends OperationOptions {
   /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
   agentSessionId?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsDisableOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsEnableOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions {
   /**
@@ -255,10 +372,8 @@ export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions 
    */
   agentVersion?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions {
   /** The endpoint configuration for the agent */
@@ -266,7 +381,6 @@ export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions 
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }
-
 /** Optional parameters. */
 export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOptionalParams;
 
@@ -299,16 +413,13 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
   /** Whether to include draft (candidate) versions in the response. */
   includeDrafts?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
   /** For Hosted Agents, if `true`, force-deletes the version even if it has active sessions, cascading deletion to all associated sessions. The service defaults to `false` if a value is not specified by the caller. This value is not relevant for other Agent types. */
   force?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsGetVersionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
   /**
@@ -323,7 +434,6 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
   /** A human-readable description of the agent. */
   description?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -346,7 +456,6 @@ export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   /** (Preview) Whether this agent version is a draft (candidate) rather than a release. The service defaults to `false` if a value is not specified by the caller. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. */
   draft?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsListOptionalParams extends OperationOptions {
   /** Filter agents by kind. If not provided, all agents are returned. */
@@ -374,13 +483,11 @@ export interface AgentsListOptionalParams extends OperationOptions {
    */
   before?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsDeleteOptionalParams extends OperationOptions {
   /** For Hosted Agents, if `true`, force-deletes the agent even if its versions have active sessions, cascading deletion to all associated sessions. The service defaults to `false` if a value is not specified by the caller. This value is not relevant for other Agent types. */
   force?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
   /**
@@ -395,7 +502,6 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
   /** A human-readable description of the agent. */
   description?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
   /**
@@ -410,7 +516,6 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
   /** A human-readable description of the agent. */
   description?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsUpdateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -429,7 +534,8 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
 }
-
+/** Optional parameters. */
+export interface AgentsGenerateAgentOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface AgentsCreateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -458,6 +564,10 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }
-
 /** Optional parameters. */
 export interface AgentsGetOptionalParams extends OperationOptions {}
+
+/** @deprecated Use AgentsUpdateOptionalParams instead. */
+export type AgentsUpdateAgentOptionalParams = AgentsUpdateOptionalParams;
+/** @deprecated Use AgentsCreateOptionalParams instead. */
+export type AgentsCreateAgentOptionalParams = AgentsCreateOptionalParams;

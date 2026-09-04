@@ -4,8 +4,8 @@
 import type { AIProjectContext as Client } from "../../index.js";
 import type {
   Routine,
-  _PagedResultWithNextLinkRoutine,
-  _PagedResultWithNextLinkRoutineRun,
+  _AgentsPagedResultRoutine,
+  _AgentsPagedResultRoutineRun,
   RoutineRun,
   DispatchRoutineResponse,
 } from "../../../models/models.js";
@@ -15,8 +15,8 @@ import {
   routineActionUnionSerializer,
   routineAuthorizationSerializer,
   routineDeserializer,
-  _pagedResultWithNextLinkRoutineDeserializer,
-  _pagedResultWithNextLinkRoutineRunDeserializer,
+  _agentsPagedResultRoutineDeserializer,
+  _agentsPagedResultRoutineRunDeserializer,
   routineDispatchPayloadUnionSerializer,
   dispatchRoutineResponseDeserializer,
 } from "../../../models/models.js";
@@ -125,7 +125,7 @@ export function _listRunsSend(
 
 export async function _listRunsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PagedResultWithNextLinkRoutineRun> {
+): Promise<_AgentsPagedResultRoutineRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -136,7 +136,7 @@ export async function _listRunsDeserialize(
     throw error;
   }
 
-  return _pagedResultWithNextLinkRoutineRunDeserializer(result.body);
+  return _agentsPagedResultRoutineRunDeserializer(result.body);
 }
 
 /** Returns prior runs recorded for the specified routine. */
@@ -240,7 +240,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PagedResultWithNextLinkRoutine> {
+): Promise<_AgentsPagedResultRoutine> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -251,7 +251,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _pagedResultWithNextLinkRoutineDeserializer(result.body);
+  return _agentsPagedResultRoutineDeserializer(result.body);
 }
 
 /** Returns the routines available in the current project. */
