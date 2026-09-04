@@ -44,7 +44,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -77,6 +77,7 @@ export async function _updateDeserialize(
 
   return fleetManagedNamespaceDeserializer(result.body);
 }
+
 /** Update a FleetManagedNamespace */
 export function update(
   context: Client,
@@ -91,8 +92,8 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, fleetName, managedNamespaceName, properties, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<FleetManagedNamespace>, FleetManagedNamespace>;
 }
 
@@ -108,7 +109,7 @@ export function _listByFleetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,6 +136,7 @@ export async function _listByFleetDeserialize(
 
   return _fleetManagedNamespaceListResultDeserializer(result.body);
 }
+
 /** List FleetManagedNamespace resources by Fleet */
 export function listByFleet(
   context: Client,
@@ -147,7 +149,11 @@ export function listByFleet(
     () => _listByFleetSend(context, resourceGroupName, fleetName, options),
     _listByFleetDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    },
   );
 }
 
@@ -165,7 +171,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,6 +199,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a FleetManagedNamespace */
 export function $delete(
   context: Client,
@@ -207,7 +214,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, managedNamespaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -226,7 +233,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -260,6 +267,7 @@ export async function _createOrUpdateDeserialize(
 
   return fleetManagedNamespaceDeserializer(result.body);
 }
+
 /** Create a FleetManagedNamespace */
 export function createOrUpdate(
   context: Client,
@@ -282,7 +290,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<FleetManagedNamespace>, FleetManagedNamespace>;
 }
 
@@ -300,7 +308,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -327,6 +335,7 @@ export async function _getDeserialize(
 
   return fleetManagedNamespaceDeserializer(result.body);
 }
+
 /** Get a FleetManagedNamespace */
 export async function get(
   context: Client,

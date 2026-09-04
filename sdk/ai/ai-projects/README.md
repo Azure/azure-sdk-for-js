@@ -144,7 +144,15 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+
+Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
+
+```ts snippet:agent-insight-monitors
+for await (const monitor of project.beta.agentInsightMonitors.list()) {
+  console.log(`${monitor.id}: ${monitor.agent_name}`);
+}
+```
 
 ## Examples
 
@@ -252,7 +260,7 @@ See the full sample code in [agentCodeInterpreter.ts](https://github.com/Azure/a
 
 **File Search**
 
-Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://platform.openai.com/docs/assistants/tools/file-search)
+Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://developers.openai.com/api/docs/guides/tools-file-search)
 
 ```ts snippet:agent-file-search
 const openAIClient = project.getOpenAIClient();
