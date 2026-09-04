@@ -11,8 +11,8 @@ import {
   listRuns,
   createRun,
   reset,
-  update,
-  $delete,
+  update as updateMonitor,
+  deleteAgentInsightMonitor,
   get,
   create,
   list,
@@ -44,7 +44,7 @@ import type {
   AgentInsightUpdate,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { RunPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaAgentInsightMonitors operations. */
 export interface BetaAgentInsightMonitorsOperations {
@@ -52,7 +52,7 @@ export interface BetaAgentInsightMonitorsOperations {
   updateInsight: (
     monitorId: string,
     insightId: string,
-    insightUpdate: AgentInsightUpdate,
+    update: AgentInsightUpdate,
     options?: BetaAgentInsightMonitorsUpdateInsightOptionalParams,
   ) => Promise<AgentInsight>;
   /** Get a full insight for an Agent Insights monitor. */
@@ -83,12 +83,12 @@ export interface BetaAgentInsightMonitorsOperations {
     monitorId: string,
     options?: BetaAgentInsightMonitorsListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentInsightRun>;
-  /** Start an Agent Insights run for a monitor. */
+  /** Start an Agent Insights run for a monitor. The poller exposes the created run id. */
   createRun: (
     monitorId: string,
     run: AgentInsightRunCreate,
     options?: BetaAgentInsightMonitorsCreateRunOptionalParams,
-  ) => PollerLike<OperationState<AgentInsightRunResult>, AgentInsightRunResult>;
+  ) => RunPoller<AgentInsightRunResult>;
   /** Reset an Agent Insights monitor's overview, checkpoint, and active insight state. */
   reset: (
     monitorId: string,
@@ -101,7 +101,7 @@ export interface BetaAgentInsightMonitorsOperations {
     options?: BetaAgentInsightMonitorsUpdateOptionalParams,
   ) => Promise<AgentInsightMonitor>;
   /** Delete an Agent Insights monitor and all of its runs, insights, and state. */
-  delete: (
+  deleteAgentInsightMonitor: (
     monitorId: string,
     options?: BetaAgentInsightMonitorsDeleteOptionalParams,
   ) => Promise<void>;
@@ -126,9 +126,9 @@ function _getBetaAgentInsightMonitors(context: AIProjectContext) {
     updateInsight: (
       monitorId: string,
       insightId: string,
-      insightUpdate: AgentInsightUpdate,
+      update: AgentInsightUpdate,
       options?: BetaAgentInsightMonitorsUpdateInsightOptionalParams,
-    ) => updateInsight(context, monitorId, insightId, insightUpdate, options),
+    ) => updateInsight(context, monitorId, insightId, update, options),
     getInsight: (
       monitorId: string,
       insightId: string,
@@ -161,9 +161,11 @@ function _getBetaAgentInsightMonitors(context: AIProjectContext) {
       monitorId: string,
       monitor: AgentInsightMonitorUpdate,
       options?: BetaAgentInsightMonitorsUpdateOptionalParams,
-    ) => update(context, monitorId, monitor, options),
-    delete: (monitorId: string, options?: BetaAgentInsightMonitorsDeleteOptionalParams) =>
-      $delete(context, monitorId, options),
+    ) => updateMonitor(context, monitorId, monitor, options),
+    deleteAgentInsightMonitor: (
+      monitorId: string,
+      options?: BetaAgentInsightMonitorsDeleteOptionalParams,
+    ) => deleteAgentInsightMonitor(context, monitorId, options),
     get: (monitorId: string, options?: BetaAgentInsightMonitorsGetOptionalParams) =>
       get(context, monitorId, options),
     create: (

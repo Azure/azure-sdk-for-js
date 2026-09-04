@@ -25,7 +25,7 @@ export function _generateUpdateRunSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       autoUpgradeProfileName: autoUpgradeProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,6 +52,7 @@ export async function _generateUpdateRunDeserialize(
 
   return generateResponseDeserializer(result.body);
 }
+
 /** Generates an update run for a given auto upgrade profile. */
 export function generateUpdateRun(
   context: Client,
@@ -72,6 +73,6 @@ export function generateUpdateRun(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<GenerateResponse>, GenerateResponse>;
 }

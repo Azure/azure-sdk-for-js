@@ -24,6 +24,23 @@
 
 - Fixed `turn_detection_type_change_not_allowed` errors when connecting to a pre-existing voice agent whose configured turn-detection type isn't `server_vad` (e.g. `azure_semantic_vad`). The browser voice-agent sample and `agents/voiceAgents/voiceAgentRealtimeAudio.ts` no longer hardcode `turn_detection: { type: "server_vad", ... }` in `configureSession`; they now derive the session's turn-detection config from the agent's own configured type, since turn-detection type is fixed at agent-configuration time and cannot change on connect.
 
+## 2.6.0 (2026-09-03)
+
+### Features Added
+
+- Add `project.beta.agentInsightMonitors` for creating and managing Agent Insights monitors, runs, and insights. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add `RunOperationState` and `RunPoller` types, exposing the `runId` of an Agent Insights run on the poller returned by `project.beta.agentInsightMonitors.createRun`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add Microsoft 365 publishing operations and digital-worker metadata to `project.agents`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add A2A tools and protocol configuration, shell tools for agents and toolboxes, and Model Router control contracts. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add hosted-agent session configuration and routine dispatch authorization options. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add opt-in preview support for creating and listing draft agent versions through the `draft` and `includeDrafts` options when callers set `foundryFeatures: "DraftAgents=V1Preview"`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add invocation content moderation configuration to `RaiConfig`, including request and response text selectors. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
+- Add the optional `operationId` property to `BetaAgentInsightMonitorsCreateRunOptionalParams` for idempotent retries. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `641d5b415a03c9ca61eb469e46f8ef10b55d9caa`. [#39759](https://github.com/Azure/azure-sdk-for-js/issues/39759)
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added

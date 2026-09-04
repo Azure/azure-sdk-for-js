@@ -53,10 +53,11 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
-  agentEndpointConversations: BetaAgentEndpointConversationsOperations;
   /** Operations for managing agents. */
   agents: BetaAgentsOperations;
+  /** Operations for managing Agent Insights monitors. */
+  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+  agentEndpointConversations: BetaAgentEndpointConversationsOperations;
   /** Operations for establishing voice-agent WebSocket connections. */
   voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
@@ -83,10 +84,11 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluators: _getBetaEvaluatorsOperations(context),
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
-    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
-    agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
     /** Operations for managing agents. */
     agents: _getBetaAgentsOperations(context),
+    /** Operations for managing Agent Insights monitors. */
+    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
+    agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
     /** Operations for establishing voice-agent WebSocket connections. */
     voiceAgentWebSocket: _getBetaVoiceAgentWebSocketOperations(context),
   };

@@ -68,6 +68,7 @@ export interface FleetsOperations {
     options?: FleetsGetOptionalParams,
   ) => Promise<Fleet>;
 }
+
 function _getFleets(context: ContainerServiceFleetContext) {
   return {
     listCredentials: (
@@ -99,6 +100,7 @@ function _getFleets(context: ContainerServiceFleetContext) {
       get(context, resourceGroupName, fleetName, options),
   };
 }
+
 export function _getFleetsOperations(context: ContainerServiceFleetContext): FleetsOperations {
   return {
     ..._getFleets(context),

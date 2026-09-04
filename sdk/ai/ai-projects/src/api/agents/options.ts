@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AgentState,
   AgentKind,
   AgentBlueprintReferenceUnion,
   AgentEndpointConfig,
   ActivityProtocolAccessBoundary,
-  DigitalWorkerType,
   AgentCard,
   Microsoft365PermissionScopes,
   TelephonyProvider,
@@ -15,8 +14,9 @@ import {
   TelephonyCallStatus,
   AgentDefinitionOptInKeys,
   PageOrder,
+  DigitalWorkerType,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions {
@@ -386,6 +386,8 @@ export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOption
 
 /** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
+  /** Feature flag required to include draft agent versions. */
+  foundryFeatures?: "DraftAgents=V1Preview";
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -408,6 +410,8 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
+  /** Whether to include draft (candidate) versions in the response. */
+  includeDrafts?: boolean;
 }
 /** Optional parameters. */
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {

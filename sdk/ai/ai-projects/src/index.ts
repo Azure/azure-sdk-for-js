@@ -110,6 +110,8 @@ export type {
 export type {
   JobOperationState,
   JobPoller,
+  RunOperationState,
+  RunPoller,
 } from "./static-helpers/pollingHelpers.js";
 export type {
   TelemetryOperations,
@@ -129,6 +131,10 @@ export type {
   AgentDefinitionUnion,
   AgentKind,
   RaiConfig,
+  RaiInvocationModeration,
+  RaiInvocationContentType,
+  RaiInvocationMode,
+  RaiSseTextSelector,
   HostedAgentDefinition,
   ContainerConfiguration,
   ProtocolVersionRecord,
@@ -583,6 +589,8 @@ export type {
   AgentInsightRecommendedAction,
   AgentInsightProposedFix,
   AgentInsightProposedFixKind,
+  AgentInsightJsonValue,
+  AgentInsightJsonObject,
   AgentInsightProposedFixChange,
   AgentInsightPromptSurface,
   AgentInsightUpdate,

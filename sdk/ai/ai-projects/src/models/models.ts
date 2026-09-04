@@ -175,7 +175,10 @@ export function agentDefinitionDeserializer(item: any): AgentDefinition {
   };
 }
 
-/** Alias for AgentDefinitionUnion */
+/**
+ * Union type for all agent definition types.
+ * Supports workflow, hosted, container app, prompt, and external agents.
+ */
 export type AgentDefinitionUnion =
   | HostedAgentDefinition
   | PromptAgentDefinition
@@ -235,15 +238,125 @@ export type AgentKind = "prompt" | "hosted" | "workflow" | "external" | "voice";
 export interface RaiConfig {
   /** The name of the RAI policy to apply. */
   rai_policy_name: string;
+  /**
+   * Author-declared configuration telling the platform where user/agent text lives in the
+   * agent-defined invocations request/response bodies, so content-safety guardrails can extract
+   * and moderate it. Optional; a rai_config without it leaves the invocations path without
+   * content-safety moderation.
+   */
+  invocations_moderation?: RaiInvocationModeration;
 }
 
 export function raiConfigSerializer(item: RaiConfig): any {
-  return { rai_policy_name: item["rai_policy_name"] };
+  return {
+    rai_policy_name: item["rai_policy_name"],
+    invocations_moderation: !item["invocations_moderation"]
+      ? item["invocations_moderation"]
+      : raiInvocationModerationSerializer(item["invocations_moderation"]),
+  };
 }
 
 export function raiConfigDeserializer(item: any): RaiConfig {
   return {
     rai_policy_name: item["rai_policy_name"],
+    invocations_moderation: !item["invocations_moderation"]
+      ? item["invocations_moderation"]
+      : raiInvocationModerationDeserializer(item["invocations_moderation"]),
+  };
+}
+
+/** Declares where request/response text lives so content-safety guardrails can extract it. */
+export interface RaiInvocationModeration {
+  /** How the REQUEST body is parsed. When omitted, the service defaults to `json`. */
+  input_content_type?: RaiInvocationContentType;
+  /** How the RESPONSE body is parsed. When omitted, the service defaults to `json`. */
+  output_content_type?: RaiInvocationContentType;
+  /** Author-declared response shape; drives which output gate runs and which fields are required. */
+  response_mode: RaiInvocationMode;
+  /** Path(s) to user text in the REQUEST body. Required when input_content_type is `json`. */
+  input_paths?: string[];
+  /** Path(s) to agent text in a NON-STREAMING response body. Required when response_mode is non_streaming/both and output_content_type is `json`. */
+  output_paths?: string[];
+  /** One SSE event->field selector per event type carrying text. Required when response_mode is streaming/both and output_content_type is `json`. */
+  stream_selectors?: RaiSseTextSelector[];
+}
+
+export function raiInvocationModerationSerializer(item: RaiInvocationModeration): any {
+  return {
+    input_content_type: item["input_content_type"],
+    output_content_type: item["output_content_type"],
+    response_mode: item["response_mode"],
+    input_paths: !item["input_paths"]
+      ? item["input_paths"]
+      : item["input_paths"].map((p: any) => {
+          return p;
+        }),
+    output_paths: !item["output_paths"]
+      ? item["output_paths"]
+      : item["output_paths"].map((p: any) => {
+          return p;
+        }),
+    stream_selectors: !item["stream_selectors"]
+      ? item["stream_selectors"]
+      : raiSseTextSelectorArraySerializer(item["stream_selectors"]),
+  };
+}
+
+export function raiInvocationModerationDeserializer(item: any): RaiInvocationModeration {
+  return {
+    input_content_type: item["input_content_type"],
+    output_content_type: item["output_content_type"],
+    response_mode: item["response_mode"],
+    input_paths: !item["input_paths"]
+      ? item["input_paths"]
+      : item["input_paths"].map((p: any) => {
+          return p;
+        }),
+    output_paths: !item["output_paths"]
+      ? item["output_paths"]
+      : item["output_paths"].map((p: any) => {
+          return p;
+        }),
+    stream_selectors: !item["stream_selectors"]
+      ? item["stream_selectors"]
+      : raiSseTextSelectorArrayDeserializer(item["stream_selectors"]),
+  };
+}
+
+/** How an invocations request/response body is parsed to locate text for content-safety moderation. */
+export type RaiInvocationContentType = "json" | "text";
+
+/** Author-declared response shape for the invocations protocol. */
+export type RaiInvocationMode = "non_streaming" | "streaming" | "both";
+
+export function raiSseTextSelectorArraySerializer(result: Array<RaiSseTextSelector>): any[] {
+  return result.map((item) => {
+    return raiSseTextSelectorSerializer(item);
+  });
+}
+
+export function raiSseTextSelectorArrayDeserializer(result: Array<RaiSseTextSelector>): any[] {
+  return result.map((item) => {
+    return raiSseTextSelectorDeserializer(item);
+  });
+}
+
+/** An SSE event-type to text-field selector for streaming invocation output. */
+export interface RaiSseTextSelector {
+  /** The SSE event `type` value that carries text. */
+  event_type: string;
+  /** The field on a matched event holding the text delta. When omitted, the service defaults to `delta`. */
+  text_field?: string;
+}
+
+export function raiSseTextSelectorSerializer(item: RaiSseTextSelector): any {
+  return { event_type: item["event_type"], text_field: item["text_field"] };
+}
+
+export function raiSseTextSelectorDeserializer(item: any): RaiSseTextSelector {
+  return {
+    event_type: item["event_type"],
+    text_field: item["text_field"],
   };
 }
 
@@ -767,13 +880,15 @@ export function reasoningModeEnumDeserializer(item: any): ReasoningModeEnum {
 }
 
 /**
- * Constrains effort on reasoning for reasoning models. Currently supported
- * values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
- * Reducing reasoning effort can result in faster responses and fewer tokens
- * used on reasoning in a response. Not all reasoning models support every
- * value. See the
- * [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
- * for model-specific support.
+ * Constrains effort on reasoning for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ * Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing
+ * reasoning effort can result in faster responses and fewer tokens used
+ * on reasoning in a response.
+ * - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
+ * - All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
+ * - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
+ * - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
  */
 export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
 
@@ -7693,10 +7808,6 @@ export function botServiceTenantAuthorizationSchemeDeserializer(
   };
 }
 
-/** The Microsoft Agent Certification review status of the Microsoft 365 store title published for an agent. */
-export type PublishApprovalStatus =
-  "not_published" | "pending" | "approved" | "rejected" | "no_approval_needed";
-
 /** The type of digital worker. */
 export type DigitalWorkerType = "m365";
 
@@ -13449,6 +13560,16 @@ export function agentInsightProposedFixDeserializer(item: any): AgentInsightProp
 /** The customer-renderable kind of an agent insight's proposed fix. */
 export type AgentInsightProposedFixKind = "prose" | "code_change" | "prompt_change";
 
+/** A JSON value used in Agent Insights payloads. */
+export type AgentInsightJsonValue =
+  string | number | boolean | null | AgentInsightJsonObject | AgentInsightJsonValue[];
+
+/** A JSON object used in Agent Insights payloads. */
+export interface AgentInsightJsonObject {
+  /** JSON properties keyed by name. */
+  [key: string]: AgentInsightJsonValue;
+}
+
 export function agentInsightProposedFixChangeArrayDeserializer(
   result: Array<AgentInsightProposedFixChange>,
 ): any[] {
@@ -13470,9 +13591,9 @@ export interface AgentInsightProposedFixChange {
   /** The user-visible target within a Prompt surface, when needed. */
   target?: string;
   /** The bounded Prompt value before the change. Present for Prompt changes, including when null. */
-  old_value?: any;
+  old_value?: AgentInsightJsonValue;
   /** The bounded Prompt value after the change. Present for Prompt changes, including when null. */
-  new_value?: any;
+  new_value?: AgentInsightJsonValue;
 }
 
 export function agentInsightProposedFixChangeDeserializer(
@@ -24485,6 +24606,7 @@ export function voiceAgentWebSocketMessageDeserializer(item: any): VoiceAgentWeb
 /** Type of AgentObjectType */
 export type AgentObjectType =
   "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
+
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
 export type AgentDefinitionOptInKeys =
   | "WorkflowAgents=V1Preview"
@@ -24567,6 +24689,7 @@ export type AgentsDownloadSessionFileResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/** The binary Microsoft 365 app package generated for a Foundry agent. */
 export type GetMicrosoft365PackageResponse = {
   /**
    * BROWSER ONLY
@@ -24713,3 +24836,7 @@ export const optimizationJobDeserializer = agentOptimizationJobDeserializer;
 export const optimizationJobResultDeserializer = agentOptimizationJobResultDeserializer;
 export const _agentsPagedResultOptimizationJobListItemDeserializer =
   _agentsPagedResultAgentOptimizationJobListItemDeserializer;
+
+/** The Microsoft Agent Certification review status of the Microsoft 365 store title published for an agent. */
+export type PublishApprovalStatus =
+  "not_published" | "pending" | "approved" | "rejected" | "no_approval_needed";

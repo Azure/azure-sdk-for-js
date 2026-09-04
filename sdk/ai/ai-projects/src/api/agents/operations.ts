@@ -19,6 +19,7 @@ import type {
   SessionFileWriteResponse,
   SessionDirectoryEntry,
   AgentsDownloadSessionFileResponse,
+  GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
   GenerateAgentRequest,
 } from "../../models/models.js";
@@ -65,7 +66,6 @@ import {
   sessionFileWriteResponseDeserializer,
   _sessionDirectoryListResponseDeserializer,
   generateAgentRequestSerializer,
-  GetMicrosoft365PackageResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -1094,12 +1094,10 @@ export function _getMicrosoft365PublishDefaultsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getMicrosoft365PublishDefaultsDeserialize(
@@ -1923,13 +1921,14 @@ export function _listVersionsSend(
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/versions{?limit,order,after,before,include_drafts,api-version}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      include_drafts: options?.includeDrafts,
       "api-version": context.apiVersion,
     },
     {
@@ -1938,7 +1937,13 @@ export function _listVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -1963,6 +1968,7 @@ export function listVersions(
   agentName: string,
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentVersion> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listVersionsSend(context, agentName, options),
@@ -1973,6 +1979,15 @@ export function listVersions(
       apiVersion: context.apiVersion,
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          ...(options?.foundryFeatures !== undefined
+            ? { "foundry-features": options?.foundryFeatures }
+            : {}),
+          ...requestParameters.headers,
+        },
+      },
     },
   );
 }

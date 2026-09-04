@@ -264,6 +264,14 @@ export interface AgentInsightHighlightedTrace {
 }
 
 // @public
+export interface AgentInsightJsonObject {
+    [key: string]: AgentInsightJsonValue;
+}
+
+// @public
+export type AgentInsightJsonValue = string | number | boolean | null | AgentInsightJsonObject | AgentInsightJsonValue[];
+
+// @public
 export interface AgentInsightLinkedTrace {
     readonly timestamp: Date;
     readonly trace_id: string;
@@ -329,8 +337,8 @@ export interface AgentInsightProposedFix {
 export interface AgentInsightProposedFixChange {
     diff?: string;
     language?: string;
-    new_value?: any;
-    old_value?: any;
+    new_value?: AgentInsightJsonValue;
+    old_value?: AgentInsightJsonValue;
     path?: string;
     surface?: AgentInsightPromptSurface;
     target?: string;
@@ -756,6 +764,8 @@ export interface AgentsListTelephonyCallsOptionalParams extends OperationOptions
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
+    foundryFeatures?: "DraftAgents=V1Preview";
+    includeDrafts?: boolean;
     limit?: number;
     order?: PageOrder;
 }
@@ -1196,39 +1206,33 @@ export interface BetaAgentEndpointConversationsOperations {
 
 // @public
 export interface BetaAgentInsightMonitorsCancelRunOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsCreateOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsCreateRunOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
+    operationId?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface BetaAgentInsightMonitorsDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsGetInsightOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
     includeDetails?: boolean;
 }
 
 // @public
 export interface BetaAgentInsightMonitorsGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsGetRunOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
@@ -1236,7 +1240,6 @@ export interface BetaAgentInsightMonitorsListInsightsOptionalParams extends Oper
     after?: string;
     before?: string;
     category?: string;
-    foundryFeatures?: "AgentInsights=V1Preview";
     includeDetails?: boolean;
     limit?: number;
     order?: PageOrder;
@@ -1249,7 +1252,6 @@ export interface BetaAgentInsightMonitorsListOptionalParams extends OperationOpt
     after?: string;
     agentName?: string;
     before?: string;
-    foundryFeatures?: "AgentInsights=V1Preview";
     limit?: number;
     order?: PageOrder;
 }
@@ -1258,7 +1260,6 @@ export interface BetaAgentInsightMonitorsListOptionalParams extends OperationOpt
 export interface BetaAgentInsightMonitorsListRunsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
-    foundryFeatures?: "AgentInsights=V1Preview";
     limit?: number;
     order?: PageOrder;
     status?: JobStatus;
@@ -1269,8 +1270,8 @@ export interface BetaAgentInsightMonitorsListRunsOptionalParams extends Operatio
 export interface BetaAgentInsightMonitorsOperations {
     cancelRun: (monitorId: string, runId: string, options?: BetaAgentInsightMonitorsCancelRunOptionalParams) => Promise<AgentInsightRun>;
     create: (monitor: AgentInsightMonitorCreate, options?: BetaAgentInsightMonitorsCreateOptionalParams) => Promise<AgentInsightMonitor>;
-    createRun: (monitorId: string, run: AgentInsightRunCreate, options?: BetaAgentInsightMonitorsCreateRunOptionalParams) => PollerLike<OperationState_2<AgentInsightRunResult>, AgentInsightRunResult>;
-    delete: (monitorId: string, options?: BetaAgentInsightMonitorsDeleteOptionalParams) => Promise<void>;
+    createRun: (monitorId: string, run: AgentInsightRunCreate, options?: BetaAgentInsightMonitorsCreateRunOptionalParams) => RunPoller<AgentInsightRunResult>;
+    deleteAgentInsightMonitor: (monitorId: string, options?: BetaAgentInsightMonitorsDeleteOptionalParams) => Promise<void>;
     get: (monitorId: string, options?: BetaAgentInsightMonitorsGetOptionalParams) => Promise<AgentInsightMonitor>;
     getInsight: (monitorId: string, insightId: string, options?: BetaAgentInsightMonitorsGetInsightOptionalParams) => Promise<AgentInsight>;
     getRun: (monitorId: string, runId: string, options?: BetaAgentInsightMonitorsGetRunOptionalParams) => Promise<AgentInsightRun>;
@@ -1279,22 +1280,19 @@ export interface BetaAgentInsightMonitorsOperations {
     listRuns: (monitorId: string, options?: BetaAgentInsightMonitorsListRunsOptionalParams) => PagedAsyncIterableIterator<AgentInsightRun>;
     reset: (monitorId: string, options?: BetaAgentInsightMonitorsResetOptionalParams) => Promise<void>;
     update: (monitorId: string, monitor: AgentInsightMonitorUpdate, options?: BetaAgentInsightMonitorsUpdateOptionalParams) => Promise<AgentInsightMonitor>;
-    updateInsight: (monitorId: string, insightId: string, insightUpdate: AgentInsightUpdate, options?: BetaAgentInsightMonitorsUpdateInsightOptionalParams) => Promise<AgentInsight>;
+    updateInsight: (monitorId: string, insightId: string, update: AgentInsightUpdate, options?: BetaAgentInsightMonitorsUpdateInsightOptionalParams) => Promise<AgentInsight>;
 }
 
 // @public
 export interface BetaAgentInsightMonitorsResetOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsUpdateInsightOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
 export interface BetaAgentInsightMonitorsUpdateOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentInsights=V1Preview";
 }
 
 // @public
@@ -1681,7 +1679,6 @@ export interface BetaModelsUpdateOptionalParams extends OperationOptions {
 export interface BetaOperations {
     // (undocumented)
     agentEndpointConversations: BetaAgentEndpointConversationsOperations;
-    // (undocumented)
     agentInsightMonitors: BetaAgentInsightMonitorsOperations;
     agents: BetaAgentsOperations;
     datasets: BetaDatasetsOperations;
@@ -3219,7 +3216,7 @@ export interface GetMicrosoft365PackageOptionalParams extends OperationOptions {
     termsOfUseUrl?: string;
 }
 
-// @public (undocumented)
+// @public
 export type GetMicrosoft365PackageResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;
@@ -4233,7 +4230,30 @@ export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
 
 // @public
 export interface RaiConfig {
+    invocations_moderation?: RaiInvocationModeration;
     rai_policy_name: string;
+}
+
+// @public
+export type RaiInvocationContentType = "json" | "text";
+
+// @public
+export type RaiInvocationMode = "non_streaming" | "streaming" | "both";
+
+// @public
+export interface RaiInvocationModeration {
+    input_content_type?: RaiInvocationContentType;
+    input_paths?: string[];
+    output_content_type?: RaiInvocationContentType;
+    output_paths?: string[];
+    response_mode: RaiInvocationMode;
+    stream_selectors?: RaiSseTextSelector[];
+}
+
+// @public
+export interface RaiSseTextSelector {
+    event_type: string;
+    text_field?: string;
 }
 
 // @public
@@ -5245,6 +5265,14 @@ export type RubricGenerationInputQualityWarningSeverity = "warning";
 
 // @public
 export type RubricGenerationInputQualityWarningSource = "prompt" | "agent" | "dataset" | "aggregate";
+
+// @public
+export interface RunOperationState<TResult> extends OperationState_2<TResult> {
+    readonly runId?: string;
+}
+
+// @public
+export type RunPoller<TResult> = PollerLike<RunOperationState<TResult>, TResult>;
 
 // @public
 export type SampleType = "EvaluationResultSample";
