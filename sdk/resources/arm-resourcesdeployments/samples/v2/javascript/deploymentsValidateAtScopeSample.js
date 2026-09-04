@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  * x-ms-original-file: 2026-06-01/PostDeploymentValidateOnScope.json
  */
-async function validatesATemplateAtScope(): Promise<void> {
+async function validatesATemplateAtScope() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentsClient(credential);
   const result = await client.deployments.validateAtScope(
@@ -31,7 +31,7 @@ async function validatesATemplateAtScope(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await validatesATemplateAtScope();
 }
 

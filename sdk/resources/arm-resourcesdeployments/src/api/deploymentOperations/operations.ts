@@ -1,20 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsContext as Client } from "../index.js";
+import type { DeploymentsContext as Client } from "../index.js";
+import type { DeploymentOperation, _DeploymentOperationsListResult } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  DeploymentOperation,
   deploymentOperationDeserializer,
-  _DeploymentOperationsListResult,
   _deploymentOperationsListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DeploymentOperationsListOptionalParams,
   DeploymentOperationsGetOptionalParams,
   DeploymentOperationsListAtSubscriptionScopeOptionalParams,
@@ -26,12 +23,8 @@ import {
   DeploymentOperationsListAtScopeOptionalParams,
   DeploymentOperationsGetAtScopeOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -45,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -64,7 +57,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -84,7 +79,7 @@ export function list(
     () => _listSend(context, resourceGroupName, deploymentName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -102,7 +97,7 @@ export function _getSend(
       deploymentName: deploymentName,
       operationId: operationId,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +113,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -148,7 +145,7 @@ export function _listAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -167,7 +164,9 @@ export async function _listAtSubscriptionScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -186,7 +185,7 @@ export function listAtSubscriptionScope(
     () => _listAtSubscriptionScopeSend(context, deploymentName, options),
     _listAtSubscriptionScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -202,7 +201,7 @@ export function _getAtSubscriptionScopeSend(
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -220,7 +219,9 @@ export async function _getAtSubscriptionScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -250,7 +251,7 @@ export function _listAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -269,7 +270,9 @@ export async function _listAtManagementGroupScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -289,7 +292,7 @@ export function listAtManagementGroupScope(
     () => _listAtManagementGroupScopeSend(context, groupId, deploymentName, options),
     _listAtManagementGroupScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -306,7 +309,7 @@ export function _getAtManagementGroupScopeSend(
       groupId: groupId,
       deploymentName: deploymentName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,7 +327,9 @@ export async function _getAtManagementGroupScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -359,7 +364,7 @@ export function _listAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}/operations{?api%2Dversion,%24top}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -378,7 +383,9 @@ export async function _listAtTenantScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -397,7 +404,7 @@ export function listAtTenantScope(
     () => _listAtTenantScopeSend(context, deploymentName, options),
     _listAtTenantScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -412,7 +419,7 @@ export function _getAtTenantScopeSend(
     {
       deploymentName: deploymentName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -430,7 +437,9 @@ export async function _getAtTenantScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -460,7 +469,7 @@ export function _listAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -479,7 +488,9 @@ export async function _listAtScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -499,7 +510,7 @@ export function listAtScope(
     () => _listAtScopeSend(context, scope, deploymentName, options),
     _listAtScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -516,7 +527,7 @@ export function _getAtScopeSend(
       scope: scope,
       deploymentName: deploymentName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -534,7 +545,9 @@ export async function _getAtScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

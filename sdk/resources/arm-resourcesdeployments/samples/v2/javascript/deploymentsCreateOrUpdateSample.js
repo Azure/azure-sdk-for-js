@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to you can provide the template and parameters directly in the request or link to JSON files.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: 2026-06-01/PutDeploymentResourceGroup.json
  */
-async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString(): Promise<void> {
+async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
   const client = new DeploymentsClient(credential, subscriptionId);
@@ -34,7 +34,7 @@ async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString():
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: 2026-06-01/PutDeploymentResourceGroupTemplateSpecsWithId.json
  */
-async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId(): Promise<void> {
+async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
   const client = new DeploymentsClient(credential, subscriptionId);
@@ -56,7 +56,7 @@ async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceI
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: 2026-06-01/PutDeploymentWithExternalInputs.json
  */
-async function createDeploymentUsingExternalInputs(): Promise<void> {
+async function createDeploymentUsingExternalInputs() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
   const client = new DeploymentsClient(credential, subscriptionId);
@@ -84,7 +84,7 @@ async function createDeploymentUsingExternalInputs(): Promise<void> {
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: 2026-06-01/PutDeploymentWithOnErrorDeploymentLastSuccessful.json
  */
-async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure(): Promise<void> {
+async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeploymentsClient(credential, subscriptionId);
@@ -105,7 +105,7 @@ async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFai
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: 2026-06-01/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
  */
-async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Promise<void> {
+async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeploymentsClient(credential, subscriptionId);
@@ -123,7 +123,7 @@ async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Pr
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createADeploymentThatWillDeployATemplateWithAUriAndQueryString();
   await createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId();
   await createDeploymentUsingExternalInputs();

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to you can provide the template and parameters directly in the request or link to JSON files.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: 2026-06-01/PutDeploymentAtTenant.json
  */
-async function createDeploymentAtTenantScope(): Promise<void> {
+async function createDeploymentAtTenantScope() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentsClient(credential);
   const result = await client.deployments.createOrUpdateAtTenantScope("tenant-dep01", {
@@ -25,7 +25,7 @@ async function createDeploymentAtTenantScope(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createDeploymentAtTenantScope();
 }
 

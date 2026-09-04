@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to calculate the hash of the given template.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary calculate the hash of the given template.
  * x-ms-original-file: 2026-06-01/CalculateTemplateHash.json
  */
-async function calculateTemplateHash(): Promise<void> {
+async function calculateTemplateHash() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentsClient(credential);
   const result = await client.deployments.calculateTemplateHash({
@@ -31,7 +31,7 @@ async function calculateTemplateHash(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await calculateTemplateHash();
 }
 
