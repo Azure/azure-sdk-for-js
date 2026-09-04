@@ -66,7 +66,7 @@ export function _generateClientTokenSend(
   options: GenerateClientTokenOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/api/hubs/{hub}/:generateToken{?userId,role*,minutesToExpire,api%2Dversion,clientType}",
+    "/api/hubs/{hub}/:generateToken{?userId,role*,minutesToExpire,api%2Dversion}",
     {
       hub: context.hub,
       userId: options?.userId,
@@ -77,7 +77,6 @@ export function _generateClientTokenSend(
           }),
       minutesToExpire: options?.minutesToExpire,
       "api%2Dversion": "2024-12-01",
-      clientType: "default",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
