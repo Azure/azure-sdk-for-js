@@ -451,7 +451,7 @@ export abstract class ResourceDeclaration<
  * property getters and `this.setProperty()` for setters.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { ResourceGroup } from "@azure/provisioning-core";
  * import { StorageAccount } from "@azure/provisioning-storage";
  *

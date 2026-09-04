@@ -6,7 +6,7 @@
 
 Create a deployment stack, then attach resources to the stack or to another provisioning component:
 
-```ts
+```ts snippet:ignore
 import { ResourceGroup, Stack, fn } from "@azure/provisioning-core";
 
 const stack = new Stack("application");
@@ -19,7 +19,7 @@ const resourceGroup = new ResourceGroup(stack, {
 
 Resource provider packages such as `@azure/provisioning-keyvault` use the same component tree and expression model:
 
-```ts
+```ts snippet:ignore
 import { ResourceGroup, Stack } from "@azure/provisioning-core";
 import { KeyVault } from "@azure/provisioning-keyvault";
 

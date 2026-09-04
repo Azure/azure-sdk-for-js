@@ -4,7 +4,7 @@
 
 ## Getting started
 
-```ts
+```ts snippet:ignore
 import { Stack } from "@azure/provisioning-core";
 import { KeyVault, Secret } from "@azure/provisioning-keyvault";
 

@@ -121,7 +121,7 @@ export class VariableCollection {
  * A computed value evaluated at deploy time, compiled to a Bicep `var` declaration.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { Stack, createVariable } from "@azure/provisioning-core";
  *
  * const stack = new Stack("my-app");

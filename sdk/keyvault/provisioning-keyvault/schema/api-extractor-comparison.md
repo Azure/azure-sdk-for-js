@@ -5,11 +5,11 @@
 This report compares the provisioning schema with all API Extractor outputs for
 the package:
 
-- Schema: [schema.json](schema.json)
-- Complete Node.js API: [provisioning-keyvault-node.api.md](../review/provisioning-keyvault-node.api.md)
-- Node.js model-only API: [provisioning-keyvault-types-node.api.md](../review/provisioning-keyvault-types-node.api.md)
-- Browser differences: [provisioning-keyvault-browser.api.diff.md](../review/provisioning-keyvault-browser.api.diff.md)
-  and [provisioning-keyvault-types-browser.api.diff.md](../review/provisioning-keyvault-types-browser.api.diff.md)
+- Schema: [schema.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/provisioning-keyvault/schema/schema.json)
+- Complete Node.js API: [provisioning-keyvault-node.api.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/provisioning-keyvault/review/provisioning-keyvault-node.api.md)
+- Node.js model-only API: [provisioning-keyvault-types-node.api.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/provisioning-keyvault/review/provisioning-keyvault-types-node.api.md)
+- Browser differences: [provisioning-keyvault-browser.api.diff.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/provisioning-keyvault/review/provisioning-keyvault-browser.api.diff.md)
+  and [provisioning-keyvault-types-browser.api.diff.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/provisioning-keyvault/review/provisioning-keyvault-types-browser.api.diff.md)
 
 The comparison treats the schema as the wire/provisioning description and the
 API report as the TypeScript developer surface. Consequently, generated input,

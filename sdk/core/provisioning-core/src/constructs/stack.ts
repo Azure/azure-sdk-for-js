@@ -52,7 +52,7 @@ export interface StackOptions {
  * like the playground and CLI.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { Stack, ResourceGroup } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *

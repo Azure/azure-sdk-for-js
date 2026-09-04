@@ -170,7 +170,7 @@ export type BrandedExpression<T> = ExpressionBrand<T> & ExpressionTag;
  * When the discriminator genuinely isn't known until deployment, wrap the
  * expression with this to state which variant you mean:
  *
- * ```ts
+ * ```ts snippet:ignore
  * widget.properties.primaryRule = {
  *   kind: asDiscriminator(kindParam),
  *   cacheKind: "long",

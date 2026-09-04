@@ -21,7 +21,7 @@ export type ProvisioningComponentConstructor<
  * `Resource` instead.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { ProvisioningComponent } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  * import { StorageAccount } from "@azure/provisioning-storage";

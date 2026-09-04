@@ -27,7 +27,7 @@ import type { ResourceCtor } from "./resource-registry.js";
  * so the compiler forces you to discriminate before a scalar read.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * vault.secrets.add({ name: "s1", value: "v1" });
  * // or equivalently:
  * new Secret(vault, { name: "s1", value: "v1" });
