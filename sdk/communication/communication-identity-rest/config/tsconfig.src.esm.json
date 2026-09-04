@@ -1,0 +1,14 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/teamsExtensionOperations/index.ts",
+    "../src/api/teamsUserOperations/index.ts",
+    "../src/api/identityOperations/index.ts",
+    "../src/models/index.ts"
+  ]
+}
