@@ -390,7 +390,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/automation/arm-automation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/avs/arm-avs/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

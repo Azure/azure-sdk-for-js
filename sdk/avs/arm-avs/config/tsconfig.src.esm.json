@@ -1,6 +1,34 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/workloadNetworks/index.ts",
+    "../src/api/virtualMachines/index.ts",
+    "../src/api/skus/index.ts",
+    "../src/api/scriptPackages/index.ts",
+    "../src/api/scriptExecutions/index.ts",
+    "../src/api/scriptCmdlets/index.ts",
+    "../src/api/pureStoragePolicies/index.ts",
+    "../src/api/provisionedNetworks/index.ts",
+    "../src/api/privateClouds/index.ts",
+    "../src/api/placementPolicies/index.ts",
+    "../src/api/maintenances/index.ts",
+    "../src/api/locations/index.ts",
+    "../src/api/licenses/index.ts",
+    "../src/api/iscsiPaths/index.ts",
+    "../src/api/hosts/index.ts",
+    "../src/api/hcxEnterpriseSites/index.ts",
+    "../src/api/globalReachConnections/index.ts",
+    "../src/api/datastores/index.ts",
+    "../src/api/clusters/index.ts",
+    "../src/api/cloudLinks/index.ts",
+    "../src/api/authorizations/index.ts",
+    "../src/api/addons/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

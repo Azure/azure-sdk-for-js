@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reschedule a maintenance
  *
  * @summary reschedule a maintenance
- * x-ms-original-file: 2025-09-01/Maintenances_Reschedule.json
+ * x-ms-original-file: 2026-03-01/Maintenances_Reschedule.json
  */
 async function maintenancesReschedule(): Promise<void> {
   const credential = new DefaultAzureCredential();
