@@ -13,6 +13,8 @@
 
 ### Other Changes
 
+- Improved Microsoft Entra authentication in sovereign clouds when using a `TokenCredential`. When `audience` is not set, the client now infers it from the App Configuration endpoint. An explicitly configured audience continues to override the inferred value.
+
 ## 1.12.1 (2026-06-22)
 
 ### Bugs Fixed
