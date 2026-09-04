@@ -1,4 +1,20 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/subscriptions/index.ts",
+    "../src/api/networkSecurityPerimeterConfiguration/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/namespaces/index.ts",
+    "../src/api/rules/index.ts",
+    "../src/api/migrationConfigs/index.ts",
+    "../src/api/networkSecurityPerimeterConfigurations/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/topics/index.ts",
+    "../src/api/queues/index.ts",
+    "../src/api/disasterRecoveryConfigs/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }
