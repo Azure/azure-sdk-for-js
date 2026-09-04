@@ -217,20 +217,18 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   ) {
     // Account connection string
 
-    let defaultEndpointsProtocol = "";
-    let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
-    let endpointSuffix = "";
-
     // Get account name and key
-    accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    const accountName = getValueInConnString(connectionString, "AccountName");
+    const accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!queueEndpoint) {
       // QueueEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const defaultEndpointsProtocol = getValueInConnString(
+        connectionString,
+        "DefaultEndpointsProtocol",
+      );
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -238,7 +236,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
         );
       }
 
-      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      const endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }
@@ -558,10 +556,7 @@ export function adjustResponse<
 } {
   const compatResponse = toCompatResponse(result._response.rawResponse);
   compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
-  if (result._response.parsedBody !== undefined) {
-    const { _response, ...rest } = result._response.parsedBody as any;
-    compatResponse.parsedBody = rest;
-  }
+  compatResponse.parsedBody = result._response.parsedBody;
   compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
   Object.defineProperty(result, "_response", {
     value: compatResponse,

@@ -5,6 +5,7 @@ import {
   generateChangelogAndBumpVersion,
   UpdateMode,
 } from "./common/changelog/automaticGenerateChangeLogAndBumpVersion.js";
+import { configureNpmFromRepo } from "./common/npmUtils.js";
 import { logger } from "./utils/logger.js";
 
 const generateChangelogCli = async (
@@ -19,6 +20,7 @@ const generateChangelogCli = async (
     process.exit(1);
   }
 
+  configureNpmFromRepo(sdkRepoPath);
   await generateChangelogAndBumpVersion(
     packageFolderPath,
     {

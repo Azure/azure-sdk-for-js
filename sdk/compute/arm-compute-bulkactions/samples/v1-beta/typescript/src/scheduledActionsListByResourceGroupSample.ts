@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list ScheduledAction resources by resource group
+ * This sample demonstrates how to lists scheduled actions in the specified resource group.
  *
- * @summary list ScheduledAction resources by resource group
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_ListByResourceGroup_MaximumSet_Gen.json
+ * @summary lists scheduled actions in the specified resource group.
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActions_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function scheduledActionsListByResourceGroupMaximumSet(): Promise<void> {
+async function listScheduledActionsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function scheduledActionsListByResourceGroupMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsListByResourceGroupMaximumSet();
+  await listScheduledActionsInAResourceGroup();
 }
 
 main().catch(console.error);
