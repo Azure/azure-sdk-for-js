@@ -7,7 +7,6 @@ import type {
   MultipartRequestBody,
   PipelineRequest,
   PipelineResponse,
-  RawHttpHeadersInput,
   RequestBodyType,
 } from "../interfaces.js";
 import { isRestError, RestError } from "../restError.js";
@@ -70,48 +69,6 @@ export async function sendRequest(
 }
 
 /**
- * Get the value of a header in the headers option ignoring case
- * @param headers - headers passed in the request options
- * @param headerName - lower case name of the header to look up
- * @returns returns the header value, or undefined when the header is not set
- */
-function getHeaderValue(
-  headers: RawHttpHeadersInput | undefined,
-  headerName: string,
-): string | number | boolean | undefined {
-  if (headers) {
-    const lowerCaseName = headerName.toLowerCase();
-    // The lower case spelling is the one that worked before, so it keeps
-    // winning when a bag carries the same header under two spellings.
-    if (headers[lowerCaseName] !== undefined) {
-      return headers[lowerCaseName];
-    }
-    const actualHeaderName = Object.keys(headers).find((x) => x.toLowerCase() === lowerCaseName);
-    if (actualHeaderName) {
-      return headers[actualHeaderName];
-    }
-  }
-
-  return undefined;
-}
-
-/**
- * Function to determine the request content type
- * @param options - request options InternalRequestParameters
- * @returns returns the content-type
- */
-function getRequestContentType(options: InternalRequestParameters = {}): string | undefined {
-  if (options.contentType) {
-    return options.contentType;
-  }
-  const headerContentType = getHeaderValue(options.headers, "content-type");
-  if (typeof headerContentType === "string") {
-    return headerContentType;
-  }
-  return getContentType(options.body);
-}
-
-/**
  * Function to determine the content-type of a body
  * this is used if an explicit content-type is not provided
  * @param body - body in the request
@@ -157,21 +114,29 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {},
 ): PipelineRequest {
-  const requestContentType = getRequestContentType(options);
+  const headers = createHttpHeaders(options.headers);
+
+  let requestContentType = options.contentType;
+  if (!requestContentType) {
+    requestContentType = headers.get("content-type");
+  }
+  if (requestContentType === undefined) {
+    requestContentType = getContentType(options.body);
+  }
+
   const { body, multipartBody } = getRequestBody(options.body, requestContentType);
 
   const accept =
     options.accept ??
-    getHeaderValue(options.headers, "accept") ??
+    headers.get("accept") ??
     (options.noDefaultAcceptHeader ? undefined : "application/json");
 
-  const headers = createHttpHeaders({
-    ...(options.headers ? options.headers : {}),
-    ...(accept !== undefined && { accept }),
-    ...(requestContentType && {
-      "content-type": requestContentType,
-    }),
-  });
+  if (accept !== undefined) {
+    headers.set("accept", accept);
+  }
+  if (requestContentType) {
+    headers.set("content-type", requestContentType);
+  }
 
   const {
     allowInsecureConnection,

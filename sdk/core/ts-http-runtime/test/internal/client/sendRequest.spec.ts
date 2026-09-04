@@ -460,6 +460,52 @@ describe("sendRequest", () => {
     });
   });
 
+  it("should use the last content-type header spelling for the header and the body", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("content-type"), "text/plain");
+      // The value that is sent is the value that encodes the body, so the
+      // earlier spelling no longer encodes a body that goes out as text.
+      assert.equal(request.body, '{"a":1}');
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { "content-type": "application/json", "Content-Type": "text/plain" },
+      body: '{"a":1}',
+    });
+  });
+
+  it("should use a non string content-type header value as a string", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("content-type"), "123");
+      assert.equal(request.body, '{"a":1}');
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { "Content-Type": 123 },
+      body: '{"a":1}',
+    });
+  });
+
+  it("should trim a content-type header value before it selects the body encoding", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("content-type"), "application/json");
+      // The value is trimmed on the way into the headers, so the padded
+      // spelling now encodes the body the same way the plain one does.
+      assert.equal(request.body, JSON.stringify('{"a":1}'));
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { "content-type": "  application/json  " },
+      body: '{"a":1}',
+    });
+  });
+
   it("should set custom accept", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
@@ -500,6 +546,30 @@ describe("sendRequest", () => {
     await sendRequest("POST", mockBaseUrl, mockPipeline, {
       accept: "testContent",
       headers: { Accept: "text/plain" },
+    });
+  });
+
+  it("should use the last accept header spelling in the headers object", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "text/plain");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { Accept: "application/xml", ACCEPT: "text/plain" },
+    });
+  });
+
+  it("should use the last accept header spelling when the two spellings are swapped", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "application/xml");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { ACCEPT: "text/plain", Accept: "application/xml" },
     });
   });
 
