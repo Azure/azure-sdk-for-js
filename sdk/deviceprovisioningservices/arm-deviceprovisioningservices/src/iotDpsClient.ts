@@ -12,27 +12,35 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type IotDpsClientOptionalParams } from "./api/iotDpsContext.js";
+export type { IotDpsClientOptionalParams } from "./api/iotDpsContext.js";
 
 export class IotDpsClient {
   private _client: IotDpsContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** API for using the Azure IoT Hub Device Provisioning Service features. */
+  constructor(credential: TokenCredential, options?: IotDpsClientOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: IotDpsClientOptionalParams = {},
+    options?: IotDpsClientOptionalParams,
+  );
+  /** API for using the Azure IoT Hub Device Provisioning Service features. */
+  constructor(
+    credential: TokenCredential,
+    subscriptionIdOrOptions?: string | IotDpsClientOptionalParams,
+    options?: IotDpsClientOptionalParams,
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createIotDps(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
+    }
+
+    options = options ?? {};
+    this._client = createIotDps(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.iotDpsResource = _getIotDpsResourceOperations(this._client);
     this.dpsCertificate = _getDpsCertificateOperations(this._client);

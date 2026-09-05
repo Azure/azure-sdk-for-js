@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type DpsCertificateVerifyCertificateOptionalParams,
-  type DpsCertificateGenerateVerificationCodeOptionalParams,
-  type DpsCertificateListOptionalParams,
-  type DpsCertificateDeleteOptionalParams,
-  type DpsCertificateCreateOrUpdateOptionalParams,
-  type DpsCertificateGetOptionalParams,
+export type {
+  DpsCertificateVerifyCertificateOptionalParams,
+  DpsCertificateGenerateVerificationCodeOptionalParams,
+  DpsCertificateListOptionalParams,
+  DpsCertificateDeleteOptionalParams,
+  DpsCertificateCreateOrUpdateOptionalParams,
+  DpsCertificateGetOptionalParams,
 } from "./options.js";
