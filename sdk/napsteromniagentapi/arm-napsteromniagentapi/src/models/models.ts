@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -795,6 +795,6 @@ export function proxyResourceDeserializer(item: any): ProxyResource {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** 2025-12-24-preview version */
-  V20251224Preview = "2025-12-24-preview",
+  /** 2026-08-11 version */
+  V20260811 = "2026-08-11",
 }
