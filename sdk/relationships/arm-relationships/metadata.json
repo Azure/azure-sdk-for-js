@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Relationships": "2023-09-01-preview"
+    "Microsoft.Relationships": "2026-08-01"
   },
-  "emitterVersion": "0.51.1",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Relationships",
     "CrossLanguageDefinitionId": {
@@ -22,10 +22,15 @@
       "@azure/arm-relationships!RelationshipOriginInformation:interface": "Microsoft.Relationships.RelationshipOriginInformation",
       "@azure/arm-relationships!RelationshipMetadata:interface": "Microsoft.Relationships.RelationshipMetadata",
       "@azure/arm-relationships!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-relationships!DependencyOfRelationshipListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-relationships!ServiceGroupMemberRelationshipCreateOrUpdate:interface": "Microsoft.Relationships.ServiceGroupMemberRelationshipCreateOrUpdate",
       "@azure/arm-relationships!ServiceGroupMemberRelationshipPropertiesCreateOrUpdate:interface": "Microsoft.Relationships.ServiceGroupMemberRelationshipPropertiesCreateOrUpdate",
       "@azure/arm-relationships!ServiceGroupMemberRelationship:interface": "Microsoft.Relationships.ServiceGroupMemberRelationship",
-      "@azure/arm-relationships!ServiceGroupMemberRelationshipProperties:interface": "Microsoft.Relationships.ServiceGroupMemberRelationshipProperties",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipPropertiesV2:interface": "Microsoft.Relationships.ServiceGroupMemberRelationshipPropertiesV2",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-relationships!ContainsRelationshipListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-relationships!ContainsRelationship:interface": "Microsoft.Relationships.ContainsRelationship",
+      "@azure/arm-relationships!ContainsRelationshipProperties:interface": "Microsoft.Relationships.ContainsRelationshipProperties",
       "@azure/arm-relationships!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-relationships!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
       "@azure/arm-relationships!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
@@ -33,9 +38,17 @@
       "@azure/arm-relationships!KnownProvisioningState:enum": "Microsoft.Relationships.ProvisioningState",
       "@azure/arm-relationships!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-relationships!KnownVersions:enum": "Microsoft.Relationships.Versions",
+      "@azure/arm-relationships!ContainsRelationshipsOperations#listByResourceGroup:member": "Microsoft.Relationships.ContainsRelationships.listByResourceGroup",
+      "@azure/arm-relationships!ContainsRelationshipsOperations#listBySubscription:member": "Microsoft.Relationships.ContainsRelationships.listBySubscription",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#listByParent:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.listByParent",
       "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#delete:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.delete",
       "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#get:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.get",
       "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#createOrUpdate:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.createOrUpdate",
+      "@azure/arm-relationships!DependencyOfRelationshipsByServiceGroupOperations#list:member": "Microsoft.Relationships.DependencyOfRelationshipsByServiceGroup.list",
+      "@azure/arm-relationships!DependencyOfRelationshipsByServiceGroupOperations#delete:member": "Microsoft.Relationships.DependencyOfRelationshipsByServiceGroup.delete",
+      "@azure/arm-relationships!DependencyOfRelationshipsByServiceGroupOperations#createOrUpdate:member": "Microsoft.Relationships.DependencyOfRelationshipsByServiceGroup.createOrUpdate",
+      "@azure/arm-relationships!DependencyOfRelationshipsByServiceGroupOperations#get:member": "Microsoft.Relationships.DependencyOfRelationshipsByServiceGroup.get",
+      "@azure/arm-relationships!DependencyOfRelationshipsOperations#listByParent:member": "Microsoft.Relationships.DependencyOfRelationships.listByParent",
       "@azure/arm-relationships!DependencyOfRelationshipsOperations#delete:member": "Microsoft.Relationships.DependencyOfRelationships.delete",
       "@azure/arm-relationships!DependencyOfRelationshipsOperations#get:member": "Microsoft.Relationships.DependencyOfRelationships.get",
       "@azure/arm-relationships!DependencyOfRelationshipsOperations#createOrUpdate:member": "Microsoft.Relationships.DependencyOfRelationships.createOrUpdate",
