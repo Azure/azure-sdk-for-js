@@ -53,7 +53,11 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
-    return this.priorityQueueBufferSize > 0 && this.executionContext.hasMoreResults();
+    return (
+      this.priorityQueueBufferSize > 0 &&
+      this.executionContext.hasMoreResults() &&
+      !this.isCompleted
+    );
   }
 
   /**
@@ -90,9 +94,10 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
 
       resHeaders = response.headers;
       if (
-        response.result === undefined ||
-        !response.result.buffer ||
-        response.result.buffer.length === 0
+        (response.result === undefined ||
+          !response.result.buffer ||
+          response.result.buffer.length === 0) &&
+        !this.executionContext.hasMoreResults()
       ) {
         this.isCompleted = true;
         if (!this.nonStreamingOrderByPQ.isEmpty()) {
