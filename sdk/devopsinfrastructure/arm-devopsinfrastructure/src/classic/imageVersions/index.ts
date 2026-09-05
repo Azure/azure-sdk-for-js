@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
-import { imageVersionsListByImage } from "../../api/imageVersions/index.js";
-import { ImageVersionsListByImageOptionalParams } from "../../api/options.js";
-import { ImageVersion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
+import { listByImage } from "../../api/imageVersions/operations.js";
+import type { ImageVersionsListByImageOptionalParams } from "../../api/imageVersions/options.js";
+import type { ImageVersion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ImageVersions operations. */
 export interface ImageVersionsOperations {
@@ -16,22 +16,19 @@ export interface ImageVersionsOperations {
     options?: ImageVersionsListByImageOptionalParams,
   ) => PagedAsyncIterableIterator<ImageVersion>;
 }
-
-export function getImageVersions(context: DevOpsInfrastructureContext, subscriptionId: string) {
+function _getImageVersions(context: DevOpsInfrastructureContext) {
   return {
     listByImage: (
       resourceGroupName: string,
       imageName: string,
       options?: ImageVersionsListByImageOptionalParams,
-    ) => imageVersionsListByImage(context, subscriptionId, resourceGroupName, imageName, options),
+    ) => listByImage(context, resourceGroupName, imageName, options),
   };
 }
-
-export function getImageVersionsOperations(
+export function _getImageVersionsOperations(
   context: DevOpsInfrastructureContext,
-  subscriptionId: string,
 ): ImageVersionsOperations {
   return {
-    ...getImageVersions(context, subscriptionId),
+    ..._getImageVersions(context),
   };
 }
