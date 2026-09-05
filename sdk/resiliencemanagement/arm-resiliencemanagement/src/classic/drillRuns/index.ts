@@ -3,6 +3,8 @@
 
 import type { AzureResilienceManagementContext } from "../../api/azureResilienceManagementContext.js";
 import {
+  listReportDownloadUrl,
+  generateReport,
   markAsComplete,
   resume,
   addNotes,
@@ -12,6 +14,8 @@ import {
   get,
 } from "../../api/drillRuns/operations.js";
 import type {
+  DrillRunsListReportDownloadUrlOptionalParams,
+  DrillRunsGenerateReportOptionalParams,
   DrillRunsMarkAsCompleteOptionalParams,
   DrillRunsResumeOptionalParams,
   DrillRunsAddNotesOptionalParams,
@@ -22,9 +26,9 @@ import type {
 } from "../../api/drillRuns/options.js";
 import type {
   DrillRun,
-  DrillRunFailoverRequest,
   DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
+  ListReportDownloadUrlRequest,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -33,6 +37,57 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DrillRuns operations. */
 export interface DrillRunsOperations {
+  /** This returns a short-lived, read-only URL to download the report for this Drill Run. The URL expires at the returned expiryTimestamp and grants access to that single report only. */
+  listReportDownloadUrl: (
+    serviceGroupName: string,
+    operationId: string,
+    drillName: string,
+    drillRunName: string,
+    body: ListReportDownloadUrlRequest,
+    options?: DrillRunsListReportDownloadUrlOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use listReportDownloadUrl instead */
+  beginListReportDownloadUrl: (
+    serviceGroupName: string,
+    operationId: string,
+    drillName: string,
+    drillRunName: string,
+    body: ListReportDownloadUrlRequest,
+    options?: DrillRunsListReportDownloadUrlOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use listReportDownloadUrl instead */
+  beginListReportDownloadUrlAndWait: (
+    serviceGroupName: string,
+    operationId: string,
+    drillName: string,
+    drillRunName: string,
+    body: ListReportDownloadUrlRequest,
+    options?: DrillRunsListReportDownloadUrlOptionalParams,
+  ) => Promise<void>;
+  /** This generates, or regenerates, the report for this Drill Run. The action is idempotent and is safe to call at any time: a call that arrives while a generation is already running joins it, and a call made after a failed attempt retries it. A report that has been finalized is never regenerated. */
+  generateReport: (
+    serviceGroupName: string,
+    operationId: string,
+    drillName: string,
+    drillRunName: string,
+    options?: DrillRunsGenerateReportOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use generateReport instead */
+  beginGenerateReport: (
+    serviceGroupName: string,
+    operationId: string,
+    drillName: string,
+    drillRunName: string,
+    options?: DrillRunsGenerateReportOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use generateReport instead */
+  beginGenerateReportAndWait: (
+    serviceGroupName: string,
+    operationId: string,
+    drillName: string,
+    drillRunName: string,
+    options?: DrillRunsGenerateReportOptionalParams,
+  ) => Promise<void>;
   /** This enables the user to mark this stage as complete, disabling further retries on it. */
   markAsComplete: (
     serviceGroupName: string,
@@ -141,7 +196,6 @@ export interface DrillRunsOperations {
     operationId: string,
     drillName: string,
     drillRunName: string,
-    body: DrillRunFailoverRequest,
     options?: DrillRunsFailOverOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use failOver instead */
@@ -150,7 +204,6 @@ export interface DrillRunsOperations {
     operationId: string,
     drillName: string,
     drillRunName: string,
-    body: DrillRunFailoverRequest,
     options?: DrillRunsFailOverOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use failOver instead */
@@ -159,7 +212,6 @@ export interface DrillRunsOperations {
     operationId: string,
     drillName: string,
     drillRunName: string,
-    body: DrillRunFailoverRequest,
     options?: DrillRunsFailOverOptionalParams,
   ) => Promise<void>;
   /** List DrillRun resources by Drill */
@@ -179,6 +231,102 @@ export interface DrillRunsOperations {
 
 function _getDrillRuns(context: AzureResilienceManagementContext) {
   return {
+    listReportDownloadUrl: (
+      serviceGroupName: string,
+      operationId: string,
+      drillName: string,
+      drillRunName: string,
+      body: ListReportDownloadUrlRequest,
+      options?: DrillRunsListReportDownloadUrlOptionalParams,
+    ) =>
+      listReportDownloadUrl(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        body,
+        options,
+      ),
+    beginListReportDownloadUrl: async (
+      serviceGroupName: string,
+      operationId: string,
+      drillName: string,
+      drillRunName: string,
+      body: ListReportDownloadUrlRequest,
+      options?: DrillRunsListReportDownloadUrlOptionalParams,
+    ) => {
+      const poller = listReportDownloadUrl(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginListReportDownloadUrlAndWait: async (
+      serviceGroupName: string,
+      operationId: string,
+      drillName: string,
+      drillRunName: string,
+      body: ListReportDownloadUrlRequest,
+      options?: DrillRunsListReportDownloadUrlOptionalParams,
+    ) => {
+      return await listReportDownloadUrl(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        body,
+        options,
+      );
+    },
+    generateReport: (
+      serviceGroupName: string,
+      operationId: string,
+      drillName: string,
+      drillRunName: string,
+      options?: DrillRunsGenerateReportOptionalParams,
+    ) => generateReport(context, serviceGroupName, operationId, drillName, drillRunName, options),
+    beginGenerateReport: async (
+      serviceGroupName: string,
+      operationId: string,
+      drillName: string,
+      drillRunName: string,
+      options?: DrillRunsGenerateReportOptionalParams,
+    ) => {
+      const poller = generateReport(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginGenerateReportAndWait: async (
+      serviceGroupName: string,
+      operationId: string,
+      drillName: string,
+      drillRunName: string,
+      options?: DrillRunsGenerateReportOptionalParams,
+    ) => {
+      return await generateReport(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        options,
+      );
+    },
     markAsComplete: (
       serviceGroupName: string,
       operationId: string,
@@ -360,15 +508,13 @@ function _getDrillRuns(context: AzureResilienceManagementContext) {
       operationId: string,
       drillName: string,
       drillRunName: string,
-      body: DrillRunFailoverRequest,
       options?: DrillRunsFailOverOptionalParams,
-    ) => failOver(context, serviceGroupName, operationId, drillName, drillRunName, body, options),
+    ) => failOver(context, serviceGroupName, operationId, drillName, drillRunName, options),
     beginFailOver: async (
       serviceGroupName: string,
       operationId: string,
       drillName: string,
       drillRunName: string,
-      body: DrillRunFailoverRequest,
       options?: DrillRunsFailOverOptionalParams,
     ) => {
       const poller = failOver(
@@ -377,7 +523,6 @@ function _getDrillRuns(context: AzureResilienceManagementContext) {
         operationId,
         drillName,
         drillRunName,
-        body,
         options,
       );
       await poller.submitted();
@@ -388,7 +533,6 @@ function _getDrillRuns(context: AzureResilienceManagementContext) {
       operationId: string,
       drillName: string,
       drillRunName: string,
-      body: DrillRunFailoverRequest,
       options?: DrillRunsFailOverOptionalParams,
     ) => {
       return await failOver(
@@ -397,7 +541,6 @@ function _getDrillRuns(context: AzureResilienceManagementContext) {
         operationId,
         drillName,
         drillRunName,
-        body,
         options,
       );
     },

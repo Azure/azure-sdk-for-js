@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this action adds or updates the resources to be included in the recovery orchestration plan.
  *
  * @summary this action adds or updates the resources to be included in the recovery orchestration plan.
- * x-ms-original-file: 2026-04-01-preview/RecoveryPlanActions_UpdateResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryPlanActions_UpdateResources_MaximumSet_Gen.json
  */
 async function recoveryPlanActionsUpdateResourcesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

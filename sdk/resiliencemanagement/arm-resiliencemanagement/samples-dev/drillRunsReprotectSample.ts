@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this initiates a new Reprotect operation on this Drill Run.
  *
  * @summary this initiates a new Reprotect operation on this Drill Run.
- * x-ms-original-file: 2026-04-01-preview/DrillRuns_Reprotect_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/DrillRuns_Reprotect_MaximumSet_Gen.json
  */
 async function drillRunsReprotectMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

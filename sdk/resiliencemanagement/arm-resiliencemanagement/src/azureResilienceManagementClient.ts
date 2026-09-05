@@ -70,14 +70,7 @@ export class AzureResilienceManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAzureResilienceManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAzureResilienceManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.enrollments = _getEnrollmentsOperations(this._client);
     this.usagePlans = _getUsagePlansOperations(this._client);

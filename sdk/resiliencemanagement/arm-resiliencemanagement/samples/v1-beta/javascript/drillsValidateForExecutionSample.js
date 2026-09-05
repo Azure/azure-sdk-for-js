@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this returns eligible resource to be faulted or failed over.
  *
  * @summary this returns eligible resource to be faulted or failed over.
- * x-ms-original-file: 2026-04-01-preview/Drills_ValidateForExecution_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/Drills_ValidateForExecution_MaximumSet_Gen.json
  */
 async function drillsValidateForExecutionMaximumSet() {
   const credential = new DefaultAzureCredential();

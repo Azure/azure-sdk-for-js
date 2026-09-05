@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list RecoveryJobResource resources by RecoveryJob
  *
  * @summary list RecoveryJobResource resources by RecoveryJob
- * x-ms-original-file: 2026-04-01-preview/RecoveryJobResources_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryJobResources_List_MaximumSet_Gen.json
  */
 async function recoveryJobResourcesListMaximumSet() {
   const credential = new DefaultAzureCredential();
