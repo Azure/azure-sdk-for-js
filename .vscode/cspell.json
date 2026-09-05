@@ -107,6 +107,8 @@
     "loinc",
     "Lucene",
     "mgmt",
+    "mhsm",
+    "mhsmip",
     "Mibps",
     "Milli",
     "mkdir",
@@ -176,6 +178,7 @@
     "Usuk",
     "vectorizer",
     "Vertica",
+    "Vnet",
     "westus",
     "Xiaomi"
   ],
