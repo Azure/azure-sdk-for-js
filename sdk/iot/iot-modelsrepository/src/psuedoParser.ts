@@ -4,7 +4,7 @@
 import type { DTDL } from "./psuedoDtdl.js";
 import { logger } from "./logger.js";
 import type { DtmiResolver } from "./dtmiResolver.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 /**
  * The PsuedoParser is an interesting implementation. Essentially, this
@@ -58,7 +58,7 @@ export class PseudoParser {
           tryFromExpanded,
         );
       } catch (e: any) {
-        if (e instanceof RestError) {
+        if (isRestError(e)) {
           resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve, false);
         } else {
           throw e;
