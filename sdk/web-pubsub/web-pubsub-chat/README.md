@@ -2,6 +2,12 @@
 
 The Azure Web PubSub Chat client library enables server applications to manage chat roles, users, rooms, room membership, conversations, and messages in an Azure Web PubSub Chat hub.
 
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-chat)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-chat)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/web-pubsub-chat?view=azure-node-preview)
+
 ## Getting started
 
 ### Currently supported environments
