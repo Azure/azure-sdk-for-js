@@ -1057,8 +1057,8 @@ importers:
         specifier: ^1.9.1
         version: 1.9.1
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.21.1)(zod@4.4.3)
+        specifier: ^7.1.0
+        version: 7.3.0(ws@8.21.1)(zod@4.4.3)
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -24295,8 +24295,8 @@ importers:
         specifier: 'catalog:'
         version: 10.8.0(supports-color@8.1.1)
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.21.1)(zod@3.25.76)
+        specifier: ^7.1.0
+        version: 7.3.0(ws@8.21.1)(zod@3.25.76)
       playwright:
         specifier: catalog:testing
         version: 1.62.0
@@ -29229,8 +29229,8 @@ importers:
         specifier: 'catalog:'
         version: 10.8.0(supports-color@8.1.1)
       openai:
-        specifier: ^6.16.0
-        version: 6.49.0(ws@8.21.1)(zod@4.4.3)
+        specifier: ^7.1.0
+        version: 7.3.0(ws@8.21.1)(zod@4.4.3)
       playwright:
         specifier: catalog:testing
         version: 1.62.0
@@ -40525,9 +40525,9 @@ packages:
     resolution: {integrity: sha1-uBR+Jtzz5CYxbHMAif1x7dKcIyE=}
     engines: {node: '>=8'}
 
-  openai@6.49.0:
-    resolution: {integrity: sha1-bp95jhRpNe042VW0PVfWeWzuXms=}
-    hasBin: true
+  openai@7.3.0:
+    resolution: {integrity: sha1-l6a1FDlrIO8BrQr7y9htUSv6HSA=}
+    engines: {node: '>=22.0.0'}
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
       '@smithy/hash-node': '>=4.3.0 <5'
@@ -47529,12 +47529,12 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@6.49.0(ws@8.21.1)(zod@3.25.76):
+  openai@7.3.0(ws@8.21.1)(zod@3.25.76):
     optionalDependencies:
       ws: 8.21.1
       zod: 3.25.76
 
-  openai@6.49.0(ws@8.21.1)(zod@4.4.3):
+  openai@7.3.0(ws@8.21.1)(zod@4.4.3):
     optionalDependencies:
       ws: 8.21.1
       zod: 4.4.3
