@@ -18,7 +18,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.Consumption/charges{?api%2Dversion,startDate,endDate,%24filter,%24apply}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       startDate: options?.startDate,
       endDate: options?.endDate,
       "%24filter": options?.filter,
