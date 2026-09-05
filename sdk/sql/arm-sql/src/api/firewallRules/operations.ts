@@ -40,7 +40,7 @@ export function _replaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -56,7 +56,7 @@ export function _replaceSend(
 
 export async function _replaceDeserialize(
   result: PathUncheckedResponse,
-): Promise<FirewallRule | undefined> {
+): Promise<FirewallRule | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -67,9 +67,12 @@ export async function _replaceDeserialize(
     throw error;
   }
 
-  return result.body ? firewallRuleDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return firewallRuleDeserializer(result.body);
+}
 /** Replaces all firewall rules on the server. */
 export async function replace(
   context: Client,
@@ -77,7 +80,7 @@ export async function replace(
   serverName: string,
   parameters: FirewallRuleList,
   options: FirewallRulesReplaceOptionalParams = { requestOptions: {} },
-): Promise<FirewallRule | undefined> {
+): Promise<FirewallRule | void> {
   const result = await _replaceSend(context, resourceGroupName, serverName, parameters, options);
   return _replaceDeserialize(result);
 }
@@ -94,7 +97,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +124,6 @@ export async function _listByServerDeserialize(
 
   return _firewallRuleListResultDeserializer(result.body);
 }
-
 /** Gets a list of firewall rules. */
 export function listByServer(
   context: Client,
@@ -134,7 +136,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -152,7 +158,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,7 +180,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a firewall rule. */
 export async function $delete(
   context: Client,
@@ -208,7 +213,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -237,7 +242,6 @@ export async function _createOrUpdateDeserialize(
 
   return firewallRuleDeserializer(result.body);
 }
-
 /** Creates or updates a firewall rule. */
 export async function createOrUpdate(
   context: Client,
@@ -272,7 +276,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,7 +301,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fi
 
   return firewallRuleDeserializer(result.body);
 }
-
 /** Gets a firewall rule. */
 export async function get(
   context: Client,

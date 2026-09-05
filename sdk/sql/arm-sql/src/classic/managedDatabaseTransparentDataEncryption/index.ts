@@ -45,7 +45,6 @@ export interface ManagedDatabaseTransparentDataEncryptionOperations {
     options?: ManagedDatabaseTransparentDataEncryptionGetOptionalParams,
   ) => Promise<ManagedTransparentDataEncryption>;
 }
-
 function _getManagedDatabaseTransparentDataEncryption(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -80,7 +79,6 @@ function _getManagedDatabaseTransparentDataEncryption(context: SqlManagementCont
     ) => get(context, resourceGroupName, managedInstanceName, databaseName, tdeName, options),
   };
 }
-
 export function _getManagedDatabaseTransparentDataEncryptionOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseTransparentDataEncryptionOperations {

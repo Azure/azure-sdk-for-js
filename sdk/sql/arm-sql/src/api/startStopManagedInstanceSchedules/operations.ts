@@ -37,7 +37,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listByInstanceDeserialize(
 
   return _startStopManagedInstanceScheduleListResultDeserializer(result.body);
 }
-
 /** Lists the managed instance's Start/Stop schedules. */
 export function listByInstance(
   context: Client,
@@ -77,7 +76,11 @@ export function listByInstance(
     () => _listByInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -95,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       startStopScheduleName: startStopScheduleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +120,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the managed instance's Start/Stop schedule. */
 export async function $delete(
   context: Client,
@@ -151,7 +153,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       startStopScheduleName: startStopScheduleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +182,6 @@ export async function _createOrUpdateDeserialize(
 
   return startStopManagedInstanceScheduleDeserializer(result.body);
 }
-
 /** Creates or updates the managed instance's Start/Stop schedule. */
 export async function createOrUpdate(
   context: Client,
@@ -215,7 +216,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       startStopScheduleName: startStopScheduleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,7 +243,6 @@ export async function _getDeserialize(
 
   return startStopManagedInstanceScheduleDeserializer(result.body);
 }
-
 /** Gets the managed instance's Start/Stop schedule. */
 export async function get(
   context: Client,

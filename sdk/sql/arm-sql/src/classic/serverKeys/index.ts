@@ -76,7 +76,6 @@ export interface ServerKeysOperations {
     options?: ServerKeysGetOptionalParams,
   ) => Promise<ServerKey>;
 }
-
 function _getServerKeys(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -157,7 +156,6 @@ function _getServerKeys(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, keyName, options),
   };
 }
-
 export function _getServerKeysOperations(context: SqlManagementContext): ServerKeysOperations {
   return {
     ..._getServerKeys(context),

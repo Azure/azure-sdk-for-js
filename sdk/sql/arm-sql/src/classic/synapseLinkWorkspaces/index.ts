@@ -17,7 +17,6 @@ export interface SynapseLinkWorkspacesOperations {
     options?: SynapseLinkWorkspacesListByDatabaseOptionalParams,
   ) => PagedAsyncIterableIterator<SynapseLinkWorkspace>;
 }
-
 function _getSynapseLinkWorkspaces(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -28,7 +27,6 @@ function _getSynapseLinkWorkspaces(context: SqlManagementContext) {
     ) => listByDatabase(context, resourceGroupName, serverName, databaseName, options),
   };
 }
-
 export function _getSynapseLinkWorkspacesOperations(
   context: SqlManagementContext,
 ): SynapseLinkWorkspacesOperations {

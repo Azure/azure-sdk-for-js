@@ -1,14 +1,71 @@
 # Release History
 
-## 11.0.1 (Unreleased)
+## 12.0.0-beta.1 (2026-08-05)
+Compared with version 11.0.0
 
 ### Features Added
+  - Added Interface DataSyncParticipantIdentity
+  - Added Interface DataSyncParticipantUserAssignedIdentity
+  - Added Interface EndpointTrustedRootCertificateInfo
+  - Interface Database has a new optional parameter provisioningState
+  - Interface DatabaseProperties has a new optional parameter provisioningState
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter filter
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter orderby
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter skip
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter top
+  - Interface DatabaseUpdate has a new optional parameter provisioningState
+  - Interface DatabaseUpdateProperties has a new optional parameter provisioningState
+  - Interface DataMaskingRulesListByDatabaseOptionalParams has a new optional parameter skip
+  - Interface DeletedServer has a new optional parameter originalResourceGroup
+  - Interface DeletedServer has a new optional parameter scheduledPurgeTime
+  - Interface DeletedServerProperties has a new optional parameter originalResourceGroup
+  - Interface DeletedServerProperties has a new optional parameter scheduledPurgeTime
+  - Interface DistributedAvailabilityGroup has a new optional parameter linkMode
+  - Interface DistributedAvailabilityGroupProperties has a new optional parameter linkMode
+  - Interface ElasticPool has a new optional parameter currentSku
+  - Interface ElasticPoolProperties has a new optional parameter currentSku
+  - Interface ElasticPoolUpdate has a new optional parameter currentSku
+  - Interface ElasticPoolUpdateProperties has a new optional parameter currentSku
+  - Interface EndpointCertificate has a new optional parameter trustedRootCertificates
+  - Interface EndpointCertificateProperties has a new optional parameter trustedRootCertificates
+  - Interface ManagedInstanceAdministrator has a new optional parameter principalType
+  - Interface ManagedInstanceAdministratorProperties has a new optional parameter principalType
+  - Interface ManagedInstanceDtc has a new optional parameter fqdnEnabled
+  - Interface ManagedInstanceDtcProperties has a new optional parameter fqdnEnabled
+  - Interface ServerUsage has a new optional parameter nextResetTime
+  - Interface ServerUsage has a new optional parameter resourceName
+  - Interface ServerUsageProperties has a new optional parameter nextResetTime
+  - Interface ServerUsageProperties has a new optional parameter resourceName
+  - Interface SyncGroup has a new optional parameter identity
+  - Interface SyncMember has a new optional parameter identity
+  - Added Type Alias DataSyncParticipantIdentityType
+  - Added Type Alias LinkModeType
+  - Added Type Alias ManagedInstanceAdministratorPrincipalType
+  - Added Enum KnownDataMaskingFunction
+  - Added Enum KnownDataMaskingRuleState
+  - Added Enum KnownDataSyncParticipantIdentityType
+  - Added Enum KnownLinkModeType
+  - Added Enum KnownManagedInstanceAdministratorPrincipalType
+  - Enum KnownPrivateEndpointProvisioningState has a new value Canceled
+  - Enum KnownPrivateEndpointProvisioningState has a new value Created
+  - Enum KnownPrivateEndpointProvisioningState has a new value InProgress
+  - Enum KnownPrivateEndpointProvisioningState has a new value Succeeded
+  - Enum KnownServerNetworkAccessFlag has a new value SecuredByPerimeter
+  - Enum KnownVersions has a new value V20250201Preview
+  - Enum KnownVersions has a new value V20250801Preview
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation DatabasesOperations.listByServer has a new signature
+  - Operation DataMaskingRulesOperations.createOrUpdate has a new signature
+  - Operation DataMaskingRulesOperations.listByDatabase has a new signature
+  - Operation FirewallRulesOperations.replace has a new signature
+  - Interface DatabasesListByServerOptionalParams no longer has parameter skipToken
+  - Type alias "DataMaskingFunction" has been changed
+  - Type alias "DataMaskingRuleState" has been changed
+  - Enum KnownPrivateEndpointProvisioningState no longer has value Approving
+  - Enum KnownPrivateEndpointProvisioningState no longer has value Dropping
+  - Enum KnownPrivateEndpointProvisioningState no longer has value Ready
+  - Enum KnownPrivateEndpointProvisioningState no longer has value Rejecting
 
 ## 11.0.0 (2026-06-05)
 

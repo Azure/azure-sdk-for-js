@@ -29,7 +29,6 @@ export interface DataMaskingRulesOperations {
     options?: DataMaskingRulesListByDatabaseOptionalParams,
   ) => PagedAsyncIterableIterator<DataMaskingRule>;
 }
-
 function _getDataMaskingRules(context: SqlManagementContext) {
   return {
     createOrUpdate: (
@@ -57,7 +56,6 @@ function _getDataMaskingRules(context: SqlManagementContext) {
     ) => listByDatabase(context, resourceGroupName, serverName, databaseName, options),
   };
 }
-
 export function _getDataMaskingRulesOperations(
   context: SqlManagementContext,
 ): DataMaskingRulesOperations {
