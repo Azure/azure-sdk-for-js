@@ -48,7 +48,6 @@ export interface SchemaRegistryOperations {
     options?: SchemaRegistryGetOptionalParams,
   ) => Promise<SchemaGroup>;
 }
-
 function _getSchemaRegistry(context: EventHubManagementContext) {
   return {
     listByNamespace: (
@@ -85,7 +84,6 @@ function _getSchemaRegistry(context: EventHubManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, schemaGroupName, options),
   };
 }
-
 export function _getSchemaRegistryOperations(
   context: EventHubManagementContext,
 ): SchemaRegistryOperations {

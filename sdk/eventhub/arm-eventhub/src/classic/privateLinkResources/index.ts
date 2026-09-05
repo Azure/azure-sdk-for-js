@@ -15,7 +15,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesGetOptionalParams,
   ) => Promise<PrivateLinkResourcesListResult>;
 }
-
 function _getPrivateLinkResources(context: EventHubManagementContext) {
   return {
     get: (
@@ -25,7 +24,6 @@ function _getPrivateLinkResources(context: EventHubManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: EventHubManagementContext,
 ): PrivateLinkResourcesOperations {

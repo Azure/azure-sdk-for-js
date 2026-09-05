@@ -177,7 +177,7 @@ export interface NamespacesOperations {
     namespaceName: string,
     parameters: EHNamespace,
     options?: NamespacesUpdateOptionalParams,
-  ) => Promise<EHNamespace | undefined>;
+  ) => Promise<EHNamespace | void>;
   /** Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -206,7 +206,6 @@ export interface NamespacesOperations {
     options?: NamespacesGetOptionalParams,
   ) => Promise<EHNamespace>;
 }
-
 function _getNamespaces(context: EventHubManagementContext) {
   return {
     checkNameAvailability: (
@@ -384,7 +383,6 @@ function _getNamespaces(context: EventHubManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, options),
   };
 }
-
 export function _getNamespacesOperations(context: EventHubManagementContext): NamespacesOperations {
   return {
     ..._getNamespaces(context),
