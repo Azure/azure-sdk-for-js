@@ -10741,6 +10741,7 @@ export function realtimeConversationItemDeserializer(item: any): RealtimeConvers
 
 /** Alias for RealtimeConversationItemUnion */
 export type RealtimeConversationItemUnion =
+  | RealtimeConversationItemMessageUnion
   | RealtimeConversationItemFunctionCall
   | RealtimeConversationItemFunctionCallOutput
   | RealtimeMCPApprovalResponse
@@ -10751,6 +10752,11 @@ export type RealtimeConversationItemUnion =
 
 export function realtimeConversationItemUnionSerializer(item: RealtimeConversationItemUnion): any {
   switch (item.type) {
+    case "message":
+      return realtimeConversationItemMessageUnionSerializer(
+        item as RealtimeConversationItemMessageUnion,
+      );
+
     case "function_call":
       return realtimeConversationItemFunctionCallSerializer(
         item as RealtimeConversationItemFunctionCall,
@@ -10782,6 +10788,9 @@ export function realtimeConversationItemUnionDeserializer(
   item: any,
 ): RealtimeConversationItemUnion {
   switch (item["type"]) {
+    case "message":
+      return realtimeConversationItemMessageUnionDeserializer(item);
+
     case "function_call":
       return realtimeConversationItemFunctionCallDeserializer(
         item as RealtimeConversationItemFunctionCall,
@@ -10811,12 +10820,368 @@ export function realtimeConversationItemUnionDeserializer(
 
 /** Type of RealtimeConversationItemType */
 export type RealtimeConversationItemType =
+  | "message"
   | "function_call"
   | "function_call_output"
   | "mcp_approval_response"
   | "mcp_list_tools"
   | "mcp_call"
   | "mcp_approval_request";
+
+/** A message item in a Realtime conversation. Discriminated further by `role` into user, assistant, and system variants. */
+export interface RealtimeConversationItemMessage extends RealtimeConversationItem {
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The role of the message sender. */
+  role: string;
+}
+
+export function realtimeConversationItemMessageSerializer(
+  item: RealtimeConversationItemMessage,
+): any {
+  return { type: item["type"], role: item["role"] };
+}
+
+export function realtimeConversationItemMessageDeserializer(
+  item: any,
+): RealtimeConversationItemMessage {
+  return {
+    type: item["type"],
+    role: item["role"],
+  };
+}
+
+/** Alias for RealtimeConversationItemMessageUnion */
+export type RealtimeConversationItemMessageUnion =
+  | RealtimeConversationItemMessageSystem
+  | RealtimeConversationItemMessageUser
+  | RealtimeConversationItemMessageAssistant
+  | RealtimeConversationItemMessage;
+
+export function realtimeConversationItemMessageUnionSerializer(
+  item: RealtimeConversationItemMessageUnion,
+): any {
+  switch (item.role) {
+    case "system":
+      return realtimeConversationItemMessageSystemSerializer(
+        item as RealtimeConversationItemMessageSystem,
+      );
+
+    case "user":
+      return realtimeConversationItemMessageUserSerializer(
+        item as RealtimeConversationItemMessageUser,
+      );
+
+    case "assistant":
+      return realtimeConversationItemMessageAssistantSerializer(
+        item as RealtimeConversationItemMessageAssistant,
+      );
+
+    default:
+      return realtimeConversationItemMessageSerializer(item);
+  }
+}
+
+export function realtimeConversationItemMessageUnionDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUnion {
+  switch (item["role"]) {
+    case "system":
+      return realtimeConversationItemMessageSystemDeserializer(
+        item as RealtimeConversationItemMessageSystem,
+      );
+
+    case "user":
+      return realtimeConversationItemMessageUserDeserializer(
+        item as RealtimeConversationItemMessageUser,
+      );
+
+    case "assistant":
+      return realtimeConversationItemMessageAssistantDeserializer(
+        item as RealtimeConversationItemMessageAssistant,
+      );
+
+    default:
+      return realtimeConversationItemMessageDeserializer(item);
+  }
+}
+
+/** A content part of a system message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageSystemContent {
+  /** The content part type. Always `input_text`. */
+  type?: "input_text";
+  /** The text content. */
+  text?: string;
+}
+
+export function realtimeConversationItemMessageSystemContentSerializer(
+  item: RealtimeConversationItemMessageSystemContent,
+): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function realtimeConversationItemMessageSystemContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageSystemContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+export function realtimeConversationItemMessageSystemContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageSystemContent>,
+): any[] {
+  return result.map((item) => realtimeConversationItemMessageSystemContentSerializer(item));
+}
+
+export function realtimeConversationItemMessageSystemContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageSystemContent>,
+): any[] {
+  return result.map((item) => realtimeConversationItemMessageSystemContentDeserializer(item));
+}
+
+/** A system message item in a Realtime conversation. System messages can be added at any point in the conversation to provide additional context or instructions to the model. */
+export interface RealtimeConversationItemMessageSystem extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `system`. */
+  role: "system";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageSystemContent[];
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageSystemSerializer(
+  item: RealtimeConversationItemMessageSystem,
+): any {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    role: item["role"],
+    content: realtimeConversationItemMessageSystemContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageSystemDeserializer(
+  item: any,
+): RealtimeConversationItemMessageSystem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    role: item["role"],
+    content: realtimeConversationItemMessageSystemContentArrayDeserializer(item["content"]),
+    response_id: item["response_id"],
+  };
+}
+
+/** A content part of a user message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageUserContent {
+  /** The content part type. */
+  type?: "input_text" | "input_audio" | "input_image";
+  /** The text content. Present for `input_text` parts. */
+  text?: string;
+  /**
+   * The audio content. Present for `input_audio` parts. Persisted conversation history does not inline audio
+   * bytes here; fetch audio via `getAgentConversationItemAudio`/`getAgentConversationItemAudioContent`.
+   */
+  audio?: string;
+  /** The image URL. Present for `input_image` parts. */
+  image_url?: string;
+  /** The detail level requested for an `input_image` part. */
+  detail?: "auto" | "low" | "high";
+  /** The transcript of the part's audio content. Present for `input_audio` parts. */
+  transcript?: string;
+}
+
+export function realtimeConversationItemMessageUserContentSerializer(
+  item: RealtimeConversationItemMessageUserContent,
+): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+    transcript: item["transcript"],
+  };
+}
+
+export function realtimeConversationItemMessageUserContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUserContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+    transcript: item["transcript"],
+  };
+}
+
+export function realtimeConversationItemMessageUserContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageUserContent>,
+): any[] {
+  return result.map((item) => realtimeConversationItemMessageUserContentSerializer(item));
+}
+
+export function realtimeConversationItemMessageUserContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageUserContent>,
+): any[] {
+  return result.map((item) => realtimeConversationItemMessageUserContentDeserializer(item));
+}
+
+/** A user message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageUser extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `user`. */
+  role: "user";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageUserContent[];
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageUserSerializer(
+  item: RealtimeConversationItemMessageUser,
+): any {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    role: item["role"],
+    content: realtimeConversationItemMessageUserContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageUserDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUser {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    role: item["role"],
+    content: realtimeConversationItemMessageUserContentArrayDeserializer(item["content"]),
+    response_id: item["response_id"],
+  };
+}
+
+/** A content part of an assistant message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageAssistantContent {
+  /** The content part type. */
+  type?: "output_text" | "output_audio";
+  /** The text content. Present for `output_text` parts. */
+  text?: string;
+  /**
+   * The audio content. Present for `output_audio` parts. Persisted conversation history does not inline audio
+   * bytes here; fetch audio via `getAgentConversationItemAudio`/`getAgentConversationItemGeneratedAudio` and
+   * their `*Content` counterparts.
+   */
+  audio?: string;
+  /** The transcript of the part's audio content. Present for `output_audio` parts. */
+  transcript?: string;
+}
+
+export function realtimeConversationItemMessageAssistantContentSerializer(
+  item: RealtimeConversationItemMessageAssistantContent,
+): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    transcript: item["transcript"],
+  };
+}
+
+export function realtimeConversationItemMessageAssistantContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageAssistantContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    transcript: item["transcript"],
+  };
+}
+
+export function realtimeConversationItemMessageAssistantContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageAssistantContent>,
+): any[] {
+  return result.map((item) => realtimeConversationItemMessageAssistantContentSerializer(item));
+}
+
+export function realtimeConversationItemMessageAssistantContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageAssistantContent>,
+): any[] {
+  return result.map((item) => realtimeConversationItemMessageAssistantContentDeserializer(item));
+}
+
+/** An assistant message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageAssistant extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `assistant`. */
+  role: "assistant";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageAssistantContent[];
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageAssistantSerializer(
+  item: RealtimeConversationItemMessageAssistant,
+): any {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    role: item["role"],
+    content: realtimeConversationItemMessageAssistantContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageAssistantDeserializer(
+  item: any,
+): RealtimeConversationItemMessageAssistant {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    role: item["role"],
+    content: realtimeConversationItemMessageAssistantContentArrayDeserializer(item["content"]),
+    response_id: item["response_id"],
+  };
+}
 
 /** A function call item in a Realtime conversation. */
 export interface RealtimeConversationItemFunctionCall extends RealtimeConversationItem {

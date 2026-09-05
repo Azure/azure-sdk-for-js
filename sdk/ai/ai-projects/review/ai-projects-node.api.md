@@ -4394,10 +4394,76 @@ export interface RealtimeConversationItemFunctionCallOutput extends RealtimeConv
 }
 
 // @public
-export type RealtimeConversationItemType = "function_call" | "function_call_output" | "mcp_approval_response" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request";
+export interface RealtimeConversationItemMessage extends RealtimeConversationItem {
+    role: string;
+    type: "message";
+}
 
 // @public
-export type RealtimeConversationItemUnion = RealtimeConversationItemFunctionCall | RealtimeConversationItemFunctionCallOutput | RealtimeMCPApprovalResponse | RealtimeMCPListTools | RealtimeMCPToolCall | RealtimeMCPApprovalRequest | RealtimeConversationItem;
+export interface RealtimeConversationItemMessageAssistant extends RealtimeConversationItemMessage {
+    content: RealtimeConversationItemMessageAssistantContent[];
+    id?: string;
+    object?: "realtime.item";
+    readonly response_id?: string;
+    role: "assistant";
+    status?: "completed" | "incomplete" | "in_progress";
+    type: "message";
+}
+
+// @public
+export interface RealtimeConversationItemMessageAssistantContent {
+    audio?: string;
+    text?: string;
+    transcript?: string;
+    type?: "output_text" | "output_audio";
+}
+
+// @public
+export interface RealtimeConversationItemMessageSystem extends RealtimeConversationItemMessage {
+    content: RealtimeConversationItemMessageSystemContent[];
+    id?: string;
+    object?: "realtime.item";
+    readonly response_id?: string;
+    role: "system";
+    status?: "completed" | "incomplete" | "in_progress";
+    type: "message";
+}
+
+// @public
+export interface RealtimeConversationItemMessageSystemContent {
+    text?: string;
+    type?: "input_text";
+}
+
+// @public
+export type RealtimeConversationItemMessageUnion = RealtimeConversationItemMessageSystem | RealtimeConversationItemMessageUser | RealtimeConversationItemMessageAssistant | RealtimeConversationItemMessage;
+
+// @public
+export interface RealtimeConversationItemMessageUser extends RealtimeConversationItemMessage {
+    content: RealtimeConversationItemMessageUserContent[];
+    id?: string;
+    object?: "realtime.item";
+    readonly response_id?: string;
+    role: "user";
+    status?: "completed" | "incomplete" | "in_progress";
+    type: "message";
+}
+
+// @public
+export interface RealtimeConversationItemMessageUserContent {
+    audio?: string;
+    detail?: "auto" | "low" | "high";
+    image_url?: string;
+    text?: string;
+    transcript?: string;
+    type?: "input_text" | "input_audio" | "input_image";
+}
+
+// @public
+export type RealtimeConversationItemType = "message" | "function_call" | "function_call_output" | "mcp_approval_response" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request";
+
+// @public
+export type RealtimeConversationItemUnion = RealtimeConversationItemMessageUnion | RealtimeConversationItemFunctionCall | RealtimeConversationItemFunctionCallOutput | RealtimeMCPApprovalResponse | RealtimeMCPListTools | RealtimeMCPToolCall | RealtimeMCPApprovalRequest | RealtimeConversationItem;
 
 // @public
 export interface RealtimeFunctionTool {
