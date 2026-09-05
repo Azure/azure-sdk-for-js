@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists batch Inference Endpoint keys.
  *
  * @summary lists batch Inference Endpoint keys.
- * x-ms-original-file: 2026-03-15-preview/Workspace/BatchEndpoint/listKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/BatchEndpoint/listKeys.json
  */
 async function listKeysWorkspaceBatchEndpoint() {
   const credential = new DefaultAzureCredential();

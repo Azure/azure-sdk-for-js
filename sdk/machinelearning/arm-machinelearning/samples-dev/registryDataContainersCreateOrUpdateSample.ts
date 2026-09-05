@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update container.
  *
  * @summary create or update container.
- * x-ms-original-file: 2026-03-15-preview/Registry/DataContainer/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/DataContainer/createOrUpdate.json
  */
 async function createOrUpdateRegistryDataContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

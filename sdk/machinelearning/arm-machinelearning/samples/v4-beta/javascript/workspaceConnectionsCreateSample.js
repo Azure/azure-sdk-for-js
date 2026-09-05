@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update machine learning workspaces connections under the specified workspace.
  *
  * @summary create or update machine learning workspaces connections under the specified workspace.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/create.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/create.json
  */
 async function createWorkspaceConnection() {
   const credential = new DefaultAzureCredential();

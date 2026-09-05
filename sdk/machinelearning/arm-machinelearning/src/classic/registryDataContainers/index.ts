@@ -76,7 +76,6 @@ export interface RegistryDataContainersOperations {
     options?: RegistryDataContainersGetOptionalParams,
   ) => Promise<DataContainer>;
 }
-
 function _getRegistryDataContainers(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -143,7 +142,6 @@ function _getRegistryDataContainers(context: AzureMachineLearningServicesManagem
     ) => get(context, resourceGroupName, registryName, name, options),
   };
 }
-
 export function _getRegistryDataContainersOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RegistryDataContainersOperations {

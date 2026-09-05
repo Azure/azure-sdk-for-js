@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete InferencePool (asynchronous).
  *
  * @summary delete InferencePool (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferencePool/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferencePool/delete.json
  */
 async function deleteWorkspaceInferencePool(): Promise<void> {
   const credential = new DefaultAzureCredential();

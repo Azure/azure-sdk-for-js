@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update endpoint deployment resource with the specified parameters
  *
  * @summary create or update endpoint deployment resource with the specified parameters
- * x-ms-original-file: 2026-03-15-preview/Endpoint/Deployment/create.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/Deployment/create.json
  */
 async function createEndpointDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

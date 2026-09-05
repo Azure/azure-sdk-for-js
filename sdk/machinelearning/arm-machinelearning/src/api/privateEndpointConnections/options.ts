@@ -5,12 +5,9 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {}

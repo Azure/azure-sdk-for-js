@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to remove regions from registry
  *
  * @summary remove regions from registry
- * x-ms-original-file: 2026-03-15-preview/Registries/removeRegions.json
+ * x-ms-original-file: 2026-05-15-preview/Registries/removeRegions.json
  */
 async function removeRegionsFromRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();

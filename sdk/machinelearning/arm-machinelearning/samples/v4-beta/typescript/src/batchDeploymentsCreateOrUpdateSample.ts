@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates/updates a batch inference deployment (asynchronous).
  *
  * @summary creates/updates a batch inference deployment (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/BatchDeployment/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/BatchDeployment/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceBatchDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

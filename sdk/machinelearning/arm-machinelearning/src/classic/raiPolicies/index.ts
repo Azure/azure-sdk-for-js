@@ -17,7 +17,6 @@ export interface RaiPoliciesOperations {
     options?: RaiPoliciesListOptionalParams,
   ) => PagedAsyncIterableIterator<RaiPolicyPropertiesBasicResource>;
 }
-
 function _getRaiPolicies(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -28,7 +27,6 @@ function _getRaiPolicies(context: AzureMachineLearningServicesManagementContext)
     ) => list(context, resourceGroupName, workspaceName, endpointName, options),
   };
 }
-
 export function _getRaiPoliciesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RaiPoliciesOperations {

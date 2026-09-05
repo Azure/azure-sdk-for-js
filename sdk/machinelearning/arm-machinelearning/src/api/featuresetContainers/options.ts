@@ -21,18 +21,15 @@ export interface FeaturesetContainersListOptionalParams extends OperationOptions
   /** createdBy user name */
   createdBy?: string;
 }
-
 /** Optional parameters. */
 export interface FeaturesetContainersDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturesetContainersCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturesetContainersGetEntityOptionalParams extends OperationOptions {}

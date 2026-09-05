@@ -8,18 +8,15 @@ export interface MarketplaceSubscriptionsListOptionalParams extends OperationOpt
   /** Continuation token for pagination. */
   skip?: string;
 }
-
 /** Optional parameters. */
 export interface MarketplaceSubscriptionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface MarketplaceSubscriptionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface MarketplaceSubscriptionsGetOptionalParams extends OperationOptions {}

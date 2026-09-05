@@ -35,7 +35,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       raiPolicyName: raiPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -58,7 +58,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified Content Filters associated with the Azure OpenAI account. */
 export function $delete(
   context: Client,
@@ -74,7 +73,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, endpointName, raiPolicyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -95,7 +94,7 @@ export function _createSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       raiPolicyName: raiPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -125,7 +124,6 @@ export async function _createDeserialize(
 
   return raiPolicyPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Update the state of specified Content Filters associated with the Azure OpenAI account. */
 export function create(
   context: Client,
@@ -150,7 +148,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<
     OperationState<RaiPolicyPropertiesBasicResource>,
     RaiPolicyPropertiesBasicResource
@@ -173,7 +171,7 @@ export function _getSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       raiPolicyName: raiPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,7 +198,6 @@ export async function _getDeserialize(
 
   return raiPolicyPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Gets the specified Content Filters associated with the Azure OpenAI account. */
 export async function get(
   context: Client,

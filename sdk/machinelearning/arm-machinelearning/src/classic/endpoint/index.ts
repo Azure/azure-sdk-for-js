@@ -100,7 +100,6 @@ export interface EndpointOperations {
     options?: EndpointGetOptionalParams,
   ) => Promise<EndpointResourcePropertiesBasicResource>;
 }
-
 function _getEndpoint(context: AzureMachineLearningServicesManagementContext) {
   return {
     regenerateKeys: (
@@ -176,7 +175,6 @@ function _getEndpoint(context: AzureMachineLearningServicesManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, endpointName, options),
   };
 }
-
 export function _getEndpointOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): EndpointOperations {

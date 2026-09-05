@@ -50,7 +50,7 @@ export function _regenerateKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,6 @@ export async function _regenerateKeysDeserialize(
 
   return endpointAuthKeysDeserializer(result.body);
 }
-
 /** Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous). */
 export function regenerateKeys(
   context: Client,
@@ -95,7 +94,7 @@ export function regenerateKeys(
     getInitialResponse: () =>
       _regenerateKeysSend(context, resourceGroupName, workspaceName, name, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<EndpointAuthKeys>, EndpointAuthKeys>;
 }
 
@@ -113,7 +112,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +139,6 @@ export async function _listKeysDeserialize(
 
   return endpointAuthKeysDeserializer(result.body);
 }
-
 /** List EndpointAuthKeys for an Endpoint using Key-based authentication. */
 export async function listKeys(
   context: Client,
@@ -165,7 +163,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24skip": options?.skip,
     },
     {
@@ -193,7 +191,6 @@ export async function _listDeserialize(
 
   return _serverlessEndpointTrackedResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List Serverless Endpoints. */
 export function list(
   context: Client,
@@ -209,7 +206,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -228,7 +225,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,7 +247,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete Serverless Endpoint (asynchronous). */
 export function $delete(
   context: Client,
@@ -265,7 +261,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -284,7 +280,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -313,7 +309,6 @@ export async function _updateDeserialize(
 
   return serverlessEndpointDeserializer(result.body);
 }
-
 /** Update Serverless Endpoint (asynchronous). */
 export function update(
   context: Client,
@@ -329,7 +324,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, name, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<ServerlessEndpoint>, ServerlessEndpoint>;
 }
 
@@ -348,7 +343,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -377,7 +372,6 @@ export async function _createOrUpdateDeserialize(
 
   return serverlessEndpointDeserializer(result.body);
 }
-
 /** Create or update Serverless Endpoint (asynchronous). */
 export function createOrUpdate(
   context: Client,
@@ -393,7 +387,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, workspaceName, name, body, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<ServerlessEndpoint>, ServerlessEndpoint>;
 }
 
@@ -411,7 +405,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,7 +430,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
 
   return serverlessEndpointDeserializer(result.body);
 }
-
 /** Get Serverless Endpoint. */
 export async function get(
   context: Client,

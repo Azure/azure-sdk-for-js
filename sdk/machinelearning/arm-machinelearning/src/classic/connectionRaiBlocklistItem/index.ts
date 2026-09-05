@@ -163,7 +163,6 @@ export interface ConnectionRaiBlocklistItemOperations {
     options?: ConnectionRaiBlocklistItemAddBulkOptionalParams,
   ) => Promise<RaiBlocklistItemPropertiesBasicResource[]>;
 }
-
 function _getConnectionRaiBlocklistItem(context: AzureMachineLearningServicesManagementContext) {
   return {
     delete: (
@@ -411,7 +410,6 @@ function _getConnectionRaiBlocklistItem(context: AzureMachineLearningServicesMan
     },
   };
 }
-
 export function _getConnectionRaiBlocklistItemOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ConnectionRaiBlocklistItemOperations {

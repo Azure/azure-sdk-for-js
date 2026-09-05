@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an outbound rule in the managed network of a machine learning workspace.
  *
  * @summary creates or updates an outbound rule in the managed network of a machine learning workspace.
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/createOrUpdateRule.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/createOrUpdateRule.json
  */
 async function createOrUpdateManagedNetworkSettingsRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

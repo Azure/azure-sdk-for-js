@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the custom services list. The list of custom services provided shall be overwritten.
  *
  * @summary updates the custom services list. The list of custom services provided shall be overwritten.
- * x-ms-original-file: 2026-03-15-preview/Compute/updateCustomServices.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/updateCustomServices.json
  */
 async function updateCustomServices() {
   const credential = new DefaultAzureCredential();

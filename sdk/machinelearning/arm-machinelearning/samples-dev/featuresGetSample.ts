@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get feature.
  *
  * @summary get feature.
- * x-ms-original-file: 2026-03-15-preview/Feature/get.json
+ * x-ms-original-file: 2026-05-15-preview/Feature/get.json
  */
 async function getFeature(): Promise<void> {
   const credential = new DefaultAzureCredential();
