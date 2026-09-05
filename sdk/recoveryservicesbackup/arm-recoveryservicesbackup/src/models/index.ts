@@ -239,6 +239,7 @@ export type {
   ILRRequestUnion,
   AzureFileShareProvisionILRRequest,
   IaasVmilrRegistrationRequest,
+  InstantItemRecoveryOperationResultRequest,
   ProtectionPolicyResource,
   ProtectionPolicy,
   ProtectionPolicyUnion,

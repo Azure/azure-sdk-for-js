@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the soft deleted containers registered to Recovery Services Vault.
  *
  * @summary lists the soft deleted containers registered to Recovery Services Vault.
- * x-ms-original-file: 2026-07-01/AzureStorage/SoftDeletedContainers_List.json
+ * x-ms-original-file: 2026-08-01/AzureStorage/SoftDeletedContainers_List.json
  */
 async function listBackupProtectionContainers() {
   const credential = new DefaultAzureCredential();

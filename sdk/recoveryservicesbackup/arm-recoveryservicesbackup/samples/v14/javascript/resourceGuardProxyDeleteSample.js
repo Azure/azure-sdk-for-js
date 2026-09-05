@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete ResourceGuardProxy under vault
  *
  * @summary delete ResourceGuardProxy under vault
- * x-ms-original-file: 2026-07-01/ResourceGuardProxyCRUD/DeleteResourceGuardProxy.json
+ * x-ms-original-file: 2026-08-01/ResourceGuardProxyCRUD/DeleteResourceGuardProxy.json
  */
 async function deleteResourceGuardProxy() {
   const credential = new DefaultAzureCredential();

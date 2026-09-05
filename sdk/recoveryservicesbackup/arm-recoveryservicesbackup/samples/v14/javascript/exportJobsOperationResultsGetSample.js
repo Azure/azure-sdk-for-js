@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary gets the operation result of operation triggered by Export Jobs API. If the operation is successful, then it also
  * contains URL of a Blob and a SAS key to access the same. The blob contains exported jobs in JSON serialized format.
- * x-ms-original-file: 2026-07-01/Common/ExportJobsOperationResult.json
+ * x-ms-original-file: 2026-08-01/Common/ExportJobsOperationResult.json
  */
 async function exportJobsOperationResults() {
   const credential = new DefaultAzureCredential();
