@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
+import type { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
 import { listByWorkspace, $delete, update, create, get } from "../../api/firmwares/operations.js";
-import {
+import type {
   FirmwaresListByWorkspaceOptionalParams,
   FirmwaresDeleteOptionalParams,
   FirmwaresUpdateOptionalParams,
   FirmwaresCreateOptionalParams,
   FirmwaresGetOptionalParams,
 } from "../../api/firmwares/options.js";
-import { Firmware, FirmwareUpdateDefinition } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Firmware, FirmwareUpdateDefinition } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Firmwares operations. */
 export interface FirmwaresOperations {
@@ -22,11 +22,6 @@ export interface FirmwaresOperations {
     options?: FirmwaresListByWorkspaceOptionalParams,
   ) => PagedAsyncIterableIterator<Firmware>;
   /** The operation to delete a firmware. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,
