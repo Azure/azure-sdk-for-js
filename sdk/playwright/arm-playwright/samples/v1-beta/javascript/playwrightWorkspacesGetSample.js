@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a PlaywrightWorkspace
  *
  * @summary get a PlaywrightWorkspace
- * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaces_Get.json
+ * x-ms-original-file: 2026-08-01-preview/PlaywrightWorkspaces_Get.json
  */
 async function playwrightWorkspacesGet() {
   const credential = new DefaultAzureCredential();

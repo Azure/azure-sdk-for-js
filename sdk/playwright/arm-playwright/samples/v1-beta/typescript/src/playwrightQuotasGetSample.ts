@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a subscription-level location-based Playwright quota resource by name.
  *
  * @summary gets a subscription-level location-based Playwright quota resource by name.
- * x-ms-original-file: 2026-02-01-preview/PlaywrightQuotas_Get.json
+ * x-ms-original-file: 2026-08-01-preview/PlaywrightQuotas_Get.json
  */
 async function playwrightQuotasGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
