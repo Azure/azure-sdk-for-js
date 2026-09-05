@@ -36,14 +36,7 @@ export class MongoClusterManagementClient {
     subscriptionId: string,
     options: MongoClusterManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createMongoClusterManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createMongoClusterManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.users = _getUsersOperations(this._client);
     this.replicas = _getReplicasOperations(this._client);

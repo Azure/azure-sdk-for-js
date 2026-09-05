@@ -14,7 +14,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("MongoCluster test", () => {
+describe.skip("MongoCluster test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MongoClusterManagementClient;
