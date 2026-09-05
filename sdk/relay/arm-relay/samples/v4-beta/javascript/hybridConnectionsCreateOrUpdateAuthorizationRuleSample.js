@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an authorization rule for a hybrid connection.
  *
  * @summary creates or updates an authorization rule for a hybrid connection.
- * x-ms-original-file: 2024-01-01/HybridConnection/RelayHybridConnectionAuthorizationRuleCreate.json
+ * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridConnectionAuthorizationRuleCreate.json
  */
 async function relayHybridConnectionAuthorizationRuleCreate() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to authorization rules for a namespace.
  *
  * @summary authorization rules for a namespace.
- * x-ms-original-file: 2024-01-01/NameSpaces/RelayNameSpaceAuthorizationRuleListAll.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/RelayNameSpaceAuthorizationRuleListAll.json
  */
 async function relayNameSpaceAuthorizationRuleListAll(): Promise<void> {
   const credential = new DefaultAzureCredential();

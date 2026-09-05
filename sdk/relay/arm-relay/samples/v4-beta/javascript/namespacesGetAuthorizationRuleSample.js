@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to authorization rule for a namespace by name.
  *
  * @summary authorization rule for a namespace by name.
- * x-ms-original-file: 2024-01-01/NameSpaces/RelayNameSpaceAuthorizationRuleGet.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/RelayNameSpaceAuthorizationRuleGet.json
  */
 async function relayNameSpaceAuthorizationRuleGet() {
   const credential = new DefaultAzureCredential();

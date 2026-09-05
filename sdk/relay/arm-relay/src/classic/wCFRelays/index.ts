@@ -63,7 +63,7 @@ export interface wCFRelaysOperations {
     namespaceName: string,
     relayName: string,
     options?: wCFRelaysGetOptionalParams,
-  ) => Promise<WcfRelay | undefined>;
+  ) => Promise<WcfRelay | void>;
   /** Regenerates the primary or secondary connection strings to the WCF relay. */
   regenerateKeys: (
     resourceGroupName: string,
@@ -114,7 +114,6 @@ export interface wCFRelaysOperations {
     options?: wCFRelaysGetAuthorizationRuleOptionalParams,
   ) => Promise<AuthorizationRule>;
 }
-
 function _getwCFRelays(context: RelayAPIContext) {
   return {
     listByNamespace: (
@@ -228,7 +227,6 @@ function _getwCFRelays(context: RelayAPIContext) {
       ),
   };
 }
-
 export function _getwCFRelaysOperations(context: RelayAPIContext): wCFRelaysOperations {
   return {
     ..._getwCFRelays(context),

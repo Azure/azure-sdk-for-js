@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerates the primary or secondary connection strings to the namespace.
  *
  * @summary regenerates the primary or secondary connection strings to the namespace.
- * x-ms-original-file: 2024-01-01/NameSpaces/RelayNameSpaceAuthorizationRuleRegenerateKey.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/RelayNameSpaceAuthorizationRuleRegenerateKey.json
  */
 async function relayNameSpaceAuthorizationRuleRegenerateKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

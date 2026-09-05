@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerates the primary or secondary connection strings to the WCF relay.
  *
  * @summary regenerates the primary or secondary connection strings to the WCF relay.
- * x-ms-original-file: 2024-01-01/Relay/RelayAuthorizationRuleRegenerateKey.json
+ * x-ms-original-file: 2026-07-01-preview/Relay/RelayAuthorizationRuleRegenerateKey.json
  */
 async function relayAuthorizationRuleRegenerateKeyJson() {
   const credential = new DefaultAzureCredential();

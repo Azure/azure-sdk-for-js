@@ -3,6 +3,8 @@
 
 import type { RelayAPIContext, RelayAPIOptionalParams } from "./api/index.js";
 import { createRelayAPI } from "./api/index.js";
+import type { ClustersOperations } from "./classic/clusters/index.js";
+import { _getClustersOperations } from "./classic/clusters/index.js";
 import type { HybridConnectionsOperations } from "./classic/hybridConnections/index.js";
 import { _getHybridConnectionsOperations } from "./classic/hybridConnections/index.js";
 import type { NamespacesOperations } from "./classic/namespaces/index.js";
@@ -31,16 +33,10 @@ export class RelayAPI {
     subscriptionId: string,
     options: RelayAPIOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRelayAPI(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRelayAPI(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.namespaces = _getNamespacesOperations(this._client);
+    this.clusters = _getClustersOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.wCFRelays = _getwCFRelaysOperations(this._client);
@@ -50,6 +46,8 @@ export class RelayAPI {
 
   /** The operation groups for namespaces */
   public readonly namespaces: NamespacesOperations;
+  /** The operation groups for clusters */
+  public readonly clusters: ClustersOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for privateEndpointConnections */
