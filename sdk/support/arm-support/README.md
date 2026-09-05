@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/support/arm-support)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-support)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-support?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-support)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/support/arm-support/samples)
 
 ## Getting started

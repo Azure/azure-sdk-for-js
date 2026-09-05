@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { create, get } from "../../api/fileWorkspacesNoSubscription/operations.js";
-import {
+import type {
   FileWorkspacesNoSubscriptionCreateOptionalParams,
   FileWorkspacesNoSubscriptionGetOptionalParams,
 } from "../../api/fileWorkspacesNoSubscription/options.js";
-import { FileWorkspaceDetails } from "../../models/models.js";
+import type { FileWorkspaceDetails } from "../../models/models.js";
 
 /** Interface representing a FileWorkspacesNoSubscription operations. */
 export interface FileWorkspacesNoSubscriptionOperations {

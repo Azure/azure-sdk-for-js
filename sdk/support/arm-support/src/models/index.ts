@@ -48,6 +48,8 @@ export type {
   UserConsent,
   DirectConnectEscalation,
   EscalationStatus,
+  SupportChannel,
+  ChatConversationStatus,
   UpdateSupportTicket,
   Status,
   UpdateContactProfile,
@@ -74,6 +76,8 @@ export {
   KnownIsTemporaryTicket,
   KnownUserConsent,
   KnownEscalationStatus,
+  KnownSupportChannel,
+  KnownChatConversationStatus,
   KnownStatus,
   KnownVersions,
 } from "./models.js";
