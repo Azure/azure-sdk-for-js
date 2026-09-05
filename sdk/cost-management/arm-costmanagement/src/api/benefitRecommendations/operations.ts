@@ -26,7 +26,7 @@ export function _listSend(
     "/{+billingScope}/providers/Microsoft.CostManagement/benefitRecommendations{?api%2Dversion,%24filter,%24orderby,%24expand}",
     {
       billingScope: billingScope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       "%24orderby": options?.orderby,
       "%24expand": options?.expand,
@@ -56,7 +56,6 @@ export async function _listDeserialize(
 
   return _benefitRecommendationsListResultDeserializer(result.body);
 }
-
 /** List of recommendations for purchasing savings plan. */
 export function list(
   context: Client,
@@ -68,6 +67,6 @@ export function list(
     () => _listSend(context, billingScope, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

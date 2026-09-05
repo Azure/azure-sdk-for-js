@@ -24,7 +24,6 @@ export interface DimensionsOperations {
     options?: DimensionsListOptionalParams,
   ) => PagedAsyncIterableIterator<Dimension>;
 }
-
 function _getDimensions(context: CostManagementContext) {
   return {
     listByExternalCloudProviderType: (
@@ -41,7 +40,6 @@ function _getDimensions(context: CostManagementContext) {
     list: (scope: string, options?: DimensionsListOptionalParams) => list(context, scope, options),
   };
 }
-
 export function _getDimensionsOperations(context: CostManagementContext): DimensionsOperations {
   return {
     ..._getDimensions(context),

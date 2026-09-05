@@ -8,7 +8,6 @@ export interface GenerateReservationDetailsReportByBillingProfileIdOptionalParam
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface GenerateReservationDetailsReportByBillingAccountIdOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
