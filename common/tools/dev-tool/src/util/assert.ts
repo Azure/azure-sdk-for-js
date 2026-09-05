@@ -5,7 +5,7 @@
  * @fileoverview This module contains control-flow helpers.
  */
 
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 /**
  * Asserts that this expression is unreachable. This function will panic if it is called.
@@ -49,17 +49,21 @@ export function unimplemented(message: string): never {
  * @param message - the error message to print
  */
 export function panic(message: string): never {
-  console.error(chalk.red("[PANIC] " + message));
+  console.error(styleText("red", "[PANIC] " + message));
 
   console.trace(
-    chalk.red(
-      "This is a bug in the tool. Please file an issue at https://github.com/azure/azure-sdk-for-js/issues.",
-      "Include the stack trace below.",
+    styleText(
+      "red",
+      [
+        "This is a bug in the tool. Please file an issue at https://github.com/azure/azure-sdk-for-js/issues.",
+        "Include the stack trace below.",
+      ].join(" "),
     ),
   );
 
   console.error(
-    chalk.red(
+    styleText(
+      "red",
       "The package state may be damaged or corrupted. Please reset your working directory to a known-good state.",
     ),
   );

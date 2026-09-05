@@ -160,9 +160,6 @@ importers:
       '@pnpm/workspace.read-manifest':
         specifier: ^1000.3.1
         version: 1000.3.1
-      chalk:
-        specifier: ^5.4.1
-        version: 5.6.2
       diff:
         specifier: ^8.0.2
         version: 8.0.4
