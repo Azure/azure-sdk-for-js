@@ -33,9 +33,7 @@ export function _listSend(
   groupQuotaName: string,
   resourceProviderName: string,
   filter: string,
-  options: GroupQuotaSubscriptionAllocationRequestListOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionAllocationRequestListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests{?api%2Dversion,%24filter}",
@@ -44,7 +42,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
       "%24filter": filter,
     },
     {
@@ -53,10 +51,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -66,7 +61,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -80,9 +78,7 @@ export function list(
   groupQuotaName: string,
   resourceProviderName: string,
   filter: string,
-  options: GroupQuotaSubscriptionAllocationRequestListOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionAllocationRequestListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<QuotaAllocationRequestStatus> {
   return buildPagedAsyncIterator(
     context,
@@ -90,7 +86,11 @@ export function list(
       _listSend(context, managementGroupId, groupQuotaName, resourceProviderName, filter, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
@@ -100,9 +100,7 @@ export function _getSend(
   groupQuotaName: string,
   resourceProviderName: string,
   allocationId: string,
-  options: GroupQuotaSubscriptionAllocationRequestGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionAllocationRequestGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests/{allocationId}{?api%2Dversion}",
@@ -112,7 +110,7 @@ export function _getSend(
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
       allocationId: allocationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,10 +118,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -133,7 +128,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -147,9 +145,7 @@ export async function get(
   groupQuotaName: string,
   resourceProviderName: string,
   allocationId: string,
-  options: GroupQuotaSubscriptionAllocationRequestGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionAllocationRequestGetOptionalParams = { requestOptions: {} },
 ): Promise<QuotaAllocationRequestStatus> {
   const result = await _getSend(
     context,
@@ -169,9 +165,7 @@ export function _updateSend(
   resourceProviderName: string,
   location: string,
   allocateQuotaRequest: SubscriptionQuotaAllocationsList,
-  options: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocations/{location}{?api%2Dversion}",
@@ -181,7 +175,7 @@ export function _updateSend(
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,10 +184,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: subscriptionQuotaAllocationsListSerializer(allocateQuotaRequest),
   });
 }
@@ -201,10 +192,13 @@ export function _updateSend(
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SubscriptionQuotaAllocationsList> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -219,11 +213,9 @@ export function update(
   resourceProviderName: string,
   location: string,
   allocateQuotaRequest: SubscriptionQuotaAllocationsList,
-  options: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SubscriptionQuotaAllocationsList>, SubscriptionQuotaAllocationsList> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -237,6 +229,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<
     OperationState<SubscriptionQuotaAllocationsList>,
     SubscriptionQuotaAllocationsList

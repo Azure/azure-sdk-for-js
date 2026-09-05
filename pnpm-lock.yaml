@@ -26940,7 +26940,7 @@ importers:
   sdk/quota/arm-quota:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -26976,6 +26976,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0(supports-color@8.1.1)
@@ -26994,6 +26997,9 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 10.8.1
       playwright:
         specifier: catalog:testing
         version: 1.62.0

@@ -18,7 +18,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Quota/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -26,10 +26,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -37,7 +34,10 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -54,6 +54,10 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }

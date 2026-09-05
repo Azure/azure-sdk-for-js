@@ -1,14 +1,36 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0-beta.1 (2026-08-24)
+Compared with version 2.0.0
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added operation group IncomingQuotaTransfersOperations
+  - Added operation group QuotaTransfersOperations
+  - Added Interface ApprovalRecord
+  - Added Interface CancellationRecord
+  - Added Interface IncomingQuotaTransfer
+  - Added Interface IncomingQuotaTransferApproveRequest
+  - Added Interface IncomingQuotaTransferProperties
+  - Added Interface IncomingQuotaTransferRejectRequest
+  - Added Interface IncomingQuotaTransfersApproveOptionalParams
+  - Added Interface IncomingQuotaTransfersGetOptionalParams
+  - Added Interface IncomingQuotaTransfersListBySubscriptionOptionalParams
+  - Added Interface IncomingQuotaTransfersListOptionalParams
+  - Added Interface IncomingQuotaTransfersRejectOptionalParams
+  - Added Interface QuotaTransfer
+  - Added Interface QuotaTransferCancelRequest
+  - Added Interface QuotaTransferProperties
+  - Added Interface QuotaTransfersCancelOptionalParams
+  - Added Interface QuotaTransfersCreateOrUpdateOptionalParams
+  - Added Interface QuotaTransfersDeleteOptionalParams
+  - Added Interface QuotaTransfersGetOptionalParams
+  - Added Interface QuotaTransfersListOptionalParams
+  - Added Interface RejectionRecord
+  - Added Type Alias TransferProvisioningState
+  - Added Type Alias TransferStatus
+  - Added Enum KnownTransferProvisioningState
+  - Added Enum KnownTransferStatus
+  - Enum KnownVersions has a new value V20260901Preview
 
 ## 2.0.0 (2025-09-24)
 
