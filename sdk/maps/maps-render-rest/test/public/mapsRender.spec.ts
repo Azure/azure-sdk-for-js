@@ -28,7 +28,7 @@ describe("Authentication", () => {
    * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
    * But it requires user's interaction, which is not testable in karma.
    * */
-  it("should work with Microsoft Entra ID authentication", { skip: !isNodeLike }, async () => {
+  it.runIf(isNodeLike)("should work with Microsoft Entra ID authentication", async () => {
     /**
      * Use createTestCredential() instead of new DefaultAzureCredential(), else the playback mode won't work
      * Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md#azuread-oauth2-authentication
