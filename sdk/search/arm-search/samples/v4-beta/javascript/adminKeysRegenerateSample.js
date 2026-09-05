@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
  *
  * @summary regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
- * x-ms-original-file: 2026-03-01-preview/SearchRegenerateAdminKey.json
+ * x-ms-original-file: 2026-09-01-preview/SearchRegenerateAdminKey.json
  */
 async function searchRegenerateAdminKey() {
   const credential = new DefaultAzureCredential();

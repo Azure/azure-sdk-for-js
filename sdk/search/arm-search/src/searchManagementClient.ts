@@ -56,14 +56,7 @@ export class SearchManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSearchManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSearchManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.queryKeys = _getQueryKeysOperations(this._client);
