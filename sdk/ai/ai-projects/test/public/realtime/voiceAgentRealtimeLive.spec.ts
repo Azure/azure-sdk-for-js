@@ -4,12 +4,12 @@
 import { assert, describe, it, beforeEach, afterEach } from "vitest";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import {
-  isRestError,
-  type AIProjectClient,
-  type VoiceAgentDefinition,
-  type VoiceAgentFunctionTool,
-} from "@azure/ai-projects";
+import { isRestError } from "@azure/ai-projects";
+import type {
+  AIProjectClient,
+  VoiceAgentDefinition,
+  VoiceAgentFunctionTool,
+} from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 
 const isLive = isLiveMode();

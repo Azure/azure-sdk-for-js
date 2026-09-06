@@ -3,7 +3,7 @@
 
 import { assert, describe, it, beforeEach, afterEach } from "vitest";
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AIProjectClient, VoiceAgentDefinition } from "@azure/ai-projects";
+import type { AIProjectClient, VoiceAgentDefinition } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 
 const preview = "VoiceAgents=V1Preview" as const;

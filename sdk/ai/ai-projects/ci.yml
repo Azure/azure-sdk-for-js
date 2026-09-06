@@ -21,7 +21,7 @@ pr:
       - sdk/ai/ai-projects/
 
 extends:
-  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: ai/ai-projects
     Artifacts:
