@@ -417,8 +417,8 @@ describe("snippets", () => {
       { sessionOptions: { mode: "enabled" } },
     );
     // @ts-preserve-whitespace
-    // Eligible downloads are now signed with a container-scoped session token instead of a
-    // bearer token. Everything else, including this container listing, is unaffected.
+    // Only the download below is signed with a container-scoped session token. Container and
+    // service operations continue to use a bearer token.
     const containerClient = blobServiceClient.getContainerClient("<container name>");
     const blobClient = containerClient.getBlobClient("<blob name>");
     const downloadBlockBlobResponse = await blobClient.download();

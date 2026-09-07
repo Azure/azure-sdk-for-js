@@ -79,6 +79,8 @@ function getCanonicalizedResourceString(request: PipelineRequest, accountName: s
   if (queries) {
     // Lowercasing names merges parameters that differed only by case, so their values have to be
     // combined into one sorted, comma-joined line rather than emitted once per original name.
+    // Parameters repeated under the *same* spelling cannot be merged here: getURLQueries keys a
+    // plain object by name, so it has already discarded all but the last value.
     const valuesByKey = new Map<string, string[]>();
     for (const key of Object.keys(queries)) {
       const lowercaseKey = key.toLowerCase();
