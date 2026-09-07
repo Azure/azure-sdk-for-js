@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Represents the DNSSEC configuration. */
 export interface DnssecConfig extends ProxyResource {
   /** The etag of the DNSSEC configuration. */
@@ -316,22 +316,22 @@ export function recordSetSerializer(item: RecordSet): any {
   return {
     properties: areAllPropsUndefined(item, [
       "metadata",
-      "TTL",
+      "ttl",
       "targetResource",
       "trafficManagementProfile",
-      "ARecords",
-      "AaaaRecords",
-      "MxRecords",
-      "NsRecords",
-      "PtrRecords",
-      "SrvRecords",
-      "TxtRecords",
-      "CnameRecord",
-      "SoaRecord",
-      "CaaRecords",
-      "DsRecords",
-      "TlsaRecords",
-      "NaptrRecords",
+      "aRecords",
+      "aaaaRecords",
+      "mxRecords",
+      "nsRecords",
+      "ptrRecords",
+      "srvRecords",
+      "txtRecords",
+      "cnameRecord",
+      "soaRecord",
+      "caaRecords",
+      "dsRecords",
+      "tlsaRecords",
+      "naptrRecords",
     ])
       ? undefined
       : _recordSetPropertiesSerializer(item),

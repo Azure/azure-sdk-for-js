@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DnsManagementContext } from "../../api/dnsManagementContext.js";
+import type { DnsManagementContext } from "../../api/dnsManagementContext.js";
 import {
   listAllByDnsZone,
   listByDnsZone,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/recordSets/operations.js";
-import {
+import type {
   RecordSetsListAllByDnsZoneOptionalParams,
   RecordSetsListByDnsZoneOptionalParams,
   RecordSetsListByTypeOptionalParams,
@@ -20,8 +20,8 @@ import {
   RecordSetsCreateOrUpdateOptionalParams,
   RecordSetsGetOptionalParams,
 } from "../../api/recordSets/options.js";
-import { RecordSet, RecordType } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { RecordSet, RecordType } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RecordSets operations. */
 export interface RecordSetsOperations {

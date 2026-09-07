@@ -1,4 +1,15 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/dnsResourceReference/index.ts",
+    "../src/api/zones/index.ts",
+    "../src/api/recordSets/index.ts",
+    "../src/api/dnssecConfigs/index.ts",
+    "../src/models/index.ts"
+  ]
 }

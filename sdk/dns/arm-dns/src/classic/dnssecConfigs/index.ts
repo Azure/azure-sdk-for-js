@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DnsManagementContext } from "../../api/dnsManagementContext.js";
+import type { DnsManagementContext } from "../../api/dnsManagementContext.js";
 import { listByDnsZone, $delete, createOrUpdate, get } from "../../api/dnssecConfigs/operations.js";
-import {
+import type {
   DnssecConfigsListByDnsZoneOptionalParams,
   DnssecConfigsDeleteOptionalParams,
   DnssecConfigsCreateOrUpdateOptionalParams,
   DnssecConfigsGetOptionalParams,
 } from "../../api/dnssecConfigs/options.js";
-import { DnssecConfig } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { DnssecConfig } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DnssecConfigs operations. */
 export interface DnssecConfigsOperations {

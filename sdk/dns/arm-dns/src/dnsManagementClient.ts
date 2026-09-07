@@ -1,23 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DnsManagementContext,
-  DnsManagementClientOptionalParams,
-  createDnsManagement,
-} from "./api/index.js";
-import {
-  DnsResourceReferenceOperations,
-  _getDnsResourceReferenceOperations,
-} from "./classic/dnsResourceReference/index.js";
-import {
-  DnssecConfigsOperations,
-  _getDnssecConfigsOperations,
-} from "./classic/dnssecConfigs/index.js";
-import { RecordSetsOperations, _getRecordSetsOperations } from "./classic/recordSets/index.js";
-import { ZonesOperations, _getZonesOperations } from "./classic/zones/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { DnsManagementContext, DnsManagementClientOptionalParams } from "./api/index.js";
+import { createDnsManagement } from "./api/index.js";
+import type { DnsResourceReferenceOperations } from "./classic/dnsResourceReference/index.js";
+import { _getDnsResourceReferenceOperations } from "./classic/dnsResourceReference/index.js";
+import type { DnssecConfigsOperations } from "./classic/dnssecConfigs/index.js";
+import { _getDnssecConfigsOperations } from "./classic/dnssecConfigs/index.js";
+import type { RecordSetsOperations } from "./classic/recordSets/index.js";
+import { _getRecordSetsOperations } from "./classic/recordSets/index.js";
+import type { ZonesOperations } from "./classic/zones/index.js";
+import { _getZonesOperations } from "./classic/zones/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DnsManagementClientOptionalParams } from "./api/dnsManagementContext.js";
 
@@ -32,14 +27,7 @@ export class DnsManagementClient {
     subscriptionId: string,
     options: DnsManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createDnsManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createDnsManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.dnsResourceReference = _getDnsResourceReferenceOperations(this._client);
     this.zones = _getZonesOperations(this._client);

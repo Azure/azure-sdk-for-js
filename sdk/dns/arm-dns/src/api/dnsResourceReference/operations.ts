@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DnsManagementContext as Client } from "../index.js";
+import type { DnsManagementContext as Client } from "../index.js";
+import type {
+  DnsResourceReferenceRequest,
+  DnsResourceReferenceResult,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  DnsResourceReferenceRequest,
   dnsResourceReferenceRequestSerializer,
-  DnsResourceReferenceResult,
   dnsResourceReferenceResultDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { DnsResourceReferenceGetByTargetResourcesOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { DnsResourceReferenceGetByTargetResourcesOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getByTargetResourcesSend(
   context: Client,
@@ -47,7 +45,9 @@ export async function _getByTargetResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

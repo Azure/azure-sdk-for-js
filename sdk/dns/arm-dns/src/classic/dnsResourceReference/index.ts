@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DnsManagementContext } from "../../api/dnsManagementContext.js";
+import type { DnsManagementContext } from "../../api/dnsManagementContext.js";
 import { getByTargetResources } from "../../api/dnsResourceReference/operations.js";
-import { DnsResourceReferenceGetByTargetResourcesOptionalParams } from "../../api/dnsResourceReference/options.js";
-import { DnsResourceReferenceRequest, DnsResourceReferenceResult } from "../../models/models.js";
+import type { DnsResourceReferenceGetByTargetResourcesOptionalParams } from "../../api/dnsResourceReference/options.js";
+import type {
+  DnsResourceReferenceRequest,
+  DnsResourceReferenceResult,
+} from "../../models/models.js";
 
 /** Interface representing a DnsResourceReference operations. */
 export interface DnsResourceReferenceOperations {
