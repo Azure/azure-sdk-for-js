@@ -12,6 +12,7 @@ export interface FleetMembersListByFleetOptionalParams extends OperationOptions 
   /** Filter the result list using the given expression. */
   filter?: string;
 }
+
 /** Optional parameters. */
 export interface FleetMembersDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -19,6 +20,7 @@ export interface FleetMembersDeleteOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
+
 /** Optional parameters. */
 export interface FleetMembersUpdateAsyncOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -26,6 +28,7 @@ export interface FleetMembersUpdateAsyncOptionalParams extends OperationOptions 
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
+
 /** Optional parameters. */
 export interface FleetMembersCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -35,5 +38,6 @@ export interface FleetMembersCreateOptionalParams extends OperationOptions {
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
 }
+
 /** Optional parameters. */
 export interface FleetMembersGetOptionalParams extends OperationOptions {}

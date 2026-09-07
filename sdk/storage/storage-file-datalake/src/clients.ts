@@ -174,7 +174,7 @@ export class DataLakePathClient extends StorageClient {
       async (updatedOptions) => {
         let continuationToken = options.continuationToken;
         let batchCounter = 0;
-        let reachMaxBatches = false;
+        let reachMaxBatches: boolean;
         do {
           let response;
           try {

@@ -836,7 +836,6 @@ describe.skipIf(skipTestForSignOff)(
       while (iterator4.hasMoreResults) {
         const res = await iterator.readNext();
         if (res.statusCode === StatusCodes.NotModified) {
-          continuationToken = res.continuationToken;
           break;
         }
         const resItems: any[] = res.result;
@@ -984,7 +983,6 @@ describe.skipIf(skipTestForSignOff)(
       while (iterator4.hasMoreResults) {
         const res = await iterator.readNext();
         if (res.statusCode === StatusCodes.NotModified) {
-          continuationToken = res.continuationToken;
           break;
         }
         const resItems: any[] = res.result;
@@ -1132,7 +1130,6 @@ describe.skipIf(skipTestForSignOff)(
       while (iterator4.hasMoreResults) {
         const res = await iterator.readNext();
         if (res.statusCode === StatusCodes.NotModified) {
-          continuationToken = res.continuationToken;
           break;
         }
         const resItems: any[] = res.result;
@@ -1298,7 +1295,6 @@ describe.skipIf(skipTestForSignOff)(
       while (iterator4.hasMoreResults) {
         const res = await iterator.readNext();
         if (res.statusCode === StatusCodes.NotModified) {
-          continuationToken = res.continuationToken;
           break;
         }
         const resItems: any[] = res.result;

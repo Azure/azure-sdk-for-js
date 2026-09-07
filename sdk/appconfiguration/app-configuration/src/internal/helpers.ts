@@ -529,3 +529,15 @@ export function getScope(appConfigEndpoint: string, appConfigAudience?: string):
     return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
   }
 }
+
+/**
+ * Encodes a value for use as a URL path parameter according to RFC 3986.
+ *
+ * @internal
+ */
+export function encodePathParameter(str: string): string {
+  return encodeURIComponent(str).replace(
+    /[!'()*]/g,
+    (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
+  );
+}

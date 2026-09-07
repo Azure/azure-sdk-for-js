@@ -22,7 +22,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/plans{?api%2Dversion,accountId,organizationId}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       accountId: options?.accountId,
       organizationId: options?.organizationId,
     },
@@ -51,7 +51,6 @@ export async function _listDeserialize(
 
   return _planDataListResponseDeserializer(result.body);
 }
-
 /** Lists the plans data linked to your organization, providing an overview of the available plans */
 export function list(
   context: Client,
@@ -62,10 +61,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

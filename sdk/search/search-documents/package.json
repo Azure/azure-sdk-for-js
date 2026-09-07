@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "13.1.0-beta.2",
+  "version": "13.1.0-beta.3",
   "description": "Azure client library to use AI Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -14,7 +14,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "tsp-client update -d --emitter-options=\"api-version=2026-08-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false\" && npm run format && npx dev-tool customization apply --skip index.ts",
+    "generate:client": "tsp-client update -d --emitter-options=\"api-version=2026-08-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false\" && npm run customize",
     "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
@@ -22,7 +22,8 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "npm run format && npx dev-tool customization apply --skip index.ts"
   },
   "files": [
     "dist/",

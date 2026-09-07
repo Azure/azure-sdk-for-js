@@ -15,6 +15,13 @@ import { TokenCredential } from '@azure/core-auth';
 export { AzureKeyCredential }
 
 // @public
+export const BuiltInChatRoles: {
+    readonly UserNormal: "user.normal";
+    readonly RoomMember: "room.member";
+    readonly RoomOperator: "room.operator";
+};
+
+// @public
 export interface ChatConversation {
     readonly etag: string;
     readonly id: string;
@@ -37,39 +44,19 @@ export interface ChatMessageInput {
 }
 
 // @public
-export type ChatPermission = (typeof ChatPermissions)[keyof typeof ChatPermissions];
-
-// @public
-export const ChatPermissions: {
-    readonly UserCreateRoom: "user.create_room";
-    readonly UserFetchAllRooms: "user.fetch_all_rooms";
-    readonly RoomPublishMessage: "room.publish_message";
-    readonly RoomHistory: "room.history";
-    readonly RoomInvite: "room.invite";
-    readonly RoomRemoveUser: "room.remove_user";
-};
+export type ChatPermission = string;
 
 // @public
 export interface ChatRole {
     readonly etag: string;
     readonly name: string;
-    permissions: string[];
+    permissions: ChatPermission[];
 }
 
 // @public
 export interface ChatRoleInput {
-    permissions: string[];
+    permissions: ChatPermission[];
 }
-
-// @public
-export type ChatRoleName = (typeof ChatRoles)[keyof typeof ChatRoles];
-
-// @public
-export const ChatRoles: {
-    readonly UserNormal: "user.normal";
-    readonly RoomMember: "room.member";
-    readonly RoomOperator: "room.operator";
-};
 
 // @public
 export interface ChatRoom {
@@ -222,6 +209,16 @@ export interface HumanChatUserInput extends ChatUserInput {
 }
 
 export { isRestError }
+
+// @public
+export enum KnownChatPermission {
+    RoomHistory = "room.history",
+    RoomInvite = "room.invite",
+    RoomPublishMessage = "room.publish_message",
+    RoomRemoveUser = "room.remove_user",
+    UserCreateRoom = "user.create_room",
+    UserFetchAllRooms = "user.fetch_all_rooms"
+}
 
 // @public
 export enum KnownVersions {

@@ -482,7 +482,7 @@ export class GlobalEndpointManager {
    * @internal
    */
   private refreshPPAFFeatureFlag(databaseAccount: DatabaseAccount): void {
-    let shouldEnableCircuitBreakerTimer = false;
+    let shouldEnableCircuitBreakerTimer: boolean;
     if (this.enablePartitionLevelCircuitBreaker) {
       // If PPCB is enabled in connection policy, always run circuit breaker
       shouldEnableCircuitBreakerTimer = true;

@@ -31,6 +31,8 @@ export type {
   SkuMixPlacementDeploymentChoice,
   SkuMixPlacementItem,
   SkuMixPlacementPartialFulfillmentReason,
+  SkuMixPlacementCapacityLimit,
+  SkuMixPlacementCapacityLimitReason,
   ComputeDiagnosticBase,
   DiagnosticProperties,
   SpotPlacementScoresInput,
@@ -48,5 +50,6 @@ export {
   KnownSkuMixPlacementOSType,
   KnownSkuMixPlacementZonalDistributionStrategy,
   KnownSkuMixPlacementPartialFulfillmentReason,
+  KnownSkuMixPlacementCapacityLimitReason,
   KnownVersions,
 } from "./models.js";

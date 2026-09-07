@@ -6,7 +6,7 @@ import {
   isPlaybackMode,
   type Recorder,
 } from "@azure-tools/test-recorder";
-import { ChatPermissions, WebPubSubChatServiceClient } from "../../src/index.js";
+import { KnownChatPermission, WebPubSubChatServiceClient } from "../../src/index.js";
 import { createRecorder } from "./utils/recordedClient.js";
 import { createChatMessage } from "./utils/chatClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -55,7 +55,7 @@ describe("", () => {
     it("creates, gets, and deletes a role", async () => {
       // Create
       const created = await client.createOrReplaceRole(roleName, {
-        permissions: [ChatPermissions.UserCreateRoom],
+        permissions: [KnownChatPermission.UserCreateRoom],
       });
       assert.equal(created.name, roleName);
 
@@ -73,7 +73,7 @@ describe("", () => {
       try {
         const created = await client.createOrReplaceRole(
           createOnlyRoleName,
-          { permissions: [ChatPermissions.UserCreateRoom] },
+          { permissions: [KnownChatPermission.UserCreateRoom] },
           { ifNoneMatch: "*" },
         );
         assert.equal(created.name, createOnlyRoleName);
@@ -81,7 +81,7 @@ describe("", () => {
         await expect(
           client.createOrReplaceRole(
             createOnlyRoleName,
-            { permissions: [ChatPermissions.UserFetchAllRooms] },
+            { permissions: [KnownChatPermission.UserFetchAllRooms] },
             { ifNoneMatch: "*" },
           ),
         ).rejects.toMatchObject({ statusCode: 412 });
@@ -95,11 +95,16 @@ describe("", () => {
 
       try {
         const created = await client.createOrReplaceRole(etagRoleName, {
-          permissions: [ChatPermissions.UserCreateRoom],
+          permissions: [KnownChatPermission.UserCreateRoom],
         });
         const replaced = await client.createOrReplaceRole(
           etagRoleName,
-          { permissions: [ChatPermissions.UserCreateRoom, ChatPermissions.UserFetchAllRooms] },
+          {
+            permissions: [
+              KnownChatPermission.UserCreateRoom,
+              KnownChatPermission.UserFetchAllRooms,
+            ],
+          },
           { ifMatch: created.etag },
         );
         assert.notEqual(replaced.etag, created.etag);
@@ -107,7 +112,7 @@ describe("", () => {
         await expect(
           client.createOrReplaceRole(
             etagRoleName,
-            { permissions: [ChatPermissions.UserCreateRoom] },
+            { permissions: [KnownChatPermission.UserCreateRoom] },
             { ifMatch: created.etag },
           ),
         ).rejects.toMatchObject({ statusCode: 412 });
@@ -121,10 +126,10 @@ describe("", () => {
       const roomRoleName = "room.list_test_role";
 
       await client.createOrReplaceRole(userRoleName, {
-        permissions: [ChatPermissions.UserCreateRoom],
+        permissions: [KnownChatPermission.UserCreateRoom],
       });
       await client.createOrReplaceRole(roomRoleName, {
-        permissions: [ChatPermissions.RoomPublishMessage],
+        permissions: [KnownChatPermission.RoomPublishMessage],
       });
 
       try {
@@ -146,10 +151,10 @@ describe("", () => {
       const secondRoleName = "room.pagination_test_role";
 
       await client.createOrReplaceRole(firstRoleName, {
-        permissions: [ChatPermissions.UserCreateRoom],
+        permissions: [KnownChatPermission.UserCreateRoom],
       });
       await client.createOrReplaceRole(secondRoleName, {
-        permissions: [ChatPermissions.RoomPublishMessage],
+        permissions: [KnownChatPermission.RoomPublishMessage],
       });
 
       try {
@@ -238,10 +243,10 @@ describe("", () => {
 
       try {
         await client.createOrReplaceRole(userRoleName, {
-          permissions: [ChatPermissions.UserCreateRoom],
+          permissions: [KnownChatPermission.UserCreateRoom],
         });
         await client.createOrReplaceRole(roomRoleName, {
-          permissions: [ChatPermissions.RoomPublishMessage],
+          permissions: [KnownChatPermission.RoomPublishMessage],
         });
         await client.createOrReplaceUser(userId, {
           kind: "Human",
@@ -306,10 +311,10 @@ describe("", () => {
     it("creates, lists, and deletes a room member", async () => {
       try {
         await client.createOrReplaceRole(userRoleName, {
-          permissions: [ChatPermissions.UserCreateRoom],
+          permissions: [KnownChatPermission.UserCreateRoom],
         });
         await client.createOrReplaceRole(roomRoleName, {
-          permissions: [ChatPermissions.RoomPublishMessage],
+          permissions: [KnownChatPermission.RoomPublishMessage],
         });
         await client.createOrReplaceUser(userId, {
           kind: "Human",
@@ -348,7 +353,7 @@ describe("", () => {
 
     it("creates, gets, and deletes a user", async () => {
       await client.createOrReplaceRole(roleName, {
-        permissions: [ChatPermissions.UserCreateRoom],
+        permissions: [KnownChatPermission.UserCreateRoom],
       });
 
       try {

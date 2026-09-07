@@ -1033,13 +1033,7 @@ describe("Cross-Partition", { timeout: 30000 }, () => {
 
       const queryIterator = container.items.query(query, options);
 
-      let firstTime = true;
-
       await queryIterator.fetchNext();
-
-      if (firstTime) {
-        firstTime = false;
-      }
     });
   });
 });

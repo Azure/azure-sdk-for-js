@@ -169,7 +169,7 @@ describe("RetryPolicy", () => {
       );
     }
 
-    let finalRequestURL = "";
+    let finalRequestURL: string;
     try {
       const response = await containerClient.getProperties();
       finalRequestURL = response._response.request.url;

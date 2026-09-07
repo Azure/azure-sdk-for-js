@@ -130,8 +130,8 @@ export function createPinsQuery(pinSets: PinSet[]): string {
     // compose the options query string
     const optionsQueryStr = Object.entries(options).reduce<string>((queryStr, [key, val]) => {
       if (!isOptionKeyMap(key)) throw Error(`Unexpected option: ${key}`);
-      if (Array.isArray(val)) return (queryStr += `|${optionKeyMap[key]}${val[0]} ${val[1]}`);
-      return (queryStr += `|${optionKeyMap[key]}${val}`);
+      if (Array.isArray(val)) return `${queryStr}|${optionKeyMap[key]}${val[0]} ${val[1]}`;
+      return `${queryStr}|${optionKeyMap[key]}${val}`;
     }, "");
     if (pinImage === "none" || pinImage === "default") {
       return `${pinImage}${optionsQueryStr}||${pinsQueryStr}`;

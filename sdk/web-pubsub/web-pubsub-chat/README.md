@@ -26,8 +26,15 @@ npm install @azure/web-pubsub-chat
 
 ### Create and authenticate a `WebPubSubChatServiceClient`
 
-To create a client object to access the Azure WebPubSubChatService API, you will need the `endpoint` of your Azure WebPubSubChatService resource and a `credential`. The Azure WebPubSubChatService client can use Microsoft Entra credentials to authenticate.
-You can find the endpoint for your Azure WebPubSubChatService resource in the [Azure Portal][azure_portal].
+The `WebPubSubChatServiceClient` supports authentication with a connection string, a Microsoft Entra credential, or an `AzureKeyCredential`.
+
+#### Authenticate with a connection string
+
+You can find the connection string for your Azure Web PubSub resource in the [Azure Portal][azure_portal]. Because the connection string contains an access key, store it securely and do not include it in source code.
+
+#### Authenticate with Microsoft Entra ID
+
+To authenticate with Microsoft Entra ID, you will need the `endpoint` of your Azure Web PubSub resource and a credential. You can find the endpoint in the [Azure Portal][azure_portal].
 
 You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -37,9 +44,9 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new Microsoft Entra application and grant access to Azure WebPubSubChatService** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+`DefaultAzureCredential` supports several Microsoft Entra identities. During local development, it can use a developer identity signed in through a supported development tool. In Azure, it can use a managed identity. It can also authenticate a service principal or workload identity when configured for the environment.
 
-For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
+Whichever identity you use must be assigned an appropriate Azure Web PubSub data-plane role. Azure resource-management roles such as `Owner` do not grant data-plane permissions.
 
 Create the client with a connection string, a Microsoft Entra credential such as `DefaultAzureCredential`, or an `AzureKeyCredential`.
 
@@ -89,7 +96,7 @@ Chat resources include an `etag` value. Pass that value through an operation's `
 Create user and room roles, create a human user and a room, and then add the user to the room.
 
 ```ts snippet:ReadmeSampleSetUpChatResources
-import { WebPubSubChatServiceClient, ChatPermissions } from "@azure/web-pubsub-chat";
+import { WebPubSubChatServiceClient, KnownChatPermission } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new WebPubSubChatServiceClient(
@@ -102,10 +109,10 @@ const roomRoleName = "room.contoso_member";
 const userId = "alice";
 const roomId = "general";
 await client.createOrReplaceRole(userRoleName, {
-  permissions: [ChatPermissions.UserCreateRoom],
+  permissions: [KnownChatPermission.UserCreateRoom],
 });
 await client.createOrReplaceRole(roomRoleName, {
-  permissions: [ChatPermissions.RoomPublishMessage, ChatPermissions.RoomHistory],
+  permissions: [KnownChatPermission.RoomPublishMessage, KnownChatPermission.RoomHistory],
 });
 await client.createOrReplaceUser(userId, {
   kind: "Human",
@@ -115,6 +122,112 @@ await client.createOrReplaceUser(userId, {
 const room = await client.createOrReplaceRoom(roomId, { title: "General" });
 await client.createOrReplaceRoomMember(roomId, userId, { roleName: roomRoleName });
 console.log(`Created room ${room.id} with conversation ${room.defaultConversation}`);
+```
+
+### Use built-in roles and known permissions
+
+Use `BuiltInChatRoles` when assigning a service-defined role and `KnownChatPermission` when creating a custom role. Permission strings outside the known values are also accepted for forward compatibility.
+
+```ts snippet:ReadmeSampleUseBuiltInRolesAndKnownPermissions
+import {
+  WebPubSubChatServiceClient,
+  BuiltInChatRoles,
+  KnownChatPermission,
+} from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WebPubSubChatServiceClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
+await client.createOrReplaceUser("alice", {
+  kind: "Human",
+  nickname: "Alice",
+  roleName: BuiltInChatRoles.UserNormal,
+});
+await client.createOrReplaceRole("room.moderator", {
+  permissions: [
+    KnownChatPermission.RoomHistory,
+    KnownChatPermission.RoomRemoveUser,
+    KnownChatPermission.RoomPublishMessage,
+  ],
+});
+```
+
+### Manage roles
+
+Create a custom role, retrieve it, list the roles in the hub, and delete the custom role when finished.
+
+```ts snippet:ReadmeSampleManageRoles
+import { WebPubSubChatServiceClient, KnownChatPermission } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WebPubSubChatServiceClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
+const roleName = "user.contoso_member";
+try {
+  const role = await client.createOrReplaceRole(roleName, {
+    permissions: [KnownChatPermission.UserCreateRoom, KnownChatPermission.UserFetchAllRooms],
+  });
+  console.log(`Created role: ${role.name}`);
+  const fetchedRole = await client.getRole(roleName);
+  console.log(`Fetched role: ${fetchedRole.name}`);
+  for await (const listedRole of client.listRoles()) {
+    console.log(`Role: ${listedRole.name}`);
+  }
+} finally {
+  await client.deleteRole(roleName);
+}
+```
+
+### Manage a room
+
+Create a room, retrieve its current state, and delete it.
+
+```ts snippet:ReadmeSampleManageRoom
+import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WebPubSubChatServiceClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
+const roomId = "general";
+const room = await client.createOrReplaceRoom(roomId, { title: "General" });
+console.log(`Created room ${room.id} with conversation ${room.defaultConversation}`);
+const fetchedRoom = await client.getRoom(roomId);
+console.log(`Fetched room: ${fetchedRoom.id}, title: ${fetchedRoom.title}`);
+await client.deleteRoom(roomId);
+```
+
+### Manage a user
+
+Create a user with a built-in role, retrieve the profile, and delete it.
+
+```ts snippet:ReadmeSampleManageUser
+import { WebPubSubChatServiceClient, BuiltInChatRoles } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WebPubSubChatServiceClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
+const userId = "alice";
+const user = await client.createOrReplaceUser(userId, {
+  kind: "Human",
+  nickname: "Alice",
+  roleName: BuiltInChatRoles.UserNormal,
+});
+console.log(`Created user: ${user.id}, nickname: ${user.nickname}`);
+const fetchedUser = await client.getUser(userId);
+console.log(`Fetched user: ${fetchedUser.id}, nickname: ${fetchedUser.nickname}`);
+await client.deleteUser(userId);
 ```
 
 ### List messages in a conversation
@@ -164,7 +277,6 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
 
 ## Contributing
 

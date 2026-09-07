@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChatPermissions, WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
+import { KnownChatPermission, WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -19,7 +19,7 @@ async function manageRoles(): Promise<void> {
 
   try {
     const role = await client.createOrReplaceRole(roleName, {
-      permissions: [ChatPermissions.UserCreateRoom, ChatPermissions.UserFetchAllRooms],
+      permissions: [KnownChatPermission.UserCreateRoom, KnownChatPermission.UserFetchAllRooms],
     });
     console.log(`Created role: ${role.name}`);
 

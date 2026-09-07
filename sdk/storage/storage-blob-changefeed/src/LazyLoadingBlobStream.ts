@@ -114,7 +114,7 @@ export class LazyLoadingBlobStream extends Readable {
           size = this.readableHighWaterMark;
         }
         let count = 0;
-        let chunkSize = 0;
+        let chunkSize: number;
         const chunksToPush = [];
         do {
           if (this.lastDownloadData === undefined || this.lastDownloadData?.byteLength === 0) {

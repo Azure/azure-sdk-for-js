@@ -215,22 +215,26 @@ describe("FileSystemPersist", () => {
     });
 
     it("should get the first file on disk and return it", async () => {
-      const sleep = promisify(setTimeout);
       const persister = new FileSystemPersist(instrumentationKey);
 
       const firstBatch = [{ batch: "first" }];
       const secondBatch = [{ batch: "second" }];
-      const success1 = await persister.push(firstBatch);
-      assert.strictEqual(success1, true);
-      // wait 100 ms so that we don't overwrite previous file
-      await sleep(100);
+      vi.useFakeTimers();
+      try {
+        vi.setSystemTime(new Date(1700000000000));
+        const success1 = await persister.push(firstBatch);
+        assert.strictEqual(success1, true);
 
-      const success2 = await persister.push(secondBatch);
-      assert.strictEqual(success2, true);
-      const value1 = await persister.shift();
-      assert.deepStrictEqual(value1, firstBatch);
-      const value2 = await persister.shift();
-      assert.deepStrictEqual(value2, secondBatch);
+        vi.setSystemTime(new Date(1700000000100));
+        const success2 = await persister.push(secondBatch);
+        assert.strictEqual(success2, true);
+        const value1 = await persister.shift();
+        assert.deepStrictEqual(value1, firstBatch);
+        const value2 = await persister.shift();
+        assert.deepStrictEqual(value2, secondBatch);
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 

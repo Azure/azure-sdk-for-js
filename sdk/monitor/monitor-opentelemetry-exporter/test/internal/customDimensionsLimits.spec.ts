@@ -1,12 +1,62 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { truncateCustomDimensions } from "../../src/utils/common.js";
+import { createCustomMeasurements, truncateCustomDimensions } from "../../src/utils/common.js";
+import { ApplicationInsightsCustomMeasurements } from "../../src/utils/constants/applicationinsights.js";
 import { CUSTOM_DIMENSIONS_GENAI_KEYS } from "../../src/Declarations/Constants.js";
 import { MaxPropertyLengths } from "../../src/types.js";
 import { describe, it, assert } from "vitest";
 
 describe("Custom Dimensions Size Limits", () => {
+  describe("#createCustomMeasurements", () => {
+    it("should keep finite numbers, drop invalid values, and truncate oversized keys", () => {
+      const oversizedKey = "k".repeat(151);
+
+      const result = createCustomMeasurements({
+        [ApplicationInsightsCustomMeasurements]: {
+          count: 42,
+          ratio: 0.5,
+          notANumber: Number.NaN,
+          positiveInfinity: Number.POSITIVE_INFINITY,
+          stringValue: "7",
+          "": 9,
+          [oversizedKey]: 8,
+        },
+      });
+
+      assert.deepStrictEqual(result, {
+        count: 42,
+        ratio: 0.5,
+        ["k".repeat(150)]: 8,
+      });
+    });
+
+    it("should support Map values and ignore non-map attributes", () => {
+      assert.deepStrictEqual(
+        createCustomMeasurements({
+          [ApplicationInsightsCustomMeasurements]: new Map<string, unknown>([
+            ["itemsProcessed", 12],
+            ["invalid", false],
+          ]),
+        }),
+        { itemsProcessed: 12 },
+      );
+      assert.deepStrictEqual(
+        createCustomMeasurements({
+          [ApplicationInsightsCustomMeasurements]:
+            '{"itemsProcessed":42,"queueDepth":7,"invalid":"3"}',
+        }),
+        { itemsProcessed: 42, queueDepth: 7 },
+      );
+      assert.deepStrictEqual(
+        createCustomMeasurements({
+          [ApplicationInsightsCustomMeasurements]: "not a map",
+        }),
+        {},
+      );
+    });
+  });
+
   describe("#truncateCustomDimensions", () => {
     it("should return properties unchanged when under 8KB limit", () => {
       const properties: { [key: string]: string } = {
