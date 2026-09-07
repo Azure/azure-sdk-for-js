@@ -76,20 +76,19 @@ function getCanonicalizedResourceString(request: PipelineRequest, accountName: s
   canonicalizedResourceString += `/${accountName}${path}`;
 
   const queries = getURLQueries(request.url);
-  const lowercaseQueries: { [key: string]: string } = {};
   if (queries) {
-    const queryKeys: string[] = [];
-    for (const key in queries) {
-      if (Object.prototype.hasOwnProperty.call(queries, key)) {
-        const lowercaseKey = key.toLowerCase();
-        lowercaseQueries[lowercaseKey] = queries[key];
-        queryKeys.push(lowercaseKey);
-      }
+    // Lowercasing names merges parameters that differed only by case, so their values have to be
+    // combined into one sorted, comma-joined line rather than emitted once per original name.
+    const valuesByKey = new Map<string, string[]>();
+    for (const key of Object.keys(queries)) {
+      const lowercaseKey = key.toLowerCase();
+      const values = valuesByKey.get(lowercaseKey) ?? [];
+      values.push(decodeURIComponent(queries[key]));
+      valuesByKey.set(lowercaseKey, values);
     }
 
-    queryKeys.sort();
-    for (const key of queryKeys) {
-      canonicalizedResourceString += `\n${key}:${decodeURIComponent(lowercaseQueries[key])}`;
+    for (const key of [...valuesByKey.keys()].sort()) {
+      canonicalizedResourceString += `\n${key}:${valuesByKey.get(key)!.sort().join(",")}`;
     }
   }
 

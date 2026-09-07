@@ -202,6 +202,19 @@ describe("buildStorageSharedKeyStringToSign", () => {
     assert.isTrue(result.endsWith("prefix:a b/c"), result);
   });
 
+  it("merges parameters that differ only by case into one comma-joined line", () => {
+    // Lowercasing makes these the same parameter, so the spec requires the values sorted and
+    // joined rather than a line per original spelling.
+    const result = sign({ url: `${BLOB_URL}?Foo=z&foo=a&FOO=m` });
+
+    assert.isTrue(result.endsWith("foo:a,m,z"), result);
+    assert.strictEqual(
+      result.split("\n").filter((line) => line.startsWith("foo:")).length,
+      1,
+      "a merged parameter must appear exactly once",
+    );
+  });
+
   it("leaves the resource path percent-encoded, unlike query values", () => {
     const result = sign({
       url: `https://${ACCOUNT}.blob.core.windows.net/container/with spaces and %2Bplus.txt`,
