@@ -119,6 +119,103 @@ describe("Partition key in FeedOptions", { timeout: 10000 }, () => {
     assert.equal(resources.length, 1);
     assert.equal(resources[0].id, "foo");
   });
+
+  it("passing partition key in FeedOptions with multi-partition container", async () => {
+    const containerDefinition = {
+      id: "testcontainer_multipartition",
+      partitionKey: {
+        paths: ["/category"],
+      },
+    };
+    const containerOptions = { offerThroughput: 12100 };
+
+    const container = await getTestContainer(
+      "validate partitionKey in FeedOptions multi-partition",
+      undefined,
+      containerDefinition,
+      containerOptions,
+    );
+
+    const categories = ["Electronics", "Books", "Clothing"];
+    const itemsByCategory: Record<string, any[]> = {};
+    for (const category of categories) {
+      itemsByCategory[category] = [];
+      for (let i = 0; i < 5; i++) {
+        const item = {
+          id: `${category}-${i}`,
+          category,
+          name: `Item ${i} in ${category}`,
+        };
+        await container.items.create(item);
+        itemsByCategory[category].push(item);
+      }
+    }
+
+    // Query using FeedOptions.partitionKey - should only return items from "Electronics"
+    const query = "SELECT * FROM c";
+    const queryIterator = container.items.query(query, {
+      partitionKey: "Electronics",
+    });
+
+    const { resources } = await queryIterator.fetchAll();
+    assert.equal(resources.length, 5, "Should only return 5 items from Electronics partition");
+    for (const item of resources) {
+      assert.equal(item.category, "Electronics", "All items should be from Electronics category");
+    }
+
+    // Verify that using WHERE clause gives the same results
+    const queryWithWhere = {
+      query: "SELECT * FROM c WHERE c.category = @category",
+      parameters: [{ name: "@category", value: "Electronics" }],
+    };
+    const { resources: resourcesWithWhere } = await container.items
+      .query(queryWithWhere)
+      .fetchAll();
+    assert.equal(
+      resources.length,
+      resourcesWithWhere.length,
+      "FeedOptions.partitionKey and WHERE clause should return the same number of results",
+    );
+  });
+
+  it("passing partition key in FeedOptions with forceQueryPlan", async () => {
+    const containerDefinition = {
+      id: "testcontainer_forceplan",
+      partitionKey: {
+        paths: ["/category"],
+      },
+    };
+    const containerOptions = { offerThroughput: 12100 };
+
+    const container = await getTestContainer(
+      "validate partitionKey with forceQueryPlan",
+      undefined,
+      containerDefinition,
+      containerOptions,
+    );
+
+    await container.items.create({ id: "e1", category: "Electronics", name: "Phone" });
+    await container.items.create({ id: "e2", category: "Electronics", name: "Laptop" });
+    await container.items.create({ id: "b1", category: "Books", name: "Novel" });
+    await container.items.create({ id: "b2", category: "Books", name: "Textbook" });
+
+    // Query with forceQueryPlan triggers PipelinedQueryExecutionContext
+    const query = "SELECT * FROM c";
+    const queryIterator = container.items.query(query, {
+      partitionKey: "Electronics",
+      forceQueryPlan: true,
+    } as FeedOptions);
+
+    const { resources } = await queryIterator.fetchAll();
+    assert.equal(resources.length, 2, "Should only return 2 Electronics items with forceQueryPlan");
+    for (const item of resources) {
+      assert.equal(
+        item.category,
+        "Electronics",
+        "All items should be from Electronics with forceQueryPlan",
+      );
+    }
+  });
 });
 
 describe("aggregate query over null value", { timeout: 10000 }, () => {
