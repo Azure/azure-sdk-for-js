@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 import type { SearchManagementContext as Client } from "../index.js";
-import type { OfferingsListResult } from "../../models/models.js";
-import { cloudErrorDeserializer, offeringsListResultDeserializer } from "../../models/models.js";
+import type { _OfferingsListResult, OfferingsByRegion } from "../../models/models.js";
+import { cloudErrorDeserializer, _offeringsListResultDeserializer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { OfferingsListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -30,23 +32,34 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<OfferingsListResult> {
+): Promise<_OfferingsListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return offeringsListResultDeserializer(result.body);
+  return _offeringsListResultDeserializer(result.body);
 }
 
 /** Lists all of the features and SKUs offered by the Azure AI Search service in each region. Note: This API returns a non-ARM resource collection and is not RPC-compliant. It will be replaced with an action-style API in the next preview as a breaking change. Customers should avoid taking new dependencies on the current shape. */
-export async function list(
+export function list(
   context: Client,
   options: OfferingsListOptionalParams = { requestOptions: {} },
-): Promise<OfferingsListResult> {
-  const result = await _listSend(context, options);
-  return _listDeserialize(result);
+): PagedAsyncIterableIterator<OfferingsByRegion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, options),
+    _listDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+  );
 }

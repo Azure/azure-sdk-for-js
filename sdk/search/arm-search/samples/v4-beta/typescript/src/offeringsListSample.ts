@@ -13,8 +13,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function searchListOfferings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential);
-  const result = await client.offerings.list();
-  console.log(result);
+  const resArray = new Array();
+  for await (const item of client.offerings.list()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {

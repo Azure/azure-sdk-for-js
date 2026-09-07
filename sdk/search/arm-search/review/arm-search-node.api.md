@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -20,7 +22,6 @@ export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
 // @public
 export interface AccessRule {
     name?: string;
-    // (undocumented)
     properties?: AccessRuleProperties;
 }
 
@@ -30,7 +31,6 @@ export type AccessRuleDirection = string;
 // @public
 export interface AccessRuleProperties {
     addressPrefixes?: string[];
-    // (undocumented)
     direction?: AccessRuleDirection;
     emailAddresses?: string[];
     fullyQualifiedDomainNames?: string[];
@@ -191,6 +191,8 @@ export type IdentityType = string;
 export interface IpRule {
     value?: string;
 }
+
+export { isRestError }
 
 // @public
 export type IssueType = string;
@@ -379,14 +381,10 @@ export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationProperties {
-    // (undocumented)
     networkSecurityPerimeter?: NetworkSecurityPerimeter;
-    // (undocumented)
     profile?: NetworkSecurityProfile;
     readonly provisioningIssues?: ProvisioningIssue[];
-    // (undocumented)
     readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
-    // (undocumented)
     resourceAssociation?: ResourceAssociation;
 }
 
@@ -438,14 +436,8 @@ export interface OfferingsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OfferingsListResult {
-    readonly nextLink?: string;
-    readonly value?: OfferingsByRegion[];
-}
-
-// @public
 export interface OfferingsOperations {
-    list: (options?: OfferingsListOptionalParams) => Promise<OfferingsListResult>;
+    list: (options?: OfferingsListOptionalParams) => PagedAsyncIterableIterator<OfferingsByRegion>;
 }
 
 // @public
@@ -534,7 +526,7 @@ export interface PrivateEndpointConnectionsListByServiceOptionalParams extends O
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
-    delete: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection | void>;
     get: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
     listByService: (resourceGroupName: string, searchServiceName: string, options?: PrivateEndpointConnectionsListByServiceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
     update: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
@@ -579,7 +571,6 @@ export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejec
 // @public
 export interface ProvisioningIssue {
     readonly name?: string;
-    // (undocumented)
     readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -658,13 +649,14 @@ export interface Resource {
 
 // @public
 export interface ResourceAssociation {
-    // (undocumented)
     accessMode?: ResourceAssociationAccessMode;
     name?: string;
 }
 
 // @public
 export type ResourceAssociationAccessMode = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SearchManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

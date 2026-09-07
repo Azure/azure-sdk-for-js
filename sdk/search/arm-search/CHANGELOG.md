@@ -1,14 +1,146 @@
 # Release History
 
-## 4.0.0-beta.3 (Unreleased)
+## 4.0.0-beta.3 (2026-09-07)
+Compared with version 3.3.0
 
 ### Features Added
+  - Added operation group OfferingsOperations
+  - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
+  - Added operation ServicesOperations.createOrUpdate
+  - Added operation ServicesOperations.upgrade
+  - Added operation SharedPrivateLinkResourcesOperations.createOrUpdate
+  - Added operation SharedPrivateLinkResourcesOperations.delete
+  - Class SearchManagementClient has a new constructor "constructor(credential: TokenCredential, options?: SearchManagementClientOptionalParams);"
+  - Added Interface AzureActiveDirectoryApplicationCredentials
+  - Added Interface DataIdentity
+  - Added Interface DataNoneIdentity
+  - Added Interface DataUserAssignedIdentity
+  - Added Interface FeatureOffering
+  - Added Interface OfferingsByRegion
+  - Added Interface OfferingsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface SearchResourceEncryptionKey
+  - Added Interface SearchServiceProperties
+  - Added Interface SimplePollerLike
+  - Added Interface SkuLimits
+  - Added Interface SkuOffering
+  - Interface AdminKeysGetOptionalParams has a new optional parameter abortSignal
+  - Interface AdminKeysGetOptionalParams has a new optional parameter requestOptions
+  - Interface AdminKeysGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AdminKeysGetOptionalParams has a new optional parameter onResponse
+  - Interface AdminKeysRegenerateOptionalParams has a new optional parameter abortSignal
+  - Interface AdminKeysRegenerateOptionalParams has a new optional parameter requestOptions
+  - Interface AdminKeysRegenerateOptionalParams has a new optional parameter tracingOptions
+  - Interface AdminKeysRegenerateOptionalParams has a new optional parameter onResponse
+  - Interface EncryptionWithCmk has a new optional parameter serviceLevelEncryptionKey
+  - Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams has a new optional parameter onResponse
+  - Interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface PrivateLinkResourcesListSupportedOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateLinkResourcesListSupportedOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateLinkResourcesListSupportedOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateLinkResourcesListSupportedOptionalParams has a new optional parameter onResponse
+  - Interface QueryKeysCreateOptionalParams has a new optional parameter abortSignal
+  - Interface QueryKeysCreateOptionalParams has a new optional parameter requestOptions
+  - Interface QueryKeysCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface QueryKeysCreateOptionalParams has a new optional parameter onResponse
+  - Interface QueryKeysDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface QueryKeysDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface QueryKeysDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface QueryKeysDeleteOptionalParams has a new optional parameter onResponse
+  - Interface QueryKeysListBySearchServiceOptionalParams has a new optional parameter abortSignal
+  - Interface QueryKeysListBySearchServiceOptionalParams has a new optional parameter requestOptions
+  - Interface QueryKeysListBySearchServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface QueryKeysListBySearchServiceOptionalParams has a new optional parameter onResponse
+  - Interface SearchService has a new optional parameter knowledgeRetrieval
+  - Interface SearchServiceUpdate has a new optional parameter knowledgeRetrieval
+  - Interface ServicesCheckNameAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesCheckNameAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesCheckNameAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesCheckNameAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface ServicesDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ServicesGetOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesGetOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesGetOptionalParams has a new optional parameter onResponse
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ServicesUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ServicesUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ServicesUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ServicesUpdateOptionalParams has a new optional parameter onResponse
+  - Interface SharedPrivateLinkResourcesGetOptionalParams has a new optional parameter abortSignal
+  - Interface SharedPrivateLinkResourcesGetOptionalParams has a new optional parameter requestOptions
+  - Interface SharedPrivateLinkResourcesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface SharedPrivateLinkResourcesGetOptionalParams has a new optional parameter onResponse
+  - Interface SharedPrivateLinkResourcesListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface SharedPrivateLinkResourcesListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface SharedPrivateLinkResourcesListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface SharedPrivateLinkResourcesListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface UsageBySubscriptionSkuOptionalParams has a new optional parameter abortSignal
+  - Interface UsageBySubscriptionSkuOptionalParams has a new optional parameter requestOptions
+  - Interface UsageBySubscriptionSkuOptionalParams has a new optional parameter tracingOptions
+  - Interface UsageBySubscriptionSkuOptionalParams has a new optional parameter onResponse
+  - Interface UsagesListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface UsagesListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface UsagesListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface UsagesListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias DataIdentityUnion
+  - Added Type Alias KnowledgeRetrieval
+  - Added Enum AzureClouds
+  - Added Enum KnownKnowledgeRetrieval
+  - Added Enum KnownVersions
+  - Enum KnownSearchBypass has a new value AzurePortal
+  - Enum KnownSkuName has a new value Serverless
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation NetworkSecurityPerimeterConfigurations.beginReconcileAndWait has a new signature
+  - Operation PrivateEndpointConnections.delete has a new signature
+  - Operation Services.beginCreateOrUpdate has a new signature
+  - Operation Services.beginCreateOrUpdateAndWait has a new signature
+  - Operation Services.beginUpgradeAndWait has a new signature
+  - Operation Services.get has a new signature
+  - Operation Services.update has a new signature
+  - Removed Type Alias SharedPrivateLinkResourceAsyncOperationResult
+  - Type alias "HostingMode" has been changed
+  - Removed Enum KnownSharedPrivateLinkResourceAsyncOperationResult
 
 ## 4.0.0-beta.2 (2026-04-03)
 Compared with version 3.3.0

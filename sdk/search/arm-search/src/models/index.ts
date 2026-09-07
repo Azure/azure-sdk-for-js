@@ -7,7 +7,6 @@ export type {
   QuotaUsageResultName,
   CloudError,
   CloudErrorBody,
-  OfferingsListResult,
   OfferingsByRegion,
   FeatureOffering,
   SkuOffering,
