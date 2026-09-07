@@ -13,7 +13,7 @@ import { HeaderConstants } from "../utils/constants.js";
 import { AutoRefreshingCache } from "./AutoRefreshingCache.js";
 import { createContainerSession } from "./createSession.js";
 import type { SessionTokenInfo } from "./models.js";
-import { createBearerFallback } from "./models.js";
+import { createBearerFallback, FALLBACK_COOLDOWN_MS } from "./models.js";
 
 /** Service error code returned when the account does not have sessions enabled. */
 const FEATURE_NOT_ENABLED = "FeatureNotEnabled";
@@ -83,6 +83,9 @@ export class ContainerSessionProvider {
   private readonly caches = new Map<string, AutoRefreshingCache>();
   private serviceClient: BlobServiceClient | undefined;
 
+  /** Epoch milliseconds until which the account is known to have sessions turned off. */
+  private featureDisabledUntilTimestamp = 0;
+
   /**
    * @param url - Any URL belonging to the target account; reduced to the blob service endpoint.
    * @param credential - Token credential used to mint sessions.
@@ -106,6 +109,14 @@ export class ContainerSessionProvider {
     request: PipelineRequest,
     abortSignal?: AbortSignalLike,
   ): Promise<SessionTokenInfo> {
+    // Short-circuit before touching the per-container cache: the account has already said it
+    // does not serve sessions, so every container would probe for the same answer, and the
+    // probe would outlive its cooldown once eviction drops the container that recorded it.
+    const disabledForMs = this.featureDisabledUntilTimestamp - Date.now();
+    if (disabledForMs > 0) {
+      return createBearerFallback(disabledForMs);
+    }
+
     return this.getCache(this.containerNameFor(request)).get(abortSignal);
   }
 
@@ -169,12 +180,16 @@ export class ContainerSessionProvider {
       }
       // The reason is the actionable part: FeatureNotEnabled means the account opts out entirely.
       const reason = isRestError(error) ? (error.code ?? error.statusCode) : "unknown";
+      const accountOptedOut = isAccountOptOut(error);
+      if (accountOptedOut) {
+        this.featureDisabledUntilTimestamp = Date.now() + FALLBACK_COOLDOWN_MS;
+      }
       logger.warning(
         // The container name comes from a caller-supplied URL, so it cannot be trusted to be
         // free of line breaks that would forge a second log record.
         `Create Session failed for container "${containerName.replace(/[\r\n]/g, "")}" ` +
-          `(${reason}). Falling back to bearer token authentication for this container until ` +
-          `the fallback expires.`,
+          `(${reason}). Falling back to bearer token authentication for ` +
+          `${accountOptedOut ? "this account" : "this container"} until the fallback expires.`,
       );
       return createBearerFallback();
     }
@@ -220,9 +235,18 @@ function isFallbackEligible(error: unknown): boolean {
     return false;
   }
 
+  return error.statusCode >= 500 || error.statusCode === 403 || isAccountOptOut(error);
+}
+
+/**
+ * Whether the failure means the account has sessions turned off, which applies to every
+ * container under it. Permission and service-health failures are container- or attempt-scoped
+ * and must not be generalized this way.
+ */
+function isAccountOptOut(error: unknown): boolean {
   return (
-    error.statusCode >= 500 ||
-    error.statusCode === 403 ||
-    (error.statusCode === 400 && error.code?.toLowerCase() === FEATURE_NOT_ENABLED.toLowerCase())
+    isRestError(error) &&
+    error.statusCode === 400 &&
+    error.code?.toLowerCase() === FEATURE_NOT_ENABLED.toLowerCase()
   );
 }

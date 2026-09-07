@@ -244,10 +244,10 @@ describe("ContainerSessionProvider", () => {
       });
     }
 
-    it("caches the fallback so a failing account is only probed once per container", async () => {
+    it("caches the fallback so a failing container is only probed once", async () => {
       const { provider, requests } = providerWith(() => ({
-        status: 400,
-        headers: { "x-ms-error-code": "FeatureNotEnabled" },
+        status: 403,
+        headers: { "x-ms-error-code": "AuthorizationFailure" },
       }));
 
       for (let i = 0; i < 5; i++) {
@@ -258,6 +258,37 @@ describe("ContainerSessionProvider", () => {
       }
 
       assert.strictEqual(requests.length, 1, "the cooldown must suppress repeat attempts");
+    });
+
+    it("probes once for the whole account when sessions are turned off", async () => {
+      const { provider, requests } = providerWith(() => ({
+        status: 400,
+        headers: { "x-ms-error-code": "FeatureNotEnabled" },
+      }));
+
+      // Past the cache bound on purpose: eviction must not reopen an account-wide answer.
+      for (let i = 0; i < MAX_CACHED_CONTAINERS + 5; i++) {
+        const session = await provider.getSession(getRequest(`${ACCOUNT}/container${i}/blob.txt`));
+        assert.strictEqual(session.kind, "bearerFallback");
+      }
+
+      assert.strictEqual(
+        requests.length,
+        1,
+        "an account-wide opt-out must not be re-probed per container",
+      );
+    });
+
+    it("does not let one container's permission failure disable the account", async () => {
+      const { provider, requests } = providerWith(() => ({
+        status: 403,
+        headers: { "x-ms-error-code": "AuthorizationFailure" },
+      }));
+
+      await provider.getSession(getRequest(`${ACCOUNT}/first/blob.txt`));
+      await provider.getSession(getRequest(`${ACCOUNT}/second/blob.txt`));
+
+      assert.strictEqual(requests.length, 2, "a denial on one container says nothing about others");
     });
   });
 });
