@@ -199,6 +199,9 @@ export class ContainerSessionProvider {
 /**
  * Splits a blob URL into its container and blob segments. Both are empty strings when the URL
  * does not reach that far, which is how service- and container-level requests are recognized.
+ *
+ * A one-segment path is read as a container to match BlobClient's own parsing, so a blob
+ * addressed through the implicit `$root` container is not session-eligible and uses bearer.
  */
 function parseContainerAndBlob(parsedUrl: URL): { containerName: string; blobName: string } {
   // IP-style and development endpoints carry the account as the first path segment.
