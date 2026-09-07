@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- [#39626](https://github.com/Azure/azure-sdk-for-js/issues/39626) Fixed non-streaming `ORDER BY` queries that could hang indefinitely for zero results or stop early when an empty page still had a continuation token.
+
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
