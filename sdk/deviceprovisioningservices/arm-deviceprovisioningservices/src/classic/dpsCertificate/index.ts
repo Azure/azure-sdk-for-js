@@ -20,10 +20,10 @@ import type {
 } from "../../api/dpsCertificate/options.js";
 import type {
   CertificateResponse,
+  CertificateListDescription,
   VerificationCodeResponse,
   VerificationCodeRequest,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DpsCertificate operations. */
 export interface DpsCertificateOperations {
@@ -49,13 +49,8 @@ export interface DpsCertificateOperations {
     resourceGroupName: string,
     provisioningServiceName: string,
     options?: DpsCertificateListOptionalParams,
-  ) => PagedAsyncIterableIterator<CertificateResponse>;
+  ) => Promise<CertificateListDescription>;
   /** Deletes the specified certificate associated with the Provisioning Service */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     provisioningServiceName: string,
