@@ -99,13 +99,12 @@ describe("buildStorageSharedKeyStringToSign", () => {
   });
 
   it("places every signed field in its required slot", () => {
-    const fields: Record<SignedField, string> = {
+    const fields: Omit<Record<SignedField, string>, "date"> = {
       "content-encoding": "gzip",
       "content-language": "en-US",
       "content-length": "512",
       "content-md5": "q2xhc3NpYw==",
       "content-type": "application/octet-stream",
-      date: "Tue, 02 Jan 2026 00:00:00 GMT",
       "if-modified-since": "Wed, 03 Jan 2026 00:00:00 GMT",
       "if-match": '"etag-match"',
       "if-none-match": '"etag-none"',
@@ -113,8 +112,10 @@ describe("buildStorageSharedKeyStringToSign", () => {
       range: "bytes=0-1023",
     };
 
+    // Date is sent but must not be signed: x-ms-date is always present, which requires an
+    // empty Date slot.
     assert.strictEqual(
-      sign({ method: "PUT", headers: fields }),
+      sign({ method: "PUT", headers: { ...fields, date: "Tue, 02 Jan 2026 00:00:00 GMT" } }),
       expectedPrefix("PUT", fields) + `x-ms-date:${DATE}\n` + `/${ACCOUNT}/container/blob.txt`,
     );
   });

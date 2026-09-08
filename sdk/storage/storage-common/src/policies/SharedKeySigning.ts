@@ -154,7 +154,8 @@ export function buildStorageSharedKeyStringToSign(
       getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH),
       getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
       getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
-      getHeaderValueToSign(request, HeaderConstants.DATE),
+      // prepareSharedKeyHeaders always sends x-ms-date, which requires this slot to stay empty.
+      "",
       getHeaderValueToSign(request, HeaderConstants.IF_MODIFIED_SINCE),
       getHeaderValueToSign(request, HeaderConstants.IF_MATCH),
       getHeaderValueToSign(request, HeaderConstants.IF_NONE_MATCH),
