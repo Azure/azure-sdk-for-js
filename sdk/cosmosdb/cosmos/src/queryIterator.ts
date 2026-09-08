@@ -268,7 +268,7 @@ export class QueryIterator<T> {
       }
     }
     return new FeedResponse<T>(
-      response.result ?? [],
+      response.result,
       response.headers,
       this.queryExecutionContext.hasMoreResults(),
       getEmptyCosmosDiagnostics(),
