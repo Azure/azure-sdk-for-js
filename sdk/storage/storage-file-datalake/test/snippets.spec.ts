@@ -424,8 +424,8 @@ describe("snippets", () => {
       { sessionOptions: { mode: "enabled" } },
     );
     // @ts-preserve-whitespace
-    // Only file reads reach the blob endpoint, so `read` is the one Data Lake operation a
-    // session can sign. Everything else stays on the DFS endpoint and uses a bearer token.
+    // A session can only sign file-download requests: `read`, `readToBuffer`, and `readToFile`.
+    // Every other Data Lake operation uses a bearer token.
     const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
     const fileClient = fileSystemClient.getFileClient("<file name>");
     const downloadResponse = await fileClient.read();

@@ -478,7 +478,7 @@ if (downloadResponse.contentAsBlob) {
 When you authenticate with a `TokenCredential`, you can opt in to the session token authentication provided by `@azure/storage-blob`. Sessions are disabled by default; set `sessionOptions.mode` to `"enabled"` to opt in.
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
-A session only signs requests that reach the blob endpoint, so within Data Lake this affects file reads and nothing else. Directory, file system, and service operations go to the DFS endpoint and continue to use a bearer token.
+A session only signs eligible blob download requests, so within Data Lake this affects file reads: `read`, `readToBuffer`, and `readToFile`. Every other operation continues to use a bearer token, including the file system calls that are served by the blob endpoint rather than by DFS.
 
 In browsers and React Native, `sessionOptions` is accepted for type compatibility but has no effect, because signing a session requires Shared Key, which is unavailable outside Node.js.
 
@@ -497,8 +497,8 @@ const datalakeServiceClient = new DataLakeServiceClient(
   { sessionOptions: { mode: "enabled" } },
 );
 
-// Only file reads reach the blob endpoint, so `read` is the one Data Lake operation a
-// session can sign. Everything else stays on the DFS endpoint and uses a bearer token.
+// A session can only sign file-download requests: `read`, `readToBuffer`, and `readToFile`.
+// Every other Data Lake operation uses a bearer token.
 const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
 const fileClient = fileSystemClient.getFileClient("<file name>");
 const downloadResponse = await fileClient.read();

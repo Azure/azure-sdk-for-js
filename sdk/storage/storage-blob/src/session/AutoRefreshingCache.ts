@@ -104,15 +104,19 @@ export class AutoRefreshingCache {
   }
 
   private async runBackgroundRefresh(current: SessionTokenInfo): Promise<void> {
+    const timeoutSignal = AbortSignal.timeout(this.backgroundAcquireTimeoutMs);
     try {
       // Shares the foreground attempt: if `current` expires or is invalidated while this runs,
       // the blocked caller joins this acquisition instead of starting a second one.
-      await this.acquireShared(AbortSignal.timeout(this.backgroundAcquireTimeoutMs));
+      await this.acquireShared(timeoutSignal);
     } catch (error: unknown) {
       if (this.current === current) {
         // Keep serving the still-valid value: a timeout retries on the next request, any
         // other failure is throttled so repeated failures don't hammer the service.
-        const timedOut = error instanceof Error && error.name === "TimeoutError";
+        // The pipeline reports any aborted signal as AbortError, so the signal is the authority
+        // here; the name check still covers custom acquire implementations.
+        const timedOut =
+          timeoutSignal.aborted || (error instanceof Error && error.name === "TimeoutError");
         this.current = {
           ...current,
           refreshAfterTimestamp: Date.now() + (timedOut ? 0 : this.backgroundAcquireTimeoutMs),
