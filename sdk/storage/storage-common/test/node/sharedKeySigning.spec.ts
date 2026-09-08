@@ -229,6 +229,25 @@ describe("buildStorageSharedKeyStringToSign", () => {
     assert.isTrue(result.endsWith("prefix:x+y"), result);
   });
 
+  it("keeps a value containing an unescaped equals sign", () => {
+    // Splitting on every "=" would drop the parameter, but the service still canonicalizes it.
+    const result = sign({ url: `${BLOB_URL}?marker=abc==` });
+
+    assert.isTrue(result.endsWith("marker:abc=="), result);
+  });
+
+  it("signs a parameter whose value is empty", () => {
+    const result = sign({ url: `${BLOB_URL}?comp=list&empty=` });
+
+    assert.isTrue(result.endsWith("comp:list\nempty:"), result);
+  });
+
+  it("signs a parameter carried with no value at all", () => {
+    const result = sign({ url: `${BLOB_URL}?bare&comp=list` });
+
+    assert.isTrue(result.endsWith("bare:\ncomp:list"), result);
+  });
+
   it("leaves the resource path percent-encoded, unlike query values", () => {
     const result = sign({
       url: `https://${ACCOUNT}.blob.core.windows.net/container/with spaces and %2Bplus.txt`,

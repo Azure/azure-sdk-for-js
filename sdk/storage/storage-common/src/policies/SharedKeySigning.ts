@@ -87,7 +87,8 @@ function getCanonicalizedResourceString(request: PipelineRequest, accountName: s
 
 /**
  * Groups query parameter values by lowercased name. Parses the raw query rather than reusing
- * `getURLQueries`, whose plain-object result keeps only the last value for a repeated name.
+ * `getURLQueries`, which keeps only the last value for a repeated name and discards parameters
+ * that the service still canonicalizes.
  */
 function getCanonicalizedQueryValues(url: string): Map<string, string[]> {
   const valuesByKey = new Map<string, string[]>();
@@ -97,15 +98,18 @@ function getCanonicalizedQueryValues(url: string): Map<string, string[]> {
   }
 
   for (const pair of queryString.split("&")) {
-    const separator = pair.indexOf("=");
-    // Same shape rules as getURLQueries: non-empty name, exactly one "=", non-empty value.
-    if (separator <= 0 || separator !== pair.lastIndexOf("=") || separator === pair.length - 1) {
+    if (!pair) {
       continue;
     }
 
-    const key = decodeURIComponent(pair.substring(0, separator)).toLowerCase();
+    // Split at the first "=" only: "=" is legal inside a value, and a name carried without one
+    // still participates in the signature.
+    const separator = pair.indexOf("=");
+    const key = decodeURIComponent(
+      separator === -1 ? pair : pair.substring(0, separator),
+    ).toLowerCase();
     const values = valuesByKey.get(key) ?? [];
-    values.push(decodeURIComponent(pair.substring(separator + 1)));
+    values.push(separator === -1 ? "" : decodeURIComponent(pair.substring(separator + 1)));
     valuesByKey.set(key, values);
   }
 
