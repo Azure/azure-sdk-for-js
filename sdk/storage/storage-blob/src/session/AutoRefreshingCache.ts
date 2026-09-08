@@ -6,10 +6,10 @@ import { createAbortablePromise } from "@azure/core-util";
 import type { SessionTokenInfo } from "./models.js";
 
 /**
- * How long a background refresh may run before the cache gives up on it and keeps serving
- * the current, still-valid value.
+ * How long a single acquisition may run before the cache gives up on it and keeps serving the
+ * current value, if there is still one.
  */
-export const BACKGROUND_ACQUIRE_TIMEOUT_MS = 30 * 1000;
+export const ACQUIRE_TIMEOUT_MS = 30 * 1000;
 
 /**
  * Acquires a fresh session. Rejects if one could not be obtained.
@@ -30,7 +30,7 @@ export class AutoRefreshingCache {
 
   constructor(
     private readonly acquire: AcquireSession,
-    private readonly backgroundAcquireTimeoutMs: number = BACKGROUND_ACQUIRE_TIMEOUT_MS,
+    private readonly acquireTimeoutMs: number = ACQUIRE_TIMEOUT_MS,
   ) {}
 
   /**
@@ -79,11 +79,13 @@ export class AutoRefreshingCache {
     }
   }
 
-  private acquireShared(abortSignal?: AbortSignalLike): Promise<SessionTokenInfo> {
+  private acquireShared(): Promise<SessionTokenInfo> {
     // Assigned synchronously, before any await, so concurrent callers join this attempt. This is
     // the only place a session is installed, so completions cannot race each other.
     if (!this.inFlight) {
-      this.inFlight = this.acquire(abortSignal)
+      // The cache owns the deadline. Callers only race this promise against their own signal and
+      // are free to walk away, so nothing else would ever settle an acquisition that hangs.
+      this.inFlight = this.acquire(AbortSignal.timeout(this.acquireTimeoutMs))
         .then((value) => {
           this.current = value;
           return value;
@@ -104,22 +106,21 @@ export class AutoRefreshingCache {
   }
 
   private async runBackgroundRefresh(current: SessionTokenInfo): Promise<void> {
-    const timeoutSignal = AbortSignal.timeout(this.backgroundAcquireTimeoutMs);
     try {
       // Shares the foreground attempt: if `current` expires or is invalidated while this runs,
       // the blocked caller joins this acquisition instead of starting a second one.
-      await this.acquireShared(timeoutSignal);
+      await this.acquireShared();
     } catch (error: unknown) {
       if (this.current === current) {
         // Keep serving the still-valid value: a timeout retries on the next request, any
         // other failure is throttled so repeated failures don't hammer the service.
-        // The pipeline reports any aborted signal as AbortError, so the signal is the authority
-        // here; the name check still covers custom acquire implementations.
+        // The cache's deadline is the only signal the acquisition sees, and the pipeline
+        // surfaces it as AbortError; the name check covers custom acquire implementations.
         const timedOut =
-          timeoutSignal.aborted || (error instanceof Error && error.name === "TimeoutError");
+          error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError");
         this.current = {
           ...current,
-          refreshAfterTimestamp: Date.now() + (timedOut ? 0 : this.backgroundAcquireTimeoutMs),
+          refreshAfterTimestamp: Date.now() + (timedOut ? 0 : this.acquireTimeoutMs),
         };
       }
     } finally {

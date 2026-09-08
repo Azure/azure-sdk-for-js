@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach, expect, vi } from "vitest";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type { HttpMethods, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { AutoRefreshingCache } from "../../src/session/AutoRefreshingCache.js";
@@ -108,6 +109,26 @@ describe("AutoRefreshingCache", () => {
     const second = (await cache.get()) as ActiveSession;
     assert.strictEqual(second.sessionToken, "token-2");
     assert.strictEqual(acquire.mock.calls.length, 2);
+  });
+
+  it("gives up on an acquisition once every caller has walked away", async () => {
+    // A caller's signal only rejects its own wrapper, so without the cache's own deadline this
+    // acquisition would stay in flight forever and every later caller would join it.
+    const acquire = vi.fn(
+      (abortSignal?: AbortSignalLike) =>
+        new Promise<SessionTokenInfo>((_resolve, reject) => {
+          abortSignal?.addEventListener("abort", () => reject(timeoutError()));
+        }),
+    );
+    const cache = new AutoRefreshingCache(acquire, 50);
+
+    const abandoned = new AbortController();
+    const first = cache.get(abandoned.signal);
+    abandoned.abort();
+    await expect(first).rejects.toThrow();
+
+    await expect(cache.get()).rejects.toThrow();
+    assert.strictEqual(acquire.mock.calls.length, 1, "the later caller must join, not restart");
   });
 
   it("joins the running background refresh when the session is invalidated mid-flight", async () => {
