@@ -147,7 +147,13 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUser",
       options,
       async (updatedOptions) => {
-        const result = await this.client.identityOperations.create(updatedOptions);
+        // Pass an explicit body so the request carries `{}`, matching the
+        // previous AutoRest behaviour. Without it the generated client omits
+        // the body entirely while still sending Content-Type: application/json.
+        const result = await this.client.identityOperations.create({
+          ...updatedOptions,
+          body: {},
+        });
         return {
           communicationUserId: result.identity.id,
         };
