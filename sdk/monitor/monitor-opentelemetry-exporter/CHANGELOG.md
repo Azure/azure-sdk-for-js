@@ -1,13 +1,11 @@
 # Release History
 
-## 1.0.0-beta.45 (Unreleased)
+## 1.0.0-beta.45 (2026-09-04)
 
 ### Features Added
 
 - Added support for exporting finite numeric entries from the `microsoft.custom_measurements` span and log attribute as Breeze measurements. [Telemetry Collection Spec #887](https://github.com/aep-health-and-standards/Telemetry-Collection-Spec/pull/887)
 - Added support for exporting availability telemetry from OpenTelemetry log records with `microsoft.availability.*` attributes. [#39734](https://github.com/Azure/azure-sdk-for-js/pull/39734)
-
-### Breaking Changes
 
 ### Bugs Fixed
 

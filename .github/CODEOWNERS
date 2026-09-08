@@ -235,6 +235,12 @@
 # PRLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/    @dargilco @rhurey
 
+# PRLabel: %Iot
+/sdk/deviceregistry/iot-device-registry-software-update/ @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
+
+# AzureSdkOwners: @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
+# ServiceLabel: %Iot
+
 # PRLabel: %KeyVault
 /sdk/keyvault/    @Azure/azure-sdk-write-keyvault
 

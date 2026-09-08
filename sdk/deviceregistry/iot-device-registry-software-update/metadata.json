@@ -1,0 +1,52 @@
+{
+  "apiVersions": {
+    "DeviceRegistrySoftwareUpdateClient": "2026-11-02-preview"
+  },
+  "emitterVersion": "0.56.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "DeviceRegistrySoftwareUpdateClient",
+    "CrossLanguageDefinitionId": {
+      "@azure/iot-device-registry-software-update!DeviceClassesList:interface": "DeviceRegistrySoftwareUpdateClient.DeviceClassesList",
+      "@azure/iot-device-registry-software-update!DeviceClass:interface": "DeviceRegistrySoftwareUpdateClient.DeviceClass",
+      "@azure/iot-device-registry-software-update!DeviceClassProperties:interface": "DeviceRegistrySoftwareUpdateClient.DeviceClassProperties",
+      "@azure/iot-device-registry-software-update!BestCompatibleUpdate:interface": "DeviceRegistrySoftwareUpdateClient.BestCompatibleUpdate",
+      "@azure/iot-device-registry-software-update!UpdateId:interface": "DeviceRegistrySoftwareUpdateClient.UpdateId",
+      "@azure/iot-device-registry-software-update!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/iot-device-registry-software-update!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/iot-device-registry-software-update!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/iot-device-registry-software-update!UpdateList:interface": "DeviceRegistrySoftwareUpdateClient.UpdateList",
+      "@azure/iot-device-registry-software-update!Update:interface": "DeviceRegistrySoftwareUpdateClient.Update",
+      "@azure/iot-device-registry-software-update!Compatibility:interface": "DeviceRegistrySoftwareUpdateClient.Compatibility",
+      "@azure/iot-device-registry-software-update!Instructions:interface": "DeviceRegistrySoftwareUpdateClient.Instructions",
+      "@azure/iot-device-registry-software-update!Step:interface": "DeviceRegistrySoftwareUpdateClient.Step",
+      "@azure/iot-device-registry-software-update!ImportUpdateRequest:interface": "DeviceRegistrySoftwareUpdateClient.ImportUpdateRequest",
+      "@azure/iot-device-registry-software-update!ImportUpdateInputItem:interface": "DeviceRegistrySoftwareUpdateClient.ImportUpdateInputItem",
+      "@azure/iot-device-registry-software-update!ImportManifestMetadata:interface": "DeviceRegistrySoftwareUpdateClient.ImportManifestMetadata",
+      "@azure/iot-device-registry-software-update!FileImportMetadata:interface": "DeviceRegistrySoftwareUpdateClient.FileImportMetadata",
+      "@azure/iot-device-registry-software-update!UpdateOperation:interface": "DeviceRegistrySoftwareUpdateClient.UpdateOperation",
+      "@azure/iot-device-registry-software-update!UpdateInfo:interface": "DeviceRegistrySoftwareUpdateClient.UpdateInfo",
+      "@azure/iot-device-registry-software-update!StringsList:interface": "DeviceRegistrySoftwareUpdateClient.StringsList",
+      "@azure/iot-device-registry-software-update!UpdateFile:interface": "DeviceRegistrySoftwareUpdateClient.UpdateFile",
+      "@azure/iot-device-registry-software-update!UpdateFileBase:interface": "DeviceRegistrySoftwareUpdateClient.UpdateFileBase",
+      "@azure/iot-device-registry-software-update!UpdateFileDownloadHandler:interface": "DeviceRegistrySoftwareUpdateClient.UpdateFileDownloadHandler",
+      "@azure/iot-device-registry-software-update!UpdateOperationsList:interface": "DeviceRegistrySoftwareUpdateClient.UpdateOperationsList",
+      "@azure/iot-device-registry-software-update!KnownStepType:enum": "DeviceRegistrySoftwareUpdateClient.StepType",
+      "@azure/iot-device-registry-software-update!KnownOperationState:enum": "Azure.Core.Foundations.OperationState",
+      "@azure/iot-device-registry-software-update!KnownVersions:enum": "DeviceRegistrySoftwareUpdateClient.Versions",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#getOperationStatus:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.getOperationStatus",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#listOperationStatuses:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.listOperationStatuses",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#getFile:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.getFile",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#listFiles:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.listFiles",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#listVersions:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.listVersions",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#listNames:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.listNames",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#listProviders:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.listProviders",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#deleteUpdate:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.deleteUpdate",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#getUpdate:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.getUpdate",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#importUpdate:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.importUpdate",
+      "@azure/iot-device-registry-software-update!SoftwareUpdateOperations#listUpdates:member": "DeviceRegistrySoftwareUpdateClient.SoftwareUpdateOperationGroup.listUpdates",
+      "@azure/iot-device-registry-software-update!DeviceClassesOperations#delete:member": "DeviceRegistrySoftwareUpdateClient.DeviceClasses.delete",
+      "@azure/iot-device-registry-software-update!DeviceClassesOperations#getDeviceClass:member": "DeviceRegistrySoftwareUpdateClient.DeviceClasses.getDeviceClass",
+      "@azure/iot-device-registry-software-update!DeviceClassesOperations#list:member": "DeviceRegistrySoftwareUpdateClient.DeviceClasses.list"
+    }
+  }
+}

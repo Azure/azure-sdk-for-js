@@ -60,11 +60,17 @@ Read: `sdk/ai/ai-projects/.github/skills/apply-post-emitter-edits/SKILL.md`
 
 Walk every step in order. Pay particular attention to:
 
-- Step 0 (resolve diff3 conflict markers) — always take the custom side.
+- Step 0 (resolve diff3 conflict markers) — use the custom side as the
+  structural starting point, then restore new generated additions in Step 2
+  and Step 2a.
 - Step 1 (protected files) — revert any emitter edits to the listed paths.
 - Step 2 (propagate new public surface from `generated/` to `src/`) — this
   is the most error-prone step; classify each missing export as either a
   rename or a genuine addition before propagating.
+- Step 2a (check additions inside existing declarations) — run
+  `node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs`
+  and restore every legitimate interface member and request-body property it
+  reports before continuing.
 - Step 4 (`foundryFeatures` and `BetaEvaluatorsOperations.list` rules).
 - Step 5b — apply the rename pairs from
   [references/parameter-renames.yml](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills/apply-post-emitter-edits/references/parameter-renames.yml)
