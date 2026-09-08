@@ -543,7 +543,7 @@
 # PRLabel: %Mgmt
 /sdk/dependencymap/arm-dependencymap/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

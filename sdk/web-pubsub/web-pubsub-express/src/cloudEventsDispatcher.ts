@@ -117,6 +117,7 @@ function getUserEventResponseHandler(
 
 function getContext(request: IncomingMessage, origin: string): ConnectionContext {
   const baseContext: ConnectionContext = {
+    // Authentication and signature validation are the application's responsibility.
     signature: utils.getHttpHeader(request, "ce-signature")!,
     userId: utils.getHttpHeader(request, "ce-userid"),
     hub: utils.getHttpHeader(request, "ce-hub")!,
