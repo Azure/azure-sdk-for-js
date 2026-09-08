@@ -40,7 +40,8 @@ export class LegacyFetchImplementation {
             fetchBuffer.length = 0; // Clear array in place
             return { result: copiedFetchBuffer, headers: fetchMoreRespHeaders };
           } else {
-            return { result: undefined, headers: fetchMoreRespHeaders };
+            // Skip interim empty backend pages while the endpoint has more results.
+            continue;
           }
         }
         fetchBuffer.push(...response.result.buffer);
