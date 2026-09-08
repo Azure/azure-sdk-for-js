@@ -103,7 +103,7 @@ function getCanonicalizedQueryValues(url: string): Map<string, string[]> {
       continue;
     }
 
-    const key = pair.substring(0, separator).toLowerCase();
+    const key = decodeURIComponent(pair.substring(0, separator)).toLowerCase();
     const values = valuesByKey.get(key) ?? [];
     values.push(decodeURIComponent(pair.substring(separator + 1)));
     valuesByKey.set(key, values);
