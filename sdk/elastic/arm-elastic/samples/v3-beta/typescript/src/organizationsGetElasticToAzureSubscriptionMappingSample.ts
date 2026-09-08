@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary >;
  *   /**
  * Retrieve mapping details between the Elastic Organization and Azure Subscription for the logged-in user.
- * x-ms-original-file: 2025-06-01/Organizations_GetElasticToAzureSubscriptionMapping.json
+ * x-ms-original-file: 2026-03-15-preview/Organizations_GetElasticToAzureSubscriptionMapping.json
  */
 async function organizationsGetElasticToAzureSubscriptionMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();

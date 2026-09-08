@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetch the User API Key from the internal database, if it was generated and stored during the creation of the Elasticsearch Organization.
  *
  * @summary fetch the User API Key from the internal database, if it was generated and stored during the creation of the Elasticsearch Organization.
- * x-ms-original-file: 2025-06-01/Organizations_GetApiKey.json
+ * x-ms-original-file: 2026-03-15-preview/Organizations_GetApiKey.json
  */
 async function organizationsGetApiKey() {
   const credential = new DefaultAzureCredential();
