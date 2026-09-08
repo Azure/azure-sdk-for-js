@@ -51,6 +51,8 @@ export {
   type IHttpClient,
   StorageOAuthScopes,
   type ServiceClientOptions,
+  type SessionMode,
+  type SessionOptions,
 } from "./Pipeline.js";
 export * from "./sas/BlobSASPermissions.js";
 export type { CommonOptions } from "./StorageClient.js";

@@ -2092,6 +2092,136 @@ export function accessPolicyXmlObjectDeserializer(
   return deserializeXmlObject<AccessPolicy>(xmlObject, properties);
 }
 
+/** The configuration used to create a session. */
+export interface CreateSessionConfiguration {
+  /** The type of authentication required to create the session. The only type currently supported is HMAC. */
+  authenticationType: AuthenticationType;
+}
+
+export function createSessionConfigurationSerializer(item: CreateSessionConfiguration): any {
+  return { authenticationType: item["authenticationType"] };
+}
+
+export function createSessionConfigurationXmlSerializer(item: CreateSessionConfiguration): string {
+  const properties: XmlPropertyMetadata[] = [
+    {
+      propertyName: "authenticationType",
+      xmlOptions: { name: "AuthenticationType" },
+      type: "primitive",
+    },
+  ];
+  return serializeToXml(item, properties, "CreateSessionRequest");
+}
+
+/** The type of authentication required to create the session. The only type currently supported is HMAC. */
+export type AuthenticationType = "HMAC";
+
+/** The response of the Create Session API. */
+export interface CreateSessionResponse {
+  /** A unique identifier for the created session. */
+  id?: string;
+  /** The time when the session will expire. */
+  expiration?: Date;
+  /** The type of authentication required to create the session. The only type currently supported is HMAC. */
+  authenticationType?: AuthenticationType;
+  /** The credentials used to authorize subsequent requests in the session. */
+  credentials?: SessionCredentials;
+}
+
+export function createSessionResponseDeserializer(item: any): CreateSessionResponse {
+  return {
+    id: item["id"],
+    expiration: !item["expiration"] ? item["expiration"] : new Date(item["expiration"]),
+    authenticationType: item["authenticationType"],
+    credentials: !item["credentials"]
+      ? item["credentials"]
+      : sessionCredentialsDeserializer(item["credentials"]),
+  };
+}
+
+export function createSessionResponseXmlDeserializer(xmlString: string): CreateSessionResponse {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "id",
+      xmlOptions: { name: "Id" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "expiration",
+      xmlOptions: { name: "Expiration" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "authenticationType",
+      xmlOptions: { name: "AuthenticationType" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "credentials",
+      xmlOptions: { name: "Credentials" },
+      type: "object",
+      deserializer: sessionCredentialsXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<CreateSessionResponse>(xmlString, properties, "CreateSessionResult");
+}
+
+/** The credentials associated with a session. */
+export interface SessionCredentials {
+  /** An opaque token used to authorize subsequent requests in the session. Must be treated as a security credential. */
+  sessionToken?: string;
+  /** Only returned when AuthenticationType is HMAC. A symmetric encryption key used to sign requests in the session using the Shared Key protocol. */
+  sessionKey?: string;
+}
+
+export function sessionCredentialsDeserializer(item: any): SessionCredentials {
+  return {
+    sessionToken: item["sessionToken"],
+    sessionKey: item["sessionKey"],
+  };
+}
+
+export function sessionCredentialsXmlDeserializer(xmlString: string): SessionCredentials {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "sessionToken",
+      xmlOptions: { name: "SessionToken" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "sessionKey",
+      xmlOptions: { name: "SessionKey" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<SessionCredentials>(xmlString, properties, "Credentials");
+}
+
+export function sessionCredentialsXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): SessionCredentials {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "sessionToken",
+      xmlOptions: { name: "SessionToken" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "sessionKey",
+      xmlOptions: { name: "SessionKey" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<SessionCredentials>(xmlObject, properties);
+}
+
 /** The result of the List Blobs API. */
 export interface ListBlobsResponse {
   /** The service endpoint. */

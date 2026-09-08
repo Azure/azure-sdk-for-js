@@ -7,13 +7,14 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -7,22 +7,22 @@
+@@ -7,23 +7,22 @@
  import type { CompatResponse } from '@azure/core-http-compat';
  import type { HttpClient } from '@azure/core-rest-pipeline';
  import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
  import type { NodeBuffer } from '@azure/core-rest-pipeline';
 +import type { NodeReadableStream } from '@azure/core-rest-pipeline';
  import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+-import type { PipelineRequest } from '@azure/core-rest-pipeline';
 -import { Readable } from 'node:stream';
  import type { RequestBodyType } from '@azure/core-rest-pipeline';
  import type { RequestPolicy } from '@azure/core-http-compat';
@@ -33,7 +34,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -42,23 +42,25 @@
+@@ -43,26 +42,25 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
@@ -51,6 +52,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
+-export function buildStorageSharedKeyStringToSign(request: PipelineRequest, accountName: string): string;
+-
+-// @public
  export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
  
  // @public
@@ -63,7 +67,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export abstract class CredentialPolicy extends BaseRequestPolicy {
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-@@ -68,28 +70,29 @@
+@@ -72,32 +70,30 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -94,14 +98,18 @@ For the complete API surface, see the corresponding -node.api.md file.
 +// @public (undocumented)
 +export type OutgoingHandler = (body: () => NodeReadableStream, length: number, offset?: number) => Promise<unknown>;
  
--export { Readable }
+-// @public
+-export function prepareSharedKeyHeaders(request: PipelineRequest): void;
 +// @public (undocumented)
 +export type Readable = never;
  
+-export { Readable }
+-
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -179,58 +182,46 @@
+     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+@@ -186,58 +182,46 @@
      FIXED = 1
  }
  
@@ -171,7 +179,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId?: string;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -243,10 +234,13 @@
+@@ -250,10 +234,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

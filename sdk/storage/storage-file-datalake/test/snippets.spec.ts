@@ -413,6 +413,28 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleSessionAuthentication", async () => {
+    const account = "<account>";
+    // @ts-preserve-whitespace
+    // Session token authentication is only available in the Node.js runtime. In browsers and
+    // React Native these options are ignored and requests keep using a bearer token.
+    const datalakeServiceClient = new DataLakeServiceClient(
+      `https://${account}.dfs.core.windows.net`,
+      new DefaultAzureCredential(),
+      { sessionOptions: { mode: "enabled" } },
+    );
+    // @ts-preserve-whitespace
+    // A session can only sign file-download requests: `read`, `readToBuffer`, and `readToFile`.
+    // Every other Data Lake operation uses a bearer token.
+    const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+    const fileClient = fileSystemClient.getFileClient("<file name>");
+    const downloadResponse = await fileClient.read();
+    if (downloadResponse.readableStreamBody) {
+      const downloaded = await buffer(downloadResponse.readableStreamBody);
+      console.log("Downloaded file content:", downloaded.toString());
+    }
+  });
+
   it("ReadmeSampleQueryFile_Node", async () => {
     const account = "<account>";
     const sas = "<sas token>";

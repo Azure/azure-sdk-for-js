@@ -473,6 +473,41 @@ if (downloadResponse.contentAsBlob) {
 }
 ```
 
+### Authenticate file reads with a session token (Node.js)
+
+When you authenticate with a `TokenCredential`, you can opt in to the session token authentication provided by `@azure/storage-blob`. Sessions are disabled by default; set `sessionOptions.mode` to `"enabled"` to opt in.
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+A session only signs eligible blob download requests, so within Data Lake this affects file reads: `read`, `readToBuffer`, and `readToFile`. Every other operation continues to use a bearer token, including the file system calls that are served by the blob endpoint rather than by DFS.
+
+In browsers and React Native, `sessionOptions` is accepted for type compatibility but has no effect, because signing a session requires Shared Key, which is unavailable outside Node.js.
+
+```ts snippet:ReadmeSampleSessionAuthentication
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
+import { buffer } from "node:stream/consumers";
+
+const account = "<account>";
+
+// Session token authentication is only available in the Node.js runtime. In browsers and
+// React Native these options are ignored and requests keep using a bearer token.
+const datalakeServiceClient = new DataLakeServiceClient(
+  `https://${account}.dfs.core.windows.net`,
+  new DefaultAzureCredential(),
+  { sessionOptions: { mode: "enabled" } },
+);
+
+// A session can only sign file-download requests: `read`, `readToBuffer`, and `readToFile`.
+// Every other Data Lake operation uses a bearer token.
+const fileSystemClient = datalakeServiceClient.getFileSystemClient("<file system name>");
+const fileClient = fileSystemClient.getFileClient("<file name>");
+const downloadResponse = await fileClient.read();
+if (downloadResponse.readableStreamBody) {
+  const downloaded = await buffer(downloadResponse.readableStreamBody);
+  console.log("Downloaded file content:", downloaded.toString());
+}
+```
+
 ## Troubleshooting
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:

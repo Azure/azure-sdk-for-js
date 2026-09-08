@@ -2,7 +2,15 @@
 // Licensed under the MIT License.
 
 import type { PipelineLike } from "./Pipeline.js";
-import { getCoreClientOptions, getCredentialFromPipeline, Pipeline } from "./Pipeline.js";
+import type { StoragePipelineOptions } from "./Pipeline.js";
+import {
+  getCoreClientOptions,
+  getCredentialFromPipeline,
+  Pipeline,
+  resolveSessionMode,
+} from "./Pipeline.js";
+import { isNodeLike } from "@azure/core-util";
+import { isTokenCredential } from "@azure/core-auth";
 import {
   escapeURLPath,
   getURLScheme,
@@ -98,6 +106,7 @@ export abstract class StorageClient {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);
+    assertAccountNameAvailableForSessions(url, this.accountName, pipeline);
     const coreClientOptions = getCoreClientOptions(pipeline);
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
@@ -130,4 +139,39 @@ export abstract class StorageClient {
       this.storageClientContext = new StorageClientContext(this.url, coreClientOptions);
     }
   }
+}
+
+/**
+ * Sessions sign with Shared Key, which needs an account name, so a client that could never sign
+ * is rejected here rather than partway through its first download.
+ *
+ * `account.dfs.*` is exempt because session-eligible requests target `account.blob.*`, which does
+ * yield an account name. The test mirrors `getAccountNameFromUrl`, which only derives a name when
+ * the label after the account is `blob`: `account.privatelink.dfs.*` maps to
+ * `account.privatelink.blob.*` and stays underivable, so it is not exempt.
+ */
+function assertAccountNameAvailableForSessions(
+  url: string,
+  accountName: string,
+  pipeline: PipelineLike,
+): void {
+  const sessionOptions = (pipeline.options as StoragePipelineOptions).sessionOptions;
+  if (
+    // In the browser the session policy is a bearer passthrough, so nothing here can fail.
+    !isNodeLike ||
+    accountName ||
+    sessionOptions?.accountName ||
+    resolveSessionMode(sessionOptions?.mode) !== "enabled" ||
+    new URL(url).hostname.split(".")[1] === "dfs" ||
+    // Sessions are only wired up for a TokenCredential, so `mode` is inert for anything else.
+    !isTokenCredential(getCredentialFromPipeline(pipeline))
+  ) {
+    return;
+  }
+
+  throw new Error(
+    'sessionOptions.mode is "enabled" but the storage account name could not be determined ' +
+      `from the URL "${new URL(url).origin}". Set sessionOptions.accountName when using a ` +
+      "custom endpoint URL.",
+  );
 }
