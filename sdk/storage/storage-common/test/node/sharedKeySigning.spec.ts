@@ -215,6 +215,19 @@ describe("buildStorageSharedKeyStringToSign", () => {
     );
   });
 
+  it("keeps every value when a parameter repeats with identical spelling", () => {
+    const result = sign({ url: `${BLOB_URL}?foo=z&foo=a` });
+
+    assert.isTrue(result.endsWith("foo:a,z"), result);
+  });
+
+  it("treats a literal plus as data, not as an encoded space", () => {
+    // Form decoding would turn this into "x y" and sign a value the service never sees.
+    const result = sign({ url: `${BLOB_URL}?prefix=x+y` });
+
+    assert.isTrue(result.endsWith("prefix:x+y"), result);
+  });
+
   it("leaves the resource path percent-encoded, unlike query values", () => {
     const result = sign({
       url: `https://${ACCOUNT}.blob.core.windows.net/container/with spaces and %2Bplus.txt`,

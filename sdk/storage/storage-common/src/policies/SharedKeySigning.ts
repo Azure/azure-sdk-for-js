@@ -3,7 +3,7 @@
 
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "../utils/constants.js";
-import { getURLPath, getURLQueries } from "../utils/utils.common.js";
+import { getURLPath } from "../utils/utils.common.js";
 import { compareHeader } from "../utils/SharedKeyComparator.js";
 
 /**
@@ -75,26 +75,41 @@ function getCanonicalizedResourceString(request: PipelineRequest, accountName: s
   let canonicalizedResourceString: string = "";
   canonicalizedResourceString += `/${accountName}${path}`;
 
-  const queries = getURLQueries(request.url);
-  if (queries) {
-    // Lowercasing names merges parameters that differed only by case, so their values have to be
-    // combined into one sorted, comma-joined line rather than emitted once per original name.
-    // Parameters repeated under the *same* spelling cannot be merged here: getURLQueries keys a
-    // plain object by name, so it has already discarded all but the last value.
-    const valuesByKey = new Map<string, string[]>();
-    for (const key of Object.keys(queries)) {
-      const lowercaseKey = key.toLowerCase();
-      const values = valuesByKey.get(lowercaseKey) ?? [];
-      values.push(decodeURIComponent(queries[key]));
-      valuesByKey.set(lowercaseKey, values);
-    }
-
-    for (const key of [...valuesByKey.keys()].sort()) {
-      canonicalizedResourceString += `\n${key}:${valuesByKey.get(key)!.sort().join(",")}`;
-    }
+  // A name that repeats, whether spelled identically or differing only by case, contributes all
+  // of its values as one sorted, comma-joined line.
+  const valuesByKey = getCanonicalizedQueryValues(request.url);
+  for (const key of [...valuesByKey.keys()].sort()) {
+    canonicalizedResourceString += `\n${key}:${valuesByKey.get(key)!.sort().join(",")}`;
   }
 
   return canonicalizedResourceString;
+}
+
+/**
+ * Groups query parameter values by lowercased name. Parses the raw query rather than reusing
+ * `getURLQueries`, whose plain-object result keeps only the last value for a repeated name.
+ */
+function getCanonicalizedQueryValues(url: string): Map<string, string[]> {
+  const valuesByKey = new Map<string, string[]>();
+  const queryString = new URL(url).search.replace(/^\?/, "").trim();
+  if (!queryString) {
+    return valuesByKey;
+  }
+
+  for (const pair of queryString.split("&")) {
+    const separator = pair.indexOf("=");
+    // Same shape rules as getURLQueries: non-empty name, exactly one "=", non-empty value.
+    if (separator <= 0 || separator !== pair.lastIndexOf("=") || separator === pair.length - 1) {
+      continue;
+    }
+
+    const key = pair.substring(0, separator).toLowerCase();
+    const values = valuesByKey.get(key) ?? [];
+    values.push(decodeURIComponent(pair.substring(separator + 1)));
+    valuesByKey.set(key, values);
+  }
+
+  return valuesByKey;
 }
 
 /**

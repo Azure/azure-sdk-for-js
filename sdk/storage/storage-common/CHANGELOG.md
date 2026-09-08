@@ -10,7 +10,7 @@
 
 ### Bugs Fixed
 
-- Fixed the Shared Key signature emitting a separate line per spelling when query parameters differed only by case. Their values are now sorted and comma-joined into a single lowercase entry, as the canonicalized resource format requires. [PR #39827](https://github.com/Azure/azure-sdk-for-js/pull/39827)
+- Fixed the Shared Key signature dropping query parameter values when a name repeated. Values for a repeated name, whether spelled identically or differing only by case, are now sorted and comma-joined into one lowercase entry as the canonicalized resource requires. [PR #39827](https://github.com/Azure/azure-sdk-for-js/pull/39827)
 - Fixed the Shared Key signature placing `Content-Language` before `Content-Encoding` in the string to sign. A request that set either raw header was signed against the wrong canonical string and could be rejected with 403. [PR #39853](https://github.com/Azure/azure-sdk-for-js/pull/39853)
 - Fixed `BufferScheduler` letting a failed buffer allocation (`RangeError: Failed to allocate memory`) escape as an uncaught exception during large uploads. Allocation failures in the stream and internal event listeners are now routed through the scheduler's error handling so the upload promise rejects cleanly. `BufferScheduler` also no longer starts queued block uploads after the upload promise has been rejected. Issue [#39102](https://github.com/Azure/azure-sdk-for-js/issues/39102).
 - Added the missing export of `storageRedirectRangeHeaderPolicy` for browsers. [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
