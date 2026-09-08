@@ -9,6 +9,7 @@ import {
   ContainerSessionProvider,
   MAX_CACHED_CONTAINERS,
 } from "../../src/session/ContainerSessionProvider.js";
+import { newPipeline } from "../../src/Pipeline.js";
 import { SESSION_REFRESH_BUFFER_MS } from "../../src/session/models.js";
 import type { FakeResponse } from "./sessionTestUtils.js";
 import {
@@ -32,10 +33,10 @@ function providerWith(
   const { httpClient, requests } = fakeHttpClient(respond);
   // Without this the 5xx cases are retried with backoff, which makes the suite slow and the
   // request counts depend on retry policy rather than on session behavior.
-  const provider = new ContainerSessionProvider(url, fakeTokenCredential, {
-    httpClient,
-    retryOptions: { maxTries: 1 },
-  });
+  const provider = new ContainerSessionProvider(
+    url,
+    newPipeline(fakeTokenCredential, { httpClient, retryOptions: { maxTries: 1 } }),
+  );
   return { provider, requests };
 }
 

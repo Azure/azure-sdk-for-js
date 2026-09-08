@@ -11,6 +11,7 @@ import type {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { newPipeline } from "../../src/Pipeline.js";
 import { storageSessionAuthenticationPolicy } from "../../src/policies/StorageSessionAuthenticationPolicy.js";
 import { SESSION_REFRESH_BUFFER_MS } from "../../src/session/models.js";
 import type { FakeResponse } from "./sessionTestUtils.js";
@@ -77,12 +78,11 @@ function createHarness(
 
   const policy = storageSessionAuthenticationPolicy({
     bearerPolicy,
-    credential: fakeTokenCredential,
-    clientOptions: {
+    pipeline: newPipeline(fakeTokenCredential, {
       httpClient,
       retryOptions: { maxTries: 1 },
       sessionOptions: { mode: "enabled", accountName: options.accountName },
-    },
+    }),
   });
 
   return {

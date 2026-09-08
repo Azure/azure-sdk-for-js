@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
-import type { TokenCredential } from "@azure/core-auth";
-import type { StoragePipelineOptions } from "../Pipeline.js";
+import type { PipelineLike } from "../Pipeline.js";
 
 /**
  * The programmatic identifier of the storageSessionAuthenticationPolicy.
@@ -16,10 +15,8 @@ export const storageSessionAuthenticationPolicyName = "storageSessionAuthenticat
 export interface StorageSessionAuthenticationPolicyOptions {
   /** Policy used whenever a request cannot be authenticated with a session. */
   bearerPolicy: PipelinePolicy;
-  /** Credential used to mint sessions when the caller supplies no provider. */
-  credential: TokenCredential;
-  /** Client options, forwarded to a provider created on demand. */
-  clientOptions: StoragePipelineOptions;
+  /** Pipeline of the owning client, reused by a provider created on demand. */
+  pipeline: PipelineLike;
 }
 
 /**

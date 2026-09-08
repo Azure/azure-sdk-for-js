@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { TokenCredential } from "@azure/core-auth";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { BlobServiceClient } from "../BlobServiceClient.js";
 import { logger } from "../log.js";
-import type { StoragePipelineOptions } from "../Pipeline.js";
+import type { PipelineLike } from "../Pipeline.js";
 import { isIpEndpointStyle } from "../utils/utils.common.js";
 import { HeaderConstants } from "../utils/constants.js";
 import { AutoRefreshingCache } from "./AutoRefreshingCache.js";
@@ -88,13 +87,12 @@ export class ContainerSessionProvider {
 
   /**
    * @param url - Any URL belonging to the target account; reduced to the blob service endpoint.
-   * @param credential - Token credential used to mint sessions.
-   * @param options - Options applied to the internal client that issues Create Session requests.
+   * @param pipeline - Pipeline of the owning client, reused so Create Session is subject to the
+   *   same policies, credential, and transport as every other request.
    */
   constructor(
     url: string,
-    private readonly credential: TokenCredential,
-    private readonly options?: StoragePipelineOptions,
+    private readonly pipeline: PipelineLike,
   ) {
     this.serviceEndpoint = getServiceEndpoint(url);
   }
@@ -163,11 +161,7 @@ export class ContainerSessionProvider {
     containerName: string,
     abortSignal?: AbortSignalLike,
   ): Promise<SessionTokenInfo> {
-    this.serviceClient ??= new BlobServiceClient(
-      this.serviceEndpoint,
-      this.credential,
-      this.options,
-    );
+    this.serviceClient ??= new BlobServiceClient(this.serviceEndpoint, this.pipeline);
 
     try {
       return await createContainerSession(

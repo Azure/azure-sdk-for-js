@@ -358,13 +358,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
 
       corePipeline.addPolicy(
         resolveSessionMode(restOptions.sessionOptions?.mode) === "enabled"
-          ? storageSessionAuthenticationPolicy({
-              bearerPolicy,
-              credential,
-              // Full options, not restOptions: the client that issues Create Session must keep
-              // the caller's httpClient, which is destructured out above.
-              clientOptions: pipeline.options as StoragePipelineOptions,
-            })
+          ? storageSessionAuthenticationPolicy({ bearerPolicy, pipeline })
           : bearerPolicy,
         { phase: "Sign" },
       );

@@ -7,7 +7,6 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import type { TokenCredential } from "@azure/core-auth";
 import {
   StorageSharedKeyCredential,
   buildStorageSharedKeyStringToSign,
@@ -19,7 +18,7 @@ import {
   isSessionEligible,
 } from "../session/ContainerSessionProvider.js";
 import type { ActiveSession } from "../session/models.js";
-import type { StoragePipelineOptions } from "../Pipeline.js";
+import type { PipelineLike, StoragePipelineOptions } from "../Pipeline.js";
 import { HeaderConstants, HTTPURLConnection } from "../utils/constants.js";
 import { getAccountNameFromUrl } from "../utils/utils.common.js";
 
@@ -34,10 +33,8 @@ export const storageSessionAuthenticationPolicyName = "storageSessionAuthenticat
 export interface StorageSessionAuthenticationPolicyOptions {
   /** Policy used whenever a request cannot be authenticated with a session. */
   bearerPolicy: PipelinePolicy;
-  /** Credential used to mint sessions when the caller supplies no provider. */
-  credential: TokenCredential;
-  /** Client options, forwarded to a provider created on demand. */
-  clientOptions: StoragePipelineOptions;
+  /** Pipeline of the owning client, reused by a provider created on demand. */
+  pipeline: PipelineLike;
 }
 
 /**
@@ -50,8 +47,8 @@ export interface StorageSessionAuthenticationPolicyOptions {
 export function storageSessionAuthenticationPolicy(
   options: StorageSessionAuthenticationPolicyOptions,
 ): PipelinePolicy {
-  const { bearerPolicy, credential, clientOptions } = options;
-  const accountName = clientOptions.sessionOptions?.accountName;
+  const { bearerPolicy, pipeline } = options;
+  const accountName = (pipeline.options as StoragePipelineOptions).sessionOptions?.accountName;
 
   // One provider per account. A single Pipeline can be shared across clients for different
   // accounts, and a session is only ever valid for the account that issued it. Deferred because
@@ -66,11 +63,9 @@ export function storageSessionAuthenticationPolicy(
     const endpoint = getServiceEndpoint(request.url);
     let provider = providers.get(endpoint);
     if (!provider) {
-      provider = new ContainerSessionProvider(request.url, credential, {
-        ...clientOptions,
-        // The inner client only issues Create Session, which is never session-eligible.
-        sessionOptions: undefined,
-      });
+      // Reusing the caller's pipeline keeps their custom policies on Create Session, which is a
+      // POST and so never session-eligible, which is what stops the reuse from recursing.
+      provider = new ContainerSessionProvider(request.url, pipeline);
       providers.set(endpoint, provider);
     }
     return provider;
