@@ -175,6 +175,34 @@ describe("AIProjectClient browser realtime", () => {
     await expect(closePromise).resolves.toBeUndefined();
     expect(connection.state).toBe("disconnected");
   });
+
+  it("reports wasClean: true for a normal client-initiated close", async () => {
+    const connection = await createClient().realtime.connect("browser-agent");
+    const socket = getSocket();
+    // Receive a Blob message right before closing so the transport's internal message chain has
+    // a real pending continuation (an async Blob->ArrayBuffer conversion), widening the gap
+    // between the native "close" event firing and onClose actually being invoked.
+    socket.receive(
+      new Blob([
+        JSON.stringify({
+          event_id: "text-1",
+          type: "response.output_text.delta",
+          response_id: "response-1",
+          item_id: "item-1",
+          output_index: 0,
+          content_index: 0,
+          delta: "Hello",
+        }),
+      ]),
+    );
+
+    await connection.close();
+
+    await expect(connection.closed).resolves.toMatchObject({
+      code: 1000,
+      wasClean: true,
+    });
+  });
 });
 
 function createClient(userAgentPrefix?: string): AIProjectClient {

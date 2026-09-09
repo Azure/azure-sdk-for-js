@@ -61,7 +61,6 @@ export interface AgentEndpointConversationsOperations {
    * without persisted audio (`store = false`) returns `404`.
    */
   getAgentConversationAudioContent: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
@@ -79,7 +78,6 @@ export interface AgentEndpointConversationsOperations {
    * conversation to have persisted audio (`store = true`); otherwise returns `404`.
    */
   getAgentConversationAudio: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
@@ -93,7 +91,6 @@ export interface AgentEndpointConversationsOperations {
    * heard segment.
    */
   getAgentConversationItemGeneratedAudioContent: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -106,7 +103,6 @@ export interface AgentEndpointConversationsOperations {
    * item was not persisted, or when no generated audio exists beyond the heard segment.
    */
   getAgentConversationItemGeneratedAudio: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -120,7 +116,6 @@ export interface AgentEndpointConversationsOperations {
    * Returns `404` when the conversation, item, or its audio was not persisted (`store = false`).
    */
   getAgentConversationItemAudioContent: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -135,7 +130,6 @@ export interface AgentEndpointConversationsOperations {
    * item, or its audio was not persisted.
    */
   getAgentConversationItemAudio: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -149,7 +143,6 @@ export interface AgentEndpointConversationsOperations {
    * (`store = false`).
    */
   getAgentConversationItem: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     itemId: string,
@@ -161,7 +154,6 @@ export interface AgentEndpointConversationsOperations {
    * conversation was not persisted (`store = false`).
    */
   listAgentConversationItems: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams,
@@ -173,7 +165,6 @@ export interface AgentEndpointConversationsOperations {
    * response was not persisted (`store = false`).
    */
   listAgentConversationResponseItems: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     responseId: string,
@@ -184,7 +175,6 @@ export interface AgentEndpointConversationsOperations {
    * `usage`, and status. Returns `404` when the conversation or response was not persisted (`store = false`).
    */
   getAgentConversationResponse: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     responseId: string,
@@ -196,7 +186,6 @@ export interface AgentEndpointConversationsOperations {
    * for the canonical paged output. Returns `404` when the conversation was not persisted (`store = false`).
    */
   listAgentConversationResponses: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: AgentEndpointConversationsListAgentConversationResponsesOptionalParams,
@@ -206,7 +195,6 @@ export interface AgentEndpointConversationsOperations {
    * the customer's explicit data-deletion control for voice conversations.
    */
   deleteAgentConversation: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: AgentEndpointConversationsDeleteAgentConversationOptionalParams,
@@ -216,7 +204,6 @@ export interface AgentEndpointConversationsOperations {
    * Returns `404` when the conversation was not persisted (`store = false`) or does not exist.
    */
   getAgentConversation: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     conversationId: string,
     options?: AgentEndpointConversationsGetAgentConversationOptionalParams,
@@ -227,7 +214,6 @@ export interface AgentEndpointConversationsOperations {
    * agent definition or enabled by the WebSocket session override.
    */
   listAgentConversations: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     options?: AgentEndpointConversationsListAgentConversationsOptionalParams,
   ) => PagedAsyncIterableIterator<VoiceConversation>;
@@ -236,26 +222,16 @@ export interface AgentEndpointConversationsOperations {
 function _getAgentEndpointConversations(context: AIProjectContext) {
   return {
     getAgentConversationAudioContent: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
-    ) =>
-      getAgentConversationAudioContent(
-        context,
-        foundryFeatures,
-        agentName,
-        conversationId,
-        options,
-      ),
+    ) => getAgentConversationAudioContent(context, agentName, conversationId, options),
     getAgentConversationAudio: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
-    ) => getAgentConversationAudio(context, foundryFeatures, agentName, conversationId, options),
+    ) => getAgentConversationAudio(context, agentName, conversationId, options),
     getAgentConversationItemGeneratedAudioContent: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
@@ -263,132 +239,73 @@ function _getAgentEndpointConversations(context: AIProjectContext) {
     ) =>
       getAgentConversationItemGeneratedAudioContent(
         context,
-        foundryFeatures,
         agentName,
         conversationId,
         itemId,
         options,
       ),
     getAgentConversationItemGeneratedAudio: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams,
     ) =>
-      getAgentConversationItemGeneratedAudio(
-        context,
-        foundryFeatures,
-        agentName,
-        conversationId,
-        itemId,
-        options,
-      ),
+      getAgentConversationItemGeneratedAudio(context, agentName, conversationId, itemId, options),
     getAgentConversationItemAudioContent: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
-    ) =>
-      getAgentConversationItemAudioContent(
-        context,
-        foundryFeatures,
-        agentName,
-        conversationId,
-        itemId,
-        options,
-      ),
+    ) => getAgentConversationItemAudioContent(context, agentName, conversationId, itemId, options),
     getAgentConversationItemAudio: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
-    ) =>
-      getAgentConversationItemAudio(
-        context,
-        foundryFeatures,
-        agentName,
-        conversationId,
-        itemId,
-        options,
-      ),
+    ) => getAgentConversationItemAudio(context, agentName, conversationId, itemId, options),
     getAgentConversationItem: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: AgentEndpointConversationsGetAgentConversationItemOptionalParams,
-    ) =>
-      getAgentConversationItem(
-        context,
-        foundryFeatures,
-        agentName,
-        conversationId,
-        itemId,
-        options,
-      ),
+    ) => getAgentConversationItem(context, agentName, conversationId, itemId, options),
     listAgentConversationItems: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams,
-    ) => listAgentConversationItems(context, foundryFeatures, agentName, conversationId, options),
+    ) => listAgentConversationItems(context, agentName, conversationId, options),
     listAgentConversationResponseItems: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       responseId: string,
       options?: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
     ) =>
-      listAgentConversationResponseItems(
-        context,
-        foundryFeatures,
-        agentName,
-        conversationId,
-        responseId,
-        options,
-      ),
+      listAgentConversationResponseItems(context, agentName, conversationId, responseId, options),
     getAgentConversationResponse: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       responseId: string,
       options?: AgentEndpointConversationsGetAgentConversationResponseOptionalParams,
-    ) =>
-      getAgentConversationResponse(
-        context,
-        foundryFeatures,
-        agentName,
-        conversationId,
-        responseId,
-        options,
-      ),
+    ) => getAgentConversationResponse(context, agentName, conversationId, responseId, options),
     listAgentConversationResponses: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: AgentEndpointConversationsListAgentConversationResponsesOptionalParams,
-    ) =>
-      listAgentConversationResponses(context, foundryFeatures, agentName, conversationId, options),
+    ) => listAgentConversationResponses(context, agentName, conversationId, options),
     deleteAgentConversation: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: AgentEndpointConversationsDeleteAgentConversationOptionalParams,
-    ) => deleteAgentConversation(context, foundryFeatures, agentName, conversationId, options),
+    ) => deleteAgentConversation(context, agentName, conversationId, options),
     getAgentConversation: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       conversationId: string,
       options?: AgentEndpointConversationsGetAgentConversationOptionalParams,
-    ) => getAgentConversation(context, foundryFeatures, agentName, conversationId, options),
+    ) => getAgentConversation(context, agentName, conversationId, options),
     listAgentConversations: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       options?: AgentEndpointConversationsListAgentConversationsOptionalParams,
-    ) => listAgentConversations(context, foundryFeatures, agentName, options),
+    ) => listAgentConversations(context, agentName, options),
   };
 }
 

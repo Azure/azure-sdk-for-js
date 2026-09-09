@@ -17,6 +17,7 @@ import {
   type VoiceAgentDefinition,
   type VoiceAgentFunctionTool,
   type RealtimeAudioFormatsUnion,
+  type VoiceAgentServerEvent,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -69,6 +70,7 @@ export async function main(): Promise<void> {
       await connection.sendText("What is the weather in Seattle? Use the weather tool.");
 
       for await (const event of connection) {
+        console.log(`[event] ${event.type}${describeEvent(event)}`);
         switch (event.type) {
           case "response.output_text.delta":
           case "response.output_audio_transcript.delta":
@@ -103,7 +105,13 @@ export async function main(): Promise<void> {
         }
       }
       console.log(
-        `\nCompleted with ${toolCallCount} tool call(s), ${textCharacterCount} text character(s), and ${audioByteCount} audio byte(s).`,
+        `\nCompleted with ${toolCallCount} tool call(s), ${textCharacterCount} text character(s).`,
+      );
+      console.log(`Audio format: PCM16, ${pcmSampleRate} Hz, mono.`);
+      console.log("Input audio:  N/A (this sample sends text input only).");
+      console.log(
+        `Output audio: ${audioByteCount} bytes (${formatBytes(audioByteCount)}), ` +
+          `${formatDuration(audioByteCount)}`,
       );
     } finally {
       audioOutput.end();
@@ -132,6 +140,51 @@ function parseWeatherToolArguments(value: string): { city: string } {
     throw new Error('The get_weather tool requires a non-empty string "city" argument.');
   }
   return { city: argumentsValue.city.trim() };
+}
+
+/** Summarizes a server event with a short, useful detail for the event log. */
+function describeEvent(event: VoiceAgentServerEvent): string {
+  switch (event.type) {
+    case "response.output_audio.delta":
+      return ` (${event.delta.byteLength} bytes)`;
+    case "response.output_text.delta":
+    case "response.output_audio_transcript.delta":
+      return ` (${event.delta.length} chars)`;
+    case "response.function_call_arguments.delta":
+      return ` (call_id=${event.call_id}, +${event.delta.length} chars of arguments)`;
+    case "response.function_call_arguments.done":
+      return ` (call_id=${event.call_id}, name=${event.name}, arguments=${event.arguments})`;
+    case "response.output_item.added":
+      return ` (item type=${event.item.type})`;
+    case "response.done":
+      return ` (status=${event.response.status})`;
+    case "error":
+      return ` (${event.error.code ?? "unknown"}: ${event.error.message})`;
+    default:
+      return "";
+  }
+}
+
+const bytesPerKiB = 1024;
+const bytesPerMiB = bytesPerKiB * 1024;
+
+/** Formats a byte count as a human-readable size (bytes, KB, or MB). */
+function formatBytes(byteCount: number): string {
+  if (byteCount >= bytesPerMiB) {
+    return `${(byteCount / bytesPerMiB).toFixed(2)} MB`;
+  }
+  if (byteCount >= bytesPerKiB) {
+    return `${(byteCount / bytesPerKiB).toFixed(2)} KB`;
+  }
+  return `${byteCount} B`;
+}
+
+const pcmBytesPerSample = 2;
+
+/** Computes and formats the audio duration implied by a PCM16 mono byte count at pcmSampleRate. */
+function formatDuration(byteCount: number): string {
+  const seconds = byteCount / (pcmSampleRate * pcmBytesPerSample);
+  return `${seconds.toFixed(2)}s of audio`;
 }
 
 async function writeAudio(output: WriteStream, audio: Uint8Array): Promise<void> {

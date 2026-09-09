@@ -360,13 +360,11 @@ class VoiceAgentConsole {
     try {
       const client = this.getClient(endpoint);
       const conversation = await client.agentEndpointConversations.getAgentConversation(
-        preview,
         agentName,
         conversationId,
       );
       const items: RealtimeConversationItemUnion[] = [];
       for await (const item of client.agentEndpointConversations.listAgentConversationItems(
-        preview,
         agentName,
         conversationId,
         { limit: 100, order: "asc" },
@@ -1055,7 +1053,6 @@ class VoiceAgentConsole {
     this.showConversationAudioStatus("Loading recording...");
     try {
       const recording = await client.agentEndpointConversations.getAgentConversationAudio(
-        preview,
         agentName,
         conversationId,
       );
@@ -1069,7 +1066,6 @@ class VoiceAgentConsole {
       }
 
       const content = await client.agentEndpointConversations.getAgentConversationAudioContent(
-        preview,
         agentName,
         conversationId,
       );
@@ -1338,9 +1334,7 @@ function voiceAgentModelDisplay(definition: VoiceAgentDefinition): string {
   // The base `VoiceConversationEngine.type` is untyped `string`, so it doesn't discriminate the
   // union automatically; check the literal explicitly before reading the hosted-agent-only `name`.
   const name =
-    engine?.type === "hosted_agent"
-      ? (engine as VoiceHostedAgentConversationEngine).name
-      : "?";
+    engine?.type === "hosted_agent" ? (engine as VoiceHostedAgentConversationEngine).name : "?";
   return `(hosted agent: ${name})`;
 }
 
@@ -1374,7 +1368,12 @@ function withTurnDetectionOverrides(
     // Unlike every other turn-detection type, `semantic_vad` has no `silence_duration_ms` field.
     return { ...turnDetection, create_response: true, interrupt_response: true };
   }
-  return { ...turnDetection, create_response: true, interrupt_response: true, silence_duration_ms: 500 };
+  return {
+    ...turnDetection,
+    create_response: true,
+    interrupt_response: true,
+    silence_duration_ms: 500,
+  };
 }
 
 new VoiceAgentConsole();

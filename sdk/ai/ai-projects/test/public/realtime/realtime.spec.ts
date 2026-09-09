@@ -6,10 +6,11 @@ import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-
 import {
   AIProjectClient,
   KnownApiVersions,
+  KnownVoiceAgentConnectionState,
   VoiceAgentConnectionError,
-  VoiceAgentConnectionState,
   VoiceAgentProtocolError,
 } from "@azure/ai-projects";
+import type { VoiceAgentConnectionState } from "@azure/ai-projects";
 import type {
   VoiceAgentWebSocketConnectOptions,
   VoiceAgentWebSocketFactory,
@@ -244,13 +245,13 @@ describe("AIProjectClient realtime", () => {
     assert.equal(connectOptions.headers["x-ms-client-sdk"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["user-agent"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.deepEqual(states, [
-      VoiceAgentConnectionState.Connecting,
-      VoiceAgentConnectionState.Connected,
+      KnownVoiceAgentConnectionState.Connecting,
+      KnownVoiceAgentConnectionState.Connected,
     ]);
 
     await connection.close();
     assert.equal((await connection.closed).code, 1000);
-    assert.equal(connection.state, VoiceAgentConnectionState.Disconnected);
+    assert.equal(connection.state, KnownVoiceAgentConnectionState.Disconnected);
   });
 
   it("sends text, audio, session settings, and tool outputs", async () => {

@@ -20165,7 +20165,7 @@ export function voiceAgentSessionResponseConfigSerializer(
     model: item["model"],
     expires_at: !item["expires_at"]
       ? item["expires_at"]
-      : (item["expires_at"].getTime() / 1000) | 0,
+      : Math.floor(item["expires_at"].getTime() / 1000),
   };
 }
 

@@ -22,7 +22,7 @@ describe("AIProjectClient Voice Agent management (recorded)", () => {
   });
 
   it("generates, gets, updates, lists, and deletes a voice agent", async () => {
-    const agentName = "voice-agent-mgmt-test";
+    const agentName = recorder.variable("agentName", `voice-agent-mgmt-test-${Date.now()}`);
     const generated = await client.agents.generateAgent({ kind: "voice", name: agentName });
 
     try {
@@ -54,7 +54,7 @@ describe("AIProjectClient Voice Agent management (recorded)", () => {
   });
 
   it("creates a voice agent with text output modality", async () => {
-    const agentName = "voice-agent-text-output";
+    const agentName = recorder.variable("agentName", `voice-agent-text-output-${Date.now()}`);
     const definition: VoiceAgentDefinition = {
       kind: "voice",
       model_type: "managed",
@@ -75,7 +75,7 @@ describe("AIProjectClient Voice Agent management (recorded)", () => {
   });
 
   it("creates a voice agent with function tools", async () => {
-    const agentName = "voice-agent-with-tools";
+    const agentName = recorder.variable("agentName", `voice-agent-with-tools-${Date.now()}`);
     const definition: VoiceAgentDefinition = {
       kind: "voice",
       model_type: "managed",

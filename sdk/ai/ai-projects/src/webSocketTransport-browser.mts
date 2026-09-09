@@ -21,6 +21,10 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   private handlers?: VoiceAgentWebSocketHandlers;
   private readonly closeTimeoutInMs: number;
   private messageChain: Promise<void> = Promise.resolve();
+  // Resolves once `onClose` has actually been invoked for the current connection (after
+  // `messageChain` drains). `close()` awaits this - not just the raw native "close" event -
+  // so it never resolves before the caller observes the authoritative close code/reason/wasClean.
+  private closeNotified: Promise<void> = Promise.resolve();
 
   public constructor(closeTimeoutInMs = 5_000) {
     this.closeTimeoutInMs = closeTimeoutInMs;
@@ -37,6 +41,10 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
     }
     await new Promise<void>((resolve, reject) => {
       let settled = false;
+      let notifyClosed: () => void = () => {};
+      this.closeNotified = new Promise<void>((_resolve) => {
+        notifyClosed = _resolve;
+      });
       const url = addHeadersToUrl(options.url, options.headers);
       this.webSocket = new WebSocket(url, protocols);
       this.webSocket.binaryType = "arraybuffer";
@@ -89,6 +97,7 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
           .catch(() => undefined)
           .finally(() => {
             this.handlers?.onClose(closeEvent.code, closeEvent.reason, closeEvent.wasClean);
+            notifyClosed();
           });
       });
       this.webSocket.addEventListener("error", () => {
@@ -133,6 +142,7 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
       return;
     }
     const webSocket = this.webSocket;
+    const closeNotified = this.closeNotified;
     await new Promise<void>((resolve) => {
       let settled = false;
       const closeState: { timeout?: ReturnType<typeof setTimeout> } = {};
@@ -144,10 +154,16 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
         if (closeState.timeout) {
           clearTimeout(closeState.timeout);
         }
-        webSocket.removeEventListener("close", finish);
+        webSocket.removeEventListener("close", onNativeClose);
         resolve();
       };
-      webSocket.addEventListener("close", finish, { once: true });
+      // Wait for onClose to actually run (it carries the authoritative code/reason/wasClean
+      // from the native CloseEvent) before resolving, so this never races ahead of onClose and
+      // reports a stale/incorrect close outcome to the caller.
+      function onNativeClose(): void {
+        void closeNotified.finally(finish);
+      }
+      webSocket.addEventListener("close", onNativeClose, { once: true });
       closeState.timeout = setTimeout(finish, this.closeTimeoutInMs);
       if (webSocket.readyState !== WebSocket.CLOSING) {
         webSocket.close(code, reason);

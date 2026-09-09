@@ -17,11 +17,14 @@ import {
   type VoiceAgentDefinition,
   type VoiceAgentTurnDetectionConfigUnion,
   type RealtimeAudioFormatsUnion,
+  type VoiceAgentServerEvent,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
 import { createReadStream, createWriteStream, type WriteStream } from "node:fs";
 import { finished } from "node:stream/promises";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
 const projectEndpoint = getRequiredEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
@@ -30,7 +33,13 @@ const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
 // The input file must contain raw PCM16 24kHz mono audio with real, audible speech.
 // Silence or non-speech noise will never trigger server-side turn detection, and the
 // service will eventually drop the connection (observed as a 1006 abnormal close).
-const audioInputPath = process.env["FOUNDRY_VOICE_AGENT_AUDIO_INPUT_FILE"]?.trim() || "./input.pcm";
+// Defaults to the checked-in sample fixture (a few seconds of synthesized speech) so this
+// sample also runs unattended, e.g. in the live-test pipeline's `execute:samples` step.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const defaultAudioInputPath = path.join(__dirname, "assets/input.pcm");
+const audioInputPath =
+  process.env["FOUNDRY_VOICE_AGENT_AUDIO_INPUT_FILE"]?.trim() || defaultAudioInputPath;
 const audioOutputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "./output.pcm";
 const preview = "VoiceAgents=V1Preview" as const;
@@ -48,7 +57,8 @@ export async function main(): Promise<void> {
     const connection = await project.realtime.connect(agentName);
     const audioOutput = createWriteStream(audioOutputPath);
     let textCharacterCount = 0;
-    let audioByteCount = 0;
+    let inputAudioByteCount = 0;
+    let outputAudioByteCount = 0;
     let inputComplete = false;
     let responseComplete = false;
 
@@ -69,9 +79,10 @@ export async function main(): Promise<void> {
 
       const consumeEvents = (async () => {
         for await (const event of connection) {
+          console.log(`[event] ${event.type}${describeEvent(event)}`);
           switch (event.type) {
             case "response.output_audio.delta":
-              audioByteCount += event.delta.byteLength;
+              outputAudioByteCount += event.delta.byteLength;
               await writeAudio(audioOutput, event.delta);
               break;
             case "response.output_text.delta":
@@ -97,6 +108,7 @@ export async function main(): Promise<void> {
         highWaterMark: inputChunkSize,
       })) {
         await connection.sendAudio(chunk);
+        inputAudioByteCount += chunk.byteLength;
         await delay((chunk.byteLength / (pcmSampleRate * pcmBytesPerSample)) * 1000);
       }
       const silence = new Uint8Array(inputChunkSize);
@@ -106,6 +118,7 @@ export async function main(): Promise<void> {
         durationInMs += inputChunkDurationInMs
       ) {
         await connection.sendAudio(silence);
+        inputAudioByteCount += silence.byteLength;
         await delay(inputChunkDurationInMs);
       }
       inputComplete = true;
@@ -113,8 +126,21 @@ export async function main(): Promise<void> {
         await connection.close();
       }
       await consumeEvents;
+      const totalAudioByteCount = inputAudioByteCount + outputAudioByteCount;
+      console.log(`\nCompleted with ${textCharacterCount} text character(s).`);
       console.log(
-        `\nCompleted with ${textCharacterCount} text character(s) and ${audioByteCount} audio byte(s).`,
+        `Audio format: PCM16, ${pcmSampleRate} Hz, mono (${pcmBytesPerSample} bytes/sample).`,
+      );
+      console.log(
+        `Input audio:  ${inputAudioByteCount} bytes (${formatBytes(inputAudioByteCount)}), ` +
+          `${formatDuration(inputAudioByteCount)}`,
+      );
+      console.log(
+        `Output audio: ${outputAudioByteCount} bytes (${formatBytes(outputAudioByteCount)}), ` +
+          `${formatDuration(outputAudioByteCount)}`,
+      );
+      console.log(
+        `Total audio:  ${totalAudioByteCount} bytes (${formatBytes(totalAudioByteCount)})`,
       );
     } finally {
       audioOutput.end();
@@ -135,6 +161,49 @@ async function writeAudio(output: WriteStream, audio: Uint8Array): Promise<void>
   if (!output.write(audio)) {
     await once(output, "drain");
   }
+}
+
+/** Summarizes a server event with a short, useful detail for the event log. */
+function describeEvent(event: VoiceAgentServerEvent): string {
+  switch (event.type) {
+    case "response.output_audio.delta":
+      return ` (${event.delta.byteLength} bytes)`;
+    case "response.output_text.delta":
+    case "response.output_audio_transcript.delta":
+      return ` (${event.delta.length} chars)`;
+    case "input_audio_buffer.speech_started":
+      return ` (audio_start_ms=${event.audio_start_ms})`;
+    case "input_audio_buffer.speech_stopped":
+      return ` (audio_end_ms=${event.audio_end_ms})`;
+    case "response.output_item.added":
+      return ` (item type=${event.item.type})`;
+    case "response.done":
+      return ` (status=${event.response.status})`;
+    case "error":
+      return ` (${event.error.code ?? "unknown"}: ${event.error.message})`;
+    default:
+      return "";
+  }
+}
+
+const bytesPerKiB = 1024;
+const bytesPerMiB = bytesPerKiB * 1024;
+
+/** Formats a byte count as a human-readable size (bytes, KB, or MB). */
+function formatBytes(byteCount: number): string {
+  if (byteCount >= bytesPerMiB) {
+    return `${(byteCount / bytesPerMiB).toFixed(2)} MB`;
+  }
+  if (byteCount >= bytesPerKiB) {
+    return `${(byteCount / bytesPerKiB).toFixed(2)} KB`;
+  }
+  return `${byteCount} B`;
+}
+
+/** Computes and formats the audio duration implied by a PCM16 mono byte count at pcmSampleRate. */
+function formatDuration(byteCount: number): string {
+  const seconds = byteCount / (pcmSampleRate * pcmBytesPerSample);
+  return `${seconds.toFixed(2)}s of audio`;
 }
 
 function delay(durationInMs: number): Promise<void> {

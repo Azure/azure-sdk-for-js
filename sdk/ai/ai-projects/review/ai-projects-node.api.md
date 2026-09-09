@@ -270,20 +270,20 @@ export interface AgentEndpointConversationsListAgentConversationsOptionalParams 
 
 // @public
 export interface AgentEndpointConversationsOperations {
-    deleteAgentConversation: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsDeleteAgentConversationOptionalParams) => Promise<void>;
-    getAgentConversation: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationOptionalParams) => Promise<VoiceConversation>;
-    getAgentConversationAudio: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams) => Promise<VoiceRecordingResponse>;
-    getAgentConversationAudioContent: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse>;
-    getAgentConversationItem: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
-    getAgentConversationItemAudio: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams) => Promise<VoiceItemAudioResponse>;
-    getAgentConversationItemAudioContent: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse>;
-    getAgentConversationItemGeneratedAudio: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams) => Promise<VoiceGeneratedItemAudioResponse>;
-    getAgentConversationItemGeneratedAudioContent: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentResponse>;
-    getAgentConversationResponse: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsGetAgentConversationResponseOptionalParams) => Promise<VoiceResponse>;
-    listAgentConversationItems: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
-    listAgentConversationResponseItems: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
-    listAgentConversationResponses: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
-    listAgentConversations: (foundryFeatures: "VoiceAgents=V1Preview", agentName: string, options?: AgentEndpointConversationsListAgentConversationsOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
+    deleteAgentConversation: (agentName: string, conversationId: string, options?: AgentEndpointConversationsDeleteAgentConversationOptionalParams) => Promise<void>;
+    getAgentConversation: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationOptionalParams) => Promise<VoiceConversation>;
+    getAgentConversationAudio: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams) => Promise<VoiceRecordingResponse>;
+    getAgentConversationAudioContent: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse>;
+    getAgentConversationItem: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
+    getAgentConversationItemAudio: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams) => Promise<VoiceItemAudioResponse>;
+    getAgentConversationItemAudioContent: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse>;
+    getAgentConversationItemGeneratedAudio: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioOptionalParams) => Promise<VoiceGeneratedItemAudioResponse>;
+    getAgentConversationItemGeneratedAudioContent: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemGeneratedAudioContentResponse>;
+    getAgentConversationResponse: (agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsGetAgentConversationResponseOptionalParams) => Promise<VoiceResponse>;
+    listAgentConversationItems: (agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listAgentConversationResponseItems: (agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listAgentConversationResponses: (agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
+    listAgentConversations: (agentName: string, options?: AgentEndpointConversationsListAgentConversationsOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
 }
 
 // @public
@@ -3515,6 +3515,14 @@ export enum KnownVersions {
 }
 
 // @public
+export const KnownVoiceAgentConnectionState: {
+    readonly Disconnected: "disconnected";
+    readonly Connecting: "connecting";
+    readonly Connected: "connected";
+    readonly Closing: "closing";
+};
+
+// @public
 interface ListVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
@@ -6493,16 +6501,7 @@ export class VoiceAgentConnectionError extends VoiceAgentRealtimeError {
 }
 
 // @public
-export enum VoiceAgentConnectionState {
-    // (undocumented)
-    Closing = "closing",
-    // (undocumented)
-    Connected = "connected",
-    // (undocumented)
-    Connecting = "connecting",
-    // (undocumented)
-    Disconnected = "disconnected"
-}
+export type VoiceAgentConnectionState = (typeof KnownVoiceAgentConnectionState)[keyof typeof KnownVoiceAgentConnectionState];
 
 // @public
 export type VoiceAgentConnectionStateChangedHandler = (state: VoiceAgentConnectionState, previousState: VoiceAgentConnectionState) => void;

@@ -28,13 +28,17 @@ import type {
 const defaultCredentialScope = "https://ai.azure.com/.default";
 const voiceAgentsPreview = "VoiceAgents=V1Preview";
 
+/** Known values of {@link VoiceAgentConnectionState} reported by a voice-agent realtime connection. */
+export const KnownVoiceAgentConnectionState = {
+  Disconnected: "disconnected",
+  Connecting: "connecting",
+  Connected: "connected",
+  Closing: "closing",
+} as const;
+
 /** Connection states reported by a voice-agent realtime connection. */
-export enum VoiceAgentConnectionState {
-  Disconnected = "disconnected",
-  Connecting = "connecting",
-  Connected = "connected",
-  Closing = "closing",
-}
+export type VoiceAgentConnectionState =
+  (typeof KnownVoiceAgentConnectionState)[keyof typeof KnownVoiceAgentConnectionState];
 
 /** Called when a voice-agent connection changes state. */
 export type VoiceAgentConnectionStateChangedHandler = (
@@ -235,7 +239,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
   private readonly transport: VoiceAgentWebSocketTransport;
   private readonly closePromise: Promise<VoiceAgentCloseResult>;
   private resolveClose!: (result: VoiceAgentCloseResult) => void;
-  private currentState = VoiceAgentConnectionState.Disconnected;
+  private currentState: VoiceAgentConnectionState = KnownVoiceAgentConnectionState.Disconnected;
   private iteratorStarted = false;
   private finished = false;
 
@@ -273,7 +277,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
   }
 
   public async open(): Promise<void> {
-    this.setState(VoiceAgentConnectionState.Connecting);
+    this.setState(KnownVoiceAgentConnectionState.Connecting);
     let token: string;
     try {
       const accessToken = await this.credential.getToken(
@@ -318,7 +322,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
       });
-      this.setState(VoiceAgentConnectionState.Connected);
+      this.setState(KnownVoiceAgentConnectionState.Connected);
       logger.info("Connected to voice agent", { agentName: this.agentName });
     } catch (error) {
       const cancelled = this.connectOptions.abortSignal?.aborted === true;
@@ -338,7 +342,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     event: VoiceAgentClientEvent,
     options: VoiceAgentSendOptions = {},
   ): Promise<void> {
-    if (this.state !== VoiceAgentConnectionState.Connected) {
+    if (this.state !== KnownVoiceAgentConnectionState.Connected) {
       throw new VoiceAgentConnectionError(
         `Cannot send while the connection is ${this.state}.`,
         "invalidState",
@@ -459,13 +463,13 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     reason = "Client closed the voice-agent connection.",
   ): Promise<void> {
     if (
-      this.state === VoiceAgentConnectionState.Disconnected ||
-      this.state === VoiceAgentConnectionState.Closing
+      this.state === KnownVoiceAgentConnectionState.Disconnected ||
+      this.state === KnownVoiceAgentConnectionState.Closing
     ) {
       await this.closed;
       return;
     }
-    this.setState(VoiceAgentConnectionState.Closing);
+    this.setState(KnownVoiceAgentConnectionState.Closing);
     try {
       await this.transport.close(code, reason);
     } finally {
@@ -494,7 +498,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
         yield result.value;
       }
     } finally {
-      if (this.state === VoiceAgentConnectionState.Connected) {
+      if (this.state === KnownVoiceAgentConnectionState.Connected) {
         await this.close();
       }
     }
@@ -527,7 +531,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     if (this.finished) {
       return;
     }
-    if (wasClean || this.state === VoiceAgentConnectionState.Closing) {
+    if (wasClean || this.state === KnownVoiceAgentConnectionState.Closing) {
       this.finish(code, reason, wasClean);
     } else {
       const error = new VoiceAgentConnectionError(
@@ -563,7 +567,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     } else {
       this.events.close();
     }
-    this.setState(VoiceAgentConnectionState.Disconnected);
+    this.setState(KnownVoiceAgentConnectionState.Disconnected);
     this.resolveClose({ code, reason, wasClean, error });
     logger.info("Voice-agent connection closed", { code, reason, wasClean });
     // Guarantee the underlying socket never outlives the connection, even when finish() is

@@ -684,10 +684,10 @@ export function _listTelephonyCallsSend(
       status: options?.status,
       started_after: !options?.startedAfter
         ? options?.startedAfter
-        : (options?.startedAfter.getTime() / 1000) | 0,
+        : Math.floor(options?.startedAfter.getTime() / 1000),
       started_before: !options?.startedBefore
         ? options?.startedBefore
-        : (options?.startedBefore.getTime() / 1000) | 0,
+        : Math.floor(options?.startedBefore.getTime() / 1000),
       limit: options?.limit,
       order: options?.order,
       after: options?.after,

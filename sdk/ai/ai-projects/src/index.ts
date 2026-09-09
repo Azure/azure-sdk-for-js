@@ -11,12 +11,13 @@ export type { AIProjectClientOptions } from "./aiProjectClient.js";
 export type { GenAITracingOptions } from "./tracing/configuration.js";
 export {
   VoiceAgentRealtimeClient,
-  VoiceAgentConnectionState,
+  KnownVoiceAgentConnectionState,
 } from "./realtime/voiceAgentRealtimeClient.js";
 export type {
   VoiceAgentRealtimeClientOptions,
   VoiceAgentRealtimeClientConnectOptions,
   VoiceAgentConnection,
+  VoiceAgentConnectionState,
   VoiceAgentConnectionStateChangedHandler,
   VoiceAgentCloseResult,
   VoiceAgentSendOptions,

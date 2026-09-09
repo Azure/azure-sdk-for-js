@@ -19,12 +19,17 @@ const preview = "VoiceAgents=V1Preview" as const;
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-gen-${Date.now()}`;
-  const generated = await project.agents.generateAgent({ kind: "voice", name: agentName });
+  const generated = await project.agents.generateAgent(
+    { kind: "voice", name: agentName },
+    { onResponse: (raw) => console.log(`[HTTP ${raw.status}] generateAgent`) },
+  );
 
   try {
     console.log(`Generated ${generated.name}, version ${generated.versions.latest.version}`);
 
-    const retrieved = await project.agents.get(generated.name);
+    const retrieved = await project.agents.get(generated.name, {
+      onResponse: (raw) => console.log(`[HTTP ${raw.status}] get`),
+    });
     const definition = retrieved.versions.latest.definition;
     if (
       definition.kind !== "voice" ||
@@ -40,16 +45,23 @@ export async function main(): Promise<void> {
     definition.instructions = "You are a concise, friendly, and helpful voice assistant.";
     const updated = await project.agents.update(generated.name, definition, {
       foundryFeatures: preview,
+      onResponse: (raw) => console.log(`[HTTP ${raw.status}] update`),
     });
     console.log(`Updated ${updated.name}, version ${updated.versions.latest.version}`);
 
     console.log("Voice agents:");
-    const listOptions: AgentsListOptionalParams = { kind: "voice", limit: 20 };
+    const listOptions: AgentsListOptionalParams = {
+      kind: "voice",
+      limit: 20,
+      onResponse: (raw) => console.log(`[HTTP ${raw.status}] list (page)`),
+    };
     for await (const agent of project.agents.list(listOptions)) {
       console.log(`- ${agent.name} (${agent.state})`);
     }
   } finally {
-    await project.agents.delete(generated.name);
+    await project.agents.delete(generated.name, {
+      onResponse: (raw) => console.log(`[HTTP ${raw.status}] delete`),
+    });
     console.log(`Deleted ${generated.name}`);
   }
 }
