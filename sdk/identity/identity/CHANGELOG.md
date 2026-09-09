@@ -2,6 +2,10 @@
 
 ## 4.13.3 (Unreleased)
 
+### Features Added
+
+- Bumped the minimum `@azure/msal-node` dependency to `^5.6.0` to provide Azure Arc user-assigned managed identity support.
+
 ### Bugs Fixed
 
 - Fixed `AzurePipelinesCredential` to include only relevant details in error messages and logs when the OIDC token request fails. [#39774](https://github.com/Azure/azure-sdk-for-js/pull/39774)
