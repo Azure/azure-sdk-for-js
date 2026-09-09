@@ -33,11 +33,6 @@ export interface SharedPrivateLinkResourcesOperations {
    * Returns 202 (Accepted) for asynchronous deletion, 204 (No Content) if the service exists but the shared private link is not found, or 404 (Not Found) if the service is not found.
    * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     searchServiceName: string,
@@ -92,7 +87,6 @@ export interface SharedPrivateLinkResourcesOperations {
     options?: SharedPrivateLinkResourcesGetOptionalParams,
   ) => Promise<SharedPrivateLinkResource>;
 }
-
 function _getSharedPrivateLinkResources(context: SearchManagementContext) {
   return {
     listByService: (
@@ -200,7 +194,6 @@ function _getSharedPrivateLinkResources(context: SearchManagementContext) {
     ) => get(context, resourceGroupName, searchServiceName, sharedPrivateLinkResourceName, options),
   };
 }
-
 export function _getSharedPrivateLinkResourcesOperations(
   context: SearchManagementContext,
 ): SharedPrivateLinkResourcesOperations {

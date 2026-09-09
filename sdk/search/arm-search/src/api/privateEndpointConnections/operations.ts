@@ -36,7 +36,7 @@ export function _listByServiceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,14 +60,15 @@ export async function _listByServiceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _privateEndpointConnectionListResultDeserializer(result.body);
 }
-
 /** Gets a list of all private endpoint connections in the given service. */
 export function listByService(
   context: Client,
@@ -83,7 +84,7 @@ export function listByService(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -102,7 +103,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,27 +123,27 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateEndpointConnection> {
+): Promise<PrivateEndpointConnection | void> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
+  if (!result.body) {
+    return;
+  }
+
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /**
  * Disconnects the private endpoint connection and deletes it from the search service.
  * Returns 200 (OK) with the deleted connection details on successful deletion, or 404 (Not Found) if the connection does not exist.
  * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
- */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
  */
 export async function $delete(
   context: Client,
@@ -150,7 +151,7 @@ export async function $delete(
   searchServiceName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
-): Promise<PrivateEndpointConnection> {
+): Promise<PrivateEndpointConnection | void> {
   const result = await _$deleteSend(
     context,
     resourceGroupName,
@@ -176,7 +177,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,14 +203,15 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Updates a private endpoint connection to the search service in the given resource group. */
 export async function update(
   context: Client,
@@ -244,7 +246,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,14 +270,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Gets the details of the private endpoint connection to the search service in the given resource group. */
 export async function get(
   context: Client,
