@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  * x-ms-original-file: 2026-06-01/PostDeploymentValidateOnResourceGroup.json
  */
-async function validatesATemplateAtResourceGroupScope(): Promise<void> {
+async function validatesATemplateAtResourceGroupScope() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
   const client = new DeploymentsClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function validatesATemplateAtResourceGroupScope(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await validatesATemplateAtResourceGroupScope();
 }
 
