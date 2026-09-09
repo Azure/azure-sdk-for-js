@@ -8,6 +8,12 @@ import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/inde
 import { createAIProject } from "./api/index.js";
 import type { AgentsOperations } from "./classic/agents/index.js";
 import { _getAgentsOperations } from "./classic/agents/index.js";
+import type { AgentEndpointConversationsOperations } from "./classic/agentEndpointConversations/index.js";
+import { _getAgentEndpointConversationsOperations } from "./classic/agentEndpointConversations/index.js";
+import type { AgentTelephonyOperations } from "./classic/agentTelephony/index.js";
+import { _getAgentTelephonyOperations } from "./classic/agentTelephony/index.js";
+import type { VoiceAgentWebSocketOperations } from "./classic/voiceAgentWebSocket/index.js";
+import { _getVoiceAgentWebSocketOperations } from "./classic/voiceAgentWebSocket/index.js";
 import type { ToolboxesOperations } from "./classic/toolboxes/index.js";
 import { _getToolboxesOperations } from "./classic/toolboxes/index.js";
 import type { BetaOperations } from "./classic/beta/index.js";
@@ -107,6 +113,11 @@ export class AIProjectClient {
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
+    this.agentEndpointConversations = _getAgentEndpointConversationsOperations(
+      this._azureScopeClient,
+    );
+    this.agentTelephony = _getAgentTelephonyOperations(this._azureScopeClient);
+    this.voiceAgentWebSocket = _getVoiceAgentWebSocketOperations(this._azureScopeClient);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
   }
@@ -125,6 +136,12 @@ export class AIProjectClient {
   public readonly evaluationRules: EvaluationRulesOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
+  /** Persisted conversations and audio for agent endpoints. */
+  public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
+  /** Outbound voice-agent call jobs and campaigns. */
+  public readonly agentTelephony: AgentTelephonyOperations;
+  /** The voice-agent WebSocket handshake operation. */
+  public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** The operation groups for beta include beta features:
    * - Memory Stores
    * - Evaluators

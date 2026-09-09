@@ -1,5 +1,22 @@
 # Release History
 
+## 2.7.0 (Unreleased)
+
+### Features Added
+
+- Add voice-agent definitions and `project.agents.generateAgent` for generating agents from high-level authoring inputs. [#39906](https://github.com/Azure/azure-sdk-for-js/issues/39906)
+- Add `project.agentEndpointConversations` for reading persisted voice conversations, responses, items, and audio. [#39906](https://github.com/Azure/azure-sdk-for-js/issues/39906)
+- Add telephony binding, call, and transfer-target operations to `project.agents`, and `project.agentTelephony` for outbound call jobs and campaign lifecycle operations. [#39906](https://github.com/Azure/azure-sdk-for-js/issues/39906)
+- Add `project.voiceAgentWebSocket` for the low-level voice endpoint handshake and voice client/server event models. The handshake operation does not provide a WebSocket session object. [#39906](https://github.com/Azure/azure-sdk-for-js/issues/39906)
+
+### Bugs Fixed
+
+- Preserve realtime function-tool JSON Schema parameters and voice/telephony preview headers when serializing requests, continuing lists, and polling campaign operations. [#39906](https://github.com/Azure/azure-sdk-for-js/issues/39906)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `bc0043548d8af329d58200bc8333d44510d41ef1`. Voice-agent and telephony features require the `VoiceAgents=V1Preview` opt-in. [#39906](https://github.com/Azure/azure-sdk-for-js/issues/39906)
+
 ## 2.6.0 (2026-09-03)
 
 ### Features Added

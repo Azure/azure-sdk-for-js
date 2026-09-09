@@ -62,6 +62,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
+  - [Voice agents (preview)](#voice-agents-preview)
   - [Using Agent tools](#using-agent-tools)
     - [Built-in Tools](#built-in-tools)
     - [Connection-Based Tools](#connection-based-tools)
@@ -233,6 +234,33 @@ console.log("Conversation deleted");
 await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
+
+### Voice agents (preview)
+
+Voice-agent APIs require access to the `VoiceAgents=V1Preview` feature. Generate a voice
+agent with `project.agents.generateAgent`, manage telephony bindings and calls through
+`project.agents`, and manage outbound call jobs and campaigns through `project.agentTelephony`.
+See the [voice agent generation](./samples-dev/agents/voiceAgentGeneration.ts) and
+[draft telephony campaign](./samples-dev/agents/voiceTelephonyCampaign.ts) samples.
+
+Read persisted conversations using `project.agentEndpointConversations`. Conversations
+are available only when persistence was enabled with `store: true`; enabling it stores
+both conversation content and audio.
+
+```ts snippet:ReadmeSampleVoiceConversations
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "<voice agent name>";
+for await (const conversation of project.agentEndpointConversations.listAgentConversations(
+  agentName,
+)) {
+  console.log(`Conversation ${conversation.id}: ${conversation.status}`);
+}
+```
+
+See [voice conversations](./samples-dev/conversations/voiceConversations.ts) for a complete example.
+`project.voiceAgentWebSocket.connectVoiceAgent` exposes the low-level HTTP upgrade
+operation and returns no WebSocket session object. The generated operation is not a
+realtime audio client; applications need a WebSocket-capable transport to exchange
+the exported `VoiceAgentClientEvent` and `VoiceAgentServerEvent` messages.
 
 ### Using Agent tools
 

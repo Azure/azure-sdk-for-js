@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   getTelephonyOperation,
   cancelTelephonyCampaign,
@@ -17,7 +17,7 @@ import {
   getTelephonyCallJob,
   createTelephonyCallJob,
 } from "../../api/agentTelephony/operations.js";
-import {
+import type {
   AgentTelephonyGetTelephonyOperationOptionalParams,
   AgentTelephonyCancelTelephonyCampaignOptionalParams,
   AgentTelephonyResumeTelephonyCampaignOptionalParams,
@@ -32,7 +32,7 @@ import {
   AgentTelephonyGetTelephonyCallJobOptionalParams,
   AgentTelephonyCreateTelephonyCallJobOptionalParams,
 } from "../../api/agentTelephony/options.js";
-import {
+import type {
   CreateTelephonyCallJobRequest,
   TelephonyCallJob,
   CreateTelephonyCampaignRequest,
@@ -43,7 +43,7 @@ import {
   TelephonyCampaignRecipientImport,
   PublishTelephonyCampaignRequest,
 } from "../../models/models.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AgentTelephony operations. */
 export interface AgentTelephonyOperations {

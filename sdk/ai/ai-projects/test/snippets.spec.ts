@@ -40,6 +40,15 @@ describe("snippets", function () {
     project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
+  it("ReadmeSampleVoiceConversations", async function () {
+    const agentName = process.env["FOUNDRY_AGENT_NAME"] || "<voice agent name>";
+    for await (const conversation of project.agentEndpointConversations.listAgentConversations(
+      agentName,
+    )) {
+      console.log(`Conversation ${conversation.id}: ${conversation.status}`);
+    }
+  });
+
   it("previewflag", async function () {
     await project.agents.createVersion(
       "preview-agent",

@@ -67,3 +67,31 @@ export type {
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
+export type {
+  AgentsReplaceTelephonyTransferTargetsOptionalParams,
+  AgentsGetTelephonyTransferTargetsOptionalParams,
+  AgentsEndTelephonyCallOptionalParams,
+  AgentsTransferTelephonyCallOptionalParams,
+  AgentsGetTelephonyCallOptionalParams,
+  AgentsListTelephonyCallsOptionalParams,
+  AgentsDeleteTelephonyBindingOptionalParams,
+  AgentsUpdateTelephonyBindingOptionalParams,
+  AgentsGetTelephonyBindingOptionalParams,
+  AgentsListTelephonyBindingsOptionalParams,
+  AgentsCreateTelephonyBindingOptionalParams,
+  AgentsGenerateAgentOptionalParams,
+} from "./options.js";
+export {
+  replaceTelephonyTransferTargets,
+  getTelephonyTransferTargets,
+  endTelephonyCall,
+  transferTelephonyCall,
+  getTelephonyCall,
+  listTelephonyCalls,
+  deleteTelephonyBinding,
+  updateTelephonyBinding,
+  getTelephonyBinding,
+  listTelephonyBindings,
+  createTelephonyBinding,
+  generateAgent,
+} from "./operations.js";
