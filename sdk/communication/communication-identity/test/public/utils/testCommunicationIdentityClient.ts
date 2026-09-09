@@ -15,8 +15,8 @@ import {
   getTokenHttpClient,
   revokeTokensHttpClient,
 } from "./mockHttpClients.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
-import type { OperationOptions } from "@azure/core-client";
 
 export class TestCommunicationIdentityClient {
   private connectionString: string = "endpoint=https://contoso.spool.azure.local;accesskey=banana";
