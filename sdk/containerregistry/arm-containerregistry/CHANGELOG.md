@@ -140,15 +140,7 @@ Compared with version 12.0.0
   - Enum KnownVersions has a new value VLatestPreview
 
 ### Breaking Changes
-  - Operation ConnectedRegistriesOperations.beginCreate has a new signature
-  - Operation ConnectedRegistriesOperations.beginCreateAndWait has a new signature
-  - Operation ConnectedRegistriesOperations.beginUpdate has a new signature
-  - Operation ConnectedRegistriesOperations.beginUpdateAndWait has a new signature
-  - Operation ConnectedRegistriesOperations.create has a new signature
-  - Operation ConnectedRegistriesOperations.get has a new signature
-  - Operation ConnectedRegistriesOperations.list has a new signature
-  - Operation ConnectedRegistriesOperations.update has a new signature
-  - Parameter tokenId of interface SyncProperties is now optional
+  - Parameter tokenId of interface SyncProperties is no longer required (`tokenId: string` changed to `tokenId?: string`). Existing string inputs remain valid, but TypeScript code that reads this property must handle `undefined` when `strictNullChecks` is enabled.
 
 ## 12.1.0-beta.2 (2026-07-03)
 Compared with version 12.0.0
