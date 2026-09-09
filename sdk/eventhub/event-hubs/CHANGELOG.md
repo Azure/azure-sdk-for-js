@@ -1,8 +1,10 @@
 # Release History
 
-## 6.0.5 (Unreleased)
+## 6.1.0 (Unreleased)
 
 ### Features Added
+
+- Added the `skipConvertingDate` option to `SubscribeOptions`. When it is set to `true`, Date typed values in the application properties and the message annotations of received events are returned as `Date` objects instead of numbers that represent UNIX epoch milliseconds. [#30809](https://github.com/Azure/azure-sdk-for-js/issues/30809)
 
 ### Breaking Changes
 

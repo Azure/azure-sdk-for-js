@@ -198,6 +198,58 @@ describe("EventData", () => {
         },
       });
     });
+
+    it("preserves Dates in properties and annotations when skipConvertingDate is true", async () => {
+      const timestamp = new Date();
+      const extraAnnotations = {
+        "x-date": timestamp,
+        "x-number": timestamp.getTime(),
+      };
+      const rheaMessage = {
+        body: testBody,
+        application_properties: {
+          topLevelDate: timestamp,
+          child: {
+            nestedDate: timestamp,
+            children: [timestamp, { deepDate: timestamp }],
+          },
+        },
+        message_annotations: {
+          ...testAnnotations,
+          ...extraAnnotations,
+        },
+        creation_time: timestamp,
+      };
+
+      const testEventData = fromRheaMessage(rheaMessage, false, true);
+
+      testEventData.enqueuedTimeUtc!.getTime().should.equal(testAnnotations["x-opt-enqueued-time"]);
+      testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
+      testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
+      testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
+      testEventData.systemProperties!["x-date"].should.eql(timestamp);
+      testEventData.systemProperties!["x-number"].should.eql(extraAnnotations["x-number"]);
+      testEventData.systemProperties!["creationTime"].should.eql(timestamp);
+      testEventData.properties!.should.eql({
+        topLevelDate: timestamp,
+        child: {
+          nestedDate: timestamp,
+          children: [timestamp, { deepDate: timestamp }],
+        },
+      });
+
+      // The default keeps converting Dates into numbers.
+      const defaultEventData = fromRheaMessage(rheaMessage, false);
+      defaultEventData.systemProperties!["x-date"].should.eql(timestamp.getTime());
+      defaultEventData.systemProperties!["creationTime"].should.eql(timestamp.getTime());
+      defaultEventData.properties!.should.eql({
+        topLevelDate: timestamp.getTime(),
+        child: {
+          nestedDate: timestamp.getTime(),
+          children: [timestamp.getTime(), { deepDate: timestamp.getTime() }],
+        },
+      });
+    });
   });
   describe("toAmqpMessage", () => {
     it("populates body with the message body encoded", async () => {

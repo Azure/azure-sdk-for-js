@@ -82,6 +82,9 @@ export interface CommonEventProcessorOptions
  * - `skipParsingBodyAsJson` : Option to disable the client from running JSON.parse() on the message body when receiving the message.
  * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you prefer to work directly with
  * the bytes present in the message body than have the client attempt to parse it.
+ * - `skipConvertingDate` : Whether to skip converting Date type on properties of message annotations or application
+ * properties into numbers when receiving the message. By default, properties of Date type is converted into UNIX epoch
+ * number for compatibility.
  *
  * Example usage:
  * ```ts snippet:ignore
@@ -126,6 +129,13 @@ export interface PartitionReceiverOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
+   */
+  skipConvertingDate?: boolean;
   /**
    * The count of events requested eagerly and queued without regard to whether a read was requested.
    */

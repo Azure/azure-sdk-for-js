@@ -107,6 +107,32 @@ describe("EventHubConsumerClient", () => {
         );
       });
 
+      it("passes skipConvertingDate from SubscribeOptions to the event processor", async () => {
+        let sawOption: boolean | undefined;
+        validateOptions = (options) => {
+          sawOption = options.skipConvertingDate;
+        };
+
+        const subscription = client.subscribe("0", subscriptionHandlers, {
+          skipConvertingDate: true,
+        });
+
+        should.equal(sawOption, true);
+        await subscription.close();
+      });
+
+      it("leaves skipConvertingDate unset when SubscribeOptions omits it", async () => {
+        let sawOption: boolean | undefined = true;
+        validateOptions = (options) => {
+          sawOption = options.skipConvertingDate;
+        };
+
+        const subscription = client.subscribe("0", subscriptionHandlers);
+
+        should.not.exist(sawOption);
+        await subscription.close();
+      });
+
       it("subscribe to single partition, no checkpoint store, no loadBalancingOptions", async () => {
         validateOptions = (options) => {
           // when the user doesn't pass a checkpoint store we give them a really simple set of
