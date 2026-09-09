@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a scheduled action.
  *
  * @summary creates or updates a scheduled action.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function createOrUpdateAScheduledAction() {
   const credential = new DefaultAzureCredential();
