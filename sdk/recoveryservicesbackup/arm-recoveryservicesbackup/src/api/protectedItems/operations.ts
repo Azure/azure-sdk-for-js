@@ -37,7 +37,7 @@ export function _$deleteSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,7 +104,7 @@ export function _createOrUpdateSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,7 +169,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<ProtectedItemResource>, ProtectedItemResource>;
 }
 
@@ -191,7 +191,7 @@ export function _getSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       "%24filter": options?.filter,
     },
     {

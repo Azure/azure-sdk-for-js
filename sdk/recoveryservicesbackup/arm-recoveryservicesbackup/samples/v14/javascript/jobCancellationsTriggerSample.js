@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary cancels a job. This is an asynchronous operation. To know the status of the cancellation, call
  * GetCancelOperationResult API.
- * x-ms-original-file: 2026-07-01/Common/TriggerCancelJob.json
+ * x-ms-original-file: 2026-08-01/Common/TriggerCancelJob.json
  */
 async function cancelJob() {
   const credential = new DefaultAzureCredential();

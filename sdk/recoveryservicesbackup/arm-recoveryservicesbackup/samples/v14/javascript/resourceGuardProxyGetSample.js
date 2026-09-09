@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns ResourceGuardProxy under vault and with the name referenced in request
  *
  * @summary returns ResourceGuardProxy under vault and with the name referenced in request
- * x-ms-original-file: 2026-07-01/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
+ * x-ms-original-file: 2026-08-01/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
  */
 async function getResourceGuardProxy() {
   const credential = new DefaultAzureCredential();
