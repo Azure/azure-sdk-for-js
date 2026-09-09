@@ -7902,7 +7902,7 @@ export function agentCardSkillDeserializer(item: any): AgentCardSkill {
 
 /** Error response for API failures. */
 export interface ApiErrorResponse {
-  error: ApiError;
+  error: ErrorModel;
 }
 
 export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
@@ -7911,18 +7911,18 @@ export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   };
 }
 
-/** model interface ApiError */
-export interface ApiError {
+/** model interface ErrorModel */
+export interface ErrorModel {
   code: string;
   message: string;
   param?: string;
   type?: string;
-  details?: ApiError[];
+  details?: ErrorModel[];
   additionalInfo?: Record<string, unknown>;
   debugInfo?: Record<string, unknown>;
 }
 
-export function apiErrorDeserializer(item: any): ApiError {
+export function apiErrorDeserializer(item: any): ErrorModel {
   return {
     code: item["code"],
     message: item["message"],
@@ -7942,7 +7942,7 @@ export function apiErrorDeserializer(item: any): ApiError {
   };
 }
 
-export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
+export function apiErrorArrayDeserializer(result: Array<ErrorModel>): any[] {
   return result.map((item) => {
     return apiErrorDeserializer(item);
   });
@@ -10465,7 +10465,7 @@ export interface VoiceConversation {
   /** Final aggregate token usage across all responses in this conversation. Absent while `status` is `in_progress` and populated after successful `completed` finalization; it may be absent when `status` is `failed`, and values are not guaranteed to be reported incrementally. */
   usage?: RealtimeResponseUsage;
   /** The terminal error that prevented persistence finalization. Present only when `status` is `failed`. */
-  last_error?: ApiError;
+  last_error?: ErrorModel;
 }
 
 export function voiceConversationDeserializer(item: any): VoiceConversation {
@@ -13605,7 +13605,7 @@ export interface AgentInsightRun {
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
-  readonly error?: ApiError;
+  readonly error?: ErrorModel;
   /** The Agent Insights monitor this run belongs to. */
   readonly monitor_id: string;
   /** The agent whose traces are analyzed by this run. */
@@ -14990,7 +14990,7 @@ export interface EvaluatorGenerationJob {
   /** Current lifecycle status. */
   readonly status?: JobStatus;
   /** Error details — populated only on failure. */
-  readonly error?: ApiError;
+  readonly error?: ErrorModel;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
   readonly created_at?: Date;
   /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
@@ -16500,7 +16500,7 @@ export interface MemoryStoreUpdateResponse {
   /** The result of memory store update operation when status is "completed". */
   result?: MemoryStoreUpdateCompletedResult;
   /** Error object that describes the error when status is "failed". */
-  error?: ApiError;
+  error?: ErrorModel;
 }
 
 export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpdateResponse {
@@ -18482,7 +18482,7 @@ export interface DataGenerationJob {
   /** Current lifecycle status. */
   readonly status?: JobStatus;
   /** Error details — populated only on failure. */
-  readonly error?: ApiError;
+  readonly error?: ErrorModel;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
   readonly created_at?: Date;
   /** The timestamp when the job was finished, represented in Unix time (seconds since January 1, 1970). */
@@ -19259,7 +19259,7 @@ export interface AgentOptimizationJob {
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
-  readonly error?: ApiError;
+  readonly error?: ErrorModel;
   /** The timestamp when the job was created, represented in Unix time. */
   readonly created_at: Date;
   /** The timestamp when the job was last updated, represented in Unix time. */
@@ -19785,7 +19785,7 @@ export interface AgentOptimizationJobListItem {
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
-  readonly error?: ApiError;
+  readonly error?: ErrorModel;
   /** The timestamp when the job was created, represented in Unix time. */
   readonly created_at: Date;
   /** The timestamp when the job was last updated, represented in Unix time. */
@@ -25147,7 +25147,6 @@ export type GrammarSyntax = GrammarSyntax1;
 export type AgentProtocol = AgentEndpointProtocol;
 export type AgentEndpoint = AgentEndpointConfig;
 export type VersionSelectionRuleType = VersionSelectorType;
-export type ErrorModel = ApiError;
 export type SASTokenCredentials = SASCredentials;
 export type SasCredential = BlobReferenceSasCredential;
 export interface FileWithMetadata {

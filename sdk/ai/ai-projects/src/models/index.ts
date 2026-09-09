@@ -275,7 +275,7 @@ export type {
   AgentCard,
   AgentCardSkill,
   ApiErrorResponse,
-  ApiError,
+  ErrorModel,
   GenerateVoiceAgentRequest,
   GenerateAgentRequest,
   DeleteAgentResponse,

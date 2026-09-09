@@ -655,13 +655,26 @@ export function listAgentConversationItems(
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () =>
       _listAgentConversationItemsSend(context, foundryFeatures, agentName, conversationId, options),
     _listAgentConversationItemsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          "foundry-features": foundryFeatures,
+          ...requestParameters.headers,
+        },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
@@ -733,6 +746,7 @@ export function listAgentConversationResponseItems(
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () =>
@@ -746,7 +760,19 @@ export function listAgentConversationResponseItems(
       ),
     _listAgentConversationResponseItemsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          "foundry-features": foundryFeatures,
+          ...requestParameters.headers,
+        },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
@@ -887,6 +913,7 @@ export function listAgentConversationResponses(
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<VoiceResponse> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () =>
@@ -899,7 +926,19 @@ export function listAgentConversationResponses(
       ),
     _listAgentConversationResponsesDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          "foundry-features": foundryFeatures,
+          ...requestParameters.headers,
+        },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
@@ -1086,11 +1125,24 @@ export function listAgentConversations(
   agentName: string,
   options: AgentEndpointConversationsListAgentConversationsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VoiceConversation> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listAgentConversationsSend(context, foundryFeatures, agentName, options),
     _listAgentConversationsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          "foundry-features": foundryFeatures,
+          ...requestParameters.headers,
+        },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }

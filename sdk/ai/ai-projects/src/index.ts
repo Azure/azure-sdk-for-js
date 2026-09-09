@@ -384,7 +384,6 @@ export type {
   AgentCard,
   AgentCardSkill,
   ApiErrorResponse,
-  ApiError,
   GenerateVoiceAgentRequest,
   GenerateAgentRequest,
   DeleteAgentResponse,
@@ -1043,7 +1042,6 @@ export type {
   ToolboxesGetOptionalParams,
   CreateVersionOptionalParams,
 } from "./api/toolboxes/index.js";
-export type { VoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./api/voiceAgentWebSocket/index.js";
 export type {
   BetaAgentInsightMonitorsUpdateInsightOptionalParams,
   BetaAgentInsightMonitorsGetInsightOptionalParams,
@@ -1172,7 +1170,6 @@ export type {
   EvaluationRulesOperations,
   IndexesOperations,
   ToolboxesOperations,
-  VoiceAgentWebSocketOperations,
   BetaAgentInsightMonitorsOperations,
   BetaAgentsOperations,
   BetaDatasetsOperations,

@@ -8,8 +8,6 @@ import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/inde
 import { createAIProject } from "./api/index.js";
 import type { AgentEndpointConversationsOperations } from "./classic/agentEndpointConversations/index.js";
 import { _getAgentEndpointConversationsOperations } from "./classic/agentEndpointConversations/index.js";
-import type { VoiceAgentWebSocketOperations } from "./classic/voiceAgentWebSocket/index.js";
-import { _getVoiceAgentWebSocketOperations } from "./classic/voiceAgentWebSocket/index.js";
 import type { AgentsOperations } from "./classic/agents/index.js";
 import { _getAgentsOperations } from "./classic/agents/index.js";
 import type { ToolboxesOperations } from "./classic/toolboxes/index.js";
@@ -95,7 +93,9 @@ export class AIProjectClient {
     this._options = clientOptions;
     this._tracingConfig = resolveTracingConfig(clientOptions.tracingOptions);
     const prefixFromOptions = clientOptions.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions}` : "";
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : `azsdk-js-client`;
     this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
       ...clientOptions,
       userAgentOptions: { userAgentPrefix },
@@ -118,7 +118,6 @@ export class AIProjectClient {
     this.agentEndpointConversations = _getAgentEndpointConversationsOperations(
       this._cognitiveScopeClient,
     );
-    this.voiceAgentWebSocket = _getVoiceAgentWebSocketOperations(this._cognitiveScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
@@ -137,8 +136,6 @@ export class AIProjectClient {
   public readonly toolboxes: ToolboxesOperations;
   /** The operation groups for agentEndpointConversations */
   public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
-  /** The operation groups for voiceAgentWebSocket */
-  public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */

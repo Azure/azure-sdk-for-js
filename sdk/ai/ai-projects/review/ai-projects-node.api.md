@@ -445,7 +445,7 @@ export interface AgentInsightRun {
     readonly agent_name: string;
     readonly completed_at?: Date;
     readonly created_at: Date;
-    readonly error?: ApiError;
+    readonly error?: ErrorModel;
     readonly id: string;
     inputs?: AgentInsightRunCreate;
     readonly model_deployment_name: string;
@@ -574,7 +574,7 @@ export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDa
 // @public
 export interface AgentOptimizationJob {
     readonly created_at: Date;
-    readonly error?: ApiError;
+    readonly error?: ErrorModel;
     readonly id: string;
     inputs?: AgentOptimizationJobInputs;
     readonly progress?: AgentOptimizationJobProgress;
@@ -597,7 +597,7 @@ export interface AgentOptimizationJobInputs {
 export interface AgentOptimizationJobListItem {
     readonly agent?: OptimizedAgentIdentifier;
     readonly created_at: Date;
-    readonly error?: ApiError;
+    readonly error?: ErrorModel;
     readonly id: string;
     readonly progress?: AgentOptimizationJobProgress;
     readonly status: JobStatus;
@@ -1008,7 +1008,6 @@ export class AIProjectClient {
     readonly realtime: VoiceAgentRealtimeClient;
     readonly telemetry: TelemetryOperations;
     readonly toolboxes: ToolboxesOperations;
-    readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
 }
 
 // @public
@@ -1033,27 +1032,9 @@ export interface AISearchIndexResource {
 }
 
 // @public
-export interface ApiError {
-    // (undocumented)
-    additionalInfo?: Record<string, unknown>;
-    // (undocumented)
-    code: string;
-    // (undocumented)
-    debugInfo?: Record<string, unknown>;
-    // (undocumented)
-    details?: ApiError[];
-    // (undocumented)
-    message: string;
-    // (undocumented)
-    param?: string;
-    // (undocumented)
-    type?: string;
-}
-
-// @public
 export interface ApiErrorResponse {
     // (undocumented)
-    error: ApiError;
+    error: ErrorModel;
 }
 
 // @public
@@ -2350,7 +2331,7 @@ export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
 // @public
 export interface DataGenerationJob {
     readonly created_at?: Date;
-    readonly error?: ApiError;
+    readonly error?: ErrorModel;
     readonly finished_at?: Date;
     readonly id?: string;
     inputs?: DataGenerationJobInputs;
@@ -2671,8 +2652,23 @@ export interface EntraIDCredentials extends BaseCredentials {
     readonly type: "AAD";
 }
 
-// @public (undocumented)
-export type ErrorModel = ApiError;
+// @public
+export interface ErrorModel {
+    // (undocumented)
+    additionalInfo?: Record<string, unknown>;
+    // (undocumented)
+    code: string;
+    // (undocumented)
+    debugInfo?: Record<string, unknown>;
+    // (undocumented)
+    details?: ErrorModel[];
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    param?: string;
+    // (undocumented)
+    type?: string;
+}
 
 // @public
 export interface EvalResult {
@@ -2885,7 +2881,7 @@ export interface EvaluatorGenerationInputs {
 // @public
 export interface EvaluatorGenerationJob {
     readonly created_at?: Date;
-    readonly error?: ApiError;
+    readonly error?: ErrorModel;
     readonly finished_at?: Date;
     readonly id?: string;
     readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
@@ -3783,7 +3779,7 @@ export interface MemoryStoreUpdateCompletedResult {
 
 // @public
 export interface MemoryStoreUpdateResponse {
-    error?: ApiError;
+    error?: ErrorModel;
     result?: MemoryStoreUpdateCompletedResult;
     status: MemoryStoreUpdateStatus;
     superseded_by?: string;
@@ -7200,17 +7196,6 @@ export interface VoiceAgentWebSocketConnectOptions {
 }
 
 // @public
-export interface VoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
-    agentVersionOverride?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    foundryFeaturesQuery?: "VoiceAgents=V1Preview";
-    store?: boolean;
-    structuredInput?: string;
-    transport?: VoiceAgentTransport;
-    websocketSubprotocol?: VoiceAgentWebSocketSubprotocol;
-}
-
-// @public
 export interface VoiceAgentWebSocketFactory {
     create(): VoiceAgentWebSocketTransport;
 }
@@ -7224,11 +7209,6 @@ export interface VoiceAgentWebSocketHandlers {
 
 // @public
 export type VoiceAgentWebSocketMessage = VoiceAgentClientEvent | VoiceAgentServerEvent;
-
-// @public
-export interface VoiceAgentWebSocketOperations {
-    connectVoiceAgent: (agentName: string, options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams) => Promise<void>;
-}
 
 // @public
 export type VoiceAgentWebSocketSubprotocol = "realtime";
@@ -7255,7 +7235,7 @@ export interface VoiceConversation {
     completed_at?: Date;
     created_at: Date;
     id: string;
-    last_error?: ApiError;
+    last_error?: ErrorModel;
     metadata?: Record<string, string>;
     object: "voice.conversation";
     status: VoiceConversationStatus;

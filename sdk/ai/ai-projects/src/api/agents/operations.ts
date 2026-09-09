@@ -732,12 +732,27 @@ export function listTelephonyCalls(
   agentName: string,
   options: AgentsListTelephonyCallsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<TelephonyCallSummary> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listTelephonyCallsSend(context, agentName, options),
     _listTelephonyCallsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          ...(options?.foundryFeatures !== undefined
+            ? { "foundry-features": options?.foundryFeatures }
+            : {}),
+          ...requestParameters.headers,
+        },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
@@ -980,12 +995,27 @@ export function listTelephonyBindings(
   agentName: string,
   options: AgentsListTelephonyBindingsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<TelephonyBindingListItemUnion> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listTelephonyBindingsSend(context, agentName, options),
     _listTelephonyBindingsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          ...(options?.foundryFeatures !== undefined
+            ? { "foundry-features": options?.foundryFeatures }
+            : {}),
+          ...requestParameters.headers,
+        },
+      },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
