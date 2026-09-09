@@ -30,7 +30,7 @@ async function customRolloutsCreateOrUpdate(): Promise<void> {
             },
           },
           refreshSubscriptionRegistration: true,
-          rolloutId: "Ev2RolloutIdGuid",
+          rolloutId: "RolloutIdGuid",
         },
       },
     },
