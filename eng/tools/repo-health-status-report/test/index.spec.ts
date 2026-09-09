@@ -321,7 +321,7 @@ describe("report aggregation", () => {
     await writeToCsv(dataplane, {});
 
     expect(writeFileMock).toHaveBeenCalledOnce();
-    expect(writeFileMock.mock.calls[0][1]).toContain("example,@azure/example,GOOD,NO,,,,,,");
+    expect(writeFileMock.mock.calls[0][1]).toContain("example,@azure/example,GOOD,NO,,,,,,,,");
   });
 });
 

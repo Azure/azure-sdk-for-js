@@ -155,7 +155,13 @@ async function fetchBuildResult(
     return pipeline[buildKind]!;
   };
 
-  const buildResponse = await getBuild(pipelineId, token);
+  let buildResponse: Response;
+  try {
+    buildResponse = await getBuild(pipelineId, token);
+  } catch (error) {
+    console.warn(`Transport error fetching ${buildKind} build for ${pkgName}:`, error);
+    return markUnknown();
+  }
   await new Promise((resolve) => setTimeout(resolve, 1000));
   console.log("continue after 1 seconds delay");
   if (!buildResponse.ok) {
@@ -195,7 +201,13 @@ async function fetchBuildResult(
   }
 
   pipelineResult.result = result.result;
-  const timelineResponse = await getBuildTimeline(buildId, token);
+  let timelineResponse: Response;
+  try {
+    timelineResponse = await getBuildTimeline(buildId, token);
+  } catch (error) {
+    console.warn(`Transport error fetching ${buildKind} timeline for ${pkgName}:`, error);
+    return markUnknown();
+  }
   if (!timelineResponse.ok) {
     return markUnknown();
   }
@@ -406,24 +418,17 @@ function recordSlaStatus(
         const packageDetails = dataplane[pkgName] as PackageStatus;
         if (labelName === packageDetails.label) {
           const sla = (packageDetails.sla ??= {
-            question: {
-              num: 0,
-              link: githubIssueLinkUrl(
-                labelName,
-                "question",
-                new Date(timePeriod).toISOString().split("T")[0],
-              ),
-            },
-            bug: {
-              num: 0,
-              link: githubIssueLinkUrl(
-                labelName,
-                "bug",
-                new Date(timePeriod).toISOString().split("T")[0],
-              ),
-            },
+            question: { num: 0, link: "" },
+            bug: { num: 0, link: "" },
           });
           sla[kind].num++;
+          // Derive each kind's link from that kind's own threshold so the CSV
+          // link reproduces the same count window it is reported against.
+          sla[kind].link = githubIssueLinkUrl(
+            labelName,
+            kind,
+            new Date(timePeriod).toISOString().split("T")[0],
+          );
         }
       }
     }
@@ -491,6 +496,8 @@ export async function writeToCsv(
     "Package",
     "Status",
     "Owned by SDK team",
+    "Lint",
+    "Lint Link",
     "CI",
     "CI Link",
     "CI Build Number",
@@ -514,10 +521,17 @@ export async function writeToCsv(
       pkgName,
       status,
       SDK_OWNED.includes(pkgName) ? "YES" : "NO",
-      pipelines[pkgName]?.ci?.ci?.status ?? "",
+      // Lint is a release blocker sourced from the CI pipeline. Preserve a blank
+      // for unmatched pipelines; otherwise emit the normalized PASS/FAIL/UNKNOWN.
+      pipelines[pkgName]?.ci ? (pkgDetails.lint?.status ?? "") : "",
+      pipelines[pkgName]?.ci ? (pkgDetails.lint?.link ?? "") : "",
+      // Use the normalized CI status from reportStatus rather than the raw
+      // Azure DevOps value, keeping the blank for packages with no CI pipeline.
+      pipelines[pkgName]?.ci ? (pkgDetails.ci?.status ?? "") : "",
       pipelines[pkgName]?.ci?.link ?? "",
       pipelines[pkgName]?.ci?.buildNumber ?? "",
-      pipelines[pkgName]?.tests?.tests?.status ?? "",
+      // Same for live tests: emit the normalized status for matched pipelines.
+      pipelines[pkgName]?.tests ? (pkgDetails.tests?.status ?? "") : "",
       pipelines[pkgName]?.tests?.link ?? "",
       pipelines[pkgName]?.tests?.buildNumber ?? "",
       // pipelines[pkgName].weeklyTests?.weeklyTests?.status ?? "",
