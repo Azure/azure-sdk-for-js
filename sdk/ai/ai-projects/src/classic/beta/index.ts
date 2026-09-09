@@ -53,6 +53,9 @@ export interface BetaOperations {
   agents: BetaAgentsOperations;
   /** Operations for managing Agent Insights monitors. */
   agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+  agentTelephony: BetaAgentTelephonyOperations;
+  agentEndpointConversations: BetaAgentEndpointConversationsOperations;
+  voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
@@ -81,5 +84,15 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     agents: _getBetaAgentsOperations(context),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
+    agentTelephony: _getBetaAgentTelephonyOperations(context),
+    agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
+    voiceAgentWebSocket: _getBetaVoiceAgentWebSocketOperations(context),
   };
 }
+
+import type { BetaAgentEndpointConversationsOperations} from "./agentEndpointConversations/index.js";
+import { _getBetaAgentEndpointConversationsOperations } from "./agentEndpointConversations/index.js";
+import type { BetaAgentTelephonyOperations} from "./agentTelephony/index.js";
+import { _getBetaAgentTelephonyOperations } from "./agentTelephony/index.js";
+import type { BetaVoiceAgentWebSocketOperations} from "./voiceAgentWebSocket/index.js";
+import { _getBetaVoiceAgentWebSocketOperations } from "./voiceAgentWebSocket/index.js";
