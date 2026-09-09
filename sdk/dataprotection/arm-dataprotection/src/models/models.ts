@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -651,7 +652,7 @@ export function backupDatasourceParametersUnionArrayDeserializer(
 /** Parameters for Backup Datasource */
 export interface BackupDatasourceParameters {
   /** Type of the specific object - used for deserializing */
-  /** The discriminator possible values: KubernetesClusterBackupDatasourceParameters, BlobBackupDatasourceParameters, BlobBackupDatasourceParametersForAutoProtection, AdlsBlobBackupDatasourceParameters, AdlsBlobBackupDatasourceParametersForAutoProtection */
+  /** The discriminator possible values: KubernetesClusterBackupDatasourceParameters, BlobBackupDatasourceParameters, BlobBackupDatasourceParametersForAutoProtection, AdlsBlobBackupDatasourceParameters, AdlsBlobBackupDatasourceParametersForAutoProtection, PostgreSqlFlexibleServerBackupDatasourceParameters */
   objectType: string;
 }
 
@@ -671,6 +672,7 @@ export type BackupDatasourceParametersUnion =
   | BlobBackupDatasourceParametersUnion
   | BlobBackupDatasourceParametersForAutoProtection
   | AdlsBlobBackupDatasourceParametersForAutoProtection
+  | PostgreSqlFlexibleServerBackupDatasourceParameters
   | BackupDatasourceParameters;
 
 export function backupDatasourceParametersUnionSerializer(
@@ -696,6 +698,11 @@ export function backupDatasourceParametersUnionSerializer(
     case "AdlsBlobBackupDatasourceParametersForAutoProtection":
       return adlsBlobBackupDatasourceParametersForAutoProtectionSerializer(
         item as AdlsBlobBackupDatasourceParametersForAutoProtection,
+      );
+
+    case "PostgreSqlFlexibleServerBackupDatasourceParameters":
+      return postgreSqlFlexibleServerBackupDatasourceParametersSerializer(
+        item as PostgreSqlFlexibleServerBackupDatasourceParameters,
       );
 
     default:
@@ -726,6 +733,11 @@ export function backupDatasourceParametersUnionDeserializer(
     case "AdlsBlobBackupDatasourceParametersForAutoProtection":
       return adlsBlobBackupDatasourceParametersForAutoProtectionDeserializer(
         item as AdlsBlobBackupDatasourceParametersForAutoProtection,
+      );
+
+    case "PostgreSqlFlexibleServerBackupDatasourceParameters":
+      return postgreSqlFlexibleServerBackupDatasourceParametersDeserializer(
+        item as PostgreSqlFlexibleServerBackupDatasourceParameters,
       );
 
     default:
@@ -1150,6 +1162,46 @@ export function adlsBlobBackupDatasourceParametersForAutoProtectionDeserializer(
   };
 }
 
+/** Parameters to be used during configuration of backup of PostgreSQL Flexible Servers */
+export interface PostgreSqlFlexibleServerBackupDatasourceParameters extends BackupDatasourceParameters {
+  /** Type of backup taken, Logical/Physical */
+  backupSolutionType?: BackupSolutionType;
+  objectType: "PostgreSqlFlexibleServerBackupDatasourceParameters";
+}
+
+export function postgreSqlFlexibleServerBackupDatasourceParametersSerializer(
+  item: PostgreSqlFlexibleServerBackupDatasourceParameters,
+): any {
+  return { objectType: item["objectType"], backupSolutionType: item["backupSolutionType"] };
+}
+
+export function postgreSqlFlexibleServerBackupDatasourceParametersDeserializer(
+  item: any,
+): PostgreSqlFlexibleServerBackupDatasourceParameters {
+  return {
+    objectType: item["objectType"],
+    backupSolutionType: item["backupSolutionType"],
+  };
+}
+
+/** Backup solution types for PostgreSQL Flexible Server. */
+export enum KnownBackupSolutionType {
+  /** Logical backup type */
+  LogicalBackup = "LogicalBackup",
+  /** Physical backup type */
+  PhysicalBackup = "PhysicalBackup",
+}
+
+/**
+ * Backup solution types for PostgreSQL Flexible Server. \
+ * {@link KnownBackupSolutionType} can be used interchangeably with BackupSolutionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LogicalBackup**: Logical backup type \
+ * **PhysicalBackup**: Physical backup type
+ */
+export type BackupSolutionType = string;
+
 /** Protection status details */
 export interface ProtectionStatusDetails {
   /** Specifies the protection status error of the resource */
@@ -1529,8 +1581,8 @@ export function blobBackupAutoProtectionSettingsUnionDeserializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1556,8 +1608,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -2546,6 +2598,39 @@ export function azureBackupRecoveryTimeBasedRestoreRequestSerializer(
   };
 }
 
+/** Request body of Resume protection when MSI is to be changed */
+export interface ResumeProtectionRequest {
+  /** Type of Datasource object, used to initialize the right inherited type */
+  /** The discriminator possible values: */
+  objectType: ResumeProtectionRequestObjectType;
+  /** identity details of the MSI */
+  identityDetails?: IdentityDetails;
+}
+
+export function resumeProtectionRequestSerializer(item: ResumeProtectionRequest): any {
+  return {
+    objectType: item["objectType"],
+    identityDetails: !item["identityDetails"]
+      ? item["identityDetails"]
+      : identityDetailsSerializer(item["identityDetails"]),
+  };
+}
+
+/** Type of Datasource object, used to initialize the right inherited type */
+export enum KnownResumeProtectionRequestObjectType {
+  /** Resume Protection Request Type. */
+  ResumeProtectionRequest = "ResumeProtectionRequest",
+}
+
+/**
+ * Type of Datasource object, used to initialize the right inherited type \
+ * {@link KnownResumeProtectionRequestObjectType} can be used interchangeably with ResumeProtectionRequestObjectType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ResumeProtectionRequest**: Resume Protection Request Type.
+ */
+export type ResumeProtectionRequestObjectType = string;
+
 /** Request body of Stop protection when MUA is Enabled */
 export interface StopProtectionRequest {
   /** ResourceGuardOperationRequests on which LAC check will be performed */
@@ -3476,8 +3561,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -6139,4 +6224,6 @@ export enum KnownVersions {
   V20250901 = "2025-09-01",
   /** The 2026-03-01 API version. */
   V20260301 = "2026-03-01",
+  /** The 2026-04-01-preview API version. */
+  V20260401Preview = "2026-04-01-preview",
 }

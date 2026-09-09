@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/FindRestorableTimeRanges.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/FindRestorableTimeRanges.json
  */
 async function findRestorableTimeRanges() {
   const credential = new DefaultAzureCredential();

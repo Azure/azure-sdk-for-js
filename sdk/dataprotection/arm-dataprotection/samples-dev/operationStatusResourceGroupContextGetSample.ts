@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the operation status for an operation over a ResourceGroup's context.
  *
  * @summary gets the operation status for an operation over a ResourceGroup's context.
- * x-ms-original-file: 2026-03-01/GetOperationStatusRGContext.json
+ * x-ms-original-file: 2026-04-01-preview/GetOperationStatusRGContext.json
  */
 async function getOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

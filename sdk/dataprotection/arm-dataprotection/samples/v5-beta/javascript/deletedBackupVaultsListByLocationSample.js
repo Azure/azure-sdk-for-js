@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists deleted backup vaults by location
  *
  * @summary lists deleted backup vaults by location
- * x-ms-original-file: 2026-03-01/DeletedBackupVaults_ListByLocation.json
+ * x-ms-original-file: 2026-04-01-preview/DeletedBackupVaults_ListByLocation.json
  */
 async function listDeletedBackupVaultsByLocation() {
   const credential = new DefaultAzureCredential();

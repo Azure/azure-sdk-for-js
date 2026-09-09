@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates if Restore can be triggered for a DataSource
  *
  * @summary validates if Restore can be triggered for a DataSource
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/ValidateRestore.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/ValidateRestore.json
  */
 async function validateRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function validateRestore(): Promise<void> {
         identityDetails: {
           useSystemAssignedIdentity: false,
           userAssignedIdentityArmUrl:
-            "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourcegroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
+            "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
         },
         objectType: "AzureBackupRecoveryPointBasedRestoreRequest",
         recoveryPointId: "hardcodedRP",

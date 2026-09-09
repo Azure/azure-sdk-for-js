@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of backup instances associated with a tracked resource
  *
  * @summary gets a list of backup instances associated with a tracked resource
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/ListBackupInstancesExtensionRouting.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/ListBackupInstancesExtensionRouting.json
  */
 async function listBackupInstancesAssociatedWithAnAzureResource() {
   const credential = new DefaultAzureCredential();

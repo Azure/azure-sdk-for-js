@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.
  *
  * @summary returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.
- * x-ms-original-file: 2026-03-01/CrossRegionRestore/FetchSecondaryRPs.json
+ * x-ms-original-file: 2026-04-01-preview/CrossRegionRestore/FetchSecondaryRPs.json
  */
 async function fetchSecondaryRPs() {
   const credential = new DefaultAzureCredential();

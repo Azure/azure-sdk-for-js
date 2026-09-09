@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns list of jobs belonging to a backup vault
  *
  * @summary returns list of jobs belonging to a backup vault
- * x-ms-original-file: 2026-03-01/JobCRUD/ListJobs.json
+ * x-ms-original-file: 2026-04-01-preview/JobCRUD/ListJobs.json
  */
 async function getJobs() {
   const credential = new DefaultAzureCredential();

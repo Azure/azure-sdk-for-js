@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to trigger adhoc backup
  *
  * @summary trigger adhoc backup
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/TriggerBackup.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/TriggerBackup.json
  */
 async function triggerAdhocBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

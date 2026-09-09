@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: 2026-03-01/ResourceGuardCRUD/PatchResourceGuard.json
+ * x-ms-original-file: 2026-04-01-preview/ResourceGuardCRUD/PatchResourceGuard.json
  */
 async function patchResourceGuard() {
   const credential = new DefaultAzureCredential();

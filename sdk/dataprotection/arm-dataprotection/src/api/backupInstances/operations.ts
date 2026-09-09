@@ -28,6 +28,7 @@ import {
   validateForModifyBackupRequestSerializer,
   azureBackupRehydrationRequestSerializer,
   azureBackupRestoreRequestUnionSerializer,
+  resumeProtectionRequestSerializer,
   stopProtectionRequestSerializer,
   suspendBackupRequestSerializer,
   syncBackupInstanceRequestSerializer,
@@ -76,7 +77,7 @@ export function _validateCrossRegionRestoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +97,9 @@ export async function _validateCrossRegionRestoreDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -122,7 +125,7 @@ export function validateCrossRegionRestore(
       getInitialResponse: () =>
         _validateCrossRegionRestoreSend(context, resourceGroupName, location, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
@@ -140,7 +143,7 @@ export function _triggerCrossRegionRestoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +163,9 @@ export async function _triggerCrossRegionRestoreDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -186,7 +191,7 @@ export function triggerCrossRegionRestore(
       getInitialResponse: () =>
         _triggerCrossRegionRestoreSend(context, resourceGroupName, location, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
@@ -206,7 +211,7 @@ export function _validateForRestoreSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -226,7 +231,9 @@ export async function _validateForRestoreDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -256,7 +263,7 @@ export function validateForRestore(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -275,7 +282,7 @@ export function _syncBackupInstanceSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -292,7 +299,9 @@ export async function _syncBackupInstanceDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -325,7 +334,7 @@ export function syncBackupInstance(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -343,7 +352,7 @@ export function _suspendBackupsSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -358,9 +367,9 @@ export function _suspendBackupsSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["parameters"]
-      ? options["parameters"]
-      : suspendBackupRequestSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : suspendBackupRequestSerializer(options?.parameters),
   });
 }
 
@@ -368,7 +377,9 @@ export async function _suspendBackupsDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -390,7 +401,7 @@ export function suspendBackups(
     getInitialResponse: () =>
       _suspendBackupsSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -408,7 +419,7 @@ export function _stopProtectionSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -423,9 +434,9 @@ export function _stopProtectionSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["parameters"]
-      ? options["parameters"]
-      : stopProtectionRequestSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : stopProtectionRequestSerializer(options?.parameters),
   });
 }
 
@@ -433,7 +444,9 @@ export async function _stopProtectionDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -455,7 +468,7 @@ export function stopProtection(
     getInitialResponse: () =>
       _stopProtectionSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -473,20 +486,28 @@ export function _resumeProtectionSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: !options?.parameters
+      ? options?.parameters
+      : resumeProtectionRequestSerializer(options?.parameters),
+  });
 }
 
 export async function _resumeProtectionDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -508,7 +529,7 @@ export function resumeProtection(
     getInitialResponse: () =>
       _resumeProtectionSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -526,7 +547,7 @@ export function _resumeBackupsSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -539,7 +560,9 @@ export async function _resumeBackupsDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -561,7 +584,7 @@ export function resumeBackups(
     getInitialResponse: () =>
       _resumeBackupsSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -580,7 +603,7 @@ export function _triggerRestoreSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -606,7 +629,9 @@ export async function _triggerRestoreDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -636,7 +661,7 @@ export function triggerRestore(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -655,7 +680,7 @@ export function _triggerRehydrateSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -672,7 +697,9 @@ export async function _triggerRehydrateDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -702,7 +729,7 @@ export function triggerRehydrate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -721,7 +748,7 @@ export function _validateForModifyBackupSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -740,7 +767,9 @@ export async function _validateForModifyBackupDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -770,7 +799,7 @@ export function validateForModifyBackup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -789,7 +818,7 @@ export function _adhocBackupSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -809,7 +838,9 @@ export async function _adhocBackupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -839,7 +870,7 @@ export function adhocBackup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -857,7 +888,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -878,7 +909,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -887,11 +920,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a backup instance in a backup vault */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -905,7 +933,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -924,7 +952,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -950,7 +978,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -980,7 +1010,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<BackupInstanceResource>, BackupInstanceResource>;
 }
 
@@ -998,7 +1028,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1016,7 +1046,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1049,7 +1081,7 @@ export function _validateForBackupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1069,7 +1101,9 @@ export async function _validateForBackupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1091,7 +1125,7 @@ export function validateForBackup(
     getInitialResponse: () =>
       _validateForBackupSend(context, resourceGroupName, vaultName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -1107,7 +1141,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1125,7 +1159,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1145,7 +1181,11 @@ export function list(
     () => _listSend(context, resourceGroupName, vaultName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -1165,7 +1205,7 @@ export function _getBackupInstanceOperationResultSend(
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1179,13 +1219,19 @@ export function _getBackupInstanceOperationResultSend(
 
 export async function _getBackupInstanceOperationResultDeserialize(
   result: PathUncheckedResponse,
-): Promise<BackupInstanceResource> {
+): Promise<BackupInstanceResource | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return backupInstanceResourceDeserializer(result.body);
@@ -1199,7 +1245,7 @@ export async function getBackupInstanceOperationResult(
   backupInstanceName: string,
   operationId: string,
   options: BackupInstancesGetBackupInstanceOperationResultOptionalParams = { requestOptions: {} },
-): Promise<BackupInstanceResource> {
+): Promise<BackupInstanceResource | void> {
   const result = await _getBackupInstanceOperationResultSend(
     context,
     resourceGroupName,

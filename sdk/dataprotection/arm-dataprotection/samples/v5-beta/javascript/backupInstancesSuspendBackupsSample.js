@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
  *
  * @summary this operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/SuspendBackup_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/SuspendBackup_ResourceGuardEnabled.json
  */
 async function suspendBackupsWithMUA() {
   const credential = new DefaultAzureCredential();
@@ -17,7 +17,7 @@ async function suspendBackupsWithMUA() {
   await client.backupInstances.suspendBackups("testrg", "testvault", "testbi", {
     parameters: {
       resourceGuardOperationRequests: [
-        "/subscriptions/754ec39f-8d2a-44cf-bfbf-13107ac85c36/resourcegroups/mua-testing/providers/Microsoft.DataProtection/resourceGuards/gvjreddy-test-ecy-rg-reader/dppDisableSuspendBackupsRequests/default",
+        "/subscriptions/754ec39f-8d2a-44cf-bfbf-13107ac85c36/resourceGroups/mua-testing/providers/Microsoft.DataProtection/resourceGuards/gvjreddy-test-ecy-rg-reader/dppDisableSuspendBackupsRequests/default",
       ],
     },
   });
@@ -27,7 +27,7 @@ async function suspendBackupsWithMUA() {
  * This sample demonstrates how to this operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
  *
  * @summary this operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/SuspendBackups.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/SuspendBackups.json
  */
 async function suspendBackups() {
   const credential = new DefaultAzureCredential();

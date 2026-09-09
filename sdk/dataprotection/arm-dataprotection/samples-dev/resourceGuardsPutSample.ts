@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a ResourceGuard resource belonging to a resource group.
  *
  * @summary creates or updates a ResourceGuard resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/ResourceGuardCRUD/PutResourceGuard.json
+ * x-ms-original-file: 2026-04-01-preview/ResourceGuardCRUD/PutResourceGuard.json
  */
 async function createResourceGuard(): Promise<void> {
   const credential = new DefaultAzureCredential();

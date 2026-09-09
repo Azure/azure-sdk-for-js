@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation will stop protection of a backup instance and data will be held forever
  *
  * @summary this operation will stop protection of a backup instance and data will be held forever
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/StopProtection.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/StopProtection.json
  */
 async function stopProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function stopProtection(): Promise<void> {
  * This sample demonstrates how to this operation will stop protection of a backup instance and data will be held forever
  *
  * @summary this operation will stop protection of a backup instance and data will be held forever
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/StopProtection_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/StopProtection_ResourceGuardEnabled.json
  */
 async function stopProtectionWithMUA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function stopProtectionWithMUA(): Promise<void> {
   await client.backupInstances.stopProtection("testrg", "testvault", "testbi", {
     parameters: {
       resourceGuardOperationRequests: [
-        "/subscriptions/754ec39f-8d2a-44cf-bfbf-13107ac85c36/resourcegroups/mua-testing/providers/Microsoft.DataProtection/resourceGuards/gvjreddy-test-ecy-rg-reader/dppDisableStopProtectionRequests/default",
+        "/subscriptions/754ec39f-8d2a-44cf-bfbf-13107ac85c36/resourceGroups/mua-testing/providers/Microsoft.DataProtection/resourceGuards/gvjreddy-test-ecy-rg-reader/dppDisableStopProtectionRequests/default",
       ],
     },
   });

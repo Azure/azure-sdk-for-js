@@ -24,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       operationId: operationId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -38,13 +38,19 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<OperationJobExtendedInfo> {
+): Promise<OperationJobExtendedInfo | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return operationJobExtendedInfoDeserializer(result.body);
@@ -56,7 +62,7 @@ export async function get(
   operationId: string,
   location: string,
   options: OperationResultGetOptionalParams = { requestOptions: {} },
-): Promise<OperationJobExtendedInfo> {
+): Promise<OperationJobExtendedInfo | void> {
   const result = await _getSend(context, operationId, location, options);
   return _getDeserialize(result);
 }

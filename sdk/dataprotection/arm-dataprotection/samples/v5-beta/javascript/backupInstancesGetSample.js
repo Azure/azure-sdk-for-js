@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a backup instance with name in a backup vault
  *
  * @summary gets a backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstance.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/GetBackupInstance.json
  */
 async function getBackupInstance() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getBackupInstance() {
  * This sample demonstrates how to gets a backup instance with name in a backup vault
  *
  * @summary gets a backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstance_ADLSBlobBackupAutoProtection.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/GetBackupInstance_ADLSBlobBackupAutoProtection.json
  */
 async function getBackupInstanceWithAdlsBlobBackupAutoProtection() {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function getBackupInstanceWithAdlsBlobBackupAutoProtection() {
  * This sample demonstrates how to gets a backup instance with name in a backup vault
  *
  * @summary gets a backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstance_ADLSBlobBackupDatasourceParameters.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/GetBackupInstance_ADLSBlobBackupDatasourceParameters.json
  */
 async function getBackupInstanceForAdlsBlob() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function getBackupInstanceForAdlsBlob() {
  * This sample demonstrates how to gets a backup instance with name in a backup vault
  *
  * @summary gets a backup instance with name in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/GetBackupInstance_BlobBackupAutoProtection.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/GetBackupInstance_BlobBackupAutoProtection.json
  */
 async function getBackupInstanceWithBlobBackupAutoProtection() {
   const credential = new DefaultAzureCredential();

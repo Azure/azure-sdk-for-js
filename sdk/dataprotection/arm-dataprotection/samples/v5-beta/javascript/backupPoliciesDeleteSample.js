@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a backup policy belonging to a backup vault
  *
  * @summary deletes a backup policy belonging to a backup vault
- * x-ms-original-file: 2026-03-01/PolicyCRUD/DeleteBackupPolicy.json
+ * x-ms-original-file: 2026-04-01-preview/PolicyCRUD/DeleteBackupPolicy.json
  */
 async function deleteBackupPolicy() {
   const credential = new DefaultAzureCredential();

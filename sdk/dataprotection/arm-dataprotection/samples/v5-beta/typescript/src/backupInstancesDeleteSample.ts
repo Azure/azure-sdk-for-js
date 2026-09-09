@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a backup instance in a backup vault
  *
  * @summary delete a backup instance in a backup vault
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/DeleteBackupInstance.json
+ * x-ms-original-file: 2026-04-01-preview/BackupInstanceOperations/DeleteBackupInstance.json
  */
 async function deleteBackupInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
