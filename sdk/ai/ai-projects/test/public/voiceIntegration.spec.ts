@@ -4,6 +4,7 @@
 import type { TokenCredential } from "@azure/core-auth";
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isNodeLike } from "@azure/core-util";
 import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
@@ -84,7 +85,7 @@ describe("voice post-emitter integration", () => {
     expect(new URL(requests[0].url).searchParams.get("store")).toBe("false");
     expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
     expect(requests[0].headers.get("sec-websocket-protocol")).toBe("realtime");
-    expect(requests[0].headers.get("user-agent")).toContain(
+    expect(requests[0].headers.get(isNodeLike ? "user-agent" : "x-ms-useragent")).toContain(
       "integration-test azsdk-js-client azsdk-js-api azsdk-js-ai-projects/",
     );
     expect(getToken.mock.calls[0][0]).toEqual(["https://ai.azure.com/.default"]);
