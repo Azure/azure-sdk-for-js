@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary unregisters the given container from your Recovery Services Vault. This is an asynchronous operation. To determine
  * whether the backend service has finished processing the request, call Get Container Operation Result API.
- * x-ms-original-file: 2026-07-01/AzureWorkload/ProtectionContainers_Unregister.json
+ * x-ms-original-file: 2026-08-01/AzureWorkload/ProtectionContainers_Unregister.json
  */
 async function unregisterProtectionContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

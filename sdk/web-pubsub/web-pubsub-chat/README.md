@@ -26,8 +26,15 @@ npm install @azure/web-pubsub-chat
 
 ### Create and authenticate a `WebPubSubChatServiceClient`
 
-To create a client object to access the Azure WebPubSubChatService API, you will need the `endpoint` of your Azure WebPubSubChatService resource and a `credential`. The Azure WebPubSubChatService client can use Microsoft Entra credentials to authenticate.
-You can find the endpoint for your Azure WebPubSubChatService resource in the [Azure Portal][azure_portal].
+The `WebPubSubChatServiceClient` supports authentication with a connection string, a Microsoft Entra credential, or an `AzureKeyCredential`.
+
+#### Authenticate with a connection string
+
+You can find the connection string for your Azure Web PubSub resource in the [Azure Portal][azure_portal]. Because the connection string contains an access key, store it securely and do not include it in source code.
+
+#### Authenticate with Microsoft Entra ID
+
+To authenticate with Microsoft Entra ID, you will need the `endpoint` of your Azure Web PubSub resource and a credential. You can find the endpoint in the [Azure Portal][azure_portal].
 
 You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -37,9 +44,9 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new Microsoft Entra application and grant access to Azure WebPubSubChatService** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+`DefaultAzureCredential` supports several Microsoft Entra identities. During local development, it can use a developer identity signed in through a supported development tool. In Azure, it can use a managed identity. It can also authenticate a service principal or workload identity when configured for the environment.
 
-For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
+Whichever identity you use must be assigned an appropriate Azure Web PubSub data-plane role. Azure resource-management roles such as `Owner` do not grant data-plane permissions.
 
 Create the client with a connection string, a Microsoft Entra credential such as `DefaultAzureCredential`, or an `AzureKeyCredential`.
 

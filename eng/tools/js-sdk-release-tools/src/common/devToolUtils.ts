@@ -91,25 +91,13 @@ export async function lintFix(packageDirectory: string) {
 }
 
 export async function customizeCodes(packageDirectory: string): Promise<void> {
-  const generatedDirectory = path.join(packageDirectory, "generated");
-  if (!fs.existsSync(generatedDirectory)) {
-    logger.info(`Skip customization because '${generatedDirectory}' does not exist.`);
-    return;
-  }
-
-  logger.info(`Start to customize codes in '${packageDirectory}'.`);
   const cwd = packageDirectory;
   const options = { ...runCommandOptions, cwd };
 
   try {
-    await runCommand(
-      "npm",
-      ["exec", "--", "dev-tool", "customization", "apply", "-s", "./generated", "-t", "./src"],
-      options,
-      true,
-      600,
-    );
-    logger.info(`Customize codes successfully.`);
+    // `--if-present` runs the package's `customize` script when it exists and is a
+    // no-op otherwise, so packages without customization are silently skipped.
+    await runCommand("npm", ["run", "--if-present", "customize"], options, true, 600);
   } catch (error) {
     logger.warn(`Failed to customize codes due to: ${(error as Error)?.stack ?? error}`);
   }

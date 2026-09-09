@@ -1,5 +1,8 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
     "../src/index.ts",
     "../src/api/index.ts",
@@ -11,6 +14,7 @@
     "../src/api/fleetManagedNamespaces/index.ts",
     "../src/api/fleetMembers/index.ts",
     "../src/api/fleets/index.ts",
+    "../src/api/clusterMeshProfiles/index.ts",
     "../src/api/operations/index.ts",
     "../src/models/index.ts"
   ]

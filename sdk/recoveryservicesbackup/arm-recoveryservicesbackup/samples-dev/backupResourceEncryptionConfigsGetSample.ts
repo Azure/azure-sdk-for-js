@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetches Vault Encryption config.
  *
  * @summary fetches Vault Encryption config.
- * x-ms-original-file: 2026-07-01/BackupResourceEncryptionConfig_Get.json
+ * x-ms-original-file: 2026-08-01/BackupResourceEncryptionConfig_Get.json
  */
 async function getVaultEncryptionConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

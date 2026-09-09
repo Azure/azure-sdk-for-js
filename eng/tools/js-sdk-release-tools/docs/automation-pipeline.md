@@ -98,7 +98,7 @@ CLI Entry (autoGenerateInPipeline.ts)
   │       ├── tsp-client init code generation
   │       ├── buildPackage:
   │       │   ├── pnpm install
-  │       │   ├── customize (root `generated/`)
+  │       │   ├── customize (if `customize` script present)
   │       │   ├── lint fix (Release/Local)
   │       │   ├── turbo build
   │       │   ├── extract ApiView info
@@ -123,7 +123,7 @@ CLI Entry (autoGenerateInPipeline.ts)
 | Format code          | `formatSdk()`                                | ✅ Required                          | `npm run format`                                          |
 | Update snippets      | `updateSnippets()`                           | ✅ Required                          | `dev-tool run update-snippets`                            |
 | Lint fix             | `lintFix()`                                  | ⚠️ Optional (`Release`/`Local` only) | `npm run lint:fix`                                        |
-| Apply custom code    | `customizeCodes()`                           | ⚠️ Optional (root `generated/`)      | `dev-tool customization apply -s ./generated -t ./src`    |
+| Customize package    | `customizeCodes()`                           | ⚠️ If present                        | `npm run --if-present customize`                          |
 | Clean up package dir | `cleanUpPackageDirectory()`                  | ✅ Required                          | Cleanup strategy based on SDK type + `RunMode`            |
 | Specify API version  | `specifyApiVersionToGenerateSDKByTypeSpec()` | ⚠️ Optional                          | Modify `api-version` field in `tspconfig.yaml`            |
 
@@ -279,20 +279,20 @@ There are two generation paths based on the source: **TypeSpec project** or **Sw
 
 #### Common Post-generation Steps (both paths)
 
-| Step                                      | Required    | Operation                                   | Command / Details                                                                                                      | Code Link                       |
-| ----------------------------------------- | ----------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **4. Generate/Modify CI YAML**            | ✅ Required | `modifyOrGenerateCiYml()`                   | Create or update `ci.yml`                                                                                              | [generateRLCInPipeline.ts#L180] |
-| **5. Modify Test/Sample Config**          | ✅ Required | `changeConfigOfTestAndSample()`             | Skip test/sample compilation                                                                                           | [generateRLCInPipeline.ts#L186] |
-| **6. Install Dependencies**               | ✅ Required | pnpm                                        | `pnpm install`                                                                                                         | [generateRLCInPipeline.ts#L204] |
-| **7. Apply Custom Code**                  | ⚠️ Optional | `customizeCodes()` — root `generated/` only | `dev-tool customization apply -s ./generated -t ./src`                                                                 | [generateRLCInPipeline.ts#L215] |
-| **8. Lint Fix**                           | ⚠️ Optional | `lintFix()` — `Release` / `Local` mode only | `npm run lint:fix`                                                                                                     | [generateRLCInPipeline.ts#L218] |
-| **9. Build**                              | ✅ Required | Compile package                             | `pnpm build --filter {packageName}...` (`Release`/`Local`) or `pnpm run --filter {packageName}... build` (other modes) | [generateRLCInPipeline.ts#L208] |
-| **10. Pack**                              | ✅ Required | Generate `.tgz`                             | `pnpm run --filter {packageName}... pack`                                                                              | [generateRLCInPipeline.ts#L210] |
-| **11. Format Code**                       | ✅ Required | `formatSdk()`                               | `npm run format`                                                                                                       | [generateRLCInPipeline.ts#L239] |
-| **12. Update Snippets**                   | ✅ Required | `updateSnippets()`                          | `dev-tool run update-snippets`                                                                                         | [generateRLCInPipeline.ts#L240] |
-| **13. Generate Changelog & Bump Version** | ✅ Required | `generateChangelogAndBumpVersion()`         | Same as HLC                                                                                                            | [generateRLCInPipeline.ts#L249] |
-| **14. Add ApiView Info**                  | ✅ Required | `addApiViewInfo()`                          | Find `*.api.json` files                                                                                                | [generateRLCInPipeline.ts#L260] |
-| **15. Restore Config**                    | ✅ Required | `changeConfigOfTestAndSample(Revert)`       | Restore original `tsconfig.json`                                                                                       | [generateRLCInPipeline.ts#L279] |
+| Step                                      | Required      | Operation                                   | Command / Details                                                                                                      | Code Link                       |
+| ----------------------------------------- | ------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| **4. Generate/Modify CI YAML**            | ✅ Required   | `modifyOrGenerateCiYml()`                   | Create or update `ci.yml`                                                                                              | [generateRLCInPipeline.ts#L180] |
+| **5. Modify Test/Sample Config**          | ✅ Required   | `changeConfigOfTestAndSample()`             | Skip test/sample compilation                                                                                           | [generateRLCInPipeline.ts#L186] |
+| **6. Install Dependencies**               | ✅ Required   | pnpm                                        | `pnpm install`                                                                                                         | [generateRLCInPipeline.ts#L204] |
+| **7. Customize Package**                  | ⚠️ If present | `customizeCodes()`                          | `npm run --if-present customize` (runs the package `customize` script when present, no-op otherwise)                   | [generateRLCInPipeline.ts#L215] |
+| **8. Lint Fix**                           | ⚠️ Optional   | `lintFix()` — `Release` / `Local` mode only | `npm run lint:fix`                                                                                                     | [generateRLCInPipeline.ts#L218] |
+| **9. Build**                              | ✅ Required   | Compile package                             | `pnpm build --filter {packageName}...` (`Release`/`Local`) or `pnpm run --filter {packageName}... build` (other modes) | [generateRLCInPipeline.ts#L208] |
+| **10. Pack**                              | ✅ Required   | Generate `.tgz`                             | `pnpm run --filter {packageName}... pack`                                                                              | [generateRLCInPipeline.ts#L210] |
+| **11. Format Code**                       | ✅ Required   | `formatSdk()`                               | `npm run format`                                                                                                       | [generateRLCInPipeline.ts#L239] |
+| **12. Update Snippets**                   | ✅ Required   | `updateSnippets()`                          | `dev-tool run update-snippets`                                                                                         | [generateRLCInPipeline.ts#L240] |
+| **13. Generate Changelog & Bump Version** | ✅ Required   | `generateChangelogAndBumpVersion()`         | Same as HLC                                                                                                            | [generateRLCInPipeline.ts#L249] |
+| **14. Add ApiView Info**                  | ✅ Required   | `addApiViewInfo()`                          | Find `*.api.json` files                                                                                                | [generateRLCInPipeline.ts#L260] |
+| **15. Restore Config**                    | ✅ Required   | `changeConfigOfTestAndSample(Revert)`       | Restore original `tsconfig.json`                                                                                       | [generateRLCInPipeline.ts#L279] |
 
 ---
 
@@ -318,16 +318,16 @@ There are two generation paths based on the source: **TypeSpec project** or **Sw
 
 #### `buildPackage()` Sub-steps Detail
 
-| Sub-step             | Required    | Command / Operation                                                                               | Code Link           |
-| -------------------- | ----------- | ------------------------------------------------------------------------------------------------- | ------------------- |
-| pnpm install         | ✅ Required | `pnpm install`                                                                                    | [rushUtils.ts#L127] |
-| Apply custom code    | ⚠️ Optional | `dev-tool customization apply -s ./generated -t ./src` — packages with root-level `generated/`    | [rushUtils.ts#L139] |
-| Lint fix             | ⚠️ Optional | `npm run lint:fix` — only in `Release` / `Local` mode                                             | [rushUtils.ts#L142] |
-| turbo build          | ✅ Required | `pnpm turbo build --filter {packageName}... --token 1` (build errors are warnings for Data Plane) | [rushUtils.ts#L150] |
-| Extract ApiView info | ✅ Required | Find `temp/**/*-node.api.json` or `temp/**/*.api.json`                                            | [rushUtils.ts#L157] |
-| Test package         | ⚠️ Optional | `pnpm run test:node` — `TEST_MODE=record`; failure does not block                                 | [rushUtils.ts#L169] |
-| Format               | ✅ Required | `npm run format`                                                                                  | [rushUtils.ts#L170] |
-| Update snippets      | ✅ Required | `dev-tool run update-snippets`                                                                    | [rushUtils.ts#L171] |
+| Sub-step             | Required      | Command / Operation                                                                                  | Code Link           |
+| -------------------- | ------------- | ---------------------------------------------------------------------------------------------------- | ------------------- |
+| pnpm install         | ✅ Required   | `pnpm install`                                                                                       | [rushUtils.ts#L127] |
+| Customize package    | ⚠️ If present | `npm run --if-present customize` — runs the package `customize` script when present, no-op otherwise | [rushUtils.ts#L139] |
+| Lint fix             | ⚠️ Optional   | `npm run lint:fix` — only in `Release` / `Local` mode                                                | [rushUtils.ts#L142] |
+| turbo build          | ✅ Required   | `pnpm turbo build --filter {packageName}... --token 1` (build errors are warnings for Data Plane)    | [rushUtils.ts#L150] |
+| Extract ApiView info | ✅ Required   | Find `temp/**/*-node.api.json` or `temp/**/*.api.json`                                               | [rushUtils.ts#L157] |
+| Test package         | ⚠️ Optional   | `pnpm run test:node` — `TEST_MODE=record`; failure does not block                                    | [rushUtils.ts#L169] |
+| Format               | ✅ Required   | `npm run format`                                                                                     | [rushUtils.ts#L170] |
+| Update snippets      | ✅ Required   | `dev-tool run update-snippets`                                                                       | [rushUtils.ts#L171] |
 
 ---
 

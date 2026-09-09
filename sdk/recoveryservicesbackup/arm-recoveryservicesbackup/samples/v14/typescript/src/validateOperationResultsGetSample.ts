@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetches the result of a triggered validate operation.
  *
  * @summary fetches the result of a triggered validate operation.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ValidateOperationResults.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/ValidateOperationResults.json
  */
 async function getOperationResultsOfValidateOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();

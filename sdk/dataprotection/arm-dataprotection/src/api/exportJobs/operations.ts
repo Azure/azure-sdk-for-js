@@ -22,7 +22,7 @@ export function _triggerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -35,7 +35,9 @@ export async function _triggerDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -55,6 +57,6 @@ export function trigger(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _triggerSend(context, resourceGroupName, vaultName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }

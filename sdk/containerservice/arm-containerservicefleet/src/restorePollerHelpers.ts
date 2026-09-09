@@ -34,6 +34,11 @@ import {
   _updateAsyncDeserialize as _updateAsyncDeserializeFleets,
   _createDeserialize as _createDeserializeFleets,
 } from "./api/fleets/operations.js";
+import {
+  _applyDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeClusterMeshProfiles,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeClusterMeshProfiles,
+} from "./api/clusterMeshProfiles/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -159,6 +164,18 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateAsyncDeserializeFleets, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}":
     { deserializer: _createDeserializeFleets, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/clusterMeshProfiles/{clusterMeshProfileName}/apply":
+    { deserializer: _applyDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/clusterMeshProfiles/{clusterMeshProfileName}":
+    {
+      deserializer: _$deleteDeserializeClusterMeshProfiles,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/clusterMeshProfiles/{clusterMeshProfileName}":
+    {
+      deserializer: _createOrUpdateDeserializeClusterMeshProfiles,
+      expectedStatuses: ["200", "201", "202"],
+    },
 };
 
 function getDeserializationHelper(

@@ -235,6 +235,12 @@
 # PRLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/    @dargilco @rhurey
 
+# PRLabel: %Iot
+/sdk/deviceregistry/iot-device-registry-software-update/ @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
+
+# AzureSdkOwners: @wuqiten @devlie @josephmsft @qiaozha @MaryGao @JialinHuang803
+# ServiceLabel: %Iot
+
 # PRLabel: %KeyVault
 /sdk/keyvault/    @Azure/azure-sdk-write-keyvault
 
@@ -531,13 +537,13 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datamigration/arm-datamigration/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/dataprotection/arm-dataprotection/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/dependencymap/arm-dependencymap/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -912,7 +918,7 @@
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/search/arm-search/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

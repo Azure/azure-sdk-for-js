@@ -1,17 +1,11 @@
 # Release History
 
-## 0.3.9 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 0.3.9 (2026-09-03)
 
 ### Bugs Fixed
 
 - `NodeHttpClient` request timeouts now remain active while buffered response bodies are being read. [Issue #39519](https://github.com/Azure/azure-sdk-for-js/issues/39519)
 - `FetchHttpClient` now surfaces the system error code (such as `ECONNRESET` or `ETIMEDOUT`) carried by the `cause` of a failed `fetch()` call on the resulting `RestError`, so that `systemErrorRetryPolicy` retries transient network failures instead of rethrowing them immediately. [Issue #39703](https://github.com/Azure/azure-sdk-for-js/issues/39703)
-
-### Other Changes
 
 ## 0.3.8 (2026-07-29)
 

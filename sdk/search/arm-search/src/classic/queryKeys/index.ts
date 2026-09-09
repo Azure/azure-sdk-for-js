@@ -18,11 +18,6 @@ export interface QueryKeysOperations {
    * Returns 200 (OK) on successful deletion, 204 (No Content) if the service exists but the query keys not found, or 404 (Not Found) if the service is not found.
    * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
    */
-  /**
-   *  @fixme Delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     searchServiceName: string,
@@ -43,7 +38,6 @@ export interface QueryKeysOperations {
     options?: QueryKeysCreateOptionalParams,
   ) => Promise<QueryKey>;
 }
-
 function _getQueryKeys(context: SearchManagementContext) {
   return {
     delete: (
@@ -65,7 +59,6 @@ function _getQueryKeys(context: SearchManagementContext) {
     ) => create(context, resourceGroupName, searchServiceName, name, options),
   };
 }
-
 export function _getQueryKeysOperations(context: SearchManagementContext): QueryKeysOperations {
   return {
     ..._getQueryKeys(context),

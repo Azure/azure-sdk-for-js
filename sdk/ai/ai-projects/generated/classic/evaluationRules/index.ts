@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import {
-  list,
-  createOrUpdate,
-  deleteEvaluationRule,
-  get,
-} from "../../api/evaluationRules/operations.js";
+import { list, createOrUpdate, $delete, get } from "../../api/evaluationRules/operations.js";
 import {
   EvaluationRulesListOptionalParams,
   EvaluationRulesCreateOrUpdateOptionalParams,
@@ -28,10 +23,7 @@ export interface EvaluationRulesOperations {
     options?: EvaluationRulesCreateOrUpdateOptionalParams,
   ) => Promise<EvaluationRule>;
   /** Removes the specified evaluation rule from the project. */
-  deleteEvaluationRule: (
-    id: string,
-    options?: EvaluationRulesDeleteOptionalParams,
-  ) => Promise<void>;
+  delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
   /** Retrieves the specified evaluation rule and its configuration. */
   get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
 }
@@ -44,8 +36,8 @@ function _getEvaluationRules(context: AIProjectContext) {
       evaluationRule: EvaluationRule,
       options?: EvaluationRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, id, evaluationRule, options),
-    deleteEvaluationRule: (id: string, options?: EvaluationRulesDeleteOptionalParams) =>
-      deleteEvaluationRule(context, id, options),
+    delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) =>
+      $delete(context, id, options),
     get: (id: string, options?: EvaluationRulesGetOptionalParams) => get(context, id, options),
   };
 }

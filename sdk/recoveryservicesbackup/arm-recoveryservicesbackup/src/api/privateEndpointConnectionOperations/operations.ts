@@ -33,7 +33,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,7 +70,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, vaultName, resourceGroupName, privateEndpointConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -89,7 +89,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +144,7 @@ export function put(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
@@ -165,7 +165,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

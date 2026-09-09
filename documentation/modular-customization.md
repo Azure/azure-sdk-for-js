@@ -14,7 +14,7 @@ If your package has not been set up for customization yet, run the following com
 npx dev-tool customization init
 ```
 
-This copies the contents of `src/` into `generated/`, establishing the baseline for the customization workflow. If `generated/` already exists, the package is already set up and the command makes no changes.
+This copies the contents of `src/` into `generated/`, establishing the baseline for the customization workflow. It also adds a default `customize` script to the package's `package.json` when one is not already present. If `generated/` already exists, the package is already set up and the command makes no changes to it.
 
 ## Folder Structure
 
@@ -64,4 +64,4 @@ This command will:
 
 If the merge was successful, review the merged changes and run the package's normal formatting, build, and test checks before committing. If merge conflicts are present, this means that the changes in the generated code conflicted with your customizations. Resolve the conflicts as you would do for any other merge, taking parts from the new generated code and parts from the customized code as makes sense to you. After resolving the conflicts, the `src/` folder should be the result of applying your customizations to the new version of the generated code.
 
-When an SDK is generated through the SDK generation pipeline, the pipeline automatically runs `dev-tool customization apply` after the emitter updates the root-level `generated/` directory and before the package is built. You only need to run the command yourself when regenerating locally.
+When an SDK is generated through the SDK generation pipeline, the pipeline automatically runs the package's `customize` script (via `npm run --if-present customize`) after the emitter updates the root-level `generated/` directory and before the package is built. Packages without a `customize` script are skipped. You only need to run the command yourself when regenerating locally.

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
  *
  * @summary reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
- * x-ms-original-file: 2026-03-01-preview/NetworkSecurityPerimeterConfigurationsReconcile.json
+ * x-ms-original-file: 2026-09-01-preview/NetworkSecurityPerimeterConfigurationsReconcile.json
  */
 async function reconcileNSPConfig() {
   const credential = new DefaultAzureCredential();

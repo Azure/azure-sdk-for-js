@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { IotDpsClient } = require("@azure/arm-deviceprovisioningservices");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets the status of a long running operation, such as create, update or delete a provisioning service.
+ *
+ * @summary gets the status of a long running operation, such as create, update or delete a provisioning service.
+ * x-ms-original-file: 2026-08-31/DPSGetOperationResult.json
+ */
+async function dpsGetOperationResult() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const client = new IotDpsClient(credential, subscriptionId);
+  const result = await client.iotDpsResource.getOperationResult(
+    "MTY5OTNmZDctODI5Yy00N2E2LTkxNDQtMDU1NGIyYzY1ZjRl",
+    "myResourceGroup",
+    "myFirstProvisioningService",
+    "1508265712453",
+  );
+  console.log(result);
+}
+
+async function main() {
+  await dpsGetOperationResult();
+}
+
+main().catch(console.error);
