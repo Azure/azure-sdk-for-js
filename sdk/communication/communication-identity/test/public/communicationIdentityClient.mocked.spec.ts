@@ -42,6 +42,20 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     );
   });
 
+  it("sends the expected api-version", async () => {
+    const client = new TestCommunicationIdentityClient();
+    const spy = vi.spyOn(getTokenHttpClient, "sendRequest");
+
+    await client.getTokenTest(user, ["chat"]);
+    expect(spy).toHaveBeenCalledOnce();
+
+    // Asserted here rather than in the recorded tests: playback rewrites the
+    // api-version so the existing recordings match, which means those tests
+    // cannot detect a wrong value. This check can.
+    const request = spy.mock.calls[0][0];
+    assert.include(request.url, "api-version=2026-09-23");
+  });
+
   it("sends scopes in issue token request", async () => {
     const client = new TestCommunicationIdentityClient();
     const spy = vi.spyOn(getTokenHttpClient, "sendRequest");

@@ -62,9 +62,42 @@ const recorderOptions: RecorderStartOptions = {
   sanitizerOptions: sanitizerOptions,
 };
 
+/**
+ * The recordings were captured against api-version `2025-03-02-preview`, while the client now
+ * sends `2026-09-23`, so every recorded request would otherwise fail to match. This rewrites
+ * the api-version on the outgoing request during playback so the existing recordings play back
+ * unchanged.
+ *
+ * Registered explicitly for playback. Sanitizers supplied through `RecorderStartOptions` are
+ * only registered in record mode, so declaring one there has no effect here.
+ *
+ * Known limitation: this makes the two values interchangeable in playback, so a regression that
+ * sent `2025-03-02-preview` would not be caught. Any other value is left alone and still fails
+ * to match. The exact api-version is asserted separately in
+ * `communicationIdentityClient.mocked.spec.ts`, which does not depend on the recordings.
+ *
+ * This is a bridge rather than a fix: the recordings still describe preview-era traffic, so the
+ * suite shows that nothing else regressed rather than validating the new api-version. Once the
+ * recordings are re-captured the pattern matches nothing and the sanitizer becomes inert.
+ */
+const RECORDED_API_VERSION = "2025-03-02-preview";
+const CURRENT_API_VERSION = "2026-09-23";
+
 export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
+  await recorder.addSanitizers(
+    {
+      uriSanitizers: [
+        {
+          regex: true,
+          target: `api-version=${CURRENT_API_VERSION}`,
+          value: `api-version=${RECORDED_API_VERSION}`,
+        },
+      ],
+    },
+    ["playback"],
+  );
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: [
       "Accept-Language", // This is env-dependent
