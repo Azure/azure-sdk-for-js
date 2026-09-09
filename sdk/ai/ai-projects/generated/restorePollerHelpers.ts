@@ -2,6 +2,11 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "./aiProjectClient.js";
+import {
+  _publishTelephonyCampaignDeserialize,
+  _validateTelephonyCampaignDeserialize,
+  _importTelephonyCampaignRecipientsDeserialize,
+} from "./api/agentTelephony/operations.js";
 import { _createOptimizationJobDeserialize } from "./api/beta/agents/operations.js";
 import { _createGenerationJobDeserialize } from "./api/beta/datasets/operations.js";
 import { _updateMemoriesDeserialize } from "./api/beta/memoryStores/operations.js";
@@ -81,6 +86,18 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "POST /agents/{agent_name}/telephony/campaigns/{campaign_id}:publish": {
+    deserializer: _publishTelephonyCampaignDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
+  "POST /agents/{agent_name}/telephony/campaigns/{campaign_id}:validate": {
+    deserializer: _validateTelephonyCampaignDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
+  "POST /agents/{agent_name}/telephony/campaigns/{campaign_id}/recipients:import": {
+    deserializer: _importTelephonyCampaignRecipientsDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
   "POST /agent_optimization_jobs": {
     deserializer: _createOptimizationJobDeserialize,
     expectedStatuses: ["201", "200", "202"],
