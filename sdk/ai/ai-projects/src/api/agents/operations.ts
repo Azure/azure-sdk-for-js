@@ -24,7 +24,18 @@ import type {
   GetMicrosoft365PackageResponse,
   Microsoft365PublishResponse,
   AgentsDownloadAgentCodeResponse,
- CreateTelephonyBindingRequestUnion, TelephonyBindingUnion, _AgentsPagedResultTelephonyBindingListItem, TelephonyBindingListItemUnion, UpdateTelephonyBindingRequest, _AgentsPagedResultTelephonyCallSummary, TelephonyCallSummary, TelephonyCallRecord, TelephonyTransferTargets, TelephonyTransferTarget, GenerateAgentRequest} from "../../models/models.js";
+  CreateTelephonyBindingRequestUnion,
+  TelephonyBindingUnion,
+  _AgentsPagedResultTelephonyBindingListItem,
+  TelephonyBindingListItemUnion,
+  UpdateTelephonyBindingRequest,
+  _AgentsPagedResultTelephonyCallSummary,
+  TelephonyCallSummary,
+  TelephonyCallRecord,
+  TelephonyTransferTargets,
+  TelephonyTransferTarget,
+  GenerateAgentRequest,
+} from "../../models/models.js";
 import {
   agentDeserializer,
   agentVersionDeserializer,
@@ -46,6 +57,15 @@ import {
   microsoft365PublishDefaultsDeserializer,
   microsoft365PermissionScopesArraySerializer,
   microsoft365PublishResponseDeserializer,
+  createTelephonyBindingRequestUnionSerializer,
+  telephonyBindingUnionDeserializer,
+  _agentsPagedResultTelephonyBindingListItemDeserializer,
+  updateTelephonyBindingRequestSerializer,
+  _agentsPagedResultTelephonyCallSummaryDeserializer,
+  telephonyCallRecordDeserializer,
+  telephonyTransferTargetsDeserializer,
+  telephonyTransferTargetArraySerializer,
+  generateAgentRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -93,6 +113,7 @@ import type {
   AgentsUpdateOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
+  AgentsGenerateAgentOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -380,21 +401,19 @@ export function _replaceTelephonyTransferTargetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { transfer_targets: telephonyTransferTargetArraySerializer(transferTargets) },
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "if-match": ifMatch,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { transfer_targets: telephonyTransferTargetArraySerializer(transferTargets) },
+  });
 }
 
 export async function _replaceTelephonyTransferTargetsDeserialize(
@@ -446,18 +465,16 @@ export function _getTelephonyTransferTargetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getTelephonyTransferTargetsDeserialize(
@@ -503,18 +520,16 @@ export function _endTelephonyCallSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _endTelephonyCallDeserialize(
@@ -562,20 +577,18 @@ export function _transferTelephonyCallSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { target: target },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { target: target },
+  });
 }
 
 export async function _transferTelephonyCallDeserialize(
@@ -623,18 +636,16 @@ export function _getTelephonyCallSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getTelephonyCallDeserialize(
@@ -691,18 +702,16 @@ export function _listTelephonyCallsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listTelephonyCallsDeserialize(
@@ -740,7 +749,9 @@ export function listTelephonyCalls(
       nextPageRequestOptions: {
         ...operationOptionsToRequestParameters(options),
         headers: {
-          ...(options.foundryFeatures !== undefined ? { "foundry-features": options.foundryFeatures } : {}),
+          ...(options.foundryFeatures !== undefined
+            ? { "foundry-features": options.foundryFeatures }
+            : {}),
           ...options.requestOptions?.headers,
         },
       },
@@ -766,18 +777,16 @@ export function _deleteTelephonyBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "if-match": ifMatch,
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteTelephonyBindingDeserialize(
@@ -827,21 +836,19 @@ export function _updateTelephonyBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: updateTelephonyBindingRequestSerializer(body),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "if-match": ifMatch,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: updateTelephonyBindingRequestSerializer(body),
+  });
 }
 
 export async function _updateTelephonyBindingDeserialize(
@@ -897,18 +904,16 @@ export function _getTelephonyBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getTelephonyBindingDeserialize(
@@ -959,18 +964,16 @@ export function _listTelephonyBindingsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listTelephonyBindingsDeserialize(
@@ -1008,7 +1011,9 @@ export function listTelephonyBindings(
       nextPageRequestOptions: {
         ...operationOptionsToRequestParameters(options),
         headers: {
-          ...(options.foundryFeatures !== undefined ? { "foundry-features": options.foundryFeatures } : {}),
+          ...(options.foundryFeatures !== undefined
+            ? { "foundry-features": options.foundryFeatures }
+            : {}),
           ...options.requestOptions?.headers,
         },
       },
@@ -1032,30 +1037,28 @@ export function _createTelephonyBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...(options?.repeatabilityRequestId !== undefined
-          ? { "repeatability-request-id": options?.repeatabilityRequestId }
-          : {}),
-        ...(options?.repeatabilityFirstSent !== undefined
-          ? {
-              "repeatability-first-sent": !options?.repeatabilityFirstSent
-                ? options?.repeatabilityFirstSent
-                : options?.repeatabilityFirstSent.toUTCString(),
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: createTelephonyBindingRequestUnionSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...(options?.repeatabilityRequestId !== undefined
+        ? { "repeatability-request-id": options?.repeatabilityRequestId }
+        : {}),
+      ...(options?.repeatabilityFirstSent !== undefined
+        ? {
+            "repeatability-first-sent": !options?.repeatabilityFirstSent
+              ? options?.repeatabilityFirstSent
+              : options?.repeatabilityFirstSent.toUTCString(),
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createTelephonyBindingRequestUnionSerializer(body),
+  });
 }
 
 export async function _createTelephonyBindingDeserialize(
@@ -2681,14 +2684,12 @@ export async function get(
   return _getDeserialize(result);
 }
 
-
-
 export function _generateAgentSend(
   context: Client,
   body: GenerateAgentRequest,
   options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
- const foundryFeatures = "VoiceAgents=V1Preview";
+  const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
     "/agents:generate{?api%2Dversion}",
@@ -2699,20 +2700,17 @@ export function _generateAgentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: generateAgentRequestSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: generateAgentRequestSerializer(body),
+  });
 }
-
 
 export async function _generateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
@@ -2728,7 +2726,6 @@ export async function _generateAgentDeserialize(result: PathUncheckedResponse): 
   return agentDeserializer(result.body);
 }
 
-
 /**
  * Generates and creates an agent from kind-specific high-level inputs.
  * The generated definition remains fully editable through the standard agent versioning operations.
@@ -2741,5 +2738,3 @@ export async function generateAgent(
   const result = await _generateAgentSend(context, body, options);
   return _generateAgentDeserialize(result);
 }
-import { createTelephonyBindingRequestUnionSerializer, telephonyBindingUnionDeserializer, _agentsPagedResultTelephonyBindingListItemDeserializer, updateTelephonyBindingRequestSerializer, _agentsPagedResultTelephonyCallSummaryDeserializer, telephonyCallRecordDeserializer, telephonyTransferTargetsDeserializer, telephonyTransferTargetArraySerializer, generateAgentRequestSerializer } from "../../models/models.js";
-import type { AgentsGenerateAgentOptionalParams } from "./options.js";

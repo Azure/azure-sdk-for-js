@@ -591,7 +591,5 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface AgentsGetOptionalParams extends OperationOptions {}
 
-
-
 /** Optional parameters. */
 export interface AgentsGenerateAgentOptionalParams extends OperationOptions {}

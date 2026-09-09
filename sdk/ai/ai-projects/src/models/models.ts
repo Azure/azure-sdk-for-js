@@ -5,6 +5,7 @@ import type { NodeReadableStream } from "#platform/static-helpers/platform-types
 import type { FileContents } from "../static-helpers/multipartHelpers.js";
 import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -191,7 +192,8 @@ export type AgentDefinitionUnion =
   | PromptAgentDefinition
   | WorkflowAgentDefinition
   | ExternalAgentDefinition
-  | AgentDefinition | VoiceAgentDefinition;
+  | AgentDefinition
+  | VoiceAgentDefinition;
 
 export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any {
   switch (item.kind) {
@@ -503,7 +505,8 @@ export type ToolUnion =
   | ComputerTool
   | NamespaceToolParam
   | ToolSearchToolParam
-  | Tool | BrowserAutomationTool;
+  | Tool
+  | BrowserAutomationTool;
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
@@ -744,7 +747,8 @@ export type ToolType =
   | "azure_function"
   | "bing_grounding"
   | "capture_structured_outputs"
-  | "openapi" | "browser_automation";
+  | "openapi"
+  | "browser_automation";
 
 /** The input definition information for a bing grounding search tool as used to configure an agent. */
 export interface BingGroundingTool extends Tool {
@@ -7344,7 +7348,8 @@ export type ToolboxToolUnion =
   | WebIQPreviewToolboxTool
   | ToolboxSearchPreviewToolboxTool
   | ToolSearchToolboxTool
-  | ToolboxTool | BrowserAutomationToolboxTool;
+  | ToolboxTool
+  | BrowserAutomationToolboxTool;
 
 export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
   switch (item.type) {
@@ -7483,7 +7488,8 @@ export type ToolboxToolType =
   | "toolbox_search_preview"
   | "a2a"
   | "shell"
-  | "web_iq_preview" | "browser_automation";
+  | "web_iq_preview"
+  | "browser_automation";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -13552,13 +13558,13 @@ export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerati
       ? item["start_time"]
       : (item["start_time"].getTime() / 1000) | 0,
     end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
-  
+
     trace_ids: !item["trace_ids"]
       ? item["trace_ids"]
       : item["trace_ids"].map((p: any) => {
           return p;
-        })
-};
+        }),
+  };
 }
 
 export function tracesDataGenerationJobSourceDeserializer(
@@ -13572,13 +13578,13 @@ export function tracesDataGenerationJobSourceDeserializer(
     agent_version: item["agent_version"],
     start_time: new Date(item["start_time"] * 1000),
     end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
-  
+
     trace_ids: !item["trace_ids"]
       ? item["trace_ids"]
       : item["trace_ids"].map((p: any) => {
           return p;
-        })
-};
+        }),
+  };
 }
 
 /** File source for data generation jobs — Azure OpenAI file input. */
@@ -13929,9 +13935,12 @@ export interface DataGenerationJobOutputOptions {
 export function dataGenerationJobOutputOptionsSerializer(
   item: DataGenerationJobOutputOptions,
 ): any {
-  return { name: item["name"], description: item["description"], tags: item["tags"] ,
-    write_mode: item["write_mode"]
-};
+  return {
+    name: item["name"],
+    description: item["description"],
+    tags: item["tags"],
+    write_mode: item["write_mode"],
+  };
 }
 
 export function dataGenerationJobOutputOptionsDeserializer(
@@ -13941,9 +13950,9 @@ export function dataGenerationJobOutputOptionsDeserializer(
     name: item["name"],
     description: item["description"],
     tags: item["tags"],
-  
-    write_mode: item["write_mode"]
-};
+
+    write_mode: item["write_mode"],
+  };
 }
 
 /** Result produced by a successful data generation job. */
@@ -15389,8 +15398,6 @@ export function webIQPreviewToolboxToolDeserializer(item: any): WebIQPreviewTool
   };
 }
 
-
-
 /** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
 export interface BrowserAutomationTool extends Tool {
   /** The object type, which is always 'browser_automation'. */
@@ -15399,7 +15406,6 @@ export interface BrowserAutomationTool extends Tool {
   browser_automation: BrowserAutomationToolParameters;
 }
 
-
 export function browserAutomationToolSerializer(item: BrowserAutomationTool): any {
   return {
     type: item["type"],
@@ -15407,14 +15413,12 @@ export function browserAutomationToolSerializer(item: BrowserAutomationTool): an
   };
 }
 
-
 export function browserAutomationToolDeserializer(item: any): BrowserAutomationTool {
   return {
     type: item["type"],
     browser_automation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
   };
 }
-
 
 /**
  * The voice agent definition. Its configuration (model, instructions, audio, tools, and optional avatar) drives a
@@ -15481,7 +15485,6 @@ export interface VoiceAgentDefinition extends AgentDefinition {
   store?: boolean;
 }
 
-
 export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any {
   return {
     kind: item["kind"],
@@ -15527,7 +15530,6 @@ export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any 
     store: item["store"],
   };
 }
-
 
 export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinition {
   return {
@@ -15577,13 +15579,11 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
   };
 }
 
-
 /**
  * How the model backing a voice agent is served. This is independent of the architecture (realtime or cascaded),
  * which the service derives from the selected model.
  */
 export type VoiceModelType = "managed" | "self_deployed";
-
 
 /** An engine that owns conversation handling for a voice agent. */
 export interface VoiceConversationEngine {
@@ -15592,11 +15592,9 @@ export interface VoiceConversationEngine {
   type: string;
 }
 
-
 export function voiceConversationEngineSerializer(item: VoiceConversationEngine): any {
   return { type: item["type"] };
 }
-
 
 export function voiceConversationEngineDeserializer(item: any): VoiceConversationEngine {
   return {
@@ -15604,11 +15602,9 @@ export function voiceConversationEngineDeserializer(item: any): VoiceConversatio
   };
 }
 
-
 /** Alias for VoiceConversationEngineUnion */
 export type VoiceConversationEngineUnion =
   VoiceHostedAgentConversationEngine | VoiceConversationEngine;
-
 
 export function voiceConversationEngineUnionSerializer(item: VoiceConversationEngineUnion): any {
   switch (item.type) {
@@ -15622,7 +15618,6 @@ export function voiceConversationEngineUnionSerializer(item: VoiceConversationEn
   }
 }
 
-
 export function voiceConversationEngineUnionDeserializer(item: any): VoiceConversationEngineUnion {
   switch (item["type"]) {
     case "hosted_agent":
@@ -15634,7 +15629,6 @@ export function voiceConversationEngineUnionDeserializer(item: any): VoiceConver
       return voiceConversationEngineDeserializer(item);
   }
 }
-
 
 /** A closed reference to the hosted text agent that owns conversation handling for a voice agent. The hosted agent is resolved within the same project and must support the `invocations_ws` protocol, Voice Live compatibility, and Bridge Protocol 1.0. */
 export interface VoiceHostedAgentConversationEngine extends VoiceConversationEngine {
@@ -15648,7 +15642,6 @@ export interface VoiceHostedAgentConversationEngine extends VoiceConversationEng
   additionalProperties?: Record<string, any>;
 }
 
-
 export function voiceHostedAgentConversationEngineSerializer(
   item: VoiceHostedAgentConversationEngine,
 ): any {
@@ -15659,7 +15652,6 @@ export function voiceHostedAgentConversationEngineSerializer(
     version: item["version"],
   };
 }
-
 
 export function voiceHostedAgentConversationEngineDeserializer(
   item: any,
@@ -15672,7 +15664,6 @@ export function voiceHostedAgentConversationEngineDeserializer(
   };
 }
 
-
 /** Session-start greeting configuration for a voice agent. */
 export interface VoiceAgentGreetingConfig {
   /** The greeting mode. */
@@ -15680,11 +15671,9 @@ export interface VoiceAgentGreetingConfig {
   type: string;
 }
 
-
 export function voiceAgentGreetingConfigSerializer(item: VoiceAgentGreetingConfig): any {
   return { type: item["type"] };
 }
-
 
 export function voiceAgentGreetingConfigDeserializer(item: any): VoiceAgentGreetingConfig {
   return {
@@ -15692,13 +15681,11 @@ export function voiceAgentGreetingConfigDeserializer(item: any): VoiceAgentGreet
   };
 }
 
-
 /** Alias for VoiceAgentGreetingConfigUnion */
 export type VoiceAgentGreetingConfigUnion =
   | VoiceAgentTemplateGreetingConfig
   | VoiceAgentLlmGeneratedGreetingConfig
   | VoiceAgentGreetingConfig;
-
 
 export function voiceAgentGreetingConfigUnionSerializer(item: VoiceAgentGreetingConfigUnion): any {
   switch (item.type) {
@@ -15714,7 +15701,6 @@ export function voiceAgentGreetingConfigUnionSerializer(item: VoiceAgentGreeting
       return voiceAgentGreetingConfigSerializer(item);
   }
 }
-
 
 export function voiceAgentGreetingConfigUnionDeserializer(
   item: any,
@@ -15733,7 +15719,6 @@ export function voiceAgentGreetingConfigUnionDeserializer(
   }
 }
 
-
 /** A deterministic greeting rendered with the voice agent's structured inputs and synthesized without model-authored generation. */
 export interface VoiceAgentTemplateGreetingConfig extends VoiceAgentGreetingConfig {
   type: "template";
@@ -15741,13 +15726,11 @@ export interface VoiceAgentTemplateGreetingConfig extends VoiceAgentGreetingConf
   text: string;
 }
 
-
 export function voiceAgentTemplateGreetingConfigSerializer(
   item: VoiceAgentTemplateGreetingConfig,
 ): any {
   return { type: item["type"], text: item["text"] };
 }
-
 
 export function voiceAgentTemplateGreetingConfigDeserializer(
   item: any,
@@ -15758,7 +15741,6 @@ export function voiceAgentTemplateGreetingConfigDeserializer(
   };
 }
 
-
 /** A greeting authored by the session model from a scoped opening-turn prompt. */
 export interface VoiceAgentLlmGeneratedGreetingConfig extends VoiceAgentGreetingConfig {
   type: "llm_generated";
@@ -15767,7 +15749,6 @@ export interface VoiceAgentLlmGeneratedGreetingConfig extends VoiceAgentGreeting
   /** The tool-selection policy for the opening response. Defaults to `none`. */
   tool_choice?: VoiceAgentToolChoice;
 }
-
 
 export function voiceAgentLlmGeneratedGreetingConfigSerializer(
   item: VoiceAgentLlmGeneratedGreetingConfig,
@@ -15781,7 +15762,6 @@ export function voiceAgentLlmGeneratedGreetingConfigSerializer(
   };
 }
 
-
 export function voiceAgentLlmGeneratedGreetingConfigDeserializer(
   item: any,
 ): VoiceAgentLlmGeneratedGreetingConfig {
@@ -15794,21 +15774,17 @@ export function voiceAgentLlmGeneratedGreetingConfigDeserializer(
   };
 }
 
-
 /** Tool-selection behavior for a voice agent. */
 export type VoiceAgentToolChoice =
   "none" | "auto" | "required" | ToolChoiceFunction | ToolChoiceMCP;
-
 
 export function voiceAgentToolChoiceSerializer(item: VoiceAgentToolChoice): any {
   return item;
 }
 
-
 export function voiceAgentToolChoiceDeserializer(item: any): VoiceAgentToolChoice {
   return item;
 }
-
 
 /** The audio configuration for a voice agent. These values are session defaults and may be overridden when connecting. */
 export interface VoiceAgentAudioConfig {
@@ -15817,7 +15793,6 @@ export interface VoiceAgentAudioConfig {
   /** Output (agent speech) audio configuration. */
   output?: VoiceAgentAudioOutputConfig;
 }
-
 
 export function voiceAgentAudioConfigSerializer(item: VoiceAgentAudioConfig): any {
   return {
@@ -15828,7 +15803,6 @@ export function voiceAgentAudioConfigSerializer(item: VoiceAgentAudioConfig): an
   };
 }
 
-
 export function voiceAgentAudioConfigDeserializer(item: any): VoiceAgentAudioConfig {
   return {
     input: !item["input"] ? item["input"] : voiceAgentAudioInputConfigDeserializer(item["input"]),
@@ -15837,7 +15811,6 @@ export function voiceAgentAudioConfigDeserializer(item: any): VoiceAgentAudioCon
       : voiceAgentAudioOutputConfigDeserializer(item["output"]),
   };
 }
-
 
 /** Input audio configuration for a voice agent. */
 export interface VoiceAgentAudioInputConfig {
@@ -15852,7 +15825,6 @@ export interface VoiceAgentAudioInputConfig {
   /** Asynchronous input-audio transcription. Set to null to disable transcription. */
   transcription?: VoiceAgentInputTranscription;
 }
-
 
 export function voiceAgentAudioInputConfigSerializer(item: VoiceAgentAudioInputConfig): any {
   return {
@@ -15871,7 +15843,6 @@ export function voiceAgentAudioInputConfigSerializer(item: VoiceAgentAudioInputC
       : voiceAgentInputTranscriptionSerializer(item["transcription"]),
   };
 }
-
 
 export function voiceAgentAudioInputConfigDeserializer(item: any): VoiceAgentAudioInputConfig {
   return {
@@ -15893,17 +15864,14 @@ export function voiceAgentAudioInputConfigDeserializer(item: any): VoiceAgentAud
   };
 }
 
-
 /** model interface RealtimeAudioFormats */
 export interface RealtimeAudioFormats {
   type: RealtimeAudioFormatsType;
 }
 
-
 export function realtimeAudioFormatsSerializer(item: RealtimeAudioFormats): any {
   return { type: item["type"] };
 }
-
 
 export function realtimeAudioFormatsDeserializer(item: any): RealtimeAudioFormats {
   return {
@@ -15911,14 +15879,12 @@ export function realtimeAudioFormatsDeserializer(item: any): RealtimeAudioFormat
   };
 }
 
-
 /** Alias for RealtimeAudioFormatsUnion */
 export type RealtimeAudioFormatsUnion =
   | RealtimeAudioFormatsAudioPcm
   | RealtimeAudioFormatsAudioPcmu
   | RealtimeAudioFormatsAudioPcma
   | RealtimeAudioFormats;
-
 
 export function realtimeAudioFormatsUnionSerializer(item: RealtimeAudioFormatsUnion): any {
   switch (item.type) {
@@ -15936,7 +15902,6 @@ export function realtimeAudioFormatsUnionSerializer(item: RealtimeAudioFormatsUn
   }
 }
 
-
 export function realtimeAudioFormatsUnionDeserializer(item: any): RealtimeAudioFormatsUnion {
   switch (item["type"]) {
     case "audio/pcm":
@@ -15953,10 +15918,8 @@ export function realtimeAudioFormatsUnionDeserializer(item: any): RealtimeAudioF
   }
 }
 
-
 /** Type of RealtimeAudioFormatsType */
 export type RealtimeAudioFormatsType = "audio/pcm" | "audio/pcmu" | "audio/pcma";
-
 
 /** model interface RealtimeAudioFormatsAudioPcm */
 export interface RealtimeAudioFormatsAudioPcm extends RealtimeAudioFormats {
@@ -15964,11 +15927,9 @@ export interface RealtimeAudioFormatsAudioPcm extends RealtimeAudioFormats {
   rate?: 24000;
 }
 
-
 export function realtimeAudioFormatsAudioPcmSerializer(item: RealtimeAudioFormatsAudioPcm): any {
   return { type: item["type"], rate: item["rate"] };
 }
-
 
 export function realtimeAudioFormatsAudioPcmDeserializer(item: any): RealtimeAudioFormatsAudioPcm {
   return {
@@ -15977,17 +15938,14 @@ export function realtimeAudioFormatsAudioPcmDeserializer(item: any): RealtimeAud
   };
 }
 
-
 /** model interface RealtimeAudioFormatsAudioPcmu */
 export interface RealtimeAudioFormatsAudioPcmu extends RealtimeAudioFormats {
   type: "audio/pcmu";
 }
 
-
 export function realtimeAudioFormatsAudioPcmuSerializer(item: RealtimeAudioFormatsAudioPcmu): any {
   return { type: item["type"] };
 }
-
 
 export function realtimeAudioFormatsAudioPcmuDeserializer(
   item: any,
@@ -15997,17 +15955,14 @@ export function realtimeAudioFormatsAudioPcmuDeserializer(
   };
 }
 
-
 /** model interface RealtimeAudioFormatsAudioPcma */
 export interface RealtimeAudioFormatsAudioPcma extends RealtimeAudioFormats {
   type: "audio/pcma";
 }
 
-
 export function realtimeAudioFormatsAudioPcmaSerializer(item: RealtimeAudioFormatsAudioPcma): any {
   return { type: item["type"] };
 }
-
 
 export function realtimeAudioFormatsAudioPcmaDeserializer(
   item: any,
@@ -16017,18 +15972,15 @@ export function realtimeAudioFormatsAudioPcmaDeserializer(
   };
 }
 
-
 /** Input audio noise reduction configuration. */
 export interface VoiceAgentNoiseReduction {
   /** The noise reduction mode. */
   type: VoiceAgentNoiseReductionType;
 }
 
-
 export function voiceAgentNoiseReductionSerializer(item: VoiceAgentNoiseReduction): any {
   return { type: item["type"] };
 }
-
 
 export function voiceAgentNoiseReductionDeserializer(item: any): VoiceAgentNoiseReduction {
   return {
@@ -16036,11 +15988,9 @@ export function voiceAgentNoiseReductionDeserializer(item: any): VoiceAgentNoise
   };
 }
 
-
 /** The input audio noise reduction mode. */
 export type VoiceAgentNoiseReductionType =
   "near_field" | "far_field" | "azure_deep_noise_suppression";
-
 
 /** Turn-detection configuration for a voice agent. */
 export interface VoiceAgentTurnDetectionConfig {
@@ -16051,11 +16001,9 @@ export interface VoiceAgentTurnDetectionConfig {
   auto_truncate?: boolean;
 }
 
-
 export function voiceAgentTurnDetectionConfigSerializer(item: VoiceAgentTurnDetectionConfig): any {
   return { type: item["type"], auto_truncate: item["auto_truncate"] };
 }
-
 
 export function voiceAgentTurnDetectionConfigDeserializer(
   item: any,
@@ -16066,7 +16014,6 @@ export function voiceAgentTurnDetectionConfigDeserializer(
   };
 }
 
-
 /** Alias for VoiceAgentTurnDetectionConfigUnion */
 export type VoiceAgentTurnDetectionConfigUnion =
   | VoiceAgentServerVadTurnDetection
@@ -16075,7 +16022,6 @@ export type VoiceAgentTurnDetectionConfigUnion =
   | VoiceAgentAzureSemanticVadMultilingualTurnDetection
   | VoiceAgentSemanticVadTurnDetection
   | VoiceAgentTurnDetectionConfig;
-
 
 export function voiceAgentTurnDetectionConfigUnionSerializer(
   item: VoiceAgentTurnDetectionConfigUnion,
@@ -16109,7 +16055,6 @@ export function voiceAgentTurnDetectionConfigUnionSerializer(
   }
 }
 
-
 export function voiceAgentTurnDetectionConfigUnionDeserializer(
   item: any,
 ): VoiceAgentTurnDetectionConfigUnion {
@@ -16142,7 +16087,6 @@ export function voiceAgentTurnDetectionConfigUnionDeserializer(
   }
 }
 
-
 /** The turn-detection strategy. Additional values may be added over time. */
 export type VoiceAgentTurnDetectionType =
   | "server_vad"
@@ -16150,7 +16094,6 @@ export type VoiceAgentTurnDetectionType =
   | "azure_semantic_vad"
   | "azure_semantic_vad_en"
   | "azure_semantic_vad_multilingual";
-
 
 /** Server-side voice activity detection. */
 export interface VoiceAgentServerVadTurnDetection extends VoiceAgentTurnDetectionConfig {
@@ -16166,7 +16109,6 @@ export interface VoiceAgentServerVadTurnDetection extends VoiceAgentTurnDetectio
   /** Semantic end-of-utterance detection configuration. Set to null to disable it. */
   end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
 }
-
 
 export function voiceAgentServerVadTurnDetectionSerializer(
   item: VoiceAgentServerVadTurnDetection,
@@ -16187,7 +16129,6 @@ export function voiceAgentServerVadTurnDetectionSerializer(
   };
 }
 
-
 export function voiceAgentServerVadTurnDetectionDeserializer(
   item: any,
 ): VoiceAgentServerVadTurnDetection {
@@ -16207,7 +16148,6 @@ export function voiceAgentServerVadTurnDetectionDeserializer(
   };
 }
 
-
 /** Semantic end-of-utterance detection configuration. */
 export interface VoiceAgentEndOfUtteranceDetection {
   /** The semantic detection model. */
@@ -16217,7 +16157,6 @@ export interface VoiceAgentEndOfUtteranceDetection {
   /** The detection timeout in milliseconds. */
   timeout_ms?: number;
 }
-
 
 export function voiceAgentEndOfUtteranceDetectionSerializer(
   item: VoiceAgentEndOfUtteranceDetection,
@@ -16229,7 +16168,6 @@ export function voiceAgentEndOfUtteranceDetectionSerializer(
   };
 }
 
-
 export function voiceAgentEndOfUtteranceDetectionDeserializer(
   item: any,
 ): VoiceAgentEndOfUtteranceDetection {
@@ -16240,7 +16178,6 @@ export function voiceAgentEndOfUtteranceDetectionDeserializer(
   };
 }
 
-
 /** The semantic end-of-utterance detection model. */
 export type VoiceAgentEndOfUtteranceDetectionModel =
   | "semantic_detection_v1"
@@ -16248,10 +16185,8 @@ export type VoiceAgentEndOfUtteranceDetectionModel =
   | "semantic_detection_v1_multilingual"
   | "smart_end_of_turn_detection";
 
-
 /** The sensitivity threshold for semantic end-of-utterance detection. */
 export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" | "default";
-
 
 /** Azure semantic voice activity detection. */
 export interface VoiceAgentAzureSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
@@ -16278,7 +16213,6 @@ export interface VoiceAgentAzureSemanticVadTurnDetection extends VoiceAgentTurnD
   languages?: string[];
 }
 
-
 export function voiceAgentAzureSemanticVadTurnDetectionSerializer(
   item: VoiceAgentAzureSemanticVadTurnDetection,
 ): any {
@@ -16303,7 +16237,6 @@ export function voiceAgentAzureSemanticVadTurnDetectionSerializer(
         }),
   };
 }
-
 
 export function voiceAgentAzureSemanticVadTurnDetectionDeserializer(
   item: any,
@@ -16330,7 +16263,6 @@ export function voiceAgentAzureSemanticVadTurnDetectionDeserializer(
   };
 }
 
-
 /** English-optimized Azure semantic voice activity detection. */
 export interface VoiceAgentAzureSemanticVadEnTurnDetection extends VoiceAgentTurnDetectionConfig {
   type: "azure_semantic_vad_en";
@@ -16354,7 +16286,6 @@ export interface VoiceAgentAzureSemanticVadEnTurnDetection extends VoiceAgentTur
   interrupt_response?: boolean;
 }
 
-
 export function voiceAgentAzureSemanticVadEnTurnDetectionSerializer(
   item: VoiceAgentAzureSemanticVadEnTurnDetection,
 ): any {
@@ -16375,7 +16306,6 @@ export function voiceAgentAzureSemanticVadEnTurnDetectionSerializer(
   };
 }
 
-
 export function voiceAgentAzureSemanticVadEnTurnDetectionDeserializer(
   item: any,
 ): VoiceAgentAzureSemanticVadEnTurnDetection {
@@ -16395,7 +16325,6 @@ export function voiceAgentAzureSemanticVadEnTurnDetectionDeserializer(
     interrupt_response: item["interrupt_response"],
   };
 }
-
 
 /** Multilingual Azure semantic voice activity detection. */
 export interface VoiceAgentAzureSemanticVadMultilingualTurnDetection extends VoiceAgentTurnDetectionConfig {
@@ -16422,7 +16351,6 @@ export interface VoiceAgentAzureSemanticVadMultilingualTurnDetection extends Voi
   languages?: string[];
 }
 
-
 export function voiceAgentAzureSemanticVadMultilingualTurnDetectionSerializer(
   item: VoiceAgentAzureSemanticVadMultilingualTurnDetection,
 ): any {
@@ -16447,7 +16375,6 @@ export function voiceAgentAzureSemanticVadMultilingualTurnDetectionSerializer(
         }),
   };
 }
-
 
 export function voiceAgentAzureSemanticVadMultilingualTurnDetectionDeserializer(
   item: any,
@@ -16474,7 +16401,6 @@ export function voiceAgentAzureSemanticVadMultilingualTurnDetectionDeserializer(
   };
 }
 
-
 /** OpenAI semantic VAD turn-detection settings. */
 export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
   eagerness?: "low" | "medium" | "high" | "auto";
@@ -16482,7 +16408,6 @@ export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetect
   interrupt_response?: boolean;
   type: "semantic_vad";
 }
-
 
 export function voiceAgentSemanticVadTurnDetectionSerializer(
   item: VoiceAgentSemanticVadTurnDetection,
@@ -16496,7 +16421,6 @@ export function voiceAgentSemanticVadTurnDetectionSerializer(
   };
 }
 
-
 export function voiceAgentSemanticVadTurnDetectionDeserializer(
   item: any,
 ): VoiceAgentSemanticVadTurnDetection {
@@ -16509,7 +16433,6 @@ export function voiceAgentSemanticVadTurnDetectionDeserializer(
   };
 }
 
-
 /** Server-side echo cancellation settings for input audio. */
 export interface VoiceAgentEchoCancellation {
   /** The echo cancellation implementation. Always `server_echo_cancellation`. */
@@ -16520,7 +16443,6 @@ export interface VoiceAgentEchoCancellation {
   channels?: number;
 }
 
-
 export function voiceAgentEchoCancellationSerializer(item: VoiceAgentEchoCancellation): any {
   return {
     type: item["type"],
@@ -16528,7 +16450,6 @@ export function voiceAgentEchoCancellationSerializer(item: VoiceAgentEchoCancell
     channels: item["channels"],
   };
 }
-
 
 export function voiceAgentEchoCancellationDeserializer(item: any): VoiceAgentEchoCancellation {
   return {
@@ -16538,10 +16459,8 @@ export function voiceAgentEchoCancellationDeserializer(item: any): VoiceAgentEch
   };
 }
 
-
 /** The source of reference audio used for echo cancellation. */
 export type VoiceAgentEchoCancellationReferenceSource = "server" | "client";
-
 
 /**
  * Asynchronous input-audio transcription configuration. Extends the OpenAI Realtime transcription
@@ -16576,7 +16495,6 @@ export interface VoiceAgentInputTranscription {
   phrase_list?: string[];
 }
 
-
 export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
   return {
     language: item["language"],
@@ -16591,7 +16509,6 @@ export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTran
         }),
   };
 }
-
 
 export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentInputTranscription {
   return {
@@ -16612,7 +16529,6 @@ export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentI
   };
 }
 
-
 /**
  * The input-audio transcription model identifier. This is a model name, not a Foundry deployment name. Mirrors the transcription models supported by the managed
  * voice backend, covering the OpenAI Realtime transcription models plus the Azure and MAI models.
@@ -16628,7 +16544,6 @@ export type VoiceAgentInputTranscriptionModel =
   | "gpt-live-transcribe"
   | "mai-transcribe"
   | "azure-speech";
-
 
 /**
  * Output audio configuration for a voice agent.
@@ -16675,7 +16590,6 @@ export interface VoiceAgentAudioOutputConfig {
   output_audio_timestamp_types?: VoiceAgentAudioTimestampType[];
 }
 
-
 export function voiceAgentAudioOutputConfigSerializer(item: VoiceAgentAudioOutputConfig): any {
   return {
     format: !item["format"] ? item["format"] : realtimeAudioFormatsUnionSerializer(item["format"]),
@@ -16703,7 +16617,6 @@ export function voiceAgentAudioOutputConfigSerializer(item: VoiceAgentAudioOutpu
         }),
   };
 }
-
 
 export function voiceAgentAudioOutputConfigDeserializer(item: any): VoiceAgentAudioOutputConfig {
   return {
@@ -16735,7 +16648,6 @@ export function voiceAgentAudioOutputConfigDeserializer(item: any): VoiceAgentAu
   };
 }
 
-
 /** The voice implementation. Additional values may be added over time. */
 export type VoiceType =
   | "openai"
@@ -16745,35 +16657,28 @@ export type VoiceType =
   | "avatar-voice-sync"
   | "azure-realtime-native";
 
-
 /** An output-audio timestamp kind supported by a voice agent. */
 export type VoiceAgentAudioTimestampType = "word";
-
 
 /** An output modality the agent may produce. `animation` and `avatar` are used when an avatar is configured. */
 export type VoiceOutputModality = "text" | "audio" | "animation" | "avatar";
 
-
 /** The maximum output-token count or the literal `inf`. */
 export type VoiceAgentMaxOutputTokens = number | "inf";
-
 
 export function voiceAgentMaxOutputTokensSerializer(item: VoiceAgentMaxOutputTokens): any {
   return item;
 }
 
-
 export function voiceAgentMaxOutputTokensDeserializer(item: any): VoiceAgentMaxOutputTokens {
   return item;
 }
-
 
 /** Additional fields that a voice-agent session may include in service outputs. */
 export type VoiceAgentSessionIncludeOption =
   | "item.input_audio_transcription.logprobs"
   | "item.input_audio_transcription.phrases"
   | "file_search_call.results";
-
 
 /** Fields shared by interim-response configurations. */
 export interface VoiceAgentInterimResponseConfig {
@@ -16785,7 +16690,6 @@ export interface VoiceAgentInterimResponseConfig {
   /** The latency threshold in milliseconds. */
   latency_threshold_ms?: number;
 }
-
 
 export function voiceAgentInterimResponseConfigSerializer(
   item: VoiceAgentInterimResponseConfig,
@@ -16801,7 +16705,6 @@ export function voiceAgentInterimResponseConfigSerializer(
   };
 }
 
-
 export function voiceAgentInterimResponseConfigDeserializer(
   item: any,
 ): VoiceAgentInterimResponseConfig {
@@ -16816,13 +16719,11 @@ export function voiceAgentInterimResponseConfigDeserializer(
   };
 }
 
-
 /** Alias for VoiceAgentInterimResponseConfigUnion */
 export type VoiceAgentInterimResponseConfigUnion =
   | VoiceAgentStaticInterimResponseConfig
   | VoiceAgentLlmInterimResponseConfig
   | VoiceAgentInterimResponseConfig;
-
 
 export function voiceAgentInterimResponseConfigUnionSerializer(
   item: VoiceAgentInterimResponseConfigUnion,
@@ -16843,7 +16744,6 @@ export function voiceAgentInterimResponseConfigUnionSerializer(
   }
 }
 
-
 export function voiceAgentInterimResponseConfigUnionDeserializer(
   item: any,
 ): VoiceAgentInterimResponseConfigUnion {
@@ -16863,10 +16763,8 @@ export function voiceAgentInterimResponseConfigUnionDeserializer(
   }
 }
 
-
 /** A condition that may trigger an interim response. */
 export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
-
 
 /** A static interim response selected from configured text. */
 export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterimResponseConfig {
@@ -16874,7 +16772,6 @@ export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterim
   /** Candidate text values for the interim response. */
   texts?: string[];
 }
-
 
 export function voiceAgentStaticInterimResponseConfigSerializer(
   item: VoiceAgentStaticInterimResponseConfig,
@@ -16895,7 +16792,6 @@ export function voiceAgentStaticInterimResponseConfigSerializer(
   };
 }
 
-
 export function voiceAgentStaticInterimResponseConfigDeserializer(
   item: any,
 ): VoiceAgentStaticInterimResponseConfig {
@@ -16915,7 +16811,6 @@ export function voiceAgentStaticInterimResponseConfigDeserializer(
   };
 }
 
-
 /** An interim response generated by a language model. */
 export interface VoiceAgentLlmInterimResponseConfig extends VoiceAgentInterimResponseConfig {
   type: "llm_interim_response";
@@ -16926,7 +16821,6 @@ export interface VoiceAgentLlmInterimResponseConfig extends VoiceAgentInterimRes
   /** The maximum completion-token count for an interim response. */
   max_completion_tokens?: number;
 }
-
 
 export function voiceAgentLlmInterimResponseConfigSerializer(
   item: VoiceAgentLlmInterimResponseConfig,
@@ -16945,7 +16839,6 @@ export function voiceAgentLlmInterimResponseConfigSerializer(
   };
 }
 
-
 export function voiceAgentLlmInterimResponseConfigDeserializer(
   item: any,
 ): VoiceAgentLlmInterimResponseConfig {
@@ -16962,7 +16855,6 @@ export function voiceAgentLlmInterimResponseConfigDeserializer(
     max_completion_tokens: item["max_completion_tokens"],
   };
 }
-
 
 /** Avatar configuration for a voice agent. These values are session defaults and may be overridden when connecting. */
 export interface VoiceAgentAvatarConfig {
@@ -16986,7 +16878,6 @@ export interface VoiceAgentAvatarConfig {
   output_audit_audio?: boolean;
 }
 
-
 export function voiceAgentAvatarConfigSerializer(item: VoiceAgentAvatarConfig): any {
   return {
     type: item["type"],
@@ -17000,7 +16891,6 @@ export function voiceAgentAvatarConfigSerializer(item: VoiceAgentAvatarConfig): 
     output_audit_audio: item["output_audit_audio"],
   };
 }
-
 
 export function voiceAgentAvatarConfigDeserializer(item: any): VoiceAgentAvatarConfig {
   return {
@@ -17016,14 +16906,11 @@ export function voiceAgentAvatarConfigDeserializer(item: any): VoiceAgentAvatarC
   };
 }
 
-
 /** The avatar type. */
 export type VoiceAgentAvatarType = "video_avatar" | "photo_avatar";
 
-
 /** The transport used to deliver the avatar video stream. */
 export type VoiceAgentAvatarOutputProtocol = "webrtc" | "websocket";
-
 
 /** Avatar video encoder and presentation settings. */
 export interface VoiceAgentAvatarVideoParams {
@@ -17034,7 +16921,6 @@ export interface VoiceAgentAvatarVideoParams {
   background?: VoiceAgentAvatarVideoBackground;
   gop_size?: number;
 }
-
 
 export function voiceAgentAvatarVideoParamsSerializer(item: VoiceAgentAvatarVideoParams): any {
   return {
@@ -17050,7 +16936,6 @@ export function voiceAgentAvatarVideoParamsSerializer(item: VoiceAgentAvatarVide
   };
 }
 
-
 export function voiceAgentAvatarVideoParamsDeserializer(item: any): VoiceAgentAvatarVideoParams {
   return {
     bitrate: item["bitrate"],
@@ -17065,13 +16950,11 @@ export function voiceAgentAvatarVideoParamsDeserializer(item: any): VoiceAgentAv
   };
 }
 
-
 /** The rectangular crop applied to avatar video. */
 export interface VoiceAgentAvatarVideoCrop {
   bottom_right: number[];
   top_left: number[];
 }
-
 
 export function voiceAgentAvatarVideoCropSerializer(item: VoiceAgentAvatarVideoCrop): any {
   return {
@@ -17084,7 +16967,6 @@ export function voiceAgentAvatarVideoCropSerializer(item: VoiceAgentAvatarVideoC
   };
 }
 
-
 export function voiceAgentAvatarVideoCropDeserializer(item: any): VoiceAgentAvatarVideoCrop {
   return {
     bottom_right: item["bottom_right"].map((p: any) => {
@@ -17096,20 +16978,17 @@ export function voiceAgentAvatarVideoCropDeserializer(item: any): VoiceAgentAvat
   };
 }
 
-
 /** The avatar video resolution. */
 export interface VoiceAgentAvatarVideoResolution {
   width: number;
   height: number;
 }
 
-
 export function voiceAgentAvatarVideoResolutionSerializer(
   item: VoiceAgentAvatarVideoResolution,
 ): any {
   return { width: item["width"], height: item["height"] };
 }
-
 
 export function voiceAgentAvatarVideoResolutionDeserializer(
   item: any,
@@ -17120,20 +16999,17 @@ export function voiceAgentAvatarVideoResolutionDeserializer(
   };
 }
 
-
 /** The avatar video background. */
 export interface VoiceAgentAvatarVideoBackground {
   image_url?: string;
   color?: string;
 }
 
-
 export function voiceAgentAvatarVideoBackgroundSerializer(
   item: VoiceAgentAvatarVideoBackground,
 ): any {
   return { image_url: item["image_url"], color: item["color"] };
 }
-
 
 export function voiceAgentAvatarVideoBackgroundDeserializer(
   item: any,
@@ -17143,7 +17019,6 @@ export function voiceAgentAvatarVideoBackgroundDeserializer(
     color: item["color"],
   };
 }
-
 
 /** Avatar placement and motion settings. */
 export interface VoiceAgentAvatarScene {
@@ -17155,7 +17030,6 @@ export interface VoiceAgentAvatarScene {
   rotation_z?: number;
   amplitude?: number;
 }
-
 
 export function voiceAgentAvatarSceneSerializer(item: VoiceAgentAvatarScene): any {
   return {
@@ -17169,7 +17043,6 @@ export function voiceAgentAvatarSceneSerializer(item: VoiceAgentAvatarScene): an
   };
 }
 
-
 export function voiceAgentAvatarSceneDeserializer(item: any): VoiceAgentAvatarScene {
   return {
     zoom: item["zoom"],
@@ -17182,20 +17055,17 @@ export function voiceAgentAvatarSceneDeserializer(item: any): VoiceAgentAvatarSc
   };
 }
 
-
 export function voiceAgentToolUnionArraySerializer(result: Array<VoiceAgentToolUnion>): any[] {
   return result.map((item) => {
     return voiceAgentToolUnionSerializer(item);
   });
 }
 
-
 export function voiceAgentToolUnionArrayDeserializer(result: Array<VoiceAgentToolUnion>): any[] {
   return result.map((item) => {
     return voiceAgentToolUnionDeserializer(item);
   });
 }
-
 
 /** A tool usable by a voice agent. */
 export interface VoiceAgentTool {
@@ -17204,18 +17074,15 @@ export interface VoiceAgentTool {
   type: string;
 }
 
-
 export function voiceAgentToolSerializer(item: VoiceAgentTool): any {
   return { type: item["type"] };
 }
-
 
 export function voiceAgentToolDeserializer(item: any): VoiceAgentTool {
   return {
     type: item["type"],
   };
 }
-
 
 /** Alias for VoiceAgentToolUnion */
 export type VoiceAgentToolUnion =
@@ -17224,7 +17091,6 @@ export type VoiceAgentToolUnion =
   | VoiceAgentSystemToolUnion
   | VoiceAgentToolboxTool
   | VoiceAgentTool;
-
 
 export function voiceAgentToolUnionSerializer(item: VoiceAgentToolUnion): any {
   switch (item.type) {
@@ -17245,7 +17111,6 @@ export function voiceAgentToolUnionSerializer(item: VoiceAgentToolUnion): any {
   }
 }
 
-
 export function voiceAgentToolUnionDeserializer(item: any): VoiceAgentToolUnion {
   switch (item["type"]) {
     case "function":
@@ -17265,7 +17130,6 @@ export function voiceAgentToolUnionDeserializer(item: any): VoiceAgentToolUnion 
   }
 }
 
-
 /** A native function tool executed by the client. */
 export interface VoiceAgentFunctionTool extends VoiceAgentTool {
   /**
@@ -17281,7 +17145,6 @@ export interface VoiceAgentFunctionTool extends VoiceAgentTool {
   name: string;
 }
 
-
 export function voiceAgentFunctionToolSerializer(item: VoiceAgentFunctionTool): any {
   return {
     type: item["type"],
@@ -17292,7 +17155,6 @@ export function voiceAgentFunctionToolSerializer(item: VoiceAgentFunctionTool): 
     name: item["name"],
   };
 }
-
 
 export function voiceAgentFunctionToolDeserializer(item: any): VoiceAgentFunctionTool {
   return {
@@ -17305,10 +17167,8 @@ export function voiceAgentFunctionToolDeserializer(item: any): VoiceAgentFunctio
   };
 }
 
-
 /** model interface RealtimeFunctionToolParameters */
 export type RealtimeFunctionToolParameters = Record<string, unknown>;
-
 
 export function realtimeFunctionToolParametersSerializer(
   item: RealtimeFunctionToolParameters,
@@ -17316,13 +17176,11 @@ export function realtimeFunctionToolParametersSerializer(
   return item;
 }
 
-
 export function realtimeFunctionToolParametersDeserializer(
   item: any,
 ): RealtimeFunctionToolParameters {
   return item;
 }
-
 
 /** An MCP tool available to a voice agent. */
 export interface VoiceAgentMcpTool extends VoiceAgentTool {
@@ -17353,7 +17211,6 @@ export interface VoiceAgentMcpTool extends VoiceAgentTool {
   response_scheduling?: VoiceAgentToolResponseScheduling;
 }
 
-
 export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
   return {
     type: item["type"],
@@ -17381,7 +17238,6 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
     response_scheduling: item["response_scheduling"],
   };
 }
-
 
 export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
   return {
@@ -17415,11 +17271,9 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
   };
 }
 
-
 /** When a tool invocation creates a follow-up response. Additional values may be added over time. */
 export type VoiceAgentToolResponseScheduling =
   "silent" | "when_idle" | "interrupt" | "skip_if_busy";
-
 
 /** A service-managed control that acts on the active voice session without customer code or external authentication. */
 export interface VoiceAgentSystemTool extends VoiceAgentTool {
@@ -17432,11 +17286,9 @@ export interface VoiceAgentSystemTool extends VoiceAgentTool {
   description?: string;
 }
 
-
 export function voiceAgentSystemToolSerializer(item: VoiceAgentSystemTool): any {
   return { type: item["type"], name: item["name"], description: item["description"] };
 }
-
 
 export function voiceAgentSystemToolDeserializer(item: any): VoiceAgentSystemTool {
   return {
@@ -17446,10 +17298,8 @@ export function voiceAgentSystemToolDeserializer(item: any): VoiceAgentSystemToo
   };
 }
 
-
 /** Alias for VoiceAgentSystemToolUnion */
 export type VoiceAgentSystemToolUnion = VoiceAgentEndConversationSystemTool | VoiceAgentSystemTool;
-
 
 export function voiceAgentSystemToolUnionSerializer(item: VoiceAgentSystemToolUnion): any {
   switch (item.name) {
@@ -17463,7 +17313,6 @@ export function voiceAgentSystemToolUnionSerializer(item: VoiceAgentSystemToolUn
   }
 }
 
-
 export function voiceAgentSystemToolUnionDeserializer(item: any): VoiceAgentSystemToolUnion {
   switch (item["name"]) {
     case "end_conversation":
@@ -17476,10 +17325,8 @@ export function voiceAgentSystemToolUnionDeserializer(item: any): VoiceAgentSyst
   }
 }
 
-
 /** A service-managed voice-session control action. Known values are stable; additional values may be added over time. */
 export type VoiceAgentSystemToolName = "end_conversation";
-
 
 /** A service-managed control that ends the active conversation. */
 export interface VoiceAgentEndConversationSystemTool extends VoiceAgentSystemTool {
@@ -17487,13 +17334,11 @@ export interface VoiceAgentEndConversationSystemTool extends VoiceAgentSystemToo
   name: "end_conversation";
 }
 
-
 export function voiceAgentEndConversationSystemToolSerializer(
   item: VoiceAgentEndConversationSystemTool,
 ): any {
   return { type: item["type"], name: item["name"], description: item["description"] };
 }
-
 
 export function voiceAgentEndConversationSystemToolDeserializer(
   item: any,
@@ -17504,7 +17349,6 @@ export function voiceAgentEndConversationSystemToolDeserializer(
     description: item["description"],
   };
 }
-
 
 /** A reference to a Foundry toolbox, which is a versioned bundle of tools executed through its MCP endpoint. */
 export interface VoiceAgentToolboxTool extends VoiceAgentTool {
@@ -17518,7 +17362,6 @@ export interface VoiceAgentToolboxTool extends VoiceAgentTool {
   response_scheduling?: VoiceAgentToolResponseScheduling;
 }
 
-
 export function voiceAgentToolboxToolSerializer(item: VoiceAgentToolboxTool): any {
   return {
     type: item["type"],
@@ -17527,7 +17370,6 @@ export function voiceAgentToolboxToolSerializer(item: VoiceAgentToolboxTool): an
     response_scheduling: item["response_scheduling"],
   };
 }
-
 
 export function voiceAgentToolboxToolDeserializer(item: any): VoiceAgentToolboxTool {
   return {
@@ -17538,18 +17380,15 @@ export function voiceAgentToolboxToolDeserializer(item: any): VoiceAgentToolboxT
   };
 }
 
-
 /** Configuration for sibling Foundry text agents that a voice agent may consult. */
 export interface VoiceAgentSubagentConfig {
   /** The sibling Foundry text agents, in the same project, that this voice agent may consult. */
   subagents: VoiceAgentSubagent[];
 }
 
-
 export function voiceAgentSubagentConfigSerializer(item: VoiceAgentSubagentConfig): any {
   return { subagents: voiceAgentSubagentArraySerializer(item["subagents"]) };
 }
-
 
 export function voiceAgentSubagentConfigDeserializer(item: any): VoiceAgentSubagentConfig {
   return {
@@ -17557,20 +17396,17 @@ export function voiceAgentSubagentConfigDeserializer(item: any): VoiceAgentSubag
   };
 }
 
-
 export function voiceAgentSubagentArraySerializer(result: Array<VoiceAgentSubagent>): any[] {
   return result.map((item) => {
     return voiceAgentSubagentSerializer(item);
   });
 }
 
-
 export function voiceAgentSubagentArrayDeserializer(result: Array<VoiceAgentSubagent>): any[] {
   return result.map((item) => {
     return voiceAgentSubagentDeserializer(item);
   });
 }
-
 
 /** A sibling Foundry text agent that a voice agent may consult as a background specialist. */
 export interface VoiceAgentSubagent {
@@ -17586,7 +17422,6 @@ export interface VoiceAgentSubagent {
   invoke_timeout_seconds?: number;
 }
 
-
 export function voiceAgentSubagentSerializer(item: VoiceAgentSubagent): any {
   return {
     agent_name: item["agent_name"],
@@ -17599,7 +17434,6 @@ export function voiceAgentSubagentSerializer(item: VoiceAgentSubagent): any {
   };
 }
 
-
 export function voiceAgentSubagentDeserializer(item: any): VoiceAgentSubagent {
   return {
     agent_name: item["agent_name"],
@@ -17611,7 +17445,6 @@ export function voiceAgentSubagentDeserializer(item: any): VoiceAgentSubagent {
     invoke_timeout_seconds: item["invoke_timeout_seconds"],
   };
 }
-
 
 /** Policy for delivering responses while a voice agent waits for a subagent. */
 export interface VoiceAgentSubagentResponsePolicy {
@@ -17631,7 +17464,6 @@ export interface VoiceAgentSubagentResponsePolicy {
   progress_update_interval?: number;
 }
 
-
 export function voiceAgentSubagentResponsePolicySerializer(
   item: VoiceAgentSubagentResponsePolicy,
 ): any {
@@ -17646,7 +17478,6 @@ export function voiceAgentSubagentResponsePolicySerializer(
   };
 }
 
-
 export function voiceAgentSubagentResponsePolicyDeserializer(
   item: any,
 ): VoiceAgentSubagentResponsePolicy {
@@ -17660,7 +17491,6 @@ export function voiceAgentSubagentResponsePolicyDeserializer(
     progress_update_interval: item["progress_update_interval"],
   };
 }
-
 
 /**
  * The inputs for generating a voice agent. Only `kind` and `name` are always required.
@@ -17689,7 +17519,6 @@ export interface GenerateVoiceAgentRequest {
   draft?: boolean;
 }
 
-
 export function generateVoiceAgentRequestSerializer(item: GenerateVoiceAgentRequest): any {
   return {
     kind: item["kind"],
@@ -17704,7 +17533,6 @@ export function generateVoiceAgentRequestSerializer(item: GenerateVoiceAgentRequ
   };
 }
 
-
 /** The request to create a telephony binding. */
 export interface CreateTelephonyBindingRequest {
   /** The telephony provider. */
@@ -17716,18 +17544,15 @@ export interface CreateTelephonyBindingRequest {
   label?: string;
 }
 
-
 export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBindingRequest): any {
   return { provider: item["provider"], connection: item["connection"], label: item["label"] };
 }
-
 
 /** Alias for CreateTelephonyBindingRequestUnion */
 export type CreateTelephonyBindingRequestUnion =
   | CreateTeamsPhoneExtensionTelephonyBindingRequest
   | CreateTwilioTelephonyBindingRequest
   | CreateTelephonyBindingRequest;
-
 
 export function createTelephonyBindingRequestUnionSerializer(
   item: CreateTelephonyBindingRequestUnion,
@@ -17748,10 +17573,8 @@ export function createTelephonyBindingRequestUnionSerializer(
   }
 }
 
-
 /** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
 export type TelephonyProvider = "teams_phone_extension" | "twilio";
-
 
 /** The request to create a Microsoft Teams Phone Extension binding. */
 export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends CreateTelephonyBindingRequest {
@@ -17762,7 +17585,6 @@ export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends Create
   /** The Microsoft Teams resource-account object identifier as a GUID. */
   resource_account_object_id: string;
 }
-
 
 export function createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
   item: CreateTeamsPhoneExtensionTelephonyBindingRequest,
@@ -17776,7 +17598,6 @@ export function createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
   };
 }
 
-
 /** The request to create a Twilio binding. */
 export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBindingRequest {
   /** The Twilio provider. */
@@ -17784,7 +17605,6 @@ export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBind
   /** The Twilio E.164 phone number. */
   phone_number: string;
 }
-
 
 export function createTwilioTelephonyBindingRequestSerializer(
   item: CreateTwilioTelephonyBindingRequest,
@@ -17796,7 +17616,6 @@ export function createTwilioTelephonyBindingRequestSerializer(
     phone_number: item["phone_number"],
   };
 }
-
 
 /** A telephony binding owned by a voice agent. */
 export interface TelephonyBinding {
@@ -17815,7 +17634,6 @@ export interface TelephonyBinding {
   incoming_call_url: string;
 }
 
-
 export function telephonyBindingDeserializer(item: any): TelephonyBinding {
   return {
     id: item["id"],
@@ -17827,11 +17645,9 @@ export function telephonyBindingDeserializer(item: any): TelephonyBinding {
   };
 }
 
-
 /** Alias for TelephonyBindingUnion */
 export type TelephonyBindingUnion =
   TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
-
 
 export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUnion {
   switch (item["provider"]) {
@@ -17848,10 +17664,8 @@ export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUn
   }
 }
 
-
 /** The lifecycle status of a telephony binding. */
 export type TelephonyBindingStatus = "active" | "suspended";
-
 
 /** A Microsoft Teams Phone Extension binding owned by a voice agent. */
 export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
@@ -17862,7 +17676,6 @@ export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
   /** The Microsoft Teams resource-account object identifier as a GUID. */
   resource_account_object_id: string;
 }
-
 
 export function teamsPhoneExtensionTelephonyBindingDeserializer(
   item: any,
@@ -17879,7 +17692,6 @@ export function teamsPhoneExtensionTelephonyBindingDeserializer(
   };
 }
 
-
 /** A Twilio binding owned by a voice agent. */
 export interface TwilioTelephonyBinding extends TelephonyBinding {
   /** The Twilio provider. */
@@ -17887,7 +17699,6 @@ export interface TwilioTelephonyBinding extends TelephonyBinding {
   /** The Twilio E.164 phone number. */
   phone_number: string;
 }
-
 
 export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBinding {
   return {
@@ -17901,7 +17712,6 @@ export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBi
   };
 }
 
-
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultTelephonyBindingListItem {
   /** The requested list of items. */
@@ -17914,7 +17724,6 @@ export interface _AgentsPagedResultTelephonyBindingListItem {
   has_more: boolean;
 }
 
-
 export function _agentsPagedResultTelephonyBindingListItemDeserializer(
   item: any,
 ): _AgentsPagedResultTelephonyBindingListItem {
@@ -17926,7 +17735,6 @@ export function _agentsPagedResultTelephonyBindingListItemDeserializer(
   };
 }
 
-
 export function telephonyBindingListItemUnionArrayDeserializer(
   result: Array<TelephonyBindingListItemUnion>,
 ): any[] {
@@ -17934,7 +17742,6 @@ export function telephonyBindingListItemUnionArrayDeserializer(
     return telephonyBindingListItemUnionDeserializer(item);
   });
 }
-
 
 /** A telephony binding returned in a list, including its entity tag. */
 export interface TelephonyBindingListItem {
@@ -17955,7 +17762,6 @@ export interface TelephonyBindingListItem {
   readonly etag: string;
 }
 
-
 export function telephonyBindingListItemDeserializer(item: any): TelephonyBindingListItem {
   return {
     id: item["id"],
@@ -17968,13 +17774,11 @@ export function telephonyBindingListItemDeserializer(item: any): TelephonyBindin
   };
 }
 
-
 /** Alias for TelephonyBindingListItemUnion */
 export type TelephonyBindingListItemUnion =
   | TeamsPhoneExtensionTelephonyBindingListItem
   | TwilioTelephonyBindingListItem
   | TelephonyBindingListItem;
-
 
 export function telephonyBindingListItemUnionDeserializer(
   item: any,
@@ -17993,7 +17797,6 @@ export function telephonyBindingListItemUnionDeserializer(
   }
 }
 
-
 /** A Microsoft Teams Phone Extension binding returned in a list, including its entity tag. */
 export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBindingListItem {
   /** The Microsoft Teams Phone Extension provider. */
@@ -18003,7 +17806,6 @@ export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBi
   /** The Microsoft Teams resource-account object identifier as a GUID. */
   resource_account_object_id: string;
 }
-
 
 export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
   item: any,
@@ -18021,7 +17823,6 @@ export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
   };
 }
 
-
 /** A Twilio binding returned in a list, including its entity tag. */
 export interface TwilioTelephonyBindingListItem extends TelephonyBindingListItem {
   /** The Twilio provider. */
@@ -18029,7 +17830,6 @@ export interface TwilioTelephonyBindingListItem extends TelephonyBindingListItem
   /** The Twilio E.164 phone number. */
   phone_number: string;
 }
-
 
 export function twilioTelephonyBindingListItemDeserializer(
   item: any,
@@ -18046,7 +17846,6 @@ export function twilioTelephonyBindingListItemDeserializer(
   };
 }
 
-
 /** The request to update an existing telephony binding. Every property is optional and the binding's provider is immutable. */
 export interface UpdateTelephonyBindingRequest {
   /** The new lifecycle status. */
@@ -18059,7 +17858,6 @@ export interface UpdateTelephonyBindingRequest {
   phone_number?: string;
 }
 
-
 export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBindingRequest): any {
   return {
     status: item["status"],
@@ -18068,7 +17866,6 @@ export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBin
     phone_number: item["phone_number"],
   };
 }
-
 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultTelephonyCallSummary {
@@ -18082,7 +17879,6 @@ export interface _AgentsPagedResultTelephonyCallSummary {
   has_more: boolean;
 }
 
-
 export function _agentsPagedResultTelephonyCallSummaryDeserializer(
   item: any,
 ): _AgentsPagedResultTelephonyCallSummary {
@@ -18094,13 +17890,11 @@ export function _agentsPagedResultTelephonyCallSummaryDeserializer(
   };
 }
 
-
 export function telephonyCallSummaryArrayDeserializer(result: Array<TelephonyCallSummary>): any[] {
   return result.map((item) => {
     return telephonyCallSummaryDeserializer(item);
   });
 }
-
 
 /** A summary of a durable inbound call to a voice agent. */
 export interface TelephonyCallSummary {
@@ -18140,7 +17934,6 @@ export interface TelephonyCallSummary {
   provider_message?: string;
 }
 
-
 export function telephonyCallSummaryDeserializer(item: any): TelephonyCallSummary {
   return {
     id: item["id"],
@@ -18167,10 +17960,8 @@ export function telephonyCallSummaryDeserializer(item: any): TelephonyCallSummar
   };
 }
 
-
 /** The lifecycle status of an inbound telephony call. */
 export type TelephonyCallStatus = "in_progress" | "success" | "failed";
-
 
 /** The provider-neutral phase reached by an inbound telephony call. */
 export type TelephonyCallPhase =
@@ -18186,7 +17977,6 @@ export type TelephonyCallPhase =
   | "completed"
   | "rejected"
   | "failed";
-
 
 /** Detailed diagnostics for a durable inbound call to a voice agent. */
 export interface TelephonyCallRecord {
@@ -18234,7 +18024,6 @@ export interface TelephonyCallRecord {
   events_truncated: boolean;
 }
 
-
 export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord {
   return {
     id: item["id"],
@@ -18265,7 +18054,6 @@ export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord 
   };
 }
 
-
 /** Detailed provider-neutral timing for an inbound telephony call. */
 export interface TelephonyCallTiming {
   /** The Unix timestamp (in seconds) for when the provider webhook was received. */
@@ -18293,7 +18081,6 @@ export interface TelephonyCallTiming {
   /** The primary source of the timing milestones. Individual lifecycle events identify their own timestamp source separately. */
   timestamp_source: TelephonyCallTimestampSource;
 }
-
 
 export function telephonyCallTimingDeserializer(item: any): TelephonyCallTiming {
   return {
@@ -18324,14 +18111,11 @@ export function telephonyCallTimingDeserializer(item: any): TelephonyCallTiming 
   };
 }
 
-
 /** The timestamp used as the basis for call duration. */
 export type TelephonyCallDurationBasis = "answered" | "received";
 
-
 /** The source of a telephony lifecycle timestamp. */
 export type TelephonyCallTimestampSource = "provider" | "gateway" | "derived";
-
 
 /** Correlation from a durable telephony call record to its customer-facing Foundry trace. */
 export interface TelephonyCallTrace {
@@ -18347,7 +18131,6 @@ export interface TelephonyCallTrace {
   mode?: TelephonyCallTraceMode;
 }
 
-
 export function telephonyCallTraceDeserializer(item: any): TelephonyCallTrace {
   return {
     status: item["status"],
@@ -18358,15 +18141,12 @@ export function telephonyCallTraceDeserializer(item: any): TelephonyCallTrace {
   };
 }
 
-
 /** The availability status of a customer-facing telephony call trace. */
 export type TelephonyCallTraceStatus =
   "pending" | "emitting" | "available" | "not_recorded" | "not_applicable" | "failed";
 
-
 /** The mode used to expose a telephony call as a customer-facing Foundry trace. */
 export type TelephonyCallTraceMode = "live" | "post_call";
-
 
 export function telephonyCallLifecycleEventArrayDeserializer(
   result: Array<TelephonyCallLifecycleEvent>,
@@ -18375,7 +18155,6 @@ export function telephonyCallLifecycleEventArrayDeserializer(
     return telephonyCallLifecycleEventDeserializer(item);
   });
 }
-
 
 /** A bounded durable observation in the lifecycle of one telephony call. */
 export interface TelephonyCallLifecycleEvent {
@@ -18405,7 +18184,6 @@ export interface TelephonyCallLifecycleEvent {
   provider_sub_code?: number;
 }
 
-
 export function telephonyCallLifecycleEventDeserializer(item: any): TelephonyCallLifecycleEvent {
   return {
     sequence: item["sequence"],
@@ -18423,7 +18201,6 @@ export function telephonyCallLifecycleEventDeserializer(item: any): TelephonyCal
   };
 }
 
-
 /** A provider-neutral lifecycle event name. Known values are stable; additional values may be added over time. */
 export type TelephonyCallLifecycleEventName =
   | "telephony.webhook.received"
@@ -18438,16 +18215,13 @@ export type TelephonyCallLifecycleEventName =
   | "telephony.call.hangup"
   | "telephony.call.disconnect";
 
-
 /** The component that supplied a telephony lifecycle observation. */
 export type TelephonyCallLifecycleEventSource =
   "gateway" | "teams_phone_extension" | "twilio" | "voice_agent";
 
-
 /** The outcome of one telephony lifecycle observation. */
 export type TelephonyCallLifecycleEventOutcome =
   "observed" | "started" | "succeeded" | "failed" | "rejected" | "cancelled";
-
 
 /** The telephony transfer targets configured for one voice agent. */
 export interface TelephonyTransferTargets {
@@ -18455,13 +18229,11 @@ export interface TelephonyTransferTargets {
   transfer_targets: TelephonyTransferTarget[];
 }
 
-
 export function telephonyTransferTargetsDeserializer(item: any): TelephonyTransferTargets {
   return {
     transfer_targets: telephonyTransferTargetArrayDeserializer(item["transfer_targets"]),
   };
 }
-
 
 export function telephonyTransferTargetArraySerializer(
   result: Array<TelephonyTransferTarget>,
@@ -18471,7 +18243,6 @@ export function telephonyTransferTargetArraySerializer(
   });
 }
 
-
 export function telephonyTransferTargetArrayDeserializer(
   result: Array<TelephonyTransferTarget>,
 ): any[] {
@@ -18479,7 +18250,6 @@ export function telephonyTransferTargetArrayDeserializer(
     return telephonyTransferTargetDeserializer(item);
   });
 }
-
 
 /** A named destination to which the voice agent may transfer a call. */
 export interface TelephonyTransferTarget {
@@ -18491,7 +18261,6 @@ export interface TelephonyTransferTarget {
   destination: TelephonyTransferDestinationUnion;
 }
 
-
 export function telephonyTransferTargetSerializer(item: TelephonyTransferTarget): any {
   return {
     name: item["name"],
@@ -18499,7 +18268,6 @@ export function telephonyTransferTargetSerializer(item: TelephonyTransferTarget)
     destination: telephonyTransferDestinationUnionSerializer(item["destination"]),
   };
 }
-
 
 export function telephonyTransferTargetDeserializer(item: any): TelephonyTransferTarget {
   return {
@@ -18509,7 +18277,6 @@ export function telephonyTransferTargetDeserializer(item: any): TelephonyTransfe
   };
 }
 
-
 /** A destination for a telephony transfer target. */
 export interface TelephonyTransferDestination {
   /** The telephony transfer destination type. */
@@ -18517,11 +18284,9 @@ export interface TelephonyTransferDestination {
   kind: TelephonyTransferDestinationKind;
 }
 
-
 export function telephonyTransferDestinationSerializer(item: TelephonyTransferDestination): any {
   return { kind: item["kind"] };
 }
-
 
 export function telephonyTransferDestinationDeserializer(item: any): TelephonyTransferDestination {
   return {
@@ -18529,14 +18294,12 @@ export function telephonyTransferDestinationDeserializer(item: any): TelephonyTr
   };
 }
 
-
 /** Alias for TelephonyTransferDestinationUnion */
 export type TelephonyTransferDestinationUnion =
   | PstnTelephonyTransferDestination
   | TeamsTelephonyTransferDestination
   | SipTelephonyTransferDestination
   | TelephonyTransferDestination;
-
 
 export function telephonyTransferDestinationUnionSerializer(
   item: TelephonyTransferDestinationUnion,
@@ -18555,7 +18318,6 @@ export function telephonyTransferDestinationUnionSerializer(
       return telephonyTransferDestinationSerializer(item);
   }
 }
-
 
 export function telephonyTransferDestinationUnionDeserializer(
   item: any,
@@ -18577,10 +18339,8 @@ export function telephonyTransferDestinationUnionDeserializer(
   }
 }
 
-
 /** The kind of telephony transfer destination. Known values are stable; additional values may be added over time. */
 export type TelephonyTransferDestinationKind = "pstn" | "teams" | "sip";
-
 
 /** A PSTN destination for a telephony transfer target. */
 export interface PstnTelephonyTransferDestination extends TelephonyTransferDestination {
@@ -18590,13 +18350,11 @@ export interface PstnTelephonyTransferDestination extends TelephonyTransferDesti
   value: string;
 }
 
-
 export function pstnTelephonyTransferDestinationSerializer(
   item: PstnTelephonyTransferDestination,
 ): any {
   return { kind: item["kind"], value: item["value"] };
 }
-
 
 export function pstnTelephonyTransferDestinationDeserializer(
   item: any,
@@ -18607,7 +18365,6 @@ export function pstnTelephonyTransferDestinationDeserializer(
   };
 }
 
-
 /** A Microsoft Teams destination for a telephony transfer target. */
 export interface TeamsTelephonyTransferDestination extends TelephonyTransferDestination {
   /** The Microsoft Teams destination type. */
@@ -18616,13 +18373,11 @@ export interface TeamsTelephonyTransferDestination extends TelephonyTransferDest
   value: string;
 }
 
-
 export function teamsTelephonyTransferDestinationSerializer(
   item: TeamsTelephonyTransferDestination,
 ): any {
   return { kind: item["kind"], value: item["value"] };
 }
-
 
 export function teamsTelephonyTransferDestinationDeserializer(
   item: any,
@@ -18633,7 +18388,6 @@ export function teamsTelephonyTransferDestinationDeserializer(
   };
 }
 
-
 /** A SIP destination for a telephony transfer target. */
 export interface SipTelephonyTransferDestination extends TelephonyTransferDestination {
   /** The SIP destination type. */
@@ -18642,13 +18396,11 @@ export interface SipTelephonyTransferDestination extends TelephonyTransferDestin
   value: string;
 }
 
-
 export function sipTelephonyTransferDestinationSerializer(
   item: SipTelephonyTransferDestination,
 ): any {
   return { kind: item["kind"], value: item["value"] };
 }
-
 
 export function sipTelephonyTransferDestinationDeserializer(
   item: any,
@@ -18659,14 +18411,12 @@ export function sipTelephonyTransferDestinationDeserializer(
   };
 }
 
-
 /** A browser automation tool stored in a toolbox. */
 export interface BrowserAutomationToolboxTool extends ToolboxTool {
   type: "browser_automation";
   /** The Browser Automation Tool parameters. */
   browser_automation: BrowserAutomationToolParameters;
 }
-
 
 export function browserAutomationToolboxToolSerializer(item: BrowserAutomationToolboxTool): any {
   return {
@@ -18680,7 +18430,6 @@ export function browserAutomationToolboxToolSerializer(item: BrowserAutomationTo
   };
 }
 
-
 export function browserAutomationToolboxToolDeserializer(item: any): BrowserAutomationToolboxTool {
   return {
     type: item["type"],
@@ -18692,7 +18441,6 @@ export function browserAutomationToolboxToolDeserializer(item: any): BrowserAuto
     browser_automation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
   };
 }
-
 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultVoiceConversation {
@@ -18706,7 +18454,6 @@ export interface _AgentsPagedResultVoiceConversation {
   has_more: boolean;
 }
 
-
 export function _agentsPagedResultVoiceConversationDeserializer(
   item: any,
 ): _AgentsPagedResultVoiceConversation {
@@ -18718,13 +18465,11 @@ export function _agentsPagedResultVoiceConversationDeserializer(
   };
 }
 
-
 export function voiceConversationArrayDeserializer(result: Array<VoiceConversation>): any[] {
   return result.map((item) => {
     return voiceConversationDeserializer(item);
   });
 }
-
 
 /**
  * A persisted voice conversation. The Foundry envelope that owns a voice agent's stored
@@ -18751,7 +18496,6 @@ export interface VoiceConversation {
   last_error?: ErrorModel;
 }
 
-
 export function voiceConversationDeserializer(item: any): VoiceConversation {
   return {
     id: item["id"],
@@ -18769,7 +18513,6 @@ export function voiceConversationDeserializer(item: any): VoiceConversation {
   };
 }
 
-
 /**
  * The lifecycle status of a persisted voice conversation:
  * - `in_progress`: the live session is active, or post-session persistence finalization is pending.
@@ -18779,7 +18522,6 @@ export function voiceConversationDeserializer(item: any): VoiceConversation {
  */
 export type VoiceConversationStatus = "in_progress" | "completed" | "failed";
 
-
 /** model interface RealtimeResponseUsage */
 export interface RealtimeResponseUsage {
   total_tokens?: number;
@@ -18788,7 +18530,6 @@ export interface RealtimeResponseUsage {
   input_token_details?: RealtimeResponseUsageInputTokenDetails;
   output_token_details?: RealtimeResponseUsageOutputTokenDetails;
 }
-
 
 export function realtimeResponseUsageSerializer(item: RealtimeResponseUsage): any {
   return {
@@ -18804,7 +18545,6 @@ export function realtimeResponseUsageSerializer(item: RealtimeResponseUsage): an
   };
 }
 
-
 export function realtimeResponseUsageDeserializer(item: any): RealtimeResponseUsage {
   return {
     total_tokens: item["total_tokens"],
@@ -18819,7 +18559,6 @@ export function realtimeResponseUsageDeserializer(item: any): RealtimeResponseUs
   };
 }
 
-
 /** model interface RealtimeResponseUsageInputTokenDetails */
 export interface RealtimeResponseUsageInputTokenDetails {
   cached_tokens?: number;
@@ -18828,7 +18567,6 @@ export interface RealtimeResponseUsageInputTokenDetails {
   audio_tokens?: number;
   cached_tokens_details?: RealtimeResponseUsageInputTokenDetailsCachedTokensDetails;
 }
-
 
 export function realtimeResponseUsageInputTokenDetailsSerializer(
   item: RealtimeResponseUsageInputTokenDetails,
@@ -18846,7 +18584,6 @@ export function realtimeResponseUsageInputTokenDetailsSerializer(
   };
 }
 
-
 export function realtimeResponseUsageInputTokenDetailsDeserializer(
   item: any,
 ): RealtimeResponseUsageInputTokenDetails {
@@ -18863,14 +18600,12 @@ export function realtimeResponseUsageInputTokenDetailsDeserializer(
   };
 }
 
-
 /** model interface RealtimeResponseUsageInputTokenDetailsCachedTokensDetails */
 export interface RealtimeResponseUsageInputTokenDetailsCachedTokensDetails {
   text_tokens?: number;
   image_tokens?: number;
   audio_tokens?: number;
 }
-
 
 export function realtimeResponseUsageInputTokenDetailsCachedTokensDetailsSerializer(
   item: RealtimeResponseUsageInputTokenDetailsCachedTokensDetails,
@@ -18882,7 +18617,6 @@ export function realtimeResponseUsageInputTokenDetailsCachedTokensDetailsSeriali
   };
 }
 
-
 export function realtimeResponseUsageInputTokenDetailsCachedTokensDetailsDeserializer(
   item: any,
 ): RealtimeResponseUsageInputTokenDetailsCachedTokensDetails {
@@ -18893,20 +18627,17 @@ export function realtimeResponseUsageInputTokenDetailsCachedTokensDetailsDeseria
   };
 }
 
-
 /** model interface RealtimeResponseUsageOutputTokenDetails */
 export interface RealtimeResponseUsageOutputTokenDetails {
   text_tokens?: number;
   audio_tokens?: number;
 }
 
-
 export function realtimeResponseUsageOutputTokenDetailsSerializer(
   item: RealtimeResponseUsageOutputTokenDetails,
 ): any {
   return { text_tokens: item["text_tokens"], audio_tokens: item["audio_tokens"] };
 }
-
 
 export function realtimeResponseUsageOutputTokenDetailsDeserializer(
   item: any,
@@ -18916,7 +18647,6 @@ export function realtimeResponseUsageOutputTokenDetailsDeserializer(
     audio_tokens: item["audio_tokens"],
   };
 }
-
 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultVoiceResponse {
@@ -18930,7 +18660,6 @@ export interface _AgentsPagedResultVoiceResponse {
   has_more: boolean;
 }
 
-
 export function _agentsPagedResultVoiceResponseDeserializer(
   item: any,
 ): _AgentsPagedResultVoiceResponse {
@@ -18942,13 +18671,11 @@ export function _agentsPagedResultVoiceResponseDeserializer(
   };
 }
 
-
 export function voiceResponseArrayDeserializer(result: Array<VoiceResponse>): any[] {
   return result.map((item) => {
     return voiceResponseDeserializer(item);
   });
 }
-
 
 /**
  * A persisted voice response representing one model inference turn within a conversation. In list results the
@@ -18975,7 +18702,6 @@ export interface VoiceResponse extends VoiceResponseBase {
   /** The Unix timestamp (in seconds) for when the response completed. */
   completed_at?: Date;
 }
-
 
 export function voiceResponseDeserializer(item: any): VoiceResponse {
   return {
@@ -19010,7 +18736,6 @@ export function voiceResponseDeserializer(item: any): VoiceResponse {
   };
 }
 
-
 export function realtimeConversationItemUnionArraySerializer(
   result: Array<RealtimeConversationItemUnion>,
 ): any[] {
@@ -19018,7 +18743,6 @@ export function realtimeConversationItemUnionArraySerializer(
     return realtimeConversationItemUnionSerializer(item);
   });
 }
-
 
 export function realtimeConversationItemUnionArrayDeserializer(
   result: Array<RealtimeConversationItemUnion>,
@@ -19028,24 +18752,20 @@ export function realtimeConversationItemUnionArrayDeserializer(
   });
 }
 
-
 /** A single item within a Realtime conversation. */
 export interface RealtimeConversationItem {
   type: RealtimeConversationItemType;
 }
 
-
 export function realtimeConversationItemSerializer(item: RealtimeConversationItem): any {
   return { type: item["type"] };
 }
-
 
 export function realtimeConversationItemDeserializer(item: any): RealtimeConversationItem {
   return {
     type: item["type"],
   };
 }
-
 
 /** Alias for RealtimeConversationItemUnion */
 export type RealtimeConversationItemUnion =
@@ -19056,7 +18776,6 @@ export type RealtimeConversationItemUnion =
   | RealtimeMCPToolCall
   | RealtimeMCPApprovalRequest
   | RealtimeConversationItem;
-
 
 export function realtimeConversationItemUnionSerializer(item: RealtimeConversationItemUnion): any {
   switch (item.type) {
@@ -19086,7 +18805,6 @@ export function realtimeConversationItemUnionSerializer(item: RealtimeConversati
       return realtimeConversationItemSerializer(item);
   }
 }
-
 
 export function realtimeConversationItemUnionDeserializer(
   item: any,
@@ -19119,7 +18837,6 @@ export function realtimeConversationItemUnionDeserializer(
   }
 }
 
-
 /** Type of RealtimeConversationItemType */
 export type RealtimeConversationItemType =
   | "function_call"
@@ -19128,7 +18845,6 @@ export type RealtimeConversationItemType =
   | "mcp_list_tools"
   | "mcp_call"
   | "mcp_approval_request";
-
 
 /** A function call item in a Realtime conversation. */
 export interface RealtimeConversationItemFunctionCall extends RealtimeConversationItem {
@@ -19152,7 +18868,6 @@ export interface RealtimeConversationItemFunctionCall extends RealtimeConversati
   readonly response_id?: string;
 }
 
-
 export function realtimeConversationItemFunctionCallSerializer(
   item: RealtimeConversationItemFunctionCall,
 ): any {
@@ -19166,7 +18881,6 @@ export function realtimeConversationItemFunctionCallSerializer(
     arguments: item["arguments"],
   };
 }
-
 
 export function realtimeConversationItemFunctionCallDeserializer(
   item: any,
@@ -19183,7 +18897,6 @@ export function realtimeConversationItemFunctionCallDeserializer(
     response_id: item["response_id"],
   };
 }
-
 
 /** A function call output item in a Realtime conversation. */
 export interface RealtimeConversationItemFunctionCallOutput extends RealtimeConversationItem {
@@ -19207,7 +18920,6 @@ export interface RealtimeConversationItemFunctionCallOutput extends RealtimeConv
   name?: string;
 }
 
-
 export function realtimeConversationItemFunctionCallOutputSerializer(
   item: RealtimeConversationItemFunctionCallOutput,
 ): any {
@@ -19221,7 +18933,6 @@ export function realtimeConversationItemFunctionCallOutputSerializer(
     name: item["name"],
   };
 }
-
 
 export function realtimeConversationItemFunctionCallOutputDeserializer(
   item: any,
@@ -19238,7 +18949,6 @@ export function realtimeConversationItemFunctionCallOutputDeserializer(
     name: item["name"],
   };
 }
-
 
 /** A Realtime item responding to an MCP approval request. */
 export interface RealtimeMCPApprovalResponse extends RealtimeConversationItem {
@@ -19257,7 +18967,6 @@ export interface RealtimeMCPApprovalResponse extends RealtimeConversationItem {
   readonly response_id?: string;
 }
 
-
 export function realtimeMCPApprovalResponseSerializer(item: RealtimeMCPApprovalResponse): any {
   return {
     type: item["type"],
@@ -19267,7 +18976,6 @@ export function realtimeMCPApprovalResponseSerializer(item: RealtimeMCPApprovalR
     reason: item["reason"],
   };
 }
-
 
 export function realtimeMCPApprovalResponseDeserializer(item: any): RealtimeMCPApprovalResponse {
   return {
@@ -19280,7 +18988,6 @@ export function realtimeMCPApprovalResponseDeserializer(item: any): RealtimeMCPA
     response_id: item["response_id"],
   };
 }
-
 
 /** A Realtime item listing tools available on an MCP server. */
 export interface RealtimeMCPListTools extends RealtimeConversationItem {
@@ -19298,7 +19005,6 @@ export interface RealtimeMCPListTools extends RealtimeConversationItem {
   readonly response_id?: string;
 }
 
-
 export function realtimeMCPListToolsSerializer(item: RealtimeMCPListTools): any {
   return {
     type: item["type"],
@@ -19307,7 +19013,6 @@ export function realtimeMCPListToolsSerializer(item: RealtimeMCPListTools): any 
     tools: mcpListToolsToolArraySerializer(item["tools"]),
   };
 }
-
 
 export function realtimeMCPListToolsDeserializer(item: any): RealtimeMCPListTools {
   return {
@@ -19320,20 +19025,17 @@ export function realtimeMCPListToolsDeserializer(item: any): RealtimeMCPListTool
   };
 }
 
-
 export function mcpListToolsToolArraySerializer(result: Array<MCPListToolsTool>): any[] {
   return result.map((item) => {
     return mcpListToolsToolSerializer(item);
   });
 }
 
-
 export function mcpListToolsToolArrayDeserializer(result: Array<MCPListToolsTool>): any[] {
   return result.map((item) => {
     return mcpListToolsToolDeserializer(item);
   });
 }
-
 
 /** A tool available on an MCP server. */
 export interface MCPListToolsTool {
@@ -19344,7 +19046,6 @@ export interface MCPListToolsTool {
   input_schema: MCPListToolsToolInputSchema;
   annotations?: MCPListToolsToolAnnotations;
 }
-
 
 export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
   return {
@@ -19357,7 +19058,6 @@ export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
   };
 }
 
-
 export function mcpListToolsToolDeserializer(item: any): MCPListToolsTool {
   return {
     name: item["name"],
@@ -19369,34 +19069,27 @@ export function mcpListToolsToolDeserializer(item: any): MCPListToolsTool {
   };
 }
 
-
 /** model interface MCPListToolsToolInputSchema */
 export interface MCPListToolsToolInputSchema {}
-
 
 export function mcpListToolsToolInputSchemaSerializer(_item: MCPListToolsToolInputSchema): any {
   return {};
 }
 
-
 export function mcpListToolsToolInputSchemaDeserializer(item: any): MCPListToolsToolInputSchema {
   return item;
 }
 
-
 /** model interface MCPListToolsToolAnnotations */
 export interface MCPListToolsToolAnnotations {}
-
 
 export function mcpListToolsToolAnnotationsSerializer(_item: MCPListToolsToolAnnotations): any {
   return {};
 }
 
-
 export function mcpListToolsToolAnnotationsDeserializer(item: any): MCPListToolsToolAnnotations {
   return item;
 }
-
 
 /** A Realtime item representing an invocation of a tool on an MCP server. */
 export interface RealtimeMCPToolCall extends RealtimeConversationItem {
@@ -19419,7 +19112,6 @@ export interface RealtimeMCPToolCall extends RealtimeConversationItem {
   readonly response_id?: string;
 }
 
-
 export function realtimeMCPToolCallSerializer(item: RealtimeMCPToolCall): any {
   return {
     type: item["type"],
@@ -19432,7 +19124,6 @@ export function realtimeMCPToolCallSerializer(item: RealtimeMCPToolCall): any {
     error: !item["error"] ? item["error"] : realtimeMCPErrorUnionSerializer(item["error"]),
   };
 }
-
 
 export function realtimeMCPToolCallDeserializer(item: any): RealtimeMCPToolCall {
   return {
@@ -19449,17 +19140,14 @@ export function realtimeMCPToolCallDeserializer(item: any): RealtimeMCPToolCall 
   };
 }
 
-
 /** model interface RealtimeMCPError */
 export interface RealtimeMCPError {
   type: RealtimeMCPErrorType;
 }
 
-
 export function realtimeMCPErrorSerializer(item: RealtimeMCPError): any {
   return { type: item["type"] };
 }
-
 
 export function realtimeMCPErrorDeserializer(item: any): RealtimeMCPError {
   return {
@@ -19467,14 +19155,12 @@ export function realtimeMCPErrorDeserializer(item: any): RealtimeMCPError {
   };
 }
 
-
 /** Alias for RealtimeMCPErrorUnion */
 export type RealtimeMCPErrorUnion =
   | RealtimeMCPProtocolError
   | RealtimeMCPToolExecutionError
   | RealtimeMCPHttpError
   | RealtimeMCPError;
-
 
 export function realtimeMCPErrorUnionSerializer(item: RealtimeMCPErrorUnion): any {
   switch (item.type) {
@@ -19492,7 +19178,6 @@ export function realtimeMCPErrorUnionSerializer(item: RealtimeMCPErrorUnion): an
   }
 }
 
-
 export function realtimeMCPErrorUnionDeserializer(item: any): RealtimeMCPErrorUnion {
   switch (item["type"]) {
     case "protocol_error":
@@ -19509,10 +19194,8 @@ export function realtimeMCPErrorUnionDeserializer(item: any): RealtimeMCPErrorUn
   }
 }
 
-
 /** Type of RealtimeMCPErrorType */
 export type RealtimeMCPErrorType = "protocol_error" | "tool_execution_error" | "http_error";
-
 
 /** model interface RealtimeMCPProtocolError */
 export interface RealtimeMCPProtocolError extends RealtimeMCPError {
@@ -19521,11 +19204,9 @@ export interface RealtimeMCPProtocolError extends RealtimeMCPError {
   message: string;
 }
 
-
 export function realtimeMCPProtocolErrorSerializer(item: RealtimeMCPProtocolError): any {
   return { type: item["type"], code: item["code"], message: item["message"] };
 }
-
 
 export function realtimeMCPProtocolErrorDeserializer(item: any): RealtimeMCPProtocolError {
   return {
@@ -19535,18 +19216,15 @@ export function realtimeMCPProtocolErrorDeserializer(item: any): RealtimeMCPProt
   };
 }
 
-
 /** model interface RealtimeMCPToolExecutionError */
 export interface RealtimeMCPToolExecutionError extends RealtimeMCPError {
   type: "tool_execution_error";
   message: string;
 }
 
-
 export function realtimeMCPToolExecutionErrorSerializer(item: RealtimeMCPToolExecutionError): any {
   return { type: item["type"], message: item["message"] };
 }
-
 
 export function realtimeMCPToolExecutionErrorDeserializer(
   item: any,
@@ -19557,7 +19235,6 @@ export function realtimeMCPToolExecutionErrorDeserializer(
   };
 }
 
-
 /** model interface RealtimeMCPHttpError */
 export interface RealtimeMCPHttpError extends RealtimeMCPError {
   type: "http_error";
@@ -19565,11 +19242,9 @@ export interface RealtimeMCPHttpError extends RealtimeMCPError {
   message: string;
 }
 
-
 export function realtimeMCPHttpErrorSerializer(item: RealtimeMCPHttpError): any {
   return { type: item["type"], code: item["code"], message: item["message"] };
 }
-
 
 export function realtimeMCPHttpErrorDeserializer(item: any): RealtimeMCPHttpError {
   return {
@@ -19578,7 +19253,6 @@ export function realtimeMCPHttpErrorDeserializer(item: any): RealtimeMCPHttpErro
     message: item["message"],
   };
 }
-
 
 /** A Realtime item requesting human approval of a tool invocation. */
 export interface RealtimeMCPApprovalRequest extends RealtimeConversationItem {
@@ -19598,7 +19272,6 @@ export interface RealtimeMCPApprovalRequest extends RealtimeConversationItem {
   readonly response_id?: string;
 }
 
-
 export function realtimeMCPApprovalRequestSerializer(item: RealtimeMCPApprovalRequest): any {
   return {
     type: item["type"],
@@ -19608,7 +19281,6 @@ export function realtimeMCPApprovalRequestSerializer(item: RealtimeMCPApprovalRe
     arguments: item["arguments"],
   };
 }
-
 
 export function realtimeMCPApprovalRequestDeserializer(item: any): RealtimeMCPApprovalRequest {
   return {
@@ -19622,13 +19294,11 @@ export function realtimeMCPApprovalRequestDeserializer(item: any): RealtimeMCPAp
   };
 }
 
-
 /** Audio configuration for a response. Follows the OpenAI Realtime GA `audio` object shape. */
 export interface VoiceResponseAudio {
   /** The audio output configuration used for the response. */
   output?: VoiceResponseAudioOutput;
 }
-
 
 export function voiceResponseAudioSerializer(item: VoiceResponseAudio): any {
   return {
@@ -19636,13 +19306,11 @@ export function voiceResponseAudioSerializer(item: VoiceResponseAudio): any {
   };
 }
 
-
 export function voiceResponseAudioDeserializer(item: any): VoiceResponseAudio {
   return {
     output: !item["output"] ? item["output"] : voiceResponseAudioOutputDeserializer(item["output"]),
   };
 }
-
 
 /** The flat response audio-output projection, with optional `voice`, `voice_type`, `voice_locale`, and `format` fields. */
 export interface VoiceResponseAudioOutput {
@@ -19656,7 +19324,6 @@ export interface VoiceResponseAudioOutput {
   format?: RealtimeAudioFormatsUnion;
 }
 
-
 export function voiceResponseAudioOutputSerializer(item: VoiceResponseAudioOutput): any {
   return {
     voice: item["voice"],
@@ -19665,7 +19332,6 @@ export function voiceResponseAudioOutputSerializer(item: VoiceResponseAudioOutpu
     format: !item["format"] ? item["format"] : realtimeAudioFormatsUnionSerializer(item["format"]),
   };
 }
-
 
 export function voiceResponseAudioOutputDeserializer(item: any): VoiceResponseAudioOutput {
   return {
@@ -19677,7 +19343,6 @@ export function voiceResponseAudioOutputDeserializer(item: any): VoiceResponseAu
       : realtimeAudioFormatsUnionDeserializer(item["format"]),
   };
 }
-
 
 /** Properties shared by persisted voice responses. */
 export interface VoiceResponseBase {
@@ -19721,7 +19386,6 @@ export interface VoiceResponseBase {
   max_output_tokens?: number | "inf";
 }
 
-
 export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
   return {
     id: item["id"],
@@ -19743,14 +19407,12 @@ export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
   };
 }
 
-
 /** model interface RealtimeResponseStatusDetails */
 export interface RealtimeResponseStatusDetails {
   type?: "completed" | "cancelled" | "failed" | "incomplete";
   reason?: "turn_detected" | "client_cancelled" | "max_output_tokens" | "content_filter";
   error?: RealtimeResponseStatusDetailsError;
 }
-
 
 export function realtimeResponseStatusDetailsSerializer(item: RealtimeResponseStatusDetails): any {
   return {
@@ -19761,7 +19423,6 @@ export function realtimeResponseStatusDetailsSerializer(item: RealtimeResponseSt
       : realtimeResponseStatusDetailsErrorSerializer(item["error"]),
   };
 }
-
 
 export function realtimeResponseStatusDetailsDeserializer(
   item: any,
@@ -19775,20 +19436,17 @@ export function realtimeResponseStatusDetailsDeserializer(
   };
 }
 
-
 /** model interface RealtimeResponseStatusDetailsError */
 export interface RealtimeResponseStatusDetailsError {
   type?: string;
   code?: string;
 }
 
-
 export function realtimeResponseStatusDetailsErrorSerializer(
   item: RealtimeResponseStatusDetailsError,
 ): any {
   return { type: item["type"], code: item["code"] };
 }
-
 
 export function realtimeResponseStatusDetailsErrorDeserializer(
   item: any,
@@ -19799,10 +19457,8 @@ export function realtimeResponseStatusDetailsErrorDeserializer(
   };
 }
 
-
 /** Alias for _VoiceResponseBaseMaxOutputTokens */
 export type _VoiceResponseBaseMaxOutputTokens = number | "inf";
-
 
 export function _voiceResponseBaseMaxOutputTokensSerializer(
   item: _VoiceResponseBaseMaxOutputTokens,
@@ -19810,13 +19466,11 @@ export function _voiceResponseBaseMaxOutputTokensSerializer(
   return item;
 }
 
-
 export function _voiceResponseBaseMaxOutputTokensDeserializer(
   item: any,
 ): _VoiceResponseBaseMaxOutputTokens {
   return item;
 }
-
 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultRealtimeConversationItem {
@@ -19830,7 +19484,6 @@ export interface _AgentsPagedResultRealtimeConversationItem {
   has_more: boolean;
 }
 
-
 export function _agentsPagedResultRealtimeConversationItemDeserializer(
   item: any,
 ): _AgentsPagedResultRealtimeConversationItem {
@@ -19841,7 +19494,6 @@ export function _agentsPagedResultRealtimeConversationItemDeserializer(
     has_more: item["has_more"],
   };
 }
-
 
 /**
  * Metadata for a single conversation item's audio segment. For bring-your-own-storage (BYOS), the response includes
@@ -19872,7 +19524,6 @@ export interface VoiceItemAudioResponse {
   blob_uri?: string;
 }
 
-
 export function voiceItemAudioResponseDeserializer(item: any): VoiceItemAudioResponse {
   return {
     conversation_id: item["conversation_id"],
@@ -19888,18 +19539,14 @@ export function voiceItemAudioResponseDeserializer(item: any): VoiceItemAudioRes
   };
 }
 
-
 /** A voice-audio participant role. Additional values may be added over time. */
 export type VoiceAudioRole = "user" | "agent";
-
 
 /** An audio container format. Additional values may be added over time. */
 export type VoiceAudioContainerFormat = "wav";
 
-
 /** An audio codec. Additional values may be added over time. */
 export type VoiceAudioCodec = "pcm16" | "pcmu" | "pcma";
-
 
 /**
  * Metadata for a conversation item's generated audio. For bring-your-own-storage (BYOS), the response includes
@@ -19930,7 +19577,6 @@ export interface VoiceGeneratedItemAudioResponse {
   blob_uri?: string;
 }
 
-
 export function voiceGeneratedItemAudioResponseDeserializer(
   item: any,
 ): VoiceGeneratedItemAudioResponse {
@@ -19947,7 +19593,6 @@ export function voiceGeneratedItemAudioResponseDeserializer(
     blob_uri: item["blob_uri"],
   };
 }
-
 
 /**
  * Metadata for the merged, whole-call stereo recording of a voice conversation (user audio on the left channel,
@@ -19975,7 +19620,6 @@ export interface VoiceRecordingResponse {
   blob_uri?: string;
 }
 
-
 export function voiceRecordingResponseDeserializer(item: any): VoiceRecordingResponse {
   return {
     conversation_id: item["conversation_id"],
@@ -19988,7 +19632,6 @@ export function voiceRecordingResponseDeserializer(item: any): VoiceRecordingRes
   };
 }
 
-
 /** The role assigned to each channel of a merged stereo voice recording. */
 export interface VoiceRecordingChannelLayout {
   /** The role carried on the left channel. Always `user`. */
@@ -19997,14 +19640,12 @@ export interface VoiceRecordingChannelLayout {
   right: "agent";
 }
 
-
 export function voiceRecordingChannelLayoutDeserializer(item: any): VoiceRecordingChannelLayout {
   return {
     left: item["left"],
     right: item["right"],
   };
 }
-
 
 /** A request to create one durable direct outbound call job. */
 export interface CreateTelephonyCallJobRequest {
@@ -20022,7 +19663,6 @@ export interface CreateTelephonyCallJobRequest {
   retry_policy?: TelephonyOutboundRetryPolicyUnion;
 }
 
-
 export function createTelephonyCallJobRequestSerializer(item: CreateTelephonyCallJobRequest): any {
   return {
     destination: telephonyOutboundDestinationSerializer(item["destination"]),
@@ -20038,7 +19678,6 @@ export function createTelephonyCallJobRequestSerializer(item: CreateTelephonyCal
   };
 }
 
-
 /** The destination of an outbound call. */
 export interface TelephonyOutboundDestination {
   /** The destination type. Only E.164 phone numbers are currently supported. */
@@ -20047,11 +19686,9 @@ export interface TelephonyOutboundDestination {
   value: string;
 }
 
-
 export function telephonyOutboundDestinationSerializer(item: TelephonyOutboundDestination): any {
   return { type: item["type"], value: item["value"] };
 }
-
 
 export function telephonyOutboundDestinationDeserializer(item: any): TelephonyOutboundDestination {
   return {
@@ -20060,10 +19697,8 @@ export function telephonyOutboundDestinationDeserializer(item: any): TelephonyOu
   };
 }
 
-
 /** The type of destination for an outbound call. */
 export type TelephonyOutboundDestinationType = "phone_number";
-
 
 /** The optional execution window for a direct outbound call. */
 export interface TelephonyCallJobSchedule {
@@ -20072,7 +19707,6 @@ export interface TelephonyCallJobSchedule {
   /** The instant after which the call job expires without dispatch. */
   expires_at?: Date;
 }
-
 
 export function telephonyCallJobScheduleSerializer(item: TelephonyCallJobSchedule): any {
   return {
@@ -20085,14 +19719,12 @@ export function telephonyCallJobScheduleSerializer(item: TelephonyCallJobSchedul
   };
 }
 
-
 export function telephonyCallJobScheduleDeserializer(item: any): TelephonyCallJobSchedule {
   return {
     not_before: !item["not_before"] ? item["not_before"] : new Date(item["not_before"] * 1000),
     expires_at: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
   };
 }
-
 
 /** The retry policy for one durable outbound call intent. `max_attempts` includes the first attempt. Strategy-specific settings are defined by the derived policy. */
 export interface TelephonyOutboundRetryPolicy {
@@ -20103,16 +19735,13 @@ export interface TelephonyOutboundRetryPolicy {
   max_attempts?: number;
 }
 
-
 export function telephonyOutboundRetryPolicySerializer(item: TelephonyOutboundRetryPolicy): any {
   return { type: item["type"], max_attempts: item["max_attempts"] };
 }
 
-
 /** Alias for TelephonyOutboundRetryPolicyUnion */
 export type TelephonyOutboundRetryPolicyUnion =
   TelephonyOutboundFixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
-
 
 export function telephonyOutboundRetryPolicyUnionSerializer(
   item: TelephonyOutboundRetryPolicyUnion,
@@ -20128,10 +19757,8 @@ export function telephonyOutboundRetryPolicyUnionSerializer(
   }
 }
 
-
 /** The retry strategy for an outbound call. */
 export type TelephonyOutboundRetryPolicyType = "fixed_interval";
-
 
 /** A retry policy with a fixed interval between outbound call attempts. */
 export interface TelephonyOutboundFixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
@@ -20141,13 +19768,11 @@ export interface TelephonyOutboundFixedIntervalRetryPolicy extends TelephonyOutb
   interval?: number;
 }
 
-
 export function telephonyOutboundFixedIntervalRetryPolicySerializer(
   item: TelephonyOutboundFixedIntervalRetryPolicy,
 ): any {
   return { type: item["type"], max_attempts: item["max_attempts"], interval: item["interval"] };
 }
-
 
 /** A durable direct or campaign-created outbound call intent. */
 export interface TelephonyCallJob {
@@ -20187,7 +19812,6 @@ export interface TelephonyCallJob {
   updated_at: Date;
 }
 
-
 export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
   return {
     destination: telephonyOutboundDestinationDeserializer(item["destination"]),
@@ -20220,7 +19844,6 @@ export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
   };
 }
 
-
 /** The lifecycle status of a durable outbound call job. */
 export type TelephonyCallJobStatus =
   | "accepted"
@@ -20236,7 +19859,6 @@ export type TelephonyCallJobStatus =
   | "failed"
   | "cancelled";
 
-
 /** A cancellation request recorded for an outbound call job. */
 export interface TelephonyCallJobCancellation {
   /** The authenticated principal that requested cancellation. */
@@ -20249,7 +19871,6 @@ export interface TelephonyCallJobCancellation {
   revision: number;
 }
 
-
 export function telephonyCallJobCancellationDeserializer(item: any): TelephonyCallJobCancellation {
   return {
     requested_by: item["requested_by"],
@@ -20258,7 +19879,6 @@ export function telephonyCallJobCancellationDeserializer(item: any): TelephonyCa
     revision: item["revision"],
   };
 }
-
 
 /** The frozen retry policy returned for an outbound call or campaign. */
 export interface TelephonyOutboundRetryPolicyResponse {
@@ -20269,7 +19889,6 @@ export interface TelephonyOutboundRetryPolicyResponse {
   max_attempts: number;
 }
 
-
 export function telephonyOutboundRetryPolicyResponseDeserializer(
   item: any,
 ): TelephonyOutboundRetryPolicyResponse {
@@ -20279,11 +19898,9 @@ export function telephonyOutboundRetryPolicyResponseDeserializer(
   };
 }
 
-
 /** Alias for TelephonyOutboundRetryPolicyResponseUnion */
 export type TelephonyOutboundRetryPolicyResponseUnion =
   TelephonyOutboundFixedIntervalRetryPolicyResponse | TelephonyOutboundRetryPolicyResponse;
-
 
 export function telephonyOutboundRetryPolicyResponseUnionDeserializer(
   item: any,
@@ -20299,7 +19916,6 @@ export function telephonyOutboundRetryPolicyResponseUnionDeserializer(
   }
 }
 
-
 /** The frozen fixed-interval retry policy returned for an outbound call or campaign. */
 export interface TelephonyOutboundFixedIntervalRetryPolicyResponse extends TelephonyOutboundRetryPolicyResponse {
   /** The fixed-interval retry strategy. */
@@ -20307,7 +19923,6 @@ export interface TelephonyOutboundFixedIntervalRetryPolicyResponse extends Telep
   /** The fixed delay in seconds between attempts. */
   interval: number;
 }
-
 
 export function telephonyOutboundFixedIntervalRetryPolicyResponseDeserializer(
   item: any,
@@ -20318,7 +19933,6 @@ export function telephonyOutboundFixedIntervalRetryPolicyResponseDeserializer(
     interval: item["interval"],
   };
 }
-
 
 /** A request to create a draft outbound campaign. */
 export interface CreateTelephonyCampaignRequest {
@@ -20333,7 +19947,6 @@ export interface CreateTelephonyCampaignRequest {
   /** The provider-attempt retry policy inherited by every materialized call job. */
   retry_policy?: TelephonyOutboundRetryPolicyUnion;
 }
-
 
 export function createTelephonyCampaignRequestSerializer(
   item: CreateTelephonyCampaignRequest,
@@ -20351,7 +19964,6 @@ export function createTelephonyCampaignRequestSerializer(
   };
 }
 
-
 /** The schedule for an outbound campaign. */
 export interface TelephonyCampaignSchedule {
   /** Whether calls are eligible immediately after publication or at a future instant. */
@@ -20360,14 +19972,12 @@ export interface TelephonyCampaignSchedule {
   start_at?: Date;
 }
 
-
 export function telephonyCampaignScheduleSerializer(item: TelephonyCampaignSchedule): any {
   return {
     type: item["type"],
     start_at: !item["start_at"] ? item["start_at"] : (item["start_at"].getTime() / 1000) | 0,
   };
 }
-
 
 export function telephonyCampaignScheduleDeserializer(item: any): TelephonyCampaignSchedule {
   return {
@@ -20376,10 +19986,8 @@ export function telephonyCampaignScheduleDeserializer(item: any): TelephonyCampa
   };
 }
 
-
 /** When a published outbound campaign becomes eligible to dispatch calls. */
 export type TelephonyCampaignScheduleType = "immediate" | "scheduled";
-
 
 /** A durable outbound campaign owned by a voice agent. */
 export interface TelephonyCampaign {
@@ -20405,7 +20013,6 @@ export interface TelephonyCampaign {
   created_at: Date;
   updated_at: Date;
 }
-
 
 export function telephonyCampaignDeserializer(item: any): TelephonyCampaign {
   return {
@@ -20433,16 +20040,13 @@ export function telephonyCampaignDeserializer(item: any): TelephonyCampaign {
   };
 }
 
-
 /** The immutable-configuration lifecycle status of an outbound campaign. */
 export type TelephonyCampaignConfigurationStatus =
   "draft" | "importing" | "validating" | "publishing" | "published" | "publish_failed";
 
-
 /** The execution lifecycle status of a published outbound campaign. */
 export type TelephonyCampaignExecutionStatus =
   "none" | "scheduled" | "running" | "paused" | "completed" | "failed" | "cancelled";
-
 
 /** Aggregate call-job counts for an outbound campaign. */
 export interface TelephonyCampaignCallJobCounts {
@@ -20455,7 +20059,6 @@ export interface TelephonyCampaignCallJobCounts {
   cancelled: number;
   expired: number;
 }
-
 
 export function telephonyCampaignCallJobCountsDeserializer(
   item: any,
@@ -20472,7 +20075,6 @@ export function telephonyCampaignCallJobCountsDeserializer(
   };
 }
 
-
 /** A request to import campaign recipients from a Dataset CSV, JSON array, or JSONL file. Imported Agent-declared structured inputs follow the Agent definition's schema, required, and default-value semantics. */
 export interface ImportTelephonyCampaignRecipientsRequest {
   source: TelephonyCampaignRecipientImportSource;
@@ -20480,7 +20082,6 @@ export interface ImportTelephonyCampaignRecipientsRequest {
   mapping?: TelephonyCampaignRecipientMappingRequest;
   duplicate_handling?: TelephonyCampaignDuplicateHandling;
 }
-
 
 export function importTelephonyCampaignRecipientsRequestSerializer(
   item: ImportTelephonyCampaignRecipientsRequest,
@@ -20494,7 +20095,6 @@ export function importTelephonyCampaignRecipientsRequestSerializer(
   };
 }
 
-
 /** A Dataset source for campaign recipient import. */
 export interface TelephonyCampaignRecipientImportSource {
   type: "dataset";
@@ -20504,7 +20104,6 @@ export interface TelephonyCampaignRecipientImportSource {
   file_name: string;
   format: TelephonyCampaignRecipientImportFormat;
 }
-
 
 export function telephonyCampaignRecipientImportSourceSerializer(
   item: TelephonyCampaignRecipientImportSource,
@@ -20518,7 +20117,6 @@ export function telephonyCampaignRecipientImportSourceSerializer(
   };
 }
 
-
 export function telephonyCampaignRecipientImportSourceDeserializer(
   item: any,
 ): TelephonyCampaignRecipientImportSource {
@@ -20531,10 +20129,8 @@ export function telephonyCampaignRecipientImportSourceDeserializer(
   };
 }
 
-
 /** A supported Dataset recipient file format. */
 export type TelephonyCampaignRecipientImportFormat = "csv" | "json" | "jsonl";
-
 
 /** Optional source-field mappings for a recipient import. Each omitted entry uses its same-named source field. */
 export interface TelephonyCampaignRecipientMappingRequest {
@@ -20550,7 +20146,6 @@ export interface TelephonyCampaignRecipientMappingRequest {
   expires_at?: string;
 }
 
-
 export function telephonyCampaignRecipientMappingRequestSerializer(
   item: TelephonyCampaignRecipientMappingRequest,
 ): any {
@@ -20563,15 +20158,12 @@ export function telephonyCampaignRecipientMappingRequestSerializer(
   };
 }
 
-
 /** How duplicate recipient keys in an import are handled. */
 export type TelephonyCampaignDuplicateHandling = "reject" | "keep_each" | "merge";
-
 
 /** The lifecycle status of an outbound telephony operation. */
 export type TelephonyOperationStatus =
   "not_started" | "running" | "succeeded" | "failed" | "cancelled" | "unknown";
-
 
 /** A resource produced by a successful outbound telephony operation. */
 export interface TelephonyOperationResource {
@@ -20579,14 +20171,12 @@ export interface TelephonyOperationResource {
   type: string;
 }
 
-
 export function telephonyOperationResourceDeserializer(item: any): TelephonyOperationResource {
   return {
     id: item["id"],
     type: item["type"],
   };
 }
-
 
 /** An asynchronous outbound telephony operation. */
 export interface TelephonyOperation {
@@ -20597,7 +20187,6 @@ export interface TelephonyOperation {
   error?: ErrorModel;
   resource?: TelephonyOperationResource;
 }
-
 
 export function telephonyOperationDeserializer(item: any): TelephonyOperation {
   return {
@@ -20611,7 +20200,6 @@ export function telephonyOperationDeserializer(item: any): TelephonyOperation {
       : telephonyOperationResourceDeserializer(item["resource"]),
   };
 }
-
 
 /** A durable campaign recipient-import record. */
 export interface TelephonyCampaignRecipientImport {
@@ -20630,7 +20218,6 @@ export interface TelephonyCampaignRecipientImport {
   created_at: Date;
   updated_at: Date;
 }
-
 
 export function telephonyCampaignRecipientImportDeserializer(
   item: any,
@@ -20655,10 +20242,8 @@ export function telephonyCampaignRecipientImportDeserializer(
   };
 }
 
-
 /** The lifecycle status of a campaign recipient import. */
 export type TelephonyCampaignRecipientImportStatus = "running" | "succeeded" | "failed";
-
 
 /** Source fields or CSV columns mapped into each campaign recipient. Every unmapped CSV column or JSON/JSONL top-level property becomes a same-named structured input. CSV cells are preserved as strings until Agent-declared inputs are parsed according to their schemas; additional inputs remain strings. */
 export interface TelephonyCampaignRecipientMapping {
@@ -20674,7 +20259,6 @@ export interface TelephonyCampaignRecipientMapping {
   expires_at?: string;
 }
 
-
 export function telephonyCampaignRecipientMappingDeserializer(
   item: any,
 ): TelephonyCampaignRecipientMapping {
@@ -20687,12 +20271,10 @@ export function telephonyCampaignRecipientMappingDeserializer(
   };
 }
 
-
 /** A request to publish a validated outbound campaign draft. */
 export interface PublishTelephonyCampaignRequest {
   validation_id: string;
 }
-
 
 export function publishTelephonyCampaignRequestSerializer(
   item: PublishTelephonyCampaignRequest,
@@ -20700,10 +20282,8 @@ export function publishTelephonyCampaignRequestSerializer(
   return { validation_id: item["validation_id"] };
 }
 
-
 /** The supported write modes for data generation job outputs. */
 export type DataGenerationJobOutputWriteMode = "overwrite" | "merge";
-
 
 /** The stable realtime session settings accepted in a `session.update` client event. */
 export interface VoiceAgentSessionUpdateConfig {
@@ -20740,7 +20320,6 @@ export interface VoiceAgentSessionUpdateConfig {
   /** A proactive assistant greeting started after session configuration. */
   greeting?: VoiceAgentGreetingConfigUnion;
 }
-
 
 export function voiceAgentSessionUpdateConfigSerializer(item: VoiceAgentSessionUpdateConfig): any {
   return {
@@ -20784,7 +20363,6 @@ export function voiceAgentSessionUpdateConfigSerializer(item: VoiceAgentSessionU
       : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
   };
 }
-
 
 export function voiceAgentSessionUpdateConfigDeserializer(
   item: any,
@@ -20833,12 +20411,10 @@ export function voiceAgentSessionUpdateConfigDeserializer(
   };
 }
 
-
 /** Avatar settings accepted by the stable voice-agent WebSocket contract. */
 export interface VoiceAgentSessionAvatarConfig extends VoiceAgentAvatarConfig {
   ice_servers?: VoiceAgentAvatarIceServer[];
 }
-
 
 export function voiceAgentSessionAvatarConfigSerializer(item: VoiceAgentSessionAvatarConfig): any {
   return {
@@ -20856,7 +20432,6 @@ export function voiceAgentSessionAvatarConfigSerializer(item: VoiceAgentSessionA
       : voiceAgentAvatarIceServerArraySerializer(item["ice_servers"]),
   };
 }
-
 
 export function voiceAgentSessionAvatarConfigDeserializer(
   item: any,
@@ -20877,7 +20452,6 @@ export function voiceAgentSessionAvatarConfigDeserializer(
   };
 }
 
-
 export function voiceAgentAvatarIceServerArraySerializer(
   result: Array<VoiceAgentAvatarIceServer>,
 ): any[] {
@@ -20885,7 +20459,6 @@ export function voiceAgentAvatarIceServerArraySerializer(
     return voiceAgentAvatarIceServerSerializer(item);
   });
 }
-
 
 export function voiceAgentAvatarIceServerArrayDeserializer(
   result: Array<VoiceAgentAvatarIceServer>,
@@ -20895,14 +20468,12 @@ export function voiceAgentAvatarIceServerArrayDeserializer(
   });
 }
 
-
 /** An ICE server used for avatar WebRTC negotiation. */
 export interface VoiceAgentAvatarIceServer {
   urls: string[];
   username?: string;
   credential?: string;
 }
-
 
 export function voiceAgentAvatarIceServerSerializer(item: VoiceAgentAvatarIceServer): any {
   return {
@@ -20914,7 +20485,6 @@ export function voiceAgentAvatarIceServerSerializer(item: VoiceAgentAvatarIceSer
   };
 }
 
-
 export function voiceAgentAvatarIceServerDeserializer(item: any): VoiceAgentAvatarIceServer {
   return {
     urls: item["urls"].map((p: any) => {
@@ -20925,7 +20495,6 @@ export function voiceAgentAvatarIceServerDeserializer(item: any): VoiceAgentAvat
   };
 }
 
-
 /** Animation settings for a voice-agent session. */
 export interface VoiceAgentAnimationConfig {
   /** The animation model name. */
@@ -20933,7 +20502,6 @@ export interface VoiceAgentAnimationConfig {
   /** The requested animation output kinds. */
   outputs?: VoiceAgentAnimationOutputType[];
 }
-
 
 export function voiceAgentAnimationConfigSerializer(item: VoiceAgentAnimationConfig): any {
   return {
@@ -20946,7 +20514,6 @@ export function voiceAgentAnimationConfigSerializer(item: VoiceAgentAnimationCon
   };
 }
 
-
 export function voiceAgentAnimationConfigDeserializer(item: any): VoiceAgentAnimationConfig {
   return {
     model_name: item["model_name"],
@@ -20958,21 +20525,17 @@ export function voiceAgentAnimationConfigDeserializer(item: any): VoiceAgentAnim
   };
 }
 
-
 /** An animation output produced by a voice-agent session. */
 export type VoiceAgentAnimationOutputType = "blendshapes" | "viseme_id";
-
 
 /** Configuration for reasoning-capable Realtime models such as `gpt-realtime-2`. */
 export interface RealtimeReasoning {
   effort?: RealtimeReasoningEffort;
 }
 
-
 export function realtimeReasoningSerializer(item: RealtimeReasoning): any {
   return { effort: item["effort"] };
 }
-
 
 export function realtimeReasoningDeserializer(item: any): RealtimeReasoning {
   return {
@@ -20980,13 +20543,11 @@ export function realtimeReasoningDeserializer(item: any): RealtimeReasoning {
   };
 }
 
-
 /**
  * Constrains effort on reasoning for reasoning-capable Realtime models such as
  * `gpt-realtime-2`.
  */
 export type RealtimeReasoningEffort = "minimal" | "low" | "medium" | "high" | "xhigh";
-
 
 /** The effective stable realtime session settings returned by the voice-agent service. */
 export interface VoiceAgentSessionResponseConfig {
@@ -21031,7 +20592,6 @@ export interface VoiceAgentSessionResponseConfig {
   /** The session expiration time as a Unix timestamp in seconds. */
   expires_at?: Date;
 }
-
 
 export function voiceAgentSessionResponseConfigSerializer(
   item: VoiceAgentSessionResponseConfig,
@@ -21084,7 +20644,6 @@ export function voiceAgentSessionResponseConfigSerializer(
   };
 }
 
-
 export function voiceAgentSessionResponseConfigDeserializer(
   item: any,
 ): VoiceAgentSessionResponseConfig {
@@ -21136,7 +20695,6 @@ export function voiceAgentSessionResponseConfigDeserializer(
   };
 }
 
-
 /** The `session.avatar.connect` client event. */
 export interface VoiceAgentClientEventSessionAvatarConnect extends RealtimeClientEvent {
   /** The event type. Always `session.avatar.connect`. */
@@ -21147,13 +20705,11 @@ export interface VoiceAgentClientEventSessionAvatarConnect extends RealtimeClien
   client_sdp: string;
 }
 
-
 export function voiceAgentClientEventSessionAvatarConnectSerializer(
   item: VoiceAgentClientEventSessionAvatarConnect,
 ): any {
   return { type: item["type"], event_id: item["event_id"], client_sdp: item["client_sdp"] };
 }
-
 
 export function voiceAgentClientEventSessionAvatarConnectDeserializer(
   item: any,
@@ -21165,24 +20721,20 @@ export function voiceAgentClientEventSessionAvatarConnectDeserializer(
   };
 }
 
-
 /** A realtime client event. */
 export interface RealtimeClientEvent {
   type: RealtimeClientEventType;
 }
 
-
 export function realtimeClientEventSerializer(item: RealtimeClientEvent): any {
   return { type: item["type"] };
 }
-
 
 export function realtimeClientEventDeserializer(item: any): RealtimeClientEvent {
   return {
     type: item["type"],
   };
 }
-
 
 /** Alias for RealtimeClientEventUnion */
 export type RealtimeClientEventUnion =
@@ -21199,7 +20751,6 @@ export type RealtimeClientEventUnion =
   | VoiceAgentClientEventSessionAvatarConnect
   | VoiceAgentClientEventRtcCallSdpCreate
   | RealtimeClientEvent;
-
 
 export function realtimeClientEventUnionSerializer(item: RealtimeClientEventUnion): any {
   switch (item.type) {
@@ -21263,7 +20814,6 @@ export function realtimeClientEventUnionSerializer(item: RealtimeClientEventUnio
       return realtimeClientEventSerializer(item);
   }
 }
-
 
 export function realtimeClientEventUnionDeserializer(item: any): RealtimeClientEventUnion {
   switch (item["type"]) {
@@ -21332,7 +20882,6 @@ export function realtimeClientEventUnionDeserializer(item: any): RealtimeClientE
   }
 }
 
-
 /** Type of RealtimeClientEventType */
 export type RealtimeClientEventType =
   | "conversation.item.create"
@@ -21348,7 +20897,6 @@ export type RealtimeClientEventType =
   | "session.update"
   | "session.avatar.connect"
   | "rtc.call.sdp.create";
-
 
 /**
  * Add a new Item to the Conversation's context, including messages, function
@@ -21372,7 +20920,6 @@ export interface RealtimeClientEventConversationItemCreate extends RealtimeClien
   item: RealtimeConversationItemUnion;
 }
 
-
 export function realtimeClientEventConversationItemCreateSerializer(
   item: RealtimeClientEventConversationItemCreate,
 ): any {
@@ -21384,7 +20931,6 @@ export function realtimeClientEventConversationItemCreateSerializer(
   };
 }
 
-
 export function realtimeClientEventConversationItemCreateDeserializer(
   item: any,
 ): RealtimeClientEventConversationItemCreate {
@@ -21395,7 +20941,6 @@ export function realtimeClientEventConversationItemCreateDeserializer(
     item: realtimeConversationItemUnionDeserializer(item["item"]),
   };
 }
-
 
 /**
  * Send this event when you want to remove any item from the conversation
@@ -21412,13 +20957,11 @@ export interface RealtimeClientEventConversationItemDelete extends RealtimeClien
   item_id: string;
 }
 
-
 export function realtimeClientEventConversationItemDeleteSerializer(
   item: RealtimeClientEventConversationItemDelete,
 ): any {
   return { type: item["type"], event_id: item["event_id"], item_id: item["item_id"] };
 }
-
 
 export function realtimeClientEventConversationItemDeleteDeserializer(
   item: any,
@@ -21429,7 +20972,6 @@ export function realtimeClientEventConversationItemDeleteDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /**
  * Send this event when you want to retrieve the server's representation of a specific item in the conversation history. This is useful, for example, to inspect user audio after noise cancellation and VAD.
@@ -21446,13 +20988,11 @@ export interface RealtimeClientEventConversationItemRetrieve extends RealtimeCli
   item_id: string;
 }
 
-
 export function realtimeClientEventConversationItemRetrieveSerializer(
   item: RealtimeClientEventConversationItemRetrieve,
 ): any {
   return { type: item["type"], event_id: item["event_id"], item_id: item["item_id"] };
 }
-
 
 export function realtimeClientEventConversationItemRetrieveDeserializer(
   item: any,
@@ -21463,7 +21003,6 @@ export function realtimeClientEventConversationItemRetrieveDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /**
  * Send this event to truncate a previous assistant message’s audio. The server
@@ -21496,7 +21035,6 @@ export interface RealtimeClientEventConversationItemTruncate extends RealtimeCli
   audio_end_ms: number;
 }
 
-
 export function realtimeClientEventConversationItemTruncateSerializer(
   item: RealtimeClientEventConversationItemTruncate,
 ): any {
@@ -21509,7 +21047,6 @@ export function realtimeClientEventConversationItemTruncateSerializer(
   };
 }
 
-
 export function realtimeClientEventConversationItemTruncateDeserializer(
   item: any,
 ): RealtimeClientEventConversationItemTruncate {
@@ -21521,7 +21058,6 @@ export function realtimeClientEventConversationItemTruncateDeserializer(
     audio_end_ms: item["audio_end_ms"],
   };
 }
-
 
 /**
  * Send this event to append audio bytes to the input audio buffer. The audio
@@ -21548,13 +21084,11 @@ export interface RealtimeClientEventInputAudioBufferAppend extends RealtimeClien
   audio: string;
 }
 
-
 export function realtimeClientEventInputAudioBufferAppendSerializer(
   item: RealtimeClientEventInputAudioBufferAppend,
 ): any {
   return { type: item["type"], event_id: item["event_id"], audio: item["audio"] };
 }
-
 
 export function realtimeClientEventInputAudioBufferAppendDeserializer(
   item: any,
@@ -21565,7 +21099,6 @@ export function realtimeClientEventInputAudioBufferAppendDeserializer(
     audio: item["audio"],
   };
 }
-
 
 /**
  * Send this event to clear the audio bytes in the buffer. The server will
@@ -21578,13 +21111,11 @@ export interface RealtimeClientEventInputAudioBufferClear extends RealtimeClient
   type: "input_audio_buffer.clear";
 }
 
-
 export function realtimeClientEventInputAudioBufferClearSerializer(
   item: RealtimeClientEventInputAudioBufferClear,
 ): any {
   return { type: item["type"], event_id: item["event_id"] };
 }
-
 
 export function realtimeClientEventInputAudioBufferClearDeserializer(
   item: any,
@@ -21594,7 +21125,6 @@ export function realtimeClientEventInputAudioBufferClearDeserializer(
     event_id: item["event_id"],
   };
 }
-
 
 /**
  * **WebRTC/SIP Only:** Emit to cut off the current audio response. This will trigger the server to
@@ -21610,13 +21140,11 @@ export interface RealtimeClientEventOutputAudioBufferClear extends RealtimeClien
   type: "output_audio_buffer.clear";
 }
 
-
 export function realtimeClientEventOutputAudioBufferClearSerializer(
   item: RealtimeClientEventOutputAudioBufferClear,
 ): any {
   return { type: item["type"], event_id: item["event_id"] };
 }
-
 
 export function realtimeClientEventOutputAudioBufferClearDeserializer(
   item: any,
@@ -21626,7 +21154,6 @@ export function realtimeClientEventOutputAudioBufferClearDeserializer(
     event_id: item["event_id"],
   };
 }
-
 
 /**
  * Send this event to commit the user input audio buffer, which will create a  new user message item in the conversation. This event will produce an error  if the input audio buffer is empty. When in Server VAD mode, the client does  not need to send this event, the server will commit the audio buffer  automatically.
@@ -21639,13 +21166,11 @@ export interface RealtimeClientEventInputAudioBufferCommit extends RealtimeClien
   type: "input_audio_buffer.commit";
 }
 
-
 export function realtimeClientEventInputAudioBufferCommitSerializer(
   item: RealtimeClientEventInputAudioBufferCommit,
 ): any {
   return { type: item["type"], event_id: item["event_id"] };
 }
-
 
 export function realtimeClientEventInputAudioBufferCommitDeserializer(
   item: any,
@@ -21655,7 +21180,6 @@ export function realtimeClientEventInputAudioBufferCommitDeserializer(
     event_id: item["event_id"],
   };
 }
-
 
 /**
  * Send this event to cancel an in-progress response. The server will respond
@@ -21676,13 +21200,11 @@ export interface RealtimeClientEventResponseCancel extends RealtimeClientEvent {
   response_id?: string;
 }
 
-
 export function realtimeClientEventResponseCancelSerializer(
   item: RealtimeClientEventResponseCancel,
 ): any {
   return { type: item["type"], event_id: item["event_id"], response_id: item["response_id"] };
 }
-
 
 export function realtimeClientEventResponseCancelDeserializer(
   item: any,
@@ -21693,7 +21215,6 @@ export function realtimeClientEventResponseCancelDeserializer(
     response_id: item["response_id"],
   };
 }
-
 
 /**
  * This event instructs the server to create a Response, which means triggering
@@ -21725,7 +21246,6 @@ export interface RealtimeClientEventResponseCreate extends RealtimeClientEvent {
   response?: VoiceAgentResponseCreateParams;
 }
 
-
 export function realtimeClientEventResponseCreateSerializer(
   item: RealtimeClientEventResponseCreate,
 ): any {
@@ -21738,7 +21258,6 @@ export function realtimeClientEventResponseCreateSerializer(
   };
 }
 
-
 export function realtimeClientEventResponseCreateDeserializer(
   item: any,
 ): RealtimeClientEventResponseCreate {
@@ -21750,7 +21269,6 @@ export function realtimeClientEventResponseCreateDeserializer(
       : voiceAgentResponseCreateParamsDeserializer(item["response"]),
   };
 }
-
 
 /** Parameters accepted by a voice-agent `response.create` event. */
 export interface VoiceAgentResponseCreateParams {
@@ -21800,7 +21318,6 @@ export interface VoiceAgentResponseCreateParams {
   interim_response?: VoiceAgentInterimResponseConfigUnion;
 }
 
-
 export function voiceAgentResponseCreateParamsSerializer(
   item: VoiceAgentResponseCreateParams,
 ): any {
@@ -21840,7 +21357,6 @@ export function voiceAgentResponseCreateParamsSerializer(
       : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
   };
 }
-
 
 export function voiceAgentResponseCreateParamsDeserializer(
   item: any,
@@ -21882,7 +21398,6 @@ export function voiceAgentResponseCreateParamsDeserializer(
   };
 }
 
-
 export function _voiceAgentResponseCreateParamsToolArraySerializer(
   result: Array<_VoiceAgentResponseCreateParamsTool>,
 ): any[] {
@@ -21890,7 +21405,6 @@ export function _voiceAgentResponseCreateParamsToolArraySerializer(
     return _voiceAgentResponseCreateParamsToolSerializer(item);
   });
 }
-
 
 export function _voiceAgentResponseCreateParamsToolArrayDeserializer(
   result: Array<_VoiceAgentResponseCreateParamsTool>,
@@ -21900,10 +21414,8 @@ export function _voiceAgentResponseCreateParamsToolArrayDeserializer(
   });
 }
 
-
 /** Alias for _VoiceAgentResponseCreateParamsTool */
 export type _VoiceAgentResponseCreateParamsTool = RealtimeFunctionTool | MCPTool;
-
 
 export function _voiceAgentResponseCreateParamsToolSerializer(
   item: _VoiceAgentResponseCreateParamsTool,
@@ -21911,13 +21423,11 @@ export function _voiceAgentResponseCreateParamsToolSerializer(
   return item;
 }
 
-
 export function _voiceAgentResponseCreateParamsToolDeserializer(
   item: any,
 ): _VoiceAgentResponseCreateParamsTool {
   return item;
 }
-
 
 /** model interface RealtimeFunctionTool */
 export interface RealtimeFunctionTool {
@@ -21935,7 +21445,6 @@ export interface RealtimeFunctionTool {
   parameters?: RealtimeFunctionToolParameters;
 }
 
-
 export function realtimeFunctionToolSerializer(item: RealtimeFunctionTool): any {
   return {
     type: item["type"],
@@ -21946,7 +21455,6 @@ export function realtimeFunctionToolSerializer(item: RealtimeFunctionTool): any 
       : realtimeFunctionToolParametersSerializer(item["parameters"]),
   };
 }
-
 
 export function realtimeFunctionToolDeserializer(item: any): RealtimeFunctionTool {
   return {
@@ -21959,11 +21467,9 @@ export function realtimeFunctionToolDeserializer(item: any): RealtimeFunctionToo
   };
 }
 
-
 /** Alias for _VoiceAgentResponseCreateParamsToolChoice */
 export type _VoiceAgentResponseCreateParamsToolChoice =
   ToolChoiceOptions | ToolChoiceFunction | ToolChoiceMCP;
-
 
 export function _voiceAgentResponseCreateParamsToolChoiceSerializer(
   item: _VoiceAgentResponseCreateParamsToolChoice,
@@ -21971,13 +21477,11 @@ export function _voiceAgentResponseCreateParamsToolChoiceSerializer(
   return item;
 }
 
-
 export function _voiceAgentResponseCreateParamsToolChoiceDeserializer(
   item: any,
 ): _VoiceAgentResponseCreateParamsToolChoice {
   return item;
 }
-
 
 /**
  * Controls which (if any) tool is called by the model.
@@ -21988,10 +21492,8 @@ export function _voiceAgentResponseCreateParamsToolChoiceDeserializer(
  */
 export type ToolChoiceOptions = "none" | "auto" | "required";
 
-
 /** Alias for _VoiceAgentResponseCreateParamsMaxOutputTokens */
 export type _VoiceAgentResponseCreateParamsMaxOutputTokens = number | "inf";
-
 
 export function _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(
   item: _VoiceAgentResponseCreateParamsMaxOutputTokens,
@@ -21999,13 +21501,11 @@ export function _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(
   return item;
 }
 
-
 export function _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(
   item: any,
 ): _VoiceAgentResponseCreateParamsMaxOutputTokens {
   return item;
 }
-
 
 /**
  * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -22019,11 +21519,9 @@ export interface Metadata {
   additionalProperties?: Record<string, string>;
 }
 
-
 export function metadataSerializer(item: Metadata): any {
   return { ...serializeRecord(item.additionalProperties ?? {}) };
 }
-
 
 export function metadataDeserializer(item: any): Metadata {
   return {
@@ -22031,13 +21529,11 @@ export function metadataDeserializer(item: any): Metadata {
   };
 }
 
-
 /** The template for picking properties. */
 export interface PickPropertiesVoiceAgentAudioConfig {
   /** Output (agent speech) audio configuration. */
   output?: VoiceAgentAudioOutputConfig;
 }
-
 
 export function pickPropertiesVoiceAgentAudioConfigSerializer(
   item: PickPropertiesVoiceAgentAudioConfig,
@@ -22049,7 +21545,6 @@ export function pickPropertiesVoiceAgentAudioConfigSerializer(
   };
 }
 
-
 export function pickPropertiesVoiceAgentAudioConfigDeserializer(
   item: any,
 ): PickPropertiesVoiceAgentAudioConfig {
@@ -22059,7 +21554,6 @@ export function pickPropertiesVoiceAgentAudioConfigDeserializer(
       : voiceAgentAudioOutputConfigDeserializer(item["output"]),
   };
 }
-
 
 /** The `rtc.call.sdp.create` client event: begins WebRTC signaling with an SDP offer. */
 export interface VoiceAgentClientEventRtcCallSdpCreate extends RealtimeClientEvent {
@@ -22072,7 +21566,6 @@ export interface VoiceAgentClientEventRtcCallSdpCreate extends RealtimeClientEve
   /** Optional session configuration. For an `/agents` endpoint the service rebuilds it authoritatively from the persisted agent definition. */
   session?: VoiceAgentSessionUpdateConfig;
 }
-
 
 export function voiceAgentClientEventRtcCallSdpCreateSerializer(
   item: VoiceAgentClientEventRtcCallSdpCreate,
@@ -22087,7 +21580,6 @@ export function voiceAgentClientEventRtcCallSdpCreateSerializer(
   };
 }
 
-
 export function voiceAgentClientEventRtcCallSdpCreateDeserializer(
   item: any,
 ): VoiceAgentClientEventRtcCallSdpCreate {
@@ -22101,7 +21593,6 @@ export function voiceAgentClientEventRtcCallSdpCreateDeserializer(
   };
 }
 
-
 /** The `session.update` client event. */
 export interface VoiceAgentClientEventSessionUpdate {
   /** Optional client-generated ID used to identify this event. This is an arbitrary string that a client may assign. It will be passed back if there is an error with the event, but the corresponding `session.updated` event will not include it. */
@@ -22111,7 +21602,6 @@ export interface VoiceAgentClientEventSessionUpdate {
   /** The voice-agent session settings to update. */
   session: VoiceAgentSessionUpdate;
 }
-
 
 export function voiceAgentClientEventSessionUpdateSerializer(
   item: VoiceAgentClientEventSessionUpdate,
@@ -22123,7 +21613,6 @@ export function voiceAgentClientEventSessionUpdateSerializer(
   };
 }
 
-
 export function voiceAgentClientEventSessionUpdateDeserializer(
   item: any,
 ): VoiceAgentClientEventSessionUpdate {
@@ -22134,20 +21623,16 @@ export function voiceAgentClientEventSessionUpdateDeserializer(
   };
 }
 
-
 /** The session configuration accepted by a voice-agent session update event. */
 export type VoiceAgentSessionUpdate = VoiceAgentSessionUpdateConfig;
-
 
 export function voiceAgentSessionUpdateSerializer(item: VoiceAgentSessionUpdate): any {
   return item;
 }
 
-
 export function voiceAgentSessionUpdateDeserializer(item: any): VoiceAgentSessionUpdate {
   return item;
 }
-
 
 /** The `session.subagent.completed` server event. */
 export interface VoiceAgentServerEventSessionSubagentCompleted extends RealtimeServerEvent {
@@ -22163,7 +21648,6 @@ export interface VoiceAgentServerEventSessionSubagentCompleted extends RealtimeS
   subagent_name: string;
 }
 
-
 export function voiceAgentServerEventSessionSubagentCompletedSerializer(
   item: VoiceAgentServerEventSessionSubagentCompleted,
 ): any {
@@ -22175,7 +21659,6 @@ export function voiceAgentServerEventSessionSubagentCompletedSerializer(
     subagent_name: item["subagent_name"],
   };
 }
-
 
 export function voiceAgentServerEventSessionSubagentCompletedDeserializer(
   item: any,
@@ -22189,24 +21672,20 @@ export function voiceAgentServerEventSessionSubagentCompletedDeserializer(
   };
 }
 
-
 /** A realtime server event. */
 export interface RealtimeServerEvent {
   type: RealtimeServerEventType;
 }
 
-
 export function realtimeServerEventSerializer(item: RealtimeServerEvent): any {
   return { type: item["type"] };
 }
-
 
 export function realtimeServerEventDeserializer(item: any): RealtimeServerEvent {
   return {
     type: item["type"],
   };
 }
-
 
 /** Alias for RealtimeServerEventUnion */
 export type RealtimeServerEventUnion =
@@ -22268,7 +21747,6 @@ export type RealtimeServerEventUnion =
   | VoiceAgentServerEventResponseAnimationVisemeDone
   | VoiceAgentServerEventResponseVideoDelta
   | RealtimeServerEvent;
-
 
 export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnion): any {
   switch (item.type) {
@@ -22551,7 +22029,6 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
       return realtimeServerEventSerializer(item);
   }
 }
-
 
 export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerEventUnion {
   switch (item["type"]) {
@@ -22841,7 +22318,6 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
   }
 }
 
-
 /** Type of RealtimeServerEventType */
 export type RealtimeServerEventType =
   | "conversation.created"
@@ -22907,7 +22383,6 @@ export type RealtimeServerEventType =
   | "response.animation_viseme.done"
   | "response.video.delta";
 
-
 /**
  * Returned when a conversation item is created. There are several scenarios that produce this event:
  * - The server is generating a Response, which if successful will produce
@@ -22928,7 +22403,6 @@ export interface RealtimeServerEventConversationItemCreated extends RealtimeServ
   item: RealtimeConversationItemUnion;
 }
 
-
 export function realtimeServerEventConversationItemCreatedSerializer(
   item: RealtimeServerEventConversationItemCreated,
 ): any {
@@ -22940,7 +22414,6 @@ export function realtimeServerEventConversationItemCreatedSerializer(
   };
 }
 
-
 export function realtimeServerEventConversationItemCreatedDeserializer(
   item: any,
 ): RealtimeServerEventConversationItemCreated {
@@ -22951,7 +22424,6 @@ export function realtimeServerEventConversationItemCreatedDeserializer(
     item: realtimeConversationItemUnionDeserializer(item["item"]),
   };
 }
-
 
 /**
  * Returned when an item in the conversation is deleted by the client with a
@@ -22967,13 +22439,11 @@ export interface RealtimeServerEventConversationItemDeleted extends RealtimeServ
   item_id: string;
 }
 
-
 export function realtimeServerEventConversationItemDeletedSerializer(
   item: RealtimeServerEventConversationItemDeleted,
 ): any {
   return { type: item["type"], event_id: item["event_id"], item_id: item["item_id"] };
 }
-
 
 export function realtimeServerEventConversationItemDeletedDeserializer(
   item: any,
@@ -22984,7 +22454,6 @@ export function realtimeServerEventConversationItemDeletedDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /**
  * This event is the output of audio transcription for user audio written to the
@@ -23018,7 +22487,6 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionCompl
   phrases?: VoiceAgentTranscriptionPhrase[];
 }
 
-
 export function realtimeServerEventConversationItemInputAudioTranscriptionCompletedSerializer(
   item: RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
 ): any {
@@ -23039,7 +22507,6 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionComple
       : voiceAgentTranscriptionPhraseArraySerializer(item["phrases"]),
   };
 }
-
 
 export function realtimeServerEventConversationItemInputAudioTranscriptionCompletedDeserializer(
   item: any,
@@ -23062,20 +22529,17 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionComple
   };
 }
 
-
 export function logProbPropertiesArraySerializer(result: Array<LogProbProperties>): any[] {
   return result.map((item) => {
     return logProbPropertiesSerializer(item);
   });
 }
 
-
 export function logProbPropertiesArrayDeserializer(result: Array<LogProbProperties>): any[] {
   return result.map((item) => {
     return logProbPropertiesDeserializer(item);
   });
 }
-
 
 /** A log probability object. */
 export interface LogProbProperties {
@@ -23087,7 +22551,6 @@ export interface LogProbProperties {
   bytes: number[];
 }
 
-
 export function logProbPropertiesSerializer(item: LogProbProperties): any {
   return {
     token: item["token"],
@@ -23097,7 +22560,6 @@ export function logProbPropertiesSerializer(item: LogProbProperties): any {
     }),
   };
 }
-
 
 export function logProbPropertiesDeserializer(item: any): LogProbProperties {
   return {
@@ -23109,11 +22571,9 @@ export function logProbPropertiesDeserializer(item: any): LogProbProperties {
   };
 }
 
-
 /** Alias for _RealtimeServerEventConversationItemInputAudioTranscriptionCompletedUsage */
 export type _RealtimeServerEventConversationItemInputAudioTranscriptionCompletedUsage =
   TranscriptTextUsageTokens | TranscriptTextUsageDuration;
-
 
 export function _realtimeServerEventConversationItemInputAudioTranscriptionCompletedUsageSerializer(
   item: _RealtimeServerEventConversationItemInputAudioTranscriptionCompletedUsage,
@@ -23121,13 +22581,11 @@ export function _realtimeServerEventConversationItemInputAudioTranscriptionCompl
   return item;
 }
 
-
 export function _realtimeServerEventConversationItemInputAudioTranscriptionCompletedUsageDeserializer(
   item: any,
 ): _RealtimeServerEventConversationItemInputAudioTranscriptionCompletedUsage {
   return item;
 }
-
 
 /** Usage statistics for models billed by token usage. */
 export interface TranscriptTextUsageTokens extends CreateTranscriptionResponseJsonUsage {
@@ -23143,7 +22601,6 @@ export interface TranscriptTextUsageTokens extends CreateTranscriptionResponseJs
   total_tokens: number;
 }
 
-
 export function transcriptTextUsageTokensSerializer(item: TranscriptTextUsageTokens): any {
   return {
     type: item["type"],
@@ -23155,7 +22612,6 @@ export function transcriptTextUsageTokensSerializer(item: TranscriptTextUsageTok
     total_tokens: item["total_tokens"],
   };
 }
-
 
 export function transcriptTextUsageTokensDeserializer(item: any): TranscriptTextUsageTokens {
   return {
@@ -23169,20 +22625,17 @@ export function transcriptTextUsageTokensDeserializer(item: any): TranscriptText
   };
 }
 
-
 /** model interface TranscriptTextUsageTokensInputTokenDetails */
 export interface TranscriptTextUsageTokensInputTokenDetails {
   text_tokens?: number;
   audio_tokens?: number;
 }
 
-
 export function transcriptTextUsageTokensInputTokenDetailsSerializer(
   item: TranscriptTextUsageTokensInputTokenDetails,
 ): any {
   return { text_tokens: item["text_tokens"], audio_tokens: item["audio_tokens"] };
 }
-
 
 export function transcriptTextUsageTokensInputTokenDetailsDeserializer(
   item: any,
@@ -23193,7 +22646,6 @@ export function transcriptTextUsageTokensInputTokenDetailsDeserializer(
   };
 }
 
-
 /** Usage statistics for models billed by audio input duration. */
 export interface TranscriptTextUsageDuration extends CreateTranscriptionResponseJsonUsage {
   /** The type of the usage object. Always `duration` for this variant. */
@@ -23202,11 +22654,9 @@ export interface TranscriptTextUsageDuration extends CreateTranscriptionResponse
   seconds: number;
 }
 
-
 export function transcriptTextUsageDurationSerializer(item: TranscriptTextUsageDuration): any {
   return { type: item["type"], seconds: item["seconds"] };
 }
-
 
 export function transcriptTextUsageDurationDeserializer(item: any): TranscriptTextUsageDuration {
   return {
@@ -23214,7 +22664,6 @@ export function transcriptTextUsageDurationDeserializer(item: any): TranscriptTe
     seconds: item["seconds"],
   };
 }
-
 
 export function voiceAgentTranscriptionPhraseArraySerializer(
   result: Array<VoiceAgentTranscriptionPhrase>,
@@ -23224,7 +22673,6 @@ export function voiceAgentTranscriptionPhraseArraySerializer(
   });
 }
 
-
 export function voiceAgentTranscriptionPhraseArrayDeserializer(
   result: Array<VoiceAgentTranscriptionPhrase>,
 ): any[] {
@@ -23232,7 +22680,6 @@ export function voiceAgentTranscriptionPhraseArrayDeserializer(
     return voiceAgentTranscriptionPhraseDeserializer(item);
   });
 }
-
 
 /** A transcribed phrase with timing information. */
 export interface VoiceAgentTranscriptionPhrase {
@@ -23250,7 +22697,6 @@ export interface VoiceAgentTranscriptionPhrase {
   confidence?: number;
 }
 
-
 export function voiceAgentTranscriptionPhraseSerializer(item: VoiceAgentTranscriptionPhrase): any {
   return {
     offset_milliseconds: item["offset_milliseconds"],
@@ -23263,7 +22709,6 @@ export function voiceAgentTranscriptionPhraseSerializer(item: VoiceAgentTranscri
     confidence: item["confidence"],
   };
 }
-
 
 export function voiceAgentTranscriptionPhraseDeserializer(
   item: any,
@@ -23280,7 +22725,6 @@ export function voiceAgentTranscriptionPhraseDeserializer(
   };
 }
 
-
 export function voiceAgentTranscriptionWordArraySerializer(
   result: Array<VoiceAgentTranscriptionWord>,
 ): any[] {
@@ -23289,7 +22733,6 @@ export function voiceAgentTranscriptionWordArraySerializer(
   });
 }
 
-
 export function voiceAgentTranscriptionWordArrayDeserializer(
   result: Array<VoiceAgentTranscriptionWord>,
 ): any[] {
@@ -23297,7 +22740,6 @@ export function voiceAgentTranscriptionWordArrayDeserializer(
     return voiceAgentTranscriptionWordDeserializer(item);
   });
 }
-
 
 /** A time-stamped word in an input-audio transcription. */
 export interface VoiceAgentTranscriptionWord {
@@ -23309,7 +22751,6 @@ export interface VoiceAgentTranscriptionWord {
   duration_milliseconds: number;
 }
 
-
 export function voiceAgentTranscriptionWordSerializer(item: VoiceAgentTranscriptionWord): any {
   return {
     text: item["text"],
@@ -23318,7 +22759,6 @@ export function voiceAgentTranscriptionWordSerializer(item: VoiceAgentTranscript
   };
 }
 
-
 export function voiceAgentTranscriptionWordDeserializer(item: any): VoiceAgentTranscriptionWord {
   return {
     text: item["text"],
@@ -23326,7 +22766,6 @@ export function voiceAgentTranscriptionWordDeserializer(item: any): VoiceAgentTr
     duration_milliseconds: item["duration_milliseconds"],
   };
 }
-
 
 /** Returned when the text value of an input audio transcription content part is updated with incremental transcription results. */
 export interface RealtimeServerEventConversationItemInputAudioTranscriptionDelta extends RealtimeServerEvent {
@@ -23343,7 +22782,6 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionDelta
   logprobs?: LogProbProperties[];
 }
 
-
 export function realtimeServerEventConversationItemInputAudioTranscriptionDeltaSerializer(
   item: RealtimeServerEventConversationItemInputAudioTranscriptionDelta,
 ): any {
@@ -23359,7 +22797,6 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionDeltaS
   };
 }
 
-
 export function realtimeServerEventConversationItemInputAudioTranscriptionDeltaDeserializer(
   item: any,
 ): RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
@@ -23374,7 +22811,6 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionDeltaD
       : logProbPropertiesArrayDeserializer(item["logprobs"]),
   };
 }
-
 
 /**
  * Returned when input audio transcription is configured, and a transcription
@@ -23397,7 +22833,6 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionFaile
   error: RealtimeServerEventConversationItemInputAudioTranscriptionFailedError;
 }
 
-
 export function realtimeServerEventConversationItemInputAudioTranscriptionFailedSerializer(
   item: RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
 ): any {
@@ -23411,7 +22846,6 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionFailed
     ),
   };
 }
-
 
 export function realtimeServerEventConversationItemInputAudioTranscriptionFailedDeserializer(
   item: any,
@@ -23427,7 +22861,6 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionFailed
   };
 }
 
-
 /** model interface RealtimeServerEventConversationItemInputAudioTranscriptionFailedError */
 export interface RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
   type?: string;
@@ -23436,13 +22869,11 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionFaile
   param?: string;
 }
 
-
 export function realtimeServerEventConversationItemInputAudioTranscriptionFailedErrorSerializer(
   item: RealtimeServerEventConversationItemInputAudioTranscriptionFailedError,
 ): any {
   return { type: item["type"], code: item["code"], message: item["message"], param: item["param"] };
 }
-
 
 export function realtimeServerEventConversationItemInputAudioTranscriptionFailedErrorDeserializer(
   item: any,
@@ -23455,7 +22886,6 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionFailed
   };
 }
 
-
 /** Returned when a conversation item is retrieved with `conversation.item.retrieve`. This is provided as a way to fetch the server's representation of an item, for example to get access to the post-processed audio data after noise cancellation and VAD. It includes the full content of the Item, including audio data. */
 export interface RealtimeServerEventConversationItemRetrieved extends RealtimeServerEvent {
   /** The unique ID of the server event. */
@@ -23464,7 +22894,6 @@ export interface RealtimeServerEventConversationItemRetrieved extends RealtimeSe
   type: "conversation.item.retrieved";
   item: RealtimeConversationItemUnion;
 }
-
 
 export function realtimeServerEventConversationItemRetrievedSerializer(
   item: RealtimeServerEventConversationItemRetrieved,
@@ -23476,7 +22905,6 @@ export function realtimeServerEventConversationItemRetrievedSerializer(
   };
 }
 
-
 export function realtimeServerEventConversationItemRetrievedDeserializer(
   item: any,
 ): RealtimeServerEventConversationItemRetrieved {
@@ -23486,7 +22914,6 @@ export function realtimeServerEventConversationItemRetrievedDeserializer(
     item: realtimeConversationItemUnionDeserializer(item["item"]),
   };
 }
-
 
 /**
  * Returned when an earlier assistant audio message item is truncated by the
@@ -23510,7 +22937,6 @@ export interface RealtimeServerEventConversationItemTruncated extends RealtimeSe
   item?: RealtimeConversationItemUnion;
 }
 
-
 export function realtimeServerEventConversationItemTruncatedSerializer(
   item: RealtimeServerEventConversationItemTruncated,
 ): any {
@@ -23523,7 +22949,6 @@ export function realtimeServerEventConversationItemTruncatedSerializer(
     item: !item["item"] ? item["item"] : realtimeConversationItemUnionSerializer(item["item"]),
   };
 }
-
 
 export function realtimeServerEventConversationItemTruncatedDeserializer(
   item: any,
@@ -23538,7 +22963,6 @@ export function realtimeServerEventConversationItemTruncatedDeserializer(
   };
 }
 
-
 /**
  * Returned when the input audio buffer is cleared by the client with a
  * `input_audio_buffer.clear` event.
@@ -23550,13 +22974,11 @@ export interface RealtimeServerEventInputAudioBufferCleared extends RealtimeServ
   type: "input_audio_buffer.cleared";
 }
 
-
 export function realtimeServerEventInputAudioBufferClearedSerializer(
   item: RealtimeServerEventInputAudioBufferCleared,
 ): any {
   return { type: item["type"], event_id: item["event_id"] };
 }
-
 
 export function realtimeServerEventInputAudioBufferClearedDeserializer(
   item: any,
@@ -23566,7 +22988,6 @@ export function realtimeServerEventInputAudioBufferClearedDeserializer(
     event_id: item["event_id"],
   };
 }
-
 
 /**
  * Returned when an input audio buffer is committed, either by the client or
@@ -23584,7 +23005,6 @@ export interface RealtimeServerEventInputAudioBufferCommitted extends RealtimeSe
   item_id: string;
 }
 
-
 export function realtimeServerEventInputAudioBufferCommittedSerializer(
   item: RealtimeServerEventInputAudioBufferCommitted,
 ): any {
@@ -23596,7 +23016,6 @@ export function realtimeServerEventInputAudioBufferCommittedSerializer(
   };
 }
 
-
 export function realtimeServerEventInputAudioBufferCommittedDeserializer(
   item: any,
 ): RealtimeServerEventInputAudioBufferCommitted {
@@ -23607,7 +23026,6 @@ export function realtimeServerEventInputAudioBufferCommittedDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /**
  * Sent by the server when in `server_vad` mode to indicate that speech has been
@@ -23636,7 +23054,6 @@ export interface RealtimeServerEventInputAudioBufferSpeechStarted extends Realti
   item_id: string;
 }
 
-
 export function realtimeServerEventInputAudioBufferSpeechStartedSerializer(
   item: RealtimeServerEventInputAudioBufferSpeechStarted,
 ): any {
@@ -23648,7 +23065,6 @@ export function realtimeServerEventInputAudioBufferSpeechStartedSerializer(
   };
 }
 
-
 export function realtimeServerEventInputAudioBufferSpeechStartedDeserializer(
   item: any,
 ): RealtimeServerEventInputAudioBufferSpeechStarted {
@@ -23659,7 +23075,6 @@ export function realtimeServerEventInputAudioBufferSpeechStartedDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /**
  * Returned in `server_vad` mode when the server detects the end of speech in
@@ -23681,7 +23096,6 @@ export interface RealtimeServerEventInputAudioBufferSpeechStopped extends Realti
   item_id: string;
 }
 
-
 export function realtimeServerEventInputAudioBufferSpeechStoppedSerializer(
   item: RealtimeServerEventInputAudioBufferSpeechStopped,
 ): any {
@@ -23693,7 +23107,6 @@ export function realtimeServerEventInputAudioBufferSpeechStoppedSerializer(
   };
 }
 
-
 export function realtimeServerEventInputAudioBufferSpeechStoppedDeserializer(
   item: any,
 ): RealtimeServerEventInputAudioBufferSpeechStopped {
@@ -23704,7 +23117,6 @@ export function realtimeServerEventInputAudioBufferSpeechStoppedDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /**
  * Emitted at the beginning of a Response to indicate the updated rate limits.
@@ -23721,7 +23133,6 @@ export interface RealtimeServerEventRateLimitsUpdated extends RealtimeServerEven
   rate_limits: RealtimeServerEventRateLimitsUpdatedRateLimits[];
 }
 
-
 export function realtimeServerEventRateLimitsUpdatedSerializer(
   item: RealtimeServerEventRateLimitsUpdated,
 ): any {
@@ -23731,7 +23142,6 @@ export function realtimeServerEventRateLimitsUpdatedSerializer(
     rate_limits: realtimeServerEventRateLimitsUpdatedRateLimitsArraySerializer(item["rate_limits"]),
   };
 }
-
 
 export function realtimeServerEventRateLimitsUpdatedDeserializer(
   item: any,
@@ -23745,7 +23155,6 @@ export function realtimeServerEventRateLimitsUpdatedDeserializer(
   };
 }
 
-
 export function realtimeServerEventRateLimitsUpdatedRateLimitsArraySerializer(
   result: Array<RealtimeServerEventRateLimitsUpdatedRateLimits>,
 ): any[] {
@@ -23753,7 +23162,6 @@ export function realtimeServerEventRateLimitsUpdatedRateLimitsArraySerializer(
     return realtimeServerEventRateLimitsUpdatedRateLimitsSerializer(item);
   });
 }
-
 
 export function realtimeServerEventRateLimitsUpdatedRateLimitsArrayDeserializer(
   result: Array<RealtimeServerEventRateLimitsUpdatedRateLimits>,
@@ -23763,7 +23171,6 @@ export function realtimeServerEventRateLimitsUpdatedRateLimitsArrayDeserializer(
   });
 }
 
-
 /** model interface RealtimeServerEventRateLimitsUpdatedRateLimits */
 export interface RealtimeServerEventRateLimitsUpdatedRateLimits {
   name?: "requests" | "tokens";
@@ -23771,7 +23178,6 @@ export interface RealtimeServerEventRateLimitsUpdatedRateLimits {
   remaining?: number;
   reset_seconds?: number;
 }
-
 
 export function realtimeServerEventRateLimitsUpdatedRateLimitsSerializer(
   item: RealtimeServerEventRateLimitsUpdatedRateLimits,
@@ -23784,7 +23190,6 @@ export function realtimeServerEventRateLimitsUpdatedRateLimitsSerializer(
   };
 }
 
-
 export function realtimeServerEventRateLimitsUpdatedRateLimitsDeserializer(
   item: any,
 ): RealtimeServerEventRateLimitsUpdatedRateLimits {
@@ -23795,7 +23200,6 @@ export function realtimeServerEventRateLimitsUpdatedRateLimitsDeserializer(
     reset_seconds: item["reset_seconds"],
   };
 }
-
 
 /** Returned when the model-generated audio is updated. */
 export interface RealtimeServerEventResponseAudioDelta extends RealtimeServerEvent {
@@ -23815,7 +23219,6 @@ export interface RealtimeServerEventResponseAudioDelta extends RealtimeServerEve
   delta: Uint8Array;
 }
 
-
 export function realtimeServerEventResponseAudioDeltaSerializer(
   item: RealtimeServerEventResponseAudioDelta,
 ): any {
@@ -23829,7 +23232,6 @@ export function realtimeServerEventResponseAudioDeltaSerializer(
     delta: uint8ArrayToString(item["delta"], "base64"),
   };
 }
-
 
 export function realtimeServerEventResponseAudioDeltaDeserializer(
   item: any,
@@ -23847,7 +23249,6 @@ export function realtimeServerEventResponseAudioDeltaDeserializer(
         : item["delta"],
   };
 }
-
 
 /**
  * Returned when the model-generated audio is done. Also emitted when a Response
@@ -23868,7 +23269,6 @@ export interface RealtimeServerEventResponseAudioDone extends RealtimeServerEven
   content_index: number;
 }
 
-
 export function realtimeServerEventResponseAudioDoneSerializer(
   item: RealtimeServerEventResponseAudioDone,
 ): any {
@@ -23882,7 +23282,6 @@ export function realtimeServerEventResponseAudioDoneSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseAudioDoneDeserializer(
   item: any,
 ): RealtimeServerEventResponseAudioDone {
@@ -23895,7 +23294,6 @@ export function realtimeServerEventResponseAudioDoneDeserializer(
     content_index: item["content_index"],
   };
 }
-
 
 /** Returned when the model-generated transcription of audio output is updated. */
 export interface RealtimeServerEventResponseAudioTranscriptDelta extends RealtimeServerEvent {
@@ -23915,7 +23313,6 @@ export interface RealtimeServerEventResponseAudioTranscriptDelta extends Realtim
   delta: string;
 }
 
-
 export function realtimeServerEventResponseAudioTranscriptDeltaSerializer(
   item: RealtimeServerEventResponseAudioTranscriptDelta,
 ): any {
@@ -23930,7 +23327,6 @@ export function realtimeServerEventResponseAudioTranscriptDeltaSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseAudioTranscriptDeltaDeserializer(
   item: any,
 ): RealtimeServerEventResponseAudioTranscriptDelta {
@@ -23944,7 +23340,6 @@ export function realtimeServerEventResponseAudioTranscriptDeltaDeserializer(
     delta: item["delta"],
   };
 }
-
 
 /**
  * Returned when the model-generated transcription of audio output is done
@@ -23968,7 +23363,6 @@ export interface RealtimeServerEventResponseAudioTranscriptDone extends Realtime
   transcript: string;
 }
 
-
 export function realtimeServerEventResponseAudioTranscriptDoneSerializer(
   item: RealtimeServerEventResponseAudioTranscriptDone,
 ): any {
@@ -23983,7 +23377,6 @@ export function realtimeServerEventResponseAudioTranscriptDoneSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseAudioTranscriptDoneDeserializer(
   item: any,
 ): RealtimeServerEventResponseAudioTranscriptDone {
@@ -23997,7 +23390,6 @@ export function realtimeServerEventResponseAudioTranscriptDoneDeserializer(
     transcript: item["transcript"],
   };
 }
-
 
 /**
  * Returned when a new content part is added to an assistant message item during
@@ -24020,7 +23412,6 @@ export interface RealtimeServerEventResponseContentPartAdded extends RealtimeSer
   part: RealtimeServerEventResponseContentPartAddedPart;
 }
 
-
 export function realtimeServerEventResponseContentPartAddedSerializer(
   item: RealtimeServerEventResponseContentPartAdded,
 ): any {
@@ -24034,7 +23425,6 @@ export function realtimeServerEventResponseContentPartAddedSerializer(
     part: realtimeServerEventResponseContentPartAddedPartSerializer(item["part"]),
   };
 }
-
 
 export function realtimeServerEventResponseContentPartAddedDeserializer(
   item: any,
@@ -24050,7 +23440,6 @@ export function realtimeServerEventResponseContentPartAddedDeserializer(
   };
 }
 
-
 /** model interface RealtimeServerEventResponseContentPartAddedPart */
 export interface RealtimeServerEventResponseContentPartAddedPart {
   type?: "audio" | "text";
@@ -24058,7 +23447,6 @@ export interface RealtimeServerEventResponseContentPartAddedPart {
   audio?: string;
   transcript?: string;
 }
-
 
 export function realtimeServerEventResponseContentPartAddedPartSerializer(
   item: RealtimeServerEventResponseContentPartAddedPart,
@@ -24071,7 +23459,6 @@ export function realtimeServerEventResponseContentPartAddedPartSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseContentPartAddedPartDeserializer(
   item: any,
 ): RealtimeServerEventResponseContentPartAddedPart {
@@ -24082,7 +23469,6 @@ export function realtimeServerEventResponseContentPartAddedPartDeserializer(
     transcript: item["transcript"],
   };
 }
-
 
 /**
  * Returned when a content part is done streaming in an assistant message item.
@@ -24105,7 +23491,6 @@ export interface RealtimeServerEventResponseContentPartDone extends RealtimeServ
   part: RealtimeServerEventResponseContentPartDonePart;
 }
 
-
 export function realtimeServerEventResponseContentPartDoneSerializer(
   item: RealtimeServerEventResponseContentPartDone,
 ): any {
@@ -24119,7 +23504,6 @@ export function realtimeServerEventResponseContentPartDoneSerializer(
     part: realtimeServerEventResponseContentPartDonePartSerializer(item["part"]),
   };
 }
-
 
 export function realtimeServerEventResponseContentPartDoneDeserializer(
   item: any,
@@ -24135,7 +23519,6 @@ export function realtimeServerEventResponseContentPartDoneDeserializer(
   };
 }
 
-
 /** model interface RealtimeServerEventResponseContentPartDonePart */
 export interface RealtimeServerEventResponseContentPartDonePart {
   type?: "audio" | "text";
@@ -24145,7 +23528,6 @@ export interface RealtimeServerEventResponseContentPartDonePart {
   /** The audio format, when this is an audio content part. */
   format?: RealtimeAudioFormatsUnion;
 }
-
 
 export function realtimeServerEventResponseContentPartDonePartSerializer(
   item: RealtimeServerEventResponseContentPartDonePart,
@@ -24158,7 +23540,6 @@ export function realtimeServerEventResponseContentPartDonePartSerializer(
     format: !item["format"] ? item["format"] : realtimeAudioFormatsUnionSerializer(item["format"]),
   };
 }
-
 
 export function realtimeServerEventResponseContentPartDonePartDeserializer(
   item: any,
@@ -24174,7 +23555,6 @@ export function realtimeServerEventResponseContentPartDonePartDeserializer(
   };
 }
 
-
 /**
  * Returned when a new Response is created. The first event of response creation,
  * where the response is in an initial state of `in_progress`.
@@ -24187,7 +23567,6 @@ export interface RealtimeServerEventResponseCreated extends RealtimeServerEvent 
   response: VoiceAgentRealtimeResponse;
 }
 
-
 export function realtimeServerEventResponseCreatedSerializer(
   item: RealtimeServerEventResponseCreated,
 ): any {
@@ -24197,7 +23576,6 @@ export function realtimeServerEventResponseCreatedSerializer(
     response: voiceAgentRealtimeResponseSerializer(item["response"]),
   };
 }
-
 
 export function realtimeServerEventResponseCreatedDeserializer(
   item: any,
@@ -24209,7 +23587,6 @@ export function realtimeServerEventResponseCreatedDeserializer(
   };
 }
 
-
 /** A live realtime response returned by the voice-agent service in both `response.created` and `response.done` events. */
 export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
   /** The audio configuration used by the live response, including flat voice provider, locale, and format fields under `output`. */
@@ -24217,7 +23594,6 @@ export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBa
   /** The items produced by the live response. */
   output?: RealtimeConversationItemUnion[];
 }
-
 
 export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeResponse): any {
   return {
@@ -24245,7 +23621,6 @@ export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeRes
   };
 }
 
-
 export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRealtimeResponse {
   return {
     id: item["id"],
@@ -24272,7 +23647,6 @@ export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRea
   };
 }
 
-
 /**
  * Returned when a Response is done streaming. Always emitted, no matter the
  * final state. The Response object included in the `response.done` event will
@@ -24290,7 +23664,6 @@ export interface RealtimeServerEventResponseDone extends RealtimeServerEvent {
   response: VoiceAgentRealtimeResponse;
 }
 
-
 export function realtimeServerEventResponseDoneSerializer(
   item: RealtimeServerEventResponseDone,
 ): any {
@@ -24301,7 +23674,6 @@ export function realtimeServerEventResponseDoneSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseDoneDeserializer(
   item: any,
 ): RealtimeServerEventResponseDone {
@@ -24311,7 +23683,6 @@ export function realtimeServerEventResponseDoneDeserializer(
     response: voiceAgentRealtimeResponseDeserializer(item["response"]),
   };
 }
-
 
 /** Returned when the model-generated function call arguments are updated. */
 export interface RealtimeServerEventResponseFunctionCallArgumentsDelta extends RealtimeServerEvent {
@@ -24331,7 +23702,6 @@ export interface RealtimeServerEventResponseFunctionCallArgumentsDelta extends R
   delta: string;
 }
 
-
 export function realtimeServerEventResponseFunctionCallArgumentsDeltaSerializer(
   item: RealtimeServerEventResponseFunctionCallArgumentsDelta,
 ): any {
@@ -24346,7 +23716,6 @@ export function realtimeServerEventResponseFunctionCallArgumentsDeltaSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseFunctionCallArgumentsDeltaDeserializer(
   item: any,
 ): RealtimeServerEventResponseFunctionCallArgumentsDelta {
@@ -24360,7 +23729,6 @@ export function realtimeServerEventResponseFunctionCallArgumentsDeltaDeserialize
     delta: item["delta"],
   };
 }
-
 
 /**
  * Returned when the model-generated function call arguments are done streaming.
@@ -24385,7 +23753,6 @@ export interface RealtimeServerEventResponseFunctionCallArgumentsDone extends Re
   arguments: string;
 }
 
-
 export function realtimeServerEventResponseFunctionCallArgumentsDoneSerializer(
   item: RealtimeServerEventResponseFunctionCallArgumentsDone,
 ): any {
@@ -24400,7 +23767,6 @@ export function realtimeServerEventResponseFunctionCallArgumentsDoneSerializer(
     arguments: item["arguments"],
   };
 }
-
 
 export function realtimeServerEventResponseFunctionCallArgumentsDoneDeserializer(
   item: any,
@@ -24417,7 +23783,6 @@ export function realtimeServerEventResponseFunctionCallArgumentsDoneDeserializer
   };
 }
 
-
 /** Returned when a new Item is created during Response generation. */
 export interface RealtimeServerEventResponseOutputItemAdded extends RealtimeServerEvent {
   /** The unique ID of the server event. */
@@ -24431,7 +23796,6 @@ export interface RealtimeServerEventResponseOutputItemAdded extends RealtimeServ
   item: RealtimeConversationItemUnion;
 }
 
-
 export function realtimeServerEventResponseOutputItemAddedSerializer(
   item: RealtimeServerEventResponseOutputItemAdded,
 ): any {
@@ -24444,7 +23808,6 @@ export function realtimeServerEventResponseOutputItemAddedSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseOutputItemAddedDeserializer(
   item: any,
 ): RealtimeServerEventResponseOutputItemAdded {
@@ -24456,7 +23819,6 @@ export function realtimeServerEventResponseOutputItemAddedDeserializer(
     item: realtimeConversationItemUnionDeserializer(item["item"]),
   };
 }
-
 
 /**
  * Returned when an Item is done streaming. Also emitted when a Response is
@@ -24474,7 +23836,6 @@ export interface RealtimeServerEventResponseOutputItemDone extends RealtimeServe
   item: RealtimeConversationItemUnion;
 }
 
-
 export function realtimeServerEventResponseOutputItemDoneSerializer(
   item: RealtimeServerEventResponseOutputItemDone,
 ): any {
@@ -24487,7 +23848,6 @@ export function realtimeServerEventResponseOutputItemDoneSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseOutputItemDoneDeserializer(
   item: any,
 ): RealtimeServerEventResponseOutputItemDone {
@@ -24499,7 +23859,6 @@ export function realtimeServerEventResponseOutputItemDoneDeserializer(
     item: realtimeConversationItemUnionDeserializer(item["item"]),
   };
 }
-
 
 /** Returned when the text value of an "output_text" content part is updated. */
 export interface RealtimeServerEventResponseTextDelta extends RealtimeServerEvent {
@@ -24519,7 +23878,6 @@ export interface RealtimeServerEventResponseTextDelta extends RealtimeServerEven
   delta: string;
 }
 
-
 export function realtimeServerEventResponseTextDeltaSerializer(
   item: RealtimeServerEventResponseTextDelta,
 ): any {
@@ -24534,7 +23892,6 @@ export function realtimeServerEventResponseTextDeltaSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseTextDeltaDeserializer(
   item: any,
 ): RealtimeServerEventResponseTextDelta {
@@ -24548,7 +23905,6 @@ export function realtimeServerEventResponseTextDeltaDeserializer(
     delta: item["delta"],
   };
 }
-
 
 /**
  * Returned when the text value of an "output_text" content part is done streaming. Also
@@ -24571,7 +23927,6 @@ export interface RealtimeServerEventResponseTextDone extends RealtimeServerEvent
   text: string;
 }
 
-
 export function realtimeServerEventResponseTextDoneSerializer(
   item: RealtimeServerEventResponseTextDone,
 ): any {
@@ -24586,7 +23941,6 @@ export function realtimeServerEventResponseTextDoneSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseTextDoneDeserializer(
   item: any,
 ): RealtimeServerEventResponseTextDone {
@@ -24600,7 +23954,6 @@ export function realtimeServerEventResponseTextDoneDeserializer(
     text: item["text"],
   };
 }
-
 
 /**
  * Returned when a Session is created. Emitted automatically when a new
@@ -24618,7 +23971,6 @@ export interface RealtimeServerEventSessionCreated extends RealtimeServerEvent {
   conversation_id?: string;
 }
 
-
 export function realtimeServerEventSessionCreatedSerializer(
   item: RealtimeServerEventSessionCreated,
 ): any {
@@ -24629,7 +23981,6 @@ export function realtimeServerEventSessionCreatedSerializer(
     conversation_id: item["conversation_id"],
   };
 }
-
 
 export function realtimeServerEventSessionCreatedDeserializer(
   item: any,
@@ -24642,20 +23993,16 @@ export function realtimeServerEventSessionCreatedDeserializer(
   };
 }
 
-
 /** The effective session configuration returned in voice-agent session lifecycle events. */
 export type VoiceAgentSessionResponse = VoiceAgentSessionResponseConfig;
-
 
 export function voiceAgentSessionResponseSerializer(item: VoiceAgentSessionResponse): any {
   return item;
 }
 
-
 export function voiceAgentSessionResponseDeserializer(item: any): VoiceAgentSessionResponse {
   return item;
 }
-
 
 /**
  * Returned when a session is updated with a `session.update` event, unless
@@ -24670,7 +24017,6 @@ export interface RealtimeServerEventSessionUpdated extends RealtimeServerEvent {
   session: VoiceAgentSessionResponse;
 }
 
-
 export function realtimeServerEventSessionUpdatedSerializer(
   item: RealtimeServerEventSessionUpdated,
 ): any {
@@ -24681,7 +24027,6 @@ export function realtimeServerEventSessionUpdatedSerializer(
   };
 }
 
-
 export function realtimeServerEventSessionUpdatedDeserializer(
   item: any,
 ): RealtimeServerEventSessionUpdated {
@@ -24691,7 +24036,6 @@ export function realtimeServerEventSessionUpdatedDeserializer(
     session: voiceAgentSessionResponseDeserializer(item["session"]),
   };
 }
-
 
 /**
  * **WebRTC/SIP Only:** Emitted when the output audio buffer is cleared. This happens either in VAD
@@ -24709,13 +24053,11 @@ export interface RealtimeServerEventOutputAudioBufferCleared extends RealtimeSer
   response_id: string;
 }
 
-
 export function realtimeServerEventOutputAudioBufferClearedSerializer(
   item: RealtimeServerEventOutputAudioBufferCleared,
 ): any {
   return { type: item["type"], event_id: item["event_id"], response_id: item["response_id"] };
 }
-
 
 export function realtimeServerEventOutputAudioBufferClearedDeserializer(
   item: any,
@@ -24726,7 +24068,6 @@ export function realtimeServerEventOutputAudioBufferClearedDeserializer(
     response_id: item["response_id"],
   };
 }
-
 
 /**
  * Sent by the server when an Item is added to the default Conversation. This can happen in several cases:
@@ -24744,7 +24085,6 @@ export interface RealtimeServerEventConversationItemAdded extends RealtimeServer
   item: RealtimeConversationItemUnion;
 }
 
-
 export function realtimeServerEventConversationItemAddedSerializer(
   item: RealtimeServerEventConversationItemAdded,
 ): any {
@@ -24756,7 +24096,6 @@ export function realtimeServerEventConversationItemAddedSerializer(
   };
 }
 
-
 export function realtimeServerEventConversationItemAddedDeserializer(
   item: any,
 ): RealtimeServerEventConversationItemAdded {
@@ -24767,7 +24106,6 @@ export function realtimeServerEventConversationItemAddedDeserializer(
     item: realtimeConversationItemUnionDeserializer(item["item"]),
   };
 }
-
 
 /**
  * Returned when a conversation item is finalized.
@@ -24782,7 +24120,6 @@ export interface RealtimeServerEventConversationItemDone extends RealtimeServerE
   item: RealtimeConversationItemUnion;
 }
 
-
 export function realtimeServerEventConversationItemDoneSerializer(
   item: RealtimeServerEventConversationItemDone,
 ): any {
@@ -24794,7 +24131,6 @@ export function realtimeServerEventConversationItemDoneSerializer(
   };
 }
 
-
 export function realtimeServerEventConversationItemDoneDeserializer(
   item: any,
 ): RealtimeServerEventConversationItemDone {
@@ -24805,7 +24141,6 @@ export function realtimeServerEventConversationItemDoneDeserializer(
     item: realtimeConversationItemUnionDeserializer(item["item"]),
   };
 }
-
 
 /**
  * Returned when the Server VAD timeout is triggered for the input audio buffer. This is configured
@@ -24833,7 +24168,6 @@ export interface RealtimeServerEventInputAudioBufferTimeoutTriggered extends Rea
   item_id: string;
 }
 
-
 export function realtimeServerEventInputAudioBufferTimeoutTriggeredSerializer(
   item: RealtimeServerEventInputAudioBufferTimeoutTriggered,
 ): any {
@@ -24846,7 +24180,6 @@ export function realtimeServerEventInputAudioBufferTimeoutTriggeredSerializer(
   };
 }
 
-
 export function realtimeServerEventInputAudioBufferTimeoutTriggeredDeserializer(
   item: any,
 ): RealtimeServerEventInputAudioBufferTimeoutTriggered {
@@ -24858,7 +24191,6 @@ export function realtimeServerEventInputAudioBufferTimeoutTriggeredDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /** Returned when an input audio transcription segment is identified for an item. */
 export interface RealtimeServerEventConversationItemInputAudioTranscriptionSegment extends RealtimeServerEvent {
@@ -24882,7 +24214,6 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionSegme
   end: number;
 }
 
-
 export function realtimeServerEventConversationItemInputAudioTranscriptionSegmentSerializer(
   item: RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
 ): any {
@@ -24898,7 +24229,6 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionSegmen
     end: item["end"],
   };
 }
-
 
 export function realtimeServerEventConversationItemInputAudioTranscriptionSegmentDeserializer(
   item: any,
@@ -24916,7 +24246,6 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionSegmen
   };
 }
 
-
 /** Returned when listing MCP tools is in progress for an item. */
 export interface RealtimeServerEventMCPListToolsInProgress extends RealtimeServerEvent {
   /** The unique ID of the server event. */
@@ -24927,13 +24256,11 @@ export interface RealtimeServerEventMCPListToolsInProgress extends RealtimeServe
   item_id: string;
 }
 
-
 export function realtimeServerEventMCPListToolsInProgressSerializer(
   item: RealtimeServerEventMCPListToolsInProgress,
 ): any {
   return { type: item["type"], event_id: item["event_id"], item_id: item["item_id"] };
 }
-
 
 export function realtimeServerEventMCPListToolsInProgressDeserializer(
   item: any,
@@ -24945,7 +24272,6 @@ export function realtimeServerEventMCPListToolsInProgressDeserializer(
   };
 }
 
-
 /** Returned when listing MCP tools has completed for an item. */
 export interface RealtimeServerEventMCPListToolsCompleted extends RealtimeServerEvent {
   /** The unique ID of the server event. */
@@ -24956,13 +24282,11 @@ export interface RealtimeServerEventMCPListToolsCompleted extends RealtimeServer
   item_id: string;
 }
 
-
 export function realtimeServerEventMCPListToolsCompletedSerializer(
   item: RealtimeServerEventMCPListToolsCompleted,
 ): any {
   return { type: item["type"], event_id: item["event_id"], item_id: item["item_id"] };
 }
-
 
 export function realtimeServerEventMCPListToolsCompletedDeserializer(
   item: any,
@@ -24974,7 +24298,6 @@ export function realtimeServerEventMCPListToolsCompletedDeserializer(
   };
 }
 
-
 /** Returned when listing MCP tools has failed for an item. */
 export interface RealtimeServerEventMCPListToolsFailed extends RealtimeServerEvent {
   /** The unique ID of the server event. */
@@ -24985,13 +24308,11 @@ export interface RealtimeServerEventMCPListToolsFailed extends RealtimeServerEve
   item_id: string;
 }
 
-
 export function realtimeServerEventMCPListToolsFailedSerializer(
   item: RealtimeServerEventMCPListToolsFailed,
 ): any {
   return { type: item["type"], event_id: item["event_id"], item_id: item["item_id"] };
 }
-
 
 export function realtimeServerEventMCPListToolsFailedDeserializer(
   item: any,
@@ -25002,7 +24323,6 @@ export function realtimeServerEventMCPListToolsFailedDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /** Returned when MCP tool call arguments are updated during response generation. */
 export interface RealtimeServerEventResponseMCPCallArgumentsDelta extends RealtimeServerEvent {
@@ -25021,7 +24341,6 @@ export interface RealtimeServerEventResponseMCPCallArgumentsDelta extends Realti
   obfuscation?: string;
 }
 
-
 export function realtimeServerEventResponseMCPCallArgumentsDeltaSerializer(
   item: RealtimeServerEventResponseMCPCallArgumentsDelta,
 ): any {
@@ -25036,7 +24355,6 @@ export function realtimeServerEventResponseMCPCallArgumentsDeltaSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseMCPCallArgumentsDeltaDeserializer(
   item: any,
 ): RealtimeServerEventResponseMCPCallArgumentsDelta {
@@ -25050,7 +24368,6 @@ export function realtimeServerEventResponseMCPCallArgumentsDeltaDeserializer(
     obfuscation: item["obfuscation"],
   };
 }
-
 
 /** Returned when MCP tool call arguments are finalized during response generation. */
 export interface RealtimeServerEventResponseMCPCallArgumentsDone extends RealtimeServerEvent {
@@ -25068,7 +24385,6 @@ export interface RealtimeServerEventResponseMCPCallArgumentsDone extends Realtim
   arguments: string;
 }
 
-
 export function realtimeServerEventResponseMCPCallArgumentsDoneSerializer(
   item: RealtimeServerEventResponseMCPCallArgumentsDone,
 ): any {
@@ -25081,7 +24397,6 @@ export function realtimeServerEventResponseMCPCallArgumentsDoneSerializer(
     arguments: item["arguments"],
   };
 }
-
 
 export function realtimeServerEventResponseMCPCallArgumentsDoneDeserializer(
   item: any,
@@ -25096,7 +24411,6 @@ export function realtimeServerEventResponseMCPCallArgumentsDoneDeserializer(
   };
 }
 
-
 /** Returned when an MCP tool call has started and is in progress. */
 export interface RealtimeServerEventResponseMCPCallInProgress extends RealtimeServerEvent {
   /** The unique ID of the server event. */
@@ -25109,7 +24423,6 @@ export interface RealtimeServerEventResponseMCPCallInProgress extends RealtimeSe
   item_id: string;
 }
 
-
 export function realtimeServerEventResponseMCPCallInProgressSerializer(
   item: RealtimeServerEventResponseMCPCallInProgress,
 ): any {
@@ -25121,7 +24434,6 @@ export function realtimeServerEventResponseMCPCallInProgressSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseMCPCallInProgressDeserializer(
   item: any,
 ): RealtimeServerEventResponseMCPCallInProgress {
@@ -25132,7 +24444,6 @@ export function realtimeServerEventResponseMCPCallInProgressDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /** Returned when an MCP tool call has completed successfully. */
 export interface RealtimeServerEventResponseMCPCallCompleted extends RealtimeServerEvent {
@@ -25146,7 +24457,6 @@ export interface RealtimeServerEventResponseMCPCallCompleted extends RealtimeSer
   item_id: string;
 }
 
-
 export function realtimeServerEventResponseMCPCallCompletedSerializer(
   item: RealtimeServerEventResponseMCPCallCompleted,
 ): any {
@@ -25158,7 +24468,6 @@ export function realtimeServerEventResponseMCPCallCompletedSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseMCPCallCompletedDeserializer(
   item: any,
 ): RealtimeServerEventResponseMCPCallCompleted {
@@ -25169,7 +24478,6 @@ export function realtimeServerEventResponseMCPCallCompletedDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /** Returned when an MCP tool call has failed. */
 export interface RealtimeServerEventResponseMCPCallFailed extends RealtimeServerEvent {
@@ -25183,7 +24491,6 @@ export interface RealtimeServerEventResponseMCPCallFailed extends RealtimeServer
   item_id: string;
 }
 
-
 export function realtimeServerEventResponseMCPCallFailedSerializer(
   item: RealtimeServerEventResponseMCPCallFailed,
 ): any {
@@ -25195,7 +24502,6 @@ export function realtimeServerEventResponseMCPCallFailedSerializer(
   };
 }
 
-
 export function realtimeServerEventResponseMCPCallFailedDeserializer(
   item: any,
 ): RealtimeServerEventResponseMCPCallFailed {
@@ -25206,7 +24512,6 @@ export function realtimeServerEventResponseMCPCallFailedDeserializer(
     item_id: item["item_id"],
   };
 }
-
 
 /** The `session.subagent.started` server event. */
 export interface VoiceAgentServerEventSessionSubagentStarted extends RealtimeServerEvent {
@@ -25222,7 +24527,6 @@ export interface VoiceAgentServerEventSessionSubagentStarted extends RealtimeSer
   subagent_name: string;
 }
 
-
 export function voiceAgentServerEventSessionSubagentStartedSerializer(
   item: VoiceAgentServerEventSessionSubagentStarted,
 ): any {
@@ -25235,7 +24539,6 @@ export function voiceAgentServerEventSessionSubagentStartedSerializer(
   };
 }
 
-
 export function voiceAgentServerEventSessionSubagentStartedDeserializer(
   item: any,
 ): VoiceAgentServerEventSessionSubagentStarted {
@@ -25247,7 +24550,6 @@ export function voiceAgentServerEventSessionSubagentStartedDeserializer(
     subagent_name: item["subagent_name"],
   };
 }
-
 
 /** The `session.subagent.aborted` server event. */
 export interface VoiceAgentServerEventSessionSubagentAborted extends RealtimeServerEvent {
@@ -25265,7 +24567,6 @@ export interface VoiceAgentServerEventSessionSubagentAborted extends RealtimeSer
   reason: VoiceAgentSubagentAbortReason;
 }
 
-
 export function voiceAgentServerEventSessionSubagentAbortedSerializer(
   item: VoiceAgentServerEventSessionSubagentAborted,
 ): any {
@@ -25278,7 +24579,6 @@ export function voiceAgentServerEventSessionSubagentAbortedSerializer(
     reason: item["reason"],
   };
 }
-
 
 export function voiceAgentServerEventSessionSubagentAbortedDeserializer(
   item: any,
@@ -25293,11 +24593,9 @@ export function voiceAgentServerEventSessionSubagentAbortedDeserializer(
   };
 }
 
-
 /** The reason a subagent consultation was aborted. */
 export type VoiceAgentSubagentAbortReason =
   "unknown_target" | "timeout" | "cancelled" | "stopped_by_user" | "superseded" | "failed";
-
 
 /** The `warning` server event. */
 export interface VoiceAgentServerEventWarning extends RealtimeServerEvent {
@@ -25305,7 +24603,6 @@ export interface VoiceAgentServerEventWarning extends RealtimeServerEvent {
   event_id: string;
   warning: VoiceAgentServerEventWarningDetails;
 }
-
 
 export function voiceAgentServerEventWarningSerializer(item: VoiceAgentServerEventWarning): any {
   return {
@@ -25315,7 +24612,6 @@ export function voiceAgentServerEventWarningSerializer(item: VoiceAgentServerEve
   };
 }
 
-
 export function voiceAgentServerEventWarningDeserializer(item: any): VoiceAgentServerEventWarning {
   return {
     type: item["type"],
@@ -25324,7 +24620,6 @@ export function voiceAgentServerEventWarningDeserializer(item: any): VoiceAgentS
   };
 }
 
-
 /** Details of a non-fatal warning. */
 export interface VoiceAgentServerEventWarningDetails {
   message: string;
@@ -25332,13 +24627,11 @@ export interface VoiceAgentServerEventWarningDetails {
   param?: string;
 }
 
-
 export function voiceAgentServerEventWarningDetailsSerializer(
   item: VoiceAgentServerEventWarningDetails,
 ): any {
   return { message: item["message"], code: item["code"], param: item["param"] };
 }
-
 
 export function voiceAgentServerEventWarningDetailsDeserializer(
   item: any,
@@ -25350,7 +24643,6 @@ export function voiceAgentServerEventWarningDetailsDeserializer(
   };
 }
 
-
 /** The `session.avatar.connecting` server event. */
 export interface VoiceAgentServerEventSessionAvatarConnecting extends RealtimeServerEvent {
   type: "session.avatar.connecting";
@@ -25359,13 +24651,11 @@ export interface VoiceAgentServerEventSessionAvatarConnecting extends RealtimeSe
   server_sdp: string;
 }
 
-
 export function voiceAgentServerEventSessionAvatarConnectingSerializer(
   item: VoiceAgentServerEventSessionAvatarConnecting,
 ): any {
   return { type: item["type"], event_id: item["event_id"], server_sdp: item["server_sdp"] };
 }
-
 
 export function voiceAgentServerEventSessionAvatarConnectingDeserializer(
   item: any,
@@ -25376,7 +24666,6 @@ export function voiceAgentServerEventSessionAvatarConnectingDeserializer(
     server_sdp: item["server_sdp"],
   };
 }
-
 
 /** The `rtc.call.sdp.created` server event: the SDP answer that completes WebRTC negotiation. */
 export interface VoiceAgentServerEventRtcCallSdpCreated extends RealtimeServerEvent {
@@ -25390,7 +24679,6 @@ export interface VoiceAgentServerEventRtcCallSdpCreated extends RealtimeServerEv
   sdp_answer: string;
 }
 
-
 export function voiceAgentServerEventRtcCallSdpCreatedSerializer(
   item: VoiceAgentServerEventRtcCallSdpCreated,
 ): any {
@@ -25402,7 +24690,6 @@ export function voiceAgentServerEventRtcCallSdpCreatedSerializer(
   };
 }
 
-
 export function voiceAgentServerEventRtcCallSdpCreatedDeserializer(
   item: any,
 ): VoiceAgentServerEventRtcCallSdpCreated {
@@ -25413,7 +24700,6 @@ export function voiceAgentServerEventRtcCallSdpCreatedDeserializer(
     sdp_answer: item["sdp_answer"],
   };
 }
-
 
 /** The `rtc.call.error` server event: a WebRTC signaling failure. */
 export interface VoiceAgentServerEventRtcCallError extends RealtimeServerEvent {
@@ -25429,7 +24715,6 @@ export interface VoiceAgentServerEventRtcCallError extends RealtimeServerEvent {
   error: VoiceAgentRtcCallErrorDetails;
 }
 
-
 export function voiceAgentServerEventRtcCallErrorSerializer(
   item: VoiceAgentServerEventRtcCallError,
 ): any {
@@ -25441,7 +24726,6 @@ export function voiceAgentServerEventRtcCallErrorSerializer(
     error: voiceAgentRtcCallErrorDetailsSerializer(item["error"]),
   };
 }
-
 
 export function voiceAgentServerEventRtcCallErrorDeserializer(
   item: any,
@@ -25455,7 +24739,6 @@ export function voiceAgentServerEventRtcCallErrorDeserializer(
   };
 }
 
-
 /** Details of a WebRTC signaling error. */
 export interface VoiceAgentRtcCallErrorDetails {
   /** The error category, following the VoiceLive wire contract: `invalid_request_error` for a client-side signaling fault (for example, a malformed SDP offer) or `server_error` for a service-side failure. Additional categories may be added over time. */
@@ -25466,11 +24749,9 @@ export interface VoiceAgentRtcCallErrorDetails {
   message: string;
 }
 
-
 export function voiceAgentRtcCallErrorDetailsSerializer(item: VoiceAgentRtcCallErrorDetails): any {
   return { type: item["type"], code: item["code"], message: item["message"] };
 }
-
 
 export function voiceAgentRtcCallErrorDetailsDeserializer(
   item: any,
@@ -25482,7 +24763,6 @@ export function voiceAgentRtcCallErrorDetailsDeserializer(
   };
 }
 
-
 /** The `session.avatar.switch_to_speaking` server event. */
 export interface VoiceAgentServerEventSessionAvatarSwitchToSpeaking extends RealtimeServerEvent {
   type: "session.avatar.switch_to_speaking";
@@ -25490,13 +24770,11 @@ export interface VoiceAgentServerEventSessionAvatarSwitchToSpeaking extends Real
   turn_id?: string;
 }
 
-
 export function voiceAgentServerEventSessionAvatarSwitchToSpeakingSerializer(
   item: VoiceAgentServerEventSessionAvatarSwitchToSpeaking,
 ): any {
   return { type: item["type"], event_id: item["event_id"], turn_id: item["turn_id"] };
 }
-
 
 export function voiceAgentServerEventSessionAvatarSwitchToSpeakingDeserializer(
   item: any,
@@ -25508,7 +24786,6 @@ export function voiceAgentServerEventSessionAvatarSwitchToSpeakingDeserializer(
   };
 }
 
-
 /** The `session.avatar.switch_to_idle` server event. */
 export interface VoiceAgentServerEventSessionAvatarSwitchToIdle extends RealtimeServerEvent {
   type: "session.avatar.switch_to_idle";
@@ -25516,13 +24793,11 @@ export interface VoiceAgentServerEventSessionAvatarSwitchToIdle extends Realtime
   turn_id?: string;
 }
 
-
 export function voiceAgentServerEventSessionAvatarSwitchToIdleSerializer(
   item: VoiceAgentServerEventSessionAvatarSwitchToIdle,
 ): any {
   return { type: item["type"], event_id: item["event_id"], turn_id: item["turn_id"] };
 }
-
 
 export function voiceAgentServerEventSessionAvatarSwitchToIdleDeserializer(
   item: any,
@@ -25533,7 +24808,6 @@ export function voiceAgentServerEventSessionAvatarSwitchToIdleDeserializer(
     turn_id: item["turn_id"],
   };
 }
-
 
 /** The `response.audio_timestamp.delta` server event. */
 export interface VoiceAgentServerEventResponseAudioTimestampDelta extends RealtimeServerEvent {
@@ -25548,7 +24822,6 @@ export interface VoiceAgentServerEventResponseAudioTimestampDelta extends Realti
   text: string;
   timestamp_type: "word";
 }
-
 
 export function voiceAgentServerEventResponseAudioTimestampDeltaSerializer(
   item: VoiceAgentServerEventResponseAudioTimestampDelta,
@@ -25567,7 +24840,6 @@ export function voiceAgentServerEventResponseAudioTimestampDeltaSerializer(
   };
 }
 
-
 export function voiceAgentServerEventResponseAudioTimestampDeltaDeserializer(
   item: any,
 ): VoiceAgentServerEventResponseAudioTimestampDelta {
@@ -25585,7 +24857,6 @@ export function voiceAgentServerEventResponseAudioTimestampDeltaDeserializer(
   };
 }
 
-
 /** The `response.audio_timestamp.done` server event. */
 export interface VoiceAgentServerEventResponseAudioTimestampDone extends RealtimeServerEvent {
   type: "response.audio_timestamp.done";
@@ -25595,7 +24866,6 @@ export interface VoiceAgentServerEventResponseAudioTimestampDone extends Realtim
   output_index: number;
   content_index: number;
 }
-
 
 export function voiceAgentServerEventResponseAudioTimestampDoneSerializer(
   item: VoiceAgentServerEventResponseAudioTimestampDone,
@@ -25610,7 +24880,6 @@ export function voiceAgentServerEventResponseAudioTimestampDoneSerializer(
   };
 }
 
-
 export function voiceAgentServerEventResponseAudioTimestampDoneDeserializer(
   item: any,
 ): VoiceAgentServerEventResponseAudioTimestampDone {
@@ -25623,7 +24892,6 @@ export function voiceAgentServerEventResponseAudioTimestampDoneDeserializer(
     content_index: item["content_index"],
   };
 }
-
 
 /** The `response.animation_blendshapes.delta` server event. */
 export interface VoiceAgentServerEventResponseAnimationBlendshapesDelta extends RealtimeServerEvent {
@@ -25639,7 +24907,6 @@ export interface VoiceAgentServerEventResponseAnimationBlendshapesDelta extends 
   frame_index: number;
 }
 
-
 export function voiceAgentServerEventResponseAnimationBlendshapesDeltaSerializer(
   item: VoiceAgentServerEventResponseAnimationBlendshapesDelta,
 ): any {
@@ -25650,15 +24917,14 @@ export function voiceAgentServerEventResponseAnimationBlendshapesDeltaSerializer
     item_id: item["item_id"],
     output_index: item["output_index"],
     content_index: item["content_index"],
-    frames: item["frames"].map((p: any) => {
-      return p.map((p: any) => {
-        return p;
+    frames: item["frames"].map((frame: number[]) => {
+      return frame.map((weight: number) => {
+        return weight;
       });
     }),
     frame_index: item["frame_index"],
   };
 }
-
 
 export function voiceAgentServerEventResponseAnimationBlendshapesDeltaDeserializer(
   item: any,
@@ -25679,7 +24945,6 @@ export function voiceAgentServerEventResponseAnimationBlendshapesDeltaDeserializ
   };
 }
 
-
 /** The `response.animation_blendshapes.done` server event. */
 export interface VoiceAgentServerEventResponseAnimationBlendshapesDone extends RealtimeServerEvent {
   type: "response.animation_blendshapes.done";
@@ -25688,7 +24953,6 @@ export interface VoiceAgentServerEventResponseAnimationBlendshapesDone extends R
   item_id: string;
   output_index: number;
 }
-
 
 export function voiceAgentServerEventResponseAnimationBlendshapesDoneSerializer(
   item: VoiceAgentServerEventResponseAnimationBlendshapesDone,
@@ -25702,7 +24966,6 @@ export function voiceAgentServerEventResponseAnimationBlendshapesDoneSerializer(
   };
 }
 
-
 export function voiceAgentServerEventResponseAnimationBlendshapesDoneDeserializer(
   item: any,
 ): VoiceAgentServerEventResponseAnimationBlendshapesDone {
@@ -25715,7 +24978,6 @@ export function voiceAgentServerEventResponseAnimationBlendshapesDoneDeserialize
   };
 }
 
-
 /** The `response.animation_viseme.delta` server event. */
 export interface VoiceAgentServerEventResponseAnimationVisemeDelta extends RealtimeServerEvent {
   type: "response.animation_viseme.delta";
@@ -25727,7 +24989,6 @@ export interface VoiceAgentServerEventResponseAnimationVisemeDelta extends Realt
   audio_offset_ms: number;
   viseme_id: number;
 }
-
 
 export function voiceAgentServerEventResponseAnimationVisemeDeltaSerializer(
   item: VoiceAgentServerEventResponseAnimationVisemeDelta,
@@ -25744,7 +25005,6 @@ export function voiceAgentServerEventResponseAnimationVisemeDeltaSerializer(
   };
 }
 
-
 export function voiceAgentServerEventResponseAnimationVisemeDeltaDeserializer(
   item: any,
 ): VoiceAgentServerEventResponseAnimationVisemeDelta {
@@ -25760,7 +25020,6 @@ export function voiceAgentServerEventResponseAnimationVisemeDeltaDeserializer(
   };
 }
 
-
 /** The `response.animation_viseme.done` server event. */
 export interface VoiceAgentServerEventResponseAnimationVisemeDone extends RealtimeServerEvent {
   type: "response.animation_viseme.done";
@@ -25770,7 +25029,6 @@ export interface VoiceAgentServerEventResponseAnimationVisemeDone extends Realti
   output_index: number;
   content_index: number;
 }
-
 
 export function voiceAgentServerEventResponseAnimationVisemeDoneSerializer(
   item: VoiceAgentServerEventResponseAnimationVisemeDone,
@@ -25785,7 +25043,6 @@ export function voiceAgentServerEventResponseAnimationVisemeDoneSerializer(
   };
 }
 
-
 export function voiceAgentServerEventResponseAnimationVisemeDoneDeserializer(
   item: any,
 ): VoiceAgentServerEventResponseAnimationVisemeDone {
@@ -25799,7 +25056,6 @@ export function voiceAgentServerEventResponseAnimationVisemeDoneDeserializer(
   };
 }
 
-
 /** The `response.video.delta` server event. */
 export interface VoiceAgentServerEventResponseVideoDelta extends RealtimeServerEvent {
   type: "response.video.delta";
@@ -25809,7 +25065,6 @@ export interface VoiceAgentServerEventResponseVideoDelta extends RealtimeServerE
   /** The base64-encoded video frame data. */
   delta: string;
 }
-
 
 export function voiceAgentServerEventResponseVideoDeltaSerializer(
   item: VoiceAgentServerEventResponseVideoDelta,
@@ -25823,7 +25078,6 @@ export function voiceAgentServerEventResponseVideoDeltaSerializer(
   };
 }
 
-
 export function voiceAgentServerEventResponseVideoDeltaDeserializer(
   item: any,
 ): VoiceAgentServerEventResponseVideoDelta {
@@ -25836,19 +25090,16 @@ export function voiceAgentServerEventResponseVideoDeltaDeserializer(
   };
 }
 
-
 /** Token usage statistics for the request. */
 export interface CreateTranscriptionResponseJsonUsage {
   type: CreateTranscriptionResponseJsonUsageType;
 }
-
 
 export function createTranscriptionResponseJsonUsageSerializer(
   item: CreateTranscriptionResponseJsonUsage,
 ): any {
   return { type: item["type"] };
 }
-
 
 export function createTranscriptionResponseJsonUsageDeserializer(
   item: any,
@@ -25858,11 +25109,9 @@ export function createTranscriptionResponseJsonUsageDeserializer(
   };
 }
 
-
 /** Alias for CreateTranscriptionResponseJsonUsageUnion */
 export type CreateTranscriptionResponseJsonUsageUnion =
   TranscriptTextUsageTokens | TranscriptTextUsageDuration | CreateTranscriptionResponseJsonUsage;
-
 
 export function createTranscriptionResponseJsonUsageUnionSerializer(
   item: CreateTranscriptionResponseJsonUsageUnion,
@@ -25879,7 +25128,6 @@ export function createTranscriptionResponseJsonUsageUnionSerializer(
   }
 }
 
-
 export function createTranscriptionResponseJsonUsageUnionDeserializer(
   item: any,
 ): CreateTranscriptionResponseJsonUsageUnion {
@@ -25895,10 +25143,8 @@ export function createTranscriptionResponseJsonUsageUnionDeserializer(
   }
 }
 
-
 /** Type of CreateTranscriptionResponseJsonUsageType */
 export type CreateTranscriptionResponseJsonUsageType = "tokens" | "duration";
-
 
 /** Properties shared by realtime responses returned by the voice-agent service. */
 export interface VoiceAgentRealtimeResponseBase {
@@ -25943,7 +25189,6 @@ export interface VoiceAgentRealtimeResponseBase {
   max_output_tokens?: number | "inf";
 }
 
-
 export function voiceAgentRealtimeResponseBaseSerializer(
   item: VoiceAgentRealtimeResponseBase,
 ): any {
@@ -25967,7 +25212,6 @@ export function voiceAgentRealtimeResponseBaseSerializer(
       : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
   };
 }
-
 
 export function voiceAgentRealtimeResponseBaseDeserializer(
   item: any,
@@ -25993,7 +25237,6 @@ export function voiceAgentRealtimeResponseBaseDeserializer(
   };
 }
 
-
 /** model interface RealtimeServerEventErrorError */
 export interface RealtimeServerEventErrorError {
   type: string;
@@ -26002,7 +25245,6 @@ export interface RealtimeServerEventErrorError {
   param?: string;
   event_id?: string;
 }
-
 
 export function realtimeServerEventErrorErrorSerializer(item: RealtimeServerEventErrorError): any {
   return {
@@ -26013,7 +25255,6 @@ export function realtimeServerEventErrorErrorSerializer(item: RealtimeServerEven
     event_id: item["event_id"],
   };
 }
-
 
 export function realtimeServerEventErrorErrorDeserializer(
   item: any,
@@ -26026,7 +25267,6 @@ export function realtimeServerEventErrorErrorDeserializer(
     event_id: item["event_id"],
   };
 }
-
 
 /**
  * Returned when an error occurs, which could be a client problem or a server
@@ -26042,7 +25282,6 @@ export interface RealtimeServerEventError {
   error: RealtimeServerEventErrorError;
 }
 
-
 export function realtimeServerEventErrorSerializer(item: RealtimeServerEventError): any {
   return {
     event_id: item["event_id"],
@@ -26050,7 +25289,6 @@ export function realtimeServerEventErrorSerializer(item: RealtimeServerEventErro
     error: realtimeServerEventErrorErrorSerializer(item["error"]),
   };
 }
-
 
 export function realtimeServerEventErrorDeserializer(item: any): RealtimeServerEventError {
   return {
@@ -26060,15 +25298,12 @@ export function realtimeServerEventErrorDeserializer(item: any): RealtimeServerE
   };
 }
 
-
 /** The kind-specific inputs for generating and creating an agent. */
 export type GenerateAgentRequest = GenerateVoiceAgentRequest;
-
 
 export function generateAgentRequestSerializer(item: GenerateAgentRequest): any {
   return item;
 }
-
 
 /** A stable v1 message sent by a client over a voice-agent WebSocket. */
 export type VoiceAgentClientEvent =
@@ -26086,16 +25321,13 @@ export type VoiceAgentClientEvent =
   | VoiceAgentClientEventSessionAvatarConnect
   | VoiceAgentClientEventRtcCallSdpCreate;
 
-
 export function voiceAgentClientEventSerializer(item: VoiceAgentClientEvent): any {
   return item;
 }
 
-
 export function voiceAgentClientEventDeserializer(item: any): VoiceAgentClientEvent {
   return item;
 }
-
 
 /** A stable v1 message sent by the service over a voice-agent WebSocket. */
 export type VoiceAgentServerEvent =
@@ -26158,38 +25390,30 @@ export type VoiceAgentServerEvent =
   | VoiceAgentServerEventResponseAnimationVisemeDone
   | VoiceAgentServerEventResponseVideoDelta;
 
-
 export function voiceAgentServerEventSerializer(item: VoiceAgentServerEvent): any {
   return item;
 }
-
 
 export function voiceAgentServerEventDeserializer(item: any): VoiceAgentServerEvent {
   return item;
 }
 
-
 /** A JSON text message exchanged over an established voice-agent WebSocket. Audio bytes are base64-encoded in JSON event fields. */
 export type VoiceAgentWebSocketMessage = VoiceAgentClientEvent | VoiceAgentServerEvent;
-
 
 export function voiceAgentWebSocketMessageSerializer(item: VoiceAgentWebSocketMessage): any {
   return item;
 }
 
-
 export function voiceAgentWebSocketMessageDeserializer(item: any): VoiceAgentWebSocketMessage {
   return item;
 }
 
-
 /** The transport used for a voice-agent connection. */
 export type VoiceAgentTransport = "websocket" | "webrtc";
 
-
 /** The WebSocket subprotocol supported by a voice-agent connection. */
 export type VoiceAgentWebSocketSubprotocol = "realtime";
-
 
 export type BetaAgentEndpointConversationsDownloadAudioResponse = {
   /**
@@ -26208,7 +25432,6 @@ export type BetaAgentEndpointConversationsDownloadAudioResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
-
 export type BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse = {
   /**
    * BROWSER ONLY
@@ -26225,7 +25448,6 @@ export type BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse = {
    */
   readableStreamBody?: NodeReadableStream;
 };
-
 
 export type BetaAgentEndpointConversationsDownloadItemAudioResponse = {
   /**

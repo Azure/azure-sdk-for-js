@@ -46,6 +46,7 @@ import {
   update,
   create,
   get,
+  generateAgent,
 } from "../../api/agents/operations.js";
 import type {
   AgentsDeleteSessionFileOptionalParams,
@@ -90,6 +91,7 @@ import type {
   AgentsUpdateOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
+  AgentsGenerateAgentOptionalParams,
 } from "../../api/agents/options.js";
 import type {
   Agent,
@@ -109,6 +111,14 @@ import type {
   GetMicrosoft365PackageResponse,
   Microsoft365PublishResponse,
   AgentsDownloadAgentCodeResponse,
+  CreateTelephonyBindingRequestUnion,
+  TelephonyBindingUnion,
+  TelephonyBindingListItemUnion,
+  UpdateTelephonyBindingRequest,
+  TelephonyCallSummary,
+  TelephonyCallRecord,
+  TelephonyTransferTargets,
+  TelephonyTransferTarget,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -628,7 +638,7 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       );
     },
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
-  
+
     replaceTelephonyTransferTargets: (
       agentName: string,
       ifMatch: string,
@@ -684,11 +694,9 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       body: CreateTelephonyBindingRequestUnion,
       options?: AgentsCreateTelephonyBindingOptionalParams,
     ) => createTelephonyBinding(context, agentName, body, options),
-    generateAgent: (
-      body: GenerateAgentRequest,
-      options?: AgentsGenerateAgentOptionalParams,
-    ) => generateAgent(context, body, options)
-};
+    generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) =>
+      generateAgent(context, body, options),
+  };
 }
 
 export function _getAgentsOperations(
@@ -699,7 +707,3 @@ export function _getAgentsOperations(
     ..._getAgents(context, tracingConfig),
   };
 }
-
-import { generateAgent } from "../../api/agents/operations.js";
-import type { AgentsGenerateAgentOptionalParams } from "../../api/agents/options.js";
-import type { CreateTelephonyBindingRequestUnion, TelephonyBindingUnion, TelephonyBindingListItemUnion, UpdateTelephonyBindingRequest, TelephonyCallSummary, TelephonyCallRecord, TelephonyTransferTargets, TelephonyTransferTarget } from "../../models/models.js";

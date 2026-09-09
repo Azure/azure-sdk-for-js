@@ -236,21 +236,13 @@ function _getBetaAgentEndpointConversations(context: AIProjectContext) {
       conversationId: string,
       itemId: string,
       options?: BetaAgentEndpointConversationsDownloadItemGeneratedAudioOptionalParams,
-    ) =>
-      downloadItemGeneratedAudio(
-        context,
-        agentName,
-        conversationId,
-        itemId,
-        options,
-      ),
+    ) => downloadItemGeneratedAudio(context, agentName, conversationId, itemId, options),
     getItemGeneratedAudio: (
       agentName: string,
       conversationId: string,
       itemId: string,
       options?: BetaAgentEndpointConversationsGetItemGeneratedAudioOptionalParams,
-    ) =>
-      getItemGeneratedAudio(context, agentName, conversationId, itemId, options),
+    ) => getItemGeneratedAudio(context, agentName, conversationId, itemId, options),
     downloadItemAudio: (
       agentName: string,
       conversationId: string,
@@ -279,8 +271,7 @@ function _getBetaAgentEndpointConversations(context: AIProjectContext) {
       conversationId: string,
       responseId: string,
       options?: BetaAgentEndpointConversationsListResponseItemsOptionalParams,
-    ) =>
-      listResponseItems(context, agentName, conversationId, responseId, options),
+    ) => listResponseItems(context, agentName, conversationId, responseId, options),
     getResponse: (
       agentName: string,
       conversationId: string,
@@ -302,10 +293,8 @@ function _getBetaAgentEndpointConversations(context: AIProjectContext) {
       conversationId: string,
       options?: BetaAgentEndpointConversationsGetOptionalParams,
     ) => get(context, agentName, conversationId, options),
-    list: (
-      agentName: string,
-      options?: BetaAgentEndpointConversationsListOptionalParams,
-    ) => list(context, agentName, options),
+    list: (agentName: string, options?: BetaAgentEndpointConversationsListOptionalParams) =>
+      list(context, agentName, options),
   };
 }
 
