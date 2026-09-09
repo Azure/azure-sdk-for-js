@@ -44,9 +44,7 @@ The package skills are intentionally nested and are not automatically loaded by 
 
 Pass the validated 40-character commit explicitly to `regenerate-from-typespec`. Always restore `tsp-location.saved.yaml` in a `finally` path if generation fails. Do not proceed to the next skill until the current skill's success criteria pass.
 
-Protected-file drift and diff3 conflict markers produced by customization are inputs to `apply-post-emitter-edits`, not reasons to publish partial emitter output. That skill must reject broad emitter rewrites, preserve existing custom behavior, resolve all markers, and remove its listed stray files before the samples, tests, and changelog skills run. Narrowly scoped protected-file edits necessary to integrate verified upstream APIs are permitted under that skill's audit and validation requirements.
-
-On resumption after emitter output has already been committed, do not regenerate blindly or discard prior output. Record the clean pre-regeneration ref and use it for generated/source/API comparisons and guard `--base-ref` arguments instead of the partially integrated `HEAD`. Reuse verified completed setup/emission work, then finish every remaining skill and validation. If the logical-commit script cannot represent already-committed output or explicitly requested guidance edits, preserve the changes and report the grouping limitation; do not reset history or publish partial integration.
+Protected-file drift and diff3 conflict markers produced by customization are inputs to `apply-post-emitter-edits`, not reasons to publish partial emitter output. That skill must restore protected files, resolve all markers, and remove its listed stray files before the samples, tests, and changelog skills run.
 
 Samples and GA tests are conditional. A step may be a documented no-op when the API diff contains no qualifying surface; state that explicitly in the pull request rather than creating placeholder files.
 
