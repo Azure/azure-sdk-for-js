@@ -10,6 +10,7 @@ import type { ServiceBusClientOptions } from "./constructorHelpers.js";
 import {
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
+  getRetryOptionsWithServiceBusDefaults,
 } from "./constructorHelpers.js";
 import { ConnectionContext } from "./connectionContext.js";
 import type {
@@ -107,7 +108,10 @@ export class ServiceBusClient {
     if (isCredential(credentialOrOptions2)) {
       const fullyQualifiedNamespace: string = fullyQualifiedNamespaceOrConnectionString1;
       const credential = credentialOrOptions2;
-      this._clientOptions = options3 || {};
+      this._clientOptions = {
+        ...options3,
+        retryOptions: getRetryOptionsWithServiceBusDefaults(options3?.retryOptions),
+      };
 
       this._connectionContext = createConnectionContextForCredential(
         credential,
@@ -116,7 +120,10 @@ export class ServiceBusClient {
       );
     } else {
       const connectionString: string = fullyQualifiedNamespaceOrConnectionString1;
-      this._clientOptions = credentialOrOptions2 || {};
+      this._clientOptions = {
+        ...credentialOrOptions2,
+        retryOptions: getRetryOptionsWithServiceBusDefaults(credentialOrOptions2?.retryOptions),
+      };
 
       this._connectionContext = createConnectionContextForConnectionString(
         connectionString,
