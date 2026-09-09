@@ -140,6 +140,15 @@ export class CommunicationIdentityClient {
   /**
    * Creates a single user.
    *
+   * Sends no request body. That matches the behaviour this client has always had:
+   * AutoRest's serializer produced an empty JSON object here, but core-client
+   * dropped it before the request reached the wire, so a body was never sent.
+   * Recorded traffic from 1.3.2 confirms it — `Content-Length: 0` and no body.
+   *
+   * Passing an explicit empty body to make the request "match AutoRest" is
+   * therefore a regression, not a fix: it adds a body the service has never been
+   * sent, and the recorded tests fail with a request/record body mismatch.
+   *
    * @param options - Additional options for the request.
    */
   public createUser(options: CreateUserOptions = {}): Promise<CommunicationUserIdentifier> {
