@@ -54,7 +54,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
 /**
  * Provides a default {@link ChainedTokenCredential} configuration that works for most
  * applications that use Azure SDK client libraries. For more information, see
- * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#defaultazurecredential-overview).
+ * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-defaultazurecredential-for-flexibility).
  *
  * The following credential types will be tried, in order:
  *
@@ -127,7 +127,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultWorkloadIdentityCredential,
       createDefaultManagedIdentityCredential,
     ];
-    let credentialFunctions: Array<(options: DefaultAzureCredentialOptions) => TokenCredential>;
+    let credentialFunctions = [];
     const validCredentialNames =
       "EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, VisualStudioCodeCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential";
     // If AZURE_TOKEN_CREDENTIALS is set, use it to determine which credentials to use.

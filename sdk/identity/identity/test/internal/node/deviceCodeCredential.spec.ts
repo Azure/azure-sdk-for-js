@@ -34,8 +34,11 @@ describe("DeviceCodeCredential (internal)", function () {
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it.skipIf(isLiveMode())("Authenticates silently after the initial request", async function () {
+  it("Authenticates silently after the initial request", async function (ctx) {
     // These tests should not run live because this credential requires user interaction.
+    if (isLiveMode()) {
+      ctx.skip();
+    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
@@ -54,8 +57,11 @@ describe("DeviceCodeCredential (internal)", function () {
     ).toHaveBeenCalledOnce();
   });
 
-  it.skipIf(isLiveMode())("Authenticates with tenantId on getToken", async function () {
+  it("Authenticates with tenantId on getToken", async function (ctx) {
     // These tests should not run live because this credential requires user interaction.
+    if (isLiveMode()) {
+      ctx.skip();
+    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,

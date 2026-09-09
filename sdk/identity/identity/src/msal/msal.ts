@@ -1,4 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { type AccountInfo, AuthError, LogLevel } from "@azure/msal-node";
+import * as msalCommon from "@azure/msal-node";
+
+export { msalCommon };

@@ -127,6 +127,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
       logger,
+      tokenCredentialOptions: options ?? {},
     });
   }
 

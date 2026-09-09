@@ -74,6 +74,7 @@ describe("BrokerCredential (internal)", function () {
         "test-tenant-id",
         expect.objectContaining({
           ...options,
+          tokenCredentialOptions: options,
           logger: expect.anything(),
           brokerOptions: {
             enabled: true,

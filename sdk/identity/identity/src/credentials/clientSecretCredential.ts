@@ -74,6 +74,7 @@ export class ClientSecretCredential implements TokenCredential {
     this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
       logger,
+      tokenCredentialOptions: options,
     });
   }
 

@@ -14,7 +14,6 @@ import type { AzurePowerShellCredentialOptions } from "./azurePowerShellCredenti
 import { CredentialUnavailableError } from "../errors.js";
 import { processUtils } from "../util/processUtils.js";
 import { tracingClient } from "../util/tracing.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -261,10 +260,7 @@ export class AzurePowerShellCredential implements TokenCredential {
 
       const claimsValue = options.claims;
       if (claimsValue && claimsValue.trim()) {
-        const encodedClaims = uint8ArrayToString(
-          stringToUint8Array(claimsValue, "utf-8"),
-          "base64",
-        );
+        const encodedClaims = btoa(claimsValue);
         let loginCmd = `Connect-AzAccount -ClaimsChallenge ${encodedClaims}`;
 
         const tenantIdFromOptions = options.tenantId;
@@ -345,9 +341,7 @@ export async function parseJsonToken(
         }
       }
     } catch (e: any) {
-      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`, {
-        cause: e,
-      });
+      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
     }
   }
   throw new Error(`No access token found in the output. Received output: ${result}`);

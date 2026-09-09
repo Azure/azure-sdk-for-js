@@ -10,12 +10,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "type": "module",
   "license": "ISC",
   "dependencies": {
-    "@azure/identity": "beta",
+    "@azure/identity": "dev",
     "@azure/storage-blob": "^12.17.0",
-    "express": "^5.2.1",
+    "express": "^5.1.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
