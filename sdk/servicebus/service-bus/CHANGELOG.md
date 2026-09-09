@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed unhandled `OperationTimeoutError` promise rejections that could crash the application when an AMQP link close timed out while a receiver was draining credits (during a `close()` or a `receiveMessages()` timeout). The close timeout is now logged instead of surfacing as an unhandled rejection. This extends the fix for [#35342](https://github.com/Azure/azure-sdk-for-js/issues/35342). [#39348](https://github.com/Azure/azure-sdk-for-js/issues/39348)
+
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)

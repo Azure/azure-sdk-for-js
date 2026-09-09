@@ -373,8 +373,14 @@ export class BatchingReceiverLite {
         `${loggingPrefix} Time out after ${timeToWaitInMs} milliseconds when draining credits. Closing receiver...`,
       );
       // Close the receiver link since we have not received the receiver drain event
-      // to prevent out-of-sync state between local and remote
-      await receiver.close();
+      // to prevent out-of-sync state between local and remote.
+      // tryDrainReceiver is reached via _finalAction, which is invoked without being awaited, so a
+      // rejection from close() would surface as an unhandled promise rejection. Guard it. See #39348.
+      try {
+        await receiver.close();
+      } catch (err: any) {
+        logger.logError(err, `${loggingPrefix} Error closing the receiver after a drain timeout.`);
+      }
     }
 
     // Turn off draining.
