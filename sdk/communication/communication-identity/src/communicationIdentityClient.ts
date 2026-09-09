@@ -17,12 +17,12 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import type { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { IdentityRestClient } from "./generated/src/identityRestClient.js";
+import { IdentityClient } from "./generated/identityClient.js";
 import { logger } from "./common/logger.js";
-import { tracingClient } from "./generated/src/tracing.js";
+import { tracingClient } from "./tracing.js";
 
 const isCommunicationIdentityClientOptions = (
   options: any,
@@ -34,9 +34,9 @@ const isCommunicationIdentityClientOptions = (
  */
 export class CommunicationIdentityClient {
   /**
-   * A reference to the auto-generated UserToken HTTP client.
+   * A reference to the auto-generated Identity HTTP client.
    */
-  private readonly client: IdentityRestClient;
+  private readonly client: IdentityClient;
 
   /**
    * Initializes a new instance of the CommunicationIdentity class.
@@ -82,16 +82,13 @@ export class CommunicationIdentityClient {
       ? credentialOrOptions
       : maybeOptions;
 
-    const internalPipelineOptions: InternalClientPipelineOptions = {
+    this.client = new IdentityClient(url, {
       ...options,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-        },
+      endpoint: url,
+      loggingOptions: {
+        logger: logger.info,
       },
-    };
-
-    this.client = new IdentityRestClient(url, { endpoint: url, ...internalPipelineOptions });
+    });
 
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
@@ -110,10 +107,10 @@ export class CommunicationIdentityClient {
     options: GetTokenOptions = {},
   ): Promise<CommunicationAccessToken> {
     return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
-      return this.client.communicationIdentityOperations.issueAccessToken(
+      return this.client.identityOperations.issueAccessToken(
         user.communicationUserId,
-        scopes,
-        { expiresInMinutes: options.tokenExpiresInMinutes, ...updatedOptions },
+        { scopes, expiresInMinutes: options.tokenExpiresInMinutes },
+        updatedOptions,
       );
     });
   }
@@ -132,7 +129,7 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-revokeTokens",
       options,
       async (updatedOptions) => {
-        await this.client.communicationIdentityOperations.revokeAccessTokens(
+        await this.client.identityOperations.revokeAccessTokens(
           user.communicationUserId,
           updatedOptions,
         );
@@ -150,10 +147,7 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUser",
       options,
       async (updatedOptions) => {
-        const result = await this.client.communicationIdentityOperations.create({
-          expiresInMinutes: undefined,
-          ...updatedOptions,
-        });
+        const result = await this.client.identityOperations.create(updatedOptions);
         return {
           communicationUserId: result.identity.id,
         };
@@ -175,10 +169,12 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUserAndToken",
       options,
       async (updatedOptions) => {
-        const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
-          createTokenWithScopes: scopes,
-          expiresInMinutes: options.tokenExpiresInMinutes,
+        const { identity, accessToken } = await this.client.identityOperations.create({
           ...updatedOptions,
+          body: {
+            createTokenWithScopes: scopes,
+            expiresInMinutes: options.tokenExpiresInMinutes,
+          },
         });
         return {
           ...accessToken!,
@@ -202,7 +198,7 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-deleteUser",
       options,
       async (updatedOptions) => {
-        await this.client.communicationIdentityOperations.delete(
+        await this.client.identityOperations.deleteIdentityOperation(
           user.communicationUserId,
           updatedOptions,
         );
@@ -223,10 +219,12 @@ export class CommunicationIdentityClient {
       options,
       (updatedOptions) => {
         const { teamsUserAadToken, clientId, userObjectId } = updatedOptions;
-        return this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
-          teamsUserAadToken,
-          clientId,
-          userObjectId,
+        return this.client.teamsUserOperations.exchangeTeamsUserAccessToken(
+          {
+            token: teamsUserAadToken,
+            appId: clientId,
+            userId: userObjectId,
+          },
           updatedOptions,
         );
       },

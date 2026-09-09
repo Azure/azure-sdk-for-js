@@ -4,11 +4,11 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import type { CommunicationUserIdentifier } from '@azure/communication-common';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -32,7 +32,7 @@ export class CommunicationIdentityClient {
 }
 
 // @public
-export interface CommunicationIdentityClientOptions extends CommonClientOptions {
+export interface CommunicationIdentityClientOptions extends ClientOptions {
 }
 
 // @public

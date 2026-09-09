@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 
 /**
@@ -12,7 +12,7 @@ export type TokenScope = "chat" | "voip" | "chat.join" | "chat.join.limited" | "
 /**
  * Client options used to configure the CommunicationIdentity API requests.
  */
-export interface CommunicationIdentityClientOptions extends CommonClientOptions {}
+export interface CommunicationIdentityClientOptions extends ClientOptions {}
 
 /**
  * The access token for a user.
