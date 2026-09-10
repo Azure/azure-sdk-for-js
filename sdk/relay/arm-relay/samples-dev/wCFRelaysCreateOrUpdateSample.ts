@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a WCF relay. This operation is idempotent.
  *
  * @summary creates or updates a WCF relay. This operation is idempotent.
- * x-ms-original-file: 2024-01-01/Relay/RelayCreate.json
+ * x-ms-original-file: 2026-07-01-preview/Relay/RelayCreate.json
  */
 async function relayCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

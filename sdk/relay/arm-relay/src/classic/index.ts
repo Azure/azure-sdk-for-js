@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export type { ClustersOperations } from "./clusters/index.js";
 export type { HybridConnectionsOperations } from "./hybridConnections/index.js";
 export type { NamespacesOperations } from "./namespaces/index.js";
 export type { OperationsOperations } from "./operations/index.js";

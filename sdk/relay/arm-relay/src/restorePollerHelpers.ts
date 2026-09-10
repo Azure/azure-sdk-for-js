@@ -3,6 +3,10 @@
 
 import type { RelayAPI } from "./relayAPI.js";
 import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/namespaces/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeClusters,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeClusters,
+} from "./api/clusters/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections } from "./api/privateEndpointConnections/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -78,6 +82,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/clusters/{clusterName}":
+    { deserializer: _$deleteDeserializeClusters, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/clusters/{clusterName}":
+    { deserializer: _createOrUpdateDeserializeClusters, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _$deleteDeserializePrivateEndpointConnections,

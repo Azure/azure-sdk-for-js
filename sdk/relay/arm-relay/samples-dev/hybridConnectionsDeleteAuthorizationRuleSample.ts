@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a hybrid connection authorization rule.
  *
  * @summary deletes a hybrid connection authorization rule.
- * x-ms-original-file: 2024-01-01/HybridConnection/RelayHybridConnectionAuthorizationRuleDelete.json
+ * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridConnectionAuthorizationRuleDelete.json
  */
 async function relayHybridConnectionAuthorizationRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a private link resource by a specified group name for a container registry.
  *
  * @summary gets a private link resource by a specified group name for a container registry.
- * x-ms-original-file: 2024-01-01/PrivateEndpointConnections/PrivateLinkResourcesGet.json
+ * x-ms-original-file: 2026-07-01-preview/PrivateEndpointConnections/PrivateLinkResourcesGet.json
  */
-async function nameSpacePrivateEndPointConnectionGet() {
+async function nameSpacePrivateLinkResourceGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new RelayAPI(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function nameSpacePrivateEndPointConnectionGet() {
 }
 
 async function main() {
-  await nameSpacePrivateEndPointConnectionGet();
+  await nameSpacePrivateLinkResourceGet();
 }
 
 main().catch(console.error);
