@@ -38,7 +38,6 @@ import {
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  agents: BetaAgentsOperations;
   datasets: BetaDatasetsOperations;
   skills: BetaSkillsOperations;
   schedules: BetaSchedulesOperations;
@@ -53,11 +52,11 @@ export interface BetaOperations {
   agentTelephony: BetaAgentTelephonyOperations;
   agentEndpointConversations: BetaAgentEndpointConversationsOperations;
   voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
+  agents: BetaAgentsOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
-    agents: _getBetaAgentsOperations(context),
     datasets: _getBetaDatasetsOperations(context),
     skills: _getBetaSkillsOperations(context),
     schedules: _getBetaSchedulesOperations(context),
@@ -72,5 +71,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     agentTelephony: _getBetaAgentTelephonyOperations(context),
     agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
     voiceAgentWebSocket: _getBetaVoiceAgentWebSocketOperations(context),
+    agents: _getBetaAgentsOperations(context),
   };
 }

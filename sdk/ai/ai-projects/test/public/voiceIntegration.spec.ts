@@ -149,12 +149,12 @@ describe("voice post-emitter integration", () => {
     {
       name: "telephony bindings",
       list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.agents.listTelephonyBindings("agent", options),
+        client.beta.agents.listTelephonyBindings("agent", options),
     },
     {
       name: "telephony calls",
       list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.agents.listTelephonyCalls("agent", options),
+        client.beta.agents.listTelephonyCalls("agent", options),
     },
   ];
 

@@ -685,6 +685,18 @@ export type {
   BetaAgentsListOptimizationJobsOptionalParams,
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
+  BetaAgentsReplaceTelephonyTransferTargetsOptionalParams,
+  BetaAgentsGetTelephonyTransferTargetsOptionalParams,
+  BetaAgentsEndTelephonyCallOptionalParams,
+  BetaAgentsTransferTelephonyCallOptionalParams,
+  BetaAgentsGetTelephonyCallOptionalParams,
+  BetaAgentsListTelephonyCallsOptionalParams,
+  BetaAgentsDeleteTelephonyBindingOptionalParams,
+  BetaAgentsUpdateTelephonyBindingOptionalParams,
+  BetaAgentsGetTelephonyBindingOptionalParams,
+  BetaAgentsListTelephonyBindingsOptionalParams,
+  BetaAgentsCreateTelephonyBindingOptionalParams,
+  BetaAgentsGenerateOptionalParams,
 } from "./api/beta/agents/index.js";
 export type {
   BetaDatasetsDeleteGenerationJobOptionalParams,

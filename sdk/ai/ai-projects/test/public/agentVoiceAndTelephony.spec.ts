@@ -87,7 +87,7 @@ const call = {
 };
 const options = { foundryFeatures: "VoiceAgents=V1Preview" } as const;
 
-describe("non-beta agent voice authoring", () => {
+describe("beta agent voice authoring", () => {
   it("generates a voice agent and deserializes its latest definition", async () => {
     const { client, requests } = createClient({
       body: {
@@ -106,7 +106,7 @@ describe("non-beta agent voice authoring", () => {
       goal: "Help callers find public transport.",
       draft: true,
     };
-    const agent = await client.agents.generateAgent(body);
+    const agent = await client.beta.agents.generate(body);
     expect(agent.versions.latest.definition).toMatchObject(voiceDefinition);
     expect(agent.versions.latest.created_at).toEqual(new Date(1_700_000_000_000));
     expect(requests).toHaveLength(1);
@@ -146,7 +146,7 @@ describe("non-beta agent voice authoring", () => {
       },
     });
     await expect(
-      client.agents.generateAgent({ kind: "voice", name: "voice-agent", model: "text-only" }),
+      client.beta.agents.generate({ kind: "voice", name: "voice-agent", model: "text-only" }),
     ).rejects.toMatchObject({
       statusCode: 400,
       details: { error: { code: "invalid_model", param: "model" } },
@@ -175,7 +175,7 @@ describe("non-beta agent voice authoring", () => {
   });
 });
 
-describe("non-beta agent telephony operations", () => {
+describe("beta agent telephony operations", () => {
   it("creates a provider-discriminated binding", async () => {
     const { client, requests } = createClient({ status: 201, body: binding });
     const body = {
@@ -184,7 +184,7 @@ describe("non-beta agent telephony operations", () => {
       phone_number: binding.phone_number,
       label: "Support",
     };
-    const result = await client.agents.createTelephonyBinding("voice agent", body, options);
+    const result = await client.beta.agents.createTelephonyBinding("voice agent", body, options);
     expect(result).toMatchObject({ provider: "twilio", phone_number: binding.phone_number });
     expect(requests[0].method).toBe("POST");
     expect(new URL(requests[0].url).pathname).toBe(
@@ -202,7 +202,11 @@ describe("non-beta agent telephony operations", () => {
       resource_account_object_id: "00000000-0000-0000-0000-000000000001",
     };
     const { client, requests } = createClient({ body: teamsBinding });
-    const result = await client.agents.getTelephonyBinding("voice-agent", "binding/1", options);
+    const result = await client.beta.agents.getTelephonyBinding(
+      "voice-agent",
+      "binding/1",
+      options,
+    );
     expect(result).toMatchObject({
       provider: "teams_phone_extension",
       resource_account_object_id: teamsBinding.resource_account_object_id,
@@ -214,7 +218,7 @@ describe("non-beta agent telephony operations", () => {
 
   it("updates only supplied fields and sends the binding ETag", async () => {
     const { client, requests } = createClient({ body: { ...binding, status: "suspended" } });
-    const result = await client.agents.updateTelephonyBinding(
+    const result = await client.beta.agents.updateTelephonyBinding(
       "voice-agent",
       binding.id,
       binding.etag,
@@ -230,7 +234,7 @@ describe("non-beta agent telephony operations", () => {
   it("deletes a binding with its ETag and accepts an empty 204 response", async () => {
     const { client, requests } = createClient({ status: 204 });
     await expect(
-      client.agents.deleteTelephonyBinding("voice-agent", binding.id, binding.etag, options),
+      client.beta.agents.deleteTelephonyBinding("voice-agent", binding.id, binding.etag, options),
     ).resolves.toBeUndefined();
     expect(requests[0].method).toBe("DELETE");
     expect(requests[0].headers.get("if-match")).toBe(binding.etag);
@@ -238,7 +242,7 @@ describe("non-beta agent telephony operations", () => {
 
   it("gets an empty set of transfer targets", async () => {
     const { client, requests } = createClient({ body: { transfer_targets: [] } });
-    expect(await client.agents.getTelephonyTransferTargets("voice-agent", options)).toEqual({
+    expect(await client.beta.agents.getTelephonyTransferTargets("voice-agent", options)).toEqual({
       transfer_targets: [],
     });
     expect(requests[0].method).toBe("GET");
@@ -271,7 +275,7 @@ describe("non-beta agent telephony operations", () => {
     const body = { transfer_targets: targets };
     const { client, requests } = createClient({ body });
     expect(
-      await client.agents.replaceTelephonyTransferTargets(
+      await client.beta.agents.replaceTelephonyTransferTargets(
         "voice-agent",
         '"targets-etag"',
         targets,
@@ -289,21 +293,21 @@ describe("non-beta agent telephony operations", () => {
       method: "GET",
       suffix: "",
       invoke: (client: AIProjectClient) =>
-        client.agents.getTelephonyCall("voice-agent", "call/1", options),
+        client.beta.agents.getTelephonyCall("voice-agent", "call/1", options),
     },
     {
       name: "transfer",
       method: "POST",
       suffix: ":transfer",
       invoke: (client: AIProjectClient) =>
-        client.agents.transferTelephonyCall("voice-agent", "call/1", "support", options),
+        client.beta.agents.transferTelephonyCall("voice-agent", "call/1", "support", options),
     },
     {
       name: "end",
       method: "POST",
       suffix: ":end",
       invoke: (client: AIProjectClient) =>
-        client.agents.endTelephonyCall("voice-agent", "call/1", options),
+        client.beta.agents.endTelephonyCall("voice-agent", "call/1", options),
     },
   ])("routes $name and deserializes call timestamps", async ({ name, method, suffix, invoke }) => {
     const { client, requests } = createClient({ body: call });
@@ -328,7 +332,9 @@ describe("non-beta agent telephony operations", () => {
       },
     });
     await expect(
-      client.agents.updateTelephonyBinding("voice-agent", binding.id, '"stale"', { label: "New" }),
+      client.beta.agents.updateTelephonyBinding("voice-agent", binding.id, '"stale"', {
+        label: "New",
+      }),
     ).rejects.toMatchObject({ statusCode: 412, details: { error: { code: "etag_mismatch" } } });
     expect(requests).toHaveLength(1);
   });
@@ -359,7 +365,7 @@ describe("non-beta agent telephony operations", () => {
         },
       },
     );
-    const result = client.agents.getTelephonyCall("voice-agent", call.id, {
+    const result = client.beta.agents.getTelephonyCall("voice-agent", call.id, {
       abortSignal: controller.signal,
     });
     const assertion = expect(result).rejects.toThrow(AbortError);
@@ -374,13 +380,13 @@ describe("non-beta agent telephony operations", () => {
       name: "bindings",
       item: binding,
       list: (client: AIProjectClient) =>
-        client.agents.listTelephonyBindings("voice-agent", { ...options, limit: 1 }),
+        client.beta.agents.listTelephonyBindings("voice-agent", { ...options, limit: 1 }),
     },
     {
       name: "calls",
       item: call,
       list: (client: AIProjectClient) =>
-        client.agents.listTelephonyCalls("voice-agent", { ...options, limit: 1 }),
+        client.beta.agents.listTelephonyCalls("voice-agent", { ...options, limit: 1 }),
     },
   ];
 

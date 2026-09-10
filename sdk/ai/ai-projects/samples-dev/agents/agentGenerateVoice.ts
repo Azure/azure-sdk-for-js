@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   };
 
   console.log("Generating a voice agent from a goal...");
-  const agent = await project.agents.generateAgent({
+  const agent = await project.beta.agents.generate({
     kind: "voice",
     name: `sample-generated-voice-${Date.now()}`,
     model_type: "managed",
