@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Added Azure Monitor OpenTelemetry distro detection to the OneSettings configuration profile so distro processes are targeted with the distro component and version.
+- Added Azure Monitor and Microsoft OpenTelemetry distro detection to the OneSettings configuration profile so distro processes are targeted with the appropriate component and version.
 
 ## 1.0.0-beta.45 (2026-09-04)
 

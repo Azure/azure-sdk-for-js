@@ -4,6 +4,7 @@
 import { diag } from "@opentelemetry/api";
 import {
   ENV_AZURE_MONITOR_DISTRO_VERSION,
+  ENV_MICROSOFT_OPENTELEMETRY_VERSION,
   ONE_SETTINGS_BACKOFF_BASE_MS,
   ONE_SETTINGS_CHANGE_URL,
   ONE_SETTINGS_CONFIG_URL,
@@ -77,19 +78,22 @@ export class ConfigurationManager {
    * constructor, since only the first call has any effect.
    *
    * @param profile - Running SDK attributes contributed by the caller. Existing profile fields
-   * remain unchanged. When the Azure Monitor distro version environment variable is present, the
-   * distro component and version take precedence over the caller's values.
+   * remain unchanged. When a supported distro version environment variable is present, its
+   * component and version take precedence over the caller's values.
    */
   public initialize(profile: Partial<ConfigurationProfileValues> = {}): void {
-    const distroVersion = process.env[ENV_AZURE_MONITOR_DISTRO_VERSION];
+    const microsoftDistroVersion = process.env[ENV_MICROSOFT_OPENTELEMETRY_VERSION];
+    const azureMonitorDistroVersion = process.env[ENV_AZURE_MONITOR_DISTRO_VERSION];
+    const distroProfile: Partial<ConfigurationProfileValues> = microsoftDistroVersion
+      ? { component: "mot", version: microsoftDistroVersion }
+      : azureMonitorDistroVersion
+        ? { component: "dst", version: azureMonitorDistroVersion }
+        : {};
     ConfigurationProfile.getInstance().fill(
-      distroVersion
-        ? {
-            ...profile,
-            component: "dst",
-            version: distroVersion,
-          }
-        : profile,
+      {
+        ...profile,
+        ...distroProfile,
+      },
     );
     if (this.worker) {
       return;
