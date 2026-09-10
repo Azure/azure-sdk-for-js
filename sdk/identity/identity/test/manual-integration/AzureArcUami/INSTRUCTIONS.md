@@ -72,7 +72,7 @@ az connectedmachine show \
 ### Isolate Azure Arc from native IMDS
 
 The backing VM's native IMDS routes must be blocked after every start. Use the
-[Run Command operation](https://learn.microsoft.com/azure/azure-arc/servers/run-command?tabs=azure-powershell)
+[Run Command operation](https://learn.microsoft.com/azure/azure-arc/servers/run-command)
 to run:
 
 ```bash
