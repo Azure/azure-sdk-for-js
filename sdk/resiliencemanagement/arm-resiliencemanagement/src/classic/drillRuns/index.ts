@@ -25,10 +25,12 @@ import type {
   DrillRunsGetOptionalParams,
 } from "../../api/drillRuns/options.js";
 import type {
+  DrillReportSummary,
   DrillRun,
   DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
   ListReportDownloadUrlRequest,
+  ListReportDownloadUrlResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -45,7 +47,7 @@ export interface DrillRunsOperations {
     drillRunName: string,
     body: ListReportDownloadUrlRequest,
     options?: DrillRunsListReportDownloadUrlOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse>;
   /** @deprecated use listReportDownloadUrl instead */
   beginListReportDownloadUrl: (
     serviceGroupName: string,
@@ -54,7 +56,9 @@ export interface DrillRunsOperations {
     drillRunName: string,
     body: ListReportDownloadUrlRequest,
     options?: DrillRunsListReportDownloadUrlOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<
+    SimplePollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse>
+  >;
   /** @deprecated use listReportDownloadUrl instead */
   beginListReportDownloadUrlAndWait: (
     serviceGroupName: string,
@@ -63,7 +67,7 @@ export interface DrillRunsOperations {
     drillRunName: string,
     body: ListReportDownloadUrlRequest,
     options?: DrillRunsListReportDownloadUrlOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<ListReportDownloadUrlResponse>;
   /** This generates, or regenerates, the report for this Drill Run. The action is idempotent and is safe to call at any time: a call that arrives while a generation is already running joins it, and a call made after a failed attempt retries it. A report that has been finalized is never regenerated. */
   generateReport: (
     serviceGroupName: string,
@@ -71,7 +75,7 @@ export interface DrillRunsOperations {
     drillName: string,
     drillRunName: string,
     options?: DrillRunsGenerateReportOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<DrillReportSummary>, DrillReportSummary>;
   /** @deprecated use generateReport instead */
   beginGenerateReport: (
     serviceGroupName: string,
@@ -79,7 +83,7 @@ export interface DrillRunsOperations {
     drillName: string,
     drillRunName: string,
     options?: DrillRunsGenerateReportOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<SimplePollerLike<OperationState<DrillReportSummary>, DrillReportSummary>>;
   /** @deprecated use generateReport instead */
   beginGenerateReportAndWait: (
     serviceGroupName: string,
@@ -87,7 +91,7 @@ export interface DrillRunsOperations {
     drillName: string,
     drillRunName: string,
     options?: DrillRunsGenerateReportOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<DrillReportSummary>;
   /** This enables the user to mark this stage as complete, disabling further retries on it. */
   markAsComplete: (
     serviceGroupName: string,

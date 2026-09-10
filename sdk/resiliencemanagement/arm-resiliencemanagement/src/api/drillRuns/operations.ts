@@ -3,14 +3,17 @@
 
 import type { AzureResilienceManagementContext as Client } from "../index.js";
 import type {
+  DrillReportSummary,
   DrillRun,
   _DrillRunListResult,
   DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
   ListReportDownloadUrlRequest,
+  ListReportDownloadUrlResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
+  drillReportSummaryDeserializer,
   drillRunDeserializer,
   _drillRunListResultDeserializer,
   drillRunFailoverRequestSerializer,
@@ -18,6 +21,7 @@ import {
   drillRunAddNotesRequestSerializer,
   markAsCompleteRequestSerializer,
   listReportDownloadUrlRequestSerializer,
+  listReportDownloadUrlResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -73,7 +77,7 @@ export function _listReportDownloadUrlSend(
 
 export async function _listReportDownloadUrlDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<ListReportDownloadUrlResponse> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -84,7 +88,7 @@ export async function _listReportDownloadUrlDeserialize(
     throw error;
   }
 
-  return;
+  return listReportDownloadUrlResponseDeserializer(result.body);
 }
 
 /** This returns a short-lived, read-only URL to download the report for this Drill Run. The URL expires at the returned expiryTimestamp and grants access to that single report only. */
@@ -96,7 +100,7 @@ export function listReportDownloadUrl(
   drillRunName: string,
   body: ListReportDownloadUrlRequest,
   options: DrillRunsListReportDownloadUrlOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse> {
   return getLongRunningPoller(context, _listReportDownloadUrlDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -110,9 +114,9 @@ export function listReportDownloadUrl(
         body,
         options,
       ),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "azure-async-operation",
     apiVersion: context.apiVersion ?? "2026-08-31-preview",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse>;
 }
 
 export function _generateReportSend(
@@ -145,7 +149,9 @@ export function _generateReportSend(
   });
 }
 
-export async function _generateReportDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _generateReportDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DrillReportSummary> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -156,7 +162,7 @@ export async function _generateReportDeserialize(result: PathUncheckedResponse):
     throw error;
   }
 
-  return;
+  return drillReportSummaryDeserializer(result.body);
 }
 
 /** This generates, or regenerates, the report for this Drill Run. The action is idempotent and is safe to call at any time: a call that arrives while a generation is already running joins it, and a call made after a failed attempt retries it. A report that has been finalized is never regenerated. */
@@ -167,15 +173,15 @@ export function generateReport(
   drillName: string,
   drillRunName: string,
   options: DrillRunsGenerateReportOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<DrillReportSummary>, DrillReportSummary> {
   return getLongRunningPoller(context, _generateReportDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _generateReportSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "azure-async-operation",
     apiVersion: context.apiVersion ?? "2026-08-31-preview",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<DrillReportSummary>, DrillReportSummary>;
 }
 
 export function _markAsCompleteSend(

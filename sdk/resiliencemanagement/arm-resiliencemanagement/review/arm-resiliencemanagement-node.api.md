@@ -397,13 +397,13 @@ export interface DrillRunsOperations {
     // @deprecated (undocumented)
     beginFailOverAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsFailOverOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginGenerateReport: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginGenerateReport: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => Promise<SimplePollerLike<OperationState<DrillReportSummary>, DrillReportSummary>>;
     // @deprecated (undocumented)
-    beginGenerateReportAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => Promise<void>;
+    beginGenerateReportAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => Promise<DrillReportSummary>;
     // @deprecated (undocumented)
-    beginListReportDownloadUrl: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginListReportDownloadUrl: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => Promise<SimplePollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse>>;
     // @deprecated (undocumented)
-    beginListReportDownloadUrlAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => Promise<void>;
+    beginListReportDownloadUrlAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => Promise<ListReportDownloadUrlResponse>;
     // @deprecated (undocumented)
     beginMarkAsComplete: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: MarkAsCompleteRequest, options?: DrillRunsMarkAsCompleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -417,10 +417,10 @@ export interface DrillRunsOperations {
     // @deprecated (undocumented)
     beginResumeAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsResumeOptionalParams) => Promise<void>;
     failOver: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsFailOverOptionalParams) => PollerLike<OperationState<void>, void>;
-    generateReport: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => PollerLike<OperationState<void>, void>;
+    generateReport: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => PollerLike<OperationState<DrillReportSummary>, DrillReportSummary>;
     get: (serviceGroupName: string, drillName: string, drillRunName: string, options?: DrillRunsGetOptionalParams) => Promise<DrillRun>;
     list: (serviceGroupName: string, drillName: string, options?: DrillRunsListOptionalParams) => PagedAsyncIterableIterator<DrillRun>;
-    listReportDownloadUrl: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => PollerLike<OperationState<void>, void>;
+    listReportDownloadUrl: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => PollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse>;
     markAsComplete: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: MarkAsCompleteRequest, options?: DrillRunsMarkAsCompleteOptionalParams) => PollerLike<OperationState<void>, void>;
     reprotect: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsReprotectOptionalParams) => PollerLike<OperationState<void>, void>;
     resume: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsResumeOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -1519,6 +1519,13 @@ export interface LastRunProperties {
 // @public
 export interface ListReportDownloadUrlRequest {
     format?: DrillReportFormat;
+}
+
+// @public
+export interface ListReportDownloadUrlResponse {
+    readonly downloadUrl?: string;
+    readonly expiryTimestamp?: Date;
+    readonly format?: DrillReportFormat;
 }
 
 // @public

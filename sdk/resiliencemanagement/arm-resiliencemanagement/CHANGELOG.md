@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2026-08-26)
+## 1.0.0-beta.2 (2026-09-10)
 Compared with version 1.0.0-beta.1
 
 ### Features Added
@@ -16,6 +16,7 @@ Compared with version 1.0.0-beta.1
   - Added Interface DrillRunsListReportDownloadUrlOptionalParams
   - Added Interface HealthModelMonitoringProperties
   - Added Interface ListReportDownloadUrlRequest
+  - Added Interface ListReportDownloadUrlResponse
   - Added Interface ReportStageStatus
   - Added Interface ResiliencyProperties
   - Added Interface ResourceCrossZoneVmRecoveryProtectionSetting

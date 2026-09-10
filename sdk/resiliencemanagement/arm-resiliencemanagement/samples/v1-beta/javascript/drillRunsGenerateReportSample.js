@@ -13,12 +13,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function drillRunsGenerateReportMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  await client.drillRuns.generateReport(
+  const result = await client.drillRuns.generateReport(
     "sampleServiceGroupName",
     "qmn",
     "drill1",
     "ca92602e-53bf-43d2-ae62-d3fc940474b3",
   );
+  console.log(result);
 }
 
 async function main() {

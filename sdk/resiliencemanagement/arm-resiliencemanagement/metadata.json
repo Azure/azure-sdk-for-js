@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.AzureResilienceManagement": "2026-08-31-preview"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AzureResilienceManagement",
     "CrossLanguageDefinitionId": {
