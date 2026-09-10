@@ -7,17 +7,27 @@ import path from "node:path";
 import { readFile, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 
+/**
+ * @typedef {{path: string, prefix: string}} ConstantPath
+ * @typedef {{["//metadata"]?: {constantPaths?: ConstantPath[]}}} VersionedPackageJson
+ */
+
 // This is done to update files which are only periodically generated and
 // checked in. Since these files could be generated once between many versions
 // we need to make sure that the versions in the generated files move up
 // as well
+/**
+ * @param {string} packagePath
+ * @param {VersionedPackageJson} packageJson
+ * @param {string} newVersion
+ */
 export async function updatePackageConstants(packagePath, packageJson, newVersion) {
-  // No constant metadata, skip
-  if (!("//metadata" in packageJson) || !packageJson["//metadata"].constantPaths) {
+  const constantPaths = packageJson["//metadata"]?.constantPaths;
+  if (!constantPaths) {
     return;
   }
 
-  for (const constantFileSpec of packageJson["//metadata"].constantPaths) {
+  for (const constantFileSpec of constantPaths) {
     const targetPath = path.join(packagePath, constantFileSpec.path);
     const fileContents = await readFile(targetPath, { encoding: "utf8" });
 
@@ -32,10 +42,23 @@ export async function updatePackageConstants(packagePath, packageJson, newVersio
   }
 }
 
+/**
+ * @param {string} prefix
+ */
 function buildSemverRegex(prefix) {
   return new RegExp(`(${prefix}.*?)(${semverRegex.toString()})`, "g");
 }
 
+/**
+ * @param {string} targetPackagePath
+ * @param {string} packageName
+ * @param {string} repoRoot
+ * @param {string} newVersion
+ * @param {boolean} unreleased
+ * @param {boolean | string} replaceLatestVersionTitle
+ * @param {string | null} releaseDate
+ * @returns {boolean}
+ */
 export function updateChangelog(
   targetPackagePath,
   packageName,
