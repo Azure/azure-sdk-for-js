@@ -164,7 +164,7 @@ function extractApi(
   return result;
 }
 
-function createApiDiff(
+export function createApiDiff(
   nodeContent: string,
   runtimeContent: string,
   runtime: string,
@@ -177,7 +177,7 @@ function createApiDiff(
     undefined,
     undefined,
     { stripTrailingCr: true, ignoreWhitespace: true },
-  );
+  ).replace(/^([+-]?)[ \t]+$/gm, "$1");
   const parsed = parsePatch(diff);
   const hasRealChanges = parsed.some((file) =>
     file.hunks.some((hunk) =>
