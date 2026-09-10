@@ -26,7 +26,7 @@ function decodeOid(token: string): string | undefined {
   return claims.oid;
 }
 
-async function assertPositiveCredential(
+async function assertAttachedCredential(
   label: string,
   credential: ManagedIdentityCredential | DefaultAzureCredential,
   expectedObjectId: string,
@@ -41,30 +41,7 @@ async function assertPositiveCredential(
     throw new Error(`${label} returned a token for an unexpected principal.`);
   }
 
-  console.log(`PASS ${label}`);
-}
-
-function collectErrorMessages(error: unknown, visited = new Set<unknown>()): string[] {
-  if (visited.has(error)) {
-    return [];
-  }
-  visited.add(error);
-
-  if (!(error instanceof Error)) {
-    return [String(error)];
-  }
-
-  const messages = [error.message];
-  const details = error as Error & { cause?: unknown; errors?: unknown[] };
-  if (details.cause) {
-    messages.push(...collectErrorMessages(details.cause, visited));
-  }
-  if (Array.isArray(details.errors)) {
-    for (const nestedError of details.errors) {
-      messages.push(...collectErrorMessages(nestedError, visited));
-    }
-  }
-  return messages;
+  console.log(`Passed: ${label}`);
 }
 
 async function assertUnattachedCredential(
@@ -76,8 +53,8 @@ async function assertUnattachedCredential(
       abortSignal: AbortSignal.timeout(60_000),
     });
   } catch (error) {
-    if (collectErrorMessages(error).some((message) => message.includes("identity_not_found"))) {
-      console.log(`PASS ${label}`);
+    if (String(error).includes("identity_not_found")) {
+      console.log(`Passed: ${label}`);
       return;
     }
     throw error;
@@ -87,46 +64,46 @@ async function assertUnattachedCredential(
 }
 
 async function main(): Promise<void> {
-  const positiveClientId = getRequiredEnv("IDENTITY_ARC_UAMI_CLIENT_ID");
-  const positiveObjectId = getRequiredEnv("IDENTITY_ARC_UAMI_OBJECT_ID");
-  const positiveResourceId = getRequiredEnv("IDENTITY_ARC_UAMI_RESOURCE_ID");
-  const negativeClientId = getRequiredEnv("IDENTITY_ARC_NEGATIVE_UAMI_CLIENT_ID");
-  const negativeObjectId = getRequiredEnv("IDENTITY_ARC_NEGATIVE_UAMI_OBJECT_ID");
-  const negativeResourceId = getRequiredEnv("IDENTITY_ARC_NEGATIVE_UAMI_RESOURCE_ID");
+  const attachedClientId = getRequiredEnv("IDENTITY_ARC_ATTACHED_UAMI_CLIENT_ID");
+  const attachedObjectId = getRequiredEnv("IDENTITY_ARC_ATTACHED_UAMI_OBJECT_ID");
+  const attachedResourceId = getRequiredEnv("IDENTITY_ARC_ATTACHED_UAMI_RESOURCE_ID");
+  const unattachedClientId = getRequiredEnv("IDENTITY_ARC_UNATTACHED_UAMI_CLIENT_ID");
+  const unattachedObjectId = getRequiredEnv("IDENTITY_ARC_UNATTACHED_UAMI_OBJECT_ID");
+  const unattachedResourceId = getRequiredEnv("IDENTITY_ARC_UNATTACHED_UAMI_RESOURCE_ID");
   const keyVaultUrl = getRequiredEnv("IDENTITY_ARC_KEYVAULT_URL");
   const markerSecretName = getRequiredEnv("IDENTITY_ARC_KEYVAULT_SECRET_NAME");
 
-  await assertPositiveCredential(
+  await assertAttachedCredential(
     "ManagedIdentityCredential clientId",
-    new ManagedIdentityCredential({ clientId: positiveClientId }),
-    positiveObjectId,
+    new ManagedIdentityCredential({ clientId: attachedClientId }),
+    attachedObjectId,
   );
-  await assertPositiveCredential(
+  await assertAttachedCredential(
     "ManagedIdentityCredential resourceId",
-    new ManagedIdentityCredential({ resourceId: positiveResourceId }),
-    positiveObjectId,
+    new ManagedIdentityCredential({ resourceId: attachedResourceId }),
+    attachedObjectId,
   );
-  await assertPositiveCredential(
+  await assertAttachedCredential(
     "ManagedIdentityCredential objectId",
-    new ManagedIdentityCredential({ objectId: positiveObjectId }),
-    positiveObjectId,
+    new ManagedIdentityCredential({ objectId: attachedObjectId }),
+    attachedObjectId,
   );
 
   process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
-  await assertPositiveCredential(
+  await assertAttachedCredential(
     "DefaultAzureCredential managedIdentityClientId",
-    new DefaultAzureCredential({ managedIdentityClientId: positiveClientId }),
-    positiveObjectId,
+    new DefaultAzureCredential({ managedIdentityClientId: attachedClientId }),
+    attachedObjectId,
   );
-  await assertPositiveCredential(
+  await assertAttachedCredential(
     "DefaultAzureCredential managedIdentityResourceId",
-    new DefaultAzureCredential({ managedIdentityResourceId: positiveResourceId }),
-    positiveObjectId,
+    new DefaultAzureCredential({ managedIdentityResourceId: attachedResourceId }),
+    attachedObjectId,
   );
 
   const secretClient = new SecretClient(
     keyVaultUrl,
-    new ManagedIdentityCredential({ clientId: positiveClientId }),
+    new ManagedIdentityCredential({ clientId: attachedClientId }),
   );
   const secret = await secretClient.getSecret(markerSecretName, {
     abortSignal: AbortSignal.timeout(60_000),
@@ -134,30 +111,30 @@ async function main(): Promise<void> {
   if (!secret.value) {
     throw new Error("Key Vault returned an empty marker secret.");
   }
-  console.log("PASS Key Vault marker secret read");
+  console.log("Passed: Key Vault marker secret read");
 
   await assertUnattachedCredential(
-    "ManagedIdentityCredential negative clientId",
-    new ManagedIdentityCredential({ clientId: negativeClientId }),
+    "ManagedIdentityCredential unattached clientId",
+    new ManagedIdentityCredential({ clientId: unattachedClientId }),
   );
   await assertUnattachedCredential(
-    "ManagedIdentityCredential negative resourceId",
-    new ManagedIdentityCredential({ resourceId: negativeResourceId }),
+    "ManagedIdentityCredential unattached resourceId",
+    new ManagedIdentityCredential({ resourceId: unattachedResourceId }),
   );
   await assertUnattachedCredential(
-    "ManagedIdentityCredential negative objectId",
-    new ManagedIdentityCredential({ objectId: negativeObjectId }),
+    "ManagedIdentityCredential unattached objectId",
+    new ManagedIdentityCredential({ objectId: unattachedObjectId }),
   );
   await assertUnattachedCredential(
-    "DefaultAzureCredential negative managedIdentityClientId",
-    new DefaultAzureCredential({ managedIdentityClientId: negativeClientId }),
+    "DefaultAzureCredential unattached managedIdentityClientId",
+    new DefaultAzureCredential({ managedIdentityClientId: unattachedClientId }),
   );
   await assertUnattachedCredential(
-    "DefaultAzureCredential negative managedIdentityResourceId",
-    new DefaultAzureCredential({ managedIdentityResourceId: negativeResourceId }),
+    "DefaultAzureCredential unattached managedIdentityResourceId",
+    new DefaultAzureCredential({ managedIdentityResourceId: unattachedResourceId }),
   );
 
-  console.log("Pass all Azure Arc UAMI scenarios");
+  console.log("Passed all Azure Arc UAMI scenarios");
 }
 
 await main();

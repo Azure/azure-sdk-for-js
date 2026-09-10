@@ -17,8 +17,8 @@ Access tokens and Key Vault secret values are never printed.
 ## Before a test session
 
 Use Azure CLI 2.90.0 or later with `connectedmachine` extension 3.0.0 or later. Set
-`subscription`, `resource_group`, `machine_name`, `vm_name`, `positive_identity_name`, and
-`negative_identity_name` for your environment.
+`subscription`, `resource_group`, `machine_name`, `vm_name`, `attached_identity_name`, and
+`unattached_identity_name` for your environment.
 
 ```bash
 az feature show \
@@ -100,8 +100,8 @@ az connectedmachine identity show \
   --machine-name "$machine_name"
 ```
 
-The identity type must include `UserAssigned`, the positive identity must be present in
-`userAssignedIdentities`, and the negative identity must be absent.
+The identity type must include `UserAssigned`, the attached identity must be present in
+`userAssignedIdentities`, and the unattached identity must be absent.
 
 ## Build and stage the branch package
 
@@ -123,26 +123,26 @@ test the latest published `@azure/identity` package.
 Resolve both identities immediately before running the test:
 
 ```bash
-positive=$(az identity show \
+attached=$(az identity show \
   --subscription "$subscription" \
   --resource-group "$resource_group" \
-  --name "$positive_identity_name")
+  --name "$attached_identity_name")
 
-negative=$(az identity show \
+unattached=$(az identity show \
   --subscription "$subscription" \
   --resource-group "$resource_group" \
-  --name "$negative_identity_name")
+  --name "$unattached_identity_name")
 ```
 
 Set these variables for the Run Command without copying their values into source:
 
 ```text
-IDENTITY_ARC_UAMI_CLIENT_ID
-IDENTITY_ARC_UAMI_OBJECT_ID
-IDENTITY_ARC_UAMI_RESOURCE_ID
-IDENTITY_ARC_NEGATIVE_UAMI_CLIENT_ID
-IDENTITY_ARC_NEGATIVE_UAMI_OBJECT_ID
-IDENTITY_ARC_NEGATIVE_UAMI_RESOURCE_ID
+IDENTITY_ARC_ATTACHED_UAMI_CLIENT_ID
+IDENTITY_ARC_ATTACHED_UAMI_OBJECT_ID
+IDENTITY_ARC_ATTACHED_UAMI_RESOURCE_ID
+IDENTITY_ARC_UNATTACHED_UAMI_CLIENT_ID
+IDENTITY_ARC_UNATTACHED_UAMI_OBJECT_ID
+IDENTITY_ARC_UNATTACHED_UAMI_RESOURCE_ID
 IDENTITY_ARC_KEYVAULT_URL
 IDENTITY_ARC_KEYVAULT_SECRET_NAME
 ```
