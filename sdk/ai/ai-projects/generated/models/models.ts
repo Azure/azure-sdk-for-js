@@ -8044,47 +8044,6 @@ export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
   });
 }
 
-/**
- * The inputs for generating a voice agent. Only `kind` and `name` are always required.
- * The authoring service expands these inputs into a full, editable `VoiceAgentDefinition`, which is then created through `POST /agents`.
- * The generated `instructions` and audio/voice settings are stored as separate fields on the resulting agent
- * definition, so the caller can edit or override any of them afterward via standard agent versioning.
- */
-export interface GenerateVoiceAgentRequest {
-  /** The agent kind. Always `voice`. */
-  kind: "voice";
-  /** The unique name for the agent to create. Must be a non-empty DNS-like agent name. */
-  name: string;
-  /** Optional inference mode. When omitted, the authoring service uses `managed`. When supplied, use `managed` or `self_deployed`. */
-  model_type?: VoiceModelType;
-  /** Optional model identifier. Required when `model_type` is `self_deployed`; optional when `model_type` is `managed` or omitted. The service never invents a customer deployment name. */
-  model?: string;
-  /** An optional authoring use case. An empty string is accepted. */
-  use_case?: string;
-  /** An optional natural-language description of what the agent should do. When supplied, it seeds the generated instructions. */
-  goal?: string;
-  /** An optional agent description. The authoring service resolves its fallback when omitted. */
-  description?: string;
-  /** Optional tools carried through verbatim onto the generated agent (see `VoiceAgentTool`). */
-  tools?: VoiceAgentToolUnion[];
-  /** (Preview) When `true`, the generated voice agent is created as a draft — an editable, unpublished version the caller can review and refine before publishing it via the standard create/version path. The service defaults to `false` if a value is not specified by the caller, in which case the agent is created and published normally. */
-  draft?: boolean;
-}
-
-export function generateVoiceAgentRequestSerializer(item: GenerateVoiceAgentRequest): any {
-  return {
-    kind: item["kind"],
-    name: item["name"],
-    model_type: item["model_type"],
-    model: item["model"],
-    use_case: item["use_case"],
-    goal: item["goal"],
-    description: item["description"],
-    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
-    draft: item["draft"],
-  };
-}
-
 /** A deleted agent Object */
 export interface DeleteAgentResponse {
   /** The object type. Always 'agent.deleted'. */
@@ -8494,884 +8453,6 @@ export function microsoft365PublishDefaultsDeserializer(item: any): Microsoft365
     developerWebsiteUrl: item["developerWebsiteUrl"],
     privacyUrl: item["privacyUrl"],
     termsOfUseUrl: item["termsOfUseUrl"],
-  };
-}
-
-/** The request to create a telephony binding. */
-export interface CreateTelephonyBindingRequest {
-  /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extension, twilio */
-  provider: TelephonyProvider;
-  /** The Foundry connection name for the telephony provider. */
-  connection: string;
-  /** An optional display label for the binding. */
-  label?: string;
-}
-
-export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBindingRequest): any {
-  return { provider: item["provider"], connection: item["connection"], label: item["label"] };
-}
-
-/** Alias for CreateTelephonyBindingRequestUnion */
-export type CreateTelephonyBindingRequestUnion =
-  | CreateTeamsPhoneExtensionTelephonyBindingRequest
-  | CreateTwilioTelephonyBindingRequest
-  | CreateTelephonyBindingRequest;
-
-export function createTelephonyBindingRequestUnionSerializer(
-  item: CreateTelephonyBindingRequestUnion,
-): any {
-  switch (item.provider) {
-    case "teams_phone_extension":
-      return createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
-        item as CreateTeamsPhoneExtensionTelephonyBindingRequest,
-      );
-
-    case "twilio":
-      return createTwilioTelephonyBindingRequestSerializer(
-        item as CreateTwilioTelephonyBindingRequest,
-      );
-
-    default:
-      return createTelephonyBindingRequestSerializer(item);
-  }
-}
-
-/** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
-export type TelephonyProvider = "teams_phone_extension" | "twilio";
-
-/** The request to create a Microsoft Teams Phone Extension binding. */
-export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends CreateTelephonyBindingRequest {
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
-  /** The Microsoft Teams resource-account object identifier as a GUID. */
-  resource_account_object_id: string;
-}
-
-export function createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
-  item: CreateTeamsPhoneExtensionTelephonyBindingRequest,
-): any {
-  return {
-    provider: item["provider"],
-    connection: item["connection"],
-    label: item["label"],
-    phone_number: item["phone_number"],
-    resource_account_object_id: item["resource_account_object_id"],
-  };
-}
-
-/** The request to create a Twilio binding. */
-export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBindingRequest {
-  /** The Twilio provider. */
-  provider: "twilio";
-  /** The Twilio E.164 phone number. */
-  phone_number: string;
-}
-
-export function createTwilioTelephonyBindingRequestSerializer(
-  item: CreateTwilioTelephonyBindingRequest,
-): any {
-  return {
-    provider: item["provider"],
-    connection: item["connection"],
-    label: item["label"],
-    phone_number: item["phone_number"],
-  };
-}
-
-/** A telephony binding owned by a voice agent. */
-export interface TelephonyBinding {
-  /** The service-generated binding identifier. */
-  id: string;
-  /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extension, twilio */
-  provider: TelephonyProvider;
-  /** The Foundry connection name for the telephony provider. */
-  connection: string;
-  /** The optional display label for the binding. */
-  label?: string;
-  /** The lifecycle status. */
-  status: TelephonyBindingStatus;
-  /** The service-generated webhook URL to configure with the telephony provider. */
-  incoming_call_url: string;
-}
-
-export function telephonyBindingDeserializer(item: any): TelephonyBinding {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    connection: item["connection"],
-    label: item["label"],
-    status: item["status"],
-    incoming_call_url: item["incoming_call_url"],
-  };
-}
-
-/** Alias for TelephonyBindingUnion */
-export type TelephonyBindingUnion =
-  TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
-
-export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUnion {
-  switch (item["provider"]) {
-    case "teams_phone_extension":
-      return teamsPhoneExtensionTelephonyBindingDeserializer(
-        item as TeamsPhoneExtensionTelephonyBinding,
-      );
-
-    case "twilio":
-      return twilioTelephonyBindingDeserializer(item as TwilioTelephonyBinding);
-
-    default:
-      return telephonyBindingDeserializer(item);
-  }
-}
-
-/** The lifecycle status of a telephony binding. */
-export type TelephonyBindingStatus = "active" | "suspended";
-
-/** A Microsoft Teams Phone Extension binding owned by a voice agent. */
-export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
-  /** The Microsoft Teams resource-account object identifier as a GUID. */
-  resource_account_object_id: string;
-}
-
-export function teamsPhoneExtensionTelephonyBindingDeserializer(
-  item: any,
-): TeamsPhoneExtensionTelephonyBinding {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    connection: item["connection"],
-    label: item["label"],
-    status: item["status"],
-    incoming_call_url: item["incoming_call_url"],
-    phone_number: item["phone_number"],
-    resource_account_object_id: item["resource_account_object_id"],
-  };
-}
-
-/** A Twilio binding owned by a voice agent. */
-export interface TwilioTelephonyBinding extends TelephonyBinding {
-  /** The Twilio provider. */
-  provider: "twilio";
-  /** The Twilio E.164 phone number. */
-  phone_number: string;
-}
-
-export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBinding {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    connection: item["connection"],
-    label: item["label"],
-    status: item["status"],
-    incoming_call_url: item["incoming_call_url"],
-    phone_number: item["phone_number"],
-  };
-}
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultTelephonyBindingListItem {
-  /** The requested list of items. */
-  data: TelephonyBindingListItemUnion[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultTelephonyBindingListItemDeserializer(
-  item: any,
-): _AgentsPagedResultTelephonyBindingListItem {
-  return {
-    data: telephonyBindingListItemUnionArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function telephonyBindingListItemUnionArrayDeserializer(
-  result: Array<TelephonyBindingListItemUnion>,
-): any[] {
-  return result.map((item) => {
-    return telephonyBindingListItemUnionDeserializer(item);
-  });
-}
-
-/** A telephony binding returned in a list, including its entity tag. */
-export interface TelephonyBindingListItem {
-  /** The service-generated binding identifier. */
-  id: string;
-  /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extension, twilio */
-  provider: TelephonyProvider;
-  /** The Foundry connection name for the telephony provider. */
-  connection: string;
-  /** The optional display label for the binding. */
-  label?: string;
-  /** The lifecycle status. */
-  status: TelephonyBindingStatus;
-  /** The service-generated webhook URL to configure with the telephony provider. */
-  incoming_call_url: string;
-  /** The entity tag to send in the `If-Match` header when updating or deleting this binding. */
-  readonly etag: string;
-}
-
-export function telephonyBindingListItemDeserializer(item: any): TelephonyBindingListItem {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    connection: item["connection"],
-    label: item["label"],
-    status: item["status"],
-    incoming_call_url: item["incoming_call_url"],
-    etag: item["etag"],
-  };
-}
-
-/** Alias for TelephonyBindingListItemUnion */
-export type TelephonyBindingListItemUnion =
-  | TeamsPhoneExtensionTelephonyBindingListItem
-  | TwilioTelephonyBindingListItem
-  | TelephonyBindingListItem;
-
-export function telephonyBindingListItemUnionDeserializer(
-  item: any,
-): TelephonyBindingListItemUnion {
-  switch (item["provider"]) {
-    case "teams_phone_extension":
-      return teamsPhoneExtensionTelephonyBindingListItemDeserializer(
-        item as TeamsPhoneExtensionTelephonyBindingListItem,
-      );
-
-    case "twilio":
-      return twilioTelephonyBindingListItemDeserializer(item as TwilioTelephonyBindingListItem);
-
-    default:
-      return telephonyBindingListItemDeserializer(item);
-  }
-}
-
-/** A Microsoft Teams Phone Extension binding returned in a list, including its entity tag. */
-export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBindingListItem {
-  /** The Microsoft Teams Phone Extension provider. */
-  provider: "teams_phone_extension";
-  /** The optional display phone number for the Teams resource account. */
-  phone_number?: string;
-  /** The Microsoft Teams resource-account object identifier as a GUID. */
-  resource_account_object_id: string;
-}
-
-export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
-  item: any,
-): TeamsPhoneExtensionTelephonyBindingListItem {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    connection: item["connection"],
-    label: item["label"],
-    status: item["status"],
-    incoming_call_url: item["incoming_call_url"],
-    etag: item["etag"],
-    phone_number: item["phone_number"],
-    resource_account_object_id: item["resource_account_object_id"],
-  };
-}
-
-/** A Twilio binding returned in a list, including its entity tag. */
-export interface TwilioTelephonyBindingListItem extends TelephonyBindingListItem {
-  /** The Twilio provider. */
-  provider: "twilio";
-  /** The Twilio E.164 phone number. */
-  phone_number: string;
-}
-
-export function twilioTelephonyBindingListItemDeserializer(
-  item: any,
-): TwilioTelephonyBindingListItem {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    connection: item["connection"],
-    label: item["label"],
-    status: item["status"],
-    incoming_call_url: item["incoming_call_url"],
-    etag: item["etag"],
-    phone_number: item["phone_number"],
-  };
-}
-
-/** The request to update an existing telephony binding. Every property is optional and the binding's provider is immutable. */
-export interface UpdateTelephonyBindingRequest {
-  /** The new lifecycle status. */
-  status?: TelephonyBindingStatus;
-  /** The replacement display label. Omit it to preserve the current value; use null to clear it. */
-  label?: string;
-  /** The replacement Foundry connection name. This property is valid only for a Teams Phone Extension binding; a Twilio binding's connection is immutable. */
-  connection?: string;
-  /** The replacement Teams Phone Extension display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for a Teams Phone Extension binding. */
-  phone_number?: string;
-}
-
-export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBindingRequest): any {
-  return {
-    status: item["status"],
-    label: item["label"],
-    connection: item["connection"],
-    phone_number: item["phone_number"],
-  };
-}
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultTelephonyCallSummary {
-  /** The requested list of items. */
-  data: TelephonyCallSummary[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultTelephonyCallSummaryDeserializer(
-  item: any,
-): _AgentsPagedResultTelephonyCallSummary {
-  return {
-    data: telephonyCallSummaryArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function telephonyCallSummaryArrayDeserializer(result: Array<TelephonyCallSummary>): any[] {
-  return result.map((item) => {
-    return telephonyCallSummaryDeserializer(item);
-  });
-}
-
-/** A summary of a durable inbound call to a voice agent. */
-export interface TelephonyCallSummary {
-  /** The service-generated call identifier. */
-  id: string;
-  /** The telephony provider. */
-  provider: TelephonyProvider;
-  /** The provider-assigned call identifier, when available. */
-  provider_call_id?: string;
-  /** The caller's phone number, when supplied by the provider. */
-  caller_number?: string;
-  /** The Teams Phone Extension or Twilio number that received the call. */
-  provider_number?: string;
-  /** The lifecycle status of the call. */
-  status: TelephonyCallStatus;
-  /** The provider-neutral lifecycle phase reached by the call. */
-  phase: TelephonyCallPhase;
-  /** The Unix timestamp (in seconds) for when the inbound webhook was received. */
-  started_at: Date;
-  /** The Unix timestamp (in seconds) for when the provider reported the call as answered. */
-  answered_at?: Date;
-  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
-  media_connected_at?: Date;
-  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
-  agent_session_ready_at?: Date;
-  /** The Unix timestamp (in seconds) for when the call ended. */
-  ended_at?: Date;
-  /** The call duration. */
-  duration_ms?: number;
-  /** The service-generated reason that the call ended. */
-  end_reason?: string;
-  /** The provider status code associated with the terminal result. */
-  provider_status_code?: number;
-  /** The provider subcode associated with the terminal result. */
-  provider_sub_code?: number;
-  /** The provider message associated with the terminal result. */
-  provider_message?: string;
-}
-
-export function telephonyCallSummaryDeserializer(item: any): TelephonyCallSummary {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    provider_call_id: item["provider_call_id"],
-    caller_number: item["caller_number"],
-    provider_number: item["provider_number"],
-    status: item["status"],
-    phase: item["phase"],
-    started_at: new Date(item["started_at"] * 1000),
-    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
-    media_connected_at: !item["media_connected_at"]
-      ? item["media_connected_at"]
-      : new Date(item["media_connected_at"] * 1000),
-    agent_session_ready_at: !item["agent_session_ready_at"]
-      ? item["agent_session_ready_at"]
-      : new Date(item["agent_session_ready_at"] * 1000),
-    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
-    duration_ms: item["duration_ms"],
-    end_reason: item["end_reason"],
-    provider_status_code: item["provider_status_code"],
-    provider_sub_code: item["provider_sub_code"],
-    provider_message: item["provider_message"],
-  };
-}
-
-/** The lifecycle status of an inbound telephony call. */
-export type TelephonyCallStatus = "in_progress" | "success" | "failed";
-
-/** The provider-neutral phase reached by an inbound telephony call. */
-export type TelephonyCallPhase =
-  | "received"
-  | "validated"
-  | "admitted"
-  | "answering"
-  | "answered"
-  | "media_connected"
-  | "agent_session_ready"
-  | "bridging"
-  | "managing"
-  | "completed"
-  | "rejected"
-  | "failed";
-
-/** Detailed diagnostics for a durable inbound call to a voice agent. */
-export interface TelephonyCallRecord {
-  /** The service-generated call identifier. */
-  id: string;
-  /** The telephony provider. */
-  provider: TelephonyProvider;
-  /** The provider-assigned call identifier, when available. */
-  provider_call_id?: string;
-  /** The caller's phone number, when supplied by the provider. */
-  caller_number?: string;
-  /** The Teams Phone Extension or Twilio number that received the call. */
-  provider_number?: string;
-  /** The lifecycle status of the call. */
-  status: TelephonyCallStatus;
-  /** The provider-neutral lifecycle phase reached by the call. */
-  phase: TelephonyCallPhase;
-  /** The Unix timestamp (in seconds) for when the inbound webhook was received. */
-  started_at: Date;
-  /** The Unix timestamp (in seconds) for when the provider reported the call as answered. */
-  answered_at?: Date;
-  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
-  media_connected_at?: Date;
-  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
-  agent_session_ready_at?: Date;
-  /** The Unix timestamp (in seconds) for when the call ended. */
-  ended_at?: Date;
-  /** The call duration. */
-  duration_ms?: number;
-  /** The service-generated reason that the call ended. */
-  end_reason?: string;
-  /** The provider status code associated with the terminal result. */
-  provider_status_code?: number;
-  /** The provider subcode associated with the terminal result. */
-  provider_sub_code?: number;
-  /** The provider message associated with the terminal result. */
-  provider_message?: string;
-  /** Detailed provider-neutral call timing. */
-  timing: TelephonyCallTiming;
-  /** Correlation to the customer-facing Foundry trace. */
-  trace?: TelephonyCallTrace;
-  /** The lifecycle timeline. */
-  events: TelephonyCallLifecycleEvent[];
-  /** Whether older lifecycle events were omitted from the timeline. */
-  events_truncated: boolean;
-}
-
-export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord {
-  return {
-    id: item["id"],
-    provider: item["provider"],
-    provider_call_id: item["provider_call_id"],
-    caller_number: item["caller_number"],
-    provider_number: item["provider_number"],
-    status: item["status"],
-    phase: item["phase"],
-    started_at: new Date(item["started_at"] * 1000),
-    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
-    media_connected_at: !item["media_connected_at"]
-      ? item["media_connected_at"]
-      : new Date(item["media_connected_at"] * 1000),
-    agent_session_ready_at: !item["agent_session_ready_at"]
-      ? item["agent_session_ready_at"]
-      : new Date(item["agent_session_ready_at"] * 1000),
-    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
-    duration_ms: item["duration_ms"],
-    end_reason: item["end_reason"],
-    provider_status_code: item["provider_status_code"],
-    provider_sub_code: item["provider_sub_code"],
-    provider_message: item["provider_message"],
-    timing: telephonyCallTimingDeserializer(item["timing"]),
-    trace: !item["trace"] ? item["trace"] : telephonyCallTraceDeserializer(item["trace"]),
-    events: telephonyCallLifecycleEventArrayDeserializer(item["events"]),
-    events_truncated: item["events_truncated"],
-  };
-}
-
-/** Detailed provider-neutral timing for an inbound telephony call. */
-export interface TelephonyCallTiming {
-  /** The Unix timestamp (in seconds) for when the provider webhook was received. */
-  received_at?: Date;
-  /** The Unix timestamp (in seconds) for when webhook validation completed. */
-  validated_at?: Date;
-  /** The Unix timestamp (in seconds) for when the call was admitted to an agent binding. */
-  admitted_at?: Date;
-  /** The Unix timestamp (in seconds) for when the service requested that the provider answer the call. */
-  answer_requested_at?: Date;
-  /** The Unix timestamp (in seconds) for when the provider reported that the call was answered. */
-  answered_at?: Date;
-  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
-  media_connected_at?: Date;
-  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
-  agent_session_ready_at?: Date;
-  /** The Unix timestamp (in seconds) for when caller audio was first observed. */
-  first_caller_audio_at?: Date;
-  /** The Unix timestamp (in seconds) for when agent audio was first observed. */
-  first_agent_audio_at?: Date;
-  /** The Unix timestamp (in seconds) for when the call reached a terminal state. */
-  ended_at?: Date;
-  /** The timestamp used as the basis for duration. */
-  duration_basis?: TelephonyCallDurationBasis;
-  /** The primary source of the timing milestones. Individual lifecycle events identify their own timestamp source separately. */
-  timestamp_source: TelephonyCallTimestampSource;
-}
-
-export function telephonyCallTimingDeserializer(item: any): TelephonyCallTiming {
-  return {
-    received_at: !item["received_at"] ? item["received_at"] : new Date(item["received_at"] * 1000),
-    validated_at: !item["validated_at"]
-      ? item["validated_at"]
-      : new Date(item["validated_at"] * 1000),
-    admitted_at: !item["admitted_at"] ? item["admitted_at"] : new Date(item["admitted_at"] * 1000),
-    answer_requested_at: !item["answer_requested_at"]
-      ? item["answer_requested_at"]
-      : new Date(item["answer_requested_at"] * 1000),
-    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
-    media_connected_at: !item["media_connected_at"]
-      ? item["media_connected_at"]
-      : new Date(item["media_connected_at"] * 1000),
-    agent_session_ready_at: !item["agent_session_ready_at"]
-      ? item["agent_session_ready_at"]
-      : new Date(item["agent_session_ready_at"] * 1000),
-    first_caller_audio_at: !item["first_caller_audio_at"]
-      ? item["first_caller_audio_at"]
-      : new Date(item["first_caller_audio_at"] * 1000),
-    first_agent_audio_at: !item["first_agent_audio_at"]
-      ? item["first_agent_audio_at"]
-      : new Date(item["first_agent_audio_at"] * 1000),
-    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
-    duration_basis: item["duration_basis"],
-    timestamp_source: item["timestamp_source"],
-  };
-}
-
-/** The timestamp used as the basis for call duration. */
-export type TelephonyCallDurationBasis = "answered" | "received";
-
-/** The source of a telephony lifecycle timestamp. */
-export type TelephonyCallTimestampSource = "provider" | "gateway" | "derived";
-
-/** Correlation from a durable telephony call record to its customer-facing Foundry trace. */
-export interface TelephonyCallTrace {
-  /** The trace availability status. */
-  status: TelephonyCallTraceStatus;
-  /** The W3C trace identifier, when a trace was recorded. */
-  trace_id?: string;
-  /** The root span identifier, when a trace was recorded. */
-  root_span_id?: string;
-  /** The voice-agent conversation identifier, when a conversation was created. */
-  conversation_id?: string;
-  /** Whether the trace was emitted live or after the call ended. */
-  mode?: TelephonyCallTraceMode;
-}
-
-export function telephonyCallTraceDeserializer(item: any): TelephonyCallTrace {
-  return {
-    status: item["status"],
-    trace_id: item["trace_id"],
-    root_span_id: item["root_span_id"],
-    conversation_id: item["conversation_id"],
-    mode: item["mode"],
-  };
-}
-
-/** The availability status of a customer-facing telephony call trace. */
-export type TelephonyCallTraceStatus =
-  "pending" | "emitting" | "available" | "not_recorded" | "not_applicable" | "failed";
-
-/** The mode used to expose a telephony call as a customer-facing Foundry trace. */
-export type TelephonyCallTraceMode = "live" | "post_call";
-
-export function telephonyCallLifecycleEventArrayDeserializer(
-  result: Array<TelephonyCallLifecycleEvent>,
-): any[] {
-  return result.map((item) => {
-    return telephonyCallLifecycleEventDeserializer(item);
-  });
-}
-
-/** A bounded durable observation in the lifecycle of one telephony call. */
-export interface TelephonyCallLifecycleEvent {
-  /** The service-assigned order of the event within the call record. */
-  readonly sequence: number;
-  /** The stable provider-neutral event name. */
-  name: TelephonyCallLifecycleEventName;
-  /** The component that supplied the observation. */
-  source: TelephonyCallLifecycleEventSource;
-  /** The outcome of the observed lifecycle operation. */
-  outcome: TelephonyCallLifecycleEventOutcome;
-  /** The Unix timestamp (in seconds) for when the service observed the event. */
-  observed_at: Date;
-  /** The Unix timestamp (in seconds) for when the event occurred according to the provider. */
-  occurred_at?: Date;
-  /** The source of the event timestamp. */
-  timestamp_source: TelephonyCallTimestampSource;
-  /** A stable service-generated reason associated with the event. */
-  reason?: string;
-  /** The provider event identifier used for idempotency, when supplied. */
-  provider_event_id?: string;
-  /** The provider event sequence, when supplied. */
-  provider_sequence?: number;
-  /** The provider status code associated with the event. */
-  provider_status_code?: number;
-  /** The provider subcode associated with the event. */
-  provider_sub_code?: number;
-}
-
-export function telephonyCallLifecycleEventDeserializer(item: any): TelephonyCallLifecycleEvent {
-  return {
-    sequence: item["sequence"],
-    name: item["name"],
-    source: item["source"],
-    outcome: item["outcome"],
-    observed_at: new Date(item["observed_at"] * 1000),
-    occurred_at: !item["occurred_at"] ? item["occurred_at"] : new Date(item["occurred_at"] * 1000),
-    timestamp_source: item["timestamp_source"],
-    reason: item["reason"],
-    provider_event_id: item["provider_event_id"],
-    provider_sequence: item["provider_sequence"],
-    provider_status_code: item["provider_status_code"],
-    provider_sub_code: item["provider_sub_code"],
-  };
-}
-
-/** A provider-neutral lifecycle event name. Known values are stable; additional values may be added over time. */
-export type TelephonyCallLifecycleEventName =
-  | "telephony.webhook.received"
-  | "telephony.webhook.validation"
-  | "telephony.binding.resolve"
-  | "telephony.provider.answer"
-  | "telephony.media.connect"
-  | "telephony.agent_session.connect"
-  | "telephony.media.first_caller_audio"
-  | "telephony.media.first_agent_audio"
-  | "telephony.call.transfer"
-  | "telephony.call.hangup"
-  | "telephony.call.disconnect";
-
-/** The component that supplied a telephony lifecycle observation. */
-export type TelephonyCallLifecycleEventSource =
-  "gateway" | "teams_phone_extension" | "twilio" | "voice_agent";
-
-/** The outcome of one telephony lifecycle observation. */
-export type TelephonyCallLifecycleEventOutcome =
-  "observed" | "started" | "succeeded" | "failed" | "rejected" | "cancelled";
-
-/** The telephony transfer targets configured for one voice agent. */
-export interface TelephonyTransferTargets {
-  /** The complete set of destinations to which the voice agent may transfer calls. An empty array clears all targets when replacing the configuration. */
-  transfer_targets: TelephonyTransferTarget[];
-}
-
-export function telephonyTransferTargetsDeserializer(item: any): TelephonyTransferTargets {
-  return {
-    transfer_targets: telephonyTransferTargetArrayDeserializer(item["transfer_targets"]),
-  };
-}
-
-export function telephonyTransferTargetArraySerializer(
-  result: Array<TelephonyTransferTarget>,
-): any[] {
-  return result.map((item) => {
-    return telephonyTransferTargetSerializer(item);
-  });
-}
-
-export function telephonyTransferTargetArrayDeserializer(
-  result: Array<TelephonyTransferTarget>,
-): any[] {
-  return result.map((item) => {
-    return telephonyTransferTargetDeserializer(item);
-  });
-}
-
-/** A named destination to which the voice agent may transfer a call. */
-export interface TelephonyTransferTarget {
-  /** The unique name exposed to the voice agent for this transfer target. */
-  name: string;
-  /** A description that helps the voice agent decide when to use this target. */
-  description: string;
-  /** The provider-specific transfer destination. */
-  destination: TelephonyTransferDestinationUnion;
-}
-
-export function telephonyTransferTargetSerializer(item: TelephonyTransferTarget): any {
-  return {
-    name: item["name"],
-    description: item["description"],
-    destination: telephonyTransferDestinationUnionSerializer(item["destination"]),
-  };
-}
-
-export function telephonyTransferTargetDeserializer(item: any): TelephonyTransferTarget {
-  return {
-    name: item["name"],
-    description: item["description"],
-    destination: telephonyTransferDestinationUnionDeserializer(item["destination"]),
-  };
-}
-
-/** A destination for a telephony transfer target. */
-export interface TelephonyTransferDestination {
-  /** The telephony transfer destination type. */
-  /** The discriminator possible values: pstn, teams, sip */
-  kind: TelephonyTransferDestinationKind;
-}
-
-export function telephonyTransferDestinationSerializer(item: TelephonyTransferDestination): any {
-  return { kind: item["kind"] };
-}
-
-export function telephonyTransferDestinationDeserializer(item: any): TelephonyTransferDestination {
-  return {
-    kind: item["kind"],
-  };
-}
-
-/** Alias for TelephonyTransferDestinationUnion */
-export type TelephonyTransferDestinationUnion =
-  | PstnTelephonyTransferDestination
-  | TeamsTelephonyTransferDestination
-  | SipTelephonyTransferDestination
-  | TelephonyTransferDestination;
-
-export function telephonyTransferDestinationUnionSerializer(
-  item: TelephonyTransferDestinationUnion,
-): any {
-  switch (item.kind) {
-    case "pstn":
-      return pstnTelephonyTransferDestinationSerializer(item as PstnTelephonyTransferDestination);
-
-    case "teams":
-      return teamsTelephonyTransferDestinationSerializer(item as TeamsTelephonyTransferDestination);
-
-    case "sip":
-      return sipTelephonyTransferDestinationSerializer(item as SipTelephonyTransferDestination);
-
-    default:
-      return telephonyTransferDestinationSerializer(item);
-  }
-}
-
-export function telephonyTransferDestinationUnionDeserializer(
-  item: any,
-): TelephonyTransferDestinationUnion {
-  switch (item["kind"]) {
-    case "pstn":
-      return pstnTelephonyTransferDestinationDeserializer(item as PstnTelephonyTransferDestination);
-
-    case "teams":
-      return teamsTelephonyTransferDestinationDeserializer(
-        item as TeamsTelephonyTransferDestination,
-      );
-
-    case "sip":
-      return sipTelephonyTransferDestinationDeserializer(item as SipTelephonyTransferDestination);
-
-    default:
-      return telephonyTransferDestinationDeserializer(item);
-  }
-}
-
-/** The kind of telephony transfer destination. Known values are stable; additional values may be added over time. */
-export type TelephonyTransferDestinationKind = "pstn" | "teams" | "sip";
-
-/** A PSTN destination for a telephony transfer target. */
-export interface PstnTelephonyTransferDestination extends TelephonyTransferDestination {
-  /** The PSTN destination type. */
-  kind: "pstn";
-  /** The E.164 phone number to call. */
-  value: string;
-}
-
-export function pstnTelephonyTransferDestinationSerializer(
-  item: PstnTelephonyTransferDestination,
-): any {
-  return { kind: item["kind"], value: item["value"] };
-}
-
-export function pstnTelephonyTransferDestinationDeserializer(
-  item: any,
-): PstnTelephonyTransferDestination {
-  return {
-    kind: item["kind"],
-    value: item["value"],
-  };
-}
-
-/** A Microsoft Teams destination for a telephony transfer target. */
-export interface TeamsTelephonyTransferDestination extends TelephonyTransferDestination {
-  /** The Microsoft Teams destination type. */
-  kind: "teams";
-  /** The Microsoft Teams user or resource-account identifier. */
-  value: string;
-}
-
-export function teamsTelephonyTransferDestinationSerializer(
-  item: TeamsTelephonyTransferDestination,
-): any {
-  return { kind: item["kind"], value: item["value"] };
-}
-
-export function teamsTelephonyTransferDestinationDeserializer(
-  item: any,
-): TeamsTelephonyTransferDestination {
-  return {
-    kind: item["kind"],
-    value: item["value"],
-  };
-}
-
-/** A SIP destination for a telephony transfer target. */
-export interface SipTelephonyTransferDestination extends TelephonyTransferDestination {
-  /** The SIP destination type. */
-  kind: "sip";
-  /** The SIP or SIPS URI to call. */
-  value: string;
-}
-
-export function sipTelephonyTransferDestinationSerializer(
-  item: SipTelephonyTransferDestination,
-): any {
-  return { kind: item["kind"], value: item["value"] };
-}
-
-export function sipTelephonyTransferDestinationDeserializer(
-  item: any,
-): SipTelephonyTransferDestination {
-  return {
-    kind: item["kind"],
-    value: item["value"],
   };
 }
 
@@ -11908,6 +10989,1493 @@ export function toolboxVersionObjectArrayDeserializer(result: Array<ToolboxVersi
   });
 }
 
+/**
+ * The inputs for generating a voice agent. Only `kind` and `name` are always required.
+ * The authoring service expands these inputs into a full, editable `VoiceAgentDefinition`, which is then created through `POST /agents`.
+ * The generated `instructions` and audio/voice settings are stored as separate fields on the resulting agent
+ * definition, so the caller can edit or override any of them afterward via standard agent versioning.
+ */
+export interface GenerateVoiceAgentRequest {
+  /** The agent kind. Always `voice`. */
+  kind: "voice";
+  /** The unique name for the agent to create. Must be a non-empty DNS-like agent name. */
+  name: string;
+  /** Optional inference mode. When omitted, the authoring service uses `managed`. When supplied, use `managed` or `self_deployed`. */
+  model_type?: VoiceModelType;
+  /** Optional model identifier. Required when `model_type` is `self_deployed`; optional when `model_type` is `managed` or omitted. The service never invents a customer deployment name. */
+  model?: string;
+  /** An optional authoring use case. An empty string is accepted. */
+  use_case?: string;
+  /** An optional natural-language description of what the agent should do. When supplied, it seeds the generated instructions. */
+  goal?: string;
+  /** An optional agent description. The authoring service resolves its fallback when omitted. */
+  description?: string;
+  /** Optional tools carried through verbatim onto the generated agent (see `VoiceAgentTool`). */
+  tools?: VoiceAgentToolUnion[];
+  /** (Preview) When `true`, the generated voice agent is created as a draft — an editable, unpublished version the caller can review and refine before publishing it via the standard create/version path. The service defaults to `false` if a value is not specified by the caller, in which case the agent is created and published normally. */
+  draft?: boolean;
+}
+
+export function generateVoiceAgentRequestSerializer(item: GenerateVoiceAgentRequest): any {
+  return {
+    kind: item["kind"],
+    name: item["name"],
+    model_type: item["model_type"],
+    model: item["model"],
+    use_case: item["use_case"],
+    goal: item["goal"],
+    description: item["description"],
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    draft: item["draft"],
+  };
+}
+
+/** The request to create a telephony binding. */
+export interface CreateTelephonyBindingRequest {
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
+  connection: string;
+  /** An optional display label for the binding. */
+  label?: string;
+}
+
+export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBindingRequest): any {
+  return { provider: item["provider"], connection: item["connection"], label: item["label"] };
+}
+
+/** Alias for CreateTelephonyBindingRequestUnion */
+export type CreateTelephonyBindingRequestUnion =
+  | CreateTeamsPhoneExtensionTelephonyBindingRequest
+  | CreateTwilioTelephonyBindingRequest
+  | CreateTelephonyBindingRequest;
+
+export function createTelephonyBindingRequestUnionSerializer(
+  item: CreateTelephonyBindingRequestUnion,
+): any {
+  switch (item.provider) {
+    case "teams_phone_extension":
+      return createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
+        item as CreateTeamsPhoneExtensionTelephonyBindingRequest,
+      );
+
+    case "twilio":
+      return createTwilioTelephonyBindingRequestSerializer(
+        item as CreateTwilioTelephonyBindingRequest,
+      );
+
+    default:
+      return createTelephonyBindingRequestSerializer(item);
+  }
+}
+
+/** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
+export type TelephonyProvider = "teams_phone_extension" | "twilio";
+
+/** The request to create a Microsoft Teams Phone Extension binding. */
+export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
+  item: CreateTeamsPhoneExtensionTelephonyBindingRequest,
+): any {
+  return {
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+/** The request to create a Twilio binding. */
+export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+  /** The Twilio provider. */
+  provider: "twilio";
+  /** The Twilio E.164 phone number. */
+  phone_number: string;
+}
+
+export function createTwilioTelephonyBindingRequestSerializer(
+  item: CreateTwilioTelephonyBindingRequest,
+): any {
+  return {
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+  };
+}
+
+/** A telephony binding owned by a voice agent. */
+export interface TelephonyBinding {
+  /** The service-generated binding identifier. */
+  id: string;
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
+  connection: string;
+  /** The optional display label for the binding. */
+  label?: string;
+  /** The lifecycle status. */
+  status: TelephonyBindingStatus;
+  /** The service-generated webhook URL to configure with the telephony provider. */
+  incoming_call_url: string;
+}
+
+export function telephonyBindingDeserializer(item: any): TelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+  };
+}
+
+/** Alias for TelephonyBindingUnion */
+export type TelephonyBindingUnion =
+  TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
+
+export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUnion {
+  switch (item["provider"]) {
+    case "teams_phone_extension":
+      return teamsPhoneExtensionTelephonyBindingDeserializer(
+        item as TeamsPhoneExtensionTelephonyBinding,
+      );
+
+    case "twilio":
+      return twilioTelephonyBindingDeserializer(item as TwilioTelephonyBinding);
+
+    default:
+      return telephonyBindingDeserializer(item);
+  }
+}
+
+/** The lifecycle status of a telephony binding. */
+export type TelephonyBindingStatus = "active" | "suspended";
+
+/** A Microsoft Teams Phone Extension binding owned by a voice agent. */
+export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function teamsPhoneExtensionTelephonyBindingDeserializer(
+  item: any,
+): TeamsPhoneExtensionTelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+/** A Twilio binding owned by a voice agent. */
+export interface TwilioTelephonyBinding extends TelephonyBinding {
+  /** The Twilio provider. */
+  provider: "twilio";
+  /** The Twilio E.164 phone number. */
+  phone_number: string;
+}
+
+export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    phone_number: item["phone_number"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultTelephonyBindingListItem {
+  /** The requested list of items. */
+  data: TelephonyBindingListItemUnion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultTelephonyBindingListItemDeserializer(
+  item: any,
+): _AgentsPagedResultTelephonyBindingListItem {
+  return {
+    data: telephonyBindingListItemUnionArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function telephonyBindingListItemUnionArrayDeserializer(
+  result: Array<TelephonyBindingListItemUnion>,
+): any[] {
+  return result.map((item) => {
+    return telephonyBindingListItemUnionDeserializer(item);
+  });
+}
+
+/** A telephony binding returned in a list, including its entity tag. */
+export interface TelephonyBindingListItem {
+  /** The service-generated binding identifier. */
+  id: string;
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
+  connection: string;
+  /** The optional display label for the binding. */
+  label?: string;
+  /** The lifecycle status. */
+  status: TelephonyBindingStatus;
+  /** The service-generated webhook URL to configure with the telephony provider. */
+  incoming_call_url: string;
+  /** The entity tag to send in the `If-Match` header when updating or deleting this binding. */
+  readonly etag: string;
+}
+
+export function telephonyBindingListItemDeserializer(item: any): TelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+  };
+}
+
+/** Alias for TelephonyBindingListItemUnion */
+export type TelephonyBindingListItemUnion =
+  | TeamsPhoneExtensionTelephonyBindingListItem
+  | TwilioTelephonyBindingListItem
+  | TelephonyBindingListItem;
+
+export function telephonyBindingListItemUnionDeserializer(
+  item: any,
+): TelephonyBindingListItemUnion {
+  switch (item["provider"]) {
+    case "teams_phone_extension":
+      return teamsPhoneExtensionTelephonyBindingListItemDeserializer(
+        item as TeamsPhoneExtensionTelephonyBindingListItem,
+      );
+
+    case "twilio":
+      return twilioTelephonyBindingListItemDeserializer(item as TwilioTelephonyBindingListItem);
+
+    default:
+      return telephonyBindingListItemDeserializer(item);
+  }
+}
+
+/** A Microsoft Teams Phone Extension binding returned in a list, including its entity tag. */
+export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBindingListItem {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
+  item: any,
+): TeamsPhoneExtensionTelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+/** A Twilio binding returned in a list, including its entity tag. */
+export interface TwilioTelephonyBindingListItem extends TelephonyBindingListItem {
+  /** The Twilio provider. */
+  provider: "twilio";
+  /** The Twilio E.164 phone number. */
+  phone_number: string;
+}
+
+export function twilioTelephonyBindingListItemDeserializer(
+  item: any,
+): TwilioTelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection: item["connection"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+    phone_number: item["phone_number"],
+  };
+}
+
+/** The request to update an existing telephony binding. Every property is optional and the binding's provider is immutable. */
+export interface UpdateTelephonyBindingRequest {
+  /** The new lifecycle status. */
+  status?: TelephonyBindingStatus;
+  /** The replacement display label. Omit it to preserve the current value; use null to clear it. */
+  label?: string;
+  /** The replacement Foundry connection name. This property is valid only for a Teams Phone Extension binding; a Twilio binding's connection is immutable. */
+  connection?: string;
+  /** The replacement Teams Phone Extension display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for a Teams Phone Extension binding. */
+  phone_number?: string;
+}
+
+export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBindingRequest): any {
+  return {
+    status: item["status"],
+    label: item["label"],
+    connection: item["connection"],
+    phone_number: item["phone_number"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultTelephonyCallSummary {
+  /** The requested list of items. */
+  data: TelephonyCallSummary[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultTelephonyCallSummaryDeserializer(
+  item: any,
+): _AgentsPagedResultTelephonyCallSummary {
+  return {
+    data: telephonyCallSummaryArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function telephonyCallSummaryArrayDeserializer(result: Array<TelephonyCallSummary>): any[] {
+  return result.map((item) => {
+    return telephonyCallSummaryDeserializer(item);
+  });
+}
+
+/** A summary of a durable inbound call to a voice agent. */
+export interface TelephonyCallSummary {
+  /** The service-generated call identifier. */
+  id: string;
+  /** The telephony provider. */
+  provider: TelephonyProvider;
+  /** The provider-assigned call identifier, when available. */
+  provider_call_id?: string;
+  /** The caller's phone number, when supplied by the provider. */
+  caller_number?: string;
+  /** The Teams Phone Extension or Twilio number that received the call. */
+  provider_number?: string;
+  /** The lifecycle status of the call. */
+  status: TelephonyCallStatus;
+  /** The provider-neutral lifecycle phase reached by the call. */
+  phase: TelephonyCallPhase;
+  /** The Unix timestamp (in seconds) for when the inbound webhook was received. */
+  started_at: Date;
+  /** The Unix timestamp (in seconds) for when the provider reported the call as answered. */
+  answered_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
+  media_connected_at?: Date;
+  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
+  agent_session_ready_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call ended. */
+  ended_at?: Date;
+  /** The call duration. */
+  duration_ms?: number;
+  /** The service-generated reason that the call ended. */
+  end_reason?: string;
+  /** The provider status code associated with the terminal result. */
+  provider_status_code?: number;
+  /** The provider subcode associated with the terminal result. */
+  provider_sub_code?: number;
+  /** The provider message associated with the terminal result. */
+  provider_message?: string;
+}
+
+export function telephonyCallSummaryDeserializer(item: any): TelephonyCallSummary {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    provider_call_id: item["provider_call_id"],
+    caller_number: item["caller_number"],
+    provider_number: item["provider_number"],
+    status: item["status"],
+    phase: item["phase"],
+    started_at: new Date(item["started_at"] * 1000),
+    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
+    media_connected_at: !item["media_connected_at"]
+      ? item["media_connected_at"]
+      : new Date(item["media_connected_at"] * 1000),
+    agent_session_ready_at: !item["agent_session_ready_at"]
+      ? item["agent_session_ready_at"]
+      : new Date(item["agent_session_ready_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    duration_ms: item["duration_ms"],
+    end_reason: item["end_reason"],
+    provider_status_code: item["provider_status_code"],
+    provider_sub_code: item["provider_sub_code"],
+    provider_message: item["provider_message"],
+  };
+}
+
+/** The lifecycle status of an inbound telephony call. */
+export type TelephonyCallStatus = "in_progress" | "success" | "failed";
+
+/** The provider-neutral phase reached by an inbound telephony call. */
+export type TelephonyCallPhase =
+  | "received"
+  | "validated"
+  | "admitted"
+  | "answering"
+  | "answered"
+  | "media_connected"
+  | "agent_session_ready"
+  | "bridging"
+  | "managing"
+  | "completed"
+  | "rejected"
+  | "failed";
+
+/** Detailed diagnostics for a durable inbound call to a voice agent. */
+export interface TelephonyCallRecord {
+  /** The service-generated call identifier. */
+  id: string;
+  /** The telephony provider. */
+  provider: TelephonyProvider;
+  /** The provider-assigned call identifier, when available. */
+  provider_call_id?: string;
+  /** The caller's phone number, when supplied by the provider. */
+  caller_number?: string;
+  /** The Teams Phone Extension or Twilio number that received the call. */
+  provider_number?: string;
+  /** The lifecycle status of the call. */
+  status: TelephonyCallStatus;
+  /** The provider-neutral lifecycle phase reached by the call. */
+  phase: TelephonyCallPhase;
+  /** The Unix timestamp (in seconds) for when the inbound webhook was received. */
+  started_at: Date;
+  /** The Unix timestamp (in seconds) for when the provider reported the call as answered. */
+  answered_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
+  media_connected_at?: Date;
+  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
+  agent_session_ready_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call ended. */
+  ended_at?: Date;
+  /** The call duration. */
+  duration_ms?: number;
+  /** The service-generated reason that the call ended. */
+  end_reason?: string;
+  /** The provider status code associated with the terminal result. */
+  provider_status_code?: number;
+  /** The provider subcode associated with the terminal result. */
+  provider_sub_code?: number;
+  /** The provider message associated with the terminal result. */
+  provider_message?: string;
+  /** Detailed provider-neutral call timing. */
+  timing: TelephonyCallTiming;
+  /** Correlation to the customer-facing Foundry trace. */
+  trace?: TelephonyCallTrace;
+  /** The lifecycle timeline. */
+  events: TelephonyCallLifecycleEvent[];
+  /** Whether older lifecycle events were omitted from the timeline. */
+  events_truncated: boolean;
+}
+
+export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    provider_call_id: item["provider_call_id"],
+    caller_number: item["caller_number"],
+    provider_number: item["provider_number"],
+    status: item["status"],
+    phase: item["phase"],
+    started_at: new Date(item["started_at"] * 1000),
+    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
+    media_connected_at: !item["media_connected_at"]
+      ? item["media_connected_at"]
+      : new Date(item["media_connected_at"] * 1000),
+    agent_session_ready_at: !item["agent_session_ready_at"]
+      ? item["agent_session_ready_at"]
+      : new Date(item["agent_session_ready_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    duration_ms: item["duration_ms"],
+    end_reason: item["end_reason"],
+    provider_status_code: item["provider_status_code"],
+    provider_sub_code: item["provider_sub_code"],
+    provider_message: item["provider_message"],
+    timing: telephonyCallTimingDeserializer(item["timing"]),
+    trace: !item["trace"] ? item["trace"] : telephonyCallTraceDeserializer(item["trace"]),
+    events: telephonyCallLifecycleEventArrayDeserializer(item["events"]),
+    events_truncated: item["events_truncated"],
+  };
+}
+
+/** Detailed provider-neutral timing for an inbound telephony call. */
+export interface TelephonyCallTiming {
+  /** The Unix timestamp (in seconds) for when the provider webhook was received. */
+  received_at?: Date;
+  /** The Unix timestamp (in seconds) for when webhook validation completed. */
+  validated_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call was admitted to an agent binding. */
+  admitted_at?: Date;
+  /** The Unix timestamp (in seconds) for when the service requested that the provider answer the call. */
+  answer_requested_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider reported that the call was answered. */
+  answered_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
+  media_connected_at?: Date;
+  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
+  agent_session_ready_at?: Date;
+  /** The Unix timestamp (in seconds) for when caller audio was first observed. */
+  first_caller_audio_at?: Date;
+  /** The Unix timestamp (in seconds) for when agent audio was first observed. */
+  first_agent_audio_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call reached a terminal state. */
+  ended_at?: Date;
+  /** The timestamp used as the basis for duration. */
+  duration_basis?: TelephonyCallDurationBasis;
+  /** The primary source of the timing milestones. Individual lifecycle events identify their own timestamp source separately. */
+  timestamp_source: TelephonyCallTimestampSource;
+}
+
+export function telephonyCallTimingDeserializer(item: any): TelephonyCallTiming {
+  return {
+    received_at: !item["received_at"] ? item["received_at"] : new Date(item["received_at"] * 1000),
+    validated_at: !item["validated_at"]
+      ? item["validated_at"]
+      : new Date(item["validated_at"] * 1000),
+    admitted_at: !item["admitted_at"] ? item["admitted_at"] : new Date(item["admitted_at"] * 1000),
+    answer_requested_at: !item["answer_requested_at"]
+      ? item["answer_requested_at"]
+      : new Date(item["answer_requested_at"] * 1000),
+    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
+    media_connected_at: !item["media_connected_at"]
+      ? item["media_connected_at"]
+      : new Date(item["media_connected_at"] * 1000),
+    agent_session_ready_at: !item["agent_session_ready_at"]
+      ? item["agent_session_ready_at"]
+      : new Date(item["agent_session_ready_at"] * 1000),
+    first_caller_audio_at: !item["first_caller_audio_at"]
+      ? item["first_caller_audio_at"]
+      : new Date(item["first_caller_audio_at"] * 1000),
+    first_agent_audio_at: !item["first_agent_audio_at"]
+      ? item["first_agent_audio_at"]
+      : new Date(item["first_agent_audio_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    duration_basis: item["duration_basis"],
+    timestamp_source: item["timestamp_source"],
+  };
+}
+
+/** The timestamp used as the basis for call duration. */
+export type TelephonyCallDurationBasis = "answered" | "received";
+
+/** The source of a telephony lifecycle timestamp. */
+export type TelephonyCallTimestampSource = "provider" | "gateway" | "derived";
+
+/** Correlation from a durable telephony call record to its customer-facing Foundry trace. */
+export interface TelephonyCallTrace {
+  /** The trace availability status. */
+  status: TelephonyCallTraceStatus;
+  /** The W3C trace identifier, when a trace was recorded. */
+  trace_id?: string;
+  /** The root span identifier, when a trace was recorded. */
+  root_span_id?: string;
+  /** The voice-agent conversation identifier, when a conversation was created. */
+  conversation_id?: string;
+  /** Whether the trace was emitted live or after the call ended. */
+  mode?: TelephonyCallTraceMode;
+}
+
+export function telephonyCallTraceDeserializer(item: any): TelephonyCallTrace {
+  return {
+    status: item["status"],
+    trace_id: item["trace_id"],
+    root_span_id: item["root_span_id"],
+    conversation_id: item["conversation_id"],
+    mode: item["mode"],
+  };
+}
+
+/** The availability status of a customer-facing telephony call trace. */
+export type TelephonyCallTraceStatus =
+  "pending" | "emitting" | "available" | "not_recorded" | "not_applicable" | "failed";
+
+/** The mode used to expose a telephony call as a customer-facing Foundry trace. */
+export type TelephonyCallTraceMode = "live" | "post_call";
+
+export function telephonyCallLifecycleEventArrayDeserializer(
+  result: Array<TelephonyCallLifecycleEvent>,
+): any[] {
+  return result.map((item) => {
+    return telephonyCallLifecycleEventDeserializer(item);
+  });
+}
+
+/** A bounded durable observation in the lifecycle of one telephony call. */
+export interface TelephonyCallLifecycleEvent {
+  /** The service-assigned order of the event within the call record. */
+  readonly sequence: number;
+  /** The stable provider-neutral event name. */
+  name: TelephonyCallLifecycleEventName;
+  /** The component that supplied the observation. */
+  source: TelephonyCallLifecycleEventSource;
+  /** The outcome of the observed lifecycle operation. */
+  outcome: TelephonyCallLifecycleEventOutcome;
+  /** The Unix timestamp (in seconds) for when the service observed the event. */
+  observed_at: Date;
+  /** The Unix timestamp (in seconds) for when the event occurred according to the provider. */
+  occurred_at?: Date;
+  /** The source of the event timestamp. */
+  timestamp_source: TelephonyCallTimestampSource;
+  /** A stable service-generated reason associated with the event. */
+  reason?: string;
+  /** The provider event identifier used for idempotency, when supplied. */
+  provider_event_id?: string;
+  /** The provider event sequence, when supplied. */
+  provider_sequence?: number;
+  /** The provider status code associated with the event. */
+  provider_status_code?: number;
+  /** The provider subcode associated with the event. */
+  provider_sub_code?: number;
+}
+
+export function telephonyCallLifecycleEventDeserializer(item: any): TelephonyCallLifecycleEvent {
+  return {
+    sequence: item["sequence"],
+    name: item["name"],
+    source: item["source"],
+    outcome: item["outcome"],
+    observed_at: new Date(item["observed_at"] * 1000),
+    occurred_at: !item["occurred_at"] ? item["occurred_at"] : new Date(item["occurred_at"] * 1000),
+    timestamp_source: item["timestamp_source"],
+    reason: item["reason"],
+    provider_event_id: item["provider_event_id"],
+    provider_sequence: item["provider_sequence"],
+    provider_status_code: item["provider_status_code"],
+    provider_sub_code: item["provider_sub_code"],
+  };
+}
+
+/** A provider-neutral lifecycle event name. Known values are stable; additional values may be added over time. */
+export type TelephonyCallLifecycleEventName =
+  | "telephony.webhook.received"
+  | "telephony.webhook.validation"
+  | "telephony.binding.resolve"
+  | "telephony.provider.answer"
+  | "telephony.media.connect"
+  | "telephony.agent_session.connect"
+  | "telephony.media.first_caller_audio"
+  | "telephony.media.first_agent_audio"
+  | "telephony.call.transfer"
+  | "telephony.call.hangup"
+  | "telephony.call.disconnect";
+
+/** The component that supplied a telephony lifecycle observation. */
+export type TelephonyCallLifecycleEventSource =
+  "gateway" | "teams_phone_extension" | "twilio" | "voice_agent";
+
+/** The outcome of one telephony lifecycle observation. */
+export type TelephonyCallLifecycleEventOutcome =
+  "observed" | "started" | "succeeded" | "failed" | "rejected" | "cancelled";
+
+/** The telephony transfer targets configured for one voice agent. */
+export interface TelephonyTransferTargets {
+  /** The complete set of destinations to which the voice agent may transfer calls. An empty array clears all targets when replacing the configuration. */
+  transfer_targets: TelephonyTransferTarget[];
+}
+
+export function telephonyTransferTargetsDeserializer(item: any): TelephonyTransferTargets {
+  return {
+    transfer_targets: telephonyTransferTargetArrayDeserializer(item["transfer_targets"]),
+  };
+}
+
+export function telephonyTransferTargetArraySerializer(
+  result: Array<TelephonyTransferTarget>,
+): any[] {
+  return result.map((item) => {
+    return telephonyTransferTargetSerializer(item);
+  });
+}
+
+export function telephonyTransferTargetArrayDeserializer(
+  result: Array<TelephonyTransferTarget>,
+): any[] {
+  return result.map((item) => {
+    return telephonyTransferTargetDeserializer(item);
+  });
+}
+
+/** A named destination to which the voice agent may transfer a call. */
+export interface TelephonyTransferTarget {
+  /** The unique name exposed to the voice agent for this transfer target. */
+  name: string;
+  /** A description that helps the voice agent decide when to use this target. */
+  description: string;
+  /** The provider-specific transfer destination. */
+  destination: TelephonyTransferDestinationUnion;
+}
+
+export function telephonyTransferTargetSerializer(item: TelephonyTransferTarget): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    destination: telephonyTransferDestinationUnionSerializer(item["destination"]),
+  };
+}
+
+export function telephonyTransferTargetDeserializer(item: any): TelephonyTransferTarget {
+  return {
+    name: item["name"],
+    description: item["description"],
+    destination: telephonyTransferDestinationUnionDeserializer(item["destination"]),
+  };
+}
+
+/** A destination for a telephony transfer target. */
+export interface TelephonyTransferDestination {
+  /** The telephony transfer destination type. */
+  /** The discriminator possible values: pstn, teams, sip */
+  kind: TelephonyTransferDestinationKind;
+}
+
+export function telephonyTransferDestinationSerializer(item: TelephonyTransferDestination): any {
+  return { kind: item["kind"] };
+}
+
+export function telephonyTransferDestinationDeserializer(item: any): TelephonyTransferDestination {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for TelephonyTransferDestinationUnion */
+export type TelephonyTransferDestinationUnion =
+  | PstnTelephonyTransferDestination
+  | TeamsTelephonyTransferDestination
+  | SipTelephonyTransferDestination
+  | TelephonyTransferDestination;
+
+export function telephonyTransferDestinationUnionSerializer(
+  item: TelephonyTransferDestinationUnion,
+): any {
+  switch (item.kind) {
+    case "pstn":
+      return pstnTelephonyTransferDestinationSerializer(item as PstnTelephonyTransferDestination);
+
+    case "teams":
+      return teamsTelephonyTransferDestinationSerializer(item as TeamsTelephonyTransferDestination);
+
+    case "sip":
+      return sipTelephonyTransferDestinationSerializer(item as SipTelephonyTransferDestination);
+
+    default:
+      return telephonyTransferDestinationSerializer(item);
+  }
+}
+
+export function telephonyTransferDestinationUnionDeserializer(
+  item: any,
+): TelephonyTransferDestinationUnion {
+  switch (item["kind"]) {
+    case "pstn":
+      return pstnTelephonyTransferDestinationDeserializer(item as PstnTelephonyTransferDestination);
+
+    case "teams":
+      return teamsTelephonyTransferDestinationDeserializer(
+        item as TeamsTelephonyTransferDestination,
+      );
+
+    case "sip":
+      return sipTelephonyTransferDestinationDeserializer(item as SipTelephonyTransferDestination);
+
+    default:
+      return telephonyTransferDestinationDeserializer(item);
+  }
+}
+
+/** The kind of telephony transfer destination. Known values are stable; additional values may be added over time. */
+export type TelephonyTransferDestinationKind = "pstn" | "teams" | "sip";
+
+/** A PSTN destination for a telephony transfer target. */
+export interface PstnTelephonyTransferDestination extends TelephonyTransferDestination {
+  /** The PSTN destination type. */
+  kind: "pstn";
+  /** The E.164 phone number to call. */
+  value: string;
+}
+
+export function pstnTelephonyTransferDestinationSerializer(
+  item: PstnTelephonyTransferDestination,
+): any {
+  return { kind: item["kind"], value: item["value"] };
+}
+
+export function pstnTelephonyTransferDestinationDeserializer(
+  item: any,
+): PstnTelephonyTransferDestination {
+  return {
+    kind: item["kind"],
+    value: item["value"],
+  };
+}
+
+/** A Microsoft Teams destination for a telephony transfer target. */
+export interface TeamsTelephonyTransferDestination extends TelephonyTransferDestination {
+  /** The Microsoft Teams destination type. */
+  kind: "teams";
+  /** The Microsoft Teams user or resource-account identifier. */
+  value: string;
+}
+
+export function teamsTelephonyTransferDestinationSerializer(
+  item: TeamsTelephonyTransferDestination,
+): any {
+  return { kind: item["kind"], value: item["value"] };
+}
+
+export function teamsTelephonyTransferDestinationDeserializer(
+  item: any,
+): TeamsTelephonyTransferDestination {
+  return {
+    kind: item["kind"],
+    value: item["value"],
+  };
+}
+
+/** A SIP destination for a telephony transfer target. */
+export interface SipTelephonyTransferDestination extends TelephonyTransferDestination {
+  /** The SIP destination type. */
+  kind: "sip";
+  /** The SIP or SIPS URI to call. */
+  value: string;
+}
+
+export function sipTelephonyTransferDestinationSerializer(
+  item: SipTelephonyTransferDestination,
+): any {
+  return { kind: item["kind"], value: item["value"] };
+}
+
+export function sipTelephonyTransferDestinationDeserializer(
+  item: any,
+): SipTelephonyTransferDestination {
+  return {
+    kind: item["kind"],
+    value: item["value"],
+  };
+}
+
+/** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
+export interface AgentOptimizationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Caller-supplied inputs. */
+  inputs?: AgentOptimizationJobInputs;
+  /** Result produced on success. */
+  readonly result?: AgentOptimizationJobResult;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time. */
+  readonly created_at: Date;
+  /** The timestamp when the job was last updated, represented in Unix time. */
+  readonly updated_at: Date;
+  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
+  readonly progress?: AgentOptimizationJobProgress;
+  /** Non-fatal warnings emitted at any point during optimization. */
+  readonly warnings?: string[];
+}
+
+export function agentOptimizationJobSerializer(item: AgentOptimizationJob): any {
+  return {
+    inputs: !item["inputs"] ? item["inputs"] : agentOptimizationJobInputsSerializer(item["inputs"]),
+  };
+}
+
+export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJob {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : agentOptimizationJobInputsDeserializer(item["inputs"]),
+    result: !item["result"]
+      ? item["result"]
+      : agentOptimizationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+    progress: !item["progress"]
+      ? item["progress"]
+      : agentOptimizationJobProgressDeserializer(item["progress"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : item["warnings"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Caller-supplied inputs for an optimization job. */
+export interface AgentOptimizationJobInputs {
+  /** The agent (and pinned version) being optimized. */
+  agent: OptimizedAgentIdentifier;
+  /** Training dataset — either inline items or a reference to a registered dataset. Required. */
+  train_dataset: AgentOptimizationDatasetInputUnion;
+  /** Optional held-out validation dataset for measuring generalization of the final candidate. */
+  validation_dataset?: AgentOptimizationDatasetInputUnion;
+  /** Job-level evaluators referenced by name and optional version. Required; at least one must be provided. */
+  evaluators: AgentOptimizationEvaluatorRef[];
+  /** Tuning knobs and run-mode. */
+  options?: AgentOptimizationOptions;
+}
+
+export function agentOptimizationJobInputsSerializer(item: AgentOptimizationJobInputs): any {
+  return {
+    agent: optimizedAgentIdentifierSerializer(item["agent"]),
+    train_dataset: agentOptimizationDatasetInputUnionSerializer(item["train_dataset"]),
+    validation_dataset: !item["validation_dataset"]
+      ? item["validation_dataset"]
+      : agentOptimizationDatasetInputUnionSerializer(item["validation_dataset"]),
+    evaluators: agentOptimizationEvaluatorRefArraySerializer(item["evaluators"]),
+    options: !item["options"]
+      ? item["options"]
+      : agentOptimizationOptionsSerializer(item["options"]),
+  };
+}
+
+export function agentOptimizationJobInputsDeserializer(item: any): AgentOptimizationJobInputs {
+  return {
+    agent: optimizedAgentIdentifierDeserializer(item["agent"]),
+    train_dataset: agentOptimizationDatasetInputUnionDeserializer(item["train_dataset"]),
+    validation_dataset: !item["validation_dataset"]
+      ? item["validation_dataset"]
+      : agentOptimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
+    evaluators: agentOptimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
+    options: !item["options"]
+      ? item["options"]
+      : agentOptimizationOptionsDeserializer(item["options"]),
+  };
+}
+
+/** Identifies the registered Foundry agent to optimize (request-only). Skills, tools, and system_prompt are specified in options.optimization_config. */
+export interface OptimizedAgentIdentifier {
+  /** Registered Foundry agent name (required). */
+  agent_name: string;
+  /** Pinned agent version. Defaults to latest if omitted. */
+  agent_version?: string;
+}
+
+export function optimizedAgentIdentifierSerializer(item: OptimizedAgentIdentifier): any {
+  return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
+}
+
+export function optimizedAgentIdentifierDeserializer(item: any): OptimizedAgentIdentifier {
+  return {
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** Base discriminated model for dataset input. Either inline items or a registered reference. */
+export interface AgentOptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  /** The discriminator possible values: inline, reference */
+  type: AgentOptimizationDatasetInputType;
+}
+
+export function agentOptimizationDatasetInputSerializer(item: AgentOptimizationDatasetInput): any {
+  return { type: item["type"] };
+}
+
+export function agentOptimizationDatasetInputDeserializer(
+  item: any,
+): AgentOptimizationDatasetInput {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentOptimizationDatasetInputUnion */
+export type AgentOptimizationDatasetInputUnion =
+  | AgentOptimizationInlineDatasetInput
+  | AgentOptimizationReferenceDatasetInput
+  | AgentOptimizationDatasetInput;
+
+export function agentOptimizationDatasetInputUnionSerializer(
+  item: AgentOptimizationDatasetInputUnion,
+): any {
+  switch (item.type) {
+    case "inline":
+      return agentOptimizationInlineDatasetInputSerializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
+
+    case "reference":
+      return agentOptimizationReferenceDatasetInputSerializer(
+        item as AgentOptimizationReferenceDatasetInput,
+      );
+
+    default:
+      return agentOptimizationDatasetInputSerializer(item);
+  }
+}
+
+export function agentOptimizationDatasetInputUnionDeserializer(
+  item: any,
+): AgentOptimizationDatasetInputUnion {
+  switch (item["type"]) {
+    case "inline":
+      return agentOptimizationInlineDatasetInputDeserializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
+
+    case "reference":
+      return agentOptimizationReferenceDatasetInputDeserializer(
+        item as AgentOptimizationReferenceDatasetInput,
+      );
+
+    default:
+      return agentOptimizationDatasetInputDeserializer(item);
+  }
+}
+
+/** Discriminator values for the dataset input union. */
+export type AgentOptimizationDatasetInputType = "inline" | "reference";
+
+/** Inline dataset — items supplied directly in the request body. */
+export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  type: "inline";
+  /** Dataset items. */
+  items: AgentOptimizationDatasetItem[];
+}
+
+export function agentOptimizationInlineDatasetInputSerializer(
+  item: AgentOptimizationInlineDatasetInput,
+): any {
+  return { type: item["type"], items: agentOptimizationDatasetItemArraySerializer(item["items"]) };
+}
+
+export function agentOptimizationInlineDatasetInputDeserializer(
+  item: any,
+): AgentOptimizationInlineDatasetInput {
+  return {
+    type: item["type"],
+    items: agentOptimizationDatasetItemArrayDeserializer(item["items"]),
+  };
+}
+
+export function agentOptimizationDatasetItemArraySerializer(
+  result: Array<AgentOptimizationDatasetItem>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationDatasetItemSerializer(item);
+  });
+}
+
+export function agentOptimizationDatasetItemArrayDeserializer(
+  result: Array<AgentOptimizationDatasetItem>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationDatasetItemDeserializer(item);
+  });
+}
+
+/** A single item in an inline dataset. */
+export interface AgentOptimizationDatasetItem {
+  /** The user query / prompt. */
+  query?: string;
+  /** Expected ground truth answer. */
+  ground_truth?: string;
+  /** Desired number of conversation turns for simulation mode (1-20). */
+  desired_num_turns?: number;
+  /** Per-item evaluation criteria. */
+  criteria?: AgentOptimizationDatasetCriterion[];
+}
+
+export function agentOptimizationDatasetItemSerializer(item: AgentOptimizationDatasetItem): any {
+  return {
+    query: item["query"],
+    ground_truth: item["ground_truth"],
+    desired_num_turns: item["desired_num_turns"],
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : agentOptimizationDatasetCriterionArraySerializer(item["criteria"]),
+  };
+}
+
+export function agentOptimizationDatasetItemDeserializer(item: any): AgentOptimizationDatasetItem {
+  return {
+    query: item["query"],
+    ground_truth: item["ground_truth"],
+    desired_num_turns: item["desired_num_turns"],
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : agentOptimizationDatasetCriterionArrayDeserializer(item["criteria"]),
+  };
+}
+
+export function agentOptimizationDatasetCriterionArraySerializer(
+  result: Array<AgentOptimizationDatasetCriterion>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationDatasetCriterionSerializer(item);
+  });
+}
+
+export function agentOptimizationDatasetCriterionArrayDeserializer(
+  result: Array<AgentOptimizationDatasetCriterion>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationDatasetCriterionDeserializer(item);
+  });
+}
+
+/** Evaluation criterion: a name + instruction pair used for per-item scoring. */
+export interface AgentOptimizationDatasetCriterion {
+  /** Criterion name. */
+  name: string;
+  /** Criterion instruction / description. */
+  instruction: string;
+}
+
+export function agentOptimizationDatasetCriterionSerializer(
+  item: AgentOptimizationDatasetCriterion,
+): any {
+  return { name: item["name"], instruction: item["instruction"] };
+}
+
+export function agentOptimizationDatasetCriterionDeserializer(
+  item: any,
+): AgentOptimizationDatasetCriterion {
+  return {
+    name: item["name"],
+    instruction: item["instruction"],
+  };
+}
+
+/** Reference to a registered Foundry dataset. */
+export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  type: "reference";
+  /** Registered dataset name. */
+  name: string;
+  /** Dataset version. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function agentOptimizationReferenceDatasetInputSerializer(
+  item: AgentOptimizationReferenceDatasetInput,
+): any {
+  return { type: item["type"], name: item["name"], version: item["version"] };
+}
+
+export function agentOptimizationReferenceDatasetInputDeserializer(
+  item: any,
+): AgentOptimizationReferenceDatasetInput {
+  return {
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function agentOptimizationEvaluatorRefArraySerializer(
+  result: Array<AgentOptimizationEvaluatorRef>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationEvaluatorRefSerializer(item);
+  });
+}
+
+export function agentOptimizationEvaluatorRefArrayDeserializer(
+  result: Array<AgentOptimizationEvaluatorRef>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationEvaluatorRefDeserializer(item);
+  });
+}
+
+/** Reference to a named evaluator, optionally pinned to a version. */
+export interface AgentOptimizationEvaluatorRef {
+  /** Evaluator name. */
+  name: string;
+  /** Evaluator version. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function agentOptimizationEvaluatorRefSerializer(item: AgentOptimizationEvaluatorRef): any {
+  return { name: item["name"], version: item["version"] };
+}
+
+export function agentOptimizationEvaluatorRefDeserializer(
+  item: any,
+): AgentOptimizationEvaluatorRef {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Tuning knobs and run-mode for an optimization job. */
+export interface AgentOptimizationOptions {
+  /** Maximum number of optimization candidates to generate. Must be >= 1. Default: 5. */
+  max_candidates?: number;
+  /** Per-target-attribute configuration overrides. Contains skills, tools, system_prompt for the agent, plus model space for model optimization. */
+  optimization_config?: Record<string, any>;
+  /** Model deployment used for evaluation. Defaults to server config (typically 'gpt-4o'). */
+  eval_model?: string;
+  /** Model deployment for optimization reasoning (must be gpt-5 family). Falls back to the default eval model when not set. */
+  optimization_model?: string;
+  /** Evaluation granularity. Null/omitted means per-item single-turn. Set to 'conversation' for per-conversation multi-turn simulation scoring. */
+  evaluation_level?: EvaluationLevel;
+  /** Maximum number of consecutive reflective minibatch rejections before stopping early. A 'stall' occurs when the optimizer proposes a prompt change, evaluates it on a small subset, and the score does not improve — so no full validation-set evaluation is triggered. The counter resets whenever a minibatch passes and its full-validation score beats the current best. Only a sustained plateau of `max_stalls` consecutive minibatch failures triggers the stop. The service defaults to 5 if a value is not specified by the caller. Must be >= 1 when set. */
+  max_stalls?: number;
+}
+
+export function agentOptimizationOptionsSerializer(item: AgentOptimizationOptions): any {
+  return {
+    max_candidates: item["max_candidates"],
+    optimization_config: item["optimization_config"],
+    eval_model: item["eval_model"],
+    optimization_model: item["optimization_model"],
+    evaluation_level: item["evaluation_level"],
+    max_stalls: item["max_stalls"],
+  };
+}
+
+export function agentOptimizationOptionsDeserializer(item: any): AgentOptimizationOptions {
+  return {
+    max_candidates: item["max_candidates"],
+    optimization_config: !item["optimization_config"]
+      ? item["optimization_config"]
+      : Object.fromEntries(
+          Object.entries(item["optimization_config"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    eval_model: item["eval_model"],
+    optimization_model: item["optimization_model"],
+    evaluation_level: item["evaluation_level"],
+    max_stalls: item["max_stalls"],
+  };
+}
+
+/** The level at which evaluation is performed. */
+export type EvaluationLevel = "turn" | "conversation";
+
+/** Terminal-state result body. Populated when status is succeeded or failed. */
+export interface AgentOptimizationJobResult {
+  /** Candidate ID of the original (un-optimized) baseline evaluation. */
+  baseline?: string;
+  /** Candidate ID of the highest-scoring candidate found during optimization. */
+  best?: string;
+  /** All evaluated candidates including baseline. */
+  candidates?: AgentOptimizationCandidate[];
+}
+
+export function agentOptimizationJobResultDeserializer(item: any): AgentOptimizationJobResult {
+  return {
+    baseline: item["baseline"],
+    best: item["best"],
+    candidates: !item["candidates"]
+      ? item["candidates"]
+      : agentOptimizationCandidateArrayDeserializer(item["candidates"]),
+  };
+}
+
+export function agentOptimizationCandidateArrayDeserializer(
+  result: Array<AgentOptimizationCandidate>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationCandidateDeserializer(item);
+  });
+}
+
+/** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
+export interface AgentOptimizationCandidate {
+  /** Server-assigned candidate identifier. Use with GET /candidates/{id} sub-endpoints. */
+  candidate_id?: string;
+  /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
+  name: string;
+  /** What was mutated from the baseline (e.g., {system_prompt: 'new prompt'}). */
+  mutations?: Record<string, any>;
+  /** Average composite score across all tasks. */
+  avg_score: number;
+  /** Average token usage across all tasks. */
+  avg_tokens: number;
+  /** Foundry evaluation identifier used to score this candidate. */
+  eval_id?: string;
+  /** Foundry evaluation run identifier for this candidate's scoring run. */
+  eval_run_id?: string;
+  /** Promotion metadata. Null if the candidate has not been promoted. */
+  promotion?: PromotionInfo;
+}
+
+export function agentOptimizationCandidateDeserializer(item: any): AgentOptimizationCandidate {
+  return {
+    candidate_id: item["candidate_id"],
+    name: item["name"],
+    mutations: !item["mutations"]
+      ? item["mutations"]
+      : Object.fromEntries(
+          Object.entries(item["mutations"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    avg_score: item["avg_score"],
+    avg_tokens: item["avg_tokens"],
+    eval_id: item["eval_id"],
+    eval_run_id: item["eval_run_id"],
+    promotion: !item["promotion"]
+      ? item["promotion"]
+      : promotionInfoDeserializer(item["promotion"]),
+  };
+}
+
+/** Promotion metadata recorded when a candidate is deployed to a Foundry agent. */
+export interface PromotionInfo {
+  /** Timestamp when promotion occurred, represented in Unix time. */
+  promoted_at: Date;
+  /** Name of the Foundry agent this candidate was promoted to. */
+  agent_name: string;
+  /** Version of the Foundry agent this candidate was promoted to. */
+  agent_version: string;
+}
+
+export function promotionInfoDeserializer(item: any): PromotionInfo {
+  return {
+    promoted_at: new Date(item["promoted_at"] * 1000),
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** Extensible status values shared by Foundry jobs. */
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
+
+/** In-flight progress; only populated while status is queued or in_progress. */
+export interface AgentOptimizationJobProgress {
+  /** Number of candidates whose evaluation has completed so far. */
+  candidates_completed: number;
+  /** Best score observed so far across all candidates. */
+  best_score: number;
+  /** Wall-clock time elapsed in seconds since the job began executing. */
+  elapsed_seconds: number;
+}
+
+export function agentOptimizationJobProgressDeserializer(item: any): AgentOptimizationJobProgress {
+  return {
+    candidates_completed: item["candidates_completed"],
+    best_score: item["best_score"],
+    elapsed_seconds: item["elapsed_seconds"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultAgentOptimizationJobListItem {
+  /** The requested list of items. */
+  data: AgentOptimizationJobListItem[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultAgentOptimizationJobListItemDeserializer(
+  item: any,
+): _AgentsPagedResultAgentOptimizationJobListItem {
+  return {
+    data: agentOptimizationJobListItemArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function agentOptimizationJobListItemArrayDeserializer(
+  result: Array<AgentOptimizationJobListItem>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationJobListItemDeserializer(item);
+  });
+}
+
+/** Slim job representation returned by the LIST endpoint. */
+export interface AgentOptimizationJobListItem {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time. */
+  readonly created_at: Date;
+  /** The timestamp when the job was last updated, represented in Unix time. */
+  readonly updated_at: Date;
+  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
+  readonly progress?: AgentOptimizationJobProgress;
+  /** The agent targeted by this optimization job. */
+  readonly agent?: OptimizedAgentIdentifier;
+}
+
+export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
+  return {
+    id: item["id"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+    progress: !item["progress"]
+      ? item["progress"]
+      : agentOptimizationJobProgressDeserializer(item["progress"]),
+    agent: !item["agent"] ? item["agent"] : optimizedAgentIdentifierDeserializer(item["agent"]),
+  };
+}
+
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultVoiceConversation {
   /** The requested list of items. */
@@ -12171,14 +12739,12 @@ export interface VoiceResponse extends VoiceResponseBase {
 
 export function voiceResponseDeserializer(item: any): VoiceResponse {
   return {
-    id: item["id"],
     object: item["object"],
     status: item["status"],
     status_details: !item["status_details"]
       ? item["status_details"]
       : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
-    conversation_id: item["conversation_id"],
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -12187,9 +12753,11 @@ export function voiceResponseDeserializer(item: any): VoiceResponse {
     max_output_tokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
       : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    id: item["id"],
     output: !item["output"]
       ? item["output"]
       : realtimeConversationItemUnionArrayDeserializer(item["output"]),
+    conversation_id: item["conversation_id"],
     audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
     metadata: !item["metadata"]
       ? item["metadata"]
@@ -12812,8 +13380,6 @@ export function voiceResponseAudioOutputDeserializer(item: any): VoiceResponseAu
 
 /** Properties shared by persisted voice responses. */
 export interface VoiceResponseBase {
-  /** The unique ID of the response, will look like `resp_1234`. */
-  id?: string;
   /** The object type, must be `realtime.response`. */
   object?: "realtime.response";
   /**
@@ -12831,15 +13397,6 @@ export interface VoiceResponseBase {
    */
   usage?: RealtimeResponseUsage;
   /**
-   * Which conversation the response is added to, determined by the `conversation`
-   *   field in the `response.create` event. If `auto`, the response will be added to
-   *   the default conversation and the value of `conversation_id` will be an id like
-   *   `conv_1234`. If `none`, the response will not be added to any conversation and
-   *   the value of `conversation_id` will be `null`. If responses are being triggered
-   *   automatically by VAD the response will be added to the default conversation
-   */
-  conversation_id?: string;
-  /**
    * The set of modalities the model used to respond, currently the only possible values are
    *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
    *   output to mode `text` will disable audio output from the model.
@@ -12854,14 +13411,12 @@ export interface VoiceResponseBase {
 
 export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
   return {
-    id: item["id"],
     object: item["object"],
     status: item["status"],
     status_details: !item["status_details"]
       ? item["status_details"]
       : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
-    conversation_id: item["conversation_id"],
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -14104,9 +14659,6 @@ export function agentInsightTokenUsageDeserializer(item: any): AgentInsightToken
   };
 }
 
-/** Extensible status values shared by Foundry jobs. */
-export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
-
 /** The trigger that started an agent insight run. */
 export type AgentInsightRunTrigger = "on_demand" | "scheduled";
 
@@ -14956,9 +15508,6 @@ export type EvaluatorType = "builtin" | "custom";
 
 /** The category of the evaluator */
 export type EvaluatorCategory = "quality" | "safety" | "agents";
-
-/** The level at which evaluation is performed. */
-export type EvaluationLevel = "turn" | "conversation";
 
 /** Base evaluator configuration with discriminator */
 export interface EvaluatorDefinition {
@@ -19630,568 +20179,6 @@ export function dataGenerationJobArrayDeserializer(result: Array<DataGenerationJ
   return result.map((item) => {
     return dataGenerationJobDeserializer(item);
   });
-}
-
-/** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
-export interface AgentOptimizationJob {
-  /** Server-assigned unique identifier. */
-  readonly id: string;
-  /** Caller-supplied inputs. */
-  inputs?: AgentOptimizationJobInputs;
-  /** Result produced on success. */
-  readonly result?: AgentOptimizationJobResult;
-  /** Current lifecycle status. */
-  readonly status: JobStatus;
-  /** Error details — populated only on failure. */
-  readonly error?: ApiError;
-  /** The timestamp when the job was created, represented in Unix time. */
-  readonly created_at: Date;
-  /** The timestamp when the job was last updated, represented in Unix time. */
-  readonly updated_at: Date;
-  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: AgentOptimizationJobProgress;
-  /** Non-fatal warnings emitted at any point during optimization. */
-  readonly warnings?: string[];
-}
-
-export function agentOptimizationJobSerializer(item: AgentOptimizationJob): any {
-  return {
-    inputs: !item["inputs"] ? item["inputs"] : agentOptimizationJobInputsSerializer(item["inputs"]),
-  };
-}
-
-export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJob {
-  return {
-    id: item["id"],
-    inputs: !item["inputs"]
-      ? item["inputs"]
-      : agentOptimizationJobInputsDeserializer(item["inputs"]),
-    result: !item["result"]
-      ? item["result"]
-      : agentOptimizationJobResultDeserializer(item["result"]),
-    status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
-    created_at: new Date(item["created_at"] * 1000),
-    updated_at: new Date(item["updated_at"] * 1000),
-    progress: !item["progress"]
-      ? item["progress"]
-      : agentOptimizationJobProgressDeserializer(item["progress"]),
-    warnings: !item["warnings"]
-      ? item["warnings"]
-      : item["warnings"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Caller-supplied inputs for an optimization job. */
-export interface AgentOptimizationJobInputs {
-  /** The agent (and pinned version) being optimized. */
-  agent: OptimizedAgentIdentifier;
-  /** Training dataset — either inline items or a reference to a registered dataset. Required. */
-  train_dataset: AgentOptimizationDatasetInputUnion;
-  /** Optional held-out validation dataset for measuring generalization of the final candidate. */
-  validation_dataset?: AgentOptimizationDatasetInputUnion;
-  /** Job-level evaluators referenced by name and optional version. Required; at least one must be provided. */
-  evaluators: AgentOptimizationEvaluatorRef[];
-  /** Tuning knobs and run-mode. */
-  options?: AgentOptimizationOptions;
-}
-
-export function agentOptimizationJobInputsSerializer(item: AgentOptimizationJobInputs): any {
-  return {
-    agent: optimizedAgentIdentifierSerializer(item["agent"]),
-    train_dataset: agentOptimizationDatasetInputUnionSerializer(item["train_dataset"]),
-    validation_dataset: !item["validation_dataset"]
-      ? item["validation_dataset"]
-      : agentOptimizationDatasetInputUnionSerializer(item["validation_dataset"]),
-    evaluators: agentOptimizationEvaluatorRefArraySerializer(item["evaluators"]),
-    options: !item["options"]
-      ? item["options"]
-      : agentOptimizationOptionsSerializer(item["options"]),
-  };
-}
-
-export function agentOptimizationJobInputsDeserializer(item: any): AgentOptimizationJobInputs {
-  return {
-    agent: optimizedAgentIdentifierDeserializer(item["agent"]),
-    train_dataset: agentOptimizationDatasetInputUnionDeserializer(item["train_dataset"]),
-    validation_dataset: !item["validation_dataset"]
-      ? item["validation_dataset"]
-      : agentOptimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
-    evaluators: agentOptimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
-    options: !item["options"]
-      ? item["options"]
-      : agentOptimizationOptionsDeserializer(item["options"]),
-  };
-}
-
-/** Identifies the registered Foundry agent to optimize (request-only). Skills, tools, and system_prompt are specified in options.optimization_config. */
-export interface OptimizedAgentIdentifier {
-  /** Registered Foundry agent name (required). */
-  agent_name: string;
-  /** Pinned agent version. Defaults to latest if omitted. */
-  agent_version?: string;
-}
-
-export function optimizedAgentIdentifierSerializer(item: OptimizedAgentIdentifier): any {
-  return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
-}
-
-export function optimizedAgentIdentifierDeserializer(item: any): OptimizedAgentIdentifier {
-  return {
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-  };
-}
-
-/** Base discriminated model for dataset input. Either inline items or a registered reference. */
-export interface AgentOptimizationDatasetInput {
-  /** Dataset input type discriminator. */
-  /** The discriminator possible values: inline, reference */
-  type: AgentOptimizationDatasetInputType;
-}
-
-export function agentOptimizationDatasetInputSerializer(item: AgentOptimizationDatasetInput): any {
-  return { type: item["type"] };
-}
-
-export function agentOptimizationDatasetInputDeserializer(
-  item: any,
-): AgentOptimizationDatasetInput {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for AgentOptimizationDatasetInputUnion */
-export type AgentOptimizationDatasetInputUnion =
-  | AgentOptimizationInlineDatasetInput
-  | AgentOptimizationReferenceDatasetInput
-  | AgentOptimizationDatasetInput;
-
-export function agentOptimizationDatasetInputUnionSerializer(
-  item: AgentOptimizationDatasetInputUnion,
-): any {
-  switch (item.type) {
-    case "inline":
-      return agentOptimizationInlineDatasetInputSerializer(
-        item as AgentOptimizationInlineDatasetInput,
-      );
-
-    case "reference":
-      return agentOptimizationReferenceDatasetInputSerializer(
-        item as AgentOptimizationReferenceDatasetInput,
-      );
-
-    default:
-      return agentOptimizationDatasetInputSerializer(item);
-  }
-}
-
-export function agentOptimizationDatasetInputUnionDeserializer(
-  item: any,
-): AgentOptimizationDatasetInputUnion {
-  switch (item["type"]) {
-    case "inline":
-      return agentOptimizationInlineDatasetInputDeserializer(
-        item as AgentOptimizationInlineDatasetInput,
-      );
-
-    case "reference":
-      return agentOptimizationReferenceDatasetInputDeserializer(
-        item as AgentOptimizationReferenceDatasetInput,
-      );
-
-    default:
-      return agentOptimizationDatasetInputDeserializer(item);
-  }
-}
-
-/** Discriminator values for the dataset input union. */
-export type AgentOptimizationDatasetInputType = "inline" | "reference";
-
-/** Inline dataset — items supplied directly in the request body. */
-export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
-  /** Dataset input type discriminator. */
-  type: "inline";
-  /** Dataset items. */
-  items: AgentOptimizationDatasetItem[];
-}
-
-export function agentOptimizationInlineDatasetInputSerializer(
-  item: AgentOptimizationInlineDatasetInput,
-): any {
-  return { type: item["type"], items: agentOptimizationDatasetItemArraySerializer(item["items"]) };
-}
-
-export function agentOptimizationInlineDatasetInputDeserializer(
-  item: any,
-): AgentOptimizationInlineDatasetInput {
-  return {
-    type: item["type"],
-    items: agentOptimizationDatasetItemArrayDeserializer(item["items"]),
-  };
-}
-
-export function agentOptimizationDatasetItemArraySerializer(
-  result: Array<AgentOptimizationDatasetItem>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationDatasetItemSerializer(item);
-  });
-}
-
-export function agentOptimizationDatasetItemArrayDeserializer(
-  result: Array<AgentOptimizationDatasetItem>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationDatasetItemDeserializer(item);
-  });
-}
-
-/** A single item in an inline dataset. */
-export interface AgentOptimizationDatasetItem {
-  /** The user query / prompt. */
-  query?: string;
-  /** Expected ground truth answer. */
-  ground_truth?: string;
-  /** Desired number of conversation turns for simulation mode (1-20). */
-  desired_num_turns?: number;
-  /** Per-item evaluation criteria. */
-  criteria?: AgentOptimizationDatasetCriterion[];
-}
-
-export function agentOptimizationDatasetItemSerializer(item: AgentOptimizationDatasetItem): any {
-  return {
-    query: item["query"],
-    ground_truth: item["ground_truth"],
-    desired_num_turns: item["desired_num_turns"],
-    criteria: !item["criteria"]
-      ? item["criteria"]
-      : agentOptimizationDatasetCriterionArraySerializer(item["criteria"]),
-  };
-}
-
-export function agentOptimizationDatasetItemDeserializer(item: any): AgentOptimizationDatasetItem {
-  return {
-    query: item["query"],
-    ground_truth: item["ground_truth"],
-    desired_num_turns: item["desired_num_turns"],
-    criteria: !item["criteria"]
-      ? item["criteria"]
-      : agentOptimizationDatasetCriterionArrayDeserializer(item["criteria"]),
-  };
-}
-
-export function agentOptimizationDatasetCriterionArraySerializer(
-  result: Array<AgentOptimizationDatasetCriterion>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationDatasetCriterionSerializer(item);
-  });
-}
-
-export function agentOptimizationDatasetCriterionArrayDeserializer(
-  result: Array<AgentOptimizationDatasetCriterion>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationDatasetCriterionDeserializer(item);
-  });
-}
-
-/** Evaluation criterion: a name + instruction pair used for per-item scoring. */
-export interface AgentOptimizationDatasetCriterion {
-  /** Criterion name. */
-  name: string;
-  /** Criterion instruction / description. */
-  instruction: string;
-}
-
-export function agentOptimizationDatasetCriterionSerializer(
-  item: AgentOptimizationDatasetCriterion,
-): any {
-  return { name: item["name"], instruction: item["instruction"] };
-}
-
-export function agentOptimizationDatasetCriterionDeserializer(
-  item: any,
-): AgentOptimizationDatasetCriterion {
-  return {
-    name: item["name"],
-    instruction: item["instruction"],
-  };
-}
-
-/** Reference to a registered Foundry dataset. */
-export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
-  /** Dataset input type discriminator. */
-  type: "reference";
-  /** Registered dataset name. */
-  name: string;
-  /** Dataset version. If not specified, the latest version is used. */
-  version?: string;
-}
-
-export function agentOptimizationReferenceDatasetInputSerializer(
-  item: AgentOptimizationReferenceDatasetInput,
-): any {
-  return { type: item["type"], name: item["name"], version: item["version"] };
-}
-
-export function agentOptimizationReferenceDatasetInputDeserializer(
-  item: any,
-): AgentOptimizationReferenceDatasetInput {
-  return {
-    type: item["type"],
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-export function agentOptimizationEvaluatorRefArraySerializer(
-  result: Array<AgentOptimizationEvaluatorRef>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationEvaluatorRefSerializer(item);
-  });
-}
-
-export function agentOptimizationEvaluatorRefArrayDeserializer(
-  result: Array<AgentOptimizationEvaluatorRef>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationEvaluatorRefDeserializer(item);
-  });
-}
-
-/** Reference to a named evaluator, optionally pinned to a version. */
-export interface AgentOptimizationEvaluatorRef {
-  /** Evaluator name. */
-  name: string;
-  /** Evaluator version. If not specified, the latest version is used. */
-  version?: string;
-}
-
-export function agentOptimizationEvaluatorRefSerializer(item: AgentOptimizationEvaluatorRef): any {
-  return { name: item["name"], version: item["version"] };
-}
-
-export function agentOptimizationEvaluatorRefDeserializer(
-  item: any,
-): AgentOptimizationEvaluatorRef {
-  return {
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-/** Tuning knobs and run-mode for an optimization job. */
-export interface AgentOptimizationOptions {
-  /** Maximum number of optimization candidates to generate. Must be >= 1. Default: 5. */
-  max_candidates?: number;
-  /** Per-target-attribute configuration overrides. Contains skills, tools, system_prompt for the agent, plus model space for model optimization. */
-  optimization_config?: Record<string, any>;
-  /** Model deployment used for evaluation. Defaults to server config (typically 'gpt-4o'). */
-  eval_model?: string;
-  /** Model deployment for optimization reasoning (must be gpt-5 family). Falls back to the default eval model when not set. */
-  optimization_model?: string;
-  /** Evaluation granularity. Null/omitted means per-item single-turn. Set to 'conversation' for per-conversation multi-turn simulation scoring. */
-  evaluation_level?: EvaluationLevel;
-  /** Maximum number of consecutive reflective minibatch rejections before stopping early. A 'stall' occurs when the optimizer proposes a prompt change, evaluates it on a small subset, and the score does not improve — so no full validation-set evaluation is triggered. The counter resets whenever a minibatch passes and its full-validation score beats the current best. Only a sustained plateau of `max_stalls` consecutive minibatch failures triggers the stop. The service defaults to 5 if a value is not specified by the caller. Must be >= 1 when set. */
-  max_stalls?: number;
-}
-
-export function agentOptimizationOptionsSerializer(item: AgentOptimizationOptions): any {
-  return {
-    max_candidates: item["max_candidates"],
-    optimization_config: item["optimization_config"],
-    eval_model: item["eval_model"],
-    optimization_model: item["optimization_model"],
-    evaluation_level: item["evaluation_level"],
-    max_stalls: item["max_stalls"],
-  };
-}
-
-export function agentOptimizationOptionsDeserializer(item: any): AgentOptimizationOptions {
-  return {
-    max_candidates: item["max_candidates"],
-    optimization_config: !item["optimization_config"]
-      ? item["optimization_config"]
-      : Object.fromEntries(
-          Object.entries(item["optimization_config"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    eval_model: item["eval_model"],
-    optimization_model: item["optimization_model"],
-    evaluation_level: item["evaluation_level"],
-    max_stalls: item["max_stalls"],
-  };
-}
-
-/** Terminal-state result body. Populated when status is succeeded or failed. */
-export interface AgentOptimizationJobResult {
-  /** Candidate ID of the original (un-optimized) baseline evaluation. */
-  baseline?: string;
-  /** Candidate ID of the highest-scoring candidate found during optimization. */
-  best?: string;
-  /** All evaluated candidates including baseline. */
-  candidates?: AgentOptimizationCandidate[];
-}
-
-export function agentOptimizationJobResultDeserializer(item: any): AgentOptimizationJobResult {
-  return {
-    baseline: item["baseline"],
-    best: item["best"],
-    candidates: !item["candidates"]
-      ? item["candidates"]
-      : agentOptimizationCandidateArrayDeserializer(item["candidates"]),
-  };
-}
-
-export function agentOptimizationCandidateArrayDeserializer(
-  result: Array<AgentOptimizationCandidate>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationCandidateDeserializer(item);
-  });
-}
-
-/** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
-export interface AgentOptimizationCandidate {
-  /** Server-assigned candidate identifier. Use with GET /candidates/{id} sub-endpoints. */
-  candidate_id?: string;
-  /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
-  name: string;
-  /** What was mutated from the baseline (e.g., {system_prompt: 'new prompt'}). */
-  mutations?: Record<string, any>;
-  /** Average composite score across all tasks. */
-  avg_score: number;
-  /** Average token usage across all tasks. */
-  avg_tokens: number;
-  /** Foundry evaluation identifier used to score this candidate. */
-  eval_id?: string;
-  /** Foundry evaluation run identifier for this candidate's scoring run. */
-  eval_run_id?: string;
-  /** Promotion metadata. Null if the candidate has not been promoted. */
-  promotion?: PromotionInfo;
-}
-
-export function agentOptimizationCandidateDeserializer(item: any): AgentOptimizationCandidate {
-  return {
-    candidate_id: item["candidate_id"],
-    name: item["name"],
-    mutations: !item["mutations"]
-      ? item["mutations"]
-      : Object.fromEntries(
-          Object.entries(item["mutations"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    avg_score: item["avg_score"],
-    avg_tokens: item["avg_tokens"],
-    eval_id: item["eval_id"],
-    eval_run_id: item["eval_run_id"],
-    promotion: !item["promotion"]
-      ? item["promotion"]
-      : promotionInfoDeserializer(item["promotion"]),
-  };
-}
-
-/** Promotion metadata recorded when a candidate is deployed to a Foundry agent. */
-export interface PromotionInfo {
-  /** Timestamp when promotion occurred, represented in Unix time. */
-  promoted_at: Date;
-  /** Name of the Foundry agent this candidate was promoted to. */
-  agent_name: string;
-  /** Version of the Foundry agent this candidate was promoted to. */
-  agent_version: string;
-}
-
-export function promotionInfoDeserializer(item: any): PromotionInfo {
-  return {
-    promoted_at: new Date(item["promoted_at"] * 1000),
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-  };
-}
-
-/** In-flight progress; only populated while status is queued or in_progress. */
-export interface AgentOptimizationJobProgress {
-  /** Number of candidates whose evaluation has completed so far. */
-  candidates_completed: number;
-  /** Best score observed so far across all candidates. */
-  best_score: number;
-  /** Wall-clock time elapsed in seconds since the job began executing. */
-  elapsed_seconds: number;
-}
-
-export function agentOptimizationJobProgressDeserializer(item: any): AgentOptimizationJobProgress {
-  return {
-    candidates_completed: item["candidates_completed"],
-    best_score: item["best_score"],
-    elapsed_seconds: item["elapsed_seconds"],
-  };
-}
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultAgentOptimizationJobListItem {
-  /** The requested list of items. */
-  data: AgentOptimizationJobListItem[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultAgentOptimizationJobListItemDeserializer(
-  item: any,
-): _AgentsPagedResultAgentOptimizationJobListItem {
-  return {
-    data: agentOptimizationJobListItemArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function agentOptimizationJobListItemArrayDeserializer(
-  result: Array<AgentOptimizationJobListItem>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationJobListItemDeserializer(item);
-  });
-}
-
-/** Slim job representation returned by the LIST endpoint. */
-export interface AgentOptimizationJobListItem {
-  /** Server-assigned unique identifier. */
-  readonly id: string;
-  /** Current lifecycle status. */
-  readonly status: JobStatus;
-  /** Error details — populated only on failure. */
-  readonly error?: ApiError;
-  /** The timestamp when the job was created, represented in Unix time. */
-  readonly created_at: Date;
-  /** The timestamp when the job was last updated, represented in Unix time. */
-  readonly updated_at: Date;
-  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: AgentOptimizationJobProgress;
-  /** The agent targeted by this optimization job. */
-  readonly agent?: OptimizedAgentIdentifier;
-}
-
-export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
-  return {
-    id: item["id"],
-    status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
-    created_at: new Date(item["created_at"] * 1000),
-    updated_at: new Date(item["updated_at"] * 1000),
-    progress: !item["progress"]
-      ? item["progress"]
-      : agentOptimizationJobProgressDeserializer(item["progress"]),
-    agent: !item["agent"] ? item["agent"] : optimizedAgentIdentifierDeserializer(item["agent"]),
-  };
 }
 
 /** The stable realtime session settings accepted in a `session.update` client event. */

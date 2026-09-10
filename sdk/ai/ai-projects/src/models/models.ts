@@ -19346,8 +19346,6 @@ export function voiceResponseAudioOutputDeserializer(item: any): VoiceResponseAu
 
 /** Properties shared by persisted voice responses. */
 export interface VoiceResponseBase {
-  /** The unique ID of the response, will look like `resp_1234`. */
-  id?: string;
   /** The object type, must be `realtime.response`. */
   object?: "realtime.response";
   /**
@@ -19365,15 +19363,6 @@ export interface VoiceResponseBase {
    */
   usage?: RealtimeResponseUsage;
   /**
-   * Which conversation the response is added to, determined by the `conversation`
-   *   field in the `response.create` event. If `auto`, the response will be added to
-   *   the default conversation and the value of `conversation_id` will be an id like
-   *   `conv_1234`. If `none`, the response will not be added to any conversation and
-   *   the value of `conversation_id` will be `null`. If responses are being triggered
-   *   automatically by VAD the response will be added to the default conversation
-   */
-  conversation_id?: string;
-  /**
    * The set of modalities the model used to respond, currently the only possible values are
    *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
    *   output to mode `text` will disable audio output from the model.
@@ -19388,14 +19377,12 @@ export interface VoiceResponseBase {
 
 export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
   return {
-    id: item["id"],
     object: item["object"],
     status: item["status"],
     status_details: !item["status_details"]
       ? item["status_details"]
       : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
-    conversation_id: item["conversation_id"],
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
