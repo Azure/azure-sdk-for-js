@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2026-09-04)
+## 4.0.0 (2026-09-10)
 
 ### Features Added
   - Added operation group AvailableEnvironmentModesOperations
