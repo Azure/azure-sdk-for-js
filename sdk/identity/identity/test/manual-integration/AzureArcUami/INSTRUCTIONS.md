@@ -114,7 +114,7 @@ pnpm --dir sdk/identity/identity pack --pack-destination <artifact-directory>
 
 Upload the package tarball to a temporary private blob and generate a short-lived read-only SAS.
 Use the
-[Run Command operation](https://learn.microsoft.com/en-us/azure/azure-arc/servers/run-command?tabs=azure-powershell)
+[Run Command operation](https://learn.microsoft.com/azure/azure-arc/servers/run-command)
 to download the package and this test application into the same directory on the TPM host. Do not
 test the latest published `@azure/identity` package.
 
