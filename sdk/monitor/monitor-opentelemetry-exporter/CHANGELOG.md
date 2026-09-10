@@ -8,9 +8,9 @@
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed OneSettings configuration profiles incorrectly identifying Azure Monitor and Microsoft OpenTelemetry distro processes as standalone exporters. [#39923](https://github.com/Azure/azure-sdk-for-js/pull/39923)
 
-- Added Azure Monitor and Microsoft OpenTelemetry distro detection to the OneSettings configuration profile so distro processes are targeted with the appropriate component and version.
+### Other Changes
 
 ## 1.0.0-beta.45 (2026-09-04)
 
