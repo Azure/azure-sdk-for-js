@@ -26,6 +26,12 @@ import type { BetaRoutinesOperations } from "./routines/index.js";
 import { _getBetaRoutinesOperations } from "./routines/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
+import type { BetaAgentEndpointConversationsOperations } from "./agentEndpointConversations/index.js";
+import { _getBetaAgentEndpointConversationsOperations } from "./agentEndpointConversations/index.js";
+import type { BetaAgentTelephonyOperations } from "./agentTelephony/index.js";
+import { _getBetaAgentTelephonyOperations } from "./agentTelephony/index.js";
+import type { BetaVoiceAgentWebSocketOperations } from "./voiceAgentWebSocket/index.js";
+import { _getBetaVoiceAgentWebSocketOperations } from "./voiceAgentWebSocket/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
@@ -53,6 +59,12 @@ export interface BetaOperations {
   agents: BetaAgentsOperations;
   /** Operations for managing Agent Insights monitors. */
   agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+  /** Operations for managing outbound telephony calls and campaigns. */
+  agentTelephony: BetaAgentTelephonyOperations;
+  /** Operations for managing agent endpoint conversations and their items. */
+  agentEndpointConversations: BetaAgentEndpointConversationsOperations;
+  /** Operations for establishing voice agent WebSocket sessions. */
+  voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
@@ -81,5 +93,8 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     agents: _getBetaAgentsOperations(context),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
+    agentTelephony: _getBetaAgentTelephonyOperations(context),
+    agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
+    voiceAgentWebSocket: _getBetaVoiceAgentWebSocketOperations(context),
   };
 }
