@@ -5,10 +5,15 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import type { Config, ResolvedConfigResult } from "../src/util/resolveTsConfig.ts";
 import { configIncludesSrc, runTypeScript } from "../src/commands/run/build-test.ts";
 import { updateBackend } from "../src/util/printer.ts";
+import { resolveNodeModuleBin } from "../src/util/nodeCli.ts";
 import * as childProcess from "node:child_process";
 
 vi.mock("node:child_process", () => ({
   spawnSync: vi.fn(),
+}));
+
+vi.mock("../src/util/nodeCli.ts", () => ({
+  resolveNodeModuleBin: vi.fn(() => "/fake/path/to/tsc"),
 }));
 
 function makeConfig(overrides: Partial<Config> = {}): Config {
@@ -66,6 +71,8 @@ describe("runTypeScript", () => {
 
   beforeEach(() => {
     errorSpy.mockReset();
+    vi.mocked(resolveNodeModuleBin).mockReset();
+    vi.mocked(resolveNodeModuleBin).mockReturnValue("/fake/path/to/tsc");
     updateBackend({ error: errorSpy });
   });
 
@@ -141,6 +148,53 @@ describe("runTypeScript", () => {
     const result = await runTypeScript("tsconfig.json");
 
     expect(result).toBe(true);
+    expect(errorSpy).not.toHaveBeenCalled();
+  });
+
+  it("falls back to `typescript` when `@typescript/native` is not installed and invokes the resolved CLI", async () => {
+    vi.mocked(resolveNodeModuleBin).mockImplementation((packageName: string) => {
+      if (packageName === "@typescript/native") {
+        throw Object.assign(new Error("Cannot find module '@typescript/native'"), {
+          code: "MODULE_NOT_FOUND",
+        });
+      }
+      return "/fake/path/to/typescript/tsc";
+    });
+    vi.mocked(childProcess.spawnSync).mockReturnValue({
+      pid: 0,
+      output: [],
+      stdout: Buffer.from(""),
+      stderr: Buffer.from(""),
+      status: 0,
+      signal: null,
+    });
+
+    const result = await runTypeScript("tsconfig.json");
+
+    expect(result).toBe(true);
+    // The native TypeScript 7 compiler must be looked up before the catalog
+    // `typescript` fallback. Assert the call order explicitly because
+    // toHaveBeenCalledWith alone does not lock the order of the two lookups.
+    expect(resolveNodeModuleBin).toHaveBeenNthCalledWith(
+      1,
+      "@typescript/native",
+      "tsc",
+      expect.any(String),
+    );
+    expect(resolveNodeModuleBin).toHaveBeenNthCalledWith(
+      2,
+      "typescript",
+      "tsc",
+      expect.any(String),
+    );
+    // runTypeScript must invoke the CLI resolved via the fallback. The executable
+    // is normalized by @azure/core-process, but the argument list is passed through
+    // unchanged, so assert the resolved CLI path is present there.
+    expect(childProcess.spawnSync).toHaveBeenCalledWith(
+      expect.any(String),
+      ["--", "/fake/path/to/typescript/tsc", "-b", "tsconfig.json"],
+      expect.anything(),
+    );
     expect(errorSpy).not.toHaveBeenCalled();
   });
 });
