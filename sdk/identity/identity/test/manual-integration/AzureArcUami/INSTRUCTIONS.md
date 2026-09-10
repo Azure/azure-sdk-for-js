@@ -1,5 +1,7 @@
 # Testing user-assigned managed identity on Azure Arc
 
+<!-- cspell:words UAMI -->
+
 This manual integration test validates the branch-built `@azure/identity` package against a
 TPM-backed Azure Arc machine. It must not run in normal CI because the required resources and
 identity assignments depend on the tester's environment.
