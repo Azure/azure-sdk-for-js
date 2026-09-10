@@ -44,6 +44,24 @@ export interface AIProjectClientOptions extends AIProjectClientOptionalParams {
 }
 
 /**
+ * Resolves the effective options for the realtime voice-agent client: explicit `realtimeOptions`
+ * values win, otherwise each falls back to its corresponding top-level client option so realtime
+ * connections stay consistent with the rest of the client by default.
+ */
+function resolveRealtimeOptions(
+  options: AIProjectClientOptions,
+  userAgentPrefix: string | undefined,
+): VoiceAgentRealtimeClientOptions {
+  const { realtimeOptions } = options;
+  return {
+    ...realtimeOptions,
+    apiVersion: realtimeOptions?.apiVersion ?? options.apiVersion,
+    credentialScopes: realtimeOptions?.credentialScopes ?? options.credentials?.scopes,
+    userAgentPrefix: realtimeOptions?.userAgentPrefix ?? userAgentPrefix,
+  };
+}
+
+/**
  * The main client for the AIProjectClient service. It provides access to the various operations available in the service.
  * @class AIProjectClient
  * @extends {AIProjectContext}
@@ -82,25 +100,24 @@ export class AIProjectClient {
   private _tracingConfig: ResolvedTracingConfig;
 
   constructor(endpoint: string, credential: TokenCredential, options: AIProjectClientOptions = {}) {
-    const { realtimeOptions, ...clientOptions } = options;
     this._endpoint = endpoint;
     this._credential = credential;
-    this._options = clientOptions;
-    this._tracingConfig = resolveTracingConfig(clientOptions.tracingOptions);
-    const prefixFromOptions = clientOptions.userAgentOptions?.userAgentPrefix;
+    this._options = options;
+    this._tracingConfig = resolveTracingConfig(options.tracingOptions);
+    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
     this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
-      ...clientOptions,
+      ...options,
       userAgentOptions: { userAgentPrefix },
       credentials: {
-        ...clientOptions.credentials,
+        ...options.credentials,
         scopes: ["https://ai.azure.com/.default"],
       },
     });
     this._azureScopeClient = createAIProject(endpoint, credential, {
-      ...clientOptions,
+      ...options,
       userAgentOptions: { userAgentPrefix },
     });
 
@@ -114,13 +131,8 @@ export class AIProjectClient {
     this.beta = _getBetaOperations(
       this._cognitiveScopeClient,
       credential,
-      clientOptions.endpoint ?? endpoint,
-      {
-        ...realtimeOptions,
-        apiVersion: realtimeOptions?.apiVersion ?? clientOptions.apiVersion,
-        credentialScopes: realtimeOptions?.credentialScopes ?? clientOptions.credentials?.scopes,
-        userAgentPrefix: realtimeOptions?.userAgentPrefix ?? prefixFromOptions,
-      },
+      options.endpoint ?? endpoint,
+      resolveRealtimeOptions(options, prefixFromOptions),
     );
     this.telemetry = _getTelemetryOperations(this.connections);
   }

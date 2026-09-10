@@ -5,6 +5,7 @@ import WebSocket, { type ClientOptions, type RawData } from "ws";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
+import { logger } from "./logger.js";
 import type {
   VoiceAgentWebSocketConnectOptions,
   VoiceAgentWebSocketFactory,
@@ -134,7 +135,10 @@ export class NodeWebSocketTransport implements VoiceAgentWebSocketTransport {
     await new Promise<void>((resolve) => {
       let settled = false;
       const closeState: { timeout?: ReturnType<typeof setTimeout> } = {};
-      const finish = (): void => {
+      // close() is a best-effort cleanup operation and must never throw (callers, including our
+      // own VoiceAgentConnection.close()/dispose(), rely on it always resolving), so a transport
+      // error here is logged for diagnosability rather than rejecting.
+      const finish = (error?: unknown): void => {
         if (settled) {
           return;
         }
@@ -142,18 +146,34 @@ export class NodeWebSocketTransport implements VoiceAgentWebSocketTransport {
         if (closeState.timeout) {
           clearTimeout(closeState.timeout);
         }
-        webSocket.off("close", finish);
+        webSocket.off("close", onClose);
+        webSocket.off("error", onError);
+        if (error) {
+          logger.warning("Error while closing the voice-agent WebSocket transport", { error });
+        }
         resolve();
       };
-      webSocket.once("close", finish);
+      function onClose(): void {
+        finish();
+      }
+      function onError(error: Error): void {
+        finish(error);
+      }
+      webSocket.once("close", onClose);
+      webSocket.once("error", onError);
       closeState.timeout = setTimeout(() => {
         webSocket.terminate();
         finish();
       }, this.closeTimeoutInMs);
-      if (webSocket.readyState === WebSocket.CONNECTING) {
+      try {
+        if (webSocket.readyState === WebSocket.CONNECTING) {
+          webSocket.terminate();
+        } else if (webSocket.readyState !== WebSocket.CLOSING) {
+          webSocket.close(code, reason);
+        }
+      } catch (error) {
         webSocket.terminate();
-      } else if (webSocket.readyState !== WebSocket.CLOSING) {
-        webSocket.close(code, reason);
+        finish(error);
       }
     });
     if (this.webSocket === webSocket) {

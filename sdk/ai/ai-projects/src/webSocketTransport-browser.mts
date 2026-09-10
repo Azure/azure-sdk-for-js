@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
+import { logger } from "./logger.js";
 import type {
   VoiceAgentWebSocketConnectOptions,
   VoiceAgentWebSocketFactory,
@@ -146,7 +147,10 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
     await new Promise<void>((resolve) => {
       let settled = false;
       const closeState: { timeout?: ReturnType<typeof setTimeout> } = {};
-      const finish = (): void => {
+      // close() is a best-effort cleanup operation and must never throw (callers, including our
+      // own VoiceAgentConnection.close()/dispose(), rely on it always resolving), so a transport
+      // error here is logged for diagnosability rather than rejecting.
+      const finish = (error?: unknown): void => {
         if (settled) {
           return;
         }
@@ -155,18 +159,30 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
           clearTimeout(closeState.timeout);
         }
         webSocket.removeEventListener("close", onNativeClose);
+        webSocket.removeEventListener("error", onNativeError);
+        if (error) {
+          logger.warning("Error while closing the voice-agent WebSocket transport", { error });
+        }
         resolve();
       };
       // Wait for onClose to actually run (it carries the authoritative code/reason/wasClean
       // from the native CloseEvent) before resolving, so this never races ahead of onClose and
       // reports a stale/incorrect close outcome to the caller.
       function onNativeClose(): void {
-        void closeNotified.finally(finish);
+        void closeNotified.finally(() => finish());
+      }
+      function onNativeError(): void {
+        finish(new Error("WebSocket connection failed while closing."));
       }
       webSocket.addEventListener("close", onNativeClose, { once: true });
-      closeState.timeout = setTimeout(finish, this.closeTimeoutInMs);
-      if (webSocket.readyState !== WebSocket.CLOSING) {
-        webSocket.close(code, reason);
+      webSocket.addEventListener("error", onNativeError, { once: true });
+      closeState.timeout = setTimeout(() => finish(), this.closeTimeoutInMs);
+      try {
+        if (webSocket.readyState !== WebSocket.CLOSING) {
+          webSocket.close(code, reason);
+        }
+      } catch (error) {
+        finish(error);
       }
     });
     if (this.webSocket === webSocket) {
