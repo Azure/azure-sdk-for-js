@@ -114,7 +114,7 @@ describe("create functions", () => {
   it("calls only createDefaultManagedIdentityCredential when AZURE_TOKEN_CREDENTIALS is 'ManagedIdentityCredential'", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
-    new DefaultAzureCredential();
+    new DefaultAzureCredential({ managedIdentityClientId: "client-id" });
 
     expect(miSpy).toHaveBeenCalled();
     expect(envSpy).not.toHaveBeenCalled();
@@ -126,6 +126,21 @@ describe("create functions", () => {
 
     expect(miSpy).toHaveBeenCalledWith(
       expect.objectContaining({
+        managedIdentityClientId: "client-id",
+        sendProbeRequest: false,
+      }),
+    );
+  });
+
+  it("passes the managed identity resource ID when only ManagedIdentityCredential is enabled", () => {
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
+    const { miSpy } = createFunctionSpies();
+
+    new DefaultAzureCredential({ managedIdentityResourceId: "resource-id" });
+
+    expect(miSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        managedIdentityResourceId: "resource-id",
         sendProbeRequest: false,
       }),
     );

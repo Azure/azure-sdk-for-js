@@ -112,7 +112,7 @@ async function main(): Promise<void> {
     positiveObjectId,
   );
 
-  process.env.AZURE_TOKEN_CREDENTIALS = "prod";
+  process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
   await assertPositiveCredential(
     "DefaultAzureCredential managedIdentityClientId",
     new DefaultAzureCredential({ managedIdentityClientId: positiveClientId }),
