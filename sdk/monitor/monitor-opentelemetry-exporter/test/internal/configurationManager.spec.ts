@@ -7,6 +7,7 @@ import { ConfigurationProfile } from "../../src/_configuration/configurationProf
 import type { OneSettingsResponse } from "../../src/_configuration/utils.js";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
 import {
+  ENV_AZURE_MONITOR_DISTRO_VERSION,
   ONE_SETTINGS_CHANGE_URL,
   ONE_SETTINGS_CONFIG_URL,
   ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS,
@@ -36,11 +37,13 @@ describe("ConfigurationManager", () => {
     manager.reset();
     ConfigurationProfile.getInstance().reset();
     request.mockReset();
+    vi.stubEnv(ENV_AZURE_MONITOR_DISTRO_VERSION, "");
   });
 
   afterEach(() => {
     manager.reset();
     ConfigurationProfile.getInstance().reset();
+    vi.unstubAllEnvs();
   });
 
   it("fills the write-once evaluation profile across repeated initialization", () => {
@@ -53,6 +56,27 @@ describe("ConfigurationManager", () => {
       attach: "",
       version: "1.0.0",
       component: "ext",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+  });
+
+  it("detects the Azure Monitor distro from its version environment variable", () => {
+    vi.stubEnv(ENV_AZURE_MONITOR_DISTRO_VERSION, "1.20.0");
+
+    manager.initialize({
+      component: "ext",
+      version: "1.0.0-beta.45",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "",
+      rp: "",
+      attach: "",
+      version: "1.20.0",
+      component: "dst",
       region: "westus",
       ikey: "test-ikey",
     });

@@ -3,6 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import {
+  ENV_AZURE_MONITOR_DISTRO_VERSION,
   ONE_SETTINGS_BACKOFF_BASE_MS,
   ONE_SETTINGS_CHANGE_URL,
   ONE_SETTINGS_CONFIG_URL,
@@ -76,10 +77,20 @@ export class ConfigurationManager {
    * constructor, since only the first call has any effect.
    *
    * @param profile - Running SDK attributes contributed by the caller. Existing profile fields
-   * remain unchanged.
+   * remain unchanged. When the Azure Monitor distro version environment variable is present, the
+   * distro component and version take precedence over the caller's values.
    */
   public initialize(profile: Partial<ConfigurationProfileValues> = {}): void {
-    ConfigurationProfile.getInstance().fill(profile);
+    const distroVersion = process.env[ENV_AZURE_MONITOR_DISTRO_VERSION];
+    ConfigurationProfile.getInstance().fill(
+      distroVersion
+        ? {
+            ...profile,
+            component: "dst",
+            version: distroVersion,
+          }
+        : profile,
+    );
     if (this.worker) {
       return;
     }

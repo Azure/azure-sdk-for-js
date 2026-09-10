@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.46 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Added Azure Monitor OpenTelemetry distro detection to the OneSettings configuration profile so distro processes are targeted with the distro component and version.
+
 ## 1.0.0-beta.45 (2026-09-04)
 
 ### Features Added
