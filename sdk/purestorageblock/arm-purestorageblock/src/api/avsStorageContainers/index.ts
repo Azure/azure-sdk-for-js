@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export { listByStoragePool, $delete, get } from "./operations.js";
-export {
-  type AvsStorageContainersListByStoragePoolOptionalParams,
-  type AvsStorageContainersDeleteOptionalParams,
-  type AvsStorageContainersGetOptionalParams,
+export type {
+  AvsStorageContainersListByStoragePoolOptionalParams,
+  AvsStorageContainersDeleteOptionalParams,
+  AvsStorageContainersGetOptionalParams,
 } from "./options.js";

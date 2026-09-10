@@ -59,6 +59,12 @@ export type {
   PrivateLinkServiceConnectionState,
   PrivateEndpointServiceConnectionStatus,
   PrivateEndpointConnectionProvisioningState,
+  Migration,
+  MigrationProperties,
+  MigrationPropertiesUnion,
+  SourceType,
+  MigrationProvisioningState,
+  AzureCacheForRedisMigrationProperties,
   MigrationValidationRequest,
   MigrationValidationResponse,
   MigrationValidationError,
@@ -95,13 +101,8 @@ export type {
   PrivateLinkResourceProperties,
   AccessPolicyAssignment,
   AccessPolicyAssignmentProperties,
+  AccessPolicyAssignmentProvisioningError,
   AccessPolicyAssignmentPropertiesUser,
-  Migration,
-  MigrationProperties,
-  MigrationPropertiesUnion,
-  SourceType,
-  MigrationProvisioningState,
-  AzureCacheForRedisMigrationProperties,
   OperationStatus,
 } from "./models/index.js";
 export {
@@ -120,6 +121,8 @@ export {
   KnownCreatedByType,
   KnownPrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
+  KnownSourceType,
+  KnownMigrationProvisioningState,
   KnownPublicNetworkAccess,
   KnownKind,
   KnownSkuName,
@@ -130,8 +133,6 @@ export {
   KnownMaintenanceWindowType,
   KnownMaintenanceDayOfWeek,
   KnownRedundancyMode,
-  KnownSourceType,
-  KnownMigrationProvisioningState,
   KnownVersions,
 } from "./models/index.js";
 export type { RedisEnterpriseManagementClientOptionalParams } from "./api/index.js";
@@ -157,12 +158,12 @@ export type {
   DatabasesGetOptionalParams,
 } from "./api/databases/index.js";
 export type {
-  MigrationCancelOptionalParams,
-  MigrationListOptionalParams,
-  MigrationStartOptionalParams,
-  MigrationGetOptionalParams,
-} from "./api/migration/index.js";
-export type { MigrationsValidateOptionalParams } from "./api/migrations/index.js";
+  MigrationsValidateOptionalParams,
+  MigrationsCancelOptionalParams,
+  MigrationsListOptionalParams,
+  MigrationsStartOptionalParams,
+  MigrationsGetOptionalParams,
+} from "./api/migrations/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type { OperationsStatusGetOptionalParams } from "./api/operationsStatus/index.js";
 export type {
@@ -184,7 +185,6 @@ export type {
 export type {
   AccessPolicyAssignmentOperations,
   DatabasesOperations,
-  MigrationOperations,
   MigrationsOperations,
   OperationsOperations,
   OperationsStatusOperations,

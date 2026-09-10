@@ -1,9 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { createFetchHttpClient } from "../../../src/fetchHttpClient.js";
-import { createPipelineRequest, createHttpHeaders, AbortError } from "../../../src/index.js";
+import {
+  createPipelineRequest,
+  createHttpHeaders,
+  AbortError,
+  RestError,
+  isRestError,
+} from "../../../src/index.js";
+import { systemErrorRetryPolicy } from "../../../src/policies/internal.js";
 import { png } from "./mocks/encodedPng.js";
 import { delay } from "../../../src/util/helpers.js";
 import { arrayBufferViewToArrayBuffer } from "../../../src/util/arrayBuffer.js";
@@ -512,6 +519,50 @@ describe("FetchHttpClient", function () {
     });
     const response = await client.sendRequest(request);
     assert.strictEqual(response.status, 200);
+  });
+
+  it("should surface the system error code carried by the cause of a failed fetch", async function () {
+    // Native fetch implementations such as undici throw a TypeError whose errno lives on the cause
+    const cause = Object.assign(new Error("read ECONNRESET"), { code: "ECONNRESET" });
+    vi.mocked(fetch).mockRejectedValue(new TypeError("fetch failed", { cause }));
+
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({ url: "https://localhost/reset" });
+    try {
+      await client.sendRequest(request);
+      assert.fail("Expected await to throw");
+    } catch (e: any) {
+      assert.isTrue(isRestError(e));
+      assert.strictEqual(e.code, "ECONNRESET");
+    }
+  });
+
+  it("should fall back to REQUEST_SEND_ERROR when neither the error nor its cause has a code", async function () {
+    vi.mocked(fetch).mockRejectedValue(new TypeError("fetch failed"));
+
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({ url: "https://localhost/reset" });
+    try {
+      await client.sendRequest(request);
+      assert.fail("Expected await to throw");
+    } catch (e: any) {
+      assert.isTrue(isRestError(e));
+      assert.strictEqual(e.code, RestError.REQUEST_SEND_ERROR);
+    }
+  });
+
+  it("should let systemErrorRetryPolicy retry a fetch failure caused by a system error", async function () {
+    const cause = Object.assign(new Error("read ECONNRESET"), { code: "ECONNRESET" });
+    vi.mocked(fetch)
+      .mockRejectedValueOnce(new TypeError("fetch failed", { cause }))
+      .mockResolvedValueOnce(createResponse(200));
+
+    const client = createFetchHttpClient();
+    const policy = systemErrorRetryPolicy({ retryDelayInMs: 1, maxRetryDelayInMs: 1 });
+    const request = createPipelineRequest({ url: "https://localhost/reset" });
+    const response = await policy.sendRequest(request, (req) => client.sendRequest(req));
+    assert.strictEqual(response.status, 200);
+    expect(fetch).toHaveBeenCalledTimes(2);
   });
 });
 

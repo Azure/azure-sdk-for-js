@@ -9,6 +9,7 @@ import type {
 } from "@azure/core-rest-pipeline";
 
 const AcceptHeaderName = "Accept";
+const EventStreamContentType = "text/event-stream";
 
 type MetadataLevel = "none" | "minimal";
 const odataMetadataPolicy = "OdataMetadataPolicy";
@@ -21,7 +22,14 @@ export function createOdataMetadataPolicy(metadataLevel: MetadataLevel): Pipelin
   return {
     name: odataMetadataPolicy,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      request.headers.set(AcceptHeaderName, `application/json;odata.metadata=${metadataLevel}`);
+      const mediaType = request.headers
+        .get(AcceptHeaderName)
+        ?.split(";", 1)[0]
+        .trim()
+        .toLowerCase();
+      if (mediaType !== EventStreamContentType) {
+        request.headers.set(AcceptHeaderName, `application/json;odata.metadata=${metadataLevel}`);
+      }
       return next(request);
     },
   };

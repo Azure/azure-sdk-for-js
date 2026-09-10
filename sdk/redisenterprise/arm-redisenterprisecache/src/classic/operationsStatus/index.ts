@@ -15,14 +15,12 @@ export interface OperationsStatusOperations {
     options?: OperationsStatusGetOptionalParams,
   ) => Promise<OperationStatus>;
 }
-
 function _getOperationsStatus(context: RedisEnterpriseManagementContext) {
   return {
     get: (location: string, operationId: string, options?: OperationsStatusGetOptionalParams) =>
       get(context, location, operationId, options),
   };
 }
-
 export function _getOperationsStatusOperations(
   context: RedisEnterpriseManagementContext,
 ): OperationsStatusOperations {

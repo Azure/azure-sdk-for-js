@@ -109,6 +109,7 @@ export interface BucketsOperations {
     options?: BucketsGetOptionalParams,
   ) => Promise<Bucket>;
 }
+
 function _getBuckets(context: NetAppManagementContext) {
   return {
     refreshCertificate: (
@@ -230,6 +231,7 @@ function _getBuckets(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, bucketName, options),
   };
 }
+
 export function _getBucketsOperations(context: NetAppManagementContext): BucketsOperations {
   return {
     ..._getBuckets(context),

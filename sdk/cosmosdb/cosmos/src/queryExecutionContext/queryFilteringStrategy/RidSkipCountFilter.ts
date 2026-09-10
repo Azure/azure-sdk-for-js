@@ -179,6 +179,7 @@ export class RidSkipCountFilter implements FilterStrategy {
     } catch (error) {
       throw new Error(
         `Failed to convert RID '${rid}' to BigInt: ${error instanceof Error ? error.message : String(error)}`,
+        { cause: error },
       );
     }
   }

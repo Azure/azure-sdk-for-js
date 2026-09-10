@@ -89,6 +89,7 @@ export interface LaunchBulkInstancesOperationOperations {
     options?: LaunchBulkInstancesOperationGetOptionalParams,
   ) => Promise<LocationBasedLaunchBulkInstancesOperation>;
 }
+
 function _getLaunchBulkInstancesOperation(context: ComputeContext) {
   return {
     listVirtualMachines: (
@@ -138,6 +139,7 @@ function _getLaunchBulkInstancesOperation(context: ComputeContext) {
     ) => get(context, resourceGroupName, location, name, options),
   };
 }
+
 export function _getLaunchBulkInstancesOperationOperations(
   context: ComputeContext,
 ): LaunchBulkInstancesOperationOperations {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the specified Active Directory configuration
  *
  * @summary delete the specified Active Directory configuration
- * x-ms-original-file: 2026-05-15-preview/ActiveDirectoryConfigs_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/ActiveDirectoryConfigs_Delete.json
  */
 async function activeDirectoryConfigsDelete() {
   const credential = new DefaultAzureCredential();

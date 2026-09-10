@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the specified Backup Vault in the NetApp account
  *
  * @summary create or update the specified Backup Vault in the NetApp account
- * x-ms-original-file: 2026-05-15-preview/BackupVaults_Create.json
+ * x-ms-original-file: 2026-06-15-preview/BackupVaults_Create.json
  */
 async function backupVaultCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

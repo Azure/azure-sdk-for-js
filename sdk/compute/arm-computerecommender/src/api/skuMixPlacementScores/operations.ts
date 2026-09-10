@@ -32,7 +32,7 @@ export function _postSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-05-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,6 +61,7 @@ export async function _postDeserialize(
 
   return skuMixPlacementResponseDeserializer(result.body);
 }
+
 /** Generates placement scores for VM SKU mix placement. */
 export async function post(
   context: Client,
@@ -82,7 +83,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-05-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,6 +108,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sk
 
   return skuMixPlacementBaseDeserializer(result.body);
 }
+
 /** Gets SkuMixPlacement scoring metadata. */
 export async function get(
   context: Client,

@@ -30,7 +30,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       usageType: usageType,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,6 +55,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Us
 
   return usageResultDeserializer(result.body);
 }
+
 /** Get current subscription usage of the specific type */
 export async function get(
   context: Client,
@@ -76,7 +77,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,6 +102,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _usagesListResultDeserializer(result.body);
 }
+
 /** Get current subscription usages */
 export function list(
   context: Client,
@@ -115,7 +117,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }

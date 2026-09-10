@@ -10,6 +10,7 @@ export interface FleetUpdateStrategiesListByFleetOptionalParams extends Operatio
   /** The page-continuation token to use with a paged version of this API. */
   skipToken?: string;
 }
+
 /** Optional parameters. */
 export interface FleetUpdateStrategiesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -17,6 +18,7 @@ export interface FleetUpdateStrategiesDeleteOptionalParams extends OperationOpti
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
+
 /** Optional parameters. */
 export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -26,5 +28,6 @@ export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends Opera
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
 }
+
 /** Optional parameters. */
 export interface FleetUpdateStrategiesGetOptionalParams extends OperationOptions {}

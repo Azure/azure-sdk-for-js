@@ -5,6 +5,7 @@
  * This example shows how to use
  * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-sdk-trace-base)
  * to instrument a simple Node.js application - e.g. a batch job.
+ * It also demonstrates how to associate custom measurements with spans and span events.
  *
  * @summary use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.
  */
@@ -47,7 +48,14 @@ const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
 export async function main(): Promise<void> {
   // Create a span. A span must be closed.
-  const parentSpan = tracer.startSpan("main");
+  const parentSpan = tracer.startSpan("main", {
+    attributes: {
+      "microsoft.custom_measurements": JSON.stringify({
+        itemsProcessed: 42,
+        queueDepth: 7,
+      }),
+    },
+  });
   for (let i = 0; i < 10; i += 1) {
     doWork(parentSpan);
   }
@@ -73,7 +81,11 @@ function doWork(parent: opentelemetry.Span): void {
   span.setAttribute("key", "value");
 
   // Annotate our span to capture metadata about our operation
-  span.addEvent("invoking doWork");
+  span.addEvent("invoking doWork", {
+    "microsoft.custom_measurements": JSON.stringify({
+      batchDurationInMs: 123,
+    }),
+  });
 
   span.end();
 }

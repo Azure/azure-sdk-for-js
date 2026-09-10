@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Relationship
  *
  * @summary create a Relationship
- * x-ms-original-file: 2026-05-01-preview/Relationships_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01-preview/Relationships_CreateOrUpdate.json
  */
 async function relationshipsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

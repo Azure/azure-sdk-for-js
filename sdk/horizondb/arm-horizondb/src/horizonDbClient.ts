@@ -3,6 +3,8 @@
 
 import type { HorizonDbContext, HorizonDbClientOptionalParams } from "./api/index.js";
 import { createHorizonDb } from "./api/index.js";
+import type { HorizonDbAdministratorsOperations } from "./classic/horizonDbAdministrators/index.js";
+import { _getHorizonDbAdministratorsOperations } from "./classic/horizonDbAdministrators/index.js";
 import type { HorizonDbClustersOperations } from "./classic/horizonDbClusters/index.js";
 import { _getHorizonDbClustersOperations } from "./classic/horizonDbClusters/index.js";
 import type { HorizonDbFirewallRulesOperations } from "./classic/horizonDbFirewallRules/index.js";
@@ -29,21 +31,15 @@ export class HorizonDbClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Azure Resource Provider API for managing HorizonDb clusters, pools, replicas, and firewall rules */
+  /** Azure Resource Provider API for managing HorizonDB clusters, pools, replicas, and firewall rules */
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
     options: HorizonDbClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createHorizonDb(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createHorizonDb(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
+    this.horizonDbAdministrators = _getHorizonDbAdministratorsOperations(this._client);
     this.horizonDbParameterGroups = _getHorizonDbParameterGroupsOperations(this._client);
     this.horizonDbPrivateLinkResources = _getHorizonDbPrivateLinkResourcesOperations(this._client);
     this.horizonDbPrivateEndpointConnections = _getHorizonDbPrivateEndpointConnectionsOperations(
@@ -56,6 +52,8 @@ export class HorizonDbClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for horizonDbAdministrators */
+  public readonly horizonDbAdministrators: HorizonDbAdministratorsOperations;
   /** The operation groups for horizonDbParameterGroups */
   public readonly horizonDbParameterGroups: HorizonDbParameterGroupsOperations;
   /** The operation groups for horizonDbPrivateLinkResources */

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all supported private link resource types for the given service.
  *
  * @summary gets a list of all supported private link resource types for the given service.
- * x-ms-original-file: 2026-03-01-preview/ListSupportedPrivateLinkResources.json
+ * x-ms-original-file: 2026-09-01-preview/ListSupportedPrivateLinkResources.json
  */
 async function listSupportedPrivateLinkResources() {
   const credential = new DefaultAzureCredential();

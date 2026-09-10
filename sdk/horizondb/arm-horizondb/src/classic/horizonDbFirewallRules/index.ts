@@ -17,12 +17,7 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbFirewallRules operations. */
 export interface HorizonDbFirewallRulesOperations {
-  /** Deletes a HorizonDb firewall rule. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Deletes a HorizonDB firewall rule. */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -46,7 +41,7 @@ export interface HorizonDbFirewallRulesOperations {
     firewallRuleName: string,
     options?: HorizonDbFirewallRulesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Creates a new HorizonDb firewall rule or updates an existing rule. */
+  /** Creates a new HorizonDB firewall rule or updates an existing rule. */
   createOrUpdate: (
     resourceGroupName: string,
     clusterName: string,
@@ -73,14 +68,14 @@ export interface HorizonDbFirewallRulesOperations {
     resource: HorizonDbFirewallRule,
     options?: HorizonDbFirewallRulesCreateOrUpdateOptionalParams,
   ) => Promise<HorizonDbFirewallRule>;
-  /** Lists all HorizonDb firewall rules in a pool. */
+  /** Lists all HorizonDB firewall rules in a pool. */
   list: (
     resourceGroupName: string,
     clusterName: string,
     poolName: string,
     options?: HorizonDbFirewallRulesListOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbFirewallRule>;
-  /** Gets information about a HorizonDb firewall rule. */
+  /** Gets information about a HorizonDB firewall rule. */
   get: (
     resourceGroupName: string,
     clusterName: string,

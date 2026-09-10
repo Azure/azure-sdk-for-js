@@ -8,7 +8,6 @@ import {
 } from "./api/index.js";
 import {
   SynonymMap,
-  ListSynonymMapsResult,
   SearchIndex,
   SearchIndexResponse,
   GetIndexStatisticsResult,
@@ -18,6 +17,8 @@ import {
   KnowledgeBase,
   KnowledgeSourceUnion,
   KnowledgeSourceFile,
+  UploadKnowledgeSourceFileMultipartRequest,
+  UpdateKnowledgeSourceFileRequest,
   SearchServiceStatistics,
   IndexStatisticsSummary,
 } from "../models/azure/search/documents/indexes/models.js";
@@ -26,8 +27,10 @@ import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   listIndexStatsSummary,
   getServiceStatistics,
+  updateKnowledgeSourceFile,
   deleteKnowledgeSourceFile,
   listKnowledgeSourceFiles,
+  uploadKnowledgeSourceFileMultipart,
   uploadKnowledgeSourceFile,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
@@ -62,8 +65,10 @@ import {
 import {
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
+  UploadKnowledgeSourceFileMultipartOptionalParams,
   UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -110,14 +115,7 @@ export class SearchIndexClient {
     credential: KeyCredential | TokenCredential,
     options: SearchIndexClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSearchIndex(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSearchIndex(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 
@@ -135,6 +133,16 @@ export class SearchIndexClient {
     return getServiceStatistics(this._client, options);
   }
 
+  /** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
+  updateKnowledgeSourceFile(
+    fileId: string,
+    body: UpdateKnowledgeSourceFileRequest,
+    name: string,
+    options: UpdateKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  ): Promise<KnowledgeSourceFile> {
+    return updateKnowledgeSourceFile(this._client, fileId, body, name, options);
+  }
+
   /** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
   deleteKnowledgeSourceFile(
     fileId: string,
@@ -150,6 +158,15 @@ export class SearchIndexClient {
     options: ListKnowledgeSourceFilesOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<KnowledgeSourceFile> {
     return listKnowledgeSourceFiles(this._client, name, options);
+  }
+
+  /** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
+  uploadKnowledgeSourceFileMultipart(
+    body: UploadKnowledgeSourceFileMultipartRequest,
+    name: string,
+    options: UploadKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
+  ): Promise<KnowledgeSourceFile> {
+    return uploadKnowledgeSourceFileMultipart(this._client, body, name, options);
   }
 
   /** Uploads a file to a File knowledge source for processing and indexing. */
@@ -365,7 +382,7 @@ export class SearchIndexClient {
   /** Lists all synonym maps available for a search service. */
   getSynonymMaps(
     options: GetSynonymMapsOptionalParams = { requestOptions: {} },
-  ): Promise<ListSynonymMapsResult> {
+  ): PagedAsyncIterableIterator<SynonymMap> {
     return getSynonymMaps(this._client, options);
   }
 

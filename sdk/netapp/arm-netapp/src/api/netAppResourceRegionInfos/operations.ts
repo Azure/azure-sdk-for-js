@@ -28,7 +28,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,6 +53,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _regionInfosListDeserializer(result.body);
 }
+
 /** Provides region specific information. */
 export function list(
   context: Client,
@@ -67,7 +68,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -82,7 +83,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,6 +108,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
 
   return regionInfoResourceDeserializer(result.body);
 }
+
 /** Provides storage to network proximity and logical zone mapping information. */
 export async function get(
   context: Client,

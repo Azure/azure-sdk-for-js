@@ -65,7 +65,7 @@ export const defaultDataTransformer = {
           `${err ? err.stack : JSON.stringify(err)}`;
         logger.warning("[encode] " + msg);
         logErrorStackTrace(logger, err);
-        throw new Error(msg);
+        throw new Error(msg, { cause: err });
       }
     }
     return result;

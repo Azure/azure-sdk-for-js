@@ -1,5 +1,11 @@
 {
   "extends": "../../../../eng/tsconfigs/src.react-native.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ES2023", "ESNext.Disposable"],
+    // React Native redeclares several DOM globals, but API Extractor needs the DOM
+    // ReadableStream declaration to analyze the public FileContents type.
+    "skipLibCheck": true
+  },
   "include": [
     "../src/events.d.ts",
     "../src/index.ts",

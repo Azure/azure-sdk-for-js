@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: 2026-05-02-preview/MaintenanceConfigurationsCreate_LinkedMaintenanceWindow.json
+ * x-ms-original-file: 2026-06-02-preview/MaintenanceConfigurationsCreate_LinkedMaintenanceWindow.json
  */
 async function createALinkedMaintenanceConfiguration() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function createALinkedMaintenanceConfiguration() {
  * This sample demonstrates how to creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: 2026-05-02-preview/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
+ * x-ms-original-file: 2026-06-02-preview/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
  */
 async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow() {
   const credential = new DefaultAzureCredential();

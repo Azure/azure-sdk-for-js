@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all access policy assignments..
  *
  * @summary gets all access policy assignments..
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseAccessPolicyAssignmentsList.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseAccessPolicyAssignmentsList.json
  */
 async function redisEnterpriseAccessPolicyAssignmentList() {
   const credential = new DefaultAzureCredential();

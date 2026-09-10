@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the specified NetApp Elastic Capacity Pool
  *
  * @summary patch the specified NetApp Elastic Capacity Pool
- * x-ms-original-file: 2026-05-15-preview/ElasticCapacityPools_Update.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticCapacityPools_Update.json
  */
 async function elasticCapacityPoolsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

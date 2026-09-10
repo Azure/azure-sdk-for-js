@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as coreClient from "@azure/core-client";
-import { parseXML } from "@azure/core-xml";
 import type {
-  ListBlobsFlatSegmentResponse,
-  ListBlobsHierarchySegmentResponse,
-} from "../generated/src/models/index.js";
-import * as Mappers from "../generated/src/models/mappers.js";
+  ListBlobsResponse,
+  ListBlobsHierarchicalResponse,
+} from "../generated/models/index.js";
+import {
+  listBlobsResponseXmlDeserializer,
+  listBlobsHierarchicalResponseXmlDeserializer,
+} from "../generated/models/models.js";
 import { readResponseBodyToBytes } from "./utils.common.js";
-
-const listBlobsXmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
 /**
  * Reads a raw response body (a Node.js readable stream or a browser Blob) as text,
@@ -34,17 +33,11 @@ async function readResponseBodyToText(response: {
 export async function deserializeListBlobFlatSegmentXml(response: {
   readableStreamBody?: NodeJS.ReadableStream;
   blobBody?: Promise<Blob>;
-}): Promise<{ parsed: ListBlobsFlatSegmentResponse; bodyAsText: string }> {
+}): Promise<{ parsed: ListBlobsResponse; bodyAsText: string }> {
   const bodyAsText = await readResponseBodyToText(response);
-  const parsedXml = (await parseXML(bodyAsText, {
-    includeRoot: true,
-  })) as Record<string, unknown>;
+  const parsed = listBlobsResponseXmlDeserializer(bodyAsText);
   return {
-    parsed: listBlobsXmlSerializer.deserialize(
-      Mappers.ListBlobsFlatSegmentResponse,
-      parsedXml.EnumerationResults ?? parsedXml,
-      "EnumerationResults",
-    ) as ListBlobsFlatSegmentResponse,
+    parsed,
     bodyAsText,
   };
 }
@@ -58,17 +51,11 @@ export async function deserializeListBlobFlatSegmentXml(response: {
 export async function deserializeListBlobHierarchySegmentXml(response: {
   readableStreamBody?: NodeJS.ReadableStream;
   blobBody?: Promise<Blob>;
-}): Promise<{ parsed: ListBlobsHierarchySegmentResponse; bodyAsText: string }> {
+}): Promise<{ parsed: ListBlobsHierarchicalResponse; bodyAsText: string }> {
   const bodyAsText = await readResponseBodyToText(response);
-  const parsedXml = (await parseXML(bodyAsText, {
-    includeRoot: true,
-  })) as Record<string, unknown>;
+  const parsed = listBlobsHierarchicalResponseXmlDeserializer(bodyAsText);
   return {
-    parsed: listBlobsXmlSerializer.deserialize(
-      Mappers.ListBlobsHierarchySegmentResponse,
-      parsedXml.EnumerationResults ?? parsedXml,
-      "EnumerationResults",
-    ) as ListBlobsHierarchySegmentResponse,
+    parsed,
     bodyAsText,
   };
 }

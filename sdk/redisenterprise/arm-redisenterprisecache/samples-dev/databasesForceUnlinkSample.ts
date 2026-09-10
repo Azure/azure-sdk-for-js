@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to forcibly removes the link to the specified database resource.
  *
  * @summary forcibly removes the link to the specified database resource.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesForceUnlink.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesForceUnlink.json
  */
 async function howToUnlinkADatabaseDuringARegionalOutage(): Promise<void> {
   const credential = new DefaultAzureCredential();

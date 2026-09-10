@@ -107,7 +107,7 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
       // If we got an error while trying to read from the keyring,
       // we will proceed only if the user has specified that unencrypted storage is allowed.
       if (!unsafeAllowUnencryptedStorage) {
-        throw new Error("Unable to read from the macOS Keychain.");
+        throw new Error("Unable to read from the macOS Keychain.", { cause: e });
       }
       return FilePersistence.create(persistencePath);
     }
@@ -127,7 +127,7 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
       // If we got an error while trying to read from the keyring,
       // we will proceed only if the user has specified that unencrypted storage is allowed.
       if (!unsafeAllowUnencryptedStorage) {
-        throw new Error("Unable to read from the system keyring (libsecret).");
+        throw new Error("Unable to read from the system keyring (libsecret).", { cause: e });
       }
       return FilePersistence.create(persistencePath);
     }

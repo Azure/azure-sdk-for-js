@@ -4,17 +4,25 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export interface ActivateSaaSRequest {
+    publisherId?: string;
+    saasGuid: string;
+}
 
 // @public
 export interface Address {
@@ -239,9 +247,35 @@ export interface AvsVmVolumeUpdateProperties {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface AzureVmwareService {
     avsEnabled: boolean;
     clusterResourceId?: string;
+}
+
+// @public
+export interface AzureVolumeProperties {
+    readonly createdAt?: Date;
+    provisionedSize?: number;
+    readonly provisioningState?: ProvisioningState;
+    readonly serialNumber?: string;
+    readonly softDeletion?: DestroyedStateProperties;
+    sourceRecoverableVolumeResourceId?: string;
+    sourceSerialNumber?: string;
+    sourceType?: VolumeSourceType;
+    sourceVolumeGroupResourceId?: string;
+    sourceVolumeResourceId?: string;
+    sourceVolumeSnapshot?: VolumeSnapshotSource;
+    readonly space?: Space;
 }
 
 // @public
@@ -271,13 +305,19 @@ export class BlockClient {
     readonly avsVmVolumes: AvsVmVolumesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly recoverableVolumeGroups: RecoverableVolumeGroupsOperations;
     readonly reservations: ReservationsOperations;
+    readonly saaSOperationGroup: SaaSOperationGroupOperations;
     readonly storagePools: StoragePoolsOperations;
+    readonly volumeGroups: VolumeGroupsOperations;
+    readonly volumeGroupSnapshots: VolumeGroupSnapshotsOperations;
+    readonly volumes: VolumesOperations;
 }
 
 // @public
 export interface BlockClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -287,12 +327,25 @@ export interface CompanyDetails {
 }
 
 // @public
+export interface ConnectionParametersResponse {
+    iscsi: IscsiConnectionParameters;
+}
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface DestroyedStateProperties {
+    readonly destroyed: boolean;
+    readonly destroyedAt?: Date;
+    readonly eradicationTimestamp?: Date;
+    readonly previousName?: string;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -330,6 +383,20 @@ export interface IopsUsage {
     max: number;
     provisioned: number;
 }
+
+// @public
+export interface IscsiConnectionParameters {
+    endpoints: IscsiEndpoint[];
+}
+
+// @public
+export interface IscsiEndpoint {
+    ip: string;
+    iqn: string;
+    port: number;
+}
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -375,6 +442,18 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPlatformConsoleAuthType {
+    Ssh = "ssh"
+}
+
+// @public
+export enum KnownPlatformConsoleRole {
+    ArrayAdmin = "array_admin",
+    ReadOnly = "read_only",
+    StorageAdmin = "storage_admin"
+}
+
+// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -400,7 +479,12 @@ export enum KnownUsageSeverity {
 
 // @public
 export enum KnownVersions {
-    V20241101 = "2024-11-01"
+    V20241001Preview = "2024-10-01-preview",
+    V20241101 = "2024-11-01",
+    V20241101Preview = "2024-11-01-preview",
+    V20260101Preview = "2026-01-01-preview",
+    V20260301Preview = "2026-03-01-preview",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -414,8 +498,31 @@ export enum KnownVolumeContainerType {
 }
 
 // @public
+export enum KnownVolumeGroupSourceType {
+    None = "none",
+    RecoverableVolumeGroup = "recoverableVolumeGroup",
+    Snapshot = "snapshot",
+    VolumeGroup = "volumeGroup"
+}
+
+// @public
+export enum KnownVolumeSourceType {
+    None = "none",
+    RecoverableVolume = "recoverableVolume",
+    SerialNumber = "serialNumber",
+    Snapshot = "snapshot",
+    Volume = "volume"
+}
+
+// @public
 export enum KnownVolumeType {
     AVS = "avs"
+}
+
+// @public
+export interface LatestLinkedSaaSResponse {
+    isHiddenSaaS?: boolean;
+    saaSResourceId?: string;
 }
 
 // @public
@@ -427,11 +534,16 @@ export interface LimitDetails {
 }
 
 // @public
+export interface LinkSaaSRequest {
+    saaSResourceId: string;
+}
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -439,7 +551,8 @@ export type ManagedServiceIdentityType = string;
 
 // @public
 export interface MarketplaceDetails {
-    offerDetails: OfferDetails;
+    offerDetails?: OfferDetails;
+    saaSResourceId?: string;
     readonly subscriptionId?: string;
     subscriptionStatus?: MarketplaceSubscriptionStatus;
 }
@@ -499,9 +612,72 @@ export interface PageSettings {
 }
 
 // @public
+export interface PerformanceParameters {
+    bandwidthLimitMbPerSec?: number;
+    iopsLimit?: number;
+}
+
+// @public
 export interface PerformancePolicyLimits {
     bandwidthLimit: RangeLimits;
     iopsLimit: RangeLimits;
+}
+
+// @public
+export interface PlatformConsoleAccessSettings {
+    enabled: boolean;
+}
+
+// @public
+export interface PlatformConsoleActivationCode {
+    activationCode: string;
+    expiresAt: Date;
+    username: string;
+}
+
+// @public
+export interface PlatformConsoleAuthConfig {
+    authType: PlatformConsoleAuthType;
+}
+
+// @public
+export type PlatformConsoleAuthConfigUnion = SshPlatformConsoleAuthConfig | PlatformConsoleAuthConfig;
+
+// @public
+export interface PlatformConsoleAuthResult {
+    authType: PlatformConsoleAuthType;
+}
+
+// @public
+export type PlatformConsoleAuthResultUnion = SshPlatformConsoleAuthResult | PlatformConsoleAuthResult;
+
+// @public
+export type PlatformConsoleAuthType = string;
+
+// @public
+export type PlatformConsoleRole = string;
+
+// @public
+export interface PlatformConsoleSettings {
+    api?: PlatformConsoleAccessSettings;
+    cli?: PlatformConsoleAccessSettings;
+    readonly defaultUsername?: string;
+    enabled?: boolean;
+    gui?: PlatformConsoleAccessSettings;
+    subnets?: PlatformConsoleSubnet[];
+}
+
+// @public
+export interface PlatformConsoleSubnet {
+    id: string;
+    readonly managementIpAddress?: string;
+    readonly serviceBackendIps?: string[];
+}
+
+// @public
+export interface ProtectionParameters {
+    frequency?: string;
+    retention?: string;
 }
 
 // @public
@@ -521,6 +697,41 @@ export interface ProxyResource extends Resource {
 export interface RangeLimits {
     max: number;
     min: number;
+}
+
+// @public
+export interface RecoverableVolumeGroup extends ProxyResource {
+    properties?: RecoverableVolumeGroupProperties;
+}
+
+// @public
+export interface RecoverableVolumeGroupProperties {
+    readonly createdAt?: Date;
+    readonly performanceParameters?: PerformanceParameters;
+    readonly protectionParameters?: ProtectionParameters;
+    readonly provisioningState?: ProvisioningState;
+    readonly softDeletion?: DestroyedStateProperties;
+    readonly space?: Space;
+}
+
+// @public
+export interface RecoverableVolumeGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RecoverableVolumeGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RecoverableVolumeGroupsListByStoragePoolOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RecoverableVolumeGroupsOperations {
+    delete: (resourceGroupName: string, storagePoolName: string, recoverableVolumeGroupName: string, options?: RecoverableVolumeGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storagePoolName: string, recoverableVolumeGroupName: string, options?: RecoverableVolumeGroupsGetOptionalParams) => Promise<RecoverableVolumeGroup>;
+    listByStoragePool: (resourceGroupName: string, storagePoolName: string, options?: RecoverableVolumeGroupsListByStoragePoolOptionalParams) => PagedAsyncIterableIterator<RecoverableVolumeGroup>;
 }
 
 // @public
@@ -558,7 +769,7 @@ export interface ReservationPropertiesBaseResourceProperties {
     marketplace: MarketplaceDetails;
     readonly provisioningState?: ProvisioningState;
     readonly reservationInternalId?: string;
-    user: UserDetails;
+    user?: UserDetails;
 }
 
 // @public
@@ -588,6 +799,15 @@ export interface ReservationsGetResourceLimitsOptionalParams extends OperationOp
 }
 
 // @public
+export interface ReservationsLatestLinkedSaaSOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReservationsLinkSaaSOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ReservationsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
@@ -603,6 +823,8 @@ export interface ReservationsOperations {
     getBillingReport: (resourceGroupName: string, reservationName: string, options?: ReservationsGetBillingReportOptionalParams) => Promise<ReservationBillingUsageReport>;
     getBillingStatus: (resourceGroupName: string, reservationName: string, options?: ReservationsGetBillingStatusOptionalParams) => Promise<ReservationBillingStatus>;
     getResourceLimits: (resourceGroupName: string, reservationName: string, options?: ReservationsGetResourceLimitsOptionalParams) => Promise<LimitDetails>;
+    latestLinkedSaaS: (resourceGroupName: string, reservationName: string, options?: ReservationsLatestLinkedSaaSOptionalParams) => Promise<LatestLinkedSaaSResponse>;
+    linkSaaS: (resourceGroupName: string, reservationName: string, body: LinkSaaSRequest, options?: ReservationsLinkSaaSOptionalParams) => PollerLike<OperationState<Reservation>, Reservation>;
     listByResourceGroup: (resourceGroupName: string, options?: ReservationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Reservation>;
     listBySubscription: (options?: ReservationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Reservation>;
     update: (resourceGroupName: string, reservationName: string, properties: ReservationUpdate, options?: ReservationsUpdateOptionalParams) => PollerLike<OperationState<Reservation>, Reservation>;
@@ -635,6 +857,8 @@ export interface Resource {
 // @public
 export type ResourceProvisioningState = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BlockClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -643,6 +867,21 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SaaSOperationGroupActivateResourceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SaaSOperationGroupOperations {
+    activateResource: (body: ActivateSaaSRequest, options?: SaaSOperationGroupActivateResourceOptionalParams) => PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
+}
+
+// @public
+export interface SaaSResourceDetailsResponse extends ProxyResource {
+    saasId?: string;
 }
 
 // @public
@@ -671,6 +910,23 @@ export interface Space {
     snapshots: number;
     totalUsed: number;
     unique: number;
+}
+
+// @public
+export interface SshPlatformConsoleAuthConfig extends PlatformConsoleAuthConfig {
+    // (undocumented)
+    authType: "ssh";
+    publicKey: string;
+    role: PlatformConsoleRole;
+    username: string;
+}
+
+// @public
+export interface SshPlatformConsoleAuthResult extends PlatformConsoleAuthResult {
+    // (undocumented)
+    authType: "ssh";
+    role: PlatformConsoleRole;
+    username: string;
 }
 
 // @public
@@ -708,12 +964,17 @@ export interface StoragePoolProperties {
     availabilityZone: string;
     readonly avs?: AzureVmwareService;
     readonly dataRetentionPeriod?: number;
+    platformConsoleSettings?: PlatformConsoleSettings;
     provisionedBandwidthMbPerSec: number;
     readonly provisionedIops?: number;
     readonly provisioningState?: ProvisioningState;
     reservationResourceId: string;
     readonly storagePoolInternalId?: string;
     vnetInjection: VnetInjection;
+}
+
+// @public
+export interface StoragePoolsConfigurePlatformConsoleAuthOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -766,7 +1027,12 @@ export interface StoragePoolsListBySubscriptionOptionalParams extends OperationO
 }
 
 // @public
+export interface StoragePoolsListPlatformConsoleActivationCodeOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StoragePoolsOperations {
+    configurePlatformConsoleAuth: (resourceGroupName: string, storagePoolName: string, config: PlatformConsoleAuthConfigUnion, options?: StoragePoolsConfigurePlatformConsoleAuthOptionalParams) => Promise<PlatformConsoleAuthResultUnion>;
     create: (resourceGroupName: string, storagePoolName: string, resource: StoragePool, options?: StoragePoolsCreateOptionalParams) => PollerLike<OperationState<StoragePool>, StoragePool>;
     delete: (resourceGroupName: string, storagePoolName: string, options?: StoragePoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     disableAvsConnection: (resourceGroupName: string, storagePoolName: string, options?: StoragePoolsDisableAvsConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -778,6 +1044,7 @@ export interface StoragePoolsOperations {
     getHealthStatus: (resourceGroupName: string, storagePoolName: string, options?: StoragePoolsGetHealthStatusOptionalParams) => Promise<StoragePoolHealthInfo>;
     listByResourceGroup: (resourceGroupName: string, options?: StoragePoolsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StoragePool>;
     listBySubscription: (options?: StoragePoolsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StoragePool>;
+    listPlatformConsoleActivationCode: (resourceGroupName: string, storagePoolName: string, options?: StoragePoolsListPlatformConsoleActivationCodeOptionalParams) => Promise<PlatformConsoleActivationCode>;
     repairAvsConnection: (resourceGroupName: string, storagePoolName: string, options?: StoragePoolsRepairAvsConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, storagePoolName: string, properties: StoragePoolUpdate, options?: StoragePoolsUpdateOptionalParams) => PollerLike<OperationState<StoragePool>, StoragePool>;
 }
@@ -801,6 +1068,7 @@ export interface StoragePoolUpdate {
 
 // @public
 export interface StoragePoolUpdateProperties {
+    platformConsoleSettings?: PlatformConsoleSettings;
     provisionedBandwidthMbPerSec?: number;
 }
 
@@ -849,11 +1117,184 @@ export interface VnetInjection {
 }
 
 // @public
+export interface Volume extends ProxyResource {
+    properties?: AzureVolumeProperties;
+}
+
+// @public
 export type VolumeContainerType = string;
+
+// @public
+export interface VolumeGroup extends TrackedResource {
+    properties?: VolumeGroupProperties;
+}
+
+// @public
+export interface VolumeGroupOverwriteRequest {
+    sourceSnapshotResourceId: string;
+    sourceVolumeGroupResourceId: string;
+}
+
+// @public
+export interface VolumeGroupProperties {
+    performanceParameters?: PerformanceParameters;
+    protectionParameters?: ProtectionParameters;
+    readonly provisioningState?: ProvisioningState;
+    sourceRecoverableVolumeGroupResourceId?: string;
+    sourceSnapshotResourceId?: string;
+    sourceType?: VolumeGroupSourceType;
+    sourceVolumeGroupResourceId?: string;
+    readonly storagePoolInternalId?: string;
+    readonly volumeGroupInternalId?: string;
+}
+
+// @public
+export interface VolumeGroupsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupsGetStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupsListByStoragePoolOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupsListConnectionParametersOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupSnapshot extends ProxyResource {
+    properties?: VolumeGroupSnapshotProperties;
+}
+
+// @public
+export interface VolumeGroupSnapshotListRequest {
+    filter?: string;
+    orderby?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface VolumeGroupSnapshotPostListResult {
+    count?: number;
+    totalCount?: number;
+    value: VolumeGroupSnapshot[];
+}
+
+// @public
+export interface VolumeGroupSnapshotProperties {
+    readonly createdAt?: Date;
+    readonly createdByPolicy?: boolean;
+    readonly provisioningState?: ProvisioningState;
+    readonly softDeletion?: DestroyedStateProperties;
+    sourceSnapshotResourceId?: string;
+    readonly space?: Space;
+    readonly volumeSnapshots?: VolumeSnapshotInfo[];
+}
+
+// @public
+export interface VolumeGroupSnapshotsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupSnapshotsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupSnapshotsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupSnapshotsListByVolumeGroupOptionalParams extends OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface VolumeGroupSnapshotsListSnapshotsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeGroupSnapshotsOperations {
+    create: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, snapshotName: string, resource: VolumeGroupSnapshot, options?: VolumeGroupSnapshotsCreateOptionalParams) => PollerLike<OperationState<VolumeGroupSnapshot>, VolumeGroupSnapshot>;
+    delete: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, snapshotName: string, options?: VolumeGroupSnapshotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, snapshotName: string, options?: VolumeGroupSnapshotsGetOptionalParams) => Promise<VolumeGroupSnapshot>;
+    listByVolumeGroup: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupSnapshotsListByVolumeGroupOptionalParams) => PagedAsyncIterableIterator<VolumeGroupSnapshot>;
+    listSnapshots: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, properties: VolumeGroupSnapshotListRequest, options?: VolumeGroupSnapshotsListSnapshotsOptionalParams) => Promise<VolumeGroupSnapshotPostListResult>;
+}
+
+// @public
+export interface VolumeGroupsOperations {
+    create: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, resource: VolumeGroup, options?: VolumeGroupsCreateOptionalParams) => PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
+    delete: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupsGetOptionalParams) => Promise<VolumeGroup>;
+    getStatus: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupsGetStatusOptionalParams) => Promise<VolumeGroupStatus>;
+    listByStoragePool: (resourceGroupName: string, storagePoolName: string, options?: VolumeGroupsListByStoragePoolOptionalParams) => PagedAsyncIterableIterator<VolumeGroup>;
+    listConnectionParameters: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumeGroupsListConnectionParametersOptionalParams) => Promise<ConnectionParametersResponse>;
+    overwrite: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, body: VolumeGroupOverwriteRequest, options?: VolumeGroupsOverwriteOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, properties: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams) => PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
+}
+
+// @public
+export type VolumeGroupSourceType = string;
+
+// @public
+export interface VolumeGroupsOverwriteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupStatus {
+    connectedHostCount: number;
+    space: Space;
+}
+
+// @public
+export interface VolumeGroupsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeGroupUpdate {
+    properties?: VolumeGroupUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VolumeGroupUpdateProperties {
+    performanceParameters?: PerformanceParameters;
+    protectionParameters?: ProtectionParameters;
+}
 
 // @public
 export interface VolumeLimits {
     provisionedSize: RangeLimits;
+}
+
+// @public
+export interface VolumeOverwriteRequest {
+    sourceSerialNumber?: string;
+    sourceType: VolumeSourceType;
+    sourceVolumeGroupResourceId?: string;
+    sourceVolumeResourceId?: string;
+    sourceVolumeSnapshot?: VolumeSnapshotSource;
 }
 
 // @public
@@ -872,7 +1313,72 @@ export interface VolumeProperties {
 }
 
 // @public
+export interface VolumesCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumesListByVolumeGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VolumeSnapshotInfo {
+    readonly name: string;
+    readonly provisionedSize?: number;
+    readonly serialNumber?: string;
+    readonly space?: Space;
+}
+
+// @public
+export interface VolumeSnapshotSource {
+    volumeGroupSnapshotResourceId: string;
+    volumeSnapshotName: string;
+}
+
+// @public
+export interface VolumesOperations {
+    create: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, resource: Volume, options?: VolumesCreateOptionalParams) => PollerLike<OperationState<Volume>, Volume>;
+    delete: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, options?: VolumesGetOptionalParams) => Promise<Volume>;
+    listByVolumeGroup: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, options?: VolumesListByVolumeGroupOptionalParams) => PagedAsyncIterableIterator<Volume>;
+    overwrite: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, body: VolumeOverwriteRequest, options?: VolumesOverwriteOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, storagePoolName: string, volumeGroupName: string, volumeName: string, properties: VolumeUpdate, options?: VolumesUpdateOptionalParams) => PollerLike<OperationState<Volume>, Volume>;
+}
+
+// @public
+export type VolumeSourceType = string;
+
+// @public
+export interface VolumesOverwriteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type VolumeType = string;
+
+// @public
+export interface VolumeUpdate {
+    properties?: VolumeUpdateProperties;
+}
+
+// @public
+export interface VolumeUpdateProperties {
+    provisionedSize?: number;
+}
 
 // (No @packageDocumentation comment for this package)
 

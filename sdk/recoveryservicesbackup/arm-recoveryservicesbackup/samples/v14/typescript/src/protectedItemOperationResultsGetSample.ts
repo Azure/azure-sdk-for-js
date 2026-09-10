@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetches the result of any operation on the backup item.
  *
  * @summary fetches the result of any operation on the backup item.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ProtectedItemOperationResults.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/ProtectedItemOperationResults.json
  */
 async function getOperationResultsOfProtectedVm(): Promise<void> {
   const credential = new DefaultAzureCredential();

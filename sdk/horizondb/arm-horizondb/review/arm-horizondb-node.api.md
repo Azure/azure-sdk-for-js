@@ -7,15 +7,20 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export type AuthenticationState = string;
 
 // @public
 export enum AzureClouds {
@@ -61,9 +66,70 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+// @public
+export interface HorizonDbAdministrator extends ProxyResource {
+    properties?: HorizonDbAdministratorProperties;
+}
+
+// @public
+export interface HorizonDbAdministratorAdd {
+    properties: HorizonDbAdministratorPropertiesForAdd;
+}
+
+// @public
+export interface HorizonDbAdministratorProperties {
+    readonly objectId?: string;
+    principalName: string;
+    principalType: PrincipalTypes;
+    readonly provisioningState?: ProvisioningState;
+    tenantId?: string;
+}
+
+// @public
+export interface HorizonDbAdministratorPropertiesForAdd {
+    principalName: string;
+    principalType: PrincipalTypes;
+    tenantId?: string;
+}
+
+// @public
+export interface HorizonDbAdministratorsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface HorizonDbAdministratorsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface HorizonDbAdministratorsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HorizonDbAdministratorsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HorizonDbAdministratorsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, objectId: string, resource: HorizonDbAdministratorAdd, options?: HorizonDbAdministratorsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbAdministrator>, HorizonDbAdministrator>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, objectId: string, resource: HorizonDbAdministratorAdd, options?: HorizonDbAdministratorsCreateOrUpdateOptionalParams) => Promise<HorizonDbAdministrator>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, objectId: string, options?: HorizonDbAdministratorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, objectId: string, options?: HorizonDbAdministratorsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, clusterName: string, objectId: string, resource: HorizonDbAdministratorAdd, options?: HorizonDbAdministratorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<HorizonDbAdministrator>, HorizonDbAdministrator>;
+    delete: (resourceGroupName: string, clusterName: string, objectId: string, options?: HorizonDbAdministratorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, objectId: string, options?: HorizonDbAdministratorsGetOptionalParams) => Promise<HorizonDbAdministrator>;
+    list: (resourceGroupName: string, clusterName: string, options?: HorizonDbAdministratorsListOptionalParams) => PagedAsyncIterableIterator<HorizonDbAdministrator>;
+}
+
 // @public (undocumented)
 export class HorizonDbClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: HorizonDbClientOptionalParams);
+    readonly horizonDbAdministrators: HorizonDbAdministratorsOperations;
     readonly horizonDbClusters: HorizonDbClustersOperations;
     readonly horizonDbFirewallRules: HorizonDbFirewallRulesOperations;
     readonly horizonDbParameterGroups: HorizonDbParameterGroupsOperations;
@@ -83,13 +149,28 @@ export interface HorizonDbClientOptionalParams extends ClientOptions {
 
 // @public
 export interface HorizonDbCluster extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     properties?: HorizonDbClusterProperties;
 }
 
 // @public
+export interface HorizonDbClusterAuthConfig {
+    entraIdAuth?: AuthenticationState;
+    passwordAuth?: AuthenticationState;
+    tenantId?: string;
+}
+
+// @public
 export interface HorizonDbClusterForPatchUpdate {
+    identity?: ManagedServiceIdentity;
     properties?: HorizonDbClusterPropertiesForPatchUpdate;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface HorizonDbClusterMirroring {
+    databaseNames?: string[];
+    userAssignedIdentityId?: string;
 }
 
 // @public
@@ -103,8 +184,11 @@ export interface HorizonDbClusterParameterGroupConnectionProperties {
 export interface HorizonDbClusterProperties {
     administratorLogin: string;
     administratorLoginPassword?: string;
+    authConfig?: HorizonDbClusterAuthConfig;
+    computeModel?: HorizonDbComputeModel;
     createMode?: CreateModeCluster;
     readonly fullyQualifiedDomainName?: string;
+    mirroring?: HorizonDbClusterMirroring;
     network?: Network;
     parameterGroup?: HorizonDbClusterParameterGroupConnectionProperties;
     pointInTimeUTC?: Date;
@@ -123,6 +207,9 @@ export interface HorizonDbClusterProperties {
 // @public
 export interface HorizonDbClusterPropertiesForPatchUpdate {
     administratorLoginPassword?: string;
+    authConfig?: HorizonDbClusterAuthConfig;
+    computeModel?: HorizonDbComputeModel;
+    mirroring?: HorizonDbClusterMirroring;
     parameterGroup?: HorizonDbClusterParameterGroupConnectionProperties;
     vCores?: number;
 }
@@ -160,6 +247,18 @@ export interface HorizonDbClustersOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersRestartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStop: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStopAndWait: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStopOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
     beginUpdate: (resourceGroupName: string, clusterName: string, properties: HorizonDbClusterForPatchUpdate, options?: HorizonDbClustersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbCluster>, HorizonDbCluster>>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, clusterName: string, properties: HorizonDbClusterForPatchUpdate, options?: HorizonDbClustersUpdateOptionalParams) => Promise<HorizonDbCluster>;
@@ -168,13 +267,42 @@ export interface HorizonDbClustersOperations {
     get: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersGetOptionalParams) => Promise<HorizonDbCluster>;
     listByResourceGroup: (resourceGroupName: string, options?: HorizonDbClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<HorizonDbCluster>;
     listBySubscription: (options?: HorizonDbClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<HorizonDbCluster>;
+    restart: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    start: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    stop: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStopOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, clusterName: string, properties: HorizonDbClusterForPatchUpdate, options?: HorizonDbClustersUpdateOptionalParams) => PollerLike<OperationState<HorizonDbCluster>, HorizonDbCluster>;
+}
+
+// @public
+export interface HorizonDbClustersRestartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface HorizonDbClustersStartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface HorizonDbClustersStopOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface HorizonDbClustersUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface HorizonDbComputeModel {
+    maxvCores?: number;
+    minvCores?: number;
+    type?: HorizonDbComputeModelType;
+    vCores?: number;
+}
+
+// @public
+export type HorizonDbComputeModelType = string;
 
 // @public
 export interface HorizonDbFirewallRule extends ProxyResource {
@@ -364,22 +492,17 @@ export interface HorizonDbPrivateEndpointConnectionsListOptionalParams extends O
 // @public
 export interface HorizonDbPrivateEndpointConnectionsOperations {
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionUpdate, options?: HorizonDbPrivateEndpointConnectionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionUpdate, options?: HorizonDbPrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
-    delete: (resourceGroupName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    delete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
     list: (resourceGroupName: string, clusterName: string, options?: HorizonDbPrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
-    update: (resourceGroupName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionUpdate, options?: HorizonDbPrivateEndpointConnectionsUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    updateStatus: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams) => Promise<PrivateEndpointConnectionResource>;
 }
 
 // @public
-export interface HorizonDbPrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
+export interface HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -469,9 +592,17 @@ export interface HorizonDbReplicasUpdateOptionalParams extends OperationOptions 
     updateIntervalInMs?: number;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAuthenticationState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -496,10 +627,32 @@ export enum KnownCreateModePool {
 }
 
 // @public
+export enum KnownHorizonDbComputeModelType {
+    Provisioned = "Provisioned",
+    Serverless = "Serverless"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPrincipalTypes {
+    Group = "Group",
+    ServicePrincipal = "ServicePrincipal",
+    Unknown = "Unknown",
+    User = "User"
 }
 
 // @public
@@ -547,12 +700,15 @@ export enum KnownState {
     Starting = "Starting",
     Stopped = "Stopped",
     Stopping = "Stopping",
-    Updating = "Updating"
+    Succeeded = "Succeeded",
+    Updating = "Updating",
+    Upgrading = "Upgrading"
 }
 
 // @public
 export enum KnownVersions {
-    V20260120Preview = "2026-01-20-preview"
+    V20260120Preview = "2026-01-20-preview",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -560,6 +716,17 @@ export enum KnownZonePlacementPolicy {
     BestEffort = "BestEffort",
     Strict = "Strict"
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Network {
@@ -593,12 +760,6 @@ export interface OperationsOperations {
 }
 
 // @public
-export interface OptionalPropertiesUpdateableProperties {
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-}
-
-// @public
 export type Origin = string;
 
 // @public
@@ -627,13 +788,11 @@ export interface ParameterProperties {
 }
 
 // @public
-export interface PrivateEndpoint {
-    readonly id?: string;
-}
+export type PrincipalTypes = string;
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
-    properties?: PrivateEndpointConnectionProperties;
+export interface PrivateEndpoint {
+    readonly id?: string;
 }
 
 // @public
@@ -650,11 +809,6 @@ export type PrivateEndpointConnectionProvisioningState = string;
 // @public
 export interface PrivateEndpointConnectionResource extends Resource {
     properties?: PrivateEndpointConnectionProperties;
-}
-
-// @public
-export interface PrivateEndpointConnectionUpdate {
-    properties?: OptionalPropertiesUpdateableProperties;
 }
 
 // @public
@@ -694,6 +848,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HorizonDbClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -744,6 +900,12 @@ export interface SystemData {
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

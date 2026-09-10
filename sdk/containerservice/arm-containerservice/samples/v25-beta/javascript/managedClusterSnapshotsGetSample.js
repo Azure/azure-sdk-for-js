@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a managed cluster snapshot.
  *
  * @summary gets a managed cluster snapshot.
- * x-ms-original-file: 2026-05-02-preview/ManagedClusterSnapshotsGet.json
+ * x-ms-original-file: 2026-06-02-preview/ManagedClusterSnapshotsGet.json
  */
 async function getManagedClusterSnapshot() {
   const credential = new DefaultAzureCredential();

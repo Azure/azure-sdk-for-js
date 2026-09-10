@@ -100,6 +100,7 @@ export interface CachesOperations {
     options?: CachesGetOptionalParams,
   ) => Promise<Cache>;
 }
+
 function _getCaches(context: NetAppManagementContext) {
   return {
     resetSmbPassword: (
@@ -164,6 +165,7 @@ function _getCaches(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, cacheName, options),
   };
 }
+
 export function _getCachesOperations(context: NetAppManagementContext): CachesOperations {
   return {
     ..._getCaches(context),

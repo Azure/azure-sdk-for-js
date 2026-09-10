@@ -1,6 +1,6 @@
 # Release History
 
-## 13.1.0-beta.2 (Unreleased)
+## 13.1.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,40 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 13.1.0-beta.2 (2026-08-31)
+
+### Features Added
+
+- Regenerated from the `2026-08-01-preview` Search service API at commit `9b7dfbd6ad0ba29c60142de066dc993433e3a8a7`.
+- Added typed server-sent event retrieval through `KnowledgeRetrievalClient.retrieveStream`, including typed start/activity/answer/reference/error/completion events and `200`/`206` completion status values.
+- Added File knowledge source CORS options, multipart upload and in-place update APIs, relative-path/custom metadata, prefix-filtered paging, and read-only parsing/extraction modes selected by the service.
+- Added `auto` retrieval reasoning, knowledge base `retrieveDefaults` and metadata-only `tags`, per-source `resultsProcessing`/`neverQuerySource`, and private ingestion `networkAccessMode`.
+- Added stored `queryHints`, request-time `queryHintOverrides`, query-hint processing diagnostics, served-image diagnostics, and Search-owned `citationUrl` values on supported indexed references.
+- Added Work IQ bring-your-own Microsoft Entra application parameters and a separate `queryWorkIQSourceAuthorization` user assertion option.
+- Added server-driven `search`, `pageSize`, and `searchType` listing options and continuation across indexes, aliases, synonym maps, indexers, data sources, skillsets, knowledge bases, knowledge sources, files, and index statistics.
+- Added activity start/completion timestamps, structured activity `model` metadata, Work IQ sensitivity-label metadata, `maxVectorIndexSizePerIndexInBytes`, and GPT-5.6 SOL/Terra/Luna model names.
+- Exported all concrete activity/reference union members, query-hint/image-serving helpers, known activity/reference enums, File/MCP request types, and other new August model types from the package root.
+- Added `logicalReasoningEffort` to `KnowledgeBaseAgenticReasoningActivityRecord` as an additive post-cut preview field; it is not used in August samples.
+
+### Breaking Changes
+
+- `WorkIQKnowledgeSource.workIQParameters` is now required.
+- Renamed the root convenience property `McpServerKnowledgeSourceParameters.serverURL` to `serverUrl`; the raw protocol subpath retains the generated wire-oriented name.
+- Removed preview offset listing options (`top`, `skip`, and `count`) in favor of server-driven cursor pagination.
+- Removed `WorkIQAttribution`/`KnowledgeBaseWorkIQReference.attributions` and `McpServerToolInclusionMode`; use Work IQ sensitivity metadata and `resultsProcessing` respectively.
+- Replaced activity `modelName` with structured `model` metadata and renamed indexer status `totalSynchronizations` to `totalSynchronization`.
+- `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required.
+
+### Bugs Fixed
+
+- Fixed `SearchIndexerClient.resetDocuments` so `dataSourceDocumentIds` is forwarded to the service.
+- Fixed continuation for every generated paged operation by reading the deserialized `nextLink`/`odataNextLink` property instead of its wire name.
+- Fixed convenience conversions that dropped query hints, ingestion settings, and generated resource names from indexed knowledge sources.
+
+### Other Changes
+
+- Expanded README snippets and TypeScript/JavaScript samples for File lifecycle, query hints, private ingestion, retrieval defaults/controls/citations, Work IQ BYO Entra authentication, typed streaming, cursor pagination, service limits, and knowledge base tags.
 
 ## 13.1.0-beta.1 (2026-06-01)
 

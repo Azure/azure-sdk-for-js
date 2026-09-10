@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -186,7 +192,9 @@ export function reservationSerializer(item: Reservation): any {
 
 export function reservationDeserializer(item: any): Reservation {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -207,7 +215,7 @@ export interface ReservationPropertiesBaseResourceProperties {
   /** Marketplace details */
   marketplace: MarketplaceDetails;
   /** User details */
-  user: UserDetails;
+  user?: UserDetails;
   /** Provisioning state of the resource */
   readonly provisioningState?: ProvisioningState;
 }
@@ -217,7 +225,7 @@ export function reservationPropertiesBaseResourcePropertiesSerializer(
 ): any {
   return {
     marketplace: marketplaceDetailsSerializer(item["marketplace"]),
-    user: userDetailsSerializer(item["user"]),
+    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
   };
 }
 
@@ -227,7 +235,7 @@ export function reservationPropertiesBaseResourcePropertiesDeserializer(
   return {
     reservationInternalId: item["reservationInternalId"],
     marketplace: marketplaceDetailsDeserializer(item["marketplace"]),
-    user: userDetailsDeserializer(item["user"]),
+    user: !item["user"] ? item["user"] : userDetailsDeserializer(item["user"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -239,13 +247,18 @@ export interface MarketplaceDetails {
   /** Marketplace subscription status */
   subscriptionStatus?: MarketplaceSubscriptionStatus;
   /** Offer details of the marketplace subscription */
-  offerDetails: OfferDetails;
+  offerDetails?: OfferDetails;
+  /** ARM ID of the Marketplace SaaS resource. Only used in Create operations. */
+  saaSResourceId?: string;
 }
 
 export function marketplaceDetailsSerializer(item: MarketplaceDetails): any {
   return {
     subscriptionStatus: item["subscriptionStatus"],
-    offerDetails: offerDetailsSerializer(item["offerDetails"]),
+    offerDetails: !item["offerDetails"]
+      ? item["offerDetails"]
+      : offerDetailsSerializer(item["offerDetails"]),
+    saaSResourceId: item["saaSResourceId"],
   };
 }
 
@@ -253,7 +266,10 @@ export function marketplaceDetailsDeserializer(item: any): MarketplaceDetails {
   return {
     subscriptionId: item["subscriptionId"],
     subscriptionStatus: item["subscriptionStatus"],
-    offerDetails: offerDetailsDeserializer(item["offerDetails"]),
+    offerDetails: !item["offerDetails"]
+      ? item["offerDetails"]
+      : offerDetailsDeserializer(item["offerDetails"]),
+    saaSResourceId: item["saaSResourceId"],
   };
 }
 
@@ -468,7 +484,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -485,8 +503,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -543,7 +561,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -598,9 +616,7 @@ export interface ReservationUpdateProperties {
 }
 
 export function reservationUpdatePropertiesSerializer(item: ReservationUpdateProperties): any {
-  return {
-    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
-  };
+  return { user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]) };
 }
 
 /** The response of a Reservation list operation. */
@@ -861,6 +877,31 @@ export enum KnownUsageSeverity {
  */
 export type UsageSeverity = string;
 
+/** SaaS details for linking to a reservation. */
+export interface LinkSaaSRequest {
+  /** SaaS resource id */
+  saaSResourceId: string;
+}
+
+export function linkSaaSRequestSerializer(item: LinkSaaSRequest): any {
+  return { saaSResourceId: item["saaSResourceId"] };
+}
+
+/** Response of get latest linked SaaS resource operation. */
+export interface LatestLinkedSaaSResponse {
+  /** SaaS resource id */
+  saaSResourceId?: string;
+  /** Flag indicating if the SaaS resource is hidden */
+  isHiddenSaaS?: boolean;
+}
+
+export function latestLinkedSaaSResponseDeserializer(item: any): LatestLinkedSaaSResponse {
+  return {
+    saaSResourceId: item["saaSResourceId"],
+    isHiddenSaaS: item["isHiddenSaaS"],
+  };
+}
+
 /** Storage pool resource */
 export interface StoragePool extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -884,7 +925,9 @@ export function storagePoolSerializer(item: StoragePool): any {
 
 export function storagePoolDeserializer(item: any): StoragePool {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -921,6 +964,8 @@ export interface StoragePoolProperties {
   readonly provisioningState?: ProvisioningState;
   /** Azure resource ID of the Pure Storage Cloud service (reservation resource) this storage pool belongs to */
   reservationResourceId: string;
+  /** Platform console access settings for the storage pool */
+  platformConsoleSettings?: PlatformConsoleSettings;
 }
 
 export function storagePoolPropertiesSerializer(item: StoragePoolProperties): any {
@@ -929,6 +974,9 @@ export function storagePoolPropertiesSerializer(item: StoragePoolProperties): an
     vnetInjection: vnetInjectionSerializer(item["vnetInjection"]),
     provisionedBandwidthMbPerSec: item["provisionedBandwidthMbPerSec"],
     reservationResourceId: item["reservationResourceId"],
+    platformConsoleSettings: !item["platformConsoleSettings"]
+      ? item["platformConsoleSettings"]
+      : platformConsoleSettingsSerializer(item["platformConsoleSettings"]),
   };
 }
 
@@ -943,6 +991,9 @@ export function storagePoolPropertiesDeserializer(item: any): StoragePoolPropert
     avs: !item["avs"] ? item["avs"] : azureVmwareServiceDeserializer(item["avs"]),
     provisioningState: item["provisioningState"],
     reservationResourceId: item["reservationResourceId"],
+    platformConsoleSettings: !item["platformConsoleSettings"]
+      ? item["platformConsoleSettings"]
+      : platformConsoleSettingsDeserializer(item["platformConsoleSettings"]),
   };
 }
 
@@ -980,6 +1031,105 @@ export function azureVmwareServiceDeserializer(item: any): AzureVmwareService {
   };
 }
 
+/** Settings for platform console access to the storage pool */
+export interface PlatformConsoleSettings {
+  /** Whether platform console access is enabled for the storage pool or not.When enabled is false, all console access is disabled regardless of individual interface settings. */
+  enabled?: boolean;
+  /** GUI access settings */
+  gui?: PlatformConsoleAccessSettings;
+  /** API access settings */
+  api?: PlatformConsoleAccessSettings;
+  /** CLI access settings */
+  cli?: PlatformConsoleAccessSettings;
+  /** Subnets configured for platform console access */
+  subnets?: PlatformConsoleSubnet[];
+  /** Default username for console access (system-populated) */
+  readonly defaultUsername?: string;
+}
+
+export function platformConsoleSettingsSerializer(item: PlatformConsoleSettings): any {
+  return {
+    enabled: item["enabled"],
+    gui: !item["gui"] ? item["gui"] : platformConsoleAccessSettingsSerializer(item["gui"]),
+    api: !item["api"] ? item["api"] : platformConsoleAccessSettingsSerializer(item["api"]),
+    cli: !item["cli"] ? item["cli"] : platformConsoleAccessSettingsSerializer(item["cli"]),
+    subnets: !item["subnets"]
+      ? item["subnets"]
+      : platformConsoleSubnetArraySerializer(item["subnets"]),
+  };
+}
+
+export function platformConsoleSettingsDeserializer(item: any): PlatformConsoleSettings {
+  return {
+    enabled: item["enabled"],
+    gui: !item["gui"] ? item["gui"] : platformConsoleAccessSettingsDeserializer(item["gui"]),
+    api: !item["api"] ? item["api"] : platformConsoleAccessSettingsDeserializer(item["api"]),
+    cli: !item["cli"] ? item["cli"] : platformConsoleAccessSettingsDeserializer(item["cli"]),
+    subnets: !item["subnets"]
+      ? item["subnets"]
+      : platformConsoleSubnetArrayDeserializer(item["subnets"]),
+    defaultUsername: item["defaultUsername"],
+  };
+}
+
+/** Access settings for a platform console interface */
+export interface PlatformConsoleAccessSettings {
+  /** Whether this console interface access is enabled */
+  enabled: boolean;
+}
+
+export function platformConsoleAccessSettingsSerializer(item: PlatformConsoleAccessSettings): any {
+  return { enabled: item["enabled"] };
+}
+
+export function platformConsoleAccessSettingsDeserializer(
+  item: any,
+): PlatformConsoleAccessSettings {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+export function platformConsoleSubnetArraySerializer(result: Array<PlatformConsoleSubnet>): any[] {
+  return result.map((item) => {
+    return platformConsoleSubnetSerializer(item);
+  });
+}
+
+export function platformConsoleSubnetArrayDeserializer(
+  result: Array<PlatformConsoleSubnet>,
+): any[] {
+  return result.map((item) => {
+    return platformConsoleSubnetDeserializer(item);
+  });
+}
+
+/** Subnet configuration for platform console access */
+export interface PlatformConsoleSubnet {
+  /** Azure resource ID of the subnet */
+  id: string;
+  /** Management IP address assigned to the subnet (system-populated) */
+  readonly managementIpAddress?: string;
+  /** Service backend IP addresses assigned to the subnet (system-populated) */
+  readonly serviceBackendIps?: string[];
+}
+
+export function platformConsoleSubnetSerializer(item: PlatformConsoleSubnet): any {
+  return { id: item["id"] };
+}
+
+export function platformConsoleSubnetDeserializer(item: any): PlatformConsoleSubnet {
+  return {
+    id: item["id"],
+    managementIpAddress: item["managementIpAddress"],
+    serviceBackendIps: !item["serviceBackendIps"]
+      ? item["serviceBackendIps"]
+      : item["serviceBackendIps"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
@@ -989,14 +1139,11 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -1004,7 +1151,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -1040,8 +1194,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -1077,10 +1231,17 @@ export function storagePoolUpdateSerializer(item: StoragePoolUpdate): any {
 export interface StoragePoolUpdateProperties {
   /** Total bandwidth provisioned for the pool, in MB/s */
   provisionedBandwidthMbPerSec?: number;
+  /** Platform console access settings for the storage pool */
+  platformConsoleSettings?: PlatformConsoleSettings;
 }
 
 export function storagePoolUpdatePropertiesSerializer(item: StoragePoolUpdateProperties): any {
-  return { provisionedBandwidthMbPerSec: item["provisionedBandwidthMbPerSec"] };
+  return {
+    provisionedBandwidthMbPerSec: item["provisionedBandwidthMbPerSec"],
+    platformConsoleSettings: !item["platformConsoleSettings"]
+      ? item["platformConsoleSettings"]
+      : platformConsoleSettingsSerializer(item["platformConsoleSettings"]),
+  };
 }
 
 /** The response of a StoragePool list operation. */
@@ -1356,6 +1517,155 @@ export function serviceInitializationInfoSerializer(item: ServiceInitializationI
   };
 }
 
+/** One-time activation code for platform console access */
+export interface PlatformConsoleActivationCode {
+  /** Username to use when activating the console session */
+  username: string;
+  /** One-time activation code for platform console access */
+  activationCode: string;
+  /** Expiry time of the activation code in RFC3339 format */
+  expiresAt: Date;
+}
+
+export function platformConsoleActivationCodeDeserializer(
+  item: any,
+): PlatformConsoleActivationCode {
+  return {
+    username: item["username"],
+    activationCode: item["activationCode"],
+    expiresAt: new Date(item["expiresAt"]),
+  };
+}
+
+/** Base model for platform console authentication configuration. Extend with a type-specific subtype for each auth mechanism. */
+export interface PlatformConsoleAuthConfig {
+  /** Authentication type discriminator */
+  /** The discriminator possible values: ssh */
+  authType: PlatformConsoleAuthType;
+}
+
+export function platformConsoleAuthConfigSerializer(item: PlatformConsoleAuthConfig): any {
+  return { authType: item["authType"] };
+}
+
+/** Alias for PlatformConsoleAuthConfigUnion */
+export type PlatformConsoleAuthConfigUnion =
+  SshPlatformConsoleAuthConfig | PlatformConsoleAuthConfig;
+
+export function platformConsoleAuthConfigUnionSerializer(
+  item: PlatformConsoleAuthConfigUnion,
+): any {
+  switch (item.authType) {
+    case "ssh":
+      return sshPlatformConsoleAuthConfigSerializer(item as SshPlatformConsoleAuthConfig);
+
+    default:
+      return platformConsoleAuthConfigSerializer(item);
+  }
+}
+
+/** Discriminator values for platform console authentication types. Extensible to support new auth mechanisms without API changes. */
+export enum KnownPlatformConsoleAuthType {
+  /** SSH public key authentication */
+  Ssh = "ssh",
+}
+
+/**
+ * Discriminator values for platform console authentication types. Extensible to support new auth mechanisms without API changes. \
+ * {@link KnownPlatformConsoleAuthType} can be used interchangeably with PlatformConsoleAuthType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ssh**: SSH public key authentication
+ */
+export type PlatformConsoleAuthType = string;
+
+/** SSH-based platform console authentication configuration */
+export interface SshPlatformConsoleAuthConfig extends PlatformConsoleAuthConfig {
+  authType: "ssh";
+  /** Username to associate with the SSH public key */
+  username: string;
+  /** SSH public key in OpenSSH authorized_keys format */
+  publicKey: string;
+  /** Role to assign to the user on the platform console */
+  role: PlatformConsoleRole;
+}
+
+export function sshPlatformConsoleAuthConfigSerializer(item: SshPlatformConsoleAuthConfig): any {
+  return {
+    authType: item["authType"],
+    username: item["username"],
+    publicKey: item["publicKey"],
+    role: item["role"],
+  };
+}
+
+/** Role assigned to a user on the platform console */
+export enum KnownPlatformConsoleRole {
+  /** Full administrative access to the array */
+  ArrayAdmin = "array_admin",
+  /** Administrative access to storage resources */
+  StorageAdmin = "storage_admin",
+  /** Read-only access to the platform console */
+  ReadOnly = "read_only",
+}
+
+/**
+ * Role assigned to a user on the platform console \
+ * {@link KnownPlatformConsoleRole} can be used interchangeably with PlatformConsoleRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **array_admin**: Full administrative access to the array \
+ * **storage_admin**: Administrative access to storage resources \
+ * **read_only**: Read-only access to the platform console
+ */
+export type PlatformConsoleRole = string;
+
+/** Base model for platform console authentication result. Actual type depends on the authType used in the request. */
+export interface PlatformConsoleAuthResult {
+  /** Authentication type discriminator */
+  /** The discriminator possible values: ssh */
+  authType: PlatformConsoleAuthType;
+}
+
+export function platformConsoleAuthResultDeserializer(item: any): PlatformConsoleAuthResult {
+  return {
+    authType: item["authType"],
+  };
+}
+
+/** Alias for PlatformConsoleAuthResultUnion */
+export type PlatformConsoleAuthResultUnion =
+  SshPlatformConsoleAuthResult | PlatformConsoleAuthResult;
+
+export function platformConsoleAuthResultUnionDeserializer(
+  item: any,
+): PlatformConsoleAuthResultUnion {
+  switch (item["authType"]) {
+    case "ssh":
+      return sshPlatformConsoleAuthResultDeserializer(item as SshPlatformConsoleAuthResult);
+
+    default:
+      return platformConsoleAuthResultDeserializer(item);
+  }
+}
+
+/** SSH-based platform console authentication result */
+export interface SshPlatformConsoleAuthResult extends PlatformConsoleAuthResult {
+  authType: "ssh";
+  /** Username that was configured for the console session */
+  username: string;
+  /** Role assigned to the user on the platform console */
+  role: PlatformConsoleRole;
+}
+
+export function sshPlatformConsoleAuthResultDeserializer(item: any): SshPlatformConsoleAuthResult {
+  return {
+    authType: item["authType"],
+    username: item["username"],
+    role: item["role"],
+  };
+}
+
 /** AVS storage container resource type, representing a VMware storage container in a storage pool, which can be associated to and mounted as a datastore */
 export interface AvsStorageContainer extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -1404,6 +1714,10 @@ export function avsStorageContainerPropertiesDeserializer(
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
@@ -1849,8 +2163,822 @@ export function avsVmVolumeArrayDeserializer(result: Array<AvsVmVolume>): any[] 
   });
 }
 
+/** Volume Group resource */
+export interface VolumeGroup extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VolumeGroupProperties;
+}
+
+export function volumeGroupSerializer(item: VolumeGroup): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeGroupPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function volumeGroupDeserializer(item: any): VolumeGroup {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeGroupPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a volume group */
+export interface VolumeGroupProperties {
+  /** Pure Storage's internal ID of the storage pool */
+  readonly storagePoolInternalId?: string;
+  /** Pure Storage's internal ID of the volume group */
+  readonly volumeGroupInternalId?: string;
+  /** Azure resource ID of the source volume group for cloning */
+  sourceVolumeGroupResourceId?: string;
+  /** Indicates the source type for volume group creation */
+  sourceType?: VolumeGroupSourceType;
+  /** Azure resource ID of the volume group snapshot to restore from */
+  sourceSnapshotResourceId?: string;
+  /** Azure resource ID of the soft-deleted volume group to recover */
+  sourceRecoverableVolumeGroupResourceId?: string;
+  /** Performance parameters for the volume group */
+  performanceParameters?: PerformanceParameters;
+  /** Protection parameters for the volume group */
+  protectionParameters?: ProtectionParameters;
+  /** Provisioning state of the resource */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function volumeGroupPropertiesSerializer(item: VolumeGroupProperties): any {
+  return {
+    sourceVolumeGroupResourceId: item["sourceVolumeGroupResourceId"],
+    sourceType: item["sourceType"],
+    sourceSnapshotResourceId: item["sourceSnapshotResourceId"],
+    sourceRecoverableVolumeGroupResourceId: item["sourceRecoverableVolumeGroupResourceId"],
+    performanceParameters: !item["performanceParameters"]
+      ? item["performanceParameters"]
+      : performanceParametersSerializer(item["performanceParameters"]),
+    protectionParameters: !item["protectionParameters"]
+      ? item["protectionParameters"]
+      : protectionParametersSerializer(item["protectionParameters"]),
+  };
+}
+
+export function volumeGroupPropertiesDeserializer(item: any): VolumeGroupProperties {
+  return {
+    storagePoolInternalId: item["storagePoolInternalId"],
+    volumeGroupInternalId: item["volumeGroupInternalId"],
+    sourceVolumeGroupResourceId: item["sourceVolumeGroupResourceId"],
+    sourceType: item["sourceType"],
+    sourceSnapshotResourceId: item["sourceSnapshotResourceId"],
+    sourceRecoverableVolumeGroupResourceId: item["sourceRecoverableVolumeGroupResourceId"],
+    performanceParameters: !item["performanceParameters"]
+      ? item["performanceParameters"]
+      : performanceParametersDeserializer(item["performanceParameters"]),
+    protectionParameters: !item["protectionParameters"]
+      ? item["protectionParameters"]
+      : protectionParametersDeserializer(item["protectionParameters"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Source type for volume group creation */
+export enum KnownVolumeGroupSourceType {
+  /** No source; create an empty volume group */
+  None = "none",
+  /** Clone from an existing volume group */
+  VolumeGroup = "volumeGroup",
+  /** Restore from a volume group snapshot */
+  Snapshot = "snapshot",
+  /** Recover a soft-deleted volume group */
+  RecoverableVolumeGroup = "recoverableVolumeGroup",
+}
+
+/**
+ * Source type for volume group creation \
+ * {@link KnownVolumeGroupSourceType} can be used interchangeably with VolumeGroupSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: No source; create an empty volume group \
+ * **volumeGroup**: Clone from an existing volume group \
+ * **snapshot**: Restore from a volume group snapshot \
+ * **recoverableVolumeGroup**: Recover a soft-deleted volume group
+ */
+export type VolumeGroupSourceType = string;
+
+/** Performance parameters for volume group */
+export interface PerformanceParameters {
+  /** Bandwidth limit in MB per second */
+  bandwidthLimitMbPerSec?: number;
+  /** IOPS limit */
+  iopsLimit?: number;
+}
+
+export function performanceParametersSerializer(item: PerformanceParameters): any {
+  return { bandwidthLimitMbPerSec: item["bandwidthLimitMbPerSec"], iopsLimit: item["iopsLimit"] };
+}
+
+export function performanceParametersDeserializer(item: any): PerformanceParameters {
+  return {
+    bandwidthLimitMbPerSec: item["bandwidthLimitMbPerSec"],
+    iopsLimit: item["iopsLimit"],
+  };
+}
+
+/** Protection parameters for volume group */
+export interface ProtectionParameters {
+  /** Retention period for snapshots in ISO 8601 duration format */
+  retention?: string;
+  /** Snapshot frequency in ISO 8601 duration format */
+  frequency?: string;
+}
+
+export function protectionParametersSerializer(item: ProtectionParameters): any {
+  return { retention: item["retention"], frequency: item["frequency"] };
+}
+
+export function protectionParametersDeserializer(item: any): ProtectionParameters {
+  return {
+    retention: item["retention"],
+    frequency: item["frequency"],
+  };
+}
+
+/** The type used for update operations of the VolumeGroup. */
+export interface VolumeGroupUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: VolumeGroupUpdateProperties;
+}
+
+export function volumeGroupUpdateSerializer(item: VolumeGroupUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeGroupUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the VolumeGroup. */
+export interface VolumeGroupUpdateProperties {
+  /** Performance parameters for the volume group */
+  performanceParameters?: PerformanceParameters;
+  /** Protection parameters for the volume group */
+  protectionParameters?: ProtectionParameters;
+}
+
+export function volumeGroupUpdatePropertiesSerializer(item: VolumeGroupUpdateProperties): any {
+  return {
+    performanceParameters: !item["performanceParameters"]
+      ? item["performanceParameters"]
+      : performanceParametersSerializer(item["performanceParameters"]),
+    protectionParameters: !item["protectionParameters"]
+      ? item["protectionParameters"]
+      : protectionParametersSerializer(item["protectionParameters"]),
+  };
+}
+
+/** The response of a VolumeGroup list operation. */
+export interface _VolumeGroupListResult {
+  /** The VolumeGroup items on this page */
+  value: VolumeGroup[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _volumeGroupListResultDeserializer(item: any): _VolumeGroupListResult {
+  return {
+    value: volumeGroupArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function volumeGroupArraySerializer(result: Array<VolumeGroup>): any[] {
+  return result.map((item) => {
+    return volumeGroupSerializer(item);
+  });
+}
+
+export function volumeGroupArrayDeserializer(result: Array<VolumeGroup>): any[] {
+  return result.map((item) => {
+    return volumeGroupDeserializer(item);
+  });
+}
+
+/** Connection parameters response */
+export interface ConnectionParametersResponse {
+  /** ISCSI connection parameters */
+  iscsi: IscsiConnectionParameters;
+}
+
+export function connectionParametersResponseDeserializer(item: any): ConnectionParametersResponse {
+  return {
+    iscsi: iscsiConnectionParametersDeserializer(item["iscsi"]),
+  };
+}
+
+/** ISCSI connection parameters */
+export interface IscsiConnectionParameters {
+  /** List of ISCSI endpoints for connection */
+  endpoints: IscsiEndpoint[];
+}
+
+export function iscsiConnectionParametersDeserializer(item: any): IscsiConnectionParameters {
+  return {
+    endpoints: iscsiEndpointArrayDeserializer(item["endpoints"]),
+  };
+}
+
+export function iscsiEndpointArrayDeserializer(result: Array<IscsiEndpoint>): any[] {
+  return result.map((item) => {
+    return iscsiEndpointDeserializer(item);
+  });
+}
+
+/** ISCSI connection endpoint details */
+export interface IscsiEndpoint {
+  /** IP address of the endpoint */
+  ip: string;
+  /** Port number of the endpoint */
+  port: number;
+  /** IQN (iSCSI Qualified Name) of the endpoint */
+  iqn: string;
+}
+
+export function iscsiEndpointDeserializer(item: any): IscsiEndpoint {
+  return {
+    ip: item["ip"],
+    port: item["port"],
+    iqn: item["iqn"],
+  };
+}
+
+/** Volume group status information */
+export interface VolumeGroupStatus {
+  /** Storage space usage for the volume group */
+  space: Space;
+  /** Number of hosts currently connected to the volume group */
+  connectedHostCount: number;
+}
+
+export function volumeGroupStatusDeserializer(item: any): VolumeGroupStatus {
+  return {
+    space: spaceDeserializer(item["space"]),
+    connectedHostCount: item["connectedHostCount"],
+  };
+}
+
+/** Request to overwrite all volumes in a volume group from a snapshot */
+export interface VolumeGroupOverwriteRequest {
+  /** Azure resource ID of the volume group snapshot to restore from */
+  sourceSnapshotResourceId: string;
+  /** Azure resource ID of the source volume group */
+  sourceVolumeGroupResourceId: string;
+}
+
+export function volumeGroupOverwriteRequestSerializer(item: VolumeGroupOverwriteRequest): any {
+  return {
+    sourceSnapshotResourceId: item["sourceSnapshotResourceId"],
+    sourceVolumeGroupResourceId: item["sourceVolumeGroupResourceId"],
+  };
+}
+
+/** Azure Volume resource */
+export interface Volume extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AzureVolumeProperties;
+}
+
+export function volumeSerializer(item: Volume): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureVolumePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function volumeDeserializer(item: any): Volume {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureVolumePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of an Azure volume */
+export interface AzureVolumeProperties {
+  /** Storage space usage for the volume */
+  readonly space?: Space;
+  /** Currently provisioned size of the volume, in bytes */
+  provisionedSize?: number;
+  /** Serial number of the volume */
+  readonly serialNumber?: string;
+  /** Volume creation date, as an RFC 3339 timestamp */
+  readonly createdAt?: Date;
+  /** Azure resource ID of the source volume for cloning */
+  sourceVolumeResourceId?: string;
+  /** Azure Resource ID of the source volume group to clone from. */
+  sourceVolumeGroupResourceId?: string;
+  /** Indicates the source type for volume creation */
+  sourceType?: VolumeSourceType;
+  /** Source volume group snapshot and volume snapshot name to restore from */
+  sourceVolumeSnapshot?: VolumeSnapshotSource;
+  /** Serial number of the source volume to import */
+  sourceSerialNumber?: string;
+  /** Azure resource ID of the soft-deleted volume to recover within the same volume group */
+  sourceRecoverableVolumeResourceId?: string;
+  /** Soft-deletion state of the volume */
+  readonly softDeletion?: DestroyedStateProperties;
+  /** Provisioning state of the resource */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function azureVolumePropertiesSerializer(item: AzureVolumeProperties): any {
+  return {
+    provisionedSize: item["provisionedSize"],
+    sourceVolumeResourceId: item["sourceVolumeResourceId"],
+    sourceVolumeGroupResourceId: item["sourceVolumeGroupResourceId"],
+    sourceType: item["sourceType"],
+    sourceVolumeSnapshot: !item["sourceVolumeSnapshot"]
+      ? item["sourceVolumeSnapshot"]
+      : volumeSnapshotSourceSerializer(item["sourceVolumeSnapshot"]),
+    sourceSerialNumber: item["sourceSerialNumber"],
+    sourceRecoverableVolumeResourceId: item["sourceRecoverableVolumeResourceId"],
+  };
+}
+
+export function azureVolumePropertiesDeserializer(item: any): AzureVolumeProperties {
+  return {
+    space: !item["space"] ? item["space"] : spaceDeserializer(item["space"]),
+    provisionedSize: item["provisionedSize"],
+    serialNumber: item["serialNumber"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    sourceVolumeResourceId: item["sourceVolumeResourceId"],
+    sourceVolumeGroupResourceId: item["sourceVolumeGroupResourceId"],
+    sourceType: item["sourceType"],
+    sourceVolumeSnapshot: !item["sourceVolumeSnapshot"]
+      ? item["sourceVolumeSnapshot"]
+      : volumeSnapshotSourceDeserializer(item["sourceVolumeSnapshot"]),
+    sourceSerialNumber: item["sourceSerialNumber"],
+    sourceRecoverableVolumeResourceId: item["sourceRecoverableVolumeResourceId"],
+    softDeletion: !item["softDeletion"]
+      ? item["softDeletion"]
+      : destroyedStatePropertiesDeserializer(item["softDeletion"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Source type for volume creation */
+export enum KnownVolumeSourceType {
+  /** No source; create an empty volume with the specified provisioned size */
+  None = "none",
+  /** Clone from an existing volume */
+  Volume = "volume",
+  /** Import a volume by its serial number */
+  SerialNumber = "serialNumber",
+  /** Restore from a volume group snapshot */
+  Snapshot = "snapshot",
+  /** Recover a soft-deleted volume within the same volume group */
+  RecoverableVolume = "recoverableVolume",
+}
+
+/**
+ * Source type for volume creation \
+ * {@link KnownVolumeSourceType} can be used interchangeably with VolumeSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: No source; create an empty volume with the specified provisioned size \
+ * **volume**: Clone from an existing volume \
+ * **serialNumber**: Import a volume by its serial number \
+ * **snapshot**: Restore from a volume group snapshot \
+ * **recoverableVolume**: Recover a soft-deleted volume within the same volume group
+ */
+export type VolumeSourceType = string;
+
+/** Identifies the specific volume snapshot within a volume group snapshot to restore from */
+export interface VolumeSnapshotSource {
+  /** Azure resource ID of the volume group snapshot containing the desired volume snapshot */
+  volumeGroupSnapshotResourceId: string;
+  /** Name of the volume snapshot within the volume group snapshot */
+  volumeSnapshotName: string;
+}
+
+export function volumeSnapshotSourceSerializer(item: VolumeSnapshotSource): any {
+  return {
+    volumeGroupSnapshotResourceId: item["volumeGroupSnapshotResourceId"],
+    volumeSnapshotName: item["volumeSnapshotName"],
+  };
+}
+
+export function volumeSnapshotSourceDeserializer(item: any): VolumeSnapshotSource {
+  return {
+    volumeGroupSnapshotResourceId: item["volumeGroupSnapshotResourceId"],
+    volumeSnapshotName: item["volumeSnapshotName"],
+  };
+}
+
+/** Soft-deletion (destroyed) state of a resource */
+export interface DestroyedStateProperties {
+  /** If false, the resource is active; if true, the resource has been destroyed */
+  readonly destroyed: boolean;
+  /** Date and time at which the resource was destroyed, as an RFC 3339 timestamp */
+  readonly destroyedAt?: Date;
+  /** Name of the resource before it was destroyed */
+  readonly previousName?: string;
+  /** Date at which the resource will be eradicated and impossible to recover, as an RFC 3339 timestamp */
+  readonly eradicationTimestamp?: Date;
+}
+
+export function destroyedStatePropertiesDeserializer(item: any): DestroyedStateProperties {
+  return {
+    destroyed: item["destroyed"],
+    destroyedAt: !item["destroyedAt"] ? item["destroyedAt"] : new Date(item["destroyedAt"]),
+    previousName: item["previousName"],
+    eradicationTimestamp: !item["eradicationTimestamp"]
+      ? item["eradicationTimestamp"]
+      : new Date(item["eradicationTimestamp"]),
+  };
+}
+
+/** The type used for update operations of the Volume. */
+export interface VolumeUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: VolumeUpdateProperties;
+}
+
+export function volumeUpdateSerializer(item: VolumeUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the Volume. */
+export interface VolumeUpdateProperties {
+  /** Currently provisioned size of the volume, in bytes */
+  provisionedSize?: number;
+}
+
+export function volumeUpdatePropertiesSerializer(item: VolumeUpdateProperties): any {
+  return { provisionedSize: item["provisionedSize"] };
+}
+
+/** The response of a Volume list operation. */
+export interface _VolumeListResult {
+  /** The Volume items on this page */
+  value: Volume[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _volumeListResultDeserializer(item: any): _VolumeListResult {
+  return {
+    value: volumeArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function volumeArraySerializer(result: Array<Volume>): any[] {
+  return result.map((item) => {
+    return volumeSerializer(item);
+  });
+}
+
+export function volumeArrayDeserializer(result: Array<Volume>): any[] {
+  return result.map((item) => {
+    return volumeDeserializer(item);
+  });
+}
+
+/** Request to overwrite a volume's content from another volume or a snapshot */
+export interface VolumeOverwriteRequest {
+  /** Source type for the overwrite operation */
+  sourceType: VolumeSourceType;
+  /** Azure resource ID of the source volume group. Required when sourceType is 'snapshot' or when the source volume belongs to a different volume group than the target. */
+  sourceVolumeGroupResourceId?: string;
+  /** Source volume group snapshot and volume snapshot name to restore from. Used when sourceType is 'snapshot'. */
+  sourceVolumeSnapshot?: VolumeSnapshotSource;
+  /** Serial number of the source volume to overwrite from. Used when sourceType is 'serialNumber'. */
+  sourceSerialNumber?: string;
+  /** Azure resource ID of the source volume to clone from. Used when sourceType is 'volume'. */
+  sourceVolumeResourceId?: string;
+}
+
+export function volumeOverwriteRequestSerializer(item: VolumeOverwriteRequest): any {
+  return {
+    sourceType: item["sourceType"],
+    sourceVolumeGroupResourceId: item["sourceVolumeGroupResourceId"],
+    sourceVolumeSnapshot: !item["sourceVolumeSnapshot"]
+      ? item["sourceVolumeSnapshot"]
+      : volumeSnapshotSourceSerializer(item["sourceVolumeSnapshot"]),
+    sourceSerialNumber: item["sourceSerialNumber"],
+    sourceVolumeResourceId: item["sourceVolumeResourceId"],
+  };
+}
+
+/** A destroyed volume group that is pending eradication */
+export interface RecoverableVolumeGroup extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: RecoverableVolumeGroupProperties;
+}
+
+export function recoverableVolumeGroupDeserializer(item: any): RecoverableVolumeGroup {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoverableVolumeGroupPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a recoverable volume group */
+export interface RecoverableVolumeGroupProperties {
+  /** Date and time at which the volume group was created, as an RFC 3339 timestamp */
+  readonly createdAt?: Date;
+  /** Soft-deletion state of the recoverable volume group */
+  readonly softDeletion?: DestroyedStateProperties;
+  /** Performance parameters of the volume group */
+  readonly performanceParameters?: PerformanceParameters;
+  /** Protection parameters of the volume group */
+  readonly protectionParameters?: ProtectionParameters;
+  /** Storage space usage of the volume group */
+  readonly space?: Space;
+  /** Provisioning state of the resource */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function recoverableVolumeGroupPropertiesDeserializer(
+  item: any,
+): RecoverableVolumeGroupProperties {
+  return {
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    softDeletion: !item["softDeletion"]
+      ? item["softDeletion"]
+      : destroyedStatePropertiesDeserializer(item["softDeletion"]),
+    performanceParameters: !item["performanceParameters"]
+      ? item["performanceParameters"]
+      : performanceParametersDeserializer(item["performanceParameters"]),
+    protectionParameters: !item["protectionParameters"]
+      ? item["protectionParameters"]
+      : protectionParametersDeserializer(item["protectionParameters"]),
+    space: !item["space"] ? item["space"] : spaceDeserializer(item["space"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a RecoverableVolumeGroup list operation. */
+export interface _RecoverableVolumeGroupListResult {
+  /** The RecoverableVolumeGroup items on this page */
+  value: RecoverableVolumeGroup[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _recoverableVolumeGroupListResultDeserializer(
+  item: any,
+): _RecoverableVolumeGroupListResult {
+  return {
+    value: recoverableVolumeGroupArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function recoverableVolumeGroupArrayDeserializer(
+  result: Array<RecoverableVolumeGroup>,
+): any[] {
+  return result.map((item) => {
+    return recoverableVolumeGroupDeserializer(item);
+  });
+}
+
+/** SaaS guid for Activate SaaS Resource */
+export interface ActivateSaaSRequest {
+  /** SaaS guid for Activate SaaS Resource */
+  saasGuid: string;
+  /** Publisher Id for PureStorage resource */
+  publisherId?: string;
+}
+
+export function activateSaaSRequestSerializer(item: ActivateSaaSRequest): any {
+  return { saasGuid: item["saasGuid"], publisherId: item["publisherId"] };
+}
+
+/** Marketplace SaaS resource details. */
+export interface SaaSResourceDetailsResponse extends ProxyResource {
+  /** Id of the Marketplace SaaS Resource */
+  saasId?: string;
+}
+
+export function saaSResourceDetailsResponseDeserializer(item: any): SaaSResourceDetailsResponse {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    saasId: item["saasId"],
+  };
+}
+
+/** A snapshot of a volume group */
+export interface VolumeGroupSnapshot extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VolumeGroupSnapshotProperties;
+}
+
+export function volumeGroupSnapshotSerializer(item: VolumeGroupSnapshot): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeGroupSnapshotPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function volumeGroupSnapshotDeserializer(item: any): VolumeGroupSnapshot {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeGroupSnapshotPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a volume group snapshot */
+export interface VolumeGroupSnapshotProperties {
+  /** Azure resource ID of the source snapshot to recover from; omit for a new manual snapshot */
+  sourceSnapshotResourceId?: string;
+  /** Date and time at which the snapshot was created, as an RFC 3339 timestamp */
+  readonly createdAt?: Date;
+  /** Whether the snapshot was created by a protection policy */
+  readonly createdByPolicy?: boolean;
+  /** Soft-deletion state of the snapshot */
+  readonly softDeletion?: DestroyedStateProperties;
+  /** Storage space usage of the snapshot */
+  readonly space?: Space;
+  /** List of individual volume snapshots included in this volume group snapshot; populated on single-get, empty or omitted on list for performance */
+  readonly volumeSnapshots?: VolumeSnapshotInfo[];
+  /** Provisioning state of the resource */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function volumeGroupSnapshotPropertiesSerializer(item: VolumeGroupSnapshotProperties): any {
+  return { sourceSnapshotResourceId: item["sourceSnapshotResourceId"] };
+}
+
+export function volumeGroupSnapshotPropertiesDeserializer(
+  item: any,
+): VolumeGroupSnapshotProperties {
+  return {
+    sourceSnapshotResourceId: item["sourceSnapshotResourceId"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdByPolicy: item["createdByPolicy"],
+    softDeletion: !item["softDeletion"]
+      ? item["softDeletion"]
+      : destroyedStatePropertiesDeserializer(item["softDeletion"]),
+    space: !item["space"] ? item["space"] : spaceDeserializer(item["space"]),
+    volumeSnapshots: !item["volumeSnapshots"]
+      ? item["volumeSnapshots"]
+      : volumeSnapshotInfoArrayDeserializer(item["volumeSnapshots"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function volumeSnapshotInfoArrayDeserializer(result: Array<VolumeSnapshotInfo>): any[] {
+  return result.map((item) => {
+    return volumeSnapshotInfoDeserializer(item);
+  });
+}
+
+/** Information about an individual volume snapshot within a volume group snapshot */
+export interface VolumeSnapshotInfo {
+  /** Name of the volume snapshot */
+  readonly name: string;
+  /** Storage space usage of the volume snapshot */
+  readonly space?: Space;
+  /** Provisioned size of the volume, in bytes */
+  readonly provisionedSize?: number;
+  /** Serial number of the volume */
+  readonly serialNumber?: string;
+}
+
+export function volumeSnapshotInfoDeserializer(item: any): VolumeSnapshotInfo {
+  return {
+    name: item["name"],
+    space: !item["space"] ? item["space"] : spaceDeserializer(item["space"]),
+    provisionedSize: item["provisionedSize"],
+    serialNumber: item["serialNumber"],
+  };
+}
+
+/** Paged list result for volume group snapshots */
+export interface _VolumeGroupSnapshotListResult {
+  /** Array of volume group snapshots */
+  value: VolumeGroupSnapshot[];
+  /** URL to fetch the next page of results */
+  nextLink?: string;
+}
+
+export function _volumeGroupSnapshotListResultDeserializer(
+  item: any,
+): _VolumeGroupSnapshotListResult {
+  return {
+    value: volumeGroupSnapshotArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function volumeGroupSnapshotArraySerializer(result: Array<VolumeGroupSnapshot>): any[] {
+  return result.map((item) => {
+    return volumeGroupSnapshotSerializer(item);
+  });
+}
+
+export function volumeGroupSnapshotArrayDeserializer(result: Array<VolumeGroupSnapshot>): any[] {
+  return result.map((item) => {
+    return volumeGroupSnapshotDeserializer(item);
+  });
+}
+
+/** Request payload for listing volume group snapshots */
+export interface VolumeGroupSnapshotListRequest {
+  /** OData filter expression (e.g. filter=substringof('sna', name) and space/unique gt 1000) */
+  filter?: string;
+  /** OData order-by expression (e.g. orderby=name asc) */
+  orderby?: string;
+  /** Maximum number of results to return per page */
+  top?: number;
+  /** Number of results to skip (page offset) */
+  skip?: number;
+}
+
+export function volumeGroupSnapshotListRequestSerializer(
+  item: VolumeGroupSnapshotListRequest,
+): any {
+  return { filter: item["filter"], orderby: item["orderby"], top: item["top"], skip: item["skip"] };
+}
+
+/** List result for volume group snapshots returned by the listSnapshots POST action */
+export interface VolumeGroupSnapshotPostListResult {
+  /** Array of volume group snapshots */
+  value: VolumeGroupSnapshot[];
+  /** Number of snapshots in this response page */
+  count?: number;
+  /** Total number of snapshots */
+  totalCount?: number;
+}
+
+export function volumeGroupSnapshotPostListResultDeserializer(
+  item: any,
+): VolumeGroupSnapshotPostListResult {
+  return {
+    value: volumeGroupSnapshotArrayDeserializer(item["value"]),
+    count: item["count"],
+    totalCount: item["totalCount"],
+  };
+}
+
 /** Supported versions for PureStorage.Block. */
 export enum KnownVersions {
+  /** Version 1 preview. */
+  V20241001Preview = "2024-10-01-preview",
+  /** Version 2 preview. */
+  V20241101Preview = "2024-11-01-preview",
   /** Version 1 stable */
   V20241101 = "2024-11-01",
+  /** Version 3 preview with Azure native VM support. */
+  V20260101Preview = "2026-01-01-preview",
+  /** Version 4 preview with ActivateSaas support. */
+  V20260301Preview = "2026-03-01-preview",
+  /** Version 5 preview with Volume Group Snapshot support. */
+  V20260501Preview = "2026-05-01-preview",
 }

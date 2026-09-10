@@ -8,29 +8,36 @@ export interface EnclaveEndpointsHandleApprovalDeletionOptionalParams extends Op
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface EnclaveEndpointsHandleApprovalCreationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface EnclaveEndpointsListBySubscriptionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface EnclaveEndpointsListByEnclaveResourceOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface EnclaveEndpointsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface EnclaveEndpointsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface EnclaveEndpointsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface EnclaveEndpointsGetOptionalParams extends OperationOptions {}

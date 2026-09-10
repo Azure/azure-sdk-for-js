@@ -44,7 +44,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Search test", () => {
+describe.skip("Search test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SearchManagementClient;

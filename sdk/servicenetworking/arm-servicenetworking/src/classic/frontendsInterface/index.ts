@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import { Frontend, FrontendUpdate } from "../../models/models.js";
-import {
-  FrontendsInterfaceListByTrafficControllerOptionalParams,
-  FrontendsInterfaceDeleteOptionalParams,
-  FrontendsInterfaceUpdateOptionalParams,
-  FrontendsInterfaceCreateOrUpdateOptionalParams,
-  FrontendsInterfaceGetOptionalParams,
-} from "../../api/frontendsInterface/options.js";
+import type { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
 import {
   listByTrafficController,
   $delete,
@@ -17,8 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/frontendsInterface/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  FrontendsInterfaceListByTrafficControllerOptionalParams,
+  FrontendsInterfaceDeleteOptionalParams,
+  FrontendsInterfaceUpdateOptionalParams,
+  FrontendsInterfaceCreateOrUpdateOptionalParams,
+  FrontendsInterfaceGetOptionalParams,
+} from "../../api/frontendsInterface/options.js";
+import type { Frontend, FrontendUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FrontendsInterface operations. */
 export interface FrontendsInterfaceOperations {
@@ -29,11 +29,6 @@ export interface FrontendsInterfaceOperations {
     options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
   ) => PagedAsyncIterableIterator<Frontend>;
   /** Delete a Frontend */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     trafficControllerName: string,

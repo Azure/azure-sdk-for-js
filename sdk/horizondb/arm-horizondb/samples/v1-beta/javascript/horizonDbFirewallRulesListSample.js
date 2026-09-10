@@ -5,12 +5,12 @@ const { HorizonDbClient } = require("@azure/arm-horizondb");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to lists all HorizonDb firewall rules in a pool.
+ * This sample demonstrates how to lists all HorizonDB firewall rules in a pool.
  *
- * @summary lists all HorizonDb firewall rules in a pool.
- * x-ms-original-file: 2026-01-20-preview/FirewallRules_List.json
+ * @summary lists all HorizonDB firewall rules in a pool.
+ * x-ms-original-file: 2026-05-01-preview/FirewallRules_List.json
  */
-async function listHorizonDbFirewallRulesInAPool() {
+async function listHorizonDBFirewallRulesInAPool() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function listHorizonDbFirewallRulesInAPool() {
 }
 
 async function main() {
-  await listHorizonDbFirewallRulesInAPool();
+  await listHorizonDBFirewallRulesInAPool();
 }
 
 main().catch(console.error);

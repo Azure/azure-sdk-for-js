@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve the time series history for a signal on an entity
  *
  * @summary retrieve the time series history for a signal on an entity
- * x-ms-original-file: 2026-05-01-preview/Entities_GetSignalHistory.json
+ * x-ms-original-file: 2026-09-01-preview/Entities_GetSignalHistory.json
  */
 async function entitiesGetSignalHistory() {
   const credential = new DefaultAzureCredential();

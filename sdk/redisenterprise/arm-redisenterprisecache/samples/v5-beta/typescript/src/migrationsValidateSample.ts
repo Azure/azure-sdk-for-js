@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates if a source Azure Cache for Redis resource can be migrated to a target Azure Managed Redis resource.
  *
  * @summary validates if a source Azure Cache for Redis resource can be migrated to a target Azure Managed Redis resource.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseMigrationValidate.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseMigrationValidate.json
  */
 async function redisEnterpriseMigrationValidate(): Promise<void> {
   const credential = new DefaultAzureCredential();

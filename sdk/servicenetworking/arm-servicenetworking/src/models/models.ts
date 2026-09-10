@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Association Subresource of Traffic Controller */
 export interface Association extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -19,7 +26,9 @@ export function associationSerializer(item: Association): any {
 
 export function associationDeserializer(item: any): Association {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -142,7 +151,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -159,8 +170,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -217,7 +228,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -282,21 +293,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** The type used for update operations of the Association. */
@@ -386,7 +390,9 @@ export function frontendSerializer(item: Frontend): any {
 
 export function frontendDeserializer(item: any): Frontend {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -404,6 +410,10 @@ export function frontendDeserializer(item: any): Frontend {
 export interface FrontendProperties {
   /** The Fully Qualified Domain Name of the DNS record associated to a Traffic Controller frontend. */
   readonly fqdn?: string;
+  /** Whether public network access is allowed for the frontend. Enabled indicates a public frontend; Disabled indicates a private frontend. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Reference to an Association resource that contains the subnet where the private frontend should be deployed. */
+  association?: FrontendAssociation;
   /** Frontend Security Policy Configuration */
   securityPolicyConfigurations?: SecurityPolicyConfigurations;
   /** Provisioning State of Traffic Controller Frontend Resource */
@@ -412,6 +422,10 @@ export interface FrontendProperties {
 
 export function frontendPropertiesSerializer(item: FrontendProperties): any {
   return {
+    publicNetworkAccess: item["publicNetworkAccess"],
+    association: !item["association"]
+      ? item["association"]
+      : frontendAssociationSerializer(item["association"]),
     securityPolicyConfigurations: !item["securityPolicyConfigurations"]
       ? item["securityPolicyConfigurations"]
       : securityPolicyConfigurationsSerializer(item["securityPolicyConfigurations"]),
@@ -421,10 +435,48 @@ export function frontendPropertiesSerializer(item: FrontendProperties): any {
 export function frontendPropertiesDeserializer(item: any): FrontendProperties {
   return {
     fqdn: item["fqdn"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    association: !item["association"]
+      ? item["association"]
+      : frontendAssociationDeserializer(item["association"]),
     securityPolicyConfigurations: !item["securityPolicyConfigurations"]
       ? item["securityPolicyConfigurations"]
       : securityPolicyConfigurationsDeserializer(item["securityPolicyConfigurations"]),
     provisioningState: item["provisioningState"],
+  };
+}
+
+/** Whether public network access is allowed for the frontend. */
+export enum KnownPublicNetworkAccess {
+  /** Public network access is enabled (public frontend accessible via a public IP address). */
+  Enabled = "Enabled",
+  /** Public network access is disabled (private frontend accessible only through a private endpoint). */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether public network access is allowed for the frontend. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Public network access is enabled (public frontend accessible via a public IP address). \
+ * **Disabled**: Public network access is disabled (private frontend accessible only through a private endpoint).
+ */
+export type PublicNetworkAccess = string;
+
+/** Reference to an Association resource. */
+export interface FrontendAssociation {
+  /** Resource ID of the Association. */
+  id: string;
+}
+
+export function frontendAssociationSerializer(item: FrontendAssociation): any {
+  return { id: item["id"] };
+}
+
+export function frontendAssociationDeserializer(item: any): FrontendAssociation {
+  return {
+    id: item["id"],
   };
 }
 
@@ -509,12 +561,20 @@ export function frontendUpdateSerializer(item: FrontendUpdate): any {
 
 /** The updatable properties of the Frontend. */
 export interface FrontendUpdateProperties {
+  /** Whether public network access is allowed for the frontend. Enabled indicates a public frontend; Disabled indicates a private frontend. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Reference to an Association resource that contains the subnet where the private frontend should be deployed. */
+  association?: FrontendAssociation;
   /** Frontend Security Policy Configuration */
   securityPolicyConfigurations?: SecurityPolicyConfigurations;
 }
 
 export function frontendUpdatePropertiesSerializer(item: FrontendUpdateProperties): any {
   return {
+    publicNetworkAccess: item["publicNetworkAccess"],
+    association: !item["association"]
+      ? item["association"]
+      : frontendAssociationSerializer(item["association"]),
     securityPolicyConfigurations: !item["securityPolicyConfigurations"]
       ? item["securityPolicyConfigurations"]
       : securityPolicyConfigurationsSerializer(item["securityPolicyConfigurations"]),
@@ -566,7 +626,9 @@ export function securityPolicySerializer(item: SecurityPolicy): any {
 
 export function securityPolicyDeserializer(item: any): SecurityPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -653,9 +715,7 @@ export interface IpAccessRulesPolicy {
 }
 
 export function ipAccessRulesPolicySerializer(item: IpAccessRulesPolicy): any {
-  return {
-    rules: !item["rules"] ? item["rules"] : ipAccessRuleArraySerializer(item["rules"]),
-  };
+  return { rules: !item["rules"] ? item["rules"] : ipAccessRuleArraySerializer(item["rules"]) };
 }
 
 export function ipAccessRulesPolicyDeserializer(item: any): IpAccessRulesPolicy {
@@ -809,7 +869,9 @@ export function trafficControllerSerializer(item: TrafficController): any {
 
 export function trafficControllerDeserializer(item: any): TrafficController {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -833,6 +895,8 @@ export interface TrafficControllerProperties {
   readonly associations?: ResourceId[];
   /** Security Policies References List */
   readonly securityPolicies?: ResourceId[];
+  /** Private Endpoint Connections List */
+  readonly privateEndpointConnections?: ResourceId[];
   /** Security Policy Configuration */
   securityPolicyConfigurations?: SecurityPolicyConfigurations;
   /** The status of the last operation. */
@@ -863,6 +927,9 @@ export function trafficControllerPropertiesDeserializer(item: any): TrafficContr
     securityPolicies: !item["securityPolicies"]
       ? item["securityPolicies"]
       : resourceIdArrayDeserializer(item["securityPolicies"]),
+    privateEndpointConnections: !item["privateEndpointConnections"]
+      ? item["privateEndpointConnections"]
+      : resourceIdArrayDeserializer(item["privateEndpointConnections"]),
     securityPolicyConfigurations: !item["securityPolicyConfigurations"]
       ? item["securityPolicyConfigurations"]
       : securityPolicyConfigurationsDeserializer(item["securityPolicyConfigurations"]),
@@ -948,6 +1015,259 @@ export function trafficControllerArrayDeserializer(result: Array<TrafficControll
   });
 }
 
+/** Private Endpoint Connection resource of Traffic Controller. */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProperties;
+}
+
+export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a Private Endpoint Connection. */
+export interface PrivateEndpointConnectionProperties {
+  /** The private endpoint resource. */
+  readonly privateEndpoint?: PrivateEndpointReference;
+  /** The connection state of the private endpoint connection. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /** Provisioning state of the private endpoint connection. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function privateEndpointConnectionPropertiesSerializer(
+  item: PrivateEndpointConnectionProperties,
+): any {
+  return {
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+  };
+}
+
+export function privateEndpointConnectionPropertiesDeserializer(
+  item: any,
+): PrivateEndpointConnectionProperties {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointReferenceDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Reference to a private endpoint resource. */
+export interface PrivateEndpointReference {
+  /** Resource ID of the private endpoint. */
+  readonly id?: string;
+}
+
+export function privateEndpointReferenceDeserializer(item: any): PrivateEndpointReference {
+  return {
+    id: item["id"],
+  };
+}
+
+/** The state of a private link service connection. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateLinkServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+export function privateLinkServiceConnectionStateSerializer(
+  item: PrivateLinkServiceConnectionState,
+): any {
+  return {
+    status: item["status"],
+    description: item["description"],
+    actionsRequired: item["actionsRequired"],
+  };
+}
+
+export function privateLinkServiceConnectionStateDeserializer(
+  item: any,
+): PrivateLinkServiceConnectionState {
+  return {
+    status: item["status"],
+    description: item["description"],
+    actionsRequired: item["actionsRequired"],
+  };
+}
+
+/** The private endpoint connection status. */
+export enum KnownPrivateLinkServiceConnectionStatus {
+  /** Connection is pending approval. */
+  Pending = "Pending",
+  /** Connection is approved. */
+  Approved = "Approved",
+  /** Connection is rejected. */
+  Rejected = "Rejected",
+  /** Connection is disconnected. */
+  Disconnected = "Disconnected",
+}
+
+/**
+ * The private endpoint connection status. \
+ * {@link KnownPrivateLinkServiceConnectionStatus} can be used interchangeably with PrivateLinkServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: Connection is pending approval. \
+ * **Approved**: Connection is approved. \
+ * **Rejected**: Connection is rejected. \
+ * **Disconnected**: Connection is disconnected.
+ */
+export type PrivateLinkServiceConnectionStatus = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a PrivateEndpointConnection list operation. */
+export interface _PrivateEndpointConnectionListResult {
+  /** The PrivateEndpointConnection items on this page */
+  value: PrivateEndpointConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _privateEndpointConnectionListResultDeserializer(
+  item: any,
+): _PrivateEndpointConnectionListResult {
+  return {
+    value: privateEndpointConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function privateEndpointConnectionArraySerializer(
+  result: Array<PrivateEndpointConnection>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionSerializer(item);
+  });
+}
+
+export function privateEndpointConnectionArrayDeserializer(
+  result: Array<PrivateEndpointConnection>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionDeserializer(item);
+  });
+}
+
+/** A private link resource. */
+export interface PrivateLinkResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateLinkResourceProperties;
+}
+
+export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a private link resource. */
+export interface PrivateLinkResourceProperties {
+  /** The private link resource group ID. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private DNS zone names. */
+  readonly requiredZoneNames?: string[];
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function privateLinkResourcePropertiesDeserializer(
+  item: any,
+): PrivateLinkResourceProperties {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a PrivateLinkResource list operation. */
+export interface _PrivateLinkResourceListResult {
+  /** The PrivateLinkResource items on this page */
+  value: PrivateLinkResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _privateLinkResourceListResultDeserializer(
+  item: any,
+): _PrivateLinkResourceListResult {
+  return {
+    value: privateLinkResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
+  return result.map((item) => {
+    return privateLinkResourceDeserializer(item);
+  });
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -993,7 +1313,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -1054,10 +1374,8 @@ export type ActionType = string;
 export enum KnownVersions {
   /** 2023-11-01 stable version */
   V2023_11_01 = "2023-11-01",
-  /** 2024-05-01 preview version */
-  V20240501Preview = "2024-05-01-preview",
   /** 2025-01-01 stable version */
   V2025_05_01 = "2025-01-01",
-  /** 2025-03-01 preview version */
-  V20250301Preview = "2025-03-01-preview",
+  /** 2026-03-01 stable version */
+  V2026_03_01 = "2026-03-01",
 }

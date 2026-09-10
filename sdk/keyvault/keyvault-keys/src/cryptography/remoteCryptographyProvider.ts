@@ -71,7 +71,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     } catch (err: any) {
       logger.error(err);
 
-      throw new Error(`${keyId} is not a valid Key Vault key ID`);
+      throw new Error(`${keyId} is not a valid Key Vault key ID`, { cause: err });
     }
   }
 

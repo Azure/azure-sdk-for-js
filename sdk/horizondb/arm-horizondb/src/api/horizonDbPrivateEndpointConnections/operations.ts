@@ -5,15 +5,12 @@ import type { HorizonDbContext as Client } from "../index.js";
 import type {
   PrivateEndpointConnectionResource,
   _PrivateEndpointConnectionResourceListResult,
-  PrivateEndpointConnectionUpdate,
-  PrivateEndpointConnection,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
+  privateEndpointConnectionResourceSerializer,
   privateEndpointConnectionResourceDeserializer,
   _privateEndpointConnectionResourceListResultDeserializer,
-  privateEndpointConnectionUpdateSerializer,
-  privateEndpointConnectionDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -21,7 +18,7 @@ import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   HorizonDbPrivateEndpointConnectionsDeleteOptionalParams,
-  HorizonDbPrivateEndpointConnectionsUpdateOptionalParams,
+  HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams,
   HorizonDbPrivateEndpointConnectionsListOptionalParams,
   HorizonDbPrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";
@@ -32,16 +29,18 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
+  clusterName: string,
   privateEndpointConnectionName: string,
   options: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,7 +53,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -63,14 +64,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a private endpoint connection. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
+  clusterName: string,
   privateEndpointConnectionName: string,
   options: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
@@ -78,69 +75,75 @@ export function $delete(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, privateEndpointConnectionName, options),
+      _$deleteSend(context, resourceGroupName, clusterName, privateEndpointConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-20-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _updateSend(
+export function _updateStatusSend(
   context: Client,
   resourceGroupName: string,
+  clusterName: string,
   privateEndpointConnectionName: string,
-  properties: PrivateEndpointConnectionUpdate,
-  options: HorizonDbPrivateEndpointConnectionsUpdateOptionalParams = { requestOptions: {} },
+  resource: PrivateEndpointConnectionResource,
+  options: HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDb/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
+  return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateEndpointConnectionUpdateSerializer(properties),
+    body: privateEndpointConnectionResourceSerializer(resource),
   });
 }
 
-export async function _updateDeserialize(
+export async function _updateStatusDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateEndpointConnection> {
-  const expectedStatuses = ["200", "202", "201"];
+): Promise<PrivateEndpointConnectionResource> {
+  const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return privateEndpointConnectionDeserializer(result.body);
+  return privateEndpointConnectionResourceDeserializer(result.body);
 }
 
-/** Updates a private endpoint connection. */
-export function update(
+/** Approves or rejects a private endpoint connection. */
+export async function updateStatus(
   context: Client,
   resourceGroupName: string,
+  clusterName: string,
   privateEndpointConnectionName: string,
-  properties: PrivateEndpointConnectionUpdate,
-  options: HorizonDbPrivateEndpointConnectionsUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, privateEndpointConnectionName, properties, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-20-preview",
-  }) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  resource: PrivateEndpointConnectionResource,
+  options: HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams = { requestOptions: {} },
+): Promise<PrivateEndpointConnectionResource> {
+  const result = await _updateStatusSend(
+    context,
+    resourceGroupName,
+    clusterName,
+    privateEndpointConnectionName,
+    resource,
+    options,
+  );
+  return _updateStatusDeserialize(result);
 }
 
 export function _listSend(
@@ -155,7 +158,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +176,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -181,7 +186,7 @@ export async function _listDeserialize(
   return _privateEndpointConnectionResourceListResultDeserializer(result.body);
 }
 
-/** Lists private endpoint connections in a HorizonDb cluster. */
+/** Lists private endpoint connections in a HorizonDB cluster. */
 export function list(
   context: Client,
   resourceGroupName: string,
@@ -196,7 +201,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-20-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -215,7 +220,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,7 +238,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

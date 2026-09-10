@@ -182,6 +182,7 @@ export type AgentPoolMode = string;
 // @public
 export interface AgentPoolNetworkInterface {
     enableAcceleratedNetworking?: boolean;
+    publicIPAddressConfiguration?: AgentPoolNICPublicIPAddressConfiguration;
     type?: AgentPoolNetworkInterfaceType;
     vnetSubnetId?: string;
 }
@@ -193,10 +194,21 @@ export type AgentPoolNetworkInterfaceType = string;
 export interface AgentPoolNetworkProfile {
     allowedHostPorts?: PortRange[];
     applicationSecurityGroups?: string[];
+    dranet?: DranetProfile;
     nodePublicIPPrefixIDs?: string[];
     nodePublicIPTags?: IPTag[];
     secondaryNetworkInterfaces?: AgentPoolNetworkInterface[];
 }
+
+// @public
+export interface AgentPoolNICPublicIPAddressConfiguration {
+    ipTags?: IPTag[];
+    publicIPAddressVersion: AgentPoolNICPublicIPAddressVersion;
+    publicIPPrefixID?: string;
+}
+
+// @public
+export type AgentPoolNICPublicIPAddressVersion = string;
 
 // @public
 export interface AgentPoolRecentlyUsedVersion {
@@ -285,6 +297,10 @@ export interface AgentPoolsOperations {
     // @deprecated (undocumented)
     beginDeleteMachinesAndWait: (resourceGroupName: string, resourceName: string, agentPoolName: string, machines: AgentPoolDeleteMachinesParameter, options?: AgentPoolsDeleteMachinesOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPoolUpdate, options?: AgentPoolsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AgentPool>, AgentPool>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPoolUpdate, options?: AgentPoolsUpdateOptionalParams) => Promise<AgentPool>;
+    // @deprecated (undocumented)
     beginUpgradeNodeImageVersion: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginUpgradeNodeImageVersionAndWait: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams) => Promise<void>;
@@ -297,6 +313,7 @@ export interface AgentPoolsOperations {
     getUpgradeProfile: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsGetUpgradeProfileOptionalParams) => Promise<AgentPoolUpgradeProfile>;
     list: (resourceGroupName: string, resourceName: string, options?: AgentPoolsListOptionalParams) => PagedAsyncIterableIterator<AgentPool>;
     listBootstrapData: (resourceGroupName: string, resourceName: string, agentPoolName: string, body: ListBootstrapDataRequest, options?: AgentPoolsListBootstrapDataOptionalParams) => Promise<PoolBootstrapData>;
+    update: (resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPoolUpdate, options?: AgentPoolsUpdateOptionalParams) => PollerLike<OperationState<AgentPool>, AgentPool>;
     upgradeNodeImageVersion: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
@@ -309,12 +326,45 @@ export interface AgentPoolStatus {
 }
 
 // @public
+export interface AgentPoolsUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface AgentPoolsUpgradeNodeImageVersionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
 export type AgentPoolType = string;
+
+// @public
+export interface AgentPoolUpdate {
+    properties?: AgentPoolUpdateProperties;
+}
+
+// @public
+export interface AgentPoolUpdateManualScaleProfile {
+    count?: number;
+    size?: string;
+}
+
+// @public
+export interface AgentPoolUpdateProperties {
+    count?: number;
+    virtualMachinesProfile?: AgentPoolUpdateVirtualMachinesProfile;
+}
+
+// @public
+export interface AgentPoolUpdateScaleProfile {
+    manual?: AgentPoolUpdateManualScaleProfile[];
+}
+
+// @public
+export interface AgentPoolUpdateVirtualMachinesProfile {
+    scale?: AgentPoolUpdateScaleProfile;
+}
 
 // @public
 export interface AgentPoolUpgradeProfile extends ProxyResource {
@@ -507,6 +557,16 @@ export interface BootstrapTargetCluster {
 // @public
 export interface BootstrapTokenInfo {
     readonly token?: string;
+}
+
+// @public
+export interface CapacityReservation {
+    capacityReservationGroup?: CapacityReservationGroup;
+}
+
+// @public
+export interface CapacityReservationGroup {
+    id?: string;
 }
 
 // @public
@@ -703,6 +763,14 @@ export interface DelegatedResource {
 
 // @public
 export type DeletePolicy = string;
+
+// @public
+export type DranetMode = string;
+
+// @public
+export interface DranetProfile {
+    mode?: DranetMode;
+}
 
 // @public
 export type DriftAction = string;
@@ -954,6 +1022,7 @@ export interface JWTAuthenticatorIssuer {
 
 // @public
 export interface JWTAuthenticatorProperties {
+    certificateAuthorityBundle?: string;
     claimMappings: JWTAuthenticatorClaimMappings;
     claimValidationRules?: JWTAuthenticatorValidationRule[];
     issuer: JWTAuthenticatorIssuer;
@@ -1046,6 +1115,11 @@ export enum KnownAgentPoolMode {
 export enum KnownAgentPoolNetworkInterfaceType {
     Dynamic = "Dynamic",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownAgentPoolNICPublicIPAddressVersion {
+    IPv4 = "IPv4"
 }
 
 // @public
@@ -1143,6 +1217,12 @@ export enum KnownCreatedByType {
 export enum KnownDeletePolicy {
     Delete = "Delete",
     Keep = "Keep"
+}
+
+// @public
+export enum KnownDranetMode {
+    Managed = "Managed",
+    Unmanaged = "Unmanaged"
 }
 
 // @public
@@ -1324,6 +1404,12 @@ export enum KnownLocalDNSState {
 }
 
 // @public
+export enum KnownManagedClusterNATGatewaySku {
+    Standard = "Standard",
+    StandardV2 = "StandardV2"
+}
+
+// @public
 export enum KnownManagedClusterPodIdentityProvisioningState {
     Assigned = "Assigned",
     Canceled = "Canceled",
@@ -1460,6 +1546,12 @@ export enum KnownNodeProvisioningMode {
 }
 
 // @public
+export enum KnownNvidiaDriverMode {
+    DevicePlugin = "DevicePlugin",
+    DRA = "DRA"
+}
+
+// @public
 export enum KnownOperator {
     DoesNotExist = "DoesNotExist",
     Exists = "Exists",
@@ -1484,6 +1576,7 @@ export enum KnownOssku {
     Ubuntu = "Ubuntu",
     Ubuntu2204 = "Ubuntu2204",
     Ubuntu2404 = "Ubuntu2404",
+    Ubuntu2604 = "Ubuntu2604",
     Windows2019 = "Windows2019",
     Windows2022 = "Windows2022",
     Windows2025 = "Windows2025",
@@ -1500,7 +1593,6 @@ export enum KnownOSType {
 export enum KnownOutboundType {
     LoadBalancer = "loadBalancer",
     ManagedNATGateway = "managedNATGateway",
-    ManagedNATGatewayV2 = "managedNATGatewayV2",
     None = "none",
     UserAssignedNATGateway = "userAssignedNATGateway",
     UserDefinedRouting = "userDefinedRouting"
@@ -1694,7 +1786,8 @@ export enum KnownVersions {
     V20260301 = "2026-03-01",
     V20260401 = "2026-04-01",
     V20260501 = "2026-05-01",
-    V20260502Preview = "2026-05-02-preview"
+    V20260601 = "2026-06-01",
+    V20260602Preview = "2026-06-02-preview"
 }
 
 // @public
@@ -1730,6 +1823,7 @@ export interface KubeletConfig {
     cpuCfsQuota?: boolean;
     cpuCfsQuotaPeriod?: string;
     cpuManagerPolicy?: string;
+    evictionMaxPodGracePeriodInSeconds?: number;
     failSwapOn?: boolean;
     hardEvictionThreshold?: HardEvictionThreshold;
     imageGcHighThreshold?: number;
@@ -1737,6 +1831,8 @@ export interface KubeletConfig {
     kubeReserved?: KubeReserved;
     podMaxPids?: number;
     seccompDefault?: SeccompDefault;
+    softEvictionGracePeriod?: SoftEvictionGracePeriod;
+    softEvictionThreshold?: SoftEvictionThreshold;
     topologyManagerPolicy?: string;
 }
 
@@ -1972,6 +2068,7 @@ export interface MachineOSProfileLinuxProfile {
 // @public
 export interface MachineProperties {
     billing?: MachineBillingProfile;
+    capacityReservation?: CapacityReservation;
     readonly eTag?: string;
     evictionPolicy?: ScaleSetEvictionPolicy;
     hardware?: MachineHardwareProfile;
@@ -2162,6 +2259,7 @@ export interface ManagedCluster extends TrackedResource {
     dnsPrefix?: string;
     enableFips?: boolean;
     enableNamespaceResources?: boolean;
+    enableNodeHardening?: boolean;
     enableRbac?: boolean;
     readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
@@ -2363,7 +2461,6 @@ export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetr
 // @public
 export interface ManagedClusterAzureMonitorProfileContainerInsights {
     containerNetworkLogs?: ContainerNetworkLogs;
-    disableCustomMetrics?: boolean;
     disablePrometheusMetricsScraping?: boolean;
     enabled?: boolean;
     logAnalyticsWorkspaceResourceId?: string;
@@ -2526,7 +2623,11 @@ export interface ManagedClusterNATGatewayProfile {
     outboundIPs?: {
         publicIPs?: string[];
     };
+    sku?: ManagedClusterNATGatewaySku;
 }
+
+// @public
+export type ManagedClusterNATGatewaySku = string;
 
 // @public
 export interface ManagedClusterNodeProvisioningProfile {
@@ -2627,6 +2728,7 @@ export interface ManagedClusterProperties {
     dnsPrefix?: string;
     enableFips?: boolean;
     enableNamespaceResources?: boolean;
+    enableNodeHardening?: boolean;
     enableRbac?: boolean;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
@@ -3361,7 +3463,11 @@ export type NodeProvisioningDefaultNodePools = string;
 export type NodeProvisioningMode = string;
 
 // @public
+export type NvidiaDriverMode = string;
+
+// @public
 export interface NvidiaGPUProfile {
+    driverMode?: NvidiaDriverMode;
     managementMode?: ManagementMode;
     migStrategy?: MigStrategy;
 }
@@ -3382,10 +3488,12 @@ export interface OperationStatusResult {
     id?: string;
     name?: string;
     operations?: OperationStatusResult[];
+    readonly operationType?: string;
     percentComplete?: number;
     readonly resourceId?: string;
     startTime?: Date;
     status: string;
+    readonly subOperationType?: string;
 }
 
 // @public
@@ -3397,6 +3505,11 @@ export interface OperationStatusResultGetOptionalParams extends OperationOptions
 }
 
 // @public
+export interface OperationStatusResultListByAgentPoolOptionalParams extends OperationOptions {
+    activeOnly?: boolean;
+}
+
+// @public
 export interface OperationStatusResultListOptionalParams extends OperationOptions {
 }
 
@@ -3405,6 +3518,7 @@ export interface OperationStatusResultOperations {
     get: (resourceGroupName: string, resourceName: string, operationId: string, options?: OperationStatusResultGetOptionalParams) => Promise<OperationStatusResult>;
     getByAgentPool: (resourceGroupName: string, resourceName: string, agentPoolName: string, operationId: string, options?: OperationStatusResultGetByAgentPoolOptionalParams) => Promise<OperationStatusResult>;
     list: (resourceGroupName: string, resourceName: string, options?: OperationStatusResultListOptionalParams) => PagedAsyncIterableIterator<OperationStatusResult>;
+    listByAgentPool: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: OperationStatusResultListByAgentPoolOptionalParams) => PagedAsyncIterableIterator<OperationStatusResult>;
 }
 
 // @public
@@ -3898,6 +4012,20 @@ export interface SnapshotsUpdateTagsOptionalParams extends OperationOptions {
 
 // @public
 export type SnapshotType = string;
+
+// @public
+export interface SoftEvictionGracePeriod {
+    memoryAvailable?: string;
+    nodeFsAvailable?: string;
+    nodeFsInodesFree?: string;
+}
+
+// @public
+export interface SoftEvictionThreshold {
+    memoryAvailable?: string;
+    nodeFsAvailable?: string;
+    nodeFsInodesFree?: string;
+}
 
 // @public
 export interface SysctlConfig {

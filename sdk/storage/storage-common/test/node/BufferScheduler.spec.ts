@@ -93,4 +93,139 @@ describe("BufferScheduler", () => {
 
     assert.deepEqual(offsetLog, [0, 5], "Offset should track the starting point of each buffer");
   });
+
+  it("rejects instead of throwing uncaught when allocation fails while resolving stream data", async () => {
+    const stream = new PassThrough();
+    const originalAllocUnsafe = Buffer.allocUnsafe;
+    (Buffer as any).allocUnsafe = () => {
+      throw new RangeError("Failed to allocate memory");
+    };
+
+    try {
+      const scheduler = new BufferScheduler(stream, 4, 2, async () => {}, 1);
+      const schedulerPromise = scheduler.do();
+
+      stream.write(Buffer.from("12345678"));
+      stream.end();
+
+      let error: unknown;
+      try {
+        await schedulerPromise;
+      } catch (e) {
+        error = e;
+      }
+
+      assert.instanceOf(error, RangeError, "do() should reject with the allocation error");
+    } finally {
+      (Buffer as any).allocUnsafe = originalAllocUnsafe;
+    }
+  });
+
+  it("rejects instead of throwing uncaught when allocation fails on the final partial buffer", async () => {
+    const stream = new PassThrough();
+    const originalAllocUnsafe = Buffer.allocUnsafe;
+    (Buffer as any).allocUnsafe = () => {
+      throw new RangeError("Failed to allocate memory");
+    };
+
+    try {
+      const scheduler = new BufferScheduler(stream, 100, 2, async () => {}, 1);
+      const schedulerPromise = scheduler.do();
+
+      // Less than bufferSize so allocation happens in the "checkEnd" listener.
+      stream.write(Buffer.from("hello"));
+      stream.end();
+
+      let error: unknown;
+      try {
+        await schedulerPromise;
+      } catch (e) {
+        error = e;
+      }
+
+      assert.instanceOf(error, RangeError, "do() should reject with the allocation error");
+    } finally {
+      (Buffer as any).allocUnsafe = originalAllocUnsafe;
+    }
+  });
+
+  it("rejects instead of throwing uncaught when allocation fails while reusing a buffer", async () => {
+    const stream = new PassThrough();
+    const originalAllocUnsafe = Buffer.allocUnsafe;
+
+    try {
+      const scheduler = new BufferScheduler(
+        stream,
+        4,
+        1,
+        async () => {
+          // Yield so the "data" listener is done; the pool then grows from reuseBuffer().
+          await Promise.resolve();
+          (scheduler as any).maxBuffers = 2;
+          (Buffer as any).allocUnsafe = () => {
+            throw new RangeError("Failed to allocate memory");
+          };
+        },
+        1,
+      );
+      const schedulerPromise = scheduler.do();
+
+      // Exceeds maxBuffers * bufferSize, so data is still unresolved when the handler settles.
+      stream.write(Buffer.from("123456789012"));
+      stream.end();
+
+      let error: unknown;
+      try {
+        await schedulerPromise;
+      } catch (e) {
+        error = e;
+      }
+
+      assert.instanceOf(error, RangeError, "do() should reject with the allocation error");
+    } finally {
+      (Buffer as any).allocUnsafe = originalAllocUnsafe;
+    }
+  });
+
+  it("does not start queued outgoing handlers after do() has rejected", async () => {
+    const stream = new PassThrough();
+    const startedOffsets: number[] = [];
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+
+    const scheduler = new BufferScheduler(
+      stream,
+      4,
+      4,
+      async (_body, _length, offset) => {
+        startedOffsets.push(offset!);
+        if (offset === 0) {
+          throw new Error("upload failed");
+        }
+        await gate;
+      },
+      2,
+    );
+    const schedulerPromise = scheduler.do();
+
+    // Fills four buffers, so two are still queued when the first handler fails.
+    stream.write(Buffer.from("1234567890123456"));
+    stream.end();
+
+    let error: unknown;
+    try {
+      await schedulerPromise;
+    } catch (e) {
+      error = e;
+    }
+
+    assert.instanceOf(error, Error, "do() should reject with the handler error");
+
+    release();
+    await new Promise((resolve) => setImmediate(resolve));
+
+    assert.deepEqual(startedOffsets, [0, 4], "queued buffers should not be uploaded after failure");
+  });
 });

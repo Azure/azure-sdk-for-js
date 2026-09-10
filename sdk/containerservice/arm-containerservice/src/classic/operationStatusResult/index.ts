@@ -2,11 +2,17 @@
 // Licensed under the MIT License.
 
 import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
-import { get, list, getByAgentPool } from "../../api/operationStatusResult/operations.js";
+import {
+  get,
+  list,
+  getByAgentPool,
+  listByAgentPool,
+} from "../../api/operationStatusResult/operations.js";
 import type {
   OperationStatusResultGetOptionalParams,
   OperationStatusResultListOptionalParams,
   OperationStatusResultGetByAgentPoolOptionalParams,
+  OperationStatusResultListByAgentPoolOptionalParams,
 } from "../../api/operationStatusResult/options.js";
 import type { OperationStatusResult } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -34,7 +40,15 @@ export interface OperationStatusResultOperations {
     operationId: string,
     options?: OperationStatusResultGetByAgentPoolOptionalParams,
   ) => Promise<OperationStatusResult>;
+  /** Gets a list of operations in the specified agent pool. */
+  listByAgentPool: (
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: OperationStatusResultListByAgentPoolOptionalParams,
+  ) => PagedAsyncIterableIterator<OperationStatusResult>;
 }
+
 function _getOperationStatusResult(context: ContainerServiceContext) {
   return {
     get: (
@@ -56,8 +70,15 @@ function _getOperationStatusResult(context: ContainerServiceContext) {
       options?: OperationStatusResultGetByAgentPoolOptionalParams,
     ) =>
       getByAgentPool(context, resourceGroupName, resourceName, agentPoolName, operationId, options),
+    listByAgentPool: (
+      resourceGroupName: string,
+      resourceName: string,
+      agentPoolName: string,
+      options?: OperationStatusResultListByAgentPoolOptionalParams,
+    ) => listByAgentPool(context, resourceGroupName, resourceName, agentPoolName, options),
   };
 }
+
 export function _getOperationStatusResultOperations(
   context: ContainerServiceContext,
 ): OperationStatusResultOperations {

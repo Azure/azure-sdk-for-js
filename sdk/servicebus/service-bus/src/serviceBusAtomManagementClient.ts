@@ -2120,6 +2120,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
           error,
+        { cause: error },
       );
     }
   }

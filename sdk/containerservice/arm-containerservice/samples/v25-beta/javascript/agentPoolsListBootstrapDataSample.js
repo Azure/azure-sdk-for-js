@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns pool-level bootstrap configuration for FlexNode machines.
  *
  * @summary returns pool-level bootstrap configuration for FlexNode machines.
- * x-ms-original-file: 2026-05-02-preview/AgentPoolsListBootstrapData.json
+ * x-ms-original-file: 2026-06-02-preview/AgentPoolsListBootstrapData.json
  */
 async function listBootstrapDataForFlexNodeAgentPool() {
   const credential = new DefaultAzureCredential();

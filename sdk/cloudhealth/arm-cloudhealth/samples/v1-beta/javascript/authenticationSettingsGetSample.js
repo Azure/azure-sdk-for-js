@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a AuthenticationSetting
  *
  * @summary get a AuthenticationSetting
- * x-ms-original-file: 2026-05-01-preview/AuthenticationSettings_Get.json
+ * x-ms-original-file: 2026-09-01-preview/AuthenticationSettings_Get.json
  */
 async function authenticationSettingsGet() {
   const credential = new DefaultAzureCredential();

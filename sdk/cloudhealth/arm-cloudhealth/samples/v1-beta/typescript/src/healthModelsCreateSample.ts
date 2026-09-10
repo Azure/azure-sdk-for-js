@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a HealthModel
  *
  * @summary create a HealthModel
- * x-ms-original-file: 2026-05-01-preview/HealthModels_Create.json
+ * x-ms-original-file: 2026-09-01-preview/HealthModels_Create.json
  */
 async function healthModelsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

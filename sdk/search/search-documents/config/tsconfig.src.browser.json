@@ -1,5 +1,8 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ES2023", "ESNext.Disposable"]
+  },
   "include": [
     "../src/events.d.ts",
     "../src/index.ts",

@@ -48,14 +48,7 @@ export class SearchClient {
     indexName: string,
     options: SearchClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSearch(endpointParam, credential, indexName, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSearch(endpointParam, credential, indexName, options);
     this.pipeline = this._client.pipeline;
   }
 

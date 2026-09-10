@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list LaunchBulkInstancesOperation resources by resource group.
  *
  * @summary list LaunchBulkInstancesOperation resources by resource group.
- * x-ms-original-file: 2026-07-06-preview/LaunchBulkInstancesOperation_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/LaunchBulkInstancesOperation_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function launchBulkInstancesOperationListByResourceGroupExample() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function launchBulkInstancesOperationListByResourceGroupExample() {
  * This sample demonstrates how to list LaunchBulkInstancesOperation resources by resource group.
  *
  * @summary list LaunchBulkInstancesOperation resources by resource group.
- * x-ms-original-file: 2026-07-06-preview/LaunchBulkInstancesOperation_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/LaunchBulkInstancesOperation_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function launchBulkInstancesOperationListByResourceGroupExampleGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

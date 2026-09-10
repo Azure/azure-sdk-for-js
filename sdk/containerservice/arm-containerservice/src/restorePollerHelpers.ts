@@ -48,6 +48,7 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedClusters,
 } from "./api/managedClusters/operations.js";
 import {
+  _updateDeserialize,
   _upgradeNodeImageVersionDeserialize,
   _deleteMachinesDeserialize,
   _completeUpgradeDeserialize,
@@ -228,6 +229,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeManagedClusters,
       expectedStatuses: ["200", "201", "202"],
     },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion":
     { deserializer: _upgradeNodeImageVersionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/deleteMachines":

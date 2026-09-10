@@ -48,6 +48,8 @@ export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private longIntervalAzureExporter: AzureMonitorStatsbeatExporter;
   private longIntervalMetricReader: PeriodicExportingMetricReader;
   private longIntervalStatsbeatMeter: Meter;
+  private initialExportTimer: NodeJS.Timeout | undefined;
+  private initialExportPromise: Promise<void> | undefined;
 
   // Network Attributes
   private connectionString: string;
@@ -119,6 +121,9 @@ export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private async initialize(): Promise<void> {
     try {
       await this.getResourceProvider();
+      if (!this.isInitialized) {
+        return;
+      }
 
       // Add long interval observable callbacks
       this.attachStatsbeatGauge.addCallback(this.attachCallback.bind(this));
@@ -128,27 +133,16 @@ export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
       );
 
       // Export Feature/Attach Statsbeat once upon app initialization after 15 second delay
-      setTimeout(async () => {
-        try {
-          const collectionResult = await this.longIntervalMetricReader.collect();
-          if (collectionResult) {
-            this.longIntervalAzureExporter.export(
-              collectionResult.resourceMetrics,
-              (result: ExportResult) => {
-                if (result.code !== ExportResultCode.SUCCESS) {
-                  diag.debug(
-                    `LongIntervalStatsbeat: metrics export failed (error ${result.error})`,
-                  );
-                }
-              },
-            );
-          } else {
-            diag.debug("LongIntervalStatsbeat: No metrics collected");
+      this.initialExportTimer = setTimeout(() => {
+        this.initialExportTimer = undefined;
+        const initialExportPromise = this.exportInitialStatsbeat().finally(() => {
+          if (this.initialExportPromise === initialExportPromise) {
+            this.initialExportPromise = undefined;
           }
-        } catch (error) {
-          diag.debug(`LongIntervalStatsbeat: Error collecting metrics: ${error}`);
-        }
+        });
+        this.initialExportPromise = initialExportPromise;
       }, 15000); // 15 seconds
+      this.initialExportTimer.unref();
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
     }
@@ -197,9 +191,56 @@ export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     observableResult.observe(1, attributes);
   }
 
-  public shutdown(): Promise<void> {
-    return this.longIntervalStatsbeatMeterProvider.shutdown();
+  private async exportInitialStatsbeat(): Promise<void> {
+    if (!this.isInitialized) {
+      return;
+    }
+    try {
+      const collectionResult = await this.longIntervalMetricReader.collect();
+      if (!this.isInitialized) {
+        return;
+      }
+      if (collectionResult) {
+        await this.longIntervalAzureExporter.export(
+          collectionResult.resourceMetrics,
+          (result: ExportResult) => {
+            if (result.code !== ExportResultCode.SUCCESS) {
+              diag.debug(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
+            }
+          },
+        );
+      } else {
+        diag.debug("LongIntervalStatsbeat: No metrics collected");
+      }
+    } catch (error) {
+      diag.debug(`LongIntervalStatsbeat: Error collecting metrics: ${error}`);
+    }
   }
+
+  public async shutdown(): Promise<void> {
+    this.isInitialized = false;
+    if (this.initialExportTimer) {
+      clearTimeout(this.initialExportTimer);
+      this.initialExportTimer = undefined;
+    }
+    if (LongIntervalStatsbeatMetrics.instance === this) {
+      LongIntervalStatsbeatMetrics.instance = null;
+    }
+    await this.initialExportPromise;
+    await this.longIntervalStatsbeatMeterProvider.shutdown();
+  }
+
+  /**
+   * Apply an accepted ingestion redirect without replacing the periodic metric reader.
+   * @internal
+   */
+  public async updateEndpoint(endpointUrl: string): Promise<void> {
+    const connectionString = super.getConnectionString(endpointUrl);
+    await this.longIntervalAzureExporter.updateConnectionString(connectionString, () => {
+      this.connectionString = connectionString;
+    });
+  }
+
   /**
    * Singleton LongIntervalStatsbeatMetrics instance.
    * @internal

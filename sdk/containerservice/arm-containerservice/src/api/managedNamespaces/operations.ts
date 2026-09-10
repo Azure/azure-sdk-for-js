@@ -46,7 +46,7 @@ export function _listCredentialSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,6 +73,7 @@ export async function _listCredentialDeserialize(
 
   return credentialResultsDeserializer(result.body);
 }
+
 /** Lists the credentials of a namespace. */
 export async function listCredential(
   context: Client,
@@ -103,7 +104,7 @@ export function _listByManagedClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,6 +131,7 @@ export async function _listByManagedClusterDeserialize(
 
   return _managedNamespaceListResultDeserializer(result.body);
 }
+
 /** Gets a list of managed namespaces in the specified managed cluster. */
 export function listByManagedCluster(
   context: Client,
@@ -145,7 +147,7 @@ export function listByManagedCluster(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }
@@ -164,7 +166,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,6 +188,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a namespace. */
 export function $delete(
   context: Client,
@@ -200,7 +203,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, managedNamespaceName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -219,7 +222,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,6 +249,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return managedNamespaceDeserializer(result.body);
 }
+
 /** Updates tags on a managed namespace. */
 export async function update(
   context: Client,
@@ -281,7 +285,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -310,6 +314,7 @@ export async function _createOrUpdateDeserialize(
 
   return managedNamespaceDeserializer(result.body);
 }
+
 /** Creates or updates a namespace managed by ARM for the specified managed cluster. Users can configure aspects like resource quotas, network ingress/egress policies, and more. See aka.ms/aks/managed-namespaces for more details. */
 export function createOrUpdate(
   context: Client,
@@ -332,7 +337,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<ManagedNamespace>, ManagedNamespace>;
 }
 
@@ -350,7 +355,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       managedNamespaceName: managedNamespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -375,6 +380,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return managedNamespaceDeserializer(result.body);
 }
+
 /** Gets the specified namespace of a managed cluster. */
 export async function get(
   context: Client,

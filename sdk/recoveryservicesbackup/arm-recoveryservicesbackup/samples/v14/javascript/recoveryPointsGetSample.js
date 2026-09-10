@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary provides the information of the backed up data identified using RecoveryPointID. This is an asynchronous operation.
  * To know the status of the operation, call the GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/RecoveryPoints_Get.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/RecoveryPoints_Get.json
  */
 async function getAzureVmRecoveryPointDetails() {
   const credential = new DefaultAzureCredential();

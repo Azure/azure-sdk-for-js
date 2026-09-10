@@ -312,6 +312,7 @@ async function assertAsyncIterable<T>(
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
           .join("\n")}\n\n Stack trace: ${e.stack}`,
+        { cause: e },
       );
     }
     items.push(item);

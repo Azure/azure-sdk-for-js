@@ -345,7 +345,9 @@ export async function parseJsonToken(
         }
       }
     } catch (e: any) {
-      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
+      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`, {
+        cause: e,
+      });
     }
   }
   throw new Error(`No access token found in the output. Received output: ${result}`);

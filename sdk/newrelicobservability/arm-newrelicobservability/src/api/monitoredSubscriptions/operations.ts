@@ -40,7 +40,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +67,6 @@ export async function _listDeserialize(
 
   return _monitoredSubscriptionPropertiesListDeserializer(result.body);
 }
-
 /** List MonitoredSubscriptionProperties resources by NewRelicMonitorResource */
 export function list(
   context: Client,
@@ -80,11 +79,7 @@ export function list(
     () => _listSend(context, resourceGroupName, monitorName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -102,7 +97,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       configurationName: configurationName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +119,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a MonitoredSubscriptionProperties */
 export function $delete(
   context: Client,
@@ -139,7 +133,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, monitorName, configurationName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -157,7 +151,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       configurationName: configurationName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +180,6 @@ export async function _updateDeserialize(
 
   return monitoredSubscriptionPropertiesDeserializer(result.body);
 }
-
 /** Update a MonitoredSubscriptionProperties */
 export function update(
   context: Client,
@@ -201,7 +194,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, monitorName, configurationName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<
     OperationState<MonitoredSubscriptionProperties>,
     MonitoredSubscriptionProperties
@@ -222,7 +215,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       configurationName: configurationName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +244,6 @@ export async function _createOrUpdateDeserialize(
 
   return monitoredSubscriptionPropertiesDeserializer(result.body);
 }
-
 /** Create a MonitoredSubscriptionProperties */
 export function createOrUpdate(
   context: Client,
@@ -266,7 +258,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, monitorName, configurationName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<
     OperationState<MonitoredSubscriptionProperties>,
     MonitoredSubscriptionProperties
@@ -287,7 +279,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       configurationName: configurationName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,7 +306,6 @@ export async function _getDeserialize(
 
   return monitoredSubscriptionPropertiesDeserializer(result.body);
 }
-
 /** Get a MonitoredSubscriptionProperties */
 export async function get(
   context: Client,

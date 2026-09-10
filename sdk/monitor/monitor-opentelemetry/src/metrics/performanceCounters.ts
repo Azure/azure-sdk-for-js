@@ -349,12 +349,10 @@ export class PerformanceCounterMetrics {
       this.lastAppCpuUsageNormalized = appCpuUsage;
       this.lastHrtimeNormalized = hrtime;
       const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcessNormalized);
-      let value = 0;
-      if (appCpuPercent !== undefined) {
-        value = appCpuPercent;
-      } else {
-        value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
-      }
+      const value =
+        appCpuPercent !== undefined
+          ? appCpuPercent
+          : (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
       observableResult.observe(value);
     }
     this.lastCpusProcessNormalized = cpus;
@@ -389,12 +387,10 @@ export class PerformanceCounterMetrics {
         this.lastAppCpuUsage = appCpuUsage;
         this.lastHrtime = hrtime;
         const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-        let value = 0;
-        if (appCpuPercent !== undefined) {
-          value = appCpuPercent;
-        } else {
-          value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
-        }
+        const value =
+          appCpuPercent !== undefined
+            ? appCpuPercent
+            : (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
         observableResult.observe(value);
       }
       this.lastCpusProcess = cpus;

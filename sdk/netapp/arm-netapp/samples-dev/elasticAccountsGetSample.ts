@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the NetApp Elastic Account
  *
  * @summary get the NetApp Elastic Account
- * x-ms-original-file: 2026-05-15-preview/ElasticAccounts_Get.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticAccounts_Get.json
  */
 async function elasticAccountsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

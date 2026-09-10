@@ -107,6 +107,14 @@ export enum KnownSkuMixPlacementAllocationStrategy {
 }
 
 // @public
+export enum KnownSkuMixPlacementCapacityLimitReason {
+    InsufficientCapacity = "InsufficientCapacity",
+    InsufficientQuota = "InsufficientQuota",
+    None = "None",
+    SkuNotAvailable = "SkuNotAvailable"
+}
+
+// @public
 export enum KnownSkuMixPlacementCapacityType {
     VCpu = "VCpu",
     Vm = "VM"
@@ -141,7 +149,8 @@ export enum KnownSkuMixPlacementZonalDistributionStrategy {
 // @public
 export enum KnownVersions {
     V20250605 = "2025-06-05",
-    V20260505Preview = "2026-05-05-preview"
+    V20260505Preview = "2026-05-05-preview",
+    V20260905Preview = "2026-09-05-preview"
 }
 
 // @public
@@ -222,6 +231,18 @@ export interface SkuMixPlacementBase extends ProxyResource {
 }
 
 // @public
+export interface SkuMixPlacementCapacityLimit {
+    limit: number;
+    name: string;
+    priority: SkuMixPlacementPriority;
+    reason: SkuMixPlacementCapacityLimitReason;
+    zone?: string;
+}
+
+// @public
+export type SkuMixPlacementCapacityLimitReason = string;
+
+// @public
 export interface SkuMixPlacementCapacityProfile {
     allocationStrategy?: SkuMixPlacementAllocationStrategy;
     capacity: number;
@@ -237,7 +258,6 @@ export type SkuMixPlacementCapacityType = string;
 
 // @public
 export interface SkuMixPlacementDeploymentChoice {
-    id: string;
     score: number;
     skuSplit: SkuMixPlacementItem[];
 }
@@ -250,7 +270,6 @@ export interface SkuMixPlacementInstanceDescription {
 // @public
 export interface SkuMixPlacementItem {
     capacity: number;
-    capacityMax?: number;
     name: string;
     priority: SkuMixPlacementPriority;
     zone?: string;
@@ -279,6 +298,8 @@ export interface SkuMixPlacementRequest {
 
 // @public
 export interface SkuMixPlacementResponse {
+    capacityLimits?: SkuMixPlacementCapacityLimit[];
+    id: string;
     partialFulfillmentReason: SkuMixPlacementPartialFulfillmentReason;
     placementChoices: SkuMixPlacementDeploymentChoice[];
     validUntil?: Date;

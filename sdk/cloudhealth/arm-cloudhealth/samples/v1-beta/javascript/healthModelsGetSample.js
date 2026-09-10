@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a HealthModel
  *
  * @summary get a HealthModel
- * x-ms-original-file: 2026-05-01-preview/HealthModels_Get.json
+ * x-ms-original-file: 2026-09-01-preview/HealthModels_Get.json
  */
 async function healthModelsGet() {
   const credential = new DefaultAzureCredential();

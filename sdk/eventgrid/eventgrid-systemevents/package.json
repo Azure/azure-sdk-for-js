@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "node",
     "azure",
@@ -44,11 +44,12 @@
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "regenerate": "tsp-client update -d --emitter-options=\"generate-metadata=false;generate-test=false\" && dev-tool customization apply && node scripts/generateMapping.mjs && npm run format",
+    "regenerate": "tsp-client update -d --emitter-options=\"generate-metadata=false;generate-test=false\" && npm run customize",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "dev-tool customization apply && node scripts/generateMapping.mjs && npm run format"
   },
   "sideEffects": false,
   "autoPublish": false,

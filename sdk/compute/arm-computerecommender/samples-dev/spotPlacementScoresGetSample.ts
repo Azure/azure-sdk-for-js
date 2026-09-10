@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets Spot Placement Scores metadata.
  *
  * @summary gets Spot Placement Scores metadata.
- * x-ms-original-file: 2026-05-05-preview/GetSpotPlacementScores.json
+ * x-ms-original-file: 2026-09-05-preview/GetSpotPlacementScores.json
  */
 async function getsTheMetadataOfSpotPlacementScores(): Promise<void> {
   const credential = new DefaultAzureCredential();

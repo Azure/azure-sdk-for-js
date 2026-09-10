@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists maintenance windows in the specified resource group.
  *
  * @summary lists maintenance windows in the specified resource group.
- * x-ms-original-file: 2026-05-02-preview/MaintenanceWindowsList.json
+ * x-ms-original-file: 2026-06-02-preview/MaintenanceWindowsList.json
  */
 async function listMaintenanceWindowsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

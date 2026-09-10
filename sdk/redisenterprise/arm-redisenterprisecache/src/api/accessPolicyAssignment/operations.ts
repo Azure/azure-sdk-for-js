@@ -37,7 +37,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listDeserialize(
 
   return _accessPolicyAssignmentListDeserializer(result.body);
 }
-
 /** Gets all access policy assignments.. */
 export function list(
   context: Client,
@@ -81,7 +80,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-06-01-preview",
     },
   );
 }
@@ -102,7 +101,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a single access policy assignment. */
 export function $delete(
   context: Client,
@@ -147,7 +145,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -168,7 +166,7 @@ export function _createUpdateSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,7 +195,6 @@ export async function _createUpdateDeserialize(
 
   return accessPolicyAssignmentDeserializer(result.body);
 }
-
 /** Creates/Updates a particular access policy assignment for a database */
 export function createUpdate(
   context: Client,
@@ -222,7 +219,7 @@ export function createUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
 }
 
@@ -242,7 +239,7 @@ export function _getSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,7 +266,6 @@ export async function _getDeserialize(
 
   return accessPolicyAssignmentDeserializer(result.body);
 }
-
 /** Gets information about access policy assignment for database. */
 export async function get(
   context: Client,

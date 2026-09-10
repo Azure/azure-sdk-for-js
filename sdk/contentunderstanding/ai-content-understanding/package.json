@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-content-understanding",
-  "version": "1.2.0-beta.3",
+  "version": "1.2.0-beta.4",
   "description": "Azure Content Understanding Rest Client",
   "engines": {
     "node": ">=22.0.0"
@@ -101,7 +101,8 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "dev-tool customization apply -s ./generated -t ./src && npm run format"
   },
   "exports": {
     "./package.json": "./package.json",

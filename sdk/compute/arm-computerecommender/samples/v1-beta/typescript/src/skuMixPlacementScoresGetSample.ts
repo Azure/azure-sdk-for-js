@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets SkuMixPlacement scoring metadata.
  *
  * @summary gets SkuMixPlacement scoring metadata.
- * x-ms-original-file: 2026-05-05-preview/GetSkuMixPlacementScores.json
+ * x-ms-original-file: 2026-09-05-preview/GetSkuMixPlacementScores.json
  */
 async function getsTheMetadataOfSkuMixPlacementScores(): Promise<void> {
   const credential = new DefaultAzureCredential();

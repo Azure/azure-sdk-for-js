@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the specified NetApp account within the resource group
  *
  * @summary create or update the specified NetApp account within the resource group
- * x-ms-original-file: 2026-05-15-preview/Accounts_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/Accounts_CreateOrUpdate.json
  */
 async function accountsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function accountsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create or update the specified NetApp account within the resource group
  *
  * @summary create or update the specified NetApp account within the resource group
- * x-ms-original-file: 2026-05-15-preview/Accounts_CreateOrUpdateAD.json
+ * x-ms-original-file: 2026-06-15-preview/Accounts_CreateOrUpdateAD.json
  */
 async function accountsCreateOrUpdateWithActiveDirectory(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function accountsCreateOrUpdateWithActiveDirectory(): Promise<void> {
  * This sample demonstrates how to create or update the specified NetApp account within the resource group
  *
  * @summary create or update the specified NetApp account within the resource group
- * x-ms-original-file: 2026-05-15-preview/Accounts_CreateOrUpdateLdapConfig.json
+ * x-ms-original-file: 2026-06-15-preview/Accounts_CreateOrUpdateLdapConfig.json
  */
 async function accountsCreateOrUpdateLdapConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -69,7 +69,7 @@ async function accountsCreateOrUpdateLdapConfig(): Promise<void> {
       ldapConfiguration: {
         domain: "example.com",
         ldapServers: ["192.0.2.1", "192.0.2.2"],
-        ldapOverTLS: false,
+        secureLdapType: "LdapOverTLS",
         serverCACertificate: "<REDACTED>",
         certificateCNHost: "ldap.krypton.com",
         ldapPort: 636,

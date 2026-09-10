@@ -1810,7 +1810,7 @@ describe("ClientSideEncryption", () => {
     });
     const otherDatabase = otherClient.database(database.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
-    let testDoc = TestDoc.create();
+    const testDoc = TestDoc.create();
     const createResponse = await otherEncryptionContainer.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
     verifyExpectedDocResponse(testDoc, createResponse.resource);
@@ -1857,7 +1857,7 @@ describe("ClientSideEncryption", () => {
         ),
       );
     }
-    testDoc = new TestDoc((await testCreateItem(encryptionContainerToDelete)).resource);
+    await testCreateItem(encryptionContainerToDelete);
     const partitionKey = "thePK";
 
     const doc1ToCreate = TestDoc.create(partitionKey);
@@ -1881,9 +1881,8 @@ describe("ClientSideEncryption", () => {
         id: doc2ToCreate.id,
       },
     ];
-    let batchResponse = null;
     try {
-      batchResponse = await otherEncryptionContainer.items.batch(operations, partitionKey);
+      await otherEncryptionContainer.items.batch(operations, partitionKey);
       assert.fail("batch operation should fail");
     } catch (err) {
       assert.ok(
@@ -1892,7 +1891,7 @@ describe("ClientSideEncryption", () => {
         ),
       );
     }
-    batchResponse = await otherEncryptionContainer.items.batch(operations, partitionKey);
+    const batchResponse = await otherEncryptionContainer.items.batch(operations, partitionKey);
     assert.equal(StatusCodes.Ok, batchResponse.code);
     const doc1 = batchResponse.result[0].resourceBody;
     verifyExpectedDocResponse(doc1ToCreate, doc1);

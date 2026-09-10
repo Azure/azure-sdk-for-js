@@ -88,11 +88,9 @@ export async function structuredMessageEncoding(
       encodedContentLength: encoding.encodedContentLength,
     };
   }
-
   if (ArrayBuffer.isView(source)) {
-    let encoding = undefined;
     if (source.buffer instanceof ArrayBuffer) {
-      encoding = await BrowserStream(
+      const encoding = await BrowserStream(
         new Blob([source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength)]),
         contentLength,
       );

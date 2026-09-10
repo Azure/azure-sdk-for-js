@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to imports database files to target database.
  *
  * @summary imports database files to target database.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesImport.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesImport.json
  */
 async function redisEnterpriseDatabasesImport(): Promise<void> {
   const credential = new DefaultAzureCredential();

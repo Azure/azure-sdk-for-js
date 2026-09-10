@@ -6,27 +6,31 @@ import {
   SearchIndexerDataSourceConnection,
   searchIndexerDataSourceConnectionSerializer,
   searchIndexerDataSourceConnectionDeserializer,
-  ListDataSourcesResult,
-  listDataSourcesResultDeserializer,
+  _ListDataSourcesResult,
+  _listDataSourcesResultDeserializer,
   IndexerResyncBody,
   indexerResyncBodySerializer,
   documentKeysOrIdsSerializer,
   SearchIndexer,
   searchIndexerSerializer,
   searchIndexerDeserializer,
-  ListIndexersResult,
-  listIndexersResultDeserializer,
+  _ListIndexersResult,
+  _listIndexersResultDeserializer,
   SearchIndexerStatus,
   searchIndexerStatusDeserializer,
   SearchIndexerSkillset,
   searchIndexerSkillsetSerializer,
   searchIndexerSkillsetDeserializer,
-  ListSkillsetsResult,
-  listSkillsetsResultDeserializer,
+  _ListSkillsetsResult,
+  _listSkillsetsResultDeserializer,
   SkillNames,
   skillNamesSerializer,
 } from "../../models/azure/search/documents/indexes/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ResetSkillsOptionalParams,
@@ -68,7 +72,7 @@ export function _resetSkillsSend(
     "/skillsets('{skillsetName}')/search.resetskills{?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +100,9 @@ export async function _resetSkillsDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -123,7 +129,7 @@ export function _createSkillsetSend(
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,7 +159,9 @@ export async function _createSkillsetDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -176,10 +184,13 @@ export function _getSkillsetsSend(
   options: GetSkillsetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skillsets{?api%2Dversion,%24select}",
+    "/skillsets{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,25 +214,36 @@ export function _getSkillsetsSend(
 
 export async function _getSkillsetsDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListSkillsetsResult> {
+): Promise<_ListSkillsetsResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return listSkillsetsResultDeserializer(result.body);
+  return _listSkillsetsResultDeserializer(result.body);
 }
 
 /** List all skillsets in a search service. */
-export async function getSkillsets(
+export function getSkillsets(
   context: Client,
   options: GetSkillsetsOptionalParams = { requestOptions: {} },
-): Promise<ListSkillsetsResult> {
-  const result = await _getSkillsetsSend(context, options);
-  return _getSkillsetsDeserialize(result);
+): PagedAsyncIterableIterator<SearchIndexerSkillset> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getSkillsetsSend(context, options),
+    _getSkillsetsDeserialize,
+    ["200"],
+    {
+      itemName: "skillsets",
+      nextLinkName: "@odata.nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
 }
 
 export function _getSkillsetSend(
@@ -233,7 +255,7 @@ export function _getSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -261,7 +283,9 @@ export async function _getSkillsetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -288,7 +312,7 @@ export function _deleteSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,7 +340,9 @@ export async function _deleteSkillsetDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -344,7 +370,7 @@ export function _createOrUpdateSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
       disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
@@ -379,7 +405,9 @@ export async function _createOrUpdateSkillsetDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -407,7 +435,7 @@ export function _getIndexerStatusSend(
     "/indexers('{indexerName}')/search.status{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -435,7 +463,9 @@ export async function _getIndexerStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -461,7 +491,7 @@ export function _createIndexerSend(
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -491,7 +521,9 @@ export async function _createIndexerDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -514,10 +546,13 @@ export function _getIndexersSend(
   options: GetIndexersOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexers{?api%2Dversion,%24select}",
+    "/indexers{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -541,25 +576,36 @@ export function _getIndexersSend(
 
 export async function _getIndexersDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListIndexersResult> {
+): Promise<_ListIndexersResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return listIndexersResultDeserializer(result.body);
+  return _listIndexersResultDeserializer(result.body);
 }
 
 /** Lists all indexers available for a search service. */
-export async function getIndexers(
+export function getIndexers(
   context: Client,
   options: GetIndexersOptionalParams = { requestOptions: {} },
-): Promise<ListIndexersResult> {
-  const result = await _getIndexersSend(context, options);
-  return _getIndexersDeserialize(result);
+): PagedAsyncIterableIterator<SearchIndexer> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getIndexersSend(context, options),
+    _getIndexersDeserialize,
+    ["200"],
+    {
+      itemName: "indexers",
+      nextLinkName: "@odata.nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
 }
 
 export function _getIndexerSend(
@@ -571,7 +617,7 @@ export function _getIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -599,7 +645,9 @@ export async function _getIndexerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -626,7 +674,7 @@ export function _deleteIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -654,7 +702,9 @@ export async function _deleteIndexerDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -682,7 +732,7 @@ export function _createOrUpdateIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
       disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
@@ -717,7 +767,9 @@ export async function _createOrUpdateIndexerDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -745,7 +797,7 @@ export function _runIndexerSend(
     "/indexers('{indexerName}')/search.run{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -771,7 +823,9 @@ export async function _runIndexerDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -798,7 +852,7 @@ export function _resetDocumentsSend(
     "/indexers('{indexerName}')/search.resetdocs{?api%2Dversion,overwrite}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       overwrite: options?.overwrite,
     },
     {
@@ -819,9 +873,9 @@ export function _resetDocumentsSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["keysOrIds"]
-      ? options["keysOrIds"]
-      : documentKeysOrIdsSerializer(options["keysOrIds"]),
+    body: !options?.keysOrIds
+      ? options?.keysOrIds
+      : documentKeysOrIdsSerializer(options?.keysOrIds),
   });
 }
 
@@ -829,7 +883,9 @@ export async function _resetDocumentsDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -857,7 +913,7 @@ export function _resyncSend(
     "/indexers('{indexerName}')/search.resync{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -885,7 +941,9 @@ export async function _resyncDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -913,7 +971,7 @@ export function _resetIndexerSend(
     "/indexers('{indexerName}')/search.reset{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -939,7 +997,9 @@ export async function _resetIndexerDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -965,7 +1025,7 @@ export function _createDataSourceConnectionSend(
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -995,7 +1055,9 @@ export async function _createDataSourceConnectionDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1018,10 +1080,13 @@ export function _getDataSourceConnectionsSend(
   options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasources{?api%2Dversion,%24select}",
+    "/datasources{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1045,25 +1110,36 @@ export function _getDataSourceConnectionsSend(
 
 export async function _getDataSourceConnectionsDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListDataSourcesResult> {
+): Promise<_ListDataSourcesResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return listDataSourcesResultDeserializer(result.body);
+  return _listDataSourcesResultDeserializer(result.body);
 }
 
 /** Lists all datasources available for a search service. */
-export async function getDataSourceConnections(
+export function getDataSourceConnections(
   context: Client,
   options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
-): Promise<ListDataSourcesResult> {
-  const result = await _getDataSourceConnectionsSend(context, options);
-  return _getDataSourceConnectionsDeserialize(result);
+): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getDataSourceConnectionsSend(context, options),
+    _getDataSourceConnectionsDeserialize,
+    ["200"],
+    {
+      itemName: "dataSources",
+      nextLinkName: "@odata.nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
 }
 
 export function _getDataSourceConnectionSend(
@@ -1075,7 +1151,7 @@ export function _getDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1103,7 +1179,9 @@ export async function _getDataSourceConnectionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1130,7 +1208,7 @@ export function _deleteDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1160,7 +1238,9 @@ export async function _deleteDataSourceConnectionDeserialize(
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1188,7 +1268,7 @@ export function _createOrUpdateDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion,ignoreResetRequirements}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
     },
     {
@@ -1222,7 +1302,9 @@ export async function _createOrUpdateDataSourceConnectionDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

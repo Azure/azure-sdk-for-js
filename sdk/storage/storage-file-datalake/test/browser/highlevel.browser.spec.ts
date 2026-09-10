@@ -3,12 +3,7 @@
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
-import {
-  getDataLakeServiceClient,
-  getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
-} from "../utils/index.js";
+import { createAndStartRecorder, getDataLakeServiceClient, getUniqueName } from "../utils/index.js";
 import { getBrowserFile, arrayBufferEqual } from "../utils/index-browser.mjs";
 import { MB } from "../../src/utils/constants.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
@@ -25,9 +20,7 @@ describe("Highlevel browser only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);

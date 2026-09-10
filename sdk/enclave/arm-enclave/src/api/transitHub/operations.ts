@@ -40,7 +40,7 @@ export function _listBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       communityName: communityName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _transitHubResourceListResultDeserializer(result.body);
 }
+
 /** List TransitHubResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -78,11 +79,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, communityName, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -98,7 +95,7 @@ export function _listByCommunityResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       communityName: communityName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,6 +122,7 @@ export async function _listByCommunityResourceDeserialize(
 
   return _transitHubResourceListResultDeserializer(result.body);
 }
+
 /** List TransitHubResource resources by CommunityResource */
 export function listByCommunityResource(
   context: Client,
@@ -137,11 +135,7 @@ export function listByCommunityResource(
     () => _listByCommunityResourceSend(context, resourceGroupName, communityName, options),
     _listByCommunityResourceDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -159,7 +153,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       transitHubName: transitHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,6 +175,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a TransitHubResource */
 export function $delete(
   context: Client,
@@ -195,7 +190,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, communityName, transitHubName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -214,7 +209,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       transitHubName: transitHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,6 +238,7 @@ export async function _updateDeserialize(
 
   return transitHubResourceDeserializer(result.body);
 }
+
 /** Update a TransitHubResource */
 export function update(
   context: Client,
@@ -258,7 +254,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, communityName, transitHubName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<TransitHubResource>, TransitHubResource>;
 }
 
@@ -277,7 +273,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       transitHubName: transitHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -306,6 +302,7 @@ export async function _createOrUpdateDeserialize(
 
   return transitHubResourceDeserializer(result.body);
 }
+
 /** Create a TransitHubResource */
 export function createOrUpdate(
   context: Client,
@@ -328,7 +325,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<TransitHubResource>, TransitHubResource>;
 }
 
@@ -346,7 +343,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       transitHubName: transitHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,6 +368,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Tr
 
   return transitHubResourceDeserializer(result.body);
 }
+
 /** Get a TransitHubResource */
 export async function get(
   context: Client,

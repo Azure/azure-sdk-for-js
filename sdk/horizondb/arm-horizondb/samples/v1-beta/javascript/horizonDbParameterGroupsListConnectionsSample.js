@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all connections to a parameter group.
  *
  * @summary gets all connections to a parameter group.
- * x-ms-original-file: 2026-01-20-preview/ParameterGroups_ListConnections.json
+ * x-ms-original-file: 2026-05-01-preview/ParameterGroups_ListConnections.json
  */
-async function listConnectionsForAHorizonDbParameterGroup() {
+async function listConnectionsForAHorizonDBParameterGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function listConnectionsForAHorizonDbParameterGroup() {
 }
 
 async function main() {
-  await listConnectionsForAHorizonDbParameterGroup();
+  await listConnectionsForAHorizonDBParameterGroup();
 }
 
 main().catch(console.error);

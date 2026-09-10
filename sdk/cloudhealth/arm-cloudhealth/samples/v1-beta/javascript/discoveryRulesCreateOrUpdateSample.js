@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a DiscoveryRule
  *
  * @summary create a DiscoveryRule
- * x-ms-original-file: 2026-05-01-preview/DiscoveryRules_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01-preview/DiscoveryRules_CreateOrUpdate.json
  */
 async function discoveryRulesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
