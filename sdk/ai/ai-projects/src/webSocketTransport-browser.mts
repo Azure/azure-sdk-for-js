@@ -36,82 +36,47 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   }
 
   public async connect(options: VoiceAgentWebSocketConnectOptions): Promise<void> {
-    const protocols = addCredentialSubprotocol(options.protocols, options.headers);
     if (options.abortSignal?.aborted) {
       throw new Error("WebSocket connection was cancelled.");
     }
-    await new Promise<void>((resolve, reject) => {
-      let settled = false;
-      let notifyClosed: () => void = () => {};
-      this.closeNotified = new Promise<void>((_resolve) => {
-        notifyClosed = _resolve;
-      });
-      const url = addHeadersToUrl(options.url, options.headers);
-      this.webSocket = new WebSocket(url, protocols);
-      this.webSocket.binaryType = "arraybuffer";
+    const protocols = addCredentialSubprotocol(options.protocols, options.headers);
+    const url = addHeadersToUrl(options.url, options.headers);
 
-      const timeout = setTimeout(() => {
-        if (!settled) {
-          settled = true;
-          this.webSocket?.close();
-          reject(
-            new Error(`WebSocket connection timed out after ${options.connectionTimeoutInMs}ms.`),
-          );
-        }
-      }, options.connectionTimeoutInMs);
-      const abortHandler = (): void => {
-        if (!settled) {
-          settled = true;
-          clearTimeout(timeout);
-          this.webSocket?.close();
-          reject(new Error("WebSocket connection was cancelled."));
-        }
-      };
-      if (options.abortSignal?.aborted) {
-        abortHandler();
-        return;
-      }
-      options.abortSignal?.addEventListener("abort", abortHandler);
-
-      this.webSocket.addEventListener("open", () => {
-        if (!settled) {
-          settled = true;
-          clearTimeout(timeout);
-          options.abortSignal?.removeEventListener("abort", abortHandler);
-          resolve();
-        }
-      });
-      this.webSocket.addEventListener("message", (event: MessageEvent) => {
-        // Chain handling so an async Blob conversion can never let a later message be
-        // delivered to the protocol parser out of arrival order.
-        this.messageChain = this.messageChain.then(() => this.handleIncomingMessage(event.data));
-      });
-      this.webSocket.addEventListener("close", (event) => {
-        const closeEvent = event as unknown as {
-          code: number;
-          reason: string;
-          wasClean: boolean;
-        };
-        clearTimeout(timeout);
-        options.abortSignal?.removeEventListener("abort", abortHandler);
-        void this.messageChain
-          .catch(() => undefined)
-          .finally(() => {
-            this.handlers?.onClose(closeEvent.code, closeEvent.reason, closeEvent.wasClean);
-            notifyClosed();
-          });
-      });
-      this.webSocket.addEventListener("error", () => {
-        const error = new Error("WebSocket connection failed.");
-        this.handlers?.onError(error);
-        if (!settled) {
-          settled = true;
-          clearTimeout(timeout);
-          options.abortSignal?.removeEventListener("abort", abortHandler);
-          reject(error);
-        }
-      });
+    let notifyClosed: () => void = () => {};
+    this.closeNotified = new Promise<void>((resolve) => {
+      notifyClosed = resolve;
     });
+
+    const webSocket = new WebSocket(url, protocols);
+    webSocket.binaryType = "arraybuffer";
+    this.webSocket = webSocket;
+
+    // These forward events for the lifetime of the connection, independent of whether connect()
+    // itself is still pending.
+    webSocket.addEventListener("message", (event: MessageEvent) => {
+      // Chain handling so an async Blob conversion can never let a later message be delivered to
+      // the protocol parser out of arrival order.
+      this.messageChain = this.messageChain.then(() => this.handleIncomingMessage(event.data));
+    });
+    webSocket.addEventListener("close", (event) => {
+      const closeEvent = event as unknown as { code: number; reason: string; wasClean: boolean };
+      void this.messageChain
+        .catch(() => undefined)
+        .finally(() => {
+          this.handlers?.onClose(closeEvent.code, closeEvent.reason, closeEvent.wasClean);
+          notifyClosed();
+        });
+    });
+    webSocket.addEventListener("error", () => {
+      this.handlers?.onError(new Error("WebSocket connection failed."));
+    });
+
+    try {
+      await waitForOpen(webSocket, options.connectionTimeoutInMs, options.abortSignal);
+    } catch (error) {
+      webSocket.close();
+      throw error;
+    }
   }
 
   public async send(data: string, abortSignal?: AbortSignalLike): Promise<void> {
@@ -143,52 +108,82 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
       return;
     }
     const webSocket = this.webSocket;
-    const closeNotified = this.closeNotified;
-    await new Promise<void>((resolve) => {
-      let settled = false;
-      const closeState: { timeout?: ReturnType<typeof setTimeout> } = {};
+    try {
+      if (webSocket.readyState !== WebSocket.CLOSING) {
+        webSocket.close(code, reason);
+      }
+      await waitForClose(webSocket, this.closeNotified, this.closeTimeoutInMs);
+    } catch (error) {
       // close() is a best-effort cleanup operation and must never throw (callers, including our
       // own VoiceAgentConnection.close()/dispose(), rely on it always resolving), so a transport
       // error here is logged for diagnosability rather than rejecting.
-      const finish = (error?: unknown): void => {
-        if (settled) {
-          return;
-        }
-        settled = true;
-        if (closeState.timeout) {
-          clearTimeout(closeState.timeout);
-        }
-        webSocket.removeEventListener("close", onNativeClose);
-        webSocket.removeEventListener("error", onNativeError);
-        if (error) {
-          logger.warning("Error while closing the voice-agent WebSocket transport", { error });
-        }
-        resolve();
-      };
-      // Wait for onClose to actually run (it carries the authoritative code/reason/wasClean
-      // from the native CloseEvent) before resolving, so this never races ahead of onClose and
-      // reports a stale/incorrect close outcome to the caller.
-      function onNativeClose(): void {
-        void closeNotified.finally(() => finish());
+      logger.warning("Error while closing the voice-agent WebSocket transport", { error });
+    } finally {
+      if (this.webSocket === webSocket) {
+        this.webSocket = undefined;
       }
-      function onNativeError(): void {
-        finish(new Error("WebSocket connection failed while closing."));
-      }
-      webSocket.addEventListener("close", onNativeClose, { once: true });
-      webSocket.addEventListener("error", onNativeError, { once: true });
-      closeState.timeout = setTimeout(() => finish(), this.closeTimeoutInMs);
-      try {
-        if (webSocket.readyState !== WebSocket.CLOSING) {
-          webSocket.close(code, reason);
-        }
-      } catch (error) {
-        finish(error);
-      }
-    });
-    if (this.webSocket === webSocket) {
-      this.webSocket = undefined;
     }
   }
+}
+
+/** Waits for `webSocket` to open, or rejects early on an error, timeout, or abort. */
+function waitForOpen(
+  webSocket: WebSocket,
+  connectionTimeoutInMs: number,
+  abortSignal?: AbortSignalLike,
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      finish(() =>
+        reject(new Error(`WebSocket connection timed out after ${connectionTimeoutInMs}ms.`)),
+      );
+    }, connectionTimeoutInMs);
+    const onOpen = (): void => finish(resolve);
+    const onError = (): void => finish(() => reject(new Error("WebSocket connection failed.")));
+    const onAbort = (): void =>
+      finish(() => reject(new Error("WebSocket connection was cancelled.")));
+
+    function finish(settle: () => void): void {
+      clearTimeout(timeout);
+      webSocket.removeEventListener("open", onOpen);
+      webSocket.removeEventListener("error", onError);
+      abortSignal?.removeEventListener("abort", onAbort);
+      settle();
+    }
+
+    webSocket.addEventListener("open", onOpen, { once: true });
+    webSocket.addEventListener("error", onError, { once: true });
+    abortSignal?.addEventListener("abort", onAbort);
+  });
+}
+
+/**
+ * Waits for `onClose` to have actually run for `webSocket` (it carries the authoritative
+ * code/reason/wasClean from the native `CloseEvent`, and only fires after `messageChain` drains),
+ * so `close()` never returns before the caller observes the true close outcome. Falls back to a
+ * timeout if the socket never reports closing.
+ */
+function waitForClose(
+  webSocket: WebSocket,
+  closeNotified: Promise<void>,
+  timeoutInMs: number,
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const timeout = setTimeout(() => finish(resolve), timeoutInMs);
+    const onClose = (): void => void closeNotified.finally(() => finish(resolve));
+    const onError = (): void =>
+      finish(() => reject(new Error("WebSocket connection failed while closing.")));
+
+    function finish(settle: () => void): void {
+      clearTimeout(timeout);
+      webSocket.removeEventListener("close", onClose);
+      webSocket.removeEventListener("error", onError);
+      settle();
+    }
+
+    webSocket.addEventListener("close", onClose, { once: true });
+    webSocket.addEventListener("error", onError, { once: true });
+  });
 }
 
 /** @internal */

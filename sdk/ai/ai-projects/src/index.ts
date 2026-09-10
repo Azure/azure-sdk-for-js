@@ -6,7 +6,6 @@ import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-pagin
 import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 export { RestError } from "@azure/core-rest-pipeline";
 export { AIProjectClient } from "./aiProjectClient.js";
-export type { AIProjectClientOptions } from "./aiProjectClient.js";
 export type { GenAITracingOptions } from "./tracing/configuration.js";
 export {
   VoiceAgentRealtimeClient,

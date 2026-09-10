@@ -859,7 +859,7 @@ export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" |
 
 // @public
 export class AIProjectClient {
-    constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
     readonly agents: AgentsOperations;
     readonly beta: BetaOperations;
     readonly connections: ConnectionsOperations;
@@ -876,12 +876,8 @@ export class AIProjectClient {
 // @public
 export interface AIProjectClientOptionalParams extends ClientOptions {
     apiVersion?: KnownApiVersions;
-    tracingOptions?: GenAITracingOptions;
-}
-
-// @public
-export interface AIProjectClientOptions extends AIProjectClientOptionalParams {
     realtimeOptions?: VoiceAgentRealtimeClientOptions;
+    tracingOptions?: GenAITracingOptions;
 }
 
 // @public

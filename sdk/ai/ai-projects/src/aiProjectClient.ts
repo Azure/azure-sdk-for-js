@@ -37,19 +37,13 @@ import type { VoiceAgentRealtimeClientOptions } from "./realtime/voiceAgentRealt
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
-/** Options for the Foundry project client. */
-export interface AIProjectClientOptions extends AIProjectClientOptionalParams {
-  /** Options applied to realtime voice-agent connections. */
-  realtimeOptions?: VoiceAgentRealtimeClientOptions;
-}
-
 /**
  * Resolves the effective options for the realtime voice-agent client: explicit `realtimeOptions`
  * values win, otherwise each falls back to its corresponding top-level client option so realtime
  * connections stay consistent with the rest of the client by default.
  */
 function resolveRealtimeOptions(
-  options: AIProjectClientOptions,
+  options: AIProjectClientOptionalParams,
   userAgentPrefix: string | undefined,
 ): VoiceAgentRealtimeClientOptions {
   const { realtimeOptions } = options;
@@ -99,7 +93,11 @@ export class AIProjectClient {
   private _options: AIProjectClientOptionalParams;
   private _tracingConfig: ResolvedTracingConfig;
 
-  constructor(endpoint: string, credential: TokenCredential, options: AIProjectClientOptions = {}) {
+  constructor(
+    endpoint: string,
+    credential: TokenCredential,
+    options: AIProjectClientOptionalParams = {},
+  ) {
     this._endpoint = endpoint;
     this._credential = credential;
     this._options = options;
