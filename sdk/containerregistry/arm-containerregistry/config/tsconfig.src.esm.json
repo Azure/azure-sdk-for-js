@@ -1,6 +1,26 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/webhooks/index.ts",
+    "../src/api/pipelineRuns/index.ts",
+    "../src/api/importPipelines/index.ts",
+    "../src/api/exportPipelines/index.ts",
+    "../src/api/tokens/index.ts",
+    "../src/api/scopeMaps/index.ts",
+    "../src/api/replications/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/connectedRegistries/index.ts",
+    "../src/api/credentialSets/index.ts",
+    "../src/api/cacheRules/index.ts",
+    "../src/api/archiveVersions/index.ts",
+    "../src/api/archives/index.ts",
+    "../src/api/registries/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }
