@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed `LogsQueryClient.queryResource()` building a malformed URL with a double slash (e.g. `.../v1//subscriptions/...`) when the resource ID starts with a leading slash (the standard ARM resource ID format). The leading slash is now normalized so the request URL is well-formed. [#39361](https://github.com/Azure/azure-sdk-for-js/issues/39361)
+
 ### Other Changes
 
 ## 1.0.0 (2025-07-29)
