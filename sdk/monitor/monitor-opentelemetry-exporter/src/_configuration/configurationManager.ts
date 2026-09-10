@@ -89,12 +89,10 @@ export class ConfigurationManager {
       : azureMonitorDistroVersion
         ? { component: "dst", version: azureMonitorDistroVersion }
         : {};
-    ConfigurationProfile.getInstance().fill(
-      {
-        ...profile,
-        ...distroProfile,
-      },
-    );
+    ConfigurationProfile.getInstance().fill({
+      ...profile,
+      ...distroProfile,
+    });
     if (this.worker) {
       return;
     }
