@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/providerMonitorSettings/operations.js";
-import {
+import type {
   ProviderMonitorSettingsListBySubscriptionOptionalParams,
   ProviderMonitorSettingsListByResourceGroupOptionalParams,
   ProviderMonitorSettingsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   ProviderMonitorSettingsCreateOptionalParams,
   ProviderMonitorSettingsGetOptionalParams,
 } from "../../api/providerMonitorSettings/options.js";
-import { ProviderMonitorSetting } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ProviderMonitorSetting } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProviderMonitorSettings operations. */
 export interface ProviderMonitorSettingsOperations {

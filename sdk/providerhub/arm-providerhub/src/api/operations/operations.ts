@@ -1,34 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ProviderHubContext as Client } from "../index.js";
+import type {
   _OperationsDefinitionArrayResponseWithContinuation,
-  _operationsDefinitionArrayResponseWithContinuationDeserializer,
-  operationsDefinitionArrayDeserializer,
   OperationsDefinition,
   OperationsPutContent,
+} from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  _operationsDefinitionArrayResponseWithContinuationDeserializer,
   operationsPutContentSerializer,
   operationsPutContentDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   OperationsDeleteOptionalParams,
   OperationsCreateOrUpdateOptionalParams,
   OperationsListByProviderRegistrationOptionalParams,
   OperationsListOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
@@ -40,7 +35,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -50,10 +45,12 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "204"];
+  const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -82,7 +79,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +99,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -136,7 +135,7 @@ export function _listByProviderRegistrationSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,16 +149,18 @@ export function _listByProviderRegistrationSend(
 
 export async function _listByProviderRegistrationDeserialize(
   result: PathUncheckedResponse,
-): Promise<OperationsDefinition[]> {
+): Promise<OperationsPutContent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return operationsDefinitionArrayDeserializer(result.body);
+  return operationsPutContentDeserializer(result.body);
 }
 
 /** Gets the operations supported by the given provider. */
@@ -167,7 +168,7 @@ export async function listByProviderRegistration(
   context: Client,
   providerNamespace: string,
   options: OperationsListByProviderRegistrationOptionalParams = { requestOptions: {} },
-): Promise<OperationsDefinition[]> {
+): Promise<OperationsPutContent> {
   const result = await _listByProviderRegistrationSend(context, providerNamespace, options);
   return _listByProviderRegistrationDeserialize(result);
 }
@@ -179,7 +180,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.ProviderHub/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,7 +198,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -215,6 +218,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
