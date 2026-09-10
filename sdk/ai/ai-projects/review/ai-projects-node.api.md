@@ -4,6 +4,7 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import { isRestError } from '@azure/core-rest-pipeline';
@@ -858,7 +859,7 @@ export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" |
 
 // @public
 export class AIProjectClient {
-    constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
+    constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptions);
     readonly agents: AgentsOperations;
     readonly beta: BetaOperations;
     readonly connections: ConnectionsOperations;
@@ -868,6 +869,7 @@ export class AIProjectClient {
     readonly evaluationRules: EvaluationRulesOperations;
     getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI;
     readonly indexes: IndexesOperations;
+    readonly realtime: VoiceAgentRealtimeClient;
     readonly telemetry: TelemetryOperations;
     readonly toolboxes: ToolboxesOperations;
 }
@@ -876,6 +878,11 @@ export class AIProjectClient {
 export interface AIProjectClientOptionalParams extends ClientOptions {
     apiVersion?: KnownApiVersions;
     tracingOptions?: GenAITracingOptions;
+}
+
+// @public
+export interface AIProjectClientOptions extends AIProjectClientOptionalParams {
+    realtimeOptions?: VoiceAgentRealtimeClientOptions;
 }
 
 // @public
@@ -3633,6 +3640,14 @@ export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "can
 export enum KnownApiVersions {
     v1 = "v1"
 }
+
+// @public
+export const KnownVoiceAgentConnectionState: {
+    readonly Disconnected: "disconnected";
+    readonly Connecting: "connecting";
+    readonly Connected: "connected";
+    readonly Closing: "closing";
+};
 
 // @public
 export interface LocalShellToolParam extends Tool {
@@ -6593,6 +6608,13 @@ export interface VoiceAgentAudioOutputConfig {
 export type VoiceAgentAudioTimestampType = "word";
 
 // @public
+export class VoiceAgentAuthenticationError extends VoiceAgentRealtimeError {
+    constructor(message: string, options?: {
+        cause?: unknown;
+    });
+}
+
+// @public
 export interface VoiceAgentAvatarConfig {
     character: string;
     customized?: boolean;
@@ -6724,6 +6746,11 @@ export interface VoiceAgentAzureSemanticVadTurnDetection extends VoiceAgentTurnD
 }
 
 // @public
+export interface VoiceAgentCancelResponseOptions extends VoiceAgentEventOptions {
+    responseId?: string;
+}
+
+// @public
 export type VoiceAgentClientEvent = RealtimeClientEventConversationItemCreate | RealtimeClientEventConversationItemDelete | RealtimeClientEventConversationItemRetrieve | RealtimeClientEventConversationItemTruncate | RealtimeClientEventInputAudioBufferAppend | RealtimeClientEventInputAudioBufferClear | RealtimeClientEventOutputAudioBufferClear | RealtimeClientEventInputAudioBufferCommit | RealtimeClientEventResponseCancel | RealtimeClientEventResponseCreate | VoiceAgentClientEventSessionUpdate | VoiceAgentClientEventSessionAvatarConnect | VoiceAgentClientEventRtcCallSdpCreate;
 
 // @public
@@ -6747,6 +6774,47 @@ export interface VoiceAgentClientEventSessionUpdate {
     session: VoiceAgentSessionUpdate;
     type: "session.update";
 }
+
+// @public
+export interface VoiceAgentCloseResult {
+    code: number;
+    error?: Error;
+    reason: string;
+    wasClean: boolean;
+}
+
+// @public
+export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentServerEvent> {
+    cancelResponse(options?: VoiceAgentCancelResponseOptions): Promise<void>;
+    clearInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
+    clearOutputAudio(options?: VoiceAgentEventOptions): Promise<void>;
+    close(code?: number, reason?: string): Promise<void>;
+    readonly closed: Promise<VoiceAgentCloseResult>;
+    commitAudio(options?: VoiceAgentEventOptions): Promise<void>;
+    configureSession(session: VoiceAgentSessionUpdateConfig, options?: VoiceAgentSessionUpdateOptions): Promise<void>;
+    dispose(): Promise<void>;
+    requestResponse(options?: VoiceAgentResponseOptions): Promise<void>;
+    sendAudio(audio: Uint8Array | ArrayBuffer, options?: VoiceAgentEventOptions): Promise<void>;
+    sendEvent(event: VoiceAgentClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
+    sendText(text: string, options?: VoiceAgentSendTextOptions): Promise<void>;
+    sendToolOutput(callId: string, output: string, options?: VoiceAgentSendToolOutputOptions): Promise<void>;
+    readonly state: VoiceAgentConnectionState;
+}
+
+// @public
+export class VoiceAgentConnectionError extends VoiceAgentRealtimeError {
+    constructor(message: string, code: Extract<VoiceAgentRealtimeErrorCode, "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "sendFailed">, options?: {
+        cause?: unknown;
+        closeCode?: number;
+    });
+    readonly closeCode?: number;
+}
+
+// @public
+export type VoiceAgentConnectionState = (typeof KnownVoiceAgentConnectionState)[keyof typeof KnownVoiceAgentConnectionState];
+
+// @public
+export type VoiceAgentConnectionStateChangedHandler = (state: VoiceAgentConnectionState, previousState: VoiceAgentConnectionState) => void;
 
 // @public
 export interface VoiceAgentDefinition extends AgentDefinition {
@@ -6797,6 +6865,11 @@ export type VoiceAgentEndOfUtteranceDetectionModel = "semantic_detection_v1" | "
 
 // @public
 export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" | "default";
+
+// @public
+export interface VoiceAgentEventOptions extends VoiceAgentSendOptions {
+    eventId?: string;
+}
 
 // @public
 export interface VoiceAgentFunctionTool extends VoiceAgentTool {
@@ -6892,6 +6965,51 @@ export interface VoiceAgentNoiseReduction {
 export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression";
 
 // @public
+export class VoiceAgentProtocolError extends VoiceAgentRealtimeError {
+    constructor(message: string, options?: {
+        cause?: unknown;
+    });
+}
+
+// @public
+export class VoiceAgentRealtimeClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: VoiceAgentRealtimeClientOptions);
+    connect(agentName: string, options?: VoiceAgentRealtimeClientConnectOptions): Promise<VoiceAgentConnection>;
+}
+
+// @public
+export interface VoiceAgentRealtimeClientConnectOptions {
+    abortSignal?: AbortSignalLike;
+    agentSessionId?: string;
+    agentVersionOverride?: string;
+    connectionTimeoutInMs?: number;
+    onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
+    store?: boolean;
+    structuredInputs?: Record<string, unknown>;
+}
+
+// @public
+export interface VoiceAgentRealtimeClientOptions {
+    apiVersion?: string;
+    connectionTimeoutInMs?: number;
+    credentialScopes?: string | string[];
+    userAgentPrefix?: string;
+    webSocketFactory?: VoiceAgentWebSocketFactory;
+}
+
+// @public
+export class VoiceAgentRealtimeError extends Error {
+    constructor(message: string, code: VoiceAgentRealtimeErrorCode, options?: {
+        cause?: unknown;
+    });
+    readonly cause?: unknown;
+    readonly code: VoiceAgentRealtimeErrorCode;
+}
+
+// @public
+export type VoiceAgentRealtimeErrorCode = "authenticationFailed" | "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "protocolError" | "sendFailed";
+
+// @public
 export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
     audio?: VoiceResponseAudio;
     output?: RealtimeConversationItemUnion[];
@@ -6931,6 +7049,11 @@ export interface VoiceAgentResponseCreateParams {
 }
 
 // @public
+export interface VoiceAgentResponseOptions extends VoiceAgentEventOptions {
+    response?: VoiceAgentResponseCreateParams;
+}
+
+// @public
 export interface VoiceAgentRtcCallErrorDetails {
     code?: string;
     message: string;
@@ -6947,6 +7070,25 @@ export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetect
     interrupt_response?: boolean;
     // (undocumented)
     type: "semantic_vad";
+}
+
+// @public
+export interface VoiceAgentSendItemOptions extends VoiceAgentEventOptions {
+    createResponse?: boolean;
+}
+
+// @public
+export interface VoiceAgentSendOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface VoiceAgentSendTextOptions extends VoiceAgentSendItemOptions {
+    previousItemId?: string;
+}
+
+// @public
+export interface VoiceAgentSendToolOutputOptions extends VoiceAgentSendItemOptions {
 }
 
 // @public
@@ -7247,6 +7389,10 @@ export interface VoiceAgentSessionUpdateConfig {
 }
 
 // @public
+export interface VoiceAgentSessionUpdateOptions extends VoiceAgentEventOptions {
+}
+
+// @public
 export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterimResponseConfig {
     texts?: string[];
     // (undocumented)
@@ -7356,10 +7502,39 @@ export type VoiceAgentTurnDetectionConfigUnion = VoiceAgentServerVadTurnDetectio
 export type VoiceAgentTurnDetectionType = "server_vad" | "semantic_vad" | "azure_semantic_vad" | "azure_semantic_vad_en" | "azure_semantic_vad_multilingual";
 
 // @public
+export interface VoiceAgentWebSocketConnectOptions {
+    abortSignal?: AbortSignalLike;
+    connectionTimeoutInMs: number;
+    headers: Record<string, string>;
+    protocols: string[];
+    url: string;
+}
+
+// @public
+export interface VoiceAgentWebSocketFactory {
+    create(): VoiceAgentWebSocketTransport;
+}
+
+// @public
+export interface VoiceAgentWebSocketHandlers {
+    onClose: (code: number, reason: string, wasClean: boolean) => void;
+    onError: (error: Error) => void;
+    onMessage: (data: string | ArrayBuffer) => void;
+}
+
+// @public
 export type VoiceAgentWebSocketMessage = VoiceAgentClientEvent | VoiceAgentServerEvent;
 
 // @public
 export type VoiceAgentWebSocketSubprotocol = "realtime";
+
+// @public
+export interface VoiceAgentWebSocketTransport {
+    close(code: number, reason: string): Promise<void>;
+    connect(options: VoiceAgentWebSocketConnectOptions): Promise<void>;
+    send(data: string, abortSignal?: AbortSignalLike): Promise<void>;
+    setHandlers(handlers: VoiceAgentWebSocketHandlers): void;
+}
 
 // @public
 export type VoiceAudioCodec = "pcm16" | "pcmu" | "pcma";
