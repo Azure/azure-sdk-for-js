@@ -1,14 +1,136 @@
 # Release History
 
-## 1.2.0-beta.2 (Unreleased)
+## 2.0.0 (2026-09-10)
 
 ### Features Added
+  - Added operation group AsyncOperationStatusOperations
+  - Added operation group CertificateAuthoritiesOperations
+  - Added operation group CertificatePoliciesOperations
+  - Added operation group RegistryDevicesOperations
+  - Added operation NamespaceAssetsOperations.executeAction
+  - Added operation NamespaceAssetsOperations.listByNamespace
+  - Added operation NamespaceDevicesOperations.listByNamespace
+  - Added operation NamespaceDiscoveredAssetsOperations.listByNamespace
+  - Added operation NamespaceDiscoveredDevicesOperations.listByNamespace
+  - Added Interface ActivateCertificateAuthorityRequest
+  - Added Interface AsyncOperationStatusGetOptionalParams
+  - Added Interface CertificateAuthoritiesActivateOptionalParams
+  - Added Interface CertificateAuthoritiesCreateOrReplaceOptionalParams
+  - Added Interface CertificateAuthoritiesDeleteOptionalParams
+  - Added Interface CertificateAuthoritiesGetOptionalParams
+  - Added Interface CertificateAuthoritiesListByNamespaceOptionalParams
+  - Added Interface CertificateAuthoritiesRevokeAndRotateOptionalParams
+  - Added Interface CertificateAuthoritiesUpdateOptionalParams
+  - Added Interface CertificateAuthority
+  - Added Interface CertificateAuthorityIssuer
+  - Added Interface CertificateAuthorityProperties
+  - Added Interface CertificateAuthorityUpdate
+  - Added Interface CertificatePoliciesCreateOrReplaceOptionalParams
+  - Added Interface CertificatePoliciesDeleteOptionalParams
+  - Added Interface CertificatePoliciesGetOptionalParams
+  - Added Interface CertificatePoliciesListByCertificateAuthorityOptionalParams
+  - Added Interface CertificatePoliciesUpdateOptionalParams
+  - Added Interface CertificatePolicy
+  - Added Interface CertificatePolicyConfiguration
+  - Added Interface CertificatePolicyProperties
+  - Added Interface CertificatePolicyUpdate
+  - Added Interface CertificatePolicyUpdateProperties
+  - Added Interface ExternalCertificateAuthorityIssuer
+  - Added Interface HealthState
+  - Added Interface InboundCallerIdentity
+  - Added Interface IntermediateCertificateAuthorityProperties
+  - Added Interface ManagedServiceIdentity
+  - Added Interface Management
+  - Added Interface ManagementEndpoint
+  - Added Interface MessagingEndpointProvisioning
+  - Added Interface MicrosoftCertificateAuthorityIssuer
+  - Added Interface NamespaceAssetExecuteActionRequest
+  - Added Interface NamespaceAssetsExecuteActionOptionalParams
+  - Added Interface NamespaceAssetsListByNamespaceOptionalParams
+  - Added Interface NamespaceDevicesListByNamespaceOptionalParams
+  - Added Interface NamespaceDiscoveredAssetsListByNamespaceOptionalParams
+  - Added Interface NamespaceDiscoveredDevicesListByNamespaceOptionalParams
+  - Added Interface NamespaceLinkingError
+  - Added Interface NamespaceProvisioning
+  - Added Interface OptionalPropertiesCertificatePolicyConfiguration
+  - Added Interface OutboundIdentity
+  - Added Interface ProvisioningEndpoint
+  - Added Interface RegistryDevice
+  - Added Interface RegistryDeviceProperties
+  - Added Interface RegistryDevicesCreateOrReplaceOptionalParams
+  - Added Interface RegistryDevicesDeleteOptionalParams
+  - Added Interface RegistryDevicesGetOptionalParams
+  - Added Interface RegistryDevicesListByNamespaceOptionalParams
+  - Added Interface RegistryDevicesUpdateOptionalParams
+  - Added Interface RegistryDeviceUpdate
+  - Added Interface RegistryDeviceUpdateProperties
+  - Added Interface RootCertificateAuthorityProperties
+  - Added Interface UserAssignedIdentity
+  - Interface DeviceStatusEndpoint has a new optional parameter healthState
+  - Interface MessagingEndpoint has a new optional parameter deviceAddress
+  - Interface MessagingEndpoint has a new optional parameter inboundCallerIdentity
+  - Interface MessagingEndpoint has a new optional parameter linkingError
+  - Interface MessagingEndpoint has a new optional parameter linkingState
+  - Interface MessagingEndpoint has a new optional parameter provisioning
+  - Interface NamespaceAssetStatus has a new optional parameter healthState
+  - Interface NamespaceProperties has a new optional parameter management
+  - Interface NamespaceProperties has a new optional parameter outboundIdentity
+  - Interface NamespaceProperties has a new optional parameter provisioning
+  - Interface NamespaceUpdateProperties has a new optional parameter management
+  - Interface NamespaceUpdateProperties has a new optional parameter outboundIdentity
+  - Interface NamespaceUpdateProperties has a new optional parameter provisioning
+  - Interface SchemaRegistryProperties has a new optional parameter outboundIdentity
+  - Interface SchemaRegistryUpdateProperties has a new optional parameter outboundIdentity
+  - Added Type Alias CertificateAuthorityIssuerType
+  - Added Type Alias CertificateAuthorityIssuerUnion
+  - Added Type Alias CertificateAuthorityKeyType
+  - Added Type Alias CertificateAuthorityPropertiesUnion
+  - Added Type Alias CertificateAuthorityStatus
+  - Added Type Alias CertificateAuthorityType
+  - Added Type Alias HealthStatus
+  - Added Type Alias InboundCallerIdentityType
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MessagingEndpointAvailability
+  - Added Type Alias NamespaceLinkingStateValue
+  - Added Type Alias OutboundIdentityType
+  - Added Type Alias ProvisioningEndpointType
+  - Added Type Alias RegistryDeviceEnablementState
+  - Added Enum KnownCertificateAuthorityIssuerType
+  - Added Enum KnownCertificateAuthorityKeyType
+  - Added Enum KnownCertificateAuthorityStatus
+  - Added Enum KnownCertificateAuthorityType
+  - Added Enum KnownHealthStatus
+  - Added Enum KnownInboundCallerIdentityType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMessagingEndpointAvailability
+  - Added Enum KnownNamespaceLinkingStateValue
+  - Added Enum KnownOutboundIdentityType
+  - Added Enum KnownProvisioningEndpointType
+  - Added Enum KnownRegistryDeviceEnablementState
+  - Enum KnownFormat has a new value JsonLD11
+  - Enum KnownSchemaType has a new value ThingDescription
+  - Enum KnownSchemaType has a new value ThingModel
+  - Enum KnownVersions has a new value V20260401
+  - Enum KnownVersions has a new value V20261101
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Removed operation NamespaceAssetsOperations.listByResourceGroup
+  - Removed operation NamespaceDevicesOperations.listByResourceGroup
+  - Removed operation NamespaceDiscoveredAssetsOperations.listByResourceGroup
+  - Removed operation NamespaceDiscoveredDevicesOperations.listByResourceGroup
+  - Operation NamespacesOperations.createOrReplace has a new signature
+  - Operation NamespacesOperations.get has a new signature
+  - Operation NamespacesOperations.listByResourceGroup has a new signature
+  - Operation NamespacesOperations.listBySubscription has a new signature
+  - Operation NamespacesOperations.update has a new signature
+  - Removed Interface NamespaceAssetsListByResourceGroupOptionalParams
+  - Removed Interface NamespaceDevicesListByResourceGroupOptionalParams
+  - Removed Interface NamespaceDiscoveredAssetsListByResourceGroupOptionalParams
+  - Removed Interface NamespaceDiscoveredDevicesListByResourceGroupOptionalParams
+  - Removed Interface SystemAssignedServiceIdentity
+  - Parameter address of interface MessagingEndpoint is now optional
+  - Removed Type Alias SystemAssignedServiceIdentityType
+  - Removed Enum KnownSystemAssignedServiceIdentityType
 
 ## 1.2.0-beta.1 (2026-04-09)
 Compared with version 1.1.0

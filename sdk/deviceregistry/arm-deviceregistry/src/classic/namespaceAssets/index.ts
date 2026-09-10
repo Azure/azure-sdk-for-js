@@ -3,37 +3,46 @@
 
 import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
-  listByResourceGroup,
+  executeAction,
+  listByNamespace,
   $delete,
   update,
   createOrReplace,
   get,
 } from "../../api/namespaceAssets/operations.js";
 import type {
-  NamespaceAssetsListByResourceGroupOptionalParams,
+  NamespaceAssetsExecuteActionOptionalParams,
+  NamespaceAssetsListByNamespaceOptionalParams,
   NamespaceAssetsDeleteOptionalParams,
   NamespaceAssetsUpdateOptionalParams,
   NamespaceAssetsCreateOrReplaceOptionalParams,
   NamespaceAssetsGetOptionalParams,
 } from "../../api/namespaceAssets/options.js";
-import type { NamespaceAsset, NamespaceAssetUpdate } from "../../models/models.js";
+import type {
+  NamespaceAsset,
+  NamespaceAssetUpdate,
+  NamespaceAssetExecuteActionRequest,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NamespaceAssets operations. */
 export interface NamespaceAssetsOperations {
-  /** List NamespaceAsset resources by Namespace */
-  listByResourceGroup: (
+  /** A long-running resource action. */
+  executeAction: (
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespaceAssetsListByResourceGroupOptionalParams,
+    assetName: string,
+    body: NamespaceAssetExecuteActionRequest,
+    options?: NamespaceAssetsExecuteActionOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** List NamespaceAsset resources by Namespace */
+  listByNamespace: (
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespaceAssetsListByNamespaceOptionalParams,
   ) => PagedAsyncIterableIterator<NamespaceAsset>;
   /** Delete a NamespaceAsset */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -67,11 +76,18 @@ export interface NamespaceAssetsOperations {
 
 function _getNamespaceAssets(context: DeviceRegistryManagementContext) {
   return {
-    listByResourceGroup: (
+    executeAction: (
       resourceGroupName: string,
       namespaceName: string,
-      options?: NamespaceAssetsListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, namespaceName, options),
+      assetName: string,
+      body: NamespaceAssetExecuteActionRequest,
+      options?: NamespaceAssetsExecuteActionOptionalParams,
+    ) => executeAction(context, resourceGroupName, namespaceName, assetName, body, options),
+    listByNamespace: (
+      resourceGroupName: string,
+      namespaceName: string,
+      options?: NamespaceAssetsListByNamespaceOptionalParams,
+    ) => listByNamespace(context, resourceGroupName, namespaceName, options),
     delete: (
       resourceGroupName: string,
       namespaceName: string,
