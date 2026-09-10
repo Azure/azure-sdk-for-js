@@ -3,9 +3,17 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
+  BetaAgentEndpointConversationsOperations,
+  _getBetaAgentEndpointConversationsOperations,
+} from "./agentEndpointConversations/index.js";
+import {
   BetaAgentInsightMonitorsOperations,
   _getBetaAgentInsightMonitorsOperations,
 } from "./agentInsightMonitors/index.js";
+import {
+  BetaAgentTelephonyOperations,
+  _getBetaAgentTelephonyOperations,
+} from "./agentTelephony/index.js";
 import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
 import { BetaDatasetsOperations, _getBetaDatasetsOperations } from "./datasets/index.js";
 import {
@@ -23,6 +31,10 @@ import { BetaRedTeamsOperations, _getBetaRedTeamsOperations } from "./redTeams/i
 import { BetaRoutinesOperations, _getBetaRoutinesOperations } from "./routines/index.js";
 import { BetaSchedulesOperations, _getBetaSchedulesOperations } from "./schedules/index.js";
 import { BetaSkillsOperations, _getBetaSkillsOperations } from "./skills/index.js";
+import {
+  BetaVoiceAgentWebSocketOperations,
+  _getBetaVoiceAgentWebSocketOperations,
+} from "./voiceAgentWebSocket/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
@@ -38,6 +50,9 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
   agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+  agentTelephony: BetaAgentTelephonyOperations;
+  agentEndpointConversations: BetaAgentEndpointConversationsOperations;
+  voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
@@ -54,5 +69,8 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluators: _getBetaEvaluatorsOperations(context),
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
+    agentTelephony: _getBetaAgentTelephonyOperations(context),
+    agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
+    voiceAgentWebSocket: _getBetaVoiceAgentWebSocketOperations(context),
   };
 }

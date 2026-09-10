@@ -125,6 +125,8 @@
     "oncophenotype",
     "openai",
     "OTLP",
+    "pcma",
+    "pcmu",
     "perfstress",
     "personalizer",
     "Petabit",
@@ -176,6 +178,8 @@
     "Usuk",
     "vectorizer",
     "Vertica",
+    "viseme",
+    "webrtc",
     "westus",
     "Xiaomi"
   ],
