@@ -3,7 +3,7 @@
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
-import "./env.js";
+import "#platform/test/public/utils/env";
 import type { MapsRenderClient } from "../../../src/index.js";
 import MapsRender from "../../../src/index.js";
 import type { ClientOptions } from "@azure-rest/core-client";
