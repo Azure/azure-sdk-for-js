@@ -176,16 +176,27 @@ function toOperationStatus(statusCode: number): OperationStatus {
   }
 }
 
+/**
+ * Parses the `Retry-After` header into a polling interval in milliseconds.
+ *
+ * Returns `undefined` only when the header is absent, which means the server
+ * expressed no opinion about the next polling interval. When the header is
+ * present but cannot be honored — malformed, non-positive, or a date that is
+ * not in the future — `NaN` is returned so the poller falls back to the
+ * caller's configured interval instead of reusing a delay from an earlier
+ * response. The raw converted value is returned without any timer bound; the
+ * poller is responsible for bounding it before scheduling.
+ */
 export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): number | undefined {
   const retryAfter: string | undefined = rawResponse.headers["retry-after"];
-  if (retryAfter !== undefined) {
-    // Retry-After header value is either in HTTP date format, or in seconds
-    const retryAfterInSeconds = parseInt(retryAfter);
-    return isNaN(retryAfterInSeconds)
-      ? calculatePollingIntervalFromDate(new Date(retryAfter))
-      : retryAfterInSeconds * 1000;
+  if (retryAfter === undefined) {
+    return undefined;
   }
-  return undefined;
+  // Retry-After header value is either in HTTP date format, or in seconds
+  if (/^[0-9]+$/.test(retryAfter)) {
+    return Number(retryAfter) * 1000;
+  }
+  return calculatePollingIntervalFromDate(new Date(retryAfter));
 }
 
 export function getErrorFromResponse<T>(response: OperationResponse<T>): LroError | undefined {
@@ -205,13 +216,16 @@ export function getErrorFromResponse<T>(response: OperationResponse<T>): LroErro
   return error as LroError;
 }
 
-function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefined {
+function calculatePollingIntervalFromDate(retryAfterDate: Date): number {
   const timeNow = Math.floor(new Date().getTime());
   const retryAfterTime = retryAfterDate.getTime();
   if (timeNow < retryAfterTime) {
     return retryAfterTime - timeNow;
   }
-  return undefined;
+  // The header was present but is unusable: either it is not a valid HTTP date
+  // or the date is not in the future. `NaN` signals that no interval could be
+  // derived from a header that was nonetheless sent by the server.
+  return Number.NaN;
 }
 
 export function getStatusFromInitialResponse<
