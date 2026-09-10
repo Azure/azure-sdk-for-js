@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.46 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed OneSettings configuration profiles incorrectly identifying Azure Monitor and Microsoft OpenTelemetry distro processes as standalone exporters. [#39923](https://github.com/Azure/azure-sdk-for-js/pull/39923)
+
+### Other Changes
+
 ## 1.0.0-beta.45 (2026-09-04)
 
 ### Features Added
