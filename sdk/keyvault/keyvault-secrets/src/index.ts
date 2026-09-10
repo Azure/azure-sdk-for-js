@@ -2,6 +2,88 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/index.ts
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export { KeyVaultClient } from "./keyVaultClient.js";
+export type {
+  SecretSetParameters,
+  SecretAttributes,
+  DeletionRecoveryLevel,
+  SecretBundle,
+  KeyVaultError,
+  ErrorModel,
+  DeletedSecretBundle,
+  SecretUpdateParameters,
+  SecretItem,
+  DeletedSecretItem,
+  BackupSecretResult,
+  SecretRestoreParameters,
+  ContentType,
+} from "./models/index.js";
+export { KnownDeletionRecoveryLevel, KnownContentType, KnownVersions } from "./models/index.js";
+export type {
+  KeyVaultClientOptionalParams,
+  RestoreSecretOptionalParams,
+  BackupSecretOptionalParams,
+  RecoverDeletedSecretOptionalParams,
+  PurgeDeletedSecretOptionalParams,
+  GetDeletedSecretOptionalParams,
+  GetDeletedSecretsOptionalParams,
+  GetSecretVersionsOptionalParams,
+  GetSecretsOptionalParams,
+  GetSecretOptionalParams,
+  UpdateSecretOptionalParams,
+  DeleteSecretOptionalParams,
+  SetSecretOptionalParams,
+} from "./api/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/index.ts
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export { KeyVaultClient } from "./keyVaultClient.js";
+export type {
+  SecretSetParameters,
+  SecretAttributes,
+  DeletionRecoveryLevel,
+  SecretBundle,
+  KeyVaultError,
+  ErrorModel,
+  DeletedSecretBundle,
+  SecretUpdateParameters,
+  SecretItem,
+  DeletedSecretItem,
+  BackupSecretResult,
+  SecretRestoreParameters,
+  ContentType,
+} from "./models/index.js";
+export { KnownDeletionRecoveryLevel, KnownContentType, KnownVersions } from "./models/index.js";
+export type {
+  KeyVaultClientOptionalParams,
+  RestoreSecretOptionalParams,
+  BackupSecretOptionalParams,
+  RecoverDeletedSecretOptionalParams,
+  PurgeDeletedSecretOptionalParams,
+  GetDeletedSecretOptionalParams,
+  GetDeletedSecretsOptionalParams,
+  GetSecretVersionsOptionalParams,
+  GetSecretsOptionalParams,
+  GetSecretOptionalParams,
+  UpdateSecretOptionalParams,
+  DeleteSecretOptionalParams,
+  SetSecretOptionalParams,
+} from "./api/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+=======
 import type { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./logger.js";
@@ -685,3 +767,4 @@ export class SecretClient {
   }
 }
 export { RestError, isRestError } from "@azure/core-rest-pipeline";
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/index.ts

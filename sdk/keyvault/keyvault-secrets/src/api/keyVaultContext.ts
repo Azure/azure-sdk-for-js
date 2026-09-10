@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import pkgJson from "@azure/keyvault-secrets/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
@@ -30,10 +31,16 @@ export function createKeyVault(
 ): KeyVaultContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/keyVaultContext.ts
+  const userAgentInfo = `azsdk-js-keyvault-secrets/${pkgJson.version}`;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/keyVaultContext.ts
+  const userAgentInfo = `azsdk-js-keyvault-secrets/1.0.0-beta.1`;
+=======
   const userAgentInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/keyVaultContext.ts
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

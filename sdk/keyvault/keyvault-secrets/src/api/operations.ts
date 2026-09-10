@@ -53,7 +53,13 @@ export function _restoreSecretSend(
   const path = expandUrlTemplate(
     "/secrets/restore{?api%2Dversion}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +82,17 @@ export async function _restoreSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -102,7 +118,13 @@ export function _backupSecretSend(
     "/secrets/{secret-name}/backup{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,7 +145,17 @@ export async function _backupSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -149,7 +181,13 @@ export function _recoverDeletedSecretSend(
     "/deletedsecrets/{secret-name}/recover{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,7 +208,17 @@ export async function _recoverDeletedSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -196,7 +244,13 @@ export function _purgeDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,7 +269,17 @@ export async function _purgeDeletedSecretDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -241,7 +305,13 @@ export function _getDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +332,17 @@ export async function _getDeletedSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -286,7 +366,13 @@ export function _getDeletedSecretsSend(
   const path = expandUrlTemplate(
     "/deletedsecrets{?api%2Dversion,maxresults}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
       maxresults: options?.maxresults,
     },
     {
@@ -308,7 +394,17 @@ export async function _getDeletedSecretsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -325,7 +421,17 @@ export function getDeletedSecrets(
     () => _getDeletedSecretsSend(context, options),
     _getDeletedSecretsDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
   );
 }
 
@@ -338,7 +444,13 @@ export function _getSecretVersionsSend(
     "/secrets/{secret-name}/versions{?api%2Dversion,maxresults}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
       maxresults: options?.maxresults,
     },
     {
@@ -360,7 +472,17 @@ export async function _getSecretVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -378,7 +500,17 @@ export function getSecretVersions(
     () => _getSecretVersionsSend(context, secretName, options),
     _getSecretVersionsDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
   );
 }
 
@@ -389,7 +521,13 @@ export function _getSecretsSend(
   const path = expandUrlTemplate(
     "/secrets{?api%2Dversion,maxresults}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
       maxresults: options?.maxresults,
     },
     {
@@ -411,7 +549,17 @@ export async function _getSecretsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -428,7 +576,17 @@ export function getSecrets(
     () => _getSecretsSend(context, options),
     _getSecretsDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
   );
 }
 
@@ -443,7 +601,13 @@ export function _getSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
       outContentType: options?.outContentType,
     },
     {
@@ -463,7 +627,17 @@ export async function _getSecretDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -493,7 +667,13 @@ export function _updateSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -516,7 +696,17 @@ export async function _updateSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -544,7 +734,13 @@ export function _deleteSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -565,7 +761,17 @@ export async function _deleteSecretDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 
@@ -592,7 +798,13 @@ export function _setSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -613,7 +825,17 @@ export async function _setSecretDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/api/operations.ts
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
     error.details = keyVaultErrorDeserializer(result.body);
+
+=======
+    error.details = keyVaultErrorDeserializer(result.body);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     throw error;
   }
 

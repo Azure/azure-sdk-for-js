@@ -240,3 +240,41 @@ function checkPagingRequest(response: PathUncheckedResponse, expectedStatuses: s
     );
   }
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/result/src/static-helpers/pagingHelpers.ts
+
+/**
+ * Adds the api-version query parameter on a URL if it's not present.
+ * @param url - the URL to modify
+ * @param apiVersion - the API version to set
+ * @returns - the URL with the api-version query parameter set
+ */
+function addApiVersionToUrl(url: string, apiVersion: string): string {
+  // The base URL is only used for parsing and won't appear in the returned URL
+  const urlObj = new URL(url, "https://microsoft.com");
+  if (!urlObj.searchParams.get("api-version")) {
+    // Append one if there is no apiVersion
+    return `${url}${urlObj.search ? "&" : "?"}api-version=${apiVersion}`;
+  }
+  return url;
+}
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/base/sdk/keyvault/keyvault-secrets/generated/static-helpers/pagingHelpers.ts
+
+/**
+ * Adds the api-version query parameter on a URL if it's not present.
+ * @param url - the URL to modify
+ * @param apiVersion - the API version to set
+ * @returns - the URL with the api-version query parameter set
+ */
+function addApiVersionToUrl(url: string, apiVersion: string): string {
+  // The base URL is only used for parsing and won't appear in the returned URL
+  const urlObj = new URL(url, "https://microsoft.com");
+  if (!urlObj.searchParams.get("api-version")) {
+    // Append one if there is no apiVersion
+    return `${url}${
+      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
+    }api-version=${apiVersion}`;
+  }
+  return url;
+}
+=======
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolJwAJEA/custom/sdk/keyvault/keyvault-secrets/src/static-helpers/pagingHelpers.ts
