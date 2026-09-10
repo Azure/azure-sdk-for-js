@@ -1,0 +1,20 @@
+{
+  "packageName": "keyvault",
+  "spec": "specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/client.tsp",
+  "defaultVersion": "2026-03-01-preview",
+  "naming": {
+    "Microsoft.KeyVault/vaults": {
+      "name": "KeyVault",
+      "abbreviation": "kv",
+      "minLength": 3,
+      "maxLength": 24,
+      "scope": "global"
+    },
+    "Microsoft.KeyVault/managedHSMs": {
+      "abbreviation": "mhsm",
+      "minLength": 3,
+      "maxLength": 24,
+      "scope": "global"
+    }
+  }
+}
