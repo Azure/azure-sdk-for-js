@@ -869,7 +869,6 @@ export class AIProjectClient {
     readonly evaluationRules: EvaluationRulesOperations;
     getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI;
     readonly indexes: IndexesOperations;
-    readonly realtime: VoiceAgentRealtimeClient;
     readonly telemetry: TelemetryOperations;
     readonly toolboxes: ToolboxesOperations;
 }
@@ -1801,6 +1800,7 @@ export interface BetaOperations {
     insights: BetaInsightsOperations;
     memoryStores: BetaMemoryStoresOperations;
     models: BetaModelsOperations;
+    realtime: VoiceAgentRealtimeClient;
     redTeams: BetaRedTeamsOperations;
     routines: BetaRoutinesOperations;
     schedules: BetaSchedulesOperations;

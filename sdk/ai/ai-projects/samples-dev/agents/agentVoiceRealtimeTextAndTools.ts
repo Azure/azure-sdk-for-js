@@ -38,7 +38,7 @@ export async function main(): Promise<void> {
   const { created } = await getOrCreateVoiceAgent(project);
 
   try {
-    const connection = await project.realtime.connect(agentName);
+    const connection = await project.beta.realtime.connect(agentName);
     const audioOutput = createWriteStream(audioOutputPath);
     let pendingToolOutputs = 0;
     let toolCallCount = 0;

@@ -78,7 +78,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("sends bearer auth as a WebSocket subprotocol and other headers as query parameters", async () => {
-    const connection = await createClient().realtime.connect("browser-agent", {
+    const connection = await createClient().beta.realtime.connect("browser-agent", {
       agentSessionId: "session-1",
       store: false,
       structuredInputs: { customer: "Ada" },
@@ -108,7 +108,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("prefixes the user-agent query parameter with a custom userAgentPrefix", async () => {
-    const connection = await createClient("custom-prefix").realtime.connect("browser-agent");
+    const connection = await createClient("custom-prefix").beta.realtime.connect("browser-agent");
     const url = new URL(getSocket().url);
 
     expect(url.searchParams.has("user-agent")).toBe(false);
@@ -120,7 +120,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("sends client events and deserializes Blob server events", async () => {
-    const connection = await createClient().realtime.connect("browser-agent");
+    const connection = await createClient().beta.realtime.connect("browser-agent");
     const socket = getSocket();
     const iterator = connection[Symbol.asyncIterator]();
 
@@ -155,7 +155,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("fails the iterator on malformed server data", async () => {
-    const connection = await createClient().realtime.connect("browser-agent");
+    const connection = await createClient().beta.realtime.connect("browser-agent");
     const nextEvent = connection[Symbol.asyncIterator]().next();
 
     getSocket().receive("not-json");
@@ -166,7 +166,7 @@ describe("AIProjectClient browser realtime", () => {
 
   it("finishes closing when the browser socket does not emit close", async () => {
     vi.useFakeTimers();
-    const connection = await createClient().realtime.connect("browser-agent");
+    const connection = await createClient().beta.realtime.connect("browser-agent");
     MockBrowserWebSocket.suppressCloseEvent = true;
 
     const closePromise = connection.close();
@@ -177,7 +177,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("reports wasClean: true for a normal client-initiated close", async () => {
-    const connection = await createClient().realtime.connect("browser-agent");
+    const connection = await createClient().beta.realtime.connect("browser-agent");
     const socket = getSocket();
     // Receive a Blob message right before closing so the transport's internal message chain has
     // a real pending continuation (an async Blob->ArrayBuffer conversion), widening the gap

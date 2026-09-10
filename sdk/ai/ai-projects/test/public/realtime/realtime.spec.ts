@@ -199,7 +199,7 @@ describe("AIProjectClient realtime", () => {
     assert.ok(client.agents);
     assert.ok(client.beta.agentEndpointConversations);
 
-    const connection = await client.realtime.connect("support-agent");
+    const connection = await client.beta.realtime.connect("support-agent");
     const connectOptions = factory.transport.connectOptions;
     assert.ok(connectOptions);
     const url = new URL(connectOptions.url);
@@ -222,7 +222,7 @@ describe("AIProjectClient realtime", () => {
   it("builds the authenticated upgrade request and reports states", async () => {
     const factory = new MockWebSocketFactory();
     const states: VoiceAgentConnectionState[] = [];
-    const connection = await createClient(factory).realtime.connect("support-agent", {
+    const connection = await createClient(factory).beta.realtime.connect("support-agent", {
       agentSessionId: "session-1",
       store: false,
       agentVersionOverride: "2",
@@ -255,7 +255,7 @@ describe("AIProjectClient realtime", () => {
 
   it("sends text, audio, session settings, and tool outputs", async () => {
     const factory = new MockWebSocketFactory();
-    const connection = await createClient(factory).realtime.connect("support-agent");
+    const connection = await createClient(factory).beta.realtime.connect("support-agent");
 
     await connection.configureSession({
       type: "realtime",
@@ -288,7 +288,7 @@ describe("AIProjectClient realtime", () => {
 
   it("streams events and surfaces protocol and transport failures", async () => {
     const streamFactory = new MockWebSocketFactory();
-    const connection = await createClient(streamFactory).realtime.connect("support-agent");
+    const connection = await createClient(streamFactory).beta.realtime.connect("support-agent");
     const iterator = connection[Symbol.asyncIterator]();
 
     streamFactory.transport.receive({
@@ -306,14 +306,14 @@ describe("AIProjectClient realtime", () => {
 
     const protocolFactory = new MockWebSocketFactory();
     const protocolConnection =
-      await createClient(protocolFactory).realtime.connect("support-agent");
+      await createClient(protocolFactory).beta.realtime.connect("support-agent");
     const protocolRead = protocolConnection[Symbol.asyncIterator]().next();
     protocolFactory.transport.receiveRaw("not-json");
     await expect(protocolRead).rejects.toBeInstanceOf(VoiceAgentProtocolError);
     assert.equal((await protocolConnection.closed).code, 1002);
 
     const closeFactory = new MockWebSocketFactory();
-    const closeConnection = await createClient(closeFactory).realtime.connect("support-agent");
+    const closeConnection = await createClient(closeFactory).beta.realtime.connect("support-agent");
     const closeRead = closeConnection[Symbol.asyncIterator]().next();
     closeFactory.transport.disconnect(1011, "service failure");
     await expect(closeRead).rejects.toBeInstanceOf(VoiceAgentConnectionError);
@@ -325,7 +325,7 @@ describe("AIProjectClient realtime", () => {
     controller.abort();
 
     await expect(
-      createClient(new MockWebSocketFactory()).realtime.connect("support-agent", {
+      createClient(new MockWebSocketFactory()).beta.realtime.connect("support-agent", {
         abortSignal: controller.signal,
       }),
     ).rejects.toMatchObject({ code: "operationCancelled" });

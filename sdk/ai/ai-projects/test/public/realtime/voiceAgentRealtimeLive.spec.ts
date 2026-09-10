@@ -58,7 +58,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.realtime.connect(agentName);
+    const connection = await client.beta.realtime.connect(agentName);
     let text = "";
     let toolCalls = 0;
     let pendingToolOutputs = 0;
@@ -127,7 +127,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.realtime.connect(agentName);
+    const connection = await client.beta.realtime.connect(agentName);
     let toolCalls = 0;
     let pendingToolOutputs = 0;
 
@@ -217,7 +217,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.realtime.connect(agentName);
+    const connection = await client.beta.realtime.connect(agentName);
     let text = "";
     let textDeltaCount = 0;
 
@@ -261,7 +261,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.realtime.connect(agentName);
+    const connection = await client.beta.realtime.connect(agentName);
 
     try {
       await connection.configureSession({
@@ -297,7 +297,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.realtime.connect(agentName);
+    const connection = await client.beta.realtime.connect(agentName);
 
     try {
       // Initial configuration

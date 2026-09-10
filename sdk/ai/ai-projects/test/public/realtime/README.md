@@ -1,6 +1,6 @@
 # Voice Agent Realtime Tests
 
-This directory contains tests for the `project.realtime` (`VoiceAgentRealtimeClient`) WebSocket
+This directory contains tests for the `project.beta.realtime` (`VoiceAgentRealtimeClient`) WebSocket
 client. Recorded/mocked tests for voice agent CRUD, generation, and telephony are covered
 separately by `test/public/agentVoiceAndTelephony.spec.ts` and `test/public/voiceIntegration.spec.ts`.
 

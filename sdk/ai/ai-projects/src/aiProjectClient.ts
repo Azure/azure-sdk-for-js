@@ -33,10 +33,7 @@ import { KnownApiVersions } from "./models/models.js";
 import { getTracingFetch } from "./tracing/tracingFetch.js";
 import { resolveTracingConfig } from "./tracing/configuration.js";
 import type { ResolvedTracingConfig } from "./tracing/configuration.js";
-import {
-  VoiceAgentRealtimeClient,
-  type VoiceAgentRealtimeClientOptions,
-} from "./realtime/voiceAgentRealtimeClient.js";
+import type { VoiceAgentRealtimeClientOptions } from "./realtime/voiceAgentRealtimeClient.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -114,17 +111,18 @@ export class AIProjectClient {
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
-    this.beta = _getBetaOperations(this._cognitiveScopeClient);
+    this.beta = _getBetaOperations(
+      this._cognitiveScopeClient,
+      credential,
+      clientOptions.endpoint ?? endpoint,
+      {
+        ...realtimeOptions,
+        apiVersion: realtimeOptions?.apiVersion ?? clientOptions.apiVersion,
+        credentialScopes: realtimeOptions?.credentialScopes ?? clientOptions.credentials?.scopes,
+        userAgentPrefix: realtimeOptions?.userAgentPrefix ?? prefixFromOptions,
+      },
+    );
     this.telemetry = _getTelemetryOperations(this.connections);
-    // VoiceAgentRealtimeClient defers https-only endpoint validation to connect() (not its
-    // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an
-    // insecure local endpoint for the REST surface and never touch realtime connections.
-    this.realtime = new VoiceAgentRealtimeClient(clientOptions.endpoint ?? endpoint, credential, {
-      ...realtimeOptions,
-      apiVersion: realtimeOptions?.apiVersion ?? clientOptions.apiVersion,
-      credentialScopes: realtimeOptions?.credentialScopes ?? clientOptions.credentials?.scopes,
-      userAgentPrefix: realtimeOptions?.userAgentPrefix ?? prefixFromOptions,
-    });
   }
 
   /** The operation groups for toolboxes */
@@ -139,8 +137,6 @@ export class AIProjectClient {
   public readonly connections: ConnectionsOperations;
   /** The operation groups for evaluationRules */
   public readonly evaluationRules: EvaluationRulesOperations;
-  /** Realtime voice-agent connections. */
-  public readonly realtime: VoiceAgentRealtimeClient;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
   /** The operation groups for beta include beta features:
@@ -154,6 +150,7 @@ export class AIProjectClient {
    * - skills
    * - routines
    * - models
+   * - realtime (voice-agent WebSocket connections)
    */
   public readonly beta: BetaOperations;
   /** The operation groups for telemetry */

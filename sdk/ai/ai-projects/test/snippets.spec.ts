@@ -135,7 +135,7 @@ describe("snippets", function () {
     const voiceAgentName = `voice-agent-${Date.now()}`;
     const voiceAgent = await project.beta.agents.generate({ kind: "voice", name: voiceAgentName });
     try {
-      const connection = await project.realtime.connect(voiceAgent.name);
+      const connection = await project.beta.realtime.connect(voiceAgent.name);
       try {
         await connection.sendText("Hello. Please introduce yourself briefly.");
         for await (const event of connection) {

@@ -54,7 +54,7 @@ export async function main(): Promise<void> {
   const { definition, created } = await getOrCreateVoiceAgent(project);
 
   try {
-    const connection = await project.realtime.connect(agentName);
+    const connection = await project.beta.realtime.connect(agentName);
     const audioOutput = createWriteStream(audioOutputPath);
     let textCharacterCount = 0;
     let inputAudioByteCount = 0;
