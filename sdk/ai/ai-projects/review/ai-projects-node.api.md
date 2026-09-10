@@ -743,45 +743,33 @@ export interface AgentsOperations {
     create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<Agent>;
     create(name: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
     createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: AgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
-    createTelephonyBinding: (agentName: string, body: CreateTelephonyBindingRequestUnion, options?: AgentsCreateTelephonyBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateVersionOptionalParams): Promise<AgentVersion>;
     createVersion(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
     createVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: AgentsCreateVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
     deleteSession: (agentName: string, sessionId: string, options?: AgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteSessionFile: (agentName: string, sessionId: string, path: string, options?: AgentsDeleteSessionFileOptionalParams) => Promise<void>;
-    deleteTelephonyBinding: (agentName: string, bindingId: string, ifMatch: string, options?: AgentsDeleteTelephonyBindingOptionalParams) => Promise<void>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
     disable: (agentName: string, options?: AgentsDisableOptionalParams) => Promise<void>;
     downloadAgentCode: (agentName: string, options?: AgentsDownloadAgentCodeOptionalParams) => Promise<AgentsDownloadAgentCodeResponse>;
     downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: AgentsDownloadSessionFileOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
-    endTelephonyCall: (agentName: string, callId: string, options?: AgentsEndTelephonyCallOptionalParams) => Promise<TelephonyCallRecord>;
-    generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) => Promise<Agent>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
     getMicrosoft365Package: (agentName: string, publishScope: Microsoft365PublishScope, options?: GetMicrosoft365PackageOptionalParams) => Promise<GetMicrosoft365PackageResponse>;
     getMicrosoft365PublishDefaults: (agentName: string, options?: GetMicrosoft365PublishDefaultsOptionalParams) => Promise<Microsoft365PublishDefaults>;
     getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
-    getTelephonyBinding: (agentName: string, bindingId: string, options?: AgentsGetTelephonyBindingOptionalParams) => Promise<TelephonyBindingUnion>;
-    getTelephonyCall: (agentName: string, callId: string, options?: AgentsGetTelephonyCallOptionalParams) => Promise<TelephonyCallRecord>;
-    getTelephonyTransferTargets: (agentName: string, options?: AgentsGetTelephonyTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
     list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
     listSessionFiles: (agentName: string, sessionId: string, options?: AgentsListSessionFilesOptionalParams) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
     listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
-    listTelephonyBindings: (agentName: string, options?: AgentsListTelephonyBindingsOptionalParams) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
-    listTelephonyCalls: (agentName: string, options?: AgentsListTelephonyCallsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallSummary>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
     patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
     publishToMicrosoft365: (agentName: string, publishScope: Microsoft365PublishScope, options?: PublishToMicrosoft365OptionalParams) => Promise<Microsoft365PublishResponse>;
-    replaceTelephonyTransferTargets: (agentName: string, ifMatch: string, transferTargets: TelephonyTransferTarget[], options?: AgentsReplaceTelephonyTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     stopSession: (agentName: string, sessionId: string, options?: AgentsStopSessionOptionalParams) => Promise<void>;
-    transferTelephonyCall: (agentName: string, callId: string, target: string, options?: AgentsTransferTelephonyCallOptionalParams) => Promise<TelephonyCallRecord>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
     updateAgent: (agentName: string, options?: AgentsUpdateAgentObjectOptionalParams) => Promise<Agent>;
-    updateTelephonyBinding: (agentName: string, bindingId: string, ifMatch: string, body: UpdateTelephonyBindingRequest, options?: AgentsUpdateTelephonyBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     uploadSessionFile: (agentName: string, sessionId: string, path: string, content: Uint8Array, options?: AgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
 }
 
@@ -1255,13 +1243,49 @@ export interface BetaAgentsCreateOptimizationJobOptionalParams extends Operation
 }
 
 // @public
+export interface BetaAgentsCreateTelephonyBindingOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    repeatabilityFirstSent?: Date;
+    repeatabilityRequestId?: string;
+}
+
+// @public
 export interface BetaAgentsDeleteOptimizationJobOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 // @public
+export interface BetaAgentsDeleteTelephonyBindingOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaAgentsEndTelephonyCallOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaAgentsGenerateOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BetaAgentsGetOptimizationJobOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentsOptimization=V2Preview";
+}
+
+// @public
+export interface BetaAgentsGetTelephonyBindingOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaAgentsGetTelephonyCallOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaAgentsGetTelephonyTransferTargetsOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
@@ -1276,12 +1300,63 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 }
 
 // @public
+export interface BetaAgentsListTelephonyBindingsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+    provider?: TelephonyProvider;
+    status?: TelephonyBindingStatus;
+}
+
+// @public
+export interface BetaAgentsListTelephonyCallsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+    provider?: TelephonyProvider;
+    startedAfter?: Date;
+    startedBefore?: Date;
+    status?: TelephonyCallStatus;
+}
+
+// @public
 export interface BetaAgentsOperations {
     cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
     createOptimizationJob: (job: AgentOptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<AgentOptimizationJobResult>;
+    createTelephonyBinding: (agentName: string, body: CreateTelephonyBindingRequestUnion, options?: BetaAgentsCreateTelephonyBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
+    deleteTelephonyBinding: (agentName: string, bindingId: string, ifMatch: string, options?: BetaAgentsDeleteTelephonyBindingOptionalParams) => Promise<void>;
+    endTelephonyCall: (agentName: string, callId: string, options?: BetaAgentsEndTelephonyCallOptionalParams) => Promise<TelephonyCallRecord>;
+    generate: (body: GenerateAgentRequest, options?: BetaAgentsGenerateOptionalParams) => Promise<Agent>;
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
+    getTelephonyBinding: (agentName: string, bindingId: string, options?: BetaAgentsGetTelephonyBindingOptionalParams) => Promise<TelephonyBindingUnion>;
+    getTelephonyCall: (agentName: string, callId: string, options?: BetaAgentsGetTelephonyCallOptionalParams) => Promise<TelephonyCallRecord>;
+    getTelephonyTransferTargets: (agentName: string, options?: BetaAgentsGetTelephonyTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
+    listTelephonyBindings: (agentName: string, options?: BetaAgentsListTelephonyBindingsOptionalParams) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
+    listTelephonyCalls: (agentName: string, options?: BetaAgentsListTelephonyCallsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallSummary>;
+    replaceTelephonyTransferTargets: (agentName: string, ifMatch: string, transferTargets: TelephonyTransferTarget[], options?: BetaAgentsReplaceTelephonyTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
+    transferTelephonyCall: (agentName: string, callId: string, target: string, options?: BetaAgentsTransferTelephonyCallOptionalParams) => Promise<TelephonyCallRecord>;
+    updateTelephonyBinding: (agentName: string, bindingId: string, ifMatch: string, body: UpdateTelephonyBindingRequest, options?: BetaAgentsUpdateTelephonyBindingOptionalParams) => Promise<TelephonyBindingUnion>;
+}
+
+// @public
+export interface BetaAgentsReplaceTelephonyTransferTargetsOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaAgentsTransferTelephonyCallOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaAgentsUpdateTelephonyBindingOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
@@ -7404,8 +7479,6 @@ export interface VoiceResponseAudioOutput {
 
 // @public
 export interface VoiceResponseBase {
-    conversation_id?: string;
-    id?: string;
     max_output_tokens?: number | "inf";
     object?: "realtime.response";
     output_modalities?: ("text" | "audio")[];
