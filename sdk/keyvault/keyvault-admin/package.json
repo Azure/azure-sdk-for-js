@@ -55,7 +55,7 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:live": "cross-env TEST_MODE=live dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets",
-    "customize": "dev-tool customization apply -s ./generated -t ./src && npm run format"
+    "customize": "echo skipped: customization must be run manually"
   },
   "//metadata": {
     "constantPaths": [
