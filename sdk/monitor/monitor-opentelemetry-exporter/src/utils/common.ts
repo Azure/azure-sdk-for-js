@@ -30,6 +30,7 @@ import {
   ATTR_TELEMETRY_SDK_LANGUAGE,
   ATTR_TELEMETRY_SDK_NAME,
   DBSYSTEMVALUES_H2,
+  DB_SYSTEM_NAME_VALUE_MICROSOFT_SQL_SERVER,
 } from "@opentelemetry/semantic-conventions";
 import {
   experimentalOpenTelemetryValues,
@@ -161,6 +162,8 @@ export function isSqlDB(dbSystem: string): boolean {
     dbSystem === DBSYSTEMVALUES_DERBY ||
     dbSystem === DBSYSTEMVALUES_MARIADB ||
     dbSystem === DBSYSTEMVALUES_MSSQL ||
+    dbSystem === DB_SYSTEM_NAME_VALUE_MICROSOFT_SQL_SERVER ||
+    dbSystem === "ibm.db2" ||
     dbSystem === DBSYSTEMVALUES_ORACLE ||
     dbSystem === DBSYSTEMVALUES_SQLITE ||
     dbSystem === DBSYSTEMVALUES_OTHER_SQL ||
