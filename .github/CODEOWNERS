@@ -1724,6 +1724,9 @@ sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHua
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/edgeoperator/arm-edgeoperator/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
