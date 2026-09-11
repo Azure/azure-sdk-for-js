@@ -52,7 +52,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
 }
-
 function _getPrivateEndpointConnections(context: MongoClusterManagementContext) {
   return {
     delete: (
@@ -90,7 +89,6 @@ function _getPrivateEndpointConnections(context: MongoClusterManagementContext) 
     ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: MongoClusterManagementContext,
 ): PrivateEndpointConnectionsOperations {

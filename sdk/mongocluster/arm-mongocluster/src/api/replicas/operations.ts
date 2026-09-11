@@ -23,7 +23,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -50,7 +50,6 @@ export async function _listByParentDeserialize(
 
   return _replicaListResultDeserializer(result.body);
 }
-
 /** List all the replicas for the mongo cluster. */
 export function listByParent(
   context: Client,
@@ -63,6 +62,10 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, mongoClusterName, options),
     _listByParentDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    },
   );
 }
