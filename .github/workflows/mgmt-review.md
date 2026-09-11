@@ -9,10 +9,123 @@ on:
         description: PR number to run the review on
         required: true
         type: string
+      wait_for_copilot_review:
+        description: Wait for Copilot code review before resolving its comments
+        required: false
+        default: false
+        type: boolean
   bots: [azure-sdk-automation]
   permissions:
+    checks: read
+    issues: write
     pull-requests: write
   steps:
+    - name: Wait for Copilot code review
+      id: wait_for_copilot_review
+      if: github.event_name == 'workflow_dispatch' && github.event.inputs.wait_for_copilot_review == 'true'
+      uses: actions/github-script@v9.0.0
+      with:
+        script: |
+          const pr = Number(context.payload.inputs.item_number);
+          const { data: pullRequest } = await github.rest.pulls.get({
+            ...context.repo,
+            pull_number: pr,
+          });
+
+          for (let attempt = 1; attempt <= 40; attempt++) {
+            const { data } = await github.rest.checks.listForRef({
+              ...context.repo,
+              ref: pullRequest.head.sha,
+              per_page: 100,
+            });
+            const copilotReview = data.check_runs.find(
+              (check) => check.name === 'copilot-pull-request-reviewer',
+            );
+
+            if (copilotReview?.status === 'completed') {
+              core.info(`Copilot code review completed with conclusion: ${copilotReview.conclusion}`);
+              core.setOutput('completed', 'true');
+              return;
+            }
+
+            core.info(
+              copilotReview
+                ? `Waiting for Copilot code review (status: ${copilotReview.status}, attempt ${attempt}/40)`
+                : `Waiting for Copilot code review to start (attempt ${attempt}/40)`,
+            );
+            await new Promise((resolve) => setTimeout(resolve, 15000));
+          }
+
+          core.warning('Timed out waiting for Copilot code review to complete; skipping comment resolution');
+          core.setOutput('completed', 'false');
+    - name: Resolve Copilot review comments and remove assignee
+      if: github.event_name != 'workflow_dispatch' || github.event.inputs.wait_for_copilot_review != 'true' || steps.wait_for_copilot_review.outputs.completed == 'true'
+      uses: actions/github-script@v9.0.0
+      with:
+        script: |
+          const pr = context.payload.pull_request?.number ?? Number(context.payload.inputs?.item_number);
+          let cursor = null;
+
+          do {
+            const result = await github.graphql(
+              `query($owner: String!, $repo: String!, $pr: Int!, $cursor: String) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $pr) {
+                    reviewThreads(first: 100, after: $cursor) {
+                      nodes {
+                        id
+                        isResolved
+                        comments(first: 100) {
+                          nodes {
+                            author { login }
+                          }
+                        }
+                      }
+                      pageInfo {
+                        hasNextPage
+                        endCursor
+                      }
+                    }
+                  }
+                }
+              }`,
+              { ...context.repo, pr, cursor },
+            );
+            const threads = result.repository.pullRequest.reviewThreads;
+
+            for (const thread of threads.nodes) {
+              const hasCopilotComment = thread.comments.nodes.some(
+                (comment) => comment.author?.login === 'Copilot',
+              );
+              if (!thread.isResolved && hasCopilotComment) {
+                await github.graphql(
+                  `mutation($threadId: ID!) {
+                    resolveReviewThread(input: { threadId: $threadId }) {
+                      thread { id }
+                    }
+                  }`,
+                  { threadId: thread.id },
+                );
+              }
+            }
+
+            cursor = threads.pageInfo.hasNextPage ? threads.pageInfo.endCursor : null;
+          } while (cursor);
+
+          const issue = await github.rest.issues.get({
+            ...context.repo,
+            issue_number: pr,
+          });
+          const copilotAssignees = issue.data.assignees
+            .map((assignee) => assignee.login)
+            .filter((login) => login.toLowerCase() === 'copilot-swe-agent[bot]');
+          if (copilotAssignees.length > 0) {
+            await github.rest.issues.removeAssignees({
+              ...context.repo,
+              issue_number: pr,
+              assignees: copilotAssignees,
+            });
+          }
     - name: Swap trigger label to in-progress
       id: swap_label
       if: github.event_name == 'pull_request_target' && github.event.label.name == 'mgmt-review-needed'
