@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.MachineLearningServices": "2026-03-15-preview"
+    "Microsoft.MachineLearningServices": "2026-05-15-preview"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.MachineLearningServices",
     "CrossLanguageDefinitionId": {
@@ -1144,6 +1144,8 @@
       "@azure/arm-machinelearning!AutoMLJobOutput:type": "Microsoft.MachineLearningServices.AutoMLJob.output.anonymous",
       "@azure/arm-machinelearning!AutoMLJobOutputDescription:type": "Microsoft.MachineLearningServices.AutoMLJob.output.description.anonymous",
       "@azure/arm-machinelearning!CustomModelJobOutputAssetName:type": "Microsoft.MachineLearningServices.CustomModelJobOutput.assetName.anonymous",
+      "@azure/arm-machinelearning!CustomModelJobOutputAssetVersion:type": "Microsoft.MachineLearningServices.CustomModelJobOutput.assetVersion.anonymous",
+      "@azure/arm-machinelearning!CustomModelJobOutputPathOnCompute:type": "Microsoft.MachineLearningServices.CustomModelJobOutput.pathOnCompute.anonymous",
       "@azure/arm-machinelearning!CustomModelJobOutputUri:type": "Microsoft.MachineLearningServices.CustomModelJobOutput.uri.anonymous",
       "@azure/arm-machinelearning!AutoMLJobQueueSettings:type": "Microsoft.MachineLearningServices.AutoMLJob.queueSettings.anonymous",
       "@azure/arm-machinelearning!JobResourceConfigurationDockerArgs:type": "Microsoft.MachineLearningServices.JobResourceConfiguration.dockerArgs.anonymous",

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a batch inference endpoint (asynchronous).
  *
  * @summary update a batch inference endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/BatchEndpoint/update.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/BatchEndpoint/update.json
  */
 async function updateWorkspaceBatchEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

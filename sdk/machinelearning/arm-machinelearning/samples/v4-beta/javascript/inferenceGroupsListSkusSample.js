@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Inference Group Skus.
  *
  * @summary list Inference Group Skus.
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferenceGroup/listSkus.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferenceGroup/listSkus.json
  */
 async function listSkusWorkspaceInferenceGroup() {
   const credential = new DefaultAzureCredential();

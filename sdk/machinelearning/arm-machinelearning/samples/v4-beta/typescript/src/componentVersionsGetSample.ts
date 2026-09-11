@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get version.
  *
  * @summary get version.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ComponentVersion/get.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ComponentVersion/get.json
  */
 async function getWorkspaceComponentVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

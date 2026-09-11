@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Inference Endpoint Deployment Skus.
  *
  * @summary list Inference Endpoint Deployment Skus.
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/KubernetesOnlineDeployment/listSkus.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/KubernetesOnlineDeployment/listSkus.json
  */
 async function listKubernetesOnlineDeploymentSkus(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function listKubernetesOnlineDeploymentSkus(): Promise<void> {
  * This sample demonstrates how to list Inference Endpoint Deployment Skus.
  *
  * @summary list Inference Endpoint Deployment Skus.
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/ManagedOnlineDeployment/listSkus.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/ManagedOnlineDeployment/listSkus.json
  */
 async function listManagedOnlineDeploymentSkus(): Promise<void> {
   const credential = new DefaultAzureCredential();

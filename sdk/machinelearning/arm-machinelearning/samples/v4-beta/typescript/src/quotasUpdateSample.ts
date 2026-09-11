@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update quota for each VM family in workspace.
  *
  * @summary update quota for each VM family in workspace.
- * x-ms-original-file: 2026-03-15-preview/Quota/update.json
+ * x-ms-original-file: 2026-05-15-preview/Quota/update.json
  */
 async function updateQuotas(): Promise<void> {
   const credential = new DefaultAzureCredential();

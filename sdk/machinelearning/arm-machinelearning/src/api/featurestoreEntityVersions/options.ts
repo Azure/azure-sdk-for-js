@@ -25,18 +25,15 @@ export interface FeaturestoreEntityVersionsListOptionalParams extends OperationO
   /** Specifies the featurestore stage */
   stage?: string;
 }
-
 /** Optional parameters. */
 export interface FeaturestoreEntityVersionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturestoreEntityVersionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturestoreEntityVersionsGetOptionalParams extends OperationOptions {}

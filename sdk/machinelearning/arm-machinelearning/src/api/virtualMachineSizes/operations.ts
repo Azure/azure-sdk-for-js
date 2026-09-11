@@ -22,7 +22,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,7 +49,6 @@ export async function _listDeserialize(
 
   return virtualMachineSizeListResultDeserializer(result.body);
 }
-
 /** Returns supported VM Sizes in a location */
 export async function list(
   context: Client,

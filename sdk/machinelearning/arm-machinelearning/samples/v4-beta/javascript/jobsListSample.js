@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists Jobs in the workspace.
  *
  * @summary lists Jobs in the workspace.
- * x-ms-original-file: 2026-03-15-preview/Job/AutoMLJob/list.json
+ * x-ms-original-file: 2026-05-15-preview/Job/AutoMLJob/list.json
  */
 async function listAutoMLJob() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listAutoMLJob() {
  * This sample demonstrates how to lists Jobs in the workspace.
  *
  * @summary lists Jobs in the workspace.
- * x-ms-original-file: 2026-03-15-preview/Job/CommandJob/list.json
+ * x-ms-original-file: 2026-05-15-preview/Job/CommandJob/list.json
  */
 async function listCommandJob() {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function listCommandJob() {
  * This sample demonstrates how to lists Jobs in the workspace.
  *
  * @summary lists Jobs in the workspace.
- * x-ms-original-file: 2026-03-15-preview/Job/DistillationJob/list.json
+ * x-ms-original-file: 2026-05-15-preview/Job/DistillationJob/list.json
  */
 async function listDistillationJob() {
   const credential = new DefaultAzureCredential();
@@ -69,7 +69,7 @@ async function listDistillationJob() {
  * This sample demonstrates how to lists Jobs in the workspace.
  *
  * @summary lists Jobs in the workspace.
- * x-ms-original-file: 2026-03-15-preview/Job/FineTuningJob/list.json
+ * x-ms-original-file: 2026-05-15-preview/Job/FineTuningJob/list.json
  */
 async function listFineTuningJob() {
   const credential = new DefaultAzureCredential();
@@ -91,7 +91,7 @@ async function listFineTuningJob() {
  * This sample demonstrates how to lists Jobs in the workspace.
  *
  * @summary lists Jobs in the workspace.
- * x-ms-original-file: 2026-03-15-preview/Job/PipelineJob/list.json
+ * x-ms-original-file: 2026-05-15-preview/Job/PipelineJob/list.json
  */
 async function listPipelineJob() {
   const credential = new DefaultAzureCredential();
@@ -112,7 +112,7 @@ async function listPipelineJob() {
  * This sample demonstrates how to lists Jobs in the workspace.
  *
  * @summary lists Jobs in the workspace.
- * x-ms-original-file: 2026-03-15-preview/Job/SweepJob/list.json
+ * x-ms-original-file: 2026-05-15-preview/Job/SweepJob/list.json
  */
 async function listSweepJob() {
   const credential = new DefaultAzureCredential();

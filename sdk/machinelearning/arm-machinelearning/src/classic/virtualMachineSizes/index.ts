@@ -14,14 +14,12 @@ export interface VirtualMachineSizesOperations {
     options?: VirtualMachineSizesListOptionalParams,
   ) => Promise<VirtualMachineSizeListResult>;
 }
-
 function _getVirtualMachineSizes(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (location: string, options?: VirtualMachineSizesListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getVirtualMachineSizesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): VirtualMachineSizesOperations {

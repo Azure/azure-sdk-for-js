@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs) programmatically.
  *
  * @summary called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs) programmatically.
- * x-ms-original-file: 2026-03-15-preview/ExternalFQDN/get.json
+ * x-ms-original-file: 2026-05-15-preview/ExternalFQDN/get.json
  */
 async function listOutboundNetworkDependenciesEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

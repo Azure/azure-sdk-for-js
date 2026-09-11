@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/AutoMLJob/get.json
+ * x-ms-original-file: 2026-05-15-preview/Job/AutoMLJob/get.json
  */
 async function getAutoMLJob() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAutoMLJob() {
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/CommandJob/get.json
+ * x-ms-original-file: 2026-05-15-preview/Job/CommandJob/get.json
  */
 async function getCommandJob() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getCommandJob() {
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/DistillationJob/get.json
+ * x-ms-original-file: 2026-05-15-preview/Job/DistillationJob/get.json
  */
 async function getDistillationJob() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getDistillationJob() {
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/FineTuningJob/get.json
+ * x-ms-original-file: 2026-05-15-preview/Job/FineTuningJob/get.json
  */
 async function getFineTuningJob() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function getFineTuningJob() {
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/PipelineJob/get.json
+ * x-ms-original-file: 2026-05-15-preview/Job/PipelineJob/get.json
  */
 async function getPipelineJob() {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function getPipelineJob() {
  * This sample demonstrates how to gets a Job by name/id.
  *
  * @summary gets a Job by name/id.
- * x-ms-original-file: 2026-03-15-preview/Job/SweepJob/get.json
+ * x-ms-original-file: 2026-05-15-preview/Job/SweepJob/get.json
  */
 async function getSweepJob() {
   const credential = new DefaultAzureCredential();

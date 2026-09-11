@@ -118,7 +118,6 @@ export interface ConnectionOperations {
     options?: ConnectionGetAllModelsOptionalParams,
   ) => Promise<EndpointModels>;
 }
-
 function _getConnection(context: AzureMachineLearningServicesManagementContext) {
   return {
     listDeployments: (
@@ -259,7 +258,6 @@ function _getConnection(context: AzureMachineLearningServicesManagementContext) 
     ) => getAllModels(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getConnectionOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ConnectionOperations {

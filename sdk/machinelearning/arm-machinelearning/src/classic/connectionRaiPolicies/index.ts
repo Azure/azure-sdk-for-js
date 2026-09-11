@@ -17,7 +17,6 @@ export interface ConnectionRaiPoliciesOperations {
     options?: ConnectionRaiPoliciesListOptionalParams,
   ) => PagedAsyncIterableIterator<RaiPolicyPropertiesBasicResource>;
 }
-
 function _getConnectionRaiPolicies(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -28,7 +27,6 @@ function _getConnectionRaiPolicies(context: AzureMachineLearningServicesManageme
     ) => list(context, resourceGroupName, workspaceName, connectionName, options),
   };
 }
-
 export function _getConnectionRaiPoliciesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ConnectionRaiPoliciesOperations {

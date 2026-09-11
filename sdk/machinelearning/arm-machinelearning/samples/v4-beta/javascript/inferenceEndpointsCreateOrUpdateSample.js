@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update InferenceEndpoint (asynchronous).
  *
  * @summary create or update InferenceEndpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferenceEndpoint/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferenceEndpoint/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceInferenceEndpoint() {
   const credential = new DefaultAzureCredential();

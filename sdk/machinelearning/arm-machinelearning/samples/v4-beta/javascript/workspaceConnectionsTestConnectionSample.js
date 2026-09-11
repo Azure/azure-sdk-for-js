@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to test machine learning workspaces connections under the specified workspace.
  *
  * @summary test machine learning workspaces connections under the specified workspace.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/testConnection.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/testConnection.json
  */
 async function testWorkspaceConnection() {
   const credential = new DefaultAzureCredential();

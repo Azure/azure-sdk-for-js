@@ -89,7 +89,6 @@ export interface RegistryComponentVersionsOperations {
     options?: RegistryComponentVersionsGetOptionalParams,
   ) => Promise<ComponentVersion>;
 }
-
 function _getRegistryComponentVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -203,7 +202,6 @@ function _getRegistryComponentVersions(context: AzureMachineLearningServicesMana
     ) => get(context, resourceGroupName, registryName, componentName, version, options),
   };
 }
-
 export function _getRegistryComponentVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RegistryComponentVersionsOperations {

@@ -18,7 +18,6 @@ export interface ConnectionRaiBlocklistItemsOperations {
     options?: ConnectionRaiBlocklistItemsListOptionalParams,
   ) => PagedAsyncIterableIterator<RaiBlocklistItemPropertiesBasicResource>;
 }
-
 function _getConnectionRaiBlocklistItems(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -30,7 +29,6 @@ function _getConnectionRaiBlocklistItems(context: AzureMachineLearningServicesMa
     ) => list(context, resourceGroupName, workspaceName, connectionName, raiBlocklistName, options),
   };
 }
-
 export function _getConnectionRaiBlocklistItemsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ConnectionRaiBlocklistItemsOperations {

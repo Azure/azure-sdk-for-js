@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Job (asynchronous).
  *
  * @summary deletes a Job (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Job/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Job/delete.json
  */
 async function deleteJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -35,7 +35,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24skip": options?.skip,
     },
     {
@@ -63,7 +63,6 @@ export async function _listDeserialize(
 
   return _usageAndQuotaDetailsArmPaginatedResultDeserializer(result.body);
 }
-
 /** List MaaS PTU usage and quota. */
 export function list(
   context: Client,
@@ -78,7 +77,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -93,7 +92,7 @@ export function _getAvailableSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +119,6 @@ export async function _getAvailableDeserialize(
 
   return availableQuotaDeserializer(result.body);
 }
-
 /** Get available MaaS PTU quota. */
 export async function getAvailable(
   context: Client,
@@ -141,7 +139,7 @@ export function _listAvailableSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24skip": options?.skip,
     },
     {
@@ -169,7 +167,6 @@ export async function _listAvailableDeserialize(
 
   return _availableQuotaArmPaginatedResultDeserializer(result.body);
 }
-
 /** List available MaaS PTU quota. */
 export function listAvailable(
   context: Client,
@@ -184,7 +181,7 @@ export function listAvailable(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }

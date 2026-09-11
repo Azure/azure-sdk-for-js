@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list environment containers.
  *
  * @summary list environment containers.
- * x-ms-original-file: 2026-03-15-preview/Registry/EnvironmentContainer/list.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/EnvironmentContainer/list.json
  */
 async function listRegistryEnvironmentContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

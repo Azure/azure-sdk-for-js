@@ -29,7 +29,6 @@ export interface PTUQuotaOperations {
     options?: PTUQuotaListAvailableOptionalParams,
   ) => PagedAsyncIterableIterator<AvailableQuota>;
 }
-
 function _getPTUQuota(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (location: string, options?: PTUQuotaListOptionalParams) =>
@@ -40,7 +39,6 @@ function _getPTUQuota(context: AzureMachineLearningServicesManagementContext) {
       listAvailable(context, location, options),
   };
 }
-
 export function _getPTUQuotaOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): PTUQuotaOperations {

@@ -15,18 +15,15 @@ export interface RegistryEnvironmentVersionsListOptionalParams extends Operation
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface RegistryEnvironmentVersionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RegistryEnvironmentVersionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RegistryEnvironmentVersionsGetOptionalParams extends OperationOptions {}

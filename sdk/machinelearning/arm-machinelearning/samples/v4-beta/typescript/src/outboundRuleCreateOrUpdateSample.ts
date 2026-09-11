@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a OutboundRuleBasicResource
  *
  * @summary create a OutboundRuleBasicResource
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/createOrUpdateRuleV2.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/createOrUpdateRuleV2.json
  */
 async function createOrUpdateOutboundRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

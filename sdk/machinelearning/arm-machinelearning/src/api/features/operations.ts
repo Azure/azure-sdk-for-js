@@ -31,7 +31,7 @@ export function _listSend(
       workspaceName: workspaceName,
       featuresetName: featuresetName,
       featuresetVersion: featuresetVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24skip": options?.skip,
       tags: options?.tags,
       featureName: options?.featureName,
@@ -64,7 +64,6 @@ export async function _listDeserialize(
 
   return _featureResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List Features. */
 export function list(
   context: Client,
@@ -90,7 +89,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -113,7 +112,7 @@ export function _getSend(
       featuresetName: featuresetName,
       featuresetVersion: featuresetVersion,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +137,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fe
 
   return featureDeserializer(result.body);
 }
-
 /** Get feature. */
 export async function get(
   context: Client,

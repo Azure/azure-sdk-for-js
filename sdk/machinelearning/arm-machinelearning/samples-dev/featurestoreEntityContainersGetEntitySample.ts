@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get container.
  *
  * @summary get container.
- * x-ms-original-file: 2026-03-15-preview/Workspace/FeaturestoreEntityContainer/getEntity.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/FeaturestoreEntityContainer/getEntity.json
  */
 async function getEntityWorkspaceFeaturestoreEntityContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

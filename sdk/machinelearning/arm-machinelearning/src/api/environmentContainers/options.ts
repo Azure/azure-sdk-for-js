@@ -11,12 +11,9 @@ export interface EnvironmentContainersListOptionalParams extends OperationOption
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface EnvironmentContainersDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EnvironmentContainersCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EnvironmentContainersGetOptionalParams extends OperationOptions {}

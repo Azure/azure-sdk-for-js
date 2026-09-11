@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete machine learning workspaces connections by name.
  *
  * @summary delete machine learning workspaces connections by name.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/delete.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/delete.json
  */
 async function deleteWorkspaceConnection() {
   const credential = new DefaultAzureCredential();

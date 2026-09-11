@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of the specified machine learning workspace.
  *
  * @summary gets the properties of the specified machine learning workspace.
- * x-ms-original-file: 2026-03-15-preview/Workspace/get.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/get.json
  */
 async function getWorkspace() {
   const credential = new DefaultAzureCredential();

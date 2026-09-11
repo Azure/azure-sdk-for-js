@@ -10,7 +10,6 @@ export interface ConnectionRaiBlocklistDeleteOptionalParams extends OperationOpt
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionRaiBlocklistCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -18,6 +17,5 @@ export interface ConnectionRaiBlocklistCreateOptionalParams extends OperationOpt
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionRaiBlocklistGetOptionalParams extends OperationOptions {}

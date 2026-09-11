@@ -43,7 +43,6 @@ export interface CodeContainersOperations {
     options?: CodeContainersGetOptionalParams,
   ) => Promise<CodeContainer>;
 }
-
 function _getCodeContainers(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -72,7 +71,6 @@ function _getCodeContainers(context: AzureMachineLearningServicesManagementConte
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getCodeContainersOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): CodeContainersOperations {

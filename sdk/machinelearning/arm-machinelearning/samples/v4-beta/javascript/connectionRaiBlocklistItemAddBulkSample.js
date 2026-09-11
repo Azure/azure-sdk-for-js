@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to add multiple blocklist items to the specified blocklist associated with the Azure OpenAI connection.
  *
  * @summary add multiple blocklist items to the specified blocklist associated with the Azure OpenAI connection.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/RaiBlocklistItem/addBulk.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/RaiBlocklistItem/addBulk.json
  */
 async function createBulkRaiBlocklistItems() {
   const credential = new DefaultAzureCredential();

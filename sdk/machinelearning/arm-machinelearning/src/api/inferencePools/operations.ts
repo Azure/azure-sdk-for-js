@@ -41,7 +41,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       count: options?.count,
       "%24skip": options?.skip,
       tags: options?.tags,
@@ -73,7 +73,6 @@ export async function _listDeserialize(
 
   return _inferencePoolTrackedResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List InferencePools. */
 export function list(
   context: Client,
@@ -89,7 +88,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -108,7 +107,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       inferencePoolName: inferencePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,7 +129,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete InferencePool (asynchronous). */
 export function $delete(
   context: Client,
@@ -145,7 +143,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, inferencePoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -164,7 +162,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       inferencePoolName: inferencePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +189,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return inferencePoolDeserializer(result.body);
 }
-
 /** Update InferencePool (asynchronous). */
 export function update(
   context: Client,
@@ -207,7 +204,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, inferencePoolName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<InferencePool>, InferencePool>;
 }
 
@@ -226,7 +223,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       inferencePoolName: inferencePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,7 +252,6 @@ export async function _createOrUpdateDeserialize(
 
   return inferencePoolDeserializer(result.body);
 }
-
 /** Create or update InferencePool (asynchronous). */
 export function createOrUpdate(
   context: Client,
@@ -278,7 +274,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<InferencePool>, InferencePool>;
 }
 
@@ -296,7 +292,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       inferencePoolName: inferencePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -321,7 +317,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 
   return inferencePoolDeserializer(result.body);
 }
-
 /** Get InferencePool. */
 export async function get(
   context: Client,

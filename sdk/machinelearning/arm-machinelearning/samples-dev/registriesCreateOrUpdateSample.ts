@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update registry
  *
  * @summary create or update registry
- * x-ms-original-file: 2026-03-15-preview/Registries/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Registries/createOrUpdate.json
  */
 async function createOrUpdateRegistryWithSystemCreatedAccounts(): Promise<void> {
   const credential = new DefaultAzureCredential();

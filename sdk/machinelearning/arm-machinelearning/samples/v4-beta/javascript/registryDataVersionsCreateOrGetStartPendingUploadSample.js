@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generate a storage location and credential for the client to upload a data asset to.
  *
  * @summary generate a storage location and credential for the client to upload a data asset to.
- * x-ms-original-file: 2026-03-15-preview/Registry/DataVersionBase/createOrGetStartPendingUpload.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/DataVersionBase/createOrGetStartPendingUpload.json
  */
 async function createOrGetStartPendingUploadRegistryDataVersionBase() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list data versions in the data container
  *
  * @summary list data versions in the data container
- * x-ms-original-file: 2026-03-15-preview/Workspace/DataVersionBase/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/DataVersionBase/list.json
  */
 async function listWorkspaceDataVersionBase(): Promise<void> {
   const credential = new DefaultAzureCredential();

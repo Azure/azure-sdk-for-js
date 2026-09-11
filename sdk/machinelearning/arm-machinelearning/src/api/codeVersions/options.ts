@@ -5,13 +5,11 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface CodeVersionsCreateOrGetStartPendingUploadOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface CodeVersionsPublishOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface CodeVersionsListOptionalParams extends OperationOptions {
   /** Ordering of list. */
@@ -25,12 +23,9 @@ export interface CodeVersionsListOptionalParams extends OperationOptions {
   /** Hash algorithm version when listing by hash */
   hashVersion?: string;
 }
-
 /** Optional parameters. */
 export interface CodeVersionsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface CodeVersionsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface CodeVersionsGetOptionalParams extends OperationOptions {}

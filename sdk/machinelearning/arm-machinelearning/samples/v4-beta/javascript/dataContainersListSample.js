@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list data containers.
  *
  * @summary list data containers.
- * x-ms-original-file: 2026-03-15-preview/Workspace/DataContainer/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/DataContainer/list.json
  */
 async function listWorkspaceDataContainer() {
   const credential = new DefaultAzureCredential();

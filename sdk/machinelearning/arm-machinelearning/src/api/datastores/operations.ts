@@ -42,7 +42,7 @@ export function _listSecretsSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,7 +71,6 @@ export async function _listSecretsDeserialize(
 
   return datastoreSecretsUnionDeserializer(result.body);
 }
-
 /** Get datastore secrets. */
 export async function listSecrets(
   context: Client,
@@ -96,7 +95,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24skip": options?.skip,
       count: options?.count ?? 30,
       isDefault: options?.isDefault,
@@ -134,7 +133,6 @@ export async function _listDeserialize(
 
   return _datastoreResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List datastores. */
 export function list(
   context: Client,
@@ -150,7 +148,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -169,7 +167,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +189,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete datastore. */
 export async function $delete(
   context: Client,
@@ -219,7 +216,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       skipValidation: options?.skipValidation ?? false,
     },
     {
@@ -249,7 +246,6 @@ export async function _createOrUpdateDeserialize(
 
   return datastoreDeserializer(result.body);
 }
-
 /** Create or update datastore. */
 export async function createOrUpdate(
   context: Client,
@@ -284,7 +280,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -309,7 +305,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return datastoreDeserializer(result.body);
 }
-
 /** Get datastore. */
 export async function get(
   context: Client,

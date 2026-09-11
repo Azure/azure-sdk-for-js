@@ -81,7 +81,6 @@ export interface RegistryModelContainersOperations {
     options?: RegistryModelContainersGetOptionalParams,
   ) => Promise<ModelContainer>;
 }
-
 function _getRegistryModelContainers(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -162,7 +161,6 @@ function _getRegistryModelContainers(context: AzureMachineLearningServicesManage
     ) => get(context, resourceGroupName, registryName, modelName, options),
   };
 }
-
 export function _getRegistryModelContainersOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RegistryModelContainersOperations {

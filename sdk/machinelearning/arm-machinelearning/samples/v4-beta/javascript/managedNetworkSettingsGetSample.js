@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get API for managed network settings of a machine learning workspace.
  *
  * @summary get API for managed network settings of a machine learning workspace.
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/getManagedNetworkV2.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/getManagedNetworkV2.json
  */
 async function getManagedNetworkSettings() {
   const credential = new DefaultAzureCredential();

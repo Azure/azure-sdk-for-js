@@ -11,22 +11,17 @@ export interface InferenceGroupsListSkusOptionalParams extends OperationOptions 
   /** Continuation token for pagination. */
   skip?: string;
 }
-
 /** Optional parameters. */
 export interface InferenceGroupsGetStatusOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface InferenceGroupsModifyDeltaModelsAsyncOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface InferenceGroupsListDeltaModelsAsyncOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface InferenceGroupsGetDeltaModelsStatusAsyncOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface InferenceGroupsListOptionalParams extends OperationOptions {
   /** Number of InferenceGroup to be retrieved in a page of results. */
@@ -40,24 +35,20 @@ export interface InferenceGroupsListOptionalParams extends OperationOptions {
   /** The option to order the response. */
   orderBy?: OrderString;
 }
-
 /** Optional parameters. */
 export interface InferenceGroupsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface InferenceGroupsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface InferenceGroupsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface InferenceGroupsGetOptionalParams extends OperationOptions {}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Marketplace Subscription (asynchronous).
  *
  * @summary delete Marketplace Subscription (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/MarketplaceSubscription/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/MarketplaceSubscription/delete.json
  */
 async function deleteWorkspaceMarketplaceSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
