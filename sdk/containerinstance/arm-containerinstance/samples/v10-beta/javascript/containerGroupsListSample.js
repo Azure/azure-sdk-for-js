@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  *
  * @summary get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsList.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsList.json
  */
 async function containerGroupsList() {
   const credential = new DefaultAzureCredential();

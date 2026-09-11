@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  *
  * @summary gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsGetPriority.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsGetPriority.json
  */
 async function containerGroupsGetWithPriority(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function containerGroupsGetWithPriority(): Promise<void> {
  * This sample demonstrates how to gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  *
  * @summary gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsGet_Failed.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsGet_Failed.json
  */
 async function containerGroupsGetFailed(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function containerGroupsGetFailed(): Promise<void> {
  * This sample demonstrates how to gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  *
  * @summary gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsGet_Succeeded.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsGet_Succeeded.json
  */
 async function containerGroupsGetSucceeded(): Promise<void> {
   const credential = new DefaultAzureCredential();

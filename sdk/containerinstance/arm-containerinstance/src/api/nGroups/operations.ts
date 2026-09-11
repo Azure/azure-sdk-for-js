@@ -42,7 +42,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ngroupsName: ngroupsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Restarts all container groups in the specified NGroups resource in place. If container image has updates, new image will be downloaded. */
 export function restart(
   context: Client,
@@ -77,7 +76,7 @@ export function restart(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _restartSend(context, resourceGroupName, ngroupsName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -93,7 +92,7 @@ export function _stopSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ngroupsName: ngroupsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +114,6 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
 
   return;
 }
-
 /** Stops all container groups in the specified NGroups resource. Compute resources will be deallocated and billing will stop. */
 export async function stop(
   context: Client,
@@ -139,7 +137,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ngroupsName: ngroupsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,7 +159,6 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
-
 /** Starts all container groups in the specified NGroups resource. Compute resources will be allocated and billing will start. */
 export function start(
   context: Client,
@@ -174,7 +171,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, ngroupsName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -186,7 +183,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/ngroups{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +208,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _nGroupsListResultDeserializer(result.body);
 }
-
 /** Gets a list of all NGroups resources under a subscription. */
 export function list(
   context: Client,
@@ -225,7 +221,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -240,7 +236,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +263,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _nGroupsListResultDeserializer(result.body);
 }
-
 /** Gets a list of all NGroups resources under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -282,7 +277,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -299,7 +294,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ngroupsName: ngroupsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -321,7 +316,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the NGroups resource. */
 export function $delete(
   context: Client,
@@ -334,7 +328,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, ngroupsName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -351,7 +345,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ngroupsName: ngroupsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -378,7 +372,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return nGroupDeserializer(result.body);
 }
-
 /** Update a specified NGroups resource. */
 export function update(
   context: Client,
@@ -392,7 +385,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, ngroupsName, nGroup, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<NGroup>, NGroup>;
 }
 
@@ -409,7 +402,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ngroupsName: ngroupsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,7 +429,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return nGroupDeserializer(result.body);
 }
-
 /** Create or update a NGroups resource. */
 export function createOrUpdate(
   context: Client,
@@ -451,7 +443,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, ngroupsName, nGroup, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<NGroup>, NGroup>;
 }
 
@@ -467,7 +459,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ngroupsName: ngroupsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -492,7 +484,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<NG
 
   return nGroupDeserializer(result.body);
 }
-
 /** Get the properties of the specified NGroups resource. */
 export async function get(
   context: Client,

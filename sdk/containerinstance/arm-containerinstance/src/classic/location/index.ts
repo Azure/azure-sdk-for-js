@@ -29,7 +29,6 @@ export interface LocationOperations {
     options?: LocationListUsageOptionalParams,
   ) => PagedAsyncIterableIterator<Usage>;
 }
-
 function _getLocation(context: ContainerInstanceManagementContext) {
   return {
     listCapabilities: (location: string, options?: LocationListCapabilitiesOptionalParams) =>
@@ -40,7 +39,6 @@ function _getLocation(context: ContainerInstanceManagementContext) {
       listUsage(context, location, options),
   };
 }
-
 export function _getLocationOperations(
   context: ContainerInstanceManagementContext,
 ): LocationOperations {

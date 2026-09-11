@@ -117,17 +117,17 @@ export type {
   ContainerGroupProfile,
   ContainerGroupProfileProperties,
   ContainerGroupProfilePatch,
-  SandboxGroup,
-  SandboxGroupProperties,
-  SandboxGroupProvisioningState,
-  SandboxGroupNetworkProfile,
+  AiAgentsGroup,
+  AiAgentsGroupProperties,
+  AiAgentsGroupProvisioningState,
+  AiAgentsGroupNetworkProfile,
   SubnetReference,
   ManagedServiceIdentity,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   TrackedResource,
-  SandboxGroupTagsUpdate,
-  SandboxGroupAccessToken,
+  AiAgentsGroupTagsUpdate,
+  AiAgentsGroupAccessToken,
   Logs,
   ContainerExecRequest,
   ContainerExecRequestTerminalSize,
@@ -157,11 +157,20 @@ export {
   KnownCreatedByType,
   KnownNGroupProvisioningState,
   KnownNGroupUpdateMode,
-  KnownSandboxGroupProvisioningState,
+  KnownAiAgentsGroupProvisioningState,
   KnownManagedServiceIdentityType,
   KnownVersions,
 } from "./models/index.js";
 export type { ContainerInstanceManagementClientOptionalParams } from "./api/index.js";
+export type {
+  AiAgentsGroupsConnectOptionalParams,
+  AiAgentsGroupsDeleteOptionalParams,
+  AiAgentsGroupsUpdateOptionalParams,
+  AiAgentsGroupsCreateOrUpdateOptionalParams,
+  AiAgentsGroupsGetOptionalParams,
+  AiAgentsGroupsListByResourceGroupOptionalParams,
+  AiAgentsGroupsListBySubscriptionOptionalParams,
+} from "./api/aiAgentsGroups/index.js";
 export type {
   CGProfileDeleteOptionalParams,
   CGProfileUpdateOptionalParams,
@@ -208,17 +217,9 @@ export type {
   NGroupsGetOptionalParams,
 } from "./api/nGroups/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
-export type {
-  SandboxGroupsConnectOptionalParams,
-  SandboxGroupsDeleteOptionalParams,
-  SandboxGroupsUpdateOptionalParams,
-  SandboxGroupsCreateOrUpdateOptionalParams,
-  SandboxGroupsGetOptionalParams,
-  SandboxGroupsListByResourceGroupOptionalParams,
-  SandboxGroupsListBySubscriptionOptionalParams,
-} from "./api/sandboxGroups/index.js";
 export type { SubnetServiceAssociationLinkDeleteOptionalParams } from "./api/subnetServiceAssociationLink/index.js";
 export type {
+  AiAgentsGroupsOperations,
   CGProfileOperations,
   CGProfilesOperations,
   ContainerGroupsOperations,
@@ -226,7 +227,6 @@ export type {
   LocationOperations,
   NGroupsOperations,
   OperationsOperations,
-  SandboxGroupsOperations,
   SubnetServiceAssociationLinkOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

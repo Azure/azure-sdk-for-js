@@ -5,21 +5,20 @@ import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance"
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get a SandboxGroup
+ * This sample demonstrates how to delete an AiAgentsGroup
  *
- * @summary get a SandboxGroup
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsGet.json
+ * @summary delete an AiAgentsGroup
+ * x-ms-original-file: 2026-08-01-preview/AiAgentsGroupsDelete.json
  */
-async function getASandboxGroup(): Promise<void> {
+async function deleteAAiAgentsGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
-  const result = await client.sandboxGroups.get("myResourceGroup", "mySandboxGroup");
-  console.log(result);
+  await client.aiAgentsGroups.delete("myResourceGroup", "myAiAgentsGroup");
 }
 
 async function main(): Promise<void> {
-  await getASandboxGroup();
+  await deleteAAiAgentsGroup();
 }
 
 main().catch(console.error);

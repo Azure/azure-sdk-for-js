@@ -5,25 +5,23 @@ import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance"
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list SandboxGroup resources by subscription ID
+ * This sample demonstrates how to update an AiAgentsGroup
  *
- * @summary list SandboxGroup resources by subscription ID
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsListBySubscription.json
+ * @summary update an AiAgentsGroup
+ * x-ms-original-file: 2026-08-01-preview/AiAgentsGroupsUpdate.json
  */
-async function listSandboxGroupsBySubscription(): Promise<void> {
+async function updateAAiAgentsGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.sandboxGroups.listBySubscription()) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  const result = await client.aiAgentsGroups.update("myResourceGroup", "myAiAgentsGroup", {
+    tags: { environment: "production" },
+  });
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await listSandboxGroupsBySubscription();
+  await updateAAiAgentsGroup();
 }
 
 main().catch(console.error);

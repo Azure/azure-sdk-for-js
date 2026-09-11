@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the logs for a specified container instance in a specified resource group and container group.
  *
  * @summary get the logs for a specified container instance in a specified resource group and container group.
- * x-ms-original-file: 2026-06-01-preview/ContainerListLogs.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerListLogs.json
  */
 async function containerListLogs(): Promise<void> {
   const credential = new DefaultAzureCredential();

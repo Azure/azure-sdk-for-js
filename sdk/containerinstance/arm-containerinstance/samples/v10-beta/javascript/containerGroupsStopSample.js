@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to stops all containers in a container group. Compute resources will be deallocated and billing will stop.
  *
  * @summary stops all containers in a container group. Compute resources will be deallocated and billing will stop.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsStop.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsStop.json
  */
 async function containerStop() {
   const credential = new DefaultAzureCredential();

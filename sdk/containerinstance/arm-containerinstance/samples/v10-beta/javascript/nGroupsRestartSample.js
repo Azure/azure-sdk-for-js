@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restarts all container groups in the specified NGroups resource in place. If container image has updates, new image will be downloaded.
  *
  * @summary restarts all container groups in the specified NGroups resource in place. If container image has updates, new image will be downloaded.
- * x-ms-original-file: 2026-06-01-preview/NGroupsRestart.json
+ * x-ms-original-file: 2026-08-01-preview/NGroupsRestart.json
  */
 async function nGroupsRestart() {
   const credential = new DefaultAzureCredential();

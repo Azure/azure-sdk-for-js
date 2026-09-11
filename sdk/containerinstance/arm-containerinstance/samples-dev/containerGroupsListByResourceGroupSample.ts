@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  *
  * @summary get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsListByResourceGroup.json
  */
 async function containerGroupsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

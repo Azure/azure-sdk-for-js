@@ -146,7 +146,6 @@ export interface ContainerGroupsOperations {
     options?: ContainerGroupsGetOptionalParams,
   ) => Promise<ContainerGroup>;
 }
-
 function _getContainerGroups(context: ContainerInstanceManagementContext) {
   return {
     listByResourceGroup: (
@@ -282,7 +281,6 @@ function _getContainerGroups(context: ContainerInstanceManagementContext) {
     ) => get(context, resourceGroupName, containerGroupName, options),
   };
 }
-
 export function _getContainerGroupsOperations(
   context: ContainerInstanceManagementContext,
 ): ContainerGroupsOperations {

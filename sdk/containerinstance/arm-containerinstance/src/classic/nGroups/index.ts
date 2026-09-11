@@ -148,7 +148,6 @@ export interface NGroupsOperations {
     options?: NGroupsGetOptionalParams,
   ) => Promise<NGroup>;
 }
-
 function _getNGroups(context: ContainerInstanceManagementContext) {
   return {
     restart: (
@@ -270,7 +269,6 @@ function _getNGroups(context: ContainerInstanceManagementContext) {
       get(context, resourceGroupName, ngroupsName, options),
   };
 }
-
 export function _getNGroupsOperations(
   context: ContainerInstanceManagementContext,
 ): NGroupsOperations {
