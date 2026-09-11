@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Consumption": "2024-08-01"
+    "Microsoft.Consumption": "2026-06-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Consumption",
     "CrossLanguageDefinitionId": {
@@ -76,16 +76,19 @@
       "@azure/arm-consumption!SkuProperty:interface": "Microsoft.Consumption.SkuProperty",
       "@azure/arm-consumption!LegacySingleScopeReservationRecommendationProperties:interface": "Microsoft.Consumption.LegacySingleScopeReservationRecommendationProperties",
       "@azure/arm-consumption!LegacySharedScopeReservationRecommendationProperties:interface": "Microsoft.Consumption.LegacySharedScopeReservationRecommendationProperties",
+      "@azure/arm-consumption!LegacyManagementGroupScopeReservationRecommendationProperties:interface": "Microsoft.Consumption.LegacyManagementGroupScopeReservationRecommendationProperties",
       "@azure/arm-consumption!ModernReservationRecommendation:interface": "Microsoft.Consumption.ModernReservationRecommendation",
       "@azure/arm-consumption!ModernReservationRecommendationProperties:interface": "Microsoft.Consumption.ModernReservationRecommendationProperties",
       "@azure/arm-consumption!ModernSingleScopeReservationRecommendationProperties:interface": "Microsoft.Consumption.ModernSingleScopeReservationRecommendationProperties",
       "@azure/arm-consumption!ModernSharedScopeReservationRecommendationProperties:interface": "Microsoft.Consumption.ModernSharedScopeReservationRecommendationProperties",
+      "@azure/arm-consumption!ModernManagementGroupScopeReservationRecommendationProperties:interface": "Microsoft.Consumption.ModernManagementGroupScopeReservationRecommendationProperties",
       "@azure/arm-consumption!ReservationRecommendationDetailsModel:interface": "Microsoft.Consumption.ReservationRecommendationDetailsModel",
       "@azure/arm-consumption!ReservationRecommendationDetailsProperties:interface": "Microsoft.Consumption.ReservationRecommendationDetailsProperties",
       "@azure/arm-consumption!ReservationRecommendationDetailsResourceProperties:interface": "Microsoft.Consumption.ReservationRecommendationDetailsResourceProperties",
       "@azure/arm-consumption!ReservationRecommendationDetailsSavingsProperties:interface": "Microsoft.Consumption.ReservationRecommendationDetailsSavingsProperties",
       "@azure/arm-consumption!ReservationRecommendationDetailsCalculatedSavingsProperties:interface": "Microsoft.Consumption.ReservationRecommendationDetailsCalculatedSavingsProperties",
       "@azure/arm-consumption!ReservationRecommendationDetailsUsageProperties:interface": "Microsoft.Consumption.ReservationRecommendationDetailsUsageProperties",
+      "@azure/arm-consumption!ReservationRecommendationDetailsProjectedUsageProperties:interface": "Microsoft.Consumption.ReservationRecommendationDetailsProjectedUsageProperties",
       "@azure/arm-consumption!HighCasedErrorResponse:interface": "Microsoft.Consumption.HighCasedErrorResponse",
       "@azure/arm-consumption!HighCasedErrorDetails:interface": "Microsoft.Consumption.HighCasedErrorDetails",
       "@azure/arm-consumption!ReservationTransactionsListResult:interface": "Microsoft.Consumption.ReservationTransactionsListResult",

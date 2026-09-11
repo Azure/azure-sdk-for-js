@@ -7,4 +7,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 export interface ReservationRecommendationDetailsGetOptionalParams extends OperationOptions {
   /** Used to filter reservation recommendation details by: properties/subscriptionId can be specified for billing account and billing profile paths. */
   filter?: string;
+  /** Specify the management group ID. Required when recommendation scope is 'ManagementGroup'. */
+  managementGroupId?: string;
 }

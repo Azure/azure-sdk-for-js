@@ -28,16 +28,17 @@ export function _getSend(
   options: ReservationRecommendationDetailsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceScope}/providers/Microsoft.Consumption/reservationRecommendationDetails{?api%2Dversion,scope,region,term,lookBackPeriod,product,%24filter}",
+    "/{+resourceScope}/providers/Microsoft.Consumption/reservationRecommendationDetails{?api%2Dversion,scope,region,term,lookBackPeriod,product,%24filter,managementGroupId}",
     {
       resourceScope: resourceScope,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       scope: scope,
       region: region,
       term: term,
       lookBackPeriod: lookBackPeriod,
       product: product,
       "%24filter": options?.filter,
+      managementGroupId: options?.managementGroupId,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,7 +52,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<ReservationRecommendationDetailsModel | undefined> {
+): Promise<ReservationRecommendationDetailsModel | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -62,7 +63,11 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return result.body ? reservationRecommendationDetailsModelDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return reservationRecommendationDetailsModelDeserializer(result.body);
 }
 
 /** Details of a reservation recommendation for what-if analysis of reserved instances. */
@@ -75,7 +80,7 @@ export async function get(
   lookBackPeriod: LookBackPeriod,
   product: string,
   options: ReservationRecommendationDetailsGetOptionalParams = { requestOptions: {} },
-): Promise<ReservationRecommendationDetailsModel | undefined> {
+): Promise<ReservationRecommendationDetailsModel | void> {
   const result = await _getSend(
     context,
     resourceScope,

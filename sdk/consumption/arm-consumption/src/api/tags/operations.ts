@@ -18,7 +18,7 @@ export function _getSend(
     "/{+scope}/providers/Microsoft.Consumption/tags{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -30,9 +30,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TagsResult | undefined> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<TagsResult | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -43,7 +41,11 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return result.body ? tagsResultDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return tagsResultDeserializer(result.body);
 }
 
 /** Get all available tag keys for the defined scope */
@@ -51,7 +53,7 @@ export async function get(
   context: Client,
   scope: string,
   options: TagsGetOptionalParams = { requestOptions: {} },
-): Promise<TagsResult | undefined> {
+): Promise<TagsResult | void> {
   const result = await _getSend(context, scope, options);
   return _getDeserialize(result);
 }

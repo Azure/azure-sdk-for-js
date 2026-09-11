@@ -71,14 +71,7 @@ export class ConsumptionManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createConsumptionManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createConsumptionManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.lotsOperations = _getLotsOperationsOperations(this._client);
     this.eventsOperations = _getEventsOperationsOperations(this._client);

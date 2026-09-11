@@ -1,4 +1,28 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/lotsOperations/index.ts",
+    "../src/api/eventsOperations/index.ts",
+    "../src/api/aggregatedCost/index.ts",
+    "../src/api/reservationTransactions/index.ts",
+    "../src/api/reservationRecommendationDetails/index.ts",
+    "../src/api/reservationRecommendations/index.ts",
+    "../src/api/reservationsDetails/index.ts",
+    "../src/api/reservationsSummaries/index.ts",
+    "../src/api/balances/index.ts",
+    "../src/api/charges/index.ts",
+    "../src/api/tags/index.ts",
+    "../src/api/marketplaces/index.ts",
+    "../src/api/usageDetails/index.ts",
+    "../src/api/credits/index.ts",
+    "../src/api/budgets/index.ts",
+    "../src/api/priceSheet/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }
