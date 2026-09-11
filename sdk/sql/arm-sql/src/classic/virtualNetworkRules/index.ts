@@ -81,7 +81,6 @@ export interface VirtualNetworkRulesOperations {
     options?: VirtualNetworkRulesGetOptionalParams,
   ) => Promise<VirtualNetworkRule>;
 }
-
 function _getVirtualNetworkRules(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -176,7 +175,6 @@ function _getVirtualNetworkRules(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, virtualNetworkRuleName, options),
   };
 }
-
 export function _getVirtualNetworkRulesOperations(
   context: SqlManagementContext,
 ): VirtualNetworkRulesOperations {

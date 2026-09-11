@@ -169,7 +169,6 @@ export interface SyncMembersOperations {
     options?: SyncMembersGetOptionalParams,
   ) => Promise<SyncMember>;
 }
-
 function _getSyncMembers(context: SqlManagementContext) {
   return {
     listMemberSchemas: (
@@ -448,7 +447,6 @@ function _getSyncMembers(context: SqlManagementContext) {
       ),
   };
 }
-
 export function _getSyncMembersOperations(context: SqlManagementContext): SyncMembersOperations {
   return {
     ..._getSyncMembers(context),

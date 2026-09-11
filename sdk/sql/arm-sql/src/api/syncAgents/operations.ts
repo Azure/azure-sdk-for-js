@@ -47,7 +47,7 @@ export function _listLinkedDatabasesSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       syncAgentName: syncAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,7 +74,6 @@ export async function _listLinkedDatabasesDeserialize(
 
   return _syncAgentLinkedDatabaseListResultDeserializer(result.body);
 }
-
 /** Lists databases linked to a sync agent. */
 export function listLinkedDatabases(
   context: Client,
@@ -88,7 +87,11 @@ export function listLinkedDatabases(
     () => _listLinkedDatabasesSend(context, resourceGroupName, serverName, syncAgentName, options),
     _listLinkedDatabasesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -106,7 +109,7 @@ export function _generateKeySend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       syncAgentName: syncAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +136,6 @@ export async function _generateKeyDeserialize(
 
   return syncAgentKeyPropertiesDeserializer(result.body);
 }
-
 /** Generates a sync agent key. */
 export async function generateKey(
   context: Client,
@@ -164,7 +166,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +193,6 @@ export async function _listByServerDeserialize(
 
   return _syncAgentListResultDeserializer(result.body);
 }
-
 /** Lists sync agents in a server. */
 export function listByServer(
   context: Client,
@@ -204,7 +205,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -222,7 +227,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       syncAgentName: syncAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -244,7 +249,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a sync agent. */
 export function $delete(
   context: Client,
@@ -259,7 +263,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, syncAgentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -278,7 +282,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       syncAgentName: syncAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,7 +311,6 @@ export async function _createOrUpdateDeserialize(
 
   return syncAgentDeserializer(result.body);
 }
-
 /** Creates or updates a sync agent. */
 export function createOrUpdate(
   context: Client,
@@ -330,7 +333,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<SyncAgent>, SyncAgent>;
 }
 
@@ -348,7 +351,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       syncAgentName: syncAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -373,7 +376,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sy
 
   return syncAgentDeserializer(result.body);
 }
-
 /** Gets a sync agent. */
 export async function get(
   context: Client,

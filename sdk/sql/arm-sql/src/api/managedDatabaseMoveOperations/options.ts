@@ -10,6 +10,5 @@ export interface ManagedDatabaseMoveOperationsListByLocationOptionalParams exten
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseMoveOperationsGetOptionalParams extends OperationOptions {}

@@ -142,7 +142,6 @@ export interface TransparentDataEncryptionsOperations {
     options?: TransparentDataEncryptionsGetOptionalParams,
   ) => Promise<LogicalDatabaseTransparentDataEncryption>;
 }
-
 function _getTransparentDataEncryptions(context: SqlManagementContext) {
   return {
     suspend: (
@@ -276,7 +275,6 @@ function _getTransparentDataEncryptions(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, tdeName, options),
   };
 }
-
 export function _getTransparentDataEncryptionsOperations(
   context: SqlManagementContext,
 ): TransparentDataEncryptionsOperations {

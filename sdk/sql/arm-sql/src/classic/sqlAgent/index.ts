@@ -25,7 +25,6 @@ export interface SqlAgentOperations {
     options?: SqlAgentGetOptionalParams,
   ) => Promise<SqlAgentConfiguration>;
 }
-
 function _getSqlAgent(context: SqlManagementContext) {
   return {
     createOrUpdate: (
@@ -41,7 +40,6 @@ function _getSqlAgent(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, options),
   };
 }
-
 export function _getSqlAgentOperations(context: SqlManagementContext): SqlAgentOperations {
   return {
     ..._getSqlAgent(context),

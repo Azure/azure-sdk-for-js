@@ -30,7 +30,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _listByInstanceDeserialize(
 
   return _endpointCertificateListResultDeserializer(result.body);
 }
-
 /** List certificates used on endpoints on the target instance. */
 export function listByInstance(
   context: Client,
@@ -70,7 +69,11 @@ export function listByInstance(
     () => _listByInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -88,7 +91,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       endpointType: endpointType,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +116,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
 
   return endpointCertificateDeserializer(result.body);
 }
-
 /** Gets a certificate used on the endpoint with the given id. */
 export async function get(
   context: Client,

@@ -8,30 +8,24 @@ export interface VirtualClustersUpdateDnsServersOptionalParams extends Operation
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface VirtualClustersListOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface VirtualClustersListByResourceGroupOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface VirtualClustersDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface VirtualClustersUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface VirtualClustersCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface VirtualClustersGetOptionalParams extends OperationOptions {}

@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Sql": "2025-01-01"
+    "Microsoft.Sql": "2025-08-01-preview"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Sql",
     "CrossLanguageDefinitionId": {
@@ -199,6 +199,7 @@
       "@azure/arm-sql!EncryptionProtectorListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-sql!EndpointCertificate:interface": "Microsoft.Sql.EndpointCertificate",
       "@azure/arm-sql!EndpointCertificateProperties:interface": "Microsoft.Sql.EndpointCertificateProperties",
+      "@azure/arm-sql!EndpointTrustedRootCertificateInfo:interface": "Microsoft.Sql.EndpointTrustedRootCertificateInfo",
       "@azure/arm-sql!EndpointCertificateListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-sql!FailoverGroup:interface": "Microsoft.Sql.FailoverGroup",
       "@azure/arm-sql!FailoverGroupProperties:interface": "Microsoft.Sql.FailoverGroupProperties",
@@ -401,6 +402,8 @@
       "@azure/arm-sql!SyncGroupSchema:interface": "Microsoft.Sql.SyncGroupSchema",
       "@azure/arm-sql!SyncGroupSchemaTable:interface": "Microsoft.Sql.SyncGroupSchemaTable",
       "@azure/arm-sql!SyncGroupSchemaTableColumn:interface": "Microsoft.Sql.SyncGroupSchemaTableColumn",
+      "@azure/arm-sql!DataSyncParticipantIdentity:interface": "Microsoft.Sql.DataSyncParticipantIdentity",
+      "@azure/arm-sql!DataSyncParticipantUserAssignedIdentity:interface": "Microsoft.Sql.DataSyncParticipantUserAssignedIdentity",
       "@azure/arm-sql!SyncGroupListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-sql!SyncFullSchemaPropertiesListResult:interface": "Microsoft.Sql.SyncFullSchemaPropertiesListResult",
       "@azure/arm-sql!SyncFullSchemaProperties:interface": "Microsoft.Sql.SyncFullSchemaProperties",
@@ -626,6 +629,7 @@
       "@azure/arm-sql!KnownLinkRole:enum": "Microsoft.Sql.LinkRole",
       "@azure/arm-sql!KnownFailoverModeType:enum": "Microsoft.Sql.FailoverModeType",
       "@azure/arm-sql!KnownSeedingModeType:enum": "Microsoft.Sql.SeedingModeType",
+      "@azure/arm-sql!KnownLinkModeType:enum": "Microsoft.Sql.LinkModeType",
       "@azure/arm-sql!KnownReplicaSynchronizationHealth:enum": "Microsoft.Sql.ReplicaSynchronizationHealth",
       "@azure/arm-sql!KnownReplicaConnectedState:enum": "Microsoft.Sql.ReplicaConnectedState",
       "@azure/arm-sql!KnownFailoverType:enum": "Microsoft.Sql.FailoverType",
@@ -684,6 +688,7 @@
       "@azure/arm-sql!KnownSecurityAlertPolicyState:enum": "Microsoft.Sql.SecurityAlertPolicyState",
       "@azure/arm-sql!KnownAdministratorName:enum": "Microsoft.Sql.AdministratorName",
       "@azure/arm-sql!KnownManagedInstanceAdministratorType:enum": "Microsoft.Sql.ManagedInstanceAdministratorType",
+      "@azure/arm-sql!KnownManagedInstanceAdministratorPrincipalType:enum": "Microsoft.Sql.ManagedInstanceAdministratorPrincipalType",
       "@azure/arm-sql!KnownAuthenticationName:enum": "Microsoft.Sql.AuthenticationName",
       "@azure/arm-sql!KnownDtcName:enum": "Microsoft.Sql.DtcName",
       "@azure/arm-sql!KnownManagedInstanceLongTermRetentionPolicyName:enum": "Microsoft.Sql.ManagedInstanceLongTermRetentionPolicyName",
@@ -698,6 +703,7 @@
       "@azure/arm-sql!KnownSyncMemberDbType:enum": "Microsoft.Sql.SyncMemberDbType",
       "@azure/arm-sql!KnownSyncConflictResolutionPolicy:enum": "Microsoft.Sql.SyncConflictResolutionPolicy",
       "@azure/arm-sql!KnownSyncGroupState:enum": "Microsoft.Sql.SyncGroupState",
+      "@azure/arm-sql!KnownDataSyncParticipantIdentityType:enum": "Microsoft.Sql.DataSyncParticipantIdentityType",
       "@azure/arm-sql!KnownSyncGroupsType:enum": "Microsoft.Sql.SyncGroupsType",
       "@azure/arm-sql!KnownSyncGroupLogType:enum": "Microsoft.Sql.SyncGroupLogType",
       "@azure/arm-sql!KnownSyncDirection:enum": "Microsoft.Sql.SyncDirection",

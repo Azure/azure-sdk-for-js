@@ -5,12 +5,10 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ServerSecurityAlertPoliciesListByServerOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ServerSecurityAlertPoliciesGetOptionalParams extends OperationOptions {}

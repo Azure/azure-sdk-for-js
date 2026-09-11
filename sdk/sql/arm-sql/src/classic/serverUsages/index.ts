@@ -16,7 +16,6 @@ export interface ServerUsagesOperations {
     options?: ServerUsagesListByServerOptionalParams,
   ) => PagedAsyncIterableIterator<ServerUsage>;
 }
-
 function _getServerUsages(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -26,7 +25,6 @@ function _getServerUsages(context: SqlManagementContext) {
     ) => listByServer(context, resourceGroupName, serverName, options),
   };
 }
-
 export function _getServerUsagesOperations(context: SqlManagementContext): ServerUsagesOperations {
   return {
     ..._getServerUsages(context),

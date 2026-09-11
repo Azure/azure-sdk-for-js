@@ -8,6 +8,5 @@ export interface ManagedDatabaseSchemasListByDatabaseOptionalParams extends Oper
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseSchemasGetOptionalParams extends OperationOptions {}

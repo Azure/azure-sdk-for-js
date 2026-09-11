@@ -8,21 +8,17 @@ export interface ManagedServerDnsAliasesAcquireOptionalParams extends OperationO
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedServerDnsAliasesListByManagedInstanceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedServerDnsAliasesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedServerDnsAliasesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedServerDnsAliasesGetOptionalParams extends OperationOptions {}

@@ -11,7 +11,6 @@ export interface LongTermRetentionManagedInstanceBackupsListByResourceGroupInsta
   /** Whether to query against just live databases, just deleted databases, or all databases. */
   databaseState?: DatabaseState;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams extends OperationOptions {
   /** Whether or not to only get the latest backup for each database. */
@@ -25,7 +24,6 @@ export interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocat
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsListByInstanceOptionalParams extends OperationOptions {
   /** Whether or not to only get the latest backup for each database. */
@@ -33,7 +31,6 @@ export interface LongTermRetentionManagedInstanceBackupsListByInstanceOptionalPa
   /** Whether to query against just live databases, just deleted databases, or all databases. */
   databaseState?: DatabaseState;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams extends OperationOptions {
   /** Whether or not to only get the latest backup for each database. */
@@ -47,7 +44,6 @@ export interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalPa
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsListByDatabaseOptionalParams extends OperationOptions {
   /** Whether or not to only get the latest backup for each database. */
@@ -55,16 +51,13 @@ export interface LongTermRetentionManagedInstanceBackupsListByDatabaseOptionalPa
   /** Whether to query against just live databases, just deleted databases, or all databases. */
   databaseState?: DatabaseState;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsGetOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseOptionalParams extends OperationOptions {
   /** Whether or not to only get the latest backup for each database. */
@@ -72,12 +65,10 @@ export interface LongTermRetentionManagedInstanceBackupsListByResourceGroupDatab
   /** Whether to query against just live databases, just deleted databases, or all databases. */
   databaseState?: DatabaseState;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsDeleteByResourceGroupOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsGetByResourceGroupOptionalParams extends OperationOptions {}

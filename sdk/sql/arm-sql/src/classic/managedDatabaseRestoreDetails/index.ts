@@ -20,7 +20,6 @@ export interface ManagedDatabaseRestoreDetailsOperations {
     options?: ManagedDatabaseRestoreDetailsGetOptionalParams,
   ) => Promise<ManagedDatabaseRestoreDetailsResult>;
 }
-
 function _getManagedDatabaseRestoreDetails(context: SqlManagementContext) {
   return {
     get: (
@@ -40,7 +39,6 @@ function _getManagedDatabaseRestoreDetails(context: SqlManagementContext) {
       ),
   };
 }
-
 export function _getManagedDatabaseRestoreDetailsOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseRestoreDetailsOperations {

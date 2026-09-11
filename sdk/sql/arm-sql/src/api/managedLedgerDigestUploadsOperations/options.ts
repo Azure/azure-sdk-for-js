@@ -8,15 +8,12 @@ export interface ManagedLedgerDigestUploadsOperationsDisableOptionalParams exten
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedLedgerDigestUploadsOperationsListByDatabaseOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedLedgerDigestUploadsOperationsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedLedgerDigestUploadsOperationsGetOptionalParams extends OperationOptions {}

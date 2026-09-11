@@ -36,7 +36,7 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +58,6 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Cancels the asynchronous operation on the managed instance. */
 export async function cancel(
   context: Client,
@@ -89,7 +88,7 @@ export function _listByManagedInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +115,6 @@ export async function _listByManagedInstanceDeserialize(
 
   return _managedInstanceOperationListResultDeserializer(result.body);
 }
-
 /** Gets a list of operations performed on the managed instance. */
 export function listByManagedInstance(
   context: Client,
@@ -129,7 +127,11 @@ export function listByManagedInstance(
     () => _listByManagedInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByManagedInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -147,7 +149,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,7 +176,6 @@ export async function _getDeserialize(
 
   return managedInstanceOperationDeserializer(result.body);
 }
-
 /** Gets a management operation on a managed instance. */
 export async function get(
   context: Client,

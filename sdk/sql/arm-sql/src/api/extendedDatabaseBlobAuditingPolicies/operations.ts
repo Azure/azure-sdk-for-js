@@ -39,7 +39,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,6 @@ export async function _listByDatabaseDeserialize(
 
   return _extendedDatabaseBlobAuditingPolicyListResultDeserializer(result.body);
 }
-
 /** Lists extended auditing settings of a database. */
 export function listByDatabase(
   context: Client,
@@ -82,7 +81,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -104,7 +107,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       blobAuditingPolicyName: "default",
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +136,6 @@ export async function _createOrUpdateDeserialize(
 
   return extendedDatabaseBlobAuditingPolicyDeserializer(result.body);
 }
-
 /** Creates or updates an extended database's blob auditing policy. */
 export async function createOrUpdate(
   context: Client,
@@ -171,7 +173,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       blobAuditingPolicyName: "default",
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +200,6 @@ export async function _getDeserialize(
 
   return extendedDatabaseBlobAuditingPolicyDeserializer(result.body);
 }
-
 /** Gets an extended database's blob auditing policy. */
 export async function get(
   context: Client,

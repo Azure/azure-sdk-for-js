@@ -53,7 +53,7 @@ export function _enableRecommendationSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: "recommended",
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -77,7 +77,6 @@ export async function _enableRecommendationDeserialize(
 
   return;
 }
-
 /** Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns) */
 export async function enableRecommendation(
   context: Client,
@@ -123,7 +122,7 @@ export function _disableRecommendationSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: "recommended",
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,7 +146,6 @@ export async function _disableRecommendationDeserialize(
 
   return;
 }
-
 /** Disables sensitivity recommendations on a given column */
 export async function disableRecommendation(
   context: Client,
@@ -193,7 +191,7 @@ export function _$deleteSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: "current",
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,7 +213,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the sensitivity label of a given column */
 export async function $delete(
   context: Client,
@@ -262,7 +259,7 @@ export function _createOrUpdateSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: "current",
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -291,7 +288,6 @@ export async function _createOrUpdateDeserialize(
 
   return sensitivityLabelDeserializer(result.body);
 }
-
 /** Creates or updates the sensitivity label of a given column */
 export async function createOrUpdate(
   context: Client,
@@ -340,7 +336,7 @@ export function _getSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: sensitivityLabelSource,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -365,7 +361,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
 
   return sensitivityLabelDeserializer(result.body);
 }
-
 /** Gets the sensitivity label of a given column */
 export async function get(
   context: Client,
@@ -406,7 +401,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -434,7 +429,6 @@ export async function _listByDatabaseDeserialize(
 
   return _sensitivityLabelListResultDeserializer(result.body);
 }
-
 /** Gets the sensitivity labels of a given database */
 export function listByDatabase(
   context: Client,
@@ -448,7 +442,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -466,7 +464,7 @@ export function _listRecommendedByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       "%24skipToken": options?.skipToken,
       includeDisabledRecommendations: options?.includeDisabledRecommendations,
       "%24filter": options?.filter,
@@ -496,7 +494,6 @@ export async function _listRecommendedByDatabaseDeserialize(
 
   return _sensitivityLabelListResultDeserializer(result.body);
 }
-
 /** Gets the sensitivity labels of a given database */
 export function listRecommendedByDatabase(
   context: Client,
@@ -511,7 +508,11 @@ export function listRecommendedByDatabase(
       _listRecommendedByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listRecommendedByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -530,7 +531,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -556,7 +557,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Update sensitivity labels of a given database using an operations batch. */
 export async function update(
   context: Client,
@@ -591,7 +591,7 @@ export function _listCurrentByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       "%24skipToken": options?.skipToken,
       "%24count": options?.count,
       "%24filter": options?.filter,
@@ -621,7 +621,6 @@ export async function _listCurrentByDatabaseDeserialize(
 
   return _sensitivityLabelListResultDeserializer(result.body);
 }
-
 /** Gets the sensitivity labels of a given database */
 export function listCurrentByDatabase(
   context: Client,
@@ -635,6 +634,10 @@ export function listCurrentByDatabase(
     () => _listCurrentByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listCurrentByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }

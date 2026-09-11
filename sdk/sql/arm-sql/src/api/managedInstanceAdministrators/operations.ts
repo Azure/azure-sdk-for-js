@@ -39,7 +39,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,6 @@ export async function _listByInstanceDeserialize(
 
   return _managedInstanceAdministratorListResultDeserializer(result.body);
 }
-
 /** Gets a list of managed instance administrators. */
 export function listByInstance(
   context: Client,
@@ -79,7 +78,11 @@ export function listByInstance(
     () => _listByInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -97,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       administratorName: administratorName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,7 +122,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a managed instance administrator. */
 export function $delete(
   context: Client,
@@ -134,7 +136,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, managedInstanceName, administratorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +155,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       administratorName: administratorName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +184,6 @@ export async function _createOrUpdateDeserialize(
 
   return managedInstanceAdministratorDeserializer(result.body);
 }
-
 /** Creates or updates a managed instance administrator. */
 export function createOrUpdate(
   context: Client,
@@ -205,7 +206,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ManagedInstanceAdministrator>, ManagedInstanceAdministrator>;
 }
 
@@ -223,7 +224,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       administratorName: administratorName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,7 +251,6 @@ export async function _getDeserialize(
 
   return managedInstanceAdministratorDeserializer(result.body);
 }
-
 /** Gets a managed instance administrator. */
 export async function get(
   context: Client,

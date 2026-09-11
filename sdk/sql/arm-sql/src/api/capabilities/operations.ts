@@ -22,7 +22,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       include: options?.include,
     },
     {
@@ -50,7 +50,6 @@ export async function _listByLocationDeserialize(
 
   return locationCapabilitiesDeserializer(result.body);
 }
-
 /** Gets the subscription capabilities available for the specified location. */
 export async function listByLocation(
   context: Client,

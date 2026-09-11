@@ -92,7 +92,6 @@ export interface ManagedInstanceAzureADOnlyAuthenticationsOperations {
     options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams,
   ) => Promise<ManagedInstanceAzureADOnlyAuthentication>;
 }
-
 function _getManagedInstanceAzureADOnlyAuthentications(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -193,7 +192,6 @@ function _getManagedInstanceAzureADOnlyAuthentications(context: SqlManagementCon
     ) => get(context, resourceGroupName, managedInstanceName, authenticationName, options),
   };
 }
-
 export function _getManagedInstanceAzureADOnlyAuthenticationsOperations(
   context: SqlManagementContext,
 ): ManagedInstanceAzureADOnlyAuthenticationsOperations {

@@ -30,7 +30,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/deletedServers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _listDeserialize(
 
   return _deletedServerListResultDeserializer(result.body);
 }
-
 /** Gets a list of all deleted servers in a subscription. */
 export function list(
   context: Client,
@@ -68,7 +67,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -84,7 +87,7 @@ export function _recoverSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       deletedServerName: deletedServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +112,6 @@ export async function _recoverDeserialize(result: PathUncheckedResponse): Promis
 
   return deletedServerDeserializer(result.body);
 }
-
 /** Recovers a deleted server. */
 export function recover(
   context: Client,
@@ -122,7 +124,7 @@ export function recover(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _recoverSend(context, locationName, deletedServerName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<DeletedServer>, DeletedServer>;
 }
 
@@ -136,7 +138,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +165,6 @@ export async function _listByLocationDeserialize(
 
   return _deletedServerListResultDeserializer(result.body);
 }
-
 /** Gets a list of deleted servers for a location. */
 export function listByLocation(
   context: Client,
@@ -175,7 +176,11 @@ export function listByLocation(
     () => _listByLocationSend(context, locationName, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -191,7 +196,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       deletedServerName: deletedServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,7 +221,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 
   return deletedServerDeserializer(result.body);
 }
-
 /** Gets a deleted server. */
 export async function get(
   context: Client,

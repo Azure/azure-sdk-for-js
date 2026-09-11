@@ -8,6 +8,5 @@ export interface DatabaseTablesListBySchemaOptionalParams extends OperationOptio
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface DatabaseTablesGetOptionalParams extends OperationOptions {}

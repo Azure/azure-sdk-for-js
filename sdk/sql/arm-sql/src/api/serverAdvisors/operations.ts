@@ -30,7 +30,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -56,7 +56,6 @@ export async function _listByServerDeserialize(result: PathUncheckedResponse): P
 
   return advisorArrayDeserializer(result.body);
 }
-
 /** Gets a list of server advisors. */
 export async function listByServer(
   context: Client,
@@ -83,7 +82,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       advisorName: advisorName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,7 +109,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return advisorDeserializer(result.body);
 }
-
 /** Updates a server advisor. */
 export async function update(
   context: Client,
@@ -145,7 +143,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       advisorName: advisorName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,7 +168,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ad
 
   return advisorDeserializer(result.body);
 }
-
 /** Gets a server advisor. */
 export async function get(
   context: Client,

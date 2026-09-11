@@ -8,6 +8,5 @@ export interface ManagedDatabaseTablesListBySchemaOptionalParams extends Operati
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseTablesGetOptionalParams extends OperationOptions {}

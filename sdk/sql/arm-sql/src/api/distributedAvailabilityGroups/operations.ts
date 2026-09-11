@@ -48,7 +48,7 @@ export function _setRoleSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       distributedAvailabilityGroupName: distributedAvailabilityGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -77,7 +77,6 @@ export async function _setRoleDeserialize(
 
   return distributedAvailabilityGroupDeserializer(result.body);
 }
-
 /** Sets the role for managed instance in a distributed availability group. */
 export function setRole(
   context: Client,
@@ -100,7 +99,7 @@ export function setRole(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
 }
 
@@ -119,7 +118,7 @@ export function _failoverSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       distributedAvailabilityGroupName: distributedAvailabilityGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,7 +147,6 @@ export async function _failoverDeserialize(
 
   return distributedAvailabilityGroupDeserializer(result.body);
 }
-
 /** Performs requested failover type in this distributed availability group. */
 export function failover(
   context: Client,
@@ -171,7 +169,7 @@ export function failover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
 }
 
@@ -187,7 +185,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +212,6 @@ export async function _listByInstanceDeserialize(
 
   return _distributedAvailabilityGroupsListResultDeserializer(result.body);
 }
-
 /** Gets a list of a distributed availability groups in instance. */
 export function listByInstance(
   context: Client,
@@ -227,7 +224,11 @@ export function listByInstance(
     () => _listByInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -245,7 +246,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       distributedAvailabilityGroupName: distributedAvailabilityGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +268,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Drops a distributed availability group between Sql On-Prem and Sql Managed Instance. */
 export function $delete(
   context: Client,
@@ -288,7 +288,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -307,7 +307,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       distributedAvailabilityGroupName: distributedAvailabilityGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -336,7 +336,6 @@ export async function _updateDeserialize(
 
   return distributedAvailabilityGroupDeserializer(result.body);
 }
-
 /** Updates a distributed availability group replication mode. */
 export function update(
   context: Client,
@@ -359,7 +358,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
 }
 
@@ -378,7 +377,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       distributedAvailabilityGroupName: distributedAvailabilityGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -407,7 +406,6 @@ export async function _createOrUpdateDeserialize(
 
   return distributedAvailabilityGroupDeserializer(result.body);
 }
-
 /** Creates a distributed availability group between Sql On-Prem and Sql Managed Instance. */
 export function createOrUpdate(
   context: Client,
@@ -430,7 +428,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
 }
 
@@ -448,7 +446,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       distributedAvailabilityGroupName: distributedAvailabilityGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -475,7 +473,6 @@ export async function _getDeserialize(
 
   return distributedAvailabilityGroupDeserializer(result.body);
 }
-
 /** Gets a distributed availability group info. */
 export async function get(
   context: Client,

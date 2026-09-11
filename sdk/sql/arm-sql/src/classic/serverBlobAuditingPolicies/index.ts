@@ -56,7 +56,6 @@ export interface ServerBlobAuditingPoliciesOperations {
     options?: ServerBlobAuditingPoliciesGetOptionalParams,
   ) => Promise<ServerBlobAuditingPolicy>;
 }
-
 function _getServerBlobAuditingPolicies(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -95,7 +94,6 @@ function _getServerBlobAuditingPolicies(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, options),
   };
 }
-
 export function _getServerBlobAuditingPoliciesOperations(
   context: SqlManagementContext,
 ): ServerBlobAuditingPoliciesOperations {
