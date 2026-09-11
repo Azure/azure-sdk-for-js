@@ -77,19 +77,20 @@ export class AsyncQueue<T> implements AsyncIterator<T> {
     this.pendingReadHead = 0;
   }
 
-  public next(): Promise<IteratorResult<T>> {
+  public async next(): Promise<IteratorResult<T>> {
     if (this.valueHead < this.values.length) {
       const value = this.values[this.valueHead++];
       this.compactValues();
-      return Promise.resolve({ done: false, value });
+      return { done: false, value };
     }
     if (this.terminalError) {
-      return Promise.reject(this.terminalError);
+      throw this.terminalError;
     }
     if (this.isClosed) {
-      return Promise.resolve({ done: true, value: undefined });
+      return { done: true, value: undefined };
     }
 
+    // Nothing buffered: park a read for `enqueue`/`close`/`fail` to settle.
     return new Promise<IteratorResult<T>>((resolve, reject) => {
       this.pendingReads.push({ resolve, reject });
     });
