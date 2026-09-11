@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list PlaywrightWorkspace resources by subscription ID
  *
  * @summary list PlaywrightWorkspace resources by subscription ID
- * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaces_ListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/PlaywrightWorkspaces_ListBySubscription.json
  */
 async function playwrightWorkspacesListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
