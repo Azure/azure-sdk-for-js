@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Connections in a Storage Mover.
  *
  * @summary lists all Connections in a Storage Mover.
- * x-ms-original-file: 2025-12-01/Connections_List.json
+ * x-ms-original-file: 2026-05-01/Connections_List.json
  */
 async function connectionsList() {
   const credential = new DefaultAzureCredential();
