@@ -15,15 +15,15 @@ import {
   _createOrUpdateDeserialize,
 } from "./api/scheduledActions/operations.js";
 import {
+  _cancelDeserialize as _cancelDeserializeBulkCreate,
+  _$deleteDeserialize as _$deleteDeserializeBulkCreate,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBulkCreate,
+} from "./api/bulkCreate/operations.js";
+import {
   _cancelDeserialize as _cancelDeserializeBulkCreateCustom,
   _$deleteDeserialize as _$deleteDeserializeBulkCreateCustom,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeBulkCreateCustom,
 } from "./api/bulkCreateCustom/operations.js";
-import {
-  _cancelDeserialize as _cancelDeserializeLaunchBulkInstancesOperation,
-  _$deleteDeserialize as _$deleteDeserializeLaunchBulkInstancesOperation,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeLaunchBulkInstancesOperation,
-} from "./api/launchBulkInstancesOperation/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -116,6 +116,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreate/{name}/cancel":
+    { deserializer: _cancelDeserializeBulkCreate, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreate/{name}":
+    { deserializer: _$deleteDeserializeBulkCreate, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreate/{name}":
+    { deserializer: _createOrUpdateDeserializeBulkCreate, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreateCustom/{name}/cancel":
     { deserializer: _cancelDeserializeBulkCreateCustom, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreateCustom/{name}":
@@ -123,21 +129,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreateCustom/{name}":
     {
       deserializer: _createOrUpdateDeserializeBulkCreateCustom,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}/cancel":
-    {
-      deserializer: _cancelDeserializeLaunchBulkInstancesOperation,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}":
-    {
-      deserializer: _$deleteDeserializeLaunchBulkInstancesOperation,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}":
-    {
-      deserializer: _createOrUpdateDeserializeLaunchBulkInstancesOperation,
       expectedStatuses: ["200", "201", "202"],
     },
 };
