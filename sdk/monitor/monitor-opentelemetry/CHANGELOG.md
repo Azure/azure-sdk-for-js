@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Fixed `instrumentationOptions.azureSdk.enabled: false` being ignored by the eager Azure SDK tracing bridge during initialization.
+- Fixed `instrumentationOptions.azureSdk.enabled: false` being ignored by the eager Azure SDK tracing bridge during initialization. [#39935](https://github.com/Azure/azure-sdk-for-js/pull/39935)
 
 ## 1.20.0 (2026-09-04)
 
