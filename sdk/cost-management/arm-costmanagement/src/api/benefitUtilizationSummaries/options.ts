@@ -11,7 +11,6 @@ export interface BenefitUtilizationSummariesListBySavingsPlanIdOptionalParams ex
   /** Grain. */
   grainParameter?: GrainParameter;
 }
-
 /** Optional parameters. */
 export interface BenefitUtilizationSummariesListBySavingsPlanOrderOptionalParams extends OperationOptions {
   /** Supports filtering by properties/usageDate. */
@@ -19,7 +18,6 @@ export interface BenefitUtilizationSummariesListBySavingsPlanOrderOptionalParams
   /** Grain. */
   grainParameter?: GrainParameter;
 }
-
 /** Optional parameters. */
 export interface BenefitUtilizationSummariesListByBillingProfileIdOptionalParams extends OperationOptions {
   /** Grain. */
@@ -27,7 +25,6 @@ export interface BenefitUtilizationSummariesListByBillingProfileIdOptionalParams
   /** Supports filtering by properties/benefitId, properties/benefitOrderId and properties/usageDate. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface BenefitUtilizationSummariesListByBillingAccountIdOptionalParams extends OperationOptions {
   /** Grain. */

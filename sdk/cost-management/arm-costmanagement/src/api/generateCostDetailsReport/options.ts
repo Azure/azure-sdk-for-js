@@ -8,7 +8,6 @@ export interface GenerateCostDetailsReportCreateOperationOptionalParams extends 
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface GenerateCostDetailsReportGetOperationResultsOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */

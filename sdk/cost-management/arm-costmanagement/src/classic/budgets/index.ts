@@ -32,7 +32,6 @@ export interface BudgetsOperations {
   /** Gets the budget for the scope by budget name. */
   get: (scope: string, budgetName: string, options?: BudgetsGetOptionalParams) => Promise<Budget>;
 }
-
 function _getBudgets(context: CostManagementContext) {
   return {
     list: (scope: string, options?: BudgetsListOptionalParams) => list(context, scope, options),
@@ -48,7 +47,6 @@ function _getBudgets(context: CostManagementContext) {
       get(context, scope, budgetName, options),
   };
 }
-
 export function _getBudgetsOperations(context: CostManagementContext): BudgetsOperations {
   return {
     ..._getBudgets(context),

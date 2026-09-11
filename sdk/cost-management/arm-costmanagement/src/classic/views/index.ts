@@ -64,7 +64,6 @@ export interface ViewsOperations {
   /** Gets the view by view name. */
   get: (viewName: string, options?: ViewsGetOptionalParams) => Promise<View>;
 }
-
 function _getViews(context: CostManagementContext) {
   return {
     listByScope: (scope: string, options?: ViewsListByScopeOptionalParams) =>
@@ -90,7 +89,6 @@ function _getViews(context: CostManagementContext) {
     get: (viewName: string, options?: ViewsGetOptionalParams) => get(context, viewName, options),
   };
 }
-
 export function _getViewsOperations(context: CostManagementContext): ViewsOperations {
   return {
     ..._getViews(context),

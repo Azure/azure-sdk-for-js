@@ -141,6 +141,9 @@ export type {
   TagInheritanceSetting,
   TagInheritanceProperties,
   SettingsListResult,
+  MarkupRule,
+  MarkupRuleProperties,
+  CustomerMetadata,
   CostDetailsOperationResults,
   CostDetailsStatusType,
   ReportManifest,
@@ -178,6 +181,7 @@ export type {
   Scope,
   SingleScopeBenefitRecommendationProperties,
   SharedScopeBenefitRecommendationProperties,
+  ManagementGroupScopeBenefitRecommendationProperties,
   BenefitResource,
   BenefitKind,
   BenefitUtilizationSummary,
@@ -374,6 +378,12 @@ export type {
   GenerateReservationDetailsReportByBillingProfileIdOptionalParams,
   GenerateReservationDetailsReportByBillingAccountIdOptionalParams,
 } from "./api/generateReservationDetailsReport/index.js";
+export type {
+  MarkupRulesListOptionalParams,
+  MarkupRulesDeleteOptionalParams,
+  MarkupRulesCreateOrUpdateOptionalParams,
+  MarkupRulesGetOptionalParams,
+} from "./api/markupRules/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
   PriceSheetDownloadByBillingAccountOptionalParams,
@@ -429,6 +439,7 @@ export type {
   GenerateDetailedCostReportOperationResultsOperations,
   GenerateDetailedCostReportOperationStatusOperations,
   GenerateReservationDetailsReportOperations,
+  MarkupRulesOperations,
   OperationsOperations,
   PriceSheetOperations,
   QueryOperations,

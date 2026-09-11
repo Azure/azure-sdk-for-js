@@ -31,6 +31,8 @@ import type { GenerateDetailedCostReportOperationStatusOperations } from "./clas
 import { _getGenerateDetailedCostReportOperationStatusOperations } from "./classic/generateDetailedCostReportOperationStatus/index.js";
 import type { GenerateReservationDetailsReportOperations } from "./classic/generateReservationDetailsReport/index.js";
 import { _getGenerateReservationDetailsReportOperations } from "./classic/generateReservationDetailsReport/index.js";
+import type { MarkupRulesOperations } from "./classic/markupRules/index.js";
+import { _getMarkupRulesOperations } from "./classic/markupRules/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { PriceSheetOperations } from "./classic/priceSheet/index.js";
@@ -55,14 +57,7 @@ export class CostManagementClient {
 
   /** CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions. */
   constructor(credential: TokenCredential, options: CostManagementClientOptionalParams = {}) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createCostManagement(credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createCostManagement(credential, options);
     this.pipeline = this._client.pipeline;
     this.priceSheet = _getPriceSheetOperations(this._client);
     this.generateReservationDetailsReport = _getGenerateReservationDetailsReportOperations(
@@ -78,6 +73,7 @@ export class CostManagementClient {
     this.benefitRecommendations = _getBenefitRecommendationsOperations(this._client);
     this.costAllocationRules = _getCostAllocationRulesOperations(this._client);
     this.generateCostDetailsReport = _getGenerateCostDetailsReportOperations(this._client);
+    this.markupRules = _getMarkupRulesOperations(this._client);
     this.settings = _getSettingsOperations(this._client);
     this.scheduledActions = _getScheduledActionsOperations(this._client);
     this.alerts = _getAlertsOperations(this._client);
@@ -113,6 +109,8 @@ export class CostManagementClient {
   public readonly costAllocationRules: CostAllocationRulesOperations;
   /** The operation groups for generateCostDetailsReport */
   public readonly generateCostDetailsReport: GenerateCostDetailsReportOperations;
+  /** The operation groups for markupRules */
+  public readonly markupRules: MarkupRulesOperations;
   /** The operation groups for settings */
   public readonly settings: SettingsOperations;
   /** The operation groups for scheduledActions */

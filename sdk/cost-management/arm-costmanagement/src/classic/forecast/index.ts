@@ -27,9 +27,8 @@ export interface ForecastOperations {
     scope: string,
     parameters: ForecastDefinition,
     options?: ForecastUsageOptionalParams,
-  ) => Promise<ForecastResult | undefined>;
+  ) => Promise<ForecastResult | void>;
 }
-
 function _getForecast(context: CostManagementContext) {
   return {
     externalCloudProviderUsage: (
@@ -49,7 +48,6 @@ function _getForecast(context: CostManagementContext) {
       usage(context, scope, parameters, options),
   };
 }
-
 export function _getForecastOperations(context: CostManagementContext): ForecastOperations {
   return {
     ..._getForecast(context),

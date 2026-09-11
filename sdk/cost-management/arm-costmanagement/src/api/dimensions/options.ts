@@ -14,7 +14,6 @@ export interface DimensionsListByExternalCloudProviderTypeOptionalParams extends
   /** May be used to limit the number of results to the most recent N dimension data. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface DimensionsListOptionalParams extends OperationOptions {
   /** May be used to filter dimensions by properties/category, properties/usageStart, properties/usageEnd. Supported operators are 'eq','lt', 'gt', 'le', 'ge'. */

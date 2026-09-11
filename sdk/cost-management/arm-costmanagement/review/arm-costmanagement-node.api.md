@@ -204,7 +204,7 @@ export interface BenefitRecommendationProperties {
 }
 
 // @public
-export type BenefitRecommendationPropertiesUnion = SingleScopeBenefitRecommendationProperties | SharedScopeBenefitRecommendationProperties | BenefitRecommendationProperties;
+export type BenefitRecommendationPropertiesUnion = SingleScopeBenefitRecommendationProperties | SharedScopeBenefitRecommendationProperties | ManagementGroupScopeBenefitRecommendationProperties | BenefitRecommendationProperties;
 
 // @public
 export interface BenefitRecommendationsListOptionalParams extends OperationOptions {
@@ -555,6 +555,7 @@ export class CostManagementClient {
     readonly generateDetailedCostReportOperationResults: GenerateDetailedCostReportOperationResultsOperations;
     readonly generateDetailedCostReportOperationStatus: GenerateDetailedCostReportOperationStatusOperations;
     readonly generateReservationDetailsReport: GenerateReservationDetailsReportOperations;
+    readonly markupRules: MarkupRulesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly priceSheet: PriceSheetOperations;
@@ -604,6 +605,12 @@ export type CultureCode = string;
 export interface CurrentSpend {
     readonly amount?: number;
     readonly unit?: string;
+}
+
+// @public
+export interface CustomerMetadata {
+    billingAccountId: string;
+    billingProfileId: string;
 }
 
 // @public
@@ -981,7 +988,7 @@ export interface ForecastFilter {
 // @public
 export interface ForecastOperations {
     externalCloudProviderUsage: (externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, parameters: ForecastDefinition, options?: ForecastExternalCloudProviderUsageOptionalParams) => Promise<ForecastResult>;
-    usage: (scope: string, parameters: ForecastDefinition, options?: ForecastUsageOptionalParams) => Promise<ForecastResult | undefined>;
+    usage: (scope: string, parameters: ForecastDefinition, options?: ForecastUsageOptionalParams) => Promise<ForecastResult | void>;
 }
 
 // @public
@@ -1763,6 +1770,7 @@ export enum KnownScheduleFrequency {
 
 // @public
 export enum KnownScope {
+    ManagementGroup = "ManagementGroup",
     Shared = "Shared",
     Single = "Single"
 }
@@ -1826,7 +1834,8 @@ export enum KnownTimeGrainType {
 
 // @public
 export enum KnownVersions {
-    V20250301 = "2025-03-01"
+    V20250301 = "2025-03-01",
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -1850,6 +1859,51 @@ export type KpiType = string;
 
 // @public
 export type LookBackPeriod = string;
+
+// @public
+export interface ManagementGroupScopeBenefitRecommendationProperties extends BenefitRecommendationProperties {
+    readonly managementGroupId?: string;
+    scope: "ManagementGroup";
+    readonly tenantId?: string;
+}
+
+// @public
+export interface MarkupRule extends ProxyResource {
+    properties?: MarkupRuleProperties;
+}
+
+// @public
+export interface MarkupRuleProperties {
+    customerDetails: CustomerMetadata;
+    description?: string;
+    endDate?: Date;
+    percentage: number;
+    startDate: Date;
+}
+
+// @public
+export interface MarkupRulesCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MarkupRulesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MarkupRulesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MarkupRulesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MarkupRulesOperations {
+    createOrUpdate: (billingAccountId: string, billingProfileId: string, ruleName: string, resource: MarkupRule, options?: MarkupRulesCreateOrUpdateOptionalParams) => Promise<MarkupRule>;
+    delete: (billingAccountId: string, billingProfileId: string, ruleName: string, options?: MarkupRulesDeleteOptionalParams) => Promise<void>;
+    get: (billingAccountId: string, billingProfileId: string, ruleName: string, options?: MarkupRulesGetOptionalParams) => Promise<MarkupRule>;
+    list: (billingAccountId: string, billingProfileId: string, options?: MarkupRulesListOptionalParams) => PagedAsyncIterableIterator<MarkupRule>;
+}
 
 // @public
 export interface MCAPriceSheetProperties {
@@ -2074,7 +2128,7 @@ export interface QueryGrouping {
 
 // @public
 export interface QueryOperations {
-    usage: (scope: string, parameters: QueryDefinition, options?: QueryUsageOptionalParams) => Promise<QueryResult | undefined>;
+    usage: (scope: string, parameters: QueryDefinition, options?: QueryUsageOptionalParams) => Promise<QueryResult | void>;
     usageByExternalCloudProviderType: (externalCloudProviderType: ExternalCloudProviderType, externalCloudProviderId: string, parameters: QueryDefinition, options?: QueryUsageByExternalCloudProviderTypeOptionalParams) => Promise<QueryResult>;
 }
 

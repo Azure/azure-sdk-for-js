@@ -56,7 +56,6 @@ export interface CostAllocationRulesOperations {
     options?: CostAllocationRulesGetOptionalParams,
   ) => Promise<CostAllocationRuleDefinition>;
 }
-
 function _getCostAllocationRules(context: CostManagementContext) {
   return {
     checkNameAvailability: (
@@ -90,7 +89,6 @@ function _getCostAllocationRules(context: CostManagementContext) {
     ) => get(context, billingAccountId, ruleName, options),
   };
 }
-
 export function _getCostAllocationRulesOperations(
   context: CostManagementContext,
 ): CostAllocationRulesOperations {

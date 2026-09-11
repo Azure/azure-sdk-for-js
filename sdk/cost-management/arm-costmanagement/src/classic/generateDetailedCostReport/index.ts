@@ -41,7 +41,6 @@ export interface GenerateDetailedCostReportOperations {
     options?: GenerateDetailedCostReportCreateOperationOptionalParams,
   ) => Promise<GenerateDetailedCostReportOperationResult>;
 }
-
 function _getGenerateDetailedCostReport(context: CostManagementContext) {
   return {
     createOperation: (
@@ -67,7 +66,6 @@ function _getGenerateDetailedCostReport(context: CostManagementContext) {
     },
   };
 }
-
 export function _getGenerateDetailedCostReportOperations(
   context: CostManagementContext,
 ): GenerateDetailedCostReportOperations {

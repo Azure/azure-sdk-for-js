@@ -23,7 +23,7 @@ export function _getSend(
     {
       scope: scope,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -50,7 +50,6 @@ export async function _getDeserialize(
 
   return generateDetailedCostReportOperationStatusesDeserializer(result.body);
 }
-
 /** Get the status of the specified operation. This link is provided in the GenerateDetailedCostReport creation request response header. */
 export async function get(
   context: Client,

@@ -194,7 +194,6 @@ export interface GenerateBenefitUtilizationSummariesReportOperations {
     options?: GenerateBenefitUtilizationSummariesReportGenerateByBillingAccountOptionalParams,
   ) => Promise<BenefitUtilizationSummariesOperationStatus>;
 }
-
 function _getGenerateBenefitUtilizationSummariesReport(context: CostManagementContext) {
   return {
     generateBySavingsPlanId: (
@@ -439,7 +438,6 @@ function _getGenerateBenefitUtilizationSummariesReport(context: CostManagementCo
     },
   };
 }
-
 export function _getGenerateBenefitUtilizationSummariesReportOperations(
   context: CostManagementContext,
 ): GenerateBenefitUtilizationSummariesReportOperations {

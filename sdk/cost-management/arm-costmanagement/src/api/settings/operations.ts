@@ -28,7 +28,7 @@ export function _listSend(
     "/{scope}/providers/Microsoft.CostManagement/settings{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,7 +53,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<S
 
   return settingsListResultDeserializer(result.body);
 }
-
 /** List all cost management settings in the requested scope. */
 export async function list(
   context: Client,
@@ -75,7 +74,7 @@ export function _deleteByScopeSend(
     {
       scope: scope,
       type: typeParam,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,7 +96,6 @@ export async function _deleteByScopeDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /** Delete a setting within the given scope. */
 export async function deleteByScope(
   context: Client,
@@ -121,7 +119,7 @@ export function _createOrUpdateByScopeSend(
     {
       scope: scope,
       type: typeParam,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,7 +148,6 @@ export async function _createOrUpdateByScopeDeserialize(
 
   return settingUnionDeserializer(result.body);
 }
-
 /** Create or update a setting within the given scope. */
 export async function createOrUpdateByScope(
   context: Client,
@@ -174,7 +171,7 @@ export function _getByScopeSend(
     {
       scope: scope,
       type: typeParam,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -199,7 +196,6 @@ export async function _getByScopeDeserialize(result: PathUncheckedResponse): Pro
 
   return settingUnionDeserializer(result.body);
 }
-
 /** Get the setting from the given scope by name. */
 export async function getByScope(
   context: Client,
