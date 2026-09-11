@@ -49,9 +49,9 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     await client.getTokenTest(user, ["chat"]);
     expect(spy).toHaveBeenCalledOnce();
 
-    // Asserted here rather than in the recorded tests: playback rewrites the
-    // api-version so the existing recordings match, which means those tests
-    // cannot detect a wrong value. This check can.
+    // Asserted directly rather than relying on playback: a wrong api-version
+    // surfaces there as a recording mismatch, which is harder to read than a
+    // failed assertion naming the expected value.
     const request = spy.mock.calls[0][0];
     assert.include(request.url, "api-version=2026-09-23");
   });
