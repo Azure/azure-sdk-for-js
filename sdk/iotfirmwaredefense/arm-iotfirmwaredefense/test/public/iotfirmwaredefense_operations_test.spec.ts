@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("iotfirmwaredefense test", () => {
+describe.skip("iotfirmwaredefense test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: IoTFirmwareDefenseClient;

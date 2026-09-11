@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
+import type { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
 import { listByWorkspace, get } from "../../api/usageMetrics/operations.js";
-import {
+import type {
   UsageMetricsListByWorkspaceOptionalParams,
   UsageMetricsGetOptionalParams,
 } from "../../api/usageMetrics/options.js";
-import { UsageMetric } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { UsageMetric } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a UsageMetrics operations. */
 export interface UsageMetricsOperations {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
+import type { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
 import { listByFirmware } from "../../api/sbomComponents/operations.js";
-import { SbomComponentsListByFirmwareOptionalParams } from "../../api/sbomComponents/options.js";
-import { SbomComponentResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SbomComponentsListByFirmwareOptionalParams } from "../../api/sbomComponents/options.js";
+import type { SbomComponentResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SbomComponents operations. */
 export interface SbomComponentsOperations {
