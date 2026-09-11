@@ -512,8 +512,8 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
         error instanceof VoiceAgentProtocolError
           ? error
           : new VoiceAgentProtocolError("Failed to process a voice-agent event.", { cause: error });
+      // finish() closes the transport itself, so no additional close is needed here.
       this.finish(1002, protocolError.message, false, protocolError);
-      void this.transport.close(1002, protocolError.message);
     }
   }
 
@@ -570,11 +570,21 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     this.setState(KnownVoiceAgentConnectionState.Disconnected);
     this.resolveClose({ code, reason, wasClean, error });
     logger.info("Voice-agent connection closed", { code, reason, wasClean });
-    // Guarantee the underlying socket never outlives the connection, even when finish() is
-    // reached from a path that never itself closed the transport (e.g. a transport error).
-    this.transport.close(code, reason).catch((closeError: unknown) => {
-      logger.warning("Failed to close the voice-agent transport", { error: closeError });
-    });
+    // Ensure the socket never outlives the connection, even on paths that never closed it
+    // themselves. Not awaited: finish() is synchronous because its callers are.
+    void this.closeTransportQuietly(code, reason);
+  }
+
+  /**
+   * Closes the transport, logging rather than rejecting: this is best-effort cleanup running after
+   * the connection has already settled. A no-op if the transport is already closed.
+   */
+  private async closeTransportQuietly(code: number, reason: string): Promise<void> {
+    try {
+      await this.transport.close(code, reason);
+    } catch (error) {
+      logger.warning("Failed to close the voice-agent transport", { error });
+    }
   }
 
   private setState(state: VoiceAgentConnectionState): void {

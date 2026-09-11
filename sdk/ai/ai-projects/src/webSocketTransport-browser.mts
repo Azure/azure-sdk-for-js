@@ -10,6 +10,13 @@ import type {
   VoiceAgentWebSocketTransport,
 } from "./realtime/webSocketTransportLike.js";
 
+/** The `CloseEvent` fields this transport forwards; the DOM lib is not in scope here. */
+interface NativeCloseEvent {
+  code: number;
+  reason: string;
+  wasClean: boolean;
+}
+
 /**
  * Default browser transport for the Voice Agents realtime client.
  *
@@ -56,17 +63,9 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
     webSocket.addEventListener("message", (event: MessageEvent) => {
       // Chain handling so an async Blob conversion can never let a later message be delivered to
       // the protocol parser out of arrival order.
-      this.messageChain = this.messageChain.then(() => this.handleIncomingMessage(event.data));
+      this.messageChain = this.deliverMessage(this.messageChain, event.data);
     });
-    webSocket.addEventListener("close", (event) => {
-      const closeEvent = event as unknown as { code: number; reason: string; wasClean: boolean };
-      void this.messageChain
-        .catch(() => undefined)
-        .finally(() => {
-          this.handlers?.onClose(closeEvent.code, closeEvent.reason, closeEvent.wasClean);
-          notifyClosed();
-        });
-    });
+    webSocket.addEventListener("close", (event) => void this.deliverClose(event, notifyClosed));
     webSocket.addEventListener("error", () => {
       this.handlers?.onError(new Error("WebSocket connection failed."));
     });
@@ -87,6 +86,27 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
       throw new Error("WebSocket send was cancelled.");
     }
     this.webSocket.send(data);
+  }
+
+  /** Chains `data` behind `previous` so an async `Blob` conversion cannot reorder events. */
+  private async deliverMessage(
+    previous: Promise<void>,
+    data: string | ArrayBuffer | Blob,
+  ): Promise<void> {
+    await previous;
+    await this.handleIncomingMessage(data);
+  }
+
+  /** Reports the close only after every earlier message has reached the parser. */
+  private async deliverClose(event: Event, notifyClosed: () => void): Promise<void> {
+    const { code, reason, wasClean } = event as unknown as NativeCloseEvent;
+    try {
+      await this.messageChain;
+    } catch {
+      // handleIncomingMessage already reported the failure through onError.
+    }
+    this.handlers?.onClose(code, reason, wasClean);
+    notifyClosed();
   }
 
   private async handleIncomingMessage(data: string | ArrayBuffer | Blob): Promise<void> {
@@ -158,32 +178,31 @@ function waitForOpen(
 }
 
 /**
- * Waits for `onClose` to have actually run for `webSocket` (it carries the authoritative
- * code/reason/wasClean from the native `CloseEvent`, and only fires after `messageChain` drains),
- * so `close()` never returns before the caller observes the true close outcome. Falls back to a
- * timeout if the socket never reports closing.
+ * Waits until `onClose` has been delivered to the handlers, so `close()` never returns before the
+ * caller observes the true close outcome. Resolves on timeout if the socket never closes; rejects
+ * if it errors instead.
  */
-function waitForClose(
+async function waitForClose(
   webSocket: WebSocket,
   closeNotified: Promise<void>,
   timeoutInMs: number,
 ): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    const timeout = setTimeout(() => finish(resolve), timeoutInMs);
-    const onClose = (): void => void closeNotified.finally(() => finish(resolve));
-    const onError = (): void =>
-      finish(() => reject(new Error("WebSocket connection failed while closing.")));
-
-    function finish(settle: () => void): void {
-      clearTimeout(timeout);
-      webSocket.removeEventListener("close", onClose);
-      webSocket.removeEventListener("error", onError);
-      settle();
-    }
-
-    webSocket.addEventListener("close", onClose, { once: true });
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  let onError: (() => void) | undefined;
+  const errorOrTimeout = new Promise<void>((resolve, reject) => {
+    timeout = setTimeout(resolve, timeoutInMs);
+    onError = (): void => reject(new Error("WebSocket connection failed while closing."));
     webSocket.addEventListener("error", onError, { once: true });
   });
+
+  try {
+    await Promise.race([closeNotified, errorOrTimeout]);
+  } finally {
+    clearTimeout(timeout);
+    if (onError) {
+      webSocket.removeEventListener("error", onError);
+    }
+  }
 }
 
 /** @internal */
