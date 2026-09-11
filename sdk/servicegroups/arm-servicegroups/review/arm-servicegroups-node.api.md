@@ -6,12 +6,17 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type ActionType = string;
 
 // @public
 export enum AzureClouds {
@@ -22,6 +27,11 @@ export enum AzureClouds {
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -56,12 +66,26 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+export { isRestError }
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
 // @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -75,7 +99,48 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20240201Preview = "2024-02-01-preview"
+    V20260801 = "2026-08-01"
+}
+
+// @public
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -98,6 +163,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceGroupsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -116,13 +183,13 @@ export interface ServiceGroup extends ProxyResource {
 }
 
 // @public
-export interface ServiceGroupCollectionResponse {
-    nextLink?: string;
-    value: ServiceGroup[];
+export interface ServiceGroupAttributes {
+    criticality?: number;
 }
 
 // @public
 export interface ServiceGroupProperties {
+    attributes?: ServiceGroupAttributes;
     displayName?: string;
     parent?: ParentServiceGroupProperties;
     readonly provisioningState?: ProvisioningState;
@@ -132,15 +199,12 @@ export interface ServiceGroupProperties {
 export interface ServiceGroupsGetOptionalParams extends OperationOptions {
 }
 
-// @public
-export interface ServiceGroupsListAncestorsOptionalParams extends OperationOptions {
-}
-
 // @public (undocumented)
 export class ServiceGroupsManagementClient {
     constructor(credential: TokenCredential, options?: ServiceGroupsManagementClientOptionalParams);
     createOrUpdateServiceGroup(serviceGroupName: string, createServiceGroupRequest: ServiceGroup, options?: CreateOrUpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
     deleteServiceGroup(serviceGroupName: string, options?: DeleteServiceGroupOptionalParams): PollerLike<OperationState<void>, void>;
+    readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly serviceGroups: ServiceGroupsOperations;
     updateServiceGroup(serviceGroupName: string, updateServiceGroupRequest: ServiceGroup, options?: UpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
@@ -155,7 +219,6 @@ export interface ServiceGroupsManagementClientOptionalParams extends ClientOptio
 // @public
 export interface ServiceGroupsOperations {
     get: (serviceGroupName: string, options?: ServiceGroupsGetOptionalParams) => Promise<ServiceGroup>;
-    listAncestors: (serviceGroupName: string, options?: ServiceGroupsListAncestorsOptionalParams) => Promise<ServiceGroupCollectionResponse>;
 }
 
 // @public

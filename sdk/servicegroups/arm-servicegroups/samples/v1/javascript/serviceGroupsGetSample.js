@@ -5,20 +5,20 @@ const { ServiceGroupsManagementClient } = require("@azure/arm-servicegroups");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get the details of the serviceGroup's ancestors
+ * This sample demonstrates how to get the details of the serviceGroup
  *
- * @summary get the details of the serviceGroup's ancestors
- * x-ms-original-file: 2024-02-01-preview/ServiceGroup_ListAncestors.json
+ * @summary get the details of the serviceGroup
+ * x-ms-original-file: 2026-08-01/ServiceGroup_Get.json
  */
-async function listServiceGroupAncestors() {
+async function getServiceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceGroupsManagementClient(credential);
-  const result = await client.serviceGroups.listAncestors("20000000-0001-0000-0000-000000000000");
+  const result = await client.serviceGroups.get("20000000-0001-0000-0000-000000000000");
   console.log(result);
 }
 
 async function main() {
-  await listServiceGroupAncestors();
+  await getServiceGroup();
 }
 
 main().catch(console.error);
