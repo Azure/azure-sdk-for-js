@@ -1,5 +1,17 @@
 # Release History
 
+## 1.26.0 (Unreleased)
+
+### Features Added
+
+- `azure-deprecating` response header is now included in the default set of headers logged without redaction when using the Azure SDK pipeline. See [Azure API Guidelines: Deprecating Behavior Notification](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#deprecating-behavior-notification) for more information.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.25.0 (2026-07-13)
 
 ### Other Changes

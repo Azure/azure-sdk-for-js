@@ -51,6 +51,7 @@ Request and response bodies are never logged. Headers are redacted by default, u
 - "ms-cv",
 - "return-client-request-id",
 - "traceparent",
+- "azure-deprecating",
 - "Access-Control-Allow-Credentials",
 - "Access-Control-Allow-Headers",
 - "Access-Control-Allow-Methods",
