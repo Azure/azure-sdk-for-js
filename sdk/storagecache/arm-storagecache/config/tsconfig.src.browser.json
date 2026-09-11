@@ -1,4 +1,25 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/ascUsages/index.ts",
+    "../src/api/ascOperations/index.ts",
+    "../src/api/usageModels/index.ts",
+    "../src/api/skus/index.ts",
+    "../src/api/storageTargetOperations/index.ts",
+    "../src/api/expansionJobs/index.ts",
+    "../src/api/autoImportJobs/index.ts",
+    "../src/api/importJobs/index.ts",
+    "../src/api/autoExportJobs/index.ts",
+    "../src/api/amlFilesystems/index.ts",
+    "../src/api/storageTargets/index.ts",
+    "../src/api/caches/index.ts",
+    "../src/api/rebalanceJobs/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }
