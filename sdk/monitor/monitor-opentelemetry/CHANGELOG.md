@@ -1,5 +1,11 @@
 # Release History
 
+## 1.20.1 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed `instrumentationOptions.azureSdk.enabled: false` being ignored by the eager Azure SDK tracing bridge during initialization.
+
 ## 1.20.0 (2026-09-04)
 
 ### Features Added
