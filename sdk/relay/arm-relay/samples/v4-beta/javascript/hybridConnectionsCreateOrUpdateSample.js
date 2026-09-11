@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a service hybrid connection. This operation is idempotent.
  *
  * @summary creates or updates a service hybrid connection. This operation is idempotent.
- * x-ms-original-file: 2024-01-01/HybridConnection/RelayHybridConnectionCreate.json
+ * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridConnectionCreate.json
  */
 async function relayHybridConnectionCreate() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches the backup management usage summaries of the vault.
  *
  * @summary fetches the backup management usage summaries of the vault.
- * x-ms-original-file: 2026-07-01/Common/BackupProtectedItem_UsageSummary_Get.json
+ * x-ms-original-file: 2026-08-01/Common/BackupProtectedItem_UsageSummary_Get.json
  */
 async function getProtectedItemsUsagesSummary() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function getProtectedItemsUsagesSummary() {
  * This sample demonstrates how to fetches the backup management usage summaries of the vault.
  *
  * @summary fetches the backup management usage summaries of the vault.
- * x-ms-original-file: 2026-07-01/Common/BackupProtectionContainers_UsageSummary_Get.json
+ * x-ms-original-file: 2026-08-01/Common/BackupProtectionContainers_UsageSummary_Get.json
  */
 async function getProtectedContainersUsagesSummary() {
   const credential = new DefaultAzureCredential();

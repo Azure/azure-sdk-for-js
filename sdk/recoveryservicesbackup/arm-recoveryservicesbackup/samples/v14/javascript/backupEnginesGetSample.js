@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns backup management server registered to Recovery Services Vault.
  *
  * @summary returns backup management server registered to Recovery Services Vault.
- * x-ms-original-file: 2026-07-01/Dpm/BackupEngines_Get.json
+ * x-ms-original-file: 2026-08-01/Dpm/BackupEngines_Get.json
  */
 async function getDpmOrAzureBackupServerOrLajollaBackupEngineDetails() {
   const credential = new DefaultAzureCredential();

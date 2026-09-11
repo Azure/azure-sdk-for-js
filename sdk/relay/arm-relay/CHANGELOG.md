@@ -1,5 +1,49 @@
 # Release History
 
+## 4.1.0-beta.1 (2026-08-05)
+Compared with version 4.0.0
+
+### Features Added
+  - Added operation group ClustersOperations
+  - Added Interface AvailableRelayClusterRegion
+  - Added Interface AvailableRelayClustersList
+  - Added Interface ClustersCreateOrUpdateOptionalParams
+  - Added Interface ClustersDeleteOptionalParams
+  - Added Interface ClustersGetOptionalParams
+  - Added Interface ClustersListAvailableClusterRegionOptionalParams
+  - Added Interface ClustersListByResourceGroupOptionalParams
+  - Added Interface ClustersListBySubscriptionOptionalParams
+  - Added Interface ClustersListNamespacesOptionalParams
+  - Added Interface ClustersListSkusOptionalParams
+  - Added Interface ClustersUpdateOptionalParams
+  - Added Interface RelayCluster
+  - Added Interface RelayClusterProperties
+  - Added Interface RelayClusterSku
+  - Added Interface RelayClusterSkuCapacity
+  - Added Interface RelayClusterSkuDetails
+  - Added Interface RelayClusterSkuInfo
+  - Added Interface RelayClusterSkuListResult
+  - Added Interface RelayClusterSkuUpdate
+  - Added Interface RelayClusterUpdate
+  - Added Interface RelayNamespaceIdListResult
+  - Added Interface RelayNamespaceReference
+  - Interface RelayNamespace has a new optional parameter minimumTlsVersion
+  - Interface RelayNamespaceProperties has a new optional parameter minimumTlsVersion
+  - Interface RelayUpdateParameters has a new optional parameter minimumTlsVersion
+  - Added Type Alias RelayClusterProvisioningState
+  - Added Type Alias RelayClusterSkuName
+  - Added Type Alias RelayClusterSkuScaleType
+  - Added Type Alias RelayClusterSkuTier
+  - Added Type Alias TlsVersion
+  - Added Enum KnownRelayClusterProvisioningState
+  - Added Enum KnownRelayClusterSkuName
+  - Added Enum KnownRelayClusterSkuScaleType
+  - Added Enum KnownRelayClusterSkuTier
+  - Added Enum KnownTlsVersion
+  - Enum KnownVersions has a new value V20260101
+  - Enum KnownVersions has a new value V20260701Preview
+  - Operation wCFRelaysOperations.get has a new signature
+
 ## 4.0.0 (2026-07-27)
 
 ### Features Added

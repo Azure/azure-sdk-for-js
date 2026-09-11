@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary revokes an iSCSI connection which can be used to download a script. Executing this script opens a file explorer
  * displaying all recoverable files and folders. This is an asynchronous operation.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/Revoke_Ilr.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/Revoke_Ilr.json
  */
 async function revokeInstantItemLevelRecoveryForAzureVm(): Promise<void> {
   const credential = new DefaultAzureCredential();

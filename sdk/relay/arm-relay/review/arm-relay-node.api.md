@@ -43,6 +43,16 @@ export interface AuthorizationRuleProperties {
 }
 
 // @public
+export interface AvailableRelayClusterRegion {
+    readonly location?: string;
+}
+
+// @public
+export interface AvailableRelayClustersList {
+    value: AvailableRelayClusterRegion[];
+}
+
+// @public
 export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
@@ -62,6 +72,65 @@ export interface CheckNameAvailabilityResult {
     readonly message?: string;
     nameAvailable?: boolean;
     reason?: UnavailableReason;
+}
+
+// @public
+export interface ClustersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersListAvailableClusterRegionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersListNamespacesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersListSkusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, resource: RelayCluster, options?: ClustersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RelayCluster>, RelayCluster>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, resource: RelayCluster, options?: ClustersCreateOrUpdateOptionalParams) => Promise<RelayCluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, clusterName: string, resource: RelayCluster, options?: ClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<RelayCluster>, RelayCluster>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<RelayCluster>;
+    listAvailableClusterRegion: (options?: ClustersListAvailableClusterRegionOptionalParams) => Promise<AvailableRelayClustersList>;
+    listByResourceGroup: (resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<RelayCluster>;
+    listBySubscription: (options?: ClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<RelayCluster>;
+    listNamespaces: (resourceGroupName: string, clusterName: string, options?: ClustersListNamespacesOptionalParams) => Promise<RelayNamespaceIdListResult>;
+    listSkus: (resourceGroupName: string, clusterName: string, options?: ClustersListSkusOptionalParams) => Promise<RelayClusterSkuListResult>;
+    update: (resourceGroupName: string, clusterName: string, properties: RelayClusterUpdate, options?: ClustersUpdateOptionalParams) => Promise<RelayCluster>;
+}
+
+// @public
+export interface ClustersUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -252,6 +321,31 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownRelayClusterProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Scaling = "Scaling",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRelayClusterSkuName {
+    Dedicated = "Dedicated"
+}
+
+// @public
+export enum KnownRelayClusterSkuScaleType {
+    Automatic = "Automatic"
+}
+
+// @public
+export enum KnownRelayClusterSkuTier {
+    Dedicated = "Dedicated"
+}
+
+// @public
 export enum KnownSkuName {
     Standard = "Standard"
 }
@@ -259,6 +353,12 @@ export enum KnownSkuName {
 // @public
 export enum KnownSkuTier {
     Standard = "Standard"
+}
+
+// @public
+export enum KnownTlsVersion {
+    TlsVersion12 = "1.2",
+    TlsVersion13 = "1.3"
 }
 
 // @public
@@ -273,7 +373,9 @@ export enum KnownUnavailableReason {
 
 // @public
 export enum KnownVersions {
-    V20240101 = "2024-01-01"
+    V20240101 = "2024-01-01",
+    V20260101 = "2026-01-01",
+    V20260701Preview = "2026-07-01-preview"
 }
 
 // @public
@@ -533,6 +635,7 @@ export interface RegenerateAccessKeyParameters {
 // @public (undocumented)
 export class RelayAPI {
     constructor(credential: TokenCredential, subscriptionId: string, options?: RelayAPIOptionalParams);
+    readonly clusters: ClustersOperations;
     readonly hybridConnections: HybridConnectionsOperations;
     readonly namespaces: NamespacesOperations;
     readonly operations: OperationsOperations;
@@ -549,9 +652,84 @@ export interface RelayAPIOptionalParams extends ClientOptions {
 }
 
 // @public
+export interface RelayCluster extends TrackedResource {
+    properties?: RelayClusterProperties;
+    sku: RelayClusterSku;
+}
+
+// @public
+export interface RelayClusterProperties {
+    readonly metricId?: string;
+    readonly provisioningState?: RelayClusterProvisioningState;
+    readonly status?: string;
+    readonly supportsScaling?: boolean;
+    zoneRedundant?: boolean;
+}
+
+// @public
+export type RelayClusterProvisioningState = string;
+
+// @public
+export interface RelayClusterSku {
+    capacity?: number;
+    name: RelayClusterSkuName;
+    tier?: RelayClusterSkuTier;
+}
+
+// @public
+export interface RelayClusterSkuCapacity {
+    readonly allowedValues?: number[];
+    readonly default?: number;
+    readonly maximum?: number;
+    readonly minimum?: number;
+    readonly scaleType?: RelayClusterSkuScaleType;
+}
+
+// @public
+export interface RelayClusterSkuDetails {
+    readonly name?: RelayClusterSkuName;
+    readonly tier?: RelayClusterSkuTier;
+}
+
+// @public
+export interface RelayClusterSkuInfo {
+    readonly capacity?: RelayClusterSkuCapacity;
+    readonly resourceType?: string;
+    readonly sku?: RelayClusterSkuDetails;
+}
+
+// @public
+export interface RelayClusterSkuListResult {
+    value: RelayClusterSkuInfo[];
+}
+
+// @public
+export type RelayClusterSkuName = string;
+
+// @public
+export type RelayClusterSkuScaleType = string;
+
+// @public
+export type RelayClusterSkuTier = string;
+
+// @public
+export interface RelayClusterSkuUpdate {
+    capacity?: number;
+    name?: RelayClusterSkuName;
+    tier?: RelayClusterSkuTier;
+}
+
+// @public
+export interface RelayClusterUpdate {
+    sku?: RelayClusterSkuUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface RelayNamespace extends TrackedResource {
     readonly createdAt?: Date;
     readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -562,9 +740,15 @@ export interface RelayNamespace extends TrackedResource {
 }
 
 // @public
+export interface RelayNamespaceIdListResult {
+    value: RelayNamespaceReference[];
+}
+
+// @public
 export interface RelayNamespaceProperties {
     readonly createdAt?: Date;
     readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -574,12 +758,18 @@ export interface RelayNamespaceProperties {
 }
 
 // @public
+export interface RelayNamespaceReference {
+    readonly id?: string;
+}
+
+// @public
 export type Relaytype = "NetTcp" | "Http";
 
 // @public
 export interface RelayUpdateParameters extends ResourceNamespacePatch {
     readonly createdAt?: Date;
     readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -659,6 +849,9 @@ export interface SystemData {
 }
 
 // @public
+export type TlsVersion = string;
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
@@ -734,7 +927,7 @@ export interface wCFRelaysOperations {
     createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: wCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
     delete: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysDeleteOptionalParams) => Promise<void>;
     deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: wCFRelaysDeleteAuthorizationRuleOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysGetOptionalParams) => Promise<WcfRelay | undefined>;
+    get: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysGetOptionalParams) => Promise<WcfRelay | void>;
     getAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: wCFRelaysGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
     listAuthorizationRules: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
     listByNamespace: (resourceGroupName: string, namespaceName: string, options?: wCFRelaysListByNamespaceOptionalParams) => PagedAsyncIterableIterator<WcfRelay>;

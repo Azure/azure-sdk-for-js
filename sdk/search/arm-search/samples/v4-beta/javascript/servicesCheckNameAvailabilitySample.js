@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
  *
  * @summary checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
- * x-ms-original-file: 2026-03-01-preview/SearchCheckNameAvailability.json
+ * x-ms-original-file: 2026-09-01-preview/SearchCheckNameAvailability.json
  */
 async function searchCheckNameAvailability() {
   const credential = new DefaultAzureCredential();

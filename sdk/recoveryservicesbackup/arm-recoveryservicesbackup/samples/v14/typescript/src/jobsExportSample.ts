@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to triggers export of jobs specified by filters and returns an OperationID to track.
  *
  * @summary triggers export of jobs specified by filters and returns an OperationID to track.
- * x-ms-original-file: 2026-07-01/Common/TriggerExportJobs.json
+ * x-ms-original-file: 2026-08-01/Common/TriggerExportJobs.json
  */
 async function exportJobs(): Promise<void> {
   const credential = new DefaultAzureCredential();

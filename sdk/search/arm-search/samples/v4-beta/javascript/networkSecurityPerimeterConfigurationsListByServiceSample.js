@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of network security perimeter configurations for a search service.
  *
  * @summary gets a list of network security perimeter configurations for a search service.
- * x-ms-original-file: 2026-03-01-preview/NetworkSecurityPerimeterConfigurationsListByService.json
+ * x-ms-original-file: 2026-09-01-preview/NetworkSecurityPerimeterConfigurationsListByService.json
  */
 async function listNSPConfigsBySearchService() {
   const credential = new DefaultAzureCredential();

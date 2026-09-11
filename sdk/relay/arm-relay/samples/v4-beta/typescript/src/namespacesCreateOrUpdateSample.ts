@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Azure Relay namespace.
  *
  * @summary create Azure Relay namespace.
- * x-ms-original-file: 2024-01-01/NameSpaces/RelayNameSpaceCreate.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/RelayNameSpaceCreate.json
  */
 async function relayNamespaceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,6 +21,7 @@ async function relayNamespaceCreate(): Promise<void> {
       location: "South Central US",
       sku: { name: "Standard", tier: "Standard" },
       tags: { tag1: "value1", tag2: "value2" },
+      minimumTlsVersion: "1.2",
     },
   );
   console.log(result);

@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Resources": "2025-04-01"
+    "Microsoft.Resources": "2026-06-01"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Resources",
     "CrossLanguageDefinitionId": {
@@ -53,6 +53,7 @@
       "@azure/arm-resourcesdeployments!ScopedDeploymentWhatIf:interface": "Microsoft.Resources.ScopedDeploymentWhatIf",
       "@azure/arm-resourcesdeployments!DeploymentWhatIfProperties:interface": "Microsoft.Resources.DeploymentWhatIfProperties",
       "@azure/arm-resourcesdeployments!DeploymentWhatIfSettings:interface": "Microsoft.Resources.DeploymentWhatIfSettings",
+      "@azure/arm-resourcesdeployments!DeploymentResourceWhatIfPrediction:interface": "Microsoft.Resources.DeploymentResourceWhatIfPrediction",
       "@azure/arm-resourcesdeployments!WhatIfOperationResult:interface": "Microsoft.Resources.WhatIfOperationResult",
       "@azure/arm-resourcesdeployments!WhatIfOperationProperties:interface": "Microsoft.Resources.WhatIfOperationProperties",
       "@azure/arm-resourcesdeployments!WhatIfChange:interface": "Microsoft.Resources.WhatIfChange",
@@ -71,7 +72,6 @@
       "@azure/arm-resourcesdeployments!KnownAliasPathAttributes:enum": "Microsoft.Resources.AliasPathAttributes",
       "@azure/arm-resourcesdeployments!KnownAliasType:enum": "Microsoft.Resources.AliasType",
       "@azure/arm-resourcesdeployments!KnownProviderAuthorizationConsentState:enum": "Microsoft.Resources.ProviderAuthorizationConsentState",
-      "@azure/arm-resourcesdeployments!KnownExtensionConfigPropertyType:enum": "Microsoft.Resources.ExtensionConfigPropertyType",
       "@azure/arm-resourcesdeployments!KnownDeploymentMode:enum": "Microsoft.Resources.DeploymentMode",
       "@azure/arm-resourcesdeployments!KnownOnErrorDeploymentType:enum": "Microsoft.Resources.OnErrorDeploymentType",
       "@azure/arm-resourcesdeployments!KnownLevel:enum": "Microsoft.Resources.Level",

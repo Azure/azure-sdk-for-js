@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import { deleteResources } from "../../api/resourceActions/operations.js";
-import { ResourceActionsDeleteResourcesOptionalParams } from "../../api/resourceActions/options.js";
-import { ResourceManagementAction } from "../../models/models.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ResourceActionsDeleteResourcesOptionalParams } from "../../api/resourceActions/options.js";
+import type { ResourceManagementAction } from "../../models/models.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ResourceActions operations. */
 export interface ResourceActionsOperations {
