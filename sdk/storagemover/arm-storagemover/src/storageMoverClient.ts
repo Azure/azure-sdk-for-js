@@ -35,14 +35,7 @@ export class StorageMoverClient {
     subscriptionId: string,
     options: StorageMoverClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createStorageMover(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createStorageMover(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.jobRuns = _getJobRunsOperations(this._client);
     this.connections = _getConnectionsOperations(this._client);

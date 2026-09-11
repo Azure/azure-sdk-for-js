@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.StorageMover": "2025-12-01"
+    "Microsoft.StorageMover": "2026-05-01"
   },
-  "emitterVersion": "0.52.0",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.StorageMover",
     "CrossLanguageDefinitionId": {
@@ -95,8 +95,10 @@
       "@azure/arm-storagemover!KnownEndpointType:enum": "Microsoft.StorageMover.EndpointType",
       "@azure/arm-storagemover!KnownEndpointKind:enum": "Microsoft.StorageMover.EndpointKind",
       "@azure/arm-storagemover!KnownNfsVersion:enum": "Microsoft.StorageMover.NfsVersion",
+      "@azure/arm-storagemover!KnownNfsMountSourceType:enum": "Microsoft.StorageMover.NfsMountSourceType",
       "@azure/arm-storagemover!KnownCredentialType:enum": "Microsoft.StorageMover.CredentialType",
       "@azure/arm-storagemover!KnownS3WithHmacSourceType:enum": "Microsoft.StorageMover.S3WithHmacSourceType",
+      "@azure/arm-storagemover!KnownSmbMountSourceType:enum": "Microsoft.StorageMover.SmbMountSourceType",
       "@azure/arm-storagemover!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
       "@azure/arm-storagemover!KnownJobType:enum": "Microsoft.StorageMover.JobType",
       "@azure/arm-storagemover!KnownCopyMode:enum": "Microsoft.StorageMover.CopyMode",
@@ -113,6 +115,7 @@
       "@azure/arm-storagemover!ConnectionsOperations#list:member": "Microsoft.StorageMover.Connections.list",
       "@azure/arm-storagemover!ConnectionsOperations#get:member": "Microsoft.StorageMover.Connections.get",
       "@azure/arm-storagemover!ConnectionsOperations#createOrUpdate:member": "Microsoft.StorageMover.Connections.createOrUpdate",
+      "@azure/arm-storagemover!JobDefinitionsOperations#reconcileJob:member": "Microsoft.StorageMover.JobDefinitions.reconcileJob",
       "@azure/arm-storagemover!JobDefinitionsOperations#stopJob:member": "Microsoft.StorageMover.JobDefinitions.stopJob",
       "@azure/arm-storagemover!JobDefinitionsOperations#startJob:member": "Microsoft.StorageMover.JobDefinitions.startJob",
       "@azure/arm-storagemover!JobDefinitionsOperations#list:member": "Microsoft.StorageMover.JobDefinitions.list",

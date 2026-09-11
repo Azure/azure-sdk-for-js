@@ -34,11 +34,6 @@ export interface StorageMoversOperations {
     options?: StorageMoversListOptionalParams,
   ) => PagedAsyncIterableIterator<StorageMover>;
   /** Deletes a Storage Mover resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,
@@ -65,7 +60,6 @@ export interface StorageMoversOperations {
     options?: StorageMoversGetOptionalParams,
   ) => Promise<StorageMover>;
 }
-
 function _getStorageMovers(context: StorageMoverContext) {
   return {
     listBySubscription: (options?: StorageMoversListBySubscriptionOptionalParams) =>
@@ -96,7 +90,6 @@ function _getStorageMovers(context: StorageMoverContext) {
     ) => get(context, resourceGroupName, storageMoverName, options),
   };
 }
-
 export function _getStorageMoversOperations(context: StorageMoverContext): StorageMoversOperations {
   return {
     ..._getStorageMovers(context),

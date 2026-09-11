@@ -23,11 +23,6 @@ export interface AgentsOperations {
     options?: AgentsListOptionalParams,
   ) => PagedAsyncIterableIterator<Agent>;
   /** Deletes an Agent resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,
@@ -58,7 +53,6 @@ export interface AgentsOperations {
     options?: AgentsGetOptionalParams,
   ) => Promise<Agent>;
 }
-
 function _getAgents(context: StorageMoverContext) {
   return {
     list: (
@@ -94,7 +88,6 @@ function _getAgents(context: StorageMoverContext) {
     ) => get(context, resourceGroupName, storageMoverName, agentName, options),
   };
 }
-
 export function _getAgentsOperations(context: StorageMoverContext): AgentsOperations {
   return {
     ..._getAgents(context),
