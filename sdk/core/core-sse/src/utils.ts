@@ -69,16 +69,65 @@ export function ensureAsyncIterable(
   iterable: AsyncIterable<Uint8Array>;
 } {
   if (isReadableStream(stream)) {
-    makeAsyncIterable<Uint8Array>(stream);
+    const reader = stream.getReader();
+    let released = false;
+    const release = (): void => {
+      if (!released) {
+        released = true;
+        reader.releaseLock();
+      }
+    };
+    const cancel = async (): Promise<void> => {
+      if (released) {
+        return;
+      }
+      try {
+        await reader.cancel();
+      } finally {
+        release();
+      }
+    };
     return {
-      cancel: () => stream.cancel(),
-      iterable: stream,
+      cancel,
+      iterable: readStream(reader, cancel),
     };
   } else {
     return {
       cancel: async () => cancelNodeStream(stream),
-      iterable: stream as AsyncIterable<Uint8Array>,
+      iterable: toUint8ArrayIterable(stream as AsyncIterable<unknown>),
     };
+  }
+}
+
+async function* toUint8ArrayIterable(
+  iterable: AsyncIterable<unknown>,
+): AsyncIterableIterator<Uint8Array> {
+  const encoder = new TextEncoder();
+  for await (const chunk of iterable) {
+    if (chunk instanceof Uint8Array) {
+      yield chunk;
+    } else if (typeof chunk === "string") {
+      yield encoder.encode(chunk);
+    } else {
+      throw new TypeError("Expected the SSE stream to contain Uint8Array or string chunks.");
+    }
+  }
+}
+
+async function* readStream<T>(
+  reader: ReadableStreamDefaultReader<T>,
+  cancel: () => Promise<void>,
+): AsyncIterableIterator<T> {
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        return;
+      }
+      yield value;
+    }
+  } finally {
+    await cancel();
   }
 }
 

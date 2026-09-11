@@ -4,7 +4,11 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
 import type { IncomingMessage } from 'node:http';
+
+// @public
+export function createReconnectingSseStream<TResponse extends SseConnectResponse>(connect: SseConnect<TResponse>, options: ReconnectingSseStreamOptions<TResponse>): Promise<EventMessageStream>;
 
 // @public
 export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
@@ -33,6 +37,44 @@ export type NodeIncomingMessage = IncomingMessage;
 export interface NodeJSReadableStream extends NodeJS.ReadableStream {
     destroy(error?: Error): void;
 }
+
+// @public
+export interface ReconnectingSseStreamOptions<TResponse extends SseConnectResponse> {
+    abortSignal?: AbortSignalLike;
+    lastEventId?: string;
+    maxRetries?: number;
+    retryDelayInMs?: number;
+    validateResponse: SseResponseValidator<TResponse>;
+}
+
+// @public
+export type SseConnect<TResponse extends SseConnectResponse> = (options: SseConnectOptions) => Promise<TResponse>;
+
+// @public
+export interface SseConnectOptions {
+    abortSignal: AbortSignalLike;
+    lastEventId?: string;
+}
+
+// @public
+export interface SseConnectResponse {
+    body?: SseStream;
+}
+
+// @public
+export type SseResponseValidationResult = "accept" | "stop";
+
+// @public
+export type SseResponseValidator<TResponse extends SseConnectResponse> = (response: TResponse) => SseResponseValidationResult | Promise<SseResponseValidationResult>;
+
+// @public
+export class SseRetryError extends Error {
+    constructor(cause?: unknown);
+    readonly cause?: unknown;
+}
+
+// @public
+export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | IncomingMessage;
 
 // (No @packageDocumentation comment for this package)
 

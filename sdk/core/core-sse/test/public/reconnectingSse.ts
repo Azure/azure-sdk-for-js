@@ -1,0 +1,448 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import {
+  createReconnectingSseStream,
+  type EventMessage,
+  type EventMessageStream,
+  type SseConnectOptions,
+  type SseConnectResponse,
+  SseRetryError,
+  type SseStream,
+} from "../../src/index.js";
+import { assert, describe, expect, it, vi, type SuiteCollector } from "vitest";
+
+interface BodyOptions {
+  chunks?: string[];
+  error?: Error;
+  hang?: boolean;
+  onCancel?: () => void;
+}
+
+interface TestResponse extends SseConnectResponse {
+  status: number;
+}
+
+export function buildReconnectingSseTests(
+  runtimeName: string,
+  createBody: (options: BodyOptions) => SseStream,
+): SuiteCollector {
+  function response(body: SseStream | undefined, status = 200): TestResponse {
+    return { body, status };
+  }
+
+  function acceptedOptions(
+    overrides: Partial<Parameters<typeof createReconnectingSseStream<TestResponse>>[1]> = {},
+  ): Parameters<typeof createReconnectingSseStream<TestResponse>>[1] {
+    return {
+      retryDelayInMs: 0,
+      validateResponse: ({ status }) => (status === 204 ? "stop" : "accept"),
+      ...overrides,
+    };
+  }
+
+  async function readOne(stream: EventMessageStream): Promise<EventMessage> {
+    const reader = stream.getReader();
+    const result = await reader.read();
+    assert.isFalse(result.done);
+    await reader.cancel();
+    return result.value;
+  }
+
+  return describe(`[${runtimeName}] Reconnecting server-sent events`, () => {
+    it("connects eagerly and omits Last-Event-ID from the initial request", async () => {
+      const attempts: SseConnectOptions[] = [];
+      const connect = vi.fn(async (options: SseConnectOptions) => {
+        attempts.push(options);
+        return response(createBody({ chunks: ["data: first\n\n"], hang: true }));
+      });
+
+      const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+      assert.equal(connect.mock.calls.length, 1);
+      assert.notProperty(attempts[0], "lastEventId");
+      assert.equal((await readOne(stream)).data, "first");
+    });
+
+    it("passes an explicitly configured Last-Event-ID to the initial request", async () => {
+      const connect = vi.fn(async (options: SseConnectOptions) => {
+        assert.equal(options.lastEventId, "initial");
+        return response(createBody({ chunks: ["data: first\n\n"], hang: true }));
+      });
+
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({ lastEventId: "initial" }),
+      );
+
+      await readOne(stream);
+    });
+
+    it("passes an id-only update when reconnecting", async () => {
+      const attempts: SseConnectOptions[] = [];
+      const connect = vi.fn(async (options: SseConnectOptions) => {
+        attempts.push(options);
+        return attempts.length === 1
+          ? response(createBody({ chunks: ["id: 42\n\n"] }))
+          : response(createBody({ chunks: ["data: reconnected\n\n"], hang: true }));
+      });
+      const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+      assert.equal((await readOne(stream)).data, "reconnected");
+      assert.equal(attempts[1].lastEventId, "42");
+    });
+
+    it("does not retain an id from an incomplete event", async () => {
+      const attempts: SseConnectOptions[] = [];
+      const connect = vi.fn(async (options: SseConnectOptions) => {
+        attempts.push(options);
+        return attempts.length === 1
+          ? response(createBody({ chunks: ["id: 42\ndata: incomplete"] }))
+          : response(createBody({ chunks: ["data: reconnected\n\n"], hang: true }));
+      });
+      const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+      assert.equal((await readOne(stream)).data, "reconnected");
+      assert.notProperty(attempts[1], "lastEventId");
+    });
+
+    it("clears an id with an empty value and ignores an id containing U+0000", async () => {
+      const attempts: SseConnectOptions[] = [];
+      const bodies = [
+        "id: retained\n\n",
+        "id: ignored\0value\n\n",
+        "id:\n\n",
+        "data: reconnected\n\n",
+      ];
+      const connect = vi.fn(async (options: SseConnectOptions) => {
+        attempts.push(options);
+        const index = attempts.length - 1;
+        return response(createBody({ chunks: [bodies[index]], hang: index === bodies.length - 1 }));
+      });
+      const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+      assert.equal((await readOne(stream)).data, "reconnected");
+      assert.equal(attempts[1].lastEventId, "retained");
+      assert.equal(attempts[2].lastEventId, "retained");
+      assert.notProperty(attempts[3], "lastEventId");
+    });
+
+    it("uses the default delay and applies valid retry-only frames", async () => {
+      vi.useFakeTimers();
+      try {
+        const connect = vi
+          .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+          .mockResolvedValueOnce(response(createBody({ chunks: ["retry: 25\n\n"] })))
+          .mockResolvedValueOnce(
+            response(createBody({ chunks: ["data: reconnected\n\n"], hang: true })),
+          );
+        const stream = await createReconnectingSseStream(connect, {
+          validateResponse: () => "accept",
+        });
+        const reader = stream.getReader();
+        const read = reader.read();
+
+        await vi.advanceTimersByTimeAsync(24);
+        assert.equal(connect.mock.calls.length, 1);
+        await vi.advanceTimersByTimeAsync(1);
+        assert.equal((await read).value?.data, "reconnected");
+        await reader.cancel();
+
+        const defaultConnect = vi
+          .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+          .mockResolvedValueOnce(response(createBody({})))
+          .mockResolvedValueOnce(
+            response(createBody({ chunks: ["data: default\n\n"], hang: true })),
+          );
+        const defaultStream = await createReconnectingSseStream(defaultConnect, {
+          validateResponse: () => "accept",
+        });
+        const defaultReader = defaultStream.getReader();
+        const defaultRead = defaultReader.read();
+        await vi.advanceTimersByTimeAsync(2999);
+        assert.equal(defaultConnect.mock.calls.length, 1);
+        await vi.advanceTimersByTimeAsync(1);
+        assert.equal((await defaultRead).value?.data, "default");
+        await defaultReader.cancel();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it("ignores malformed retry-only frames", async () => {
+      vi.useFakeTimers();
+      try {
+        const connect = vi
+          .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+          .mockResolvedValueOnce(response(createBody({ chunks: ["retry: 1ms\n\n"] })))
+          .mockResolvedValueOnce(
+            response(createBody({ chunks: ["data: reconnected\n\n"], hang: true })),
+          );
+        const stream = await createReconnectingSseStream(
+          connect,
+          acceptedOptions({ retryDelayInMs: 10 }),
+        );
+        const reader = stream.getReader();
+        const read = reader.read();
+
+        await vi.advanceTimersByTimeAsync(9);
+        assert.equal(connect.mock.calls.length, 1);
+        await vi.advanceTimersByTimeAsync(1);
+        assert.equal((await read).value?.data, "reconnected");
+        await reader.cancel();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it("reconnects after EOF and body read errors", async () => {
+      for (const firstBody of [createBody({}), createBody({ error: new Error("read failed") })]) {
+        const connect = vi
+          .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+          .mockResolvedValueOnce(response(firstBody))
+          .mockResolvedValueOnce(
+            response(createBody({ chunks: ["data: recovered\n\n"], hang: true })),
+          );
+        const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+        assert.equal((await readOne(stream)).data, "recovered");
+        assert.equal(connect.mock.calls.length, 2);
+      }
+    });
+
+    it("throws SseRetryError when the lifetime retry limit is exhausted", async () => {
+      const transportError = new Error("read failed");
+      const stream = await createReconnectingSseStream(
+        async () => response(createBody({ error: transportError })),
+        acceptedOptions({ maxRetries: 0 }),
+      );
+      const reader = stream.getReader();
+
+      await expect(reader.read()).rejects.toSatisfy((error: unknown) => {
+        assert.instanceOf(error, SseRetryError);
+        assert.equal((error as SseRetryError).cause, transportError);
+        return true;
+      });
+    });
+
+    it("throws SseRetryError after clean EOF exhausts the retry limit", async () => {
+      const stream = await createReconnectingSseStream(
+        async () => response(createBody({})),
+        acceptedOptions({ maxRetries: 0 }),
+      );
+
+      await expect(stream.getReader().read()).rejects.toSatisfy((error: unknown) => {
+        assert.instanceOf(error, SseRetryError);
+        assert.isUndefined((error as SseRetryError).cause);
+        return true;
+      });
+    });
+
+    it("retries failed reconnect requests and applies the lifetime retry limit", async () => {
+      const connect = vi
+        .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+        .mockResolvedValueOnce(response(createBody({})))
+        .mockRejectedValueOnce(new Error("connect failed"))
+        .mockResolvedValueOnce(response(createBody({})));
+      const stream = await createReconnectingSseStream(connect, acceptedOptions({ maxRetries: 2 }));
+
+      await expect(stream.getReader().read()).rejects.toBeInstanceOf(SseRetryError);
+      assert.equal(connect.mock.calls.length, 3);
+    });
+
+    it("aborts an active read and a pending delay without reconnecting", async () => {
+      const readAborter = new AbortController();
+      let canceled = false;
+      const readConnect = vi.fn(async () =>
+        response(createBody({ hang: true, onCancel: () => (canceled = true) })),
+      );
+      const readStream = await createReconnectingSseStream(
+        readConnect,
+        acceptedOptions({ abortSignal: readAborter.signal }),
+      );
+      const read = readStream.getReader().read();
+      readAborter.abort();
+      await expect(read).rejects.toMatchObject({ name: "AbortError" });
+      assert.isTrue(canceled);
+      assert.equal(readConnect.mock.calls.length, 1);
+
+      vi.useFakeTimers();
+      try {
+        const delayAborter = new AbortController();
+        const delayConnect = vi.fn(async () => response(createBody({})));
+        const delayStream = await createReconnectingSseStream(
+          delayConnect,
+          acceptedOptions({ abortSignal: delayAborter.signal, retryDelayInMs: 100 }),
+        );
+        const delayedRead = delayStream.getReader().read();
+        await vi.advanceTimersByTimeAsync(50);
+        delayAborter.abort();
+        await expect(delayedRead).rejects.toMatchObject({ name: "AbortError" });
+        await vi.runAllTimersAsync();
+        assert.equal(delayConnect.mock.calls.length, 1);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it("aborts an in-flight reconnect request without issuing another request", async () => {
+      const aborter = new AbortController();
+      let rejectConnect: ((error: Error) => void) | undefined;
+      const connect = vi
+        .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+        .mockResolvedValueOnce(response(createBody({})))
+        .mockImplementationOnce(
+          () =>
+            new Promise<TestResponse>((_resolve, reject) => {
+              rejectConnect = reject;
+            }),
+        );
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({ abortSignal: aborter.signal }),
+      );
+      const read = stream.getReader().read();
+      await vi.waitFor(() => assert.equal(connect.mock.calls.length, 2));
+      aborter.abort();
+
+      await expect(read).rejects.toMatchObject({ name: "AbortError" });
+      rejectConnect?.(new Error("late failure"));
+      assert.equal(connect.mock.calls.length, 2);
+    });
+
+    it("aborts while validating a response and cleans up its body", async () => {
+      const aborter = new AbortController();
+      let bodyCanceled = false;
+      let releaseValidation: (() => void) | undefined;
+      let validationStarted: (() => void) | undefined;
+      const started = new Promise<void>((resolve) => {
+        validationStarted = resolve;
+      });
+      const validationGate = new Promise<void>((resolve) => {
+        releaseValidation = resolve;
+      });
+      const streamPromise = createReconnectingSseStream(
+        async () =>
+          response(
+            createBody({
+              chunks: ["data: ignored\n\n"],
+              hang: true,
+              onCancel: () => (bodyCanceled = true),
+            }),
+          ),
+        acceptedOptions({
+          abortSignal: aborter.signal,
+          validateResponse: async () => {
+            validationStarted?.();
+            await validationGate;
+            return "accept" as const;
+          },
+        }),
+      );
+      await started;
+      aborter.abort();
+      releaseValidation?.();
+
+      await expect(streamPromise).rejects.toMatchObject({ name: "AbortError" });
+      await vi.waitFor(() => assert.isTrue(bodyCanceled));
+    });
+
+    it("treats validator stop and failures as terminal and cleans response bodies", async () => {
+      let stopCanceled = false;
+      const stopConnect = vi.fn(async () =>
+        response(createBody({ hang: true, onCancel: () => (stopCanceled = true) }), 204),
+      );
+      const stopped = await createReconnectingSseStream(stopConnect, acceptedOptions());
+      assert.deepEqual(await stopped.getReader().read(), { value: undefined, done: true });
+      await vi.waitFor(() => assert.isTrue(stopCanceled));
+      assert.equal(stopConnect.mock.calls.length, 1);
+
+      let failureCanceled = false;
+      const expected = new Error("invalid content type");
+      await expect(
+        createReconnectingSseStream(
+          async () =>
+            response(createBody({ hang: true, onCancel: () => (failureCanceled = true) })),
+          acceptedOptions({
+            validateResponse: () => {
+              throw expected;
+            },
+          }),
+        ),
+      ).rejects.toBe(expected);
+      await vi.waitFor(() => assert.isTrue(failureCanceled));
+    });
+
+    it("does not retry a validator failure on a reconnect response", async () => {
+      let failureCanceled = false;
+      const expected = new Error("invalid reconnect response");
+      const connect = vi
+        .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+        .mockResolvedValueOnce(response(createBody({})))
+        .mockResolvedValueOnce(
+          response(createBody({ hang: true, onCancel: () => (failureCanceled = true) }), 500),
+        );
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({
+          validateResponse: ({ status }) => {
+            if (status !== 200) {
+              throw expected;
+            }
+            return "accept";
+          },
+        }),
+      );
+
+      await expect(stream.getReader().read()).rejects.toBe(expected);
+      await vi.waitFor(() => assert.isTrue(failureCanceled));
+      assert.equal(connect.mock.calls.length, 2);
+    });
+
+    it("does not reconnect after break, cancel, or async disposal", async () => {
+      for (const stop of ["break", "cancel", "dispose"] as const) {
+        let canceled = false;
+        const connect = vi.fn(async () =>
+          response(
+            createBody({
+              chunks: [`data: ${stop}\n\n`],
+              hang: true,
+              onCancel: () => (canceled = true),
+            }),
+          ),
+        );
+        const stream = await createReconnectingSseStream(connect, acceptedOptions());
+
+        if (stop === "break") {
+          for await (const event of stream) {
+            assert.equal(event.data, stop);
+            break;
+          }
+        } else {
+          const reader = stream.getReader();
+          assert.equal((await reader.read()).value?.data, stop);
+          reader.releaseLock();
+          if (stop === "cancel") {
+            await stream.cancel();
+          } else {
+            await stream[Symbol.asyncDispose]();
+          }
+        }
+
+        await vi.waitFor(() => assert.isTrue(canceled));
+        assert.equal(connect.mock.calls.length, 1);
+      }
+    });
+
+    it("supports string chunks from Node-style readable streams", async () => {
+      if (runtimeName !== "Node") {
+        return;
+      }
+      const stream = await createReconnectingSseStream(
+        async () => response(createBody({ chunks: ["data: string\n\n"], hang: true })),
+        acceptedOptions(),
+      );
+      assert.equal((await readOne(stream)).data, "string");
+    });
+  });
+}
