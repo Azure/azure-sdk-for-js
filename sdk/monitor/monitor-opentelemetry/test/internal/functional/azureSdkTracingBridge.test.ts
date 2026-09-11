@@ -24,23 +24,43 @@ describe("Azure SDK tracing bridge (import order)", () => {
     vi.restoreAllMocks();
   });
 
-  it("should eagerly install the tracing bridge during useAzureMonitor", () => {
-    // Use CJS require to get the same module instance the bridge uses internally
+  it.each([undefined, true])(
+    "should eagerly install the tracing bridge when azureSdk.enabled is %s",
+    (enabled) => {
+      // Use CJS require to get the same module instance the bridge uses internally
+      const coreTracing = esmRequire("@azure/core-tracing");
+      const spy = vi.spyOn(coreTracing, "useInstrumenter");
+
+      useAzureMonitor({
+        azureMonitorExporterOptions: {
+          connectionString:
+            "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://dc.services.visualstudio.com",
+        },
+        instrumentationOptions: enabled === undefined ? undefined : { azureSdk: { enabled } },
+      });
+
+      // The bridge should have eagerly called useInstrumenter with an
+      // OpenTelemetryInstrumenter instance.
+      expect(spy).toHaveBeenCalled();
+      const arg = spy.mock.calls[spy.mock.calls.length - 1][0] as { startSpan?: unknown };
+      expect(arg).toBeDefined();
+      expect(typeof arg.startSpan).toBe("function");
+    },
+  );
+
+  it("should not replace the instrumenter when Azure SDK instrumentation is disabled", () => {
     const coreTracing = esmRequire("@azure/core-tracing");
     const spy = vi.spyOn(coreTracing, "useInstrumenter");
 
     useAzureMonitor({
       azureMonitorExporterOptions: {
-        connectionString:
-          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://dc.services.visualstudio.com",
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        azureSdk: { enabled: false },
       },
     });
 
-    // The bridge should have eagerly called useInstrumenter with an
-    // OpenTelemetryInstrumenter instance.
-    expect(spy).toHaveBeenCalled();
-    const arg = spy.mock.calls[spy.mock.calls.length - 1][0] as { startSpan?: unknown };
-    expect(arg).toBeDefined();
-    expect(typeof arg.startSpan).toBe("function");
+    expect(spy).not.toHaveBeenCalled();
   });
 });
