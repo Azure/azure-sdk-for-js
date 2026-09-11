@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update the VM details that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance.
  *
  * @summary update the VM details that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance.
- * x-ms-original-file: 2025-06-01/VMCollection_Update.json
+ * x-ms-original-file: 2026-03-15-preview/VMCollection_Update.json
  */
 async function vmCollectionUpdate() {
   const credential = new DefaultAzureCredential();

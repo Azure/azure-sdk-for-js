@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all active deployments associated with the marketplace subscription linked to the given Elastic monitor resource.
  *
  * @summary list all active deployments associated with the marketplace subscription linked to the given Elastic monitor resource.
- * x-ms-original-file: 2025-06-01/ConnectedPartnerResources_List.json
+ * x-ms-original-file: 2026-03-15-preview/ConnectedPartnerResources_List.json
  */
 async function connectedPartnerResourcesList() {
   const credential = new DefaultAzureCredential();

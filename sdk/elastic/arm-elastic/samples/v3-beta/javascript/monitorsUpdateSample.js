@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update an existing Elastic monitor resource in your Azure subscription, ensuring optimal observability and performance.
  *
  * @summary update an existing Elastic monitor resource in your Azure subscription, ensuring optimal observability and performance.
- * x-ms-original-file: 2025-06-01/Monitors_Update.json
+ * x-ms-original-file: 2026-03-15-preview/Monitors_Update.json
  */
 async function monitorsUpdate() {
   const credential = new DefaultAzureCredential();
