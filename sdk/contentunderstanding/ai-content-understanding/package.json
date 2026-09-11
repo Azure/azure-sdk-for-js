@@ -101,8 +101,7 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets",
-    "customize": "dev-tool customization apply -s ./generated -t ./src && npm run format"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "exports": {
     "./package.json": "./package.json",

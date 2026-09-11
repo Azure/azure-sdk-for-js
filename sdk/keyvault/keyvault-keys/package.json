@@ -50,8 +50,7 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets",
-    "customize": "echo skipped: customization must be run manually"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "//metadata": {
