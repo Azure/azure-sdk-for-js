@@ -25,6 +25,8 @@ export interface Agent {
   name: string;
   /** The operational state of the agent. Controls whether the agent endpoint accepts or rejects requests. */
   readonly state: AgentState;
+  /** The administrative configuration state of the agent. This reflects whether the agent was explicitly enabled or disabled, independently of identity-derived operational state. */
+  readonly configuration_state: AgentState;
   /** The source of the agent's operational state. When the agent is disabled, indicates where the disabled state originates from. Empty when not derived from a specific source. */
   readonly state_source?: AgentStateSource;
   /** The latest version of the agent. */
@@ -50,6 +52,7 @@ export function agentDeserializer(item: any): Agent {
     id: item["id"],
     name: item["name"],
     state: item["state"],
+    configuration_state: item["configuration_state"],
     state_source: item["state_source"],
     versions: _agentVersionsDeserializer(item["versions"]),
     agent_endpoint: !item["agent_endpoint"]
@@ -474,6 +477,7 @@ export function toolDeserializer(item: any): Tool {
 
 /** Alias for ToolUnion */
 export type ToolUnion =
+  | GitHubCopilotToolsetPreview
   | BingGroundingTool
   | MicrosoftFabricPreviewTool
   | SharepointPreviewTool
@@ -510,6 +514,9 @@ export type ToolUnion =
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
+    case "github_copilot_toolset_preview":
+      return gitHubCopilotToolsetPreviewSerializer(item as GitHubCopilotToolsetPreview);
+
     case "bing_grounding":
       return bingGroundingToolSerializer(item as BingGroundingTool);
 
@@ -613,6 +620,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
 export function toolUnionDeserializer(item: any): ToolUnion {
   switch (item["type"]) {
+    case "github_copilot_toolset_preview":
+      return gitHubCopilotToolsetPreviewDeserializer(item as GitHubCopilotToolsetPreview);
+
     case "bing_grounding":
       return bingGroundingToolDeserializer(item as BingGroundingTool);
 
@@ -742,6 +752,7 @@ export type ToolType =
   | "fabric_iq_preview"
   | "toolbox_search_preview"
   | "web_iq_preview"
+  | "github_copilot_toolset_preview"
   | "a2a"
   | "azure_ai_search"
   | "azure_function"
@@ -4199,10 +4210,14 @@ export type TelemetryTransportProtocol = "Http" | "Grpc";
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
   kind: "prompt";
+  /** (Preview) The managed runtime and agent loop used to execute this prompt agent. */
+  harness?: AgentHarnessUnion;
   /** The model deployment to use for this agent. */
   model: string;
   /** A system (or developer) message inserted into the model's context. */
   instructions?: string;
+  /** (Preview) The Foundry skills available to this prompt agent. An omitted skill version is resolved and pinned when the agent version is created. */
+  skills?: SkillReference[];
   /**
    * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
    * We generally recommend altering this or `top_p` but not both. Defaults to `1`.
@@ -4237,8 +4252,10 @@ export function promptAgentDefinitionSerializer(item: PromptAgentDefinition): an
   return {
     kind: item["kind"],
     rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    harness: !item["harness"] ? item["harness"] : agentHarnessUnionSerializer(item["harness"]),
     model: item["model"],
     instructions: item["instructions"],
+    skills: !item["skills"] ? item["skills"] : skillReferenceArraySerializer(item["skills"]),
     temperature: item["temperature"],
     top_p: item["top_p"],
     reasoning: !item["reasoning"] ? item["reasoning"] : reasoningSerializer(item["reasoning"]),
@@ -4259,8 +4276,10 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
     rai_config: !item["rai_config"]
       ? item["rai_config"]
       : raiConfigDeserializer(item["rai_config"]),
+    harness: !item["harness"] ? item["harness"] : agentHarnessUnionDeserializer(item["harness"]),
     model: item["model"],
     instructions: item["instructions"],
+    skills: !item["skills"] ? item["skills"] : skillReferenceArrayDeserializer(item["skills"]),
     temperature: item["temperature"],
     top_p: item["top_p"],
     reasoning: !item["reasoning"] ? item["reasoning"] : reasoningDeserializer(item["reasoning"]),
@@ -4274,6 +4293,186 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
       : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
   };
 }
+
+/** (Preview) A managed runtime and agent loop used to execute a prompt agent. */
+export interface AgentHarness {
+  /** The type of managed harness. */
+  /** The discriminator possible values: github_copilot_preview */
+  type: string;
+}
+
+export function agentHarnessSerializer(item: AgentHarness): any {
+  return { type: item["type"] };
+}
+
+export function agentHarnessDeserializer(item: any): AgentHarness {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentHarnessUnion */
+export type AgentHarnessUnion = GitHubCopilotHarness | AgentHarness;
+
+export function agentHarnessUnionSerializer(item: AgentHarnessUnion): any {
+  switch (item.type) {
+    case "github_copilot_preview":
+      return gitHubCopilotHarnessSerializer(item as GitHubCopilotHarness);
+
+    default:
+      return agentHarnessSerializer(item);
+  }
+}
+
+export function agentHarnessUnionDeserializer(item: any): AgentHarnessUnion {
+  switch (item["type"]) {
+    case "github_copilot_preview":
+      return gitHubCopilotHarnessDeserializer(item as GitHubCopilotHarness);
+
+    default:
+      return agentHarnessDeserializer(item);
+  }
+}
+
+/** (Preview) The GitHub Copilot managed harness for prompt agents. */
+export interface GitHubCopilotHarness extends AgentHarness {
+  /** The type of managed harness. Always `github_copilot_preview`. */
+  type: "github_copilot_preview";
+}
+
+export function gitHubCopilotHarnessSerializer(item: GitHubCopilotHarness): any {
+  return { type: item["type"] };
+}
+
+export function gitHubCopilotHarnessDeserializer(item: any): GitHubCopilotHarness {
+  return {
+    type: item["type"],
+  };
+}
+
+export function skillReferenceArraySerializer(result: Array<SkillReference>): any[] {
+  return result.map((item) => {
+    return skillReferenceSerializer(item);
+  });
+}
+
+export function skillReferenceArrayDeserializer(result: Array<SkillReference>): any[] {
+  return result.map((item) => {
+    return skillReferenceDeserializer(item);
+  });
+}
+
+/** (Preview) A reference to a versioned Foundry skill. */
+export interface SkillReference {
+  /** The name of the skill. */
+  name: string;
+  /** The skill version. If omitted, the current default version is resolved and pinned when the agent version is created. */
+  version?: string;
+}
+
+export function skillReferenceSerializer(item: SkillReference): any {
+  return { name: item["name"], version: item["version"] };
+}
+
+export function skillReferenceDeserializer(item: any): SkillReference {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** (Preview) Configuration overrides for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetPreview extends Tool {
+  /** The type of the toolset. Always `github_copilot_toolset_preview`. */
+  type: "github_copilot_toolset_preview";
+  /** The default configuration for built-in tools. If omitted, built-in tools are enabled by default. */
+  default_config?: GitHubCopilotToolsetDefaultConfig;
+  /** Per-tool configuration overrides. Duplicate built-in tool names are not allowed. */
+  configs?: GitHubCopilotToolsetConfig[];
+}
+
+export function gitHubCopilotToolsetPreviewSerializer(item: GitHubCopilotToolsetPreview): any {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigSerializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArraySerializer(item["configs"]),
+  };
+}
+
+export function gitHubCopilotToolsetPreviewDeserializer(item: any): GitHubCopilotToolsetPreview {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigDeserializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArrayDeserializer(item["configs"]),
+  };
+}
+
+/** The default enablement setting for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetDefaultConfig {
+  /** Whether built-in tools are enabled by default. Defaults to true. */
+  enabled?: boolean;
+}
+
+export function gitHubCopilotToolsetDefaultConfigSerializer(
+  item: GitHubCopilotToolsetDefaultConfig,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function gitHubCopilotToolsetDefaultConfigDeserializer(
+  item: any,
+): GitHubCopilotToolsetDefaultConfig {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+export function gitHubCopilotToolsetConfigArraySerializer(
+  result: Array<GitHubCopilotToolsetConfig>,
+): any[] {
+  return result.map((item) => {
+    return gitHubCopilotToolsetConfigSerializer(item);
+  });
+}
+
+export function gitHubCopilotToolsetConfigArrayDeserializer(
+  result: Array<GitHubCopilotToolsetConfig>,
+): any[] {
+  return result.map((item) => {
+    return gitHubCopilotToolsetConfigDeserializer(item);
+  });
+}
+
+/** An enablement override for a GitHub Copilot built-in tool. */
+export interface GitHubCopilotToolsetConfig {
+  /** The built-in tool to configure. */
+  name: GitHubCopilotBuiltInTool;
+  /** Whether the built-in tool is enabled. If omitted, the toolset default applies. */
+  enabled?: boolean;
+}
+
+export function gitHubCopilotToolsetConfigSerializer(item: GitHubCopilotToolsetConfig): any {
+  return { name: item["name"], enabled: item["enabled"] };
+}
+
+export function gitHubCopilotToolsetConfigDeserializer(item: any): GitHubCopilotToolsetConfig {
+  return {
+    name: item["name"],
+    enabled: item["enabled"],
+  };
+}
+
+/** A customer-configurable GitHub Copilot built-in tool. */
+export type GitHubCopilotBuiltInTool =
+  "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
 
 /**
  * **gpt-5 and o-series models only**
@@ -8236,6 +8435,10 @@ export interface ToolboxObject {
   id: string;
   /** The name of the toolbox. */
   name: string;
+  /** The Unix timestamp (seconds) when the toolbox was last updated. This value changes when a new toolbox version is created or the toolbox is updated. */
+  updated_at: Date;
+  /** The versions associated with the toolbox. */
+  versions: ToolboxVersions;
   /** The version identifier that the toolbox currently points to. Defaults to the latest version. Can be changed via updateToolbox. */
   default_version: string;
 }
@@ -8244,9 +8447,26 @@ export function toolboxObjectDeserializer(item: any): ToolboxObject {
   return {
     id: item["id"],
     name: item["name"],
+    updated_at: new Date(item["updated_at"] * 1000),
+    versions: toolboxVersionsDeserializer(item["versions"]),
     default_version: item["default_version"],
   };
 }
+
+/** The versions associated with a toolbox. */
+export interface ToolboxVersions {
+  /** The latest version of the toolbox. */
+  latest: ToolboxVersionObject;
+}
+
+export function toolboxVersionsDeserializer(item: any): ToolboxVersions {
+  return {
+    latest: toolboxVersionObjectDeserializer(item["latest"]),
+  };
+}
+
+/** The response returned by the latest toolbox MCP endpoint. */
+export type ToolboxesInvokeLatestToolboxMcpResponse = { body: unknown };
 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultToolboxObject {
@@ -14736,13 +14956,15 @@ export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestTyp
 export type AgentType =
   "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
 
-/** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
+/** Feature opt-in keys for agent definition operations supporting conditional preview features. */
 export type AgentDefinitionOptInKeys =
   | "WorkflowAgents=V1Preview"
   | "ExternalAgents=V1Preview"
   | "DraftAgents=V1Preview"
   | "VoiceAgents=V1Preview"
-  | "DigitalWorker=V1Preview";
+  | "DigitalWorker=V1Preview"
+  | "GitHubCopilot=V1Preview"
+  | "Skills=V1Preview";
 
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
