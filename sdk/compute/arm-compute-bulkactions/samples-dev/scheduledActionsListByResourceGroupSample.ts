@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists scheduled actions in the specified resource group.
  *
  * @summary lists scheduled actions in the specified resource group.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function listScheduledActionsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to disables the specified scheduled action so future occurrences do not run.
  *
  * @summary disables the specified scheduled action so future occurrences do not run.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_Disable_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_Disable_MaximumSet_Gen.json
  */
 async function disableAScheduledAction() {
   const credential = new DefaultAzureCredential();
