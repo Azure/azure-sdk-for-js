@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import type { SpanOptions } from "@opentelemetry/api";
+import type { Attributes, SpanOptions } from "@opentelemetry/api";
 import {
   SpanKind,
   SpanStatusCode,
@@ -16,12 +16,19 @@ import {
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   ATTR_CLIENT_ADDRESS,
+  ATTR_DB_COLLECTION_NAME,
+  ATTR_DB_NAMESPACE,
+  ATTR_DB_OPERATION_NAME,
+  ATTR_DB_QUERY_TEXT,
+  ATTR_DB_SYSTEM_NAME,
   ATTR_EXCEPTION_MESSAGE,
   ATTR_EXCEPTION_TYPE,
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
   ATTR_HTTP_ROUTE,
   ATTR_NETWORK_PEER_ADDRESS,
+  ATTR_SERVER_ADDRESS,
+  ATTR_SERVER_PORT,
   ATTR_URL_FULL,
   ATTR_USER_AGENT_ORIGINAL,
   DBSYSTEMVALUES_HIVE,
@@ -41,6 +48,8 @@ import {
   SEMATTRS_HTTP_STATUS_CODE,
   SEMATTRS_HTTP_URL,
   SEMATTRS_NET_PEER_IP,
+  SEMATTRS_NET_PEER_NAME,
+  SEMATTRS_NET_PEER_PORT,
   SEMATTRS_PEER_SERVICE,
   SEMATTRS_RPC_GRPC_STATUS_CODE,
   SEMATTRS_RPC_SYSTEM,
@@ -1295,6 +1304,284 @@ describe("spanUtils.ts", () => {
     });
 
     describe("DB", () => {
+      function createDatabaseEnvelope(
+        attributes: Attributes,
+        kind: SpanKind = SpanKind.CLIENT,
+      ): Envelope {
+        const span = tracer.startSpan("operation collection", {
+          kind,
+          attributes,
+        });
+        span.end();
+        return readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
+      }
+
+      it.each([
+        { system: "mongodb", namespace: "testapp", query: '{"a":"?"}', port: 27017 },
+        { system: "mysql", namespace: "testdb", query: "SELECT * FROM Test", port: 3306 },
+        { system: "postgresql", namespace: "testdb", query: "SELECT * FROM Test", port: 5432 },
+        { system: "redis", namespace: "0", query: "SET key ?", port: 6379 },
+      ])("should map stable $system dependencies", ({ system, namespace, query, port }) => {
+        const attributes: Attributes = {
+          [ATTR_DB_SYSTEM_NAME]: system,
+          [ATTR_DB_NAMESPACE]: namespace,
+          [ATTR_DB_QUERY_TEXT]: query,
+          [ATTR_DB_OPERATION_NAME]: "operation",
+          [ATTR_DB_COLLECTION_NAME]: "collection",
+          [ATTR_SERVER_ADDRESS]: "localhost",
+          [ATTR_SERVER_PORT]: port,
+        };
+        const envelope = createDatabaseEnvelope(attributes);
+        const dependency = envelope.data?.baseData as RemoteDependencyData;
+
+        assert.strictEqual(envelope.data?.baseType, "RemoteDependencyData");
+        assert.strictEqual(dependency.type, system);
+        assert.strictEqual(dependency.target, `localhost|${namespace}`);
+        assert.strictEqual(dependency.data, query);
+        assert.strictEqual(dependency.name, "operation collection");
+        assert.isTrue(dependency.success);
+        assert.deepStrictEqual(dependency.properties, {
+          [ATTR_DB_COLLECTION_NAME]: "collection",
+          [ATTR_SERVER_ADDRESS]: "localhost",
+          [ATTR_SERVER_PORT]: String(port),
+        });
+      });
+
+      it.each([SpanKind.CLIENT, SpanKind.PRODUCER, SpanKind.INTERNAL])(
+        "should omit mapped database properties for span kind %s with either system attribute",
+        (kind) => {
+          for (const systemKey of [ATTR_DB_SYSTEM_NAME, SEMATTRS_DB_SYSTEM]) {
+            const envelope = createDatabaseEnvelope(
+              {
+                [systemKey]: "mongodb",
+                [ATTR_DB_NAMESPACE]: "testapp",
+                [ATTR_DB_OPERATION_NAME]: "find",
+                [ATTR_DB_COLLECTION_NAME]: "collection",
+                [ATTR_SERVER_ADDRESS]: "db-host",
+                [ATTR_SERVER_PORT]: 27017,
+                "extra.attribute": "value",
+              },
+              kind,
+            );
+            const dependency = envelope.data?.baseData as RemoteDependencyData;
+            assert.strictEqual(envelope.data?.baseType, "RemoteDependencyData");
+            assert.strictEqual(dependency.type, "mongodb");
+            assert.strictEqual(dependency.target, "db-host|testapp");
+            assert.strictEqual(dependency.data, "find");
+            assert.deepStrictEqual(dependency.properties, {
+              [ATTR_DB_COLLECTION_NAME]: "collection",
+              [ATTR_SERVER_ADDRESS]: "db-host",
+              [ATTR_SERVER_PORT]: "27017",
+              "extra.attribute": "value",
+            });
+          }
+        },
+      );
+
+      it("should preserve database fields when no database system is provided", () => {
+        const attributes = {
+          [ATTR_DB_NAMESPACE]: "testapp",
+          [ATTR_DB_QUERY_TEXT]: "query",
+          [ATTR_DB_OPERATION_NAME]: "find",
+        };
+        const dependency = createDatabaseEnvelope(attributes).data
+          ?.baseData as RemoteDependencyData;
+        assert.strictEqual(dependency.type, "Dependency");
+        assert.isUndefined(dependency.data);
+        assert.deepStrictEqual(dependency.properties, attributes);
+      });
+
+      it.each([
+        "db2",
+        "ibm.db2",
+        "derby",
+        "mariadb",
+        "mssql",
+        "microsoft.sql_server",
+        "oracle",
+        "sqlite",
+        "other_sql",
+        "hsqldb",
+        "h2",
+      ])("should preserve SQL dependency type for %s with either system attribute", (system) => {
+        for (const key of [ATTR_DB_SYSTEM_NAME, SEMATTRS_DB_SYSTEM]) {
+          const envelope = createDatabaseEnvelope({ [key]: system });
+          const dependency = envelope.data?.baseData as RemoteDependencyData;
+          assert.strictEqual(dependency.type, "SQL");
+          assert.strictEqual(dependency.target, system);
+        }
+      });
+
+      it("should preserve an unknown stable database system", () => {
+        const envelope = createDatabaseEnvelope({ [ATTR_DB_SYSTEM_NAME]: "custom.database" });
+        const dependency = envelope.data?.baseData as RemoteDependencyData;
+        assert.strictEqual(dependency.type, "custom.database");
+        assert.strictEqual(dependency.target, "custom.database");
+        assert.isUndefined(dependency.data);
+      });
+
+      it("should prefer stable fields while retaining query text ahead of operation names", () => {
+        const attributes: Attributes = {
+          [ATTR_DB_SYSTEM_NAME]: "mongodb",
+          [SEMATTRS_DB_SYSTEM]: "mysql",
+          [ATTR_DB_NAMESPACE]: "stable-db",
+          [SEMATTRS_DB_NAME]: "legacy-db",
+          [ATTR_DB_QUERY_TEXT]: "stable query",
+          [SEMATTRS_DB_STATEMENT]: "legacy query",
+          [ATTR_DB_OPERATION_NAME]: "stable operation",
+          [SEMATTRS_DB_OPERATION]: "legacy operation",
+          [ATTR_SERVER_ADDRESS]: "stable-host",
+          [SEMATTRS_NET_PEER_NAME]: "legacy-host",
+        };
+        let dependency = createDatabaseEnvelope(attributes).data?.baseData as RemoteDependencyData;
+        assert.strictEqual(dependency.type, "mongodb");
+        assert.strictEqual(dependency.target, "stable-host|stable-db");
+        assert.strictEqual(dependency.data, "stable query");
+
+        delete attributes[ATTR_DB_QUERY_TEXT];
+        dependency = createDatabaseEnvelope(attributes).data?.baseData as RemoteDependencyData;
+        assert.strictEqual(dependency.data, "legacy query");
+
+        delete attributes[SEMATTRS_DB_STATEMENT];
+        dependency = createDatabaseEnvelope(attributes).data?.baseData as RemoteDependencyData;
+        assert.strictEqual(dependency.data, "stable operation");
+
+        delete attributes[ATTR_DB_OPERATION_NAME];
+        dependency = createDatabaseEnvelope(attributes).data?.baseData as RemoteDependencyData;
+        assert.strictEqual(dependency.data, "legacy operation");
+      });
+
+      it.each([undefined, ""])(
+        "should fall back to legacy fields when stable fields are %s",
+        (stableValue) => {
+          const envelope = createDatabaseEnvelope({
+            [ATTR_DB_SYSTEM_NAME]: stableValue,
+            [SEMATTRS_DB_SYSTEM]: "mongodb",
+            [ATTR_DB_NAMESPACE]: stableValue,
+            [SEMATTRS_DB_NAME]: "legacy-db",
+            [ATTR_DB_QUERY_TEXT]: stableValue,
+            [SEMATTRS_DB_STATEMENT]: "legacy query",
+            [ATTR_DB_OPERATION_NAME]: stableValue,
+            [SEMATTRS_DB_OPERATION]: "legacy operation",
+            [ATTR_SERVER_ADDRESS]: stableValue,
+            [SEMATTRS_NET_PEER_NAME]: "legacy-host",
+            [SEMATTRS_NET_PEER_PORT]: 27017,
+          });
+          const dependency = envelope.data?.baseData as RemoteDependencyData;
+          assert.strictEqual(dependency.type, "mongodb");
+          assert.strictEqual(dependency.target, "legacy-host|legacy-db");
+          assert.strictEqual(dependency.data, "legacy query");
+        },
+      );
+
+      it.each([
+        {
+          attributes: { [ATTR_SERVER_ADDRESS]: "db-host", [ATTR_SERVER_PORT]: 27018 },
+          target: "db-host|testapp",
+        },
+        {
+          attributes: { [ATTR_SERVER_ADDRESS]: "2001:db8::1", [ATTR_SERVER_PORT]: 27017 },
+          target: "2001:db8::1|testapp",
+        },
+        {
+          attributes: { [ATTR_SERVER_ADDRESS]: "/tmp/mongodb.sock" },
+          target: "/tmp/mongodb.sock|testapp",
+        },
+        {
+          attributes: {
+            [SEMATTRS_PEER_SERVICE]: "database-service",
+            [ATTR_SERVER_ADDRESS]: "db-host",
+            [ATTR_SERVER_PORT]: 27017,
+          },
+          target: "database-service|testapp",
+        },
+        {
+          attributes: { [SEMATTRS_NET_PEER_NAME]: "legacy-host" },
+          target: "legacy-host|testapp",
+        },
+        {
+          attributes: { [ATTR_NETWORK_PEER_ADDRESS]: "192.0.2.1" },
+          target: "192.0.2.1|testapp",
+        },
+        {
+          attributes: { [SEMATTRS_NET_PEER_IP]: "192.0.2.2" },
+          target: "192.0.2.2|testapp",
+        },
+        {
+          attributes: { [ATTR_SERVER_PORT]: 27017 },
+          target: "testapp",
+        },
+        {
+          attributes: { [ATTR_DB_NAMESPACE]: undefined, [ATTR_SERVER_ADDRESS]: "db-host" },
+          target: "db-host",
+        },
+      ])(
+        "should map database target $target without appending a port",
+        ({ attributes, target }) => {
+          const envelope = createDatabaseEnvelope({
+            [ATTR_DB_SYSTEM_NAME]: "mongodb",
+            [ATTR_DB_NAMESPACE]: "testapp",
+            ...attributes,
+          });
+          const dependency = envelope.data?.baseData as RemoteDependencyData;
+          assert.strictEqual(dependency.target, target);
+          for (const key of [ATTR_SERVER_ADDRESS, ATTR_SERVER_PORT]) {
+            if (attributes[key] !== undefined) {
+              assert.strictEqual(dependency.properties?.[key], String(attributes[key]));
+            }
+          }
+        },
+      );
+
+      it.each([SpanKind.SERVER, SpanKind.CONSUMER])(
+        "should preserve stable database fields on request span kind %s",
+        (kind) => {
+          const attributes = {
+            [ATTR_DB_SYSTEM_NAME]: "mongodb",
+            [ATTR_DB_NAMESPACE]: "testapp",
+            [ATTR_DB_QUERY_TEXT]: "query",
+            [ATTR_DB_OPERATION_NAME]: "find",
+            [ATTR_SERVER_ADDRESS]: "db-host",
+            [ATTR_SERVER_PORT]: 27017,
+          };
+          const span = tracer.startSpan("database server", { kind, attributes });
+          span.end();
+          const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
+          const request = envelope.data?.baseData as RequestData;
+          assert.strictEqual(envelope.data?.baseType, "RequestData");
+          assert.deepStrictEqual(request.properties, {
+            ...attributes,
+            [ATTR_SERVER_PORT]: "27017",
+          });
+        },
+      );
+
+      it("should keep HTTP mapping ahead of database mapping", () => {
+        const envelope = createDatabaseEnvelope({
+          [ATTR_HTTP_REQUEST_METHOD]: "GET",
+          [ATTR_URL_FULL]: "https://example.com/query",
+          [ATTR_SERVER_ADDRESS]: "example.com",
+          [ATTR_SERVER_PORT]: 443,
+          [ATTR_DB_SYSTEM_NAME]: "mongodb",
+          [ATTR_DB_NAMESPACE]: "testapp",
+          [ATTR_DB_QUERY_TEXT]: "query",
+          [ATTR_DB_OPERATION_NAME]: "find",
+        });
+        const dependency = envelope.data?.baseData as RemoteDependencyData;
+        assert.strictEqual(dependency.type, "Http");
+        assert.strictEqual(dependency.target, "example.com");
+        assert.strictEqual(dependency.data, "https://example.com/query");
+        assert.strictEqual(dependency.name, "GET /query");
+        assert.isUndefined(dependency.properties?.[ATTR_SERVER_ADDRESS]);
+        assert.isUndefined(dependency.properties?.[ATTR_SERVER_PORT]);
+        assert.deepStrictEqual(dependency.properties, {
+          [ATTR_DB_SYSTEM_NAME]: "mongodb",
+          [ATTR_DB_NAMESPACE]: "testapp",
+          [ATTR_DB_QUERY_TEXT]: "query",
+          [ATTR_DB_OPERATION_NAME]: "find",
+        });
+      });
+
       it("should create a Dependency Envelope for Client Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
@@ -1576,6 +1863,34 @@ describe("spanUtils.ts", () => {
     });
   });
   describe("#spanEventsToEnvelopes", () => {
+    it.each(["test event", "exception"])(
+      "should preserve stable database attributes on %s",
+      (eventName) => {
+        const attributes = {
+          [ATTR_DB_SYSTEM_NAME]: "mongodb",
+          [ATTR_DB_NAMESPACE]: "testapp",
+          [ATTR_DB_QUERY_TEXT]: "query",
+          [ATTR_DB_OPERATION_NAME]: "find",
+          [ATTR_DB_COLLECTION_NAME]: "collection",
+          [ATTR_SERVER_ADDRESS]: "db-host",
+          [ATTR_SERVER_PORT]: 27017,
+        };
+        const span = tracer.startSpan("database operation", {
+          kind: SpanKind.CLIENT,
+          attributes,
+        });
+        span.addEvent(eventName, attributes);
+        span.end();
+        const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
+        assert.strictEqual(envelopes.length, 1);
+        const eventData = envelopes[0].data?.baseData as MessageData | TelemetryExceptionData;
+        assert.deepStrictEqual(eventData.properties, {
+          ...attributes,
+          [ATTR_SERVER_PORT]: "27017",
+        });
+      },
+    );
+
     it("should create exception envelope for remote exception events", () => {
       const testError = new Error("test error");
       const span = tracer.startSpan("parent span", {}, ROOT_CONTEXT);

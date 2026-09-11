@@ -8,6 +8,7 @@
 
 ### Bugs Fixed
 
+- Fixed database dependency type, target, and query mapping for stable OpenTelemetry database semantic conventions without duplicating mapped database attributes in custom properties, while retaining legacy attribute support and database server address and port properties. [microsoft/ApplicationInsights-node.js#1533](https://github.com/microsoft/ApplicationInsights-node.js/pull/1533)
 - Fixed OneSettings configuration profiles incorrectly identifying Azure Monitor and Microsoft OpenTelemetry distro processes as standalone exporters. [#39923](https://github.com/Azure/azure-sdk-for-js/pull/39923)
 
 ### Other Changes
