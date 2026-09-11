@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export function serializeRecord(item: any, excludes?: string[], serializer?: (item: any) => any) {
-  excludes = excludes ?? [];
+export function serializeRecord(
+  item: any,
+  excludes?: string[],
+  serializer?: (item: any) => any,
+): Record<string, any> {
+  const propertiesToExclude = excludes ?? [];
   const res: any = {};
-  for (let key of Object.keys(item)) {
-    if (excludes.includes(key) || item[key] === undefined) {
+  for (const key of Object.keys(item)) {
+    if (propertiesToExclude.includes(key) || item[key] === undefined) {
       continue;
     }
     if (serializer) {

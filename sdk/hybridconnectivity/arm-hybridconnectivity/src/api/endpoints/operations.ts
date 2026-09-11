@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type {
   EndpointResource,
-  endpointResourceSerializer,
-  endpointResourceDeserializer,
   _EndpointsList,
-  _endpointsListDeserializer,
-  listCredentialsRequestSerializer,
   EndpointAccessResource,
-  endpointAccessResourceDeserializer,
-  listIngressGatewayCredentialsRequestSerializer,
   IngressGatewayResource,
-  ingressGatewayResourceDeserializer,
   ManagedProxyRequest,
-  managedProxyRequestSerializer,
   ManagedProxyResource,
-  managedProxyResourceDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  endpointResourceSerializer,
+  endpointResourceDeserializer,
+  _endpointsListDeserializer,
+  listCredentialsRequestSerializer,
+  endpointAccessResourceDeserializer,
+  listIngressGatewayCredentialsRequestSerializer,
+  ingressGatewayResourceDeserializer,
+  managedProxyRequestSerializer,
+  managedProxyResourceDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,
@@ -35,28 +35,22 @@ import {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listManagedProxyDetailsSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
   managedProxyRequest: ManagedProxyRequest,
-  options: EndpointsListManagedProxyDetailsOptionalParams = {
-    requestOptions: {},
-  },
+  options: EndpointsListManagedProxyDetailsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listManagedProxyDetails{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,10 +59,7 @@ export function _listManagedProxyDetailsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: managedProxyRequestSerializer(managedProxyRequest),
   });
 }
@@ -79,7 +70,10 @@ export async function _listManagedProxyDetailsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -92,9 +86,7 @@ export async function listManagedProxyDetails(
   resourceUri: string,
   endpointName: string,
   managedProxyRequest: ManagedProxyRequest,
-  options: EndpointsListManagedProxyDetailsOptionalParams = {
-    requestOptions: {},
-  },
+  options: EndpointsListManagedProxyDetailsOptionalParams = { requestOptions: {} },
 ): Promise<ManagedProxyResource> {
   const result = await _listManagedProxyDetailsSend(
     context,
@@ -110,16 +102,14 @@ export function _listIngressGatewayCredentialsSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: EndpointsListIngressGatewayCredentialsOptionalParams = {
-    requestOptions: {},
-  },
+  options: EndpointsListIngressGatewayCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listIngressGatewayCredentials{?api%2Dversion,expiresin}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
       expiresin: options?.expiresin,
     },
     {
@@ -129,14 +119,11 @@ export function _listIngressGatewayCredentialsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["listIngressGatewayCredentialsRequest"]
-      ? options["listIngressGatewayCredentialsRequest"]
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.listIngressGatewayCredentialsRequest
+      ? options?.listIngressGatewayCredentialsRequest
       : listIngressGatewayCredentialsRequestSerializer(
-          options["listIngressGatewayCredentialsRequest"],
+          options?.listIngressGatewayCredentialsRequest,
         ),
   });
 }
@@ -147,7 +134,10 @@ export async function _listIngressGatewayCredentialsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -159,9 +149,7 @@ export async function listIngressGatewayCredentials(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: EndpointsListIngressGatewayCredentialsOptionalParams = {
-    requestOptions: {},
-  },
+  options: EndpointsListIngressGatewayCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<IngressGatewayResource> {
   const result = await _listIngressGatewayCredentialsSend(
     context,
@@ -183,7 +171,7 @@ export function _listCredentialsSend(
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
       expiresin: options?.expiresin,
     },
     {
@@ -193,13 +181,10 @@ export function _listCredentialsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["listCredentialsRequest"]
-      ? options["listCredentialsRequest"]
-      : listCredentialsRequestSerializer(options["listCredentialsRequest"]),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.listCredentialsRequest
+      ? options?.listCredentialsRequest
+      : listCredentialsRequestSerializer(options?.listCredentialsRequest),
   });
 }
 
@@ -209,7 +194,10 @@ export async function _listCredentialsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -236,7 +224,7 @@ export function _listSend(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -244,10 +232,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -255,7 +240,10 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -273,7 +261,7 @@ export function list(
     () => _listSend(context, resourceUri, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2027-01-01" },
   );
 }
 
@@ -288,26 +276,23 @@ export function _$deleteSend(
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -315,11 +300,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the endpoint access to the target resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceUri: string,
@@ -342,7 +322,7 @@ export function _updateSend(
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -351,10 +331,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: endpointResourceSerializer(endpointResource),
   });
 }
@@ -363,7 +340,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -394,7 +374,7 @@ export function _createOrUpdateSend(
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -403,10 +383,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: endpointResourceSerializer(endpointResource),
   });
 }
@@ -417,7 +394,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -453,7 +433,7 @@ export function _getSend(
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2027-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -461,10 +441,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -472,7 +449,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
