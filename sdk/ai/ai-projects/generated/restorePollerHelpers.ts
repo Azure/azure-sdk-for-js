@@ -2,11 +2,16 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "./aiProjectClient.js";
-import { _createOptimizationJobDeserialize } from "./api/beta/agents/operations.js";
 import { _createGenerationJobDeserialize } from "./api/beta/datasets/operations.js";
 import { _updateMemoriesDeserialize } from "./api/beta/memoryStores/operations.js";
 import { _createGenerationJobDeserialize as _createGenerationJobDeserializeBetaEvaluators } from "./api/beta/evaluators/operations.js";
 import { _createRunDeserialize } from "./api/beta/agentInsightMonitors/operations.js";
+import {
+  _publishCampaignDeserialize,
+  _validateCampaignDeserialize,
+  _importCampaignRecipientsDeserialize,
+} from "./api/beta/agentTelephony/operations.js";
+import { _createOptimizationJobDeserialize } from "./api/beta/agents/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -81,10 +86,6 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "POST /agent_optimization_jobs": {
-    deserializer: _createOptimizationJobDeserialize,
-    expectedStatuses: ["201", "200", "202"],
-  },
   "POST /data_generation_jobs": {
     deserializer: _createGenerationJobDeserialize,
     expectedStatuses: ["201", "200", "202"],
@@ -99,6 +100,22 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   },
   "POST /agent_insight_monitors/{monitor_id}/runs": {
     deserializer: _createRunDeserialize,
+    expectedStatuses: ["201", "200", "202"],
+  },
+  "POST /agents/{agent_name}/telephony/campaigns/{campaign_id}:publish": {
+    deserializer: _publishCampaignDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
+  "POST /agents/{agent_name}/telephony/campaigns/{campaign_id}:validate": {
+    deserializer: _validateCampaignDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
+  "POST /agents/{agent_name}/telephony/campaigns/{campaign_id}/recipients:import": {
+    deserializer: _importCampaignRecipientsDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
+  "POST /agent_optimization_jobs": {
+    deserializer: _createOptimizationJobDeserialize,
     expectedStatuses: ["201", "200", "202"],
   },
 };
