@@ -165,12 +165,20 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   return tags;
 }
 
-function createPropertiesFromSpanAttributes(attributes?: Attributes): {
+function createPropertiesFromSpanAttributes(
+  attributes?: Attributes,
+  spanKind?: SpanKind,
+): {
   [propertyName: string]: string;
 } {
   const properties: { [propertyName: string]: string } = {};
   if (attributes) {
     const isDatabase = !getHttpMethod(attributes) && !!getDbSystem(attributes);
+    const isDatabaseDependency =
+      isDatabase &&
+      (spanKind === SpanKind.CLIENT ||
+        spanKind === SpanKind.PRODUCER ||
+        spanKind === SpanKind.INTERNAL);
     for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (
@@ -180,6 +188,11 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
           (key.startsWith("_MS.") && !internalMicrosoftAttributes.includes(key as any)) ||
           (key.startsWith("microsoft.") && !allowedMicrosoftAttributes.includes(key)) ||
           legacySemanticValues.includes(key) ||
+          (isDatabaseDependency &&
+            (key === ATTR_DB_SYSTEM_NAME ||
+              key === ATTR_DB_NAMESPACE ||
+              key === ATTR_DB_QUERY_TEXT ||
+              key === ATTR_DB_OPERATION_NAME)) ||
           (httpSemanticValues.includes(key as any) &&
             // Database targets omit ports and may use peer.service instead of the server address.
             !(isDatabase && (key === ATTR_SERVER_ADDRESS || key === ATTR_SERVER_PORT))) ||
@@ -194,7 +207,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
 }
 
 function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements] {
-  const properties: Properties = createPropertiesFromSpanAttributes(span.attributes);
+  const properties: Properties = createPropertiesFromSpanAttributes(span.attributes, span.kind);
   const measurements = createCustomMeasurements(span.attributes);
 
   const links: MSLink[] = span.links.map((link: Link) => ({
