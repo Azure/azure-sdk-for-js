@@ -65,7 +65,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: EventHubManagementContext) {
   return {
     list: (
@@ -132,7 +131,6 @@ function _getPrivateEndpointConnections(context: EventHubManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: EventHubManagementContext,
 ): PrivateEndpointConnectionsOperations {
