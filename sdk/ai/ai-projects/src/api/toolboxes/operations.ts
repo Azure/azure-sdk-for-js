@@ -8,7 +8,8 @@ import type {
   ToolboxObject,
   _AgentsPagedResultToolboxObject,
   _AgentsPagedResultToolboxVersionObject,
-} from "../../models/models.js";
+
+  ToolboxesInvokeLatestToolboxMcpResponse} from "../../models/models.js";
 import {
   toolboxToolUnionArraySerializer,
   apiErrorResponseDeserializer,
@@ -17,7 +18,7 @@ import {
   toolboxVersionObjectDeserializer,
   toolboxObjectDeserializer,
   _agentsPagedResultToolboxObjectDeserializer,
-  _agentsPagedResultToolboxVersionObjectDeserializer,
+  _agentsPagedResultToolboxVersionObjectDeserializer
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -26,6 +27,7 @@ import type {
   DeleteVersionOptionalParams,
   ToolboxesDeleteOptionalParams,
   ToolboxesUpdateOptionalParams,
+  ToolboxesInvokeLatestToolboxMcpOptionalParams,
   GetVersionOptionalParams,
   ListVersionsOptionalParams,
   ToolboxesListOptionalParams,
@@ -175,6 +177,59 @@ export async function update(
 ): Promise<ToolboxObject> {
   const result = await _updateSend(context, name, defaultVersion, options);
   return _updateDeserialize(result);
+}
+
+export function _invokeLatestToolboxMcpSend(
+  context: Client,
+  name: string,
+  contentType: string,
+  request: Record<string, unknown>,
+  options: ToolboxesInvokeLatestToolboxMcpOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/toolboxes/{name}:invoke_mcp{?api%2Dversion}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: contentType,
+    headers: { accept: "*/*", ...options.requestOptions?.headers },
+    body: request,
+  });
+}
+
+export async function _invokeLatestToolboxMcpDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ToolboxesInvokeLatestToolboxMcpResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { body: result.body };
+}
+
+/** Invokes the latest version of the specified toolbox through its MCP endpoint. */
+export async function invokeLatestToolboxMcp(
+  context: Client,
+  name: string,
+  contentType: string,
+  request: Record<string, unknown>,
+  options: ToolboxesInvokeLatestToolboxMcpOptionalParams = { requestOptions: {} },
+): Promise<ToolboxesInvokeLatestToolboxMcpResponse> {
+  const result = await _invokeLatestToolboxMcpSend(context, name, contentType, request, options);
+  return _invokeLatestToolboxMcpDeserialize(result);
 }
 
 export function _getVersionSend(

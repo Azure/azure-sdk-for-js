@@ -8,7 +8,7 @@ import { isNodeLike } from "@azure/core-util";
 import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
-  BetaAgentTelephonyValidateCampaignOptionalParams,
+  BetaAgentsFooValidateCampaignOptionalParams,
   BetaAgentEndpointConversationsListOptionalParams,
   VoiceAgentDefinition,
   RealtimeServerEventResponseAudioDelta,
@@ -70,6 +70,42 @@ function createClient(...responses: MockResponse[]): {
 }
 
 describe("voice post-emitter integration", () => {
+  it("exposes exactly the relocated telephony methods on the third-level beta client", () => {
+    const { client } = createClient();
+    expect(Object.keys(client.beta.agents.foo).sort()).toEqual(
+      [
+        "getOperation",
+        "cancelCampaign",
+        "resumeCampaign",
+        "pauseCampaign",
+        "publishCampaign",
+        "validateCampaign",
+        "getCampaignRecipientImport",
+        "importCampaignRecipients",
+        "getCampaign",
+        "createCampaign",
+        "cancelCallJob",
+        "getCallJob",
+        "createCallJob",
+        "replaceTelephonyTransferTargets",
+        "getTelephonyTransferTargets",
+        "endTelephonyCall",
+        "transferTelephonyCall",
+        "getTelephonyCall",
+        "listTelephonyCalls",
+        "deleteTelephonyBinding",
+        "updateTelephonyBinding",
+        "getTelephonyBinding",
+        "listTelephonyBindings",
+        "createTelephonyBinding",
+      ].sort(),
+    );
+    expect(client.beta).not.toHaveProperty("agentTelephony");
+    expect(client.beta.agents).not.toHaveProperty("getTelephonyBinding");
+    expect(client.beta.agents.generate).toBeTypeOf("function");
+    expect(client.beta.agents.createOptimizationJob).toBeTypeOf("function");
+  });
+
   it("wires the beta WebSocket route without changing authentication or user agents", async () => {
     const { client, requests, getToken } = createClient({ status: 101 });
     // This tests HTTP handshake routing, not an actual WebSocket transport.
@@ -149,12 +185,12 @@ describe("voice post-emitter integration", () => {
     {
       name: "telephony bindings",
       list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.beta.agents.listTelephonyBindings("agent", options),
+        client.beta.agents.foo.listTelephonyBindings("agent", options),
     },
     {
       name: "telephony calls",
       list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.beta.agents.listTelephonyCalls("agent", options),
+        client.beta.agents.foo.listTelephonyCalls("agent", options),
     },
   ];
 
@@ -197,13 +233,13 @@ describe("voice post-emitter integration", () => {
   const campaignCases = [
     {
       name: "validate",
-      start: (client: AIProjectClient, options: BetaAgentTelephonyValidateCampaignOptionalParams) =>
-        client.beta.agentTelephony.validateCampaign("agent", "campaign", options),
+      start: (client: AIProjectClient, options: BetaAgentsFooValidateCampaignOptionalParams) =>
+        client.beta.agents.foo.validateCampaign("agent", "campaign", options),
     },
     {
       name: "publish",
-      start: (client: AIProjectClient, options: BetaAgentTelephonyValidateCampaignOptionalParams) =>
-        client.beta.agentTelephony.publishCampaign(
+      start: (client: AIProjectClient, options: BetaAgentsFooValidateCampaignOptionalParams) =>
+        client.beta.agents.foo.publishCampaign(
           "agent",
           "campaign",
           { validation_id: "validation" },
@@ -212,8 +248,8 @@ describe("voice post-emitter integration", () => {
     },
     {
       name: "import",
-      start: (client: AIProjectClient, options: BetaAgentTelephonyValidateCampaignOptionalParams) =>
-        client.beta.agentTelephony.importCampaignRecipients(
+      start: (client: AIProjectClient, options: BetaAgentsFooValidateCampaignOptionalParams) =>
+        client.beta.agents.foo.importCampaignRecipients(
           "agent",
           "campaign",
           "idempotency-key",

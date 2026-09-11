@@ -24,3 +24,5 @@ export type { TelemetryOperations } from "./telemetry/index.js";
 export type { BetaAgentEndpointConversationsOperations } from "./beta/agentEndpointConversations/index.js";
 export type { BetaAgentTelephonyOperations } from "./beta/agentTelephony/index.js";
 export type { BetaVoiceAgentWebSocketOperations } from "./beta/voiceAgentWebSocket/index.js";
+
+export type { BetaAgentsFooOperations } from "./beta/agents/foo/index.js";

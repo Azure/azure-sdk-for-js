@@ -10,7 +10,7 @@ import {
   _publishCampaignDeserialize,
   _validateCampaignDeserialize,
   _importCampaignRecipientsDeserialize,
-} from "./api/beta/agentTelephony/operations.js";
+} from "./api/beta/agents/foo/operations.js";
 import { _createOptimizationJobDeserialize } from "./api/beta/agents/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";

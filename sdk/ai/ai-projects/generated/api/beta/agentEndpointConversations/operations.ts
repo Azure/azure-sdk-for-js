@@ -12,8 +12,6 @@ import {
   _agentsPagedResultVoiceResponseDeserializer,
   VoiceResponse,
   voiceResponseDeserializer,
-  realtimeConversationItemUnionDeserializer,
-  RealtimeConversationItemUnion,
   _AgentsPagedResultRealtimeConversationItem,
   _agentsPagedResultRealtimeConversationItemDeserializer,
   VoiceItemAudioResponse,
@@ -26,6 +24,10 @@ import {
   BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse,
   BetaAgentEndpointConversationsDownloadItemAudioResponse,
 } from "../../../models/models.js";
+import {
+  realtimeConversationItemUnionDeserializer,
+  RealtimeConversationItemUnion,
+} from "../../../models/openAI/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,

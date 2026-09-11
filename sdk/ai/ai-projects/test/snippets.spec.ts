@@ -60,6 +60,26 @@ describe("snippets", function () {
     }
   });
 
+  it("ReadmeSampleInvokeLatestToolboxMcp", async function () {
+    const toolboxName = process.env["FOUNDRY_TOOLBOX_NAME"] || "<toolbox name>";
+    const response = await project.toolboxes.invokeLatestToolboxMcp(
+      toolboxName,
+      "application/json",
+      {
+        jsonrpc: "2.0",
+        id: 1,
+        method: "initialize",
+        params: {
+          protocolVersion: "2025-03-26",
+          capabilities: {},
+          clientInfo: { name: "ai-projects-sample", version: "1.0.0" },
+        },
+      },
+      { requestOptions: { headers: { accept: "application/json, text/event-stream" } } },
+    );
+    console.log("MCP initialization response:", response.body);
+  });
+
   it("openAI", async function () {
     const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({

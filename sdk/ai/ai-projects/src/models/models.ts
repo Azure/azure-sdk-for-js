@@ -42,6 +42,8 @@ export interface Agent {
   /** The blueprint for the agent */
   readonly blueprint_reference?: AgentBlueprintReferenceUnion;
   agent_card?: AgentCard;
+  /** The administrative configuration state of the agent. This reflects whether the agent was explicitly enabled or disabled, independently of identity-derived operational state. */
+  readonly configuration_state: AgentState;
 }
 
 export function agentDeserializer(item: any): Agent {
@@ -68,6 +70,7 @@ export function agentDeserializer(item: any): Agent {
     agent_card: !item["agent_card"]
       ? item["agent_card"]
       : agentCardDeserializer(item["agent_card"]),
+    configuration_state: item["configuration_state"],
   };
 }
 
@@ -506,10 +509,14 @@ export type ToolUnion =
   | NamespaceToolParam
   | ToolSearchToolParam
   | Tool
-  | BrowserAutomationTool;
+  | BrowserAutomationTool
+  | GitHubCopilotToolsetPreview;
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
+    case "github_copilot_toolset_preview":
+      return gitHubCopilotToolsetPreviewSerializer(item as GitHubCopilotToolsetPreview);
+
     case "bing_grounding":
       return bingGroundingToolSerializer(item as BingGroundingTool);
 
@@ -613,6 +620,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
 export function toolUnionDeserializer(item: any): ToolUnion {
   switch (item["type"]) {
+    case "github_copilot_toolset_preview":
+      return gitHubCopilotToolsetPreviewDeserializer(item as GitHubCopilotToolsetPreview);
+
     case "bing_grounding":
       return bingGroundingToolDeserializer(item as BingGroundingTool);
 
@@ -748,7 +758,8 @@ export type ToolType =
   | "bing_grounding"
   | "capture_structured_outputs"
   | "openapi"
-  | "browser_automation";
+  | "browser_automation"
+  | "github_copilot_toolset_preview";
 
 /** The input definition information for a bing grounding search tool as used to configure an agent. */
 export interface BingGroundingTool extends Tool {
@@ -2334,6 +2345,8 @@ export interface FunctionTool extends Tool {
   defer_loading?: boolean;
   /** The callers that may invoke this tool. */
   allowed_callers?: CallableToolAllowedCaller[];
+  /** Whether the tool response can be returned asynchronously rather than on the next response creation. */
+  async?: boolean;
 }
 
 export function functionToolSerializer(item: FunctionTool): any {
@@ -2350,6 +2363,7 @@ export function functionToolSerializer(item: FunctionTool): any {
       : item["allowed_callers"].map((p: any) => {
           return p;
         }),
+    async: item["async"],
   };
 }
 
@@ -2371,6 +2385,7 @@ export function functionToolDeserializer(item: any): FunctionTool {
       : item["allowed_callers"].map((p1: any) => {
           return p1;
         }),
+    async: item["async"],
   };
 }
 
@@ -2673,6 +2688,8 @@ export interface WebSearchTool extends Tool {
    * resource attached to the tool.
    */
   custom_search_configuration?: WebSearchConfiguration;
+  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
+  external_web_access?: boolean;
 }
 
 export function webSearchToolSerializer(item: WebSearchTool): any {
@@ -2691,6 +2708,7 @@ export function webSearchToolSerializer(item: WebSearchTool): any {
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationSerializer(item["custom_search_configuration"]),
+    external_web_access: item["external_web_access"],
   };
 }
 
@@ -2710,6 +2728,7 @@ export function webSearchToolDeserializer(item: any): WebSearchTool {
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
+    external_web_access: item["external_web_access"],
   };
 }
 
@@ -2938,7 +2957,8 @@ export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
   /** The model to use for image generation. */
-  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
+  model?:
+    "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21";
   /**
    * The quality of the generated image. One of `low`, `medium`, `high`,
    *   or `auto`. Default: `auto`.
@@ -3483,6 +3503,8 @@ export interface CustomToolParam extends Tool {
   /** Whether this tool should be deferred and discovered via tool search. */
   defer_loading?: boolean;
   allowed_callers?: CallableToolAllowedCaller[];
+  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
+  async?: boolean;
 }
 
 export function customToolParamSerializer(item: CustomToolParam): any {
@@ -3497,6 +3519,7 @@ export function customToolParamSerializer(item: CustomToolParam): any {
       : item["allowed_callers"].map((p: any) => {
           return p;
         }),
+    async: item["async"],
   };
 }
 
@@ -3514,6 +3537,7 @@ export function customToolParamDeserializer(item: any): CustomToolParam {
       : item["allowed_callers"].map((p1: any) => {
           return p1;
         }),
+    async: item["async"],
   };
 }
 
@@ -3801,6 +3825,8 @@ export interface FunctionToolParam {
   /** Whether this function should be deferred and discovered via tool search. */
   defer_loading?: boolean;
   allowed_callers?: CallableToolAllowedCaller[];
+  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
+  async?: boolean;
 }
 
 export function functionToolParamSerializer(item: FunctionToolParam): any {
@@ -3819,6 +3845,7 @@ export function functionToolParamSerializer(item: FunctionToolParam): any {
       : item["allowed_callers"].map((p: any) => {
           return p;
         }),
+    async: item["async"],
   };
 }
 
@@ -3842,6 +3869,7 @@ export function functionToolParamDeserializer(item: any): FunctionToolParam {
       : item["allowed_callers"].map((p1: any) => {
           return p1;
         }),
+    async: item["async"],
   };
 }
 
@@ -4231,6 +4259,10 @@ export interface PromptAgentDefinition extends AgentDefinition {
   text?: PromptAgentDefinitionTextOptions;
   /** Set of structured inputs that can participate in prompt template substitution or tool argument bindings. */
   structured_inputs?: Record<string, StructuredInputDefinition>;
+  /** The managed runtime and agent loop used to execute this prompt agent. */
+  harness?: AgentHarnessUnion;
+  /** The Foundry skills available to this prompt agent. An omitted skill version is resolved and pinned when the agent version is created. */
+  skills?: SkillReference[];
 }
 
 export function promptAgentDefinitionSerializer(item: PromptAgentDefinition): any {
@@ -4250,6 +4282,8 @@ export function promptAgentDefinitionSerializer(item: PromptAgentDefinition): an
     structured_inputs: !item["structured_inputs"]
       ? item["structured_inputs"]
       : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    harness: !item["harness"] ? item["harness"] : agentHarnessUnionSerializer(item["harness"]),
+    skills: !item["skills"] ? item["skills"] : skillReferenceArraySerializer(item["skills"]),
   };
 }
 
@@ -4272,6 +4306,8 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
     structured_inputs: !item["structured_inputs"]
       ? item["structured_inputs"]
       : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+    harness: !item["harness"] ? item["harness"] : agentHarnessUnionDeserializer(item["harness"]),
+    skills: !item["skills"] ? item["skills"] : skillReferenceArrayDeserializer(item["skills"]),
   };
 }
 
@@ -5741,6 +5777,8 @@ export interface ErrorModel {
   additionalInfo?: Record<string, unknown>;
   /** Debug information for the error. */
   debugInfo?: Record<string, unknown>;
+  /** Details about a blocked action and any suggested continuation. */
+  misalignment?: MisalignmentErrorDetailsResource;
 }
 
 export function apiErrorDeserializer(item: any): ErrorModel {
@@ -5752,6 +5790,9 @@ export function apiErrorDeserializer(item: any): ErrorModel {
     details: !item["details"] ? item["details"] : apiErrorArrayDeserializer(item["details"]),
     additionalInfo: item["additionalInfo"],
     debugInfo: item["debugInfo"],
+    misalignment: !item["misalignment"]
+      ? item["misalignment"]
+      : misalignmentErrorDetailsResourceDeserializer(item["misalignment"]),
   };
 }
 
@@ -7608,6 +7649,8 @@ export interface WebSearchToolboxTool extends ToolboxTool {
    * resource attached to the tool.
    */
   custom_search_configuration?: WebSearchConfiguration;
+  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
+  external_web_access?: boolean;
 }
 
 export function webSearchToolboxToolSerializer(item: WebSearchToolboxTool): any {
@@ -7626,6 +7669,7 @@ export function webSearchToolboxToolSerializer(item: WebSearchToolboxTool): any 
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationSerializer(item["custom_search_configuration"]),
+    external_web_access: item["external_web_access"],
   };
 }
 
@@ -7645,6 +7689,7 @@ export function webSearchToolboxToolDeserializer(item: any): WebSearchToolboxToo
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
+    external_web_access: item["external_web_access"],
   };
 }
 
@@ -8238,6 +8283,10 @@ export interface ToolboxObject {
   name: string;
   /** The version identifier that the toolbox currently points to. Defaults to the latest version. Can be changed via updateToolbox. */
   default_version: string;
+  /** The Unix timestamp (seconds) when the toolbox was last updated. This value changes when a new toolbox version is created or the toolbox is updated. */
+  updated_at: Date;
+  /** The versions associated with the toolbox. */
+  versions: ToolboxVersions;
 }
 
 export function toolboxObjectDeserializer(item: any): ToolboxObject {
@@ -8245,6 +8294,8 @@ export function toolboxObjectDeserializer(item: any): ToolboxObject {
     id: item["id"],
     name: item["name"],
     default_version: item["default_version"],
+    updated_at: new Date(item["updated_at"] * 1000),
+    versions: toolboxVersionsDeserializer(item["versions"]),
   };
 }
 
@@ -14742,7 +14793,9 @@ export type AgentDefinitionOptInKeys =
   | "ExternalAgents=V1Preview"
   | "DraftAgents=V1Preview"
   | "VoiceAgents=V1Preview"
-  | "DigitalWorker=V1Preview";
+  | "DigitalWorker=V1Preview"
+  | "GitHubCopilot=V1Preview"
+  | "Skills=V1Preview";
 
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
@@ -16493,6 +16546,10 @@ export interface VoiceAgentInputTranscription {
   custom_speech?: Record<string, string>;
   /** Optional phrase hints that bias recognition toward domain terms. */
   phrase_list?: string[];
+  /** Possible languages of the input audio, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format. Supported by `gpt-transcribe` and `gpt-live-transcribe`. */
+  languages?: string[];
+  /** Words or phrases to guide transcription of the input audio. Supported by `gpt-transcribe` and `gpt-live-transcribe`. */
+  keywords?: string[];
 }
 
 export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
@@ -16505,6 +16562,16 @@ export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTran
     phrase_list: !item["phrase_list"]
       ? item["phrase_list"]
       : item["phrase_list"].map((p: any) => {
+          return p;
+        }),
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+    keywords: !item["keywords"]
+      ? item["keywords"]
+      : item["keywords"].map((p: any) => {
           return p;
         }),
   };
@@ -16524,6 +16591,16 @@ export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentI
     phrase_list: !item["phrase_list"]
       ? item["phrase_list"]
       : item["phrase_list"].map((p: any) => {
+          return p;
+        }),
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+    keywords: !item["keywords"]
+      ? item["keywords"]
+      : item["keywords"].map((p: any) => {
           return p;
         }),
   };
@@ -18775,10 +18852,16 @@ export type RealtimeConversationItemUnion =
   | RealtimeMCPListTools
   | RealtimeMCPToolCall
   | RealtimeMCPApprovalRequest
-  | RealtimeConversationItem;
+  | RealtimeConversationItem
+  | RealtimeConversationItemMessageUnion;
 
 export function realtimeConversationItemUnionSerializer(item: RealtimeConversationItemUnion): any {
   switch (item.type) {
+    case "message":
+      return realtimeConversationItemMessageUnionSerializer(
+        item as RealtimeConversationItemMessageUnion,
+      );
+
     case "function_call":
       return realtimeConversationItemFunctionCallSerializer(
         item as RealtimeConversationItemFunctionCall,
@@ -18810,6 +18893,11 @@ export function realtimeConversationItemUnionDeserializer(
   item: any,
 ): RealtimeConversationItemUnion {
   switch (item["type"]) {
+    case "message":
+      return realtimeConversationItemMessageUnionDeserializer(
+        item as RealtimeConversationItemMessageUnion,
+      );
+
     case "function_call":
       return realtimeConversationItemFunctionCallDeserializer(
         item as RealtimeConversationItemFunctionCall,
@@ -18844,7 +18932,8 @@ export type RealtimeConversationItemType =
   | "mcp_approval_response"
   | "mcp_list_tools"
   | "mcp_call"
-  | "mcp_approval_request";
+  | "mcp_approval_request"
+  | "message";
 
 /** A function call item in a Realtime conversation. */
 export interface RealtimeConversationItemFunctionCall extends RealtimeConversationItem {
@@ -22472,6 +22561,8 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionCompl
   usage: TranscriptTextUsageTokens | TranscriptTextUsageDuration;
   /** Phrase-level transcription timing and confidence details. */
   phrases?: VoiceAgentTranscriptionPhrase[];
+  /** The languages detected in the audio. Returned by `gpt-transcribe`. An empty array indicates that no language could be reliably detected. */
+  languages?: TranscriptionLanguage[];
 }
 
 export function realtimeServerEventConversationItemInputAudioTranscriptionCompletedSerializer(
@@ -22492,6 +22583,9 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionComple
     phrases: !item["phrases"]
       ? item["phrases"]
       : voiceAgentTranscriptionPhraseArraySerializer(item["phrases"]),
+    languages: !item["languages"]
+      ? item["languages"]
+      : transcriptionLanguageArraySerializer(item["languages"]),
   };
 }
 
@@ -22513,6 +22607,9 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionComple
     phrases: !item["phrases"]
       ? item["phrases"]
       : voiceAgentTranscriptionPhraseArrayDeserializer(item["phrases"]),
+    languages: !item["languages"]
+      ? item["languages"]
+      : transcriptionLanguageArrayDeserializer(item["languages"]),
   };
 }
 
@@ -25452,3 +25549,637 @@ export type BetaAgentEndpointConversationsDownloadItemAudioResponse = {
    */
   readableStreamBody?: NodeReadableStream;
 };
+
+/** A managed runtime and agent loop used to execute a prompt agent. */
+export interface AgentHarness {
+  /** The type of managed harness. */
+  /** The discriminator possible values: github_copilot_preview */
+  type: string;
+}
+
+export function agentHarnessSerializer(item: AgentHarness): any {
+  return { type: item["type"] };
+}
+
+export function agentHarnessDeserializer(item: any): AgentHarness {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentHarnessUnion */
+export type AgentHarnessUnion = GitHubCopilotHarness | AgentHarness;
+
+export function agentHarnessUnionSerializer(item: AgentHarnessUnion): any {
+  switch (item.type) {
+    case "github_copilot_preview":
+      return gitHubCopilotHarnessSerializer(item as GitHubCopilotHarness);
+
+    default:
+      return agentHarnessSerializer(item);
+  }
+}
+
+export function agentHarnessUnionDeserializer(item: any): AgentHarnessUnion {
+  switch (item["type"]) {
+    case "github_copilot_preview":
+      return gitHubCopilotHarnessDeserializer(item as GitHubCopilotHarness);
+
+    default:
+      return agentHarnessDeserializer(item);
+  }
+}
+
+/** The GitHub Copilot managed harness for prompt agents. */
+export interface GitHubCopilotHarness extends AgentHarness {
+  /** The type of managed harness. Always `github_copilot_preview`. */
+  type: "github_copilot_preview";
+}
+
+export function gitHubCopilotHarnessSerializer(item: GitHubCopilotHarness): any {
+  return { type: item["type"] };
+}
+
+export function gitHubCopilotHarnessDeserializer(item: any): GitHubCopilotHarness {
+  return {
+    type: item["type"],
+  };
+}
+
+export function skillReferenceArraySerializer(result: Array<SkillReference>): any[] {
+  return result.map((item) => {
+    return skillReferenceSerializer(item);
+  });
+}
+
+export function skillReferenceArrayDeserializer(result: Array<SkillReference>): any[] {
+  return result.map((item) => {
+    return skillReferenceDeserializer(item);
+  });
+}
+
+/** A reference to a versioned Foundry skill. */
+export interface SkillReference {
+  /** The name of the skill. */
+  name: string;
+  /** The skill version. If omitted, the current default version is resolved and pinned when the agent version is created. */
+  version?: string;
+}
+
+export function skillReferenceSerializer(item: SkillReference): any {
+  return { name: item["name"], version: item["version"] };
+}
+
+export function skillReferenceDeserializer(item: any): SkillReference {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Configuration overrides for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetPreview extends Tool {
+  /** The type of the toolset. Always `github_copilot_toolset_preview`. */
+  type: "github_copilot_toolset_preview";
+  /** The default configuration for built-in tools. If omitted, built-in tools are enabled by default. */
+  default_config?: GitHubCopilotToolsetDefaultConfig;
+  /** Per-tool configuration overrides. Duplicate built-in tool names are not allowed. */
+  configs?: GitHubCopilotToolsetConfig[];
+}
+
+export function gitHubCopilotToolsetPreviewSerializer(item: GitHubCopilotToolsetPreview): any {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigSerializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArraySerializer(item["configs"]),
+  };
+}
+
+export function gitHubCopilotToolsetPreviewDeserializer(item: any): GitHubCopilotToolsetPreview {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigDeserializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArrayDeserializer(item["configs"]),
+  };
+}
+
+/** The default enablement setting for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetDefaultConfig {
+  /** Whether built-in tools are enabled by default. Defaults to true. */
+  enabled?: boolean;
+}
+
+export function gitHubCopilotToolsetDefaultConfigSerializer(
+  item: GitHubCopilotToolsetDefaultConfig,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function gitHubCopilotToolsetDefaultConfigDeserializer(
+  item: any,
+): GitHubCopilotToolsetDefaultConfig {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+export function gitHubCopilotToolsetConfigArraySerializer(
+  result: Array<GitHubCopilotToolsetConfig>,
+): any[] {
+  return result.map((item) => {
+    return gitHubCopilotToolsetConfigSerializer(item);
+  });
+}
+
+export function gitHubCopilotToolsetConfigArrayDeserializer(
+  result: Array<GitHubCopilotToolsetConfig>,
+): any[] {
+  return result.map((item) => {
+    return gitHubCopilotToolsetConfigDeserializer(item);
+  });
+}
+
+/** An enablement override for a GitHub Copilot built-in tool. */
+export interface GitHubCopilotToolsetConfig {
+  /** The built-in tool to configure. */
+  name: GitHubCopilotBuiltInTool;
+  /** Whether the built-in tool is enabled. If omitted, the toolset default applies. */
+  enabled?: boolean;
+}
+
+export function gitHubCopilotToolsetConfigSerializer(item: GitHubCopilotToolsetConfig): any {
+  return { name: item["name"], enabled: item["enabled"] };
+}
+
+export function gitHubCopilotToolsetConfigDeserializer(item: any): GitHubCopilotToolsetConfig {
+  return {
+    name: item["name"],
+    enabled: item["enabled"],
+  };
+}
+
+/** A customer-configurable GitHub Copilot built-in tool. */
+export type GitHubCopilotBuiltInTool =
+  "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
+
+/** The versions associated with a toolbox. */
+export interface ToolboxVersions {
+  /** The latest version of the toolbox. */
+  latest: ToolboxVersionObject;
+}
+
+export function toolboxVersionsDeserializer(item: any): ToolboxVersions {
+  return {
+    latest: toolboxVersionObjectDeserializer(item["latest"]),
+  };
+}
+
+/** The MCP response from invoking the latest version of a toolbox. */
+export type ToolboxesInvokeLatestToolboxMcpResponse = { body: unknown };
+
+/** Public details explaining why an action was blocked and how to continue. */
+export interface MisalignmentErrorDetailsResource {
+  /** An optional classification; clients must accept additional values. */
+  error_type?: MisalignmentErrorType;
+  /** The public explanation for this block. */
+  detailed_explanation?: string;
+  /** An optional public continuation instruction. */
+  steer?: MisalignmentSteer;
+}
+
+export function misalignmentErrorDetailsResourceDeserializer(
+  item: any,
+): MisalignmentErrorDetailsResource {
+  return {
+    error_type: !item["error_type"]
+      ? item["error_type"]
+      : misalignmentErrorTypeDeserializer(item["error_type"]),
+    detailed_explanation: item["detailed_explanation"],
+    steer: !item["steer"] ? item["steer"] : misalignmentSteerDeserializer(item["steer"]),
+  };
+}
+
+/** The reason an action was blocked, including service-defined classifications. */
+export type MisalignmentErrorType =
+  | string
+  | "potentially_unintended_data_transfer"
+  | "potentially_unintended_data_access"
+  | "potentially_unintended_destructive_activity"
+  | "other";
+
+export function misalignmentErrorTypeDeserializer(item: any): MisalignmentErrorType {
+  return item;
+}
+
+/** A public instruction for continuing after an action was blocked. */
+export interface MisalignmentSteer {
+  /** The public continuation instruction. */
+  message: string;
+}
+
+export function misalignmentSteerDeserializer(item: any): MisalignmentSteer {
+  return {
+    message: item["message"],
+  };
+}
+
+/** A message from a system, user, or assistant in a Realtime conversation. */
+export interface RealtimeConversationItemMessage extends RealtimeConversationItem {
+  /** The role of the message sender. */
+  role: RealtimeConversationItemMessageType;
+  /** The item type, which is always `message`. */
+  type: "message";
+}
+
+export function realtimeConversationItemMessageSerializer(
+  item: RealtimeConversationItemMessage,
+): any {
+  return { type: item["type"], role: item["role"] };
+}
+
+export function realtimeConversationItemMessageDeserializer(
+  item: any,
+): RealtimeConversationItemMessage {
+  return {
+    type: item["type"],
+    role: item["role"],
+  };
+}
+
+/** Alias for RealtimeConversationItemMessageUnion */
+export type RealtimeConversationItemMessageUnion =
+  | RealtimeConversationItemMessageSystem
+  | RealtimeConversationItemMessageUser
+  | RealtimeConversationItemMessageAssistant
+  | RealtimeConversationItemMessage;
+
+export function realtimeConversationItemMessageUnionSerializer(
+  item: RealtimeConversationItemMessageUnion,
+): any {
+  switch (item.role) {
+    case "system":
+      return realtimeConversationItemMessageSystemSerializer(
+        item as RealtimeConversationItemMessageSystem,
+      );
+
+    case "user":
+      return realtimeConversationItemMessageUserSerializer(
+        item as RealtimeConversationItemMessageUser,
+      );
+
+    case "assistant":
+      return realtimeConversationItemMessageAssistantSerializer(
+        item as RealtimeConversationItemMessageAssistant,
+      );
+
+    default:
+      return realtimeConversationItemMessageSerializer(item);
+  }
+}
+
+export function realtimeConversationItemMessageUnionDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUnion {
+  switch (item["role"]) {
+    case "system":
+      return realtimeConversationItemMessageSystemDeserializer(
+        item as RealtimeConversationItemMessageSystem,
+      );
+
+    case "user":
+      return realtimeConversationItemMessageUserDeserializer(
+        item as RealtimeConversationItemMessageUser,
+      );
+
+    case "assistant":
+      return realtimeConversationItemMessageAssistantDeserializer(
+        item as RealtimeConversationItemMessageAssistant,
+      );
+
+    default:
+      return realtimeConversationItemMessageDeserializer(item);
+  }
+}
+
+/** The role of a message sender in a Realtime conversation. */
+export type RealtimeConversationItemMessageType = "system" | "user" | "assistant";
+
+/** A system message in a Realtime conversation can be used to provide additional context or instructions to the model. This is similar but distinct from the instruction prompt provided at the start of a conversation, as system messages can be added at any point in the conversation. For major changes to the conversation's behavior, use instructions, but for smaller updates (e.g. "the user is now asking about a different topic"), use system messages. */
+export interface RealtimeConversationItemMessageSystem extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `system`. */
+  role: "system";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageSystemContent[];
+  /** The Unix timestamp (in seconds) for when the item was persisted. */
+  readonly created_at?: Date;
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageSystemSerializer(
+  item: RealtimeConversationItemMessageSystem,
+): any {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageSystemContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageSystemDeserializer(
+  item: any,
+): RealtimeConversationItemMessageSystem {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageSystemContentArrayDeserializer(item["content"]),
+    created_at:
+      item["created_at"] == null ? item["created_at"] : new Date(item["created_at"] * 1000),
+    response_id: item["response_id"],
+  };
+}
+
+export function realtimeConversationItemMessageSystemContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageSystemContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageSystemContentSerializer(item);
+  });
+}
+
+export function realtimeConversationItemMessageSystemContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageSystemContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageSystemContentDeserializer(item);
+  });
+}
+
+/** Text content in a Realtime system message. */
+export interface RealtimeConversationItemMessageSystemContent {
+  type?: "input_text";
+  text?: string;
+}
+
+export function realtimeConversationItemMessageSystemContentSerializer(
+  item: RealtimeConversationItemMessageSystemContent,
+): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function realtimeConversationItemMessageSystemContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageSystemContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** A user message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageUser extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `user`. */
+  role: "user";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageUserContent[];
+  /** The Unix timestamp (in seconds) for when the item was persisted. */
+  readonly created_at?: Date;
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageUserSerializer(
+  item: RealtimeConversationItemMessageUser,
+): any {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageUserContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageUserDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUser {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageUserContentArrayDeserializer(item["content"]),
+    created_at:
+      item["created_at"] == null ? item["created_at"] : new Date(item["created_at"] * 1000),
+    response_id: item["response_id"],
+  };
+}
+
+export function realtimeConversationItemMessageUserContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageUserContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageUserContentSerializer(item);
+  });
+}
+
+export function realtimeConversationItemMessageUserContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageUserContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageUserContentDeserializer(item);
+  });
+}
+
+/** Text, audio, or image content in a Realtime user message. */
+export interface RealtimeConversationItemMessageUserContent {
+  type?: "input_text" | "input_audio" | "input_image";
+  text?: string;
+  audio?: string;
+  image_url?: string;
+  detail?: "auto" | "low" | "high";
+  transcript?: string;
+}
+
+export function realtimeConversationItemMessageUserContentSerializer(
+  item: RealtimeConversationItemMessageUserContent,
+): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+    transcript: item["transcript"],
+  };
+}
+
+export function realtimeConversationItemMessageUserContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUserContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+    transcript: item["transcript"],
+  };
+}
+
+/** An assistant message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageAssistant extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `assistant`. */
+  role: "assistant";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageAssistantContent[];
+  /** The Unix timestamp (in seconds) for when the item was persisted. */
+  readonly created_at?: Date;
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageAssistantSerializer(
+  item: RealtimeConversationItemMessageAssistant,
+): any {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageAssistantContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageAssistantDeserializer(
+  item: any,
+): RealtimeConversationItemMessageAssistant {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageAssistantContentArrayDeserializer(item["content"]),
+    created_at:
+      item["created_at"] == null ? item["created_at"] : new Date(item["created_at"] * 1000),
+    response_id: item["response_id"],
+  };
+}
+
+export function realtimeConversationItemMessageAssistantContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageAssistantContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageAssistantContentSerializer(item);
+  });
+}
+
+export function realtimeConversationItemMessageAssistantContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageAssistantContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageAssistantContentDeserializer(item);
+  });
+}
+
+/** Text or audio content in a Realtime assistant message. */
+export interface RealtimeConversationItemMessageAssistantContent {
+  type?: "output_text" | "output_audio";
+  text?: string;
+  audio?: string;
+  transcript?: string;
+}
+
+export function realtimeConversationItemMessageAssistantContentSerializer(
+  item: RealtimeConversationItemMessageAssistantContent,
+): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    transcript: item["transcript"],
+  };
+}
+
+export function realtimeConversationItemMessageAssistantContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageAssistantContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    transcript: item["transcript"],
+  };
+}
+
+export function transcriptionLanguageArraySerializer(result: Array<TranscriptionLanguage>): any[] {
+  return result.map((item) => {
+    return transcriptionLanguageSerializer(item);
+  });
+}
+
+export function transcriptionLanguageArrayDeserializer(
+  result: Array<TranscriptionLanguage>,
+): any[] {
+  return result.map((item) => {
+    return transcriptionLanguageDeserializer(item);
+  });
+}
+
+/** A language detected in transcribed audio. */
+export interface TranscriptionLanguage {
+  /** The code of a language detected in the audio. */
+  code: string;
+}
+
+export function transcriptionLanguageSerializer(item: TranscriptionLanguage): any {
+  return { code: item["code"] };
+}
+
+export function transcriptionLanguageDeserializer(item: any): TranscriptionLanguage {
+  return {
+    code: item["code"],
+  };
+}

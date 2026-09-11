@@ -37,7 +37,6 @@ import {
 import {
   VoiceConversation,
   VoiceResponse,
-  RealtimeConversationItemUnion,
   VoiceItemAudioResponse,
   VoiceGeneratedItemAudioResponse,
   VoiceRecordingResponse,
@@ -45,6 +44,7 @@ import {
   BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse,
   BetaAgentEndpointConversationsDownloadItemAudioResponse,
 } from "../../../models/models.js";
+import { RealtimeConversationItemUnion } from "../../../models/openAI/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaAgentEndpointConversations operations. */

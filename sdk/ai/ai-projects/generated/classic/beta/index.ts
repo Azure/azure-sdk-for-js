@@ -10,10 +10,6 @@ import {
   BetaAgentInsightMonitorsOperations,
   _getBetaAgentInsightMonitorsOperations,
 } from "./agentInsightMonitors/index.js";
-import {
-  BetaAgentTelephonyOperations,
-  _getBetaAgentTelephonyOperations,
-} from "./agentTelephony/index.js";
 import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
 import { BetaDatasetsOperations, _getBetaDatasetsOperations } from "./datasets/index.js";
 import {
@@ -49,7 +45,6 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
   agentInsightMonitors: BetaAgentInsightMonitorsOperations;
-  agentTelephony: BetaAgentTelephonyOperations;
   agentEndpointConversations: BetaAgentEndpointConversationsOperations;
   voiceAgentWebSocket: BetaVoiceAgentWebSocketOperations;
   agents: BetaAgentsOperations;
@@ -68,7 +63,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluators: _getBetaEvaluatorsOperations(context),
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
-    agentTelephony: _getBetaAgentTelephonyOperations(context),
     agentEndpointConversations: _getBetaAgentEndpointConversationsOperations(context),
     voiceAgentWebSocket: _getBetaVoiceAgentWebSocketOperations(context),
     agents: _getBetaAgentsOperations(context),

@@ -146,6 +146,10 @@ for await (const rule of project.evaluationRules.list()) {
 
 Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
 
+Telephony bindings, calls, and outbound campaigns are available through
+`project.beta.agents.foo`. Voice generation and optimization jobs remain on
+`project.beta.agents`.
+
 Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
 
 ```ts snippet:agent-insight-monitors
@@ -155,6 +159,32 @@ for await (const monitor of project.beta.agentInsightMonitors.list()) {
 ```
 
 ## Examples
+
+### Invoking the latest toolbox MCP endpoint
+
+Use `project.toolboxes.invokeLatestToolboxMcp` to send an MCP request to the latest
+version of an existing toolbox without specifying a version. The response body is
+unmodeled; its content depends on the MCP request and response content type.
+
+```ts snippet:ReadmeSampleInvokeLatestToolboxMcp
+const toolboxName = process.env["FOUNDRY_TOOLBOX_NAME"] || "<toolbox name>";
+const response = await project.toolboxes.invokeLatestToolboxMcp(
+  toolboxName,
+  "application/json",
+  {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "initialize",
+    params: {
+      protocolVersion: "2025-03-26",
+      capabilities: {},
+      clientInfo: { name: "ai-projects-sample", version: "1.0.0" },
+    },
+  },
+  { requestOptions: { headers: { accept: "application/json, text/event-stream" } } },
+);
+console.log("MCP initialization response:", response.body);
+```
 
 ### Performing Responses operations using OpenAI client
 
