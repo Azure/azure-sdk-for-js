@@ -1,5 +1,7 @@
 # Azure WidgetAnalytics client library for JavaScript
 
+<!-- This comment is intentionally not rendered. -->
+
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure WidgetAnalytics client.
 
 
