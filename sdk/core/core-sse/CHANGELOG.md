@@ -4,6 +4,10 @@
 
 ### Features Added
 
+- Add `createReconnectingSseStream` for EventSource-style reconnection with
+  `Last-Event-ID`, server-provided retry delays, response validation, cancellation,
+  and optional retry limits.
+
 ### Breaking Changes
 
 ### Bugs Fixed

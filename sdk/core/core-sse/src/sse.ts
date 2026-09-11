@@ -7,6 +7,7 @@ import type {
   EventMessageStream,
   NodeJSReadableStream,
   PartialSome,
+  SseStream,
 } from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
@@ -35,12 +36,26 @@ export function createSseStream(chunkStream: IncomingMessage): EventMessageStrea
  * @returns A stream of EventMessage objects
  */
 export function createSseStream(chunkStream: NodeJSReadableStream): EventMessageStream;
-export function createSseStream(
-  chunkStream: IncomingMessage | NodeJSReadableStream | ReadableStream<Uint8Array>,
-): EventMessageStream {
+export function createSseStream(chunkStream: SseStream): EventMessageStream {
+  const { cancel, iterable } = createSseParser(chunkStream);
+  return createStream(iterable, cancel);
+}
+
+interface SseParserCallbacks {
+  onId?(value: string): void;
+  onRetry?(value: number): void;
+}
+
+export function createSseParser(
+  chunkStream: SseStream,
+  callbacks?: SseParserCallbacks,
+): {
+  cancel(): Promise<void>;
+  iterable: AsyncIterableIterator<EventMessage>;
+} {
   const { cancel, iterable } = ensureAsyncIterable(chunkStream);
-  const asyncIter = toMessage(toLine(iterable));
-  return createStream(asyncIter, cancel);
+  const asyncIter = toMessage(toLine(iterable), callbacks);
+  return { cancel, iterable: asyncIter };
 }
 
 function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {
@@ -123,14 +138,21 @@ async function* toLine(
 
 async function* toMessage(
   lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>,
+  callbacks?: SseParserCallbacks,
 ): AsyncIterableIterator<EventMessage> {
   let message = createMessage();
+  let pendingId: string | undefined;
   const decoder = new TextDecoder();
   for await (const { line, fieldLen } of lineIter) {
-    if (line.length === 0 && message.data !== undefined) {
-      // empty line denotes end of message. Yield and start a new message:
-      yield message as EventMessage;
+    if (line.length === 0) {
+      if (pendingId !== undefined) {
+        callbacks?.onId?.(pendingId);
+      }
+      if (message.data !== undefined) {
+        yield message as EventMessage;
+      }
       message = createMessage();
+      pendingId = undefined;
     } else if (fieldLen > 0) {
       // exclude comments and lines with no values
       // line is of format "<field>:<value>" or "<field>: <value>"
@@ -147,12 +169,16 @@ async function* toMessage(
           message.event = value;
           break;
         case "id":
-          message.id = value;
+          if (!value.includes("\0")) {
+            message.id = value;
+            pendingId = value;
+          }
           break;
         case "retry": {
-          const retry = parseInt(value, 10);
-          if (!isNaN(retry)) {
+          if (/^[0-9]+$/.test(value)) {
+            const retry = Number(value);
             message.retry = retry;
+            callbacks?.onRetry?.(retry);
           }
           break;
         }
