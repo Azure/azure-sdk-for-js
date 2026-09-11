@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a GoalAssignment
  *
  * @summary create a GoalAssignment
- * x-ms-original-file: 2026-04-01-preview/GoalAssignments_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalAssignments_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function goalAssignmentsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function goalAssignmentsCreateOrUpdateMaximumSet(): Promise<void> {
  * This sample demonstrates how to create a GoalAssignment
  *
  * @summary create a GoalAssignment
- * x-ms-original-file: 2026-04-01-preview/GoalAssignments_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalAssignments_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function goalAssignmentsCreateOrUpdateMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

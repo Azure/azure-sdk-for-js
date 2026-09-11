@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a RecoveryJob
  *
  * @summary get a RecoveryJob
- * x-ms-original-file: 2026-04-01-preview/RecoveryJobs_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryJobs_Get_MaximumSet_Gen.json
  */
 async function recoveryJobsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

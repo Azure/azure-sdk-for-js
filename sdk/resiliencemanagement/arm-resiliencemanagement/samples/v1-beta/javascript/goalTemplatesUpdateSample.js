@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a GoalTemplate
  *
  * @summary update a GoalTemplate
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_Update_MaximumSet_Gen.json
  */
 async function goalTemplatesUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list DrillResource resources by Drill
  *
  * @summary list DrillResource resources by Drill
- * x-ms-original-file: 2026-04-01-preview/DrillResources_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/DrillResources_List_MaximumSet_Gen.json
  */
 async function drillResourcesListMaximumSet() {
   const credential = new DefaultAzureCredential();

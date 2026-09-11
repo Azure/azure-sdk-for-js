@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this action resumes the ongoing recovery orchestration job that was paused for required user intervention.
  *
  * @summary this action resumes the ongoing recovery orchestration job that was paused for required user intervention.
- * x-ms-original-file: 2026-04-01-preview/RecoveryJobs_Resume_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryJobs_Resume_MaximumSet_Gen.json
  */
 async function recoveryJobsResumeMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

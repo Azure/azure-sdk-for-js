@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this enables the user to mark this stage as complete, disabling further retries on it.
  *
  * @summary this enables the user to mark this stage as complete, disabling further retries on it.
- * x-ms-original-file: 2026-04-01-preview/DrillRuns_MarkAsComplete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/DrillRuns_MarkAsComplete_MaximumSet_Gen.json
  */
 async function drillRunsMarkAsCompleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

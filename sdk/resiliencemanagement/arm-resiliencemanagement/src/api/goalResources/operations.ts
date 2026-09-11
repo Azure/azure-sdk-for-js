@@ -26,7 +26,7 @@ export function _listSend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
       "%24skipToken": options?.skipToken,
       "%24top": options?.top,
     },
@@ -71,7 +71,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
     },
   );
 }
@@ -89,7 +89,7 @@ export function _getSend(
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
       goalResourceName: goalResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

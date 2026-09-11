@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a GoalTemplate
  *
  * @summary delete a GoalTemplate
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_Delete_MaximumSet_Gen.json
  */
 async function goalTemplatesDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function goalTemplatesDeleteMaximumSet(): Promise<void> {
  * This sample demonstrates how to delete a GoalTemplate
  *
  * @summary delete a GoalTemplate
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_Delete_MinimumSet_Gen.json
  */
 async function goalTemplatesDeleteMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -33,7 +33,7 @@ export function _listSend(
     "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/goalTemplates{?api%2Dversion,%24skipToken,%24top}",
     {
       serviceGroupName: serviceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
       "%24skipToken": options?.skipToken,
       "%24top": options?.top,
     },
@@ -77,7 +77,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
     },
   );
 }
@@ -93,7 +93,7 @@ export function _$deleteSend(
     {
       serviceGroupName: serviceGroupName,
       goalTemplateName: goalTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +128,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, serviceGroupName, goalTemplateName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -144,7 +144,7 @@ export function _updateSend(
     {
       serviceGroupName: serviceGroupName,
       goalTemplateName: goalTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +186,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, serviceGroupName, goalTemplateName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -202,7 +202,7 @@ export function _createOrUpdateSend(
     {
       serviceGroupName: serviceGroupName,
       goalTemplateName: goalTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,7 +246,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, serviceGroupName, goalTemplateName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<GoalTemplate>, GoalTemplate>;
 }
 
@@ -261,7 +261,7 @@ export function _getSend(
     {
       serviceGroupName: serviceGroupName,
       goalTemplateName: goalTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
