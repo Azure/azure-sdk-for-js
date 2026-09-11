@@ -24,7 +24,9 @@ export type {
   ServiceGroupMemberRelationshipCreateOrUpdate,
   ServiceGroupMemberRelationshipPropertiesCreateOrUpdate,
   ServiceGroupMemberRelationship,
-  ServiceGroupMemberRelationshipProperties,
+  ServiceGroupMemberRelationshipPropertiesV2,
+  ContainsRelationship,
+  ContainsRelationshipProperties,
 } from "./models.js";
 export {
   KnownOrigin,

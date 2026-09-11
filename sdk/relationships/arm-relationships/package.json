@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-relationships",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "A generated SDK for RelationshipsClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -42,6 +42,20 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/containsRelationships": {
+      "browser": {
+        "types": "./dist/browser/api/containsRelationships/index.d.ts",
+        "default": "./dist/browser/api/containsRelationships/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/containsRelationships/index.d.ts",
+        "default": "./dist/esm/api/containsRelationships/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/containsRelationships/index.d.ts",
+        "default": "./dist/commonjs/api/containsRelationships/index.js"
+      }
+    },
     "./api/serviceGroupMemberRelationships": {
       "browser": {
         "types": "./dist/browser/api/serviceGroupMemberRelationships/index.d.ts",
@@ -54,6 +68,20 @@
       "require": {
         "types": "./dist/commonjs/api/serviceGroupMemberRelationships/index.d.ts",
         "default": "./dist/commonjs/api/serviceGroupMemberRelationships/index.js"
+      }
+    },
+    "./api/dependencyOfRelationshipsByServiceGroup": {
+      "browser": {
+        "types": "./dist/browser/api/dependencyOfRelationshipsByServiceGroup/index.d.ts",
+        "default": "./dist/browser/api/dependencyOfRelationshipsByServiceGroup/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dependencyOfRelationshipsByServiceGroup/index.d.ts",
+        "default": "./dist/esm/api/dependencyOfRelationshipsByServiceGroup/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dependencyOfRelationshipsByServiceGroup/index.d.ts",
+        "default": "./dist/commonjs/api/dependencyOfRelationshipsByServiceGroup/index.js"
       }
     },
     "./api/dependencyOfRelationships": {
@@ -182,7 +210,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-relationships?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-relationships"
   },
   "imports": {
     "#platform/*": {

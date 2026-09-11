@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -207,8 +207,8 @@ export function dependencyOfRelationshipPropertiesCreateOrUpdateSerializer(
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -234,8 +234,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -308,6 +308,14 @@ export interface DependencyOfRelationship extends ExtensionResource {
   properties?: DependencyOfRelationshipProperties;
 }
 
+export function dependencyOfRelationshipSerializer(item: DependencyOfRelationship): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : dependencyOfRelationshipPropertiesSerializer(item["properties"]),
+  };
+}
+
 export function dependencyOfRelationshipDeserializer(item: any): DependencyOfRelationship {
   return {
     id: item["id"],
@@ -325,17 +333,23 @@ export function dependencyOfRelationshipDeserializer(item: any): DependencyOfRel
 /** dependencyOf relationship properties. */
 export interface DependencyOfRelationshipProperties {
   /** The relationship source resource id. */
-  readonly sourceId: string;
+  readonly sourceId?: string;
   /** The relationship target resource id. */
   targetId: string;
   /** The relationship target tenant id. */
   targetTenant?: string;
   /** Information about the origin of the relationship. */
-  readonly originInformation: RelationshipOriginInformation;
+  readonly originInformation?: RelationshipOriginInformation;
   /** Metadata about the relationship. */
-  readonly metadata: RelationshipMetadata;
+  readonly metadata?: RelationshipMetadata;
   /** The provisioning state of the relationship. */
   readonly provisioningState?: ProvisioningState;
+}
+
+export function dependencyOfRelationshipPropertiesSerializer(
+  item: DependencyOfRelationshipProperties,
+): any {
+  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
 }
 
 export function dependencyOfRelationshipPropertiesDeserializer(
@@ -345,8 +359,12 @@ export function dependencyOfRelationshipPropertiesDeserializer(
     sourceId: item["sourceId"],
     targetId: item["targetId"],
     targetTenant: item["targetTenant"],
-    originInformation: relationshipOriginInformationDeserializer(item["originInformation"]),
-    metadata: relationshipMetadataDeserializer(item["metadata"]),
+    originInformation: !item["originInformation"]
+      ? item["originInformation"]
+      : relationshipOriginInformationDeserializer(item["originInformation"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : relationshipMetadataDeserializer(item["metadata"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -440,6 +458,39 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** The response of a DependencyOfRelationship list operation. */
+export interface _DependencyOfRelationshipListResult {
+  /** The DependencyOfRelationship items on this page */
+  value: DependencyOfRelationship[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _dependencyOfRelationshipListResultDeserializer(
+  item: any,
+): _DependencyOfRelationshipListResult {
+  return {
+    value: dependencyOfRelationshipArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function dependencyOfRelationshipArraySerializer(
+  result: Array<DependencyOfRelationship>,
+): any[] {
+  return result.map((item) => {
+    return dependencyOfRelationshipSerializer(item);
+  });
+}
+
+export function dependencyOfRelationshipArrayDeserializer(
+  result: Array<DependencyOfRelationship>,
+): any[] {
+  return result.map((item) => {
+    return dependencyOfRelationshipDeserializer(item);
+  });
+}
+
 /** ServiceGroupMember relationship resource for create or update. */
 export interface ServiceGroupMemberRelationshipCreateOrUpdate extends ExtensionResource {
   /** The resource-specific properties for this resource. */
@@ -458,22 +509,22 @@ export function serviceGroupMemberRelationshipCreateOrUpdateSerializer(
 
 /** model interface ServiceGroupMemberRelationshipPropertiesCreateOrUpdate */
 export interface ServiceGroupMemberRelationshipPropertiesCreateOrUpdate {
-  /** The relationship target resource id. */
-  targetId: string;
-  /** The relationship target tenant id. */
-  targetTenant?: string;
+  /** The relationship source resource id. Must be a service group. */
+  sourceId: string;
+  /** The relationship source tenant id. */
+  sourceTenant?: string;
 }
 
 export function serviceGroupMemberRelationshipPropertiesCreateOrUpdateSerializer(
   item: ServiceGroupMemberRelationshipPropertiesCreateOrUpdate,
 ): any {
-  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
+  return { sourceId: item["sourceId"], sourceTenant: item["sourceTenant"] };
 }
 
 /** Defines a ServiceGroupMember relationship resource. */
 export interface ServiceGroupMemberRelationship extends ExtensionResource {
   /** The resource-specific properties for this resource. */
-  properties?: ServiceGroupMemberRelationshipProperties;
+  properties?: ServiceGroupMemberRelationshipPropertiesV2;
 }
 
 export function serviceGroupMemberRelationshipDeserializer(
@@ -488,41 +539,146 @@ export function serviceGroupMemberRelationshipDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : serviceGroupMemberRelationshipPropertiesDeserializer(item["properties"]),
+      : serviceGroupMemberRelationshipPropertiesV2Deserializer(item["properties"]),
   };
 }
 
 /** ServiceGroupMember relationship properties. */
-export interface ServiceGroupMemberRelationshipProperties {
-  /** The relationship source resource id. */
-  readonly sourceId: string;
-  /** The relationship target resource id. */
-  targetId: string;
-  /** The relationship target tenant id. */
-  targetTenant?: string;
+export interface ServiceGroupMemberRelationshipPropertiesV2 {
+  /** The relationship source resource id. Must be a service group. */
+  sourceId: string;
+  /** The relationship target resource id. Server-derived from the scoped resource. */
+  readonly targetId?: string;
+  /** The relationship source tenant id. */
+  sourceTenant?: string;
   /** Information about the origin of the relationship. */
-  readonly originInformation: RelationshipOriginInformation;
+  readonly originInformation?: RelationshipOriginInformation;
   /** Metadata about the relationship. */
-  readonly metadata: RelationshipMetadata;
+  readonly metadata?: RelationshipMetadata;
   /** The provisioning state of the relationship. */
   readonly provisioningState?: ProvisioningState;
 }
 
-export function serviceGroupMemberRelationshipPropertiesDeserializer(
+export function serviceGroupMemberRelationshipPropertiesV2Deserializer(
   item: any,
-): ServiceGroupMemberRelationshipProperties {
+): ServiceGroupMemberRelationshipPropertiesV2 {
+  return {
+    sourceId: item["sourceId"],
+    targetId: item["targetId"],
+    sourceTenant: item["sourceTenant"],
+    originInformation: !item["originInformation"]
+      ? item["originInformation"]
+      : relationshipOriginInformationDeserializer(item["originInformation"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : relationshipMetadataDeserializer(item["metadata"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a ServiceGroupMemberRelationship list operation. */
+export interface _ServiceGroupMemberRelationshipListResult {
+  /** The ServiceGroupMemberRelationship items on this page */
+  value: ServiceGroupMemberRelationship[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _serviceGroupMemberRelationshipListResultDeserializer(
+  item: any,
+): _ServiceGroupMemberRelationshipListResult {
+  return {
+    value: serviceGroupMemberRelationshipArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function serviceGroupMemberRelationshipArrayDeserializer(
+  result: Array<ServiceGroupMemberRelationship>,
+): any[] {
+  return result.map((item) => {
+    return serviceGroupMemberRelationshipDeserializer(item);
+  });
+}
+
+/** The response of a ContainsRelationship list operation. */
+export interface _ContainsRelationshipListResult {
+  /** The ContainsRelationship items on this page */
+  value: ContainsRelationship[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _containsRelationshipListResultDeserializer(
+  item: any,
+): _ContainsRelationshipListResult {
+  return {
+    value: containsRelationshipArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function containsRelationshipArrayDeserializer(result: Array<ContainsRelationship>): any[] {
+  return result.map((item) => {
+    return containsRelationshipDeserializer(item);
+  });
+}
+
+/** Defines a contains relationship resource. */
+export interface ContainsRelationship extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ContainsRelationshipProperties;
+}
+
+export function containsRelationshipDeserializer(item: any): ContainsRelationship {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : containsRelationshipPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** contains relationship properties. */
+export interface ContainsRelationshipProperties {
+  /** The relationship source resource id. Must be a subscription or resource group. */
+  readonly sourceId?: string;
+  /** The relationship target resource id. */
+  readonly targetId: string;
+  /** The relationship target tenant id. */
+  readonly targetTenant?: string;
+  /** Information about the origin of the relationship. */
+  readonly originInformation?: RelationshipOriginInformation;
+  /** Metadata about the relationship. */
+  readonly metadata?: RelationshipMetadata;
+  /** The provisioning state of the relationship. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function containsRelationshipPropertiesDeserializer(
+  item: any,
+): ContainsRelationshipProperties {
   return {
     sourceId: item["sourceId"],
     targetId: item["targetId"],
     targetTenant: item["targetTenant"],
-    originInformation: relationshipOriginInformationDeserializer(item["originInformation"]),
-    metadata: relationshipMetadataDeserializer(item["metadata"]),
+    originInformation: !item["originInformation"]
+      ? item["originInformation"]
+      : relationshipOriginInformationDeserializer(item["originInformation"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : relationshipMetadataDeserializer(item["metadata"]),
     provisioningState: item["provisioningState"],
   };
 }
 
 /** Relationships RP API Versions */
 export enum KnownVersions {
-  /** 2023-09-01-preview version */
-  Versions20230901Preview = "2023-09-01-preview",
+  /** 2026-08-01 version */
+  V20260801 = "2026-08-01",
 }
