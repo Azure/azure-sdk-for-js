@@ -1035,7 +1035,7 @@
 # PRLabel: %Mgmt
 /sdk/templatespecs/arm-templatespecs/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/quota/arm-quota/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

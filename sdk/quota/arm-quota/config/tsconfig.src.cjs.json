@@ -1,6 +1,26 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/quota/index.ts",
+    "../src/api/usages/index.ts",
+    "../src/api/groupQuotaLocationSettings/index.ts",
+    "../src/api/groupQuotaSubscriptionAllocationRequest/index.ts",
+    "../src/api/groupQuotaSubscriptionAllocation/index.ts",
+    "../src/api/groupQuotaLimits/index.ts",
+    "../src/api/groupQuotaSubscriptionRequests/index.ts",
+    "../src/api/groupQuotaSubscriptions/index.ts",
+    "../src/api/groupQuotaUsages/index.ts",
+    "../src/api/groupQuotaLimitsRequest/index.ts",
+    "../src/api/groupQuotas/index.ts",
+    "../src/api/incomingQuotaTransfers/index.ts",
+    "../src/api/quotaTransfers/index.ts",
+    "../src/api/quotaRequestStatus/index.ts",
+    "../src/api/quotaOperation/index.ts",
+    "../src/models/index.ts"
   ]
 }
