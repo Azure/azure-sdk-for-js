@@ -3,14 +3,14 @@
 
 import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
-  listByResourceGroup,
+  listByNamespace,
   $delete,
   update,
   createOrReplace,
   get,
 } from "../../api/namespaceDiscoveredAssets/operations.js";
 import type {
-  NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
+  NamespaceDiscoveredAssetsListByNamespaceOptionalParams,
   NamespaceDiscoveredAssetsDeleteOptionalParams,
   NamespaceDiscoveredAssetsUpdateOptionalParams,
   NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
@@ -26,17 +26,12 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a NamespaceDiscoveredAssets operations. */
 export interface NamespaceDiscoveredAssetsOperations {
   /** List NamespaceDiscoveredAsset resources by Namespace */
-  listByResourceGroup: (
+  listByNamespace: (
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
+    options?: NamespaceDiscoveredAssetsListByNamespaceOptionalParams,
   ) => PagedAsyncIterableIterator<NamespaceDiscoveredAsset>;
   /** Delete a NamespaceDiscoveredAsset */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -70,11 +65,11 @@ export interface NamespaceDiscoveredAssetsOperations {
 
 function _getNamespaceDiscoveredAssets(context: DeviceRegistryManagementContext) {
   return {
-    listByResourceGroup: (
+    listByNamespace: (
       resourceGroupName: string,
       namespaceName: string,
-      options?: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, namespaceName, options),
+      options?: NamespaceDiscoveredAssetsListByNamespaceOptionalParams,
+    ) => listByNamespace(context, resourceGroupName, namespaceName, options),
     delete: (
       resourceGroupName: string,
       namespaceName: string,

@@ -72,7 +72,8 @@ function getExpandedValue(option: ValueOptions): string {
       // prepare the following parts: separator, varName, value
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (named && varName) {
-        vals.push(`${encodeURIComponent(varName)}`);
+        // No need to encode varName considering it is already encoded
+        vals.push(`${varName}`);
         if (val === "") {
           vals.push(ifEmpty);
         } else {
@@ -111,7 +112,8 @@ function getNonExpandedValue(option: ValueOptions): string | undefined {
   const first = getFirstOrSep(op, isFirst);
   const [named, ifEmpty] = getNamedAndIfEmpty(op);
   if (named && varName) {
-    vals.push(encodeComponent(varName, reserved, op));
+    // No need to encode varName considering it is already encoded
+    vals.push(varName);
     if (value === "") {
       if (!ifEmpty) {
         vals.push(ifEmpty);
@@ -213,13 +215,13 @@ export function expandUrlTemplate(
 
 /**
  * Normalize an expanded URI by decoding percent-encoded unreserved characters.
- * RFC 3986 unreserved: ALPHA / DIGIT / "-" / "." / "_" / "~"
+ * RFC 3986 unreserved: "-" / "." / "~"
  */
 function normalizeUnreserved(uri: string): string {
   return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
     const char = String.fromCharCode(parseInt(hex, 16));
     // Decode only if it's unreserved
-    if (/[A-Za-z0-9._~-]/.test(char)) {
+    if (/[.~-]/.test(char)) {
       return char;
     }
     return match; // leave other encodings intact
