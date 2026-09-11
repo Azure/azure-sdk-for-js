@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resolve the token to get the SaaS resource ID and activate the SaaS resource
  *
  * @summary resolve the token to get the SaaS resource ID and activate the SaaS resource
- * x-ms-original-file: 2025-12-24-preview/SaaSOperationGroup_ActivateResource_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-11/SaaSOperationGroup_ActivateResource_MaximumSet_Gen.json
  */
 async function saaSOperationGroupActivateResourceMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function saaSOperationGroupActivateResourceMaximumSetGeneratedByMaximumSet
  * This sample demonstrates how to resolve the token to get the SaaS resource ID and activate the SaaS resource
  *
  * @summary resolve the token to get the SaaS resource ID and activate the SaaS resource
- * x-ms-original-file: 2025-12-24-preview/SaaSOperationGroup_ActivateResource_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-11/SaaSOperationGroup_ActivateResource_MinimumSet_Gen.json
  */
 async function saaSOperationGroupActivateResourceMinimumSetGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

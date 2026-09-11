@@ -5,21 +5,20 @@ import { CompanionAPIClient } from "@azure/arm-napsteromniagentapi";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get a OrganizationResource
+ * This sample demonstrates how to delete a OrganizationResource
  *
- * @summary get a OrganizationResource
- * x-ms-original-file: 2025-12-24-preview/Organizations_Get_MaximumSet_Gen.json
+ * @summary delete a OrganizationResource
+ * x-ms-original-file: 2026-08-11/Organizations_Delete_MaximumSet_Gen.json
  */
-async function organizationsGetMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
+async function organizationsDeleteMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0F0FBCF9-8374-47FC-B189-B79B84033EA3";
   const client = new CompanionAPIClient(credential, subscriptionId);
-  const result = await client.organizations.get("rgopenapi", "contosoOrg");
-  console.log(result);
+  await client.organizations.delete("rgopenapi", "contosoOrg");
 }
 
 async function main(): Promise<void> {
-  await organizationsGetMaximumSetGeneratedByMaximumSetRule();
+  await organizationsDeleteMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

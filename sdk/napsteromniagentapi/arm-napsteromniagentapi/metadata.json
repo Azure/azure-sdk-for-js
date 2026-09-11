@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Napster.CompanionAPI": "2025-12-24-preview"
+    "Napster.CompanionAPI": "2026-08-11"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Napster.CompanionAPI",
     "CrossLanguageDefinitionId": {

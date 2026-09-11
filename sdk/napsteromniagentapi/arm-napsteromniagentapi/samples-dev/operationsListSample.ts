@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-12-24-preview/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-11/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function operationsListMaximumSetGeneratedByMaximumSetRule(): Promise<void
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-12-24-preview/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-11/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
