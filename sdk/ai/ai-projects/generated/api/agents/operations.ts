@@ -37,11 +37,31 @@ import {
   microsoft365PublishResponseDeserializer,
   Microsoft365PublishDefaults,
   microsoft365PublishDefaultsDeserializer,
+  createTelephonyBindingRequestUnionSerializer,
+  CreateTelephonyBindingRequestUnion,
+  telephonyBindingUnionDeserializer,
+  TelephonyBindingUnion,
+  _AgentsPagedResultTelephonyBindingListItem,
+  _agentsPagedResultTelephonyBindingListItemDeserializer,
+  TelephonyBindingListItemUnion,
+  UpdateTelephonyBindingRequest,
+  updateTelephonyBindingRequestSerializer,
+  _AgentsPagedResultTelephonyCallSummary,
+  _agentsPagedResultTelephonyCallSummaryDeserializer,
+  TelephonyCallSummary,
+  TelephonyCallRecord,
+  telephonyCallRecordDeserializer,
+  TelephonyTransferTargets,
+  telephonyTransferTargetsDeserializer,
+  telephonyTransferTargetArraySerializer,
+  TelephonyTransferTarget,
   SessionFileWriteResponse,
   sessionFileWriteResponseDeserializer,
   _SessionDirectoryListResponse,
   _sessionDirectoryListResponseDeserializer,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
+  generateAgentRequestSerializer,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
@@ -56,6 +76,17 @@ import {
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
+  AgentsReplaceTelephonyTransferTargetsOptionalParams,
+  AgentsGetTelephonyTransferTargetsOptionalParams,
+  AgentsEndTelephonyCallOptionalParams,
+  AgentsTransferTelephonyCallOptionalParams,
+  AgentsGetTelephonyCallOptionalParams,
+  AgentsListTelephonyCallsOptionalParams,
+  AgentsDeleteTelephonyBindingOptionalParams,
+  AgentsUpdateTelephonyBindingOptionalParams,
+  AgentsGetTelephonyBindingOptionalParams,
+  AgentsListTelephonyBindingsOptionalParams,
+  AgentsCreateTelephonyBindingOptionalParams,
   GetMicrosoft365PublishDefaultsOptionalParams,
   GetMicrosoft365PackageOptionalParams,
   PublishToMicrosoft365OptionalParams,
@@ -80,6 +111,7 @@ import {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateAgentOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
@@ -333,6 +365,704 @@ export async function uploadSessionFile(
     options,
   );
   return _uploadSessionFileDeserialize(result);
+}
+
+export function _replaceTelephonyTransferTargetsSend(
+  context: Client,
+  agentName: string,
+  ifMatch: string,
+  transferTargets: TelephonyTransferTarget[],
+  options: AgentsReplaceTelephonyTransferTargetsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        "if-match": ifMatch,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { transfer_targets: telephonyTransferTargetArraySerializer(transferTargets) },
+    });
+}
+
+export async function _replaceTelephonyTransferTargetsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyTransferTargets> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyTransferTargetsDeserializer(result.body);
+}
+
+/** Replaces all transfer targets configured for the voice agent named in the path. */
+export async function replaceTelephonyTransferTargets(
+  context: Client,
+  agentName: string,
+  ifMatch: string,
+  transferTargets: TelephonyTransferTarget[],
+  options: AgentsReplaceTelephonyTransferTargetsOptionalParams = { requestOptions: {} },
+): Promise<TelephonyTransferTargets> {
+  const result = await _replaceTelephonyTransferTargetsSend(
+    context,
+    agentName,
+    ifMatch,
+    transferTargets,
+    options,
+  );
+  return _replaceTelephonyTransferTargetsDeserialize(result);
+}
+
+export function _getTelephonyTransferTargetsSend(
+  context: Client,
+  agentName: string,
+  options: AgentsGetTelephonyTransferTargetsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getTelephonyTransferTargetsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyTransferTargets> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyTransferTargetsDeserializer(result.body);
+}
+
+/** Returns all transfer targets configured for the voice agent named in the path. */
+export async function getTelephonyTransferTargets(
+  context: Client,
+  agentName: string,
+  options: AgentsGetTelephonyTransferTargetsOptionalParams = { requestOptions: {} },
+): Promise<TelephonyTransferTargets> {
+  const result = await _getTelephonyTransferTargetsSend(context, agentName, options);
+  return _getTelephonyTransferTargetsDeserialize(result);
+}
+
+export function _endTelephonyCallSend(
+  context: Client,
+  agentName: string,
+  callId: string,
+  options: AgentsEndTelephonyCallOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/calls/{call_id}:end{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      call_id: callId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _endTelephonyCallDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyCallRecord> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyCallRecordDeserializer(result.body);
+}
+
+/** Ends an active inbound call owned by the voice agent named in the path. */
+export async function endTelephonyCall(
+  context: Client,
+  agentName: string,
+  callId: string,
+  options: AgentsEndTelephonyCallOptionalParams = { requestOptions: {} },
+): Promise<TelephonyCallRecord> {
+  const result = await _endTelephonyCallSend(context, agentName, callId, options);
+  return _endTelephonyCallDeserialize(result);
+}
+
+export function _transferTelephonyCallSend(
+  context: Client,
+  agentName: string,
+  callId: string,
+  target: string,
+  options: AgentsTransferTelephonyCallOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/calls/{call_id}:transfer{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      call_id: callId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { target: target },
+    });
+}
+
+export async function _transferTelephonyCallDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyCallRecord> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyCallRecordDeserializer(result.body);
+}
+
+/** Transfers an active inbound call to a configured target for the voice agent named in the path. */
+export async function transferTelephonyCall(
+  context: Client,
+  agentName: string,
+  callId: string,
+  target: string,
+  options: AgentsTransferTelephonyCallOptionalParams = { requestOptions: {} },
+): Promise<TelephonyCallRecord> {
+  const result = await _transferTelephonyCallSend(context, agentName, callId, target, options);
+  return _transferTelephonyCallDeserialize(result);
+}
+
+export function _getTelephonyCallSend(
+  context: Client,
+  agentName: string,
+  callId: string,
+  options: AgentsGetTelephonyCallOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/calls/{call_id}{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      call_id: callId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getTelephonyCallDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyCallRecord> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyCallRecordDeserializer(result.body);
+}
+
+/** Retrieves a durable inbound call record owned by the voice agent named in the path. */
+export async function getTelephonyCall(
+  context: Client,
+  agentName: string,
+  callId: string,
+  options: AgentsGetTelephonyCallOptionalParams = { requestOptions: {} },
+): Promise<TelephonyCallRecord> {
+  const result = await _getTelephonyCallSend(context, agentName, callId, options);
+  return _getTelephonyCallDeserialize(result);
+}
+
+export function _listTelephonyCallsSend(
+  context: Client,
+  agentName: string,
+  options: AgentsListTelephonyCallsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/calls{?provider,status,started_after,started_before,limit,order,after,before,api%2Dversion}",
+    {
+      agent_name: agentName,
+      provider: options?.provider,
+      status: options?.status,
+      started_after: !options?.startedAfter
+        ? options?.startedAfter
+        : (options?.startedAfter.getTime() / 1000) | 0,
+      started_before: !options?.startedBefore
+        ? options?.startedBefore
+        : (options?.startedBefore.getTime() / 1000) | 0,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listTelephonyCallsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultTelephonyCallSummary> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultTelephonyCallSummaryDeserializer(result.body);
+}
+
+/** Returns the durable inbound call history for the voice agent named in the path. */
+export function listTelephonyCalls(
+  context: Client,
+  agentName: string,
+  options: AgentsListTelephonyCallsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<TelephonyCallSummary> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listTelephonyCallsSend(context, agentName, options),
+    _listTelephonyCallsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
+export function _deleteTelephonyBindingSend(
+  context: Client,
+  agentName: string,
+  bindingId: string,
+  ifMatch: string,
+  options: AgentsDeleteTelephonyBindingOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      binding_id: bindingId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        "if-match": ifMatch,
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _deleteTelephonyBindingDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes a telephony binding owned by the voice agent named in the path. */
+export async function deleteTelephonyBinding(
+  context: Client,
+  agentName: string,
+  bindingId: string,
+  ifMatch: string,
+  options: AgentsDeleteTelephonyBindingOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteTelephonyBindingSend(context, agentName, bindingId, ifMatch, options);
+  return _deleteTelephonyBindingDeserialize(result);
+}
+
+export function _updateTelephonyBindingSend(
+  context: Client,
+  agentName: string,
+  bindingId: string,
+  ifMatch: string,
+  body: UpdateTelephonyBindingRequest,
+  options: AgentsUpdateTelephonyBindingOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      binding_id: bindingId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        "if-match": ifMatch,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: updateTelephonyBindingRequestSerializer(body),
+    });
+}
+
+export async function _updateTelephonyBindingDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyBindingUnion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyBindingUnionDeserializer(result.body);
+}
+
+/** Updates a telephony binding owned by the voice agent named in the path. */
+export async function updateTelephonyBinding(
+  context: Client,
+  agentName: string,
+  bindingId: string,
+  ifMatch: string,
+  body: UpdateTelephonyBindingRequest,
+  options: AgentsUpdateTelephonyBindingOptionalParams = { requestOptions: {} },
+): Promise<TelephonyBindingUnion> {
+  const result = await _updateTelephonyBindingSend(
+    context,
+    agentName,
+    bindingId,
+    ifMatch,
+    body,
+    options,
+  );
+  return _updateTelephonyBindingDeserialize(result);
+}
+
+export function _getTelephonyBindingSend(
+  context: Client,
+  agentName: string,
+  bindingId: string,
+  options: AgentsGetTelephonyBindingOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      binding_id: bindingId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getTelephonyBindingDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyBindingUnion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyBindingUnionDeserializer(result.body);
+}
+
+/** Retrieves a telephony binding owned by the voice agent named in the path. */
+export async function getTelephonyBinding(
+  context: Client,
+  agentName: string,
+  bindingId: string,
+  options: AgentsGetTelephonyBindingOptionalParams = { requestOptions: {} },
+): Promise<TelephonyBindingUnion> {
+  const result = await _getTelephonyBindingSend(context, agentName, bindingId, options);
+  return _getTelephonyBindingDeserialize(result);
+}
+
+export function _listTelephonyBindingsSend(
+  context: Client,
+  agentName: string,
+  options: AgentsListTelephonyBindingsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/bindings{?provider,status,limit,order,after,before,api%2Dversion}",
+    {
+      agent_name: agentName,
+      provider: options?.provider,
+      status: options?.status,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listTelephonyBindingsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultTelephonyBindingListItem> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultTelephonyBindingListItemDeserializer(result.body);
+}
+
+/** Returns the telephony bindings owned by the voice agent named in the path. */
+export function listTelephonyBindings(
+  context: Client,
+  agentName: string,
+  options: AgentsListTelephonyBindingsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<TelephonyBindingListItemUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listTelephonyBindingsSend(context, agentName, options),
+    _listTelephonyBindingsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
+export function _createTelephonyBindingSend(
+  context: Client,
+  agentName: string,
+  body: CreateTelephonyBindingRequestUnion,
+  options: AgentsCreateTelephonyBindingOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony/bindings{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...(options?.repeatabilityRequestId !== undefined
+          ? { "repeatability-request-id": options?.repeatabilityRequestId }
+          : {}),
+        ...(options?.repeatabilityFirstSent !== undefined
+          ? {
+              "repeatability-first-sent": !options?.repeatabilityFirstSent
+                ? options?.repeatabilityFirstSent
+                : options?.repeatabilityFirstSent.toUTCString(),
+            }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: createTelephonyBindingRequestUnionSerializer(body),
+    });
+}
+
+export async function _createTelephonyBindingDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyBindingUnion> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyBindingUnionDeserializer(result.body);
+}
+
+/** Creates a telephony binding for the voice agent named in the path. */
+export async function createTelephonyBinding(
+  context: Client,
+  agentName: string,
+  body: CreateTelephonyBindingRequestUnion,
+  options: AgentsCreateTelephonyBindingOptionalParams = { requestOptions: {} },
+): Promise<TelephonyBindingUnion> {
+  const result = await _createTelephonyBindingSend(context, agentName, body, options);
+  return _createTelephonyBindingDeserialize(result);
 }
 
 export function _getMicrosoft365PublishDefaultsSend(
@@ -1788,6 +2518,63 @@ export async function updateAgent(
 ): Promise<Agent> {
   const result = await _updateAgentSend(context, agentName, definition, options);
   return _updateAgentDeserialize(result);
+}
+
+export function _generateAgentSend(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  body: GenerateAgentRequest,
+  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents:generate{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: generateAgentRequestSerializer(body),
+    });
+}
+
+export async function _generateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Generates and creates an agent from kind-specific high-level inputs.
+ * The generated definition remains fully editable through the standard agent versioning operations.
+ */
+export async function generateAgent(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  body: GenerateAgentRequest,
+  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _generateAgentSend(context, foundryFeatures, body, options);
+  return _generateAgentDeserialize(result);
 }
 
 export function _createAgentSend(

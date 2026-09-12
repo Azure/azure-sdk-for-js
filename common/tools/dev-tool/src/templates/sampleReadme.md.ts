@@ -57,7 +57,7 @@ function fileLinks(info: SampleReadmeConfiguration) {
     .map(({ relativeSourcePath }) => {
       const sourcePath = (
         info.useTypeScript ? relativeSourcePath : relativeSourcePath.replace(/\.ts$/, ".js")
-      ).replace(path.sep, "/");
+      ).replaceAll(path.sep, "/");
       return `[${sampleLinkTag(
         relativeSourcePath,
       )}]: https://github.com/Azure/azure-sdk-for-js/blob/main/${packageSamplesPathFragment}/${sourcePath}`;
@@ -117,7 +117,7 @@ function table(info: SampleReadmeConfiguration) {
   const contents = filterModules(info).map(({ summary, relativeSourcePath }) => {
     const fileName = (
       info.useTypeScript ? relativeSourcePath : relativeSourcePath.replace(/\.ts$/, ".js")
-    ).replace(path.sep, "/");
+    ).replaceAll(path.sep, "/");
     if (summary && summary.includes("|")) {
       summary = summary.replace(/\|/g, "\\|");
     }
@@ -144,7 +144,7 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
 
   return `${command} ${
     info.useTypeScript ? "dist/" : ""
-  }${firstModule.relativeSourcePath.replace(/\.ts$/, ".js")}`;
+  }${firstModule.relativeSourcePath.replace(/\.ts$/, ".js").replaceAll(path.sep, "/")}`;
 }
 
 /**

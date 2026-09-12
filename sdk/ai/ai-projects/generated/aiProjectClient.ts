@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext, AIProjectClientOptionalParams, createAIProject } from "./api/index.js";
+import {
+  AgentEndpointConversationsOperations,
+  _getAgentEndpointConversationsOperations,
+} from "./classic/agentEndpointConversations/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
 import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
@@ -13,6 +17,10 @@ import {
 } from "./classic/evaluationRules/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
 import { ToolboxesOperations, _getToolboxesOperations } from "./classic/toolboxes/index.js";
+import {
+  VoiceAgentWebSocketOperations,
+  _getVoiceAgentWebSocketOperations,
+} from "./classic/voiceAgentWebSocket/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -31,6 +39,8 @@ export class AIProjectClient {
     this._client = createAIProject(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.toolboxes = _getToolboxesOperations(this._client);
+    this.agentEndpointConversations = _getAgentEndpointConversationsOperations(this._client);
+    this.voiceAgentWebSocket = _getVoiceAgentWebSocketOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.datasets = _getDatasetsOperations(this._client);
@@ -42,6 +52,10 @@ export class AIProjectClient {
 
   /** The operation groups for toolboxes */
   public readonly toolboxes: ToolboxesOperations;
+  /** The operation groups for agentEndpointConversations */
+  public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
+  /** The operation groups for voiceAgentWebSocket */
+  public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */
