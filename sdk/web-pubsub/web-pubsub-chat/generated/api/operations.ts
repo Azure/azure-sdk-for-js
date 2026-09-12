@@ -26,6 +26,8 @@ import {
   chatUserUnionSerializer,
   chatUserUnionDeserializer,
   ChatUserUnion,
+  GenerateClientTokenResponse,
+  generateClientTokenResponseDeserializer,
 } from "../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -33,6 +35,7 @@ import {
 } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
+  GenerateClientTokenOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
@@ -57,6 +60,55 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+
+export function _generateClientTokenSend(
+  context: Client,
+  options: GenerateClientTokenOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/:generateToken{?userId,role*,minutesToExpire,api%2Dversion}",
+    {
+      hub: context.hub,
+      userId: options?.userId,
+      role: !options?.role
+        ? options?.role
+        : options?.role.map((p: any) => {
+            return p;
+          }),
+      minutesToExpire: options?.minutesToExpire,
+      "api%2Dversion": "2024-12-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _generateClientTokenDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GenerateClientTokenResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return generateClientTokenResponseDeserializer(result.body);
+}
+
+/** Generate a token for connecting a client to Azure Web PubSub. */
+export async function generateClientToken(
+  context: Client,
+  options: GenerateClientTokenOptionalParams = { requestOptions: {} },
+): Promise<GenerateClientTokenResponse> {
+  const result = await _generateClientTokenSend(context, options);
+  return _generateClientTokenDeserialize(result);
+}
 
 export function _deleteUserSend(
   context: Client,

@@ -59,7 +59,7 @@ describe("WebPubSubChatServiceClient constructor", () => {
     assert.isNotNull(client.pipeline);
   });
 
-  it("forwards the HTTP client with a clone of the caller pipeline", async () => {
+  it("forwards the HTTP client with the caller pipeline", async () => {
     const pipeline = createEmptyPipeline();
     const customPolicy: PipelinePolicy = {
       name: "customPolicy",
@@ -82,39 +82,20 @@ describe("WebPubSubChatServiceClient constructor", () => {
       httpClient,
     });
 
-    const underlyingClient = (
-      client as unknown as {
-        _webPubSubServiceClient: { _context: { pipeline: typeof client.pipeline } };
-      }
-    )._webPubSubServiceClient;
     const token = await client.getClientAccessToken();
 
     assert.strictEqual(client.pipeline, pipeline);
-    assert.notStrictEqual(underlyingClient._context.pipeline, pipeline);
-    assert.include(underlyingClient._context.pipeline.getOrderedPolicies(), customPolicy);
+    assert.include(client.pipeline.getOrderedPolicies(), customPolicy);
     assert.equal(token.token, "fake-client-token");
     assert.isTrue(vi.mocked(httpClient.sendRequest).mock.calls.length > 0);
   });
 
-  it("keeps key credential policies isolated between cloned pipelines", () => {
+  it("adds the key credential policy to the client pipeline", () => {
     const pipeline = createEmptyPipeline();
     const client = new WebPubSubChatServiceClient(fakeConnectionString, hub, { pipeline });
-    const underlyingClient = (
-      client as unknown as {
-        _webPubSubServiceClient: { _context: { pipeline: typeof client.pipeline } };
-      }
-    )._webPubSubServiceClient;
 
     assert.include(
       client.pipeline.getOrderedPolicies().map((policy) => policy.name),
-      "webPubSubChatCredentialPolicy",
-    );
-    assert.include(
-      underlyingClient._context.pipeline.getOrderedPolicies().map((policy) => policy.name),
-      "webPubSubKeyCredentialPolicy",
-    );
-    assert.notInclude(
-      underlyingClient._context.pipeline.getOrderedPolicies().map((policy) => policy.name),
       "webPubSubChatCredentialPolicy",
     );
   });
@@ -128,19 +109,5 @@ describe("WebPubSubChatServiceClient constructor", () => {
     const policies = client.pipeline.getOrderedPolicies();
     const hasReverseProxy = policies.some((p) => p.name === "webPubSubReverseProxyPolicy");
     assert.isTrue(hasReverseProxy, "Expected reverseProxyPolicy in the pipeline");
-
-    const underlyingClient = (
-      client as unknown as {
-        _webPubSubServiceClient: { _context: { pipeline: typeof client.pipeline } };
-      }
-    )._webPubSubServiceClient;
-    const underlyingPolicies = underlyingClient._context.pipeline.getOrderedPolicies();
-    const hasUnderlyingReverseProxy = underlyingPolicies.some(
-      (p) => p.name === "webPubSubReverseProxyPolicy",
-    );
-    assert.isTrue(
-      hasUnderlyingReverseProxy,
-      "Expected webPubSubReverseProxyPolicy in the underlying client pipeline",
-    );
   });
 });
