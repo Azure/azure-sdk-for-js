@@ -185,6 +185,16 @@ describe("ManagedIdentityCredential (MSAL)", function () {
         );
       });
 
+      it("preserves PoP token type from MSAL", async function () {
+        acquireTokenStub.mockResolvedValue({
+          ...validAuthenticationResult,
+          tokenType: "pop",
+        } as AuthenticationResult);
+        const credential = new ManagedIdentityCredential();
+        const token = await credential.getToken("scope");
+        assert.strictEqual(token.tokenType, "pop");
+      });
+
       describe("when using tokenExchangeMsi", function () {
         it("gets a token using the tokenExchangeMsi implementation", async function () {
           const validToken = {

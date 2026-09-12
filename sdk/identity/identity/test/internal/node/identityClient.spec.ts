@@ -12,7 +12,7 @@ import { isExpectedError } from "../../authTestUtils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
 import type { HttpClient } from "@azure/core-rest-pipeline";
-import { createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("IdentityClient", function () {
   let testContext: IdentityTestContextInterface;
@@ -216,5 +216,27 @@ describe("IdentityClient", function () {
       return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
     }, response);
     isExpectedError("unknown_error")(error);
+  });
+
+  it("preserves token_type from token endpoint responses", async () => {
+    const mockHttpClient: HttpClient = createDefaultHttpClient();
+    vi.spyOn(mockHttpClient, "sendRequest").mockImplementation(async (request) => ({
+      request,
+      status: 200,
+      headers: createHttpHeaders(),
+      bodyAsText: JSON.stringify({
+        access_token: "token",
+        expires_in: 3600,
+        token_type: "pop",
+      }),
+    }));
+    const client = new IdentityClient({
+      authorityHost: "https://authority",
+      httpClient: mockHttpClient,
+    });
+
+    const tokenResponse = await client.sendTokenRequest(createPipelineRequest({ url: "https://token" }));
+
+    assert.equal(tokenResponse?.accessToken.tokenType, "pop");
   });
 });
