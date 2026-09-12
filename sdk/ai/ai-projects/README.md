@@ -62,6 +62,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
+  - [Voice Agent operations (preview)](#voice-agent-operations-preview)
   - [Using Agent tools](#using-agent-tools)
     - [Built-in Tools](#built-in-tools)
     - [Connection-Based Tools](#connection-based-tools)
@@ -233,6 +234,45 @@ console.log("Conversation deleted");
 await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
+
+### Voice Agent operations (preview)
+
+Voice Agents use the unified `project.agents` management surface and a bidirectional WebSocket
+session exposed by `project.beta.realtime`. The example below generates a Voice Agent, sends text, and
+streams its response:
+
+```ts snippet:voiceAgent
+const voiceAgentName = `voice-agent-${Date.now()}`;
+const voiceAgent = await project.beta.agents.generate({ kind: "voice", name: voiceAgentName });
+try {
+  const connection = await project.beta.realtime.connect(voiceAgent.name);
+  try {
+    await connection.sendText("Hello. Please introduce yourself briefly.");
+    for await (const event of connection) {
+      // Voice agents speak their reply, so the text form of it streams as an audio transcript
+      // rather than as `response.output_text.delta`.
+      if (
+        event.type === "response.output_text.delta" ||
+        event.type === "response.output_audio_transcript.delta"
+      ) {
+        process.stdout.write(event.delta);
+      } else if (event.type === "response.done") {
+        await connection.close();
+      }
+    }
+  } finally {
+    await connection.dispose();
+  }
+} finally {
+  await project.agents.delete(voiceAgent.name);
+}
+```
+
+Use `project.beta.agentEndpointConversations` to inspect conversations for Voice Agents configured
+with `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a
+single session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict`
+and `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local
+function tools, and PCM audio streaming.
 
 ### Using Agent tools
 

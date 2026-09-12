@@ -15,11 +15,13 @@
 - Add `project.beta.voiceAgentWebSocket.connectVoiceAgent` for the voice endpoint's HTTP WebSocket upgrade handshake. This operation does not provide a WebSocket message transport. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add non-preview `browser_automation` tools for agents and toolboxes while retaining the existing preview tools. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add explicit `trace_ids` filtering and dataset output `write_mode` options (`overwrite` or `merge`) to data generation jobs under `project.beta.datasets`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add `project.beta.realtime` (`VoiceAgentRealtimeClient`), a WebSocket client for bidirectional streaming of text, audio (`audio/pcm`, `audio/pcmu`, `audio/pcma`), and tool calls with a voice agent, with browser and React Native support (a Microsoft Entra bearer token carried in the WebSocket subprotocol, since browsers cannot set a custom `Authorization` header on a WebSocket upgrade request). Complements `project.beta.voiceAgentWebSocket.connectVoiceAgent`, which performs only the HTTP upgrade handshake.
 
 ### Other Changes
 
 - Regenerate the client from azure-rest-api-specs commit `393d5fd2d0a6df9fffb7a1940f5ef1842bac2fdd`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add samples for voice definitions, voice generation, read-only telephony inspection, and non-preview browser automation, with offline public-client tests for voice authoring and telephony operations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add the `ws` and `https-proxy-agent` dependencies, required by `project.beta.realtime`.
 
 ## 2.6.0 (2026-09-03)
 
