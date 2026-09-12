@@ -1,4 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
+import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 const mocks = vi.hoisted(() => ({
   runCommand: vi.fn(),
@@ -52,5 +56,52 @@ describe("customizeCodes", () => {
     expect(mocks.loggerWarn).toHaveBeenCalledWith(
       `Failed to customize codes due to: ${error.stack}`,
     );
+  });
+});
+
+describe("resetToGeneratedOutput", () => {
+  let dir: string;
+
+  beforeEach(async () => {
+    mocks.loggerInfo.mockReset();
+    dir = await mkdtemp(join(tmpdir(), "reset-generated-"));
+  });
+
+  test("replaces src with a clean copy of generated, dropping customizations", async () => {
+    await mkdir(join(dir, "generated", "api"), { recursive: true });
+    await writeFile(join(dir, "generated", "index.ts"), "export const generated = true;");
+    await writeFile(join(dir, "generated", "api", "operations.ts"), "export const op = 1;");
+    await mkdir(join(dir, "src"), { recursive: true });
+    await writeFile(join(dir, "src", "index.ts"), "export const customized = true;");
+    // customization-only file that is not present in generated
+    await writeFile(join(dir, "src", "handwritten.ts"), "export const custom = 1;");
+
+    const { resetToGeneratedOutput } = await import("../../common/devToolUtils.js");
+    await expect(resetToGeneratedOutput(dir)).resolves.toBe(true);
+
+    // src now mirrors generated exactly
+    expect(await readFile(join(dir, "src", "index.ts"), "utf-8")).toBe(
+      "export const generated = true;",
+    );
+    expect(existsSync(join(dir, "src", "api", "operations.ts"))).toBe(true);
+    // the customization-only file is gone (wholesale reset)
+    expect(existsSync(join(dir, "src", "handwritten.ts"))).toBe(false);
+
+    await rm(dir, { force: true, recursive: true });
+  });
+
+  test("is a no-op for packages without a generated directory", async () => {
+    await mkdir(join(dir, "src"), { recursive: true });
+    await writeFile(join(dir, "src", "index.ts"), "export const customized = true;");
+
+    const { resetToGeneratedOutput } = await import("../../common/devToolUtils.js");
+    await expect(resetToGeneratedOutput(dir)).resolves.toBe(false);
+
+    // src is untouched
+    expect(await readFile(join(dir, "src", "index.ts"), "utf-8")).toBe(
+      "export const customized = true;",
+    );
+
+    await rm(dir, { force: true, recursive: true });
   });
 });
