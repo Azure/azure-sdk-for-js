@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (Unreleased)
+## 2.7.0 (Unreleased)
 
 ### Breaking Changes
 
