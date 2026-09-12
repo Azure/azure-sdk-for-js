@@ -1,5 +1,17 @@
 # Release History
 
+## 0.3.10 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Client requests now look up the `content-type` and `accept` entries of the `headers` request option without regard to how the header name is capitalized. Only the all lower case spellings were found before, so `headers: { "Content-Type": "application/xml" }` and `headers: { "Accept": "text/plain" }` were replaced by the default `application/json`. Both entries are now read back from the headers that will be sent, so the same value decides the header and how the body is encoded: a header name given under two spellings resolves to the last one in the object, a `content-type` value that is not a string, such as a number, is used as its string form rather than ignored, and a padded value selects the encoding of its trimmed form. [#39791](https://github.com/Azure/azure-sdk-for-js/pull/39791)
+
+### Other Changes
+
 ## 0.3.9 (2026-09-03)
 
 ### Bugs Fixed
