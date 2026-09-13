@@ -38,7 +38,7 @@ export function _listByKubernetesClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       kubernetesClusterName: kubernetesClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -80,7 +80,11 @@ export function listByKubernetesCluster(
     () => _listByKubernetesClusterSend(context, resourceGroupName, kubernetesClusterName, options),
     _listByKubernetesClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
   );
 }
 
@@ -98,7 +102,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       kubernetesClusterName: kubernetesClusterName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +148,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, kubernetesClusterName, agentPoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -162,7 +166,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       kubernetesClusterName: kubernetesClusterName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +215,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, kubernetesClusterName, agentPoolName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<AgentPool>, AgentPool>;
 }
 
@@ -230,7 +234,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       kubernetesClusterName: kubernetesClusterName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -287,7 +291,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<AgentPool>, AgentPool>;
 }
 
@@ -305,7 +309,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       kubernetesClusterName: kubernetesClusterName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
