@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 
 /**
@@ -12,7 +12,7 @@ export type TokenScope = "chat" | "voip" | "chat.join" | "chat.join.limited" | "
 /**
  * Client options used to configure the CommunicationIdentity API requests.
  */
-export interface CommunicationIdentityClientOptions extends CommonClientOptions {}
+export interface CommunicationIdentityClientOptions extends ClientOptions {}
 
 /**
  * The access token for a user.
@@ -36,16 +36,6 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
    * Represents the user the token was issued for
    */
   user: CommunicationUserIdentifier;
-}
-
-/** Represents a communication identity. */
-export interface CommunicationUserDetail {
-  /** Identifier of the identity. */
-  user: CommunicationUserIdentifier;
-  /** The external Id if one has been associated with the identity. */
-  customId?: string;
-  /** Last time a token has been issued for the identity. */
-  lastTokenIssuedAt?: Date;
 }
 
 /**
@@ -74,17 +64,12 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
 export declare interface CreateUserAndTokenOptions extends OperationOptions {
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
   tokenExpiresInMinutes?: number;
-  /** The external Id if one has been associated with the identity. */
-  customId?: string;
 }
 
 /**
- * Options to create a single user and a token simultaneously.
+ * Options to create a single user.
  */
-export declare interface CreateUserOptions extends OperationOptions {
-  /** The external Id if one has been associated with the identity. */
-  customId?: string;
-}
+export declare interface CreateUserOptions extends OperationOptions {}
 
 /**
  * Options to create a scoped user token.

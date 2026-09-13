@@ -4,11 +4,11 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import type { CommunicationUserIdentifier } from '@azure/communication-common';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -28,19 +28,11 @@ export class CommunicationIdentityClient {
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
     getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: GetTokenOptions): Promise<CommunicationAccessToken>;
     getTokenForTeamsUser(options: GetTokenForTeamsUserOptions): Promise<CommunicationAccessToken>;
-    getUserDetail(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationUserDetail>;
     revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
 }
 
 // @public
-export interface CommunicationIdentityClientOptions extends CommonClientOptions {
-}
-
-// @public
-export interface CommunicationUserDetail {
-    customId?: string;
-    lastTokenIssuedAt?: Date;
-    user: CommunicationUserIdentifier;
+export interface CommunicationIdentityClientOptions extends ClientOptions {
 }
 
 // @public
@@ -50,13 +42,11 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 
 // @public
 export interface CreateUserAndTokenOptions extends OperationOptions {
-    customId?: string;
     tokenExpiresInMinutes?: number;
 }
 
 // @public
 export interface CreateUserOptions extends OperationOptions {
-    customId?: string;
 }
 
 // @public

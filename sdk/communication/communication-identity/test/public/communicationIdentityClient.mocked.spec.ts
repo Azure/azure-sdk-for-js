@@ -42,6 +42,20 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     );
   });
 
+  it("sends the expected api-version", async () => {
+    const client = new TestCommunicationIdentityClient();
+    const spy = vi.spyOn(getTokenHttpClient, "sendRequest");
+
+    await client.getTokenTest(user, ["chat"]);
+    expect(spy).toHaveBeenCalledOnce();
+
+    // Asserted directly rather than relying on playback: a wrong api-version
+    // surfaces there as a recording mismatch, which is harder to read than a
+    // failed assertion naming the expected value.
+    const request = spy.mock.calls[0][0];
+    assert.include(request.url, "api-version=2026-09-23");
+  });
+
   it("sends scopes in issue token request", async () => {
     const client = new TestCommunicationIdentityClient();
     const spy = vi.spyOn(getTokenHttpClient, "sendRequest");
