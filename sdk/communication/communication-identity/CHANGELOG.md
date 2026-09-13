@@ -8,8 +8,13 @@
 
 ### Breaking Changes
 
-> These changes remove surface that only ever shipped in `1.4.0-beta.1`. The
-> last stable release, `1.3.1`, is unaffected.
+- Removed `serializerOptions` from the options accepted by every client method.
+  The options types are now sourced from `@azure-rest/core-client`, whose
+  `OperationOptions` does not define it. This affects callers of the last stable
+  release, `1.3.1`, which accepted it.
+
+> The two changes below remove surface that only ever shipped in
+> `1.4.0-beta.1`. The last stable release, `1.3.1`, is unaffected by them.
 
 - Removed `CommunicationIdentityClient.getUserDetail` and the
   `CommunicationUserDetail` type. The backing `GET /identities/{id}` operation
@@ -24,10 +29,10 @@
   `specification/communication/data-plane/Identity`. The public API surface is
   otherwise unchanged.
 - Replaced the `@azure/core-client` dependency with `@azure-rest/core-client`.
-  `CommunicationIdentityClientOptions` now extends `ClientOptions` and the
-  `OperationOptions` used by client methods is re-sourced from
-  `@azure-rest/core-client`. Both are structurally compatible with the previous
-  types.
+  `CommunicationIdentityClientOptions` now extends `ClientOptions`, which is a
+  superset of the previous `CommonClientOptions`, and the `OperationOptions`
+  used by client methods is re-sourced from `@azure-rest/core-client`. The only
+  member lost in the move is `serializerOptions`, noted above.
 - Removed the now-unused `@azure/abort-controller`, `@azure/core-lro`,
   `@azure/core-paging` and `events` dependencies.
 - Optimized type imports for improved tree-shaking and build performance.
