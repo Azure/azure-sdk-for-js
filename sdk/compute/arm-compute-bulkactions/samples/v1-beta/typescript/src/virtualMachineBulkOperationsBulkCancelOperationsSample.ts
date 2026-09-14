@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
  *
  * @summary bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkCancel_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkCancel_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkCancelExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineBulkOperationsBulkCancelExample(): Promise<void> {
  * This sample demonstrates how to bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
  *
  * @summary bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkCancel_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkCancel_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkCancelExampleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation creates or updates a policy set definition version in the given subscription with the given name and version.
  *
  * @summary this operation creates or updates a policy set definition version in the given subscription with the given name and version.
- * x-ms-original-file: 2026-07-01/createOrUpdatePolicySetDefinitionVersion.json
+ * x-ms-original-file: 2026-01-01-preview/createOrUpdatePolicySetDefinitionVersion.json
  */
 async function createOrUpdateAPolicySetDefinitionVersion() {
   const credential = new DefaultAzureCredential();

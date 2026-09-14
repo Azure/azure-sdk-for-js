@@ -24,7 +24,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/organizations{?api%2Dversion,userEmail,location}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       userEmail: userEmail,
       location: location,
     },
@@ -53,7 +53,6 @@ export async function _listDeserialize(
 
   return _organizationsListResponseDeserializer(result.body);
 }
-
 /** Lists all the New Relic organizations linked to your email address, helping you understand the existing organizations that have been created */
 export function list(
   context: Client,
@@ -66,10 +65,6 @@ export function list(
     () => _listSend(context, userEmail, location, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancels BulkCreateCustom instances that have not yet launched.
  *
  * @summary cancels BulkCreateCustom instances that have not yet launched.
- * x-ms-original-file: 2026-07-06-preview/BulkCreateCustom_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/BulkCreateCustom_Cancel_MaximumSet_Gen.json
  */
 async function bulkCreateCustomCancelMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

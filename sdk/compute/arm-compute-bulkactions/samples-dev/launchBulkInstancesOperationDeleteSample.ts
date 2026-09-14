@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes LaunchBulkInstancesOperations.
  *
  * @summary deletes LaunchBulkInstancesOperations.
- * x-ms-original-file: 2026-07-06-preview/LaunchBulkInstancesOperation_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/LaunchBulkInstancesOperation_Delete_MaximumSet_Gen.json
  */
 async function launchBulkInstancesOperationDeleteExample(): Promise<void> {
   const credential = new DefaultAzureCredential();

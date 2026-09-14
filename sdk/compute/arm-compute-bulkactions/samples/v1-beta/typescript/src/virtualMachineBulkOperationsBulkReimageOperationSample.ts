@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkReimage: Execute reimage operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkReimage: Execute reimage operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkReimage_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkReimage_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkReimageExample(): Promise<void> {
   const credential = new DefaultAzureCredential();

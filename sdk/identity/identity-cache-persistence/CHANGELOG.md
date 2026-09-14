@@ -1,5 +1,17 @@
 # Release History
 
+## 1.3.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
 ## 1.3.1 (2026-08-12)
 
 ### Other Changes

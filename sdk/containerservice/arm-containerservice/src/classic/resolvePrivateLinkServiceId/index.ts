@@ -16,6 +16,7 @@ export interface ResolvePrivateLinkServiceIdOperations {
     options?: ResolvePrivateLinkServiceIdPostOptionalParams,
   ) => Promise<PrivateLinkResource>;
 }
+
 function _getResolvePrivateLinkServiceId(context: ContainerServiceContext) {
   return {
     post: (
@@ -26,6 +27,7 @@ function _getResolvePrivateLinkServiceId(context: ContainerServiceContext) {
     ) => post(context, resourceGroupName, resourceName, parameters, options),
   };
 }
+
 export function _getResolvePrivateLinkServiceIdOperations(
   context: ContainerServiceContext,
 ): ResolvePrivateLinkServiceIdOperations {

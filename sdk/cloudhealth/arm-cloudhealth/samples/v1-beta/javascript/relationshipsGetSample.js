@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Relationship
  *
  * @summary get a Relationship
- * x-ms-original-file: 2026-05-01-preview/Relationships_Get.json
+ * x-ms-original-file: 2026-09-01-preview/Relationships_Get.json
  */
 async function relationshipsGet() {
   const credential = new DefaultAzureCredential();

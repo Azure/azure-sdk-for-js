@@ -50,7 +50,7 @@ export function _delaySend(
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
       occurrenceId: occurrenceId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,8 @@ export async function _delayDeserialize(
 
   return resourceOperationResponseDeserializer(result.body);
 }
-/** Delay the occurrence to a later time. */
+
+/** Delays the specified occurrence for the specified resource IDs. */
 export function delay(
   context: Client,
   resourceGroupName: string,
@@ -94,7 +95,7 @@ export function delay(
     getInitialResponse: () =>
       _delaySend(context, resourceGroupName, scheduledActionName, occurrenceId, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-06-preview",
+    apiVersion: context.apiVersion ?? "2026-08-06-preview",
   }) as PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
 }
 
@@ -113,7 +114,7 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
       occurrenceId: occurrenceId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,7 +143,8 @@ export async function _cancelDeserialize(
 
   return resourceOperationResponseDeserializer(result.body);
 }
-/** Cancel the occurrence so its pending operations do not run. */
+
+/** Cancels the specified occurrence for the specified resource IDs. */
 export function cancel(
   context: Client,
   resourceGroupName: string,
@@ -157,7 +159,7 @@ export function cancel(
     getInitialResponse: () =>
       _cancelSend(context, resourceGroupName, scheduledActionName, occurrenceId, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-06-preview",
+    apiVersion: context.apiVersion ?? "2026-08-06-preview",
   }) as PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
 }
 
@@ -175,7 +177,7 @@ export function _listResourcesSend(
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
       occurrenceId: occurrenceId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +204,8 @@ export async function _listResourcesDeserialize(
 
   return _occurrenceResourceListResponseDeserializer(result.body);
 }
-/** List resources attached to Scheduled Actions for the given occurrence */
+
+/** Lists resources for the specified occurrence. */
 export function listResources(
   context: Client,
   resourceGroupName: string,
@@ -219,7 +222,7 @@ export function listResources(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-06-preview",
+      apiVersion: context.apiVersion ?? "2026-08-06-preview",
     },
   );
 }
@@ -236,7 +239,7 @@ export function _listByScheduledActionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +266,8 @@ export async function _listByScheduledActionDeserialize(
 
   return _occurrenceListResultDeserializer(result.body);
 }
-/** List Occurrence resources by ScheduledAction */
+
+/** Lists occurrences for the specified scheduled action. */
 export function listByScheduledAction(
   context: Client,
   resourceGroupName: string,
@@ -278,7 +282,7 @@ export function listByScheduledAction(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-06-preview",
+      apiVersion: context.apiVersion ?? "2026-08-06-preview",
     },
   );
 }
@@ -297,7 +301,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
       occurrenceId: occurrenceId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -322,7 +326,8 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Oc
 
   return occurrenceDeserializer(result.body);
 }
-/** Get a Occurrence */
+
+/** Gets the specified occurrence. */
 export async function get(
   context: Client,
   resourceGroupName: string,

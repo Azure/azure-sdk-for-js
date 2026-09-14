@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation creates or updates a policy definition in the given subscription with the given name.
  *
  * @summary this operation creates or updates a policy definition in the given subscription with the given name.
- * x-ms-original-file: 2026-07-01/createOrUpdatePolicyDefinition.json
+ * x-ms-original-file: 2026-01-01-preview/createOrUpdatePolicyDefinition.json
  */
 async function createOrUpdateAPolicyDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function createOrUpdateAPolicyDefinition(): Promise<void> {
  * This sample demonstrates how to this operation creates or updates a policy definition in the given subscription with the given name.
  *
  * @summary this operation creates or updates a policy definition in the given subscription with the given name.
- * x-ms-original-file: 2026-07-01/createOrUpdatePolicyDefinitionAdvancedParams.json
+ * x-ms-original-file: 2026-01-01-preview/createOrUpdatePolicyDefinitionAdvancedParams.json
  */
 async function createOrUpdateAPolicyDefinitionWithAdvancedParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -95,7 +95,7 @@ async function createOrUpdateAPolicyDefinitionWithAdvancedParameters(): Promise<
  * This sample demonstrates how to this operation creates or updates a policy definition in the given subscription with the given name.
  *
  * @summary this operation creates or updates a policy definition in the given subscription with the given name.
- * x-ms-original-file: 2026-07-01/createOrUpdatePolicyDefinitionExternalEvaluationEnforcementSettings.json
+ * x-ms-original-file: 2026-01-01-preview/createOrUpdatePolicyDefinitionExternalEvaluationEnforcementSettings.json
  */
 async function createOrUpdateAPolicyDefinitionWithExternalEvaluationEnforcementSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets NetworkRuleSet for a Namespace.
  *
  * @summary gets NetworkRuleSet for a Namespace.
- * x-ms-original-file: 2024-01-01/VirtualNetworkRules/RelayNetworkRuleSetGet.json
+ * x-ms-original-file: 2026-07-01-preview/VirtualNetworkRules/RelayNetworkRuleSetGet.json
  */
 async function nameSpaceNetworkRuleSetGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,6 +1,18 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/discoveryRules/index.ts",
+    "../src/api/relationships/index.ts",
+    "../src/api/entities/index.ts",
+    "../src/api/authenticationSettings/index.ts",
+    "../src/api/signalDefinitions/index.ts",
+    "../src/api/healthModels/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

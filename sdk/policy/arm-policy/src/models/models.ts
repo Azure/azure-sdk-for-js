@@ -343,8 +343,6 @@ export interface Selector {
   in?: string[];
   /** The list of values to filter out. */
   notIn?: string[];
-  /** The percent of total resources that will be governed by the policy. */
-  progress?: number;
 }
 
 export function selectorSerializer(item: Selector): any {
@@ -360,7 +358,6 @@ export function selectorSerializer(item: Selector): any {
       : item["notIn"].map((p: any) => {
           return p;
         }),
-    progress: item["progress"],
   };
 }
 
@@ -377,7 +374,6 @@ export function selectorDeserializer(item: any): Selector {
       : item["notIn"].map((p: any) => {
           return p;
         }),
-    progress: item["progress"],
   };
 }
 
@@ -391,8 +387,6 @@ export enum KnownSelectorKind {
   ResourceWithoutLocation = "resourceWithoutLocation",
   /** The selector kind to filter policies by the policy definition reference ID. */
   PolicyDefinitionReferenceId = "policyDefinitionReferenceId",
-  /** The selector kind to filter policies by the resource rollout percentage. */
-  ResourceRolloutPercentage = "resourceRolloutPercentage",
   /** The selector kind to filter policies by the user principal ID. */
   UserPrincipalId = "userPrincipalId",
   /** The selector kind to filter policies by the security group membership ID. */
@@ -408,7 +402,6 @@ export enum KnownSelectorKind {
  * **resourceType**: The selector kind to filter policies by the resource type. \
  * **resourceWithoutLocation**: The selector kind to filter policies by the resource without location. \
  * **policyDefinitionReferenceId**: The selector kind to filter policies by the policy definition reference ID. \
- * **resourceRolloutPercentage**: The selector kind to filter policies by the resource rollout percentage. \
  * **userPrincipalId**: The selector kind to filter policies by the user principal ID. \
  * **groupPrincipalId**: The selector kind to filter policies by the security group membership ID.
  */
@@ -1768,6 +1761,443 @@ export function policyDefinitionVersionArrayDeserializer(
   });
 }
 
+/** The policy enrollment. */
+export interface PolicyEnrollment extends ExtensionResource {
+  /** The ETag for the policy enrollment. */
+  eTag?: string;
+  /** The ID of the policy assignment that is being enrolled. */
+  policyAssignmentId?: string;
+  /**
+   * The policy assignment instance ID associated with this enrollment.
+   * The value is set to the instance ID of the policy assignment the policyAssignmentId references when the enrollment is created or updated.
+   * The format is a GUID string.
+   */
+  readonly policyAssignmentInstanceId?: string;
+  /**
+   * The policy definition reference IDs for policy definitions in an assigned policy set definition.
+   * These IDs correspond to a subset of `policyDefinitions[*].policyDefinitionReferenceId` in the policy set definition.
+   * When specified and not empty, only the referenced policy definitions will be enrolled to. Otherwise, the entire policy set is enrolled to
+   */
+  policyDefinitionReferenceIds?: string[];
+  /** The display name of the policy enrollment. */
+  displayName?: string;
+  /** The description of the policy enrollment. */
+  description?: string;
+  /** The policy enrollment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The option whether to validate the enrollment is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+}
+
+export function policyEnrollmentSerializer(item: PolicyEnrollment): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "policyAssignmentId",
+      "policyDefinitionReferenceIds",
+      "displayName",
+      "description",
+      "metadata",
+      "assignmentScopeValidation",
+      "resourceSelectors",
+    ])
+      ? undefined
+      : _policyEnrollmentPropertiesSerializer(item),
+    eTag: item["eTag"],
+  };
+}
+
+export function policyEnrollmentDeserializer(item: any): PolicyEnrollment {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _policyEnrollmentPropertiesDeserializer(item["properties"])),
+    eTag: item["eTag"],
+  };
+}
+
+/** The policy enrollment properties. */
+export interface PolicyEnrollmentProperties {
+  /** The ID of the policy assignment that is being enrolled. */
+  policyAssignmentId: string;
+  /**
+   * The policy assignment instance ID associated with this enrollment.
+   * The value is set to the instance ID of the policy assignment the policyAssignmentId references when the enrollment is created or updated.
+   * The format is a GUID string.
+   */
+  readonly policyAssignmentInstanceId?: string;
+  /**
+   * The policy definition reference IDs for policy definitions in an assigned policy set definition.
+   * These IDs correspond to a subset of `policyDefinitions[*].policyDefinitionReferenceId` in the policy set definition.
+   * When specified and not empty, only the referenced policy definitions will be enrolled to. Otherwise, the entire policy set is enrolled to
+   */
+  policyDefinitionReferenceIds?: string[];
+  /** The display name of the policy enrollment. */
+  displayName?: string;
+  /** The description of the policy enrollment. */
+  description?: string;
+  /** The policy enrollment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The option whether to validate the enrollment is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+}
+
+export function policyEnrollmentPropertiesSerializer(item: PolicyEnrollmentProperties): any {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+  };
+}
+
+export function policyEnrollmentPropertiesDeserializer(item: any): PolicyEnrollmentProperties {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyAssignmentInstanceId: item["policyAssignmentInstanceId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArrayDeserializer(item["resourceSelectors"]),
+  };
+}
+
+/** The option to validate whether the exemption or enrollment is at or under the assignment scope. */
+export enum KnownAssignmentScopeValidation {
+  /** This option will validate the exemption is at or under the assignment scope. */
+  Default = "Default",
+  /** This option will bypass the validation the exemption scope is at or under the policy assignment scope. */
+  DoNotValidate = "DoNotValidate",
+}
+
+/**
+ * The option to validate whether the exemption or enrollment is at or under the assignment scope. \
+ * {@link KnownAssignmentScopeValidation} can be used interchangeably with AssignmentScopeValidation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: This option will validate the exemption is at or under the assignment scope. \
+ * **DoNotValidate**: This option will bypass the validation the exemption scope is at or under the policy assignment scope.
+ */
+export type AssignmentScopeValidation = string;
+
+/** The policy enrollment for Patch request. */
+export interface PolicyEnrollmentUpdate {
+  /** The option whether to validate the enrollment is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+}
+
+export function policyEnrollmentUpdateSerializer(item: PolicyEnrollmentUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, ["assignmentScopeValidation", "resourceSelectors"])
+      ? undefined
+      : _policyEnrollmentUpdatePropertiesSerializer(item),
+  };
+}
+
+/** The policy enrollment properties for Patch request. */
+export interface PolicyEnrollmentUpdateProperties {
+  /** The option whether to validate the enrollment is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+}
+
+export function policyEnrollmentUpdatePropertiesSerializer(
+  item: PolicyEnrollmentUpdateProperties,
+): any {
+  return {
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+  };
+}
+
+/** The response of a PolicyEnrollment list operation. */
+export interface _PolicyEnrollmentListResult {
+  /** The PolicyEnrollment items on this page */
+  value: PolicyEnrollment[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _policyEnrollmentListResultDeserializer(item: any): _PolicyEnrollmentListResult {
+  return {
+    value: policyEnrollmentArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function policyEnrollmentArraySerializer(result: Array<PolicyEnrollment>): any[] {
+  return result.map((item) => {
+    return policyEnrollmentSerializer(item);
+  });
+}
+
+export function policyEnrollmentArrayDeserializer(result: Array<PolicyEnrollment>): any[] {
+  return result.map((item) => {
+    return policyEnrollmentDeserializer(item);
+  });
+}
+
+/** The policy exemption. */
+export interface PolicyExemption extends ExtensionResource {
+  /** The ID of the policy assignment that is being exempted. */
+  policyAssignmentId?: string;
+  /** The policy definition reference ID list when the associated policy assignment is an assignment of a policy set definition. */
+  policyDefinitionReferenceIds?: string[];
+  /** The policy exemption category. Possible values are Waiver and Mitigated. */
+  exemptionCategory?: ExemptionCategory;
+  /** The expiration date and time (in UTC ISO 8601 format yyyy-MM-ddTHH:mm:ssZ) of the policy exemption. */
+  expiresOn?: Date;
+  /** The display name of the policy exemption. */
+  displayName?: string;
+  /** The description of the policy exemption. */
+  description?: string;
+  /** The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The mode indicating how the policy exemption is managed. */
+  exemptionManagementMode?: ExemptionManagementMode;
+}
+
+export function policyExemptionSerializer(item: PolicyExemption): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "policyAssignmentId",
+      "policyDefinitionReferenceIds",
+      "exemptionCategory",
+      "expiresOn",
+      "displayName",
+      "description",
+      "metadata",
+      "resourceSelectors",
+      "assignmentScopeValidation",
+      "exemptionManagementMode",
+    ])
+      ? undefined
+      : _policyExemptionPropertiesSerializer(item),
+  };
+}
+
+export function policyExemptionDeserializer(item: any): PolicyExemption {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _policyExemptionPropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The policy exemption properties. */
+export interface PolicyExemptionProperties {
+  /** The ID of the policy assignment that is being exempted. */
+  policyAssignmentId: string;
+  /** The policy definition reference ID list when the associated policy assignment is an assignment of a policy set definition. */
+  policyDefinitionReferenceIds?: string[];
+  /** The policy exemption category. Possible values are Waiver and Mitigated. */
+  exemptionCategory: ExemptionCategory;
+  /** The expiration date and time (in UTC ISO 8601 format yyyy-MM-ddTHH:mm:ssZ) of the policy exemption. */
+  expiresOn?: Date;
+  /** The display name of the policy exemption. */
+  displayName?: string;
+  /** The description of the policy exemption. */
+  description?: string;
+  /** The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The mode indicating how the policy exemption is managed. */
+  exemptionManagementMode?: ExemptionManagementMode;
+}
+
+export function policyExemptionPropertiesSerializer(item: PolicyExemptionProperties): any {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    exemptionCategory: item["exemptionCategory"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    exemptionManagementMode: item["exemptionManagementMode"],
+  };
+}
+
+export function policyExemptionPropertiesDeserializer(item: any): PolicyExemptionProperties {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    exemptionCategory: item["exemptionCategory"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArrayDeserializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    exemptionManagementMode: item["exemptionManagementMode"],
+  };
+}
+
+/** The policy exemption category. Possible values are Waiver and Mitigated. */
+export enum KnownExemptionCategory {
+  /** This category of exemptions usually means the scope is not applicable for the policy. */
+  Waiver = "Waiver",
+  /** This category of exemptions usually means the mitigation actions have been applied to the scope. */
+  Mitigated = "Mitigated",
+}
+
+/**
+ * The policy exemption category. Possible values are Waiver and Mitigated. \
+ * {@link KnownExemptionCategory} can be used interchangeably with ExemptionCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Waiver**: This category of exemptions usually means the scope is not applicable for the policy. \
+ * **Mitigated**: This category of exemptions usually means the mitigation actions have been applied to the scope.
+ */
+export type ExemptionCategory = string;
+
+/** The mode indicating how the policy exemption is managed. Possible values are Admin and UserSelfServe. */
+export enum KnownExemptionManagementMode {
+  /** This mode means the exemption is managed by an administrator and requires permission for the policy exemption action. */
+  Admin = "Admin",
+  /** This mode means the exemption is managed by the user it applies to, through the self-serve exemption settings on the policy assignment. */
+  UserSelfServe = "UserSelfServe",
+}
+
+/**
+ * The mode indicating how the policy exemption is managed. Possible values are Admin and UserSelfServe. \
+ * {@link KnownExemptionManagementMode} can be used interchangeably with ExemptionManagementMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Admin**: This mode means the exemption is managed by an administrator and requires permission for the policy exemption action. \
+ * **UserSelfServe**: This mode means the exemption is managed by the user it applies to, through the self-serve exemption settings on the policy assignment.
+ */
+export type ExemptionManagementMode = string;
+
+/** The policy exemption for Patch request. */
+export interface PolicyExemptionUpdate {
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The mode indicating how the policy exemption is managed. */
+  exemptionManagementMode?: ExemptionManagementMode;
+}
+
+export function policyExemptionUpdateSerializer(item: PolicyExemptionUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "resourceSelectors",
+      "assignmentScopeValidation",
+      "exemptionManagementMode",
+    ])
+      ? undefined
+      : _policyExemptionUpdatePropertiesSerializer(item),
+  };
+}
+
+/** The policy exemption properties for Patch request. */
+export interface PolicyExemptionUpdateProperties {
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The mode indicating how the policy exemption is managed. */
+  exemptionManagementMode?: ExemptionManagementMode;
+}
+
+export function policyExemptionUpdatePropertiesSerializer(
+  item: PolicyExemptionUpdateProperties,
+): any {
+  return {
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    exemptionManagementMode: item["exemptionManagementMode"],
+  };
+}
+
+/** The response of a PolicyExemption list operation. */
+export interface _PolicyExemptionListResult {
+  /** The PolicyExemption items on this page */
+  value: PolicyExemption[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _policyExemptionListResultDeserializer(item: any): _PolicyExemptionListResult {
+  return {
+    value: policyExemptionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function policyExemptionArraySerializer(result: Array<PolicyExemption>): any[] {
+  return result.map((item) => {
+    return policyExemptionSerializer(item);
+  });
+}
+
+export function policyExemptionArrayDeserializer(result: Array<PolicyExemption>): any[] {
+  return result.map((item) => {
+    return policyExemptionDeserializer(item);
+  });
+}
+
 /** The policy set definition. */
 export interface PolicySetDefinition extends ProxyResource {
   /** The type of policy set definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
@@ -2177,6 +2607,217 @@ export function policySetDefinitionVersionArrayDeserializer(
   });
 }
 
+/** The variable. */
+export interface Variable extends ProxyResource {
+  /** Variable column definitions. */
+  columns?: PolicyVariableColumn[];
+}
+
+export function variableSerializer(item: Variable): any {
+  return {
+    properties: areAllPropsUndefined(item, ["columns"])
+      ? undefined
+      : _variablePropertiesSerializer(item),
+  };
+}
+
+export function variableDeserializer(item: any): Variable {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _variablePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The variable properties. */
+export interface PolicyVariableProperties {
+  /** Variable column definitions. */
+  columns: PolicyVariableColumn[];
+}
+
+export function policyVariablePropertiesSerializer(item: PolicyVariableProperties): any {
+  return { columns: policyVariableColumnArraySerializer(item["columns"]) };
+}
+
+export function policyVariablePropertiesDeserializer(item: any): PolicyVariableProperties {
+  return {
+    columns: policyVariableColumnArrayDeserializer(item["columns"]),
+  };
+}
+
+export function policyVariableColumnArraySerializer(result: Array<PolicyVariableColumn>): any[] {
+  return result.map((item) => {
+    return policyVariableColumnSerializer(item);
+  });
+}
+
+export function policyVariableColumnArrayDeserializer(result: Array<PolicyVariableColumn>): any[] {
+  return result.map((item) => {
+    return policyVariableColumnDeserializer(item);
+  });
+}
+
+/** The variable column. */
+export interface PolicyVariableColumn {
+  /** The name of this policy variable column. */
+  columnName: string;
+}
+
+export function policyVariableColumnSerializer(item: PolicyVariableColumn): any {
+  return { columnName: item["columnName"] };
+}
+
+export function policyVariableColumnDeserializer(item: any): PolicyVariableColumn {
+  return {
+    columnName: item["columnName"],
+  };
+}
+
+/** The response of a Variable list operation. */
+export interface _VariableListResult {
+  /** The Variable items on this page */
+  value: Variable[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _variableListResultDeserializer(item: any): _VariableListResult {
+  return {
+    value: variableArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function variableArraySerializer(result: Array<Variable>): any[] {
+  return result.map((item) => {
+    return variableSerializer(item);
+  });
+}
+
+export function variableArrayDeserializer(result: Array<Variable>): any[] {
+  return result.map((item) => {
+    return variableDeserializer(item);
+  });
+}
+
+/** The variable value. */
+export interface VariableValue extends ProxyResource {
+  /** Variable value column value array. */
+  values?: PolicyVariableValueColumnValue[];
+}
+
+export function variableValueSerializer(item: VariableValue): any {
+  return {
+    properties: areAllPropsUndefined(item, ["values"])
+      ? undefined
+      : _variableValuePropertiesSerializer(item),
+  };
+}
+
+export function variableValueDeserializer(item: any): VariableValue {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _variableValuePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The variable value properties. */
+export interface PolicyVariableValueProperties {
+  /** Variable value column value array. */
+  values: PolicyVariableValueColumnValue[];
+}
+
+export function policyVariableValuePropertiesSerializer(item: PolicyVariableValueProperties): any {
+  return { values: policyVariableValueColumnValueArraySerializer(item["values"]) };
+}
+
+export function policyVariableValuePropertiesDeserializer(
+  item: any,
+): PolicyVariableValueProperties {
+  return {
+    values: policyVariableValueColumnValueArrayDeserializer(item["values"]),
+  };
+}
+
+export function policyVariableValueColumnValueArraySerializer(
+  result: Array<PolicyVariableValueColumnValue>,
+): any[] {
+  return result.map((item) => {
+    return policyVariableValueColumnValueSerializer(item);
+  });
+}
+
+export function policyVariableValueColumnValueArrayDeserializer(
+  result: Array<PolicyVariableValueColumnValue>,
+): any[] {
+  return result.map((item) => {
+    return policyVariableValueColumnValueDeserializer(item);
+  });
+}
+
+/** The name value tuple for this variable value column. */
+export interface PolicyVariableValueColumnValue {
+  /** Column name for the variable value */
+  columnName: string;
+  /** Column value for the variable value; this can be an integer, double, boolean, null or a string. */
+  columnValue: any;
+}
+
+export function policyVariableValueColumnValueSerializer(
+  item: PolicyVariableValueColumnValue,
+): any {
+  return { columnName: item["columnName"], columnValue: item["columnValue"] };
+}
+
+export function policyVariableValueColumnValueDeserializer(
+  item: any,
+): PolicyVariableValueColumnValue {
+  return {
+    columnName: item["columnName"],
+    columnValue: item["columnValue"],
+  };
+}
+
+/** The response of a VariableValue list operation. */
+export interface _VariableValueListResult {
+  /** The VariableValue items on this page */
+  value: VariableValue[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _variableValueListResultDeserializer(item: any): _VariableValueListResult {
+  return {
+    value: variableValueArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function variableValueArraySerializer(result: Array<VariableValue>): any[] {
+  return result.map((item) => {
+    return variableValueSerializer(item);
+  });
+}
+
+export function variableValueArrayDeserializer(result: Array<VariableValue>): any[] {
+  return result.map((item) => {
+    return variableValueDeserializer(item);
+  });
+}
+
 /** The policy token request properties. */
 export interface PolicyTokenRequest {
   /** The resource operation to acquire a token for. */
@@ -2321,8 +2962,6 @@ export interface ExternalEvaluationEndpointInvocationResult {
   policyEvaluationDetails?: any;
   /** The endpoint specific metadata. */
   additionalInfo?: any;
-  /** The compliance state of the resource against the policy. Possible values are NotSpecified, NonCompliant, Conflict, NotApplicable, Compliant, Error, Unknown, and Exempt. */
-  complianceState?: ComplianceState;
   /** The expiration of the results. */
   expiration?: Date;
 }
@@ -2342,7 +2981,6 @@ export function externalEvaluationEndpointInvocationResultDeserializer(
     policyAction: item["policyAction"],
     policyEvaluationDetails: item["policyEvaluationDetails"],
     additionalInfo: item["additionalInfo"],
-    complianceState: item["complianceState"],
     expiration: !item["expiration"] ? item["expiration"] : new Date(item["expiration"]),
   };
 }
@@ -2437,48 +3075,6 @@ export enum KnownPolicyAction {
  */
 export type PolicyAction = string;
 
-/** The compliance state of the resource against the policy. Possible values are NotSpecified, NonCompliant, Partial, Conflict, NotApplicable, Compliant, Error, Unknown, Exempt, and Protected. */
-export enum KnownComplianceState {
-  /** Indicates a policy evaluation result for which no specific value is set by the evaluator. */
-  NotSpecified = "NotSpecified",
-  /** Indicates a non-compliant policy evaluation. */
-  NonCompliant = "NonCompliant",
-  /** Indicates a partially completed policy evaluation. */
-  Partial = "Partial",
-  /** Indicates a policy evaluation result, where the Policy definitions conflicted so that the evaluation couldn't complete. */
-  Conflict = "Conflict",
-  /** Indicates a policy evaluation result, where the Policy is not applicable. */
-  NotApplicable = "NotApplicable",
-  /** Indicates a policy evaluation result, where the Policy is compliant. */
-  Compliant = "Compliant",
-  /** Indicates a policy evaluation result, where the Policy evaluation resulted in an error. */
-  Error = "Error",
-  /** Indicates a policy evaluation result that is unknown. */
-  Unknown = "Unknown",
-  /** Indicates a policy evaluation result, where the Policy is exempt. */
-  Exempt = "Exempt",
-  /** Indicates a policy evaluation result, where the resource is protected. */
-  Protected = "Protected",
-}
-
-/**
- * The compliance state of the resource against the policy. Possible values are NotSpecified, NonCompliant, Partial, Conflict, NotApplicable, Compliant, Error, Unknown, Exempt, and Protected. \
- * {@link KnownComplianceState} can be used interchangeably with ComplianceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified**: Indicates a policy evaluation result for which no specific value is set by the evaluator. \
- * **NonCompliant**: Indicates a non-compliant policy evaluation. \
- * **Partial**: Indicates a partially completed policy evaluation. \
- * **Conflict**: Indicates a policy evaluation result, where the Policy definitions conflicted so that the evaluation couldn't complete. \
- * **NotApplicable**: Indicates a policy evaluation result, where the Policy is not applicable. \
- * **Compliant**: Indicates a policy evaluation result, where the Policy is compliant. \
- * **Error**: Indicates a policy evaluation result, where the Policy evaluation resulted in an error. \
- * **Unknown**: Indicates a policy evaluation result that is unknown. \
- * **Exempt**: Indicates a policy evaluation result, where the Policy is exempt. \
- * **Protected**: Indicates a policy evaluation result, where the resource is protected.
- */
-export type ComplianceState = string;
-
 /**
  * The available API versions.
  *
@@ -2491,10 +3087,10 @@ export enum KnownVersions {
   V20250301 = "2025-03-01",
   /** The 2025-11-01 API version. */
   V20251101 = "2025-11-01",
-  /** The 2026-06-01 API version. */
-  V20260601 = "2026-06-01",
-  /** The 2026-07-01 API version. */
-  V20260701 = "2026-07-01",
+  /** The 2025-12-01-preview API version. */
+  V20251201Preview = "2025-12-01-preview",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
 }
 
 export function _policyAssignmentPropertiesSerializer(item: PolicyAssignment): any {
@@ -2702,6 +3298,104 @@ export function _policyDefinitionVersionPropertiesDeserializer(item: any) {
   };
 }
 
+export function _policyEnrollmentPropertiesSerializer(item: PolicyEnrollment): any {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+  };
+}
+
+export function _policyEnrollmentPropertiesDeserializer(item: any) {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyAssignmentInstanceId: item["policyAssignmentInstanceId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArrayDeserializer(item["resourceSelectors"]),
+  };
+}
+
+export function _policyEnrollmentUpdatePropertiesSerializer(item: PolicyEnrollmentUpdate): any {
+  return {
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+  };
+}
+
+export function _policyExemptionPropertiesSerializer(item: PolicyExemption): any {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    exemptionCategory: item["exemptionCategory"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    exemptionManagementMode: item["exemptionManagementMode"],
+  };
+}
+
+export function _policyExemptionPropertiesDeserializer(item: any) {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    exemptionCategory: item["exemptionCategory"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArrayDeserializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    exemptionManagementMode: item["exemptionManagementMode"],
+  };
+}
+
+export function _policyExemptionUpdatePropertiesSerializer(item: PolicyExemptionUpdate): any {
+  return {
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    exemptionManagementMode: item["exemptionManagementMode"],
+  };
+}
+
 export function _policySetDefinitionPropertiesSerializer(item: PolicySetDefinition): any {
   return {
     policyType: item["policyType"],
@@ -2787,5 +3481,37 @@ export function _policySetDefinitionVersionPropertiesDeserializer(item: any) {
       ? item["policyDefinitionGroups"]
       : policyDefinitionGroupArrayDeserializer(item["policyDefinitionGroups"]),
     version: item["version"],
+  };
+}
+
+export function _variablePropertiesSerializer(item: Variable): any {
+  return {
+    columns: !item["columns"]
+      ? item["columns"]
+      : policyVariableColumnArraySerializer(item["columns"]),
+  };
+}
+
+export function _variablePropertiesDeserializer(item: any) {
+  return {
+    columns: !item["columns"]
+      ? item["columns"]
+      : policyVariableColumnArrayDeserializer(item["columns"]),
+  };
+}
+
+export function _variableValuePropertiesSerializer(item: VariableValue): any {
+  return {
+    values: !item["values"]
+      ? item["values"]
+      : policyVariableValueColumnValueArraySerializer(item["values"]),
+  };
+}
+
+export function _variableValuePropertiesDeserializer(item: any) {
+  return {
+    values: !item["values"]
+      ? item["values"]
+      : policyVariableValueColumnValueArrayDeserializer(item["values"]),
   };
 }

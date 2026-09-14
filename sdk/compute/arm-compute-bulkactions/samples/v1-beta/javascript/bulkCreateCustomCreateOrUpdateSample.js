@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates BulkCreateCustoms.
  *
  * @summary creates or updates BulkCreateCustoms.
- * x-ms-original-file: 2026-07-06-preview/BulkCreateCustom_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/BulkCreateCustom_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function bulkCreateCustomCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -20,8 +20,10 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet() {
     "89f31926-145c-410c-a56a-5bc97359274c",
     {
       properties: {
-        capacity: 10,
+        capacity: 2,
         capacityType: "VM",
+        minCapacity: 1,
+        partialFulfillmentPolicy: { mode: "Enabled" },
         priorityProfile: {
           type: "Spot",
           maxPricePerVM: 0.2,

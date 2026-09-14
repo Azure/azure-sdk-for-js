@@ -5,6 +5,7 @@ import type { ComputeContext } from "../../api/computeContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
+  virtualMachinesGetOperationStatus,
   cancel,
   $delete,
   createOrUpdate,
@@ -14,13 +15,18 @@ import {
 import type {
   BulkCreateCustomListBySubscriptionOptionalParams,
   BulkCreateCustomListByResourceGroupOptionalParams,
+  BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
   BulkCreateCustomCancelOptionalParams,
   BulkCreateCustomDeleteOptionalParams,
   BulkCreateCustomCreateOrUpdateOptionalParams,
   BulkCreateCustomGetAsyncOperationStatusOptionalParams,
   BulkCreateCustomGetOptionalParams,
 } from "../../api/bulkCreateCustom/options.js";
-import type { OperationStatusResult, LocationBasedBulkCreateCustom } from "../../models/models.js";
+import type {
+  ResourceOperation,
+  OperationStatusResult,
+  LocationBasedBulkCreateCustom,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -37,6 +43,13 @@ export interface BulkCreateCustomOperations {
     location: string,
     options?: BulkCreateCustomListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<LocationBasedBulkCreateCustom>;
+  /** Gets the operation status for virtual machines in a BulkCreateCustom operation. */
+  virtualMachinesGetOperationStatus: (
+    resourceGroupName: string,
+    location: string,
+    name: string,
+    options?: BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
+  ) => PagedAsyncIterableIterator<ResourceOperation>;
   /** Cancels BulkCreateCustom instances that have not yet launched. */
   cancel: (
     resourceGroupName: string,
@@ -73,6 +86,7 @@ export interface BulkCreateCustomOperations {
     options?: BulkCreateCustomGetOptionalParams,
   ) => Promise<LocationBasedBulkCreateCustom>;
 }
+
 function _getBulkCreateCustom(context: ComputeContext) {
   return {
     listBySubscription: (
@@ -84,6 +98,12 @@ function _getBulkCreateCustom(context: ComputeContext) {
       location: string,
       options?: BulkCreateCustomListByResourceGroupOptionalParams,
     ) => listByResourceGroup(context, resourceGroupName, location, options),
+    virtualMachinesGetOperationStatus: (
+      resourceGroupName: string,
+      location: string,
+      name: string,
+      options?: BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
+    ) => virtualMachinesGetOperationStatus(context, resourceGroupName, location, name, options),
     cancel: (
       resourceGroupName: string,
       location: string,
@@ -116,6 +136,7 @@ function _getBulkCreateCustom(context: ComputeContext) {
     ) => get(context, resourceGroupName, location, name, options),
   };
 }
+
 export function _getBulkCreateCustomOperations(
   context: ComputeContext,
 ): BulkCreateCustomOperations {

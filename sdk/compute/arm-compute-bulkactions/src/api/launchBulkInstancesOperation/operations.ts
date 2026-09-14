@@ -49,7 +49,7 @@ export function _listVirtualMachinesSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
       "%24filter": options?.filter,
       "%24skiptoken": options?.skiptoken,
     },
@@ -78,6 +78,7 @@ export async function _listVirtualMachinesDeserialize(
 
   return _virtualMachineListResultDeserializer(result.body);
 }
+
 /** List VirtualMachine resources of a LaunchBulkInstancesOperation. */
 export function listVirtualMachines(
   context: Client,
@@ -94,7 +95,7 @@ export function listVirtualMachines(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-06-preview",
+      apiVersion: context.apiVersion ?? "2026-08-06-preview",
     },
   );
 }
@@ -109,7 +110,7 @@ export function _listBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,6 +137,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _launchBulkInstancesOperationListResultDeserializer(result.body);
 }
+
 /** List LaunchBulkInstancesOperation resources by subscriptionId. */
 export function listBySubscription(
   context: Client,
@@ -150,7 +152,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-06-preview",
+      apiVersion: context.apiVersion ?? "2026-08-06-preview",
     },
   );
 }
@@ -167,7 +169,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,6 +196,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _launchBulkInstancesOperationListResultDeserializer(result.body);
 }
+
 /** List LaunchBulkInstancesOperation resources by resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -209,7 +212,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-06-preview",
+      apiVersion: context.apiVersion ?? "2026-08-06-preview",
     },
   );
 }
@@ -228,7 +231,7 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,6 +253,7 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Cancels LaunchBulkInstancesOperation instances that have not yet launched. */
 export function cancel(
   context: Client,
@@ -263,7 +267,7 @@ export function cancel(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _cancelSend(context, resourceGroupName, location, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-06-preview",
+    apiVersion: context.apiVersion ?? "2026-08-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -281,7 +285,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
       deleteInstances: options?.deleteInstances,
     },
     {
@@ -304,6 +308,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes LaunchBulkInstancesOperations. */
 export function $delete(
   context: Client,
@@ -317,7 +322,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, location, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-06-preview",
+    apiVersion: context.apiVersion ?? "2026-08-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -336,7 +341,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -365,6 +370,7 @@ export async function _createOrUpdateDeserialize(
 
   return locationBasedLaunchBulkInstancesOperationDeserializer(result.body);
 }
+
 /** Creates or updates LaunchBulkInstancesOperations. */
 export function createOrUpdate(
   context: Client,
@@ -383,7 +389,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, location, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-06-preview",
+    apiVersion: context.apiVersion ?? "2026-08-06-preview",
   }) as PollerLike<
     OperationState<LocationBasedLaunchBulkInstancesOperation>,
     LocationBasedLaunchBulkInstancesOperation
@@ -402,7 +408,7 @@ export function _getOperationStatusSend(
       subscriptionId: context.subscriptionId,
       location: location,
       asyncOperationId: asyncOperationId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -429,6 +435,7 @@ export async function _getOperationStatusDeserialize(
 
   return operationStatusResultDeserializer(result.body);
 }
+
 /** Get the status of a LaunchBulkInstancesOperation. */
 export async function getOperationStatus(
   context: Client,
@@ -454,7 +461,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -481,6 +488,7 @@ export async function _getDeserialize(
 
   return locationBasedLaunchBulkInstancesOperationDeserializer(result.body);
 }
+
 /** Gets an instance of LaunchBulkInstancesOperations. */
 export async function get(
   context: Client,

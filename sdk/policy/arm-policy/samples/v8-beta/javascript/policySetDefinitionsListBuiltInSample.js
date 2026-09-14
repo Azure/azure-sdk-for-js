@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation retrieves a list of all the built-in policy set definitions that match the optional given $filter. If $filter='category -eq {value}' is provided, the returned list only includes all built-in policy set definitions whose category match the {value}.
  *
  * @summary this operation retrieves a list of all the built-in policy set definitions that match the optional given $filter. If $filter='category -eq {value}' is provided, the returned list only includes all built-in policy set definitions whose category match the {value}.
- * x-ms-original-file: 2026-07-01/listBuiltInPolicySetDefinitions.json
+ * x-ms-original-file: 2026-01-01-preview/listBuiltInPolicySetDefinitions.json
  */
 async function listBuiltInPolicySetDefinitions() {
   const credential = new DefaultAzureCredential();

@@ -9,6 +9,7 @@ export type { DeploymentsOperations } from "./deployments/index.js";
 export type { EvaluationRulesOperations } from "./evaluationRules/index.js";
 export type { IndexesOperations } from "./indexes/index.js";
 export type { ToolboxesOperations } from "./toolboxes/index.js";
+export type { BetaAgentInsightMonitorsOperations } from "./beta/agentInsightMonitors/index.js";
 export type { BetaAgentsOperations } from "./beta/agents/index.js";
 export type { BetaDatasetsOperations } from "./beta/datasets/index.js";
 export type { BetaEvaluationTaxonomiesOperations } from "./beta/evaluationTaxonomies/index.js";

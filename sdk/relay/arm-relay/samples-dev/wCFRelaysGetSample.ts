@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the description for the specified WCF relay.
  *
  * @summary returns the description for the specified WCF relay.
- * x-ms-original-file: 2024-01-01/Relay/RelayGet.json
+ * x-ms-original-file: 2026-07-01-preview/Relay/RelayGet.json
  */
 async function relayGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
  *
  * @summary bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkGetOperationsStatusExample() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineBulkOperationsBulkGetOperationsStatusExample() {
  * This sample demonstrates how to bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
  *
  * @summary bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkGetOperationsStatusExampleGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

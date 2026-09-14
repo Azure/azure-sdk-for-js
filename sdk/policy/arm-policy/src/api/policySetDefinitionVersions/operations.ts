@@ -41,7 +41,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/listPolicySetDefinitionVersions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,7 @@ export function _listAllAtManagementGroupSend(
     "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/listPolicySetDefinitionVersions{?api%2Dversion}",
     {
       managementGroupName: managementGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,7 +136,7 @@ export function _listAllBuiltinsSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Authorization/listPolicySetDefinitionVersions{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,7 +184,7 @@ export function _listByManagementGroupSend(
     {
       managementGroupName: managementGroupName,
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
       "%24top": options?.top,
     },
@@ -227,7 +227,11 @@ export function listByManagementGroup(
       _listByManagementGroupSend(context, managementGroupName, policySetDefinitionName, options),
     _listByManagementGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -246,7 +250,7 @@ export function _deleteAtManagementGroupSend(
       managementGroupName: managementGroupName,
       policySetDefinitionName: policySetDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,7 +311,7 @@ export function _createOrUpdateAtManagementGroupSend(
       managementGroupName: managementGroupName,
       policySetDefinitionName: policySetDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -372,7 +376,7 @@ export function _getAtManagementGroupSend(
       managementGroupName: managementGroupName,
       policySetDefinitionName: policySetDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -428,7 +432,7 @@ export function _listBuiltInSend(
     "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions{?api%2Dversion,%24expand,%24top}",
     {
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
       "%24top": options?.top,
     },
@@ -469,7 +473,11 @@ export function listBuiltIn(
     () => _listBuiltInSend(context, policySetDefinitionName, options),
     _listBuiltInDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -484,7 +492,7 @@ export function _getBuiltInSend(
     {
       policySetDefinitionName: policySetDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -539,7 +547,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       policySetDefinitionName: policySetDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
       "%24top": options?.top,
     },
@@ -580,7 +588,11 @@ export function list(
     () => _listSend(context, policySetDefinitionName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -596,7 +608,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       policySetDefinitionName: policySetDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -648,7 +660,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       policySetDefinitionName: policySetDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -708,7 +720,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       policySetDefinitionName: policySetDefinitionName,
       policyDefinitionVersion: policyDefinitionVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24expand": options?.expand,
     },
     {

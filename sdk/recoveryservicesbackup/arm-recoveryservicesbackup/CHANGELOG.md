@@ -1,5 +1,13 @@
 # Release History
 
+## 14.1.0 (2026-08-31)
+
+### Features Added
+  - Added operation ItemLevelRecoveryConnectionsOperations.listInstantItemRecoveryOperationResult
+  - Added Interface InstantItemRecoveryOperationResultRequest
+  - Added Interface ItemLevelRecoveryConnectionsListInstantItemRecoveryOperationResultOptionalParams
+  - Enum KnownVersions has a new value V20260801
+
 ## 14.0.0 (2026-08-17)
 
 ### Features Added

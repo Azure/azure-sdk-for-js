@@ -25,7 +25,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Authorization/dataPolicyManifests{?api%2Dversion,%24filter}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -64,7 +64,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -77,7 +81,7 @@ export function _getByPolicyModeSend(
     "/providers/Microsoft.Authorization/dataPolicyManifests/{policyMode}{?api%2Dversion}",
     {
       policyMode: policyMode,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

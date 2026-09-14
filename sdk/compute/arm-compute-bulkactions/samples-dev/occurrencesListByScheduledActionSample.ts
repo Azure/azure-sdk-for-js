@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list Occurrence resources by ScheduledAction
+ * This sample demonstrates how to lists occurrences for the specified scheduled action.
  *
- * @summary list Occurrence resources by ScheduledAction
- * x-ms-original-file: 2026-07-06-preview/Occurrences_ListByScheduledAction_MaximumSet_Gen.json
+ * @summary lists occurrences for the specified scheduled action.
+ * x-ms-original-file: 2026-08-06-preview/Occurrences_ListByScheduledAction_MaximumSet_Gen.json
  */
-async function occurrencesListByScheduledActionMaximumSet(): Promise<void> {
+async function listOccurrencesForAScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function occurrencesListByScheduledActionMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await occurrencesListByScheduledActionMaximumSet();
+  await listOccurrencesForAScheduledAction();
 }
 
 main().catch(console.error);

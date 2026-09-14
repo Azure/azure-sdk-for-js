@@ -82,7 +82,7 @@ export function _bulkAcknowledgeOperationErrorsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,6 +111,7 @@ export async function _bulkAcknowledgeOperationErrorsDeserialize(
 
   return acknowledgeBulkOperationErrorsResponseDeserializer(result.body);
 }
+
 /** BulkAcknowledgeOperationErrors: Acknowledge bulk operation errors for a resource group */
 export async function bulkAcknowledgeOperationErrors(
   context: Client,
@@ -145,7 +146,7 @@ export function _bulkListOperationErrorsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
       lookbackInMinutes: options?.lookbackInMinutes,
     },
     {
@@ -173,6 +174,7 @@ export async function _bulkListOperationErrorsDeserialize(
 
   return _listBulkOperationErrorsResponseDeserializer(result.body);
 }
+
 /** BulkListOperationErrors: List bulk operation errors for a resource group */
 export function bulkListOperationErrors(
   context: Client,
@@ -190,7 +192,7 @@ export function bulkListOperationErrors(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-06-preview",
+      apiVersion: context.apiVersion ?? "2026-08-06-preview",
     },
   );
 }
@@ -208,7 +210,7 @@ export function _bulkReimageOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -237,6 +239,7 @@ export async function _bulkReimageOperationDeserialize(
 
   return reimageResourceOperationResponseDeserializer(result.body);
 }
+
 /** BulkReimage: Execute reimage operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
 export async function bulkReimageOperation(
   context: Client,
@@ -268,7 +271,7 @@ export function _bulkCancelOperationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,6 +300,7 @@ export async function _bulkCancelOperationsDeserialize(
 
   return cancelOperationsResponseDeserializer(result.body);
 }
+
 /** BulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request */
 export async function bulkCancelOperations(
   context: Client,
@@ -330,7 +334,7 @@ export function _bulkGetOperationsStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -359,6 +363,7 @@ export async function _bulkGetOperationsStatusDeserialize(
 
   return getOperationStatusResponseDeserializer(result.body);
 }
+
 /** BulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines */
 export async function bulkGetOperationsStatus(
   context: Client,
@@ -392,7 +397,7 @@ export function _bulkDeleteOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -421,6 +426,7 @@ export async function _bulkDeleteOperationDeserialize(
 
   return deleteResourceOperationResponseDeserializer(result.body);
 }
+
 /** BulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
 export async function bulkDeleteOperation(
   context: Client,
@@ -454,7 +460,7 @@ export function _bulkVdiFlexCreateOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -483,6 +489,7 @@ export async function _bulkVdiFlexCreateOperationDeserialize(
 
   return createResourceOperationResponseDeserializer(result.body);
 }
+
 /** BulkVdiFlexCreate: Bulk create  operation for a batch of virtual machines, this operation supports flex properties to give options on Sku and zone selection. */
 export async function bulkVdiFlexCreateOperation(
   context: Client,
@@ -516,7 +523,7 @@ export function _bulkCreateOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -545,6 +552,7 @@ export async function _bulkCreateOperationDeserialize(
 
   return createResourceOperationResponseDeserializer(result.body);
 }
+
 /** BulkCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
 export async function bulkCreateOperation(
   context: Client,
@@ -576,7 +584,7 @@ export function _bulkStartOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -605,6 +613,7 @@ export async function _bulkStartOperationDeserialize(
 
   return startResourceOperationResponseDeserializer(result.body);
 }
+
 /** BulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
 export async function bulkStartOperation(
   context: Client,
@@ -638,7 +647,7 @@ export function _bulkHibernateOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -667,6 +676,7 @@ export async function _bulkHibernateOperationDeserialize(
 
   return hibernateResourceOperationResponseDeserializer(result.body);
 }
+
 /** BulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
 export async function bulkHibernateOperation(
   context: Client,
@@ -702,7 +712,7 @@ export function _bulkDeallocateOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -731,6 +741,7 @@ export async function _bulkDeallocateOperationDeserialize(
 
   return deallocateResourceOperationResponseDeserializer(result.body);
 }
+
 /** BulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
 export async function bulkDeallocateOperation(
   context: Client,

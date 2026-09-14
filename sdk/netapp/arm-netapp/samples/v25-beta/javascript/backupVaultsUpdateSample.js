@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch the specified NetApp Backup Vault
  *
  * @summary patch the specified NetApp Backup Vault
- * x-ms-original-file: 2026-05-15-preview/BackupVaults_Update.json
+ * x-ms-original-file: 2026-06-15-preview/BackupVaults_Update.json
  */
 async function backupVaultsUpdate() {
   const credential = new DefaultAzureCredential();

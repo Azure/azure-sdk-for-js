@@ -29,6 +29,7 @@ concurrency:
 
 tools:
   bash: false
+  cli-proxy: false
   web-fetch:
   github:
     toolsets: [issues, repos]

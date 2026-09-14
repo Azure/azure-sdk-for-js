@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the NetApp Elastic Capacity Pool
  *
  * @summary get the NetApp Elastic Capacity Pool
- * x-ms-original-file: 2026-05-15-preview/ElasticCapacityPools_Get.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticCapacityPools_Get.json
  */
 async function elasticCapacityPoolsGet() {
   const credential = new DefaultAzureCredential();

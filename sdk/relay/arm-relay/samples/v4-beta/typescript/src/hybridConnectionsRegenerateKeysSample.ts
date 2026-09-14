@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerates the primary or secondary connection strings to the hybrid connection.
  *
  * @summary regenerates the primary or secondary connection strings to the hybrid connection.
- * x-ms-original-file: 2024-01-01/HybridConnection/RelayHybridConnectionAuthorizationRuleRegenerateKey.json
+ * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridConnectionAuthorizationRuleRegenerateKey.json
  */
 async function relayHybridConnectionAuthorizationRuleRegenerateKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get a ScheduledAction
+ * This sample demonstrates how to gets the specified scheduled action.
  *
- * @summary get a ScheduledAction
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_Get_MaximumSet_Gen.json
+ * @summary gets the specified scheduled action.
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActions_Get_MaximumSet_Gen.json
  */
-async function scheduledActionsGetMaximumSet(): Promise<void> {
+async function getAScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -19,7 +19,7 @@ async function scheduledActionsGetMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsGetMaximumSet();
+  await getAScheduledAction();
 }
 
 main().catch(console.error);

@@ -89,8 +89,9 @@ describe("Statsbeat redirect routing", () => {
     const result = await exporter["sender"]["exportEnvelopes"]([
       { name: "Microsoft.ApplicationInsights.Message", time: new Date() },
     ]);
-    const network = exporter["sender"]["networkStatsbeatMetrics"]!;
-    const longInterval = exporter["sender"]["longIntervalStatsbeatMetrics"]!;
+    const manager = exporter["sender"]["statsbeatManager"];
+    const network = manager.networkStatsbeatMetrics!;
+    const longInterval = manager.longIntervalStatsbeatMetrics!;
     await network["networkStatsbeatMeterProvider"].forceFlush();
     await longInterval["longIntervalStatsbeatMeterProvider"].forceFlush();
 

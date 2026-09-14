@@ -10,10 +10,7 @@ export interface HorizonDbPrivateEndpointConnectionsDeleteOptionalParams extends
 }
 
 /** Optional parameters. */
-export interface HorizonDbPrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
+export interface HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface HorizonDbPrivateEndpointConnectionsListOptionalParams extends OperationOptions {}
