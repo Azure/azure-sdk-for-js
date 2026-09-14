@@ -1,5 +1,20 @@
 # Release History
 
+## 2.7.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added end-to-end support for building realtime **Voice Agents** (preview; `project.agents.create`/`update` require a `foundryFeatures: "VoiceAgents=V1Preview"` option to create or modify a voice agent, while `project.agentEndpointConversations` and telephony operations always send it internally):
+  - `project.agents` gains `voice` as a new `AgentKind`, so voice agents are created, retrieved, updated, listed, and deleted through the same unified operations as other agent kinds. A voice agent's definition can configure sibling Foundry text agents to consult in the background (`VoiceAgentSubagentConfig`/`VoiceAgentSubagent`) and avatar output over the `"webrtc"` or `"websocket"` protocol (`VoiceAgentAvatarOutputProtocol`).
+  - `project.realtime` (`VoiceAgentRealtimeClient`) establishes bidirectional realtime WebSocket sessions with voice agents for streaming text, audio (`RealtimeAudioFormatsUnion`: `audio/pcm`, `audio/pcmu`, `audio/pcma`), and tool calls. Connection state is reported through a `VoiceAgentConnectionState` string-literal union (values available as `KnownVoiceAgentConnectionState`). Browser and React Native apps can connect directly, authenticating with a Microsoft Entra bearer token carried in the WebSocket subprotocol, since browsers cannot set a custom `Authorization` header on a WebSocket upgrade request.
+  - `project.agentEndpointConversations` inspects and manages conversation history recorded by voice agents: conversations, their items (`RealtimeConversationItemUnion`, including full `role`/`content` for persisted `message` items), responses, and any associated audio, including generated audio produced when playback was interrupted mid-response. List operations paginate using the service's cursor fields (`last_id`/`has_more`).
+  - `project.agents` gains telephony support for Teams Phone Extension and Twilio: `createTelephonyBinding`/`getTelephonyBinding`/`listTelephonyBindings`/`updateTelephonyBinding`/`deleteTelephonyBinding` for managing bindings, `getTelephonyCall`/`listTelephonyCalls`/`endTelephonyCall`/`transferTelephonyCall` for managing calls, and `getTelephonyTransferTargets`/`replaceTelephonyTransferTargets` for configuring transfer targets. List operations paginate using the service's cursor fields.
+  - See `samples-dev/agents/voiceAgents`, and the interactive demo under `samples/v2-beta/browser`, for end-to-end examples.
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `9c80520517c930895b98c8a0ae5fa19824b91b72`.
+
 ## 2.6.0 (2026-09-03)
 
 ### Features Added

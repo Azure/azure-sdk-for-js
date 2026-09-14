@@ -1,0 +1,16 @@
+trigger: none
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+  parameters:
+    PackageName: "@azure/ai-projects"
+    ServiceDirectory: ai/ai-projects
+    EnvVars:
+      FOUNDRY_PROJECT_ENDPOINT: $(FOUNDRY_PROJECT_ENDPOINT)
+      FOUNDRY_VOICE_MODEL: $(FOUNDRY_VOICE_MODEL)
+      # test-resources.bicep only provisions the account/project/model deployments needed for
+      # the voice-agent (realtime) scenarios, so scope test:node/test:browser to that suite -
+      # see vitest.config.ts / vitest.browser.config.ts.
+      VOICE_AGENT_LIVE_TESTS_ONLY: "true"
+    MatrixFilters:
+      - DependencyVersion=^$

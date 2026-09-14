@@ -131,6 +131,34 @@ describe("snippets", function () {
     console.log("Agent deleted");
   });
 
+  it("voiceAgent", async function () {
+    const voiceAgentName = `voice-agent-${Date.now()}`;
+    const voiceAgent = await project.agents.generateAgent({ kind: "voice", name: voiceAgentName });
+
+    try {
+      const connection = await project.realtime.connect(voiceAgent.name);
+      try {
+        await connection.sendText("Hello. Please introduce yourself briefly.");
+        for await (const event of connection) {
+          // Voice agents speak their reply, so the text form of it streams as an audio transcript
+          // rather than as `response.output_text.delta`.
+          if (
+            event.type === "response.output_text.delta" ||
+            event.type === "response.output_audio_transcript.delta"
+          ) {
+            process.stdout.write(event.delta);
+          } else if (event.type === "response.done") {
+            await connection.close();
+          }
+        }
+      } finally {
+        await connection.dispose();
+      }
+    } finally {
+      await project.agents.delete(voiceAgent.name);
+    }
+  });
+
   it("agent-code-interpreter", async function () {
     const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({
