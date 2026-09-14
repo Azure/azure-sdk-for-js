@@ -1393,11 +1393,9 @@ describe("spanUtils.ts", () => {
 
       it.each([
         "db2",
-        "ibm.db2",
         "derby",
         "mariadb",
         "mssql",
-        "microsoft.sql_server",
         "oracle",
         "sqlite",
         "other_sql",
@@ -1412,13 +1410,18 @@ describe("spanUtils.ts", () => {
         }
       });
 
-      it("should preserve an unknown stable database system", () => {
-        const envelope = createDatabaseEnvelope({ [ATTR_DB_SYSTEM_NAME]: "custom.database" });
-        const dependency = envelope.data?.baseData as RemoteDependencyData;
-        assert.strictEqual(dependency.type, "custom.database");
-        assert.strictEqual(dependency.target, "custom.database");
-        assert.isUndefined(dependency.data);
-      });
+      it.each(["custom.database", "ibm.db2", "microsoft.sql_server"])(
+        "should preserve unclassified database system %s with either system attribute",
+        (system) => {
+          for (const key of [ATTR_DB_SYSTEM_NAME, SEMATTRS_DB_SYSTEM]) {
+            const envelope = createDatabaseEnvelope({ [key]: system });
+            const dependency = envelope.data?.baseData as RemoteDependencyData;
+            assert.strictEqual(dependency.type, system);
+            assert.strictEqual(dependency.target, system);
+            assert.isUndefined(dependency.data);
+          }
+        },
+      );
 
       it("should prefer stable fields while retaining query text ahead of operation names", () => {
         const attributes: Attributes = {
