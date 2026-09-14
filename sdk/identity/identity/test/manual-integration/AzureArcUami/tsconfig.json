@@ -7,7 +7,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
-    "skipLibCheck": true,
     "strict": true,
     "target": "ES2023",
     "types": ["node"]

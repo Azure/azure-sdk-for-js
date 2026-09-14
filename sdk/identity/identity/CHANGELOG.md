@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Bumped the minimum `@azure/msal-node` dependency to `^5.6.0` to provide Azure Arc user-assigned managed identity support. [#39927](https://github.com/Azure/azure-sdk-for-js/pull/39927)
+- Bumped the minimum `@azure/msal-node` dependency to `^6.0.0` to provide Azure Arc user-assigned managed identity support. [#39927](https://github.com/Azure/azure-sdk-for-js/pull/39927)
 
 ### Bugs Fixed
 
