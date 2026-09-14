@@ -59,6 +59,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _galleryListDeserializer(result.body);
 }
+
 /** List galleries under a subscription. */
 export function list(
   context: Client,
@@ -110,6 +111,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _galleryListDeserializer(result.body);
 }
+
 /** List galleries under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -159,6 +161,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a Shared Image Gallery. */
 export function $delete(
   context: Client,
@@ -215,6 +218,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return galleryDeserializer(result.body);
 }
+
 /** Update a Shared Image Gallery. */
 export function update(
   context: Client,
@@ -273,6 +277,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return galleryDeserializer(result.body);
 }
+
 /** Create or update a Shared Image Gallery. */
 export function createOrUpdate(
   context: Client,
@@ -330,6 +335,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ga
 
   return galleryDeserializer(result.body);
 }
+
 /** Retrieves information about a Shared Image Gallery. */
 export async function get(
   context: Client,

@@ -54,6 +54,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _sharedGalleryListDeserializer(result.body);
 }
+
 /** List shared galleries by subscription id or tenant id. */
 export function list(
   context: Client,
@@ -106,6 +107,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sh
 
   return sharedGalleryDeserializer(result.body);
 }
+
 /** Get a shared gallery by subscription id or tenant id. */
 export async function get(
   context: Client,

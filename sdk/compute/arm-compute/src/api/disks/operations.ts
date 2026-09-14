@@ -70,6 +70,7 @@ export async function _revokeAccessDeserialize(result: PathUncheckedResponse): P
 
   return;
 }
+
 /** Revokes access to a disk. */
 export function revokeAccess(
   context: Client,
@@ -126,6 +127,7 @@ export async function _grantAccessDeserialize(result: PathUncheckedResponse): Pr
 
   return accessUriDeserializer(result.body);
 }
+
 /** Grants access to a disk. */
 export function grantAccess(
   context: Client,
@@ -177,6 +179,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _diskListDeserializer(result.body);
 }
+
 /** Lists all the disks under a subscription. */
 export function list(
   context: Client,
@@ -228,6 +231,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _diskListDeserializer(result.body);
 }
+
 /** Lists all the disks under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -277,6 +281,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a disk. */
 export function $delete(
   context: Client,
@@ -333,6 +338,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return diskDeserializer(result.body);
 }
+
 /** Updates (patches) a disk. */
 export function update(
   context: Client,
@@ -390,6 +396,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return diskDeserializer(result.body);
 }
+
 /** Creates or updates a disk. */
 export function createOrUpdate(
   context: Client,
@@ -445,6 +452,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
 
   return diskDeserializer(result.body);
 }
+
 /** Gets information about a disk. */
 export async function get(
   context: Client,

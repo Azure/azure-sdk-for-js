@@ -52,6 +52,7 @@ export async function _tenantLevelGallerySharingRejectDeserialize(
 
   return;
 }
+
 /** Reject sharing of a tenant-level shared gallery. */
 export function tenantLevelGallerySharingReject(
   context: Client,
@@ -122,6 +123,7 @@ export async function _tenantLevelGallerySharingAcceptDeserialize(
 
   return;
 }
+
 /** Accept sharing of a tenant-level shared gallery. */
 export function tenantLevelGallerySharingAccept(
   context: Client,

@@ -68,6 +68,7 @@ export async function _listByGalleryDeserialize(
 
   return _galleryImageListDeserializer(result.body);
 }
+
 /** List gallery image definitions in a gallery. */
 export function listByGallery(
   context: Client,
@@ -120,6 +121,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a gallery image. */
 export function $delete(
   context: Client,
@@ -180,6 +182,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return galleryImageDeserializer(result.body);
 }
+
 /** Update a gallery image definition. */
 export function update(
   context: Client,
@@ -243,6 +246,7 @@ export async function _createOrUpdateDeserialize(
 
   return galleryImageDeserializer(result.body);
 }
+
 /** Create or update a gallery image definition. */
 export function createOrUpdate(
   context: Client,
@@ -308,6 +312,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ga
 
   return galleryImageDeserializer(result.body);
 }
+
 /** Retrieves information about a gallery image definition. */
 export async function get(
   context: Client,

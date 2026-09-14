@@ -68,6 +68,7 @@ export async function _listByGalleryDeserialize(
 
   return _galleryApplicationListDeserializer(result.body);
 }
+
 /** List gallery Application Definitions in a gallery. */
 export function listByGallery(
   context: Client,
@@ -120,6 +121,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a gallery Application. */
 export function $delete(
   context: Client,
@@ -182,6 +184,7 @@ export async function _updateDeserialize(
 
   return galleryApplicationDeserializer(result.body);
 }
+
 /** Update a gallery Application Definition. */
 export function update(
   context: Client,
@@ -252,6 +255,7 @@ export async function _createOrUpdateDeserialize(
 
   return galleryApplicationDeserializer(result.body);
 }
+
 /** Create or update a gallery Application Definition. */
 export function createOrUpdate(
   context: Client,
@@ -317,6 +321,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ga
 
   return galleryApplicationDeserializer(result.body);
 }
+
 /** Retrieves information about a gallery Application Definition. */
 export async function get(
   context: Client,

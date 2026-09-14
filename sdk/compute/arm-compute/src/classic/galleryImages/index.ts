@@ -107,6 +107,7 @@ export interface GalleryImagesOperations {
     options?: GalleryImagesGetOptionalParams,
   ) => Promise<GalleryImage>;
 }
+
 function _getGalleryImages(context: ComputeManagementContext) {
   return {
     listByGallery: (
@@ -236,6 +237,7 @@ function _getGalleryImages(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, galleryName, galleryImageName, options),
   };
 }
+
 export function _getGalleryImagesOperations(
   context: ComputeManagementContext,
 ): GalleryImagesOperations {

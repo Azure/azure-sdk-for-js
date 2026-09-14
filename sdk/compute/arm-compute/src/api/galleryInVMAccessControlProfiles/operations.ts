@@ -68,6 +68,7 @@ export async function _listByGalleryDeserialize(
 
   return _galleryInVMAccessControlProfileListDeserializer(result.body);
 }
+
 /** List gallery inVMAccessControlProfiles in a gallery. */
 export function listByGallery(
   context: Client,
@@ -120,6 +121,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a gallery inVMAccessControlProfile. */
 export function $delete(
   context: Client,
@@ -182,6 +184,7 @@ export async function _updateDeserialize(
 
   return galleryInVMAccessControlProfileDeserializer(result.body);
 }
+
 /** Update a gallery inVMAccessControlProfile. */
 export function update(
   context: Client,
@@ -255,6 +258,7 @@ export async function _createOrUpdateDeserialize(
 
   return galleryInVMAccessControlProfileDeserializer(result.body);
 }
+
 /** Create or update a gallery inVMAccessControlProfile. */
 export function createOrUpdate(
   context: Client,
@@ -325,6 +329,7 @@ export async function _getDeserialize(
 
   return galleryInVMAccessControlProfileDeserializer(result.body);
 }
+
 /** Retrieves information about a gallery inVMAccessControlProfile. */
 export async function get(
   context: Client,

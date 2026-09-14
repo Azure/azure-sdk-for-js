@@ -63,6 +63,7 @@ export async function _listDeserialize(
 
   return _sharedGalleryImageVersionListDeserializer(result.body);
 }
+
 /** List shared gallery image versions by subscription id or tenant id. */
 export function list(
   context: Client,
@@ -123,6 +124,7 @@ export async function _getDeserialize(
 
   return sharedGalleryImageVersionDeserializer(result.body);
 }
+
 /** Get a shared gallery image version by subscription id or tenant id. */
 export async function get(
   context: Client,

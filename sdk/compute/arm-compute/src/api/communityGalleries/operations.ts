@@ -47,6 +47,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return communityGalleryDeserializer(result.body);
 }
+
 /** Get a community gallery by gallery public name. */
 export async function get(
   context: Client,
