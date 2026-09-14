@@ -59,21 +59,21 @@ export interface SandboxGroupsOperations {
     sandboxGroupName: string,
     properties: SandboxGroupPatch,
     options?: SandboxGroupsUpdateOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
   /** @deprecated use update instead */
   beginUpdate: (
     resourceGroupName: string,
     sandboxGroupName: string,
     properties: SandboxGroupPatch,
     options?: SandboxGroupsUpdateOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<SimplePollerLike<OperationState<SandboxGroup>, SandboxGroup>>;
   /** @deprecated use update instead */
   beginUpdateAndWait: (
     resourceGroupName: string,
     sandboxGroupName: string,
     properties: SandboxGroupPatch,
     options?: SandboxGroupsUpdateOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<SandboxGroup>;
   /** Create or update a SandboxGroup. */
   createOrUpdate: (
     resourceGroupName: string,

@@ -3702,15 +3702,15 @@ export interface SandboxGroupsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupPatch, options?: SandboxGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginUpdate: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupPatch, options?: SandboxGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SandboxGroup>, SandboxGroup>>;
     // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupPatch, options?: SandboxGroupsUpdateOptionalParams) => Promise<void>;
+    beginUpdateAndWait: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupPatch, options?: SandboxGroupsUpdateOptionalParams) => Promise<SandboxGroup>;
     createOrUpdate: (resourceGroupName: string, sandboxGroupName: string, resource: SandboxGroup, options?: SandboxGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
     delete: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, sandboxGroupName: string, options?: SandboxGroupsGetOptionalParams) => Promise<SandboxGroup>;
     listByResourceGroup: (resourceGroupName: string, options?: SandboxGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SandboxGroup>;
     listBySubscription: (options?: SandboxGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SandboxGroup>;
-    update: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupPatch, options?: SandboxGroupsUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, sandboxGroupName: string, properties: SandboxGroupPatch, options?: SandboxGroupsUpdateOptionalParams) => PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
 }
 
 // @public

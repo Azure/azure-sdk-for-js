@@ -14,13 +14,14 @@ async function updateASandboxGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  await client.sandboxGroups.update("examplerg", "testgroup", {
+  const result = await client.sandboxGroups.update("examplerg", "testgroup", {
     tags: { environment: "test" },
     properties: {
       environmentId:
         "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/exampleenv",
     },
   });
+  console.log(result);
 }
 
 async function main(): Promise<void> {

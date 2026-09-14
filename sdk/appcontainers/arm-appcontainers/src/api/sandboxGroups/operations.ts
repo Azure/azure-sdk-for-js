@@ -211,7 +211,7 @@ export function _updateSend(
   });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<SandboxGroup> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -222,7 +222,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
     throw error;
   }
 
-  return;
+  return sandboxGroupDeserializer(result.body);
 }
 
 /** Patches a SandboxGroup. */
@@ -232,7 +232,7 @@ export function update(
   sandboxGroupName: string,
   properties: SandboxGroupPatch,
   options: SandboxGroupsUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<SandboxGroup>, SandboxGroup> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -240,7 +240,7 @@ export function update(
       _updateSend(context, resourceGroupName, sandboxGroupName, properties, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2026-07-01",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<SandboxGroup>, SandboxGroup>;
 }
 
 export function _createOrUpdateSend(
