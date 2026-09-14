@@ -146,7 +146,7 @@ export class ParameterCollection {
  * declaration metadata is stored separately on the stack, keyed by name.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { Stack, createParameter } from "@azure/provisioning-core";
  *
  * const stack = new Stack("my-app", { targetScope: "resourceGroup" });

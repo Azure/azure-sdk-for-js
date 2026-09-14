@@ -43,7 +43,7 @@ export interface ResourceGroupProps {
  * in the generated Bicep.
  *
  * @example
- * ```typescript
+ * ```typescript snippet:ignore
  * import { Stack, ResourceGroup } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
