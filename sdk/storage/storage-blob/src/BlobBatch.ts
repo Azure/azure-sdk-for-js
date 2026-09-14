@@ -314,6 +314,9 @@ export class BlobBatch {
   }
 }
 
+// Sub request headers are serialized by hand, so a CR or LF would terminate the header line early.
+const HEADER_CRLF_PATTERN = /[\r\n]/;
+
 /**
  * Inner batch request class which is responsible for assembling and serializing sub requests.
  * See https://learn.microsoft.com/rest/api/storageservices/blob-batch#request-body for how requests are assembled.
@@ -390,7 +393,7 @@ class InnerBatchRequest {
 
   public appendSubRequestToBody(request: PipelineRequest) {
     // Start to assemble sub request
-    this.body += [
+    let subRequest = [
       this.subRequestPrefix, // sub request constant prefix
       `${HeaderConstants.CONTENT_ID}: ${this.operationCount}`, // sub request's content ID
       "", // empty line after sub request's content ID
@@ -400,12 +403,20 @@ class InnerBatchRequest {
     ].join(HTTP_LINE_ENDING);
 
     for (const [name, value] of request.headers) {
-      this.body += `${name}: ${value}${HTTP_LINE_ENDING}`;
+      if (HEADER_CRLF_PATTERN.test(name) || HEADER_CRLF_PATTERN.test(value)) {
+        throw new RangeError(
+          `Invalid CR/LF character in sub request header '${name.replace(/[\r\n]/g, "")}'.`,
+        );
+      }
+      subRequest += `${name}: ${value}${HTTP_LINE_ENDING}`;
     }
 
-    this.body += HTTP_LINE_ENDING; // sub request's headers need be ending with an empty line
+    subRequest += HTTP_LINE_ENDING; // sub request's headers need be ending with an empty line
     // No body to assemble for current batch request support
     // End to assemble sub request
+
+    // Commit only after validation so a rejected header cannot leave a partially written body.
+    this.body += subRequest;
   }
 
   public preAddSubRequest(subRequest: BatchSubRequest) {

@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Restored the core v1 user agent string prefix, `azsdk-js-storageblob`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+- `BlobBatch` now throws a `RangeError` when a sub request header name or value contains a carriage return (`\r`) or line feed (`\n`), instead of writing it into the `multipart/mixed` payload where it could inject an unintended header.
 
 ### Other Changes
 
