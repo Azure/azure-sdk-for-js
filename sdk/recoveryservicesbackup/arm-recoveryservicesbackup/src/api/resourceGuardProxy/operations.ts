@@ -39,7 +39,7 @@ export function _unlockDeleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +103,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -159,7 +159,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -226,7 +226,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

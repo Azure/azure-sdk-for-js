@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the description for the specified hybrid connection.
  *
  * @summary returns the description for the specified hybrid connection.
- * x-ms-original-file: 2024-01-01/HybridConnection/RelayHybridConnectionGet.json
+ * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridConnectionGet.json
  */
 async function relayHybridConnectionGet() {
   const credential = new DefaultAzureCredential();

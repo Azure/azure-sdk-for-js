@@ -8,7 +8,7 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import { isRestError } from '@azure/core-rest-pipeline';
 import OpenAI from 'openai';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
@@ -40,7 +40,35 @@ export interface A2AProtocolConfiguration {
 }
 
 // @public
+export type A2AProtocolVersion = "1.0";
+
+// @public
+export interface A2ATool extends Tool {
+    a2a_version: A2AProtocolVersion;
+    agent_card_path?: string;
+    base_url?: string;
+    project_connection_id?: string;
+    send_credentials_for_agent_card?: boolean;
+    type: "a2a";
+}
+
+// @public
+export interface A2AToolboxTool extends ToolboxTool {
+    a2a_version: A2AProtocolVersion;
+    agent_card_path?: string;
+    base_url?: string;
+    project_connection_id?: string;
+    send_credentials_for_agent_card?: boolean;
+    // (undocumented)
+    type: "a2a";
+}
+
+// @public
+export type ActivityProtocolAccessBoundary = "read.1on1.developers" | "read.1on1.manager" | "read.1on1.allowlisted" | "read.1on1.tenant" | "write.1on1.developers" | "write.1on1.manager" | "write.1on1.allowlisted" | "write.1on1.tenant" | "read.group.developers" | "read.group.allowlisted" | "read.group.manager-invited" | "read.group.manager-present" | "read.group.tenant" | "write.group.developers" | "write.group.allowlisted" | "write.group.manager-invited" | "write.group.manager-present" | "write.group.tenant";
+
+// @public
 export interface ActivityProtocolConfiguration {
+    readonly access_boundaries?: ActivityProtocolAccessBoundary[];
     enable_m365_public_endpoint?: boolean;
 }
 
@@ -51,6 +79,7 @@ export interface Agent {
     agent_endpoint?: AgentEndpointConfig;
     readonly blueprint?: AgentIdentity;
     readonly blueprint_reference?: AgentBlueprintReferenceUnion;
+    digital_worker_type?: DigitalWorkerType;
     id: string;
     readonly instance_identity?: AgentIdentity;
     name: string;
@@ -118,7 +147,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | AgentDefinition;
@@ -142,6 +171,7 @@ export type AgentEndpointAuthorizationSchemeUnion = EntraAuthorizationScheme | B
 export interface AgentEndpointConfig {
     authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
     protocol_configuration?: ProtocolConfiguration;
+    readonly publish_approval_status?: PublishApprovalStatus;
     version_selector?: VersionSelector;
 }
 
@@ -167,6 +197,210 @@ export interface AgentIdentity {
 
 // @public
 export type AgentIdentityStatus = "active" | "disabled";
+
+// @public
+export interface AgentInsight {
+    readonly agent_name: string;
+    readonly agent_version: string;
+    readonly category: string;
+    readonly created_at: Date;
+    readonly description: string;
+    readonly details?: AgentInsightDetails;
+    readonly id: string;
+    readonly monitor_id: string;
+    readonly severity: AgentInsightSeverity;
+    readonly status: AgentInsightStatus;
+    readonly title: string;
+    readonly trace_count: number;
+    readonly updated_at: Date;
+}
+
+// @public
+export interface AgentInsightDetails {
+    highlighted_traces: AgentInsightHighlightedTrace[];
+    linked_traces: AgentInsightLinkedTrace[];
+    recommended_actions: AgentInsightRecommendedAction;
+}
+
+// @public
+export interface AgentInsightEstimatedCost {
+    amount: number;
+    currency: "USD";
+}
+
+// @public
+export interface AgentInsightHighlightedTrace {
+    duration_ms: number;
+    summary: string;
+    timestamp: Date;
+    total_tokens?: number;
+    readonly trace_id: string;
+}
+
+// @public
+export interface AgentInsightJsonObject {
+    [key: string]: AgentInsightJsonValue;
+}
+
+// @public
+export type AgentInsightJsonValue = string | number | boolean | null | AgentInsightJsonObject | AgentInsightJsonValue[];
+
+// @public
+export interface AgentInsightLinkedTrace {
+    readonly timestamp: Date;
+    readonly trace_id: string;
+}
+
+// @public
+export interface AgentInsightMonitor {
+    readonly agent_name: string;
+    readonly enabled: boolean;
+    readonly estimated_cost?: AgentInsightEstimatedCost;
+    readonly id: string;
+    readonly model_deployment_name: string;
+    readonly next_scheduled_run_at?: Date;
+    readonly overview: AgentInsightsOverview | null;
+    readonly run_interval_hours: number;
+    readonly suspension: AgentInsightSuspension | null;
+    readonly updated_at: Date;
+}
+
+// @public
+export interface AgentInsightMonitorCreate {
+    agent_name: string;
+    enabled?: boolean;
+    model_deployment_name: string;
+    run_interval_hours?: number;
+}
+
+// @public
+export interface AgentInsightMonitorListItem {
+    readonly agent_name: string;
+    readonly enabled: boolean;
+    readonly estimated_cost?: AgentInsightEstimatedCost;
+    readonly id: string;
+    readonly model_deployment_name: string;
+    readonly next_scheduled_run_at?: Date;
+    readonly run_interval_hours: number;
+    readonly suspension: AgentInsightSuspension | null;
+    readonly updated_at: Date;
+}
+
+// @public
+export interface AgentInsightMonitorUpdate {
+    enabled?: boolean;
+    model_deployment_name?: string;
+    overview_override?: AgentInsightsOverviewOverride;
+    run_interval_hours?: number;
+}
+
+// @public
+export type AgentInsightOverviewSource = "generated" | "user_override";
+
+// @public
+export type AgentInsightPromptSurface = "instructions" | "tool";
+
+// @public
+export interface AgentInsightProposedFix {
+    changes?: AgentInsightProposedFixChange[];
+    kind: AgentInsightProposedFixKind;
+    text: string;
+}
+
+// @public
+export interface AgentInsightProposedFixChange {
+    diff?: string;
+    language?: string;
+    new_value?: AgentInsightJsonValue;
+    old_value?: AgentInsightJsonValue;
+    path?: string;
+    surface?: AgentInsightPromptSurface;
+    target?: string;
+}
+
+// @public
+export type AgentInsightProposedFixKind = "prose" | "code_change" | "prompt_change";
+
+// @public
+export interface AgentInsightRecommendedAction {
+    proposed_fix: AgentInsightProposedFix;
+}
+
+// @public
+export interface AgentInsightRun {
+    readonly agent_name: string;
+    readonly completed_at?: Date;
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly id: string;
+    inputs?: AgentInsightRunCreate;
+    readonly model_deployment_name: string;
+    readonly monitor_id: string;
+    readonly result?: AgentInsightRunResult;
+    readonly started_at?: Date;
+    readonly status: JobStatus;
+    readonly trigger: AgentInsightRunTrigger;
+    readonly updated_at: Date;
+    readonly window_end: Date;
+    readonly window_start: Date;
+}
+
+// @public
+export interface AgentInsightRunCreate {
+    lookback_hours?: number;
+}
+
+// @public
+export interface AgentInsightRunResult {
+    insights_created: number;
+    insights_reopened: number;
+    insights_updated: number;
+    token_usage: AgentInsightTokenUsage;
+    traces_analyzed: number;
+    traces_in_window: number;
+}
+
+// @public
+export type AgentInsightRunTrigger = "on_demand" | "scheduled";
+
+// @public
+export type AgentInsightSeverity = "high" | "medium" | "low";
+
+// @public
+export interface AgentInsightsOverview {
+    content: string;
+    source: AgentInsightOverviewSource;
+    updated_at: Date;
+}
+
+// @public
+export interface AgentInsightsOverviewOverride {
+    content: string;
+}
+
+// @public
+export type AgentInsightStatus = "active" | "resolved" | "ignored";
+
+// @public
+export interface AgentInsightSuspension {
+    code: string;
+    details?: AgentInsightJsonObject;
+    message: string;
+    occurred_at: Date;
+}
+
+// @public
+export interface AgentInsightTokenUsage {
+    cached_tokens?: number;
+    input_tokens: number;
+    output_tokens: number;
+    total_tokens: number;
+}
+
+// @public
+export interface AgentInsightUpdate {
+    status?: AgentInsightStatus;
+}
 
 // @public
 export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
@@ -285,7 +519,7 @@ export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizatio
 }
 
 // @public
-export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
+export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "voice" | "invocations_ws";
 
 // @public
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
@@ -305,6 +539,8 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
     agentEndpoint?: AgentEndpointConfig;
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
+    digitalWorkerType?: DigitalWorkerType;
+    draft?: boolean;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
     state?: AgentState;
@@ -323,6 +559,8 @@ export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOpti
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
+    digitalWorkerType?: DigitalWorkerType;
+    draft?: boolean;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
 }
@@ -434,6 +672,8 @@ export interface AgentsListSessionsOptionalParams extends OperationOptions {
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
+    foundryFeatures?: "DraftAgents=V1Preview";
+    includeDrafts?: boolean;
     limit?: number;
     order?: PageOrder;
 }
@@ -455,6 +695,8 @@ export interface AgentsOperations {
     downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: AgentsDownloadSessionFileOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
+    getMicrosoft365Package: (agentName: string, publishScope: Microsoft365PublishScope, options?: GetMicrosoft365PackageOptionalParams) => Promise<GetMicrosoft365PackageResponse>;
+    getMicrosoft365PublishDefaults: (agentName: string, options?: GetMicrosoft365PublishDefaultsOptionalParams) => Promise<Microsoft365PublishDefaults>;
     getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
@@ -463,6 +705,7 @@ export interface AgentsOperations {
     listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
     patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
+    publishToMicrosoft365: (agentName: string, publishScope: Microsoft365PublishScope, options?: PublishToMicrosoft365OptionalParams) => Promise<Microsoft365PublishResponse>;
     stopSession: (agentName: string, sessionId: string, options?: AgentsStopSessionOptionalParams) => Promise<void>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
@@ -712,6 +955,97 @@ export interface BaseCredentials {
 
 // @public
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
+
+// @public
+export interface BetaAgentInsightMonitorsCancelRunOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentInsightMonitorsCreateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentInsightMonitorsCreateRunOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentInsightMonitorsGetInsightOptionalParams extends OperationOptions {
+    includeDetails?: boolean;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentInsightMonitorsGetRunOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentInsightMonitorsListInsightsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    category?: string;
+    includeDetails?: boolean;
+    limit?: number;
+    order?: PageOrder;
+    severity?: AgentInsightSeverity;
+    status?: AgentInsightStatus;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsListOptionalParams extends OperationOptions {
+    after?: string;
+    agentName?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsListRunsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+    status?: JobStatus;
+    trigger?: AgentInsightRunTrigger;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsOperations {
+    cancelRun: (monitorId: string, runId: string, options?: BetaAgentInsightMonitorsCancelRunOptionalParams) => Promise<AgentInsightRun>;
+    create: (monitor: AgentInsightMonitorCreate, options?: BetaAgentInsightMonitorsCreateOptionalParams) => Promise<AgentInsightMonitor>;
+    createRun: (monitorId: string, run: AgentInsightRunCreate, options?: BetaAgentInsightMonitorsCreateRunOptionalParams) => RunPoller<AgentInsightRunResult>;
+    deleteAgentInsightMonitor: (monitorId: string, options?: BetaAgentInsightMonitorsDeleteOptionalParams) => Promise<void>;
+    get: (monitorId: string, options?: BetaAgentInsightMonitorsGetOptionalParams) => Promise<AgentInsightMonitor>;
+    getInsight: (monitorId: string, insightId: string, options?: BetaAgentInsightMonitorsGetInsightOptionalParams) => Promise<AgentInsight>;
+    getRun: (monitorId: string, runId: string, options?: BetaAgentInsightMonitorsGetRunOptionalParams) => Promise<AgentInsightRun>;
+    list: (options?: BetaAgentInsightMonitorsListOptionalParams) => PagedAsyncIterableIterator<AgentInsightMonitorListItem>;
+    listInsights: (monitorId: string, options?: BetaAgentInsightMonitorsListInsightsOptionalParams) => PagedAsyncIterableIterator<AgentInsight>;
+    listRuns: (monitorId: string, options?: BetaAgentInsightMonitorsListRunsOptionalParams) => PagedAsyncIterableIterator<AgentInsightRun>;
+    reset: (monitorId: string, options?: BetaAgentInsightMonitorsResetOptionalParams) => Promise<void>;
+    update: (monitorId: string, monitor: AgentInsightMonitorUpdate, options?: BetaAgentInsightMonitorsUpdateOptionalParams) => Promise<AgentInsightMonitor>;
+    updateInsight: (monitorId: string, insightId: string, update: AgentInsightUpdate, options?: BetaAgentInsightMonitorsUpdateInsightOptionalParams) => Promise<AgentInsight>;
+}
+
+// @public
+export interface BetaAgentInsightMonitorsResetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentInsightMonitorsUpdateInsightOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaAgentInsightMonitorsUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface BetaAgentsCancelOptimizationJobOptionalParams extends OperationOptions {
@@ -1095,6 +1429,7 @@ export interface BetaModelsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
+    agentInsightMonitors: BetaAgentInsightMonitorsOperations;
     agents: BetaAgentsOperations;
     datasets: BetaDatasetsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
@@ -1130,6 +1465,7 @@ export interface BetaRedTeamsOperations {
 // @public
 export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptions {
     action?: RoutineActionUnion;
+    authorization?: RoutineAuthorization;
     description?: string;
     enabled?: boolean;
     foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
@@ -1977,6 +2313,9 @@ export type DeploymentType = "ModelDeployment";
 export type DeploymentUnion = ModelDeployment | Deployment;
 
 // @public
+export type DigitalWorkerType = "m365";
+
+// @public
 export interface Dimension {
     always_applicable?: boolean;
     description: string;
@@ -2414,7 +2753,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "AgentInsights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview" | "ModelRouterControls=V1Preview";
 
 // @public
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
@@ -2512,6 +2851,36 @@ export interface GenAITracingOptions {
 export type GenerationWarningType = "input_quality";
 
 // @public
+export interface GetMicrosoft365PackageOptionalParams extends OperationOptions {
+    accessBoundaries?: ActivityProtocolAccessBoundary[];
+    agentDisplayName?: string;
+    appVersion?: string;
+    botServiceArmId?: string;
+    canRespondWithoutMention?: boolean;
+    colorIconBase64?: string;
+    developerName?: string;
+    developerWebsiteUrl?: string;
+    fullDescription?: string;
+    optionalPermissionScopes?: Microsoft365PermissionScopes[];
+    outlineIconBase64?: string;
+    privacyUrl?: string;
+    publishAsAutopilot?: boolean;
+    shortDescription?: string;
+    termsOfUseUrl?: string;
+}
+
+// @public
+export type GetMicrosoft365PackageResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface GetMicrosoft365PublishDefaultsOptionalParams extends OperationOptions {
+    publishAsDigitalWorker?: boolean;
+}
+
+// @public
 export type GitHubIssueEvent = "opened" | "closed";
 
 // @public
@@ -2544,6 +2913,7 @@ export interface HostedAgentDefinition extends AgentDefinition {
     kind: "hosted";
     memory: string;
     protocol_versions?: ProtocolVersionRecord[];
+    session_configuration?: SessionConfiguration;
     telemetry_config?: TelemetryConfig;
 }
 
@@ -3019,6 +3389,40 @@ export interface MemoryStoreUpdateResponse {
 export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "failed" | "superseded";
 
 // @public
+export interface Microsoft365PermissionScopes {
+    resourceAppId: string;
+    scopes: string[];
+}
+
+// @public
+export interface Microsoft365PublishDefaults {
+    agentDisplayName?: string;
+    agentName?: string;
+    appPublishScope?: Microsoft365PublishScope;
+    appRegistrationClientId?: string;
+    appVersion?: string;
+    botServiceArmId?: string;
+    developerName?: string;
+    developerWebsiteUrl?: string;
+    fullDescription?: string;
+    privacyUrl?: string;
+    recommendedNextAppVersion?: string;
+    shortDescription?: string;
+    teamsAppId?: string;
+    termsOfUseUrl?: string;
+    titleId?: string;
+}
+
+// @public
+export interface Microsoft365PublishResponse {
+    teamsAppId?: string;
+    titleId?: string;
+}
+
+// @public
+export type Microsoft365PublishScope = "Personal" | "Shared" | "Tenant";
+
+// @public
 export interface MicrosoftFabricPreviewTool extends Tool {
     fabric_dataagent_preview: FabricDataAgentToolParameters;
     type: "fabric_dataagent_preview";
@@ -3359,8 +3763,53 @@ export interface ProtocolVersionRecord {
 }
 
 // @public
+export type PublishApprovalStatus = "not_published" | "pending" | "approved" | "rejected" | "no_approval_needed";
+
+// @public
+export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
+    accessBoundaries?: ActivityProtocolAccessBoundary[];
+    agentDisplayName?: string;
+    appVersion?: string;
+    botServiceArmId?: string;
+    canRespondWithoutMention?: boolean;
+    colorIconBase64?: string;
+    developerName?: string;
+    developerWebsiteUrl?: string;
+    fullDescription?: string;
+    optionalPermissionScopes?: Microsoft365PermissionScopes[];
+    outlineIconBase64?: string;
+    privacyUrl?: string;
+    publishAsAutopilot?: boolean;
+    shortDescription?: string;
+    termsOfUseUrl?: string;
+}
+
+// @public
 export interface RaiConfig {
+    invocations_moderation?: RaiInvocationModeration;
     rai_policy_name: string;
+}
+
+// @public
+export type RaiInvocationContentType = "json" | "text";
+
+// @public
+export type RaiInvocationMode = "non_streaming" | "streaming" | "both";
+
+// @public
+export interface RaiInvocationModeration {
+    input_content_type?: RaiInvocationContentType;
+    input_paths?: string[];
+    output_content_type?: RaiInvocationContentType;
+    output_paths?: string[];
+    response_mode: RaiInvocationMode;
+    stream_selectors?: RaiSseTextSelector[];
+}
+
+// @public
+export interface RaiSseTextSelector {
+    event_type: string;
+    text_field?: string;
 }
 
 // @public
@@ -3489,6 +3938,14 @@ export type RoutineActionUnion = InvokeAgentResponsesApiRoutineAction | InvokeAg
 export type RoutineAttemptSource = "event_fire" | "manual_dispatch" | "queued_dispatch" | "schedule_delivery" | "timer_delivery";
 
 // @public
+export interface RoutineAuthorization {
+    identity?: RoutineDispatchIdentity;
+}
+
+// @public
+export type RoutineDispatchIdentity = "agent" | "creator";
+
+// @public
 export interface RoutineDispatchPayload {
     type: RoutineDispatchPayloadType;
 }
@@ -3570,6 +4027,14 @@ export type RubricGenerationInputQualityWarningSeverity = "warning";
 export type RubricGenerationInputQualityWarningSource = "prompt" | "agent" | "dataset" | "aggregate";
 
 // @public
+export interface RunOperationState<TResult> extends OperationState_2<TResult> {
+    readonly runId?: string;
+}
+
+// @public
+export type RunPoller<TResult> = PollerLike<RunOperationState<TResult>, TResult>;
+
+// @public
 export type SampleType = "EvaluationResultSample";
 
 // @public
@@ -3637,6 +4102,11 @@ export type SearchContentType = "text" | "image";
 export type SearchContextSize = "low" | "medium" | "high";
 
 // @public
+export interface SessionConfiguration {
+    idle_timeout_seconds?: number;
+}
+
+// @public
 export interface SessionDirectoryEntry {
     is_directory: boolean;
     modified_time: Date;
@@ -3677,6 +4147,14 @@ export interface SharepointGroundingToolParameters {
 export interface SharepointPreviewTool extends Tool {
     sharepoint_grounding_preview: SharepointGroundingToolParameters;
     type: "sharepoint_grounding_preview";
+}
+
+// @public
+export interface ShellToolboxTool extends ToolboxTool {
+    // (undocumented)
+    allowed_callers?: CallableToolAllowedCaller[];
+    environment: ToolboxShellEnvironmentUnion;
+    type: "shell";
 }
 
 // @public
@@ -3958,6 +4436,43 @@ export interface ToolboxSearchPreviewToolboxTool extends ToolboxTool {
 }
 
 // @public
+export interface ToolboxShellContainerAutoEnvironment extends ToolboxShellEnvironment {
+    file_ids?: string[];
+    // (undocumented)
+    memory_limit?: ContainerMemoryLimit;
+    network_policy?: ToolboxShellNetworkPolicyUnion;
+    skills?: ContainerSkillUnion[];
+    type: "container_auto";
+}
+
+// @public
+export interface ToolboxShellContainerReferenceEnvironment extends ToolboxShellEnvironment {
+    container_id: string;
+    type: "container_reference";
+}
+
+// @public
+export interface ToolboxShellEnvironment {
+    type: string;
+}
+
+// @public
+export type ToolboxShellEnvironmentUnion = ToolboxShellContainerAutoEnvironment | ToolboxShellContainerReferenceEnvironment | ToolboxShellEnvironment;
+
+// @public
+export interface ToolboxShellNetworkPolicy {
+    type: string;
+}
+
+// @public
+export interface ToolboxShellNetworkPolicyDisabled extends ToolboxShellNetworkPolicy {
+    type: "disabled";
+}
+
+// @public
+export type ToolboxShellNetworkPolicyUnion = ToolboxShellNetworkPolicyDisabled | ToolboxShellNetworkPolicy;
+
+// @public
 export interface ToolboxSkill {
     type: string;
 }
@@ -3981,10 +4496,10 @@ export interface ToolboxTool {
 }
 
 // @public
-export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview";
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "a2a" | "shell" | "web_iq_preview";
 
 // @public
-export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
+export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | ShellToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2AToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | WebIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
 
 // @public
 export interface ToolboxVersionObject {
@@ -4122,10 +4637,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
@@ -4225,6 +4740,23 @@ export type VersionSelectionRuleUnion = FixedRatioVersionSelectionRule | Version
 export interface VersionSelector {
     // (undocumented)
     version_selection_rules: VersionSelectionRuleUnion[];
+}
+
+// @public
+export interface WebIQPreviewTool extends Tool {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
+    type: "web_iq_preview";
+}
+
+// @public
+export interface WebIQPreviewToolboxTool extends ToolboxTool {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
+    // (undocumented)
+    type: "web_iq_preview";
 }
 
 // @public

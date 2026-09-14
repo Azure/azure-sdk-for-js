@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary deletes a search service in the given resource group, along with its associated resources.
  * Returns 200 (OK) on successful deletion, or 204 (No Content) if the service is not found.
- * x-ms-original-file: 2026-03-01-preview/SearchDeleteService.json
+ * x-ms-original-file: 2026-09-01-preview/SearchDeleteService.json
  */
 async function searchDeleteService() {
   const credential = new DefaultAzureCredential();

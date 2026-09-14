@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to primary and secondary connection strings to the hybrid connection.
  *
  * @summary primary and secondary connection strings to the hybrid connection.
- * x-ms-original-file: 2024-01-01/HybridConnection/RelayHybridConnectionAuthorizationRuleListKey.json
+ * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridConnectionAuthorizationRuleListKey.json
  */
 async function relayHybridConnectionAuthorizationRuleListKey() {
   const credential = new DefaultAzureCredential();

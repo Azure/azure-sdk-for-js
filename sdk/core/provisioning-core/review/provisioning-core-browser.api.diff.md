@@ -21,7 +21,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -388,9 +388,9 @@
  // @public (undocumented)
  function lastIndexOf(value: ExpressionOrValue<string>, searchString: ExpressionOrValue<string>): Expression<number>;
- 
+
  // @public (undocumented)
 -function length(value: ExpressionOrValue<unknown>): Expression<number>;
 +function length_2(value: ExpressionOrValue<unknown>): Expression<number>;
