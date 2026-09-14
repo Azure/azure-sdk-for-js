@@ -25,26 +25,30 @@ export async function main(): Promise<void> {
   const options = { foundryFeatures: "VoiceAgents=V1Preview" } as const;
 
   console.log("Listing telephony bindings...");
-  for await (const binding of project.beta.agents.listTelephonyBindings(agentName, options)) {
-    const details = await project.beta.agents.getTelephonyBinding(agentName, binding.id, options);
+  for await (const binding of project.beta.voiceAgents.telephony.listBindings(agentName, options)) {
+    const details = await project.beta.voiceAgents.telephony.getBinding(
+      agentName,
+      binding.id,
+      options,
+    );
     // Avoid logging phone numbers, webhook URLs, or caller information.
     console.log(`Binding provider: ${details.provider}, status: ${details.status}`);
   }
 
   console.log("Reading configured transfer targets...");
-  const targets = await project.beta.agents.getTelephonyTransferTargets(agentName, options);
+  const targets = await project.beta.voiceAgents.telephony.getTransferTargets(agentName, options);
   console.log(
     "Transfer target names:",
     targets.transfer_targets.map((target) => target.name),
   );
 
   console.log("Reading the most recent page of call history...");
-  const pages = project.beta.agents
-    .listTelephonyCalls(agentName, { ...options, order: "desc", limit: 5 })
+  const pages = project.beta.voiceAgents.telephony
+    .listCalls(agentName, { ...options, order: "desc", limit: 5 })
     .byPage();
   const firstPage = await pages.next();
   for (const call of firstPage.value ?? []) {
-    const details = await project.beta.agents.getTelephonyCall(agentName, call.id, options);
+    const details = await project.beta.voiceAgents.telephony.getCall(agentName, call.id, options);
     console.log(`Call status: ${details.status}, phase: ${details.phase}`);
     console.log(`Lifecycle events: ${details.events.length}`);
   }

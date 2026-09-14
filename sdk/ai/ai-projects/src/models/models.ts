@@ -2684,6 +2684,8 @@ export interface WebSearchTool extends Tool {
    * resource attached to the tool.
    */
   custom_search_configuration?: WebSearchConfiguration;
+  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
+  external_web_access?: boolean;
 }
 
 export function webSearchToolSerializer(item: WebSearchTool): any {
@@ -2702,6 +2704,7 @@ export function webSearchToolSerializer(item: WebSearchTool): any {
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationSerializer(item["custom_search_configuration"]),
+    external_web_access: item["external_web_access"],
   };
 }
 
@@ -2721,6 +2724,7 @@ export function webSearchToolDeserializer(item: any): WebSearchTool {
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
+    external_web_access: item["external_web_access"],
   };
 }
 
@@ -5920,7 +5924,7 @@ export interface ApiErrorResponse {
 
 export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   return {
-    error: apiErrorDeserializer(item["error"]),
+    error: errorDeserializer(item["error"]),
   };
 }
 
@@ -5942,7 +5946,7 @@ export interface ErrorModel {
   debugInfo?: Record<string, unknown>;
 }
 
-export function apiErrorDeserializer(item: any): ErrorModel {
+export function errorDeserializer(item: any): ErrorModel {
   return {
     code: item["code"],
     message: item["message"],
@@ -5954,9 +5958,13 @@ export function apiErrorDeserializer(item: any): ErrorModel {
   };
 }
 
+export function apiErrorDeserializer(item: any): ErrorModel {
+  return errorDeserializer(item);
+}
+
 export function apiErrorArrayDeserializer(result: Array<ErrorModel>): any[] {
   return result.map((item) => {
-    return apiErrorDeserializer(item);
+    return errorDeserializer(item);
   });
 }
 
@@ -7220,6 +7228,8 @@ export interface AgentSessionResource {
   readonly last_accessed_at: Date;
   /** The Unix timestamp (in seconds) when the session expires (rolling, 30 days from last activity). */
   readonly expires_at: Date;
+  /** The Unix timestamp (in seconds) when the session sandbox was last observed to stop or go idle. Present only after the session has gone idle at least once, used for accurate idle-billing reconciliation. */
+  readonly stopped_at?: Date;
 }
 
 export function agentSessionResourceDeserializer(item: any): AgentSessionResource {
@@ -7230,6 +7240,10 @@ export function agentSessionResourceDeserializer(item: any): AgentSessionResourc
     created_at: new Date(item["created_at"] * 1000),
     last_accessed_at: new Date(item["last_accessed_at"] * 1000),
     expires_at: new Date(item["expires_at"] * 1000),
+    stopped_at:
+      item["stopped_at"] === undefined || item["stopped_at"] === null
+        ? item["stopped_at"]
+        : new Date(item["stopped_at"] * 1000),
   };
 }
 
@@ -7807,6 +7821,8 @@ export interface WebSearchToolboxTool extends ToolboxTool {
    * resource attached to the tool.
    */
   custom_search_configuration?: WebSearchConfiguration;
+  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
+  external_web_access?: boolean;
 }
 
 export function webSearchToolboxToolSerializer(item: WebSearchToolboxTool): any {
@@ -7825,6 +7841,7 @@ export function webSearchToolboxToolSerializer(item: WebSearchToolboxTool): any 
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationSerializer(item["custom_search_configuration"]),
+    external_web_access: item["external_web_access"],
   };
 }
 
@@ -7844,6 +7861,7 @@ export function webSearchToolboxToolDeserializer(item: any): WebSearchToolboxToo
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
+    external_web_access: item["external_web_access"],
   };
 }
 
@@ -9780,7 +9798,7 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
       : evaluatorGenerationInputsDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
     status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
     usage: !item["usage"]
@@ -10360,7 +10378,7 @@ export function agentInsightRunDeserializer(item: any): AgentInsightRun {
     inputs: !item["inputs"] ? item["inputs"] : agentInsightRunCreateDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : agentInsightRunResultDeserializer(item["result"]),
     status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     monitor_id: item["monitor_id"],
     agent_name: item["agent_name"],
     trigger: item["trigger"],
@@ -11623,7 +11641,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     result: !item["result"]
       ? item["result"]
       : memoryStoreUpdateCompletedResultDeserializer(item["result"]),
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
   };
 }
 
@@ -13563,7 +13581,7 @@ export function dataGenerationJobDeserializer(item: any): DataGenerationJob {
     inputs: !item["inputs"] ? item["inputs"] : dataGenerationJobInputsDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : dataGenerationJobResultDeserializer(item["result"]),
     status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
   };
@@ -14376,7 +14394,7 @@ export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJo
       ? item["result"]
       : agentOptimizationJobResultDeserializer(item["result"]),
     status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
     progress: !item["progress"]
@@ -14923,7 +14941,7 @@ export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimi
   return {
     id: item["id"],
     status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
     progress: !item["progress"]
@@ -16715,6 +16733,10 @@ export interface VoiceAgentInputTranscription {
   custom_speech?: Record<string, string>;
   /** Optional phrase hints that bias recognition toward domain terms. */
   phrase_list?: string[];
+  /** Possible languages of the input audio, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format. Supported by `gpt-transcribe` and `gpt-live-transcribe`. */
+  languages?: string[];
+  /** Words or phrases to guide transcription of the input audio. Supported by `gpt-transcribe` and `gpt-live-transcribe`. */
+  keywords?: string[];
 }
 
 export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
@@ -16727,6 +16749,16 @@ export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTran
     phrase_list: !item["phrase_list"]
       ? item["phrase_list"]
       : item["phrase_list"].map((p: any) => {
+          return p;
+        }),
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+    keywords: !item["keywords"]
+      ? item["keywords"]
+      : item["keywords"].map((p: any) => {
           return p;
         }),
   };
@@ -16746,6 +16778,16 @@ export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentI
     phrase_list: !item["phrase_list"]
       ? item["phrase_list"]
       : item["phrase_list"].map((p: any) => {
+          return p;
+        }),
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+    keywords: !item["keywords"]
+      ? item["keywords"]
+      : item["keywords"].map((p: any) => {
           return p;
         }),
   };
@@ -17761,13 +17803,17 @@ export interface CreateTelephonyBindingRequest {
   /** The discriminator possible values: teams_phone_extension, twilio */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
-  connection: string;
+  connection_name: string;
   /** An optional display label for the binding. */
   label?: string;
 }
 
 export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBindingRequest): any {
-  return { provider: item["provider"], connection: item["connection"], label: item["label"] };
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+  };
 }
 
 /** Alias for CreateTelephonyBindingRequestUnion */
@@ -17813,7 +17859,7 @@ export function createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
 ): any {
   return {
     provider: item["provider"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     label: item["label"],
     phone_number: item["phone_number"],
     resource_account_object_id: item["resource_account_object_id"],
@@ -17833,7 +17879,7 @@ export function createTwilioTelephonyBindingRequestSerializer(
 ): any {
   return {
     provider: item["provider"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     label: item["label"],
     phone_number: item["phone_number"],
   };
@@ -17847,7 +17893,7 @@ export interface TelephonyBinding {
   /** The discriminator possible values: teams_phone_extension, twilio */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
-  connection: string;
+  connection_name: string;
   /** The optional display label for the binding. */
   label?: string;
   /** The lifecycle status. */
@@ -17860,7 +17906,7 @@ export function telephonyBindingDeserializer(item: any): TelephonyBinding {
   return {
     id: item["id"],
     provider: item["provider"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
@@ -17905,7 +17951,7 @@ export function teamsPhoneExtensionTelephonyBindingDeserializer(
   return {
     id: item["id"],
     provider: item["provider"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
@@ -17926,7 +17972,7 @@ export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBi
   return {
     id: item["id"],
     provider: item["provider"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
@@ -17973,7 +18019,7 @@ export interface TelephonyBindingListItem {
   /** The discriminator possible values: teams_phone_extension, twilio */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
-  connection: string;
+  connection_name: string;
   /** The optional display label for the binding. */
   label?: string;
   /** The lifecycle status. */
@@ -17988,7 +18034,7 @@ export function telephonyBindingListItemDeserializer(item: any): TelephonyBindin
   return {
     id: item["id"],
     provider: item["provider"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
@@ -18035,7 +18081,7 @@ export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
   return {
     id: item["id"],
     provider: item["provider"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
@@ -18059,7 +18105,7 @@ export function twilioTelephonyBindingListItemDeserializer(
   return {
     id: item["id"],
     provider: item["provider"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     label: item["label"],
     status: item["status"],
     incoming_call_url: item["incoming_call_url"],
@@ -18075,7 +18121,7 @@ export interface UpdateTelephonyBindingRequest {
   /** The replacement display label. Omit it to preserve the current value; use null to clear it. */
   label?: string;
   /** The replacement Foundry connection name. This property is valid only for a Teams Phone Extension binding; a Twilio binding's connection is immutable. */
-  connection?: string;
+  connection_name?: string;
   /** The replacement Teams Phone Extension display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for a Teams Phone Extension binding. */
   phone_number?: string;
 }
@@ -18084,7 +18130,7 @@ export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBin
   return {
     status: item["status"],
     label: item["label"],
-    connection: item["connection"],
+    connection_name: item["connection_name"],
     phone_number: item["phone_number"],
   };
 }
@@ -18146,8 +18192,8 @@ export interface TelephonyCallSummary {
   ended_at?: Date;
   /** The call duration. */
   duration_ms?: number;
-  /** The service-generated reason that the call ended. */
-  end_reason?: string;
+  /** The service-generated reason that this single call ended, rather than the outcome of an overall outbound call job. Additional string codes may be returned. */
+  end_reason?: TelephonyCallEndReason;
   /** The provider status code associated with the terminal result. */
   provider_status_code?: number;
   /** The provider subcode associated with the terminal result. */
@@ -18200,6 +18246,40 @@ export type TelephonyCallPhase =
   | "rejected"
   | "failed";
 
+/** Known service-generated reasons that one telephony call ended, rather than reasons for an overall outbound call job. Additional string codes may be returned. */
+export type TelephonyCallEndReason =
+  | "invalid_webhook_payload"
+  | "webhook_validation_failed"
+  | "binding_not_found"
+  | "binding_suspended"
+  | "admission_rejected"
+  | "admission_check_failed"
+  | "route_agent_mismatch"
+  | "invalid_binding_configuration"
+  | "credential_resolution_failed"
+  | "provider_resource_mismatch"
+  | "endpoint_resolution_failed"
+  | "ingress_setup_failed"
+  | "live_call_conflict"
+  | "live_call_persistence_failed"
+  | "answer_failed"
+  | "provider_disconnected"
+  | "provider_busy"
+  | "provider_no_answer"
+  | "provider_cancelled"
+  | "provider_failed"
+  | "provider_stream_error"
+  | "provider_stream_stopped"
+  | "agent_session_connect_failed"
+  | "media_stream_ended"
+  | "bridge_cancelled"
+  | "bridge_failed"
+  | "managed_hangup"
+  | "managed_transfer"
+  | "manage_hangup_failed"
+  | "manage_transfer_failed"
+  | string;
+
 /** Detailed diagnostics for a durable inbound call to a voice agent. */
 export interface TelephonyCallRecord {
   /** The service-generated call identifier. */
@@ -18228,8 +18308,8 @@ export interface TelephonyCallRecord {
   ended_at?: Date;
   /** The call duration. */
   duration_ms?: number;
-  /** The service-generated reason that the call ended. */
-  end_reason?: string;
+  /** The service-generated reason that this single call ended, rather than the outcome of an overall outbound call job. Additional string codes may be returned. */
+  end_reason?: TelephonyCallEndReason;
   /** The provider status code associated with the terminal result. */
   provider_status_code?: number;
   /** The provider subcode associated with the terminal result. */
@@ -18394,8 +18474,8 @@ export interface TelephonyCallLifecycleEvent {
   occurred_at?: Date;
   /** The source of the event timestamp. */
   timestamp_source: TelephonyCallTimestampSource;
-  /** A stable service-generated reason associated with the event. */
-  reason?: string;
+  /** A stable service-generated reason associated with this lifecycle event, not necessarily the final outcome of the call. Additional string codes may be returned. */
+  reason?: TelephonyCallLifecycleEventReason;
   /** The provider event identifier used for idempotency, when supplied. */
   provider_event_id?: string;
   /** The provider event sequence, when supplied. */
@@ -18444,6 +18524,40 @@ export type TelephonyCallLifecycleEventSource =
 /** The outcome of one telephony lifecycle observation. */
 export type TelephonyCallLifecycleEventOutcome =
   "observed" | "started" | "succeeded" | "failed" | "rejected" | "cancelled";
+
+/** Known service-generated reasons for a telephony lifecycle event. An event reason does not necessarily describe the final outcome of the call. Additional string codes may be returned. */
+export type TelephonyCallLifecycleEventReason =
+  | "invalid_webhook_payload"
+  | "webhook_validation_failed"
+  | "binding_not_found"
+  | "binding_suspended"
+  | "admission_rejected"
+  | "admission_check_failed"
+  | "route_agent_mismatch"
+  | "invalid_binding_configuration"
+  | "credential_resolution_failed"
+  | "provider_resource_mismatch"
+  | "endpoint_resolution_failed"
+  | "ingress_setup_failed"
+  | "live_call_conflict"
+  | "live_call_persistence_failed"
+  | "answer_failed"
+  | "provider_disconnected"
+  | "provider_busy"
+  | "provider_no_answer"
+  | "provider_cancelled"
+  | "provider_failed"
+  | "provider_stream_error"
+  | "provider_stream_stopped"
+  | "agent_session_connect_failed"
+  | "media_stream_ended"
+  | "bridge_cancelled"
+  | "bridge_failed"
+  | "managed_hangup"
+  | "managed_transfer"
+  | "manage_hangup_failed"
+  | "manage_transfer_failed"
+  | string;
 
 /** The telephony transfer targets configured for one voice agent. */
 export interface TelephonyTransferTargets {
@@ -18731,7 +18845,7 @@ export function voiceConversationDeserializer(item: any): VoiceConversation {
       ? item["metadata"]
       : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
-    last_error: !item["last_error"] ? item["last_error"] : apiErrorDeserializer(item["last_error"]),
+    last_error: !item["last_error"] ? item["last_error"] : errorDeserializer(item["last_error"]),
   };
 }
 
@@ -18991,6 +19105,7 @@ export function realtimeConversationItemDeserializer(item: any): RealtimeConvers
 
 /** Alias for RealtimeConversationItemUnion */
 export type RealtimeConversationItemUnion =
+  | RealtimeConversationItemMessageUnion
   | RealtimeConversationItemFunctionCall
   | RealtimeConversationItemFunctionCallOutput
   | RealtimeMCPApprovalResponse
@@ -19001,6 +19116,10 @@ export type RealtimeConversationItemUnion =
 
 export function realtimeConversationItemUnionSerializer(item: RealtimeConversationItemUnion): any {
   switch (item.type) {
+    case "message":
+      return realtimeConversationItemMessageUnionSerializer(
+        item as RealtimeConversationItemMessageUnion,
+      );
     case "function_call":
       return realtimeConversationItemFunctionCallSerializer(
         item as RealtimeConversationItemFunctionCall,
@@ -19032,6 +19151,10 @@ export function realtimeConversationItemUnionDeserializer(
   item: any,
 ): RealtimeConversationItemUnion {
   switch (item["type"]) {
+    case "message":
+      return realtimeConversationItemMessageUnionDeserializer(
+        item as RealtimeConversationItemMessageUnion,
+      );
     case "function_call":
       return realtimeConversationItemFunctionCallDeserializer(
         item as RealtimeConversationItemFunctionCall,
@@ -19066,7 +19189,375 @@ export type RealtimeConversationItemType =
   | "mcp_approval_response"
   | "mcp_list_tools"
   | "mcp_call"
-  | "mcp_approval_request";
+  | "mcp_approval_request"
+  | "message";
+
+/** model interface RealtimeConversationItemMessage */
+export interface RealtimeConversationItemMessage extends RealtimeConversationItem {
+  role: RealtimeConversationItemMessageType;
+  type: "message";
+}
+
+export function realtimeConversationItemMessageSerializer(
+  item: RealtimeConversationItemMessage,
+): any {
+  return { type: item["type"], role: item["role"] };
+}
+
+export function realtimeConversationItemMessageDeserializer(
+  item: any,
+): RealtimeConversationItemMessage {
+  return {
+    type: item["type"],
+    role: item["role"],
+  };
+}
+
+/** Alias for RealtimeConversationItemMessageUnion */
+export type RealtimeConversationItemMessageUnion =
+  | RealtimeConversationItemMessageSystem
+  | RealtimeConversationItemMessageUser
+  | RealtimeConversationItemMessageAssistant
+  | RealtimeConversationItemMessage;
+
+export function realtimeConversationItemMessageUnionSerializer(
+  item: RealtimeConversationItemMessageUnion,
+): any {
+  switch (item.role) {
+    case "system":
+      return realtimeConversationItemMessageSystemSerializer(
+        item as RealtimeConversationItemMessageSystem,
+      );
+
+    case "user":
+      return realtimeConversationItemMessageUserSerializer(
+        item as RealtimeConversationItemMessageUser,
+      );
+
+    case "assistant":
+      return realtimeConversationItemMessageAssistantSerializer(
+        item as RealtimeConversationItemMessageAssistant,
+      );
+
+    default:
+      return realtimeConversationItemMessageSerializer(item);
+  }
+}
+
+export function realtimeConversationItemMessageUnionDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUnion {
+  switch (item["role"]) {
+    case "system":
+      return realtimeConversationItemMessageSystemDeserializer(
+        item as RealtimeConversationItemMessageSystem,
+      );
+
+    case "user":
+      return realtimeConversationItemMessageUserDeserializer(
+        item as RealtimeConversationItemMessageUser,
+      );
+
+    case "assistant":
+      return realtimeConversationItemMessageAssistantDeserializer(
+        item as RealtimeConversationItemMessageAssistant,
+      );
+
+    default:
+      return realtimeConversationItemMessageDeserializer(item);
+  }
+}
+
+/** Type of RealtimeConversationItemMessageType */
+export type RealtimeConversationItemMessageType = "system" | "user" | "assistant";
+
+/** A system message in a Realtime conversation can be used to provide additional context or instructions to the model. This is similar but distinct from the instruction prompt provided at the start of a conversation, as system messages can be added at any point in the conversation. For major changes to the conversation's behavior, use instructions, but for smaller updates (e.g. "the user is now asking about a different topic"), use system messages. */
+export interface RealtimeConversationItemMessageSystem extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `system`. */
+  role: "system";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageSystemContent[];
+  /** The Unix timestamp (in seconds) for when the item was persisted. */
+  readonly created_at?: Date;
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageSystemSerializer(
+  item: RealtimeConversationItemMessageSystem,
+): any {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageSystemContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageSystemDeserializer(
+  item: any,
+): RealtimeConversationItemMessageSystem {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageSystemContentArrayDeserializer(item["content"]),
+    created_at:
+      item["created_at"] === undefined || item["created_at"] === null
+        ? item["created_at"]
+        : new Date(item["created_at"] * 1000),
+    response_id: item["response_id"],
+  };
+}
+
+export function realtimeConversationItemMessageSystemContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageSystemContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageSystemContentSerializer(item);
+  });
+}
+
+export function realtimeConversationItemMessageSystemContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageSystemContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageSystemContentDeserializer(item);
+  });
+}
+
+/** model interface RealtimeConversationItemMessageSystemContent */
+export interface RealtimeConversationItemMessageSystemContent {
+  type?: "input_text";
+  text?: string;
+}
+
+export function realtimeConversationItemMessageSystemContentSerializer(
+  item: RealtimeConversationItemMessageSystemContent,
+): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function realtimeConversationItemMessageSystemContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageSystemContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** A user message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageUser extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `user`. */
+  role: "user";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageUserContent[];
+  /** The Unix timestamp (in seconds) for when the item was persisted. */
+  readonly created_at?: Date;
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageUserSerializer(
+  item: RealtimeConversationItemMessageUser,
+): any {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageUserContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageUserDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUser {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageUserContentArrayDeserializer(item["content"]),
+    created_at:
+      item["created_at"] === undefined || item["created_at"] === null
+        ? item["created_at"]
+        : new Date(item["created_at"] * 1000),
+    response_id: item["response_id"],
+  };
+}
+
+export function realtimeConversationItemMessageUserContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageUserContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageUserContentSerializer(item);
+  });
+}
+
+export function realtimeConversationItemMessageUserContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageUserContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageUserContentDeserializer(item);
+  });
+}
+
+/** model interface RealtimeConversationItemMessageUserContent */
+export interface RealtimeConversationItemMessageUserContent {
+  type?: "input_text" | "input_audio" | "input_image";
+  text?: string;
+  audio?: string;
+  image_url?: string;
+  detail?: "auto" | "low" | "high";
+  transcript?: string;
+}
+
+export function realtimeConversationItemMessageUserContentSerializer(
+  item: RealtimeConversationItemMessageUserContent,
+): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+    transcript: item["transcript"],
+  };
+}
+
+export function realtimeConversationItemMessageUserContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageUserContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+    transcript: item["transcript"],
+  };
+}
+
+/** An assistant message item in a Realtime conversation. */
+export interface RealtimeConversationItemMessageAssistant extends RealtimeConversationItemMessage {
+  /** The unique ID of the item. This may be provided by the client or generated by the server. */
+  id?: string;
+  /** Identifier for the API object being returned - always `realtime.item`. Optional when creating a new item. */
+  object?: "realtime.item";
+  /** The type of the item. Always `message`. */
+  type: "message";
+  /** The status of the item. Has no effect on the conversation. */
+  status?: "completed" | "incomplete" | "in_progress";
+  /** The role of the message sender. Always `assistant`. */
+  role: "assistant";
+  /** The content of the message. */
+  content: RealtimeConversationItemMessageAssistantContent[];
+  /** The Unix timestamp (in seconds) for when the item was persisted. */
+  readonly created_at?: Date;
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function realtimeConversationItemMessageAssistantSerializer(
+  item: RealtimeConversationItemMessageAssistant,
+): any {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageAssistantContentArraySerializer(item["content"]),
+  };
+}
+
+export function realtimeConversationItemMessageAssistantDeserializer(
+  item: any,
+): RealtimeConversationItemMessageAssistant {
+  return {
+    role: item["role"],
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    content: realtimeConversationItemMessageAssistantContentArrayDeserializer(item["content"]),
+    created_at:
+      item["created_at"] === undefined || item["created_at"] === null
+        ? item["created_at"]
+        : new Date(item["created_at"] * 1000),
+    response_id: item["response_id"],
+  };
+}
+
+export function realtimeConversationItemMessageAssistantContentArraySerializer(
+  result: Array<RealtimeConversationItemMessageAssistantContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageAssistantContentSerializer(item);
+  });
+}
+
+export function realtimeConversationItemMessageAssistantContentArrayDeserializer(
+  result: Array<RealtimeConversationItemMessageAssistantContent>,
+): any[] {
+  return result.map((item) => {
+    return realtimeConversationItemMessageAssistantContentDeserializer(item);
+  });
+}
+
+/** model interface RealtimeConversationItemMessageAssistantContent */
+export interface RealtimeConversationItemMessageAssistantContent {
+  type?: "output_text" | "output_audio";
+  text?: string;
+  audio?: string;
+  transcript?: string;
+}
+
+export function realtimeConversationItemMessageAssistantContentSerializer(
+  item: RealtimeConversationItemMessageAssistantContent,
+): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    transcript: item["transcript"],
+  };
+}
+
+export function realtimeConversationItemMessageAssistantContentDeserializer(
+  item: any,
+): RealtimeConversationItemMessageAssistantContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    audio: item["audio"],
+    transcript: item["transcript"],
+  };
+}
 
 /** A function call item in a Realtime conversation. */
 export interface RealtimeConversationItemFunctionCall extends RealtimeConversationItem {
@@ -19710,7 +20201,7 @@ export function _agentsPagedResultRealtimeConversationItemDeserializer(
  * credentials. For Foundry-managed storage, `blob_uri` is absent and the bytes are streamed through the item's
  * `/audio/content` route.
  */
-export interface VoiceItemAudioResponse {
+export interface VoiceAudioItemResponse {
   /** The id of the conversation the item belongs to. */
   conversation_id: string;
   /** The id of the item this audio belongs to. */
@@ -19733,7 +20224,7 @@ export interface VoiceItemAudioResponse {
   blob_uri?: string;
 }
 
-export function voiceItemAudioResponseDeserializer(item: any): VoiceItemAudioResponse {
+export function voiceAudioItemResponseDeserializer(item: any): VoiceAudioItemResponse {
   return {
     conversation_id: item["conversation_id"],
     item_id: item["item_id"],
@@ -19763,7 +20254,7 @@ export type VoiceAudioCodec = "pcm16" | "pcmu" | "pcma";
  * credentials. For Foundry-managed storage, `blob_uri` is absent and the bytes are streamed through the item's
  * `/audio/generated/content` route.
  */
-export interface VoiceGeneratedItemAudioResponse {
+export interface VoiceGeneratedAudioItemResponse {
   /** The id of the conversation the item belongs to. */
   conversation_id: string;
   /** The id of the item this audio belongs to. */
@@ -19786,9 +20277,9 @@ export interface VoiceGeneratedItemAudioResponse {
   blob_uri?: string;
 }
 
-export function voiceGeneratedItemAudioResponseDeserializer(
+export function voiceGeneratedAudioItemResponseDeserializer(
   item: any,
-): VoiceGeneratedItemAudioResponse {
+): VoiceGeneratedAudioItemResponse {
   return {
     conversation_id: item["conversation_id"],
     item_id: item["item_id"],
@@ -19860,8 +20351,8 @@ export function voiceRecordingChannelLayoutDeserializer(item: any): VoiceRecordi
 export interface CreateTelephonyCallJobRequest {
   /** The phone destination to call. */
   destination: TelephonyOutboundDestination;
-  /** The active agent telephony binding used to originate the call. */
-  telephony_binding_id: string;
+  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  connection_name: string;
   /** An optional customer-declared purpose for placing the call. */
   purpose?: string;
   /** Structured input values available to the agent and greeting for this call. Agent-declared inputs are validated against their schemas; omitted optional inputs may use their Agent-defined default values, while omitted required inputs are rejected. Additional inputs remain available as dynamic template variables. */
@@ -19870,12 +20361,14 @@ export interface CreateTelephonyCallJobRequest {
   schedule?: TelephonyCallJobSchedule;
   /** The provider-attempt retry policy. Omit it for one attempt with no retry delay. */
   retry_policy?: TelephonyOutboundRetryPolicyUnion;
+  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  source: string;
 }
 
 export function createTelephonyCallJobRequestSerializer(item: CreateTelephonyCallJobRequest): any {
   return {
     destination: telephonyOutboundDestinationSerializer(item["destination"]),
-    telephony_binding_id: item["telephony_binding_id"],
+    connection_name: item["connection_name"],
     purpose: item["purpose"],
     structured_inputs: item["structured_inputs"],
     schedule: !item["schedule"]
@@ -19884,6 +20377,7 @@ export function createTelephonyCallJobRequestSerializer(item: CreateTelephonyCal
     retry_policy: !item["retry_policy"]
       ? item["retry_policy"]
       : telephonyOutboundRetryPolicyUnionSerializer(item["retry_policy"]),
+    source: item["source"],
   };
 }
 
@@ -19987,8 +20481,8 @@ export function telephonyOutboundFixedIntervalRetryPolicySerializer(
 export interface TelephonyCallJob {
   /** The phone destination to call. */
   destination: TelephonyOutboundDestination;
-  /** The active agent telephony binding used to originate the call. */
-  telephony_binding_id: string;
+  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  connection_name: string;
   /** An optional customer-declared purpose for placing the call. */
   purpose?: string;
   /** Structured input values available to the agent and greeting for this call. Agent-declared inputs are validated against their schemas; omitted optional inputs may use their Agent-defined default values, while omitted required inputs are rejected. Additional inputs remain available as dynamic template variables. */
@@ -20011,20 +20505,22 @@ export interface TelephonyCallJob {
   attempt_count: number;
   /** The Unix timestamp in seconds at which the next retry becomes eligible. */
   next_attempt_at?: Date;
-  /** The stable reason for the terminal status, when available. */
-  terminal_reason?: string;
+  /** The stable service-generated reason for the overall outbound call job, which can span multiple provider attempts, when available. Interpret this with `status`: a queued job can retain a temporary dispatch-deferral reason. Additional string codes may be returned. */
+  terminal_reason?: TelephonyCallJobTerminalReason;
   /** The monotonically increasing optimistic-concurrency revision. */
   revision: number;
   /** The Unix timestamp in seconds when the call job was created. */
   created_at: Date;
   /** The Unix timestamp in seconds when the call job was last updated. */
   updated_at: Date;
+  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  source: string;
 }
 
 export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
   return {
     destination: telephonyOutboundDestinationDeserializer(item["destination"]),
-    telephony_binding_id: item["telephony_binding_id"],
+    connection_name: item["connection_name"],
     purpose: item["purpose"],
     structured_inputs: !item["structured_inputs"]
       ? item["structured_inputs"]
@@ -20050,6 +20546,7 @@ export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
     revision: item["revision"],
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
+    source: item["source"],
   };
 }
 
@@ -20143,18 +20640,45 @@ export function telephonyOutboundFixedIntervalRetryPolicyResponseDeserializer(
   };
 }
 
+/** Known terminal reasons for an overall outbound call job, which can span multiple provider attempts. These are distinct from individual call lifecycle reasons. Additional string codes may be returned. */
+export type TelephonyCallJobTerminalReason =
+  | "no_answer"
+  | "no_answer_timeout"
+  | "answer_failed"
+  | "bridge_cancelled"
+  | "bridge_failed"
+  | "voice_session_configuration_invalid"
+  | "connection_project_mismatch"
+  | "outbound_connection_changed"
+  | "outbound_connection_unavailable"
+  | "telephony_binding_invalid"
+  | "telephony_binding_not_found"
+  | "telephony_binding_inactive"
+  | "telephony_binding_changed"
+  | "campaign_not_found"
+  | "campaign_cancelled"
+  | "campaign_completed"
+  | "campaign_failed"
+  | "origination_fence_not_recorded"
+  | "origination_reconciliation_timeout"
+  | "cancellation_reconciliation_timeout"
+  | "provider_callback_timeout_cancellation_reconciliation_timeout"
+  | string;
+
 /** A request to create a draft outbound campaign. */
 export interface CreateTelephonyCampaignRequest {
   /** A customer-visible name for the campaign. */
   display_name: string;
-  /** The active agent telephony binding used to originate campaign calls. */
-  telephony_binding_id: string;
+  /** The Foundry connection name in the current project used to originate campaign calls. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  connection_name: string;
   /** An optional customer-declared purpose for campaign calls. */
   purpose?: string;
   /** When the published campaign becomes eligible to dispatch calls. */
   schedule?: TelephonyCampaignSchedule;
   /** The provider-attempt retry policy inherited by every materialized call job. */
   retry_policy?: TelephonyOutboundRetryPolicyUnion;
+  /** The caller identity used to originate campaign calls. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  source: string;
 }
 
 export function createTelephonyCampaignRequestSerializer(
@@ -20162,7 +20686,7 @@ export function createTelephonyCampaignRequestSerializer(
 ): any {
   return {
     display_name: item["display_name"],
-    telephony_binding_id: item["telephony_binding_id"],
+    connection_name: item["connection_name"],
     purpose: item["purpose"],
     schedule: !item["schedule"]
       ? item["schedule"]
@@ -20170,6 +20694,7 @@ export function createTelephonyCampaignRequestSerializer(
     retry_policy: !item["retry_policy"]
       ? item["retry_policy"]
       : telephonyOutboundRetryPolicyUnionSerializer(item["retry_policy"]),
+    source: item["source"],
   };
 }
 
@@ -20202,8 +20727,8 @@ export type TelephonyCampaignScheduleType = "immediate" | "scheduled";
 export interface TelephonyCampaign {
   /** A customer-visible name for the campaign. */
   display_name: string;
-  /** The active agent telephony binding used to originate campaign calls. */
-  telephony_binding_id: string;
+  /** The Foundry connection name in the current project used to originate campaign calls. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  connection_name: string;
   /** An optional customer-declared purpose for campaign calls. */
   purpose?: string;
   /** When the published campaign becomes eligible to dispatch calls. */
@@ -20221,12 +20746,14 @@ export interface TelephonyCampaign {
   call_job_counts: TelephonyCampaignCallJobCounts;
   created_at: Date;
   updated_at: Date;
+  /** The caller identity used to originate campaign calls. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  source: string;
 }
 
 export function telephonyCampaignDeserializer(item: any): TelephonyCampaign {
   return {
     display_name: item["display_name"],
-    telephony_binding_id: item["telephony_binding_id"],
+    connection_name: item["connection_name"],
     purpose: item["purpose"],
     schedule: !item["schedule"]
       ? item["schedule"]
@@ -20246,6 +20773,7 @@ export function telephonyCampaignDeserializer(item: any): TelephonyCampaign {
     call_job_counts: telephonyCampaignCallJobCountsDeserializer(item["call_job_counts"]),
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
+    source: item["source"],
   };
 }
 
@@ -20403,7 +20931,7 @@ export function telephonyOperationDeserializer(item: any): TelephonyOperation {
     object: item["object"],
     status: item["status"],
     created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     resource: !item["resource"]
       ? item["resource"]
       : telephonyOperationResourceDeserializer(item["resource"]),
@@ -22694,6 +23222,8 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionCompl
   usage: TranscriptTextUsageTokens | TranscriptTextUsageDuration;
   /** Phrase-level transcription timing and confidence details. */
   phrases?: VoiceAgentTranscriptionPhrase[];
+  /** The languages detected in the audio. Returned by `gpt-transcribe`. An empty array indicates that no language could be reliably detected. */
+  languages?: TranscriptionLanguage[];
 }
 
 export function realtimeServerEventConversationItemInputAudioTranscriptionCompletedSerializer(
@@ -22714,6 +23244,9 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionComple
     phrases: !item["phrases"]
       ? item["phrases"]
       : voiceAgentTranscriptionPhraseArraySerializer(item["phrases"]),
+    languages: !item["languages"]
+      ? item["languages"]
+      : transcriptionLanguageArraySerializer(item["languages"]),
   };
 }
 
@@ -22735,6 +23268,39 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionComple
     phrases: !item["phrases"]
       ? item["phrases"]
       : voiceAgentTranscriptionPhraseArrayDeserializer(item["phrases"]),
+    languages: !item["languages"]
+      ? item["languages"]
+      : transcriptionLanguageArrayDeserializer(item["languages"]),
+  };
+}
+
+export function transcriptionLanguageArraySerializer(result: Array<TranscriptionLanguage>): any[] {
+  return result.map((item) => {
+    return transcriptionLanguageSerializer(item);
+  });
+}
+
+export function transcriptionLanguageArrayDeserializer(
+  result: Array<TranscriptionLanguage>,
+): any[] {
+  return result.map((item) => {
+    return transcriptionLanguageDeserializer(item);
+  });
+}
+
+/** A language detected in transcribed audio. */
+export interface TranscriptionLanguage {
+  /** The code of a language detected in the audio. */
+  code: string;
+}
+
+export function transcriptionLanguageSerializer(item: TranscriptionLanguage): any {
+  return { code: item["code"] };
+}
+
+export function transcriptionLanguageDeserializer(item: any): TranscriptionLanguage {
+  return {
+    code: item["code"],
   };
 }
 
@@ -25624,7 +26190,7 @@ export type VoiceAgentTransport = "websocket" | "webrtc";
 /** The WebSocket subprotocol supported by a voice-agent connection. */
 export type VoiceAgentWebSocketSubprotocol = "realtime";
 
-export type BetaAgentEndpointConversationsDownloadAudioResponse = {
+export type BetaVoiceAgentsConversationsDownloadAudioResponse = {
   /**
    * BROWSER ONLY
    *
@@ -25641,7 +26207,7 @@ export type BetaAgentEndpointConversationsDownloadAudioResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
-export type BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse = {
+export type BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
   /**
    * BROWSER ONLY
    *
@@ -25658,7 +26224,7 @@ export type BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
-export type BetaAgentEndpointConversationsDownloadItemAudioResponse = {
+export type BetaVoiceAgentsConversationsDownloadAudioItemResponse = {
   /**
    * BROWSER ONLY
    *
