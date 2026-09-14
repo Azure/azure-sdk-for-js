@@ -54,8 +54,7 @@
     "test:browser": "echo Skipped",
     "test:node": "dev-tool run test:vitest",
     "test:node:live": "cross-env TEST_MODE=live dev-tool run test:vitest --no-test-proxy",
-    "update-snippets": "dev-tool run update-snippets",
-    "customize": "echo skipped: customization must be run manually"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "//metadata": {
     "constantPaths": [
