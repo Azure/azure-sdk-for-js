@@ -2,6 +2,7 @@
   "name": "@azure-samples/ai-projects-ts",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "description": "Azure AI Projects client library samples for TypeScript",
   "engines": {
     "node": ">=22.0.0"
