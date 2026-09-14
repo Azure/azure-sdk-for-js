@@ -2,19 +2,29 @@
 // Licensed under the MIT License.
 
 import {
-  createDeferredShape,
-  createFlatModelShape,
   type ExistingResourceProps,
   type Expression,
+  type ExpressionOrValue,
   type ProvisioningComponent,
   Resource,
-  type ResourceNamingRules,
   type ResourceOptions,
-  type ResourceProps,
 } from "@azure/provisioning-core";
-import { type DeletedVaultProperties, DeletedVaultPropertiesShape } from "./types.js";
+import {
+  createDeferredShape,
+  createFlatModelShape,
+  type ResourceNamingRules,
+  type ResourceProps,
+} from "@azure/provisioning-core/internal";
+import { type DeletedVaultProperties, deletedVaultPropertiesShape } from "./types.js";
 
 const API_VERSION = "2026-03-01-preview";
+
+export interface DeletedVaultProps {
+  /**
+   * The name of the vault.
+   */
+  name?: ExpressionOrValue<string> | undefined;
+}
 
 /**
  * Deleted vault information with extended details.
@@ -41,7 +51,7 @@ export class DeletedVault extends Resource<"Microsoft.KeyVault/locations/deleted
         name: { armPath: ["name"] },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => DeletedVaultPropertiesShape),
+          target: createDeferredShape(() => deletedVaultPropertiesShape),
           readOnly: true,
         },
       }),
@@ -50,21 +60,24 @@ export class DeletedVault extends Resource<"Microsoft.KeyVault/locations/deleted
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by the scalar
-   * constructor and by `LoopedResource` (via `DeletedVault.fromLoop(...)`,
-   * whose subclass constructor never runs) so both paths apply identical prop
-   * shaping — including the fixed singleton `name`.
+   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
+   * resource reconstruction so both paths apply identical prop shaping, including the fixed
+   * singleton `name`.
    *
-   * @param props - Existing deleted vault identity.
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
-    props: ExistingResourceProps & { existing: true },
+    props?: ExistingResourceProps & { existing: true },
   ): ResourceProps<"Microsoft.KeyVault/locations/deletedVaults"> & Record<string, unknown> {
     return {
-      ...props,
       type: DeletedVault.resourceType,
       apiVersion: DeletedVault.apiVersion,
-      existing: true,
+      existing: props?.existing,
+      ...(props?.existing === true
+        ? (props as any)
+        : {
+            name: props?.name,
+          }),
     };
   }
 
@@ -81,6 +94,9 @@ export class DeletedVault extends Resource<"Microsoft.KeyVault/locations/deleted
    */
   get name(): Expression<string> {
     return this.expr("name");
+  }
+  set name(value: ExpressionOrValue<string>) {
+    this.setProperty("name", value);
   }
 
   /**

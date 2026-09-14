@@ -24,20 +24,6 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
-    },
-    "./types": {
-      "browser": {
-        "types": "./dist/browser/types.d.ts",
-        "default": "./dist/browser/types.js"
-      },
-      "import": {
-        "types": "./dist/esm/types.d.ts",
-        "default": "./dist/esm/types.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/types.d.ts",
-        "default": "./dist/commonjs/types.js"
-      }
     }
   },
   "files": [
@@ -52,7 +38,7 @@
     "azure",
     "cloud",
     "infrastructure",
-    "key vault",
+    "keyvault",
     "provisioning"
   ],
   "sideEffects": false,

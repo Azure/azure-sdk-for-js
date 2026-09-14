@@ -4,7 +4,11 @@
     "paths": {
       "@azure/provisioning-keyvault": ["../src/index.ts"],
       "@azure/provisioning-keyvault/*": ["../src/*"],
-      "@azure/provisioning-core": ["../../core/provisioning-core/src/index.ts"]
+      "@azure/provisioning-core": ["../../../core/provisioning-core/src/index.ts"],
+      "@azure/provisioning-core/internal": ["../../../core/provisioning-core/src/internal.ts"],
+      "@azure/provisioning-core/serialization": [
+        "../../../core/provisioning-core/src/serialization/index.ts"
+      ]
     }
   }
 }

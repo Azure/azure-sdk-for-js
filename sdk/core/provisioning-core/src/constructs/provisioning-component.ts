@@ -21,7 +21,7 @@ export type ProvisioningComponentConstructor<
  * `Resource` instead.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { ProvisioningComponent } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  * import { StorageAccount } from "@azure/provisioning-storage";
@@ -175,16 +175,5 @@ export class ProvisioningComponent {
       current = current.parent;
     }
     return false;
-  }
-
-  /**
-   * Detach a direct child from this component. Used by generated singleton
-   * setters/registrars to swap a previously attached singleton out of the
-   * tree before installing a replacement. No-op when `child` is not a
-   * direct child.
-   */
-  removeChild(child: ProvisioningComponent): void {
-    const idx = this.children.indexOf(child);
-    if (idx >= 0) this.children.splice(idx, 1);
   }
 }

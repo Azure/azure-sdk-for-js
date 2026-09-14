@@ -14,7 +14,7 @@ import type { ExistingResourceProps } from "../resource/resource.js";
 import { Resource } from "../resource/resource.js";
 import { createFlatModelShape } from "../../shape/shape.js";
 
-export const resourceGroupNamingRules: ResourceNamingRules = {
+const resourceGroupNamingRules: ResourceNamingRules = {
   abbreviation: "rg",
   minLength: 1,
   maxLength: 90,
@@ -43,7 +43,7 @@ export interface ResourceGroupProps {
  * in the generated Bicep.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack, ResourceGroup } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
@@ -86,8 +86,8 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
         ? (props as any)
         : {
             location: props.location,
-            tags: props.tags,
             managedBy: props.managedBy,
+            tags: props.tags,
           }),
     });
 

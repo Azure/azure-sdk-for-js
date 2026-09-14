@@ -11,8 +11,8 @@
  * re-nests `@flattenProperty` paths just before serialization /
  * after deserialization.
  *
- * These types are public runtime contract; generated code imports them
- * by reference via the type registry.
+ * These types are an internal cross-package runtime contract; generated code
+ * imports them from `@azure/provisioning-core/internal`.
  *
  * Nested-shape thunks ({@link DeferredShape}) defer dereferencing the
  * inner shape constant until use, so mutually-referential or

@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BinaryOperator, UnaryOperator } from "../bicep.js";
 import { navigateShape, type NavShape } from "../shape/shape.js";
 import {
   arrayAccessExpressionNode,
   functionCallExpressionNode,
   propertyAccessExpressionNode,
+  type BinaryOperator,
   type ExpressionNode,
+  type UnaryOperator,
 } from "./ast-nodes.js";
 
 // ---------------------------------------------------------------------------
@@ -28,8 +29,6 @@ declare const __expressionBrand: unique symbol;
 // Public opaque Expression<T> type
 // ---------------------------------------------------------------------------
 
-// Internal branding interface backing `Expression<T>`.
-// Not exported; consumers see only the `Expression<T>` type alias.
 export interface ExpressionBrand<out T> {
   readonly [__expressionBrand]: ExpressionNode<T>;
 }
@@ -45,7 +44,10 @@ export interface ExpressionTag {
 /**
  * An opaque deploy-time expression wrapping type `T`.
  *
- * For object types, properties of `T` are accessible as `Expression<T[K]>`.
+ * For object types, properties of `T` are accessible as
+ * `Expression<Exclude<T[K], undefined>>`. Expression proxies always expose a
+ * symbolic property path, so TypeScript's `undefined` omission marker does not
+ * belong in the projected value type. Explicit `null` remains intact.
  * For array types, numeric indices return `Expression<element>` and
  * `.length` is an `Expression<number>`.
  *
@@ -73,7 +75,7 @@ export type ExpressionShape<T> = T extends readonly (infer U)[]
   : T extends object
     ? {
         readonly [K in keyof T as T[K] extends (...a: any[]) => any ? never : K]-?: Expression<
-          T[K]
+          Exclude<T[K], undefined>
         >;
       }
     : {};
@@ -139,18 +141,6 @@ export interface InputRecord<V, Raw = Record<string, V>> extends InputOf<Raw> {
  */
 export type ExpressionOrValue<T> = T | Expression<T>;
 
-/**
- * Expression brand without the auto-generated mapped properties.
- *
- * Use this instead of `Expression<T>` when `T` is an object type AND you
- * provide a hand-written interface with explicit getters/setters. This avoids
- * the intersection conflict where `Expression<T>`'s readonly mapped fields
- * prevent plain values from being assigned via the hand-written setters.
- */
-// TODO: this is only used by hand written provisioning packages now, remove it once we
-// have these packages emitted from the codegen
-export type BrandedExpression<T> = ExpressionBrand<T> & ExpressionTag;
-
 // ---------------------------------------------------------------------------
 // Discriminator escape hatch
 // ---------------------------------------------------------------------------
@@ -170,7 +160,7 @@ export type BrandedExpression<T> = ExpressionBrand<T> & ExpressionTag;
  * When the discriminator genuinely isn't known until deployment, wrap the
  * expression with this to state which variant you mean:
  *
- * ```ts snippet:ignore
+ * ```ts
  * widget.properties.primaryRule = {
  *   kind: asDiscriminator(kindParam),
  *   cacheKind: "long",

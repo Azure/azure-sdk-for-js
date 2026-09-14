@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BicepType, PrimitiveTypeMap } from "../bicep.js";
+import type { PrimitiveTypeMap, PrimitiveTypeName } from "../serialization/contract/index.js";
 import type { ExpressionOrValue, InputOf } from "../expression/expressions.js";
 import type { Resource } from "./resource/resource.js";
 import type { Stack } from "./stack.js";
@@ -24,6 +24,14 @@ export type OutputValue =
   | InputOf<unknown>
   | Resource;
 
+/** Primitive Bicep type names supported by deployment outputs. */
+export type OutputType = PrimitiveTypeName;
+
+export type ScalarOutputType = "string" | "int" | "bool";
+export type OutputValueFor<T extends OutputType> = T extends ScalarOutputType
+  ? ExpressionOrValue<PrimitiveTypeMap[T]> | Resource
+  : OutputValue;
+
 export type OutputOptions = {
   readonly description?: string | undefined;
   readonly secure?: boolean | undefined;
@@ -43,7 +51,7 @@ export type OutputOptions = {
  */
 export interface OutputMetadata extends OutputOptions {
   readonly name: string;
-  readonly type: BicepType;
+  readonly type: OutputType;
   readonly value: OutputValue;
 }
 
@@ -55,26 +63,17 @@ export interface OutputMetadata extends OutputOptions {
 export class OutputCollection {
   #entries: OutputMetadata[] = [];
 
-  /**
-   * Add an output whose type is a scalar Bicep primitive (`string`, `int`,
-   * `bool`). The value is checked against the declared type at compile time.
-   */
-  add<T extends "string" | "int" | "bool">(
+  /** Add an output. Throws on duplicate name. Returns the stored metadata. */
+  add<T extends OutputType>(
     name: string,
     type: T,
-    value: ExpressionOrValue<PrimitiveTypeMap[T]> | Resource,
+    value: OutputValueFor<NoInfer<T>>,
     options?: OutputOptions,
-  ): OutputMetadata;
-  /** Add an output with any other Bicep type (object, array, structured). */
-  add(name: string, type: BicepType, value: OutputValue, options?: OutputOptions): OutputMetadata;
-  /** Add an output. Throws on duplicate name. Returns the stored metadata. */
-  add(name: string, type: BicepType, value: OutputValue, options?: OutputOptions): OutputMetadata {
+  ): OutputMetadata {
     if (this.has(name)) {
       throw new Error(`Duplicate deployment output name: ${name}`);
     }
-    if (typeof type === "string") {
-      assertValueAssignableToType(value, type, `Deployment output "${name}"`);
-    }
+    assertValueAssignableToType(value, type, `Deployment output "${name}"`);
     const metadata: OutputMetadata = { name, type, value, ...options };
     this.#entries.push(metadata);
     return metadata;
@@ -115,7 +114,7 @@ export class OutputCollection {
  * A deployment output, compiled to a Bicep `output` declaration.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
@@ -124,25 +123,11 @@ export class OutputCollection {
  * stack.outputs.add("vaultUri", "string", vault.properties.vaultUri);
  * ```
  */
-export function createOutput<T extends "string" | "int" | "bool">(
+export function createOutput<T extends OutputType>(
   stack: Stack,
   name: string,
   type: T,
-  value: ExpressionOrValue<PrimitiveTypeMap[T]> | Resource,
-  options?: OutputOptions,
-): OutputMetadata;
-export function createOutput(
-  stack: Stack,
-  name: string,
-  type: BicepType,
-  value: OutputValue,
-  options?: OutputOptions,
-): OutputMetadata;
-export function createOutput(
-  stack: Stack,
-  name: string,
-  type: BicepType,
-  value: OutputValue,
+  value: OutputValueFor<NoInfer<T>>,
   options?: OutputOptions,
 ): OutputMetadata {
   return stack.outputs.add(name, type, value, options);

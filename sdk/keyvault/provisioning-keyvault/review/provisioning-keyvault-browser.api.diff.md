@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -46,9 +46,9 @@
+@@ -45,9 +45,9 @@
  // @public
  export interface AccessPolicyEntry {
      applicationId?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1397,17 +1397,18 @@
+@@ -1048,17 +1048,18 @@
  // @public
  export type NetworkRuleSetView = NetworkRuleSetInput;
  

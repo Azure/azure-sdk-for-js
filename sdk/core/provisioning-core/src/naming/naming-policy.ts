@@ -5,9 +5,6 @@ import type { ExpressionOrValue } from "../expression/expressions.js";
 import { concat, subscription, take, toLower, uniqueString } from "../fn.js";
 import { MOST_RESTRICTIVE, type ResourceNamingRules } from "./naming-rules.js";
 
-export type { ResourceNamingRules, ResourceNamingValidCharacters } from "./naming-rules.js";
-export { MOST_RESTRICTIVE } from "./naming-rules.js";
-
 export interface NamingContext {
   readonly type: string;
   readonly rules: ResourceNamingRules;

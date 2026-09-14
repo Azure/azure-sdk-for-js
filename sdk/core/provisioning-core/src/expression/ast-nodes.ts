@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BinaryOperator, UnaryOperator } from "../bicep.js";
 import type { Resource } from "../constructs/resource/resource.js";
+import type { BinaryOperator, UnaryOperator } from "../serialization/contract/index.js";
 import type { PropertySegment } from "../types.js";
+
+export type { BinaryOperator, UnaryOperator };
 
 // ---------------------------------------------------------------------------
 // Expression node interfaces (the raw discriminated union members)

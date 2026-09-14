@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ResourceGroup,
-  Stack,
-  fn,
-  isExpression,
-  unwrapResourceHandle,
-} from "@azure/provisioning-core";
+import { ResourceGroup, Stack, fn, isExpression } from "@azure/provisioning-core";
 import { describe, expect, it } from "vitest";
 
 describe("provisioning core", () => {
@@ -21,9 +15,7 @@ describe("provisioning core", () => {
 
     expect(stack.getResources(ResourceGroup)).toEqual([resourceGroup]);
     expect(resourceGroup.isChildOf(stack)).toBe(true);
-    expect(
-      (unwrapResourceHandle(resourceGroup) as unknown as Record<string, unknown>)["managedBy"],
-    ).toBe("contoso/manager");
+    expect(isExpression(resourceGroup.managedBy)).toBe(true);
     expect(ResourceGroup.apiVersion).toBe("2024-03-01");
   });
 

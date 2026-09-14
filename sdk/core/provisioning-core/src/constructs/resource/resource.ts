@@ -165,9 +165,6 @@ export interface ResourceProps<TType extends string> {
  * field on each concrete `Resource` subclass and consumed by the base
  * constructor reflectively, so it stays off the user-facing surface.
  *
- * `batchSize` is deliberately **not** an option — it is only meaningful
- * for looped resources, so it lives on the `Loop` primitive that
- * `Resource.fromLoop(loop, ...)` consumes.
  */
 export interface ResourceOptions {
   readonly condition?: ExpressionOrValue<boolean>;
@@ -175,8 +172,7 @@ export interface ResourceOptions {
 }
 
 /**
- * Shared base for `Resource` (scalar) and `LoopedResource` (aggregate)
- * declarations.
+ * Shared base for resource declaration implementations.
  *
  * @remarks
  *
@@ -186,11 +182,9 @@ export interface ResourceOptions {
  * the optional cross-scope reference (`scope`), and the raw prop bag that
  * becomes the resource body.
  *
- * This class owns the pieces that don't care about scalar-vs-aggregate
- * shape: state layout, the raw-handle escape hatch, and the identity
- * accessors. Subclasses supply the constructor logic to populate `state`
- * and either scalar-specific accessors (`Resource`: `name`, `id`, `expr`,
- * self-proxy) or loop-specific accessors (`LoopedResource`: `at`, `loop`).
+ * This class owns the common declaration state layout, raw-handle escape
+ * hatch, and identity accessors. Subclasses supply their construction and
+ * access behavior.
  */
 export abstract class ResourceDeclaration<
   TType extends string = string,
@@ -198,7 +192,7 @@ export abstract class ResourceDeclaration<
   /**
    * Brand marker for cross-realm `isResourceDeclaration()` checks. Uses
    * `Symbol.for` so it survives multiple copies of `@azure/provisioning-core`.
-   * Inherited by both `Resource` and `LoopedResource` instances.
+   * Inherited by every resource declaration implementation.
    */
   readonly [RESOURCE_DECLARATION_BRAND] = true as const;
 
@@ -209,8 +203,7 @@ export abstract class ResourceDeclaration<
   protected state!: ResourceState<TType> & Record<string, unknown>;
 
   /**
-   * Base constructor for every Bicep resource declaration (scalar
-   * `Resource` and looped `LoopedResource` both go through it).
+   * Base constructor for every Bicep resource declaration.
    *
    * @remarks
    *
@@ -228,16 +221,12 @@ export abstract class ResourceDeclaration<
    *    `DeploymentContext` defaults for `location` / `tags` per the
    *    shape descriptor.
    *
-   * Subclasses supply the last mile: `Resource` sets up its self-proxy
-   * and swaps itself into `parent.children`; `LoopedResource` stores
-   * loop metadata + the concrete subclass ctor for later `.at()` calls.
+   * Subclasses supply the last mile, including their public handle behavior.
    *
-   * @param namingRules - Per-resource-type constraints for the naming
-   *   policy. `Resource` reads this reflectively off the concrete
-   *   subclass constructor; `LoopedResource` reads it off the ctor
-   *   passed to `Resource.fromLoop`, since `this.constructor` on a
-   *   looped instance would resolve to `LoopedResource` and lose
-   *   subclass identity.
+   * @param namingRules - per-resource-type constraints for the naming
+   *   policy. `Resource` reads this reflectively off the concrete subclass
+   *   constructor; internal declaration implementations receive it from
+   *   the concrete resource constructor they represent.
    */
   constructor(
     context: ProvisioningComponent,
@@ -451,7 +440,7 @@ export abstract class ResourceDeclaration<
  * property getters and `this.setProperty()` for setters.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { ResourceGroup } from "@azure/provisioning-core";
  * import { StorageAccount } from "@azure/provisioning-storage";
  *
@@ -510,19 +499,15 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
    *
    * Every emitter-generated resource overrides this to inject its fixed
    * identity (`type` / `apiVersion`), the singleton `name`, and its explicit
-   * writable-field copy. Both construction paths funnel through it:
-   *
-   * - the scalar ctor calls `Xxx.buildResourceProps(props)`;
-   * - {@link LoopedResource} calls `wrappedCtor.buildResourceProps(userProps)`
-   *   (its subclass ctor never runs), so looped resources get identical
-   *   shaping — most importantly the fixed singleton `name`.
+   * writable-field copy. Both ordinary construction and internal resource
+   * reconstruction funnel through this method so prop shaping remains
+   * consistent.
    *
    * This base default is the fallback used when the wrapped constructor is
    * base `Resource` itself — the deserialize path for an unregistered
    * `(type, apiVersion)` pair, where `type` / `apiVersion` are threaded in
    * through `props` rather than read off statics. Keeping the default here
-   * guarantees the method is always present, so `LoopedResource` never has
-   * to branch on its existence.
+   * guarantees the method is always present for internal reconstruction.
    */
   protected static buildResourceProps(
     props?: unknown,
@@ -613,80 +598,6 @@ export class Resource<TType extends string = string> extends ResourceDeclaration
 
   get id(): Expression<string> {
     return this.expr("id");
-  }
-
-  // ---------------------------------------------------------------------------
-  // Static factories (subclasses inherit these; `this` binds to the caller)
-  // ---------------------------------------------------------------------------
-
-  /**
-   * Construct a loop-expanded resource declaration. Equivalent to
-   * `new this(context, props, options)` but the resource is wrapped in
-   * `[for item in loop.collection: { ... }]` on the wire and the returned
-   * value is a {@link LoopedResource} that offers indexed access via
-   * `.at(i)`.
-   *
-   * `options.condition` applies as a per-iteration `if(...)` guard;
-   * `loop.batchSize` renders as `@batchSize(n)`.
-   *
-   * Call it on the concrete subclass. Calling `StorageAccount.fromLoop`
-   * returns `LoopedResource<StorageAccount>`. The polymorphic
-   * `this` on the signature narrows the return type at every call site.
-   *
-   * `props` is required for resources whose constructor requires it, and
-   * **optional** for those whose constructor props are optional (e.g.
-   * singleton children like `BlobService`, whose only fields are optional).
-   * The conditional rest-tuple signature derives this from the calling
-   * class's constructor, so `Singleton.fromLoop(loop, parent.at(loop.index))`
-   * compiles without a trailing `undefined`.
-   *
-   * Unlike a scalar `new StorageAccount(...)`, the subclass constructor
-   * body does NOT run for a looped resource — only the shared
-   * `ResourceDeclaration` ctor does. Indexing with `.at(i)` yields the
-   * concrete resource type `T`, exposing the ARM property surface
-   * (`.id`, `.name`, `.sku`, `.properties.*`, …) rooted at `sym[i]` and
-   * the child accessors scoped to element `i`. To add per-iteration
-   * children, parent them to `parent.at(loop.index)` — e.g.
-   * `Child.fromLoop(loop, parent.at(loop.index), ...)`.
-   */
-  static fromLoop<T extends Resource, C extends ProvisioningComponent, P>(
-    this: new (context: C, props: P, options?: ResourceOptions) => T,
-    loop: Loop<unknown>,
-    context: C,
-    // `props` is optional exactly when the calling class's ctor accepts an
-    // undefined `props` (singleton children); required otherwise. Modeled as
-    // a conditional rest tuple so both the arity and the type of the trailing
-    // args flow from `P`.
-    ...rest: undefined extends P
-      ? [props?: P, options?: ResourceOptions]
-      : [props: P, options?: ResourceOptions]
-  ): LoopedResource<T> {
-    const [props, options] = rest as [P?, ResourceOptions?];
-    // `LoopedResource`'s ctor is private; access via cast — this file owns
-    // both classes. The live `Loop` is passed straight through: the ctor
-    // snapshots its metadata for `this.loop`.
-    const LoopedCtor = LoopedResource as unknown as new <U extends Resource>(
-      context: ProvisioningComponent,
-      wrappedCtor: new (
-        context: ProvisioningComponent,
-        props: unknown,
-        options?: ResourceOptions,
-      ) => U,
-      userProps: unknown,
-      loop: Loop<unknown>,
-      options?: ResourceOptions,
-    ) => LoopedResource<U>;
-    return new LoopedCtor(
-      context,
-      this as unknown as new (
-        context: ProvisioningComponent,
-        props: unknown,
-        options?: ResourceOptions,
-      ) => T,
-      props,
-      loop,
-      options,
-    );
   }
 }
 
@@ -922,14 +833,12 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
 
   /**
    * The concrete `Resource` subclass this looped declaration wraps.
-   * Used by query / `ChildResourceCollection` machinery to answer
-   * "which subclass is this looped resource" — the analogue of
-   * `instanceof T` for `LoopedResource<T>`.
+   * Used by query machinery to answer "which subclass is this looped
+   * resource" — the analogue of `instanceof T` for `LoopedResource<T>`.
    *
    * This is always the full subclass the user constructed via
    * `Xxx.fromLoop(...)` — query identity matches on that class, and it is
-   * the prototype the `.at(i)` proxy splices over to resolve ARM and child
-   * accessors.
+   * the prototype the `.at(i)` proxy uses to resolve ARM accessors.
    */
   get wrappedCtor(): new (
     context: ProvisioningComponent,
@@ -946,10 +855,8 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
    * Returns the concrete resource type `T`. At runtime an indexed proxy is
    * spliced over the full class prototype (`#wrappedCtor.prototype`):
    * prototype getters that funnel through `this.expr(...)` (`.id`, `.name`,
-   * `.properties.*`, …) resolve rooted at `sym[index]`, and child accessors
-   * (collection getters / singleton getter-setter pairs) resolve
-   * element-scoped — a child created via `parent.at(i)` is stamped with
-   * that index and read back through `parent.at(i).<accessor>`.
+   * `.properties.*`, …) resolve rooted at `sym[index]`. A child created with
+   * `parent.at(i)` is stamped with that index for serialization.
    */
   at(index: ExpressionOrValue<number>): T {
     // `this` is a `ResourceDeclaration`; the handle derives the subclass
@@ -958,4 +865,40 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
     // deferred polymorphic `this`.
     return createIndexedResourceProxy<LoopedResource<T>>(this, index);
   }
+}
+
+/** @internal */
+export function createLoopedResource<T extends Resource, C extends ProvisioningComponent, P>(
+  wrappedCtor: new (context: C, props: P, options?: ResourceOptions) => T,
+  loop: Loop<unknown>,
+  context: C,
+  ...rest: undefined extends P
+    ? [props?: P, options?: ResourceOptions]
+    : [props: P, options?: ResourceOptions]
+): LoopedResource<T> {
+  const [userProps, options] = rest as [P?, ResourceOptions?];
+  // `LoopedResource`'s ctor is private; access via cast because this module
+  // owns both the declaration and its internal construction boundary.
+  const LoopedCtor = LoopedResource as unknown as new <U extends Resource>(
+    context: ProvisioningComponent,
+    wrappedCtor: new (
+      context: ProvisioningComponent,
+      props: unknown,
+      options?: ResourceOptions,
+    ) => U,
+    userProps: unknown,
+    loop: Loop<unknown>,
+    options?: ResourceOptions,
+  ) => LoopedResource<U>;
+  return new LoopedCtor(
+    context,
+    wrappedCtor as new (
+      context: ProvisioningComponent,
+      props: unknown,
+      options?: ResourceOptions,
+    ) => T,
+    userProps,
+    loop,
+    options,
+  );
 }

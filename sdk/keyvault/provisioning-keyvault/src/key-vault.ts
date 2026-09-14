@@ -2,36 +2,36 @@
 // Licensed under the MIT License.
 
 import {
-  ChildResourceCollection,
-  createDeferredShape,
-  createFlatModelShape,
   type ExistingResourceProps,
   type Expression,
   type ExpressionOrValue,
-  type InputRecord,
   type ProvisioningComponent,
   Resource,
-  type ResourceNamingRules,
   type ResourceOptions,
-  type ResourceProps,
 } from "@azure/provisioning-core";
 import {
-  type KeyPropertiesReadonly,
-  KeyPropertiesReadonlyShape,
-  type KeyVaultKeyPropertiesInput,
-  KeyVaultKeyPropertiesShape,
-  type KeyVaultKeyPropertiesView,
+  createDeferredShape,
+  createFlatModelShape,
+  type InputRecord,
+  type ResourceNamingRules,
+  type ResourceProps,
+} from "@azure/provisioning-core/internal";
+import {
+  type KeyProperties,
+  type KeyPropertiesInput,
+  keyPropertiesShape,
+  type KeyPropertiesView,
   type PrivateEndpointConnectionPropertiesInput,
-  PrivateEndpointConnectionPropertiesShape,
+  privateEndpointConnectionPropertiesShape,
   type PrivateEndpointConnectionPropertiesView,
   type SecretPropertiesInput,
-  SecretPropertiesShape,
+  secretPropertiesShape,
   type SecretPropertiesView,
   type VaultAccessPolicyPropertiesInput,
-  VaultAccessPolicyPropertiesShape,
+  vaultAccessPolicyPropertiesShape,
   type VaultAccessPolicyPropertiesView,
   type VaultPropertiesInput,
-  VaultPropertiesShape,
+  vaultPropertiesShape,
   type VaultPropertiesView,
 } from "./types.js";
 
@@ -93,7 +93,7 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
         name: { armPath: ["name"] },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => VaultAccessPolicyPropertiesShape),
+          target: createDeferredShape(() => vaultAccessPolicyPropertiesShape),
         },
       }),
     );
@@ -101,12 +101,11 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by the scalar
-   * constructor and by `LoopedResource` (via `AccessPolicy.fromLoop(...)`,
-   * whose subclass constructor never runs) so both paths apply identical prop
-   * shaping — including the fixed singleton `name`.
+   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
+   * resource reconstruction so both paths apply identical prop shaping, including the fixed
+   * singleton `name`.
    *
-   * @param {(AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?:
@@ -170,11 +169,18 @@ export interface VaultKeyProps {
   /**
    * The properties of the key to be created.
    */
-  properties: KeyVaultKeyPropertiesInput;
+  properties: KeyPropertiesInput;
   /**
    * The tags that will be assigned to the key.
    */
   tags?: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined;
+}
+
+export interface VersionProps {
+  /**
+   * The name of the key to be retrieved.
+   */
+  name?: ExpressionOrValue<string> | undefined;
 }
 
 /**
@@ -203,7 +209,7 @@ export class Version extends Resource<"Microsoft.KeyVault/vaults/keys/versions">
         name: { armPath: ["name"] },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => KeyPropertiesReadonlyShape),
+          target: createDeferredShape(() => keyPropertiesShape),
           readOnly: true,
         },
         tags: { armPath: ["tags"], readOnly: true },
@@ -213,21 +219,24 @@ export class Version extends Resource<"Microsoft.KeyVault/vaults/keys/versions">
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by the scalar
-   * constructor and by `LoopedResource` (via `Version.fromLoop(...)`, whose
-   * subclass constructor never runs) so both paths apply identical prop shaping
-   * — including the fixed singleton `name`.
+   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
+   * resource reconstruction so both paths apply identical prop shaping, including the fixed
+   * singleton `name`.
    *
-   * @param props - Existing key version identity.
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
-    props: ExistingResourceProps & { existing: true },
+    props?: ExistingResourceProps & { existing: true },
   ): ResourceProps<"Microsoft.KeyVault/vaults/keys/versions"> & Record<string, unknown> {
     return {
-      ...props,
       type: Version.resourceType,
       apiVersion: Version.apiVersion,
-      existing: true,
+      existing: props?.existing,
+      ...(props?.existing === true
+        ? (props as any)
+        : {
+            name: props?.name,
+          }),
     };
   }
 
@@ -252,11 +261,14 @@ export class Version extends Resource<"Microsoft.KeyVault/vaults/keys/versions">
   get name(): Expression<string> {
     return this.expr("name");
   }
+  set name(value: ExpressionOrValue<string>) {
+    this.setProperty("name", value);
+  }
 
   /**
    * The properties of the key.
    */
-  get properties(): Expression<KeyPropertiesReadonly> {
+  get properties(): Expression<KeyProperties> {
     return this.expr("properties") as any;
   }
 
@@ -294,7 +306,7 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
         name: { armPath: ["name"] },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => KeyVaultKeyPropertiesShape),
+          target: createDeferredShape(() => keyPropertiesShape),
         },
         tags: { armPath: ["tags"] },
       }),
@@ -303,12 +315,11 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by the scalar
-   * constructor and by `LoopedResource` (via `VaultKey.fromLoop(...)`, whose
-   * subclass constructor never runs) so both paths apply identical prop shaping
-   * — including the fixed singleton `name`.
+   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
+   * resource reconstruction so both paths apply identical prop shaping, including the fixed
+   * singleton `name`.
    *
-   * @param {(VaultKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: (VaultKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
@@ -336,21 +347,6 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
   }
 
   /**
-   * The key resource.
-   */
-  get versions(): ChildResourceCollection<
-    VaultKey,
-    Version,
-    ExistingResourceProps & { existing: true }
-  > {
-    return new ChildResourceCollection<
-      VaultKey,
-      Version,
-      ExistingResourceProps & { existing: true }
-    >(this, Version);
-  }
-
-  /**
    * The supported Azure location where the managed HSM Pool should be created.
    */
   get location(): Expression<string> {
@@ -370,10 +366,10 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
   /**
    * The properties of the key to be created.
    */
-  get properties(): KeyVaultKeyPropertiesView {
+  get properties(): KeyPropertiesView {
     return this.expr("properties") as any;
   }
-  set properties(value: KeyVaultKeyPropertiesInput) {
+  set properties(value: KeyPropertiesInput) {
     this.setProperty("properties", value);
   }
 
@@ -430,7 +426,7 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
         name: { armPath: ["name"] },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => PrivateEndpointConnectionPropertiesShape),
+          target: createDeferredShape(() => privateEndpointConnectionPropertiesShape),
         },
         tags: { armPath: ["tags"], readOnly: true },
       }),
@@ -439,13 +435,11 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by the scalar
-   * constructor and by `LoopedResource` (via
-   * `VaultPrivateEndpointConnection.fromLoop(...)`, whose subclass constructor
-   * never runs) so both paths apply identical prop shaping — including the
-   * fixed singleton `name`.
+   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
+   * resource reconstruction so both paths apply identical prop shaping, including the fixed
+   * singleton `name`.
    *
-   * @param {(VaultPrivateEndpointConnectionProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?:
@@ -478,8 +472,7 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
   }
 
   /**
-   * Modified whenever there is a change in the state of private endpoint
-   * connection.
+   * Modified whenever there is a change in the state of private endpoint connection.
    */
   get etag(): Expression<string> {
     return this.expr("etag");
@@ -564,7 +557,7 @@ export class Secret extends Resource<"Microsoft.KeyVault/vaults/secrets"> {
         name: { armPath: ["name"] },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => SecretPropertiesShape),
+          target: createDeferredShape(() => secretPropertiesShape),
         },
         tags: { armPath: ["tags"] },
       }),
@@ -573,12 +566,11 @@ export class Secret extends Resource<"Microsoft.KeyVault/vaults/secrets"> {
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by the scalar
-   * constructor and by `LoopedResource` (via `Secret.fromLoop(...)`, whose
-   * subclass constructor never runs) so both paths apply identical prop shaping
-   * — including the fixed singleton `name`.
+   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
+   * resource reconstruction so both paths apply identical prop shaping, including the fixed
+   * singleton `name`.
    *
-   * @param {(SecretProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: (SecretProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
@@ -669,7 +661,7 @@ export class KeyVault extends Resource<"Microsoft.KeyVault/vaults"> {
         name: { armPath: ["name"] },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => VaultPropertiesShape),
+          target: createDeferredShape(() => vaultPropertiesShape),
         },
         tags: { armPath: ["tags"] },
       }),
@@ -678,12 +670,11 @@ export class KeyVault extends Resource<"Microsoft.KeyVault/vaults"> {
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by the scalar
-   * constructor and by `LoopedResource` (via `KeyVault.fromLoop(...)`, whose
-   * subclass constructor never runs) so both paths apply identical prop shaping
-   * — including the fixed singleton `name`.
+   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
+   * resource reconstruction so both paths apply identical prop shaping, including the fixed
+   * singleton `name`.
    *
-   * @param {(KeyVaultProps & { existing?: false }) | (ExistingResourceProps & { existing: true })} [props]
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
     props?: (KeyVaultProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
@@ -709,45 +700,6 @@ export class KeyVault extends Resource<"Microsoft.KeyVault/vaults"> {
     options?: ResourceOptions,
   ) {
     super(context, KeyVault.buildResourceProps(props), options);
-  }
-
-  /**
-   * Parameters for updating the access policy in a vault
-   */
-  get accessPolicies(): ChildResourceCollection<KeyVault, AccessPolicy, AccessPolicyProps> {
-    return new ChildResourceCollection<KeyVault, AccessPolicy, AccessPolicyProps>(
-      this,
-      AccessPolicy,
-    );
-  }
-
-  /**
-   * The key resource.
-   */
-  get vaultKeys(): ChildResourceCollection<KeyVault, VaultKey, VaultKeyProps> {
-    return new ChildResourceCollection<KeyVault, VaultKey, VaultKeyProps>(this, VaultKey);
-  }
-
-  /**
-   * Private endpoint connection resource.
-   */
-  get vaultPrivateEndpointConnections(): ChildResourceCollection<
-    KeyVault,
-    VaultPrivateEndpointConnection,
-    VaultPrivateEndpointConnectionProps
-  > {
-    return new ChildResourceCollection<
-      KeyVault,
-      VaultPrivateEndpointConnection,
-      VaultPrivateEndpointConnectionProps
-    >(this, VaultPrivateEndpointConnection);
-  }
-
-  /**
-   * Resource information with extended details.
-   */
-  get secrets(): ChildResourceCollection<KeyVault, Secret, SecretProps> {
-    return new ChildResourceCollection<KeyVault, Secret, SecretProps>(this, Secret);
   }
 
   /**

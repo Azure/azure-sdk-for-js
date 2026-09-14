@@ -2,19 +2,29 @@
 // Licensed under the MIT License.
 
 import {
-  createDeferredShape,
-  createFlatModelShape,
   type ExistingResourceProps,
   type Expression,
+  type ExpressionOrValue,
   type ProvisioningComponent,
   Resource,
-  type ResourceNamingRules,
   type ResourceOptions,
-  type ResourceProps,
 } from "@azure/provisioning-core";
-import { type DeletedManagedHsmProperties, DeletedManagedHsmPropertiesShape } from "./types.js";
+import {
+  createDeferredShape,
+  createFlatModelShape,
+  type ResourceNamingRules,
+  type ResourceProps,
+} from "@azure/provisioning-core/internal";
+import { type DeletedManagedHsmProperties, deletedManagedHsmPropertiesShape } from "./types.js";
 
 const API_VERSION = "2026-03-01-preview";
+
+export interface DeletedManagedHsmProps {
+  /**
+   * The name of the deleted managed HSM.
+   */
+  name?: ExpressionOrValue<string> | undefined;
+}
 
 /**
  * Concrete proxy resource types can be created by aliasing this type using a specific property type.
@@ -41,7 +51,7 @@ export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/de
         name: { armPath: ["name"] },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => DeletedManagedHsmPropertiesShape),
+          target: createDeferredShape(() => deletedManagedHsmPropertiesShape),
           readOnly: true,
         },
       }),
@@ -50,21 +60,24 @@ export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/de
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by the scalar
-   * constructor and by `LoopedResource` (via `DeletedManagedHsm.fromLoop(...)`,
-   * whose subclass constructor never runs) so both paths apply identical prop
-   * shaping — including the fixed singleton `name`.
+   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
+   * resource reconstruction so both paths apply identical prop shaping, including the fixed
+   * singleton `name`.
    *
-   * @param props - Existing deleted managed HSM identity.
+   * @param props - Resource properties to normalize for the base constructor.
    */
   protected static buildResourceProps(
-    props: ExistingResourceProps & { existing: true },
+    props?: ExistingResourceProps & { existing: true },
   ): ResourceProps<"Microsoft.KeyVault/locations/deletedManagedHSMs"> & Record<string, unknown> {
     return {
-      ...props,
       type: DeletedManagedHsm.resourceType,
       apiVersion: DeletedManagedHsm.apiVersion,
-      existing: true,
+      existing: props?.existing,
+      ...(props?.existing === true
+        ? (props as any)
+        : {
+            name: props?.name,
+          }),
     };
   }
 
@@ -81,6 +94,9 @@ export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/de
    */
   get name(): Expression<string> {
     return this.expr("name");
+  }
+  set name(value: ExpressionOrValue<string>) {
+    this.setProperty("name", value);
   }
 
   /**

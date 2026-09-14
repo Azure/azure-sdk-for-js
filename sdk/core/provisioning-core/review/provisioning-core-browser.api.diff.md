@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -382,9 +382,9 @@
+@@ -255,9 +255,9 @@
          extensionResourceId,
          int,
          min,
@@ -18,16 +18,16 @@ For the complete API surface, see the corresponding -node.api.md file.
          first,
          last,
          contains,
-@@ -553,9 +553,9 @@
+@@ -388,9 +388,9 @@
  // @public (undocumented)
  function lastIndexOf(value: ExpressionOrValue<string>, searchString: ExpressionOrValue<string>): Expression<number>;
  
  // @public (undocumented)
 -function length(value: ExpressionOrValue<unknown>): Expression<number>;
 +function length_2(value: ExpressionOrValue<unknown>): Expression<number>;
+
+ // @public (undocumented)
+ function lt(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
  
- // @public
- export class Loop<T> {
-     constructor(collection: ExpressionOrValue<T[]>, options?: LoopOptions);
 
 ```

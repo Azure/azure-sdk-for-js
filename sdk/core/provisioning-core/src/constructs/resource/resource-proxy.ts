@@ -80,70 +80,6 @@ export const INDEXED_PROXY_TARGET = Symbol.for("@azure/provisioning-core.INDEXED
  */
 export const STATE_PARENT_INDEX = "parentIndex" as const;
 
-/**
- * Canonical string key for an array-access index. Used to match a child's
- * recorded `state.parentIndex` against an indexed proxy's index when
- * resolving per-element child accessors — e.g. `parent.at(0).secrets` must
- * only see children created via `parent.at(0)`, not those under other
- * indices.
- *
- * `undefined` (a scalar parent, or a child with no recorded index) maps to
- * `undefined`, so scalar authoring keeps matching scalar children only.
- * Otherwise the key is a deterministic, collision-free encoding of the
- * index's node shape. Equality is **structural**, not semantic — `sym[i+1]`
- * and `sym[1+i]` produce different keys — which is acceptable for authoring
- * (nobody hand-writes equivalent-but-different index expressions).
- */
-export function indexKey(index: ArrayAccessIndex | undefined): string | undefined {
-  if (index === undefined) return undefined;
-  return serializeIndex(index);
-}
-
-function serializeIndex(index: ArrayAccessIndex): string {
-  if (typeof index === "number") return `n:${index}`;
-  if (typeof index === "string") return `s:${index}`;
-  return serializeIndexNode(index);
-}
-
-// TODO(serializer-in-core): once the serializer lives in core, replace this
-// bespoke walker with a shared canonicalization — e.g.
-// `stableStringify(canonicalize(index))` where `canonicalize` is the pure,
-// context-free lowering the serializer already uses. That ties match-equality
-// to render-equality (two indices match iff they'd emit the same Bicep) and
-// removes this duplicate traversal of the `ExpressionNode` union. Note: this
-// runs at authoring time (before `serialize()`, no symbol map), so only the
-// context-free part of lowering can be reused — fine for the index subset that
-// actually occurs (literals, loop `symbolic-value`, arithmetic over those).
-function serializeIndexNode(node: ExpressionNode): string {
-  switch (node.kind) {
-    case "symbolic-value":
-      return `sym(${node.path})`;
-    case "identifier":
-      return `id(${typeof node.id === "string" ? node.id : "@res"})`;
-    case "property-access":
-      return `prop(${serializeIndexNode(node.base)}.${node.property})`;
-    case "array-access":
-      return `arr(${serializeIndexNode(node.base)}[${serializeIndex(node.index)}])`;
-    case "binary":
-      return `bin(${node.operator},${serializeOperand(node.left)},${serializeOperand(node.right)})`;
-    case "unary":
-      return `un(${node.operator},${serializeOperand(node.argument)})`;
-    case "ternary":
-      return `tern(${serializeOperand(node.condition)},${serializeOperand(node.trueValue)},${serializeOperand(node.falseValue)})`;
-    case "fn-call":
-      return `fn(${node.operator},${node.args.map(serializeOperand).join(",")})`;
-    case "instance-function-call":
-      return `ifn(${serializeIndexNode(node.base)}.${node.name}(${node.args.map(serializeOperand).join(",")}))`;
-    case "interpolated-string":
-      return `istr(${node.segments.map(serializeOperand).join(",")})`;
-  }
-}
-
-function serializeOperand(operand: unknown): string {
-  if (isExpressionNode(operand)) return serializeIndexNode(operand);
-  return `v:${JSON.stringify(operand)}`;
-}
-
 // ---------------------------------------------------------------------------
 // Property proxy internal types
 // ---------------------------------------------------------------------------
@@ -689,8 +625,8 @@ export function unwrapResourceHandle<T extends ResourceDeclaration>(resource: T)
  * proxy is minted per `.at(i)` call and is not stored in
  * any `parent.children` array; only the raw outer resource proxy
  * participates in the ProvisioningComponent tree. When a child is created with an
- * indexed proxy as context, the `ProvisioningComponent` constructor briefly
- * assigns the indexed proxy as the parent, but the base `Resource` constructor then overwrites
+ * indexed proxy as `context`, `ProvisioningComponent`'s ctor writes
+ * `this.parent = indexedProxy` briefly, but the base `Resource` ctor then overwrites
  * `this.parent` back to the raw parent (via `INDEXED_PROXY_TARGET`) so the
  * tree only ever references raw resource proxies. The indexed wrapper is
  * garbage-collectable once the child ctor returns; its sole job is to
@@ -703,8 +639,7 @@ export function unwrapResourceHandle<T extends ResourceDeclaration>(resource: T)
  * surface, resolved element-scoped at runtime. Any scalar {@link Resource}
  * yields itself.
  */
-export type IndexedProxyOf<D extends ResourceDeclaration> =
-  D extends LoopedResource<infer T> ? T : D;
+type IndexedProxyOf<D extends ResourceDeclaration> = D extends LoopedResource<infer T> ? T : D;
 
 function throwLoopedElementWriteError(): never {
   throw new Error(
@@ -738,8 +673,8 @@ export function createIndexedResourceProxy<D extends ResourceDeclaration>(
     // target (which lacks the subclass's own instance slots). Property
     // reads and writes don't need it: the `get`/`set` traps below have
     // their own `subclassProto` fallbacks that run accessors with
-    // `this = receiver` (the proxy) so `this.expr(...)` and child accessors
-    // resolve element-scoped.
+    // `this = receiver` (the proxy) so `this.expr(...)` resolves against the
+    // indexed element.
     get(target, property, receiver) {
       // Reveal-only symbols consulted by the base `Resource` constructor
       // and by serialization; both are marker keys with no runtime prototype
@@ -768,10 +703,7 @@ export function createIndexedResourceProxy<D extends ResourceDeclaration>(
       // Block ARM property writes on a looped element. Every generated ARM
       // setter (`set sku`, `set properties`, `set name`, …) funnels through
       // `this.setProperty(...)`, so intercepting that single method turns
-      // `parent.at(i).sku = ...` into a clear error. Singleton child setters
-      // construct children (`new Child(this, ...)` / `removeChild`) rather
-      // than calling `setProperty`, so they keep working — creating a child
-      // parented to element `i` is valid.
+      // `parent.at(i).sku = ...` into a clear error.
       if (property === "setProperty") {
         return throwLoopedElementWriteError;
       }
@@ -783,8 +715,8 @@ export function createIndexedResourceProxy<D extends ResourceDeclaration>(
       //    properties — including class private fields (`#…`). Passing the
       //    proxy as `receiver` would cause private-field access inside a
       //    getter to fail because the proxy has no such slot.
-      // 2. Methods (e.g. a subclass's `registerBlobService(...)`) need
-      //    `this = target` for the same reason — private fields again — so
+      // 2. Subclass methods need `this = target` for the same reason — private
+      //    fields again — so
       //    we return a bound wrapper. This means `ctx.method === ctx.method`
       //    yields `false` between reads; acceptable trade-off given no
       //    caller relies on function identity on an indexed proxy.
@@ -817,12 +749,9 @@ export function createIndexedResourceProxy<D extends ResourceDeclaration>(
       return undefined;
     },
 
-    // Route writes to a subclass setter (e.g. a singleton `set blobService`,
-    // or an ARM property setter) with `this = receiver` (the proxy) so the
-    // setter body runs element-scoped — a singleton setter's
-    // `new Child(this, value)` stamps the proxy's index, and its
-    // `new ChildResourceCollection(this, Child)` detaches only the existing
-    // child at this index. Falls back to a plain write on the raw target.
+    // Route writes to an ARM property setter with `this = receiver` (the
+    // proxy), allowing its `setProperty` call to hit the rejection above.
+    // Falls back to a plain write on the raw target.
     set(target, property, value, receiver) {
       if (subclassProto !== undefined) {
         let proto: object | null = subclassProto;

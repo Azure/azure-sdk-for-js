@@ -24,6 +24,34 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./internal": {
+      "browser": {
+        "types": "./dist/browser/internal.d.ts",
+        "default": "./dist/browser/internal.js"
+      },
+      "import": {
+        "types": "./dist/esm/internal.d.ts",
+        "default": "./dist/esm/internal.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/internal.d.ts",
+        "default": "./dist/commonjs/internal.js"
+      }
+    },
+    "./serialization": {
+      "browser": {
+        "types": "./dist/browser/serialization/index.d.ts",
+        "default": "./dist/browser/serialization/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/serialization/index.d.ts",
+        "default": "./dist/esm/serialization/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/serialization/index.d.ts",
+        "default": "./dist/commonjs/serialization/index.js"
+      }
     }
   },
   "files": [
@@ -48,6 +76,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "pluralize": "^8.0.0",
     "tslib": "catalog:"
   },
   "scripts": {
@@ -70,6 +99,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
+    "@types/pluralize": "^0.0.33",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "eslint": "catalog:",

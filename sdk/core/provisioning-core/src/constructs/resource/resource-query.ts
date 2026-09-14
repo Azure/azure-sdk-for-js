@@ -39,7 +39,7 @@ function collectResourcesUnder(
   recursive: boolean,
 ): (Resource | LoopedResource<Resource>)[] {
   const result: (Resource | LoopedResource<Resource>)[] = [];
-  const consider = (node: ProvisioningComponent) => {
+  const consider = (node: ProvisioningComponent): void => {
     if (!isResourceDeclaration(node)) return;
     const r = node.self as Resource | LoopedResource<Resource>;
     if (isLoopedResource(r) === wantLooped) result.push(r);

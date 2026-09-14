@@ -9,16 +9,20 @@ import { OutputCollection } from "./output.js";
 import { ParameterCollection } from "./parameter.js";
 import { VariableCollection } from "./variable.js";
 import {
-  getResources as runGetResources,
   getLoopedResources as runGetLoopedResources,
+  getResources as runGetResources,
   getResource as runGetResource,
   type QueryOptions,
 } from "./resource/resource-query.js";
-import { Loop } from "./resource/resource.js";
-import type { LoopedResource, Resource } from "./resource/resource.js";
+import {
+  createLoopedResource,
+  type Loop,
+  type LoopedResource,
+  type Resource,
+  type ResourceOptions,
+} from "./resource/resource.js";
 import type { ResourceCtor } from "./resource/resource-registry.js";
-
-import type { TargetScope } from "../bicep.js";
+import type { TargetScope } from "../serialization/contract/index.js";
 
 // ---------------------------------------------------------------------------
 // Stack — class-based API for creating stacks
@@ -52,7 +56,7 @@ export interface StackOptions {
  * like the playground and CLI.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack, ResourceGroup } from "@azure/provisioning-core";
  * import { KeyVault } from "@azure/provisioning-keyvault";
  *
@@ -107,14 +111,13 @@ export class Stack extends ProvisioningComponent {
   // `stacks.flatMap(s => s.getResources(...))`.
 
   /**
-   * The scalar (un-looped) resources in this stack. With no `type`, returns
+   * The scalar resources in this stack. With no `type`, returns
    * every scalar resource; pass a resource class to filter and narrow to
    * that subclass. Returns a plain array — use native `.filter` / `.find` /
    * `.map` for anything further.
    *
    * By default walks the whole tree; pass `{ recursive: false }` to consider
-   * only the stack's direct children. Loop-expanded declarations
-   * (`Ctor.fromLoop(...)`) are excluded — use `getLoopedResources` for those.
+   * only the stack's direct children.
    */
   getResources(options?: QueryOptions): Resource[];
   getResources<T extends Resource>(type: ResourceCtor<T>, options?: QueryOptions): T[];
@@ -123,27 +126,6 @@ export class Stack extends ProvisioningComponent {
     maybeOptions?: QueryOptions,
   ): Resource[] {
     return runGetResources(this, typeOrOptions as never, maybeOptions);
-  }
-
-  /**
-   * The loop-expanded resource declarations (`Ctor.fromLoop(...)`) in this
-   * stack. With no `type`, returns every looped declaration; pass a resource
-   * class to filter and narrow. Each element is a `LoopedResource<T>` — a
-   * looped read is Bicep `sym[i].prop`, not `sym.prop`.
-   *
-   * By default walks the whole tree; pass `{ recursive: false }` to consider
-   * only the stack's direct children.
-   */
-  getLoopedResources(options?: QueryOptions): LoopedResource<Resource>[];
-  getLoopedResources<T extends Resource>(
-    type: ResourceCtor<T>,
-    options?: QueryOptions,
-  ): LoopedResource<T>[];
-  getLoopedResources(
-    typeOrOptions?: ResourceCtor<Resource> | QueryOptions,
-    maybeOptions?: QueryOptions,
-  ): LoopedResource<Resource>[] {
-    return runGetLoopedResources(this, typeOrOptions as never, maybeOptions);
   }
 
   /**
@@ -157,9 +139,9 @@ export class Stack extends ProvisioningComponent {
    * resource groups) — this returns whichever is found first. Use
    * `getResources(type)` and filter yourself if you need all matches.
    *
-   * Scalar-only: a loop-expanded declaration's name is a per-iteration
-   * expression, never a string literal, so it is never matched. Pass
-   * `{ recursive: false }` to search only the stack's direct children.
+   * Only scalar resources are searched, and names that do not resolve to a
+   * string literal are never matched. Pass `{ recursive: false }` to search
+   * only the stack's direct children.
    */
   getResource<T extends Resource>(
     type: ResourceCtor<T>,
@@ -173,40 +155,47 @@ export class Stack extends ProvisioningComponent {
    * Create a child under this stack (with the stack as its parent context),
    * as a convenience for `new Ctor(stack, ...args)`.
    *
-   * - `add(ctor, ...args)` constructs a single scalar instance and returns it.
-   * - `add(ctor, loop, ...args)` constructs a loop-expanded declaration
-   *   (`Ctor.fromLoop(loop, stack, ...args)`) and returns the
-   *   `LoopedResource<InstanceType<T>>`; index into it with `.at(i)`.
-   *
-   * The two forms are distinguished by whether the argument after `ctor` is
-   * a {@link Loop} (resource props are never a `Loop`). The looped form is
-   * only available for resource classes.
+   * Constructs a single child instance and returns it.
    */
   add<T extends new (context: ProvisioningComponent, ...args: any[]) => ProvisioningComponent>(
     ctor: T,
     ...args: ConstructorParameters<T> extends [any, ...infer Rest] ? Rest : never
   ): InstanceType<T>;
-  add<T extends new (context: ProvisioningComponent, ...args: any[]) => Resource>(
-    ctor: T,
-    loop: Loop<unknown>,
-    ...args: ConstructorParameters<T> extends [any, ...infer Rest] ? Rest : never
-  ): LoopedResource<InstanceType<T>>;
   add(
     ctor: new (context: ProvisioningComponent, ...args: any[]) => ProvisioningComponent,
     ...rest: any[]
-  ): ProvisioningComponent | LoopedResource<Resource> {
-    if (rest[0] instanceof Loop) {
-      const [loop, ...args] = rest;
-      return (
-        ctor as unknown as {
-          fromLoop(
-            loop: Loop<unknown>,
-            context: ProvisioningComponent,
-            ...args: any[]
-          ): LoopedResource<Resource>;
-        }
-      ).fromLoop(loop, this.self, ...args);
-    }
+  ): ProvisioningComponent {
     return new ctor(this.self, ...rest);
   }
+}
+
+/** @internal */
+export function getLoopedResources(
+  stack: Stack,
+  options?: QueryOptions,
+): LoopedResource<Resource>[];
+/** @internal */
+export function getLoopedResources<T extends Resource>(
+  stack: Stack,
+  type: ResourceCtor<T>,
+  options?: QueryOptions,
+): LoopedResource<T>[];
+export function getLoopedResources(
+  stack: Stack,
+  typeOrOptions?: ResourceCtor<Resource> | QueryOptions,
+  maybeOptions?: QueryOptions,
+): LoopedResource<Resource>[] {
+  return runGetLoopedResources(stack, typeOrOptions as never, maybeOptions);
+}
+
+/** @internal */
+export function addLoopedResource<T extends Resource, P>(
+  stack: Stack,
+  ctor: new (context: Stack, props: P, options?: ResourceOptions) => T,
+  loop: Loop<unknown>,
+  ...rest: undefined extends P
+    ? [props?: P, options?: ResourceOptions]
+    : [props: P, options?: ResourceOptions]
+): LoopedResource<T> {
+  return createLoopedResource(ctor, loop, stack.self, ...rest);
 }

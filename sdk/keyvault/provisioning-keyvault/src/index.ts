@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { DeletedManagedHsm } from "./deleted-managed-hsm.js";
-export { DeletedVault } from "./deleted-vault.js";
+export * from "./types.js";
+export { DeletedManagedHsm, type DeletedManagedHsmProps } from "./deleted-managed-hsm.js";
+export { DeletedVault, type DeletedVaultProps } from "./deleted-vault.js";
 export {
   ManagedHsm,
   type ManagedHsmProps,
-  ManagedHSMKey,
-  type ManagedHSMKeyProps,
+  ManagedHsmKey,
+  type ManagedHsmKeyProps,
   KeyVaultManagedHsmKey,
-  ManagedHSMPrivateEndpointConnection,
-  type ManagedHSMPrivateEndpointConnectionProps,
+  type KeyVaultManagedHsmKeyProps,
+  ManagedHsmPrivateEndpointConnection,
+  type ManagedHsmPrivateEndpointConnectionProps,
 } from "./managed-hsm.js";
 export {
   KeyVault,
@@ -20,9 +22,9 @@ export {
   VaultKey,
   type VaultKeyProps,
   Version,
+  type VersionProps,
   VaultPrivateEndpointConnection,
   type VaultPrivateEndpointConnectionProps,
   Secret,
   type SecretProps,
 } from "./key-vault.js";
-export * from "./types.js";

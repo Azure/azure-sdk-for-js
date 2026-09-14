@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrimitiveTypeMap } from "../bicep.js";
+import type { PrimitiveTypeMap } from "../serialization/contract/index.js";
 import type { Expression, ExpressionOrValue } from "../expression/expressions.js";
 import { wrapExpression } from "../expression/expressions.js";
 import { symbolicValueExpressionNode } from "../expression/ast-nodes.js";
@@ -146,7 +146,7 @@ export class ParameterCollection {
  * declaration metadata is stored separately on the stack, keyed by name.
  *
  * @example
- * ```typescript snippet:ignore
+ * ```typescript
  * import { Stack, createParameter } from "@azure/provisioning-core";
  *
  * const stack = new Stack("my-app", { targetScope: "resourceGroup" });

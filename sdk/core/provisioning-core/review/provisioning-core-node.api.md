@@ -5,9 +5,6 @@
 ```ts
 
 // @public (undocumented)
-export function accessExpressionNode(base: ExpressionNode, member: PropertySegment, armPath?: readonly string[]): PropertyAccessExpressionNode | ArrayAccessExpressionNode;
-
-// @public (undocumented)
 function add(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
 // @public
@@ -25,9 +22,6 @@ export interface ArrayAccessExpressionNode<_TValue = unknown> {
     // (undocumented)
     readonly nullish: false;
 }
-
-// @public (undocumented)
-export function arrayAccessExpressionNode<TValue = unknown>(base: ExpressionNode, index: ArrayAccessIndex): ArrayAccessExpressionNode<TValue>;
 
 // @public
 export type ArrayAccessIndex = number | string | ExpressionNode;
@@ -50,70 +44,6 @@ function base64(value: ExpressionOrValue<string>): Expression<string>;
 function base64ToJson(value: ExpressionOrValue<string>): Expression<unknown>;
 
 // @public (undocumented)
-export interface BicepArrayType {
-    // (undocumented)
-    readonly item: BicepType;
-    // (undocumented)
-    readonly kind: "array";
-}
-
-// @public (undocumented)
-export interface BicepNullableType {
-    // (undocumented)
-    readonly base: BicepType;
-    // (undocumented)
-    readonly kind: "nullable";
-}
-
-// @public (undocumented)
-export interface BicepObjectType {
-    // (undocumented)
-    readonly kind: "object-type";
-    // (undocumented)
-    readonly properties: readonly BicepObjectTypeProperty[];
-}
-
-// @public (undocumented)
-export interface BicepObjectTypeProperty {
-    // (undocumented)
-    readonly name: string;
-    // (undocumented)
-    readonly optional?: boolean;
-    // (undocumented)
-    readonly type: BicepType;
-}
-
-// @public (undocumented)
-export type BicepPrimitiveType = "string" | "int" | "bool" | "object" | "array" | "any";
-
-// @public (undocumented)
-export interface BicepResourceType {
-    // (undocumented)
-    readonly kind: "resource-type";
-    // (undocumented)
-    readonly typeString: string;
-}
-
-// @public (undocumented)
-export type BicepType = BicepPrimitiveType | BicepTypeReference | BicepNullableType | BicepArrayType | BicepUnionType | BicepObjectType | BicepResourceType;
-
-// @public (undocumented)
-export interface BicepTypeReference {
-    // (undocumented)
-    readonly kind: "type-reference";
-    // (undocumented)
-    readonly name: string;
-}
-
-// @public (undocumented)
-export interface BicepUnionType {
-    // (undocumented)
-    readonly kind: "union";
-    // (undocumented)
-    readonly members: readonly BicepType[];
-}
-
-// @public (undocumented)
 export interface BinaryExpressionNode<_TValue = unknown> {
     // (undocumented)
     readonly kind: "binary";
@@ -125,29 +55,8 @@ export interface BinaryExpressionNode<_TValue = unknown> {
     readonly right: unknown;
 }
 
-// @public (undocumented)
+// @public
 export type BinaryOperator = "%" | "*" | "+" | "-" | "/" | "<" | "<=" | "==" | "!=" | "=~" | "!~" | ">" | ">=" | "&&" | "||" | "??";
-
-// @public
-export type BrandedExpression<T> = ExpressionBrand<T> & ExpressionTag;
-
-// @public
-export interface CdkHost {
-    // (undocumented)
-    readFile(path: string): string;
-}
-
-// @public
-export class ChildResourceCollection<TParent extends Resource, TChild extends Resource, TProps> implements Iterable<TChild | LoopedResource<TChild>> {
-    [Symbol.iterator](): IterableIterator<TChild | LoopedResource<TChild>>;
-    constructor(parent: TParent, childClass: ResourceCtor<TChild>);
-    add(props: TProps, options?: ResourceOptions): TChild;
-    // (undocumented)
-    add(loop: Loop<unknown>, props: TProps, options?: ResourceOptions): LoopedResource<TChild>;
-    get length(): number;
-    // (undocumented)
-    readonly parent: TParent;
-}
 
 // @public (undocumented)
 function coalesce<T>(left: ExpressionOrValue<T>, right: ExpressionOrValue<T>): Expression<T>;
@@ -165,31 +74,10 @@ function cond<T>(condition: ExpressionOrValue<boolean>, trueValue: ExpressionOrV
 function contains(container: ExpressionOrValue<unknown>, value: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public
-export const createArrayShape: (element: NestedShape) => ArrayShape;
-
-// @public
-export const createDeferredShape: <T>(value: () => T) => DeferredShape<T>;
-
-// @public
-export const createDiscriminatedModelShape: (discriminator: string | DiscriminatorNames, byValue: Record<string, ModelShape | DeferredShape<ModelShape>>) => DiscriminatedModelShape;
-
-// @public
-export const createFlatModelShape: (byJsName: Record<string, PropertyShape>) => FlatModelShape;
-
-// @public (undocumented)
-export function createIndexedResourceProxy<D extends ResourceDeclaration>(resource: D, index: ExpressionOrValue<number>): IndexedProxyOf<D>;
-
-// @public
-export function createOutput<T extends "string" | "int" | "bool">(stack: Stack, name: string, type: T, value: ExpressionOrValue<PrimitiveTypeMap[T]> | Resource, options?: OutputOptions): OutputMetadata;
-
-// @public (undocumented)
-export function createOutput(stack: Stack, name: string, type: BicepType, value: OutputValue, options?: OutputOptions): OutputMetadata;
+export function createOutput<T extends OutputType>(stack: Stack, name: string, type: T, value: OutputValueFor<NoInfer<T>>, options?: OutputOptions): OutputMetadata;
 
 // @public
 export function createParameter<T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap, const A extends readonly PrimitiveTypeMap[T][] | undefined = undefined>(stack: Stack, name: string, type: T, options?: ParameterOptions<T, A>): Parameter<T, A>;
-
-// @public
-export const createRecordShape: (value: NestedShape) => RecordShape;
 
 // @public
 export function createVariable<TValue extends VariableValue = VariableValue>(stack: Stack, name: string, value: TValue, options?: VariableOptions): Variable<TValue>;
@@ -208,13 +96,6 @@ export interface DeferredShape<T> {
     // (undocumented)
     readonly value: () => T;
 }
-
-// @public
-export function definedProps<T extends Record<string, unknown>>(obj: T): {
-    [K in keyof T as undefined extends T[K] ? never : K]: T[K];
-} & {
-    [K in keyof T as undefined extends T[K] ? (T[K] extends undefined ? never : K) : never]+?: Exclude<T[K], undefined>;
-};
 
 // @public
 function deployment(): Expression<unknown>;
@@ -292,7 +173,7 @@ export type ExpressionShape<T> = T extends readonly (infer U)[] ? {
     readonly length: Expression<number>;
     readonly [index: number]: Expression<U>;
 } : T extends object ? {
-    readonly [K in keyof T as T[K] extends (...a: any[]) => any ? never : K]-?: Expression<T[K]>;
+    readonly [K in keyof T as T[K] extends (...a: any[]) => any ? never : K]-?: Expression<Exclude<T[K], undefined>>;
 } : {};
 
 // @public (undocumented)
@@ -327,14 +208,6 @@ export interface FlatVariantPin {
     readonly discriminator: DiscriminatorNames;
     // (undocumented)
     readonly value: string;
-}
-
-// @public
-export interface FlatVariantSelection<T> {
-    // (undocumented)
-    readonly selector: FlatVariantSelector;
-    // (undocumented)
-    readonly variant: T;
 }
 
 // @public
@@ -425,15 +298,6 @@ export interface FunctionCallExpressionNode<_TValue = unknown, TOperator extends
 }
 
 // @public (undocumented)
-export function functionCallExpressionNode<TValue = unknown, TOperator extends string = string>(operator: TOperator, args: readonly unknown[]): FunctionCallExpressionNode<TValue, TOperator>;
-
-// @public (undocumented)
-export function getHost(): CdkHost;
-
-// @public
-export function getShape(type: string, apiVersion: string, state: Record<string, unknown>, options?: ShapeResolveOptions): FlatModelShape | undefined;
-
-// @public (undocumented)
 function gt(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public (undocumented)
@@ -451,24 +315,10 @@ export interface IdentifierExpressionNode<_TValue = unknown> {
 }
 
 // @public (undocumented)
-export function identifierExpressionNode<TValue = unknown>(identifier: string | Resource): IdentifierExpressionNode<TValue>;
-
-// @public
-export type IndexedProxyOf<D extends ResourceDeclaration> = D extends LoopedResource<infer T> ? T : D;
-
-// @public (undocumented)
 function indexOf<T>(arr: ExpressionOrValue<T[]>, value: ExpressionOrValue<T>): Expression<number>;
 
 // @public (undocumented)
 export type InferParamType<T extends keyof PrimitiveTypeMap, A> = A extends readonly (infer E)[] ? E : PrimitiveTypeMap[T];
-
-// @public
-export interface InputArray<T, Raw = readonly T[]> extends InputOf<Raw> {
-    // (undocumented)
-    [index: number]: T;
-    // (undocumented)
-    length: number | Expression<number>;
-}
 
 // @public
 export interface InputOf<out Raw> {
@@ -495,9 +345,6 @@ export interface InstanceFunctionCallExpressionNode<_TValue = unknown> {
 }
 
 // @public (undocumented)
-export function instanceFunctionCallExpressionNode<TValue = unknown>(base: ExpressionNode, name: string, args: readonly unknown[]): InstanceFunctionCallExpressionNode<TValue>;
-
-// @public (undocumented)
 function int(value: ExpressionOrValue<unknown>): Expression<number>;
 
 // @public (undocumented)
@@ -509,22 +356,10 @@ export interface InterpolatedStringExpressionNode<_TValue = unknown> {
 }
 
 // @public (undocumented)
-export function interpolatedStringExpressionNode<TValue = unknown>(segments: readonly unknown[]): InterpolatedStringExpressionNode<TValue>;
-
-// @public (undocumented)
 function intersect<T, U>(a: ExpressionOrValue<T>, b: ExpressionOrValue<U>): Expression<T & U>;
 
 // @public
 export function isExpression(value: unknown): value is Expression<unknown>;
-
-// @public
-export function isExpressionNode(value: unknown): value is ExpressionNode;
-
-// @public
-export function isLoopedResource(x: unknown): x is LoopedResource<Resource>;
-
-// @public
-export function isLoopedResourceOf<T extends Resource>(x: unknown, ctor: ResourceCtor<T>): x is LoopedResource<T>;
 
 // @public
 export function isResource(x: unknown): x is Resource;
@@ -555,46 +390,6 @@ function lastIndexOf(value: ExpressionOrValue<string>, searchString: ExpressionO
 
 // @public (undocumented)
 function length(value: ExpressionOrValue<unknown>): Expression<number>;
-
-// @public
-export class Loop<T> {
-    constructor(collection: ExpressionOrValue<T[]>, options?: LoopOptions);
-    // (undocumented)
-    readonly batchSize?: number;
-    // (undocumented)
-    readonly collection: ExpressionOrValue<T[]>;
-    get index(): Expression<number>;
-    // @internal
-    get indexRequested(): boolean;
-    get indexVariable(): string;
-    // (undocumented)
-    readonly item: Expression<T>;
-    // (undocumented)
-    readonly itemVariable: string;
-}
-
-// @public
-export interface LoopContext {
-    // (undocumented)
-    readonly batchSize?: number;
-    // (undocumented)
-    readonly collection: unknown;
-    // (undocumented)
-    readonly indexVariable?: string;
-    // (undocumented)
-    readonly itemVariable: string;
-}
-
-// @public
-export class LoopedResource<T extends Resource = Resource> extends ResourceDeclaration<T["type"]> {
-    readonly [LOOPED_RESOURCE_BRAND]: true;
-    at(index: ExpressionOrValue<number>): T;
-    readonly loop: LoopContext;
-    get wrappedCtor(): new (context: ProvisioningComponent, props: unknown, options?: ResourceOptions) => T;
-}
-
-// @public
-export type LoopOptions = Partial<Omit<LoopContext, "collection">>;
 
 // @public (undocumented)
 function lt(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
@@ -629,9 +424,6 @@ function mod(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>):
 export type ModelShape = FlatModelShape | DiscriminatedModelShape;
 
 // @public (undocumented)
-export const MOST_RESTRICTIVE: ResourceNamingRules;
-
-// @public (undocumented)
 function mul(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
 // @public (undocumented)
@@ -663,15 +455,6 @@ export interface NamingPolicyOptions {
 // @public
 export const namingRequiredPolicy: NamingPolicy;
 
-// @public
-export function navigateShape(nav: NavShape, segment: string | number, value?: unknown): {
-    readonly stamp: PropertyShape | undefined;
-    readonly next: NavShape;
-};
-
-// @public
-export type NavShape = ModelShape | ArrayShape | RecordShape | undefined;
-
 // @public (undocumented)
 function neg(value: ExpressionOrValue<number>): Expression<number>;
 
@@ -694,8 +477,7 @@ function or(...conditions: ExpressionOrValue<boolean>[]): Expression<boolean>;
 export class OutputCollection {
     // (undocumented)
     [Symbol.iterator](): IterableIterator<OutputMetadata>;
-    add<T extends "string" | "int" | "bool">(name: string, type: T, value: ExpressionOrValue<PrimitiveTypeMap[T]> | Resource, options?: OutputOptions): OutputMetadata;
-    add(name: string, type: BicepType, value: OutputValue, options?: OutputOptions): OutputMetadata;
+    add<T extends OutputType>(name: string, type: T, value: OutputValueFor<NoInfer<T>>, options?: OutputOptions): OutputMetadata;
     delete(name: string): boolean;
     get(name: string): OutputMetadata | undefined;
     getAll(): readonly OutputMetadata[];
@@ -710,7 +492,7 @@ export interface OutputMetadata extends OutputOptions {
     // (undocumented)
     readonly name: string;
     // (undocumented)
-    readonly type: BicepType;
+    readonly type: OutputType;
     // (undocumented)
     readonly value: OutputValue;
 }
@@ -729,9 +511,15 @@ export type OutputOptions = {
 };
 
 // @public
+export type OutputType = PrimitiveTypeName;
+
+// @public
 export type OutputValue = string | number | boolean | null | readonly OutputValue[] | {
     readonly [key: string]: OutputValue;
 } | InputOf<unknown> | Resource;
+
+// @public (undocumented)
+export type OutputValueFor<T extends OutputType> = T extends ScalarOutputType ? ExpressionOrValue<PrimitiveTypeMap[T]> | Resource : OutputValue;
 
 // @public (undocumented)
 export type Parameter<T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap, A extends readonly PrimitiveTypeMap[T][] | undefined = undefined> = Expression<InferParamType<T, A>>;
@@ -781,18 +569,21 @@ export type ParameterValue<T extends keyof PrimitiveTypeMap = keyof PrimitiveTyp
 // @public
 export interface PrimitiveTypeMap {
     // (undocumented)
-    any: unknown;
+    readonly any: unknown;
     // (undocumented)
-    array: unknown[];
+    readonly array: readonly unknown[];
     // (undocumented)
-    bool: boolean;
+    readonly bool: boolean;
     // (undocumented)
-    int: number;
+    readonly int: number;
     // (undocumented)
-    object: Record<string, unknown>;
+    readonly object: Record<string, unknown>;
     // (undocumented)
-    string: string;
+    readonly string: string;
 }
+
+// @public
+export type PrimitiveTypeName = "any" | "array" | "bool" | "int" | "object" | "string";
 
 // @public (undocumented)
 export interface PropertyAccessExpressionNode<_TValue = unknown> {
@@ -806,9 +597,6 @@ export interface PropertyAccessExpressionNode<_TValue = unknown> {
     // (undocumented)
     readonly property: string;
 }
-
-// @public (undocumented)
-export function propertyAccessExpressionNode<TValue = unknown>(base: ExpressionNode, property: string, armPath?: readonly string[]): PropertyAccessExpressionNode<TValue>;
 
 // @public
 export interface PropertyEncoding {
@@ -840,7 +628,6 @@ export class ProvisioningComponent {
     protected _localDeploymentContext: DeploymentContext | undefined;
     // (undocumented)
     readonly parent: ProvisioningComponent | undefined;
-    removeChild(child: ProvisioningComponent): void;
     get self(): this;
     transform(callback: (component: ProvisioningComponent) => void): this;
     // (undocumented)
@@ -867,35 +654,14 @@ export interface RecordShape {
     readonly value: NestedShape;
 }
 
-// @public
-export function registerResource(ctor: ResourceCtor, variantSelector?: FlatVariantSelector): void;
-
-// @public
-export function registerShape(type: string, apiVersion: string, shape: FlatModelShape, variantSelector?: FlatVariantSelector): void;
-
 // @public (undocumented)
 function replace(value: ExpressionOrValue<string>, oldValue: ExpressionOrValue<string>, newValue: ExpressionOrValue<string>): Expression<string>;
-
-// @public
-export function resolveModelShape(shape: ModelShape | undefined, value: Record<string, unknown> | undefined, valueKeyedBy?: "js" | "arm"): FlatModelShape | undefined;
-
-// @public
-export interface ResolveOptions {
-    readonly strict?: boolean;
-}
-
-// @public
-export function resolveResource(type: string, apiVersion: string, state?: Record<string, unknown>, options?: ResolveOptions): ResourceCtor | undefined;
-
-// @public
-export function resolveResourceName(policy: NamingPolicy, name: ExpressionOrValue<string> | undefined, type: string, namingRules: ResourceNamingRules | undefined): ExpressionOrValue<string>;
 
 // @public
 export class Resource<TType extends string = string> extends ResourceDeclaration<TType> {
     readonly [RESOURCE_BRAND]: true;
     constructor(context: ProvisioningComponent, props: ResourceProps<TType> & Record<string, unknown>, options?: ResourceOptions);
     protected static buildResourceProps(props?: unknown): ResourceProps<string> & Record<string, unknown>;
-    static fromLoop<T extends Resource, C extends ProvisioningComponent, P>(this: new (context: C, props: P, options?: ResourceOptions) => T, loop: Loop<unknown>, context: C, ...rest: undefined extends P ? [props?: P, options?: ResourceOptions] : [props: P, options?: ResourceOptions]): LoopedResource<T>;
     // (undocumented)
     get id(): Expression<string>;
     get name(): Expression<string>;
@@ -978,9 +744,6 @@ function resourceGroup(name: ExpressionOrValue<string>): Expression<ResourceGrou
 function resourceGroup(subscriptionId: ExpressionOrValue<string>, name: ExpressionOrValue<string>): Expression<ResourceGroupScope>;
 
 // @public (undocumented)
-export const resourceGroupNamingRules: ResourceNamingRules;
-
-// @public (undocumented)
 export interface ResourceGroupProps {
     // (undocumented)
     location: ExpressionOrValue<string>;
@@ -1053,9 +816,6 @@ export interface ResourceProps<TType extends string> {
 }
 
 // @public
-export type ResourceShape = ModelShape;
-
-// @public
 export interface ResourceState<TType extends string = string> {
     // (undocumented)
     readonly apiVersion: string;
@@ -1073,20 +833,11 @@ export interface ResourceState<TType extends string = string> {
 // @public (undocumented)
 function reverse<T>(arr: ExpressionOrValue<T[]>): Expression<T[]>;
 
+// @public (undocumented)
+export type ScalarOutputType = "string" | "int" | "bool";
+
 // @public
 export type ScopeExpression = Expression<unknown>;
-
-// @public (undocumented)
-export function setHost(host: CdkHost): void;
-
-// @public (undocumented)
-export interface ShapeResolveOptions {
-    readonly strict?: boolean;
-    readonly valueKeyedBy?: "js" | "arm";
-}
-
-// @public
-export type SingletonExistingResourceProps = Omit<ExistingResourceProps, "name">;
 
 // @public (undocumented)
 function skip<T>(arr: ExpressionOrValue<T[]>, count: ExpressionOrValue<number>): Expression<T[]>;
@@ -1098,12 +849,7 @@ function split(value: ExpressionOrValue<string>, delimiter: ExpressionOrValue<st
 export class Stack extends ProvisioningComponent {
     constructor(name: string, options?: StackOptions);
     add<T extends new (context: ProvisioningComponent, ...args: any[]) => ProvisioningComponent>(ctor: T, ...args: ConstructorParameters<T> extends [any, ...infer Rest] ? Rest : never): InstanceType<T>;
-    // (undocumented)
-    add<T extends new (context: ProvisioningComponent, ...args: any[]) => Resource>(ctor: T, loop: Loop<unknown>, ...args: ConstructorParameters<T> extends [any, ...infer Rest] ? Rest : never): LoopedResource<InstanceType<T>>;
     static clearRoots(): Stack[];
-    getLoopedResources(options?: QueryOptions): LoopedResource<Resource>[];
-    // (undocumented)
-    getLoopedResources<T extends Resource>(type: ResourceCtor<T>, options?: QueryOptions): LoopedResource<T>[];
     getResource<T extends Resource>(type: ResourceCtor<T>, name: string, options?: QueryOptions): T | undefined;
     getResources(options?: QueryOptions): Resource[];
     // (undocumented)
@@ -1136,9 +882,6 @@ export interface StackOptions {
 // @public (undocumented)
 function startsWith(value: ExpressionOrValue<string>, prefix: ExpressionOrValue<string>): Expression<boolean>;
 
-// @public
-export const STATE_PARENT_INDEX: "parentIndex";
-
 // @public (undocumented)
 function sub(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
@@ -1169,9 +912,6 @@ export interface SymbolicValueExpressionNode<_TValue = unknown, TPath extends st
     // (undocumented)
     readonly path: TPath;
 }
-
-// @public (undocumented)
-export function symbolicValueExpressionNode<TValue = unknown, TPath extends string = string>(path: TPath): SymbolicValueExpressionNode<TValue, TPath>;
 
 // @public (undocumented)
 function take(value: ExpressionOrValue<string>, count: ExpressionOrValue<number>): Expression<string>;
@@ -1221,7 +961,7 @@ export interface UnaryExpressionNode<_TValue = unknown> {
     readonly operator: UnaryOperator;
 }
 
-// @public (undocumented)
+// @public
 export type UnaryOperator = "!" | "-";
 
 // @public (undocumented)
@@ -1229,12 +969,6 @@ function union<T, U>(a: ExpressionOrValue<T>, b: ExpressionOrValue<U>): Expressi
 
 // @public (undocumented)
 function uniqueString(...values: ExpressionOrValue<string>[]): Expression<string>;
-
-// @public
-export function unwrapExpression<T>(expr: Expression<T>): ExpressionNode<T>;
-
-// @public (undocumented)
-export function unwrapResourceHandle<T extends ResourceDeclaration>(resource: T): T;
 
 // @public (undocumented)
 export type Variable<TValue extends VariableValue = VariableValue> = Expression<ExpressionValue<TValue>>;
@@ -1273,9 +1007,6 @@ export type VariableOptions = {
 export type VariableValue = string | number | boolean | null | readonly VariableValue[] | {
     readonly [key: string]: VariableValue;
 } | InputOf<unknown>;
-
-// @public (undocumented)
-export function wrapExpression<T = unknown>(expression: ExpressionNode, nav?: NavShape): Expression<T>;
 
 // (No @packageDocumentation comment for this package)
 

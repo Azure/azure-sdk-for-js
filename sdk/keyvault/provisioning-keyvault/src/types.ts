@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Expression, ExpressionOrValue } from "@azure/provisioning-core";
 import {
   createArrayShape,
   createDeferredShape,
   createFlatModelShape,
   createRecordShape,
-  type Expression,
-  type ExpressionOrValue,
   type FlatModelShape,
   type InputArray,
   type InputOf,
   type InputRecord,
-} from "@azure/provisioning-core";
+} from "@azure/provisioning-core/internal";
 
 /**
  * The vault's create mode to indicate whether the vault need to be recovered or not.
@@ -78,31 +77,31 @@ export interface AccessPolicyEntryInput extends InputOf<AccessPolicyEntry> {
  */
 export type AccessPolicyEntryView = AccessPolicyEntryInput;
 
-export const AccessPolicyEntryShape: FlatModelShape = createFlatModelShape({
+export const accessPolicyEntryShape: FlatModelShape = createFlatModelShape({
   applicationId: { armPath: ["applicationId"] },
   objectId: { armPath: ["objectId"] },
-  permissions: { armPath: ["permissions"], target: createDeferredShape(() => PermissionsShape) },
+  permissions: { armPath: ["permissions"], target: createDeferredShape(() => permissionsShape) },
   tenantId: { armPath: ["tenantId"] },
 });
 
-export interface ActionReadonly {
+export interface Action {
   /**
    * The type of action.
    */
   type?: KeyRotationPolicyActionType;
 }
 
-export interface ActionReadonlyInput extends InputOf<ActionReadonly> {}
-
-export interface ActionReadonlyView extends InputOf<ActionReadonly> {
+export interface ActionInput extends InputOf<Action> {
   /**
-   * Read-only output: The type of action.
+   * The type of action.
    */
-  readonly type?: Expression<KeyRotationPolicyActionType> | undefined;
+  type?: ExpressionOrValue<KeyRotationPolicyActionType> | undefined;
 }
 
-export const ActionReadonlyShape: FlatModelShape = createFlatModelShape({
-  type: { armPath: ["type"], readOnly: true },
+export type ActionView = ActionInput;
+
+export const actionShape: FlatModelShape = createFlatModelShape({
+  type: { armPath: ["type"] },
 });
 
 /**
@@ -170,7 +169,7 @@ export interface DeletedManagedHsmPropertiesView extends InputOf<DeletedManagedH
   readonly tags?: Expression<Record<string, string>> | undefined;
 }
 
-export const DeletedManagedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
+export const deletedManagedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
   deletionDate: { armPath: ["deletionDate"], readOnly: true },
   location: { armPath: ["location"], readOnly: true },
   mhsmId: { armPath: ["mhsmId"], readOnly: true },
@@ -244,7 +243,7 @@ export interface DeletedVaultPropertiesView extends InputOf<DeletedVaultProperti
   readonly vaultId?: Expression<string> | undefined;
 }
 
-export const DeletedVaultPropertiesShape: FlatModelShape = createFlatModelShape({
+export const deletedVaultPropertiesShape: FlatModelShape = createFlatModelShape({
   deletionDate: { armPath: ["deletionDate"], readOnly: true },
   location: { armPath: ["location"], readOnly: true },
   purgeProtectionEnabled: { armPath: ["purgeProtectionEnabled"], readOnly: true },
@@ -256,7 +255,7 @@ export const DeletedVaultPropertiesShape: FlatModelShape = createFlatModelShape(
 /**
  * A rule governing the accessibility of a vault from a specific ip address or ip range.
  */
-export interface IPRule {
+export interface IpRule {
   /**
    * An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78).
    */
@@ -266,7 +265,7 @@ export interface IPRule {
 /**
  * Input type for A rule governing the accessibility of a vault from a specific ip address or ip range.
  */
-export interface IPRuleInput extends InputOf<IPRule> {
+export interface IpRuleInput extends InputOf<IpRule> {
   /**
    * An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78).
    */
@@ -276,16 +275,16 @@ export interface IPRuleInput extends InputOf<IPRule> {
 /**
  * View type for A rule governing the accessibility of a vault from a specific ip address or ip range.
  */
-export type IPRuleView = IPRuleInput;
+export type IpRuleView = IpRuleInput;
 
-export const IPRuleShape: FlatModelShape = createFlatModelShape({
+export const ipRuleShape: FlatModelShape = createFlatModelShape({
   value: { armPath: ["value"] },
 });
 
 /**
  * The object attributes managed by the Azure Key Vault service.
  */
-export interface KeyAttributesReadonly {
+export interface KeyAttributes {
   /**
    * Creation time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -297,7 +296,7 @@ export interface KeyAttributesReadonly {
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: number;
+  expires?: number;
   /**
    * Indicates if the private key can be exported.
    */
@@ -305,7 +304,7 @@ export interface KeyAttributesReadonly {
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: number;
+  notBefore?: number;
   /**
    * The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.
    */
@@ -319,288 +318,7 @@ export interface KeyAttributesReadonly {
 /**
  * Input type for The object attributes managed by the Azure Key Vault service.
  */
-export interface KeyAttributesReadonlyInput extends InputOf<KeyAttributesReadonly> {}
-
-/**
- * View type for The object attributes managed by the Azure Key Vault service.
- */
-export interface KeyAttributesReadonlyView extends InputOf<KeyAttributesReadonly> {
-  /**
-   * Read-only output: Creation time in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly created?: Expression<number> | undefined;
-  /**
-   * Read-only output: Determines whether or not the object is enabled.
-   */
-  readonly enabled?: Expression<boolean> | undefined;
-  /**
-   * Read-only output: Expiry date in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly Expires?: Expression<number> | undefined;
-  /**
-   * Read-only output: Indicates if the private key can be exported.
-   */
-  readonly exportable?: Expression<boolean> | undefined;
-  /**
-   * Read-only output: Not before date in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly NotBefore?: Expression<number> | undefined;
-  /**
-   * Read-only output: The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.
-   */
-  readonly recoveryLevel?: Expression<DeletionRecoveryLevel> | undefined;
-  /**
-   * Read-only output: Last updated time in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly updated?: Expression<number> | undefined;
-}
-
-export const KeyAttributesReadonlyShape: FlatModelShape = createFlatModelShape({
-  created: { armPath: ["created"], readOnly: true },
-  enabled: { armPath: ["enabled"], readOnly: true },
-  Expires: { armPath: ["exp"], readOnly: true },
-  exportable: { armPath: ["exportable"], readOnly: true },
-  NotBefore: { armPath: ["nbf"], readOnly: true },
-  recoveryLevel: { armPath: ["recoveryLevel"], readOnly: true },
-  updated: { armPath: ["updated"], readOnly: true },
-});
-
-/**
- * The properties of the key.
- */
-export interface KeyPropertiesReadonly {
-  /**
-   * The attributes of the key.
-   */
-  attributes?: KeyAttributesReadonly;
-  /**
-   * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
-   */
-  curveName?: JsonWebKeyCurveName;
-  keyOps?: JsonWebKeyOperation[];
-  /**
-   * The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096.
-   */
-  keySize?: number;
-  /**
-   * The URI to retrieve the current version of the key.
-   */
-  keyUri?: string;
-  /**
-   * The URI to retrieve the specific version of the key.
-   */
-  keyUriWithVersion?: string;
-  /**
-   * The type of the key. For valid values, see JsonWebKeyType.
-   */
-  kty?: JsonWebKeyType;
-  /**
-   * Key release policy in response. It will be used for both output and input. Omitted if empty
-   */
-  release_policy?: KeyReleasePolicyReadonly;
-  /**
-   * Key rotation policy in response. It will be used for both output and input. Omitted if empty
-   */
-  rotationPolicy?: RotationPolicyReadonly;
-}
-
-/**
- * Input type for The properties of the key.
- */
-export interface KeyPropertiesReadonlyInput extends InputOf<KeyPropertiesReadonly> {}
-
-/**
- * View type for The properties of the key.
- */
-export interface KeyPropertiesReadonlyView extends InputOf<KeyPropertiesReadonly> {
-  /**
-   * Read-only output: The attributes of the key.
-   */
-  readonly attributes?: Expression<KeyAttributesReadonly> | undefined;
-  /**
-   * Read-only output: The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
-   */
-  readonly curveName?: Expression<JsonWebKeyCurveName> | undefined;
-  readonly keyOps?: Expression<JsonWebKeyOperation[]> | undefined;
-  /**
-   * Read-only output: The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096.
-   */
-  readonly keySize?: Expression<number> | undefined;
-  /**
-   * Read-only output: The URI to retrieve the current version of the key.
-   */
-  readonly keyUri?: Expression<string> | undefined;
-  /**
-   * Read-only output: The URI to retrieve the specific version of the key.
-   */
-  readonly keyUriWithVersion?: Expression<string> | undefined;
-  /**
-   * Read-only output: The type of the key. For valid values, see JsonWebKeyType.
-   */
-  readonly kty?: Expression<JsonWebKeyType> | undefined;
-  /**
-   * Read-only output: Key release policy in response. It will be used for both output and input. Omitted if empty
-   */
-  readonly release_policy?: Expression<KeyReleasePolicyReadonly> | undefined;
-  /**
-   * Read-only output: Key rotation policy in response. It will be used for both output and input. Omitted if empty
-   */
-  readonly rotationPolicy?: Expression<RotationPolicyReadonly> | undefined;
-}
-
-export const KeyPropertiesReadonlyShape: FlatModelShape = createFlatModelShape({
-  attributes: {
-    armPath: ["attributes"],
-    target: createDeferredShape(() => KeyAttributesReadonlyShape),
-    readOnly: true,
-  },
-  curveName: { armPath: ["curveName"], readOnly: true },
-  keyOps: { armPath: ["keyOps"], readOnly: true },
-  keySize: { armPath: ["keySize"], readOnly: true },
-  keyUri: { armPath: ["keyUri"], readOnly: true },
-  keyUriWithVersion: { armPath: ["keyUriWithVersion"], readOnly: true },
-  kty: { armPath: ["kty"], readOnly: true },
-  release_policy: {
-    armPath: ["release_policy"],
-    target: createDeferredShape(() => KeyReleasePolicyReadonlyShape),
-    readOnly: true,
-  },
-  rotationPolicy: {
-    armPath: ["rotationPolicy"],
-    target: createDeferredShape(() => RotationPolicyReadonlyShape),
-    readOnly: true,
-  },
-});
-
-export interface KeyReleasePolicyReadonly {
-  /**
-   * Content type and version of key release policy
-   */
-  contentType?: string;
-  /**
-   * Blob encoding the policy rules under which the key can be released.
-   */
-  data?: Uint8Array;
-}
-
-export interface KeyReleasePolicyReadonlyInput extends InputOf<KeyReleasePolicyReadonly> {}
-
-export interface KeyReleasePolicyReadonlyView extends InputOf<KeyReleasePolicyReadonly> {
-  /**
-   * Read-only output: Content type and version of key release policy
-   */
-  readonly contentType?: Expression<string> | undefined;
-  /**
-   * Read-only output: Blob encoding the policy rules under which the key can be released.
-   */
-  readonly data?: Expression<Uint8Array> | undefined;
-}
-
-export const KeyReleasePolicyReadonlyShape: FlatModelShape = createFlatModelShape({
-  contentType: { armPath: ["contentType"], readOnly: true },
-  data: {
-    armPath: ["data"],
-    encoding: { encoding: "base64url", wireKind: "string", sourceKind: "bytes" },
-    readOnly: true,
-  },
-});
-
-export interface KeyRotationPolicyAttributesReadonly {
-  /**
-   * Creation time in seconds since 1970-01-01T00:00:00Z.
-   */
-  created?: number;
-  /**
-   * The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'.
-   */
-  expiryTime?: string;
-  /**
-   * Last updated time in seconds since 1970-01-01T00:00:00Z.
-   */
-  updated?: number;
-}
-
-export interface KeyRotationPolicyAttributesReadonlyInput extends InputOf<KeyRotationPolicyAttributesReadonly> {}
-
-export interface KeyRotationPolicyAttributesReadonlyView extends InputOf<KeyRotationPolicyAttributesReadonly> {
-  /**
-   * Read-only output: Creation time in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly created?: Expression<number> | undefined;
-  /**
-   * Read-only output: The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'.
-   */
-  readonly expiryTime?: Expression<string> | undefined;
-  /**
-   * Read-only output: Last updated time in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly updated?: Expression<number> | undefined;
-}
-
-export const KeyRotationPolicyAttributesReadonlyShape: FlatModelShape = createFlatModelShape({
-  created: { armPath: ["created"], readOnly: true },
-  expiryTime: { armPath: ["expiryTime"], readOnly: true },
-  updated: { armPath: ["updated"], readOnly: true },
-});
-
-export interface KeyVaultAction {
-  /**
-   * The type of action.
-   */
-  type?: KeyRotationPolicyActionType;
-}
-
-export interface KeyVaultActionInput extends InputOf<KeyVaultAction> {
-  /**
-   * The type of action.
-   */
-  type?: ExpressionOrValue<KeyRotationPolicyActionType> | undefined;
-}
-
-export type KeyVaultActionView = KeyVaultActionInput;
-
-export const KeyVaultActionShape: FlatModelShape = createFlatModelShape({
-  type: { armPath: ["type"] },
-});
-
-/**
- * The object attributes managed by the Azure Key Vault service.
- */
-export interface KeyVaultKeyAttributes {
-  /**
-   * Creation time in seconds since 1970-01-01T00:00:00Z.
-   */
-  created?: number;
-  /**
-   * Determines whether or not the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * Expiry date in seconds since 1970-01-01T00:00:00Z.
-   */
-  Expires?: number;
-  /**
-   * Indicates if the private key can be exported.
-   */
-  exportable?: boolean;
-  /**
-   * Not before date in seconds since 1970-01-01T00:00:00Z.
-   */
-  NotBefore?: number;
-  /**
-   * The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.
-   */
-  recoveryLevel?: DeletionRecoveryLevel;
-  /**
-   * Last updated time in seconds since 1970-01-01T00:00:00Z.
-   */
-  updated?: number;
-}
-
-/**
- * Input type for The object attributes managed by the Azure Key Vault service.
- */
-export interface KeyVaultKeyAttributesInput extends InputOf<KeyVaultKeyAttributes> {
+export interface KeyAttributesInput extends InputOf<KeyAttributes> {
   /**
    * Determines whether or not the object is enabled.
    */
@@ -608,7 +326,7 @@ export interface KeyVaultKeyAttributesInput extends InputOf<KeyVaultKeyAttribute
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: ExpressionOrValue<number> | undefined;
+  expires?: ExpressionOrValue<number> | undefined;
   /**
    * Indicates if the private key can be exported.
    */
@@ -616,13 +334,13 @@ export interface KeyVaultKeyAttributesInput extends InputOf<KeyVaultKeyAttribute
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: ExpressionOrValue<number> | undefined;
+  notBefore?: ExpressionOrValue<number> | undefined;
 }
 
 /**
  * View type for The object attributes managed by the Azure Key Vault service.
  */
-export interface KeyVaultKeyAttributesView extends InputOf<KeyVaultKeyAttributes> {
+export interface KeyAttributesView extends InputOf<KeyAttributes> {
   /**
    * Read-only output: Creation time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -634,7 +352,7 @@ export interface KeyVaultKeyAttributesView extends InputOf<KeyVaultKeyAttributes
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: ExpressionOrValue<number> | undefined;
+  expires?: ExpressionOrValue<number> | undefined;
   /**
    * Indicates if the private key can be exported.
    */
@@ -642,7 +360,7 @@ export interface KeyVaultKeyAttributesView extends InputOf<KeyVaultKeyAttributes
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: ExpressionOrValue<number> | undefined;
+  notBefore?: ExpressionOrValue<number> | undefined;
   /**
    * Read-only output: The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.
    */
@@ -653,12 +371,12 @@ export interface KeyVaultKeyAttributesView extends InputOf<KeyVaultKeyAttributes
   readonly updated?: Expression<number> | undefined;
 }
 
-export const KeyVaultKeyAttributesShape: FlatModelShape = createFlatModelShape({
+export const keyAttributesShape: FlatModelShape = createFlatModelShape({
   created: { armPath: ["created"], readOnly: true },
   enabled: { armPath: ["enabled"] },
-  Expires: { armPath: ["exp"] },
+  expires: { armPath: ["exp"] },
   exportable: { armPath: ["exportable"] },
-  NotBefore: { armPath: ["nbf"] },
+  notBefore: { armPath: ["nbf"] },
   recoveryLevel: { armPath: ["recoveryLevel"], readOnly: true },
   updated: { armPath: ["updated"], readOnly: true },
 });
@@ -666,11 +384,11 @@ export const KeyVaultKeyAttributesShape: FlatModelShape = createFlatModelShape({
 /**
  * The properties of the key.
  */
-export interface KeyVaultKeyProperties {
+export interface KeyProperties {
   /**
    * The attributes of the key.
    */
-  attributes?: KeyVaultKeyAttributes;
+  attributes?: KeyAttributes;
   /**
    * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
    */
@@ -695,21 +413,21 @@ export interface KeyVaultKeyProperties {
   /**
    * Key release policy in response. It will be used for both output and input. Omitted if empty
    */
-  release_policy?: KeyVaultKeyReleasePolicy;
+  releasePolicy?: KeyReleasePolicy;
   /**
    * Key rotation policy in response. It will be used for both output and input. Omitted if empty
    */
-  rotationPolicy?: KeyVaultRotationPolicy;
+  rotationPolicy?: RotationPolicy;
 }
 
 /**
  * Input type for The properties of the key.
  */
-export interface KeyVaultKeyPropertiesInput extends InputOf<KeyVaultKeyProperties> {
+export interface KeyPropertiesInput extends InputOf<KeyProperties> {
   /**
    * The attributes of the key.
    */
-  attributes?: KeyVaultKeyAttributesInput | undefined;
+  attributes?: KeyAttributesInput | undefined;
   /**
    * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
    */
@@ -726,21 +444,21 @@ export interface KeyVaultKeyPropertiesInput extends InputOf<KeyVaultKeyPropertie
   /**
    * Key release policy in response. It will be used for both output and input. Omitted if empty
    */
-  release_policy?: KeyVaultKeyReleasePolicyInput | undefined;
+  releasePolicy?: KeyReleasePolicyInput | undefined;
   /**
    * Key rotation policy in response. It will be used for both output and input. Omitted if empty
    */
-  rotationPolicy?: KeyVaultRotationPolicyInput | undefined;
+  rotationPolicy?: RotationPolicyInput | undefined;
 }
 
 /**
  * View type for The properties of the key.
  */
-export interface KeyVaultKeyPropertiesView extends InputOf<KeyVaultKeyProperties> {
+export interface KeyPropertiesView extends InputOf<KeyProperties> {
   /**
    * The attributes of the key.
    */
-  attributes?: KeyVaultKeyAttributesView | undefined;
+  attributes?: KeyAttributesView | undefined;
   /**
    * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
    */
@@ -765,35 +483,32 @@ export interface KeyVaultKeyPropertiesView extends InputOf<KeyVaultKeyProperties
   /**
    * Key release policy in response. It will be used for both output and input. Omitted if empty
    */
-  release_policy?: KeyVaultKeyReleasePolicyView | undefined;
+  releasePolicy?: KeyReleasePolicyView | undefined;
   /**
    * Key rotation policy in response. It will be used for both output and input. Omitted if empty
    */
-  rotationPolicy?: KeyVaultRotationPolicyView | undefined;
+  rotationPolicy?: RotationPolicyView | undefined;
 }
 
-export const KeyVaultKeyPropertiesShape: FlatModelShape = createFlatModelShape({
-  attributes: {
-    armPath: ["attributes"],
-    target: createDeferredShape(() => KeyVaultKeyAttributesShape),
-  },
+export const keyPropertiesShape: FlatModelShape = createFlatModelShape({
+  attributes: { armPath: ["attributes"], target: createDeferredShape(() => keyAttributesShape) },
   curveName: { armPath: ["curveName"] },
   keyOps: { armPath: ["keyOps"] },
   keySize: { armPath: ["keySize"] },
   keyUri: { armPath: ["keyUri"], readOnly: true },
   keyUriWithVersion: { armPath: ["keyUriWithVersion"], readOnly: true },
   kty: { armPath: ["kty"] },
-  release_policy: {
+  releasePolicy: {
     armPath: ["release_policy"],
-    target: createDeferredShape(() => KeyVaultKeyReleasePolicyShape),
+    target: createDeferredShape(() => keyReleasePolicyShape),
   },
   rotationPolicy: {
     armPath: ["rotationPolicy"],
-    target: createDeferredShape(() => KeyVaultRotationPolicyShape),
+    target: createDeferredShape(() => rotationPolicyShape),
   },
 });
 
-export interface KeyVaultKeyReleasePolicy {
+export interface KeyReleasePolicy {
   /**
    * Content type and version of key release policy
    */
@@ -804,7 +519,7 @@ export interface KeyVaultKeyReleasePolicy {
   data?: Uint8Array;
 }
 
-export interface KeyVaultKeyReleasePolicyInput extends InputOf<KeyVaultKeyReleasePolicy> {
+export interface KeyReleasePolicyInput extends InputOf<KeyReleasePolicy> {
   /**
    * Content type and version of key release policy
    */
@@ -815,9 +530,9 @@ export interface KeyVaultKeyReleasePolicyInput extends InputOf<KeyVaultKeyReleas
   data?: ExpressionOrValue<Uint8Array> | undefined;
 }
 
-export type KeyVaultKeyReleasePolicyView = KeyVaultKeyReleasePolicyInput;
+export type KeyReleasePolicyView = KeyReleasePolicyInput;
 
-export const KeyVaultKeyReleasePolicyShape: FlatModelShape = createFlatModelShape({
+export const keyReleasePolicyShape: FlatModelShape = createFlatModelShape({
   contentType: { armPath: ["contentType"] },
   data: {
     armPath: ["data"],
@@ -825,7 +540,7 @@ export const KeyVaultKeyReleasePolicyShape: FlatModelShape = createFlatModelShap
   },
 });
 
-export interface KeyVaultKeyRotationPolicyAttributes {
+export interface KeyRotationPolicyAttributes {
   /**
    * Creation time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -840,14 +555,14 @@ export interface KeyVaultKeyRotationPolicyAttributes {
   updated?: number;
 }
 
-export interface KeyVaultKeyRotationPolicyAttributesInput extends InputOf<KeyVaultKeyRotationPolicyAttributes> {
+export interface KeyRotationPolicyAttributesInput extends InputOf<KeyRotationPolicyAttributes> {
   /**
    * The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'.
    */
   expiryTime?: ExpressionOrValue<string> | undefined;
 }
 
-export interface KeyVaultKeyRotationPolicyAttributesView extends InputOf<KeyVaultKeyRotationPolicyAttributes> {
+export interface KeyRotationPolicyAttributesView extends InputOf<KeyRotationPolicyAttributes> {
   /**
    * Read-only output: Creation time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -862,65 +577,65 @@ export interface KeyVaultKeyRotationPolicyAttributesView extends InputOf<KeyVaul
   readonly updated?: Expression<number> | undefined;
 }
 
-export const KeyVaultKeyRotationPolicyAttributesShape: FlatModelShape = createFlatModelShape({
+export const keyRotationPolicyAttributesShape: FlatModelShape = createFlatModelShape({
   created: { armPath: ["created"], readOnly: true },
   expiryTime: { armPath: ["expiryTime"] },
   updated: { armPath: ["updated"], readOnly: true },
 });
 
-export interface KeyVaultLifetimeAction {
+export interface LifetimeAction {
   /**
    * The action of key rotation policy lifetimeAction.
    */
-  action?: KeyVaultAction;
+  action?: Action;
   /**
    * The trigger of key rotation policy lifetimeAction.
    */
-  trigger?: KeyVaultTrigger;
+  trigger?: Trigger;
 }
 
-export interface KeyVaultLifetimeActionInput extends InputOf<KeyVaultLifetimeAction> {
+export interface LifetimeActionInput extends InputOf<LifetimeAction> {
   /**
    * The action of key rotation policy lifetimeAction.
    */
-  action?: KeyVaultActionInput | undefined;
+  action?: ActionInput | undefined;
   /**
    * The trigger of key rotation policy lifetimeAction.
    */
-  trigger?: KeyVaultTriggerInput | undefined;
+  trigger?: TriggerInput | undefined;
 }
 
-export type KeyVaultLifetimeActionView = KeyVaultLifetimeActionInput;
+export type LifetimeActionView = LifetimeActionInput;
 
-export const KeyVaultLifetimeActionShape: FlatModelShape = createFlatModelShape({
-  action: { armPath: ["action"], target: createDeferredShape(() => KeyVaultActionShape) },
-  trigger: { armPath: ["trigger"], target: createDeferredShape(() => KeyVaultTriggerShape) },
+export const lifetimeActionShape: FlatModelShape = createFlatModelShape({
+  action: { armPath: ["action"], target: createDeferredShape(() => actionShape) },
+  trigger: { armPath: ["trigger"], target: createDeferredShape(() => triggerShape) },
 });
 
-export interface KeyVaultManagedHsmAction {
+export interface ManagedHsmAction {
   /**
    * The type of action.
    */
   type?: KeyRotationPolicyActionType;
 }
 
-export interface KeyVaultManagedHsmActionInput extends InputOf<KeyVaultManagedHsmAction> {
+export interface ManagedHsmActionInput extends InputOf<ManagedHsmAction> {
   /**
    * The type of action.
    */
   type?: ExpressionOrValue<KeyRotationPolicyActionType> | undefined;
 }
 
-export type KeyVaultManagedHsmActionView = KeyVaultManagedHsmActionInput;
+export type ManagedHsmActionView = ManagedHsmActionInput;
 
-export const KeyVaultManagedHsmActionShape: FlatModelShape = createFlatModelShape({
+export const managedHsmActionShape: FlatModelShape = createFlatModelShape({
   type: { armPath: ["type"] },
 });
 
 /**
  * The object attributes managed by the Azure Key Vault service.
  */
-export interface KeyVaultManagedHsmKeyAttributes {
+export interface ManagedHsmKeyAttributes {
   /**
    * Creation time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -932,7 +647,7 @@ export interface KeyVaultManagedHsmKeyAttributes {
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: number;
+  expires?: number;
   /**
    * Indicates if the private key can be exported.
    */
@@ -940,7 +655,7 @@ export interface KeyVaultManagedHsmKeyAttributes {
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: number;
+  notBefore?: number;
   /**
    * The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.
    */
@@ -954,7 +669,7 @@ export interface KeyVaultManagedHsmKeyAttributes {
 /**
  * Input type for The object attributes managed by the Azure Key Vault service.
  */
-export interface KeyVaultManagedHsmKeyAttributesInput extends InputOf<KeyVaultManagedHsmKeyAttributes> {
+export interface ManagedHsmKeyAttributesInput extends InputOf<ManagedHsmKeyAttributes> {
   /**
    * Determines whether or not the object is enabled.
    */
@@ -962,7 +677,7 @@ export interface KeyVaultManagedHsmKeyAttributesInput extends InputOf<KeyVaultMa
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: ExpressionOrValue<number> | undefined;
+  expires?: ExpressionOrValue<number> | undefined;
   /**
    * Indicates if the private key can be exported.
    */
@@ -970,13 +685,13 @@ export interface KeyVaultManagedHsmKeyAttributesInput extends InputOf<KeyVaultMa
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: ExpressionOrValue<number> | undefined;
+  notBefore?: ExpressionOrValue<number> | undefined;
 }
 
 /**
  * View type for The object attributes managed by the Azure Key Vault service.
  */
-export interface KeyVaultManagedHsmKeyAttributesView extends InputOf<KeyVaultManagedHsmKeyAttributes> {
+export interface ManagedHsmKeyAttributesView extends InputOf<ManagedHsmKeyAttributes> {
   /**
    * Read-only output: Creation time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -988,7 +703,7 @@ export interface KeyVaultManagedHsmKeyAttributesView extends InputOf<KeyVaultMan
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: ExpressionOrValue<number> | undefined;
+  expires?: ExpressionOrValue<number> | undefined;
   /**
    * Indicates if the private key can be exported.
    */
@@ -996,7 +711,7 @@ export interface KeyVaultManagedHsmKeyAttributesView extends InputOf<KeyVaultMan
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: ExpressionOrValue<number> | undefined;
+  notBefore?: ExpressionOrValue<number> | undefined;
   /**
    * Read-only output: The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.
    */
@@ -1007,12 +722,12 @@ export interface KeyVaultManagedHsmKeyAttributesView extends InputOf<KeyVaultMan
   readonly updated?: Expression<number> | undefined;
 }
 
-export const KeyVaultManagedHsmKeyAttributesShape: FlatModelShape = createFlatModelShape({
+export const managedHsmKeyAttributesShape: FlatModelShape = createFlatModelShape({
   created: { armPath: ["created"], readOnly: true },
   enabled: { armPath: ["enabled"] },
-  Expires: { armPath: ["exp"] },
+  expires: { armPath: ["exp"] },
   exportable: { armPath: ["exportable"] },
-  NotBefore: { armPath: ["nbf"] },
+  notBefore: { armPath: ["nbf"] },
   recoveryLevel: { armPath: ["recoveryLevel"], readOnly: true },
   updated: { armPath: ["updated"], readOnly: true },
 });
@@ -1020,11 +735,11 @@ export const KeyVaultManagedHsmKeyAttributesShape: FlatModelShape = createFlatMo
 /**
  * The properties of the key.
  */
-export interface KeyVaultManagedHsmKeyProperties {
+export interface ManagedHsmKeyProperties {
   /**
    * The attributes of the key.
    */
-  attributes?: KeyVaultManagedHsmKeyAttributes;
+  attributes?: ManagedHsmKeyAttributes;
   /**
    * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
    */
@@ -1049,21 +764,21 @@ export interface KeyVaultManagedHsmKeyProperties {
   /**
    * Key release policy in response. It will be used for both output and input. Omitted if empty
    */
-  release_policy?: KeyVaultManagedHsmKeyReleasePolicy;
+  releasePolicy?: ManagedHsmKeyReleasePolicy;
   /**
    * Key rotation policy in response. It will be used for both output and input. Omitted if empty
    */
-  rotationPolicy?: KeyVaultManagedHsmRotationPolicy;
+  rotationPolicy?: ManagedHsmRotationPolicy;
 }
 
 /**
  * Input type for The properties of the key.
  */
-export interface KeyVaultManagedHsmKeyPropertiesInput extends InputOf<KeyVaultManagedHsmKeyProperties> {
+export interface ManagedHsmKeyPropertiesInput extends InputOf<ManagedHsmKeyProperties> {
   /**
    * The attributes of the key.
    */
-  attributes?: KeyVaultManagedHsmKeyAttributesInput | undefined;
+  attributes?: ManagedHsmKeyAttributesInput | undefined;
   /**
    * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
    */
@@ -1080,21 +795,21 @@ export interface KeyVaultManagedHsmKeyPropertiesInput extends InputOf<KeyVaultMa
   /**
    * Key release policy in response. It will be used for both output and input. Omitted if empty
    */
-  release_policy?: KeyVaultManagedHsmKeyReleasePolicyInput | undefined;
+  releasePolicy?: ManagedHsmKeyReleasePolicyInput | undefined;
   /**
    * Key rotation policy in response. It will be used for both output and input. Omitted if empty
    */
-  rotationPolicy?: KeyVaultManagedHsmRotationPolicyInput | undefined;
+  rotationPolicy?: ManagedHsmRotationPolicyInput | undefined;
 }
 
 /**
  * View type for The properties of the key.
  */
-export interface KeyVaultManagedHsmKeyPropertiesView extends InputOf<KeyVaultManagedHsmKeyProperties> {
+export interface ManagedHsmKeyPropertiesView extends InputOf<ManagedHsmKeyProperties> {
   /**
    * The attributes of the key.
    */
-  attributes?: KeyVaultManagedHsmKeyAttributesView | undefined;
+  attributes?: ManagedHsmKeyAttributesView | undefined;
   /**
    * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
    */
@@ -1119,17 +834,17 @@ export interface KeyVaultManagedHsmKeyPropertiesView extends InputOf<KeyVaultMan
   /**
    * Key release policy in response. It will be used for both output and input. Omitted if empty
    */
-  release_policy?: KeyVaultManagedHsmKeyReleasePolicyView | undefined;
+  releasePolicy?: ManagedHsmKeyReleasePolicyView | undefined;
   /**
    * Key rotation policy in response. It will be used for both output and input. Omitted if empty
    */
-  rotationPolicy?: KeyVaultManagedHsmRotationPolicyView | undefined;
+  rotationPolicy?: ManagedHsmRotationPolicyView | undefined;
 }
 
-export const KeyVaultManagedHsmKeyPropertiesShape: FlatModelShape = createFlatModelShape({
+export const managedHsmKeyPropertiesShape: FlatModelShape = createFlatModelShape({
   attributes: {
     armPath: ["attributes"],
-    target: createDeferredShape(() => KeyVaultManagedHsmKeyAttributesShape),
+    target: createDeferredShape(() => managedHsmKeyAttributesShape),
   },
   curveName: { armPath: ["curveName"] },
   keyOps: { armPath: ["keyOps"] },
@@ -1137,17 +852,17 @@ export const KeyVaultManagedHsmKeyPropertiesShape: FlatModelShape = createFlatMo
   keyUri: { armPath: ["keyUri"], readOnly: true },
   keyUriWithVersion: { armPath: ["keyUriWithVersion"], readOnly: true },
   kty: { armPath: ["kty"] },
-  release_policy: {
+  releasePolicy: {
     armPath: ["release_policy"],
-    target: createDeferredShape(() => KeyVaultManagedHsmKeyReleasePolicyShape),
+    target: createDeferredShape(() => managedHsmKeyReleasePolicyShape),
   },
   rotationPolicy: {
     armPath: ["rotationPolicy"],
-    target: createDeferredShape(() => KeyVaultManagedHsmRotationPolicyShape),
+    target: createDeferredShape(() => managedHsmRotationPolicyShape),
   },
 });
 
-export interface KeyVaultManagedHsmKeyReleasePolicy {
+export interface ManagedHsmKeyReleasePolicy {
   /**
    * Content type and version of key release policy
    */
@@ -1158,7 +873,7 @@ export interface KeyVaultManagedHsmKeyReleasePolicy {
   data?: Uint8Array;
 }
 
-export interface KeyVaultManagedHsmKeyReleasePolicyInput extends InputOf<KeyVaultManagedHsmKeyReleasePolicy> {
+export interface ManagedHsmKeyReleasePolicyInput extends InputOf<ManagedHsmKeyReleasePolicy> {
   /**
    * Content type and version of key release policy
    */
@@ -1169,9 +884,9 @@ export interface KeyVaultManagedHsmKeyReleasePolicyInput extends InputOf<KeyVaul
   data?: ExpressionOrValue<Uint8Array> | undefined;
 }
 
-export type KeyVaultManagedHsmKeyReleasePolicyView = KeyVaultManagedHsmKeyReleasePolicyInput;
+export type ManagedHsmKeyReleasePolicyView = ManagedHsmKeyReleasePolicyInput;
 
-export const KeyVaultManagedHsmKeyReleasePolicyShape: FlatModelShape = createFlatModelShape({
+export const managedHsmKeyReleasePolicyShape: FlatModelShape = createFlatModelShape({
   contentType: { armPath: ["contentType"] },
   data: {
     armPath: ["data"],
@@ -1179,7 +894,7 @@ export const KeyVaultManagedHsmKeyReleasePolicyShape: FlatModelShape = createFla
   },
 });
 
-export interface KeyVaultManagedHsmKeyRotationPolicyAttributes {
+export interface ManagedHsmKeyRotationPolicyAttributes {
   /**
    * Creation time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -1194,14 +909,14 @@ export interface KeyVaultManagedHsmKeyRotationPolicyAttributes {
   updated?: number;
 }
 
-export interface KeyVaultManagedHsmKeyRotationPolicyAttributesInput extends InputOf<KeyVaultManagedHsmKeyRotationPolicyAttributes> {
+export interface ManagedHsmKeyRotationPolicyAttributesInput extends InputOf<ManagedHsmKeyRotationPolicyAttributes> {
   /**
    * The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'.
    */
   expiryTime?: ExpressionOrValue<string> | undefined;
 }
 
-export interface KeyVaultManagedHsmKeyRotationPolicyAttributesView extends InputOf<KeyVaultManagedHsmKeyRotationPolicyAttributes> {
+export interface ManagedHsmKeyRotationPolicyAttributesView extends InputOf<ManagedHsmKeyRotationPolicyAttributes> {
   /**
    * Read-only output: Creation time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -1216,549 +931,39 @@ export interface KeyVaultManagedHsmKeyRotationPolicyAttributesView extends Input
   readonly updated?: Expression<number> | undefined;
 }
 
-export const KeyVaultManagedHsmKeyRotationPolicyAttributesShape: FlatModelShape =
-  createFlatModelShape({
-    created: { armPath: ["created"], readOnly: true },
-    expiryTime: { armPath: ["expiryTime"] },
-    updated: { armPath: ["updated"], readOnly: true },
-  });
-
-export interface KeyVaultManagedHsmLifetimeAction {
-  /**
-   * The action of key rotation policy lifetimeAction.
-   */
-  action?: KeyVaultManagedHsmAction;
-  /**
-   * The trigger of key rotation policy lifetimeAction.
-   */
-  trigger?: KeyVaultManagedHsmTrigger;
-}
-
-export interface KeyVaultManagedHsmLifetimeActionInput extends InputOf<KeyVaultManagedHsmLifetimeAction> {
-  /**
-   * The action of key rotation policy lifetimeAction.
-   */
-  action?: KeyVaultManagedHsmActionInput | undefined;
-  /**
-   * The trigger of key rotation policy lifetimeAction.
-   */
-  trigger?: KeyVaultManagedHsmTriggerInput | undefined;
-}
-
-export type KeyVaultManagedHsmLifetimeActionView = KeyVaultManagedHsmLifetimeActionInput;
-
-export const KeyVaultManagedHsmLifetimeActionShape: FlatModelShape = createFlatModelShape({
-  action: { armPath: ["action"], target: createDeferredShape(() => KeyVaultManagedHsmActionShape) },
-  trigger: {
-    armPath: ["trigger"],
-    target: createDeferredShape(() => KeyVaultManagedHsmTriggerShape),
-  },
-});
-
-export interface KeyVaultManagedHsmRotationPolicy {
-  /**
-   * The attributes of key rotation policy.
-   */
-  attributes?: KeyVaultManagedHsmKeyRotationPolicyAttributes;
-  /**
-   * The lifetimeActions for key rotation action.
-   */
-  lifetimeActions?: KeyVaultManagedHsmLifetimeAction[];
-}
-
-export interface KeyVaultManagedHsmRotationPolicyInput extends InputOf<KeyVaultManagedHsmRotationPolicy> {
-  /**
-   * The attributes of key rotation policy.
-   */
-  attributes?: KeyVaultManagedHsmKeyRotationPolicyAttributesInput | undefined;
-  /**
-   * The lifetimeActions for key rotation action.
-   */
-  lifetimeActions?:
-    | InputArray<KeyVaultManagedHsmLifetimeActionInput, KeyVaultManagedHsmLifetimeAction[]>
-    | undefined;
-}
-
-export interface KeyVaultManagedHsmRotationPolicyView extends InputOf<KeyVaultManagedHsmRotationPolicy> {
-  /**
-   * The attributes of key rotation policy.
-   */
-  attributes?: KeyVaultManagedHsmKeyRotationPolicyAttributesView | undefined;
-  /**
-   * The lifetimeActions for key rotation action.
-   */
-  lifetimeActions?:
-    | InputArray<KeyVaultManagedHsmLifetimeActionView, KeyVaultManagedHsmLifetimeAction[]>
-    | undefined;
-}
-
-export const KeyVaultManagedHsmRotationPolicyShape: FlatModelShape = createFlatModelShape({
-  attributes: {
-    armPath: ["attributes"],
-    target: createDeferredShape(() => KeyVaultManagedHsmKeyRotationPolicyAttributesShape),
-  },
-  lifetimeActions: {
-    armPath: ["lifetimeActions"],
-    target: createArrayShape(createDeferredShape(() => KeyVaultManagedHsmLifetimeActionShape)),
-  },
-});
-
-export interface KeyVaultManagedHsmTrigger {
-  /**
-   * The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
-   */
-  timeAfterCreate?: string;
-  /**
-   * The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
-   */
-  timeBeforeExpiry?: string;
-}
-
-export interface KeyVaultManagedHsmTriggerInput extends InputOf<KeyVaultManagedHsmTrigger> {
-  /**
-   * The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
-   */
-  timeAfterCreate?: ExpressionOrValue<string> | undefined;
-  /**
-   * The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
-   */
-  timeBeforeExpiry?: ExpressionOrValue<string> | undefined;
-}
-
-export type KeyVaultManagedHsmTriggerView = KeyVaultManagedHsmTriggerInput;
-
-export const KeyVaultManagedHsmTriggerShape: FlatModelShape = createFlatModelShape({
-  timeAfterCreate: { armPath: ["timeAfterCreate"] },
-  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"] },
-});
-
-export interface KeyVaultRotationPolicy {
-  /**
-   * The attributes of key rotation policy.
-   */
-  attributes?: KeyVaultKeyRotationPolicyAttributes;
-  /**
-   * The lifetimeActions for key rotation action.
-   */
-  lifetimeActions?: KeyVaultLifetimeAction[];
-}
-
-export interface KeyVaultRotationPolicyInput extends InputOf<KeyVaultRotationPolicy> {
-  /**
-   * The attributes of key rotation policy.
-   */
-  attributes?: KeyVaultKeyRotationPolicyAttributesInput | undefined;
-  /**
-   * The lifetimeActions for key rotation action.
-   */
-  lifetimeActions?: InputArray<KeyVaultLifetimeActionInput, KeyVaultLifetimeAction[]> | undefined;
-}
-
-export interface KeyVaultRotationPolicyView extends InputOf<KeyVaultRotationPolicy> {
-  /**
-   * The attributes of key rotation policy.
-   */
-  attributes?: KeyVaultKeyRotationPolicyAttributesView | undefined;
-  /**
-   * The lifetimeActions for key rotation action.
-   */
-  lifetimeActions?: InputArray<KeyVaultLifetimeActionView, KeyVaultLifetimeAction[]> | undefined;
-}
-
-export const KeyVaultRotationPolicyShape: FlatModelShape = createFlatModelShape({
-  attributes: {
-    armPath: ["attributes"],
-    target: createDeferredShape(() => KeyVaultKeyRotationPolicyAttributesShape),
-  },
-  lifetimeActions: {
-    armPath: ["lifetimeActions"],
-    target: createArrayShape(createDeferredShape(() => KeyVaultLifetimeActionShape)),
-  },
-});
-
-export interface KeyVaultTrigger {
-  /**
-   * The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
-   */
-  timeAfterCreate?: string;
-  /**
-   * The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
-   */
-  timeBeforeExpiry?: string;
-}
-
-export interface KeyVaultTriggerInput extends InputOf<KeyVaultTrigger> {
-  /**
-   * The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
-   */
-  timeAfterCreate?: ExpressionOrValue<string> | undefined;
-  /**
-   * The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
-   */
-  timeBeforeExpiry?: ExpressionOrValue<string> | undefined;
-}
-
-export type KeyVaultTriggerView = KeyVaultTriggerInput;
-
-export const KeyVaultTriggerShape: FlatModelShape = createFlatModelShape({
-  timeAfterCreate: { armPath: ["timeAfterCreate"] },
-  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"] },
-});
-
-export interface LifetimeActionReadonly {
-  /**
-   * The action of key rotation policy lifetimeAction.
-   */
-  action?: ActionReadonly;
-  /**
-   * The trigger of key rotation policy lifetimeAction.
-   */
-  trigger?: TriggerReadonly;
-}
-
-export interface LifetimeActionReadonlyInput extends InputOf<LifetimeActionReadonly> {}
-
-export interface LifetimeActionReadonlyView extends InputOf<LifetimeActionReadonly> {
-  /**
-   * Read-only output: The action of key rotation policy lifetimeAction.
-   */
-  readonly action?: Expression<ActionReadonly> | undefined;
-  /**
-   * Read-only output: The trigger of key rotation policy lifetimeAction.
-   */
-  readonly trigger?: Expression<TriggerReadonly> | undefined;
-}
-
-export const LifetimeActionReadonlyShape: FlatModelShape = createFlatModelShape({
-  action: {
-    armPath: ["action"],
-    target: createDeferredShape(() => ActionReadonlyShape),
-    readOnly: true,
-  },
-  trigger: {
-    armPath: ["trigger"],
-    target: createDeferredShape(() => TriggerReadonlyShape),
-    readOnly: true,
-  },
-});
-
-export interface ManagedHsmActionReadonly {
-  /**
-   * The type of action.
-   */
-  type?: KeyRotationPolicyActionType;
-}
-
-export interface ManagedHsmActionReadonlyInput extends InputOf<ManagedHsmActionReadonly> {}
-
-export interface ManagedHsmActionReadonlyView extends InputOf<ManagedHsmActionReadonly> {
-  /**
-   * Read-only output: The type of action.
-   */
-  readonly type?: Expression<KeyRotationPolicyActionType> | undefined;
-}
-
-export const ManagedHsmActionReadonlyShape: FlatModelShape = createFlatModelShape({
-  type: { armPath: ["type"], readOnly: true },
-});
-
-/**
- * The object attributes managed by the Azure Key Vault service.
- */
-export interface ManagedHsmKeyAttributesReadonly {
-  /**
-   * Creation time in seconds since 1970-01-01T00:00:00Z.
-   */
-  created?: number;
-  /**
-   * Determines whether or not the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * Expiry date in seconds since 1970-01-01T00:00:00Z.
-   */
-  Expires?: number;
-  /**
-   * Indicates if the private key can be exported.
-   */
-  exportable?: boolean;
-  /**
-   * Not before date in seconds since 1970-01-01T00:00:00Z.
-   */
-  NotBefore?: number;
-  /**
-   * The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.
-   */
-  recoveryLevel?: DeletionRecoveryLevel;
-  /**
-   * Last updated time in seconds since 1970-01-01T00:00:00Z.
-   */
-  updated?: number;
-}
-
-/**
- * Input type for The object attributes managed by the Azure Key Vault service.
- */
-export interface ManagedHsmKeyAttributesReadonlyInput extends InputOf<ManagedHsmKeyAttributesReadonly> {}
-
-/**
- * View type for The object attributes managed by the Azure Key Vault service.
- */
-export interface ManagedHsmKeyAttributesReadonlyView extends InputOf<ManagedHsmKeyAttributesReadonly> {
-  /**
-   * Read-only output: Creation time in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly created?: Expression<number> | undefined;
-  /**
-   * Read-only output: Determines whether or not the object is enabled.
-   */
-  readonly enabled?: Expression<boolean> | undefined;
-  /**
-   * Read-only output: Expiry date in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly Expires?: Expression<number> | undefined;
-  /**
-   * Read-only output: Indicates if the private key can be exported.
-   */
-  readonly exportable?: Expression<boolean> | undefined;
-  /**
-   * Read-only output: Not before date in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly NotBefore?: Expression<number> | undefined;
-  /**
-   * Read-only output: The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.
-   */
-  readonly recoveryLevel?: Expression<DeletionRecoveryLevel> | undefined;
-  /**
-   * Read-only output: Last updated time in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly updated?: Expression<number> | undefined;
-}
-
-export const ManagedHsmKeyAttributesReadonlyShape: FlatModelShape = createFlatModelShape({
+export const managedHsmKeyRotationPolicyAttributesShape: FlatModelShape = createFlatModelShape({
   created: { armPath: ["created"], readOnly: true },
-  enabled: { armPath: ["enabled"], readOnly: true },
-  Expires: { armPath: ["exp"], readOnly: true },
-  exportable: { armPath: ["exportable"], readOnly: true },
-  NotBefore: { armPath: ["nbf"], readOnly: true },
-  recoveryLevel: { armPath: ["recoveryLevel"], readOnly: true },
+  expiryTime: { armPath: ["expiryTime"] },
   updated: { armPath: ["updated"], readOnly: true },
 });
 
-/**
- * The properties of the key.
- */
-export interface ManagedHsmKeyPropertiesReadonly {
-  /**
-   * The attributes of the key.
-   */
-  attributes?: ManagedHsmKeyAttributesReadonly;
-  /**
-   * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
-   */
-  curveName?: JsonWebKeyCurveName;
-  keyOps?: JsonWebKeyOperation[];
-  /**
-   * The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096.
-   */
-  keySize?: number;
-  /**
-   * The URI to retrieve the current version of the key.
-   */
-  keyUri?: string;
-  /**
-   * The URI to retrieve the specific version of the key.
-   */
-  keyUriWithVersion?: string;
-  /**
-   * The type of the key. For valid values, see JsonWebKeyType.
-   */
-  kty?: JsonWebKeyType;
-  /**
-   * Key release policy in response. It will be used for both output and input. Omitted if empty
-   */
-  release_policy?: ManagedHsmKeyReleasePolicyReadonly;
-  /**
-   * Key rotation policy in response. It will be used for both output and input. Omitted if empty
-   */
-  rotationPolicy?: ManagedHsmRotationPolicyReadonly;
-}
-
-/**
- * Input type for The properties of the key.
- */
-export interface ManagedHsmKeyPropertiesReadonlyInput extends InputOf<ManagedHsmKeyPropertiesReadonly> {}
-
-/**
- * View type for The properties of the key.
- */
-export interface ManagedHsmKeyPropertiesReadonlyView extends InputOf<ManagedHsmKeyPropertiesReadonly> {
-  /**
-   * Read-only output: The attributes of the key.
-   */
-  readonly attributes?: Expression<ManagedHsmKeyAttributesReadonly> | undefined;
-  /**
-   * Read-only output: The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
-   */
-  readonly curveName?: Expression<JsonWebKeyCurveName> | undefined;
-  readonly keyOps?: Expression<JsonWebKeyOperation[]> | undefined;
-  /**
-   * Read-only output: The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096.
-   */
-  readonly keySize?: Expression<number> | undefined;
-  /**
-   * Read-only output: The URI to retrieve the current version of the key.
-   */
-  readonly keyUri?: Expression<string> | undefined;
-  /**
-   * Read-only output: The URI to retrieve the specific version of the key.
-   */
-  readonly keyUriWithVersion?: Expression<string> | undefined;
-  /**
-   * Read-only output: The type of the key. For valid values, see JsonWebKeyType.
-   */
-  readonly kty?: Expression<JsonWebKeyType> | undefined;
-  /**
-   * Read-only output: Key release policy in response. It will be used for both output and input. Omitted if empty
-   */
-  readonly release_policy?: Expression<ManagedHsmKeyReleasePolicyReadonly> | undefined;
-  /**
-   * Read-only output: Key rotation policy in response. It will be used for both output and input. Omitted if empty
-   */
-  readonly rotationPolicy?: Expression<ManagedHsmRotationPolicyReadonly> | undefined;
-}
-
-export const ManagedHsmKeyPropertiesReadonlyShape: FlatModelShape = createFlatModelShape({
-  attributes: {
-    armPath: ["attributes"],
-    target: createDeferredShape(() => ManagedHsmKeyAttributesReadonlyShape),
-    readOnly: true,
-  },
-  curveName: { armPath: ["curveName"], readOnly: true },
-  keyOps: { armPath: ["keyOps"], readOnly: true },
-  keySize: { armPath: ["keySize"], readOnly: true },
-  keyUri: { armPath: ["keyUri"], readOnly: true },
-  keyUriWithVersion: { armPath: ["keyUriWithVersion"], readOnly: true },
-  kty: { armPath: ["kty"], readOnly: true },
-  release_policy: {
-    armPath: ["release_policy"],
-    target: createDeferredShape(() => ManagedHsmKeyReleasePolicyReadonlyShape),
-    readOnly: true,
-  },
-  rotationPolicy: {
-    armPath: ["rotationPolicy"],
-    target: createDeferredShape(() => ManagedHsmRotationPolicyReadonlyShape),
-    readOnly: true,
-  },
-});
-
-export interface ManagedHsmKeyReleasePolicyReadonly {
-  /**
-   * Content type and version of key release policy
-   */
-  contentType?: string;
-  /**
-   * Blob encoding the policy rules under which the key can be released.
-   */
-  data?: Uint8Array;
-}
-
-export interface ManagedHsmKeyReleasePolicyReadonlyInput extends InputOf<ManagedHsmKeyReleasePolicyReadonly> {}
-
-export interface ManagedHsmKeyReleasePolicyReadonlyView extends InputOf<ManagedHsmKeyReleasePolicyReadonly> {
-  /**
-   * Read-only output: Content type and version of key release policy
-   */
-  readonly contentType?: Expression<string> | undefined;
-  /**
-   * Read-only output: Blob encoding the policy rules under which the key can be released.
-   */
-  readonly data?: Expression<Uint8Array> | undefined;
-}
-
-export const ManagedHsmKeyReleasePolicyReadonlyShape: FlatModelShape = createFlatModelShape({
-  contentType: { armPath: ["contentType"], readOnly: true },
-  data: {
-    armPath: ["data"],
-    encoding: { encoding: "base64url", wireKind: "string", sourceKind: "bytes" },
-    readOnly: true,
-  },
-});
-
-export interface ManagedHsmKeyRotationPolicyAttributesReadonly {
-  /**
-   * Creation time in seconds since 1970-01-01T00:00:00Z.
-   */
-  created?: number;
-  /**
-   * The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'.
-   */
-  expiryTime?: string;
-  /**
-   * Last updated time in seconds since 1970-01-01T00:00:00Z.
-   */
-  updated?: number;
-}
-
-export interface ManagedHsmKeyRotationPolicyAttributesReadonlyInput extends InputOf<ManagedHsmKeyRotationPolicyAttributesReadonly> {}
-
-export interface ManagedHsmKeyRotationPolicyAttributesReadonlyView extends InputOf<ManagedHsmKeyRotationPolicyAttributesReadonly> {
-  /**
-   * Read-only output: Creation time in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly created?: Expression<number> | undefined;
-  /**
-   * Read-only output: The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'.
-   */
-  readonly expiryTime?: Expression<string> | undefined;
-  /**
-   * Read-only output: Last updated time in seconds since 1970-01-01T00:00:00Z.
-   */
-  readonly updated?: Expression<number> | undefined;
-}
-
-export const ManagedHsmKeyRotationPolicyAttributesReadonlyShape: FlatModelShape =
-  createFlatModelShape({
-    created: { armPath: ["created"], readOnly: true },
-    expiryTime: { armPath: ["expiryTime"], readOnly: true },
-    updated: { armPath: ["updated"], readOnly: true },
-  });
-
-export interface ManagedHsmLifetimeActionReadonly {
+export interface ManagedHsmLifetimeAction {
   /**
    * The action of key rotation policy lifetimeAction.
    */
-  action?: ManagedHsmActionReadonly;
+  action?: ManagedHsmAction;
   /**
    * The trigger of key rotation policy lifetimeAction.
    */
-  trigger?: ManagedHsmTriggerReadonly;
+  trigger?: ManagedHsmTrigger;
 }
 
-export interface ManagedHsmLifetimeActionReadonlyInput extends InputOf<ManagedHsmLifetimeActionReadonly> {}
-
-export interface ManagedHsmLifetimeActionReadonlyView extends InputOf<ManagedHsmLifetimeActionReadonly> {
+export interface ManagedHsmLifetimeActionInput extends InputOf<ManagedHsmLifetimeAction> {
   /**
-   * Read-only output: The action of key rotation policy lifetimeAction.
+   * The action of key rotation policy lifetimeAction.
    */
-  readonly action?: Expression<ManagedHsmActionReadonly> | undefined;
+  action?: ManagedHsmActionInput | undefined;
   /**
-   * Read-only output: The trigger of key rotation policy lifetimeAction.
+   * The trigger of key rotation policy lifetimeAction.
    */
-  readonly trigger?: Expression<ManagedHsmTriggerReadonly> | undefined;
+  trigger?: ManagedHsmTriggerInput | undefined;
 }
 
-export const ManagedHsmLifetimeActionReadonlyShape: FlatModelShape = createFlatModelShape({
-  action: {
-    armPath: ["action"],
-    target: createDeferredShape(() => ManagedHsmActionReadonlyShape),
-    readOnly: true,
-  },
-  trigger: {
-    armPath: ["trigger"],
-    target: createDeferredShape(() => ManagedHsmTriggerReadonlyShape),
-    readOnly: true,
-  },
+export type ManagedHsmLifetimeActionView = ManagedHsmLifetimeActionInput;
+
+export const managedHsmLifetimeActionShape: FlatModelShape = createFlatModelShape({
+  action: { armPath: ["action"], target: createDeferredShape(() => managedHsmActionShape) },
+  trigger: { armPath: ["trigger"], target: createDeferredShape(() => managedHsmTriggerShape) },
 });
 
 /**
@@ -1788,11 +993,11 @@ export interface ManagedHsmProperties {
   /**
    * Rules governing the accessibility of the key vault from specific network locations.
    */
-  networkAcls?: MHSMNetworkRuleSet;
+  networkAcls?: MhsmNetworkRuleSet;
   /**
    * List of private endpoint connections associated with the managed hsm pool.
    */
-  privateEndpointConnections?: MHSMPrivateEndpointConnectionItem[];
+  privateEndpointConnections?: MhsmPrivateEndpointConnectionItem[];
   /**
    * Control permission to the managed HSM from public networks.
    */
@@ -1800,7 +1005,7 @@ export interface ManagedHsmProperties {
   /**
    * List of all regions associated with the managed hsm pool.
    */
-  regions?: MHSMGeoReplicatedRegion[];
+  regions?: MhsmGeoReplicatedRegion[];
   /**
    * The scheduled purge date in UTC.
    */
@@ -1808,7 +1013,7 @@ export interface ManagedHsmProperties {
   /**
    * Managed HSM security domain properties.
    */
-  securityDomainProperties?: ManagedHSMSecurityDomainProperties;
+  securityDomainProperties?: ManagedHsmSecurityDomainProperties;
   /**
    * Soft deleted data retention days. When you delete an HSM or a key, it will remain recoverable for the configured retention period or for a default period of 90 days. It accepts values between 7 and 90.
    */
@@ -1846,7 +1051,7 @@ export interface ManagedHsmPropertiesInput extends InputOf<ManagedHsmProperties>
   /**
    * Rules governing the accessibility of the key vault from specific network locations.
    */
-  networkAcls?: MHSMNetworkRuleSetInput | undefined;
+  networkAcls?: MhsmNetworkRuleSetInput | undefined;
   /**
    * Control permission to the managed HSM from public networks.
    */
@@ -1854,7 +1059,7 @@ export interface ManagedHsmPropertiesInput extends InputOf<ManagedHsmProperties>
   /**
    * List of all regions associated with the managed hsm pool.
    */
-  regions?: InputArray<MHSMGeoReplicatedRegionInput, MHSMGeoReplicatedRegion[]> | undefined;
+  regions?: InputArray<MhsmGeoReplicatedRegionInput, MhsmGeoReplicatedRegion[]> | undefined;
   /**
    * Soft deleted data retention days. When you delete an HSM or a key, it will remain recoverable for the configured retention period or for a default period of 90 days. It accepts values between 7 and 90.
    */
@@ -1892,11 +1097,11 @@ export interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> 
   /**
    * Rules governing the accessibility of the key vault from specific network locations.
    */
-  networkAcls?: MHSMNetworkRuleSetView | undefined;
+  networkAcls?: MhsmNetworkRuleSetView | undefined;
   /**
    * Read-only output: List of private endpoint connections associated with the managed hsm pool.
    */
-  readonly privateEndpointConnections?: Expression<MHSMPrivateEndpointConnectionItem[]> | undefined;
+  readonly privateEndpointConnections?: Expression<MhsmPrivateEndpointConnectionItem[]> | undefined;
   /**
    * Control permission to the managed HSM from public networks.
    */
@@ -1904,7 +1109,7 @@ export interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> 
   /**
    * List of all regions associated with the managed hsm pool.
    */
-  regions?: InputArray<MHSMGeoReplicatedRegionView, MHSMGeoReplicatedRegion[]> | undefined;
+  regions?: InputArray<MhsmGeoReplicatedRegionView, MhsmGeoReplicatedRegion[]> | undefined;
   /**
    * Read-only output: The scheduled purge date in UTC.
    */
@@ -1912,7 +1117,7 @@ export interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> 
   /**
    * Read-only output: Managed HSM security domain properties.
    */
-  readonly securityDomainProperties?: Expression<ManagedHSMSecurityDomainProperties> | undefined;
+  readonly securityDomainProperties?: Expression<ManagedHsmSecurityDomainProperties> | undefined;
   /**
    * Soft deleted data retention days. When you delete an HSM or a key, it will remain recoverable for the configured retention period or for a default period of 90 days. It accepts values between 7 and 90.
    */
@@ -1927,7 +1132,7 @@ export interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> 
   tenantId?: ExpressionOrValue<string> | undefined;
 }
 
-export const ManagedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
+export const managedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
   createMode: { armPath: ["createMode"] },
   enablePurgeProtection: { armPath: ["enablePurgeProtection"] },
   enableSoftDelete: { armPath: ["enableSoftDelete"] },
@@ -1935,22 +1140,22 @@ export const ManagedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
   initialAdminObjectIds: { armPath: ["initialAdminObjectIds"] },
   networkAcls: {
     armPath: ["networkAcls"],
-    target: createDeferredShape(() => MHSMNetworkRuleSetShape),
+    target: createDeferredShape(() => mhsmNetworkRuleSetShape),
   },
   privateEndpointConnections: {
     armPath: ["privateEndpointConnections"],
-    target: createArrayShape(createDeferredShape(() => MHSMPrivateEndpointConnectionItemShape)),
+    target: createArrayShape(createDeferredShape(() => mhsmPrivateEndpointConnectionItemShape)),
     readOnly: true,
   },
   publicNetworkAccess: { armPath: ["publicNetworkAccess"] },
   regions: {
     armPath: ["regions"],
-    target: createArrayShape(createDeferredShape(() => MHSMGeoReplicatedRegionShape)),
+    target: createArrayShape(createDeferredShape(() => mhsmGeoReplicatedRegionShape)),
   },
   scheduledPurgeDate: { armPath: ["scheduledPurgeDate"], readOnly: true },
   securityDomainProperties: {
     armPath: ["securityDomainProperties"],
-    target: createDeferredShape(() => ManagedHSMSecurityDomainPropertiesShape),
+    target: createDeferredShape(() => managedHsmSecurityDomainPropertiesShape),
     readOnly: true,
   },
   softDeleteRetentionInDays: { armPath: ["softDeleteRetentionInDays"] },
@@ -1958,47 +1163,56 @@ export const ManagedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
   tenantId: { armPath: ["tenantId"] },
 });
 
-export interface ManagedHsmRotationPolicyReadonly {
+export interface ManagedHsmRotationPolicy {
   /**
    * The attributes of key rotation policy.
    */
-  attributes?: ManagedHsmKeyRotationPolicyAttributesReadonly;
+  attributes?: ManagedHsmKeyRotationPolicyAttributes;
   /**
    * The lifetimeActions for key rotation action.
    */
-  lifetimeActions?: ManagedHsmLifetimeActionReadonly[];
+  lifetimeActions?: ManagedHsmLifetimeAction[];
 }
 
-export interface ManagedHsmRotationPolicyReadonlyInput extends InputOf<ManagedHsmRotationPolicyReadonly> {}
-
-export interface ManagedHsmRotationPolicyReadonlyView extends InputOf<ManagedHsmRotationPolicyReadonly> {
+export interface ManagedHsmRotationPolicyInput extends InputOf<ManagedHsmRotationPolicy> {
   /**
-   * Read-only output: The attributes of key rotation policy.
+   * The attributes of key rotation policy.
    */
-  readonly attributes?: Expression<ManagedHsmKeyRotationPolicyAttributesReadonly> | undefined;
+  attributes?: ManagedHsmKeyRotationPolicyAttributesInput | undefined;
   /**
-   * Read-only output: The lifetimeActions for key rotation action.
+   * The lifetimeActions for key rotation action.
    */
-  readonly lifetimeActions?: Expression<ManagedHsmLifetimeActionReadonly[]> | undefined;
+  lifetimeActions?:
+    InputArray<ManagedHsmLifetimeActionInput, ManagedHsmLifetimeAction[]> | undefined;
 }
 
-export const ManagedHsmRotationPolicyReadonlyShape: FlatModelShape = createFlatModelShape({
+export interface ManagedHsmRotationPolicyView extends InputOf<ManagedHsmRotationPolicy> {
+  /**
+   * The attributes of key rotation policy.
+   */
+  attributes?: ManagedHsmKeyRotationPolicyAttributesView | undefined;
+  /**
+   * The lifetimeActions for key rotation action.
+   */
+  lifetimeActions?:
+    InputArray<ManagedHsmLifetimeActionView, ManagedHsmLifetimeAction[]> | undefined;
+}
+
+export const managedHsmRotationPolicyShape: FlatModelShape = createFlatModelShape({
   attributes: {
     armPath: ["attributes"],
-    target: createDeferredShape(() => ManagedHsmKeyRotationPolicyAttributesReadonlyShape),
-    readOnly: true,
+    target: createDeferredShape(() => managedHsmKeyRotationPolicyAttributesShape),
   },
   lifetimeActions: {
     armPath: ["lifetimeActions"],
-    target: createArrayShape(createDeferredShape(() => ManagedHsmLifetimeActionReadonlyShape)),
-    readOnly: true,
+    target: createArrayShape(createDeferredShape(() => managedHsmLifetimeActionShape)),
   },
 });
 
 /**
  * The security domain properties of the managed hsm.
  */
-export interface ManagedHSMSecurityDomainProperties {
+export interface ManagedHsmSecurityDomainProperties {
   /**
    * Activation Status
    */
@@ -2012,12 +1226,12 @@ export interface ManagedHSMSecurityDomainProperties {
 /**
  * Input type for The security domain properties of the managed hsm.
  */
-export interface ManagedHSMSecurityDomainPropertiesInput extends InputOf<ManagedHSMSecurityDomainProperties> {}
+export interface ManagedHsmSecurityDomainPropertiesInput extends InputOf<ManagedHsmSecurityDomainProperties> {}
 
 /**
  * View type for The security domain properties of the managed hsm.
  */
-export interface ManagedHSMSecurityDomainPropertiesView extends InputOf<ManagedHSMSecurityDomainProperties> {
+export interface ManagedHsmSecurityDomainPropertiesView extends InputOf<ManagedHsmSecurityDomainProperties> {
   /**
    * Read-only output: Activation Status
    */
@@ -2028,7 +1242,7 @@ export interface ManagedHSMSecurityDomainPropertiesView extends InputOf<ManagedH
   readonly activationStatusMessage?: Expression<string> | undefined;
 }
 
-export const ManagedHSMSecurityDomainPropertiesShape: FlatModelShape = createFlatModelShape({
+export const managedHsmSecurityDomainPropertiesShape: FlatModelShape = createFlatModelShape({
   activationStatus: { armPath: ["activationStatus"], readOnly: true },
   activationStatusMessage: { armPath: ["activationStatusMessage"], readOnly: true },
 });
@@ -2066,12 +1280,12 @@ export interface ManagedHsmSkuInput extends InputOf<ManagedHsmSku> {
  */
 export type ManagedHsmSkuView = ManagedHsmSkuInput;
 
-export const ManagedHsmSkuShape: FlatModelShape = createFlatModelShape({
+export const managedHsmSkuShape: FlatModelShape = createFlatModelShape({
   family: { armPath: ["family"] },
   name: { armPath: ["name"] },
 });
 
-export interface ManagedHsmTriggerReadonly {
+export interface ManagedHsmTrigger {
   /**
    * The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
    */
@@ -2082,22 +1296,22 @@ export interface ManagedHsmTriggerReadonly {
   timeBeforeExpiry?: string;
 }
 
-export interface ManagedHsmTriggerReadonlyInput extends InputOf<ManagedHsmTriggerReadonly> {}
-
-export interface ManagedHsmTriggerReadonlyView extends InputOf<ManagedHsmTriggerReadonly> {
+export interface ManagedHsmTriggerInput extends InputOf<ManagedHsmTrigger> {
   /**
-   * Read-only output: The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
+   * The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
    */
-  readonly timeAfterCreate?: Expression<string> | undefined;
+  timeAfterCreate?: ExpressionOrValue<string> | undefined;
   /**
-   * Read-only output: The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
+   * The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
    */
-  readonly timeBeforeExpiry?: Expression<string> | undefined;
+  timeBeforeExpiry?: ExpressionOrValue<string> | undefined;
 }
 
-export const ManagedHsmTriggerReadonlyShape: FlatModelShape = createFlatModelShape({
-  timeAfterCreate: { armPath: ["timeAfterCreate"], readOnly: true },
-  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"], readOnly: true },
+export type ManagedHsmTriggerView = ManagedHsmTriggerInput;
+
+export const managedHsmTriggerShape: FlatModelShape = createFlatModelShape({
+  timeAfterCreate: { armPath: ["timeAfterCreate"] },
+  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"] },
 });
 
 /**
@@ -2168,20 +1382,20 @@ export interface ManagedServiceIdentityView extends InputOf<ManagedServiceIdenti
     | undefined;
 }
 
-export const ManagedServiceIdentityShape: FlatModelShape = createFlatModelShape({
+export const managedServiceIdentityShape: FlatModelShape = createFlatModelShape({
   principalId: { armPath: ["principalId"], readOnly: true },
   tenantId: { armPath: ["tenantId"], readOnly: true },
   type: { armPath: ["type"] },
   userAssignedIdentities: {
     armPath: ["userAssignedIdentities"],
-    target: createRecordShape(createDeferredShape(() => UserAssignedIdentityShape)),
+    target: createRecordShape(createDeferredShape(() => userAssignedIdentityShape)),
   },
 });
 
 /**
  * A region that this managed HSM Pool has been extended to.
  */
-export interface MHSMGeoReplicatedRegion {
+export interface MhsmGeoReplicatedRegion {
   /**
    * A boolean value that indicates whether the region is the primary region or a secondary region.
    */
@@ -2195,7 +1409,7 @@ export interface MHSMGeoReplicatedRegion {
 /**
  * Input type for A region that this managed HSM Pool has been extended to.
  */
-export interface MHSMGeoReplicatedRegionInput extends InputOf<MHSMGeoReplicatedRegion> {
+export interface MhsmGeoReplicatedRegionInput extends InputOf<MhsmGeoReplicatedRegion> {
   /**
    * A boolean value that indicates whether the region is the primary region or a secondary region.
    */
@@ -2209,9 +1423,9 @@ export interface MHSMGeoReplicatedRegionInput extends InputOf<MHSMGeoReplicatedR
 /**
  * View type for A region that this managed HSM Pool has been extended to.
  */
-export type MHSMGeoReplicatedRegionView = MHSMGeoReplicatedRegionInput;
+export type MhsmGeoReplicatedRegionView = MhsmGeoReplicatedRegionInput;
 
-export const MHSMGeoReplicatedRegionShape: FlatModelShape = createFlatModelShape({
+export const mhsmGeoReplicatedRegionShape: FlatModelShape = createFlatModelShape({
   isPrimary: { armPath: ["isPrimary"] },
   name: { armPath: ["name"] },
 });
@@ -2219,7 +1433,7 @@ export const MHSMGeoReplicatedRegionShape: FlatModelShape = createFlatModelShape
 /**
  * A rule governing the accessibility of a managed HSM pool from a specific IP address or IP range.
  */
-export interface MHSMIPRule {
+export interface MhsmipRule {
   /**
    * An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78).
    */
@@ -2229,7 +1443,7 @@ export interface MHSMIPRule {
 /**
  * Input type for A rule governing the accessibility of a managed HSM pool from a specific IP address or IP range.
  */
-export interface MHSMIPRuleInput extends InputOf<MHSMIPRule> {
+export interface MhsmipRuleInput extends InputOf<MhsmipRule> {
   /**
    * An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78).
    */
@@ -2239,18 +1453,18 @@ export interface MHSMIPRuleInput extends InputOf<MHSMIPRule> {
 /**
  * View type for A rule governing the accessibility of a managed HSM pool from a specific IP address or IP range.
  */
-export type MHSMIPRuleView = MHSMIPRuleInput;
+export type MhsmipRuleView = MhsmipRuleInput;
 
-export const MHSMIPRuleShape: FlatModelShape = createFlatModelShape({
+export const mhsmipRuleShape: FlatModelShape = createFlatModelShape({
   value: { armPath: ["value"] },
 });
 
 /**
  * A set of rules governing the network accessibility of a managed hsm pool.
  */
-export interface MHSMNetworkRuleSet {
+export interface MhsmNetworkRuleSet {
   /**
-   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'.
    */
   bypass?: NetworkRuleBypassOptions;
   /**
@@ -2260,23 +1474,23 @@ export interface MHSMNetworkRuleSet {
   /**
    * The list of IP address rules.
    */
-  ipRules?: MHSMIPRule[];
+  ipRules?: MhsmipRule[];
   /**
    * The list of service tags.
    */
-  serviceTags?: MHSMServiceTagRule[];
+  serviceTags?: MhsmServiceTagRule[];
   /**
    * The list of virtual network rules.
    */
-  virtualNetworkRules?: MHSMVirtualNetworkRule[];
+  virtualNetworkRules?: MhsmVirtualNetworkRule[];
 }
 
 /**
  * Input type for A set of rules governing the network accessibility of a managed hsm pool.
  */
-export interface MHSMNetworkRuleSetInput extends InputOf<MHSMNetworkRuleSet> {
+export interface MhsmNetworkRuleSetInput extends InputOf<MhsmNetworkRuleSet> {
   /**
-   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'.
    */
   bypass?: ExpressionOrValue<NetworkRuleBypassOptions> | undefined;
   /**
@@ -2286,86 +1500,86 @@ export interface MHSMNetworkRuleSetInput extends InputOf<MHSMNetworkRuleSet> {
   /**
    * The list of IP address rules.
    */
-  ipRules?: InputArray<MHSMIPRuleInput, MHSMIPRule[]> | undefined;
+  ipRules?: InputArray<MhsmipRuleInput, MhsmipRule[]> | undefined;
   /**
    * The list of service tags.
    */
-  serviceTags?: InputArray<MHSMServiceTagRuleInput, MHSMServiceTagRule[]> | undefined;
+  serviceTags?: InputArray<MhsmServiceTagRuleInput, MhsmServiceTagRule[]> | undefined;
   /**
    * The list of virtual network rules.
    */
   virtualNetworkRules?:
-    InputArray<MHSMVirtualNetworkRuleInput, MHSMVirtualNetworkRule[]> | undefined;
+    InputArray<MhsmVirtualNetworkRuleInput, MhsmVirtualNetworkRule[]> | undefined;
 }
 
 /**
  * View type for A set of rules governing the network accessibility of a managed hsm pool.
  */
-export type MHSMNetworkRuleSetView = MHSMNetworkRuleSetInput;
+export type MhsmNetworkRuleSetView = MhsmNetworkRuleSetInput;
 
-export const MHSMNetworkRuleSetShape: FlatModelShape = createFlatModelShape({
+export const mhsmNetworkRuleSetShape: FlatModelShape = createFlatModelShape({
   bypass: { armPath: ["bypass"] },
   defaultAction: { armPath: ["defaultAction"] },
   ipRules: {
     armPath: ["ipRules"],
-    target: createArrayShape(createDeferredShape(() => MHSMIPRuleShape)),
+    target: createArrayShape(createDeferredShape(() => mhsmipRuleShape)),
   },
   serviceTags: {
     armPath: ["serviceTags"],
-    target: createArrayShape(createDeferredShape(() => MHSMServiceTagRuleShape)),
+    target: createArrayShape(createDeferredShape(() => mhsmServiceTagRuleShape)),
   },
   virtualNetworkRules: {
     armPath: ["virtualNetworkRules"],
-    target: createArrayShape(createDeferredShape(() => MHSMVirtualNetworkRuleShape)),
+    target: createArrayShape(createDeferredShape(() => mhsmVirtualNetworkRuleShape)),
   },
 });
 
 /**
  * Private endpoint object properties.
  */
-export interface MHSMPrivateEndpoint {}
+export interface MhsmPrivateEndpoint {}
 
 /**
  * Input type for Private endpoint object properties.
  */
-export interface MHSMPrivateEndpointInput extends InputOf<MHSMPrivateEndpoint> {}
+export interface MhsmPrivateEndpointInput extends InputOf<MhsmPrivateEndpoint> {}
 
 /**
  * View type for Private endpoint object properties.
  */
-export type MHSMPrivateEndpointView = MHSMPrivateEndpointInput;
+export type MhsmPrivateEndpointView = MhsmPrivateEndpointInput;
 
-export const MHSMPrivateEndpointShape: FlatModelShape = createFlatModelShape({});
+export const mhsmPrivateEndpointShape: FlatModelShape = createFlatModelShape({});
 
 /**
  * Private endpoint connection item.
  */
-export interface MHSMPrivateEndpointConnectionItem {
+export interface MhsmPrivateEndpointConnectionItem {
   /**
    * Private endpoint connection properties.
    */
-  properties?: MHSMPrivateEndpointConnectionProperties;
+  properties?: MhsmPrivateEndpointConnectionProperties;
 }
 
 /**
  * Input type for Private endpoint connection item.
  */
-export interface MHSMPrivateEndpointConnectionItemInput extends InputOf<MHSMPrivateEndpointConnectionItem> {}
+export interface MhsmPrivateEndpointConnectionItemInput extends InputOf<MhsmPrivateEndpointConnectionItem> {}
 
 /**
  * View type for Private endpoint connection item.
  */
-export interface MHSMPrivateEndpointConnectionItemView extends InputOf<MHSMPrivateEndpointConnectionItem> {
+export interface MhsmPrivateEndpointConnectionItemView extends InputOf<MhsmPrivateEndpointConnectionItem> {
   /**
    * Read-only output: Private endpoint connection properties.
    */
-  readonly properties?: Expression<MHSMPrivateEndpointConnectionProperties> | undefined;
+  readonly properties?: Expression<MhsmPrivateEndpointConnectionProperties> | undefined;
 }
 
-export const MHSMPrivateEndpointConnectionItemShape: FlatModelShape = createFlatModelShape({
+export const mhsmPrivateEndpointConnectionItemShape: FlatModelShape = createFlatModelShape({
   properties: {
     armPath: ["properties"],
-    target: createDeferredShape(() => MHSMPrivateEndpointConnectionPropertiesShape),
+    target: createDeferredShape(() => mhsmPrivateEndpointConnectionPropertiesShape),
     readOnly: true,
   },
 });
@@ -2373,52 +1587,52 @@ export const MHSMPrivateEndpointConnectionItemShape: FlatModelShape = createFlat
 /**
  * Properties of the private endpoint connection resource.
  */
-export interface MHSMPrivateEndpointConnectionProperties {
+export interface MhsmPrivateEndpointConnectionProperties {
   /**
    * Properties of the private endpoint object.
    */
-  privateEndpoint?: MHSMPrivateEndpoint;
+  privateEndpoint?: MhsmPrivateEndpoint;
   /**
    * Approval state of the private link connection.
    */
-  privateLinkServiceConnectionState?: MHSMPrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionState;
 }
 
 /**
  * Input type for Properties of the private endpoint connection resource.
  */
-export interface MHSMPrivateEndpointConnectionPropertiesInput extends InputOf<MHSMPrivateEndpointConnectionProperties> {
+export interface MhsmPrivateEndpointConnectionPropertiesInput extends InputOf<MhsmPrivateEndpointConnectionProperties> {
   /**
    * Properties of the private endpoint object.
    */
-  privateEndpoint?: MHSMPrivateEndpointInput | undefined;
+  privateEndpoint?: MhsmPrivateEndpointInput | undefined;
   /**
    * Approval state of the private link connection.
    */
-  privateLinkServiceConnectionState?: MHSMPrivateLinkServiceConnectionStateInput | undefined;
+  privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionStateInput | undefined;
 }
 
 /**
  * View type for Properties of the private endpoint connection resource.
  */
-export type MHSMPrivateEndpointConnectionPropertiesView =
-  MHSMPrivateEndpointConnectionPropertiesInput;
+export type MhsmPrivateEndpointConnectionPropertiesView =
+  MhsmPrivateEndpointConnectionPropertiesInput;
 
-export const MHSMPrivateEndpointConnectionPropertiesShape: FlatModelShape = createFlatModelShape({
+export const mhsmPrivateEndpointConnectionPropertiesShape: FlatModelShape = createFlatModelShape({
   privateEndpoint: {
     armPath: ["privateEndpoint"],
-    target: createDeferredShape(() => MHSMPrivateEndpointShape),
+    target: createDeferredShape(() => mhsmPrivateEndpointShape),
   },
   privateLinkServiceConnectionState: {
     armPath: ["privateLinkServiceConnectionState"],
-    target: createDeferredShape(() => MHSMPrivateLinkServiceConnectionStateShape),
+    target: createDeferredShape(() => mhsmPrivateLinkServiceConnectionStateShape),
   },
 });
 
 /**
  * An object that represents the approval state of the private link connection.
  */
-export interface MHSMPrivateLinkServiceConnectionState {
+export interface MhsmPrivateLinkServiceConnectionState {
   /**
    * A message indicating if changes on the service provider require any updates on the consumer.
    */
@@ -2436,7 +1650,7 @@ export interface MHSMPrivateLinkServiceConnectionState {
 /**
  * Input type for An object that represents the approval state of the private link connection.
  */
-export interface MHSMPrivateLinkServiceConnectionStateInput extends InputOf<MHSMPrivateLinkServiceConnectionState> {
+export interface MhsmPrivateLinkServiceConnectionStateInput extends InputOf<MhsmPrivateLinkServiceConnectionState> {
   /**
    * A message indicating if changes on the service provider require any updates on the consumer.
    */
@@ -2454,9 +1668,9 @@ export interface MHSMPrivateLinkServiceConnectionStateInput extends InputOf<MHSM
 /**
  * View type for An object that represents the approval state of the private link connection.
  */
-export type MHSMPrivateLinkServiceConnectionStateView = MHSMPrivateLinkServiceConnectionStateInput;
+export type MhsmPrivateLinkServiceConnectionStateView = MhsmPrivateLinkServiceConnectionStateInput;
 
-export const MHSMPrivateLinkServiceConnectionStateShape: FlatModelShape = createFlatModelShape({
+export const mhsmPrivateLinkServiceConnectionStateShape: FlatModelShape = createFlatModelShape({
   actionsRequired: { armPath: ["actionsRequired"] },
   description: { armPath: ["description"] },
   status: { armPath: ["status"] },
@@ -2465,7 +1679,7 @@ export const MHSMPrivateLinkServiceConnectionStateShape: FlatModelShape = create
 /**
  * A rule governing the accessibility of a managed hsm pool from a specific service tags.
  */
-export interface MHSMServiceTagRule {
+export interface MhsmServiceTagRule {
   /**
    * Name of the service tag.
    */
@@ -2475,7 +1689,7 @@ export interface MHSMServiceTagRule {
 /**
  * Input type for A rule governing the accessibility of a managed hsm pool from a specific service tags.
  */
-export interface MHSMServiceTagRuleInput extends InputOf<MHSMServiceTagRule> {
+export interface MhsmServiceTagRuleInput extends InputOf<MhsmServiceTagRule> {
   /**
    * Name of the service tag.
    */
@@ -2485,16 +1699,16 @@ export interface MHSMServiceTagRuleInput extends InputOf<MHSMServiceTagRule> {
 /**
  * View type for A rule governing the accessibility of a managed hsm pool from a specific service tags.
  */
-export type MHSMServiceTagRuleView = MHSMServiceTagRuleInput;
+export type MhsmServiceTagRuleView = MhsmServiceTagRuleInput;
 
-export const MHSMServiceTagRuleShape: FlatModelShape = createFlatModelShape({
+export const mhsmServiceTagRuleShape: FlatModelShape = createFlatModelShape({
   tag: { armPath: ["tag"] },
 });
 
 /**
  * A rule governing the accessibility of a managed hsm pool from a specific virtual network.
  */
-export interface MHSMVirtualNetworkRule {
+export interface MhsmVirtualNetworkRule {
   /**
    * Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
    */
@@ -2504,7 +1718,7 @@ export interface MHSMVirtualNetworkRule {
 /**
  * Input type for A rule governing the accessibility of a managed hsm pool from a specific virtual network.
  */
-export interface MHSMVirtualNetworkRuleInput extends InputOf<MHSMVirtualNetworkRule> {
+export interface MhsmVirtualNetworkRuleInput extends InputOf<MhsmVirtualNetworkRule> {
   /**
    * Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
    */
@@ -2514,9 +1728,9 @@ export interface MHSMVirtualNetworkRuleInput extends InputOf<MHSMVirtualNetworkR
 /**
  * View type for A rule governing the accessibility of a managed hsm pool from a specific virtual network.
  */
-export type MHSMVirtualNetworkRuleView = MHSMVirtualNetworkRuleInput;
+export type MhsmVirtualNetworkRuleView = MhsmVirtualNetworkRuleInput;
 
-export const MHSMVirtualNetworkRuleShape: FlatModelShape = createFlatModelShape({
+export const mhsmVirtualNetworkRuleShape: FlatModelShape = createFlatModelShape({
   id: { armPath: ["id"] },
 });
 
@@ -2525,7 +1739,7 @@ export const MHSMVirtualNetworkRuleShape: FlatModelShape = createFlatModelShape(
  */
 export interface NetworkRuleSet {
   /**
-   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'.
    */
   bypass?: NetworkRuleBypassOptions;
   /**
@@ -2535,7 +1749,7 @@ export interface NetworkRuleSet {
   /**
    * The list of IP address rules.
    */
-  ipRules?: IPRule[];
+  ipRules?: IpRule[];
   /**
    * The list of virtual network rules.
    */
@@ -2547,7 +1761,7 @@ export interface NetworkRuleSet {
  */
 export interface NetworkRuleSetInput extends InputOf<NetworkRuleSet> {
   /**
-   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'.
    */
   bypass?: ExpressionOrValue<NetworkRuleBypassOptions> | undefined;
   /**
@@ -2557,7 +1771,7 @@ export interface NetworkRuleSetInput extends InputOf<NetworkRuleSet> {
   /**
    * The list of IP address rules.
    */
-  ipRules?: InputArray<IPRuleInput, IPRule[]> | undefined;
+  ipRules?: InputArray<IpRuleInput, IpRule[]> | undefined;
   /**
    * The list of virtual network rules.
    */
@@ -2569,16 +1783,16 @@ export interface NetworkRuleSetInput extends InputOf<NetworkRuleSet> {
  */
 export type NetworkRuleSetView = NetworkRuleSetInput;
 
-export const NetworkRuleSetShape: FlatModelShape = createFlatModelShape({
+export const networkRuleSetShape: FlatModelShape = createFlatModelShape({
   bypass: { armPath: ["bypass"] },
   defaultAction: { armPath: ["defaultAction"] },
   ipRules: {
     armPath: ["ipRules"],
-    target: createArrayShape(createDeferredShape(() => IPRuleShape)),
+    target: createArrayShape(createDeferredShape(() => ipRuleShape)),
   },
   virtualNetworkRules: {
     armPath: ["virtualNetworkRules"],
-    target: createArrayShape(createDeferredShape(() => VirtualNetworkRuleShape)),
+    target: createArrayShape(createDeferredShape(() => virtualNetworkRuleShape)),
   },
 });
 
@@ -2632,7 +1846,7 @@ export interface PermissionsInput extends InputOf<Permissions> {
  */
 export type PermissionsView = PermissionsInput;
 
-export const PermissionsShape: FlatModelShape = createFlatModelShape({
+export const permissionsShape: FlatModelShape = createFlatModelShape({
   certificates: { armPath: ["certificates"] },
   keys: { armPath: ["keys"] },
   secrets: { armPath: ["secrets"] },
@@ -2654,7 +1868,7 @@ export interface PrivateEndpointInput extends InputOf<PrivateEndpoint> {}
  */
 export type PrivateEndpointView = PrivateEndpointInput;
 
-export const PrivateEndpointShape: FlatModelShape = createFlatModelShape({});
+export const privateEndpointShape: FlatModelShape = createFlatModelShape({});
 
 /**
  * Private endpoint connection item.
@@ -2681,10 +1895,10 @@ export interface PrivateEndpointConnectionItemView extends InputOf<PrivateEndpoi
   readonly properties?: Expression<PrivateEndpointConnectionProperties> | undefined;
 }
 
-export const PrivateEndpointConnectionItemShape: FlatModelShape = createFlatModelShape({
+export const privateEndpointConnectionItemShape: FlatModelShape = createFlatModelShape({
   properties: {
     armPath: ["properties"],
-    target: createDeferredShape(() => PrivateEndpointConnectionPropertiesShape),
+    target: createDeferredShape(() => privateEndpointConnectionPropertiesShape),
     readOnly: true,
   },
 });
@@ -2722,14 +1936,14 @@ export interface PrivateEndpointConnectionPropertiesInput extends InputOf<Privat
  */
 export type PrivateEndpointConnectionPropertiesView = PrivateEndpointConnectionPropertiesInput;
 
-export const PrivateEndpointConnectionPropertiesShape: FlatModelShape = createFlatModelShape({
+export const privateEndpointConnectionPropertiesShape: FlatModelShape = createFlatModelShape({
   privateEndpoint: {
     armPath: ["privateEndpoint"],
-    target: createDeferredShape(() => PrivateEndpointShape),
+    target: createDeferredShape(() => privateEndpointShape),
   },
   privateLinkServiceConnectionState: {
     armPath: ["privateLinkServiceConnectionState"],
-    target: createDeferredShape(() => PrivateLinkServiceConnectionStateShape),
+    target: createDeferredShape(() => privateLinkServiceConnectionStateShape),
   },
 });
 
@@ -2774,46 +1988,53 @@ export interface PrivateLinkServiceConnectionStateInput extends InputOf<PrivateL
  */
 export type PrivateLinkServiceConnectionStateView = PrivateLinkServiceConnectionStateInput;
 
-export const PrivateLinkServiceConnectionStateShape: FlatModelShape = createFlatModelShape({
+export const privateLinkServiceConnectionStateShape: FlatModelShape = createFlatModelShape({
   actionsRequired: { armPath: ["actionsRequired"] },
   description: { armPath: ["description"] },
   status: { armPath: ["status"] },
 });
 
-export interface RotationPolicyReadonly {
+export interface RotationPolicy {
   /**
    * The attributes of key rotation policy.
    */
-  attributes?: KeyRotationPolicyAttributesReadonly;
+  attributes?: KeyRotationPolicyAttributes;
   /**
    * The lifetimeActions for key rotation action.
    */
-  lifetimeActions?: LifetimeActionReadonly[];
+  lifetimeActions?: LifetimeAction[];
 }
 
-export interface RotationPolicyReadonlyInput extends InputOf<RotationPolicyReadonly> {}
-
-export interface RotationPolicyReadonlyView extends InputOf<RotationPolicyReadonly> {
+export interface RotationPolicyInput extends InputOf<RotationPolicy> {
   /**
-   * Read-only output: The attributes of key rotation policy.
+   * The attributes of key rotation policy.
    */
-  readonly attributes?: Expression<KeyRotationPolicyAttributesReadonly> | undefined;
+  attributes?: KeyRotationPolicyAttributesInput | undefined;
   /**
-   * Read-only output: The lifetimeActions for key rotation action.
+   * The lifetimeActions for key rotation action.
    */
-  readonly lifetimeActions?: Expression<LifetimeActionReadonly[]> | undefined;
+  lifetimeActions?: InputArray<LifetimeActionInput, LifetimeAction[]> | undefined;
 }
 
-export const RotationPolicyReadonlyShape: FlatModelShape = createFlatModelShape({
+export interface RotationPolicyView extends InputOf<RotationPolicy> {
+  /**
+   * The attributes of key rotation policy.
+   */
+  attributes?: KeyRotationPolicyAttributesView | undefined;
+  /**
+   * The lifetimeActions for key rotation action.
+   */
+  lifetimeActions?: InputArray<LifetimeActionView, LifetimeAction[]> | undefined;
+}
+
+export const rotationPolicyShape: FlatModelShape = createFlatModelShape({
   attributes: {
     armPath: ["attributes"],
-    target: createDeferredShape(() => KeyRotationPolicyAttributesReadonlyShape),
-    readOnly: true,
+    target: createDeferredShape(() => keyRotationPolicyAttributesShape),
   },
   lifetimeActions: {
     armPath: ["lifetimeActions"],
-    target: createArrayShape(createDeferredShape(() => LifetimeActionReadonlyShape)),
-    readOnly: true,
+    target: createArrayShape(createDeferredShape(() => lifetimeActionShape)),
   },
 });
 
@@ -2832,11 +2053,11 @@ export interface SecretAttributes {
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: Date;
+  expires?: Date;
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: Date;
+  notBefore?: Date;
   /**
    * Last updated time in seconds since 1970-01-01T00:00:00Z.
    */
@@ -2854,11 +2075,11 @@ export interface SecretAttributesInput extends InputOf<SecretAttributes> {
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: ExpressionOrValue<Date> | undefined;
+  expires?: ExpressionOrValue<Date> | undefined;
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: ExpressionOrValue<Date> | undefined;
+  notBefore?: ExpressionOrValue<Date> | undefined;
 }
 
 /**
@@ -2876,29 +2097,29 @@ export interface SecretAttributesView extends InputOf<SecretAttributes> {
   /**
    * Expiry date in seconds since 1970-01-01T00:00:00Z.
    */
-  Expires?: ExpressionOrValue<Date> | undefined;
+  expires?: ExpressionOrValue<Date> | undefined;
   /**
    * Not before date in seconds since 1970-01-01T00:00:00Z.
    */
-  NotBefore?: ExpressionOrValue<Date> | undefined;
+  notBefore?: ExpressionOrValue<Date> | undefined;
   /**
    * Read-only output: Last updated time in seconds since 1970-01-01T00:00:00Z.
    */
   readonly updated?: Expression<Date> | undefined;
 }
 
-export const SecretAttributesShape: FlatModelShape = createFlatModelShape({
+export const secretAttributesShape: FlatModelShape = createFlatModelShape({
   created: {
     armPath: ["created"],
     encoding: { encoding: "unixTimestamp", wireKind: "int", sourceKind: "utcDateTime" },
     readOnly: true,
   },
   enabled: { armPath: ["enabled"] },
-  Expires: {
+  expires: {
     armPath: ["exp"],
     encoding: { encoding: "unixTimestamp", wireKind: "int", sourceKind: "utcDateTime" },
   },
-  NotBefore: {
+  notBefore: {
     armPath: ["nbf"],
     encoding: { encoding: "unixTimestamp", wireKind: "int", sourceKind: "utcDateTime" },
   },
@@ -2979,8 +2200,8 @@ export interface SecretPropertiesView extends InputOf<SecretProperties> {
   value?: ExpressionOrValue<string> | undefined;
 }
 
-export const SecretPropertiesShape: FlatModelShape = createFlatModelShape({
-  attributes: { armPath: ["attributes"], target: createDeferredShape(() => SecretAttributesShape) },
+export const secretPropertiesShape: FlatModelShape = createFlatModelShape({
+  attributes: { armPath: ["attributes"], target: createDeferredShape(() => secretAttributesShape) },
   contentType: { armPath: ["contentType"] },
   secretUri: { armPath: ["secretUri"], readOnly: true },
   secretUriWithVersion: { armPath: ["secretUriWithVersion"], readOnly: true },
@@ -3020,7 +2241,7 @@ export interface SkuInput extends InputOf<Sku> {
  */
 export type SkuView = SkuInput;
 
-export const SkuShape: FlatModelShape = createFlatModelShape({
+export const skuShape: FlatModelShape = createFlatModelShape({
   family: { armPath: ["family"] },
   name: { armPath: ["name"] },
 });
@@ -3058,12 +2279,12 @@ export interface TokenBindingParametersInput extends InputOf<TokenBindingParamet
  */
 export type TokenBindingParametersView = TokenBindingParametersInput;
 
-export const TokenBindingParametersShape: FlatModelShape = createFlatModelShape({
+export const tokenBindingParametersShape: FlatModelShape = createFlatModelShape({
   minimumTokenBindingStrength: { armPath: ["minimumTokenBindingStrength"] },
   mode: { armPath: ["mode"] },
 });
 
-export interface TriggerReadonly {
+export interface Trigger {
   /**
    * The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
    */
@@ -3074,22 +2295,22 @@ export interface TriggerReadonly {
   timeBeforeExpiry?: string;
 }
 
-export interface TriggerReadonlyInput extends InputOf<TriggerReadonly> {}
-
-export interface TriggerReadonlyView extends InputOf<TriggerReadonly> {
+export interface TriggerInput extends InputOf<Trigger> {
   /**
-   * Read-only output: The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
+   * The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
    */
-  readonly timeAfterCreate?: Expression<string> | undefined;
+  timeAfterCreate?: ExpressionOrValue<string> | undefined;
   /**
-   * Read-only output: The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
+   * The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'.
    */
-  readonly timeBeforeExpiry?: Expression<string> | undefined;
+  timeBeforeExpiry?: ExpressionOrValue<string> | undefined;
 }
 
-export const TriggerReadonlyShape: FlatModelShape = createFlatModelShape({
-  timeAfterCreate: { armPath: ["timeAfterCreate"], readOnly: true },
-  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"], readOnly: true },
+export type TriggerView = TriggerInput;
+
+export const triggerShape: FlatModelShape = createFlatModelShape({
+  timeAfterCreate: { armPath: ["timeAfterCreate"] },
+  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"] },
 });
 
 /**
@@ -3125,7 +2346,7 @@ export interface UserAssignedIdentityView extends InputOf<UserAssignedIdentity> 
   readonly principalId?: Expression<string> | undefined;
 }
 
-export const UserAssignedIdentityShape: FlatModelShape = createFlatModelShape({
+export const userAssignedIdentityShape: FlatModelShape = createFlatModelShape({
   clientId: { armPath: ["clientId"], readOnly: true },
   principalId: { armPath: ["principalId"], readOnly: true },
 });
@@ -3155,10 +2376,10 @@ export interface VaultAccessPolicyPropertiesInput extends InputOf<VaultAccessPol
  */
 export type VaultAccessPolicyPropertiesView = VaultAccessPolicyPropertiesInput;
 
-export const VaultAccessPolicyPropertiesShape: FlatModelShape = createFlatModelShape({
+export const vaultAccessPolicyPropertiesShape: FlatModelShape = createFlatModelShape({
   accessPolicies: {
     armPath: ["accessPolicies"],
-    target: createArrayShape(createDeferredShape(() => AccessPolicyEntryShape)),
+    target: createArrayShape(createDeferredShape(() => accessPolicyEntryShape)),
   },
 });
 
@@ -3191,7 +2412,7 @@ export interface VaultProperties {
    */
   enablePurgeProtection?: boolean;
   /**
-   * Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC.
+   * Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC.
    */
   enableRbacAuthorization?: boolean;
   /**
@@ -3219,7 +2440,7 @@ export interface VaultProperties {
    */
   sku: Sku;
   /**
-   * softDelete data retention days. It accepts >=7 and <=90.
+   * softDelete data retention days. It accepts \>=7 and \<=90.
    */
   softDeleteRetentionInDays?: number;
   /**
@@ -3265,7 +2486,7 @@ export interface VaultPropertiesInput extends InputOf<VaultProperties> {
    */
   enablePurgeProtection?: ExpressionOrValue<boolean> | undefined;
   /**
-   * Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC.
+   * Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC.
    */
   enableRbacAuthorization?: ExpressionOrValue<boolean> | undefined;
   /**
@@ -3285,7 +2506,7 @@ export interface VaultPropertiesInput extends InputOf<VaultProperties> {
    */
   sku: SkuInput;
   /**
-   * softDelete data retention days. It accepts >=7 and <=90.
+   * softDelete data retention days. It accepts \>=7 and \<=90.
    */
   softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
   /**
@@ -3331,7 +2552,7 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
    */
   enablePurgeProtection?: ExpressionOrValue<boolean> | undefined;
   /**
-   * Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC.
+   * Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC.
    */
   enableRbacAuthorization?: ExpressionOrValue<boolean> | undefined;
   /**
@@ -3359,7 +2580,7 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
    */
   sku: SkuView;
   /**
-   * softDelete data retention days. It accepts >=7 and <=90.
+   * softDelete data retention days. It accepts \>=7 and \<=90.
    */
   softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
   /**
@@ -3376,10 +2597,10 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
   vaultUri?: ExpressionOrValue<string> | undefined;
 }
 
-export const VaultPropertiesShape: FlatModelShape = createFlatModelShape({
+export const vaultPropertiesShape: FlatModelShape = createFlatModelShape({
   accessPolicies: {
     armPath: ["accessPolicies"],
-    target: createArrayShape(createDeferredShape(() => AccessPolicyEntryShape)),
+    target: createArrayShape(createDeferredShape(() => accessPolicyEntryShape)),
   },
   createMode: { armPath: ["createMode"] },
   enabledForDeployment: { armPath: ["enabledForDeployment"] },
@@ -3389,19 +2610,19 @@ export const VaultPropertiesShape: FlatModelShape = createFlatModelShape({
   enableRbacAuthorization: { armPath: ["enableRbacAuthorization"] },
   enableSoftDelete: { armPath: ["enableSoftDelete"] },
   hsmPoolResourceId: { armPath: ["hsmPoolResourceId"], readOnly: true },
-  networkAcls: { armPath: ["networkAcls"], target: createDeferredShape(() => NetworkRuleSetShape) },
+  networkAcls: { armPath: ["networkAcls"], target: createDeferredShape(() => networkRuleSetShape) },
   privateEndpointConnections: {
     armPath: ["privateEndpointConnections"],
-    target: createArrayShape(createDeferredShape(() => PrivateEndpointConnectionItemShape)),
+    target: createArrayShape(createDeferredShape(() => privateEndpointConnectionItemShape)),
     readOnly: true,
   },
   publicNetworkAccess: { armPath: ["publicNetworkAccess"] },
-  sku: { armPath: ["sku"], target: createDeferredShape(() => SkuShape) },
+  sku: { armPath: ["sku"], target: createDeferredShape(() => skuShape) },
   softDeleteRetentionInDays: { armPath: ["softDeleteRetentionInDays"] },
   tenantId: { armPath: ["tenantId"] },
   tokenBindingParameters: {
     armPath: ["tokenBindingParameters"],
-    target: createDeferredShape(() => TokenBindingParametersShape),
+    target: createDeferredShape(() => tokenBindingParametersShape),
   },
   vaultUri: { armPath: ["vaultUri"] },
 });
@@ -3439,7 +2660,7 @@ export interface VirtualNetworkRuleInput extends InputOf<VirtualNetworkRule> {
  */
 export type VirtualNetworkRuleView = VirtualNetworkRuleInput;
 
-export const VirtualNetworkRuleShape: FlatModelShape = createFlatModelShape({
+export const virtualNetworkRuleShape: FlatModelShape = createFlatModelShape({
   id: { armPath: ["id"] },
   ignoreMissingVnetServiceEndpoint: { armPath: ["ignoreMissingVnetServiceEndpoint"] },
 });
@@ -3679,7 +2900,7 @@ export type ManagedServiceIdentityType = string;
 export type NetworkRuleAction = string;
 
 /**
- * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+ * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'.
  *
  * Known values:
  *

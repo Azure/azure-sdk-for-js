@@ -1,6 +1,7 @@
 {
-  "packageName": "keyvault",
-  "spec": "specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/client.tsp",
+  "azure-sdk-for-js": true,
+  "package-details": { "name": "@azure/provisioning-keyvault" },
+  "spec": "specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/main.tsp",
   "defaultVersion": "2026-03-01-preview",
   "naming": {
     "Microsoft.KeyVault/vaults": {
