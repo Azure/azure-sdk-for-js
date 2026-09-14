@@ -1,5 +1,11 @@
 # Release History
 
+## 2.2.2 (Unreleased)
+
+### Other Changes
+
+- Updated `@azure/msal-node` to `^6.0.0`. 
+
 ## 2.2.1 (2026-08-12)
 
 ### Other Changes
