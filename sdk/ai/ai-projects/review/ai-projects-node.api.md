@@ -79,6 +79,7 @@ export interface Agent {
     agent_endpoint?: AgentEndpointConfig;
     readonly blueprint?: AgentIdentity;
     readonly blueprint_reference?: AgentBlueprintReferenceUnion;
+    readonly configuration_state: AgentState;
     digital_worker_type?: DigitalWorkerType;
     id: string;
     readonly instance_identity?: AgentIdentity;
@@ -147,7 +148,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview" | "GitHubCopilot=V1Preview" | "Skills=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | AgentDefinition | VoiceAgentDefinition;
@@ -182,6 +183,14 @@ export interface AgentEvaluatorGenerationJobSource extends EvaluatorGenerationJo
     description?: string;
     type: "agent";
 }
+
+// @public
+export interface AgentHarness {
+    type: string;
+}
+
+// @public
+export type AgentHarnessUnion = GitHubCopilotHarness | AgentHarness;
 
 // @public
 export interface AgenticIdentityPreviewCredentials extends BaseCredentials {
@@ -3341,6 +3350,32 @@ export interface GetMicrosoft365PublishDefaultsOptionalParams extends OperationO
 }
 
 // @public
+export type GitHubCopilotBuiltInTool = "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
+
+// @public
+export interface GitHubCopilotHarness extends AgentHarness {
+    type: "github_copilot_preview";
+}
+
+// @public
+export interface GitHubCopilotToolsetConfig {
+    enabled?: boolean;
+    name: GitHubCopilotBuiltInTool;
+}
+
+// @public
+export interface GitHubCopilotToolsetDefaultConfig {
+    enabled?: boolean;
+}
+
+// @public
+export interface GitHubCopilotToolsetPreview extends Tool {
+    configs?: GitHubCopilotToolsetConfig[];
+    default_config?: GitHubCopilotToolsetDefaultConfig;
+    type: "github_copilot_toolset_preview";
+}
+
+// @public
 export type GitHubIssueEvent = "opened" | "closed";
 
 // @public
@@ -4210,12 +4245,14 @@ export interface PromotionInfo {
 
 // @public
 export interface PromptAgentDefinition extends AgentDefinition {
+    harness?: AgentHarnessUnion;
     instructions?: string;
     // (undocumented)
     kind: "prompt";
     model: string;
     // (undocumented)
     reasoning?: Reasoning;
+    skills?: SkillReference[];
     structured_inputs?: Record<string, StructuredInputDefinition>;
     temperature?: number;
     text?: PromptAgentDefinitionTextOptions;
@@ -5508,6 +5545,12 @@ export interface SkillInlineContent {
 }
 
 // @public
+export interface SkillReference {
+    name: string;
+    version?: string;
+}
+
+// @public
 export interface SkillReferenceParam extends ContainerSkill {
     skill_id: string;
     type: "skill_reference";
@@ -6142,6 +6185,15 @@ export interface ToolboxesGetVersionOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ToolboxesInvokeLatestToolboxMcpOptionalParams extends OperationOptions {
+}
+
+// @public
+export type ToolboxesInvokeLatestToolboxMcpResponse = {
+    body: unknown;
+};
+
+// @public
 export interface ToolboxesListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
@@ -6164,6 +6216,7 @@ export interface ToolboxesOperations {
     deleteVersion: (name: string, version: string, options?: ToolboxesDeleteVersionOptionalParams) => Promise<void>;
     get: (name: string, options?: ToolboxesGetOptionalParams) => Promise<ToolboxObject>;
     getVersion: (name: string, version: string, options?: ToolboxesGetVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    invokeLatestToolboxMcp: (name: string, contentType: string, request: Record<string, unknown>, options?: ToolboxesInvokeLatestToolboxMcpOptionalParams) => Promise<ToolboxesInvokeLatestToolboxMcpResponse>;
     list: (options?: ToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
     listVersions: (name: string, options?: ToolboxesListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
     update: (name: string, defaultVersion: string, options?: ToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
@@ -6178,6 +6231,8 @@ export interface ToolboxObject {
     default_version: string;
     id: string;
     name: string;
+    updated_at: Date;
+    versions: ToolboxVersions;
 }
 
 // @public
@@ -6267,6 +6322,11 @@ export interface ToolboxVersionObject {
     skills?: ToolboxSkillUnion[];
     tools: ToolboxToolUnion[];
     version: string;
+}
+
+// @public
+export interface ToolboxVersions {
+    latest: ToolboxVersionObject;
 }
 
 // @public
@@ -6395,10 +6455,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "browser_automation";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "github_copilot_toolset_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "browser_automation";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool | BrowserAutomationTool;
+export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool | BrowserAutomationTool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
