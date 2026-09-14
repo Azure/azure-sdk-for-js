@@ -29,6 +29,12 @@ The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.m
 
 Run from `sdk/ai/ai-projects/`.
 
+`npm run customize` applies the customization layer, runs formatting, and invokes
+`npm run post-emitter` (`scripts/post-emitter.mjs`) as its final step. Both local
+`npm run generate:client` and the SDK generation pipeline use this hook. It automates
+only the fixes implemented in that script; the audits and remaining edits below are
+still required.
+
 Use this phase order to avoid mixing unrelated decisions:
 
 | Phase          | Steps                            | Exit point                                                                                                                                         |
@@ -40,14 +46,14 @@ Use this phase order to avoid mixing unrelated decisions:
 
 ### Recovery: customization stopped on a dirty target
 
-`npm run generate:client` runs formatting before `dev-tool customization apply`. If the active formatter rewrites committed `src/` files, customization can stop with `Uncommitted changes were detected in the target directory` after generation has already updated `generated/`.
+Older versions of `npm run generate:client` ran formatting before `dev-tool customization apply`; the current `customize` hook merges before formatting. When recovering from an older run, formatter rewrites to committed `src/` files can explain `Uncommitted changes were detected in the target directory` after generation has already updated `generated/`.
 
 Do not regenerate again and do not restore all of `src/`. First confirm that regeneration preflight recorded a clean `src/` tree, inspect every current `src/` diff, and identify changes that are formatter-only. Restore only those proven formatter-created files, then apply customization to the already-emitted `generated/` tree:
 
 ```powershell
 git diff -- src
 git restore --source=HEAD -- <verified-formatter-only-files>
-npx dev-tool customization apply
+npm run customize
 ```
 
 If any affected file had a user change before regeneration, stop and recover that change instead of restoring the file. After customization completes, continue with Step 0 and repeat the protected-file audit in Step 1.
@@ -379,7 +385,7 @@ Remove-Item -ErrorAction SilentlyContinue `
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
 
-Do not run `scripts/post-emitter.mjs` as a substitute for the per-rule checks without auditing its output. It currently also rewrites user-agent construction in protected client/context files. If it is run, immediately repeat Step 1 and revert unrelated emitter drift while preserving reviewed, necessary integration changes before building.
+The `customize` hook runs `scripts/post-emitter.mjs` after a successful merge and formatting pass. Do not treat it as a substitute for the per-rule checks: it also rewrites user-agent construction in protected client/context files, so include its output in the Step 1 audit. If it is rerun manually, immediately repeat Step 1 and revert unrelated emitter drift while preserving reviewed, necessary integration changes before building.
 
 ### Step 6: Build and surface verification
 
