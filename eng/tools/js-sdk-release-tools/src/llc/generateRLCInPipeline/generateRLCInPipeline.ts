@@ -24,7 +24,14 @@ import {
 } from "../../common/utils.js";
 import { generateChangelogAndBumpVersion } from "../../common/changelog/automaticGenerateChangeLogAndBumpVersion.js";
 import { updateChangelogResult } from "../../common/packageResultUtils.js";
-import { formatSdk, updateSnippets, lintFix, customizeCodes } from "../../common/devToolUtils.js";
+import {
+  formatSdk,
+  updateSnippets,
+  lintFix,
+  customizeCodes,
+  resetToGeneratedOutput,
+  warnCustomizationFallback,
+} from "../../common/devToolUtils.js";
 import { ensurePnpmInstalled } from "../../common/rushUtils.js";
 import { RunMode } from "../../common/types.js";
 import fsExtra from "fs-extra";
@@ -314,7 +321,30 @@ export async function generateRLCInPipeline(options: {
         buildStatus = `failed`;
       }
     } else {
-      execSync(`pnpm run --filter ${packageName}... build`, { stdio: "inherit" });
+      // spec-PR / batch: a customization that no longer applies must not block the
+      // pipeline. Fall back to the clean generated output and rebuild, mirroring the
+      // Java generator; the owner re-applies customization on the generated SDK PR.
+      try {
+        execSync(`pnpm run --filter ${packageName}... build`, { stdio: "inherit" });
+      } catch (error) {
+        const didReset = await resetToGeneratedOutput(packagePath);
+        if (didReset) {
+          warnCustomizationFallback(packageName);
+          try {
+            execSync(`pnpm run --filter ${packageName}... build`, { stdio: "inherit" });
+          } catch (retryError) {
+            logger.warn(
+              `Failed to build package after customization fallback due to: ${
+                (retryError as Error)?.stack ?? retryError
+              }`,
+            );
+            buildStatus = `failed`;
+          }
+        } else {
+          logger.warn(`Failed to build package due to: ${(error as Error)?.stack ?? error}`);
+          buildStatus = `failed`;
+        }
+      }
     }
 
     logger.info(`Start to run command 'pnpm run --filter ${packageJson.name}... pack'.`);
