@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../../index.js";
-import { apiErrorResponseDeserializer } from "../../../models/models.js";
-import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import type { BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./options.js";
+import type { AIProjectContext as Client } from "../../../index.js";
+import { apiErrorResponseDeserializer } from "../../../../models/models.js";
+import { expandUrlTemplate } from "../../../../static-helpers/urlTemplate.js";
+import type { BetaVoiceAgentsRealtimeConnectVoiceAgentOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _connectVoiceAgentSend(
   context: Client,
   agentName: string,
-  options: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsRealtimeConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,transport,store,structured_input,x%2Dagent%2Dversion%2Doverride,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,transport,store,structured_input,api%2Dversion}",
     {
       agent_name: agentName,
       foundry_features: options?.foundryFeaturesQuery,
       transport: options?.transport,
       store: options?.store,
       structured_input: options?.structuredInput,
-      "x%2Dagent%2Dversion%2Doverride": options?.agentVersionOverride,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -57,6 +56,7 @@ export async function _connectVoiceAgentDeserialize(result: PathUncheckedRespons
 }
 
 /**
+ * @internal
  * Connects to a voice agent over WebSocket. The client must send an HTTP GET with `Upgrade: websocket`
  * headers. The optional `realtime` subprotocol is the only accepted subprotocol value. Supply the
  * `VoiceAgents=V1Preview` opt-in through either the `Foundry-Features` header or the `foundry_features`
@@ -78,7 +78,7 @@ export async function _connectVoiceAgentDeserialize(result: PathUncheckedRespons
 export async function connectVoiceAgent(
   context: Client,
   agentName: string,
-  options: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsRealtimeConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _connectVoiceAgentSend(context, agentName, options);
   return _connectVoiceAgentDeserialize(result);

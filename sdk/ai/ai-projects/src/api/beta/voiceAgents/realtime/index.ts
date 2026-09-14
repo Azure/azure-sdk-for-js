@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { connectVoiceAgent } from "./operations.js";
-export type { BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./options.js";
+export type { BetaVoiceAgentsRealtimeConnectVoiceAgentOptionalParams } from "./options.js";

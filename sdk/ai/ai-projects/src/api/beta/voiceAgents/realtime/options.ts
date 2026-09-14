@@ -4,11 +4,11 @@
 import type {
   VoiceAgentTransport,
   VoiceAgentWebSocketSubprotocol,
-} from "../../../models/models.js";
+} from "../../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsRealtimeConnectVoiceAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "VoiceAgents=V1Preview";
   /**
@@ -32,13 +32,10 @@ export interface BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams extends 
   store?: boolean;
   /**
    * Per-session values for the voice agent's declared `structured_inputs`, serialized as a JSON object and
-   * URL-encoded as this query parameter. Supplied values override definition defaults when rendering the
    * agent's instructions and session-start greeting for this session only. The decoded value must be a JSON
    * object no larger than 32 KiB with a maximum nesting depth of 16.
    */
   structuredInput?: string;
-  /** Selects a specific version of the voice agent for this session. */
-  agentVersionOverride?: string;
-  /** The requested WebSocket subprotocol. Omit this header or request exactly `realtime`. */
+  /** Selects a specific version of the voice agent for this session.The requested WebSocket subprotocol. Omit this header or request exactly `realtime`. */
   websocketSubprotocol?: VoiceAgentWebSocketSubprotocol;
 }

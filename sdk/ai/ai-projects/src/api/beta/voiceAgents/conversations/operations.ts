@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../../index.js";
+import type { AIProjectContext as Client } from "../../../index.js";
 import type {
   _AgentsPagedResultVoiceConversation,
   VoiceConversation,
@@ -9,13 +9,13 @@ import type {
   VoiceResponse,
   RealtimeConversationItemUnion,
   _AgentsPagedResultRealtimeConversationItem,
-  VoiceItemAudioResponse,
-  VoiceGeneratedItemAudioResponse,
+  VoiceAudioItemResponse,
+  VoiceGeneratedAudioItemResponse,
   VoiceRecordingResponse,
-  BetaAgentEndpointConversationsDownloadAudioResponse,
-  BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse,
-  BetaAgentEndpointConversationsDownloadItemAudioResponse,
-} from "../../../models/models.js";
+  BetaVoiceAgentsConversationsDownloadAudioResponse,
+  BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
+  BetaVoiceAgentsConversationsDownloadAudioItemResponse,
+} from "../../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
   _agentsPagedResultVoiceConversationDeserializer,
@@ -24,29 +24,29 @@ import {
   voiceResponseDeserializer,
   realtimeConversationItemUnionDeserializer,
   _agentsPagedResultRealtimeConversationItemDeserializer,
-  voiceItemAudioResponseDeserializer,
-  voiceGeneratedItemAudioResponseDeserializer,
+  voiceAudioItemResponseDeserializer,
+  voiceGeneratedAudioItemResponseDeserializer,
   voiceRecordingResponseDeserializer,
-} from "../../../models/models.js";
+} from "../../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../../../static-helpers/pagingHelpers.js";
 import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
-import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
+import { expandUrlTemplate } from "../../../../static-helpers/urlTemplate.js";
 import type {
-  BetaAgentEndpointConversationsDownloadAudioOptionalParams,
-  BetaAgentEndpointConversationsGetAudioOptionalParams,
-  BetaAgentEndpointConversationsDownloadItemGeneratedAudioOptionalParams,
-  BetaAgentEndpointConversationsGetItemGeneratedAudioOptionalParams,
-  BetaAgentEndpointConversationsDownloadItemAudioOptionalParams,
-  BetaAgentEndpointConversationsGetItemAudioOptionalParams,
-  BetaAgentEndpointConversationsGetItemOptionalParams,
-  BetaAgentEndpointConversationsListItemsOptionalParams,
-  BetaAgentEndpointConversationsListResponseItemsOptionalParams,
-  BetaAgentEndpointConversationsGetResponseOptionalParams,
-  BetaAgentEndpointConversationsListResponsesOptionalParams,
-  BetaAgentEndpointConversationsDeleteOptionalParams,
-  BetaAgentEndpointConversationsGetOptionalParams,
-  BetaAgentEndpointConversationsListOptionalParams,
+  BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
+  BetaVoiceAgentsConversationsGetAudioOptionalParams,
+  BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
+  BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
+  BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams,
+  BetaVoiceAgentsConversationsGetAudioItemOptionalParams,
+  BetaVoiceAgentsConversationsGetItemOptionalParams,
+  BetaVoiceAgentsConversationsListItemsOptionalParams,
+  BetaVoiceAgentsConversationsListResponseItemsOptionalParams,
+  BetaVoiceAgentsConversationsGetResponseOptionalParams,
+  BetaVoiceAgentsConversationsListResponsesOptionalParams,
+  BetaVoiceAgentsConversationsDeleteOptionalParams,
+  BetaVoiceAgentsConversationsGetOptionalParams,
+  BetaVoiceAgentsConversationsListOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -55,7 +55,7 @@ export function _downloadAudioSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsDownloadAudioOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsDownloadAudioOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -81,8 +81,8 @@ export function _downloadAudioSend(
 }
 
 export async function _downloadAudioDeserialize(
-  result: PathUncheckedResponse & BetaAgentEndpointConversationsDownloadAudioResponse,
-): Promise<BetaAgentEndpointConversationsDownloadAudioResponse> {
+  result: PathUncheckedResponse & BetaVoiceAgentsConversationsDownloadAudioResponse,
+): Promise<BetaVoiceAgentsConversationsDownloadAudioResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -111,8 +111,8 @@ export async function downloadAudio(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsDownloadAudioOptionalParams = { requestOptions: {} },
-): Promise<BetaAgentEndpointConversationsDownloadAudioResponse> {
+  options: BetaVoiceAgentsConversationsDownloadAudioOptionalParams = { requestOptions: {} },
+): Promise<BetaVoiceAgentsConversationsDownloadAudioResponse> {
   const streamableMethod = _downloadAudioSend(context, agentName, conversationId, options);
   const result = await getBinaryStreamResponse(streamableMethod);
   return _downloadAudioDeserialize(result);
@@ -122,7 +122,7 @@ export function _getAudioSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsGetAudioOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetAudioOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -179,18 +179,18 @@ export async function getAudio(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsGetAudioOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetAudioOptionalParams = { requestOptions: {} },
 ): Promise<VoiceRecordingResponse> {
   const result = await _getAudioSend(context, agentName, conversationId, options);
   return _getAudioDeserialize(result);
 }
 
-export function _downloadItemGeneratedAudioSend(
+export function _downloadGeneratedAudioItemSend(
   context: Client,
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsDownloadItemGeneratedAudioOptionalParams = {
+  options: BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -218,9 +218,9 @@ export function _downloadItemGeneratedAudioSend(
   });
 }
 
-export async function _downloadItemGeneratedAudioDeserialize(
-  result: PathUncheckedResponse & BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse,
-): Promise<BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse> {
+export async function _downloadGeneratedAudioItemDeserialize(
+  result: PathUncheckedResponse & BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
+): Promise<BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -242,16 +242,16 @@ export async function _downloadItemGeneratedAudioDeserialize(
  * Returns `404` when the conversation or item was not persisted, or when no generated audio exists beyond the
  * heard segment.
  */
-export async function downloadItemGeneratedAudio(
+export async function downloadGeneratedAudioItem(
   context: Client,
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsDownloadItemGeneratedAudioOptionalParams = {
+  options: BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams = {
     requestOptions: {},
   },
-): Promise<BetaAgentEndpointConversationsDownloadItemGeneratedAudioResponse> {
-  const streamableMethod = _downloadItemGeneratedAudioSend(
+): Promise<BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse> {
+  const streamableMethod = _downloadGeneratedAudioItemSend(
     context,
     agentName,
     conversationId,
@@ -259,15 +259,15 @@ export async function downloadItemGeneratedAudio(
     options,
   );
   const result = await getBinaryStreamResponse(streamableMethod);
-  return _downloadItemGeneratedAudioDeserialize(result);
+  return _downloadGeneratedAudioItemDeserialize(result);
 }
 
-export function _getItemGeneratedAudioSend(
+export function _getGeneratedAudioItemSend(
   context: Client,
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsGetItemGeneratedAudioOptionalParams = {
+  options: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -295,9 +295,9 @@ export function _getItemGeneratedAudioSend(
   });
 }
 
-export async function _getItemGeneratedAudioDeserialize(
+export async function _getGeneratedAudioItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceGeneratedItemAudioResponse> {
+): Promise<VoiceGeneratedAudioItemResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -308,7 +308,7 @@ export async function _getItemGeneratedAudioDeserialize(
     throw error;
   }
 
-  return voiceGeneratedItemAudioResponseDeserializer(result.body);
+  return voiceGeneratedAudioItemResponseDeserializer(result.body);
 }
 
 /**
@@ -317,31 +317,31 @@ export async function _getItemGeneratedAudioDeserialize(
  * than the listener heard, including when the response ends as cancelled. Returns `404` when the conversation or
  * item was not persisted, or when no generated audio exists beyond the heard segment.
  */
-export async function getItemGeneratedAudio(
+export async function getGeneratedAudioItem(
   context: Client,
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsGetItemGeneratedAudioOptionalParams = {
+  options: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams = {
     requestOptions: {},
   },
-): Promise<VoiceGeneratedItemAudioResponse> {
-  const result = await _getItemGeneratedAudioSend(
+): Promise<VoiceGeneratedAudioItemResponse> {
+  const result = await _getGeneratedAudioItemSend(
     context,
     agentName,
     conversationId,
     itemId,
     options,
   );
-  return _getItemGeneratedAudioDeserialize(result);
+  return _getGeneratedAudioItemDeserialize(result);
 }
 
-export function _downloadItemAudioSend(
+export function _downloadAudioItemSend(
   context: Client,
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsDownloadItemAudioOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -367,9 +367,9 @@ export function _downloadItemAudioSend(
   });
 }
 
-export async function _downloadItemAudioDeserialize(
-  result: PathUncheckedResponse & BetaAgentEndpointConversationsDownloadItemAudioResponse,
-): Promise<BetaAgentEndpointConversationsDownloadItemAudioResponse> {
+export async function _downloadAudioItemDeserialize(
+  result: PathUncheckedResponse & BetaVoiceAgentsConversationsDownloadAudioItemResponse,
+): Promise<BetaVoiceAgentsConversationsDownloadAudioItemResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -390,14 +390,14 @@ export async function _downloadItemAudioDeserialize(
  * returned by the item's `/audio` metadata route — so this route returns `409 Conflict` for BYOS recordings.
  * Returns `404` when the conversation, item, or its audio was not persisted (`store = false`).
  */
-export async function downloadItemAudio(
+export async function downloadAudioItem(
   context: Client,
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsDownloadItemAudioOptionalParams = { requestOptions: {} },
-): Promise<BetaAgentEndpointConversationsDownloadItemAudioResponse> {
-  const streamableMethod = _downloadItemAudioSend(
+  options: BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams = { requestOptions: {} },
+): Promise<BetaVoiceAgentsConversationsDownloadAudioItemResponse> {
+  const streamableMethod = _downloadAudioItemSend(
     context,
     agentName,
     conversationId,
@@ -405,15 +405,15 @@ export async function downloadItemAudio(
     options,
   );
   const result = await getBinaryStreamResponse(streamableMethod);
-  return _downloadItemAudioDeserialize(result);
+  return _downloadAudioItemDeserialize(result);
 }
 
-export function _getItemAudioSend(
+export function _getAudioItemSend(
   context: Client,
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsGetItemAudioOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetAudioItemOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -439,9 +439,9 @@ export function _getItemAudioSend(
   });
 }
 
-export async function _getItemAudioDeserialize(
+export async function _getAudioItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceItemAudioResponse> {
+): Promise<VoiceAudioItemResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -452,7 +452,7 @@ export async function _getItemAudioDeserialize(
     throw error;
   }
 
-  return voiceItemAudioResponseDeserializer(result.body);
+  return voiceAudioItemResponseDeserializer(result.body);
 }
 
 /**
@@ -463,15 +463,15 @@ export async function _getItemAudioDeserialize(
  * Requires the conversation to have persisted audio (`store = true`); returns `404` when the conversation,
  * item, or its audio was not persisted.
  */
-export async function getItemAudio(
+export async function getAudioItem(
   context: Client,
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsGetItemAudioOptionalParams = { requestOptions: {} },
-): Promise<VoiceItemAudioResponse> {
-  const result = await _getItemAudioSend(context, agentName, conversationId, itemId, options);
-  return _getItemAudioDeserialize(result);
+  options: BetaVoiceAgentsConversationsGetAudioItemOptionalParams = { requestOptions: {} },
+): Promise<VoiceAudioItemResponse> {
+  const result = await _getAudioItemSend(context, agentName, conversationId, itemId, options);
+  return _getAudioItemDeserialize(result);
 }
 
 export function _getItemSend(
@@ -479,7 +479,7 @@ export function _getItemSend(
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsGetItemOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetItemOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -533,7 +533,7 @@ export async function getItem(
   agentName: string,
   conversationId: string,
   itemId: string,
-  options: BetaAgentEndpointConversationsGetItemOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetItemOptionalParams = { requestOptions: {} },
 ): Promise<RealtimeConversationItemUnion> {
   const result = await _getItemSend(context, agentName, conversationId, itemId, options);
   return _getItemDeserialize(result);
@@ -543,7 +543,7 @@ export function _listItemsSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsListItemsOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsListItemsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -597,7 +597,7 @@ export function listItems(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsListItemsOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsListItemsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
   return buildPagedAsyncIterator(
     context,
@@ -625,7 +625,7 @@ export function _listResponseItemsSend(
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: BetaAgentEndpointConversationsListResponseItemsOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsListResponseItemsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -682,7 +682,7 @@ export function listResponseItems(
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: BetaAgentEndpointConversationsListResponseItemsOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsListResponseItemsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
   return buildPagedAsyncIterator(
     context,
@@ -710,7 +710,7 @@ export function _getResponseSend(
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: BetaAgentEndpointConversationsGetResponseOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetResponseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -761,7 +761,7 @@ export async function getResponse(
   agentName: string,
   conversationId: string,
   responseId: string,
-  options: BetaAgentEndpointConversationsGetResponseOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetResponseOptionalParams = { requestOptions: {} },
 ): Promise<VoiceResponse> {
   const result = await _getResponseSend(context, agentName, conversationId, responseId, options);
   return _getResponseDeserialize(result);
@@ -771,7 +771,7 @@ export function _listResponsesSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsListResponsesOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsListResponsesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -825,7 +825,7 @@ export function listResponses(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsListResponsesOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsListResponsesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VoiceResponse> {
   return buildPagedAsyncIterator(
     context,
@@ -852,7 +852,7 @@ export function _$deleteSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsDeleteOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -895,7 +895,7 @@ export async function $delete(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsDeleteOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _$deleteSend(context, agentName, conversationId, options);
   return _$deleteDeserialize(result);
@@ -905,7 +905,7 @@ export function _getSend(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsGetOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -952,7 +952,7 @@ export async function get(
   context: Client,
   agentName: string,
   conversationId: string,
-  options: BetaAgentEndpointConversationsGetOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsGetOptionalParams = { requestOptions: {} },
 ): Promise<VoiceConversation> {
   const result = await _getSend(context, agentName, conversationId, options);
   return _getDeserialize(result);
@@ -961,7 +961,7 @@ export async function get(
 export function _listSend(
   context: Client,
   agentName: string,
-  options: BetaAgentEndpointConversationsListOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -1013,7 +1013,7 @@ export async function _listDeserialize(
 export function list(
   context: Client,
   agentName: string,
-  options: BetaAgentEndpointConversationsListOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsConversationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VoiceConversation> {
   return buildPagedAsyncIterator(
     context,

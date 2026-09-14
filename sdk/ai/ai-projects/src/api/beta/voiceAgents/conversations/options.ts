@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PageOrder } from "../../../models/models.js";
+import type { PageOrder } from "../../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsDownloadAudioOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsDownloadAudioOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsGetAudioOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsGetAudioOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsDownloadItemGeneratedAudioOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsGetItemGeneratedAudioOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsDownloadItemAudioOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsGetItemAudioOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsGetAudioItemOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsGetItemOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsGetItemOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsListItemsOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsConversationsListItemsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -52,7 +52,7 @@ export interface BetaAgentEndpointConversationsListItemsOptionalParams extends O
 }
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsListResponseItemsOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsConversationsListResponseItemsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -78,10 +78,10 @@ export interface BetaAgentEndpointConversationsListResponseItemsOptionalParams e
 }
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsGetResponseOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsGetResponseOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsListResponsesOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsConversationsListResponsesOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -107,13 +107,13 @@ export interface BetaAgentEndpointConversationsListResponsesOptionalParams exten
 }
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsDeleteOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsGetOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsConversationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaAgentEndpointConversationsListOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsConversationsListOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
