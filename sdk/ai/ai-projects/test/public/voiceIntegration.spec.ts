@@ -8,8 +8,8 @@ import { isNodeLike } from "@azure/core-util";
 import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
-  BetaAgentTelephonyValidateCampaignOptionalParams,
-  BetaAgentEndpointConversationsListOptionalParams,
+  BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
+  BetaVoiceAgentsConversationsListOptionalParams,
   VoiceAgentDefinition,
   RealtimeServerEventResponseAudioDelta,
 } from "../../src/index.js";
@@ -70,21 +70,18 @@ function createClient(...responses: MockResponse[]): {
 }
 
 describe("voice post-emitter integration", () => {
-  it("wires the beta WebSocket route without changing authentication or user agents", async () => {
-    const { client, requests, getToken } = createClient({ status: 101 });
-    // This tests HTTP handshake routing, not an actual WebSocket transport.
-    await client.beta.voiceAgentWebSocket.connectVoiceAgent("voice agent", {
+  it("wires voice operations without exposing the internal WebSocket handshake", async () => {
+    const { client, requests, getToken } = createClient({
+      body: { id: "operation", status: "succeeded" },
+    });
+    await client.beta.voiceAgents.telephony.getOperation("voice agent", "operation", {
       foundryFeatures: "VoiceAgents=V1Preview",
-      websocketSubprotocol: "realtime",
-      store: false,
     });
     expect(requests).toHaveLength(1);
     expect(new URL(requests[0].url).pathname).toBe(
-      "/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice",
+      "/api/projects/test-project/agents/voice%20agent/telephony/operations/operation",
     );
-    expect(new URL(requests[0].url).searchParams.get("store")).toBe("false");
     expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
-    expect(requests[0].headers.get("sec-websocket-protocol")).toBe("realtime");
     expect(requests[0].headers.get(isNodeLike ? "user-agent" : "x-ms-useragent")).toContain(
       "integration-test azsdk-js-client azsdk-js-api azsdk-js-ai-projects/",
     );
@@ -93,6 +90,11 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.evaluators.list).toBeTypeOf("function");
     expect(client.agents.listSessionFiles).toBeTypeOf("function");
     expect(client.beta.agents.createOptimizationJob).toBeTypeOf("function");
+    expect(client.beta.agents.createFromPrompt).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.conversations.getAudioItem).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.conversations.getGeneratedAudioItem).toBeTypeOf("function");
+    expect(client.beta).not.toHaveProperty("voiceAgentWebSocket");
+    expect(client.beta.voiceAgents).not.toHaveProperty("realtime");
   });
 
   it("preserves the ErrorModel shape for failed beta calls", async () => {
@@ -107,7 +109,9 @@ describe("voice post-emitter integration", () => {
         },
       },
     });
-    await expect(client.beta.voiceAgentWebSocket.connectVoiceAgent("agent")).rejects.toMatchObject({
+    await expect(
+      client.beta.voiceAgents.telephony.getOperation("agent", "operation"),
+    ).rejects.toMatchObject({
       statusCode: 409,
       details: {
         error: {
@@ -120,26 +124,66 @@ describe("voice post-emitter integration", () => {
     });
   });
 
+  it.each([
+    {
+      name: "recorded audio",
+      suffix: "",
+      get: (client: AIProjectClient) =>
+        client.beta.voiceAgents.conversations.getAudioItem(
+          "voice agent",
+          "conversation/id",
+          "item/id",
+        ),
+    },
+    {
+      name: "generated audio",
+      suffix: "/generated",
+      get: (client: AIProjectClient) =>
+        client.beta.voiceAgents.conversations.getGeneratedAudioItem(
+          "voice agent",
+          "conversation/id",
+          "item/id",
+        ),
+    },
+  ])(
+    "routes the renamed $name item operation and preserves service errors",
+    async ({ get, suffix }) => {
+      const { client, requests } = createClient({
+        status: 404,
+        body: { error: { code: "not_persisted", message: "Audio was not stored." } },
+      });
+      await expect(get(client)).rejects.toMatchObject({
+        statusCode: 404,
+        details: { error: { code: "not_persisted" } },
+      });
+      expect(requests).toHaveLength(1);
+      expect(new URL(requests[0].url).pathname).toBe(
+        `/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice/conversations/conversation%2Fid/items/item%2Fid/audio${suffix}`,
+      );
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    },
+  );
+
   const listCases = [
     {
       name: "conversations",
-      list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.beta.agentEndpointConversations.list("agent", options),
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.conversations.list("agent", options),
     },
     {
       name: "responses",
-      list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.beta.agentEndpointConversations.listResponses("agent", "conversation", options),
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.conversations.listResponses("agent", "conversation", options),
     },
     {
       name: "items",
-      list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.beta.agentEndpointConversations.listItems("agent", "conversation", options),
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.conversations.listItems("agent", "conversation", options),
     },
     {
       name: "response items",
-      list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.beta.agentEndpointConversations.listResponseItems(
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.conversations.listResponseItems(
           "agent",
           "conversation",
           "response",
@@ -148,13 +192,13 @@ describe("voice post-emitter integration", () => {
     },
     {
       name: "telephony bindings",
-      list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.beta.agents.listTelephonyBindings("agent", options),
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.telephony.listBindings("agent", options),
     },
     {
       name: "telephony calls",
-      list: (client: AIProjectClient, options: BetaAgentEndpointConversationsListOptionalParams) =>
-        client.beta.agents.listTelephonyCalls("agent", options),
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.telephony.listCalls("agent", options),
     },
   ];
 
@@ -197,13 +241,18 @@ describe("voice post-emitter integration", () => {
   const campaignCases = [
     {
       name: "validate",
-      start: (client: AIProjectClient, options: BetaAgentTelephonyValidateCampaignOptionalParams) =>
-        client.beta.agentTelephony.validateCampaign("agent", "campaign", options),
+      start: (
+        client: AIProjectClient,
+        options: BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
+      ) => client.beta.voiceAgents.telephony.validateCampaign("agent", "campaign", options),
     },
     {
       name: "publish",
-      start: (client: AIProjectClient, options: BetaAgentTelephonyValidateCampaignOptionalParams) =>
-        client.beta.agentTelephony.publishCampaign(
+      start: (
+        client: AIProjectClient,
+        options: BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
+      ) =>
+        client.beta.voiceAgents.telephony.publishCampaign(
           "agent",
           "campaign",
           { validation_id: "validation" },
@@ -212,8 +261,11 @@ describe("voice post-emitter integration", () => {
     },
     {
       name: "import",
-      start: (client: AIProjectClient, options: BetaAgentTelephonyValidateCampaignOptionalParams) =>
-        client.beta.agentTelephony.importCampaignRecipients(
+      start: (
+        client: AIProjectClient,
+        options: BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
+      ) =>
+        client.beta.voiceAgents.telephony.importCampaignRecipients(
           "agent",
           "campaign",
           "idempotency-key",
