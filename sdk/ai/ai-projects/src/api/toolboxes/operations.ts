@@ -199,7 +199,10 @@ export function _invokeLatestToolboxMcpSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: contentType,
-    headers: { accept: "*/*", ...options.requestOptions?.headers },
+    headers: {
+      accept: "application/json, text/event-stream",
+      ...options.requestOptions?.headers,
+    },
     body: request,
   });
 }
