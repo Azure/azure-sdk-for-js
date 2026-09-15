@@ -24,12 +24,14 @@
 - Expose typed system, user, and assistant message items already supported by realtime voice conversations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Expose voice transcription language metadata, multiple language hints, and keyword configuration from the regenerated models. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Expose the existing `external_web_access` setting on web search tools and toolbox tools to control live web access. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add `project.beta.voiceAgents.realtime` (`VoiceAgentRealtimeClient`), a WebSocket client for bidirectional streaming of text, audio (`audio/pcm`, `audio/pcmu`, `audio/pcma`), and tool calls with a voice agent, with browser and React Native support (a Microsoft Entra bearer token carried in the WebSocket subprotocol, since browsers cannot set a custom `Authorization` header on a WebSocket upgrade request).
 
 ### Other Changes
 
 - Regenerate the client from azure-rest-api-specs commit `6bbf003013d52052af35f57f1f29daff9e536ad5`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Preserve existing public model exports and custom serializers when the emitter separates models into namespaces.
 - Add samples for voice definitions, voice generation, read-only telephony inspection, and non-preview browser automation, with offline public-client tests for voice authoring and telephony operations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add the `ws` and `https-proxy-agent` dependencies, required by `project.beta.voiceAgents.realtime`.
 
 ## 2.6.0 (2026-09-03)
 

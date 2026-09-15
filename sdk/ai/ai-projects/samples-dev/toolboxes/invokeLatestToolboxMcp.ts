@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
 
   console.log("Retrieving toolbox metadata...");
   const toolbox = await project.toolboxes.get(toolboxName);
-  console.log(`Latest version: ${toolbox.versions.latest.version}`);
+  console.log(`Latest version: ${toolbox.versions?.latest.version}`);
   console.log(`Last updated: ${toolbox.updated_at.toISOString()}`);
 
   console.log("Initializing MCP through the latest toolbox endpoint...");

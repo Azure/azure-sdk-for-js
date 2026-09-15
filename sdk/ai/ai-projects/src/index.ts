@@ -7,6 +7,39 @@ import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 export { RestError } from "@azure/core-rest-pipeline";
 export { AIProjectClient } from "./aiProjectClient.js";
 export type { GenAITracingOptions } from "./tracing/configuration.js";
+export {
+  VoiceAgentRealtimeClient,
+  KnownVoiceAgentConnectionState,
+} from "./realtime/voiceAgentRealtimeClient.js";
+export type {
+  VoiceAgentRealtimeClientOptions,
+  VoiceAgentRealtimeClientConnectOptions,
+  VoiceAgentConnection,
+  VoiceAgentConnectionState,
+  VoiceAgentConnectionStateChangedHandler,
+  VoiceAgentCloseResult,
+  VoiceAgentSendOptions,
+  VoiceAgentEventOptions,
+  VoiceAgentSendItemOptions,
+  VoiceAgentSendTextOptions,
+  VoiceAgentSendToolOutputOptions,
+  VoiceAgentSessionUpdateOptions,
+  VoiceAgentResponseOptions,
+  VoiceAgentCancelResponseOptions,
+} from "./realtime/voiceAgentRealtimeClient.js";
+export type {
+  VoiceAgentWebSocketFactory,
+  VoiceAgentWebSocketTransport,
+  VoiceAgentWebSocketHandlers,
+  VoiceAgentWebSocketConnectOptions,
+} from "./realtime/webSocketTransportLike.js";
+export {
+  VoiceAgentRealtimeError,
+  VoiceAgentAuthenticationError,
+  VoiceAgentConnectionError,
+  VoiceAgentProtocolError,
+} from "./realtime/errors.js";
+export type { VoiceAgentRealtimeErrorCode } from "./realtime/errors.js";
 export type {
   Agent,
   AgentState,

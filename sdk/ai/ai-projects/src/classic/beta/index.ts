@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { TokenCredential } from "@azure/core-auth";
 import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import type { BetaAgentsOperations } from "./agents/index.js";
@@ -28,6 +29,7 @@ import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
 import type { BetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import { _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
+import type { VoiceAgentRealtimeClientOptions } from "../../realtime/voiceAgentRealtimeClient.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
@@ -59,7 +61,12 @@ export interface BetaOperations {
   voiceAgents: BetaVoiceAgentsOperations;
 }
 
-export function _getBetaOperations(context: AIProjectContext): BetaOperations {
+export function _getBetaOperations(
+  context: AIProjectContext,
+  credential: TokenCredential,
+  endpoint: string,
+  realtimeOptions?: VoiceAgentRealtimeClientOptions,
+): BetaOperations {
   return {
     /** Operations for managing data generation jobs. */
     datasets: _getBetaDatasetsOperations(context),
@@ -85,6 +92,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     agents: _getBetaAgentsOperations(context),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
-    voiceAgents: _getBetaVoiceAgentsOperations(context),
+    voiceAgents: _getBetaVoiceAgentsOperations(context, credential, endpoint, realtimeOptions),
   };
 }

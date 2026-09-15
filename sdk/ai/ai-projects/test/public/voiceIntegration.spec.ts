@@ -94,7 +94,9 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.voiceAgents.conversations.getAudioItem).toBeTypeOf("function");
     expect(client.beta.voiceAgents.conversations.getGeneratedAudioItem).toBeTypeOf("function");
     expect(client.beta).not.toHaveProperty("voiceAgentWebSocket");
-    expect(client.beta.voiceAgents).not.toHaveProperty("realtime");
+    // Hand-written Voice Agents realtime WebSocket client (not part of this regen); it
+    // intentionally lives alongside the generated voiceAgents operations.
+    expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
   });
 
   it("preserves the ErrorModel shape for failed beta calls", async () => {
