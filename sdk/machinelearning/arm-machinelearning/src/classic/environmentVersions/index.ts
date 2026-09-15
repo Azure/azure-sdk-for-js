@@ -84,7 +84,6 @@ export interface EnvironmentVersionsOperations {
     options?: EnvironmentVersionsGetOptionalParams,
   ) => Promise<EnvironmentVersion>;
 }
-
 function _getEnvironmentVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     publish: (
@@ -155,7 +154,6 @@ function _getEnvironmentVersions(context: AzureMachineLearningServicesManagement
     ) => get(context, resourceGroupName, workspaceName, name, version, options),
   };
 }
-
 export function _getEnvironmentVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): EnvironmentVersionsOperations {

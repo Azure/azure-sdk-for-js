@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Serverless Endpoint (asynchronous).
  *
  * @summary delete Serverless Endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/ServerlessEndpoint/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ServerlessEndpoint/delete.json
  */
 async function deleteWorkspaceServerlessEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

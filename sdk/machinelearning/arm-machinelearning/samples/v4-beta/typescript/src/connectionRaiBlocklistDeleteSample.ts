@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified custom blocklist associated with the Azure OpenAI connection.
  *
  * @summary deletes the specified custom blocklist associated with the Azure OpenAI connection.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/RaiBlocklist/delete.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/RaiBlocklist/delete.json
  */
 async function deleteRaiBlocklist(): Promise<void> {
   const credential = new DefaultAzureCredential();

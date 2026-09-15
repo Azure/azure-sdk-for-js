@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get all the deployments under the Azure OpenAI connection.
  *
  * @summary get all the deployments under the Azure OpenAI connection.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/listDeployments.json
+ * x-ms-original-file: 2026-05-15-preview/WorkspaceConnection/listDeployments.json
  */
 async function listAzureOpenAIConnectionDeployments() {
   const credential = new DefaultAzureCredential();

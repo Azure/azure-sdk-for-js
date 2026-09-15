@@ -147,7 +147,6 @@ export interface ServerlessEndpointsOperations {
     options?: ServerlessEndpointsGetOptionalParams,
   ) => Promise<ServerlessEndpoint>;
 }
-
 function _getServerlessEndpoints(context: AzureMachineLearningServicesManagementContext) {
   return {
     regenerateKeys: (
@@ -274,7 +273,6 @@ function _getServerlessEndpoints(context: AzureMachineLearningServicesManagement
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getServerlessEndpointsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ServerlessEndpointsOperations {

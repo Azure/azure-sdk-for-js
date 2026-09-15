@@ -157,7 +157,6 @@ export interface OnlineEndpointsOperations {
     options?: OnlineEndpointsGetOptionalParams,
   ) => Promise<OnlineEndpoint>;
 }
-
 function _getOnlineEndpoints(context: AzureMachineLearningServicesManagementContext) {
   return {
     getToken: (
@@ -318,7 +317,6 @@ function _getOnlineEndpoints(context: AzureMachineLearningServicesManagementCont
     ) => get(context, resourceGroupName, workspaceName, endpointName, options),
   };
 }
-
 export function _getOnlineEndpointsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): OnlineEndpointsOperations {

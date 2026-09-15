@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to modify delta models associated with the InferenceGroup and the target base model.
  *
  * @summary modify delta models associated with the InferenceGroup and the target base model.
- * x-ms-original-file: 2026-03-15-preview/InferenceGroup/modifyDeltaModelsAsync.json
+ * x-ms-original-file: 2026-05-15-preview/InferenceGroup/modifyDeltaModelsAsync.json
  */
 async function modifyDeltaModelsAsyncInferenceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

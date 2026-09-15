@@ -9,7 +9,6 @@ export interface ModelVersionsPublishOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ModelVersionsListOptionalParams extends OperationOptions {
   /** Continuation token for pagination. */
@@ -33,12 +32,9 @@ export interface ModelVersionsListOptionalParams extends OperationOptions {
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface ModelVersionsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ModelVersionsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ModelVersionsGetOptionalParams extends OperationOptions {}

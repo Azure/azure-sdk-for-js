@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list registries by subscription
  *
  * @summary list registries by subscription
- * x-ms-original-file: 2026-03-15-preview/Registries/listBySubscription.json
+ * x-ms-original-file: 2026-05-15-preview/Registries/listBySubscription.json
  */
 async function listRegistriesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

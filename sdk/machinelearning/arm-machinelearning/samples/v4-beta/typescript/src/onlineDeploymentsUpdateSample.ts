@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update Online Deployment (asynchronous).
  *
  * @summary update Online Deployment (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/KubernetesOnlineDeployment/update.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/KubernetesOnlineDeployment/update.json
  */
 async function updateKubernetesOnlineDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function updateKubernetesOnlineDeployment(): Promise<void> {
  * This sample demonstrates how to update Online Deployment (asynchronous).
  *
  * @summary update Online Deployment (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/ManagedOnlineDeployment/update.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/ManagedOnlineDeployment/update.json
  */
 async function updateManagedOnlineDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

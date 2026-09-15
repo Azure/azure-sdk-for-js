@@ -57,7 +57,6 @@ export interface DatastoresOperations {
     options?: DatastoresGetOptionalParams,
   ) => Promise<Datastore>;
 }
-
 function _getDatastores(context: AzureMachineLearningServicesManagementContext) {
   return {
     listSecrets: (
@@ -92,7 +91,6 @@ function _getDatastores(context: AzureMachineLearningServicesManagementContext) 
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getDatastoresOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): DatastoresOperations {

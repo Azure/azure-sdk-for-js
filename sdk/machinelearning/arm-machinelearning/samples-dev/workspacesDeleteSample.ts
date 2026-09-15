@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a machine learning workspace.
  *
  * @summary deletes a machine learning workspace.
- * x-ms-original-file: 2026-03-15-preview/Workspace/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/delete.json
  */
 async function deleteWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

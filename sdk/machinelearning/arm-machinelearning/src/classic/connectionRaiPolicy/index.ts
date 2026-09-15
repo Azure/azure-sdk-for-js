@@ -83,7 +83,6 @@ export interface ConnectionRaiPolicyOperations {
     options?: ConnectionRaiPolicyGetOptionalParams,
   ) => Promise<RaiPolicyPropertiesBasicResource>;
 }
-
 function _getConnectionRaiPolicy(context: AzureMachineLearningServicesManagementContext) {
   return {
     delete: (
@@ -191,7 +190,6 @@ function _getConnectionRaiPolicy(context: AzureMachineLearningServicesManagement
     ) => get(context, resourceGroupName, workspaceName, connectionName, raiPolicyName, options),
   };
 }
-
 export function _getConnectionRaiPolicyOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ConnectionRaiPolicyOperations {

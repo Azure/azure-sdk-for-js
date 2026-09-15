@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update Data Mounts of a Machine Learning compute.
  *
  * @summary update Data Mounts of a Machine Learning compute.
- * x-ms-original-file: 2026-03-15-preview/Compute/updateDataMounts.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/updateDataMounts.json
  */
 async function updateDataMounts(): Promise<void> {
   const credential = new DefaultAzureCredential();

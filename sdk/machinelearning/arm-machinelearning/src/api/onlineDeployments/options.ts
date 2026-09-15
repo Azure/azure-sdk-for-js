@@ -10,10 +10,8 @@ export interface OnlineDeploymentsListSkusOptionalParams extends OperationOption
   /** Continuation token for pagination. */
   skip?: string;
 }
-
 /** Optional parameters. */
 export interface OnlineDeploymentsGetLogsOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface OnlineDeploymentsListOptionalParams extends OperationOptions {
   /** Ordering of list. */
@@ -23,24 +21,20 @@ export interface OnlineDeploymentsListOptionalParams extends OperationOptions {
   /** Continuation token for pagination. */
   skip?: string;
 }
-
 /** Optional parameters. */
 export interface OnlineDeploymentsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface OnlineDeploymentsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface OnlineDeploymentsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface OnlineDeploymentsGetOptionalParams extends OperationOptions {}
