@@ -33,6 +33,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
 import { createReadStream, createWriteStream, type WriteStream } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { finished } from "node:stream/promises";
 import "dotenv/config";
 
@@ -44,6 +45,8 @@ const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
 // service will eventually drop the connection (observed as a 1006 abnormal close).
 // Defaults to the checked-in sample fixture (a few seconds of synthesized speech) so this
 // sample also runs unattended, e.g. in the live-test pipeline's `execute:samples` step.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const defaultAudioInputPath = path.join(__dirname, "assets/input.pcm");
 const audioInputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_INPUT_FILE"]?.trim() || defaultAudioInputPath;
