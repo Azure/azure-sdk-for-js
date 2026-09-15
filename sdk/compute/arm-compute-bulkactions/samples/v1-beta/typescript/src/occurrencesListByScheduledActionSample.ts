@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists occurrences for the specified scheduled action.
  *
  * @summary lists occurrences for the specified scheduled action.
- * x-ms-original-file: 2026-08-06-preview/Occurrences_ListByScheduledAction_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/Occurrences_ListByScheduledAction_MaximumSet_Gen.json
  */
 async function listOccurrencesForAScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
