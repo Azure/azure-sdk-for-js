@@ -714,7 +714,7 @@
 # PRLabel: %Mgmt
 /sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/playwright/arm-playwright/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

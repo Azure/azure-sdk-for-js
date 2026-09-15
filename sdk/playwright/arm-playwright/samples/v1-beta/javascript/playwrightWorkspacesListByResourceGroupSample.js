@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list PlaywrightWorkspace resources by resource group
  *
  * @summary list PlaywrightWorkspace resources by resource group
- * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaces_ListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/PlaywrightWorkspaces_ListByResourceGroup.json
  */
 async function playwrightWorkspacesListByResourceGroup() {
   const credential = new DefaultAzureCredential();
