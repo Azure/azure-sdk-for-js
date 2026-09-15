@@ -70,6 +70,7 @@ export async function _listByGalleryImageDeserialize(
 
   return _galleryImageVersionListDeserializer(result.body);
 }
+
 /** List gallery image versions in a gallery image definition. */
 export function listByGalleryImage(
   context: Client,
@@ -126,6 +127,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a gallery image version. */
 export function $delete(
   context: Client,
@@ -198,6 +200,7 @@ export async function _updateDeserialize(
 
   return galleryImageVersionDeserializer(result.body);
 }
+
 /** Update a gallery image version. */
 export function update(
   context: Client,
@@ -272,6 +275,7 @@ export async function _createOrUpdateDeserialize(
 
   return galleryImageVersionDeserializer(result.body);
 }
+
 /** Create or update a gallery image version. */
 export function createOrUpdate(
   context: Client,
@@ -342,6 +346,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ga
 
   return galleryImageVersionDeserializer(result.body);
 }
+
 /** Retrieves information about a gallery image version. */
 export async function get(
   context: Client,

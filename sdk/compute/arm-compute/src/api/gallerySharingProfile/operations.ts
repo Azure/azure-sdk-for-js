@@ -55,6 +55,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return sharingUpdateDeserializer(result.body);
 }
+
 /** Update sharing profile of a gallery. */
 export function update(
   context: Client,

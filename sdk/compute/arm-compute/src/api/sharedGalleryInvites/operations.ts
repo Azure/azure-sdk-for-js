@@ -51,6 +51,7 @@ export async function _gallerySharingRejectDeserialize(
 
   return;
 }
+
 /** Reject sharing of a subscription-level shared gallery. */
 export function gallerySharingReject(
   context: Client,
@@ -118,6 +119,7 @@ export async function _gallerySharingAcceptDeserialize(
 
   return;
 }
+
 /** Accept sharing of a subscription-level shared gallery. */
 export function gallerySharingAccept(
   context: Client,

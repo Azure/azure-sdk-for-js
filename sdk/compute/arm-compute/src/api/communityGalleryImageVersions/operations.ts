@@ -62,6 +62,7 @@ export async function _listDeserialize(
 
   return _communityGalleryImageVersionListDeserializer(result.body);
 }
+
 /** List community gallery image versions inside an image. */
 export function list(
   context: Client,
@@ -122,6 +123,7 @@ export async function _getDeserialize(
 
   return communityGalleryImageVersionDeserializer(result.body);
 }
+
 /** Get a community gallery image version. */
 export async function get(
   context: Client,

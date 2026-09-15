@@ -60,6 +60,7 @@ export async function _listDeserialize(
 
   return _communityGalleryImageListDeserializer(result.body);
 }
+
 /** List community gallery images inside a gallery. */
 export function list(
   context: Client,
@@ -117,6 +118,7 @@ export async function _getDeserialize(
 
   return communityGalleryImageDeserializer(result.body);
 }
+
 /** Get a community gallery image. */
 export async function get(
   context: Client,

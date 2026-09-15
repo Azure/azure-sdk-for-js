@@ -58,6 +58,7 @@ export async function _listByArtifactNameDeserialize(
 
   return _gallerySoftDeletedResourceListDeserializer(result.body);
 }
+
 /** List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image. */
 export function listByArtifactName(
   context: Client,

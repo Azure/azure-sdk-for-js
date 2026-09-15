@@ -70,6 +70,7 @@ export async function _listByGalleryScriptDeserialize(
 
   return _galleryScriptVersionListDeserializer(result.body);
 }
+
 /** List gallery Script Versions in a gallery Script Definition. */
 export function listByGalleryScript(
   context: Client,
@@ -126,6 +127,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a gallery Script Version. */
 export function $delete(
   context: Client,
@@ -198,6 +200,7 @@ export async function _updateDeserialize(
 
   return galleryScriptVersionDeserializer(result.body);
 }
+
 /** Update a gallery Script Version. */
 export function update(
   context: Client,
@@ -272,6 +275,7 @@ export async function _createOrUpdateDeserialize(
 
   return galleryScriptVersionDeserializer(result.body);
 }
+
 /** Create or update a gallery Script Version. */
 export function createOrUpdate(
   context: Client,
@@ -343,6 +347,7 @@ export async function _getDeserialize(
 
   return galleryScriptVersionDeserializer(result.body);
 }
+
 /** Custom ArmResourceRead operation template with CloudError as Error */
 export async function get(
   context: Client,

@@ -68,6 +68,7 @@ export async function _listByGalleryDeserialize(
 
   return _galleryScriptListDeserializer(result.body);
 }
+
 /** List gallery Script Definitions in a gallery. */
 export function listByGallery(
   context: Client,
@@ -120,6 +121,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a gallery Script Definition. */
 export function $delete(
   context: Client,
@@ -180,6 +182,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return galleryScriptDeserializer(result.body);
 }
+
 /** Update a gallery Script Definition. */
 export function update(
   context: Client,
@@ -250,6 +253,7 @@ export async function _createOrUpdateDeserialize(
 
   return galleryScriptDeserializer(result.body);
 }
+
 /** Create or update a Gallery Script Definition. Gallery scripts allow the storage, sharing and reuse of common scripts */
 export function createOrUpdate(
   context: Client,
@@ -315,6 +319,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ga
 
   return galleryScriptDeserializer(result.body);
 }
+
 /** Retrieves information about a gallery script definition. */
 export async function get(
   context: Client,
