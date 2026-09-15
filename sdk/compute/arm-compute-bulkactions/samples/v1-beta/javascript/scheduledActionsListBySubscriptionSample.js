@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists scheduled actions in the specified subscription.
  *
  * @summary lists scheduled actions in the specified subscription.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_ListBySubscription_MaximumSet_Gen.json
  */
 async function listScheduledActionsInASubscription() {
   const credential = new DefaultAzureCredential();

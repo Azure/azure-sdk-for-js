@@ -36,7 +36,7 @@ export function _listSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       "%24filter": options?.filter,
     },
     {
@@ -89,7 +89,7 @@ export function list(
       ),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -113,7 +113,7 @@ export function _getSend(
       containerName: containerName,
       protectedItemName: protectedItemName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
