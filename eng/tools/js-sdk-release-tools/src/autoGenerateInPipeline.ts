@@ -5,12 +5,13 @@ import { generateMgmt } from "./hlc/generateMgmt.js";
 import { backupNodeModules, restoreNodeModules } from "./utils/backupNodeModules.js";
 import { logger } from "./utils/logger.js";
 import { generateRLCInPipeline } from "./llc/generateRLCInPipeline/generateRLCInPipeline.js";
-import { ModularClientPackageOptions, SDKType, RunMode } from "./common/types.js";
+import { EmitterName, ModularClientPackageOptions, SDKType, RunMode } from "./common/types.js";
 import { generateAzureSDKPackage } from "./mlc/clientGenerator/modularClientPackageGenerator.js";
 import { parseInputJson } from "./utils/generateInputUtils.js";
 import { configureNpmFromRepo } from "./common/npmUtils.js";
 import shell from "shelljs";
 import fs from "fs";
+import { emitterName as defaultEmitterName, provisioningEmitterName } from "./common/utils.js";
 
 async function automationGenerateInPipeline(
   inputJsonPath: string,
@@ -87,14 +88,24 @@ async function automationGenerateInPipeline(
         break;
 
       case SDKType.ModularClient: {
+        const emitterName = typespecEmitter ?? defaultEmitterName;
+        if (emitterName !== defaultEmitterName && emitterName !== provisioningEmitterName) {
+          throw new Error(`Unsupported TypeSpec emitter '${emitterName}'.`);
+        }
         const typeSpecDirectory = path.posix.join(specFolder, typespecProject!);
         const sdkRepoRoot = String(shell.pwd()).replaceAll("\\", "/");
         const skip = skipGeneration ?? false;
         const repoUrl = repoHttpsUrl;
+        const emitterPackageJsonPath =
+          emitterName == provisioningEmitterName
+            ? path.join(process.cwd(), "eng", "provisioning-emitter-package.json")
+            : undefined;
         const options: ModularClientPackageOptions = {
           sdkRepoRoot,
           specRepoRoot: specFolder,
           typeSpecDirectory,
+          emitterName: emitterName as EmitterName,
+          emitterPackageJsonPath,
           gitCommitId,
           skip,
           repoUrl,
@@ -126,6 +137,7 @@ async function automationGenerateInPipeline(
     if (!local) {
       await restoreNodeModules(String(shell.pwd()));
     }
+    fs.mkdirSync(path.dirname(path.resolve(outputJsonPath)), { recursive: true });
     fs.writeFileSync(outputJsonPath, JSON.stringify(outputJson, null, "  "), { encoding: "utf-8" });
   }
 }
@@ -141,6 +153,7 @@ const optionDefinitions = [
   { name: "local", type: Boolean, defaultValue: false },
 ];
 import commandLineArgs from "command-line-args";
+
 const options = commandLineArgs(optionDefinitions);
 automationGenerateInPipeline(
   options.inputJsonPath,

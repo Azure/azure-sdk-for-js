@@ -3,6 +3,7 @@ import {
   resolveOptions,
   specifyApiVersionToGenerateSDKByTypeSpec,
   cleanUpPackageDirectory,
+  getGeneratedPackageDirectory,
   getPackageNameFromTspConfig,
   getApiReviewPath,
 } from "../../common/utils.js";
@@ -42,9 +43,65 @@ describe("resolveOptions", () => {
       "sdk/informaticadatamanagement",
     );
   });
+
+  test("resolves the provisioning emitter output directory", async () => {
+    const tempSpecFolder = path.join(__dirname, `tmp/spec-${getRandomInt(10000)}`);
+    const provisioningOutputDirectory = path.join(
+      tempSpecFolder,
+      "sdk/edgeactions/provisioning-edgeactions",
+    );
+    try {
+      await ensureDir(tempSpecFolder);
+      await writeFile(
+        path.join(tempSpecFolder, "tspconfig.yaml"),
+        stringify({
+          options: {
+            "@azure-tools/typespec-ts-provisioning": {
+              "emitter-output-dir": provisioningOutputDirectory.replace(/\\/g, "/"),
+            },
+          },
+        }),
+      );
+
+      const result = await getGeneratedPackageDirectory(
+        tempSpecFolder,
+        tempSpecFolder,
+        "@azure-tools/typespec-ts-provisioning",
+      );
+      expect(result.replace(/\\/g, "/")).toBe(provisioningOutputDirectory.replace(/\\/g, "/"));
+    } finally {
+      await remove(tempSpecFolder);
+    }
+  });
 });
 
 describe("specifiyApiVersionToGenerateSDKByTypeSpec", () => {
+  test("updates the provisioning emitter API version", async () => {
+    const fakeTspConfig = {
+      options: {
+        "@azure-tools/typespec-ts-provisioning": {
+          "output-dir": "packages/services/keyvault",
+        },
+      },
+    };
+    const tempSpecFolder = path.join(__dirname, `tmp/spec-${getRandomInt(10000)}`);
+    try {
+      await ensureDir(tempSpecFolder);
+      await writeFile(path.join(tempSpecFolder, "tspconfig.yaml"), stringify(fakeTspConfig));
+
+      specifyApiVersionToGenerateSDKByTypeSpec(
+        tempSpecFolder,
+        "2026-02-01",
+        "@azure-tools/typespec-ts-provisioning",
+      );
+
+      const data = fs.readFileSync(path.join(tempSpecFolder, "tspconfig.yaml"), "utf8");
+      expect(data).toContain("api-version: '2026-02-01'");
+    } finally {
+      await remove(tempSpecFolder);
+    }
+  });
+
   test("Updated API version into tspconfig.yaml", async () => {
     const fakeTspConfig = {
       options: {
@@ -532,6 +589,29 @@ describe("getPackageNameFromTspConfig", () => {
       // Call function and verify result
       const result = await getPackageNameFromTspConfig(tempSpecFolder);
       expect(result).toBe("@azure/arm-contoso");
+    } finally {
+      await remove(tempSpecFolder);
+    }
+  });
+
+  test("extracts a provisioning package name", async () => {
+    const tempSpecFolder = await setupTempDirectory();
+    try {
+      await writeTspConfig(tempSpecFolder, {
+        options: {
+          "@azure-tools/typespec-ts-provisioning": {
+            "package-details": {
+              name: "@azure/provisioning-edgeactions",
+            },
+          },
+        },
+      });
+
+      const result = await getPackageNameFromTspConfig(
+        tempSpecFolder,
+        "@azure-tools/typespec-ts-provisioning",
+      );
+      expect(result).toBe("@azure/provisioning-edgeactions");
     } finally {
       await remove(tempSpecFolder);
     }
