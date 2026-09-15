@@ -14,14 +14,14 @@ export function _connectVoiceAgentSend(
   options: BetaVoiceAgentsRealtimeConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,transport,store,structured_input,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,transport,store,structured_input,api-version}",
     {
       agent_name: agentName,
       foundry_features: options?.foundryFeaturesQuery,
       transport: options?.transport,
       store: options?.store,
       structured_input: options?.structuredInput,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,6 +80,9 @@ export async function connectVoiceAgent(
   agentName: string,
   options: BetaVoiceAgentsRealtimeConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _connectVoiceAgentSend(context, agentName, options);
+  const result = await _connectVoiceAgentSend(context, agentName, {
+    ...options,
+    foundryFeatures: "VoiceAgents=V1Preview",
+  });
   return _connectVoiceAgentDeserialize(result);
 }
