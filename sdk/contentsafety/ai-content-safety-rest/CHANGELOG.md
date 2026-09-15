@@ -1,10 +1,17 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 2.0.0-beta.1 (2026-09-15)
 
 ### Features Added
 
+- Added `ContentSafetyClient` operations for Unified Moderate, prompt shielding, and protected-material detection.
+- Added `ContentProvenanceClient` with long-running content provenance detection and poller restoration.
+- Added regex matching support for blocklist items.
+
 ### Breaking Changes
+
+- Replaced the default REST factory with named `ContentSafetyClient`, `ContentProvenanceClient`, and `BlocklistClient` classes.
+- Added dedicated request models for blocklist item and blocklist update payloads so service-generated identifiers are not required as input.
 
 ### Bugs Fixed
 

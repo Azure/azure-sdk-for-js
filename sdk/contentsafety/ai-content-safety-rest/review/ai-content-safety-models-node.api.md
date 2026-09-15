@@ -58,7 +58,7 @@ export interface AcsVerdict {
 
 // @public
 export interface AddOrUpdateBlocklistItemsOptions {
-    blocklistItems: TextBlocklistItem[];
+    blocklistItems: TextBlocklistItemInput[];
 }
 
 // @public
@@ -97,6 +97,11 @@ export type AnalyzeTextOutputType = "FourSeverityLevels" | "EightSeverityLevels"
 export interface AnalyzeTextResult {
     blocklistsMatch?: TextBlocklistMatch[];
     categoriesAnalysis: TextCategoriesAnalysis[];
+}
+
+// @public
+export interface CreateOrUpdateTextBlocklistOptions {
+    description?: string;
 }
 
 // @public
@@ -209,6 +214,13 @@ export interface TextBlocklist {
 // @public
 export interface TextBlocklistItem {
     readonly blocklistItemId: string;
+    description?: string;
+    isRegex?: boolean;
+    text: string;
+}
+
+// @public
+export interface TextBlocklistItemInput {
     description?: string;
     isRegex?: boolean;
     text: string;

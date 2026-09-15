@@ -10,7 +10,8 @@ import {
   AddOrUpdateTextBlocklistItemsResult,
   addOrUpdateTextBlocklistItemsResultDeserializer,
   TextBlocklist,
-  textBlocklistSerializer,
+  CreateOrUpdateTextBlocklistOptions,
+  createOrUpdateTextBlocklistOptionsSerializer,
   textBlocklistDeserializer,
   _PagedTextBlocklistItem,
   _pagedTextBlocklistItemDeserializer,
@@ -133,6 +134,7 @@ export function listTextBlocklists(
       itemName: "value",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion ?? "2026-09-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -187,6 +189,7 @@ export function listTextBlocklistItems(
       itemName: "value",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion ?? "2026-09-01-preview",
+      requestOptions: options,
     },
   );
 }
@@ -320,7 +323,7 @@ export async function deleteTextBlocklist(
 export function _createOrUpdateTextBlocklistSend(
   context: Client,
   blocklistName: string,
-  options: TextBlocklist,
+  options: CreateOrUpdateTextBlocklistOptions,
   optionalParams: CreateOrUpdateTextBlocklistOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -337,7 +340,7 @@ export function _createOrUpdateTextBlocklistSend(
     ...operationOptionsToRequestParameters(optionalParams),
     contentType: "application/merge-patch+json",
     headers: { accept: "application/json", ...optionalParams.requestOptions?.headers },
-    body: textBlocklistSerializer(options),
+    body: createOrUpdateTextBlocklistOptionsSerializer(options),
   });
 }
 
@@ -356,7 +359,7 @@ export async function _createOrUpdateTextBlocklistDeserialize(
 export async function createOrUpdateTextBlocklist(
   context: Client,
   blocklistName: string,
-  options: TextBlocklist,
+  options: CreateOrUpdateTextBlocklistOptions,
   optionalParams: CreateOrUpdateTextBlocklistOptionalParams = { requestOptions: {} },
 ): Promise<TextBlocklist> {
   const result = await _createOrUpdateTextBlocklistSend(

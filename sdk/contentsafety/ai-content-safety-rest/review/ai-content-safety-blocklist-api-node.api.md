@@ -31,7 +31,7 @@ export interface BlocklistContext extends Client {
 export function createBlocklist(endpointParam: string, credential: KeyCredential | TokenCredential, options?: BlocklistClientOptionalParams): BlocklistContext;
 
 // @public
-export function createOrUpdateTextBlocklist(context: BlocklistContext, blocklistName: string, options: TextBlocklist, optionalParams?: CreateOrUpdateTextBlocklistOptionalParams): Promise<TextBlocklist>;
+export function createOrUpdateTextBlocklist(context: BlocklistContext, blocklistName: string, options: CreateOrUpdateTextBlocklistOptions, optionalParams?: CreateOrUpdateTextBlocklistOptionalParams): Promise<TextBlocklist>;
 
 // @public
 export interface CreateOrUpdateTextBlocklistOptionalParams extends OperationOptions {

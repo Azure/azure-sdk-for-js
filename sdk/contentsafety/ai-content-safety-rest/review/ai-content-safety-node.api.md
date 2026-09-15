@@ -73,7 +73,7 @@ export interface AddOrUpdateBlocklistItemsOptionalParams extends OperationOption
 
 // @public
 export interface AddOrUpdateBlocklistItemsOptions {
-    blocklistItems: TextBlocklistItem[];
+    blocklistItems: TextBlocklistItemInput[];
 }
 
 // @public
@@ -126,7 +126,7 @@ export interface AnalyzeTextResult {
 export class BlocklistClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: BlocklistClientOptionalParams);
     addOrUpdateBlocklistItems(blocklistName: string, body: AddOrUpdateBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptionalParams): Promise<AddOrUpdateTextBlocklistItemsResult>;
-    createOrUpdateTextBlocklist(blocklistName: string, options: TextBlocklist, optionalParams?: CreateOrUpdateTextBlocklistOptionalParams): Promise<TextBlocklist>;
+    createOrUpdateTextBlocklist(blocklistName: string, options: CreateOrUpdateTextBlocklistOptions, optionalParams?: CreateOrUpdateTextBlocklistOptionalParams): Promise<TextBlocklist>;
     deleteTextBlocklist(blocklistName: string, options?: DeleteTextBlocklistOptionalParams): Promise<void>;
     getTextBlocklist(blocklistName: string, options?: GetTextBlocklistOptionalParams): Promise<TextBlocklist>;
     getTextBlocklistItem(blocklistName: string, blocklistItemId: string, options?: GetTextBlocklistItemOptionalParams): Promise<TextBlocklistItem>;
@@ -177,6 +177,11 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export interface CreateOrUpdateTextBlocklistOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreateOrUpdateTextBlocklistOptions {
+    description?: string;
 }
 
 // @public
@@ -359,6 +364,13 @@ export interface TextBlocklist {
 // @public
 export interface TextBlocklistItem {
     readonly blocklistItemId: string;
+    description?: string;
+    isRegex?: boolean;
+    text: string;
+}
+
+// @public
+export interface TextBlocklistItemInput {
     description?: string;
     isRegex?: boolean;
     text: string;

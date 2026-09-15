@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -148,12 +148,13 @@
+@@ -153,12 +153,13 @@
  // @public
  export type ImageCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
  

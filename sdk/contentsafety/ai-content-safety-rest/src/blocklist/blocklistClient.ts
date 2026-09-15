@@ -7,6 +7,7 @@ import {
   TextBlocklistItem,
   AddOrUpdateTextBlocklistItemsResult,
   TextBlocklist,
+  CreateOrUpdateTextBlocklistOptions,
   RemoveBlocklistItemsOptions,
 } from "../models/models.js";
 
@@ -103,7 +104,7 @@ export class BlocklistClient {
   /** Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created. */
   createOrUpdateTextBlocklist(
     blocklistName: string,
-    options: TextBlocklist,
+    options: CreateOrUpdateTextBlocklistOptions,
     optionalParams: CreateOrUpdateTextBlocklistOptionalParams = { requestOptions: {} },
   ): Promise<TextBlocklist> {
     return createOrUpdateTextBlocklist(this._client, blocklistName, options, optionalParams);

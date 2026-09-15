@@ -68,7 +68,6 @@ describe("Content Safety Client Test", () => {
       ignoreQueryOrdering: true,
     });
     const response = await blocklistClient.createOrUpdateTextBlocklist(blocklistName, {
-      blocklistName,
       description: "test",
     });
     assert.equal(response.blocklistName, blocklistName);
@@ -77,9 +76,9 @@ describe("Content Safety Client Test", () => {
   it("add block items", async () => {
     const response = await blocklistClient.addOrUpdateBlocklistItems(blocklistName, {
       blocklistItems: [
-        { blocklistItemId: "", description: "Test block item 1", text: blockItemText1 },
-        { blocklistItemId: "", description: "Test block item 2", text: blockItemText2 },
-        { blocklistItemId: "", description: "Test block item 3", text: blockItemText3 },
+        { description: "Test block item 1", text: blockItemText1 },
+        { description: "Test block item 2", text: blockItemText2 },
+        { description: "Test block item 3", text: blockItemText3 },
       ],
     });
     assert.isArray(response.blocklistItems);

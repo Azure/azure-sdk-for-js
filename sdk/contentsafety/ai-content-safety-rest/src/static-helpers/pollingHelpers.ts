@@ -101,7 +101,10 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
     intervalInMs: options?.updateIntervalInMs,
     resourceLocationConfig: options?.resourceLocationConfig,
     restoreFrom: options?.restoreFrom,
-    processResult: (result: unknown) => {
+    processResult: (result: unknown, state) => {
+      if (state.status === "canceled") {
+        throw new Error("Operation was canceled");
+      }
       return processResponseBody(result as TResponse);
     },
   });

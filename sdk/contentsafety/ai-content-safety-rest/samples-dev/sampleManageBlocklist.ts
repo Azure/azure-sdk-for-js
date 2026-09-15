@@ -20,7 +20,6 @@ async function createOrUpdateTextBlocklist(): Promise<void> {
   const blocklistName = "TestBlocklist";
   const blocklistDescription = "Test blocklist management.";
   const result = await blocklistClient.createOrUpdateTextBlocklist(blocklistName, {
-    blocklistName,
     description: blocklistDescription,
   });
 
@@ -39,12 +38,10 @@ async function addBlockItems(): Promise<void> {
   const result = await blocklistClient.addOrUpdateBlocklistItems(blocklistName, {
     blocklistItems: [
       {
-        blocklistItemId: "",
         description: "Test block item 1",
         text: blockItemText1,
       },
       {
-        blocklistItemId: "",
         description: "Test block item 2",
         text: blockItemText2,
       },
@@ -133,7 +130,6 @@ async function getBlockItem(): Promise<void> {
   const result = await blocklistClient.addOrUpdateBlocklistItems(blocklistName, {
     blocklistItems: [
       {
-        blocklistItemId: "",
         description: "Test block item 1",
         text: blockItemText,
       },
@@ -163,7 +159,6 @@ async function removeBlockItems(): Promise<void> {
   const result = await blocklistClient.addOrUpdateBlocklistItems(blocklistName, {
     blocklistItems: [
       {
-        blocklistItemId: "",
         description: "Test block item 1",
         text: blockItemText,
       },

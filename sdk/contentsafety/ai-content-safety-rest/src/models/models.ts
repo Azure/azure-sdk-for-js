@@ -665,7 +665,7 @@ export type ProvenanceOperationKind = "Detect";
 /** The request to add blocklistItems to a text blocklist. */
 export interface AddOrUpdateBlocklistItemsOptions {
   /** Array of blocklistItems to add. */
-  blocklistItems: TextBlocklistItem[];
+  blocklistItems: TextBlocklistItemInput[];
 }
 
 export function addOrUpdateBlocklistItemsOptionsSerializer(
@@ -674,7 +674,7 @@ export function addOrUpdateBlocklistItemsOptionsSerializer(
   return { blocklistItems: textBlocklistItemArraySerializer(item["blocklistItems"]) };
 }
 
-export function textBlocklistItemArraySerializer(result: Array<TextBlocklistItem>): any[] {
+export function textBlocklistItemArraySerializer(result: Array<TextBlocklistItemInput>): any[] {
   return result.map((item) => {
     return textBlocklistItemSerializer(item);
   });
@@ -686,7 +686,21 @@ export function textBlocklistItemArrayDeserializer(result: Array<TextBlocklistIt
   });
 }
 
-/** Item in a TextBlocklist. */
+/** Item to add to a TextBlocklist. */
+export interface TextBlocklistItemInput {
+  /** BlocklistItem description. */
+  description?: string;
+  /** BlocklistItem content. The length is counted using Unicode code point. */
+  text: string;
+  /** An optional property indicating whether this item is to be matched as a regular expression. */
+  isRegex?: boolean;
+}
+
+export function textBlocklistItemSerializer(item: TextBlocklistItemInput): any {
+  return { description: item["description"], text: item["text"], isRegex: item["isRegex"] };
+}
+
+/** Item in a TextBlocklist returned by the service. */
 export interface TextBlocklistItem {
   /** The service will generate a BlocklistItemId, which will be a UUID. */
   readonly blocklistItemId: string;
@@ -694,12 +708,8 @@ export interface TextBlocklistItem {
   description?: string;
   /** BlocklistItem content. The length is counted using Unicode code point. */
   text: string;
-  /** An optional properties indicating whether this item is to be matched as a regular expression. */
+  /** An optional property indicating whether this item is to be matched as a regular expression. */
   isRegex?: boolean;
-}
-
-export function textBlocklistItemSerializer(item: TextBlocklistItem): any {
-  return { description: item["description"], text: item["text"], isRegex: item["isRegex"] };
 }
 
 export function textBlocklistItemDeserializer(item: any): TextBlocklistItem {
@@ -735,6 +745,18 @@ export interface TextBlocklist {
 
 export function textBlocklistSerializer(item: TextBlocklist): any {
   return { blocklistName: item["blocklistName"], description: item["description"] };
+}
+
+/** Mutable properties used to create or update a text blocklist. */
+export interface CreateOrUpdateTextBlocklistOptions {
+  /** Text blocklist description. */
+  description?: string;
+}
+
+export function createOrUpdateTextBlocklistOptionsSerializer(
+  item: CreateOrUpdateTextBlocklistOptions,
+): any {
+  return { description: item["description"] };
 }
 
 export function textBlocklistDeserializer(item: any): TextBlocklist {

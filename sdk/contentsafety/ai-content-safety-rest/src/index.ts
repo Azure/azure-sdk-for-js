@@ -50,9 +50,11 @@ export type {
   ProvenanceDetectOperation,
   ProvenanceOperationKind,
   AddOrUpdateBlocklistItemsOptions,
+  TextBlocklistItemInput,
   TextBlocklistItem,
   AddOrUpdateTextBlocklistItemsResult,
   TextBlocklist,
+  CreateOrUpdateTextBlocklistOptions,
   RemoveBlocklistItemsOptions,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
