@@ -36,7 +36,6 @@ export interface AlertsOperations {
   /** Gets the alert for the scope by alert ID. */
   get: (scope: string, alertId: string, options?: AlertsGetOptionalParams) => Promise<Alert>;
 }
-
 function _getAlerts(context: CostManagementContext) {
   return {
     listExternal: (
@@ -55,7 +54,6 @@ function _getAlerts(context: CostManagementContext) {
       get(context, scope, alertId, options),
   };
 }
-
 export function _getAlertsOperations(context: CostManagementContext): AlertsOperations {
   return {
     ..._getAlerts(context),

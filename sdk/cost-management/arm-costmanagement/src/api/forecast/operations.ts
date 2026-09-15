@@ -32,7 +32,7 @@ export function _externalCloudProviderUsageSend(
     {
       externalCloudProviderType: externalCloudProviderType,
       externalCloudProviderId: externalCloudProviderId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -62,7 +62,6 @@ export async function _externalCloudProviderUsageDeserialize(
 
   return forecastResultDeserializer(result.body);
 }
-
 /** Lists the forecast charges for external cloud provider type defined. */
 export async function externalCloudProviderUsage(
   context: Client,
@@ -91,7 +90,7 @@ export function _usageSend(
     "/{+scope}/providers/Microsoft.CostManagement/forecast{?api%2Dversion,%24filter}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -108,7 +107,7 @@ export function _usageSend(
 
 export async function _usageDeserialize(
   result: PathUncheckedResponse,
-): Promise<ForecastResult | undefined> {
+): Promise<ForecastResult | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -119,16 +118,19 @@ export async function _usageDeserialize(
     throw error;
   }
 
-  return result.body ? forecastResultDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return forecastResultDeserializer(result.body);
+}
 /** Lists the forecast charges for scope defined. */
 export async function usage(
   context: Client,
   scope: string,
   parameters: ForecastDefinition,
   options: ForecastUsageOptionalParams = { requestOptions: {} },
-): Promise<ForecastResult | undefined> {
+): Promise<ForecastResult | void> {
   const result = await _usageSend(context, scope, parameters, options);
   return _usageDeserialize(result);
 }
