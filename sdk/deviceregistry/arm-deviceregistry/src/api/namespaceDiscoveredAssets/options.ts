@@ -4,7 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface NamespaceDiscoveredAssetsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface NamespaceDiscoveredAssetsListByNamespaceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface NamespaceDiscoveredAssetsDeleteOptionalParams extends OperationOptions {

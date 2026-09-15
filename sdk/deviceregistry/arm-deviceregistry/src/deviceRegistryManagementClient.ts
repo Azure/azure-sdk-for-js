@@ -10,10 +10,14 @@ import type { AssetEndpointProfilesOperations } from "./classic/assetEndpointPro
 import { _getAssetEndpointProfilesOperations } from "./classic/assetEndpointProfiles/index.js";
 import type { AssetsOperations } from "./classic/assets/index.js";
 import { _getAssetsOperations } from "./classic/assets/index.js";
+import type { AsyncOperationStatusOperations } from "./classic/asyncOperationStatus/index.js";
+import { _getAsyncOperationStatusOperations } from "./classic/asyncOperationStatus/index.js";
 import type { BillingContainersOperations } from "./classic/billingContainers/index.js";
 import { _getBillingContainersOperations } from "./classic/billingContainers/index.js";
-import type { CredentialsOperations } from "./classic/credentials/index.js";
-import { _getCredentialsOperations } from "./classic/credentials/index.js";
+import type { CertificateAuthoritiesOperations } from "./classic/certificateAuthorities/index.js";
+import { _getCertificateAuthoritiesOperations } from "./classic/certificateAuthorities/index.js";
+import type { CertificatePoliciesOperations } from "./classic/certificatePolicies/index.js";
+import { _getCertificatePoliciesOperations } from "./classic/certificatePolicies/index.js";
 import type { NamespaceAssetsOperations } from "./classic/namespaceAssets/index.js";
 import { _getNamespaceAssetsOperations } from "./classic/namespaceAssets/index.js";
 import type { NamespaceDevicesOperations } from "./classic/namespaceDevices/index.js";
@@ -28,8 +32,8 @@ import type { OperationStatusOperations } from "./classic/operationStatus/index.
 import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PoliciesOperations } from "./classic/policies/index.js";
-import { _getPoliciesOperations } from "./classic/policies/index.js";
+import type { RegistryDevicesOperations } from "./classic/registryDevices/index.js";
+import { _getRegistryDevicesOperations } from "./classic/registryDevices/index.js";
 import type { SchemaRegistriesOperations } from "./classic/schemaRegistries/index.js";
 import { _getSchemaRegistriesOperations } from "./classic/schemaRegistries/index.js";
 import type { SchemaVersionsOperations } from "./classic/schemaVersions/index.js";
@@ -52,15 +56,11 @@ export class DeviceRegistryManagementClient {
     subscriptionId: string,
     options: DeviceRegistryManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createDeviceRegistryManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createDeviceRegistryManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
+    this.registryDevices = _getRegistryDevicesOperations(this._client);
+    this.certificatePolicies = _getCertificatePoliciesOperations(this._client);
+    this.certificateAuthorities = _getCertificateAuthoritiesOperations(this._client);
     this.schemaVersions = _getSchemaVersionsOperations(this._client);
     this.schemas = _getSchemasOperations(this._client);
     this.schemaRegistries = _getSchemaRegistriesOperations(this._client);
@@ -68,16 +68,21 @@ export class DeviceRegistryManagementClient {
     this.namespaceDiscoveredAssets = _getNamespaceDiscoveredAssetsOperations(this._client);
     this.namespaceDevices = _getNamespaceDevicesOperations(this._client);
     this.namespaceAssets = _getNamespaceAssetsOperations(this._client);
-    this.policies = _getPoliciesOperations(this._client);
-    this.credentials = _getCredentialsOperations(this._client);
     this.namespaces = _getNamespacesOperations(this._client);
     this.billingContainers = _getBillingContainersOperations(this._client);
     this.assetEndpointProfiles = _getAssetEndpointProfilesOperations(this._client);
     this.assets = _getAssetsOperations(this._client);
+    this.asyncOperationStatus = _getAsyncOperationStatusOperations(this._client);
     this.operationStatus = _getOperationStatusOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for registryDevices */
+  public readonly registryDevices: RegistryDevicesOperations;
+  /** The operation groups for certificatePolicies */
+  public readonly certificatePolicies: CertificatePoliciesOperations;
+  /** The operation groups for certificateAuthorities */
+  public readonly certificateAuthorities: CertificateAuthoritiesOperations;
   /** The operation groups for schemaVersions */
   public readonly schemaVersions: SchemaVersionsOperations;
   /** The operation groups for schemas */
@@ -92,10 +97,6 @@ export class DeviceRegistryManagementClient {
   public readonly namespaceDevices: NamespaceDevicesOperations;
   /** The operation groups for namespaceAssets */
   public readonly namespaceAssets: NamespaceAssetsOperations;
-  /** The operation groups for policies */
-  public readonly policies: PoliciesOperations;
-  /** The operation groups for credentials */
-  public readonly credentials: CredentialsOperations;
   /** The operation groups for namespaces */
   public readonly namespaces: NamespacesOperations;
   /** The operation groups for billingContainers */
@@ -104,6 +105,8 @@ export class DeviceRegistryManagementClient {
   public readonly assetEndpointProfiles: AssetEndpointProfilesOperations;
   /** The operation groups for assets */
   public readonly assets: AssetsOperations;
+  /** The operation groups for asyncOperationStatus */
+  public readonly asyncOperationStatus: AsyncOperationStatusOperations;
   /** The operation groups for operationStatus */
   public readonly operationStatus: OperationStatusOperations;
   /** The operation groups for operations */

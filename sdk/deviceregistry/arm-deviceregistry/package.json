@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-deviceregistry",
-  "version": "1.2.0-beta.2",
+  "version": "2.0.0",
   "description": "A generated SDK for DeviceRegistryManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -46,11 +46,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -88,7 +88,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-deviceregistry",
@@ -96,7 +97,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -126,6 +127,48 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/registryDevices": {
+      "browser": {
+        "types": "./dist/browser/api/registryDevices/index.d.ts",
+        "default": "./dist/browser/api/registryDevices/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryDevices/index.d.ts",
+        "default": "./dist/esm/api/registryDevices/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryDevices/index.d.ts",
+        "default": "./dist/commonjs/api/registryDevices/index.js"
+      }
+    },
+    "./api/certificatePolicies": {
+      "browser": {
+        "types": "./dist/browser/api/certificatePolicies/index.d.ts",
+        "default": "./dist/browser/api/certificatePolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/certificatePolicies/index.d.ts",
+        "default": "./dist/esm/api/certificatePolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/certificatePolicies/index.d.ts",
+        "default": "./dist/commonjs/api/certificatePolicies/index.js"
+      }
+    },
+    "./api/certificateAuthorities": {
+      "browser": {
+        "types": "./dist/browser/api/certificateAuthorities/index.d.ts",
+        "default": "./dist/browser/api/certificateAuthorities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/certificateAuthorities/index.d.ts",
+        "default": "./dist/esm/api/certificateAuthorities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/certificateAuthorities/index.d.ts",
+        "default": "./dist/commonjs/api/certificateAuthorities/index.js"
       }
     },
     "./api/schemaVersions": {
@@ -226,34 +269,6 @@
         "default": "./dist/commonjs/api/namespaceAssets/index.js"
       }
     },
-    "./api/policies": {
-      "browser": {
-        "types": "./dist/browser/api/policies/index.d.ts",
-        "default": "./dist/browser/api/policies/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/policies/index.d.ts",
-        "default": "./dist/esm/api/policies/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/policies/index.d.ts",
-        "default": "./dist/commonjs/api/policies/index.js"
-      }
-    },
-    "./api/credentials": {
-      "browser": {
-        "types": "./dist/browser/api/credentials/index.d.ts",
-        "default": "./dist/browser/api/credentials/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/credentials/index.d.ts",
-        "default": "./dist/esm/api/credentials/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/credentials/index.d.ts",
-        "default": "./dist/commonjs/api/credentials/index.js"
-      }
-    },
     "./api/namespaces": {
       "browser": {
         "types": "./dist/browser/api/namespaces/index.d.ts",
@@ -310,6 +325,20 @@
         "default": "./dist/commonjs/api/assets/index.js"
       }
     },
+    "./api/asyncOperationStatus": {
+      "browser": {
+        "types": "./dist/browser/api/asyncOperationStatus/index.d.ts",
+        "default": "./dist/browser/api/asyncOperationStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/asyncOperationStatus/index.d.ts",
+        "default": "./dist/esm/api/asyncOperationStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/asyncOperationStatus/index.d.ts",
+        "default": "./dist/commonjs/api/asyncOperationStatus/index.js"
+      }
+    },
     "./api/operationStatus": {
       "browser": {
         "types": "./dist/browser/api/operationStatus/index.d.ts",
@@ -350,6 +379,20 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/typeSpec": {
+      "browser": {
+        "types": "./dist/browser/models/typeSpec/index.d.ts",
+        "default": "./dist/browser/models/typeSpec/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/typeSpec/index.d.ts",
+        "default": "./dist/esm/models/typeSpec/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/typeSpec/index.d.ts",
+        "default": "./dist/commonjs/models/typeSpec/index.js"
       }
     }
   },
