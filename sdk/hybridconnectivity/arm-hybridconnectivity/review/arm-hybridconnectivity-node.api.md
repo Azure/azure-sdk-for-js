@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AADProfileProperties {
@@ -57,7 +59,12 @@ export type CreatedByType = string;
 
 // @public
 export interface EndpointAccessResource {
-    relay?: RelayNamespaceAccessProperties;
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hybridConnectionName?: string;
+    namespaceName?: string;
+    namespaceNameSuffix?: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
@@ -145,6 +152,41 @@ export interface ExtensionResource extends Resource {
 }
 
 // @public
+export interface GcpCloudProfile {
+    organizationProperties?: GcpOrganizationProperties;
+    projectProperties?: GcpProjectProperties;
+}
+
+// @public
+export interface GcpCloudProfileUpdate {
+    organizationProperties?: GcpOrganizationPropertiesUpdate;
+}
+
+// @public
+export interface GcpOrganizationProperties {
+    excludedFolderIds?: string[];
+    excludedProjectNumbers?: string[];
+    managementProjectId: string;
+    managementProjectNumber: string;
+    organizationId: string;
+}
+
+// @public
+export interface GcpOrganizationPropertiesUpdate {
+    excludedFolderIds?: string[];
+    excludedProjectNumbers?: string[];
+}
+
+// @public
+export interface GcpProjectProperties {
+    projectId: string;
+    projectNumber: string;
+}
+
+// @public
+export type GcpTemplateFormat = string;
+
+// @public
 export interface GenerateAwsTemplateOperations {
     post: (generateAwsTemplateRequest: GenerateAwsTemplateRequest, options?: GenerateAwsTemplatePostOptionalParams) => Promise<GenerateAwsTemplateResponse>;
 }
@@ -164,13 +206,36 @@ export interface GenerateAwsTemplateResponse {
 }
 
 // @public
+export interface GenerateGcpTemplateOperations {
+    post: (generateGcpTemplateRequest: GenerateGcpTemplateRequest, options?: GenerateGcpTemplatePostOptionalParams) => Promise<GenerateGcpTemplateResponse>;
+}
+
+// @public
+export interface GenerateGcpTemplatePostOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GenerateGcpTemplateRequest {
+    connectorId: string;
+    gcpCloudProfile?: GcpCloudProfile;
+    gcpTemplateFormat?: GcpTemplateFormat;
+    solutionTypes?: SolutionTypeSettings[];
+}
+
+// @public
+export interface GenerateGcpTemplateResponse {
+}
+
+// @public
 export type HostType = string;
 
 // @public (undocumented)
 export class HybridConnectivityManagementAPI {
+    constructor(credential: TokenCredential, options?: HybridConnectivityManagementAPIOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: HybridConnectivityManagementAPIOptionalParams);
     readonly endpoints: EndpointsOperations;
     readonly generateAwsTemplate: GenerateAwsTemplateOperations;
+    readonly generateGcpTemplate: GenerateGcpTemplateOperations;
     readonly inventory: InventoryOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -188,14 +253,21 @@ export interface HybridConnectivityManagementAPIOptionalParams extends ClientOpt
 
 // @public
 export interface IngressGatewayResource {
-    ingress?: IngressProfileProperties;
-    relay?: RelayNamespaceAccessProperties;
+    aadProfile?: AADProfileProperties;
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hostname?: string;
+    hybridConnectionName?: string;
+    namespaceName?: string;
+    namespaceNameSuffix?: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
 export interface IngressProfileProperties {
-    aadProfile: AADProfileProperties;
     hostname: string;
+    serverId: string;
+    tenantId: string;
 }
 
 // @public
@@ -227,6 +299,8 @@ export interface InventoryResource extends ProxyResource {
     properties?: InventoryProperties;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -246,8 +320,15 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownGcpTemplateFormat {
+    ShellScript = "shellscript",
+    Terraform = "terraform"
+}
+
+// @public
 export enum KnownHostType {
-    AWS = "AWS"
+    AWS = "AWS",
+    GCP = "GCP"
 }
 
 // @public
@@ -259,15 +340,10 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -280,9 +356,7 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownServiceName {
-    // (undocumented)
     SSH = "SSH",
-    // (undocumented)
     WAC = "WAC"
 }
 
@@ -296,15 +370,14 @@ export enum KnownSolutionConfigurationStatus {
 
 // @public
 export enum KnownType {
-    // (undocumented)
     Custom = "custom",
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownVersions {
-    V20241201 = "2024-12-01"
+    V20241201 = "2024-12-01",
+    V20270101 = "2027-01-01"
 }
 
 // @public
@@ -393,13 +466,15 @@ export interface ProxyResource extends Resource {
 
 // @public
 export interface PublicCloudConnector extends TrackedResource {
+    readonly kind?: HostType;
     properties?: PublicCloudConnectorProperties;
 }
 
 // @public
 export interface PublicCloudConnectorProperties {
-    awsCloudProfile: AwsCloudProfile;
+    awsCloudProfile?: AwsCloudProfile;
     readonly connectorPrimaryIdentifier?: string;
+    gcpCloudProfile?: GcpCloudProfile;
     hostType: HostType;
     readonly provisioningState?: ResourceProvisioningState;
 }
@@ -407,6 +482,7 @@ export interface PublicCloudConnectorProperties {
 // @public
 export interface PublicCloudConnectorPropertiesUpdate {
     awsCloudProfile?: AwsCloudProfileUpdate;
+    gcpCloudProfile?: GcpCloudProfileUpdate;
 }
 
 // @public
@@ -476,6 +552,8 @@ export interface Resource {
 // @public
 export type ResourceProvisioningState = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HybridConnectivityManagementAPI, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -501,12 +579,15 @@ export interface ServiceConfigurationPropertiesPatch {
 
 // @public
 export interface ServiceConfigurationResource extends ExtensionResource {
-    properties?: ServiceConfigurationProperties;
+    port?: number;
+    readonly provisioningState?: ProvisioningState;
+    resourceId?: string;
+    serviceName?: ServiceName;
 }
 
 // @public
 export interface ServiceConfigurationResourcePatch {
-    properties?: ServiceConfigurationPropertiesPatch;
+    port?: number;
 }
 
 // @public
@@ -613,6 +694,7 @@ export interface SolutionSettings {
 // @public
 export interface SolutionTypeProperties {
     description?: string;
+    hostTypes?: HostType[];
     solutionSettings?: SolutionTypeSettingsProperties[];
     solutionType?: string;
     supportedAzureRegions?: string[];
@@ -635,6 +717,7 @@ export interface SolutionTypeSettingsProperties {
     defaultValue: string;
     description: string;
     displayName: string;
+    hostTypes: HostType[];
     name: string;
     type: string;
 }
