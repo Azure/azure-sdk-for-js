@@ -15,8 +15,6 @@
  *   ```
  *
  * @summary streams PCM audio input and audio/text output with a Foundry voice agent.
- *
- * @azsdk-weight 100
  */
 
 import {

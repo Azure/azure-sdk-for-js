@@ -15,27 +15,16 @@
  *   ```
  *
  * @summary streams PCM audio input and audio/text output with a Foundry voice agent.
- *
- * @azsdk-weight 100
  */
 
-import {
-  AIProjectClient,
-  isRestError,
-  type Agent,
-  type AgentDefinitionUnion,
-  type VoiceAgentDefinition,
-  type VoiceAgentTurnDetectionConfigUnion,
-  type RealtimeAudioFormatsUnion,
-  type VoiceAgentServerEvent,
-} from "@azure/ai-projects";
-import { DefaultAzureCredential } from "@azure/identity";
-import { once } from "node:events";
-import { createReadStream, createWriteStream, type WriteStream } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { finished } from "node:stream/promises";
-import "dotenv/config";
+const { AIProjectClient, isRestError } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { once } = require("node:events");
+const { createReadStream, createWriteStream } = require("node:fs");
+const path = require("node:path");
+const { fileURLToPath } = require("node:url");
+const { finished } = require("node:stream/promises");
+require("dotenv/config");
 
 const projectEndpoint = getRequiredEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
 const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-audio-${Date.now()}`;
@@ -52,14 +41,14 @@ const audioInputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_INPUT_FILE"]?.trim() || defaultAudioInputPath;
 const audioOutputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "./output.pcm";
-const preview = "VoiceAgents=V1Preview" as const;
+const preview = "VoiceAgents=V1Preview";
 const pcmSampleRate = 24_000;
 const pcmBytesPerSample = 2;
 const inputChunkDurationInMs = 100;
 const inputChunkSize = (pcmSampleRate * pcmBytesPerSample * inputChunkDurationInMs) / 1000;
 const trailingSilenceDurationInMs = 1_000;
 
-export async function main(): Promise<void> {
+async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const { definition, created } = await getOrCreateVoiceAgent(project);
 
@@ -74,7 +63,7 @@ export async function main(): Promise<void> {
 
     try {
       // session.update merges into the existing session config; only the changed field needs to be sent.
-      const pcmFormat: RealtimeAudioFormatsUnion = { type: "audio/pcm", rate: pcmSampleRate };
+      const pcmFormat = { type: "audio/pcm", rate: pcmSampleRate };
       await connection.configureSession({
         type: "realtime",
         output_modalities: ["text", "audio"],
@@ -105,9 +94,7 @@ export async function main(): Promise<void> {
             case "response.done":
               if (event.response.status !== "completed") {
                 throw new Error(
-                  `Voice response ${event.response.status ?? "unknown"}: ${JSON.stringify(
-                    event.response.status_details ?? {},
-                  )}`,
+                  `Voice response ${event.response.status ?? "unknown"}: ${JSON.stringify(event.response.status_details ?? {})}`,
                 );
               }
               // The response can finish before all input has been sent; remember it happened so the
@@ -179,14 +166,14 @@ export async function main(): Promise<void> {
   }
 }
 
-async function writeAudio(output: WriteStream, audio: Uint8Array): Promise<void> {
+async function writeAudio(output, audio) {
   if (!output.write(audio)) {
     await once(output, "drain");
   }
 }
 
 /** Summarizes a server event with a short, useful detail for the event log. */
-function describeEvent(event: VoiceAgentServerEvent): string {
+function describeEvent(event) {
   switch (event.type) {
     case "response.output_audio.delta":
       return ` (${event.delta.byteLength} bytes)`;
@@ -212,7 +199,7 @@ const bytesPerKiB = 1024;
 const bytesPerMiB = bytesPerKiB * 1024;
 
 /** Formats a byte count as a human-readable size (bytes, KB, or MB). */
-function formatBytes(byteCount: number): string {
+function formatBytes(byteCount) {
   if (byteCount >= bytesPerMiB) {
     return `${(byteCount / bytesPerMiB).toFixed(2)} MB`;
   }
@@ -223,18 +210,16 @@ function formatBytes(byteCount: number): string {
 }
 
 /** Computes and formats the audio duration implied by a PCM16 mono byte count at pcmSampleRate. */
-function formatDuration(byteCount: number): string {
+function formatDuration(byteCount) {
   const seconds = byteCount / (pcmSampleRate * pcmBytesPerSample);
   return `${seconds.toFixed(2)}s of audio`;
 }
 
-function delay(durationInMs: number): Promise<void> {
+function delay(durationInMs) {
   return new Promise((resolve) => setTimeout(resolve, durationInMs));
 }
 
-async function getOrCreateVoiceAgent(
-  project: AIProjectClient,
-): Promise<{ definition: VoiceAgentDefinition; created: boolean }> {
+async function getOrCreateVoiceAgent(project) {
   try {
     return { definition: getVoiceDefinition(await project.agents.get(agentName)), created: false };
   } catch (error) {
@@ -243,7 +228,7 @@ async function getOrCreateVoiceAgent(
     }
   }
 
-  const definition: VoiceAgentDefinition = {
+  const definition = {
     kind: "voice",
     model_type: "managed",
     model: modelName,
@@ -254,7 +239,7 @@ async function getOrCreateVoiceAgent(
   return { definition: getVoiceDefinition(agent), created: true };
 }
 
-function getVoiceDefinition(agent: Agent): VoiceAgentDefinition {
+function getVoiceDefinition(agent) {
   const definition = agent.versions.latest.definition;
   if (!isVoiceAgentDefinition(definition)) {
     throw new Error(`Agent ${agent.name} is not a voice agent.`);
@@ -262,9 +247,7 @@ function getVoiceDefinition(agent: Agent): VoiceAgentDefinition {
   return definition;
 }
 
-function withTurnDetectionOverrides(
-  turnDetection: VoiceAgentTurnDetectionConfigUnion | undefined,
-): VoiceAgentTurnDetectionConfigUnion {
+function withTurnDetectionOverrides(turnDetection) {
   // Turn-detection type is a session default set when the agent was configured and cannot change
   // at connect time, so the agent's own type and fields are preserved here; only this sample's
   // chosen overrides are layered on top.
@@ -288,9 +271,7 @@ function withTurnDetectionOverrides(
   };
 }
 
-function isVoiceAgentDefinition(
-  definition: AgentDefinitionUnion,
-): definition is VoiceAgentDefinition {
+function isVoiceAgentDefinition(definition) {
   return (
     definition.kind === "voice" &&
     "model_type" in definition &&
@@ -300,7 +281,7 @@ function isVoiceAgentDefinition(
   );
 }
 
-function getRequiredEnvironmentVariable(name: string): string {
+function getRequiredEnvironmentVariable(name) {
   const value = process.env[name]?.trim();
   if (!value) {
     throw new Error(`Set ${name} before running this sample.`);
@@ -312,3 +293,5 @@ main().catch((error) => {
   console.error("The sample encountered an error:", error);
   process.exitCode = 1;
 });
+
+module.exports = { main };
