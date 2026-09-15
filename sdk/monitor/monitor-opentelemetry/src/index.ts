@@ -173,7 +173,9 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
 
   // Eagerly install the Azure SDK tracing bridge in case @azure/core-tracing
   // was loaded before useAzureMonitor() (the RITM hook misses it otherwise).
-  ensureAzureSdkTracingBridge();
+  if (config.instrumentationOptions.azureSdk?.enabled) {
+    ensureAzureSdkTracingBridge();
+  }
 }
 
 /**
