@@ -28,19 +28,11 @@ export class CommunicationIdentityClient {
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
     getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: GetTokenOptions): Promise<CommunicationAccessToken>;
     getTokenForTeamsUser(options: GetTokenForTeamsUserOptions): Promise<CommunicationAccessToken>;
-    getUserDetail(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationUserDetail>;
     revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
 }
 
 // @public
 export interface CommunicationIdentityClientOptions extends CommonClientOptions {
-}
-
-// @public
-export interface CommunicationUserDetail {
-    customId?: string;
-    lastTokenIssuedAt?: Date;
-    user: CommunicationUserIdentifier;
 }
 
 // @public
@@ -50,13 +42,11 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 
 // @public
 export interface CreateUserAndTokenOptions extends OperationOptions {
-    customId?: string;
     tokenExpiresInMinutes?: number;
 }
 
 // @public
 export interface CreateUserOptions extends OperationOptions {
-    customId?: string;
 }
 
 // @public
