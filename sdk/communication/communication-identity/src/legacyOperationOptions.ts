@@ -28,7 +28,7 @@ export async function withLegacyOperationOptions<T>(
   try {
     result = await operation(generatedOptions);
   } catch (error) {
-    if (response && !shouldDeserialize(options, response)) {
+    if (response && responseError === undefined && !shouldDeserialize(options, response)) {
       const value = response.parsedBody as T;
       options.onResponse?.(response, value);
       return value;

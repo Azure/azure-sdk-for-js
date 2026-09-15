@@ -3,6 +3,8 @@
 
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { isCommunicationUserIdentifier } from "@azure/communication-common";
+import type { HttpClient } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   createMockHttpClient,
   getTokenForTeamsUserHttpClient,
@@ -133,6 +135,43 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.deepEqual(response, {
       error: { code: "BadRequest", message: "bad request" },
     });
+  });
+
+  it("does not suppress pipeline failures when shouldDeserialize is false", async () => {
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        const response = {
+          status: 400,
+          headers: createHttpHeaders(),
+          request,
+          bodyAsText: JSON.stringify({ error: { code: "Unavailable" } }),
+        };
+        throw new RestError("pipeline failure", {
+          code: "PipelineFailure",
+          statusCode: response.status,
+          request,
+          response,
+        });
+      },
+    };
+    const client = new CommunicationIdentityClient(
+      "endpoint=https://contoso.spool.azure.local;accesskey=banana",
+      { httpClient } as CommunicationIdentityClientOptions,
+    );
+    const onResponse = vi.fn();
+
+    await expect(
+      client.getToken(user, ["chat"], {
+        requestOptions: { shouldDeserialize: false },
+        onResponse,
+      }),
+    ).rejects.toThrow("pipeline failure");
+
+    expect(onResponse).toHaveBeenCalledOnce();
+    const [rawResponse, flatResponse, error] = onResponse.mock.calls[0];
+    assert.equal(rawResponse.status, 400);
+    assert.isUndefined(flatResponse);
+    assert.instanceOf(error, RestError);
   });
 
   it("preserves the legacy onResponse error arguments", async () => {
