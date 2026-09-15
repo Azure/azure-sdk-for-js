@@ -20,7 +20,7 @@ export function _getSend(
     {
       billingAccountId: billingAccountId,
       billingProfileId: billingProfileId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -34,7 +34,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<CreditSummary | undefined> {
+): Promise<CreditSummary | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -45,7 +45,11 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return result.body ? creditSummaryDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return creditSummaryDeserializer(result.body);
 }
 
 /** The credit summary by billingAccountId and billingProfileId. */
@@ -54,7 +58,7 @@ export async function get(
   billingAccountId: string,
   billingProfileId: string,
   options: CreditsGetOptionalParams = { requestOptions: {} },
-): Promise<CreditSummary | undefined> {
+): Promise<CreditSummary | void> {
   const result = await _getSend(context, billingAccountId, billingProfileId, options);
   return _getDeserialize(result);
 }
