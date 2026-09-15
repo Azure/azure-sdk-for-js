@@ -17,6 +17,7 @@ trigger:
       - sdk/containerservice/arm-containerservicesafeguards
       - sdk/containerservice/arm-containerservicepreparedimgspec
       - sdk/containerservice/arm-containerserviceaimanager
+      - sdk/containerservice/arm-containerservicenodecustomization
 pr:
   branches:
     include:
@@ -35,6 +36,7 @@ pr:
       - sdk/containerservice/arm-containerservicesafeguards
       - sdk/containerservice/arm-containerservicepreparedimgspec
       - sdk/containerservice/arm-containerserviceaimanager
+      - sdk/containerservice/arm-containerservicenodecustomization
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -54,3 +56,5 @@ extends:
         safeName: azurearmcontainerservicepreparedimgspec
       - name: azure-arm-containerserviceaimanager
         safeName: azurearmcontainerserviceaimanager
+      - name: azure-arm-containerservicenodecustomization
+        safeName: azurearmcontainerservicenodecustomization
