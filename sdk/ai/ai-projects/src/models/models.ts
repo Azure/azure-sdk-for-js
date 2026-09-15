@@ -8455,8 +8455,8 @@ export interface ToolboxObject {
   name: string;
   /** The Unix timestamp (seconds) when the toolbox was last updated. This value changes when a new toolbox version is created or the toolbox is updated. */
   updated_at: Date;
-  /** The versions associated with the toolbox. */
-  versions: ToolboxVersions;
+  /** The versions associated with the toolbox. Absent on responses that do not expand versions. */
+  versions?: ToolboxVersions;
   /** The version identifier that the toolbox currently points to. Defaults to the latest version. Can be changed via updateToolbox. */
   default_version: string;
 }
@@ -8466,7 +8466,7 @@ export function toolboxObjectDeserializer(item: any): ToolboxObject {
     id: item["id"],
     name: item["name"],
     updated_at: new Date(item["updated_at"] * 1000),
-    versions: toolboxVersionsDeserializer(item["versions"]),
+    versions: !item["versions"] ? item["versions"] : toolboxVersionsDeserializer(item["versions"]),
     default_version: item["default_version"],
   };
 }

@@ -6332,7 +6332,7 @@ export interface ToolboxObject {
     id: string;
     name: string;
     updated_at: Date;
-    versions: ToolboxVersions;
+    versions?: ToolboxVersions;
 }
 
 // @public
