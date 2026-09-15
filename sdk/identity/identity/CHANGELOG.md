@@ -14,7 +14,7 @@
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
-- Updated `@azure/msal-node` to `^6.0.0`. See the [MSAL Node v6 migration guide](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/v6-migration.md) for details.
+- Updated `@azure/msal-node` to `^6.0.0`. [#39965](https://github.com/Azure/azure-sdk-for-js/pull/39965)
 
 ## 4.13.2 (2026-08-12)
 
