@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list GoalResource resources by GoalAssignment
  *
  * @summary list GoalResource resources by GoalAssignment
- * x-ms-original-file: 2026-08-31-preview/GoalResources_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-30-preview/GoalResources_List_MaximumSet_Gen.json
  */
 async function goalResourcesListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -23,7 +23,7 @@ export function _getSend(
     {
       location: location,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

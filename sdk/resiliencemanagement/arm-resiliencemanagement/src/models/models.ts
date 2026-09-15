@@ -251,12 +251,12 @@ export function goalAssignmentDeserializer(item: any): GoalAssignment {
 
 /** Definition of goal assignment property. */
 export interface GoalAssignmentProperties {
-  /** Arm id of the goal template. */
-  goalTemplateId?: string;
-  /** The type of goal assignment. */
-  goalAssignmentType?: GoalAssignmentType;
   /** Whether zonal resiliency is required for this goal assignment. */
-  requireZonalResiliency?: boolean;
+  requireZonalResiliency: boolean;
+  /** Whether regional resiliency is required for this goal assignment. */
+  requireRegionalResiliency?: boolean;
+  /** Recovery objectives targeted for regional resiliency. */
+  regionalObjectives?: RegionalObjectives;
   /** List of service level resources. */
   serviceLevelResources?: ServiceLevelResource[];
   /** Provisioning state */
@@ -267,9 +267,11 @@ export interface GoalAssignmentProperties {
 
 export function goalAssignmentPropertiesSerializer(item: GoalAssignmentProperties): any {
   return {
-    goalTemplateId: item["goalTemplateId"],
-    goalAssignmentType: item["goalAssignmentType"],
     requireZonalResiliency: item["requireZonalResiliency"],
+    requireRegionalResiliency: item["requireRegionalResiliency"],
+    regionalObjectives: !item["regionalObjectives"]
+      ? item["regionalObjectives"]
+      : regionalObjectivesSerializer(item["regionalObjectives"]),
     serviceLevelResources: !item["serviceLevelResources"]
       ? item["serviceLevelResources"]
       : serviceLevelResourceArraySerializer(item["serviceLevelResources"]),
@@ -278,9 +280,11 @@ export function goalAssignmentPropertiesSerializer(item: GoalAssignmentPropertie
 
 export function goalAssignmentPropertiesDeserializer(item: any): GoalAssignmentProperties {
   return {
-    goalTemplateId: item["goalTemplateId"],
-    goalAssignmentType: item["goalAssignmentType"],
     requireZonalResiliency: item["requireZonalResiliency"],
+    requireRegionalResiliency: item["requireRegionalResiliency"],
+    regionalObjectives: !item["regionalObjectives"]
+      ? item["regionalObjectives"]
+      : regionalObjectivesDeserializer(item["regionalObjectives"]),
     serviceLevelResources: !item["serviceLevelResources"]
       ? item["serviceLevelResources"]
       : serviceLevelResourceArrayDeserializer(item["serviceLevelResources"]),
@@ -291,20 +295,51 @@ export function goalAssignmentPropertiesDeserializer(item: any): GoalAssignmentP
   };
 }
 
-/** Supported type of goal assignment. */
-export enum KnownGoalAssignmentType {
-  /** Resiliency goal assignment type. */
-  Resiliency = "Resiliency",
+/** Recovery objectives targeted by a goal assignment for regional resiliency. */
+export interface RegionalObjectives {
+  /** Target regional recovery point objective. eg, PT15M for 15 minutes. */
+  targetRecoveryPointObjective: IsoDuration;
+  /** Target regional recovery time objective. eg, PT1H for 1 hour. */
+  targetRecoveryTimeObjective: IsoDuration;
+}
+
+export function regionalObjectivesSerializer(item: RegionalObjectives): any {
+  return {
+    targetRecoveryPointObjective: item["targetRecoveryPointObjective"],
+    targetRecoveryTimeObjective: item["targetRecoveryTimeObjective"],
+  };
+}
+
+export function regionalObjectivesDeserializer(item: any): RegionalObjectives {
+  return {
+    targetRecoveryPointObjective: item["targetRecoveryPointObjective"],
+    targetRecoveryTimeObjective: item["targetRecoveryTimeObjective"],
+  };
+}
+
+/** ISO 8601 duration formats. */
+export enum KnownIsoDuration {
+  /** 15 minutes. */
+  PT15M = "PT15M",
+  /** 1 hour. */
+  PT1H = "PT1H",
+  /** 4 hours. */
+  PT4H = "PT4H",
+  /** 24 hours. */
+  PT24H = "PT24H",
 }
 
 /**
- * Supported type of goal assignment. \
- * {@link KnownGoalAssignmentType} can be used interchangeably with GoalAssignmentType,
+ * ISO 8601 duration formats. \
+ * {@link KnownIsoDuration} can be used interchangeably with IsoDuration,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Resiliency**: Resiliency goal assignment type.
+ * **PT15M**: 15 minutes. \
+ * **PT1H**: 1 hour. \
+ * **PT4H**: 4 hours. \
+ * **PT24H**: 24 hours.
  */
-export type GoalAssignmentType = string;
+export type IsoDuration = string;
 
 export function serviceLevelResourceArraySerializer(result: Array<ServiceLevelResource>): any[] {
   return result.map((item) => {
@@ -322,21 +357,15 @@ export function serviceLevelResourceArrayDeserializer(result: Array<ServiceLevel
 export interface ServiceLevelResource {
   /** The arm id of the service level indicator resource */
   serviceLevelIndicatorResourceId: string;
-  /** The arm id of the service level object resource */
-  serviceLevelObjectiveResourceId?: string;
 }
 
 export function serviceLevelResourceSerializer(item: ServiceLevelResource): any {
-  return {
-    serviceLevelIndicatorResourceId: item["serviceLevelIndicatorResourceId"],
-    serviceLevelObjectiveResourceId: item["serviceLevelObjectiveResourceId"],
-  };
+  return { serviceLevelIndicatorResourceId: item["serviceLevelIndicatorResourceId"] };
 }
 
 export function serviceLevelResourceDeserializer(item: any): ServiceLevelResource {
   return {
     serviceLevelIndicatorResourceId: item["serviceLevelIndicatorResourceId"],
-    serviceLevelObjectiveResourceId: item["serviceLevelObjectiveResourceId"],
   };
 }
 
@@ -528,24 +557,10 @@ export function goalResourceDeserializer(item: any): GoalResource {
 export interface GoalResourceProperties {
   /** Arm Id of resource under the SG for which the extension resource is maintained. */
   resourceArmId: string;
-  /** Flag which depicts whether the Arm resource is excluded for high availability recommendation. */
-  highAvailabilityGoalParticipation?: ExclusionState;
-  /** Flag which depicts whether the Arm resource is manually attested for high availability recommendation. */
-  highAvailabilityAttestationStatus?: AttestationState;
   /** Zonal resiliency posture (participation, attestation, exclusion reason, and user confirmations) for the Arm resource. */
   zonalResiliency?: ResiliencyProperties;
-  /** Flag which depicts whether the Arm resource is excluded for disaster recovery recommendation. */
-  disasterRecoveryGoalParticipation?: ExclusionState;
-  /** Flag which depicts whether the Arm resource is manually attested for disaster recovery recommendation. */
-  disasterRecoveryAttestationStatus?: AttestationState;
-  /** Reason for exclusion from high availability goals. */
-  readonly exclusionReasonForHighAvailabilityGoals?: ExclusionReason;
-  /** Reason for exclusion from disaster recovery goals. */
-  readonly exclusionReasonForDisasterRecoveryGoals?: ExclusionReason;
-  /** List of user confirmations for high availability solutions. */
-  userConfirmationForHighAvailability?: UserConfirmationItem[];
-  /** List of service groups of which this resource is memberof. */
-  readonly serviceGroupMemberships?: ServiceGroupMembership[];
+  /** Regional resiliency posture (participation, attestation, exclusion reason, and user confirmations) for the Azure resource. */
+  regionalResiliency?: ResiliencyProperties;
   /** Provisioning state */
   readonly provisioningState?: ProvisioningState;
 }
@@ -553,38 +568,58 @@ export interface GoalResourceProperties {
 export function goalResourcePropertiesSerializer(item: GoalResourceProperties): any {
   return {
     resourceArmId: item["resourceArmId"],
-    highAvailabilityGoalParticipation: item["highAvailabilityGoalParticipation"],
-    highAvailabilityAttestationStatus: item["highAvailabilityAttestationStatus"],
     zonalResiliency: !item["zonalResiliency"]
       ? item["zonalResiliency"]
       : resiliencyPropertiesSerializer(item["zonalResiliency"]),
-    disasterRecoveryGoalParticipation: item["disasterRecoveryGoalParticipation"],
-    disasterRecoveryAttestationStatus: item["disasterRecoveryAttestationStatus"],
-    userConfirmationForHighAvailability: !item["userConfirmationForHighAvailability"]
-      ? item["userConfirmationForHighAvailability"]
-      : userConfirmationItemArraySerializer(item["userConfirmationForHighAvailability"]),
+    regionalResiliency: !item["regionalResiliency"]
+      ? item["regionalResiliency"]
+      : resiliencyPropertiesSerializer(item["regionalResiliency"]),
   };
 }
 
 export function goalResourcePropertiesDeserializer(item: any): GoalResourceProperties {
   return {
     resourceArmId: item["resourceArmId"],
-    highAvailabilityGoalParticipation: item["highAvailabilityGoalParticipation"],
-    highAvailabilityAttestationStatus: item["highAvailabilityAttestationStatus"],
     zonalResiliency: !item["zonalResiliency"]
       ? item["zonalResiliency"]
       : resiliencyPropertiesDeserializer(item["zonalResiliency"]),
-    disasterRecoveryGoalParticipation: item["disasterRecoveryGoalParticipation"],
-    disasterRecoveryAttestationStatus: item["disasterRecoveryAttestationStatus"],
-    exclusionReasonForHighAvailabilityGoals: item["exclusionReasonForHighAvailabilityGoals"],
-    exclusionReasonForDisasterRecoveryGoals: item["exclusionReasonForDisasterRecoveryGoals"],
-    userConfirmationForHighAvailability: !item["userConfirmationForHighAvailability"]
-      ? item["userConfirmationForHighAvailability"]
-      : userConfirmationItemArrayDeserializer(item["userConfirmationForHighAvailability"]),
-    serviceGroupMemberships: !item["serviceGroupMemberships"]
-      ? item["serviceGroupMemberships"]
-      : serviceGroupMembershipArrayDeserializer(item["serviceGroupMemberships"]),
+    regionalResiliency: !item["regionalResiliency"]
+      ? item["regionalResiliency"]
+      : resiliencyPropertiesDeserializer(item["regionalResiliency"]),
     provisioningState: item["provisioningState"],
+  };
+}
+
+/** Resiliency posture for a goal resource. */
+export interface ResiliencyProperties {
+  /** Flag which depicts whether the Arm resource is excluded for resiliency recommendation. */
+  goalParticipation?: ExclusionState;
+  /** Flag which depicts whether the Arm resource is manually attested for resiliency recommendation. */
+  attestationStatus?: AttestationState;
+  /** Reason for exclusion from resiliency goals. */
+  readonly exclusionReason?: ExclusionReason;
+  /** List of user confirmations for resiliency solutions. */
+  userConfirmation?: UserConfirmationItem[];
+}
+
+export function resiliencyPropertiesSerializer(item: ResiliencyProperties): any {
+  return {
+    goalParticipation: item["goalParticipation"],
+    attestationStatus: item["attestationStatus"],
+    userConfirmation: !item["userConfirmation"]
+      ? item["userConfirmation"]
+      : userConfirmationItemArraySerializer(item["userConfirmation"]),
+  };
+}
+
+export function resiliencyPropertiesDeserializer(item: any): ResiliencyProperties {
+  return {
+    goalParticipation: item["goalParticipation"],
+    attestationStatus: item["attestationStatus"],
+    exclusionReason: item["exclusionReason"],
+    userConfirmation: !item["userConfirmation"]
+      ? item["userConfirmation"]
+      : userConfirmationItemArrayDeserializer(item["userConfirmation"]),
   };
 }
 
@@ -623,39 +658,6 @@ export enum KnownAttestationState {
  * **ManuallyAttested**: Resource is manually attested.
  */
 export type AttestationState = string;
-
-/** Resiliency posture for a goal resource. */
-export interface ResiliencyProperties {
-  /** Flag which depicts whether the Arm resource is excluded for resiliency recommendation. */
-  goalParticipation?: ExclusionState;
-  /** Flag which depicts whether the Arm resource is manually attested for resiliency recommendation. */
-  attestationStatus?: AttestationState;
-  /** Reason for exclusion from resiliency goals. */
-  readonly exclusionReason?: ExclusionReason;
-  /** List of user confirmations for resiliency solutions. */
-  userConfirmation?: UserConfirmationItem[];
-}
-
-export function resiliencyPropertiesSerializer(item: ResiliencyProperties): any {
-  return {
-    goalParticipation: item["goalParticipation"],
-    attestationStatus: item["attestationStatus"],
-    userConfirmation: !item["userConfirmation"]
-      ? item["userConfirmation"]
-      : userConfirmationItemArraySerializer(item["userConfirmation"]),
-  };
-}
-
-export function resiliencyPropertiesDeserializer(item: any): ResiliencyProperties {
-  return {
-    goalParticipation: item["goalParticipation"],
-    attestationStatus: item["attestationStatus"],
-    exclusionReason: item["exclusionReason"],
-    userConfirmation: !item["userConfirmation"]
-      ? item["userConfirmation"]
-      : userConfirmationItemArrayDeserializer(item["userConfirmation"]),
-  };
-}
 
 /** Enum for the reason why a resource is excluded. */
 export enum KnownExclusionReason {
@@ -776,50 +778,6 @@ export enum KnownReasonForRequestingConfirmation {
  */
 export type ReasonForRequestingConfirmation = string;
 
-export function serviceGroupMembershipArrayDeserializer(
-  result: Array<ServiceGroupMembership>,
-): any[] {
-  return result.map((item) => {
-    return serviceGroupMembershipDeserializer(item);
-  });
-}
-
-/** Model for service group membership. */
-export interface ServiceGroupMembership {
-  /** Arm Id of the service group. */
-  serviceGroupId: string;
-  /** Membership type of the service group to resource. */
-  membershipType: MembershipType;
-}
-
-export function serviceGroupMembershipDeserializer(item: any): ServiceGroupMembership {
-  return {
-    serviceGroupId: item["serviceGroupId"],
-    membershipType: item["membershipType"],
-  };
-}
-
-/** Membership type of the service group to resource. */
-export enum KnownMembershipType {
-  /** Resource is direct member of service group. */
-  Direct = "Direct",
-  /** Resource is member of service group through subscription. */
-  ThroughSubscription = "ThroughSubscription",
-  /** Resource is member of service group through resource group. */
-  ThroughResourceGroup = "ThroughResourceGroup",
-}
-
-/**
- * Membership type of the service group to resource. \
- * {@link KnownMembershipType} can be used interchangeably with MembershipType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Direct**: Resource is direct member of service group. \
- * **ThroughSubscription**: Resource is member of service group through subscription. \
- * **ThroughResourceGroup**: Resource is member of service group through resource group.
- */
-export type MembershipType = string;
-
 /** Request body for the recommend capacity action. Provide specific resource IDs to evaluate, or pass an empty array to let the service automatically select non-resilient resources from the goal assignment. */
 export interface RecommendCapacityRequest {
   /** Azure resource IDs to evaluate for resiliency. Pass an empty array to automatically discover and evaluate non-resilient resources in the service group. Maximum 50 resources per request. */
@@ -858,136 +816,6 @@ export function goalAssignmentArraySerializer(result: Array<GoalAssignment>): an
 export function goalAssignmentArrayDeserializer(result: Array<GoalAssignment>): any[] {
   return result.map((item) => {
     return goalAssignmentDeserializer(item);
-  });
-}
-
-/** Goal template a AzureResilienceProviderHub resource */
-export interface GoalTemplate extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: GoalTemplateProperties;
-}
-
-export function goalTemplateSerializer(item: GoalTemplate): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : goalTemplatePropertiesSerializer(item["properties"]),
-  };
-}
-
-export function goalTemplateDeserializer(item: any): GoalTemplate {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : goalTemplatePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Definition of goal template property. */
-export interface GoalTemplateProperties {
-  /** Option specified by customer under high availability section of goal template */
-  requireHighAvailability?: RequirementSelected;
-  /** Option specified by customer under disaster recovery section of goal template */
-  requireDisasterRecovery?: RequirementSelected;
-  /** Regional recovery point objective specified by customer. eg, PT15M for 15 minutes */
-  regionalRecoveryPointObjective?: string;
-  /** Regional recovery time objective specified by customer. eg, PT15M for 15 minutes */
-  regionalRecoveryTimeObjective?: string;
-  /** Type of Goal Template created by customer */
-  goalType: GoalType;
-  /** Provisioning state */
-  readonly provisioningState?: ProvisioningState;
-  /** Details of any errors encountered during the operation. */
-  readonly errorDetails?: ErrorDetail;
-}
-
-export function goalTemplatePropertiesSerializer(item: GoalTemplateProperties): any {
-  return {
-    requireHighAvailability: item["requireHighAvailability"],
-    requireDisasterRecovery: item["requireDisasterRecovery"],
-    regionalRecoveryPointObjective: item["regionalRecoveryPointObjective"],
-    regionalRecoveryTimeObjective: item["regionalRecoveryTimeObjective"],
-    goalType: item["goalType"],
-  };
-}
-
-export function goalTemplatePropertiesDeserializer(item: any): GoalTemplateProperties {
-  return {
-    requireHighAvailability: item["requireHighAvailability"],
-    requireDisasterRecovery: item["requireDisasterRecovery"],
-    regionalRecoveryPointObjective: item["regionalRecoveryPointObjective"],
-    regionalRecoveryTimeObjective: item["regionalRecoveryTimeObjective"],
-    goalType: item["goalType"],
-    provisioningState: item["provisioningState"],
-    errorDetails: !item["errorDetails"]
-      ? item["errorDetails"]
-      : errorDetailDeserializer(item["errorDetails"]),
-  };
-}
-
-/** Enum for the requirement status of the resource in the goal. */
-export enum KnownRequirementSelected {
-  /** The resource is not required for the specified goal. */
-  NotRequired = "NotRequired",
-  /** The resource is required for the specified goal. */
-  Required = "Required",
-}
-
-/**
- * Enum for the requirement status of the resource in the goal. \
- * {@link KnownRequirementSelected} can be used interchangeably with RequirementSelected,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotRequired**: The resource is not required for the specified goal. \
- * **Required**: The resource is required for the specified goal.
- */
-export type RequirementSelected = string;
-
-/** Supported type of goal. */
-export enum KnownGoalType {
-  /** Resiliency goal type. */
-  Resiliency = "Resiliency",
-}
-
-/**
- * Supported type of goal. \
- * {@link KnownGoalType} can be used interchangeably with GoalType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Resiliency**: Resiliency goal type.
- */
-export type GoalType = string;
-
-/** The response of a GoalTemplate list operation. */
-export interface _GoalTemplateListResult {
-  /** The GoalTemplate items on this page */
-  value: GoalTemplate[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _goalTemplateListResultDeserializer(item: any): _GoalTemplateListResult {
-  return {
-    value: goalTemplateArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function goalTemplateArraySerializer(result: Array<GoalTemplate>): any[] {
-  return result.map((item) => {
-    return goalTemplateSerializer(item);
-  });
-}
-
-export function goalTemplateArrayDeserializer(result: Array<GoalTemplate>): any[] {
-  return result.map((item) => {
-    return goalTemplateDeserializer(item);
   });
 }
 
@@ -1734,6 +1562,8 @@ export interface RecoveryResourceProperties {
   readonly resourcePhysicalZones?: string[];
   /** A state that indicates the resource status with respect to the recovery orchestration plan. */
   inclusionState?: ResourceInclusionState;
+  /** Reasons why inclusion of the resource in a recovery plan is disabled. */
+  readonly inclusionDisabledReasons?: ResourceInclusionDisabledReason[];
   /** Indicating if resource needs user attention and action, details will be found in attentionReasons */
   readonly needsAttention?: boolean;
   /** Reason for the resource to be in need of attention */
@@ -1783,6 +1613,11 @@ export function recoveryResourcePropertiesDeserializer(item: any): RecoveryResou
           return p;
         }),
     inclusionState: item["inclusionState"],
+    inclusionDisabledReasons: !item["inclusionDisabledReasons"]
+      ? item["inclusionDisabledReasons"]
+      : item["inclusionDisabledReasons"].map((p: any) => {
+          return p;
+        }),
     needsAttention: item["needsAttention"],
     attentionReasons: !item["attentionReasons"]
       ? item["attentionReasons"]
@@ -1827,6 +1662,24 @@ export enum KnownResourceInclusionState {
  */
 export type ResourceInclusionState = string;
 
+/** Reason why a recovery resource cannot be included in a recovery plan. */
+export enum KnownResourceInclusionDisabledReason {
+  /** The resource is highly available and does not require recovery-plan inclusion. */
+  ResourceHighlyAvailable = "ResourceHighlyAvailable",
+  /** The resource uses active-active protection. */
+  ResourceActiveActiveProtection = "ResourceActiveActiveProtection",
+}
+
+/**
+ * Reason why a recovery resource cannot be included in a recovery plan. \
+ * {@link KnownResourceInclusionDisabledReason} can be used interchangeably with ResourceInclusionDisabledReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ResourceHighlyAvailable**: The resource is highly available and does not require recovery-plan inclusion. \
+ * **ResourceActiveActiveProtection**: The resource uses active-active protection.
+ */
+export type ResourceInclusionDisabledReason = string;
+
 /** A state type that indicates the protection status of a resource with an Azure solution for regional or zonal recovery. */
 export enum KnownResourceProtectionStatus {
   /** The protection status of the resource is unknown. */
@@ -1863,6 +1716,8 @@ export function resourceProtectionSolutionSettingsArrayDeserializer(
 export interface ResourceProtectionSolutionSettings {
   /** A setting that indicates the resource protected with which recovery solution. */
   readonly protectionSolutionType?: ResourceProtectionSolutionType;
+  /** Replication mode configured for the protected resource. */
+  replicationMode?: ReplicationMode;
   /** A status that indicates the protection status of a resource with an Azure solution for regional or zonal recovery. */
   readonly protectionStatus?: ResourceProtectionStatus;
   /** Resource ID of the Azure resource associated with the recovery orchestration plan and linked to the recovery resource. */
@@ -1894,6 +1749,7 @@ export function resourceProtectionSolutionSettingsDeserializer(
 ): ResourceProtectionSolutionSettings {
   return {
     protectionSolutionType: item["protectionSolutionType"],
+    replicationMode: item["replicationMode"],
     protectionStatus: item["protectionStatus"],
     resourceId: item["resourceId"],
     activeLocation: item["activeLocation"],
@@ -1937,6 +1793,16 @@ export enum KnownResourceProtectionSolutionType {
   CrossZoneVMRecovery = "CrossZoneVMRecovery",
   /** Resource is not protected with native solution and using custom runbook automation scripts for recovery verbs. */
   CustomRunbook = "CustomRunbook",
+  /** Resource recovery is orchestrated by deploying an Azure Resource Manager template. */
+  AzureTemplate = "AzureTemplate",
+  /** Resource is protected with Azure Storage account customer-managed failover. */
+  AzureStorageAccount = "AzureStorageAccount",
+  /** Resource is protected with Azure Service Bus geo-replication, where a premium namespace replicates data to a secondary region and recovery promotes that secondary in place. */
+  AzureServiceBus = "AzureServiceBus",
+  /** Resource is protected with Azure NetApp Files cross-region replication, where recovery fails over to the destination volume. */
+  AzureNetAppFiles = "AzureNetAppFiles",
+  /** Resource is protected with Azure Cosmos DB multiregion replication using customer-managed failover, where recovery promotes a secondary region to the write region. */
+  AzureCosmosDB = "AzureCosmosDB",
 }
 
 /**
@@ -1948,9 +1814,35 @@ export enum KnownResourceProtectionSolutionType {
  * **AzureNative**: Resource is protected with the Azure native solution provided by the native Azure service. \
  * **AzureSiteRecovery**: Resource protected with the Azure solution provided by the native Azure Site Service for Azure VMs. \
  * **CrossZoneVMRecovery**: Cross zone recovery enabled Azure VMs. \
- * **CustomRunbook**: Resource is not protected with native solution and using custom runbook automation scripts for recovery verbs.
+ * **CustomRunbook**: Resource is not protected with native solution and using custom runbook automation scripts for recovery verbs. \
+ * **AzureTemplate**: Resource recovery is orchestrated by deploying an Azure Resource Manager template. \
+ * **AzureStorageAccount**: Resource is protected with Azure Storage account customer-managed failover. \
+ * **AzureServiceBus**: Resource is protected with Azure Service Bus geo-replication, where a premium namespace replicates data to a secondary region and recovery promotes that secondary in place. \
+ * **AzureNetAppFiles**: Resource is protected with Azure NetApp Files cross-region replication, where recovery fails over to the destination volume. \
+ * **AzureCosmosDB**: Resource is protected with Azure Cosmos DB multiregion replication using customer-managed failover, where recovery promotes a secondary region to the write region.
  */
 export type ResourceProtectionSolutionType = string;
+
+/** Replication mode configured for a protected resource. */
+export enum KnownReplicationMode {
+  /** No replication mode is configured for the protected resource. */
+  None = "None",
+  /** The resource is active in multiple locations at the same time. */
+  ActiveActive = "ActiveActive",
+  /** The resource has one active location and one or more passive recovery locations. */
+  ActivePassive = "ActivePassive",
+}
+
+/**
+ * Replication mode configured for a protected resource. \
+ * {@link KnownReplicationMode} can be used interchangeably with ReplicationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No replication mode is configured for the protected resource. \
+ * **ActiveActive**: The resource is active in multiple locations at the same time. \
+ * **ActivePassive**: The resource has one active location and one or more passive recovery locations.
+ */
+export type ReplicationMode = string;
 
 /** A state specific to the resource that helps identify its role in replication. */
 export enum KnownResourceReplicationRole {
@@ -2018,7 +1910,7 @@ export type TestFailoverState = string;
 /** Definition of recovery orchestration resource protection solution setting with recovery orchestration plan. */
 export interface ResourceBaseProtectionSolutionSetting {
   /** A setting that indicates the resource protected with which recovery solution. */
-  /** The discriminator possible values: AzureNative, CustomRunbook, AzureSiteRecovery, CrossZoneVMRecovery */
+  /** The discriminator possible values: AzureTemplate, AzureCosmosDB, AzureStorageAccount, AzureServiceBus, AzureNetAppFiles, AzureNative, CustomRunbook, AzureSiteRecovery, CrossZoneVMRecovery */
   protectionSolutionType: ResourceProtectionSolutionType;
 }
 
@@ -2038,6 +1930,11 @@ export function resourceBaseProtectionSolutionSettingDeserializer(
 
 /** Alias for ResourceBaseProtectionSolutionSettingUnion */
 export type ResourceBaseProtectionSolutionSettingUnion =
+  | ResourceAzureTemplateProtectionSetting
+  | ResourceCosmosDBProtectionSetting
+  | ResourceStorageAccountProtectionSetting
+  | ResourceServiceBusProtectionSetting
+  | ResourceNetAppFilesProtectionSetting
   | ResourceNativeProtectionSolutionSetting
   | ResourceCustomProtectionSetting
   | ResourceSiteRecoveryProtectionSetting
@@ -2048,6 +1945,29 @@ export function resourceBaseProtectionSolutionSettingUnionSerializer(
   item: ResourceBaseProtectionSolutionSettingUnion,
 ): any {
   switch (item.protectionSolutionType) {
+    case "AzureTemplate":
+      return resourceAzureTemplateProtectionSettingSerializer(
+        item as ResourceAzureTemplateProtectionSetting,
+      );
+
+    case "AzureCosmosDB":
+      return resourceCosmosDBProtectionSettingSerializer(item as ResourceCosmosDBProtectionSetting);
+
+    case "AzureStorageAccount":
+      return resourceStorageAccountProtectionSettingSerializer(
+        item as ResourceStorageAccountProtectionSetting,
+      );
+
+    case "AzureServiceBus":
+      return resourceServiceBusProtectionSettingSerializer(
+        item as ResourceServiceBusProtectionSetting,
+      );
+
+    case "AzureNetAppFiles":
+      return resourceNetAppFilesProtectionSettingSerializer(
+        item as ResourceNetAppFilesProtectionSetting,
+      );
+
     case "AzureNative":
       return resourceNativeProtectionSolutionSettingSerializer(
         item as ResourceNativeProtectionSolutionSetting,
@@ -2075,6 +1995,31 @@ export function resourceBaseProtectionSolutionSettingUnionDeserializer(
   item: any,
 ): ResourceBaseProtectionSolutionSettingUnion {
   switch (item["protectionSolutionType"]) {
+    case "AzureTemplate":
+      return resourceAzureTemplateProtectionSettingDeserializer(
+        item as ResourceAzureTemplateProtectionSetting,
+      );
+
+    case "AzureCosmosDB":
+      return resourceCosmosDBProtectionSettingDeserializer(
+        item as ResourceCosmosDBProtectionSetting,
+      );
+
+    case "AzureStorageAccount":
+      return resourceStorageAccountProtectionSettingDeserializer(
+        item as ResourceStorageAccountProtectionSetting,
+      );
+
+    case "AzureServiceBus":
+      return resourceServiceBusProtectionSettingDeserializer(
+        item as ResourceServiceBusProtectionSetting,
+      );
+
+    case "AzureNetAppFiles":
+      return resourceNetAppFilesProtectionSettingDeserializer(
+        item as ResourceNetAppFilesProtectionSetting,
+      );
+
     case "AzureNative":
       return resourceNativeProtectionSolutionSettingDeserializer(
         item as ResourceNativeProtectionSolutionSetting,
@@ -2096,6 +2041,124 @@ export function resourceBaseProtectionSolutionSettingUnionDeserializer(
     default:
       return resourceBaseProtectionSolutionSettingDeserializer(item);
   }
+}
+
+/** Definition of recovery orchestration resource protection using an Azure Resource Manager template. */
+export interface ResourceAzureTemplateProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+  /** A setting that indicates Azure Resource Manager template-based recovery. */
+  protectionSolutionType: "AzureTemplate";
+  /** The Azure resource ID of the Template Spec version to deploy. */
+  templateSpecVersionId: string;
+  /**
+   * The Azure Resource Manager scope at which the recovery template is deployed. Must be the
+   * subscription containing the protected resource, or a resource group within it; deployments
+   * above subscription scope are not supported.
+   */
+  deploymentScope: string;
+  /** The location used to store deployment metadata. Required when deploymentScope is a subscription. */
+  deploymentLocation?: string;
+}
+
+export function resourceAzureTemplateProtectionSettingSerializer(
+  item: ResourceAzureTemplateProtectionSetting,
+): any {
+  return {
+    protectionSolutionType: item["protectionSolutionType"],
+    templateSpecVersionId: item["templateSpecVersionId"],
+    deploymentScope: item["deploymentScope"],
+    deploymentLocation: item["deploymentLocation"],
+  };
+}
+
+export function resourceAzureTemplateProtectionSettingDeserializer(
+  item: any,
+): ResourceAzureTemplateProtectionSetting {
+  return {
+    protectionSolutionType: item["protectionSolutionType"],
+    templateSpecVersionId: item["templateSpecVersionId"],
+    deploymentScope: item["deploymentScope"],
+    deploymentLocation: item["deploymentLocation"],
+  };
+}
+
+/** Definition of recovery orchestration resource protection using Azure Cosmos DB. */
+export interface ResourceCosmosDBProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+  /** A setting that indicates Azure Cosmos DB protection. */
+  protectionSolutionType: "AzureCosmosDB";
+}
+
+export function resourceCosmosDBProtectionSettingSerializer(
+  item: ResourceCosmosDBProtectionSetting,
+): any {
+  return { protectionSolutionType: item["protectionSolutionType"] };
+}
+
+export function resourceCosmosDBProtectionSettingDeserializer(
+  item: any,
+): ResourceCosmosDBProtectionSetting {
+  return {
+    protectionSolutionType: item["protectionSolutionType"],
+  };
+}
+
+/** Definition of recovery orchestration resource protection using an Azure Storage account. */
+export interface ResourceStorageAccountProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+  /** A setting that indicates Azure Storage account protection. */
+  protectionSolutionType: "AzureStorageAccount";
+}
+
+export function resourceStorageAccountProtectionSettingSerializer(
+  item: ResourceStorageAccountProtectionSetting,
+): any {
+  return { protectionSolutionType: item["protectionSolutionType"] };
+}
+
+export function resourceStorageAccountProtectionSettingDeserializer(
+  item: any,
+): ResourceStorageAccountProtectionSetting {
+  return {
+    protectionSolutionType: item["protectionSolutionType"],
+  };
+}
+
+/** Definition of recovery orchestration resource protection using Azure Service Bus. */
+export interface ResourceServiceBusProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+  /** A setting that indicates Azure Service Bus protection. */
+  protectionSolutionType: "AzureServiceBus";
+}
+
+export function resourceServiceBusProtectionSettingSerializer(
+  item: ResourceServiceBusProtectionSetting,
+): any {
+  return { protectionSolutionType: item["protectionSolutionType"] };
+}
+
+export function resourceServiceBusProtectionSettingDeserializer(
+  item: any,
+): ResourceServiceBusProtectionSetting {
+  return {
+    protectionSolutionType: item["protectionSolutionType"],
+  };
+}
+
+/** Definition of recovery orchestration resource protection using Azure NetApp Files. */
+export interface ResourceNetAppFilesProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+  /** A setting that indicates Azure NetApp Files protection. */
+  protectionSolutionType: "AzureNetAppFiles";
+}
+
+export function resourceNetAppFilesProtectionSettingSerializer(
+  item: ResourceNetAppFilesProtectionSetting,
+): any {
+  return { protectionSolutionType: item["protectionSolutionType"] };
+}
+
+export function resourceNetAppFilesProtectionSettingDeserializer(
+  item: any,
+): ResourceNetAppFilesProtectionSetting {
+  return {
+    protectionSolutionType: item["protectionSolutionType"],
+  };
 }
 
 /** Definition of recovery orchestration resource native protection solution setting with recovery orchestration plan. */
@@ -3209,6 +3272,8 @@ export interface DrillRunProperties extends JobProperties {
   readonly currentActiveOperationId?: string;
   /** Summary of report generation for this Drill Run. */
   readonly report?: DrillReportSummary;
+  /** Recovery time objective for the drill run. */
+  readonly recoveryTimeObjective?: IsoDuration;
 }
 
 export function drillRunPropertiesDeserializer(item: any): DrillRunProperties {
@@ -3249,6 +3314,7 @@ export function drillRunPropertiesDeserializer(item: any): DrillRunProperties {
       : supportedVerbsForStageArrayDeserializer(item["supportedVerbsForStage"]),
     currentActiveOperationId: item["currentActiveOperationId"],
     report: !item["report"] ? item["report"] : drillReportSummaryDeserializer(item["report"]),
+    recoveryTimeObjective: item["recoveryTimeObjective"],
   };
 }
 
@@ -3850,6 +3916,8 @@ export interface DrillProperties {
   readonly serviceGroupId?: string;
   /** ROPlan properties. */
   recoveryPlanProperties?: RecoveryPlanPropertiesOfDrill;
+  /** Goal Assignment properties. */
+  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill;
   /** Properties for internal resources that are created for the Drill. */
   drillAssetProperties?: AssetPropertiesOfDrill;
   /** Chaos Resource properties. */
@@ -3888,6 +3956,9 @@ export function drillPropertiesSerializer(item: DrillProperties): any {
     recoveryPlanProperties: !item["recoveryPlanProperties"]
       ? item["recoveryPlanProperties"]
       : recoveryPlanPropertiesOfDrillSerializer(item["recoveryPlanProperties"]),
+    goalAssignmentProperties: !item["goalAssignmentProperties"]
+      ? item["goalAssignmentProperties"]
+      : goalAssignmentPropertiesOfDrillSerializer(item["goalAssignmentProperties"]),
     drillAssetProperties: !item["drillAssetProperties"]
       ? item["drillAssetProperties"]
       : assetPropertiesOfDrillSerializer(item["drillAssetProperties"]),
@@ -3915,6 +3986,9 @@ export function drillPropertiesDeserializer(item: any): DrillProperties {
     recoveryPlanProperties: !item["recoveryPlanProperties"]
       ? item["recoveryPlanProperties"]
       : recoveryPlanPropertiesOfDrillDeserializer(item["recoveryPlanProperties"]),
+    goalAssignmentProperties: !item["goalAssignmentProperties"]
+      ? item["goalAssignmentProperties"]
+      : goalAssignmentPropertiesOfDrillDeserializer(item["goalAssignmentProperties"]),
     drillAssetProperties: !item["drillAssetProperties"]
       ? item["drillAssetProperties"]
       : assetPropertiesOfDrillDeserializer(item["drillAssetProperties"]),
@@ -4003,6 +4077,29 @@ export function recoveryPlanPropertiesOfDrillDeserializer(
     identity: associatedIdentityDeserializer(item["identity"]),
     recoveryPlanId: item["recoveryPlanId"],
     recoveryPlanResourceExcludedCount: item["recoveryPlanResourceExcludedCount"],
+  };
+}
+
+/** Goal assignment properties. */
+export interface GoalAssignmentPropertiesOfDrill {
+  /** Identity to use for goal assignment operations. */
+  identity: AssociatedIdentity;
+  /** Goal assignment id. */
+  readonly goalAssignmentId?: string;
+}
+
+export function goalAssignmentPropertiesOfDrillSerializer(
+  item: GoalAssignmentPropertiesOfDrill,
+): any {
+  return { identity: associatedIdentitySerializer(item["identity"]) };
+}
+
+export function goalAssignmentPropertiesOfDrillDeserializer(
+  item: any,
+): GoalAssignmentPropertiesOfDrill {
+  return {
+    identity: associatedIdentityDeserializer(item["identity"]),
+    goalAssignmentId: item["goalAssignmentId"],
   };
 }
 
@@ -4186,6 +4283,14 @@ export interface AttentionReason {
   drillRbacOnSli?: RbacState;
   /** Per-SLI attention status for each SLI selected for Drill monitoring. */
   sliAttentionStatuses?: SliAttentionStatus[];
+  /** Drill object does not have the necessary RBAC on Goal Assignment. */
+  drillRbacOnGoalAssignment?: RbacState;
+  /** Permissions needed by the Drill MSI on Goal Assignment. */
+  rbacNeededForDrillOnGoalAssignment?: string[];
+  /** Goal Assignment not present. */
+  goalAssignment?: ExtensionObjectState;
+  /** Recovery plan not present. */
+  recoveryPlan?: ExtensionObjectState;
 }
 
 export function attentionReasonDeserializer(item: any): AttentionReason {
@@ -4252,6 +4357,14 @@ export function attentionReasonDeserializer(item: any): AttentionReason {
     sliAttentionStatuses: !item["sliAttentionStatuses"]
       ? item["sliAttentionStatuses"]
       : sliAttentionStatusArrayDeserializer(item["sliAttentionStatuses"]),
+    drillRbacOnGoalAssignment: item["drillRbacOnGoalAssignment"],
+    rbacNeededForDrillOnGoalAssignment: !item["rbacNeededForDrillOnGoalAssignment"]
+      ? item["rbacNeededForDrillOnGoalAssignment"]
+      : item["rbacNeededForDrillOnGoalAssignment"].map((p: any) => {
+          return p;
+        }),
+    goalAssignment: item["goalAssignment"],
+    recoveryPlan: item["recoveryPlan"],
   };
 }
 
@@ -4450,6 +4563,8 @@ export interface LastRunProperties {
   readonly lastRunDuration?: string;
   /** Attestation state of the last run of this Drill. */
   readonly lastRunAttestation?: DrillAttestation;
+  /** Actual recovery time of the last run of this Drill. */
+  readonly lastRunRecoveryTimeActual?: string;
 }
 
 export function lastRunPropertiesDeserializer(item: any): LastRunProperties {
@@ -4458,6 +4573,7 @@ export function lastRunPropertiesDeserializer(item: any): LastRunProperties {
     lastRunState: item["lastRunState"],
     lastRunDuration: item["lastRunDuration"],
     lastRunAttestation: item["lastRunAttestation"],
+    lastRunRecoveryTimeActual: item["lastRunRecoveryTimeActual"],
   };
 }
 
@@ -4603,6 +4719,9 @@ export function zonalDrillPropertiesSerializer(item: ZonalDrillProperties): any 
     recoveryPlanProperties: !item["recoveryPlanProperties"]
       ? item["recoveryPlanProperties"]
       : recoveryPlanPropertiesOfDrillSerializer(item["recoveryPlanProperties"]),
+    goalAssignmentProperties: !item["goalAssignmentProperties"]
+      ? item["goalAssignmentProperties"]
+      : goalAssignmentPropertiesOfDrillSerializer(item["goalAssignmentProperties"]),
     drillAssetProperties: !item["drillAssetProperties"]
       ? item["drillAssetProperties"]
       : assetPropertiesOfDrillSerializer(item["drillAssetProperties"]),
@@ -4630,6 +4749,9 @@ export function zonalDrillPropertiesDeserializer(item: any): ZonalDrillPropertie
     recoveryPlanProperties: !item["recoveryPlanProperties"]
       ? item["recoveryPlanProperties"]
       : recoveryPlanPropertiesOfDrillDeserializer(item["recoveryPlanProperties"]),
+    goalAssignmentProperties: !item["goalAssignmentProperties"]
+      ? item["goalAssignmentProperties"]
+      : goalAssignmentPropertiesOfDrillDeserializer(item["goalAssignmentProperties"]),
     drillAssetProperties: !item["drillAssetProperties"]
       ? item["drillAssetProperties"]
       : assetPropertiesOfDrillDeserializer(item["drillAssetProperties"]),
@@ -4698,6 +4820,9 @@ export function regionalDrillPropertiesSerializer(item: RegionalDrillProperties)
     recoveryPlanProperties: !item["recoveryPlanProperties"]
       ? item["recoveryPlanProperties"]
       : recoveryPlanPropertiesOfDrillSerializer(item["recoveryPlanProperties"]),
+    goalAssignmentProperties: !item["goalAssignmentProperties"]
+      ? item["goalAssignmentProperties"]
+      : goalAssignmentPropertiesOfDrillSerializer(item["goalAssignmentProperties"]),
     drillAssetProperties: !item["drillAssetProperties"]
       ? item["drillAssetProperties"]
       : assetPropertiesOfDrillSerializer(item["drillAssetProperties"]),
@@ -4725,6 +4850,9 @@ export function regionalDrillPropertiesDeserializer(item: any): RegionalDrillPro
     recoveryPlanProperties: !item["recoveryPlanProperties"]
       ? item["recoveryPlanProperties"]
       : recoveryPlanPropertiesOfDrillDeserializer(item["recoveryPlanProperties"]),
+    goalAssignmentProperties: !item["goalAssignmentProperties"]
+      ? item["goalAssignmentProperties"]
+      : goalAssignmentPropertiesOfDrillDeserializer(item["goalAssignmentProperties"]),
     drillAssetProperties: !item["drillAssetProperties"]
       ? item["drillAssetProperties"]
       : assetPropertiesOfDrillDeserializer(item["drillAssetProperties"]),
@@ -4786,6 +4914,8 @@ export function drillUpdateSerializer(item: DrillUpdate): any {
 export interface DrillUpdateProperties {
   /** Recovery Plan properties. */
   recoveryPlanProperties?: RecoveryPlanPropertiesOfDrill;
+  /** Goal Assignment properties. */
+  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill;
   /** Properties for internal resources that are created for the Drill. */
   drillAssetProperties?: AssetPropertiesOfDrill;
   /** Chaos Resource properties. */
@@ -4805,6 +4935,9 @@ export function drillUpdatePropertiesSerializer(item: DrillUpdateProperties): an
     recoveryPlanProperties: !item["recoveryPlanProperties"]
       ? item["recoveryPlanProperties"]
       : recoveryPlanPropertiesOfDrillSerializer(item["recoveryPlanProperties"]),
+    goalAssignmentProperties: !item["goalAssignmentProperties"]
+      ? item["goalAssignmentProperties"]
+      : goalAssignmentPropertiesOfDrillSerializer(item["goalAssignmentProperties"]),
     drillAssetProperties: !item["drillAssetProperties"]
       ? item["drillAssetProperties"]
       : assetPropertiesOfDrillSerializer(item["drillAssetProperties"]),
@@ -5663,30 +5796,6 @@ export function goalsDataDeserializer(item: any): GoalsData {
   };
 }
 
-/** ISO 8601 duration formats. */
-export enum KnownIsoDuration {
-  /** 15 minutes. */
-  PT15M = "PT15M",
-  /** 1 hour. */
-  PT1H = "PT1H",
-  /** 4 hours. */
-  PT4H = "PT4H",
-  /** 24 hours. */
-  PT24H = "PT24H",
-}
-
-/**
- * ISO 8601 duration formats. \
- * {@link KnownIsoDuration} can be used interchangeably with IsoDuration,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PT15M**: 15 minutes. \
- * **PT1H**: 1 hour. \
- * **PT4H**: 4 hours. \
- * **PT24H**: 24 hours.
- */
-export type IsoDuration = string;
-
 /** enum for Resilience health status. */
 export enum KnownResilienceHealthStatus {
   /** Resource is not evaluated. */
@@ -5851,8 +5960,6 @@ export function usagePlanPropertiesDeserializer(item: any): UsagePlanProperties 
 
 /** The type of usage plan. */
 export enum KnownUsagePlanType {
-  /** Basic usage plan with restricted functionality without any charges. */
-  Basic = "Basic",
   /** Standard usage plan with comprehensive functionality and usage based charges. */
   Standard = "Standard",
 }
@@ -5862,7 +5969,6 @@ export enum KnownUsagePlanType {
  * {@link KnownUsagePlanType} can be used interchangeably with UsagePlanType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Basic**: Basic usage plan with restricted functionality without any charges. \
  * **Standard**: Standard usage plan with comprehensive functionality and usage based charges.
  */
 export type UsagePlanType = string;
@@ -6022,4 +6128,6 @@ export enum KnownVersions {
   V20260601Preview = "2026-06-01-preview",
   /** Microsoft.AzureResilienceManagement Resource Provider management API version 2026-08-31-preview. */
   V20260831Preview = "2026-08-31-preview",
+  /** Microsoft.AzureResilienceManagement Resource Provider management API version 2026-09-30-preview. */
+  V20260930Preview = "2026-09-30-preview",
 }

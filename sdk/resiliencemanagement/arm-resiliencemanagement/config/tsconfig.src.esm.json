@@ -19,7 +19,6 @@
     "../src/api/recoveryPlanActions/index.ts",
     "../src/api/recoveryPlans/index.ts",
     "../src/api/goalResources/index.ts",
-    "../src/api/goalTemplates/index.ts",
     "../src/api/goalAssignments/index.ts",
     "../src/api/operationStatus/index.ts",
     "../src/api/operations/index.ts",

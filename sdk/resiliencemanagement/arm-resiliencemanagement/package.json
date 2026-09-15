@@ -230,20 +230,6 @@
         "default": "./dist/commonjs/api/goalResources/index.js"
       }
     },
-    "./api/goalTemplates": {
-      "browser": {
-        "types": "./dist/browser/api/goalTemplates/index.d.ts",
-        "default": "./dist/browser/api/goalTemplates/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/goalTemplates/index.d.ts",
-        "default": "./dist/esm/api/goalTemplates/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/goalTemplates/index.d.ts",
-        "default": "./dist/commonjs/api/goalTemplates/index.js"
-      }
-    },
     "./api/goalAssignments": {
       "browser": {
         "types": "./dist/browser/api/goalAssignments/index.d.ts",

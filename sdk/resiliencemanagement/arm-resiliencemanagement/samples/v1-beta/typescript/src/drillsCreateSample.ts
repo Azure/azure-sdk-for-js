@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Drill
  *
  * @summary create a Drill
- * x-ms-original-file: 2026-08-31-preview/Drills_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-30-preview/Drills_Create_MaximumSet_Gen.json
  */
 async function drillsCreateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -75,6 +75,13 @@ async function drillsCreateMaximumSet(): Promise<void> {
             type: "Latency",
           },
         ],
+      },
+      goalAssignmentProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
       },
     },
     identity: { type: "None", userAssignedIdentities: {} },

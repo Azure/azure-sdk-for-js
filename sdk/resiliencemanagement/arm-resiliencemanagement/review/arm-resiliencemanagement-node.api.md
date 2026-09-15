@@ -56,11 +56,13 @@ export interface AttentionReason {
     drillMonitoringErrors?: ErrorDetails[];
     readonly drillMonitoringResources?: ExtensionObjectState;
     drillRbacOnChaosResource?: RbacState;
+    drillRbacOnGoalAssignment?: RbacState;
     drillRbacOnHealthModel?: RbacState;
     drillRbacOnMonitoringResources?: RbacState;
     drillRbacOnRecoveryPlan?: RbacState;
     drillRbacOnSli?: RbacState;
     drillUserMsi?: ExtensionObjectState;
+    goalAssignment?: ExtensionObjectState;
     healthModelExists?: ExtensionObjectState;
     includedResourceInDrill?: ExtensionObjectState;
     missingRequiredResourceProviders?: string[];
@@ -69,9 +71,11 @@ export interface AttentionReason {
     rbacNeededForDrillOnChaosResource?: string[];
     rbacNeededForDrillOnDrillMonitoringResources?: string[];
     rbacNeededForDrillOnDrillResources?: string[];
+    rbacNeededForDrillOnGoalAssignment?: string[];
     rbacNeededForDrillOnHealthModel?: string[];
     rbacNeededForDrillOnRecoveryPlan?: string[];
     rbacOnTargetResources?: RbacState;
+    recoveryPlan?: ExtensionObjectState;
     recoveryPlanAndDrillResourcesState?: RelativeResourceCompositionState;
     roReadiness?: RecoveryPlanState;
     runbookFaultRbacOnTargets?: RbacState;
@@ -103,7 +107,6 @@ export class AzureResilienceManagementClient {
     readonly enrollments: EnrollmentsOperations;
     readonly goalAssignments: GoalAssignmentsOperations;
     readonly goalResources: GoalResourcesOperations;
-    readonly goalTemplates: GoalTemplatesOperations;
     readonly operations: OperationsOperations;
     readonly operationStatus: OperationStatusOperations;
     readonly pipeline: Pipeline;
@@ -186,6 +189,7 @@ export interface DrillProperties {
     readonly errorDetails?: ErrorDetail;
     readonly executionReadinessState?: ExecutionReadinessState;
     readonly executionState?: ExecutionState;
+    goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill;
     healthModelMonitoringProperties?: HealthModelMonitoringProperties;
     readonly lastResyncReadinessCheckTime?: Date;
     readonly lastRunProperties?: LastRunProperties;
@@ -317,6 +321,7 @@ export interface DrillRunProperties extends JobProperties {
     readonly drillMode?: DrillMode;
     jobType: "DrillRun";
     readonly notes?: string[];
+    readonly recoveryTimeObjective?: IsoDuration;
     readonly report?: DrillReportSummary;
     readonly supportedVerbsForStage?: SupportedVerbsForStage[];
 }
@@ -557,6 +562,7 @@ export interface DrillUpdate {
 export interface DrillUpdateProperties {
     chaosResourceProperties?: ChaosResourcePropertiesOfDrill;
     drillAssetProperties?: AssetPropertiesOfDrill;
+    goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill;
     healthModelMonitoringProperties?: HealthModelMonitoringProperties;
     monitoringProperties?: MonitoringPropertiesOfDrill;
     rbacSetupMode?: RbacSetupMode;
@@ -702,11 +708,17 @@ export interface GoalAssignment extends ProxyResource {
 // @public
 export interface GoalAssignmentProperties {
     readonly errorDetails?: ErrorDetail;
-    goalAssignmentType?: GoalAssignmentType;
-    goalTemplateId?: string;
     readonly provisioningState?: ProvisioningState;
-    requireZonalResiliency?: boolean;
+    regionalObjectives?: RegionalObjectives;
+    requireRegionalResiliency?: boolean;
+    requireZonalResiliency: boolean;
     serviceLevelResources?: ServiceLevelResource[];
+}
+
+// @public
+export interface GoalAssignmentPropertiesOfDrill {
+    readonly goalAssignmentId?: string;
+    identity: AssociatedIdentity;
 }
 
 // @public
@@ -786,25 +798,15 @@ export interface GoalAssignmentsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GoalAssignmentType = string;
-
-// @public
 export interface GoalResource extends ProxyResource {
     properties?: GoalResourceProperties;
 }
 
 // @public
 export interface GoalResourceProperties {
-    disasterRecoveryAttestationStatus?: AttestationState;
-    disasterRecoveryGoalParticipation?: ExclusionState;
-    readonly exclusionReasonForDisasterRecoveryGoals?: ExclusionReason;
-    readonly exclusionReasonForHighAvailabilityGoals?: ExclusionReason;
-    highAvailabilityAttestationStatus?: AttestationState;
-    highAvailabilityGoalParticipation?: ExclusionState;
     readonly provisioningState?: ProvisioningState;
+    regionalResiliency?: ResiliencyProperties;
     resourceArmId: string;
-    readonly serviceGroupMemberships?: ServiceGroupMembership[];
-    userConfirmationForHighAvailability?: UserConfirmationItem[];
     zonalResiliency?: ResiliencyProperties;
 }
 
@@ -837,71 +839,6 @@ export interface GoalsData {
     requireHighAvailability?: UnifiedResilienceItemRequirementSelected;
     templateId: string;
 }
-
-// @public
-export interface GoalTemplate extends ProxyResource {
-    properties?: GoalTemplateProperties;
-}
-
-// @public
-export interface GoalTemplateProperties {
-    readonly errorDetails?: ErrorDetail;
-    goalType: GoalType;
-    readonly provisioningState?: ProvisioningState;
-    regionalRecoveryPointObjective?: string;
-    regionalRecoveryTimeObjective?: string;
-    requireDisasterRecovery?: RequirementSelected;
-    requireHighAvailability?: RequirementSelected;
-}
-
-// @public
-export interface GoalTemplatesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GoalTemplatesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GoalTemplatesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GoalTemplatesListOptionalParams extends OperationOptions {
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export interface GoalTemplatesOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (serviceGroupName: string, goalTemplateName: string, resource: GoalTemplate, options?: GoalTemplatesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GoalTemplate>, GoalTemplate>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (serviceGroupName: string, goalTemplateName: string, resource: GoalTemplate, options?: GoalTemplatesCreateOrUpdateOptionalParams) => Promise<GoalTemplate>;
-    // @deprecated (undocumented)
-    beginDelete: (serviceGroupName: string, goalTemplateName: string, options?: GoalTemplatesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (serviceGroupName: string, goalTemplateName: string, options?: GoalTemplatesDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (serviceGroupName: string, goalTemplateName: string, properties: GoalTemplate, options?: GoalTemplatesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (serviceGroupName: string, goalTemplateName: string, properties: GoalTemplate, options?: GoalTemplatesUpdateOptionalParams) => Promise<void>;
-    createOrUpdate: (serviceGroupName: string, goalTemplateName: string, resource: GoalTemplate, options?: GoalTemplatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<GoalTemplate>, GoalTemplate>;
-    delete: (serviceGroupName: string, goalTemplateName: string, options?: GoalTemplatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (serviceGroupName: string, goalTemplateName: string, options?: GoalTemplatesGetOptionalParams) => Promise<GoalTemplate>;
-    list: (serviceGroupName: string, options?: GoalTemplatesListOptionalParams) => PagedAsyncIterableIterator<GoalTemplate>;
-    update: (serviceGroupName: string, goalTemplateName: string, properties: GoalTemplate, options?: GoalTemplatesUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
-}
-
-// @public
-export interface GoalTemplatesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GoalType = string;
 
 // @public
 export type HAStatus = string;
@@ -1212,16 +1149,6 @@ export enum KnownForceInclusionAndUpdate {
 }
 
 // @public
-export enum KnownGoalAssignmentType {
-    Resiliency = "Resiliency"
-}
-
-// @public
-export enum KnownGoalType {
-    Resiliency = "Resiliency"
-}
-
-// @public
 export enum KnownHAStatus {
     Enabled = "Enabled",
     NotEnabled = "NotEnabled"
@@ -1282,13 +1209,6 @@ export enum KnownManagedServiceIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
-}
-
-// @public
-export enum KnownMembershipType {
-    Direct = "Direct",
-    ThroughResourceGroup = "ThroughResourceGroup",
-    ThroughSubscription = "ThroughSubscription"
 }
 
 // @public
@@ -1390,9 +1310,10 @@ export enum KnownRelativeResourceCompositionState {
 }
 
 // @public
-export enum KnownRequirementSelected {
-    NotRequired = "NotRequired",
-    Required = "Required"
+export enum KnownReplicationMode {
+    ActiveActive = "ActiveActive",
+    ActivePassive = "ActivePassive",
+    None = "None"
 }
 
 // @public
@@ -1416,6 +1337,12 @@ export enum KnownResourceFeasibilityReviewType {
 }
 
 // @public
+export enum KnownResourceInclusionDisabledReason {
+    ResourceActiveActiveProtection = "ResourceActiveActiveProtection",
+    ResourceHighlyAvailable = "ResourceHighlyAvailable"
+}
+
+// @public
 export enum KnownResourceInclusionState {
     Excluded = "Excluded",
     Included = "Included"
@@ -1423,8 +1350,13 @@ export enum KnownResourceInclusionState {
 
 // @public
 export enum KnownResourceProtectionSolutionType {
+    AzureCosmosDB = "AzureCosmosDB",
     AzureNative = "AzureNative",
+    AzureNetAppFiles = "AzureNetAppFiles",
+    AzureServiceBus = "AzureServiceBus",
     AzureSiteRecovery = "AzureSiteRecovery",
+    AzureStorageAccount = "AzureStorageAccount",
+    AzureTemplate = "AzureTemplate",
     CrossZoneVMRecovery = "CrossZoneVMRecovery",
     CustomRunbook = "CustomRunbook",
     None = "None"
@@ -1483,7 +1415,6 @@ export enum KnownUnifiedResilienceItemRequirementSelected {
 
 // @public
 export enum KnownUsagePlanType {
-    Basic = "Basic",
     Standard = "Standard"
 }
 
@@ -1499,7 +1430,8 @@ export enum KnownVersions {
     V20260301Preview = "2026-03-01-preview",
     V20260401Preview = "2026-04-01-preview",
     V20260601Preview = "2026-06-01-preview",
-    V20260831Preview = "2026-08-31-preview"
+    V20260831Preview = "2026-08-31-preview",
+    V20260930Preview = "2026-09-30-preview"
 }
 
 // @public
@@ -1512,6 +1444,7 @@ export enum KnownVMPresent {
 export interface LastRunProperties {
     readonly lastRunAttestation?: DrillAttestation;
     readonly lastRunDuration?: string;
+    readonly lastRunRecoveryTimeActual?: string;
     readonly lastRunState?: JobStatus;
     readonly lastRunTime?: Date;
 }
@@ -1543,9 +1476,6 @@ export type ManagedServiceIdentityType = string;
 export interface MarkAsCompleteRequest {
     drillRunStage: DrillRunSubtasks;
 }
-
-// @public
-export type MembershipType = string;
 
 // @public
 export interface MonitoringPropertiesOfDrill {
@@ -2080,6 +2010,7 @@ export interface RecoveryResourceProperties {
     associatedIdentity?: AssociatedIdentity;
     readonly attentionReasons?: string[];
     readonly errorDetails?: ErrorDetail;
+    readonly inclusionDisabledReasons?: ResourceInclusionDisabledReason[];
     inclusionState?: ResourceInclusionState;
     readonly needsAttention?: boolean;
     readonly protectionStatus?: ResourceProtectionStatus;
@@ -2120,7 +2051,16 @@ export interface RegionalDrillProperties extends DrillProperties {
 }
 
 // @public
+export interface RegionalObjectives {
+    targetRecoveryPointObjective: IsoDuration;
+    targetRecoveryTimeObjective: IsoDuration;
+}
+
+// @public
 export type RelativeResourceCompositionState = string;
+
+// @public
+export type ReplicationMode = string;
 
 // @public
 export interface ReportStageStatus {
@@ -2139,9 +2079,6 @@ export interface ReprotectRequest {
 export interface ReprotectRequestProperties {
     selectedResourceIds?: string[];
 }
-
-// @public
-export type RequirementSelected = string;
 
 // @public
 export type ResilienceHealthStatus = string;
@@ -2163,12 +2100,25 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceAzureTemplateProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+    deploymentLocation?: string;
+    deploymentScope: string;
+    protectionSolutionType: "AzureTemplate";
+    templateSpecVersionId: string;
+}
+
+// @public
 export interface ResourceBaseProtectionSolutionSetting {
     protectionSolutionType: ResourceProtectionSolutionType;
 }
 
 // @public
-export type ResourceBaseProtectionSolutionSettingUnion = ResourceNativeProtectionSolutionSetting | ResourceCustomProtectionSetting | ResourceSiteRecoveryProtectionSetting | ResourceCrossZoneVmRecoveryProtectionSetting | ResourceBaseProtectionSolutionSetting;
+export type ResourceBaseProtectionSolutionSettingUnion = ResourceAzureTemplateProtectionSetting | ResourceCosmosDBProtectionSetting | ResourceStorageAccountProtectionSetting | ResourceServiceBusProtectionSetting | ResourceNetAppFilesProtectionSetting | ResourceNativeProtectionSolutionSetting | ResourceCustomProtectionSetting | ResourceSiteRecoveryProtectionSetting | ResourceCrossZoneVmRecoveryProtectionSetting | ResourceBaseProtectionSolutionSetting;
+
+// @public
+export interface ResourceCosmosDBProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+    protectionSolutionType: "AzureCosmosDB";
+}
 
 // @public
 export interface ResourceCrossZoneVmRecoveryProtectionSetting extends ResourceBaseProtectionSolutionSetting {
@@ -2210,6 +2160,9 @@ export type ResourceFeasibilityReviewStatus = string;
 export type ResourceFeasibilityReviewType = string;
 
 // @public
+export type ResourceInclusionDisabledReason = string;
+
+// @public
 export type ResourceInclusionState = string;
 
 // @public
@@ -2225,6 +2178,11 @@ export interface ResourceNativeProtectionSolutionSetting extends ResourceBasePro
 }
 
 // @public
+export interface ResourceNetAppFilesProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+    protectionSolutionType: "AzureNetAppFiles";
+}
+
+// @public
 export interface ResourceProtectionSolutionSettings {
     readonly activeLocation?: string;
     readonly activeLocations?: string[];
@@ -2236,6 +2194,7 @@ export interface ResourceProtectionSolutionSettings {
     readonly protectionStatus?: ResourceProtectionStatus;
     readonly recoveryLocations?: string[];
     readonly replicaResources?: string[];
+    replicationMode?: ReplicationMode;
     readonly replicationRole?: ResourceReplicationRole;
     readonly resourceId?: string;
     readonly testFailoverState?: TestFailoverState;
@@ -2249,6 +2208,11 @@ export type ResourceProtectionStatus = string;
 
 // @public
 export type ResourceReplicationRole = string;
+
+// @public
+export interface ResourceServiceBusProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+    protectionSolutionType: "AzureServiceBus";
+}
 
 // @public
 export interface ResourceSiteRecoveryProtectionSetting extends ResourceBaseProtectionSolutionSetting {
@@ -2275,6 +2239,11 @@ export interface ResourceSiteRecoveryTestFailoverParams {
 }
 
 // @public
+export interface ResourceStorageAccountProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+    protectionSolutionType: "AzureStorageAccount";
+}
+
+// @public
 export type ResourceTypeCategories = string;
 
 export { RestError }
@@ -2290,15 +2259,8 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
-export interface ServiceGroupMembership {
-    membershipType: MembershipType;
-    serviceGroupId: string;
-}
-
-// @public
 export interface ServiceLevelResource {
     serviceLevelIndicatorResourceId: string;
-    serviceLevelObjectiveResourceId?: string;
 }
 
 // @public

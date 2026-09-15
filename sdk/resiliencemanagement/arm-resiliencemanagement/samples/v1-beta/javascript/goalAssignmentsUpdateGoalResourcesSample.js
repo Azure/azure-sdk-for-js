@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to action to exclude a resource from goal assignment.
  *
  * @summary action to exclude a resource from goal assignment.
- * x-ms-original-file: 2026-08-31-preview/GoalAssignments_UpdateGoalResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-30-preview/GoalAssignments_UpdateGoalResources_MaximumSet_Gen.json
  */
 async function goalAssignmentsUpdateGoalResourcesMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -19,20 +19,22 @@ async function goalAssignmentsUpdateGoalResourcesMaximumSet() {
         properties: {
           resourceArmId:
             "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/MyResourceGroup/providers/Microsoft.Compute/virtualMachines/MyVirtualMachine",
-          highAvailabilityGoalParticipation: "Excluded",
-          highAvailabilityAttestationStatus: "ManuallyAttested",
-          disasterRecoveryGoalParticipation: "Excluded",
-          disasterRecoveryAttestationStatus: "ManuallyAttested",
+          zonalResiliency: { goalParticipation: "Excluded", attestationStatus: "ManuallyAttested" },
+          regionalResiliency: {
+            goalParticipation: "Excluded",
+            attestationStatus: "ManuallyAttested",
+          },
         },
       },
       {
         properties: {
           resourceArmId:
             "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/MyResourceGroup/providers/Microsoft.Compute/virtualMachines/MyVirtualMachine1",
-          highAvailabilityGoalParticipation: "Excluded",
-          highAvailabilityAttestationStatus: "ManuallyAttested",
-          disasterRecoveryGoalParticipation: "Excluded",
-          disasterRecoveryAttestationStatus: "ManuallyAttested",
+          zonalResiliency: { goalParticipation: "Excluded", attestationStatus: "ManuallyAttested" },
+          regionalResiliency: {
+            goalParticipation: "Excluded",
+            attestationStatus: "ManuallyAttested",
+          },
         },
       },
     ],

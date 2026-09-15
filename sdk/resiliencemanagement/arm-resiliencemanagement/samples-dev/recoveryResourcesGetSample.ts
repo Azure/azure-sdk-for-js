@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a RecoveryResource
  *
  * @summary get a RecoveryResource
- * x-ms-original-file: 2026-08-31-preview/RecoveryResources_Get_CrossZoneVMRecovery.json
+ * x-ms-original-file: 2026-09-30-preview/RecoveryResources_Get_CrossZoneVMRecovery.json
  */
 async function recoveryResourcesGetCrossZoneVMRecovery(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function recoveryResourcesGetCrossZoneVMRecovery(): Promise<void> {
  * This sample demonstrates how to get a RecoveryResource
  *
  * @summary get a RecoveryResource
- * x-ms-original-file: 2026-08-31-preview/RecoveryResources_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-30-preview/RecoveryResources_Get_MaximumSet_Gen.json
  */
 async function recoveryResourcesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -29,7 +29,7 @@ export function _listSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-31-preview",
+      apiVersion: context.apiVersion ?? "2026-09-30-preview",
     },
   );
 }
@@ -90,7 +90,7 @@ export function _getSend(
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
       recoveryResourceName: recoveryResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

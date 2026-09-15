@@ -17,7 +17,6 @@ exports:
   "./api/recoveryPlanActions": "./src/api/recoveryPlanActions/index.ts"
   "./api/recoveryPlans": "./src/api/recoveryPlans/index.ts"
   "./api/goalResources": "./src/api/goalResources/index.ts"
-  "./api/goalTemplates": "./src/api/goalTemplates/index.ts"
   "./api/goalAssignments": "./src/api/goalAssignments/index.ts"
   "./api/operationStatus": "./src/api/operationStatus/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
