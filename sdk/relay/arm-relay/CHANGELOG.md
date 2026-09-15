@@ -1,5 +1,16 @@
 # Release History
 
+## 4.1.0 (2026-09-15)
+
+### Features Added
+  - Interface RelayNamespace has a new optional parameter minimumTlsVersion
+  - Interface RelayNamespaceProperties has a new optional parameter minimumTlsVersion
+  - Interface RelayUpdateParameters has a new optional parameter minimumTlsVersion
+  - Added Type Alias TlsVersion
+  - Added Enum KnownTlsVersion
+  - Enum KnownVersions has a new value V20260101
+  - Operation wCFRelaysOperations.get has a new signature
+
 ## 4.1.0-beta.1 (2026-08-05)
 Compared with version 4.0.0
 
