@@ -39,6 +39,14 @@ declare global {
     prototype: TextDecoder;
     new (label?: string, options?: any): TextDecoder;
   };
+  interface TextEncoder {
+    encode(input?: string): Uint8Array;
+  }
+  // eslint-disable-next-line no-var
+  var TextEncoder: {
+    prototype: TextEncoder;
+    new (): TextEncoder;
+  };
 }
 
 /**

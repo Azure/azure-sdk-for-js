@@ -18,6 +18,37 @@ import { createStream, ensureAsyncIterable } from "./utils.js";
 const defaultRetryDelayInMs = 3000;
 
 /**
+ * The largest delay Node.js and browser timers reliably honor. Values above
+ * this (including `Infinity`) are normalized by `setTimeout` to a 1ms delay,
+ * which would otherwise turn a large configured or server-provided `retry:`
+ * value into an immediate reconnect loop.
+ */
+const maxTimerDelayInMs = 2147483647;
+
+/**
+ * Clamps a reconnect delay to a value timers can honor without wrapping.
+ */
+function clampDelay(delayInMs: number): number {
+  return Math.min(delayInMs, maxTimerDelayInMs);
+}
+
+/**
+ * Best-effort cancellation: swallows any error, including a synchronous
+ * throw from the cancel function itself, so cleanup never masks a real
+ * transport or validation error.
+ */
+async function safeCancel(cancel: (() => Promise<void>) | undefined): Promise<void> {
+  if (!cancel) {
+    return;
+  }
+  try {
+    await cancel();
+  } catch {
+    // ignored
+  }
+}
+
+/**
  * Creates an SSE stream that reconnects when a connection ends unexpectedly.
  *
  * The initial connection is established and validated before this function
@@ -41,7 +72,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
 
   const abort = (): void => {
     aborter.abort();
-    void activeCancel?.().catch(() => undefined);
+    void safeCancel(activeCancel);
   };
   options.abortSignal?.addEventListener("abort", abort);
 
@@ -52,19 +83,19 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
     stopped = true;
     aborter.abort();
     options.abortSignal?.removeEventListener("abort", abort);
-    await activeCancel?.();
+    await safeCancel(activeCancel);
   };
 
   try {
     throwIfAborted(options.abortSignal);
     let lastEventId = options.lastEventId ?? "";
-    let reconnectDelayInMs = retryDelayInMs;
+    let reconnectDelayInMs = clampDelay(retryDelayInMs);
     const parserCallbacks = {
       onId: (value: string) => {
         lastEventId = value;
       },
       onRetry: (value: number) => {
-        reconnectDelayInMs = value;
+        reconnectDelayInMs = clampDelay(value);
       },
     };
     const initial = await establishConnection(
@@ -282,8 +313,16 @@ async function establishConnection<TResponse extends SseConnectResponse>(
 }
 
 async function cancelBody(body: SseStream | undefined): Promise<void> {
-  if (body) {
+  if (!body) {
+    return;
+  }
+  try {
+    // Best-effort cleanup: swallow any error here (including a synchronous
+    // throw from acquiring the reader, e.g. when a caller's validator has
+    // already locked the stream) so it never masks the real error.
     await ensureAsyncIterable(body).cancel();
+  } catch {
+    // ignored
   }
 }
 

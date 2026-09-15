@@ -29,6 +29,9 @@
     "@azure/core-sse": "latest",
     "dotenv": "latest",
     "@azure-rest/core-client": "^2.2.0",
-    "@azure/core-util": "^1.11.0"
+    "@azure/core-util": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

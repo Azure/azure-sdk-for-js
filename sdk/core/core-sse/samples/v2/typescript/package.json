@@ -33,11 +33,12 @@
     "@azure/core-sse": "latest",
     "dotenv": "latest",
     "@azure-rest/core-client": "^2.2.0",
-    "@azure/core-util": "^1.11.0"
+    "@azure/core-util": "latest"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~6.0.2"
   }
 }

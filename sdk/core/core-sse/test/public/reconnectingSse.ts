@@ -127,6 +127,47 @@ export function buildReconnectingSseTests(
       assert.notProperty(attempts[3], "lastEventId");
     });
 
+    it("rejects invalid retryDelayInMs and maxRetries options", async () => {
+      const connect = vi.fn(async () => response(createBody({ hang: true })));
+
+      for (const retryDelayInMs of [-1, Number.NaN, Number.POSITIVE_INFINITY]) {
+        await expect(
+          createReconnectingSseStream(connect, acceptedOptions({ retryDelayInMs })),
+        ).rejects.toThrow(RangeError);
+      }
+      for (const maxRetries of [-1, 1.5, Number.NaN]) {
+        await expect(
+          createReconnectingSseStream(connect, acceptedOptions({ maxRetries })),
+        ).rejects.toThrow(RangeError);
+      }
+      assert.equal(connect.mock.calls.length, 0);
+    });
+
+    it("clamps an oversized retry delay to the largest value timers can honor", async () => {
+      vi.useFakeTimers();
+      try {
+        const connect = vi
+          .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+          .mockResolvedValueOnce(response(createBody({ chunks: ["retry: 999999999999\n\n"] })))
+          .mockResolvedValueOnce(
+            response(createBody({ chunks: ["data: reconnected\n\n"], hang: true })),
+          );
+        const stream = await createReconnectingSseStream(connect, {
+          validateResponse: () => "accept",
+        });
+        const reader = stream.getReader();
+        const read = reader.read();
+
+        await vi.advanceTimersByTimeAsync(2147483646);
+        assert.equal(connect.mock.calls.length, 1);
+        await vi.advanceTimersByTimeAsync(1);
+        assert.equal((await read).value?.data, "reconnected");
+        await reader.cancel();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
     it("uses the default delay and applies valid retry-only frames", async () => {
       vi.useFakeTimers();
       try {
@@ -307,6 +348,40 @@ export function buildReconnectingSseTests(
 
       await expect(read).rejects.toMatchObject({ name: "AbortError" });
       rejectConnect?.(new Error("late failure"));
+      assert.equal(connect.mock.calls.length, 2);
+    });
+
+    it("cancels a response that arrives after an aborted reconnect", async () => {
+      const aborter = new AbortController();
+      let resolveConnect: ((response: TestResponse) => void) | undefined;
+      let lateResponseCanceled = false;
+      const connect = vi
+        .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+        .mockResolvedValueOnce(response(createBody({})))
+        .mockImplementationOnce(
+          () =>
+            new Promise<TestResponse>((resolve) => {
+              resolveConnect = resolve;
+            }),
+        );
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({ abortSignal: aborter.signal }),
+      );
+      const read = stream.getReader().read();
+      await vi.waitFor(() => assert.equal(connect.mock.calls.length, 2));
+      aborter.abort();
+
+      await expect(read).rejects.toMatchObject({ name: "AbortError" });
+      resolveConnect?.(
+        response(
+          createBody({
+            hang: true,
+            onCancel: () => (lateResponseCanceled = true),
+          }),
+        ),
+      );
+      await vi.waitFor(() => assert.isTrue(lateResponseCanceled));
       assert.equal(connect.mock.calls.length, 2);
     });
 

@@ -74,7 +74,7 @@ export class SseRetryError extends Error {
 }
 
 // @public
-export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | IncomingMessage;
+export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | NodeIncomingMessage;
 
 // (No @packageDocumentation comment for this package)
 
