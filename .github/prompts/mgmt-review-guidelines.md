@@ -94,6 +94,12 @@ However we should report the following cases:
 - Avoid exporting names that clash with well-known web/DOM types (e.g. `Request`, `Response`, `Event`). Use a service-specific prefix when collisions are likely.
 - `undocumented` for public API is acceptable; do not comment on it.
 
+#### 5. Lint
+
+- Flag a changed `review/{package-name}-node.api.md` when its diff replaces a type-only import (`import type { ... }`) with a value import (`import { ... }`) for symbols used only as types. Do not flag a value import when the imported symbol is used at runtime.
+- When this regression occurs, check the package's `devDependencies` in `package.json`. It must include both `"@azure/eslint-plugin-azure-sdk": "workspace:^"` and `"eslint": "catalog:"`.
+- If either dependency is missing or uses the wrong version specifier, report a tool configuration issue on the relevant `package.json` line. Ask the service team to add or correct the dependency, rerun lint and SDK generation, and verify that the API report preserves `import type`. Do not suggest editing the generated API report directly.
+
 ## Output Format
 
 ### Types of Review Comments

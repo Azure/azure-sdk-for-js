@@ -58,7 +58,7 @@ on:
 
           core.warning('Timed out waiting for Copilot code review to complete; skipping comment resolution');
           core.setOutput('completed', 'false');
-    - name: Resolve Copilot review comments and remove assignee
+    - name: Resolve Copilot review comments
       if: github.event_name != 'workflow_dispatch' || github.event.inputs.wait_for_copilot_review != 'true' || steps.wait_for_copilot_review.outputs.completed == 'true'
       uses: actions/github-script@v9.0.0
       with:
@@ -111,21 +111,6 @@ on:
 
             cursor = threads.pageInfo.hasNextPage ? threads.pageInfo.endCursor : null;
           } while (cursor);
-
-          const issue = await github.rest.issues.get({
-            ...context.repo,
-            issue_number: pr,
-          });
-          const copilotAssignees = issue.data.assignees
-            .map((assignee) => assignee.login)
-            .filter((login) => login.toLowerCase() === 'copilot-swe-agent[bot]');
-          if (copilotAssignees.length > 0) {
-            await github.rest.issues.removeAssignees({
-              ...context.repo,
-              issue_number: pr,
-              assignees: copilotAssignees,
-            });
-          }
     - name: Swap trigger label to in-progress
       id: swap_label
       if: github.event_name == 'pull_request_target' && github.event.label.name == 'mgmt-review-needed'
