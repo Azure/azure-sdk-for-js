@@ -8,6 +8,7 @@ import { StorageManagementClient } from "@azure/arm-storage";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { getTestEnvironment } from "./testEnvironment.js";
 import {
   type Endpoint,
   type Project,
@@ -21,14 +22,14 @@ import {
  * These values match the .NET source-of-truth `StorageMoverManagementTestBase.cs`
  * so test bodies stay 1:1 with the .NET reference suite.
  */
-export const TEST_LOCATION = "eastus";
+const testEnvironment = getTestEnvironment();
+
+export const TEST_LOCATION = testEnvironment.location;
 /**
- * westcentralus is required for matrix rows #10 (extended), #31, and #32 because
- * the shared `cpmoveraccount` storage account and the `test-pls-wcs` PrivateLinkService
- * both live there. Other regions return `LocationNotAvailableForResourceGroup` or
- * fail at PLS-validation time.
+ * Defaults to westcentralus for the recorded shared infrastructure. Live runs
+ * can select another supported mover region with STORAGE_MOVER_TEST_LOCATION.
  */
-export const WCUS_LOCATION = "westcentralus";
+export const C2C_TEST_LOCATION = testEnvironment.c2cLocation;
 export const STORAGE_ACCOUNT_NAME = "testsmstore24";
 export const CONTAINER_NAME = "testsmcontainer";
 export const MULTI_CLOUD_CONNECTOR_ID =
@@ -48,8 +49,8 @@ export const AWS_PRIVATE_S3_BUCKET_ID =
  */
 export const SYNTHETICS_SUBSCRIPTION_ID = "b6b34ad8-ca89-4f85-beb7-c2ec13702dac";
 
-export const PLS_RESOURCE_GROUP = "E2E-Management-RGsyn";
-export const PLS_NAME = "test-pls-wcs";
+export const PLS_RESOURCE_GROUP = testEnvironment.privateLinkServiceResourceGroup;
+export const PLS_NAME = testEnvironment.privateLinkServiceName;
 export const REAL_PRIVATE_LINK_SERVICE_ID =
   `/subscriptions/${SYNTHETICS_SUBSCRIPTION_ID}` +
   `/resourceGroups/${PLS_RESOURCE_GROUP}` +
@@ -77,6 +78,8 @@ const replaceableVariables: Record<string, string> = {
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: PLAYBACK_SUBSCRIPTION_ID,
   AZURE_SUBSCRIPTION_ID: PLAYBACK_SUBSCRIPTION_ID,
+  STORAGE_MOVER_PRIVATE_LINK_SERVICE_RESOURCE_GROUP: "E2E-Management-RGsyn",
+  STORAGE_MOVER_PRIVATE_LINK_SERVICE_NAME: "test-pls-wcs",
 };
 
 const recorderOptions: RecorderStartOptions = {
