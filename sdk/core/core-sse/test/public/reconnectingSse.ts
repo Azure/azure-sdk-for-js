@@ -310,6 +310,40 @@ export function buildReconnectingSseTests(
       assert.equal(connect.mock.calls.length, 2);
     });
 
+    it("cancels a response that arrives after an aborted reconnect", async () => {
+      const aborter = new AbortController();
+      let resolveConnect: ((response: TestResponse) => void) | undefined;
+      let lateResponseCanceled = false;
+      const connect = vi
+        .fn<(options: SseConnectOptions) => Promise<TestResponse>>()
+        .mockResolvedValueOnce(response(createBody({})))
+        .mockImplementationOnce(
+          () =>
+            new Promise<TestResponse>((resolve) => {
+              resolveConnect = resolve;
+            }),
+        );
+      const stream = await createReconnectingSseStream(
+        connect,
+        acceptedOptions({ abortSignal: aborter.signal }),
+      );
+      const read = stream.getReader().read();
+      await vi.waitFor(() => assert.equal(connect.mock.calls.length, 2));
+      aborter.abort();
+
+      await expect(read).rejects.toMatchObject({ name: "AbortError" });
+      resolveConnect?.(
+        response(
+          createBody({
+            hang: true,
+            onCancel: () => (lateResponseCanceled = true),
+          }),
+        ),
+      );
+      await vi.waitFor(() => assert.isTrue(lateResponseCanceled));
+      assert.equal(connect.mock.calls.length, 2);
+    });
+
     it("aborts while validating a response and cleans up its body", async () => {
       const aborter = new AbortController();
       let bodyCanceled = false;

@@ -52,7 +52,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
     stopped = true;
     aborter.abort();
     options.abortSignal?.removeEventListener("abort", abort);
-    await activeCancel?.();
+    await activeCancel?.().catch(() => undefined);
   };
 
   try {
@@ -283,7 +283,9 @@ async function establishConnection<TResponse extends SseConnectResponse>(
 
 async function cancelBody(body: SseStream | undefined): Promise<void> {
   if (body) {
-    await ensureAsyncIterable(body).cancel();
+    await ensureAsyncIterable(body)
+      .cancel()
+      .catch(() => undefined);
   }
 }
 
