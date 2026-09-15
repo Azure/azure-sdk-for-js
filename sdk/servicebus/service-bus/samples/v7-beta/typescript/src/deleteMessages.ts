@@ -5,7 +5,6 @@
  * This sample demonstrates deleting messages from a queue.
  *
  * @summary Demonstrates deleting messages from a queue.
- * @azsdk-weight 80
  */
 
 import type { ServiceBusMessage } from "@azure/service-bus";
