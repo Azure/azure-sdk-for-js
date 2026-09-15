@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.2 (Unreleased)
+## 2.2.2 (2026-09-15)
 
 ### Other Changes
 

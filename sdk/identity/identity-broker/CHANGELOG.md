@@ -1,6 +1,6 @@
 # Release History
 
-## 1.4.2 (Unreleased)
+## 1.4.2 (2026-09-15)
 
 ### Other Changes
 
