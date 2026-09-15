@@ -14,6 +14,7 @@
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+- Updated `@azure/msal-node` to `^6.0.0`. [#39965](https://github.com/Azure/azure-sdk-for-js/pull/39965)
 
 ## 4.13.2 (2026-08-12)
 
