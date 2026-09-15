@@ -202,6 +202,97 @@ test("top-level disappearance retains old customized model names without resurre
   assert.doesNotMatch(result.files.get(modelFile), /interface Hidden/);
 });
 
+function polymorphicTools({ legacy = false, added = false, customized = false } = {}) {
+  return `
+export type ToolKind = "current" ${legacy ? '| "legacy"' : ""} ${added ? '| "added"' : ""};
+export type UnrelatedStatus = "current" ${legacy ? '| "legacy"' : ""};
+export interface Tool { kind: ToolKind; }
+export interface Current extends Tool { kind: "current"; }
+${legacy ? 'export interface Legacy extends Tool { kind: "legacy"; configuration: string; }' : ""}
+${added ? 'export interface Added extends Tool { kind: "added"; }' : ""}
+export type Tools = Current ${legacy ? "| Legacy" : ""} ${added ? "| Added" : ""};
+${
+  legacy
+    ? `export function legacySerialize(item: Legacy): any {
+  return {kind: item.kind, configuration: item.configuration${customized ? ", customized: true" : ""}};
+}
+export function legacyDeserialize(item: any): Legacy {
+  return {kind: "legacy", configuration: item.configuration};
+}`
+    : ""
+}
+export function serializeTools(item: Tools): any {
+  switch (item.kind) {
+    case "current": return item;
+    ${legacy ? 'case "legacy": return legacySerialize(item);' : ""}
+    ${added ? 'case "added": return item;' : ""}
+    default: throw new Error("unsupported");
+  }
+}
+export function deserializeTools(item: any): Tools {
+  switch (item["kind"]) {
+    case "current": return item;
+    ${legacy ? 'case "legacy": return legacyDeserialize(item);' : ""}
+    ${added ? 'case "added": return item;' : ""}
+    default: throw new Error("unsupported");
+  }
+}`;
+}
+
+test("retained legacy models keep their discriminator and dispatch registrations", () => {
+  const result = succeeded(
+    tree(polymorphicTools({ legacy: true })),
+    tree(polymorphicTools({ legacy: true, customized: true })),
+    tree(polymorphicTools({ added: true })),
+  );
+  const text = result.files.get(modelFile);
+  const source = ts.createSourceFile(modelFile, text, ts.ScriptTarget.Latest, true);
+  const type = (name) =>
+    source.statements.find((node) => node.name?.text === name).type.getText(source);
+  assert.match(type("ToolKind"), /"legacy"/);
+  assert.match(type("ToolKind"), /"added"/);
+  assert.match(type("Tools"), /\bLegacy\b/);
+  assert.match(type("Tools"), /\bAdded\b/);
+  assert.doesNotMatch(type("UnrelatedStatus"), /"legacy"/);
+  const api = evaluate(text);
+  const legacy = { kind: "legacy", configuration: "retained" };
+  assert.equal(
+    JSON.stringify(api.serializeTools(legacy)),
+    JSON.stringify({ ...legacy, customized: true }),
+  );
+  assert.equal(JSON.stringify(api.deserializeTools(legacy)), JSON.stringify(legacy));
+  assert.equal(api.serializeTools({ kind: "added" }).kind, "added");
+  assert.equal(api.deserializeTools({ kind: "added" }).kind, "added");
+  assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
+});
+
+test("legacy registration retention does not resurrect a model removed by customization", () => {
+  const result = succeeded(
+    tree(polymorphicTools({ legacy: true })),
+    tree(polymorphicTools()),
+    tree(polymorphicTools({ legacy: true, added: true })),
+  );
+  assert.doesNotMatch(result.files.get(modelFile), /\bLegacy\b|"legacy"/);
+  assert.equal(
+    evaluate(result.files.get(modelFile)).serializeTools({ kind: "added" }).kind,
+    "added",
+  );
+});
+
+test("retaining a legacy dispatch with fallthrough requires explicit reconciliation", () => {
+  const original = polymorphicTools({ legacy: true }).replace(
+    'case "legacy": return legacySerialize(item);',
+    'case "legacy":',
+  );
+  const result = plan(tree(original), tree(original), tree(polymorphicTools({ added: true })));
+  assert.equal(result.files.size, 0);
+  assert.ok(
+    result.diagnostics.some((item) =>
+      /retained legacy dispatch case has fallthrough/.test(item.message),
+    ),
+  );
+});
+
 test("a structurally unique baseline rename is derived rather than added again", () => {
   const base = tree(
     "export interface Emitted { unique: number; }\nexport interface Holder { item: Emitted; }",

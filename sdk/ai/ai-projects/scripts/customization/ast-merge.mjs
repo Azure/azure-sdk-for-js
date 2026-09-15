@@ -140,7 +140,8 @@ register(["CaseClause", "DefaultClause"], { expression: "atomic", statements: "s
  * and plain data reads. Those retain their baseline insertion regions, then
  * prefer custom before incoming; any spreads must be existing unchanged
  * anchors. Positional lists also require unchanged arity. Union/type members
- * and terminal, literal switch cases allow independent additions.
+ * and terminal, literal switch cases allow independent additions. Union and
+ * terminal-case presentation order cannot introduce a semantic conflict.
  * Concurrent call/assignment/branch edits require stable targets/conditions.
  * Overloads, dynamic computed names, fallthrough cases, and unknown concurrent
  * syntax changes deliberately require resolution by the caller.
@@ -713,7 +714,7 @@ function insertionPriorities(before, maps) {
   return result;
 }
 
-function mergeOrder(maps, live, allowTie, state, path, priorities) {
+function mergeOrder(maps, live, allowTie, state, path, priorities, orderIndependent = false) {
   const edges = new Map([...live].map((key) => [key, new Set()]));
   const indegree = new Map([...live].map((key) => [key, 0]));
   for (const map of maps) {
@@ -731,6 +732,17 @@ function mergeOrder(maps, live, allowTie, state, path, priorities) {
   const pending = new Set([...maps[0].keys(), ...maps[1].keys()].filter((key) => live.has(key)));
   while (pending.size) {
     const ready = [...pending].filter((key) => indegree.get(key) === 0);
+    if (!ready.length && orderIndependent) {
+      // Content was merged by identity already. Contradictory presentation
+      // orders are harmless for unions and validated terminal literal cases.
+      const preferred = [...new Set(maps.flatMap((map) => [...map.keys()]))].filter((key) =>
+        live.has(key),
+      );
+      return [
+        ...preferred.filter((key) => key !== "<default>"),
+        ...preferred.filter((key) => key === "<default>"),
+      ];
+    }
     if (!ready.length || (ready.length > 1 && !allowTie(ready, pending))) {
       return state.fail(
         path,
@@ -961,6 +973,7 @@ function mergeList(base, custom, incoming, owners, mode, path, state) {
     state,
     path,
     priorities,
+    mode === "union" || mode === "cases",
   );
   if (order === conflict) return conflict;
   const delimiterMode =

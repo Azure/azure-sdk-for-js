@@ -773,6 +773,21 @@ test("type unions preserve customization and apply independent additions/removal
   );
 });
 
+test("union reordering cannot conflict with independent generated and customized variants", () => {
+  merged(
+    "type Tool = A | B | C;",
+    "type Tool = C | Custom | A | B;",
+    "type Tool = A | Incoming | B | C;",
+    "type Tool = C | Custom | A | B | Incoming;",
+  );
+  merged(
+    "type Tool = A | B | C;",
+    "type Tool = C | Custom | A | B;",
+    "type Tool = B | Incoming | A;",
+    "type Tool = Custom | A | B | Incoming;",
+  );
+});
+
 test("union constituent edits retain identity instead of widening conflicting replacements", () => {
   rejected(
     "type Example = Box<string> | Other;",
@@ -818,6 +833,74 @@ test("an incoming switch case preserves a custom fallback", () => {
     'function read(item) { switch (item.kind) { case "a": return item.a; default: return customRead(item); } }',
     'function read(item) { switch (item.kind) { case "a": return item.a; case "b": return item.b; default: return item; } }',
     'function read(item) { switch (item.kind) { case "a": return item.a; case "b": return item.b; default: return customRead(item); } }',
+  );
+});
+
+for (const [name, parameter, discriminator] of [
+  ["serialize", "item", "item.type"],
+  ["deserialize", "result", 'result["type"]'],
+]) {
+  test(`reordered terminal ${name} cases retain both generated and customized dispatch`, () => {
+    const text = merged(
+      `export function ${name}(${parameter}) {
+        switch (${discriminator}) {
+          case "a": return "a";
+          case "b": return "b";
+          default: return "default";
+        }
+      }`,
+      `export function ${name}(${parameter}) {
+        switch (${discriminator}) {
+          case "b": return customB(${parameter});
+          case "custom": return "custom";
+          case "a": return "a";
+          default: return customDefault(${parameter});
+        }
+      }`,
+      `export function ${name}(${parameter}) {
+        switch (${discriminator}) {
+          case "a": return "a";
+          case "incoming": return "incoming";
+          case "b": return "b";
+          default: return "default";
+        }
+      }`,
+      `export function ${name}(${parameter}) {
+        switch (${discriminator}) {
+          case "b": return customB(${parameter});
+          case "custom": return "custom";
+          case "a": return "a";
+          case "incoming": return "incoming";
+          default: return customDefault(${parameter});
+        }
+      }`,
+    );
+    const calls = [];
+    const dispatch = evaluate(text, {
+      customB: () => {
+        calls.push("b");
+        return "custom b";
+      },
+      customDefault: () => {
+        calls.push("default");
+        return "custom default";
+      },
+    })[name];
+    assert.equal(dispatch({ type: "a" }), "a");
+    assert.equal(dispatch({ type: "b" }), "custom b");
+    assert.equal(dispatch({ type: "custom" }), "custom");
+    assert.equal(dispatch({ type: "incoming" }), "incoming");
+    assert.equal(dispatch({ type: "unknown" }), "custom default");
+    assert.deepEqual(calls, ["b", "default"]);
+  });
+}
+
+test("effectful object member reordering remains a conflict", () => {
+  rejected(
+    "function create() { return { a: readA(), b: readB() }; }",
+    "function create() { return { b: readB(), custom: readCustom(), a: readA() }; }",
+    "function create() { return { a: readA(), added: readAdded(), b: readB() }; }",
+    /Ambiguous ordering/,
   );
 });
 

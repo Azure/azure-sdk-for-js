@@ -3,6 +3,7 @@
 
 import path from "node:path";
 import ts from "typescript";
+import { retainedModelBases } from "./model-retention.mjs";
 import { canonicalize } from "./ast-merge.mjs";
 import {
   edit,
@@ -700,6 +701,13 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
   const customPublic = publicEntries(custom, diagnostics);
   const nextPublic = publicEntries(incoming, diagnostics);
   if (diagnostics.length) return result;
+  const retentionBases = retainedModelBases(
+    before.declarations,
+    custom.declarations,
+    incoming.declarations,
+    diagnostics,
+  );
+  if (diagnostics.length) return result;
   const merged = new Map();
   for (const name of new Set([
     ...custom.declarations.keys(),
@@ -710,7 +718,12 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
     const ours = custom.declarations.get(name);
     const theirs = incoming.declarations.get(name);
     const context = { file: canonicalFile, declaration: name };
-    const baseText = policyText(name, base?.text ?? null, context, diagnostics);
+    const baseText = policyText(
+      name,
+      retentionBases.get(name) ?? base?.text ?? null,
+      context,
+      diagnostics,
+    );
     const customText = policyText(name, ours?.text ?? null, context, diagnostics);
     // Top-level removals are not implied by disappearance from an emitted module.
     const incomingText = policyText(

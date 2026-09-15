@@ -31,12 +31,19 @@ or unsafe change exits nonzero before formatting can disguise the failure.
 - Changes to uncustomized declarations and members follow the emitter.
   Independent generated and customized changes are combined. Incompatible
   concurrent changes require review.
+- Type unions and unique literal switch cases that terminate without fallthrough
+  merge by identity even when their display order changes. Conflicting bodies,
+  dynamic cases, and order-sensitive runtime lists still require resolution.
 - Operations are matched by HTTP method and route identity so moves and
   renames can carry their existing implementation customizations forward.
   Ambiguous matches are errors.
 - Models are inventoried across the entire emitted model tree. Moving a model
   into another generated module does not mean it was removed. The customized
   model module remains canonical, with re-export modules where necessary.
+- Retained legacy models keep their existing polymorphic union membership,
+  discriminator values, and terminal serializer/deserializer registrations.
+  Unrelated removed values and intentionally customized-away models are not
+  resurrected; ambiguous legacy dispatch still requires review.
 - Existing package-specific naming, error-model, streaming, JSON Schema,
   paging, preview-header, and poller behavior is retained. Protected
   hand-maintained implementations are not replaced wholesale.
