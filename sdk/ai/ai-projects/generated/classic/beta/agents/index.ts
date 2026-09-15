@@ -17,9 +17,9 @@ import {
   BetaAgentsCreateOptimizationJobOptionalParams,
 } from "../../../api/beta/agents/options.js";
 import {
-  OptimizationJob,
-  OptimizationJobResult,
-  OptimizationJobListItem,
+  AgentOptimizationJob,
+  AgentOptimizationJobResult,
+  AgentOptimizationJobListItem,
 } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -35,21 +35,21 @@ export interface BetaAgentsOperations {
   cancelOptimizationJob: (
     jobId: string,
     options?: BetaAgentsCancelOptimizationJobOptionalParams,
-  ) => Promise<OptimizationJob>;
+  ) => Promise<AgentOptimizationJob>;
   /** Lists optimization jobs with cursor pagination and optional status or agent name filters. */
   listOptimizationJobs: (
     options?: BetaAgentsListOptimizationJobsOptionalParams,
-  ) => PagedAsyncIterableIterator<OptimizationJobListItem>;
+  ) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
   /** Retrieves an optimization job by its identifier. */
   getOptimizationJob: (
     jobId: string,
     options?: BetaAgentsGetOptimizationJobOptionalParams,
-  ) => Promise<OptimizationJob>;
+  ) => Promise<AgentOptimizationJob>;
   /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. */
   createOptimizationJob: (
-    job: OptimizationJob,
+    job: AgentOptimizationJob,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
-  ) => PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult>;
+  ) => PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
 }
 
 function _getBetaAgents(context: AIProjectContext) {
@@ -67,7 +67,7 @@ function _getBetaAgents(context: AIProjectContext) {
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) =>
       getOptimizationJob(context, jobId, options),
     createOptimizationJob: (
-      job: OptimizationJob,
+      job: AgentOptimizationJob,
       options?: BetaAgentsCreateOptimizationJobOptionalParams,
     ) => createOptimizationJob(context, job, options),
   };

@@ -25,7 +25,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -77,7 +77,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       skuName: skuName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

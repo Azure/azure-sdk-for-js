@@ -144,7 +144,15 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+
+Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
+
+```ts snippet:agent-insight-monitors
+for await (const monitor of project.beta.agentInsightMonitors.list()) {
+  console.log(`${monitor.id}: ${monitor.agent_name}`);
+}
+```
 
 ## Examples
 
@@ -252,7 +260,7 @@ See the full sample code in [agentCodeInterpreter.ts](https://github.com/Azure/a
 
 **File Search**
 
-Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://platform.openai.com/docs/assistants/tools/file-search)
+Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://developers.openai.com/api/docs/guides/tools-file-search)
 
 ```ts snippet:agent-file-search
 const openAIClient = project.getOpenAIClient();
@@ -1478,7 +1486,18 @@ Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/t
 
 ## Regenerating from TypeSpec (maintainers)
 
-This package is regenerated from the TypeSpec spec in `Azure/azure-rest-api-specs`. The full workflow is encoded as six skills under [.github/skills/](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills) and can be driven end-to-end by a GitHub Copilot coding-agent task.
+This package is regenerated from the TypeSpec spec in `Azure/azure-rest-api-specs`. The six regeneration stages and their issue-assigned orchestrator are encoded as skills under [.github/skills/](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills) and can be driven end-to-end by a GitHub Copilot coding-agent task.
+
+The repository-level `ai-projects-regen` custom agent is only a GitHub discovery entry point. The issue-assigned workflow is owned by the package-local [`run-issue-regeneration` skill](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills/run-issue-regeneration).
+
+To start the workflow from an issue, include exactly one value for each required label in the issue description:
+
+```text
+TypeSpec commit: <40-character-lowercase-SHA>
+Base branch: <branch>
+```
+
+Assign the issue to Copilot, select the `ai-projects-regen` custom agent, and select the same starting branch named in the description. The agent stops before making changes when either value is missing or invalid.
 
 To dispatch a regen as a cloud agent task, run from this directory:
 
@@ -1497,7 +1516,7 @@ Prerequisites:
 - Membership in an organization with the GitHub Copilot coding agent enabled for the target repo.
 - Push access to the target repo (the cloud agent uses its own GitHub App identity to push and open the draft PR).
 
-Caveat: the dispatched prompt runs `pnpm install --filter @azure/ai-projects...` and `pnpm --filter @azure/ai-projects... build` inline at the start of the task. If the cloud agent's sandbox blocks those network calls, the task will fail at setup; in that case run the skills locally, or coordinate with the SDK build team to add a centrally-managed `copilot-setup-steps.yml` workflow at the repo root.
+Caveat: the dispatched prompt runs `pnpm install --filter "@azure/ai-projects..."` and `pnpm turbo build --filter="@azure/ai-projects..." --token 1` inline at the start of the task. If the cloud agent's sandbox blocks those network calls, the task will fail at setup; in that case run the skills locally, or coordinate with the SDK build team to add a centrally-managed `copilot-setup-steps.yml` workflow at the repo root.
 
 ## Contributing
 

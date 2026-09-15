@@ -36,7 +36,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkInterfaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -94,7 +94,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
       tapConfigurationName: tapConfigurationName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +131,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkInterfaceName, tapConfigurationName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +150,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
       tapConfigurationName: tapConfigurationName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +202,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<NetworkInterfaceTapConfiguration>,
     NetworkInterfaceTapConfiguration
@@ -223,7 +223,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
       tapConfigurationName: tapConfigurationName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

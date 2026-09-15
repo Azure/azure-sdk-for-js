@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { SystemData, TrackedResource } from "../models.js";
-import { systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import type { SystemData, TrackedResource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** The autoscale setting resource. */
 export interface AutoscaleSettingResource extends TrackedResource {
   /** the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. */
@@ -275,8 +275,10 @@ export function metricTriggerDeserializer(item: any): MetricTrigger {
 
 /** the metric statistic type. How the metrics from multiple instances are combined. */
 export type MetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
+
 /** time aggregation type. How the data that is collected should be combined over time. The default value is Average. */
 export type TimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
+
 /** the operator that is used to compare the metric data and the threshold. */
 export type ComparisonOperationType =
   "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
@@ -377,6 +379,7 @@ export function scaleActionDeserializer(item: any): ScaleAction {
 
 /** the scale direction. Whether the scaling action increases or decreases the number of instances. */
 export type ScaleDirection = "None" | "Increase" | "Decrease";
+
 /** the type of action that should occur when the scale rule fires. */
 export type ScaleType =
   "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";

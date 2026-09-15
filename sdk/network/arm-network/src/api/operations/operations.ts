@@ -19,7 +19,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Network/operations{?api%2Dversion}",
     {
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,6 +57,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }

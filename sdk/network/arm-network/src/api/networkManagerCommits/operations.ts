@@ -28,7 +28,7 @@ export function _postSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,6 +72,6 @@ export function post(
     getInitialResponse: () =>
       _postSend(context, resourceGroupName, networkManagerName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<NetworkManagerCommit>, NetworkManagerCommit>;
 }

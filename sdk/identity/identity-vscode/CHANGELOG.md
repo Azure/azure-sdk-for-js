@@ -1,14 +1,10 @@
 # Release History
 
-## 2.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.2.1 (2026-08-12)
 
 ### Other Changes
+
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39568](https://github.com/Azure/azure-sdk-for-js/pull/39568)
 
 ## 2.2.0 (2026-04-08)
 

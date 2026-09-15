@@ -1,6 +1,13 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/models/index.ts",
+    "../src/models/common/index.ts",
+    "../src/models/compute/index.ts",
+    "../src/models/computeDisk/index.ts",
+    "../src/models/computeGallery/index.ts",
+    "../src/models/computeSku/index.ts"
   ]
 }

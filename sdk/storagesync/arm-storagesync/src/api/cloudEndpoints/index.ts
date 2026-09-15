@@ -11,6 +11,7 @@ export {
   preBackup,
   listBySyncGroup,
   $delete,
+  update,
   create,
   get,
 } from "./operations.js";
@@ -24,6 +25,7 @@ export type {
   CloudEndpointsPreBackupOptionalParams,
   CloudEndpointsListBySyncGroupOptionalParams,
   CloudEndpointsDeleteOptionalParams,
+  CloudEndpointsUpdateOptionalParams,
   CloudEndpointsCreateOptionalParams,
   CloudEndpointsGetOptionalParams,
 } from "./options.js";

@@ -12,10 +12,11 @@ import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scope
 
 import type { AzureCliCredentialOptions } from "./azureCliCredentialOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
-import child_process from "child_process";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import { tracingClient } from "../util/tracing.js";
 import { checkSubscription } from "../util/subscriptionUtils.js";
+import { processUtils } from "../util/processUtils.js";
+import { isProcessError } from "@azure/core-process";
 
 const logger = credentialLogger("AzureCliCredential");
 
@@ -76,32 +77,23 @@ export const cliCredentialInternals = {
       tenantSection = ["--tenant", tenantId];
     }
     if (subscription) {
-      // Add quotes around the subscription to handle subscriptions with spaces
-      subscriptionSection = ["--subscription", `"${subscription}"`];
+      subscriptionSection = ["--subscription", subscription];
     }
-    return new Promise((resolve, reject) => {
-      try {
-        const args = [
-          "account",
-          "get-access-token",
-          "--output",
-          "json",
-          "--resource",
-          resource,
-          ...tenantSection,
-          ...subscriptionSection,
-        ];
-        const command = ["az", ...args].join(" ");
-        child_process.exec(
-          command,
-          { cwd: cliCredentialInternals.getSafeWorkingDir(), timeout },
-          (error, stdout, stderr) => {
-            resolve({ stdout: stdout, stderr: stderr, error });
-          },
-        );
-      } catch (err: any) {
-        reject(err);
-      }
+    const args = [
+      "account",
+      "get-access-token",
+      "--output",
+      "json",
+      "--resource",
+      resource,
+      ...tenantSection,
+      ...subscriptionSection,
+    ];
+    return processUtils.execFileWithResult("az", args, {
+      allowWindowsBatchFiles: true,
+      cwd: cliCredentialInternals.getSafeWorkingDir(),
+      encoding: "utf8",
+      timeout,
     });
   },
 };
@@ -197,7 +189,9 @@ export class AzureCliCredential implements TokenCredential {
         const specificScope = obj.stderr?.match("(.*)az login --scope(.*)");
         const isLoginError = obj.stderr?.match("(.*)az login(.*)") && !specificScope;
         const isNotInstallError =
-          obj.stderr?.match("az:(.*)not found") || obj.stderr?.startsWith("'az' is not recognized");
+          obj.stderr?.match("az:(.*)not found") ||
+          obj.stderr?.startsWith("'az' is not recognized") ||
+          (obj.error && isProcessError(obj.error) && obj.error.code === "ENOENT");
 
         if (isNotInstallError) {
           const error = new CredentialUnavailableError(azureCliPublicErrorMessages.notInstalled);

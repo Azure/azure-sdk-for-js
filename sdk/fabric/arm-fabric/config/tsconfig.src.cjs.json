@@ -1,6 +1,10 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/fabricCapacities/index.ts",
+    "../src/models/index.ts"
   ]
 }

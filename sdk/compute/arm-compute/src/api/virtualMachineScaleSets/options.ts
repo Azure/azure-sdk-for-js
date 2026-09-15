@@ -11,6 +11,11 @@ import type { OperationOptions } from "@azure-rest/core-client";
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListByLocationOptionalParams extends OperationOptions {}
 /** Optional parameters. */
+export interface VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+/** Optional parameters. */
 export interface VirtualMachineScaleSetsScaleOutOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

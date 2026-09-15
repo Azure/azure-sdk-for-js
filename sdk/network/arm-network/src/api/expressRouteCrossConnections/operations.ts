@@ -54,7 +54,7 @@ export function _listRoutesTableSend(
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,7 +107,7 @@ export function listRoutesTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitsRoutesTableListResult>,
     ExpressRouteCircuitsRoutesTableListResult
@@ -132,7 +132,7 @@ export function _listRoutesTableSummarySend(
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,7 +187,7 @@ export function listRoutesTableSummary(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ExpressRouteCrossConnectionsRoutesTableSummaryListResult>,
     ExpressRouteCrossConnectionsRoutesTableSummaryListResult
@@ -210,7 +210,7 @@ export function _listArpTableSend(
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +263,7 @@ export function listArpTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitsArpTableListResult>,
     ExpressRouteCircuitsArpTableListResult
@@ -278,7 +278,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections{?api%2Dversion,%24filter}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24filter": options?.filter,
     },
     {
@@ -317,7 +317,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -331,7 +331,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -370,7 +370,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -387,7 +387,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -448,7 +448,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -492,7 +492,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, crossConnectionName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ExpressRouteCrossConnection>, ExpressRouteCrossConnection>;
 }
 
@@ -508,7 +508,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

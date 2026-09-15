@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about an Interconnect Block.
  *
  * @summary retrieves information about an Interconnect Block.
- * x-ms-original-file: 2026-03-01/interconnectBlockExamples/InterconnectBlocks_Get.json
+ * x-ms-original-file: 2026-04-01/interconnectBlockExamples/InterconnectBlocks_Get.json
  */
 async function getAnInterconnectBlock() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAnInterconnectBlock() {
  * This sample demonstrates how to retrieves information about an Interconnect Block.
  *
  * @summary retrieves information about an Interconnect Block.
- * x-ms-original-file: 2026-03-01/interconnectBlockExamples/InterconnectBlocks_Get_InstanceView.json
+ * x-ms-original-file: 2026-04-01/interconnectBlockExamples/InterconnectBlocks_Get_InstanceView.json
  */
 async function getAnInterconnectBlockWithInstanceView() {
   const credential = new DefaultAzureCredential();

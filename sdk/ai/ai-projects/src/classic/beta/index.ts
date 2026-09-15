@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
+import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import type { BetaAgentsOperations } from "./agents/index.js";
 import { _getBetaAgentsOperations } from "./agents/index.js";
 import type { BetaDatasetsOperations } from "./datasets/index.js";
@@ -49,6 +51,8 @@ export interface BetaOperations {
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
   /** Operations for managing agents. */
   agents: BetaAgentsOperations;
+  /** Operations for managing Agent Insights monitors. */
+  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
@@ -75,5 +79,7 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     /** Operations for managing agents. */
     agents: _getBetaAgentsOperations(context),
+    /** Operations for managing Agent Insights monitors. */
+    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
   };
 }

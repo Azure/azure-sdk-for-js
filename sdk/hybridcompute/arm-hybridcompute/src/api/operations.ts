@@ -29,7 +29,7 @@ export function _setupExtensionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +58,6 @@ export async function _setupExtensionsDeserialize(
 
   return setupExtensionRequestDeserializer(result.body);
 }
-
 /** The operation to Setup Machine Extensions. */
 export function setupExtensions(
   context: Client,
@@ -73,7 +72,7 @@ export function setupExtensions(
     getInitialResponse: () =>
       _setupExtensionsSend(context, resourceGroupName, machineName, extensions, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-16-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<SetupExtensionRequest>, SetupExtensionRequest>;
 }
 
@@ -90,7 +89,7 @@ export function _upgradeExtensionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +115,6 @@ export async function _upgradeExtensionsDeserialize(result: PathUncheckedRespons
 
   return;
 }
-
 /** The operation to Upgrade Machine Extensions. */
 export function upgradeExtensions(
   context: Client,
@@ -137,6 +135,6 @@ export function upgradeExtensions(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-16-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }

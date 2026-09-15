@@ -8,7 +8,8 @@ import { describe, it, assert } from "vitest";
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
   // in the generated code.
-  it("user agent string matches the package version", async () => {
+  it("user agent string preserves a custom prefix and matches the package version", async () => {
+    const customUserAgentPrefix = "custom-user-agent/1.0.0";
     let userAgent: string | undefined;
     const client = new AppConfigurationClient(
       "https://myresource.azconfig.io",
@@ -21,6 +22,7 @@ describe("packagejson related tests", () => {
         },
       } as TokenCredential,
       {
+        userAgentOptions: { userAgentPrefix: customUserAgentPrefix },
         httpClient: {
           sendRequest: async (request) => {
             userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
@@ -36,6 +38,11 @@ describe("packagejson related tests", () => {
       // no-op, we don't care about the response, only the user-agent header
     }
     assert.exists(userAgent, "Expected a User-Agent header to be sent");
-    assert.include(userAgent!, `azsdk-js-app-configuration/${packageVersion}`);
+    assert.isTrue(
+      userAgent!.startsWith(
+        `${customUserAgentPrefix} azsdk-js-app-configuration/${packageVersion} `,
+      ),
+      "Expected the custom User-Agent prefix before the App Configuration SDK identifier",
+    );
   });
 });

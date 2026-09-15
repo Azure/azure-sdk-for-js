@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch a private access tags
  *
  * @summary patch a private access tags
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_Update.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_Update.json
  */
 async function updateAPrivateAccessResourceTags() {
   const credential = new DefaultAzureCredential();

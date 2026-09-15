@@ -38,7 +38,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceEndpointPolicyName: serviceEndpointPolicyName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +80,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, serviceEndpointPolicyName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -98,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serviceEndpointPolicyName: serviceEndpointPolicyName,
       serviceEndpointPolicyDefinitionName: serviceEndpointPolicyDefinitionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,7 +160,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serviceEndpointPolicyName: serviceEndpointPolicyName,
       serviceEndpointPolicyDefinitionName: serviceEndpointPolicyDefinitionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +212,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ServiceEndpointPolicyDefinition>,
     ServiceEndpointPolicyDefinition
@@ -233,7 +233,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serviceEndpointPolicyName: serviceEndpointPolicyName,
       serviceEndpointPolicyDefinitionName: serviceEndpointPolicyDefinitionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -64,7 +64,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Relay/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +116,7 @@ export function _createOrUpdateNetworkRuleSetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +175,7 @@ export function _getNetworkRuleSetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -221,7 +221,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Relay/namespaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -258,7 +258,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -272,7 +276,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -310,7 +314,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -326,7 +334,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -360,7 +368,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, namespaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -377,7 +385,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -429,7 +437,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -472,7 +480,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, namespaceName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<RelayNamespace>, RelayNamespace>;
 }
 
@@ -488,7 +496,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -539,7 +547,7 @@ export function _regenerateKeysSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -602,7 +610,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -657,7 +665,7 @@ export function _listAuthorizationRulesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -696,7 +704,11 @@ export function listAuthorizationRules(
     () => _listAuthorizationRulesSend(context, resourceGroupName, namespaceName, options),
     _listAuthorizationRulesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -714,7 +726,7 @@ export function _deleteAuthorizationRuleSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -771,7 +783,7 @@ export function _createOrUpdateAuthorizationRuleSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -834,7 +846,7 @@ export function _getAuthorizationRuleSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

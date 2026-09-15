@@ -31,7 +31,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
       ruleCollectionGroupName: ruleCollectionGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

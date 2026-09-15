@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type http from "node:http";
+import type { Attributes } from "@opentelemetry/api";
 import type { ResourceDetector } from "@opentelemetry/resources";
 import {
   envDetector,
@@ -18,6 +19,22 @@ import {
 } from "@opentelemetry/resource-detector-azure";
 
 /**
+ * Resource attribute holding the ARM resource ID of the AKS cluster, populated by the AKS
+ * resource detector. Declared locally because it is an unstable semantic convention that the
+ * detector package does not export.
+ * @internal
+ */
+const CLOUD_RESOURCE_ID_ATTRIBUTE = "cloud.resource_id";
+
+/**
+ * Matches the full ARM resource ID of an AKS managed cluster, for example
+ * `/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.ContainerService/managedClusters/{name}`.
+ * @internal
+ */
+const AKS_MANAGED_CLUSTER_RESOURCE_ID_REGEX =
+  /^\/subscriptions\/[^/\s]+\/resourceGroups\/[^/\s]+\/providers\/Microsoft\.ContainerService\/managedClusters\/[^/\s]+\/?$/i;
+
+/**
  * Tests a flag without 32-bit coercion.
  * @internal
  */
@@ -31,6 +48,14 @@ export function hasNumberFlag(mask: number, flag: number): boolean {
  */
 export function addNumberFlag(mask: number, flag: number): number {
   return flag > 0 && !hasNumberFlag(mask, flag) ? mask + flag : mask;
+}
+
+/**
+ * Clears a flag without 32-bit coercion.
+ * @internal
+ */
+export function removeNumberFlag(mask: number, flag: number): number {
+  return hasNumberFlag(mask, flag) ? mask - flag : mask;
 }
 
 export function ignoreOutgoingRequestHook(request: http.RequestOptions): boolean {
@@ -91,6 +116,34 @@ export const isFunctionApp = (): boolean => {
 export const isAks = (): boolean => {
   return process.env.AKS_ARM_NAMESPACE_ID || process.env.KUBERNETES_SERVICE_HOST ? true : false;
 };
+
+/**
+ * Determines whether the AKS resource detector was actually able to populate the AKS cluster
+ * attributes, based on the attributes that detector - and only that detector - produced.
+ *
+ * This is only the case when the customer is running in AKS *and* has correctly wired up access
+ * to the `aks-cluster-metadata` ConfigMap in the `kube-public` namespace (RBAC role and role
+ * binding, surfaced either through the `CLUSTER_RESOURCE_ID` environment variable or through the
+ * mounted ConfigMap file).
+ *
+ * The merged resource is deliberately not inspected, because `k8s.cluster.name` and
+ * `cloud.resource_id` can also be contributed by other sources - the App Service, Functions and
+ * VM detectors all set `cloud.resource_id`, and both attributes can be supplied by the customer
+ * through `OTEL_RESOURCE_ATTRIBUTES` or a custom resource - none of which indicate that the AKS
+ * resource detector is working. The cluster resource ID is additionally validated to be a full
+ * AKS managed cluster ARM ID, since the detector does not validate the value it reads.
+ * @internal
+ */
+export function isAksResourceDetectorPopulated(attributes: Attributes = {}): boolean {
+  if (!isAks()) {
+    return false;
+  }
+  const clusterResourceId = attributes[CLOUD_RESOURCE_ID_ATTRIBUTE];
+  return (
+    typeof clusterResourceId === "string" &&
+    AKS_MANAGED_CLUSTER_RESOURCE_ID_REGEX.test(clusterResourceId.trim())
+  );
+}
 
 /**
  * Get prefix resource provider, vm will considered as "unknown RP"

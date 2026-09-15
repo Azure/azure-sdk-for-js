@@ -35,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       groupName: groupName,
       resourceName: resourceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,7 +88,7 @@ export function _createSend(
       groupName: groupName,
       resourceName: resourceName,
       singletonResource: "swap",
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +128,7 @@ export function create(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, groupName, resourceName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -145,7 +145,7 @@ export function _getSend(
       groupName: groupName,
       resourceName: resourceName,
       singletonResource: "swap",
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

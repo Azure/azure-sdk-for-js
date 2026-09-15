@@ -1,5 +1,21 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/policyTokens": "./src/api/policyTokens/index.ts"
+  "./api/variableValues": "./src/api/variableValues/index.ts"
+  "./api/variables": "./src/api/variables/index.ts"
+  "./api/policySetDefinitionVersions": "./src/api/policySetDefinitionVersions/index.ts"
+  "./api/policySetDefinitions": "./src/api/policySetDefinitions/index.ts"
+  "./api/policyExemptions": "./src/api/policyExemptions/index.ts"
+  "./api/policyEnrollments": "./src/api/policyEnrollments/index.ts"
+  "./api/policyDefinitionVersions": "./src/api/policyDefinitionVersions/index.ts"
+  "./api/policyDefinitions": "./src/api/policyDefinitions/index.ts"
+  "./api/dataPolicyManifests": "./src/api/dataPolicyManifests/index.ts"
+  "./api/policyAssignments": "./src/api/policyAssignments/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

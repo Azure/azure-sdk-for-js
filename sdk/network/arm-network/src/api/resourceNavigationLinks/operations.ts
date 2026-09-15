@@ -24,7 +24,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

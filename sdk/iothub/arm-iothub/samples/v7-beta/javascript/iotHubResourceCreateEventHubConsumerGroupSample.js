@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to add a consumer group to an Event Hub-compatible endpoint in an IoT hub.
  *
  * @summary add a consumer group to an Event Hub-compatible endpoint in an IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_createconsumergroup.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_createconsumergroup.json
  */
 async function iotHubResourceCreateEventHubConsumerGroup() {
   const credential = new DefaultAzureCredential();

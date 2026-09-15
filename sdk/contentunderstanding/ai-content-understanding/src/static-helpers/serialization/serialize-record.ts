@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 // CUSTOMIZATION: EMITTER-FIX: Typed `item` parameter as `Record<string, any>` instead of `any`
-// to satisfy Azure SDK ESLint rules (`@typescript-eslint/explicit-module-boundary-types`).
-// The return type annotation and `propertiesToExclude` local variable are now generated upstream.
+// to satisfy the Azure SDK ESLint rule `@typescript-eslint/explicit-module-boundary-types`.
+// The generated emitter output still emits `item: any`, so this override must be re-applied
+// after every regen.
 export function serializeRecord(
   item: Record<string, any>,
   excludes?: string[],

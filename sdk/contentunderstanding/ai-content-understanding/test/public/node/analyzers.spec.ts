@@ -5,12 +5,13 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recordedClient.js";
 import { ContentUnderstandingClient } from "../../../src/index.js";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { EnvVarKeys } from "../../utils/constants.js";
+import { EnvVarKeys, TEST_COMPLETION_MODEL } from "../../utils/constants.js";
+import { forEachServiceVersion } from "../../utils/multiVersion.js";
 
-describe("ContentUnderstandingClient - Analyzers", () => {
+forEachServiceVersion("ContentUnderstandingClient - Analyzers", ({ apiVersion }) => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
   let testAnalyzerId: string;
@@ -29,7 +30,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
     client = new ContentUnderstandingClient(
       endpoint,
       key ? new AzureKeyCredential(key) : createTestCredential(),
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({ apiVersion }),
     );
     // Note: Analyzer IDs cannot contain hyphens
     // Use recorder.variable to ensure consistent IDs between record and playback modes
@@ -70,7 +71,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
         },
       },
       models: {
-        completion: "gpt-4.1",
+        completion: TEST_COMPLETION_MODEL,
       },
     };
 
@@ -79,6 +80,11 @@ describe("ContentUnderstandingClient - Analyzers", () => {
     const result = await poller.pollUntilDone();
     assert.ok(result, "Expected a result from the poller");
     assert.equal(result.analyzerId, testAnalyzerId);
+    assert.equal(
+      result.models?.completion,
+      TEST_COMPLETION_MODEL,
+      "Completion model should round-trip on the created analyzer",
+    );
   });
 
   it("should get an analyzer", async () => {
@@ -101,7 +107,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
         },
       },
       models: {
-        completion: "gpt-4.1",
+        completion: TEST_COMPLETION_MODEL,
       },
     };
 
@@ -140,7 +146,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
         },
       },
       models: {
-        completion: "gpt-4.1",
+        completion: TEST_COMPLETION_MODEL,
       },
     };
 
@@ -157,7 +163,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
       baseAnalyzerId: "prebuilt-document",
       description: "Updated test analyzer",
       models: {
-        completion: "gpt-4.1",
+        completion: TEST_COMPLETION_MODEL,
       },
     } as any);
 
@@ -184,7 +190,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
         },
       },
       models: {
-        completion: "gpt-4.1",
+        completion: TEST_COMPLETION_MODEL,
       },
     };
 
@@ -227,7 +233,7 @@ describe("ContentUnderstandingClient - Analyzers", () => {
         },
       },
       models: {
-        completion: "gpt-4.1",
+        completion: TEST_COMPLETION_MODEL,
       },
     };
 

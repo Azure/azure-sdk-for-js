@@ -43,7 +43,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkWatcherName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -101,7 +101,7 @@ export function _getStatusSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       packetCaptureName: packetCaptureName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,7 +143,7 @@ export function getStatus(
     getInitialResponse: () =>
       _getStatusSend(context, resourceGroupName, networkWatcherName, packetCaptureName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<PacketCaptureQueryStatusResult>, PacketCaptureQueryStatusResult>;
 }
 
@@ -161,7 +161,7 @@ export function _stopSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       packetCaptureName: packetCaptureName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +198,7 @@ export function stop(
     getInitialResponse: () =>
       _stopSend(context, resourceGroupName, networkWatcherName, packetCaptureName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -216,7 +216,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       packetCaptureName: packetCaptureName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,7 +253,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkWatcherName, packetCaptureName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -271,7 +271,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       packetCaptureName: packetCaptureName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -330,7 +330,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       packetCaptureName: packetCaptureName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -382,6 +382,6 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<PacketCaptureResult>, PacketCaptureResult>;
 }

@@ -18,7 +18,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts{?api%2Dversion,%24filter}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24filter": options?.filter,
     },
     {

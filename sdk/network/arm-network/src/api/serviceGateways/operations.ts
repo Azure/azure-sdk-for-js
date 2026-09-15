@@ -7,6 +7,7 @@ import type {
   TagsObject,
   ServiceGateway,
   ServiceGatewayUpdateAddressLocationsRequest,
+  ServiceGatewayActionOkResponseBody,
   ServiceGatewayUpdateServicesRequest,
   ServiceGatewayService,
   _GetServiceGatewayAddressLocationsResult,
@@ -18,6 +19,7 @@ import {
   serviceGatewaySerializer,
   serviceGatewayDeserializer,
   serviceGatewayUpdateAddressLocationsRequestSerializer,
+  serviceGatewayActionOkResponseBodyDeserializer,
   serviceGatewayUpdateServicesRequestSerializer,
   _getServiceGatewayAddressLocationsResultDeserializer,
   _getServiceGatewayServicesResultDeserializer,
@@ -56,7 +58,7 @@ export function _listServicesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceGatewayName: serviceGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +98,7 @@ export function listServices(
     () => _listServicesSend(context, resourceGroupName, serviceGatewayName, options),
     _listServicesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -112,7 +114,7 @@ export function _listAddressLocationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceGatewayName: serviceGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -152,7 +154,7 @@ export function listAddressLocations(
     () => _listAddressLocationsSend(context, resourceGroupName, serviceGatewayName, options),
     _listAddressLocationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -169,7 +171,7 @@ export function _updateServicesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceGatewayName: serviceGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,12 +180,15 @@ export function _updateServicesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: serviceGatewayUpdateServicesRequestSerializer(parameters),
   });
 }
 
-export async function _updateServicesDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+export async function _updateServicesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ServiceGatewayActionOkResponseBody> {
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -193,7 +198,7 @@ export async function _updateServicesDeserialize(result: PathUncheckedResponse):
     throw error;
   }
 
-  return;
+  return serviceGatewayActionOkResponseBodyDeserializer(result.body);
 }
 
 /**
@@ -203,21 +208,21 @@ export async function _updateServicesDeserialize(result: PathUncheckedResponse):
  * Full update replaces all existing services with the new list provided in the request.
  * Partial update modifies only the specified services.
  */
-export function updateServices(
+export async function updateServices(
   context: Client,
   resourceGroupName: string,
   serviceGatewayName: string,
   parameters: ServiceGatewayUpdateServicesRequest,
   options: ServiceGatewaysUpdateServicesOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _updateServicesDeserialize, ["202", "204", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateServicesSend(context, resourceGroupName, serviceGatewayName, parameters, options),
-    resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
-  }) as PollerLike<OperationState<void>, void>;
+): Promise<ServiceGatewayActionOkResponseBody> {
+  const result = await _updateServicesSend(
+    context,
+    resourceGroupName,
+    serviceGatewayName,
+    parameters,
+    options,
+  );
+  return _updateServicesDeserialize(result);
 }
 
 export function _updateAddressLocationsSend(
@@ -233,7 +238,7 @@ export function _updateAddressLocationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceGatewayName: serviceGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,14 +247,15 @@ export function _updateAddressLocationsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: serviceGatewayUpdateAddressLocationsRequestSerializer(parameters),
   });
 }
 
 export async function _updateAddressLocationsDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+): Promise<ServiceGatewayActionOkResponseBody> {
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -259,7 +265,7 @@ export async function _updateAddressLocationsDeserialize(
     throw error;
   }
 
-  return;
+  return serviceGatewayActionOkResponseBodyDeserializer(result.body);
 }
 
 /**
@@ -275,32 +281,21 @@ export async function _updateAddressLocationsDeserialize(
  *
  * For address-level partial updates, if no services are provided, the existing services will be considered for deletion.
  */
-export function updateAddressLocations(
+export async function updateAddressLocations(
   context: Client,
   resourceGroupName: string,
   serviceGatewayName: string,
   parameters: ServiceGatewayUpdateAddressLocationsRequest,
   options: ServiceGatewaysUpdateAddressLocationsOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
+): Promise<ServiceGatewayActionOkResponseBody> {
+  const result = await _updateAddressLocationsSend(
     context,
-    _updateAddressLocationsDeserialize,
-    ["202", "204", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _updateAddressLocationsSend(
-          context,
-          resourceGroupName,
-          serviceGatewayName,
-          parameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+    resourceGroupName,
+    serviceGatewayName,
+    parameters,
+    options,
+  );
+  return _updateAddressLocationsDeserialize(result);
 }
 
 export function _listAllSend(
@@ -311,7 +306,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/serviceGateways{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,7 +344,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -363,7 +358,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -402,7 +397,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -418,7 +413,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceGatewayName: serviceGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -453,7 +448,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, serviceGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -470,7 +465,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceGatewayName: serviceGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -531,7 +526,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceGatewayName: serviceGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -575,7 +570,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, serviceGatewayName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ServiceGateway>, ServiceGateway>;
 }
 
@@ -591,7 +586,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceGatewayName: serviceGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

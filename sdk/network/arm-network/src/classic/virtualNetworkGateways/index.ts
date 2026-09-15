@@ -20,6 +20,7 @@ import {
   setVpnclientIpsecParameters,
   getRoutesInformation,
   getResiliencyInformation,
+  getEffectiveRoutes,
   getAdvertisedRoutes,
   getLearnedRoutes,
   listRadiusSecrets,
@@ -55,6 +56,7 @@ import type {
   VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams,
   VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
   VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams,
   VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams,
   VirtualNetworkGatewaysGetLearnedRoutesOptionalParams,
   VirtualNetworkGatewaysListRadiusSecretsOptionalParams,
@@ -80,6 +82,7 @@ import type {
   BgpPeerStatusListResult,
   RadiusAuthServerListResult,
   GatewayRouteListResult,
+  GatewayEffectiveRouteListResult,
   GatewayResiliencyInformation,
   GatewayRouteSetsInformation,
   VpnClientIPsecParameters,
@@ -499,6 +502,29 @@ export interface VirtualNetworkGatewaysOperations {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
   ) => Promise<GatewayResiliencyInformation>;
+  /** This operation retrieves a list of effective routes for the virtual network gateway. */
+  getEffectiveRoutes: (
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams,
+  ) => PollerLike<OperationState<GatewayEffectiveRouteListResult>, GatewayEffectiveRouteListResult>;
+  /** @deprecated use getEffectiveRoutes instead */
+  beginGetEffectiveRoutes: (
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<GatewayEffectiveRouteListResult>,
+      GatewayEffectiveRouteListResult
+    >
+  >;
+  /** @deprecated use getEffectiveRoutes instead */
+  beginGetEffectiveRoutesAndWait: (
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams,
+  ) => Promise<GatewayEffectiveRouteListResult>;
   /** This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer. */
   getAdvertisedRoutes: (
     resourceGroupName: string,
@@ -1376,6 +1402,37 @@ function _getVirtualNetworkGateways(context: NetworkManagementContext) {
       options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
     ) => {
       return await getResiliencyInformation(
+        context,
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        options,
+      );
+    },
+    getEffectiveRoutes: (
+      resourceGroupName: string,
+      virtualNetworkGatewayName: string,
+      options?: VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams,
+    ) => getEffectiveRoutes(context, resourceGroupName, virtualNetworkGatewayName, options),
+    beginGetEffectiveRoutes: async (
+      resourceGroupName: string,
+      virtualNetworkGatewayName: string,
+      options?: VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams,
+    ) => {
+      const poller = getEffectiveRoutes(
+        context,
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginGetEffectiveRoutesAndWait: async (
+      resourceGroupName: string,
+      virtualNetworkGatewayName: string,
+      options?: VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams,
+    ) => {
+      return await getEffectiveRoutes(
         context,
         resourceGroupName,
         virtualNetworkGatewayName,

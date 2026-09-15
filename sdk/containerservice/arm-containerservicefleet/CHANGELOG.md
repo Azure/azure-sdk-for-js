@@ -1,5 +1,78 @@
 # Release History
 
+## 2.2.0-beta.1 (2026-09-03)
+Compared with version 2.1.0
+
+### Features Added
+  - Added operation group ClusterMeshProfilesOperations
+  - Added Interface AffinityPatch
+  - Added Interface CiliumProperties
+  - Added Interface ClusterAffinityPatch
+  - Added Interface ClusterMeshProfile
+  - Added Interface ClusterMeshProfileProperties
+  - Added Interface ClusterMeshProfilesApplyOptionalParams
+  - Added Interface ClusterMeshProfilesCreateOrUpdateOptionalParams
+  - Added Interface ClusterMeshProfilesDeleteOptionalParams
+  - Added Interface ClusterMeshProfilesGetOptionalParams
+  - Added Interface ClusterMeshProfilesListByFleetOptionalParams
+  - Added Interface ClusterMeshProfileStatus
+  - Added Interface ClusterResourcePlacementSpecPatch
+  - Added Interface ClusterSelectorPatch
+  - Added Interface ClusterSelectorTermPatch
+  - Added Interface ClusterUpdateStrategyReference
+  - Added Interface FleetManagedNamespacePropertiesPatch
+  - Added Interface LabelSelectorPatch
+  - Added Interface LabelSelectorRequirementPatch
+  - Added Interface MemberSelector
+  - Added Interface MeshMemberStatus
+  - Added Interface MeshProperties
+  - Added Interface PlacementPolicyPatch
+  - Added Interface PlacementProfilePatch
+  - Added Interface PropagationPolicyPatch
+  - Added Interface PropertySelectorPatch
+  - Added Interface PropertySelectorRequirementPatch
+  - Added Interface RolloutStrategy
+  - Added Interface ScheduledStartConfiguration
+  - Added Interface ScheduledStartProperties
+  - Interface AutoUpgradeProfileStatus has a new optional parameter lastTriggerMessage
+  - Interface ClusterResourcePlacementSpec has a new optional parameter rolloutStrategy
+  - Interface FleetManagedNamespacePatch has a new optional parameter properties
+  - Interface FleetMemberProperties has a new optional parameter meshProperties
+  - Interface GateConfiguration has a new optional parameter scheduledStartConfiguration
+  - Interface GateProperties has a new optional parameter scheduledStartProperties
+  - Interface UpdateGroup has a new optional parameter maxAllowedFailures
+  - Interface UpdateGroup has a new optional parameter memberSelector
+  - Interface UpdateGroupStatus has a new optional parameter failureCount
+  - Interface UpdateGroupStatus has a new optional parameter maxAllowedFailures
+  - Interface UpdateRunStatus has a new optional parameter failureCount
+  - Interface UpdateStage has a new optional parameter maxAllowedFailures
+  - Interface UpdateStage has a new optional parameter memberSelector
+  - Interface UpdateStageStatus has a new optional parameter failureCount
+  - Interface UpdateStageStatus has a new optional parameter maxAllowedFailures
+  - Added Type Alias ClusterMeshProfileProvisioningState
+  - Added Type Alias ClusterMeshState
+  - Added Type Alias DayOfWeek
+  - Added Type Alias MeshMemberState
+  - Added Type Alias RolloutStrategyType
+  - Added Enum KnownClusterMeshProfileProvisioningState
+  - Added Enum KnownClusterMeshState
+  - Added Enum KnownDayOfWeek
+  - Added Enum KnownMeshMemberState
+  - Added Enum KnownRolloutStrategyType
+  - Enum KnownGateType has a new value ScheduledStart
+  - Enum KnownUpgradeChannel has a new value SecurityPatch
+  - Enum KnownVersions has a new value V20220902Preview
+  - Enum KnownVersions has a new value V20230315Preview
+  - Enum KnownVersions has a new value V20230615Preview
+  - Enum KnownVersions has a new value V20230815Preview
+  - Enum KnownVersions has a new value V20240202Preview
+  - Enum KnownVersions has a new value V20240502Preview
+  - Enum KnownVersions has a new value V20250401Preview
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20260201Preview
+  - Enum KnownVersions has a new value V20260302Preview
+  - Enum KnownVersions has a new value V20260602Preview
+
 ## 2.1.0 (2026-08-03)
 
 ### Features Added

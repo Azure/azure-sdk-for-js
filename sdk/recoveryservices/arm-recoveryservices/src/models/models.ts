@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Operation Resource */
 export interface OperationResource {
   /** End time of the operation */
@@ -185,6 +185,8 @@ export interface VaultProperties {
   readonly bcdrSecurityLevel?: BcdrSecurityLevel;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
   resourceGuardOperationRequests?: string[];
+  /** Region of choice settings for this vault. */
+  regionOfChoiceSettings?: RegionOfChoiceSettings;
 }
 
 export function vaultPropertiesSerializer(item: VaultProperties): any {
@@ -219,6 +221,9 @@ export function vaultPropertiesSerializer(item: VaultProperties): any {
       : item["resourceGuardOperationRequests"].map((p: any) => {
           return p;
         }),
+    regionOfChoiceSettings: !item["regionOfChoiceSettings"]
+      ? item["regionOfChoiceSettings"]
+      : regionOfChoiceSettingsSerializer(item["regionOfChoiceSettings"]),
   };
 }
 
@@ -266,6 +271,9 @@ export function vaultPropertiesDeserializer(item: any): VaultProperties {
       : item["resourceGuardOperationRequests"].map((p: any) => {
           return p;
         }),
+    regionOfChoiceSettings: !item["regionOfChoiceSettings"]
+      ? item["regionOfChoiceSettings"]
+      : regionOfChoiceSettingsDeserializer(item["regionOfChoiceSettings"]),
   };
 }
 
@@ -1293,6 +1301,25 @@ export enum KnownBcdrSecurityLevel {
  * **Excellent**
  */
 export type BcdrSecurityLevel = string;
+
+/**
+ * Region of choice settings at vault level.
+ * This setting allows customers to configure backups for datasources from different region.
+ */
+export interface RegionOfChoiceSettings {
+  /** The status of region of choice settings - Enabled or Disabled. */
+  status?: State;
+}
+
+export function regionOfChoiceSettingsSerializer(item: RegionOfChoiceSettings): any {
+  return { status: item["status"] };
+}
+
+export function regionOfChoiceSettingsDeserializer(item: any): RegionOfChoiceSettings {
+  return {
+    status: item["status"],
+  };
+}
 
 /** Identity for the resource. */
 export interface IdentityData {
@@ -2592,4 +2619,6 @@ export enum KnownVersions {
   V20260201 = "2026-02-01",
   /** The 2026-05-01 API version. */
   V20260501 = "2026-05-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }

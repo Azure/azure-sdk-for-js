@@ -8,22 +8,26 @@
  * Microsoft Foundry resource to a target Microsoft Foundry resource (cross-resource copying).
  * This is useful for copying analyzers between different Azure resources or subscriptions.
  *
- * The grantCopyAuthorization and copyAnalyzer APIs allow you to copy an analyzer between
- * different Azure resources:
- * - Cross-resource copy: Copies an analyzer from one Azure resource to another
- * - Authorization required: You must grant copy authorization before copying
+ * ## About cross-resource copying
  *
- * When to use cross-resource copying:
- * - Copy between subscriptions: Move analyzers between different Azure subscriptions
- * - Multi-region deployment: Deploy the same analyzer to multiple regions
- * - Resource migration: Migrate analyzers from one resource to another
- * - Environment promotion: Promote analyzers from development to production across resources
+ * The `grantCopyAuthorization` and `copyAnalyzer` APIs allow you to copy an analyzer between different Azure resources:
  *
- * Note: For same-resource copying (copying within the same Microsoft Foundry resource), use the
- * copyAnalyzer sample instead.
+ * - **Cross-resource copy**: Copies an analyzer from one Azure resource to another
+ * - **Authorization required**: You must grant copy authorization before copying
  *
- * Note: If API keys are not provided, DefaultAzureCredential will be used.
- * Cross-resource copying with DefaultAzureCredential requires 'Cognitive Services User' role
+ * **When to use cross-resource copying**: Use cross-resource copying when you need to:
+ * - **Copy between subscriptions**: Move analyzers between different Azure subscriptions
+ * - **Multi-region deployment**: Deploy the same analyzer to multiple regions
+ * - **Resource migration**: Migrate analyzers from one resource to another
+ * - **Environment promotion**: Promote analyzers from development to production across resources
+ *
+ * **Note**: For same-resource copying (copying within the same Microsoft Foundry
+ * resource), use the
+ * [copyAnalyzer](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript/src/copyAnalyzer.ts)
+ * sample instead.
+ *
+ * Note: If API keys are not provided, `DefaultAzureCredential` will be used.
+ * Cross-resource copying with `DefaultAzureCredential` requires 'Cognitive Services User' role
  * on both source and target resources.
  *
  * @azsdk-weight 76
@@ -137,7 +141,7 @@ export async function main(): Promise<void> {
     description: "Analyzer for cross-resource copying demo",
     config,
     fieldSchema,
-    models: { completion: "gpt-4.1" },
+    models: { completion: "gpt-5.2" },
     tags: { source: "true" },
   } as unknown as ContentAnalyzer;
 

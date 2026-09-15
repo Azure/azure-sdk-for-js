@@ -3,12 +3,14 @@
 
 import { ContentUnderstandingContext as Client } from "./index.js";
 import {
-  AnalysisInput,
   analysisInputArraySerializer,
+  AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   contentAnalyzerAnalyzeOperationStatusDeserializer,
   AnalysisResult,
   analysisResultDeserializer,
+  ContentAnalyzerInlineResponse,
+  contentAnalyzerInlineResponseDeserializer,
   ContentAnalyzer,
   contentAnalyzerSerializer,
   contentAnalyzerDeserializer,
@@ -43,6 +45,8 @@ import {
   DeleteAnalyzerOptionalParams,
   CreateAnalyzerOptionalParams,
   CopyAnalyzerOptionalParams,
+  AnalyzeBinaryInlineOptionalParams,
+  AnalyzeInlineOptionalParams,
   AnalyzeBinaryOptionalParams,
   AnalyzeOptionalParams,
 } from "./options.js";
@@ -61,7 +65,7 @@ export function _updateDefaultsSend(
   const path = expandUrlTemplate(
     "/defaults{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +115,7 @@ export function _updateAnalyzerSend(
     "/analyzers/{analyzerId}{?api%2Dversion}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -162,7 +166,7 @@ export function _listAnalyzersSend(
   const path = expandUrlTemplate(
     "/analyzers{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,7 +207,11 @@ export function listAnalyzers(
     () => _listAnalyzersSend(context, options),
     _listAnalyzersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    },
   );
 }
 
@@ -217,7 +225,7 @@ export function _grantCopyAuthorizationSend(
     "/analyzers/{analyzerId}:grantCopyAuthorization{?api%2Dversion}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -277,7 +285,7 @@ export function _getResultFileSend(
     {
       operationId: operationId,
       path: path,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -323,7 +331,7 @@ export function _getResultSend(
     "/analyzerResults/{operationId}{?api%2Dversion}",
     {
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -369,7 +377,7 @@ export function _getOperationStatusSend(
     {
       analyzerId: analyzerId,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -412,7 +420,7 @@ export function _getDefaultsSend(
   const path = expandUrlTemplate(
     "/defaults{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -455,7 +463,7 @@ export function _getAnalyzerSend(
     "/analyzers/{analyzerId}{?api%2Dversion}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -505,7 +513,7 @@ export function _deleteResultSend(
     "/analyzerResults/{operationId}{?api%2Dversion}",
     {
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -542,7 +550,7 @@ export function _deleteAnalyzerSend(
     "/analyzers/{analyzerId}{?api%2Dversion}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -590,7 +598,7 @@ export function _createAnalyzerSend(
     "/analyzers/{analyzerId}{?api%2Dversion,allowReplace}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
       allowReplace: options?.allowReplace,
     },
     {
@@ -636,7 +644,7 @@ export function createAnalyzer(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createAnalyzerSend(context, analyzerId, resource, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
@@ -650,7 +658,7 @@ export function _copyAnalyzerSend(
     "/analyzers/{analyzerId}:copy{?api%2Dversion,allowReplace}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
       allowReplace: options?.allowReplace,
     },
     {
@@ -707,26 +715,27 @@ export function copyAnalyzer(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _copyAnalyzerSend(context, analyzerId, sourceAnalyzerId, options),
     resourceLocationConfig: "operation-location",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
-export function _analyzeBinarySend(
+export function _analyzeBinaryInlineSend(
   context: Client,
   analyzerId: string,
   input: Uint8Array,
   stringEncoding: string,
   contentType: string,
-  options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
+  options: AnalyzeBinaryInlineOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/analyzers/{analyzerId}:analyzeBinary{?api%2Dversion,stringEncoding,processingLocation,range}",
+    "/analyzers/{analyzerId}:analyzeBinaryInline{?api%2Dversion,stringEncoding,processingLocation,allowInputTruncation,range}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
-      stringEncoding: options?.stringEncoding,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      stringEncoding: stringEncoding,
       processingLocation: options?.processingLocation,
-      range: options?.contentRange,
+      allowInputTruncation: options?.allowInputTruncation,
+      range: options?.range,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +747,126 @@ export function _analyzeBinarySend(
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: binaryInput,
+      body: input,
+    });
+}
+
+export async function _analyzeBinaryInlineDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ContentAnalyzerInlineResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return contentAnalyzerInlineResponseDeserializer(result.body);
+}
+
+/** Extract content and fields from binary input. The analysis result is embedded inline in the JSON response body (HTTP 200) without creating a long-running operation — no polling or separate result retrieval is needed. Intended for lightweight analysis scenarios (e.g., document analyzers without field extraction, small page counts). The result is not persisted on the server. See service documentation for current constraints. */
+export async function analyzeBinaryInline(
+  context: Client,
+  analyzerId: string,
+  input: Uint8Array,
+  stringEncoding: string,
+  contentType: string,
+  options: AnalyzeBinaryInlineOptionalParams = { requestOptions: {} },
+): Promise<ContentAnalyzerInlineResponse> {
+  const result = await _analyzeBinaryInlineSend(
+    context,
+    analyzerId,
+    input,
+    stringEncoding,
+    contentType,
+    options,
+  );
+  return _analyzeBinaryInlineDeserialize(result);
+}
+
+export function _analyzeInlineSend(
+  context: Client,
+  analyzerId: string,
+  inputs: AnalysisInput[],
+  stringEncoding: string,
+  options: AnalyzeInlineOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/analyzers/{analyzerId}:analyzeInline{?api%2Dversion,stringEncoding,processingLocation,allowInputTruncation}",
+    {
+      analyzerId: analyzerId,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      stringEncoding: stringEncoding,
+      processingLocation: options?.processingLocation,
+      allowInputTruncation: options?.allowInputTruncation,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        inputs: analysisInputArraySerializer(inputs),
+        modelDeployments: options?.modelDeployments,
+      },
+    });
+}
+
+export async function _analyzeInlineDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ContentAnalyzerInlineResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return contentAnalyzerInlineResponseDeserializer(result.body);
+}
+
+/** Extract content and fields from input. The analysis result is embedded inline in the JSON response body (HTTP 200) without creating a long-running operation — no polling or separate result retrieval is needed. Intended for lightweight analysis scenarios (e.g., document analyzers without field extraction, small page counts). The result is not persisted on the server. See service documentation for current constraints. */
+export async function analyzeInline(
+  context: Client,
+  analyzerId: string,
+  inputs: AnalysisInput[],
+  stringEncoding: string,
+  options: AnalyzeInlineOptionalParams = { requestOptions: {} },
+): Promise<ContentAnalyzerInlineResponse> {
+  const result = await _analyzeInlineSend(context, analyzerId, inputs, stringEncoding, options);
+  return _analyzeInlineDeserialize(result);
+}
+
+export function _analyzeBinarySend(
+  context: Client,
+  analyzerId: string,
+  input: Uint8Array,
+  stringEncoding: string,
+  contentType: string,
+  options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/analyzers/{analyzerId}:analyzeBinary{?api%2Dversion,stringEncoding,processingLocation,allowInputTruncation,range}",
+    {
+      analyzerId: analyzerId,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      stringEncoding: stringEncoding,
+      processingLocation: options?.processingLocation,
+      allowInputTruncation: options?.allowInputTruncation,
+      range: options?.range,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: contentType,
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: input,
     });
 }
 
@@ -775,7 +903,7 @@ export function analyzeBinary(
     getInitialResponse: () =>
       _analyzeBinarySend(context, analyzerId, input, stringEncoding, contentType, options),
     resourceLocationConfig: "operation-location",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<AnalysisResult>, AnalysisResult>;
 }
 
@@ -787,12 +915,13 @@ export function _analyzeSend(
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/analyzers/{analyzerId}:analyze{?api%2Dversion,stringEncoding,processingLocation}",
+    "/analyzers/{analyzerId}:analyze{?api%2Dversion,stringEncoding,processingLocation,allowInputTruncation}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
-      stringEncoding: options?.stringEncoding,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      stringEncoding: stringEncoding,
       processingLocation: options?.processingLocation,
+      allowInputTruncation: options?.allowInputTruncation,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -840,6 +969,6 @@ export function analyze(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _analyzeSend(context, analyzerId, inputs, stringEncoding, options),
     resourceLocationConfig: "operation-location",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<AnalysisResult>, AnalysisResult>;
 }

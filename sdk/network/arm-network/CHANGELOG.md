@@ -1,5 +1,195 @@
 # Release History
 
+## 38.0.0 (2026-08-14)
+
+### Features Added
+  - Added operation group AddressPrefixSetsOperations
+  - Added operation group ExpressRouteLagsOperations
+  - Added operation group FirewallPolicyKubeSelectorGroupsOperations
+  - Added operation group FirstPartyServiceTagsOperations
+  - Added operation NetworkVirtualAppliancesOperations.abortMigration
+  - Added operation NetworkVirtualAppliancesOperations.beginAbortMigration
+  - Added operation NetworkVirtualAppliancesOperations.beginAbortMigrationAndWait
+  - Added operation NetworkVirtualAppliancesOperations.beginCommitMigration
+  - Added operation NetworkVirtualAppliancesOperations.beginCommitMigrationAndWait
+  - Added operation NetworkVirtualAppliancesOperations.beginExecuteMigration
+  - Added operation NetworkVirtualAppliancesOperations.beginExecuteMigrationAndWait
+  - Added operation NetworkVirtualAppliancesOperations.beginPrepareMigration
+  - Added operation NetworkVirtualAppliancesOperations.beginPrepareMigrationAndWait
+  - Added operation NetworkVirtualAppliancesOperations.commitMigration
+  - Added operation NetworkVirtualAppliancesOperations.executeMigration
+  - Added operation NetworkVirtualAppliancesOperations.prepareMigration
+  - Added operation NetworkWatchersOperations.beginConnectionAnalyzersCreate
+  - Added operation NetworkWatchersOperations.beginConnectionAnalyzersCreateAndWait
+  - Added operation NetworkWatchersOperations.beginConnectionAnalyzersDelete
+  - Added operation NetworkWatchersOperations.beginConnectionAnalyzersDeleteAndWait
+  - Added operation NetworkWatchersOperations.beginConnectionAnalyzersQuery
+  - Added operation NetworkWatchersOperations.beginConnectionAnalyzersQueryAndWait
+  - Added operation NetworkWatchersOperations.connectionAnalyzersCreate
+  - Added operation NetworkWatchersOperations.connectionAnalyzersDelete
+  - Added operation NetworkWatchersOperations.connectionAnalyzersGet
+  - Added operation NetworkWatchersOperations.connectionAnalyzersList
+  - Added operation NetworkWatchersOperations.connectionAnalyzersQuery
+  - Added operation NetworkWatchersOperations.connectionAnalyzersUpdateTags
+  - Added operation VirtualNetworkGatewaysOperations.beginGetEffectiveRoutes
+  - Added operation VirtualNetworkGatewaysOperations.beginGetEffectiveRoutesAndWait
+  - Added operation VirtualNetworkGatewaysOperations.getEffectiveRoutes
+  - Added operation VirtualNetworksOperations.beginMoveIpConfigurations
+  - Added operation VirtualNetworksOperations.beginMoveIpConfigurationsAndWait
+  - Added operation VirtualNetworksOperations.moveIpConfigurations
+  - Added Interface AddressPrefixSet
+  - Added Interface AddressPrefixSetPropertiesFormat
+  - Added Interface AddressPrefixSetsCreateOrUpdateOptionalParams
+  - Added Interface AddressPrefixSetsDeleteOptionalParams
+  - Added Interface AddressPrefixSetsGetOptionalParams
+  - Added Interface AddressPrefixSetsListOptionalParams
+  - Added Interface ConnectionAnalyzer
+  - Added Interface ConnectionAnalyzerEndpoint
+  - Added Interface ConnectionAnalyzerProperties
+  - Added Interface ConnectionAnalyzerQueryStatusResult
+  - Added Interface ConnectivityCheckSettings
+  - Added Interface DiagnosticOperationResult
+  - Added Interface DiagnosticOperationsSettings
+  - Added Interface ExpressRouteDiagnosticsSettings
+  - Added Interface ExpressRouteLag
+  - Added Interface ExpressRouteLagLink
+  - Added Interface ExpressRouteLagLinkPropertiesFormat
+  - Added Interface ExpressRouteLagMember
+  - Added Interface ExpressRouteLagMemberPropertiesFormat
+  - Added Interface ExpressRouteLagPropertiesFormat
+  - Added Interface ExpressRouteLagsCreateOrUpdateOptionalParams
+  - Added Interface ExpressRouteLagsDeleteOptionalParams
+  - Added Interface ExpressRouteLagsGenerateLoaOptionalParams
+  - Added Interface ExpressRouteLagsGetOptionalParams
+  - Added Interface ExpressRouteLagsLinksGetOptionalParams
+  - Added Interface ExpressRouteLagsLinksListOptionalParams
+  - Added Interface ExpressRouteLagsListByResourceGroupOptionalParams
+  - Added Interface ExpressRouteLagsListOptionalParams
+  - Added Interface ExpressRouteLagsMembersGetOptionalParams
+  - Added Interface ExpressRouteLagsMembersListOptionalParams
+  - Added Interface ExpressRouteLagsUpdateOptionalParams
+  - Added Interface ExpressRouteLagUpdateTagsOrIdentityRequest
+  - Added Interface FirewallPolicyKubeSelectorGroup
+  - Added Interface FirewallPolicyKubeSelectorGroupProperties
+  - Added Interface FirewallPolicyKubeSelectorGroupsCreateOrUpdateOptionalParams
+  - Added Interface FirewallPolicyKubeSelectorGroupsDeleteOptionalParams
+  - Added Interface FirewallPolicyKubeSelectorGroupsGetOptionalParams
+  - Added Interface FirewallPolicyKubeSelectorGroupsListOptionalParams
+  - Added Interface FirstPartyServiceTag
+  - Added Interface FirstPartyServiceTagPropertiesFormat
+  - Added Interface FirstPartyServiceTagsCreateOrUpdateOptionalParams
+  - Added Interface FirstPartyServiceTagsDeleteOptionalParams
+  - Added Interface FirstPartyServiceTagsGetOptionalParams
+  - Added Interface FirstPartyServiceTagsListAllOptionalParams
+  - Added Interface FirstPartyServiceTagsListOptionalParams
+  - Added Interface FirstPartyServiceTagsUpdateTagsOptionalParams
+  - Added Interface GatewayEffectiveRoute
+  - Added Interface GatewayEffectiveRouteListResult
+  - Added Interface GenerateExpressRouteLagsLOARequest
+  - Added Interface GenerateExpressRouteLagsLOAResult
+  - Added Interface KubeLabelSelector
+  - Added Interface LabelSelectorExpression
+  - Added Interface MoveIpConfigurationItem
+  - Added Interface MoveIpConfigurationResourceReference
+  - Added Interface MoveIpConfigurationsRequest
+  - Added Interface NetworkVirtualApplianceCommitMigrationProperties
+  - Added Interface NetworkVirtualApplianceCommitMigrationRequest
+  - Added Interface NetworkVirtualApplianceExecuteMigrationProperties
+  - Added Interface NetworkVirtualApplianceExecuteMigrationRequest
+  - Added Interface NetworkVirtualApplianceMigrationStatus
+  - Added Interface NetworkVirtualAppliancePrepareMigrationProperties
+  - Added Interface NetworkVirtualAppliancePrepareMigrationRequest
+  - Added Interface NetworkVirtualAppliancesAbortMigrationOptionalParams
+  - Added Interface NetworkVirtualAppliancesCommitMigrationOptionalParams
+  - Added Interface NetworkVirtualAppliancesExecuteMigrationOptionalParams
+  - Added Interface NetworkVirtualAppliancesPrepareMigrationOptionalParams
+  - Added Interface NetworkWatchersConnectionAnalyzersCreateOptionalParams
+  - Added Interface NetworkWatchersConnectionAnalyzersDeleteOptionalParams
+  - Added Interface NetworkWatchersConnectionAnalyzersGetOptionalParams
+  - Added Interface NetworkWatchersConnectionAnalyzersListOptionalParams
+  - Added Interface NetworkWatchersConnectionAnalyzersQueryOptionalParams
+  - Added Interface NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams
+  - Added Interface OutputSettings
+  - Added Interface ProtocolSettings
+  - Added Interface ServiceGatewayActionOkResponseBody
+  - Added Interface StorageAccountSettings
+  - Added Interface VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams
+  - Added Interface VirtualNetworksMoveIpConfigurationsOptionalParams
+  - Interface ApplicationGatewayGlobalConfiguration has a new optional parameter disableDefaultServerHeaderInResponse
+  - Interface ApplicationRule has a new optional parameter sourceKubeSelectorGroups
+  - Interface ExpressRouteCircuit has a new optional parameter activationKey
+  - Interface ExpressRouteCircuit has a new optional parameter partnerAccountId
+  - Interface ExpressRouteCircuit has a new optional parameter resiliencyLevel
+  - Interface ExpressRouteCircuitPropertiesFormat has a new optional parameter activationKey
+  - Interface ExpressRouteCircuitPropertiesFormat has a new optional parameter partnerAccountId
+  - Interface ExpressRouteCircuitPropertiesFormat has a new optional parameter resiliencyLevel
+  - Interface FirewallPoliciesCreateOrUpdateOptionalParams has a new optional parameter afcManagedSync
+  - Interface FirewallPolicy has a new optional parameter afcManaged
+  - Interface FirewallPolicy has a new optional parameter kubeSelectorGroups
+  - Interface FirewallPolicyPropertiesFormat has a new optional parameter afcManaged
+  - Interface FirewallPolicyPropertiesFormat has a new optional parameter kubeSelectorGroups
+  - Interface FrontendIPConfiguration has a new optional parameter enableConnectionTracking
+  - Interface FrontendIPConfigurationPropertiesFormat has a new optional parameter enableConnectionTracking
+  - Interface HubVirtualNetworkConnection has a new optional parameter enableOnlyIpv6Peering
+  - Interface HubVirtualNetworkConnectionProperties has a new optional parameter enableOnlyIpv6Peering
+  - Interface IpTag has a new optional parameter firstPartyServiceTagId
+  - Interface LoadBalancer has a new optional parameter mode
+  - Interface LoadBalancerPropertiesFormat has a new optional parameter mode
+  - Interface NetworkRule has a new optional parameter sourceKubeSelectorGroups
+  - Interface NetworkVirtualAppliance has a new optional parameter addressFamily
+  - Interface NetworkVirtualAppliance has a new optional parameter addressPrefixV6
+  - Interface NetworkVirtualAppliance has a new optional parameter migrationStatus
+  - Interface NetworkVirtualAppliance has a new optional parameter privateIpAddressV6
+  - Interface NetworkVirtualAppliancePropertiesFormat has a new optional parameter addressFamily
+  - Interface NetworkVirtualAppliancePropertiesFormat has a new optional parameter addressPrefixV6
+  - Interface NetworkVirtualAppliancePropertiesFormat has a new optional parameter migrationStatus
+  - Interface NetworkVirtualAppliancePropertiesFormat has a new optional parameter privateIpAddressV6
+  - Interface PublicIPAddress has a new optional parameter upgradedToV2
+  - Interface PublicIPAddressPropertiesFormat has a new optional parameter upgradedToV2
+  - Interface PublicIPPrefix has a new optional parameter upgradedToV2
+  - Interface PublicIPPrefixPropertiesFormat has a new optional parameter upgradedToV2
+  - Interface VirtualApplianceNicProperties has a new optional parameter privateIpAddressV6
+  - Interface VirtualApplianceNicProperties has a new optional parameter publicIpAddressV6
+  - Interface VirtualHub has a new optional parameter addressPrefixV6
+  - Interface VirtualHub has a new optional parameter virtualRouterIpsV6
+  - Interface VirtualHubProperties has a new optional parameter addressPrefixV6
+  - Interface VirtualHubProperties has a new optional parameter virtualRouterIpsV6
+  - Added Type Alias ConnectionAnalyzerEndpointType
+  - Added Type Alias ConnectionAnalyzerStatus
+  - Added Type Alias DiagnosticOperation
+  - Added Type Alias EnableOnlyIpv6PeeringState
+  - Added Type Alias ExpressRouteLagBillingType
+  - Added Type Alias ExpressRouteLagEncapsulation
+  - Added Type Alias ExpressRouteLagLacpTimer
+  - Added Type Alias GatewayEffectiveRouteNextHopType
+  - Added Type Alias LabelSelectorOperator
+  - Added Type Alias LoadBalancerMode
+  - Added Type Alias MigrationType
+  - Added Type Alias ResiliencyLevel
+  - Added Enum KnownConnectionAnalyzerEndpointType
+  - Added Enum KnownConnectionAnalyzerStatus
+  - Added Enum KnownDiagnosticOperation
+  - Added Enum KnownEnableOnlyIpv6PeeringState
+  - Added Enum KnownExpressRouteLagBillingType
+  - Added Enum KnownExpressRouteLagEncapsulation
+  - Added Enum KnownExpressRouteLagLacpTimer
+  - Added Enum KnownGatewayEffectiveRouteNextHopType
+  - Added Enum KnownLabelSelectorOperator
+  - Added Enum KnownLoadBalancerMode
+  - Added Enum KnownMigrationType
+  - Added Enum KnownResiliencyLevel
+  - Enum KnownExpressRouteCircuitSkuTier has a new value MultiCloud
+  - Enum KnownLoadBalancerSkuName has a new value Service
+  - Enum KnownServiceProviderProvisioningState has a new value DeProvisioned
+
+### Breaking Changes
+  - Removed operation ServiceGatewaysOperations.beginUpdateAddressLocations
+  - Removed operation ServiceGatewaysOperations.beginUpdateAddressLocationsAndWait
+  - Removed operation ServiceGatewaysOperations.beginUpdateServices
+  - Removed operation ServiceGatewaysOperations.beginUpdateServicesAndWait
+  - Interface ServiceGatewaysUpdateAddressLocationsOptionalParams no longer has parameter updateIntervalInMs
+  - Interface ServiceGatewaysUpdateServicesOptionalParams no longer has parameter updateIntervalInMs
+
 ## 37.0.0 (2026-07-03)
 
 ### Features Added

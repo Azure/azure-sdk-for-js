@@ -36,11 +36,6 @@ export interface BetaEvaluationTaxonomiesOperations {
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Removes the specified evaluation taxonomy from the project. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     name: string,
     foundryFeatures: "Evaluations=V1Preview",

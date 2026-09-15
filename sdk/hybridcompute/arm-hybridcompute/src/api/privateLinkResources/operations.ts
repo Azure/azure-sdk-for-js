@@ -30,7 +30,7 @@ export function _listByPrivateLinkScopeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _listByPrivateLinkScopeDeserialize(
 
   return _privateLinkResourceListResultDeserializer(result.body);
 }
-
 /** Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope. */
 export function listByPrivateLinkScope(
   context: Client,
@@ -70,11 +69,7 @@ export function listByPrivateLinkScope(
     () => _listByPrivateLinkScopeSend(context, resourceGroupName, scopeName, options),
     _listByPrivateLinkScopeDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-16-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -92,7 +87,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +112,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 
   return privateLinkResourceDeserializer(result.body);
 }
-
 /** Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope. */
 export async function get(
   context: Client,

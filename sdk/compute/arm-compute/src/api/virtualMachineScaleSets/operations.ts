@@ -18,6 +18,7 @@ import type {
   _VirtualMachineScaleSetListSkusResult,
   VirtualMachineScaleSetSku,
   VMScaleSetScaleOutInput,
+  MigrateVMAvailabilityZoneInput,
 } from "../../models/compute/models.js";
 import {
   virtualMachineScaleSetSerializer,
@@ -35,6 +36,7 @@ import {
   orchestrationServiceStateInputSerializer,
   _virtualMachineScaleSetListSkusResultDeserializer,
   vmScaleSetScaleOutInputSerializer,
+  migrateVMAvailabilityZoneInputSerializer,
 } from "../../models/compute/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -42,6 +44,7 @@ import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   VirtualMachineScaleSetsListByLocationOptionalParams,
+  VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
   VirtualMachineScaleSetsScaleOutOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
   VirtualMachineScaleSetsListSkusOptionalParams,
@@ -82,7 +85,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,8 +123,72 @@ export function listByLocation(
     () => _listByLocationSend(context, location, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
+}
+
+export function _migrateVMAvailabilityZoneSend(
+  context: Client,
+  resourceGroupName: string,
+  vmScaleSetName: string,
+  body: MigrateVMAvailabilityZoneInput,
+  options: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/migrateVMAvailabilityZone{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      vmScaleSetName: vmScaleSetName,
+      "api%2Dversion": "2026-04-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: migrateVMAvailabilityZoneInputSerializer(body),
+  });
+}
+
+export async function _migrateVMAvailabilityZoneDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+/** Migrates one or more virtual machines in a VM scale set to an availability zone. */
+export function migrateVMAvailabilityZone(
+  context: Client,
+  resourceGroupName: string,
+  vmScaleSetName: string,
+  body: MigrateVMAvailabilityZoneInput,
+  options: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _migrateVMAvailabilityZoneDeserialize,
+    ["202", "204", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _migrateVMAvailabilityZoneSend(context, resourceGroupName, vmScaleSetName, body, options),
+      resourceLocationConfig: "location",
+      apiVersion: "2026-04-01",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _scaleOutSend(
@@ -137,7 +204,7 @@ export function _scaleOutSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,7 +244,7 @@ export function scaleOut(
     getInitialResponse: () =>
       _scaleOutSend(context, resourceGroupName, vmScaleSetName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -193,7 +260,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,7 +300,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -249,7 +316,7 @@ export function _listSkusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,7 +355,7 @@ export function listSkus(
     () => _listSkusSend(context, resourceGroupName, vmScaleSetName, options),
     _listSkusDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -307,7 +374,7 @@ export function _setOrchestrationServiceStateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -361,7 +428,7 @@ export function setOrchestrationServiceState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-04-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -378,7 +445,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -418,7 +485,7 @@ export function restart(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _restartSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -434,7 +501,7 @@ export function _reimageAllSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -474,7 +541,7 @@ export function reimageAll(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reimageAllSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -490,7 +557,7 @@ export function _reimageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -530,7 +597,7 @@ export function reimage(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reimageSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -546,7 +613,7 @@ export function _redeploySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -586,7 +653,7 @@ export function redeploy(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _redeploySend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -602,7 +669,7 @@ export function _reapplySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -636,7 +703,7 @@ export function reapply(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reapplySend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -652,7 +719,7 @@ export function _powerOffSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       skipShutdown: options?.skipShutdown,
     },
     {
@@ -693,7 +760,7 @@ export function powerOff(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _powerOffSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -709,7 +776,7 @@ export function _performMaintenanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -750,7 +817,7 @@ export function performMaintenance(
     getInitialResponse: () =>
       _performMaintenanceSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -766,7 +833,7 @@ export function _listOSUpgradeHistorySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -805,7 +872,7 @@ export function listOSUpgradeHistory(
     () => _listOSUpgradeHistorySend(context, resourceGroupName, vmScaleSetName, options),
     _listOSUpgradeHistoryDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -822,7 +889,7 @@ export function _updateInstancesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -862,7 +929,7 @@ export function updateInstances(
     getInitialResponse: () =>
       _updateInstancesSend(context, resourceGroupName, vmScaleSetName, vmInstanceIDs, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -878,7 +945,7 @@ export function _getInstanceViewSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -931,7 +998,7 @@ export function _forceRecoveryServiceFabricPlatformUpdateDomainWalkSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       platformUpdateDomain: platformUpdateDomain,
       zone: options?.zone,
       placementGroupId: options?.placementGroupId,
@@ -994,7 +1061,7 @@ export function _deleteInstancesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -1035,7 +1102,7 @@ export function deleteInstances(
     getInitialResponse: () =>
       _deleteInstancesSend(context, resourceGroupName, vmScaleSetName, vmInstanceIDs, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1051,7 +1118,7 @@ export function _deallocateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       hibernate: options?.hibernate,
     },
     {
@@ -1092,7 +1159,7 @@ export function deallocate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deallocateSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1111,7 +1178,7 @@ export function _convertToSinglePlacementGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1171,7 +1238,7 @@ export function _approveRollingUpgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1214,7 +1281,7 @@ export function approveRollingUpgrade(
     getInitialResponse: () =>
       _approveRollingUpgradeSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1226,7 +1293,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachineScaleSets{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1263,7 +1330,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -1277,7 +1344,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1315,7 +1382,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -1331,7 +1398,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -1366,7 +1433,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1383,7 +1450,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1431,7 +1498,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, vmScaleSetName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineScaleSet>, VirtualMachineScaleSet>;
 }
 
@@ -1448,7 +1515,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1496,7 +1563,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, vmScaleSetName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineScaleSet>, VirtualMachineScaleSet>;
 }
 
@@ -1512,7 +1579,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {

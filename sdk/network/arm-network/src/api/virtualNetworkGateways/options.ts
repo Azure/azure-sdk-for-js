@@ -110,6 +110,12 @@ export interface VirtualNetworkGatewaysGetResiliencyInformationOptionalParams ex
 }
 
 /** Optional parameters. */
+export interface VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

@@ -36,7 +36,7 @@ export function _patchSend(
       baseResourceType: baseResourceType,
       baseResourceName: baseResourceName,
       settingsResourceName: settingsResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,6 @@ export async function _patchDeserialize(result: PathUncheckedResponse): Promise<
 
   return settingsDeserializer(result.body);
 }
-
 /** Update the base Settings of the target resource. */
 export async function patch(
   context: Client,
@@ -107,7 +106,7 @@ export function _updateSend(
       baseResourceType: baseResourceType,
       baseResourceName: baseResourceName,
       settingsResourceName: settingsResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +133,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return settingsDeserializer(result.body);
 }
-
 /** Updates the base Settings of the target resource. */
 export async function update(
   context: Client,
@@ -177,7 +175,7 @@ export function _getSend(
       baseResourceType: baseResourceType,
       baseResourceName: baseResourceName,
       settingsResourceName: settingsResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +200,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
 
   return settingsDeserializer(result.body);
 }
-
 /** Returns the base Settings for the target resource. */
 export async function get(
   context: Client,

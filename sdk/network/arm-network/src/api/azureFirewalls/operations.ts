@@ -52,7 +52,7 @@ export function _packetCaptureOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureFirewallName: azureFirewallName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,7 +105,7 @@ export function packetCaptureOperation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<AzureFirewallPacketCaptureResponse>,
     AzureFirewallPacketCaptureResponse
@@ -125,7 +125,7 @@ export function _packetCaptureSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureFirewallName: azureFirewallName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,7 +166,7 @@ export function packetCapture(
     getInitialResponse: () =>
       _packetCaptureSend(context, resourceGroupName, azureFirewallName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -182,7 +182,7 @@ export function _listLearnedPrefixesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureFirewallName: azureFirewallName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,7 +223,7 @@ export function listLearnedPrefixes(
     getInitialResponse: () =>
       _listLearnedPrefixesSend(context, resourceGroupName, azureFirewallName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<IPPrefixesList>, IPPrefixesList>;
 }
 
@@ -235,7 +235,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,7 +273,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -287,7 +287,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -326,7 +326,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -342,7 +342,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureFirewallName: azureFirewallName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -377,7 +377,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, azureFirewallName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -394,7 +394,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureFirewallName: azureFirewallName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -438,7 +438,7 @@ export function updateTags(
     getInitialResponse: () =>
       _updateTagsSend(context, resourceGroupName, azureFirewallName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<AzureFirewall>, AzureFirewall>;
 }
 
@@ -455,7 +455,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureFirewallName: azureFirewallName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       createAfcControlPlane: options?.createAfcControlPlane,
     },
     {
@@ -500,7 +500,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, azureFirewallName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<AzureFirewall>, AzureFirewall>;
 }
 
@@ -516,7 +516,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       azureFirewallName: azureFirewallName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

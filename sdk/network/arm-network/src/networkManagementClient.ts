@@ -38,6 +38,8 @@ import type {
   DeleteBastionShareableLinkOptionalParams,
   PutBastionShareableLinkOptionalParams,
 } from "./api/options.js";
+import type { AddressPrefixSetsOperations } from "./classic/addressPrefixSets/index.js";
+import { _getAddressPrefixSetsOperations } from "./classic/addressPrefixSets/index.js";
 import type { AdminRuleCollectionsOperations } from "./classic/adminRuleCollections/index.js";
 import { _getAdminRuleCollectionsOperations } from "./classic/adminRuleCollections/index.js";
 import type { AdminRulesOperations } from "./classic/adminRules/index.js";
@@ -108,6 +110,8 @@ import type { ExpressRouteCrossConnectionsOperations } from "./classic/expressRo
 import { _getExpressRouteCrossConnectionsOperations } from "./classic/expressRouteCrossConnections/index.js";
 import type { ExpressRouteGatewaysOperations } from "./classic/expressRouteGateways/index.js";
 import { _getExpressRouteGatewaysOperations } from "./classic/expressRouteGateways/index.js";
+import type { ExpressRouteLagsOperations } from "./classic/expressRouteLags/index.js";
+import { _getExpressRouteLagsOperations } from "./classic/expressRouteLags/index.js";
 import type { ExpressRouteLinksOperations } from "./classic/expressRouteLinks/index.js";
 import { _getExpressRouteLinksOperations } from "./classic/expressRouteLinks/index.js";
 import type { ExpressRoutePortAuthorizationsOperations } from "./classic/expressRoutePortAuthorizations/index.js";
@@ -132,10 +136,14 @@ import type { FirewallPolicyIdpsSignaturesFilterValuesOperations } from "./class
 import { _getFirewallPolicyIdpsSignaturesFilterValuesOperations } from "./classic/firewallPolicyIdpsSignaturesFilterValues/index.js";
 import type { FirewallPolicyIdpsSignaturesOverridesOperations } from "./classic/firewallPolicyIdpsSignaturesOverrides/index.js";
 import { _getFirewallPolicyIdpsSignaturesOverridesOperations } from "./classic/firewallPolicyIdpsSignaturesOverrides/index.js";
+import type { FirewallPolicyKubeSelectorGroupsOperations } from "./classic/firewallPolicyKubeSelectorGroups/index.js";
+import { _getFirewallPolicyKubeSelectorGroupsOperations } from "./classic/firewallPolicyKubeSelectorGroups/index.js";
 import type { FirewallPolicyRuleCollectionGroupDraftsOperations } from "./classic/firewallPolicyRuleCollectionGroupDrafts/index.js";
 import { _getFirewallPolicyRuleCollectionGroupDraftsOperations } from "./classic/firewallPolicyRuleCollectionGroupDrafts/index.js";
 import type { FirewallPolicyRuleCollectionGroupsOperations } from "./classic/firewallPolicyRuleCollectionGroups/index.js";
 import { _getFirewallPolicyRuleCollectionGroupsOperations } from "./classic/firewallPolicyRuleCollectionGroups/index.js";
+import type { FirstPartyServiceTagsOperations } from "./classic/firstPartyServiceTags/index.js";
+import { _getFirstPartyServiceTagsOperations } from "./classic/firstPartyServiceTags/index.js";
 import type { FlowLogsOperations } from "./classic/flowLogs/index.js";
 import { _getFlowLogsOperations } from "./classic/flowLogs/index.js";
 import type { HubRouteTablesOperations } from "./classic/hubRouteTables/index.js";
@@ -415,14 +423,7 @@ export class NetworkManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createNetworkManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createNetworkManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.usages = _getUsagesOperations(this._client);
     this.serviceTagInformationOperations = _getServiceTagInformationOperationsOperations(
@@ -523,6 +524,8 @@ export class NetworkManagementClient {
       _getApplicationGatewayWafDynamicManifestsDefaultOperations(this._client);
     this.applicationGatewayPrivateLinkResources =
       _getApplicationGatewayPrivateLinkResourcesOperations(this._client);
+    this.addressPrefixSets = _getAddressPrefixSetsOperations(this._client);
+    this.firstPartyServiceTags = _getFirstPartyServiceTagsOperations(this._client);
     this.subgroups = _getSubgroupsOperations(this._client);
     this.interconnectGroups = _getInterconnectGroupsOperations(this._client);
     this.serviceGateways = _getServiceGatewaysOperations(this._client);
@@ -615,10 +618,14 @@ export class NetworkManagementClient {
     this.firewallPolicyDrafts = _getFirewallPolicyDraftsOperations(this._client);
     this.firewallPolicyIdpsSignaturesOverrides =
       _getFirewallPolicyIdpsSignaturesOverridesOperations(this._client);
+    this.firewallPolicyKubeSelectorGroups = _getFirewallPolicyKubeSelectorGroupsOperations(
+      this._client,
+    );
     this.firewallPolicyRuleCollectionGroups = _getFirewallPolicyRuleCollectionGroupsOperations(
       this._client,
     );
     this.firewallPolicies = _getFirewallPoliciesOperations(this._client);
+    this.expressRouteLags = _getExpressRouteLagsOperations(this._client);
     this.expressRoutePortAuthorizations = _getExpressRoutePortAuthorizationsOperations(
       this._client,
     );
@@ -1111,6 +1118,10 @@ export class NetworkManagementClient {
   public readonly applicationGatewayWafDynamicManifestsDefault: ApplicationGatewayWafDynamicManifestsDefaultOperations;
   /** The operation groups for applicationGatewayPrivateLinkResources */
   public readonly applicationGatewayPrivateLinkResources: ApplicationGatewayPrivateLinkResourcesOperations;
+  /** The operation groups for addressPrefixSets */
+  public readonly addressPrefixSets: AddressPrefixSetsOperations;
+  /** The operation groups for firstPartyServiceTags */
+  public readonly firstPartyServiceTags: FirstPartyServiceTagsOperations;
   /** The operation groups for subgroups */
   public readonly subgroups: SubgroupsOperations;
   /** The operation groups for interconnectGroups */
@@ -1261,10 +1272,14 @@ export class NetworkManagementClient {
   public readonly firewallPolicyDrafts: FirewallPolicyDraftsOperations;
   /** The operation groups for firewallPolicyIdpsSignaturesOverrides */
   public readonly firewallPolicyIdpsSignaturesOverrides: FirewallPolicyIdpsSignaturesOverridesOperations;
+  /** The operation groups for firewallPolicyKubeSelectorGroups */
+  public readonly firewallPolicyKubeSelectorGroups: FirewallPolicyKubeSelectorGroupsOperations;
   /** The operation groups for firewallPolicyRuleCollectionGroups */
   public readonly firewallPolicyRuleCollectionGroups: FirewallPolicyRuleCollectionGroupsOperations;
   /** The operation groups for firewallPolicies */
   public readonly firewallPolicies: FirewallPoliciesOperations;
+  /** The operation groups for expressRouteLags */
+  public readonly expressRouteLags: ExpressRouteLagsOperations;
   /** The operation groups for expressRoutePortAuthorizations */
   public readonly expressRoutePortAuthorizations: ExpressRoutePortAuthorizationsOperations;
   /** The operation groups for expressRoutePorts */

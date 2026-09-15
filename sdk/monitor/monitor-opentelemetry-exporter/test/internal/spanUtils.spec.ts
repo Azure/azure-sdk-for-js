@@ -16,6 +16,8 @@ import {
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   ATTR_CLIENT_ADDRESS,
+  ATTR_EXCEPTION_MESSAGE,
+  ATTR_EXCEPTION_TYPE,
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
   ATTR_HTTP_ROUTE,
@@ -60,7 +62,10 @@ import type {
 } from "../../src/generated/index.js";
 import { KnownContextTagKeys } from "../../src/generated/index.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
-import { DependencyTypes } from "../../src/utils/constants/applicationinsights.js";
+import {
+  ApplicationInsightsCustomMeasurements,
+  DependencyTypes,
+} from "../../src/utils/constants/applicationinsights.js";
 import { hrTimeToDate } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
@@ -160,6 +165,60 @@ describe("spanUtils.ts", () => {
           APPLICATION_ID_RESOURCE_KEY
         ],
       );
+    });
+
+    it.each([
+      { kind: SpanKind.SERVER, expectedBaseType: "RequestData" },
+      { kind: SpanKind.CLIENT, expectedBaseType: "RemoteDependencyData" },
+    ])(
+      "should route custom measurements on $expectedBaseType spans to measurements",
+      ({ kind, expectedBaseType }) => {
+        const span = tracer.startSpan("span-with-custom-measurements", { kind });
+        span.setAttributes({
+          "extra.attribute": "foo",
+          [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42,"queueDepth":7}',
+        });
+        span.end();
+
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
+        const baseData = envelope.data?.baseData as RequestData | RemoteDependencyData;
+
+        assert.strictEqual(envelope.data?.baseType, expectedBaseType);
+        assert.deepStrictEqual(baseData.measurements, {
+          itemsProcessed: 42,
+          queueDepth: 7,
+        });
+        assert.deepStrictEqual(baseData.properties, {
+          "extra.attribute": "foo",
+        });
+      },
+    );
+
+    it("should preserve exporter-generated measurements on Event Hubs spans", () => {
+      const linkSpan = tracer.startSpan("linked span");
+      const span = tracer.startSpan("event hubs consumer", {
+        kind: SpanKind.CONSUMER,
+        attributes: {
+          "az.namespace": "Microsoft.EventHub",
+          [ApplicationInsightsCustomMeasurements]: '{"timeSinceEnqueued":1,"custom":2}',
+        },
+        links: [
+          {
+            context: linkSpan.spanContext(),
+            attributes: {
+              enqueuedTime: Date.now() - 1000,
+            },
+          },
+        ],
+      });
+      span.end();
+      linkSpan.end();
+
+      const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
+      const baseData = envelope.data?.baseData as RequestData;
+
+      assert.strictEqual(baseData.measurements?.custom, 2);
+      assert.isAbove(baseData.measurements?.timeSinceEnqueued ?? 0, 1);
     });
 
     describe("GRPC", () => {
@@ -1552,6 +1611,31 @@ describe("spanUtils.ts", () => {
         undefined,
         expectedBaseData,
       );
+    });
+
+    it("should route custom measurements on span events to measurements", () => {
+      const span = tracer.startSpan("parent span", {}, ROOT_CONTEXT);
+      span.addEvent("test event", {
+        [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42}',
+      });
+      span.addEvent("exception", {
+        [ATTR_EXCEPTION_TYPE]: "Error",
+        [ATTR_EXCEPTION_MESSAGE]: "test error",
+        [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42}',
+      });
+      span.end();
+
+      const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
+
+      assert.strictEqual(envelopes.length, 2);
+      const messageData = envelopes[0].data?.baseData as MessageData;
+      const exceptionData = envelopes[1].data?.baseData as TelemetryExceptionData;
+      assert.deepStrictEqual(messageData.measurements, {
+        itemsProcessed: 42,
+      });
+      assert.deepStrictEqual(exceptionData.measurements, {
+        itemsProcessed: 42,
+      });
     });
   });
   it("should create an envelope for internal exception span events", () => {

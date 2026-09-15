@@ -34,13 +34,6 @@ import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.
 import { isLogCollectionDisabled } from "./utils/logUtils.js";
 import { Logger } from "./shared/logging/index.js";
 import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
-import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-conventions";
-
-/**
- * Semantic attribute for cloud resource ID, defined by \@opentelemetry/resource-detector-azure
- * @internal
- */
-const CLOUD_RESOURCE_ID_ATTRIBUTE = "cloud.resource_id";
 
 export type {
   AzureMonitorOpenTelemetryOptions,
@@ -95,19 +88,15 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     winston: logInstrumentationsEnabled && config.instrumentationOptions?.winston?.enabled,
     console: logInstrumentationsEnabled && config.instrumentationOptions?.console?.enabled,
   };
-  // Check if the AKS resource detector successfully populated specific resource attributes
-  // (k8s.cluster.name or cloud.resource_id) beyond the basic cloud.platform/cloud.provider
-  // Derive from config.resource.attributes which already includes the AKS detector results
-  const resourceAttributes = config.resource.attributes;
-  const aksResourceDetected =
-    SEMRESATTRS_K8S_CLUSTER_NAME in resourceAttributes ||
-    CLOUD_RESOURCE_ID_ATTRIBUTE in resourceAttributes;
+  // Only report this feature when the AKS resource detector itself was able to populate the AKS
+  // cluster attributes, which requires the customer to have configured access to the
+  // aks-cluster-metadata ConfigMap (RBAC + env var or mounted file).
   const statsbeatFeatures: StatsbeatFeatures = {
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
     customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED]?.toLowerCase() === "true",
-    aksResourceDetectorPopulation: aksResourceDetected,
+    aksResourceDetectorPopulation: config.aksResourceDetectorPopulated,
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 

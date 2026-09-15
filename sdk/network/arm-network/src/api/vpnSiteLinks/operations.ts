@@ -33,7 +33,7 @@ export function _listByVpnSiteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vpnSiteName: vpnSiteName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,7 @@ export function listByVpnSite(
     () => _listByVpnSiteSend(context, resourceGroupName, vpnSiteName, options),
     _listByVpnSiteDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -91,7 +91,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vpnSiteName: vpnSiteName,
       vpnSiteLinkName: vpnSiteLinkName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

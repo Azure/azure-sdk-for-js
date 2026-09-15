@@ -4,22 +4,43 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface CapacityAdministration {
     members: string[];
 }
+
+// @public
+export interface CapacityOverageProperties {
+    state?: CapacityOverageState;
+    thresholdCapacityUnitHours?: number;
+}
+
+// @public
+export type CapacityOverageState = string;
 
 // @public
 export type CheckNameAvailabilityReason = string;
@@ -44,6 +65,26 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export interface FabricCapacitiesCheckNameAvailabilityOptionalParams extends OperationOptions {
@@ -80,6 +121,10 @@ export interface FabricCapacitiesListSkusOptionalParams extends OperationOptions
 }
 
 // @public
+export interface FabricCapacitiesListUsagesOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface FabricCapacitiesOperations {
     checkNameAvailability: (location: string, body: CheckNameAvailabilityRequest, options?: FabricCapacitiesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
     createOrUpdate: (resourceGroupName: string, capacityName: string, resource: FabricCapacity, options?: FabricCapacitiesCreateOrUpdateOptionalParams) => PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
@@ -89,6 +134,7 @@ export interface FabricCapacitiesOperations {
     listBySubscription: (options?: FabricCapacitiesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<FabricCapacity>;
     listSkus: (options?: FabricCapacitiesListSkusOptionalParams) => PagedAsyncIterableIterator<RpSkuDetailsForNewResource>;
     listSkusForCapacity: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesListSkusForCapacityOptionalParams) => PagedAsyncIterableIterator<RpSkuDetailsForExistingResource>;
+    listUsages: (location: string, options?: FabricCapacitiesListUsagesOptionalParams) => PagedAsyncIterableIterator<Quota>;
     resume: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesResumeOptionalParams) => PollerLike<OperationState<void>, void>;
     suspend: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesSuspendOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, capacityName: string, properties: FabricCapacityUpdate, options?: FabricCapacitiesUpdateOptionalParams) => PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
@@ -118,6 +164,7 @@ export interface FabricCapacity extends TrackedResource {
 // @public
 export interface FabricCapacityProperties {
     administration: CapacityAdministration;
+    overage?: CapacityOverageProperties;
     readonly provisioningState?: ProvisioningState;
     readonly state?: ResourceState;
 }
@@ -132,6 +179,7 @@ export interface FabricCapacityUpdate {
 // @public
 export interface FabricCapacityUpdateProperties {
     administration?: CapacityAdministration;
+    overage?: CapacityOverageProperties;
 }
 
 // @public (undocumented)
@@ -145,11 +193,20 @@ export class FabricClient {
 // @public
 export interface FabricClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownCapacityOverageState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -205,9 +262,16 @@ export enum KnownRpSkuTier {
 }
 
 // @public
+export enum KnownVersions {
+    V20231101 = "2023-11-01",
+    V20250115Preview = "2025-01-15-preview",
+    V20260801Preview = "2026-08-01-preview"
+}
+
+// @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -249,6 +313,20 @@ export interface PageSettings {
 export type ProvisioningState = string;
 
 // @public
+export interface Quota {
+    currentValue: number;
+    limit: number;
+    readonly name?: QuotaName;
+    unit: string;
+}
+
+// @public
+export interface QuotaName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -258,6 +336,8 @@ export interface Resource {
 
 // @public
 export type ResourceState = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: FabricClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

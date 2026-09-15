@@ -6,6 +6,7 @@ import type {
   Workspace,
   WorkspaceUpdate,
   _WorkspaceListResult,
+  WorkspaceDiscovery,
   WorkspaceEvaluation,
 } from "../../models/models.js";
 import {
@@ -14,6 +15,7 @@ import {
   workspaceDeserializer,
   workspaceUpdateSerializer,
   _workspaceListResultDeserializer,
+  workspaceDiscoveryDeserializer,
   workspaceEvaluationDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -21,7 +23,8 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  WorkspacesRefreshRecommendationsOptionalParams,
+  WorkspacesEvaluateOptionalParams,
+  WorkspacesDiscoverOptionalParams,
   WorkspacesListAllOptionalParams,
   WorkspacesListOptionalParams,
   WorkspacesDeleteOptionalParams,
@@ -33,19 +36,19 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _refreshRecommendationsSend(
+export function _evaluateSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: WorkspacesRefreshRecommendationsOptionalParams = { requestOptions: {} },
+  options: WorkspacesEvaluateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/refreshRecommendations{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/evaluate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,35 +57,87 @@ export function _refreshRecommendationsSend(
   return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _refreshRecommendationsDeserialize(
+export async function _evaluateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<WorkspaceEvaluation> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return workspaceEvaluationDeserializer(result.body);
 }
-
-/** Refreshes recommendation status for all scenarios in a given workspace. */
-export function refreshRecommendations(
+/** Triggers scenario evaluation for the workspace. */
+export function evaluate(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: WorkspacesRefreshRecommendationsOptionalParams = { requestOptions: {} },
+  options: WorkspacesEvaluateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkspaceEvaluation>, WorkspaceEvaluation> {
-  return getLongRunningPoller(context, _refreshRecommendationsDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _evaluateDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _refreshRecommendationsSend(context, resourceGroupName, workspaceName, options),
+    getInitialResponse: () => _evaluateSend(context, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<WorkspaceEvaluation>, WorkspaceEvaluation>;
+}
+
+export function _discoverSend(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  options: WorkspacesDiscoverOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discover{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      workspaceName: workspaceName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _discoverDeserialize(
+  result: PathUncheckedResponse,
+): Promise<WorkspaceDiscovery> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return workspaceDiscoveryDeserializer(result.body);
+}
+/** Triggers resource discovery for the workspace. */
+export function discover(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  options: WorkspacesDiscoverOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<WorkspaceDiscovery>, WorkspaceDiscovery> {
+  return getLongRunningPoller(context, _discoverDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _discoverSend(context, resourceGroupName, workspaceName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+  }) as PollerLike<OperationState<WorkspaceDiscovery>, WorkspaceDiscovery>;
 }
 
 export function _listAllSend(
@@ -93,7 +148,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/workspaces{?api%2Dversion,continuationToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       continuationToken: options?.continuationToken,
     },
     {
@@ -112,14 +167,15 @@ export async function _listAllDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _workspaceListResultDeserializer(result.body);
 }
-
 /** Get a list of all Workspace resources in a subscription. */
 export function listAll(
   context: Client,
@@ -133,7 +189,7 @@ export function listAll(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -148,7 +204,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       continuationToken: options?.continuationToken,
     },
     {
@@ -167,14 +223,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _workspaceListResultDeserializer(result.body);
 }
-
 /** Get a list of Workspace resources in a resource group. */
 export function list(
   context: Client,
@@ -189,7 +246,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -206,7 +263,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,14 +276,15 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete a Workspace resource. */
 export function $delete(
   context: Client,
@@ -239,7 +297,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -256,7 +314,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,15 +332,16 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return workspaceDeserializer(result.body);
 }
-
-/** The operation to update a Workspace. */
+/** Update a Workspace. */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -296,7 +355,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Workspace>, Workspace>;
 }
 
@@ -313,7 +372,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -333,14 +392,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return workspaceDeserializer(result.body);
 }
-
 /** Create or update a Workspace resource. */
 export function createOrUpdate(
   context: Client,
@@ -355,7 +415,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, workspaceName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Workspace>, Workspace>;
 }
 
@@ -371,7 +431,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -387,14 +447,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Wo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return workspaceDeserializer(result.body);
 }
-
 /** Get a Workspace resource. */
 export async function get(
   context: Client,

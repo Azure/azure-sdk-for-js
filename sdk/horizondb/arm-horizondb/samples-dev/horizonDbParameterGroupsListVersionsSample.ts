@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists parameter groups filtered by version number.
  *
  * @summary lists parameter groups filtered by version number.
- * x-ms-original-file: 2026-01-20-preview/ParameterGroups_ListVersions.json
+ * x-ms-original-file: 2026-05-01-preview/ParameterGroups_ListVersions.json
  */
 async function listParameterGroupsFilteredByVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

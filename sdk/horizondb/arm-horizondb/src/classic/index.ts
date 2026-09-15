@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export type { HorizonDbAdministratorsOperations } from "./horizonDbAdministrators/index.js";
 export type { HorizonDbClustersOperations } from "./horizonDbClusters/index.js";
 export type { HorizonDbFirewallRulesOperations } from "./horizonDbFirewallRules/index.js";
 export type { HorizonDbParameterGroupsOperations } from "./horizonDbParameterGroups/index.js";

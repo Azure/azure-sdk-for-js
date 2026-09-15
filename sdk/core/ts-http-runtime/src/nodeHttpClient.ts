@@ -140,10 +140,6 @@ class NodeHttpClient implements HttpClient {
 
       const res = await this.makeRequest(request, abortController, body);
 
-      if (timeoutId !== undefined) {
-        clearTimeout(timeoutId);
-      }
-
       const headers = getResponseHeaders(res);
 
       const status = res.statusCode ?? 0;
@@ -186,6 +182,10 @@ class NodeHttpClient implements HttpClient {
 
       return response;
     } finally {
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
+
       // clean up event listener
       if (request.abortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();

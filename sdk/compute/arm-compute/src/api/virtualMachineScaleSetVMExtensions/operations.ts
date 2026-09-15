@@ -41,7 +41,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -97,7 +97,7 @@ export function _$deleteSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -162,7 +162,7 @@ export function _updateSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,7 +218,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineScaleSetVMExtension>,
     VirtualMachineScaleSetVMExtension
@@ -242,7 +242,7 @@ export function _createOrUpdateSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -298,7 +298,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineScaleSetVMExtension>,
     VirtualMachineScaleSetVMExtension
@@ -321,7 +321,7 @@ export function _getSend(
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {

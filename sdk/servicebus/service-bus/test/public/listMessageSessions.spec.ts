@@ -30,7 +30,7 @@ describe("listMessageSessions", () => {
     await serviceBusClient.close();
   });
 
-  it("returns sessions with active messages", async () => {
+  it("includes sessions with active messages in default listing mode", async () => {
     // Send messages to distinct sessions
     const sessionIds = ["list-session-1", "list-session-2", "list-session-3"];
     for (const sessionId of sessionIds) {

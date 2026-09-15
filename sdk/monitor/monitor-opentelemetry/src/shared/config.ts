@@ -18,12 +18,15 @@ import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-e
 import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";
 import { Logger } from "./logging/index.js";
+import { isAksResourceDetectorPopulated } from "../utils/common.js";
 import {
   azureAksDetector,
   azureAppServiceDetector,
+  azureContainerAppsDetector,
   azureFunctionsDetector,
   azureVmDetector,
 } from "@opentelemetry/resource-detector-azure";
+import { SEMRESATTRS_CLOUD_PLATFORM } from "@opentelemetry/semantic-conventions";
 
 /**
  * Azure Monitor OpenTelemetry Client Configuration
@@ -53,6 +56,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   public sampler?: Sampler;
 
   private _resource: Resource = emptyResource();
+  private _aksResourceDetectorPopulated: boolean = false;
 
   public set resource(resource: Resource) {
     this._resource = this._resource.merge(resource);
@@ -63,6 +67,15 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
    */
   public get resource(): Resource {
     return this._resource;
+  }
+
+  /**
+   * Whether the AKS resource detector was able to populate the AKS cluster attributes, which
+   * requires the customer to have configured access to the `aks-cluster-metadata` ConfigMap.
+   * @internal
+   */
+  public get aksResourceDetectorPopulated(): boolean {
+    return this._aksResourceDetectorPopulated;
   }
 
   public browserSdkLoaderOptions: BrowserSdkLoaderOptions;
@@ -194,15 +207,27 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     const envResource = detectResources(detectResourceConfig);
     resource = resource.merge(envResource);
 
-    // Load resource attributes from Azure
-    const azureResource: Resource = detectResources({
-      detectors: [azureAksDetector, azureAppServiceDetector, azureFunctionsDetector],
+    // Load resource attributes from Azure. AKS is detected on its own so that we can tell
+    // whether the AKS detector itself populated the cluster attributes - other detectors and the
+    // customer can populate the same attributes without AKS being involved.
+    const aksResource: Resource = detectResources({
+      detectors: [azureAksDetector],
     });
-    this._resource = resource.merge(azureResource);
+    this._aksResourceDetectorPopulated = isAksResourceDetectorPopulated(aksResource.attributes);
 
-    // Handle VM resource detection asynchronously to avoid warnings
-    // about accessing resource attributes before async attributes are settled
-    this._initializeVmResourceAsync();
+    const azureResource: Resource = detectResources({
+      detectors: [azureAppServiceDetector, azureContainerAppsDetector, azureFunctionsDetector],
+    });
+    this._resource = resource.merge(aksResource).merge(azureResource);
+
+    // The IMDS probe fails on App Service, Functions, and Container Apps, and on AKS
+    // it describes the node VM rather than the cluster.
+    const platformDetected =
+      aksResource.attributes[SEMRESATTRS_CLOUD_PLATFORM] ??
+      azureResource.attributes[SEMRESATTRS_CLOUD_PLATFORM];
+    if (!platformDetected) {
+      this._initializeVmResourceAsync();
+    }
   }
 
   /**

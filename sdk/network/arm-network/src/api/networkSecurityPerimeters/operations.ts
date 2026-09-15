@@ -38,7 +38,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityPerimeters{?api%2Dversion,%24top,%24skipToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -78,7 +78,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -92,7 +92,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -133,7 +133,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -149,7 +149,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -186,7 +186,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkSecurityPerimeterName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -203,7 +203,7 @@ export function _patchSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -264,7 +264,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,7 +324,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

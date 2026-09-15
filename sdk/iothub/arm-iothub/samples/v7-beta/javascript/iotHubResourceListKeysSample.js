@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the security metadata for an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
  *
  * @summary get the security metadata for an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
- * x-ms-original-file: 2026-03-01-preview/iothub_listkeys.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_listkeys.json
  */
 async function iotHubResourceListKeys() {
   const credential = new DefaultAzureCredential();

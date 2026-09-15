@@ -113,6 +113,16 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDisks,
 } from "./api/disks/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeVirtualMachineScaleSetVMDiagnosticRunCommands,
+  _updateDeserialize as _updateDeserializeVirtualMachineScaleSetVMDiagnosticRunCommands,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualMachineScaleSetVMDiagnosticRunCommands,
+} from "./api/virtualMachineScaleSetVMDiagnosticRunCommands/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeVirtualMachineDiagnosticRunCommands,
+  _updateDeserialize as _updateDeserializeVirtualMachineDiagnosticRunCommands,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualMachineDiagnosticRunCommands,
+} from "./api/virtualMachineDiagnosticRunCommands/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeVirtualMachineScaleSetVMRunCommands,
   _updateDeserialize as _updateDeserializeVirtualMachineScaleSetVMRunCommands,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualMachineScaleSetVMRunCommands,
@@ -186,6 +196,7 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualMachineScaleSetExtensions,
 } from "./api/virtualMachineScaleSetExtensions/operations.js";
 import {
+  _migrateVMAvailabilityZoneDeserialize,
   _scaleOutDeserialize,
   _startDeserialize as _startDeserializeVirtualMachineScaleSets,
   _setOrchestrationServiceStateDeserialize,
@@ -511,6 +522,36 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeDisks, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}":
     { deserializer: _createOrUpdateDeserializeDisks, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/diagnosticRunCommands/{runCommandName}":
+    {
+      deserializer: _$deleteDeserializeVirtualMachineScaleSetVMDiagnosticRunCommands,
+      expectedStatuses: ["200", "202", "204"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/diagnosticRunCommands/{runCommandName}":
+    {
+      deserializer: _updateDeserializeVirtualMachineScaleSetVMDiagnosticRunCommands,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/diagnosticRunCommands/{runCommandName}":
+    {
+      deserializer: _createOrUpdateDeserializeVirtualMachineScaleSetVMDiagnosticRunCommands,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/diagnosticRunCommands/{runCommandName}":
+    {
+      deserializer: _$deleteDeserializeVirtualMachineDiagnosticRunCommands,
+      expectedStatuses: ["200", "202", "204"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/diagnosticRunCommands/{runCommandName}":
+    {
+      deserializer: _updateDeserializeVirtualMachineDiagnosticRunCommands,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/diagnosticRunCommands/{runCommandName}":
+    {
+      deserializer: _createOrUpdateDeserializeVirtualMachineDiagnosticRunCommands,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommands/{runCommandName}":
     {
       deserializer: _$deleteDeserializeVirtualMachineScaleSetVMRunCommands,
@@ -696,6 +737,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     {
       deserializer: _createOrUpdateDeserializeVirtualMachineScaleSetExtensions,
       expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/migrateVMAvailabilityZone":
+    {
+      deserializer: _migrateVMAvailabilityZoneDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/scaleOut":
     { deserializer: _scaleOutDeserialize, expectedStatuses: ["202", "200", "201"] },

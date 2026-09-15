@@ -49,7 +49,7 @@ export function _listAssociatedResourcesSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       poolName: poolName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,7 +97,7 @@ export function listAssociatedResources(
       ),
     _listAssociatedResourcesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -115,7 +115,7 @@ export function _getPoolUsageSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       poolName: poolName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -171,7 +171,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       skipToken: options?.skipToken,
       skip: options?.skip,
       top: options?.top,
@@ -214,7 +214,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkManagerName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -232,7 +232,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       poolName: poolName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,7 +275,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkManagerName, poolName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -293,7 +293,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       poolName: poolName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -358,7 +358,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       poolName: poolName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -405,7 +405,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, networkManagerName, poolName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<IpamPool>, IpamPool>;
 }
 
@@ -423,7 +423,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       poolName: poolName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

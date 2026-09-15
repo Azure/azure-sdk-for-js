@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
  * @summary the operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: 2026-03-01/capacityReservationExamples/BlockCapacityReservationGroup_Get.json
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/BlockCapacityReservationGroup_Get.json
  */
 async function getABlockCapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getABlockCapacityReservationGroup(): Promise<void> {
  * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
  * @summary the operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservationGroup_Get.json
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/CapacityReservationGroup_Get.json
  */
 async function getACapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,25 @@ async function getACapacityReservationGroup(): Promise<void> {
  * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
  * @summary the operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: 2026-03-01/capacityReservationExamples/TargetedCapacityReservationGroup_Get.json
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/OpenCapacityReservationGroup_Get.json
+ */
+async function getAnOpenCapacityReservationGroupWithInstanceView(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.capacityReservationGroups.get(
+    "myResourceGroup",
+    "openCapacityReservationGroup",
+    { expand: "instanceView" },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
+ *
+ * @summary the operation that retrieves information about a capacity reservation group.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/TargetedCapacityReservationGroup_Get.json
  */
 async function getATargetedCapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -61,6 +79,7 @@ async function getATargetedCapacityReservationGroup(): Promise<void> {
 async function main(): Promise<void> {
   await getABlockCapacityReservationGroup();
   await getACapacityReservationGroup();
+  await getAnOpenCapacityReservationGroupWithInstanceView();
   await getATargetedCapacityReservationGroup();
 }
 

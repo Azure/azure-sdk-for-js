@@ -12,6 +12,7 @@ import type {
   BgpPeerStatusListResult,
   RadiusAuthServerListResult,
   GatewayRouteListResult,
+  GatewayEffectiveRouteListResult,
   GatewayResiliencyInformation,
   GatewayRouteSetsInformation,
   VpnClientIPsecParameters,
@@ -34,6 +35,7 @@ import {
   bgpPeerStatusListResultDeserializer,
   radiusAuthServerListResultDeserializer,
   gatewayRouteListResultDeserializer,
+  gatewayEffectiveRouteListResultDeserializer,
   gatewayResiliencyInformationDeserializer,
   gatewayRouteSetsInformationDeserializer,
   vpnClientIPsecParametersSerializer,
@@ -83,6 +85,7 @@ import type {
   VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams,
   VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
   VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams,
   VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams,
   VirtualNetworkGatewaysGetLearnedRoutesOptionalParams,
   VirtualNetworkGatewaysListRadiusSecretsOptionalParams,
@@ -119,7 +122,7 @@ export function _vpnDeviceConfigurationScriptSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,7 +184,7 @@ export function _invokeAbortMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,7 +222,7 @@ export function invokeAbortMigration(
     getInitialResponse: () =>
       _invokeAbortMigrationSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -235,7 +238,7 @@ export function _invokeCommitMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,7 +276,7 @@ export function invokeCommitMigration(
     getInitialResponse: () =>
       _invokeCommitMigrationSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -289,7 +292,7 @@ export function _invokeExecuteMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -327,7 +330,7 @@ export function invokeExecuteMigration(
     getInitialResponse: () =>
       _invokeExecuteMigrationSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -344,7 +347,7 @@ export function _invokePrepareMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -393,7 +396,7 @@ export function invokePrepareMigration(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -412,7 +415,7 @@ export function _disconnectVirtualNetworkGatewayVpnConnectionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -467,7 +470,7 @@ export function disconnectVirtualNetworkGatewayVpnConnections(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -486,7 +489,7 @@ export function _getVpnclientConnectionHealthSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -541,7 +544,7 @@ export function getVpnclientConnectionHealth(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<VpnClientConnectionHealthDetailListResult>,
@@ -564,7 +567,7 @@ export function _stopExpressRouteSiteFailoverSimulationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -623,7 +626,7 @@ export function stopExpressRouteSiteFailoverSimulation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse>,
@@ -646,7 +649,7 @@ export function _startExpressRouteSiteFailoverSimulationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       peeringLocation: peeringLocation,
     },
     {
@@ -704,7 +707,7 @@ export function startExpressRouteSiteFailoverSimulation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse>,
@@ -728,7 +731,7 @@ export function _getFailoverSingleTestDetailsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       peeringLocation: peeringLocation,
       failoverTestId: failoverTestId,
     },
@@ -789,7 +792,7 @@ export function getFailoverSingleTestDetails(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<ExpressRouteFailoverSingleTestDetails[]>,
@@ -811,7 +814,7 @@ export function _getFailoverAllTestDetailsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       type: typeParam,
       fetchLatest: fetchLatest,
     },
@@ -870,7 +873,7 @@ export function getFailoverAllTestDetails(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<ExpressRouteFailoverTestDetails[]>,
@@ -891,7 +894,7 @@ export function _stopPacketCaptureSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -944,7 +947,7 @@ export function stopPacketCapture(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewaysStopPacketCaptureResponse>,
     VirtualNetworkGatewaysStopPacketCaptureResponse
@@ -963,7 +966,7 @@ export function _startPacketCaptureSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1011,7 +1014,7 @@ export function startPacketCapture(
     getInitialResponse: () =>
       _startPacketCaptureSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewaysStartPacketCaptureResponse>,
     VirtualNetworkGatewaysStartPacketCaptureResponse
@@ -1030,7 +1033,7 @@ export function _getVpnclientIpsecParametersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1080,7 +1083,7 @@ export function getVpnclientIpsecParameters(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<VpnClientIPsecParameters>, VpnClientIPsecParameters>;
 }
@@ -1098,7 +1101,7 @@ export function _setVpnclientIpsecParametersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1152,7 +1155,7 @@ export function setVpnclientIpsecParameters(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<VpnClientIPsecParameters>, VpnClientIPsecParameters>;
 }
@@ -1169,7 +1172,7 @@ export function _getRoutesInformationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       attemptRefresh: options?.attemptRefresh,
     },
     {
@@ -1211,7 +1214,7 @@ export function getRoutesInformation(
     getInitialResponse: () =>
       _getRoutesInformationSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<GatewayRouteSetsInformation>, GatewayRouteSetsInformation>;
 }
 
@@ -1227,7 +1230,7 @@ export function _getResiliencyInformationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       attemptRefresh: options?.attemptRefresh,
     },
     {
@@ -1278,9 +1281,69 @@ export function getResiliencyInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<GatewayResiliencyInformation>, GatewayResiliencyInformation>;
+}
+
+export function _getEffectiveRoutesSend(
+  context: Client,
+  resourceGroupName: string,
+  virtualNetworkGatewayName: string,
+  options: VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getEffectiveRoutes{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      virtualNetworkGatewayName: virtualNetworkGatewayName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getEffectiveRoutesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GatewayEffectiveRouteListResult> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return gatewayEffectiveRouteListResultDeserializer(result.body);
+}
+
+/** This operation retrieves a list of effective routes for the virtual network gateway. */
+export function getEffectiveRoutes(
+  context: Client,
+  resourceGroupName: string,
+  virtualNetworkGatewayName: string,
+  options: VirtualNetworkGatewaysGetEffectiveRoutesOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<GatewayEffectiveRouteListResult>, GatewayEffectiveRouteListResult> {
+  return getLongRunningPoller(context, _getEffectiveRoutesDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _getEffectiveRoutesSend(context, resourceGroupName, virtualNetworkGatewayName, options),
+    resourceLocationConfig: "location",
+    apiVersion: "2025-09-01",
+  }) as PollerLike<
+    OperationState<GatewayEffectiveRouteListResult>,
+    GatewayEffectiveRouteListResult
+  >;
 }
 
 export function _getAdvertisedRoutesSend(
@@ -1296,7 +1359,7 @@ export function _getAdvertisedRoutesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       peer: peer,
     },
     {
@@ -1345,7 +1408,7 @@ export function getAdvertisedRoutes(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<GatewayRouteListResult>, GatewayRouteListResult>;
 }
 
@@ -1361,7 +1424,7 @@ export function _getLearnedRoutesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1402,7 +1465,7 @@ export function getLearnedRoutes(
     getInitialResponse: () =>
       _getLearnedRoutesSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<GatewayRouteListResult>, GatewayRouteListResult>;
 }
 
@@ -1418,7 +1481,7 @@ export function _listRadiusSecretsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1474,7 +1537,7 @@ export function _supportedVpnDevicesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1530,7 +1593,7 @@ export function _getBgpPeerStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       peer: options?.peer,
     },
     {
@@ -1572,7 +1635,7 @@ export function getBgpPeerStatus(
     getInitialResponse: () =>
       _getBgpPeerStatusSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<BgpPeerStatusListResult>, BgpPeerStatusListResult>;
 }
 
@@ -1588,7 +1651,7 @@ export function _getVpnProfilePackageUrlSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1632,7 +1695,7 @@ export function getVpnProfilePackageUrl(
     getInitialResponse: () =>
       _getVpnProfilePackageUrlSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>,
     VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse
@@ -1652,7 +1715,7 @@ export function _generateVpnProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1705,7 +1768,7 @@ export function generateVpnProfile(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewaysGenerateVpnProfileResponse>,
     VirtualNetworkGatewaysGenerateVpnProfileResponse
@@ -1725,7 +1788,7 @@ export function _generatevpnclientpackageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1782,7 +1845,7 @@ export function generatevpnclientpackage(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<VirtualNetworkGatewaysGeneratevpnclientpackageResponse>,
@@ -1802,7 +1865,7 @@ export function _resetVpnClientSharedKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1840,7 +1903,7 @@ export function resetVpnClientSharedKey(
     getInitialResponse: () =>
       _resetVpnClientSharedKeySend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1856,7 +1919,7 @@ export function _resetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       gatewayVip: options?.gatewayVip,
     },
     {
@@ -1898,7 +1961,7 @@ export function reset(
     getInitialResponse: () =>
       _resetSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<VirtualNetworkGateway>, VirtualNetworkGateway>;
 }
 
@@ -1914,7 +1977,7 @@ export function _listConnectionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1954,7 +2017,7 @@ export function listConnections(
     () => _listConnectionsSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     _listConnectionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -1968,7 +2031,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2007,7 +2070,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -2023,7 +2086,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2059,7 +2122,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -2076,7 +2139,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2120,7 +2183,7 @@ export function updateTags(
     getInitialResponse: () =>
       _updateTagsSend(context, resourceGroupName, virtualNetworkGatewayName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<VirtualNetworkGateway>, VirtualNetworkGateway>;
 }
 
@@ -2137,7 +2200,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2187,7 +2250,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<VirtualNetworkGateway>, VirtualNetworkGateway>;
 }
 
@@ -2203,7 +2266,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayName: virtualNetworkGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

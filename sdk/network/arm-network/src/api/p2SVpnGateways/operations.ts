@@ -58,7 +58,7 @@ export function _disconnectP2SVpnConnectionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       p2sVpnGatewayName: p2SVpnGatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +111,7 @@ export function disconnectP2SVpnConnections(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -129,7 +129,7 @@ export function _getP2SVpnConnectionHealthDetailedSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -183,7 +183,7 @@ export function getP2SVpnConnectionHealthDetailed(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<P2SVpnConnectionHealth>, P2SVpnConnectionHealth>;
 }
@@ -200,7 +200,7 @@ export function _getP2SVpnConnectionHealthSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +245,7 @@ export function getP2SVpnConnectionHealth(
       getInitialResponse: () =>
         _getP2SVpnConnectionHealthSend(context, resourceGroupName, gatewayName, options),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<P2SVpnGateway>, P2SVpnGateway>;
 }
@@ -263,7 +263,7 @@ export function _generateVpnProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,7 +307,7 @@ export function generateVpnProfile(
     getInitialResponse: () =>
       _generateVpnProfileSend(context, resourceGroupName, gatewayName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<VpnProfileResponse>, VpnProfileResponse>;
 }
 
@@ -323,7 +323,7 @@ export function _resetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -361,7 +361,7 @@ export function reset(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _resetSend(context, resourceGroupName, gatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<P2SVpnGateway>, P2SVpnGateway>;
 }
 
@@ -373,7 +373,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -411,7 +411,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -425,7 +425,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -464,7 +464,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -480,7 +480,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -515,7 +515,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, gatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -532,7 +532,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -576,7 +576,7 @@ export function updateTags(
     getInitialResponse: () =>
       _updateTagsSend(context, resourceGroupName, gatewayName, p2SVpnGatewayParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<P2SVpnGateway>, P2SVpnGateway>;
 }
 
@@ -593,7 +593,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -643,7 +643,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<P2SVpnGateway>, P2SVpnGateway>;
 }
 
@@ -659,7 +659,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

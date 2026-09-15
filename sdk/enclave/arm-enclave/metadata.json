@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Mission": "2026-03-01-preview"
+    "Microsoft.Mission": "2026-04-01"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Mission",
     "CrossLanguageDefinitionId": {

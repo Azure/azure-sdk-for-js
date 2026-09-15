@@ -71,7 +71,7 @@ export function _getPeeringStatsSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       peeringName: peeringName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +133,7 @@ export function _listRoutesTableSummarySend(
       circuitName: circuitName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +186,7 @@ export function listRoutesTableSummary(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitsRoutesTableSummaryListResult>,
     ExpressRouteCircuitsRoutesTableSummaryListResult
@@ -209,7 +209,7 @@ export function _listRoutesTableSend(
       circuitName: circuitName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +262,7 @@ export function listRoutesTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitsRoutesTableListResult>,
     ExpressRouteCircuitsRoutesTableListResult
@@ -285,7 +285,7 @@ export function _listArpTableSend(
       circuitName: circuitName,
       peeringName: peeringName,
       devicePath: devicePath,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,7 +331,7 @@ export function listArpTable(
     getInitialResponse: () =>
       _listArpTableSend(context, resourceGroupName, circuitName, peeringName, devicePath, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitsArpTableListResult>,
     ExpressRouteCircuitsArpTableListResult
@@ -353,7 +353,7 @@ export function _stopCircuitLinkFailoverTestSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,7 +406,7 @@ export function stopCircuitLinkFailoverTest(
       getInitialResponse: () =>
         _stopCircuitLinkFailoverTestSend(context, resourceGroupName, circuitName, body, options),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<ExpressRouteCircuitsStopCircuitLinkFailoverTestResponse>,
@@ -428,7 +428,7 @@ export function _startCircuitLinkFailoverTestSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       linkType: linkType,
       circuitTestCategory: circuitTestCategory,
     },
@@ -487,7 +487,7 @@ export function startCircuitLinkFailoverTest(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<ExpressRouteCircuitsStartCircuitLinkFailoverTestResponse>,
@@ -512,7 +512,7 @@ export function _getCircuitLinkFailoverSingleTestDetailsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       linkType: linkType,
       circuitTestCategory: circuitTestCategory,
       failoverTestId: failoverTestId,
@@ -576,7 +576,7 @@ export function getCircuitLinkFailoverSingleTestDetails(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<ExpressRouteLinkFailoverSingleTestDetails[]>,
@@ -598,7 +598,7 @@ export function _getCircuitLinkFailoverAllTestsDetailsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       failoverTestType: options?.failoverTestType,
       fetchLatest: options?.fetchLatest,
     },
@@ -655,7 +655,7 @@ export function getCircuitLinkFailoverAllTestsDetails(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<ExpressRouteLinkFailoverAllTestsDetails[]>,
@@ -675,7 +675,7 @@ export function _getStatsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -722,7 +722,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -760,7 +760,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -774,7 +774,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -813,7 +813,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -829,7 +829,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -864,7 +864,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, circuitName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -881,7 +881,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -942,7 +942,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -986,7 +986,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, circuitName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ExpressRouteCircuit>, ExpressRouteCircuit>;
 }
 
@@ -1002,7 +1002,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

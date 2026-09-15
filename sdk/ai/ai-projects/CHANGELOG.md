@@ -1,11 +1,44 @@
 # Release History
 
-## 2.4.1 (Unreleased)
+## 2.6.0 (2026-09-03)
+
+### Features Added
+
+- Add `project.beta.agentInsightMonitors` for creating and managing Agent Insights monitors, runs, and insights. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add `RunOperationState` and `RunPoller` types, exposing the `runId` of an Agent Insights run on the poller returned by `project.beta.agentInsightMonitors.createRun`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add Microsoft 365 publishing operations and digital-worker metadata to `project.agents`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add A2A tools and protocol configuration, shell tools for agents and toolboxes, and Model Router control contracts. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add hosted-agent session configuration and routine dispatch authorization options. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add opt-in preview support for creating and listing draft agent versions through the `draft` and `includeDrafts` options when callers set `foundryFeatures: "DraftAgents=V1Preview"`. [#39797](https://github.com/Azure/azure-sdk-for-js/pull/39797)
+- Add invocation content moderation configuration to `RaiConfig`, including request and response text selectors. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
+- Add the optional `operationId` property to `BetaAgentInsightMonitorsCreateRunOptionalParams` for idempotent retries. [#39856](https://github.com/Azure/azure-sdk-for-js/issues/39856)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `641d5b415a03c9ca61eb469e46f8ef10b55d9caa`. [#39759](https://github.com/Azure/azure-sdk-for-js/issues/39759)
+
+## 2.5.0 (2026-08-20)
+
+### Features Added
+
+- Add beta agent optimization models with `AgentOptimization*` names and `OptimizedAgentIdentifier`, while retaining the previous names as deprecated aliases. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `SimulationSeedDataGenerationJobOptions` with the `simulation_seed` discriminator, while retaining `TaskGenerationDataGenerationJobOptions` compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Update `project.beta.routines` to the `Routines=V2Preview` contract while retaining the previous list options for compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add the optional `cache_write_tokens` property to `ResponseUsageInputTokensDetails`. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add programmatic tool calling with `ProgrammaticToolCallingParam`, `SpecificProgrammaticToolCallingParam`, and `allowed_callers` configuration on callable tools. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `output_schema` configuration to function tools. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `Reasoning.mode`, the `ReasoningModeEnum` type, and the `max` reasoning effort. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add `redact_private_content` to trace data generation jobs and `registry_connection_id` to container configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
+- Add the `VoiceAgents=V1Preview` agent definition opt-in key. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 
 ### Bugs Fixed
 
 - Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
 - Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+
+### Other Changes
+
+- Add the `agents/agentProgrammaticToolCalling.ts` sample demonstrating programmatic tool calling configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 
 ## 2.4.0 (2026-08-04)
 
