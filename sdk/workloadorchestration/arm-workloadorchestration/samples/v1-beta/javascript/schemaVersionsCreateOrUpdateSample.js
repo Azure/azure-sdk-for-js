@@ -8,23 +8,23 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Schema Version Resource
  *
  * @summary create or update a Schema Version Resource
- * x-ms-original-file: 2025-06-01/SchemaVersions_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/SchemaVersions_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function schemaVersionsCreateOrUpdateMaximumSet() {
+async function schemaVersionsCreateOrUpdateMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.schemaVersions.createOrUpdate(
     "rgconfigurationmanager",
     "testname",
     "1.0.0",
-    { properties: { value: "uiaqdwsi" } },
+    { properties: { value: "gjohcqdzm" } },
   );
   console.log(result);
 }
 
 async function main() {
-  await schemaVersionsCreateOrUpdateMaximumSet();
+  await schemaVersionsCreateOrUpdateMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
