@@ -4,16 +4,16 @@
 import type { ComputeContext as Client } from "../index.js";
 import type {
   ResourceOperation,
-  OperationStatusResult,
   LocationBasedBulkCreateCustom,
+  OperationStatusResult,
   _BulkCreateCustomOperationStatusListResult,
   _BulkCreateCustomListResult,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  operationStatusResultDeserializer,
   locationBasedBulkCreateCustomSerializer,
   locationBasedBulkCreateCustomDeserializer,
+  operationStatusResultDeserializer,
   _bulkCreateCustomOperationStatusListResultDeserializer,
   _bulkCreateCustomListResultDeserializer,
 } from "../../models/models.js";
@@ -45,7 +45,7 @@ export function _listBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -87,7 +87,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-06-preview",
+      apiVersion: context.apiVersion ?? "2026-09-06-preview",
     },
   );
 }
@@ -104,7 +104,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,7 +147,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-06-preview",
+      apiVersion: context.apiVersion ?? "2026-09-06-preview",
     },
   );
 }
@@ -166,7 +166,7 @@ export function _virtualMachinesGetOperationStatusSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +211,7 @@ export function virtualMachinesGetOperationStatus(
     {
       itemName: "results",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-06-preview",
+      apiVersion: context.apiVersion ?? "2026-09-06-preview",
     },
   );
 }
@@ -230,7 +230,7 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -266,7 +266,7 @@ export function cancel(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _cancelSend(context, resourceGroupName, location, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-06-preview",
+    apiVersion: context.apiVersion ?? "2026-09-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -284,7 +284,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
       deleteInstances: options?.deleteInstances,
     },
     {
@@ -321,7 +321,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, location, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-06-preview",
+    apiVersion: context.apiVersion ?? "2026-09-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -340,7 +340,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -385,7 +385,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, location, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-06-preview",
+    apiVersion: context.apiVersion ?? "2026-09-06-preview",
   }) as PollerLike<OperationState<LocationBasedBulkCreateCustom>, LocationBasedBulkCreateCustom>;
 }
 
@@ -401,7 +401,7 @@ export function _getAsyncOperationStatusSend(
       subscriptionId: context.subscriptionId,
       location: location,
       asyncOperationId: asyncOperationId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -454,7 +454,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
