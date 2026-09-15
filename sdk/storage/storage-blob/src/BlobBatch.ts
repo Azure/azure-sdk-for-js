@@ -91,28 +91,25 @@ export class BlobBatch {
   }
 
   private async addSubRequestInternal(
+    batchType: "delete" | "setAccessTier",
     subRequest: BatchSubRequest,
     assembleSubRequestFunc: () => Promise<void>,
   ): Promise<void> {
     await Mutex.lock(this.batch);
 
     try {
+      if (this.batchType && this.batchType !== batchType) {
+        throw new RangeError(
+          `BlobBatch only supports one operation type per batch and it already is being used for ${this.batchType} operations.`,
+        );
+      }
       this.batchRequest.preAddSubRequest(subRequest);
       await assembleSubRequestFunc();
       this.batchRequest.postAddSubRequest(subRequest);
+      // Committed last so a rejected sub request cannot pin the batch to its operation type.
+      this.batchType = batchType;
     } finally {
       await Mutex.unlock(this.batch);
-    }
-  }
-
-  private setBatchType(batchType: "delete" | "setAccessTier"): void {
-    if (!this.batchType) {
-      this.batchType = batchType;
-    }
-    if (this.batchType !== batchType) {
-      throw new RangeError(
-        `BlobBatch only supports one operation type per batch and it already is being used for ${this.batchType} operations.`,
-      );
     }
   }
 
@@ -192,8 +189,8 @@ export class BlobBatch {
       "BatchDeleteRequest-addSubRequest",
       options,
       async (updatedOptions) => {
-        this.setBatchType("delete");
         await this.addSubRequestInternal(
+          "delete",
           {
             url: url,
             credential: credential,
@@ -296,8 +293,8 @@ export class BlobBatch {
       "BatchSetTierRequest-addSubRequest",
       options,
       async (updatedOptions) => {
-        this.setBatchType("setAccessTier");
         await this.addSubRequestInternal(
+          "setAccessTier",
           {
             url: url,
             credential: credential,
@@ -313,6 +310,9 @@ export class BlobBatch {
     );
   }
 }
+
+// Sub request headers are serialized by hand, so a CR or LF would terminate the header line early.
+const HEADER_CRLF_PATTERN = /[\r\n]/;
 
 /**
  * Inner batch request class which is responsible for assembling and serializing sub requests.
@@ -390,7 +390,7 @@ class InnerBatchRequest {
 
   public appendSubRequestToBody(request: PipelineRequest) {
     // Start to assemble sub request
-    this.body += [
+    let subRequest = [
       this.subRequestPrefix, // sub request constant prefix
       `${HeaderConstants.CONTENT_ID}: ${this.operationCount}`, // sub request's content ID
       "", // empty line after sub request's content ID
@@ -400,12 +400,20 @@ class InnerBatchRequest {
     ].join(HTTP_LINE_ENDING);
 
     for (const [name, value] of request.headers) {
-      this.body += `${name}: ${value}${HTTP_LINE_ENDING}`;
+      if (HEADER_CRLF_PATTERN.test(name) || HEADER_CRLF_PATTERN.test(value)) {
+        throw new RangeError(
+          `Invalid CR/LF character in sub request header '${name.replace(/[\r\n]/g, "")}'.`,
+        );
+      }
+      subRequest += `${name}: ${value}${HTTP_LINE_ENDING}`;
     }
 
-    this.body += HTTP_LINE_ENDING; // sub request's headers need be ending with an empty line
+    subRequest += HTTP_LINE_ENDING; // sub request's headers need be ending with an empty line
     // No body to assemble for current batch request support
     // End to assemble sub request
+
+    // Commit only after validation so a rejected header cannot leave a partially written body.
+    this.body += subRequest;
   }
 
   public preAddSubRequest(subRequest: BatchSubRequest) {
