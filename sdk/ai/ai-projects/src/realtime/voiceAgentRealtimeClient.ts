@@ -389,7 +389,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       options,
     );
     if (options.createResponse !== false) {
-      await this.requestResponse(options);
+      await this.requestResponse({ abortSignal: options.abortSignal });
     }
   }
 
@@ -440,7 +440,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       options,
     );
     if (options.createResponse !== false) {
-      await this.requestResponse(options);
+      await this.requestResponse({ abortSignal: options.abortSignal });
     }
   }
 
