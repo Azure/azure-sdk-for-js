@@ -32,7 +32,7 @@ Install the Azure EdgeOperator client library for JavaScript with `npm`:
 npm install @azure/arm-edgeoperator
 ```
 
-### Create and authenticate a `EdgeOperatorClient`
+### Create and authenticate an `EdgeOperatorClient`
 
 To create a client object to access the Azure EdgeOperator API, you will need the `endpoint` of your Azure EdgeOperator resource and a `credential`. The Azure EdgeOperator client can use Microsoft Entra credentials to authenticate.
 You can find the endpoint for your Azure EdgeOperator resource in the [Azure Portal][azure_portal].
