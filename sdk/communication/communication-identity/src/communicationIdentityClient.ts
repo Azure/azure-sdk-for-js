@@ -17,12 +17,13 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import type { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { IdentityClient } from "./generated/identityClient.js";
 import { logger } from "./common/logger.js";
 import { tracingClient } from "./tracing.js";
+import { withLegacyOperationOptions } from "./legacyOperationOptions.js";
 
 const isCommunicationIdentityClientOptions = (
   options: any,
@@ -107,10 +108,12 @@ export class CommunicationIdentityClient {
     options: GetTokenOptions = {},
   ): Promise<CommunicationAccessToken> {
     return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
-      return this.client.identityOperations.issueAccessToken(
-        user.communicationUserId,
-        { scopes, expiresInMinutes: options.tokenExpiresInMinutes },
-        updatedOptions,
+      return withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+        this.client.identityOperations.issueAccessToken(
+          user.communicationUserId,
+          { scopes, expiresInMinutes: options.tokenExpiresInMinutes },
+          generatedOptions,
+        ),
       );
     });
   }
@@ -129,9 +132,11 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-revokeTokens",
       options,
       async (updatedOptions) => {
-        await this.client.identityOperations.revokeAccessTokens(
-          user.communicationUserId,
-          updatedOptions,
+        await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+          this.client.identityOperations.revokeAccessTokens(
+            user.communicationUserId,
+            generatedOptions,
+          ),
         );
       },
     );
@@ -156,7 +161,9 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUser",
       options,
       async (updatedOptions) => {
-        const result = await this.client.identityOperations.create(updatedOptions);
+        const result = await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+          this.client.identityOperations.create(generatedOptions),
+        );
         return {
           communicationUserId: result.identity.id,
         };
@@ -178,13 +185,17 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUserAndToken",
       options,
       async (updatedOptions) => {
-        const { identity, accessToken } = await this.client.identityOperations.create({
-          ...updatedOptions,
-          body: {
-            createTokenWithScopes: scopes,
-            expiresInMinutes: options.tokenExpiresInMinutes,
-          },
-        });
+        const { identity, accessToken } = await withLegacyOperationOptions(
+          updatedOptions,
+          (generatedOptions) =>
+            this.client.identityOperations.create({
+              ...generatedOptions,
+              body: {
+                createTokenWithScopes: scopes,
+                expiresInMinutes: options.tokenExpiresInMinutes,
+              },
+            }),
+        );
         return {
           ...accessToken!,
           user: { communicationUserId: identity.id },
@@ -207,9 +218,11 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-deleteUser",
       options,
       async (updatedOptions) => {
-        await this.client.identityOperations.deleteIdentityOperation(
-          user.communicationUserId,
-          updatedOptions,
+        await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+          this.client.identityOperations.deleteIdentityOperation(
+            user.communicationUserId,
+            generatedOptions,
+          ),
         );
       },
     );
@@ -228,13 +241,15 @@ export class CommunicationIdentityClient {
       options,
       (updatedOptions) => {
         const { teamsUserAadToken, clientId, userObjectId } = updatedOptions;
-        return this.client.teamsUserOperations.exchangeTeamsUserAccessToken(
-          {
-            token: teamsUserAadToken,
-            appId: clientId,
-            userId: userObjectId,
-          },
-          updatedOptions,
+        return withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
+          this.client.teamsUserOperations.exchangeTeamsUserAccessToken(
+            {
+              token: teamsUserAadToken,
+              appId: clientId,
+              userId: userObjectId,
+            },
+            generatedOptions,
+          ),
         );
       },
     );

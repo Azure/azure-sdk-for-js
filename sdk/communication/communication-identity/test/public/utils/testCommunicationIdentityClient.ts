@@ -15,7 +15,7 @@ import {
   getTokenHttpClient,
   revokeTokensHttpClient,
 } from "./mockHttpClients.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure/core-client";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 
 export class TestCommunicationIdentityClient {
