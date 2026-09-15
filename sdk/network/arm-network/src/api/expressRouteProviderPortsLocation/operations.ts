@@ -3,8 +3,8 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { ExpressRouteProviderPortListResult } from "../../models/microsoft/network/models.js";
-import { expressRouteProviderPortListResultDeserializer } from "../../models/microsoft/network/models.js";
+import type { ExpressRouteProviderPortListResult } from "../../models/network/models.js";
+import { expressRouteProviderPortListResultDeserializer } from "../../models/network/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { ExpressRouteProviderPortsLocationListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -18,7 +18,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts{?api%2Dversion,%24filter}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
       "%24filter": options?.filter,
     },
     {
