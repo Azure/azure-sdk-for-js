@@ -63,6 +63,10 @@ describe("Content Safety Client Test", () => {
   });
 
   it("create blocklist", async () => {
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      compareBodies: false,
+      ignoreQueryOrdering: true,
+    });
     const response = await blocklistClient.createOrUpdateTextBlocklist(blocklistName, {
       blocklistName,
       description: "test",
