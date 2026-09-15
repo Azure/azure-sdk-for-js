@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Information required to validate the subnet that will be used in AML file system create */
 export interface AmlFilesystemSubnetInfo {
   /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
@@ -315,7 +315,7 @@ export function metricSpecificationDeserializer(item: any): MetricSpecification 
   };
 }
 
-/** Known values of {@link MetricAggregationType} that the service accepts. */
+/** Metric aggregation type. */
 export enum KnownMetricAggregationType {
   /** NotSpecified */
   NotSpecified = "NotSpecified",
@@ -333,7 +333,19 @@ export enum KnownMetricAggregationType {
   Count = "Count",
 }
 
-/** Type of MetricAggregationType */
+/**
+ * Metric aggregation type. \
+ * {@link KnownMetricAggregationType} can be used interchangeably with MetricAggregationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: NotSpecified \
+ * **None**: None \
+ * **Average**: Average \
+ * **Minimum**: Minimum \
+ * **Maximum**: Maximum \
+ * **Total**: Total \
+ * **Count**: Count
+ */
 export type MetricAggregationType = string;
 
 export function metricDimensionArrayDeserializer(result: Array<MetricDimension>): any[] {
@@ -382,6 +394,397 @@ export function logSpecificationDeserializer(item: any): LogSpecification {
     name: item["name"],
     displayName: item["displayName"],
   };
+}
+
+/**
+ * A rebalance job instance. Rebalances OST data across storage targets after a cluster expansion.
+ * Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md
+ */
+export interface RebalanceJob extends ProxyResource {
+  /** Properties of the rebalance job. */
+  properties?: RebalanceJobProperties;
+}
+
+export function rebalanceJobDeserializer(item: any): RebalanceJob {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : rebalanceJobPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the rebalance job. */
+export interface RebalanceJobProperties {
+  /** ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property */
+  readonly provisioningState?: RebalanceJobPropertiesProvisioningState;
+  /** The current administrative status of the rebalance job. 'Active' indicates the job is running normally; 'Cancel' indicates cancellation has been requested. */
+  readonly adminStatus?: RebalanceJobAdminStatus;
+  /** Fully qualified ARM resource ID of the parent expansion job that initiated this rebalance. Populated when the rebalance was created as part of an expansion. */
+  readonly expansionJobId?: string;
+  /** The status of the rebalance job. */
+  readonly status?: RebalanceJobPropertiesStatus;
+}
+
+export function rebalanceJobPropertiesDeserializer(item: any): RebalanceJobProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    adminStatus: item["adminStatus"],
+    expansionJobId: item["expansionJobId"],
+    status: !item["status"]
+      ? item["status"]
+      : rebalanceJobPropertiesStatusDeserializer(item["status"]),
+  };
+}
+
+/** ARM provisioning state for the rebalance job. */
+export enum KnownRebalanceJobPropertiesProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** Resource is being created. */
+  Creating = "Creating",
+  /** Resource is being updated. */
+  Updating = "Updating",
+  /** Resource is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * ARM provisioning state for the rebalance job. \
+ * {@link KnownRebalanceJobPropertiesProvisioningState} can be used interchangeably with RebalanceJobPropertiesProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: Resource is being created. \
+ * **Updating**: Resource is being updated. \
+ * **Deleting**: Resource is being deleted.
+ */
+export type RebalanceJobPropertiesProvisioningState = string;
+
+/** The administrative status of the rebalance job. Active means the job is running normally. Cancel requests the job to stop. */
+export enum KnownRebalanceJobAdminStatus {
+  /** The rebalance job is running normally. */
+  Active = "Active",
+  /** Request the rebalance job to stop. */
+  Cancel = "Cancel",
+}
+
+/**
+ * The administrative status of the rebalance job. Active means the job is running normally. Cancel requests the job to stop. \
+ * {@link KnownRebalanceJobAdminStatus} can be used interchangeably with RebalanceJobAdminStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: The rebalance job is running normally. \
+ * **Cancel**: Request the rebalance job to stop.
+ */
+export type RebalanceJobAdminStatus = string;
+
+/** The status of the rebalance job. */
+export interface RebalanceJobPropertiesStatus {
+  /** The operational state of the rebalance job. InProgress indicates the rebalance is running on the cluster. Cancelling indicates a cancel has been requested. Canceled indicates the rebalance was cancelled. Completed indicates the rebalance finished successfully. Failed indicates the rebalance was unable to complete due to a fatal error. Deleting indicates the job is being cleaned up during deletion. RollingBack indicates the orchestrator is rolling back provisioned resources after a failure. */
+  readonly state?: RebalanceJobStatusType;
+  /** Server-defined status code for rebalance job. */
+  readonly statusCode?: string;
+  /** Server-defined status message for rebalance job. */
+  readonly statusMessage?: string;
+  /** The percentage of rebalance job completion. */
+  readonly percentComplete?: number;
+  /** The balance percentage (0-100). Represents cumulative progress since the rebalance started. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
+  readonly balancePercent?: number;
+  /** Estimated remaining time in seconds. Omitted during initial assessment before the rebalancer has enough data to estimate. */
+  readonly estimatedRemainingSeconds?: number;
+  /** Total number of files migrated since the rebalance started. Counts OST-phase (data) work items. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
+  readonly filesMigrated?: number;
+  /** Total number of directories migrated since the rebalance started. Counts MDT-phase (metadata) work items, reported separately from filesMigrated (OST-phase data migrations). Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
+  readonly dirsMigrated?: number;
+  /** Total number of bytes moved since the rebalance started. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
+  readonly bytesMoved?: number;
+  /** Average files moved per second over the most recent reporting interval. */
+  readonly filesMovedPerSecond?: number;
+  /** Average throughput in mebibytes per second (1024x1024 bytes per second) over the most recent reporting interval. */
+  readonly throughputMiBps?: number;
+  /** Total cumulative non-skip errors since the rebalance started. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
+  readonly totalErrors?: number;
+  /** Total cumulative benign skips since the rebalance started: files intentionally not migrated (for example, a lost migration lease or a stale layout), as distinct from the hard failures counted in totalErrors. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
+  readonly totalSkipped?: number;
+  /** The time (in UTC) the rebalance job started. */
+  readonly startTimeUTC?: Date;
+  /** The time (in UTC) when the rebalance job completed. Only populated when the job reaches a terminal state (Completed, Failed, or Canceled). */
+  readonly completionTimeUTC?: Date;
+}
+
+export function rebalanceJobPropertiesStatusDeserializer(item: any): RebalanceJobPropertiesStatus {
+  return {
+    state: item["state"],
+    statusCode: item["statusCode"],
+    statusMessage: item["statusMessage"],
+    percentComplete: item["percentComplete"],
+    balancePercent: item["balancePercent"],
+    estimatedRemainingSeconds: item["estimatedRemainingSeconds"],
+    filesMigrated: item["filesMigrated"],
+    dirsMigrated: item["dirsMigrated"],
+    bytesMoved: item["bytesMoved"],
+    filesMovedPerSecond: item["filesMovedPerSecond"],
+    throughputMiBps: item["throughputMiBps"],
+    totalErrors: item["totalErrors"],
+    totalSkipped: item["totalSkipped"],
+    startTimeUTC: !item["startTimeUTC"] ? item["startTimeUTC"] : new Date(item["startTimeUTC"]),
+    completionTimeUTC: !item["completionTimeUTC"]
+      ? item["completionTimeUTC"]
+      : new Date(item["completionTimeUTC"]),
+  };
+}
+
+/** The operational state of the rebalance job. InProgress indicates the rebalance is running on the cluster. Cancelling indicates a cancel has been requested. Canceled indicates the rebalance was cancelled. Completed indicates the rebalance finished successfully (imbalance below low watermark). Failed indicates the rebalance was unable to complete due to a fatal error. Deleting indicates the job is being cleaned up during deletion. RollingBack indicates the orchestrator is rolling back provisioned resources after a failure. */
+export enum KnownRebalanceJobStatusType {
+  /** The rebalance job is currently running on the cluster. */
+  InProgress = "InProgress",
+  /** A cancel has been requested and the job is stopping. */
+  Cancelling = "Cancelling",
+  /** The rebalance job was canceled before completion. */
+  Canceled = "Canceled",
+  /** The rebalance job finished successfully. */
+  Completed = "Completed",
+  /** The rebalance job failed due to a fatal error. */
+  Failed = "Failed",
+  /** The job is being cleaned up during deletion. */
+  Deleting = "Deleting",
+  /** The orchestrator is rolling back provisioned resources after a failure. */
+  RollingBack = "RollingBack",
+}
+
+/**
+ * The operational state of the rebalance job. InProgress indicates the rebalance is running on the cluster. Cancelling indicates a cancel has been requested. Canceled indicates the rebalance was cancelled. Completed indicates the rebalance finished successfully (imbalance below low watermark). Failed indicates the rebalance was unable to complete due to a fatal error. Deleting indicates the job is being cleaned up during deletion. RollingBack indicates the orchestrator is rolling back provisioned resources after a failure. \
+ * {@link KnownRebalanceJobStatusType} can be used interchangeably with RebalanceJobStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress**: The rebalance job is currently running on the cluster. \
+ * **Cancelling**: A cancel has been requested and the job is stopping. \
+ * **Canceled**: The rebalance job was canceled before completion. \
+ * **Completed**: The rebalance job finished successfully. \
+ * **Failed**: The rebalance job failed due to a fatal error. \
+ * **Deleting**: The job is being cleaned up during deletion. \
+ * **RollingBack**: The orchestrator is rolling back provisioned resources after a failure.
+ */
+export type RebalanceJobStatusType = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
+/** A rebalance job update instance. */
+export interface RebalanceJobUpdate {
+  /** Properties for the rebalance job update. */
+  properties?: RebalanceJobUpdateProperties;
+}
+
+export function rebalanceJobUpdateSerializer(item: RebalanceJobUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : rebalanceJobUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Properties for updating a rebalance job. */
+export interface RebalanceJobUpdateProperties {
+  /** The administrative status of the rebalance job. Passing in a value of 'Cancel' will cancel the current active rebalance job. */
+  adminStatus?: RebalanceJobAdminStatus;
+}
+
+export function rebalanceJobUpdatePropertiesSerializer(item: RebalanceJobUpdateProperties): any {
+  return { adminStatus: item["adminStatus"] };
+}
+
+/** Result of the request to list rebalance jobs. It contains a list of rebalance jobs and a URL link to get the next set of results. */
+export interface _RebalanceJobsListResult {
+  /** List of rebalance jobs. */
+  value?: RebalanceJob[];
+  /** URL to get the next set of rebalance job list results, if there are any. */
+  nextLink?: string;
+}
+
+export function _rebalanceJobsListResultDeserializer(item: any): _RebalanceJobsListResult {
+  return {
+    value: !item["value"] ? item["value"] : rebalanceJobArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function rebalanceJobArrayDeserializer(result: Array<RebalanceJob>): any[] {
+  return result.map((item) => {
+    return rebalanceJobDeserializer(item);
+  });
 }
 
 /** A cache instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
@@ -1441,7 +1844,7 @@ export function userAssignedIdentitiesValueRecordDeserializer(
   return result;
 }
 
-/** model interface UserAssignedIdentitiesValue */
+/** User-assigned identity properties. */
 export interface UserAssignedIdentitiesValue {
   /** The principal ID of the user-assigned identity. */
   readonly principalId?: string;
@@ -1473,157 +1876,6 @@ export function cacheSkuSerializer(item: CacheSku): any {
 export function cacheSkuDeserializer(item: any): CacheSku {
   return {
     name: item["name"],
-  };
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(_item: ProxyResource): any {
-  return {};
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(_item: Resource): any {
-  return {};
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
   };
 }
 
@@ -2933,18 +3185,6 @@ export enum KnownAutoExportStatusType {
  */
 export type AutoExportStatusType = string;
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
 /** An auto export job update instance. */
 export interface AutoExportJobUpdate {
   /** Resource tags. */
@@ -2962,7 +3202,7 @@ export function autoExportJobUpdateSerializer(item: AutoExportJobUpdate): any {
   };
 }
 
-/** model interface AutoExportJobUpdateProperties */
+/** Properties for updating an auto export job. */
 export interface AutoExportJobUpdateProperties {
   /** The administrative status of the auto export job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto export job. By default it is set to 'Enable'. */
   adminStatus?: AutoExportJobAdminStatus;
@@ -3302,7 +3542,7 @@ export function importJobUpdateSerializer(item: ImportJobUpdate): any {
   };
 }
 
-/** model interface ImportJobUpdateProperties */
+/** Properties for updating an import job. */
 export interface ImportJobUpdateProperties {
   /** The administrative status of the import job. Possible values: 'Active', 'Cancel'. Passing in a value of 'Cancel' will cancel the current active import job. */
   adminStatus?: ImportJobAdminStatus;
@@ -3699,7 +3939,7 @@ export function autoImportJobUpdateSerializer(item: AutoImportJobUpdate): any {
   };
 }
 
-/** model interface AutoImportJobUpdateProperties */
+/** Properties for updating an auto import job. */
 export interface AutoImportJobUpdateProperties {
   /** The administrative status of the auto import job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto import job. By default it is set to 'Enable'. */
   adminStatus?: AutoImportJobUpdatePropertiesAdminStatus;
@@ -3762,13 +4002,17 @@ export interface ExpansionJob extends TrackedResource {
   newStorageCapacityTiB?: number;
   /** The status of the expansion job. */
   readonly status?: ExpansionJobPropertiesStatus;
+  /** When true, expansion creates a RebalanceJob after completing. Optional, defaults to true. */
+  runRebalanceJob?: boolean;
+  /** Fully qualified ARM resource ID of the child rebalance job created by this expansion. Populated after RebalanceJob is created. */
+  readonly rebalanceJobId?: string;
 }
 
 export function expansionJobSerializer(item: ExpansionJob): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: areAllPropsUndefined(item, ["newStorageCapacityTiB"])
+    properties: areAllPropsUndefined(item, ["newStorageCapacityTiB", "runRebalanceJob"])
       ? undefined
       : _expansionJobPropertiesSerializer(item),
   };
@@ -3798,6 +4042,10 @@ export interface ExpansionJobProperties {
   readonly provisioningState?: ExpansionJobPropertiesProvisioningState;
   /** The new storage capacity in TiB for the AML file system after expansion. This must be a multiple of the Sku step size, and greater than the current storage capacity of the AML file system. */
   newStorageCapacityTiB?: number;
+  /** When true, expansion creates a RebalanceJob after completing. Optional, defaults to true. */
+  runRebalanceJob?: boolean;
+  /** Fully qualified ARM resource ID of the child rebalance job created by this expansion. Populated after RebalanceJob is created. */
+  readonly rebalanceJobId?: string;
   /** The operational state of the expansion job. InProgress indicates the expansion is still running. Completed indicates expansion finished successfully. Failed means the expansion was unable to complete due to a fatal error. Deleting indicates the expansion is being rolled back. */
   readonly state?: ExpansionJobStatusType;
   /** Server-defined status code for expansion job. */
@@ -3813,7 +4061,10 @@ export interface ExpansionJobProperties {
 }
 
 export function expansionJobPropertiesSerializer(item: ExpansionJobProperties): any {
-  return { newStorageCapacityTiB: item["newStorageCapacityTiB"] };
+  return {
+    newStorageCapacityTiB: item["newStorageCapacityTiB"],
+    runRebalanceJob: item["runRebalanceJob"],
+  };
 }
 
 export function expansionJobPropertiesDeserializer(item: any): ExpansionJobProperties {
@@ -3823,6 +4074,8 @@ export function expansionJobPropertiesDeserializer(item: any): ExpansionJobPrope
     ...(!item["status"]
       ? item["status"]
       : _expansionJobPropertiesStatusDeserializer(item["status"])),
+    runRebalanceJob: item["runRebalanceJob"],
+    rebalanceJobId: item["rebalanceJobId"],
   };
 }
 
@@ -4276,6 +4529,8 @@ export function resourceUsageNameDeserializer(item: any): ResourceUsageName {
 export enum KnownVersions {
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
+  /** The 2026-08-01 API version. */
+  V20260801 = "2026-08-01",
 }
 
 export function _apiOperationPropertiesDeserializer(item: any) {
@@ -4641,7 +4896,10 @@ export function _expansionJobPropertiesStatusDeserializer(item: any) {
 }
 
 export function _expansionJobPropertiesSerializer(item: ExpansionJob): any {
-  return { newStorageCapacityTiB: item["newStorageCapacityTiB"] };
+  return {
+    newStorageCapacityTiB: item["newStorageCapacityTiB"],
+    runRebalanceJob: item["runRebalanceJob"],
+  };
 }
 
 export function _expansionJobPropertiesDeserializer(item: any) {
@@ -4651,6 +4909,8 @@ export function _expansionJobPropertiesDeserializer(item: any) {
     status: !item["status"]
       ? item["status"]
       : expansionJobPropertiesStatusDeserializer(item["status"]),
+    runRebalanceJob: item["runRebalanceJob"],
+    rebalanceJobId: item["rebalanceJobId"],
   };
 }
 
