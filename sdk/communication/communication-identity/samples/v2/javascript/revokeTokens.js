@@ -8,7 +8,7 @@
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set this environment variables or edit the following values
 const connectionString =

@@ -49,20 +49,20 @@ npm install
 node createUserAndToken.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node createUserAndToken.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node createUserAndToken.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[createuserandtoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/createUserAndToken.js
-[gettokenforteamsuser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/getTokenForTeamsUser.js
-[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/issueToken.js
-[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/revokeTokens.js
+[createuserandtoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v2/javascript/createUserAndToken.js
+[gettokenforteamsuser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v2/javascript/getTokenForTeamsUser.js
+[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v2/javascript/issueToken.js
+[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v2/javascript/revokeTokens.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-identity
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

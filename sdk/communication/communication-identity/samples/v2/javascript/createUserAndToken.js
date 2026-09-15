@@ -5,21 +5,19 @@
  * @summary Create a new user and a token simultaneously.
  */
 
-import { CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";
-import { CreateUserAndTokenOptions } from "../src";
+const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv/config");
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
-export async function main() {
+async function main() {
   console.log("\n== Create User and Token Sample ==\n");
   const client = new CommunicationIdentityClient(connectionString);
-  const scopes: TokenScope[] = ["chat"];
+  const scopes = ["chat"];
 
   // Create user with default token
   console.log("Creating User and Token");
@@ -30,7 +28,7 @@ export async function main() {
 
   // Create user with token with custom expiration
   console.log("Creating User and Token with custom expiration.");
-  const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
+  const userAndTokenOptions = { tokenExpiresInMinutes: 60 };
   const { user, token, expiresOn } = await client.createUserAndToken(scopes, userAndTokenOptions);
 
   console.log(`Created user with id: ${user.communicationUserId}`);
@@ -44,3 +42,5 @@ main().catch((error) => {
   console.error("\nResponse: \n", error.response);
   console.error(error);
 });
+
+module.exports = { main };
