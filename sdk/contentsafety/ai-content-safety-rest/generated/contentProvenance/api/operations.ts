@@ -3,8 +3,8 @@
 
 import { ContentProvenanceContext as Client } from "./index.js";
 import {
-  DetectOptions,
-  detectOptionsSerializer,
+  DetectProvenanceOptions,
+  detectProvenanceOptionsSerializer,
   DetectProvenanceResult,
   detectProvenanceResultDeserializer,
   ProvenanceDetectOperation,
@@ -65,7 +65,7 @@ export async function getOperationStatus(
 
 export function _detectSend(
   context: Client,
-  options: DetectOptions,
+  options: DetectProvenanceOptions,
   optionalParams: DetectOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -81,7 +81,7 @@ export function _detectSend(
     ...operationOptionsToRequestParameters(optionalParams),
     contentType: "application/json",
     headers: { accept: "application/json", ...optionalParams.requestOptions?.headers },
-    body: detectOptionsSerializer(options),
+    body: detectProvenanceOptionsSerializer(options),
   });
 }
 
@@ -106,8 +106,7 @@ export async function _detectDeserialize(
 /** Starts an asynchronous Content Provenance Detection operation that inspects the supplied media for Microsoft-issued C2PA and imperceptible watermark signals indicating the content was created or modified using AI. */
 export function detect(
   context: Client,
-  options: DetectOptions,
-
+  options: DetectProvenanceOptions,
   optionalParams: DetectOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DetectProvenanceResult>, DetectProvenanceResult> {
   return getLongRunningPoller(context, _detectDeserialize, ["202", "200", "201"], {

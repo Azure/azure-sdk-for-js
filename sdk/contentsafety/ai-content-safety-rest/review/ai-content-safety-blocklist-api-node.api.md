@@ -11,7 +11,7 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function addOrUpdateBlocklistItems(context: BlocklistContext, blocklistName: string, body: AddOrUpdateTextBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptionalParams): Promise<AddOrUpdateTextBlocklistItemsResult>;
+export function addOrUpdateBlocklistItems(context: BlocklistContext, blocklistName: string, body: AddOrUpdateBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptionalParams): Promise<AddOrUpdateTextBlocklistItemsResult>;
 
 // @public
 export interface AddOrUpdateBlocklistItemsOptionalParams extends OperationOptions {
@@ -76,7 +76,7 @@ export interface ListTextBlocklistsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function removeBlocklistItems(context: BlocklistContext, blocklistName: string, body: RemoveTextBlocklistItemsOptions, options?: RemoveBlocklistItemsOptionalParams): Promise<void>;
+export function removeBlocklistItems(context: BlocklistContext, blocklistName: string, body: RemoveBlocklistItemsOptions, options?: RemoveBlocklistItemsOptionalParams): Promise<void>;
 
 // @public
 export interface RemoveBlocklistItemsOptionalParams extends OperationOptions {

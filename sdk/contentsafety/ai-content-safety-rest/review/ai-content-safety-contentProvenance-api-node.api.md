@@ -27,7 +27,7 @@ export interface ContentProvenanceContext extends Client {
 export function createContentProvenance(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentProvenanceClientOptionalParams): ContentProvenanceContext;
 
 // @public
-export function detect(context: ContentProvenanceContext, options: DetectProvenanceOptions, optionalParams?: DetectOptionalParams): PollerLike<OperationState_2<DetectProvenanceResult>, DetectProvenanceResult>;
+export function detect(context: ContentProvenanceContext, options: DetectOptions, optionalParams?: DetectOptionalParams): PollerLike<OperationState_2<DetectProvenanceResult>, DetectProvenanceResult>;
 
 // @public
 export interface DetectOptionalParams extends OperationOptions {

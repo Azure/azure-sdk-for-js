@@ -557,12 +557,12 @@ export function acsHarmDetailDeserializer(item: any): AcsHarmDetail {
 }
 
 /** Input describing the media to inspect using Content Provenance Detection. */
-export interface DetectOptions {
+export interface DetectProvenanceOptions {
   /** Source content to inspect. */
   content: ProvenanceContent;
 }
 
-export function detectOptionsSerializer(item: DetectOptions): any {
+export function detectProvenanceOptionsSerializer(item: DetectProvenanceOptions): any {
   return { content: provenanceContentSerializer(item["content"]) };
 }
 
@@ -663,13 +663,13 @@ export function provenanceDetectOperationDeserializer(item: any): ProvenanceDete
 export type ProvenanceOperationKind = "Detect";
 
 /** The request to add blocklistItems to a text blocklist. */
-export interface AddOrUpdateBlocklistItemsOptions {
+export interface AddOrUpdateTextBlocklistItemsOptions {
   /** Array of blocklistItems to add. */
   blocklistItems: TextBlocklistItem[];
 }
 
-export function addOrUpdateBlocklistItemsOptionsSerializer(
-  item: AddOrUpdateBlocklistItemsOptions,
+export function addOrUpdateTextBlocklistItemsOptionsSerializer(
+  item: AddOrUpdateTextBlocklistItemsOptions,
 ): any {
   return { blocklistItems: textBlocklistItemArraySerializer(item["blocklistItems"]) };
 }
@@ -787,12 +787,14 @@ export function textBlocklistArrayDeserializer(result: Array<TextBlocklist>): an
 }
 
 /** The request to remove blocklistItems from a text blocklist. */
-export interface RemoveBlocklistItemsOptions {
+export interface RemoveTextBlocklistItemsOptions {
   /** Array of blocklistItemIds to remove. */
   blocklistItemIds: string[];
 }
 
-export function removeBlocklistItemsOptionsSerializer(item: RemoveBlocklistItemsOptions): any {
+export function removeTextBlocklistItemsOptionsSerializer(
+  item: RemoveTextBlocklistItemsOptions,
+): any {
   return {
     blocklistItemIds: item["blocklistItemIds"].map((p: any) => {
       return p;

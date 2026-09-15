@@ -57,7 +57,7 @@ export interface AcsVerdict {
 }
 
 // @public
-export interface AddOrUpdateTextBlocklistItemsOptions {
+export interface AddOrUpdateBlocklistItemsOptions {
     blocklistItems: TextBlocklistItem[];
 }
 
@@ -111,12 +111,12 @@ export interface DetectedProvenance {
 export type DetectedProvenanceType = "C2PA" | "Watermark";
 
 // @public
-export type DetectOutcome = "NoProvenanceDetected" | "ProvenanceDetected";
-
-// @public
-export interface DetectProvenanceOptions {
+export interface DetectOptions {
     content: ProvenanceContent;
 }
+
+// @public
+export type DetectOutcome = "NoProvenanceDetected" | "ProvenanceDetected";
 
 // @public
 export interface DetectProvenanceResult {
@@ -184,7 +184,7 @@ export interface ProvenanceDetectOperation {
 export type ProvenanceOperationKind = "Detect";
 
 // @public
-export interface RemoveTextBlocklistItemsOptions {
+export interface RemoveBlocklistItemsOptions {
     blocklistItemIds: string[];
 }
 

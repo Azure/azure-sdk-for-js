@@ -40,7 +40,7 @@ export type {
   AcsEvidence,
   AcsHarmResult,
   AcsHarmDetail,
-  DetectOptions,
+  DetectProvenanceOptions,
   ProvenanceContent,
   OperationState,
   DetectProvenanceResult,
@@ -49,11 +49,11 @@ export type {
   DetectedProvenanceType,
   ProvenanceDetectOperation,
   ProvenanceOperationKind,
-  AddOrUpdateBlocklistItemsOptions,
+  AddOrUpdateTextBlocklistItemsOptions,
   TextBlocklistItem,
   AddOrUpdateTextBlocklistItemsResult,
   TextBlocklist,
-  RemoveBlocklistItemsOptions,
+  RemoveTextBlocklistItemsOptions,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {

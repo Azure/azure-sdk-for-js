@@ -7,7 +7,7 @@ import {
   createContentProvenance,
 } from "./api/index.js";
 import {
-  DetectOptions,
+  DetectProvenanceOptions,
   DetectProvenanceResult,
   ProvenanceDetectOperation,
 } from "../models/models.js";
@@ -43,8 +43,7 @@ export class ContentProvenanceClient {
 
   /** Starts an asynchronous Content Provenance Detection operation that inspects the supplied media for Microsoft-issued C2PA and imperceptible watermark signals indicating the content was created or modified using AI. */
   detect(
-    options: DetectOptions,
-
+    options: DetectProvenanceOptions,
     optionalParams: DetectOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<DetectProvenanceResult>, DetectProvenanceResult> {
     return detect(this._client, options, optionalParams);

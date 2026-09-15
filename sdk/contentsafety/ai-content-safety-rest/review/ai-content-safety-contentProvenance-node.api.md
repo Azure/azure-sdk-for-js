@@ -19,7 +19,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public (undocumented)
 export class ContentProvenanceClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentProvenanceClientOptionalParams);
-    detect(options: DetectProvenanceOptions, optionalParams?: DetectOptionalParams): PollerLike<OperationState_2<DetectProvenanceResult>, DetectProvenanceResult>;
+    detect(options: DetectOptions, optionalParams?: DetectOptionalParams): PollerLike<OperationState_2<DetectProvenanceResult>, DetectProvenanceResult>;
     getOperationStatus(operationId: string, options?: GetOperationStatusOptionalParams): Promise<ProvenanceDetectOperation>;
     readonly pipeline: Pipeline;
 }

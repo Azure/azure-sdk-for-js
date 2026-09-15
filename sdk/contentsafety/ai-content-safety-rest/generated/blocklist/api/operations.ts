@@ -3,8 +3,8 @@
 
 import { BlocklistContext as Client } from "./index.js";
 import {
-  AddOrUpdateBlocklistItemsOptions,
-  addOrUpdateBlocklistItemsOptionsSerializer,
+  AddOrUpdateTextBlocklistItemsOptions,
+  addOrUpdateTextBlocklistItemsOptionsSerializer,
   TextBlocklistItem,
   textBlocklistItemDeserializer,
   AddOrUpdateTextBlocklistItemsResult,
@@ -16,10 +16,9 @@ import {
   _pagedTextBlocklistItemDeserializer,
   _PagedTextBlocklist,
   _pagedTextBlocklistDeserializer,
-  RemoveBlocklistItemsOptions,
-  removeBlocklistItemsOptionsSerializer,
+  RemoveTextBlocklistItemsOptions,
+  removeTextBlocklistItemsOptionsSerializer,
 } from "../../models/models.js";
-
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -45,8 +44,7 @@ import {
 export function _removeBlocklistItemsSend(
   context: Client,
   blocklistName: string,
-  body: RemoveBlocklistItemsOptions,
-
+  body: RemoveTextBlocklistItemsOptions,
   options: RemoveBlocklistItemsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -62,7 +60,7 @@ export function _removeBlocklistItemsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: removeBlocklistItemsOptionsSerializer(body),
+    body: removeTextBlocklistItemsOptionsSerializer(body),
   });
 }
 
@@ -81,8 +79,7 @@ export async function _removeBlocklistItemsDeserialize(
 export async function removeBlocklistItems(
   context: Client,
   blocklistName: string,
-  body: RemoveBlocklistItemsOptions,
-
+  body: RemoveTextBlocklistItemsOptions,
   options: RemoveBlocklistItemsOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _removeBlocklistItemsSend(context, blocklistName, body, options);
@@ -371,8 +368,7 @@ export async function createOrUpdateTextBlocklist(
 export function _addOrUpdateBlocklistItemsSend(
   context: Client,
   blocklistName: string,
-  body: AddOrUpdateBlocklistItemsOptions,
-
+  body: AddOrUpdateTextBlocklistItemsOptions,
   options: AddOrUpdateBlocklistItemsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -389,7 +385,7 @@ export function _addOrUpdateBlocklistItemsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: addOrUpdateBlocklistItemsOptionsSerializer(body),
+    body: addOrUpdateTextBlocklistItemsOptionsSerializer(body),
   });
 }
 
@@ -408,8 +404,7 @@ export async function _addOrUpdateBlocklistItemsDeserialize(
 export async function addOrUpdateBlocklistItems(
   context: Client,
   blocklistName: string,
-  body: AddOrUpdateBlocklistItemsOptions,
-
+  body: AddOrUpdateTextBlocklistItemsOptions,
   options: AddOrUpdateBlocklistItemsOptionalParams = { requestOptions: {} },
 ): Promise<AddOrUpdateTextBlocklistItemsResult> {
   const result = await _addOrUpdateBlocklistItemsSend(context, blocklistName, body, options);

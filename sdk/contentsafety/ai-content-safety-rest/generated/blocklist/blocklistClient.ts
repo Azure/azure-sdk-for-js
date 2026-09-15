@@ -3,13 +3,12 @@
 
 import { BlocklistContext, BlocklistClientOptionalParams, createBlocklist } from "./api/index.js";
 import {
-  AddOrUpdateBlocklistItemsOptions,
+  AddOrUpdateTextBlocklistItemsOptions,
   TextBlocklistItem,
   AddOrUpdateTextBlocklistItemsResult,
   TextBlocklist,
-  RemoveBlocklistItemsOptions,
+  RemoveTextBlocklistItemsOptions,
 } from "../models/models.js";
-
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   removeBlocklistItems,
@@ -53,8 +52,7 @@ export class BlocklistClient {
   /** Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one request. */
   removeBlocklistItems(
     blocklistName: string,
-    body: RemoveBlocklistItemsOptions,
-
+    body: RemoveTextBlocklistItemsOptions,
     options: RemoveBlocklistItemsOptionalParams = { requestOptions: {} },
   ): Promise<void> {
     return removeBlocklistItems(this._client, blocklistName, body, options);
@@ -112,8 +110,7 @@ export class BlocklistClient {
   /** Add or update blocklistItems to a text blocklist. You can add or update at most 100 blocklistItems in one request. */
   addOrUpdateBlocklistItems(
     blocklistName: string,
-    body: AddOrUpdateBlocklistItemsOptions,
-
+    body: AddOrUpdateTextBlocklistItemsOptions,
     options: AddOrUpdateBlocklistItemsOptionalParams = { requestOptions: {} },
   ): Promise<AddOrUpdateTextBlocklistItemsResult> {
     return addOrUpdateBlocklistItems(this._client, blocklistName, body, options);

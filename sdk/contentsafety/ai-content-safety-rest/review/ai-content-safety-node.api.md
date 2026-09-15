@@ -72,7 +72,7 @@ export interface AddOrUpdateBlocklistItemsOptionalParams extends OperationOption
 }
 
 // @public
-export interface AddOrUpdateTextBlocklistItemsOptions {
+export interface AddOrUpdateBlocklistItemsOptions {
     blocklistItems: TextBlocklistItem[];
 }
 
@@ -125,7 +125,7 @@ export interface AnalyzeTextResult {
 // @public (undocumented)
 export class BlocklistClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: BlocklistClientOptionalParams);
-    addOrUpdateBlocklistItems(blocklistName: string, body: AddOrUpdateTextBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptionalParams): Promise<AddOrUpdateTextBlocklistItemsResult>;
+    addOrUpdateBlocklistItems(blocklistName: string, body: AddOrUpdateBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptionalParams): Promise<AddOrUpdateTextBlocklistItemsResult>;
     createOrUpdateTextBlocklist(blocklistName: string, options: TextBlocklist, optionalParams?: CreateOrUpdateTextBlocklistOptionalParams): Promise<TextBlocklist>;
     deleteTextBlocklist(blocklistName: string, options?: DeleteTextBlocklistOptionalParams): Promise<void>;
     getTextBlocklist(blocklistName: string, options?: GetTextBlocklistOptionalParams): Promise<TextBlocklist>;
@@ -133,7 +133,7 @@ export class BlocklistClient {
     listTextBlocklistItems(blocklistName: string, options?: ListTextBlocklistItemsOptionalParams): PagedAsyncIterableIterator<TextBlocklistItem>;
     listTextBlocklists(options?: ListTextBlocklistsOptionalParams): PagedAsyncIterableIterator<TextBlocklist>;
     readonly pipeline: Pipeline;
-    removeBlocklistItems(blocklistName: string, body: RemoveTextBlocklistItemsOptions, options?: RemoveBlocklistItemsOptionalParams): Promise<void>;
+    removeBlocklistItems(blocklistName: string, body: RemoveBlocklistItemsOptions, options?: RemoveBlocklistItemsOptionalParams): Promise<void>;
 }
 
 // @public
@@ -144,7 +144,7 @@ export interface BlocklistClientOptionalParams extends ClientOptions {
 // @public (undocumented)
 export class ContentProvenanceClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentProvenanceClientOptionalParams);
-    detect(options: DetectProvenanceOptions, optionalParams?: DetectOptionalParams): PollerLike<OperationState_2<DetectProvenanceResult>, DetectProvenanceResult>;
+    detect(options: DetectOptions, optionalParams?: DetectOptionalParams): PollerLike<OperationState_2<DetectProvenanceResult>, DetectProvenanceResult>;
     getOperationStatus(operationId: string, options?: GetOperationStatusOptionalParams): Promise<ProvenanceDetectOperation>;
     readonly pipeline: Pipeline;
 }
@@ -200,12 +200,12 @@ export interface DetectOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DetectOutcome = "NoProvenanceDetected" | "ProvenanceDetected";
-
-// @public
-export interface DetectProvenanceOptions {
+export interface DetectOptions {
     content: ProvenanceContent;
 }
+
+// @public
+export type DetectOutcome = "NoProvenanceDetected" | "ProvenanceDetected";
 
 // @public
 export interface DetectProvenanceResult {
@@ -318,7 +318,7 @@ export interface RemoveBlocklistItemsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RemoveTextBlocklistItemsOptions {
+export interface RemoveBlocklistItemsOptions {
     blocklistItemIds: string[];
 }
 

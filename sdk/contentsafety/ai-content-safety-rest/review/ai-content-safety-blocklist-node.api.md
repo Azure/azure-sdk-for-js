@@ -18,7 +18,7 @@ export interface AddOrUpdateBlocklistItemsOptionalParams extends OperationOption
 // @public (undocumented)
 export class BlocklistClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: BlocklistClientOptionalParams);
-    addOrUpdateBlocklistItems(blocklistName: string, body: AddOrUpdateTextBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptionalParams): Promise<AddOrUpdateTextBlocklistItemsResult>;
+    addOrUpdateBlocklistItems(blocklistName: string, body: AddOrUpdateBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptionalParams): Promise<AddOrUpdateTextBlocklistItemsResult>;
     createOrUpdateTextBlocklist(blocklistName: string, options: TextBlocklist, optionalParams?: CreateOrUpdateTextBlocklistOptionalParams): Promise<TextBlocklist>;
     deleteTextBlocklist(blocklistName: string, options?: DeleteTextBlocklistOptionalParams): Promise<void>;
     getTextBlocklist(blocklistName: string, options?: GetTextBlocklistOptionalParams): Promise<TextBlocklist>;
@@ -26,7 +26,7 @@ export class BlocklistClient {
     listTextBlocklistItems(blocklistName: string, options?: ListTextBlocklistItemsOptionalParams): PagedAsyncIterableIterator<TextBlocklistItem>;
     listTextBlocklists(options?: ListTextBlocklistsOptionalParams): PagedAsyncIterableIterator<TextBlocklist>;
     readonly pipeline: Pipeline;
-    removeBlocklistItems(blocklistName: string, body: RemoveTextBlocklistItemsOptions, options?: RemoveBlocklistItemsOptionalParams): Promise<void>;
+    removeBlocklistItems(blocklistName: string, body: RemoveBlocklistItemsOptions, options?: RemoveBlocklistItemsOptionalParams): Promise<void>;
 }
 
 // @public
