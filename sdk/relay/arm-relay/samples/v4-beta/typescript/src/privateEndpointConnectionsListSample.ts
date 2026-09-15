@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the available PrivateEndpointConnections within a namespace.
  *
  * @summary gets the available PrivateEndpointConnections within a namespace.
- * x-ms-original-file: 2024-01-01/PrivateEndpointConnections/PrivateEndpointConnectionsList.json
+ * x-ms-original-file: 2026-07-01-preview/PrivateEndpointConnections/PrivateEndpointConnectionsList.json
  */
 async function privateEndpointConnectionsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

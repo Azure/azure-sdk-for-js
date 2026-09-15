@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary configures source scan for a protected item. This is an asynchronous operation. To know the status of the
  * operation, call GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ConfigureSourceScan.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/ConfigureSourceScan.json
  */
 async function configureSourceScanForProtectedItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkStart_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkStart_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkStartExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function virtualMachineBulkOperationsBulkStartExample(): Promise<void> {
     "useast2euap",
     {
       executionParameters: {
-        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Unknown" },
+        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Start" },
         capacityRecommendationParameters: {
           desiredLocations: ["eastus", "westus2"],
           desiredSizes: ["Standard_D2s_v5", "Standard_D4s_v5"],
@@ -44,7 +44,7 @@ async function virtualMachineBulkOperationsBulkStartExample(): Promise<void> {
  * This sample demonstrates how to bulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkStart_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/VirtualMachineBulkOperations_BulkStart_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkStartGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

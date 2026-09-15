@@ -20,7 +20,7 @@ export const TIME_SINCE_ENQUEUED = "timeSinceEnqueued";
  * AzureMonitorTraceExporter version.
  * @internal
  */
-export const packageVersion = "1.0.0-beta.45";
+export const packageVersion = "1.0.0-beta.46";
 
 /**
  * Telemetry base data version.
@@ -47,7 +47,6 @@ export const ApplicationInsightsAvailabilityDuration = "microsoft.availability.d
 export const ApplicationInsightsAvailabilitySuccess = "microsoft.availability.success";
 export const ApplicationInsightsAvailabilityRunLocation = "microsoft.availability.runLocation";
 export const ApplicationInsightsAvailabilityMessage = "microsoft.availability.message";
-export const ApplicationInsightsAvailabilityTestTimestamp = "microsoft.availability.testTimestamp";
 export const MicrosoftClientIp = "microsoft.client.ip";
 
 export const ApplicationInsightsMessageName = "Microsoft.ApplicationInsights.Message";

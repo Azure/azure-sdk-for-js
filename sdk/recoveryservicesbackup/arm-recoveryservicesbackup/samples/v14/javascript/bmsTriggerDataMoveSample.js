@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to triggers Data Move Operation on target vault
  *
  * @summary triggers Data Move Operation on target vault
- * x-ms-original-file: 2026-07-01/BackupDataMove/TriggerDataMove_Post.json
+ * x-ms-original-file: 2026-08-01/BackupDataMove/TriggerDataMove_Post.json
  */
 async function triggerDataMove() {
   const credential = new DefaultAzureCredential();

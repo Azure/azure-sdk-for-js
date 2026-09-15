@@ -4,6 +4,7 @@
 import {
   RoutineTriggerUnion,
   RoutineActionUnion,
+  RoutineAuthorization,
   RoutineDispatchPayloadUnion,
   PageOrder,
 } from "../../../models/models.js";
@@ -85,4 +86,6 @@ export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptio
   triggers?: Record<string, RoutineTriggerUnion>;
   /** The action executed when the routine fires. */
   action?: RoutineActionUnion;
+  /** Optional authorization configuration for dispatching a newly created routine. Ignored when updating an existing routine. */
+  authorization?: RoutineAuthorization;
 }
