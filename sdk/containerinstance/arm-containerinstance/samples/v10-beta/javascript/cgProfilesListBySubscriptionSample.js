@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all container group profiles under a subscription.
  *
  * @summary gets a list of all container group profiles under a subscription.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfilesList.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfilesList.json
  */
 async function containerGroupProfilesList() {
   const credential = new DefaultAzureCredential();

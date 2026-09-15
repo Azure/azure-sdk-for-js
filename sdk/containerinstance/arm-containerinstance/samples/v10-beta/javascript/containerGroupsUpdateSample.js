@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates container group tags with specified values.
  *
  * @summary updates container group tags with specified values.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupsUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupsUpdate.json
  */
 async function containerGroupsUpdate() {
   const credential = new DefaultAzureCredential();
