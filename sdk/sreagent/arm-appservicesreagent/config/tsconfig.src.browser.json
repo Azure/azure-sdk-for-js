@@ -1,0 +1,16 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/supportedAgentModels/index.ts",
+    "../src/api/agentSpacesConnectors/index.ts",
+    "../src/api/agentSpaces/index.ts",
+    "../src/api/agentsConnectors/index.ts",
+    "../src/api/agents/index.ts",
+    "../src/models/index.ts"
+  ]
+}
