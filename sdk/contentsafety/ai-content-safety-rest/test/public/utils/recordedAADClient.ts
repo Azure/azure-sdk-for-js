@@ -35,6 +35,10 @@ export async function createAADRecorder(context: TestInfo): Promise<Recorder> {
 export function createAADClient(recorder: Recorder): ContentSafetyClient {
   const endpoint = assertEnvironmentVariable("CONTENT_SAFETY_ENDPOINT");
   const credential = createTestCredential();
-  const client = new ContentSafetyClient(endpoint, credential, recorder.configureClientOptions({}));
+  const client = new ContentSafetyClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ apiVersion: "2023-10-01" }),
+  );
   return client;
 }

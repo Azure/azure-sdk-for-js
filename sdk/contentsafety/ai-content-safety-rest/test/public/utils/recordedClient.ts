@@ -32,7 +32,11 @@ export function createClient(recorder: Recorder): ContentSafetyClient {
   const endpoint = assertEnvironmentVariable("CONTENT_SAFETY_ENDPOINT");
   const key = assertEnvironmentVariable("CONTENT_SAFETY_API_KEY");
   const credential = new AzureKeyCredential(key);
-  const client = new ContentSafetyClient(endpoint, credential, recorder.configureClientOptions({}));
+  const client = new ContentSafetyClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ apiVersion: "2023-10-01" }),
+  );
   return client;
 }
 
@@ -40,5 +44,9 @@ export function createBlocklistClient(recorder: Recorder): BlocklistClient {
   const endpoint = assertEnvironmentVariable("CONTENT_SAFETY_ENDPOINT");
   const key = assertEnvironmentVariable("CONTENT_SAFETY_API_KEY");
   const credential = new AzureKeyCredential(key);
-  return new BlocklistClient(endpoint, credential, recorder.configureClientOptions({}));
+  return new BlocklistClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ apiVersion: "2023-10-01" }),
+  );
 }
