@@ -33,6 +33,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     const request = spy.mock.calls[0][0];
 
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
+    assert.equal(new URL(request.url).searchParams.get("api-version"), "2026-09-23");
 
     assert.typeOf(request.headers.get(dateHeader), "string");
     assert.isDefined(request.headers.get("authorization"));
