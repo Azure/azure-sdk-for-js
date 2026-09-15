@@ -3,6 +3,8 @@
 
 import { AIProjectContext as Client } from "../../index.js";
 import {
+  Agent,
+  agentDeserializer,
   apiErrorResponseDeserializer,
   AgentOptimizationJob,
   agentOptimizationJobSerializer,
@@ -12,6 +14,8 @@ import {
   _AgentsPagedResultAgentOptimizationJobListItem,
   _agentsPagedResultAgentOptimizationJobListItemDeserializer,
   AgentOptimizationJobListItem,
+  GenerateAgentRequest,
+  generateAgentRequestSerializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -25,6 +29,7 @@ import {
   BetaAgentsListOptimizationJobsOptionalParams,
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
+  BetaAgentsCreateFromPromptOptionalParams,
 } from "./options.js";
 import {
   StreamableMethod,
@@ -328,4 +333,61 @@ export function createOptimizationJob(
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
   }) as PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
+}
+
+export function _createFromPromptSend(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  body: GenerateAgentRequest,
+  options: BetaAgentsCreateFromPromptOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents:generate{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: generateAgentRequestSerializer(body),
+    });
+}
+
+export async function _createFromPromptDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Generates and creates an agent from kind-specific high-level inputs.
+ * The generated definition remains fully editable through the standard agent versioning operations.
+ */
+export async function createFromPrompt(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  body: GenerateAgentRequest,
+  options: BetaAgentsCreateFromPromptOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _createFromPromptSend(context, foundryFeatures, body, options);
+  return _createFromPromptDeserialize(result);
 }

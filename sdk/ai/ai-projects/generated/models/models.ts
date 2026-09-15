@@ -9,6 +9,144 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import {
+  Reasoning,
+  reasoningSerializer,
+  reasoningDeserializer,
+  toolUnionArraySerializer,
+  toolUnionArrayDeserializer,
+  Tool,
+  ToolUnion,
+  MCPToolRequireApproval,
+  MCPToolFilter,
+  MCPTool,
+  _mcpToolAllowedToolsSerializer,
+  _mcpToolAllowedToolsDeserializer,
+  CallableToolAllowedCaller,
+  _mcpToolRequireApprovalSerializer,
+  _mcpToolRequireApprovalDeserializer,
+  AutoCodeInterpreterToolParam,
+  ContainerMemoryLimit,
+  RankingOptions,
+  rankingOptionsSerializer,
+  rankingOptionsDeserializer,
+  Filters,
+  filtersSerializer,
+  filtersDeserializer,
+  WebSearchToolFilters,
+  webSearchToolFiltersSerializer,
+  webSearchToolFiltersDeserializer,
+  WebSearchApproximateLocation,
+  webSearchApproximateLocationSerializer,
+  webSearchApproximateLocationDeserializer,
+  containerSkillUnionArraySerializer,
+  containerSkillUnionArrayDeserializer,
+  ContainerSkillUnion,
+  ToolChoiceParamUnion,
+  ToolChoiceFunction,
+  ToolChoiceMCP,
+  textResponseFormatUnionSerializer,
+  textResponseFormatUnionDeserializer,
+  TextResponseFormatUnion,
+  realtimeAudioFormatsUnionSerializer,
+  realtimeAudioFormatsUnionDeserializer,
+  RealtimeAudioFormatsUnion,
+  RealtimeFunctionToolParameters,
+  realtimeFunctionToolParametersSerializer,
+  realtimeFunctionToolParametersDeserializer,
+  ApiError,
+  apiErrorDeserializer,
+  ResponseUsageInputTokensDetails,
+  responseUsageInputTokensDetailsDeserializer,
+  ResponseUsageOutputTokensDetails,
+  responseUsageOutputTokensDetailsDeserializer,
+  RealtimeResponseUsage,
+  realtimeResponseUsageSerializer,
+  realtimeResponseUsageDeserializer,
+  realtimeConversationItemUnionArraySerializer,
+  realtimeConversationItemUnionArrayDeserializer,
+  realtimeConversationItemUnionSerializer,
+  realtimeConversationItemUnionDeserializer,
+  RealtimeConversationItemUnion,
+  RealtimeResponseStatusDetails,
+  realtimeResponseStatusDetailsSerializer,
+  realtimeResponseStatusDetailsDeserializer,
+  _voiceResponseBaseMaxOutputTokensSerializer,
+  _voiceResponseBaseMaxOutputTokensDeserializer,
+  RealtimeReasoning,
+  realtimeReasoningSerializer,
+  realtimeReasoningDeserializer,
+  RealtimeClientEvent,
+  RealtimeClientEventConversationItemCreate,
+  RealtimeClientEventConversationItemDelete,
+  RealtimeClientEventConversationItemRetrieve,
+  RealtimeClientEventConversationItemTruncate,
+  RealtimeClientEventInputAudioBufferAppend,
+  RealtimeClientEventInputAudioBufferClear,
+  RealtimeClientEventOutputAudioBufferClear,
+  RealtimeClientEventInputAudioBufferCommit,
+  RealtimeClientEventResponseCancel,
+  RealtimeClientEventResponseCreate,
+  _voiceAgentResponseCreateParamsToolArraySerializer,
+  _voiceAgentResponseCreateParamsToolArrayDeserializer,
+  RealtimeFunctionTool,
+  _voiceAgentResponseCreateParamsToolChoiceSerializer,
+  _voiceAgentResponseCreateParamsToolChoiceDeserializer,
+  ToolChoiceOptions,
+  _voiceAgentResponseCreateParamsMaxOutputTokensSerializer,
+  _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer,
+  Metadata,
+  metadataSerializer,
+  metadataDeserializer,
+  RealtimeServerEvent,
+  RealtimeServerEventConversationItemCreated,
+  RealtimeServerEventConversationItemDeleted,
+  RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
+  RealtimeServerEventConversationItemInputAudioTranscriptionDelta,
+  RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
+  RealtimeServerEventConversationItemRetrieved,
+  RealtimeServerEventConversationItemTruncated,
+  RealtimeServerEventInputAudioBufferCleared,
+  RealtimeServerEventInputAudioBufferCommitted,
+  RealtimeServerEventInputAudioBufferSpeechStarted,
+  RealtimeServerEventInputAudioBufferSpeechStopped,
+  RealtimeServerEventRateLimitsUpdated,
+  RealtimeServerEventResponseAudioDelta,
+  RealtimeServerEventResponseAudioDone,
+  RealtimeServerEventResponseAudioTranscriptDelta,
+  RealtimeServerEventResponseAudioTranscriptDone,
+  RealtimeServerEventResponseContentPartAdded,
+  RealtimeServerEventResponseContentPartDone,
+  RealtimeServerEventResponseCreated,
+  RealtimeServerEventResponseDone,
+  RealtimeServerEventResponseFunctionCallArgumentsDelta,
+  RealtimeServerEventResponseFunctionCallArgumentsDone,
+  RealtimeServerEventResponseOutputItemAdded,
+  RealtimeServerEventResponseOutputItemDone,
+  RealtimeServerEventResponseTextDelta,
+  RealtimeServerEventResponseTextDone,
+  RealtimeServerEventSessionCreated,
+  RealtimeServerEventSessionUpdated,
+  RealtimeServerEventOutputAudioBufferCleared,
+  RealtimeServerEventConversationItemAdded,
+  RealtimeServerEventConversationItemDone,
+  RealtimeServerEventInputAudioBufferTimeoutTriggered,
+  RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
+  RealtimeServerEventMCPListToolsInProgress,
+  RealtimeServerEventMCPListToolsCompleted,
+  RealtimeServerEventMCPListToolsFailed,
+  RealtimeServerEventResponseMCPCallArgumentsDelta,
+  RealtimeServerEventResponseMCPCallArgumentsDone,
+  RealtimeServerEventResponseMCPCallInProgress,
+  RealtimeServerEventResponseMCPCallCompleted,
+  RealtimeServerEventResponseMCPCallFailed,
+  RealtimeServerEventError,
+} from "./openAI/models.js";
+import {
+  PickPropertiesVoiceAgentAudioConfig,
+  pickPropertiesVoiceAgentAudioConfigSerializer,
+  pickPropertiesVoiceAgentAudioConfigDeserializer,
+} from "./typeSpec/models.js";
 import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /** model interface Agent */
@@ -21,6 +159,8 @@ export interface Agent {
   name: string;
   /** The operational state of the agent. Controls whether the agent endpoint accepts or rejects requests. */
   readonly state: AgentState;
+  /** The administrative configuration state of the agent. This reflects whether the agent was explicitly enabled or disabled, independently of identity-derived operational state. */
+  readonly configuration_state: AgentState;
   /** The source of the agent's operational state. When the agent is disabled, indicates where the disabled state originates from. Empty when not derived from a specific source. */
   readonly state_source?: AgentStateSource;
   /** The latest version of the agent. */
@@ -46,6 +186,7 @@ export function agentDeserializer(item: any): Agent {
     id: item["id"],
     name: item["name"],
     state: item["state"],
+    configuration_state: item["configuration_state"],
     state_source: item["state_source"],
     versions: _agentObjectVersionsDeserializer(item["versions"]),
     agent_endpoint: !item["agent_endpoint"]
@@ -180,6 +321,7 @@ export type AgentDefinitionUnion =
   | PromptAgentDefinition
   | WorkflowAgentDefinition
   | ExternalAgentDefinition
+  | VoiceAgentDefinition
   | AgentDefinition;
 
 export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any {
@@ -195,6 +337,9 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
 
     case "external":
       return externalAgentDefinitionSerializer(item as ExternalAgentDefinition);
+
+    case "voice":
+      return voiceAgentDefinitionSerializer(item as VoiceAgentDefinition);
 
     default:
       return agentDefinitionSerializer(item);
@@ -215,13 +360,16 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
     case "external":
       return externalAgentDefinitionDeserializer(item as ExternalAgentDefinition);
 
+    case "voice":
+      return voiceAgentDefinitionDeserializer(item as VoiceAgentDefinition);
+
     default:
       return agentDefinitionDeserializer(item);
   }
 }
 
 /** Type of AgentKind */
-export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
+export type AgentKind = "prompt" | "hosted" | "workflow" | "external" | "voice";
 
 /** Configuration for Responsible AI (RAI) content filtering and safety features. */
 export interface RaiConfig {
@@ -486,7 +634,7 @@ export function protocolVersionRecordDeserializer(item: any): ProtocolVersionRec
 
 /** Type of AgentEndpointProtocol */
 export type AgentEndpointProtocol =
-  "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
+  "activity" | "responses" | "a2a" | "mcp" | "invocations" | "voice" | "invocations_ws";
 
 /** Code-based deployment configuration for a hosted agent. */
 export interface CodeConfiguration {
@@ -754,10 +902,14 @@ export function sessionConfigurationDeserializer(item: any): SessionConfiguratio
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
   kind: "prompt";
+  /** The managed runtime and agent loop used to execute this prompt agent. */
+  harness?: AgentHarnessUnion;
   /** The model deployment to use for this agent. */
   model: string;
   /** A system (or developer) message inserted into the model's context. */
   instructions?: string;
+  /** The Foundry skills available to this prompt agent. An omitted skill version is resolved and pinned when the agent version is created. */
+  skills?: SkillReference[];
   /**
    * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
    * We generally recommend altering this or `top_p` but not both. Defaults to `1`.
@@ -792,8 +944,10 @@ export function promptAgentDefinitionSerializer(item: PromptAgentDefinition): an
   return {
     kind: item["kind"],
     rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    harness: !item["harness"] ? item["harness"] : agentHarnessUnionSerializer(item["harness"]),
     model: item["model"],
     instructions: item["instructions"],
+    skills: !item["skills"] ? item["skills"] : skillReferenceArraySerializer(item["skills"]),
     temperature: item["temperature"],
     top_p: item["top_p"],
     reasoning: !item["reasoning"] ? item["reasoning"] : reasoningSerializer(item["reasoning"]),
@@ -814,8 +968,10 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
     rai_config: !item["rai_config"]
       ? item["rai_config"]
       : raiConfigDeserializer(item["rai_config"]),
+    harness: !item["harness"] ? item["harness"] : agentHarnessUnionDeserializer(item["harness"]),
     model: item["model"],
     instructions: item["instructions"],
+    skills: !item["skills"] ? item["skills"] : skillReferenceArrayDeserializer(item["skills"]),
     temperature: item["temperature"],
     top_p: item["top_p"],
     reasoning: !item["reasoning"] ? item["reasoning"] : reasoningDeserializer(item["reasoning"]),
@@ -830,361 +986,185 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
   };
 }
 
-/**
- * **gpt-5 and o-series models only**
- * Configuration options for
- * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
- */
-export interface Reasoning {
-  /**
-   * Controls the reasoning execution mode for the request.
-   *   When returned on a response, this is the effective execution mode.
-   */
-  mode?: ReasoningModeEnum;
-  effort?: ReasoningEffort;
-  summary?: "auto" | "concise" | "detailed";
-  context?: "auto" | "current_turn" | "all_turns";
-  generate_summary?: "auto" | "concise" | "detailed";
+/** A managed runtime and agent loop used to execute a prompt agent. */
+export interface AgentHarness {
+  /** The type of managed harness. */
+  /** The discriminator possible values: github_copilot_preview */
+  type: string;
 }
 
-export function reasoningSerializer(item: Reasoning): any {
-  return {
-    mode: !item["mode"] ? item["mode"] : reasoningModeEnumSerializer(item["mode"]),
-    effort: item["effort"],
-    summary: item["summary"],
-    context: item["context"],
-    generate_summary: item["generate_summary"],
-  };
-}
-
-export function reasoningDeserializer(item: any): Reasoning {
-  return {
-    mode: !item["mode"] ? item["mode"] : reasoningModeEnumDeserializer(item["mode"]),
-    effort: item["effort"],
-    summary: item["summary"],
-    context: item["context"],
-    generate_summary: item["generate_summary"],
-  };
-}
-
-/** Alias for ReasoningModeEnum */
-export type ReasoningModeEnum = string | "standard" | "pro";
-
-export function reasoningModeEnumSerializer(item: ReasoningModeEnum): any {
-  return item;
-}
-
-export function reasoningModeEnumDeserializer(item: any): ReasoningModeEnum {
-  return item;
-}
-
-/**
- * Constrains effort on reasoning for reasoning models. Currently supported
- * values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
- * Reducing reasoning effort can result in faster responses and fewer tokens
- * used on reasoning in a response. Not all reasoning models support every
- * value. See the
- * [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
- * for model-specific support.
- */
-export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
-
-export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
-  return result.map((item) => {
-    return toolUnionSerializer(item);
-  });
-}
-
-export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
-  return result.map((item) => {
-    return toolUnionDeserializer(item);
-  });
-}
-
-/** A tool that can be used to generate a response. */
-export interface Tool {
-  type: ToolType;
-}
-
-export function toolSerializer(item: Tool): any {
+export function agentHarnessSerializer(item: AgentHarness): any {
   return { type: item["type"] };
 }
 
-export function toolDeserializer(item: any): Tool {
+export function agentHarnessDeserializer(item: any): AgentHarness {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for ToolUnion */
-export type ToolUnion =
-  | BingGroundingTool
-  | MicrosoftFabricPreviewTool
-  | SharepointPreviewTool
-  | AzureAISearchTool
-  | OpenApiTool
-  | BingCustomSearchPreviewTool
-  | BrowserAutomationPreviewTool
-  | AzureFunctionTool
-  | CaptureStructuredOutputsTool
-  | A2APreviewTool
-  | A2ATool
-  | WorkIQPreviewTool
-  | FabricIQPreviewTool
-  | WebIQPreviewTool
-  | MemorySearchPreviewTool
-  | MCPTool
-  | CodeInterpreterTool
-  | FunctionTool
-  | FileSearchTool
-  | ComputerUsePreviewTool
-  | WebSearchTool
-  | ProgrammaticToolCallingParam
-  | ImageGenTool
-  | LocalShellToolParam
-  | FunctionShellToolParam
-  | CustomToolParam
-  | WebSearchPreviewTool
-  | ApplyPatchToolParam
-  | ComputerTool
-  | NamespaceToolParam
-  | ToolSearchToolParam
-  | Tool;
+/** Alias for AgentHarnessUnion */
+export type AgentHarnessUnion = GitHubCopilotHarness | AgentHarness;
 
-export function toolUnionSerializer(item: ToolUnion): any {
+export function agentHarnessUnionSerializer(item: AgentHarnessUnion): any {
   switch (item.type) {
-    case "bing_grounding":
-      return bingGroundingToolSerializer(item as BingGroundingTool);
-
-    case "fabric_dataagent_preview":
-      return microsoftFabricPreviewToolSerializer(item as MicrosoftFabricPreviewTool);
-
-    case "sharepoint_grounding_preview":
-      return sharepointPreviewToolSerializer(item as SharepointPreviewTool);
-
-    case "azure_ai_search":
-      return azureAISearchToolSerializer(item as AzureAISearchTool);
-
-    case "openapi":
-      return openApiToolSerializer(item as OpenApiTool);
-
-    case "bing_custom_search_preview":
-      return bingCustomSearchPreviewToolSerializer(item as BingCustomSearchPreviewTool);
-
-    case "browser_automation_preview":
-      return browserAutomationPreviewToolSerializer(item as BrowserAutomationPreviewTool);
-
-    case "azure_function":
-      return azureFunctionToolSerializer(item as AzureFunctionTool);
-
-    case "capture_structured_outputs":
-      return captureStructuredOutputsToolSerializer(item as CaptureStructuredOutputsTool);
-
-    case "a2a_preview":
-      return a2APreviewToolSerializer(item as A2APreviewTool);
-
-    case "a2a":
-      return a2AToolSerializer(item as A2ATool);
-
-    case "work_iq_preview":
-      return workIQPreviewToolSerializer(item as WorkIQPreviewTool);
-
-    case "fabric_iq_preview":
-      return fabricIQPreviewToolSerializer(item as FabricIQPreviewTool);
-
-    case "web_iq_preview":
-      return webIQPreviewToolSerializer(item as WebIQPreviewTool);
-
-    case "memory_search_preview":
-      return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
-
-    case "mcp":
-      return mcpToolSerializer(item as MCPTool);
-
-    case "code_interpreter":
-      return codeInterpreterToolSerializer(item as CodeInterpreterTool);
-
-    case "function":
-      return functionToolSerializer(item as FunctionTool);
-
-    case "file_search":
-      return fileSearchToolSerializer(item as FileSearchTool);
-
-    case "computer_use_preview":
-      return computerUsePreviewToolSerializer(item as ComputerUsePreviewTool);
-
-    case "web_search":
-      return webSearchToolSerializer(item as WebSearchTool);
-
-    case "programmatic_tool_calling":
-      return programmaticToolCallingParamSerializer(item as ProgrammaticToolCallingParam);
-
-    case "image_generation":
-      return imageGenToolSerializer(item as ImageGenTool);
-
-    case "local_shell":
-      return localShellToolParamSerializer(item as LocalShellToolParam);
-
-    case "shell":
-      return functionShellToolParamSerializer(item as FunctionShellToolParam);
-
-    case "custom":
-      return customToolParamSerializer(item as CustomToolParam);
-
-    case "web_search_preview":
-      return webSearchPreviewToolSerializer(item as WebSearchPreviewTool);
-
-    case "apply_patch":
-      return applyPatchToolParamSerializer(item as ApplyPatchToolParam);
-
-    case "computer":
-      return computerToolSerializer(item as ComputerTool);
-
-    case "namespace":
-      return namespaceToolParamSerializer(item as NamespaceToolParam);
-
-    case "tool_search":
-      return toolSearchToolParamSerializer(item as ToolSearchToolParam);
+    case "github_copilot_preview":
+      return gitHubCopilotHarnessSerializer(item as GitHubCopilotHarness);
 
     default:
-      return toolSerializer(item);
+      return agentHarnessSerializer(item);
   }
 }
 
-export function toolUnionDeserializer(item: any): ToolUnion {
+export function agentHarnessUnionDeserializer(item: any): AgentHarnessUnion {
   switch (item["type"]) {
-    case "bing_grounding":
-      return bingGroundingToolDeserializer(item as BingGroundingTool);
-
-    case "fabric_dataagent_preview":
-      return microsoftFabricPreviewToolDeserializer(item as MicrosoftFabricPreviewTool);
-
-    case "sharepoint_grounding_preview":
-      return sharepointPreviewToolDeserializer(item as SharepointPreviewTool);
-
-    case "azure_ai_search":
-      return azureAISearchToolDeserializer(item as AzureAISearchTool);
-
-    case "openapi":
-      return openApiToolDeserializer(item as OpenApiTool);
-
-    case "bing_custom_search_preview":
-      return bingCustomSearchPreviewToolDeserializer(item as BingCustomSearchPreviewTool);
-
-    case "browser_automation_preview":
-      return browserAutomationPreviewToolDeserializer(item as BrowserAutomationPreviewTool);
-
-    case "azure_function":
-      return azureFunctionToolDeserializer(item as AzureFunctionTool);
-
-    case "capture_structured_outputs":
-      return captureStructuredOutputsToolDeserializer(item as CaptureStructuredOutputsTool);
-
-    case "a2a_preview":
-      return a2APreviewToolDeserializer(item as A2APreviewTool);
-
-    case "a2a":
-      return a2AToolDeserializer(item as A2ATool);
-
-    case "work_iq_preview":
-      return workIQPreviewToolDeserializer(item as WorkIQPreviewTool);
-
-    case "fabric_iq_preview":
-      return fabricIQPreviewToolDeserializer(item as FabricIQPreviewTool);
-
-    case "web_iq_preview":
-      return webIQPreviewToolDeserializer(item as WebIQPreviewTool);
-
-    case "memory_search_preview":
-      return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
-
-    case "mcp":
-      return mcpToolDeserializer(item as MCPTool);
-
-    case "code_interpreter":
-      return codeInterpreterToolDeserializer(item as CodeInterpreterTool);
-
-    case "function":
-      return functionToolDeserializer(item as FunctionTool);
-
-    case "file_search":
-      return fileSearchToolDeserializer(item as FileSearchTool);
-
-    case "computer_use_preview":
-      return computerUsePreviewToolDeserializer(item as ComputerUsePreviewTool);
-
-    case "web_search":
-      return webSearchToolDeserializer(item as WebSearchTool);
-
-    case "programmatic_tool_calling":
-      return programmaticToolCallingParamDeserializer(item as ProgrammaticToolCallingParam);
-
-    case "image_generation":
-      return imageGenToolDeserializer(item as ImageGenTool);
-
-    case "local_shell":
-      return localShellToolParamDeserializer(item as LocalShellToolParam);
-
-    case "shell":
-      return functionShellToolParamDeserializer(item as FunctionShellToolParam);
-
-    case "custom":
-      return customToolParamDeserializer(item as CustomToolParam);
-
-    case "web_search_preview":
-      return webSearchPreviewToolDeserializer(item as WebSearchPreviewTool);
-
-    case "apply_patch":
-      return applyPatchToolParamDeserializer(item as ApplyPatchToolParam);
-
-    case "computer":
-      return computerToolDeserializer(item as ComputerTool);
-
-    case "namespace":
-      return namespaceToolParamDeserializer(item as NamespaceToolParam);
-
-    case "tool_search":
-      return toolSearchToolParamDeserializer(item as ToolSearchToolParam);
+    case "github_copilot_preview":
+      return gitHubCopilotHarnessDeserializer(item as GitHubCopilotHarness);
 
     default:
-      return toolDeserializer(item);
+      return agentHarnessDeserializer(item);
   }
 }
 
-/** Type of ToolType */
-export type ToolType =
-  | "function"
-  | "file_search"
-  | "computer"
-  | "computer_use_preview"
-  | "web_search"
-  | "mcp"
-  | "code_interpreter"
-  | "programmatic_tool_calling"
-  | "image_generation"
-  | "local_shell"
-  | "shell"
-  | "custom"
-  | "namespace"
-  | "tool_search"
-  | "web_search_preview"
-  | "apply_patch"
-  | "a2a_preview"
-  | "bing_custom_search_preview"
-  | "browser_automation_preview"
-  | "fabric_dataagent_preview"
-  | "sharepoint_grounding_preview"
-  | "memory_search_preview"
-  | "work_iq_preview"
-  | "fabric_iq_preview"
-  | "toolbox_search_preview"
-  | "web_iq_preview"
-  | "a2a"
-  | "azure_ai_search"
-  | "azure_function"
-  | "bing_grounding"
-  | "capture_structured_outputs"
-  | "openapi";
+/** The GitHub Copilot managed harness for prompt agents. */
+export interface GitHubCopilotHarness extends AgentHarness {
+  /** The type of managed harness. Always `github_copilot_preview`. */
+  type: "github_copilot_preview";
+}
+
+export function gitHubCopilotHarnessSerializer(item: GitHubCopilotHarness): any {
+  return { type: item["type"] };
+}
+
+export function gitHubCopilotHarnessDeserializer(item: any): GitHubCopilotHarness {
+  return {
+    type: item["type"],
+  };
+}
+
+export function skillReferenceArraySerializer(result: Array<SkillReference>): any[] {
+  return result.map((item) => {
+    return skillReferenceSerializer(item);
+  });
+}
+
+export function skillReferenceArrayDeserializer(result: Array<SkillReference>): any[] {
+  return result.map((item) => {
+    return skillReferenceDeserializer(item);
+  });
+}
+
+/** A reference to a versioned Foundry skill. */
+export interface SkillReference {
+  /** The name of the skill. */
+  name: string;
+  /** The skill version. If omitted, the current default version is resolved and pinned when the agent version is created. */
+  version?: string;
+}
+
+export function skillReferenceSerializer(item: SkillReference): any {
+  return { name: item["name"], version: item["version"] };
+}
+
+export function skillReferenceDeserializer(item: any): SkillReference {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Configuration overrides for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetPreview extends Tool {
+  /** The type of the toolset. Always `github_copilot_toolset_preview`. */
+  type: "github_copilot_toolset_preview";
+  /** The default configuration for built-in tools. If omitted, built-in tools are enabled by default. */
+  default_config?: GitHubCopilotToolsetDefaultConfig;
+  /** Per-tool configuration overrides. Duplicate built-in tool names are not allowed. */
+  configs?: GitHubCopilotToolsetConfig[];
+}
+
+export function gitHubCopilotToolsetPreviewSerializer(item: GitHubCopilotToolsetPreview): any {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigSerializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArraySerializer(item["configs"]),
+  };
+}
+
+export function gitHubCopilotToolsetPreviewDeserializer(item: any): GitHubCopilotToolsetPreview {
+  return {
+    type: item["type"],
+    default_config: !item["default_config"]
+      ? item["default_config"]
+      : gitHubCopilotToolsetDefaultConfigDeserializer(item["default_config"]),
+    configs: !item["configs"]
+      ? item["configs"]
+      : gitHubCopilotToolsetConfigArrayDeserializer(item["configs"]),
+  };
+}
+
+/** The default enablement setting for GitHub Copilot built-in tools. */
+export interface GitHubCopilotToolsetDefaultConfig {
+  /** Whether built-in tools are enabled by default. Defaults to true. */
+  enabled?: boolean;
+}
+
+export function gitHubCopilotToolsetDefaultConfigSerializer(
+  item: GitHubCopilotToolsetDefaultConfig,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function gitHubCopilotToolsetDefaultConfigDeserializer(
+  item: any,
+): GitHubCopilotToolsetDefaultConfig {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+export function gitHubCopilotToolsetConfigArraySerializer(
+  result: Array<GitHubCopilotToolsetConfig>,
+): any[] {
+  return result.map((item) => {
+    return gitHubCopilotToolsetConfigSerializer(item);
+  });
+}
+
+export function gitHubCopilotToolsetConfigArrayDeserializer(
+  result: Array<GitHubCopilotToolsetConfig>,
+): any[] {
+  return result.map((item) => {
+    return gitHubCopilotToolsetConfigDeserializer(item);
+  });
+}
+
+/** An enablement override for a GitHub Copilot built-in tool. */
+export interface GitHubCopilotToolsetConfig {
+  /** The built-in tool to configure. */
+  name: GitHubCopilotBuiltInTool;
+  /** Whether the built-in tool is enabled. If omitted, the toolset default applies. */
+  enabled?: boolean;
+}
+
+export function gitHubCopilotToolsetConfigSerializer(item: GitHubCopilotToolsetConfig): any {
+  return { name: item["name"], enabled: item["enabled"] };
+}
+
+export function gitHubCopilotToolsetConfigDeserializer(item: any): GitHubCopilotToolsetConfig {
+  return {
+    name: item["name"],
+    enabled: item["enabled"],
+  };
+}
+
+/** A customer-configurable GitHub Copilot built-in tool. */
+export type GitHubCopilotBuiltInTool =
+  "filesystem_read" | "filesystem_write" | "shell" | "web" | "subagents";
 
 /** The input definition information for a bing grounding search tool as used to configure an agent. */
 export interface BingGroundingTool extends Tool {
@@ -2057,6 +2037,28 @@ export function browserAutomationToolConnectionParametersDeserializer(
   };
 }
 
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationTool extends Tool {
+  /** The object type, which is always 'browser_automation'. */
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browser_automation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolSerializer(item: BrowserAutomationTool): any {
+  return {
+    type: item["type"],
+    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
+  };
+}
+
+export function browserAutomationToolDeserializer(item: any): BrowserAutomationTool {
+  return {
+    type: item["type"],
+    browser_automation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
+  };
+}
+
 /** The input definition information for an Azure Function Tool, as used to configure an Agent. */
 export interface AzureFunctionTool extends Tool {
   /** The object type, which is always 'browser_automation'. */
@@ -2423,60 +2425,6 @@ export function _fabricIQPreviewToolRequireApprovalDeserializer(
   return item;
 }
 
-/** model interface MCPToolRequireApproval */
-export interface MCPToolRequireApproval {
-  always?: MCPToolFilter;
-  never?: MCPToolFilter;
-}
-
-export function mcpToolRequireApprovalSerializer(item: MCPToolRequireApproval): any {
-  return {
-    always: !item["always"] ? item["always"] : mcpToolFilterSerializer(item["always"]),
-    never: !item["never"] ? item["never"] : mcpToolFilterSerializer(item["never"]),
-  };
-}
-
-export function mcpToolRequireApprovalDeserializer(item: any): MCPToolRequireApproval {
-  return {
-    always: !item["always"] ? item["always"] : mcpToolFilterDeserializer(item["always"]),
-    never: !item["never"] ? item["never"] : mcpToolFilterDeserializer(item["never"]),
-  };
-}
-
-/** A filter object to specify which tools are allowed. */
-export interface MCPToolFilter {
-  /** List of allowed tool names. */
-  tool_names?: string[];
-  /**
-   * Indicates whether or not a tool modifies data or is read-only. If an
-   *   MCP server is [annotated with `readOnlyHint`](https://modelcontextprotocol.io/specification/2025-06-18/schema#toolannotations-readonlyhint),
-   *   it will match this filter.
-   */
-  read_only?: boolean;
-}
-
-export function mcpToolFilterSerializer(item: MCPToolFilter): any {
-  return {
-    tool_names: !item["tool_names"]
-      ? item["tool_names"]
-      : item["tool_names"].map((p: any) => {
-          return p;
-        }),
-    read_only: item["read_only"],
-  };
-}
-
-export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
-  return {
-    tool_names: !item["tool_names"]
-      ? item["tool_names"]
-      : item["tool_names"].map((p: any) => {
-          return p;
-        }),
-    read_only: item["read_only"],
-  };
-}
-
 /** A WebIQ server-side tool. */
 export interface WebIQPreviewTool extends Tool {
   /** The object type, which is always 'web_iq_preview'. */
@@ -2584,213 +2532,6 @@ export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions 
   };
 }
 
-/**
- * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
- */
-export interface MCPTool extends Tool {
-  /** The type of the MCP tool. Always `mcp`. */
-  type: "mcp";
-  /** A label for this MCP server, used to identify it in tool calls. */
-  server_label: string;
-  /**
-   * The URL for the MCP server. One of `server_url`, `connector_id`, or
-   *   `tunnel_id` must be provided.
-   */
-  server_url?: string;
-  /**
-   * Identifier for service connectors, like those available in ChatGPT. One of
-   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
-   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
-   *   Currently supported `connector_id` values are:
-   *   - Dropbox: `connector_dropbox`
-   *   - Gmail: `connector_gmail`
-   *   - Google Calendar: `connector_googlecalendar`
-   *   - Google Drive: `connector_googledrive`
-   *   - Microsoft Teams: `connector_microsoftteams`
-   *   - Outlook Calendar: `connector_outlookcalendar`
-   *   - Outlook Email: `connector_outlookemail`
-   *   - SharePoint: `connector_sharepoint`
-   */
-  connector_id?:
-    | "connector_dropbox"
-    | "connector_gmail"
-    | "connector_googlecalendar"
-    | "connector_googledrive"
-    | "connector_microsoftteams"
-    | "connector_outlookcalendar"
-    | "connector_outlookemail"
-    | "connector_sharepoint";
-  /**
-   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
-   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
-   */
-  tunnel_id?: string;
-  /**
-   * An OAuth access token that can be used with a remote MCP server, either
-   *   with a custom MCP server URL or a service connector. Your application
-   *   must handle the OAuth authorization flow and provide the token here.
-   */
-  authorization?: string;
-  /** Optional description of the MCP server, used to provide more context. */
-  server_description?: string;
-  headers?: Record<string, string>;
-  allowed_tools?: string[] | MCPToolFilter;
-  allowed_callers?: CallableToolAllowedCaller[];
-  require_approval?: MCPToolRequireApproval | "always" | "never";
-  /** Whether this MCP tool is deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
-  project_connection_id?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function mcpToolSerializer(item: MCPTool): any {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    server_url: item["server_url"],
-    connector_id: item["connector_id"],
-    tunnel_id: item["tunnel_id"],
-    authorization: item["authorization"],
-    server_description: item["server_description"],
-    headers: item["headers"],
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-    require_approval: !item["require_approval"]
-      ? item["require_approval"]
-      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
-    defer_loading: item["defer_loading"],
-    project_connection_id: item["project_connection_id"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function mcpToolDeserializer(item: any): MCPTool {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    server_url: item["server_url"],
-    connector_id: item["connector_id"],
-    tunnel_id: item["tunnel_id"],
-    authorization: item["authorization"],
-    server_description: item["server_description"],
-    headers: !item["headers"]
-      ? item["headers"]
-      : Object.fromEntries(
-          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-    require_approval: !item["require_approval"]
-      ? item["require_approval"]
-      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
-    defer_loading: item["defer_loading"],
-    project_connection_id: item["project_connection_id"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** Alias for _MCPToolAllowedTools */
-export type _MCPToolAllowedTools = string[] | MCPToolFilter;
-
-export function _mcpToolAllowedToolsSerializer(item: _MCPToolAllowedTools): any {
-  return item;
-}
-
-export function _mcpToolAllowedToolsDeserializer(item: any): _MCPToolAllowedTools {
-  return item;
-}
-
-/** Type of CallableToolAllowedCaller */
-export type CallableToolAllowedCaller = "direct" | "programmatic";
-
-/** Alias for _MCPToolRequireApproval */
-export type _MCPToolRequireApproval = MCPToolRequireApproval | "always" | "never";
-
-export function _mcpToolRequireApprovalSerializer(item: _MCPToolRequireApproval): any {
-  return item;
-}
-
-export function _mcpToolRequireApprovalDeserializer(item: any): _MCPToolRequireApproval {
-  return item;
-}
-
-/** A tool that runs Python code to help generate a response to a prompt. */
-export interface CodeInterpreterTool extends Tool {
-  /** The type of the code interpreter tool. Always `code_interpreter`. */
-  type: "code_interpreter";
-  allowed_callers?: CallableToolAllowedCaller[];
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-  /**
-   * The code interpreter container. Can be a container ID or an object that
-   * specifies uploaded file IDs to make available to your code, along with an
-   * optional `memory_limit` setting.
-   * If not provided, the service assumes auto.
-   */
-  container?: string | AutoCodeInterpreterToolParam;
-}
-
-export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
-  return {
-    type: item["type"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-    container: !item["container"]
-      ? item["container"]
-      : _codeInterpreterToolContainerSerializer(item["container"]),
-  };
-}
-
-export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool {
-  return {
-    type: item["type"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-    container: !item["container"]
-      ? item["container"]
-      : _codeInterpreterToolContainerDeserializer(item["container"]),
-  };
-}
-
 /** Alias for _CodeInterpreterToolContainer */
 export type _CodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
 
@@ -2802,661 +2543,6 @@ export function _codeInterpreterToolContainerDeserializer(
   item: any,
 ): _CodeInterpreterToolContainer {
   return item;
-}
-
-/** Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on. */
-export interface AutoCodeInterpreterToolParam {
-  /** Always `auto`. */
-  type: "auto";
-  /** An optional list of uploaded files to make available to your code. */
-  file_ids?: string[];
-  memory_limit?: ContainerMemoryLimit;
-  network_policy?: ContainerNetworkPolicyParamUnion;
-}
-
-export function autoCodeInterpreterToolParamSerializer(item: AutoCodeInterpreterToolParam): any {
-  return {
-    type: item["type"],
-    file_ids: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
-    memory_limit: item["memory_limit"],
-    network_policy: !item["network_policy"]
-      ? item["network_policy"]
-      : containerNetworkPolicyParamUnionSerializer(item["network_policy"]),
-  };
-}
-
-export function autoCodeInterpreterToolParamDeserializer(item: any): AutoCodeInterpreterToolParam {
-  return {
-    type: item["type"],
-    file_ids: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
-    memory_limit: item["memory_limit"],
-    network_policy: !item["network_policy"]
-      ? item["network_policy"]
-      : containerNetworkPolicyParamUnionDeserializer(item["network_policy"]),
-  };
-}
-
-/** Type of ContainerMemoryLimit */
-export type ContainerMemoryLimit = "1g" | "4g" | "16g" | "64g";
-
-/** Network access policy for the container. */
-export interface ContainerNetworkPolicyParam {
-  type: ContainerNetworkPolicyParamType;
-}
-
-export function containerNetworkPolicyParamSerializer(item: ContainerNetworkPolicyParam): any {
-  return { type: item["type"] };
-}
-
-export function containerNetworkPolicyParamDeserializer(item: any): ContainerNetworkPolicyParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for ContainerNetworkPolicyParamUnion */
-export type ContainerNetworkPolicyParamUnion =
-  | ContainerNetworkPolicyDisabledParam
-  | ContainerNetworkPolicyAllowlistParam
-  | ContainerNetworkPolicyParam;
-
-export function containerNetworkPolicyParamUnionSerializer(
-  item: ContainerNetworkPolicyParamUnion,
-): any {
-  switch (item.type) {
-    case "disabled":
-      return containerNetworkPolicyDisabledParamSerializer(
-        item as ContainerNetworkPolicyDisabledParam,
-      );
-
-    case "allowlist":
-      return containerNetworkPolicyAllowlistParamSerializer(
-        item as ContainerNetworkPolicyAllowlistParam,
-      );
-
-    default:
-      return containerNetworkPolicyParamSerializer(item);
-  }
-}
-
-export function containerNetworkPolicyParamUnionDeserializer(
-  item: any,
-): ContainerNetworkPolicyParamUnion {
-  switch (item["type"]) {
-    case "disabled":
-      return containerNetworkPolicyDisabledParamDeserializer(
-        item as ContainerNetworkPolicyDisabledParam,
-      );
-
-    case "allowlist":
-      return containerNetworkPolicyAllowlistParamDeserializer(
-        item as ContainerNetworkPolicyAllowlistParam,
-      );
-
-    default:
-      return containerNetworkPolicyParamDeserializer(item);
-  }
-}
-
-/** Type of ContainerNetworkPolicyParamType */
-export type ContainerNetworkPolicyParamType = "disabled" | "allowlist";
-
-/** model interface ContainerNetworkPolicyDisabledParam */
-export interface ContainerNetworkPolicyDisabledParam extends ContainerNetworkPolicyParam {
-  /** Disable outbound network access. Always `disabled`. */
-  type: "disabled";
-}
-
-export function containerNetworkPolicyDisabledParamSerializer(
-  item: ContainerNetworkPolicyDisabledParam,
-): any {
-  return { type: item["type"] };
-}
-
-export function containerNetworkPolicyDisabledParamDeserializer(
-  item: any,
-): ContainerNetworkPolicyDisabledParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** model interface ContainerNetworkPolicyAllowlistParam */
-export interface ContainerNetworkPolicyAllowlistParam extends ContainerNetworkPolicyParam {
-  /** Allow outbound network access only to specified domains. Always `allowlist`. */
-  type: "allowlist";
-  /** A list of allowed domains when type is `allowlist`. */
-  allowed_domains: string[];
-  /** Optional domain-scoped secrets for allowlisted domains. */
-  domain_secrets?: ContainerNetworkPolicyDomainSecretParam[];
-}
-
-export function containerNetworkPolicyAllowlistParamSerializer(
-  item: ContainerNetworkPolicyAllowlistParam,
-): any {
-  return {
-    type: item["type"],
-    allowed_domains: item["allowed_domains"].map((p: any) => {
-      return p;
-    }),
-    domain_secrets: !item["domain_secrets"]
-      ? item["domain_secrets"]
-      : containerNetworkPolicyDomainSecretParamArraySerializer(item["domain_secrets"]),
-  };
-}
-
-export function containerNetworkPolicyAllowlistParamDeserializer(
-  item: any,
-): ContainerNetworkPolicyAllowlistParam {
-  return {
-    type: item["type"],
-    allowed_domains: item["allowed_domains"].map((p: any) => {
-      return p;
-    }),
-    domain_secrets: !item["domain_secrets"]
-      ? item["domain_secrets"]
-      : containerNetworkPolicyDomainSecretParamArrayDeserializer(item["domain_secrets"]),
-  };
-}
-
-export function containerNetworkPolicyDomainSecretParamArraySerializer(
-  result: Array<ContainerNetworkPolicyDomainSecretParam>,
-): any[] {
-  return result.map((item) => {
-    return containerNetworkPolicyDomainSecretParamSerializer(item);
-  });
-}
-
-export function containerNetworkPolicyDomainSecretParamArrayDeserializer(
-  result: Array<ContainerNetworkPolicyDomainSecretParam>,
-): any[] {
-  return result.map((item) => {
-    return containerNetworkPolicyDomainSecretParamDeserializer(item);
-  });
-}
-
-/** model interface ContainerNetworkPolicyDomainSecretParam */
-export interface ContainerNetworkPolicyDomainSecretParam {
-  /** The domain associated with the secret. */
-  domain: string;
-  /** The name of the secret to inject for the domain. */
-  name: string;
-  /** The secret value to inject for the domain. */
-  value: string;
-}
-
-export function containerNetworkPolicyDomainSecretParamSerializer(
-  item: ContainerNetworkPolicyDomainSecretParam,
-): any {
-  return { domain: item["domain"], name: item["name"], value: item["value"] };
-}
-
-export function containerNetworkPolicyDomainSecretParamDeserializer(
-  item: any,
-): ContainerNetworkPolicyDomainSecretParam {
-  return {
-    domain: item["domain"],
-    name: item["name"],
-    value: item["value"],
-  };
-}
-
-/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
-export interface FunctionTool extends Tool {
-  /** The type of the function tool. Always `function`. */
-  type: "function";
-  /** The name of the function to call. */
-  name: string;
-  description?: string;
-  parameters: Record<string, any> | null;
-  output_schema?: Record<string, any>;
-  strict: boolean | null;
-  /** Whether this function is deferred and loaded via tool search. */
-  defer_loading?: boolean;
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function functionToolSerializer(item: FunctionTool): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    parameters: item["parameters"],
-    output_schema: item["output_schema"],
-    strict: item["strict"],
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function functionToolDeserializer(item: any): FunctionTool {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : Object.fromEntries(
-          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    output_schema: !item["output_schema"]
-      ? item["output_schema"]
-      : Object.fromEntries(
-          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    strict: item["strict"],
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search). */
-export interface FileSearchTool extends Tool {
-  /** The type of the file search tool. Always `file_search`. */
-  type: "file_search";
-  /** The IDs of the vector stores to search. */
-  vector_store_ids: string[];
-  /** The maximum number of results to return. This number should be between 1 and 50 inclusive. */
-  max_num_results?: number;
-  /** Ranking options for search. */
-  ranking_options?: RankingOptions;
-  filters?: Filters;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function fileSearchToolSerializer(item: FileSearchTool): any {
-  return {
-    type: item["type"],
-    vector_store_ids: item["vector_store_ids"].map((p: any) => {
-      return p;
-    }),
-    max_num_results: item["max_num_results"],
-    ranking_options: !item["ranking_options"]
-      ? item["ranking_options"]
-      : rankingOptionsSerializer(item["ranking_options"]),
-    filters: !item["filters"] ? item["filters"] : filtersSerializer(item["filters"]),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function fileSearchToolDeserializer(item: any): FileSearchTool {
-  return {
-    type: item["type"],
-    vector_store_ids: item["vector_store_ids"].map((p: any) => {
-      return p;
-    }),
-    max_num_results: item["max_num_results"],
-    ranking_options: !item["ranking_options"]
-      ? item["ranking_options"]
-      : rankingOptionsDeserializer(item["ranking_options"]),
-    filters: !item["filters"] ? item["filters"] : filtersDeserializer(item["filters"]),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** model interface RankingOptions */
-export interface RankingOptions {
-  /** The ranker to use for the file search. */
-  ranker?: RankerVersionType;
-  /** The score threshold for the file search, a number between 0 and 1. Numbers closer to 1 will attempt to return only the most relevant results, but may return fewer results. */
-  score_threshold?: number;
-  /** Weights that control how reciprocal rank fusion balances semantic embedding matches versus sparse keyword matches when hybrid search is enabled. */
-  hybrid_search?: HybridSearchOptions;
-}
-
-export function rankingOptionsSerializer(item: RankingOptions): any {
-  return {
-    ranker: item["ranker"],
-    score_threshold: item["score_threshold"],
-    hybrid_search: !item["hybrid_search"]
-      ? item["hybrid_search"]
-      : hybridSearchOptionsSerializer(item["hybrid_search"]),
-  };
-}
-
-export function rankingOptionsDeserializer(item: any): RankingOptions {
-  return {
-    ranker: item["ranker"],
-    score_threshold: item["score_threshold"],
-    hybrid_search: !item["hybrid_search"]
-      ? item["hybrid_search"]
-      : hybridSearchOptionsDeserializer(item["hybrid_search"]),
-  };
-}
-
-/** Type of RankerVersionType */
-export type RankerVersionType = "auto" | "default-2024-11-15";
-
-/** model interface HybridSearchOptions */
-export interface HybridSearchOptions {
-  /** The weight of the embedding in the reciprocal ranking fusion. */
-  embedding_weight: number;
-  /** The weight of the text in the reciprocal ranking fusion. */
-  text_weight: number;
-}
-
-export function hybridSearchOptionsSerializer(item: HybridSearchOptions): any {
-  return { embedding_weight: item["embedding_weight"], text_weight: item["text_weight"] };
-}
-
-export function hybridSearchOptionsDeserializer(item: any): HybridSearchOptions {
-  return {
-    embedding_weight: item["embedding_weight"],
-    text_weight: item["text_weight"],
-  };
-}
-
-/** Alias for Filters */
-export type Filters = ComparisonFilter | CompoundFilter;
-
-export function filtersSerializer(item: Filters): any {
-  return item;
-}
-
-export function filtersDeserializer(item: any): Filters {
-  return item;
-}
-
-/** A filter used to compare a specified attribute key to a given value using a defined comparison operation. */
-export interface ComparisonFilter {
-  /**
-   * Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
-   *   - `eq`: equals
-   *   - `ne`: not equal
-   *   - `gt`: greater than
-   *   - `gte`: greater than or equal
-   *   - `lt`: less than
-   *   - `lte`: less than or equal
-   *   - `in`: in
-   *   - `nin`: not in
-   */
-  type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
-  /** The key to compare against the value. */
-  key: string;
-  /** The value to compare against the attribute key; supports string, number, or boolean types. */
-  value: string | number | boolean | (string | number)[];
-}
-
-export function comparisonFilterSerializer(item: ComparisonFilter): any {
-  return {
-    type: item["type"],
-    key: item["key"],
-    value: _fileSearchToolFiltersValueSerializer(item["value"]),
-  };
-}
-
-export function comparisonFilterDeserializer(item: any): ComparisonFilter {
-  return {
-    type: item["type"],
-    key: item["key"],
-    value: _fileSearchToolFiltersValueDeserializer(item["value"]),
-  };
-}
-
-/** Alias for _FileSearchToolFiltersValue */
-export type _FileSearchToolFiltersValue = string | number | boolean | (string | number)[];
-
-export function _fileSearchToolFiltersValueSerializer(item: _FileSearchToolFiltersValue): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersValueDeserializer(item: any): _FileSearchToolFiltersValue {
-  return item;
-}
-
-export function _fileSearchToolFiltersValue1ArraySerializer(
-  result: Array<_FileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersValue1Serializer(item);
-  });
-}
-
-export function _fileSearchToolFiltersValue1ArrayDeserializer(
-  result: Array<_FileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersValue1Deserializer(item);
-  });
-}
-
-/** Alias for _FileSearchToolFiltersValue1 */
-export type _FileSearchToolFiltersValue1 = string | number;
-
-export function _fileSearchToolFiltersValue1Serializer(item: _FileSearchToolFiltersValue1): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersValue1Deserializer(item: any): _FileSearchToolFiltersValue1 {
-  return item;
-}
-
-/** Combine multiple filters using `and` or `or`. */
-export interface CompoundFilter {
-  /** Type of operation: `and` or `or`. */
-  type: "and" | "or";
-  /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
-  filters: (ComparisonFilter | any)[];
-}
-
-export function compoundFilterSerializer(item: CompoundFilter): any {
-  return {
-    type: item["type"],
-    filters: _fileSearchToolFiltersFilterArraySerializer(item["filters"]),
-  };
-}
-
-export function compoundFilterDeserializer(item: any): CompoundFilter {
-  return {
-    type: item["type"],
-    filters: _fileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
-  };
-}
-
-export function _fileSearchToolFiltersFilterArraySerializer(
-  result: Array<_FileSearchToolFiltersFilter>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersFilterSerializer(item);
-  });
-}
-
-export function _fileSearchToolFiltersFilterArrayDeserializer(
-  result: Array<_FileSearchToolFiltersFilter>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersFilterDeserializer(item);
-  });
-}
-
-/** Alias for _FileSearchToolFiltersFilter */
-export type _FileSearchToolFiltersFilter = ComparisonFilter | any;
-
-export function _fileSearchToolFiltersFilterSerializer(item: _FileSearchToolFiltersFilter): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersFilterDeserializer(item: any): _FileSearchToolFiltersFilter {
-  return item;
-}
-
-/** A tool that controls a virtual computer. Learn more about the [computer tool](https://platform.openai.com/docs/guides/tools-computer-use). */
-export interface ComputerUsePreviewTool extends Tool {
-  /** The type of the computer use tool. Always `computer_use_preview`. */
-  type: "computer_use_preview";
-  /** The type of computer environment to control. */
-  environment: ComputerEnvironment;
-  /** The width of the computer display. */
-  display_width: number;
-  /** The height of the computer display. */
-  display_height: number;
-}
-
-export function computerUsePreviewToolSerializer(item: ComputerUsePreviewTool): any {
-  return {
-    type: item["type"],
-    environment: item["environment"],
-    display_width: item["display_width"],
-    display_height: item["display_height"],
-  };
-}
-
-export function computerUsePreviewToolDeserializer(item: any): ComputerUsePreviewTool {
-  return {
-    type: item["type"],
-    environment: item["environment"],
-    display_width: item["display_width"],
-    display_height: item["display_height"],
-  };
-}
-
-/** Type of ComputerEnvironment */
-export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
-
-/**
- * Search the Internet for sources related to the prompt. Learn more about the
- * [web search tool](/docs/guides/tools-web-search).
- */
-export interface WebSearchTool extends Tool {
-  /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
-  type: "web_search";
-  filters?: WebSearchToolFilters;
-  user_location?: WebSearchApproximateLocation;
-  /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
-  search_context_size?: "low" | "medium" | "high";
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-  /**
-   * The project connections attached to this tool. There can be a maximum of 1 connection
-   * resource attached to the tool.
-   */
-  custom_search_configuration?: WebSearchConfiguration;
-}
-
-export function webSearchToolSerializer(item: WebSearchTool): any {
-  return {
-    type: item["type"],
-    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersSerializer(item["filters"]),
-    user_location: !item["user_location"]
-      ? item["user_location"]
-      : webSearchApproximateLocationSerializer(item["user_location"]),
-    search_context_size: item["search_context_size"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-    custom_search_configuration: !item["custom_search_configuration"]
-      ? item["custom_search_configuration"]
-      : webSearchConfigurationSerializer(item["custom_search_configuration"]),
-  };
-}
-
-export function webSearchToolDeserializer(item: any): WebSearchTool {
-  return {
-    type: item["type"],
-    filters: !item["filters"] ? item["filters"] : webSearchToolFiltersDeserializer(item["filters"]),
-    user_location: !item["user_location"]
-      ? item["user_location"]
-      : webSearchApproximateLocationDeserializer(item["user_location"]),
-    search_context_size: item["search_context_size"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-    custom_search_configuration: !item["custom_search_configuration"]
-      ? item["custom_search_configuration"]
-      : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
-  };
-}
-
-/** model interface WebSearchToolFilters */
-export interface WebSearchToolFilters {
-  allowed_domains?: string[];
-}
-
-export function webSearchToolFiltersSerializer(item: WebSearchToolFilters): any {
-  return {
-    allowed_domains: !item["allowed_domains"]
-      ? item["allowed_domains"]
-      : item["allowed_domains"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function webSearchToolFiltersDeserializer(item: any): WebSearchToolFilters {
-  return {
-    allowed_domains: !item["allowed_domains"]
-      ? item["allowed_domains"]
-      : item["allowed_domains"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** The approximate location of the user. */
-export interface WebSearchApproximateLocation {
-  /** The type of location approximation. Always `approximate`. */
-  type: "approximate";
-  country?: string;
-  region?: string;
-  city?: string;
-  timezone?: string;
-}
-
-export function webSearchApproximateLocationSerializer(item: WebSearchApproximateLocation): any {
-  return {
-    type: item["type"],
-    country: item["country"],
-    region: item["region"],
-    city: item["city"],
-    timezone: item["timezone"],
-  };
-}
-
-export function webSearchApproximateLocationDeserializer(item: any): WebSearchApproximateLocation {
-  return {
-    type: item["type"],
-    country: item["country"],
-    region: item["region"],
-    city: item["city"],
-    timezone: item["timezone"],
-  };
 }
 
 /** A web search configuration for bing custom search */
@@ -3481,972 +2567,6 @@ export function webSearchConfigurationDeserializer(item: any): WebSearchConfigur
   };
 }
 
-/** model interface ProgrammaticToolCallingParam */
-export interface ProgrammaticToolCallingParam extends Tool {
-  /** The type of the tool. Always `programmatic_tool_calling`. */
-  type: "programmatic_tool_calling";
-}
-
-export function programmaticToolCallingParamSerializer(item: ProgrammaticToolCallingParam): any {
-  return { type: item["type"] };
-}
-
-export function programmaticToolCallingParamDeserializer(item: any): ProgrammaticToolCallingParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** A tool that generates images using the GPT image models. */
-export interface ImageGenTool extends Tool {
-  /** The type of the image generation tool. Always `image_generation`. */
-  type: "image_generation";
-  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
-  /**
-   * The quality of the generated image. One of `low`, `medium`, `high`,
-   *   or `auto`. Default: `auto`.
-   */
-  quality?: "low" | "medium" | "high" | "auto";
-  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
-  size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
-  /**
-   * The output format of the generated image. One of `png`, `webp`, or
-   *   `jpeg`. Default: `png`.
-   */
-  output_format?: "png" | "webp" | "jpeg";
-  /** Compression level for the output image. Default: 100. */
-  output_compression?: number;
-  /** Moderation level for the generated image. Default: `auto`. */
-  moderation?: "auto" | "low";
-  /**
-   * Background type for the generated image. One of `transparent`,
-   *   `opaque`, or `auto`. Default: `auto`.
-   */
-  background?: "transparent" | "opaque" | "auto";
-  input_fidelity?: InputFidelity;
-  /**
-   * Optional mask for inpainting. Contains `image_url`
-   *   (string, optional) and `file_id` (string, optional).
-   */
-  input_image_mask?: ImageGenToolInputImageMask;
-  /** Number of partial images to generate in streaming mode, from 0 (default value) to 3. */
-  partial_images?: number;
-  /** Whether to generate a new image or edit an existing image. Default: `auto`. */
-  action?: ImageGenAction;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function imageGenToolSerializer(item: ImageGenTool): any {
-  return {
-    type: item["type"],
-    model: item["model"],
-    quality: item["quality"],
-    size: item["size"],
-    output_format: item["output_format"],
-    output_compression: item["output_compression"],
-    moderation: item["moderation"],
-    background: item["background"],
-    input_fidelity: item["input_fidelity"],
-    input_image_mask: !item["input_image_mask"]
-      ? item["input_image_mask"]
-      : imageGenToolInputImageMaskSerializer(item["input_image_mask"]),
-    partial_images: item["partial_images"],
-    action: item["action"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function imageGenToolDeserializer(item: any): ImageGenTool {
-  return {
-    type: item["type"],
-    model: item["model"],
-    quality: item["quality"],
-    size: item["size"],
-    output_format: item["output_format"],
-    output_compression: item["output_compression"],
-    moderation: item["moderation"],
-    background: item["background"],
-    input_fidelity: item["input_fidelity"],
-    input_image_mask: !item["input_image_mask"]
-      ? item["input_image_mask"]
-      : imageGenToolInputImageMaskDeserializer(item["input_image_mask"]),
-    partial_images: item["partial_images"],
-    action: item["action"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1` and `gpt-image-1.5` and later models, unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
-export type InputFidelity = "high" | "low";
-
-/** model interface ImageGenToolInputImageMask */
-export interface ImageGenToolInputImageMask {
-  image_url?: string;
-  file_id?: string;
-}
-
-export function imageGenToolInputImageMaskSerializer(item: ImageGenToolInputImageMask): any {
-  return { image_url: item["image_url"], file_id: item["file_id"] };
-}
-
-export function imageGenToolInputImageMaskDeserializer(item: any): ImageGenToolInputImageMask {
-  return {
-    image_url: item["image_url"],
-    file_id: item["file_id"],
-  };
-}
-
-/** Type of ImageGenAction */
-export type ImageGenAction = "generate" | "edit" | "auto";
-
-/** A tool that allows the model to execute shell commands in a local environment. */
-export interface LocalShellToolParam extends Tool {
-  /** The type of the local shell tool. Always `local_shell`. */
-  type: "local_shell";
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function localShellToolParamSerializer(item: LocalShellToolParam): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function localShellToolParamDeserializer(item: any): LocalShellToolParam {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** A tool that allows the model to execute shell commands. */
-export interface FunctionShellToolParam extends Tool {
-  /** The type of the shell tool. Always `shell`. */
-  type: "shell";
-  environment?: FunctionShellToolParamEnvironmentUnion;
-  allowed_callers?: CallableToolAllowedCaller[];
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  name?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  description?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function functionShellToolParamSerializer(item: FunctionShellToolParam): any {
-  return {
-    type: item["type"],
-    environment: !item["environment"]
-      ? item["environment"]
-      : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function functionShellToolParamDeserializer(item: any): FunctionShellToolParam {
-  return {
-    type: item["type"],
-    environment: !item["environment"]
-      ? item["environment"]
-      : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** model interface FunctionShellToolParamEnvironment */
-export interface FunctionShellToolParamEnvironment {
-  type: FunctionShellToolParamEnvironmentType;
-}
-
-export function functionShellToolParamEnvironmentSerializer(
-  item: FunctionShellToolParamEnvironment,
-): any {
-  return { type: item["type"] };
-}
-
-export function functionShellToolParamEnvironmentDeserializer(
-  item: any,
-): FunctionShellToolParamEnvironment {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for FunctionShellToolParamEnvironmentUnion */
-export type FunctionShellToolParamEnvironmentUnion =
-  | FunctionShellToolParamEnvironmentLocalEnvironmentParam
-  | FunctionShellToolParamEnvironmentContainerReferenceParam
-  | ContainerAutoParam
-  | FunctionShellToolParamEnvironment;
-
-export function functionShellToolParamEnvironmentUnionSerializer(
-  item: FunctionShellToolParamEnvironmentUnion,
-): any {
-  switch (item.type) {
-    case "local":
-      return functionShellToolParamEnvironmentLocalEnvironmentParamSerializer(
-        item as FunctionShellToolParamEnvironmentLocalEnvironmentParam,
-      );
-
-    case "container_reference":
-      return functionShellToolParamEnvironmentContainerReferenceParamSerializer(
-        item as FunctionShellToolParamEnvironmentContainerReferenceParam,
-      );
-
-    case "container_auto":
-      return containerAutoParamSerializer(item as ContainerAutoParam);
-
-    default:
-      return functionShellToolParamEnvironmentSerializer(item);
-  }
-}
-
-export function functionShellToolParamEnvironmentUnionDeserializer(
-  item: any,
-): FunctionShellToolParamEnvironmentUnion {
-  switch (item["type"]) {
-    case "local":
-      return functionShellToolParamEnvironmentLocalEnvironmentParamDeserializer(
-        item as FunctionShellToolParamEnvironmentLocalEnvironmentParam,
-      );
-
-    case "container_reference":
-      return functionShellToolParamEnvironmentContainerReferenceParamDeserializer(
-        item as FunctionShellToolParamEnvironmentContainerReferenceParam,
-      );
-
-    case "container_auto":
-      return containerAutoParamDeserializer(item as ContainerAutoParam);
-
-    default:
-      return functionShellToolParamEnvironmentDeserializer(item);
-  }
-}
-
-/** Type of FunctionShellToolParamEnvironmentType */
-export type FunctionShellToolParamEnvironmentType =
-  "container_auto" | "local" | "container_reference";
-
-/** model interface FunctionShellToolParamEnvironmentLocalEnvironmentParam */
-export interface FunctionShellToolParamEnvironmentLocalEnvironmentParam extends FunctionShellToolParamEnvironment {
-  /** Use a local computer environment. */
-  type: "local";
-  /** An optional list of skills. */
-  skills?: LocalSkillParam[];
-}
-
-export function functionShellToolParamEnvironmentLocalEnvironmentParamSerializer(
-  item: FunctionShellToolParamEnvironmentLocalEnvironmentParam,
-): any {
-  return {
-    type: item["type"],
-    skills: !item["skills"] ? item["skills"] : localSkillParamArraySerializer(item["skills"]),
-  };
-}
-
-export function functionShellToolParamEnvironmentLocalEnvironmentParamDeserializer(
-  item: any,
-): FunctionShellToolParamEnvironmentLocalEnvironmentParam {
-  return {
-    type: item["type"],
-    skills: !item["skills"] ? item["skills"] : localSkillParamArrayDeserializer(item["skills"]),
-  };
-}
-
-export function localSkillParamArraySerializer(result: Array<LocalSkillParam>): any[] {
-  return result.map((item) => {
-    return localSkillParamSerializer(item);
-  });
-}
-
-export function localSkillParamArrayDeserializer(result: Array<LocalSkillParam>): any[] {
-  return result.map((item) => {
-    return localSkillParamDeserializer(item);
-  });
-}
-
-/** model interface LocalSkillParam */
-export interface LocalSkillParam {
-  /** The name of the skill. */
-  name: string;
-  /** The description of the skill. */
-  description: string;
-  /** The path to the directory containing the skill. */
-  path: string;
-}
-
-export function localSkillParamSerializer(item: LocalSkillParam): any {
-  return { name: item["name"], description: item["description"], path: item["path"] };
-}
-
-export function localSkillParamDeserializer(item: any): LocalSkillParam {
-  return {
-    name: item["name"],
-    description: item["description"],
-    path: item["path"],
-  };
-}
-
-/** model interface FunctionShellToolParamEnvironmentContainerReferenceParam */
-export interface FunctionShellToolParamEnvironmentContainerReferenceParam extends FunctionShellToolParamEnvironment {
-  /** References a container created with the /v1/containers endpoint */
-  type: "container_reference";
-  /** The ID of the referenced container. */
-  container_id: string;
-}
-
-export function functionShellToolParamEnvironmentContainerReferenceParamSerializer(
-  item: FunctionShellToolParamEnvironmentContainerReferenceParam,
-): any {
-  return { type: item["type"], container_id: item["container_id"] };
-}
-
-export function functionShellToolParamEnvironmentContainerReferenceParamDeserializer(
-  item: any,
-): FunctionShellToolParamEnvironmentContainerReferenceParam {
-  return {
-    type: item["type"],
-    container_id: item["container_id"],
-  };
-}
-
-/** model interface ContainerAutoParam */
-export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
-  /** Automatically creates a container for this request */
-  type: "container_auto";
-  /** An optional list of uploaded files to make available to your code. */
-  file_ids?: string[];
-  memory_limit?: ContainerMemoryLimit;
-  /** An optional list of skills referenced by id or inline data. */
-  skills?: ContainerSkillUnion[];
-  network_policy?: ContainerNetworkPolicyParamUnion;
-}
-
-export function containerAutoParamSerializer(item: ContainerAutoParam): any {
-  return {
-    type: item["type"],
-    file_ids: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
-    memory_limit: item["memory_limit"],
-    skills: !item["skills"] ? item["skills"] : containerSkillUnionArraySerializer(item["skills"]),
-    network_policy: !item["network_policy"]
-      ? item["network_policy"]
-      : containerNetworkPolicyParamUnionSerializer(item["network_policy"]),
-  };
-}
-
-export function containerAutoParamDeserializer(item: any): ContainerAutoParam {
-  return {
-    type: item["type"],
-    file_ids: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
-    memory_limit: item["memory_limit"],
-    skills: !item["skills"] ? item["skills"] : containerSkillUnionArrayDeserializer(item["skills"]),
-    network_policy: !item["network_policy"]
-      ? item["network_policy"]
-      : containerNetworkPolicyParamUnionDeserializer(item["network_policy"]),
-  };
-}
-
-export function containerSkillUnionArraySerializer(result: Array<ContainerSkillUnion>): any[] {
-  return result.map((item) => {
-    return containerSkillUnionSerializer(item);
-  });
-}
-
-export function containerSkillUnionArrayDeserializer(result: Array<ContainerSkillUnion>): any[] {
-  return result.map((item) => {
-    return containerSkillUnionDeserializer(item);
-  });
-}
-
-/** model interface ContainerSkill */
-export interface ContainerSkill {
-  type: ContainerSkillType;
-}
-
-export function containerSkillSerializer(item: ContainerSkill): any {
-  return { type: item["type"] };
-}
-
-export function containerSkillDeserializer(item: any): ContainerSkill {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for ContainerSkillUnion */
-export type ContainerSkillUnion = SkillReferenceParam | InlineSkillParam | ContainerSkill;
-
-export function containerSkillUnionSerializer(item: ContainerSkillUnion): any {
-  switch (item.type) {
-    case "skill_reference":
-      return skillReferenceParamSerializer(item as SkillReferenceParam);
-
-    case "inline":
-      return inlineSkillParamSerializer(item as InlineSkillParam);
-
-    default:
-      return containerSkillSerializer(item);
-  }
-}
-
-export function containerSkillUnionDeserializer(item: any): ContainerSkillUnion {
-  switch (item["type"]) {
-    case "skill_reference":
-      return skillReferenceParamDeserializer(item as SkillReferenceParam);
-
-    case "inline":
-      return inlineSkillParamDeserializer(item as InlineSkillParam);
-
-    default:
-      return containerSkillDeserializer(item);
-  }
-}
-
-/** Type of ContainerSkillType */
-export type ContainerSkillType = "skill_reference" | "inline";
-
-/** model interface SkillReferenceParam */
-export interface SkillReferenceParam extends ContainerSkill {
-  /** References a skill created with the /v1/skills endpoint. */
-  type: "skill_reference";
-  /** The ID of the referenced skill. */
-  skill_id: string;
-  /** Optional skill version. Use a positive integer or 'latest'. Omit for default. */
-  version?: string;
-}
-
-export function skillReferenceParamSerializer(item: SkillReferenceParam): any {
-  return { type: item["type"], skill_id: item["skill_id"], version: item["version"] };
-}
-
-export function skillReferenceParamDeserializer(item: any): SkillReferenceParam {
-  return {
-    type: item["type"],
-    skill_id: item["skill_id"],
-    version: item["version"],
-  };
-}
-
-/** model interface InlineSkillParam */
-export interface InlineSkillParam extends ContainerSkill {
-  /** Defines an inline skill for this request. */
-  type: "inline";
-  /** The name of the skill. */
-  name: string;
-  /** The description of the skill. */
-  description: string;
-  /** Inline skill payload */
-  source: InlineSkillSourceParam;
-}
-
-export function inlineSkillParamSerializer(item: InlineSkillParam): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    source: inlineSkillSourceParamSerializer(item["source"]),
-  };
-}
-
-export function inlineSkillParamDeserializer(item: any): InlineSkillParam {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    source: inlineSkillSourceParamDeserializer(item["source"]),
-  };
-}
-
-/** Inline skill payload */
-export interface InlineSkillSourceParam {
-  /** The type of the inline skill source. Must be `base64`. */
-  type: "base64";
-  /** The media type of the inline skill payload. Must be `application/zip`. */
-  media_type: "application/zip";
-  /** Base64-encoded skill zip bundle. */
-  data: string;
-}
-
-export function inlineSkillSourceParamSerializer(item: InlineSkillSourceParam): any {
-  return { type: item["type"], media_type: item["media_type"], data: item["data"] };
-}
-
-export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSourceParam {
-  return {
-    type: item["type"],
-    media_type: item["media_type"],
-    data: item["data"],
-  };
-}
-
-/** A custom tool that processes input using a specified format. Learn more about   [custom tools](/docs/guides/function-calling#custom-tools) */
-export interface CustomToolParam extends Tool {
-  /** The type of the custom tool. Always `custom`. */
-  type: "custom";
-  /** The name of the custom tool, used to identify it in tool calls. */
-  name: string;
-  /** Optional description of the custom tool, used to provide more context. */
-  description?: string;
-  /** The input format for the custom tool. Default is unconstrained text. */
-  format?: CustomToolParamFormatUnion;
-  /** Whether this tool should be deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function customToolParamSerializer(item: CustomToolParam): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function customToolParamDeserializer(item: any): CustomToolParam {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    format: !item["format"]
-      ? item["format"]
-      : customToolParamFormatUnionDeserializer(item["format"]),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** The input format for the custom tool. Default is unconstrained text. */
-export interface CustomToolParamFormat {
-  type: CustomToolParamFormatType;
-}
-
-export function customToolParamFormatSerializer(item: CustomToolParamFormat): any {
-  return { type: item["type"] };
-}
-
-export function customToolParamFormatDeserializer(item: any): CustomToolParamFormat {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for CustomToolParamFormatUnion */
-export type CustomToolParamFormatUnion =
-  CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
-
-export function customToolParamFormatUnionSerializer(item: CustomToolParamFormatUnion): any {
-  switch (item.type) {
-    case "text":
-      return customTextFormatParamSerializer(item as CustomTextFormatParam);
-
-    case "grammar":
-      return customGrammarFormatParamSerializer(item as CustomGrammarFormatParam);
-
-    default:
-      return customToolParamFormatSerializer(item);
-  }
-}
-
-export function customToolParamFormatUnionDeserializer(item: any): CustomToolParamFormatUnion {
-  switch (item["type"]) {
-    case "text":
-      return customTextFormatParamDeserializer(item as CustomTextFormatParam);
-
-    case "grammar":
-      return customGrammarFormatParamDeserializer(item as CustomGrammarFormatParam);
-
-    default:
-      return customToolParamFormatDeserializer(item);
-  }
-}
-
-/** Type of CustomToolParamFormatType */
-export type CustomToolParamFormatType = "text" | "grammar";
-
-/** Unconstrained free-form text. */
-export interface CustomTextFormatParam extends CustomToolParamFormat {
-  /** Unconstrained text format. Always `text`. */
-  type: "text";
-}
-
-export function customTextFormatParamSerializer(item: CustomTextFormatParam): any {
-  return { type: item["type"] };
-}
-
-export function customTextFormatParamDeserializer(item: any): CustomTextFormatParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** A grammar defined by the user. */
-export interface CustomGrammarFormatParam extends CustomToolParamFormat {
-  /** Grammar format. Always `grammar`. */
-  type: "grammar";
-  /** The syntax of the grammar definition. One of `lark` or `regex`. */
-  syntax: GrammarSyntax1;
-  /** The grammar definition. */
-  definition: string;
-}
-
-export function customGrammarFormatParamSerializer(item: CustomGrammarFormatParam): any {
-  return { type: item["type"], syntax: item["syntax"], definition: item["definition"] };
-}
-
-export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFormatParam {
-  return {
-    type: item["type"],
-    syntax: item["syntax"],
-    definition: item["definition"],
-  };
-}
-
-/** Type of GrammarSyntax1 */
-export type GrammarSyntax1 = "lark" | "regex";
-
-/** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
-export interface WebSearchPreviewTool extends Tool {
-  /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
-  type: "web_search_preview";
-  user_location?: ApproximateLocation;
-  /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
-  search_context_size?: SearchContextSize;
-  search_content_types?: SearchContentType[];
-}
-
-export function webSearchPreviewToolSerializer(item: WebSearchPreviewTool): any {
-  return {
-    type: item["type"],
-    user_location: !item["user_location"]
-      ? item["user_location"]
-      : approximateLocationSerializer(item["user_location"]),
-    search_context_size: item["search_context_size"],
-    search_content_types: !item["search_content_types"]
-      ? item["search_content_types"]
-      : item["search_content_types"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewTool {
-  return {
-    type: item["type"],
-    user_location: !item["user_location"]
-      ? item["user_location"]
-      : approximateLocationDeserializer(item["user_location"]),
-    search_context_size: item["search_context_size"],
-    search_content_types: !item["search_content_types"]
-      ? item["search_content_types"]
-      : item["search_content_types"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** model interface ApproximateLocation */
-export interface ApproximateLocation {
-  /** The type of location approximation. Always `approximate`. */
-  type: "approximate";
-  country?: string;
-  region?: string;
-  city?: string;
-  timezone?: string;
-}
-
-export function approximateLocationSerializer(item: ApproximateLocation): any {
-  return {
-    type: item["type"],
-    country: item["country"],
-    region: item["region"],
-    city: item["city"],
-    timezone: item["timezone"],
-  };
-}
-
-export function approximateLocationDeserializer(item: any): ApproximateLocation {
-  return {
-    type: item["type"],
-    country: item["country"],
-    region: item["region"],
-    city: item["city"],
-    timezone: item["timezone"],
-  };
-}
-
-/** Type of SearchContextSize */
-export type SearchContextSize = "low" | "medium" | "high";
-
-/** Type of SearchContentType */
-export type SearchContentType = "text" | "image";
-
-/** Allows the assistant to create, delete, or update files using unified diffs. */
-export interface ApplyPatchToolParam extends Tool {
-  /** The type of the tool. Always `apply_patch`. */
-  type: "apply_patch";
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
-  return {
-    type: item["type"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam {
-  return {
-    type: item["type"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** A tool that controls a virtual computer. Learn more about the [computer tool](https://platform.openai.com/docs/guides/tools-computer-use). */
-export interface ComputerTool extends Tool {
-  /** The type of the computer tool. Always `computer`. */
-  type: "computer";
-}
-
-export function computerToolSerializer(item: ComputerTool): any {
-  return { type: item["type"] };
-}
-
-export function computerToolDeserializer(item: any): ComputerTool {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Groups function/custom tools under a shared namespace. */
-export interface NamespaceToolParam extends Tool {
-  /** The type of the tool. Always `namespace`. */
-  type: "namespace";
-  /** The namespace name used in tool calls (for example, `crm`). */
-  name: string;
-  /** A description of the namespace shown to the model. */
-  description: string;
-  /** The function/custom tools available inside this namespace. */
-  tools: (FunctionToolParam | CustomToolParam)[];
-}
-
-export function namespaceToolParamSerializer(item: NamespaceToolParam): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    tools: _namespaceToolParamToolArraySerializer(item["tools"]),
-  };
-}
-
-export function namespaceToolParamDeserializer(item: any): NamespaceToolParam {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    tools: _namespaceToolParamToolArrayDeserializer(item["tools"]),
-  };
-}
-
-export function _namespaceToolParamToolArraySerializer(
-  result: Array<_NamespaceToolParamTool>,
-): any[] {
-  return result.map((item) => {
-    return _namespaceToolParamToolSerializer(item);
-  });
-}
-
-export function _namespaceToolParamToolArrayDeserializer(
-  result: Array<_NamespaceToolParamTool>,
-): any[] {
-  return result.map((item) => {
-    return _namespaceToolParamToolDeserializer(item);
-  });
-}
-
-/** Alias for _NamespaceToolParamTool */
-export type _NamespaceToolParamTool = FunctionToolParam | CustomToolParam;
-
-export function _namespaceToolParamToolSerializer(item: _NamespaceToolParamTool): any {
-  return item;
-}
-
-export function _namespaceToolParamToolDeserializer(item: any): _NamespaceToolParamTool {
-  return item;
-}
-
-/** model interface FunctionToolParam */
-export interface FunctionToolParam {
-  name: string;
-  description?: string;
-  parameters?: EmptyModelParam;
-  strict?: boolean;
-  type: "function";
-  output_schema?: Record<string, any>;
-  /** Whether this function should be deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function functionToolParamSerializer(item: FunctionToolParam): any {
-  return {
-    name: item["name"],
-    description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : emptyModelParamSerializer(item["parameters"]),
-    strict: item["strict"],
-    type: item["type"],
-    output_schema: item["output_schema"],
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function functionToolParamDeserializer(item: any): FunctionToolParam {
-  return {
-    name: item["name"],
-    description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : emptyModelParamDeserializer(item["parameters"]),
-    strict: item["strict"],
-    type: item["type"],
-    output_schema: !item["output_schema"]
-      ? item["output_schema"]
-      : Object.fromEntries(
-          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** model interface EmptyModelParam */
-export interface EmptyModelParam {}
-
-export function emptyModelParamSerializer(_item: EmptyModelParam): any {
-  return {};
-}
-
-export function emptyModelParamDeserializer(item: any): EmptyModelParam {
-  return item;
-}
-
-/** Hosted or BYOT tool search configuration for deferred tools. */
-export interface ToolSearchToolParam extends Tool {
-  /** The type of the tool. Always `tool_search`. */
-  type: "tool_search";
-  /** Whether tool search is executed by the server or by the client. */
-  execution?: ToolSearchExecutionType;
-  description?: string;
-  parameters?: EmptyModelParam;
-}
-
-export function toolSearchToolParamSerializer(item: ToolSearchToolParam): any {
-  return {
-    type: item["type"],
-    execution: item["execution"],
-    description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : emptyModelParamSerializer(item["parameters"]),
-  };
-}
-
-export function toolSearchToolParamDeserializer(item: any): ToolSearchToolParam {
-  return {
-    type: item["type"],
-    execution: item["execution"],
-    description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : emptyModelParamDeserializer(item["parameters"]),
-  };
-}
-
-/** Type of ToolSearchExecutionType */
-export type ToolSearchExecutionType = "server" | "client";
-
 /** Alias for _PromptAgentDefinitionToolChoice */
 export type _PromptAgentDefinitionToolChoice = string | ToolChoiceParamUnion;
 
@@ -4460,478 +2580,6 @@ export function _promptAgentDefinitionToolChoiceDeserializer(
   item: any,
 ): _PromptAgentDefinitionToolChoice {
   return item;
-}
-
-/**
- * How the model should select which tool (or tools) to use when generating
- * a response. See the `tools` parameter to see how to specify which tools
- * the model can call.
- */
-export interface ToolChoiceParam {
-  type: ToolChoiceParamType;
-}
-
-export function toolChoiceParamSerializer(item: ToolChoiceParam): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceParamDeserializer(item: any): ToolChoiceParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for ToolChoiceParamUnion */
-export type ToolChoiceParamUnion =
-  | ToolChoiceFunction
-  | ToolChoiceMCP
-  | ToolChoiceAllowed
-  | ToolChoiceCustom
-  | SpecificProgrammaticToolCallingParam
-  | SpecificApplyPatchParam
-  | SpecificFunctionShellParam
-  | ToolChoiceFileSearch
-  | ToolChoiceWebSearchPreview
-  | ToolChoiceComputerUsePreview
-  | ToolChoiceWebSearchPreview20250311
-  | ToolChoiceImageGeneration
-  | ToolChoiceCodeInterpreter
-  | ToolChoiceComputer
-  | ToolChoiceComputerUse
-  | ToolChoiceParam;
-
-export function toolChoiceParamUnionSerializer(item: ToolChoiceParamUnion): any {
-  switch (item.type) {
-    case "function":
-      return toolChoiceFunctionSerializer(item as ToolChoiceFunction);
-
-    case "mcp":
-      return toolChoiceMCPSerializer(item as ToolChoiceMCP);
-
-    case "allowed_tools":
-      return toolChoiceAllowedSerializer(item as ToolChoiceAllowed);
-
-    case "custom":
-      return toolChoiceCustomSerializer(item as ToolChoiceCustom);
-
-    case "programmatic_tool_calling":
-      return specificProgrammaticToolCallingParamSerializer(
-        item as SpecificProgrammaticToolCallingParam,
-      );
-
-    case "apply_patch":
-      return specificApplyPatchParamSerializer(item as SpecificApplyPatchParam);
-
-    case "shell":
-      return specificFunctionShellParamSerializer(item as SpecificFunctionShellParam);
-
-    case "file_search":
-      return toolChoiceFileSearchSerializer(item as ToolChoiceFileSearch);
-
-    case "web_search_preview":
-      return toolChoiceWebSearchPreviewSerializer(item as ToolChoiceWebSearchPreview);
-
-    case "computer_use_preview":
-      return toolChoiceComputerUsePreviewSerializer(item as ToolChoiceComputerUsePreview);
-
-    case "web_search_preview_2025_03_11":
-      return toolChoiceWebSearchPreview20250311Serializer(
-        item as ToolChoiceWebSearchPreview20250311,
-      );
-
-    case "image_generation":
-      return toolChoiceImageGenerationSerializer(item as ToolChoiceImageGeneration);
-
-    case "code_interpreter":
-      return toolChoiceCodeInterpreterSerializer(item as ToolChoiceCodeInterpreter);
-
-    case "computer":
-      return toolChoiceComputerSerializer(item as ToolChoiceComputer);
-
-    case "computer_use":
-      return toolChoiceComputerUseSerializer(item as ToolChoiceComputerUse);
-
-    default:
-      return toolChoiceParamSerializer(item);
-  }
-}
-
-export function toolChoiceParamUnionDeserializer(item: any): ToolChoiceParamUnion {
-  switch (item["type"]) {
-    case "function":
-      return toolChoiceFunctionDeserializer(item as ToolChoiceFunction);
-
-    case "mcp":
-      return toolChoiceMCPDeserializer(item as ToolChoiceMCP);
-
-    case "allowed_tools":
-      return toolChoiceAllowedDeserializer(item as ToolChoiceAllowed);
-
-    case "custom":
-      return toolChoiceCustomDeserializer(item as ToolChoiceCustom);
-
-    case "programmatic_tool_calling":
-      return specificProgrammaticToolCallingParamDeserializer(
-        item as SpecificProgrammaticToolCallingParam,
-      );
-
-    case "apply_patch":
-      return specificApplyPatchParamDeserializer(item as SpecificApplyPatchParam);
-
-    case "shell":
-      return specificFunctionShellParamDeserializer(item as SpecificFunctionShellParam);
-
-    case "file_search":
-      return toolChoiceFileSearchDeserializer(item as ToolChoiceFileSearch);
-
-    case "web_search_preview":
-      return toolChoiceWebSearchPreviewDeserializer(item as ToolChoiceWebSearchPreview);
-
-    case "computer_use_preview":
-      return toolChoiceComputerUsePreviewDeserializer(item as ToolChoiceComputerUsePreview);
-
-    case "web_search_preview_2025_03_11":
-      return toolChoiceWebSearchPreview20250311Deserializer(
-        item as ToolChoiceWebSearchPreview20250311,
-      );
-
-    case "image_generation":
-      return toolChoiceImageGenerationDeserializer(item as ToolChoiceImageGeneration);
-
-    case "code_interpreter":
-      return toolChoiceCodeInterpreterDeserializer(item as ToolChoiceCodeInterpreter);
-
-    case "computer":
-      return toolChoiceComputerDeserializer(item as ToolChoiceComputer);
-
-    case "computer_use":
-      return toolChoiceComputerUseDeserializer(item as ToolChoiceComputerUse);
-
-    default:
-      return toolChoiceParamDeserializer(item);
-  }
-}
-
-/** Type of ToolChoiceParamType */
-export type ToolChoiceParamType =
-  | "allowed_tools"
-  | "function"
-  | "mcp"
-  | "custom"
-  | "programmatic_tool_calling"
-  | "apply_patch"
-  | "shell"
-  | "file_search"
-  | "web_search_preview"
-  | "computer_use_preview"
-  | "web_search_preview_2025_03_11"
-  | "image_generation"
-  | "code_interpreter"
-  | "computer"
-  | "computer_use";
-
-/** Use this option to force the model to call a specific function. */
-export interface ToolChoiceFunction extends ToolChoiceParam {
-  /** For function calling, the type is always `function`. */
-  type: "function";
-  /** The name of the function to call. */
-  name: string;
-}
-
-export function toolChoiceFunctionSerializer(item: ToolChoiceFunction): any {
-  return { type: item["type"], name: item["name"] };
-}
-
-export function toolChoiceFunctionDeserializer(item: any): ToolChoiceFunction {
-  return {
-    type: item["type"],
-    name: item["name"],
-  };
-}
-
-/** Use this option to force the model to call a specific tool on a remote MCP server. */
-export interface ToolChoiceMCP extends ToolChoiceParam {
-  /** For MCP tools, the type is always `mcp`. */
-  type: "mcp";
-  /** The label of the MCP server to use. */
-  server_label: string;
-  name?: string;
-}
-
-export function toolChoiceMCPSerializer(item: ToolChoiceMCP): any {
-  return { type: item["type"], server_label: item["server_label"], name: item["name"] };
-}
-
-export function toolChoiceMCPDeserializer(item: any): ToolChoiceMCP {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    name: item["name"],
-  };
-}
-
-/** Constrains the tools available to the model to a pre-defined set. */
-export interface ToolChoiceAllowed extends ToolChoiceParam {
-  /** Allowed tool configuration type. Always `allowed_tools`. */
-  type: "allowed_tools";
-  /**
-   * Constrains the tools available to the model to a pre-defined set.
-   *   `auto` allows the model to pick from among the allowed tools and generate a
-   *   message.
-   *   `required` requires the model to call one or more of the allowed tools.
-   */
-  mode: "auto" | "required";
-  /**
-   * A list of tool definitions that the model should be allowed to call.
-   *   For the Responses API, the list of tool definitions might look like:
-   *   ```json
-   *   [
-   *     { "type": "function", "name": "get_weather" },
-   *     { "type": "mcp", "server_label": "deepwiki" },
-   *     { "type": "image_generation" }
-   *   ]
-   *   ```
-   */
-  tools: Record<string, any>[];
-}
-
-export function toolChoiceAllowedSerializer(item: ToolChoiceAllowed): any {
-  return {
-    type: item["type"],
-    mode: item["mode"],
-    tools: item["tools"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function toolChoiceAllowedDeserializer(item: any): ToolChoiceAllowed {
-  return {
-    type: item["type"],
-    mode: item["mode"],
-    tools: item["tools"].map((p: any) => {
-      return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
-    }),
-  };
-}
-
-/** Use this option to force the model to call a specific custom tool. */
-export interface ToolChoiceCustom extends ToolChoiceParam {
-  /** For custom tool calling, the type is always `custom`. */
-  type: "custom";
-  /** The name of the custom tool to call. */
-  name: string;
-}
-
-export function toolChoiceCustomSerializer(item: ToolChoiceCustom): any {
-  return { type: item["type"], name: item["name"] };
-}
-
-export function toolChoiceCustomDeserializer(item: any): ToolChoiceCustom {
-  return {
-    type: item["type"],
-    name: item["name"],
-  };
-}
-
-/** model interface SpecificProgrammaticToolCallingParam */
-export interface SpecificProgrammaticToolCallingParam extends ToolChoiceParam {
-  /** The tool to call. Always `programmatic_tool_calling`. */
-  type: "programmatic_tool_calling";
-}
-
-export function specificProgrammaticToolCallingParamSerializer(
-  item: SpecificProgrammaticToolCallingParam,
-): any {
-  return { type: item["type"] };
-}
-
-export function specificProgrammaticToolCallingParamDeserializer(
-  item: any,
-): SpecificProgrammaticToolCallingParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Forces the model to call the apply_patch tool when executing a tool call. */
-export interface SpecificApplyPatchParam extends ToolChoiceParam {
-  /** The tool to call. Always `apply_patch`. */
-  type: "apply_patch";
-}
-
-export function specificApplyPatchParamSerializer(item: SpecificApplyPatchParam): any {
-  return { type: item["type"] };
-}
-
-export function specificApplyPatchParamDeserializer(item: any): SpecificApplyPatchParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Forces the model to call the shell tool when a tool call is required. */
-export interface SpecificFunctionShellParam extends ToolChoiceParam {
-  /** The tool to call. Always `shell`. */
-  type: "shell";
-}
-
-export function specificFunctionShellParamSerializer(item: SpecificFunctionShellParam): any {
-  return { type: item["type"] };
-}
-
-export function specificFunctionShellParamDeserializer(item: any): SpecificFunctionShellParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * Indicates that the model should use a built-in tool to generate a response.
- * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
- */
-export interface ToolChoiceFileSearch extends ToolChoiceParam {
-  type: "file_search";
-}
-
-export function toolChoiceFileSearchSerializer(item: ToolChoiceFileSearch): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceFileSearchDeserializer(item: any): ToolChoiceFileSearch {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * Indicates that the model should use a built-in tool to generate a response.
- * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
- */
-export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
-  type: "web_search_preview";
-}
-
-export function toolChoiceWebSearchPreviewSerializer(item: ToolChoiceWebSearchPreview): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceWebSearchPreviewDeserializer(item: any): ToolChoiceWebSearchPreview {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * Indicates that the model should use a built-in tool to generate a response.
- * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
- */
-export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
-  type: "computer_use_preview";
-}
-
-export function toolChoiceComputerUsePreviewSerializer(item: ToolChoiceComputerUsePreview): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceComputerUsePreviewDeserializer(item: any): ToolChoiceComputerUsePreview {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * Indicates that the model should use a built-in tool to generate a response.
- * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
- */
-export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
-  type: "web_search_preview_2025_03_11";
-}
-
-export function toolChoiceWebSearchPreview20250311Serializer(
-  item: ToolChoiceWebSearchPreview20250311,
-): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceWebSearchPreview20250311Deserializer(
-  item: any,
-): ToolChoiceWebSearchPreview20250311 {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * Indicates that the model should use a built-in tool to generate a response.
- * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
- */
-export interface ToolChoiceImageGeneration extends ToolChoiceParam {
-  type: "image_generation";
-}
-
-export function toolChoiceImageGenerationSerializer(item: ToolChoiceImageGeneration): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceImageGenerationDeserializer(item: any): ToolChoiceImageGeneration {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * Indicates that the model should use a built-in tool to generate a response.
- * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
- */
-export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
-  type: "code_interpreter";
-}
-
-export function toolChoiceCodeInterpreterSerializer(item: ToolChoiceCodeInterpreter): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceCodeInterpreterDeserializer(item: any): ToolChoiceCodeInterpreter {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * Indicates that the model should use a built-in tool to generate a response.
- * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
- */
-export interface ToolChoiceComputer extends ToolChoiceParam {
-  type: "computer";
-}
-
-export function toolChoiceComputerSerializer(item: ToolChoiceComputer): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceComputerDeserializer(item: any): ToolChoiceComputer {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * Indicates that the model should use a built-in tool to generate a response.
- * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
- */
-export interface ToolChoiceComputerUse extends ToolChoiceParam {
-  type: "computer_use";
-}
-
-export function toolChoiceComputerUseSerializer(item: ToolChoiceComputerUse): any {
-  return { type: item["type"] };
-}
-
-export function toolChoiceComputerUseDeserializer(item: any): ToolChoiceComputerUse {
-  return {
-    type: item["type"],
-  };
 }
 
 /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
@@ -4952,153 +2600,6 @@ export function promptAgentDefinitionTextOptionsDeserializer(
 ): PromptAgentDefinitionTextOptions {
   return {
     format: !item["format"] ? item["format"] : textResponseFormatUnionDeserializer(item["format"]),
-  };
-}
-
-/**
- * An object specifying the format that the model must output.
- * Configuring `{ "type": "json_schema" }` enables Structured Outputs,
- * which ensures the model will match your supplied JSON schema. Learn more in the
- * [Structured Outputs guide](/docs/guides/structured-outputs).
- * The default format is `{ "type": "text" }` with no additional options.
- * *Not recommended for gpt-4o and newer models:**
- * Setting to `{ "type": "json_object" }` enables the older JSON mode, which
- * ensures the message the model generates is valid JSON. Using `json_schema`
- * is preferred for models that support it.
- */
-export interface TextResponseFormat {
-  type: TextResponseFormatConfigurationType;
-}
-
-export function textResponseFormatSerializer(item: TextResponseFormat): any {
-  return { type: item["type"] };
-}
-
-export function textResponseFormatDeserializer(item: any): TextResponseFormat {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for TextResponseFormatUnion */
-export type TextResponseFormatUnion =
-  | TextResponseFormatJsonSchema
-  | TextResponseFormatText
-  | TextResponseFormatJsonObject
-  | TextResponseFormat;
-
-export function textResponseFormatUnionSerializer(item: TextResponseFormatUnion): any {
-  switch (item.type) {
-    case "json_schema":
-      return textResponseFormatJsonSchemaSerializer(item as TextResponseFormatJsonSchema);
-
-    case "text":
-      return textResponseFormatTextSerializer(item as TextResponseFormatText);
-
-    case "json_object":
-      return textResponseFormatJsonObjectSerializer(item as TextResponseFormatJsonObject);
-
-    default:
-      return textResponseFormatSerializer(item);
-  }
-}
-
-export function textResponseFormatUnionDeserializer(item: any): TextResponseFormatUnion {
-  switch (item["type"]) {
-    case "json_schema":
-      return textResponseFormatJsonSchemaDeserializer(item as TextResponseFormatJsonSchema);
-
-    case "text":
-      return textResponseFormatTextDeserializer(item as TextResponseFormatText);
-
-    case "json_object":
-      return textResponseFormatJsonObjectDeserializer(item as TextResponseFormatJsonObject);
-
-    default:
-      return textResponseFormatDeserializer(item);
-  }
-}
-
-/** Type of TextResponseFormatConfigurationType */
-export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json_object";
-
-/**
- * JSON Schema response format. Used to generate structured JSON responses.
- * Learn more about [Structured Outputs](/docs/guides/structured-outputs).
- */
-export interface TextResponseFormatJsonSchema extends TextResponseFormat {
-  /** The type of response format being defined. Always `json_schema`. */
-  type: "json_schema";
-  /**
-   * A description of what the response format is for, used by the model to
-   *   determine how to respond in the format.
-   */
-  description?: string;
-  /**
-   * The name of the response format. Must be a-z, A-Z, 0-9, or contain
-   *   underscores and dashes, with a maximum length of 64.
-   */
-  name: string;
-  schema: Record<string, any>;
-  strict?: boolean;
-}
-
-export function textResponseFormatJsonSchemaSerializer(item: TextResponseFormatJsonSchema): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    name: item["name"],
-    schema: item["schema"],
-    strict: item["strict"],
-  };
-}
-
-export function textResponseFormatJsonSchemaDeserializer(item: any): TextResponseFormatJsonSchema {
-  return {
-    type: item["type"],
-    description: item["description"],
-    name: item["name"],
-    schema: Object.fromEntries(
-      Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
-    strict: item["strict"],
-  };
-}
-
-/** Default response format. Used to generate text responses. */
-export interface TextResponseFormatText extends TextResponseFormat {
-  /** The type of response format being defined. Always `text`. */
-  type: "text";
-}
-
-export function textResponseFormatTextSerializer(item: TextResponseFormatText): any {
-  return { type: item["type"] };
-}
-
-export function textResponseFormatTextDeserializer(item: any): TextResponseFormatText {
-  return {
-    type: item["type"],
-  };
-}
-
-/**
- * JSON object response format. An older method of generating JSON responses.
- * Using `json_schema` is recommended for models that support it. Note that the
- * model will not generate JSON without a system or user message instructing it
- * to do so.
- */
-export interface TextResponseFormatJsonObject extends TextResponseFormat {
-  /** The type of response format being defined. Always `json_object`. */
-  type: "json_object";
-}
-
-export function textResponseFormatJsonObjectSerializer(item: TextResponseFormatJsonObject): any {
-  return { type: item["type"] };
-}
-
-export function textResponseFormatJsonObjectDeserializer(item: any): TextResponseFormatJsonObject {
-  return {
-    type: item["type"],
   };
 }
 
@@ -5215,6 +2716,1979 @@ export function externalAgentDefinitionDeserializer(item: any): ExternalAgentDef
       ? item["rai_config"]
       : raiConfigDeserializer(item["rai_config"]),
     otel_agent_id: item["otel_agent_id"],
+  };
+}
+
+/**
+ * The voice agent definition. Its configuration (model, instructions, audio, tools, and optional avatar) drives a
+ * managed speech-to-speech experience. Establish realtime voice sessions through
+ * `GET /agents/{agent_name}/endpoint/protocols/voice`. Every create or update produces a new immutable version.
+ */
+export interface VoiceAgentDefinition extends AgentDefinition {
+  /** The kind discriminator for a voice agent definition. Always `voice`. */
+  kind: "voice";
+  /** How the model backing this voice agent is served. Required with `model` for a model-backed voice agent and omitted when `conversation_engine` is provided. This is independent of the architecture (realtime or cascaded), which the service derives from the selected model. */
+  model_type?: VoiceModelType;
+  /** The model to use for this agent. Required with `model_type` for a model-backed voice agent and omitted when `conversation_engine` is provided. The model must support realtime or cascaded voice. */
+  model?: string;
+  /** The engine that owns conversation handling for this voice agent. Exactly one of this property and the model-backed configuration (`model_type` with `model`) must be provided. When this property is provided, `model_type`, `model`, `instructions`, `tools`, and `tool_choice` must be omitted, and `greeting.tool_choice` cannot be `required`, because the engine owns the conversation logic. The initial implementation supports a hosted-agent engine. */
+  conversation_engine?: VoiceConversationEngineUnion;
+  /** A system (or developer) message inserted into the model's context. Supports template substitution via `structured_inputs`, rendered per session before the live session starts. */
+  instructions?: string;
+  /** Optional session-start greeting. Template mode speaks exact rendered text; LLM-generated mode asks the session model to author the opening response and may use configured tools. */
+  greeting?: VoiceAgentGreetingConfigUnion;
+  /**
+   * The audio configuration, including input and output formats, voice, turn detection, noise reduction, and
+   * transcription. These values are session defaults; a client may override supported fields when connecting.
+   */
+  audio?: VoiceAgentAudioConfig;
+  /**
+   * The output modalities the agent produces. Defaults to `["audio"]`. `animation` and `avatar` are available
+   * when an avatar is configured.
+   */
+  output_modalities?: VoiceOutputModality[];
+  /** The maximum output-token count for one response. */
+  max_output_tokens?: VoiceAgentMaxOutputTokens;
+  /** Additional fields to include in service outputs. */
+  include?: VoiceAgentSessionIncludeOption[];
+  /** Interim-response settings for latency and tool execution. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+  /** Optional avatar configuration. These values are session defaults and may be overridden when connecting. */
+  avatar?: VoiceAgentAvatarConfig;
+  /**
+   * The tools the voice agent may use. Supported tool kinds are `function` (executed by the client), `mcp`,
+   * `system` (service-managed session controls), and `toolbox`. Server-side tools such as `web_search`,
+   * `azure_ai_search`, and `openapi` are provided through a toolbox rather than declared directly.
+   */
+  tools?: VoiceAgentToolUnion[];
+  /**
+   * How the model chooses tools for generated responses. `none` prevents tool calls, `auto` lets the model decide,
+   * `required` requires at least one tool call, and a specific function or MCP tool can be selected with an object.
+   * Defaults to `auto`.
+   */
+  tool_choice?: VoiceAgentToolChoice;
+  /** Whether the model may call multiple tools in parallel. */
+  parallel_tool_calls?: boolean;
+  /** Set of structured inputs that participate in prompt template substitution, rendered per session before the live session starts. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+  /** Optional configuration for sibling Foundry text agents that this voice agent may consult as background specialists. */
+  subagent_config?: VoiceAgentSubagentConfig;
+  /**
+   * Whether conversations with this agent are persisted. A single, all-or-nothing persistence switch that defaults to
+   * `false` (privacy-safe: off by default). When `true`, Foundry persists the full conversation — the transcript/event
+   * timeline and raw audio. When `false`, nothing is persisted and no conversation is surfaced. There is no separate
+   * audio-logging control; audio is persisted only as part of this switch. Latency/performance telemetry (e.g.
+   * time-to-first-audio, inter-token latency, interruption) is observability-only (customer trace / App Insights) and
+   * is not part of the persisted conversation content.
+   */
+  store?: boolean;
+}
+
+export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    model_type: item["model_type"],
+    model: item["model"],
+    conversation_engine: !item["conversation_engine"]
+      ? item["conversation_engine"]
+      : voiceConversationEngineUnionSerializer(item["conversation_engine"]),
+    instructions: item["instructions"],
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensSerializer(item["max_output_tokens"]),
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+    avatar: !item["avatar"] ? item["avatar"] : voiceAgentAvatarConfigSerializer(item["avatar"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    subagent_config: !item["subagent_config"]
+      ? item["subagent_config"]
+      : voiceAgentSubagentConfigSerializer(item["subagent_config"]),
+    store: item["store"],
+  };
+}
+
+export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    model_type: item["model_type"],
+    model: item["model"],
+    conversation_engine: !item["conversation_engine"]
+      ? item["conversation_engine"]
+      : voiceConversationEngineUnionDeserializer(item["conversation_engine"]),
+    instructions: item["instructions"],
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigDeserializer(item["audio"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+    avatar: !item["avatar"] ? item["avatar"] : voiceAgentAvatarConfigDeserializer(item["avatar"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+    subagent_config: !item["subagent_config"]
+      ? item["subagent_config"]
+      : voiceAgentSubagentConfigDeserializer(item["subagent_config"]),
+    store: item["store"],
+  };
+}
+
+/**
+ * How the model backing a voice agent is served. This is independent of the architecture (realtime or cascaded),
+ * which the service derives from the selected model.
+ */
+export type VoiceModelType = "managed" | "self_deployed";
+
+/** An engine that owns conversation handling for a voice agent. */
+export interface VoiceConversationEngine {
+  /** The conversation engine type. */
+  /** The discriminator possible values: hosted_agent */
+  type: string;
+}
+
+export function voiceConversationEngineSerializer(item: VoiceConversationEngine): any {
+  return { type: item["type"] };
+}
+
+export function voiceConversationEngineDeserializer(item: any): VoiceConversationEngine {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VoiceConversationEngineUnion */
+export type VoiceConversationEngineUnion =
+  VoiceHostedAgentConversationEngine | VoiceConversationEngine;
+
+export function voiceConversationEngineUnionSerializer(item: VoiceConversationEngineUnion): any {
+  switch (item.type) {
+    case "hosted_agent":
+      return voiceHostedAgentConversationEngineSerializer(
+        item as VoiceHostedAgentConversationEngine,
+      );
+
+    default:
+      return voiceConversationEngineSerializer(item);
+  }
+}
+
+export function voiceConversationEngineUnionDeserializer(item: any): VoiceConversationEngineUnion {
+  switch (item["type"]) {
+    case "hosted_agent":
+      return voiceHostedAgentConversationEngineDeserializer(
+        item as VoiceHostedAgentConversationEngine,
+      );
+
+    default:
+      return voiceConversationEngineDeserializer(item);
+  }
+}
+
+/** A closed reference to the hosted text agent that owns conversation handling for a voice agent. The hosted agent is resolved within the same project and must support the `invocations_ws` protocol, Voice Live compatibility, and Bridge Protocol 1.0. */
+export interface VoiceHostedAgentConversationEngine extends VoiceConversationEngine {
+  /** Selects a hosted Foundry agent as the conversation engine. */
+  type: "hosted_agent";
+  /** The non-empty DNS-like name of the target hosted text agent in the same project. */
+  name: string;
+  /** The target agent version. Omit this property to select the latest version when the voice session starts. When supplied, use a positive integer or `draft-{positive-unix-timestamp}` whose numeric component fits in a signed 64-bit integer. */
+  version?: string;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function voiceHostedAgentConversationEngineSerializer(
+  item: VoiceHostedAgentConversationEngine,
+): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function voiceHostedAgentConversationEngineDeserializer(
+  item: any,
+): VoiceHostedAgentConversationEngine {
+  return {
+    additionalProperties: serializeRecord(item, ["type", "name", "version"]),
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Session-start greeting configuration for a voice agent. */
+export interface VoiceAgentGreetingConfig {
+  /** The greeting mode. */
+  /** The discriminator possible values: template, llm_generated */
+  type: string;
+}
+
+export function voiceAgentGreetingConfigSerializer(item: VoiceAgentGreetingConfig): any {
+  return { type: item["type"] };
+}
+
+export function voiceAgentGreetingConfigDeserializer(item: any): VoiceAgentGreetingConfig {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VoiceAgentGreetingConfigUnion */
+export type VoiceAgentGreetingConfigUnion =
+  | VoiceAgentTemplateGreetingConfig
+  | VoiceAgentLlmGeneratedGreetingConfig
+  | VoiceAgentGreetingConfig;
+
+export function voiceAgentGreetingConfigUnionSerializer(item: VoiceAgentGreetingConfigUnion): any {
+  switch (item.type) {
+    case "template":
+      return voiceAgentTemplateGreetingConfigSerializer(item as VoiceAgentTemplateGreetingConfig);
+
+    case "llm_generated":
+      return voiceAgentLlmGeneratedGreetingConfigSerializer(
+        item as VoiceAgentLlmGeneratedGreetingConfig,
+      );
+
+    default:
+      return voiceAgentGreetingConfigSerializer(item);
+  }
+}
+
+export function voiceAgentGreetingConfigUnionDeserializer(
+  item: any,
+): VoiceAgentGreetingConfigUnion {
+  switch (item["type"]) {
+    case "template":
+      return voiceAgentTemplateGreetingConfigDeserializer(item as VoiceAgentTemplateGreetingConfig);
+
+    case "llm_generated":
+      return voiceAgentLlmGeneratedGreetingConfigDeserializer(
+        item as VoiceAgentLlmGeneratedGreetingConfig,
+      );
+
+    default:
+      return voiceAgentGreetingConfigDeserializer(item);
+  }
+}
+
+/** A deterministic greeting rendered with the voice agent's structured inputs and synthesized without model-authored generation. */
+export interface VoiceAgentTemplateGreetingConfig extends VoiceAgentGreetingConfig {
+  type: "template";
+  /** The Handlebars text template spoken at session start. */
+  text: string;
+}
+
+export function voiceAgentTemplateGreetingConfigSerializer(
+  item: VoiceAgentTemplateGreetingConfig,
+): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function voiceAgentTemplateGreetingConfigDeserializer(
+  item: any,
+): VoiceAgentTemplateGreetingConfig {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** A greeting authored by the session model from a scoped opening-turn prompt. */
+export interface VoiceAgentLlmGeneratedGreetingConfig extends VoiceAgentGreetingConfig {
+  type: "llm_generated";
+  /** The Handlebars prompt that guides the opening turn. */
+  prompt: string;
+  /** The tool-selection policy for the opening response. Defaults to `none`. */
+  tool_choice?: VoiceAgentToolChoice;
+}
+
+export function voiceAgentLlmGeneratedGreetingConfigSerializer(
+  item: VoiceAgentLlmGeneratedGreetingConfig,
+): any {
+  return {
+    type: item["type"],
+    prompt: item["prompt"],
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
+  };
+}
+
+export function voiceAgentLlmGeneratedGreetingConfigDeserializer(
+  item: any,
+): VoiceAgentLlmGeneratedGreetingConfig {
+  return {
+    type: item["type"],
+    prompt: item["prompt"],
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
+  };
+}
+
+/** Tool-selection behavior for a voice agent. */
+export type VoiceAgentToolChoice =
+  "none" | "auto" | "required" | ToolChoiceFunction | ToolChoiceMCP;
+
+export function voiceAgentToolChoiceSerializer(item: VoiceAgentToolChoice): any {
+  return item;
+}
+
+export function voiceAgentToolChoiceDeserializer(item: any): VoiceAgentToolChoice {
+  return item;
+}
+
+/** The audio configuration for a voice agent. These values are session defaults and may be overridden when connecting. */
+export interface VoiceAgentAudioConfig {
+  /** Input (microphone) audio configuration. */
+  input?: VoiceAgentAudioInputConfig;
+  /** Output (agent speech) audio configuration. */
+  output?: VoiceAgentAudioOutputConfig;
+}
+
+export function voiceAgentAudioConfigSerializer(item: VoiceAgentAudioConfig): any {
+  return {
+    input: !item["input"] ? item["input"] : voiceAgentAudioInputConfigSerializer(item["input"]),
+    output: !item["output"]
+      ? item["output"]
+      : voiceAgentAudioOutputConfigSerializer(item["output"]),
+  };
+}
+
+export function voiceAgentAudioConfigDeserializer(item: any): VoiceAgentAudioConfig {
+  return {
+    input: !item["input"] ? item["input"] : voiceAgentAudioInputConfigDeserializer(item["input"]),
+    output: !item["output"]
+      ? item["output"]
+      : voiceAgentAudioOutputConfigDeserializer(item["output"]),
+  };
+}
+
+/** Input audio configuration for a voice agent. */
+export interface VoiceAgentAudioInputConfig {
+  /** The input audio format. */
+  format?: RealtimeAudioFormatsUnion;
+  /** Input noise reduction. Set to null to disable. */
+  noise_reduction?: VoiceAgentNoiseReduction;
+  /** Turn (end-of-speech) detection. Server-side turn detection is enabled by default; set to null to disable it, in which case the client must trigger responses manually. */
+  turn_detection?: VoiceAgentTurnDetectionConfigUnion;
+  /** Optional server-side echo cancellation settings. */
+  echo_cancellation?: VoiceAgentEchoCancellation;
+  /** Asynchronous input-audio transcription. Set to null to disable transcription. */
+  transcription?: VoiceAgentInputTranscription;
+}
+
+export function voiceAgentAudioInputConfigSerializer(item: VoiceAgentAudioInputConfig): any {
+  return {
+    format: !item["format"] ? item["format"] : realtimeAudioFormatsUnionSerializer(item["format"]),
+    noise_reduction: !item["noise_reduction"]
+      ? item["noise_reduction"]
+      : voiceAgentNoiseReductionSerializer(item["noise_reduction"]),
+    turn_detection: !item["turn_detection"]
+      ? item["turn_detection"]
+      : voiceAgentTurnDetectionConfigUnionSerializer(item["turn_detection"]),
+    echo_cancellation: !item["echo_cancellation"]
+      ? item["echo_cancellation"]
+      : voiceAgentEchoCancellationSerializer(item["echo_cancellation"]),
+    transcription: !item["transcription"]
+      ? item["transcription"]
+      : voiceAgentInputTranscriptionSerializer(item["transcription"]),
+  };
+}
+
+export function voiceAgentAudioInputConfigDeserializer(item: any): VoiceAgentAudioInputConfig {
+  return {
+    format: !item["format"]
+      ? item["format"]
+      : realtimeAudioFormatsUnionDeserializer(item["format"]),
+    noise_reduction: !item["noise_reduction"]
+      ? item["noise_reduction"]
+      : voiceAgentNoiseReductionDeserializer(item["noise_reduction"]),
+    turn_detection: !item["turn_detection"]
+      ? item["turn_detection"]
+      : voiceAgentTurnDetectionConfigUnionDeserializer(item["turn_detection"]),
+    echo_cancellation: !item["echo_cancellation"]
+      ? item["echo_cancellation"]
+      : voiceAgentEchoCancellationDeserializer(item["echo_cancellation"]),
+    transcription: !item["transcription"]
+      ? item["transcription"]
+      : voiceAgentInputTranscriptionDeserializer(item["transcription"]),
+  };
+}
+
+/** Input audio noise reduction configuration. */
+export interface VoiceAgentNoiseReduction {
+  /** The noise reduction mode. */
+  type: VoiceAgentNoiseReductionType;
+}
+
+export function voiceAgentNoiseReductionSerializer(item: VoiceAgentNoiseReduction): any {
+  return { type: item["type"] };
+}
+
+export function voiceAgentNoiseReductionDeserializer(item: any): VoiceAgentNoiseReduction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** The input audio noise reduction mode. */
+export type VoiceAgentNoiseReductionType =
+  "near_field" | "far_field" | "azure_deep_noise_suppression";
+
+/** Turn-detection configuration for a voice agent. */
+export interface VoiceAgentTurnDetectionConfig {
+  /** The turn-detection strategy. */
+  /** The discriminator possible values: server_vad, azure_semantic_vad, azure_semantic_vad_en, azure_semantic_vad_multilingual, semantic_vad */
+  type: VoiceAgentTurnDetectionType;
+  /** Whether the input audio buffer is truncated automatically when speech stops. */
+  auto_truncate?: boolean;
+}
+
+export function voiceAgentTurnDetectionConfigSerializer(item: VoiceAgentTurnDetectionConfig): any {
+  return { type: item["type"], auto_truncate: item["auto_truncate"] };
+}
+
+export function voiceAgentTurnDetectionConfigDeserializer(
+  item: any,
+): VoiceAgentTurnDetectionConfig {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+  };
+}
+
+/** Alias for VoiceAgentTurnDetectionConfigUnion */
+export type VoiceAgentTurnDetectionConfigUnion =
+  | VoiceAgentServerVadTurnDetection
+  | VoiceAgentAzureSemanticVadTurnDetection
+  | VoiceAgentAzureSemanticVadEnTurnDetection
+  | VoiceAgentAzureSemanticVadMultilingualTurnDetection
+  | VoiceAgentSemanticVadTurnDetection
+  | VoiceAgentTurnDetectionConfig;
+
+export function voiceAgentTurnDetectionConfigUnionSerializer(
+  item: VoiceAgentTurnDetectionConfigUnion,
+): any {
+  switch (item.type) {
+    case "server_vad":
+      return voiceAgentServerVadTurnDetectionSerializer(item as VoiceAgentServerVadTurnDetection);
+
+    case "azure_semantic_vad":
+      return voiceAgentAzureSemanticVadTurnDetectionSerializer(
+        item as VoiceAgentAzureSemanticVadTurnDetection,
+      );
+
+    case "azure_semantic_vad_en":
+      return voiceAgentAzureSemanticVadEnTurnDetectionSerializer(
+        item as VoiceAgentAzureSemanticVadEnTurnDetection,
+      );
+
+    case "azure_semantic_vad_multilingual":
+      return voiceAgentAzureSemanticVadMultilingualTurnDetectionSerializer(
+        item as VoiceAgentAzureSemanticVadMultilingualTurnDetection,
+      );
+
+    case "semantic_vad":
+      return voiceAgentSemanticVadTurnDetectionSerializer(
+        item as VoiceAgentSemanticVadTurnDetection,
+      );
+
+    default:
+      return voiceAgentTurnDetectionConfigSerializer(item);
+  }
+}
+
+export function voiceAgentTurnDetectionConfigUnionDeserializer(
+  item: any,
+): VoiceAgentTurnDetectionConfigUnion {
+  switch (item["type"]) {
+    case "server_vad":
+      return voiceAgentServerVadTurnDetectionDeserializer(item as VoiceAgentServerVadTurnDetection);
+
+    case "azure_semantic_vad":
+      return voiceAgentAzureSemanticVadTurnDetectionDeserializer(
+        item as VoiceAgentAzureSemanticVadTurnDetection,
+      );
+
+    case "azure_semantic_vad_en":
+      return voiceAgentAzureSemanticVadEnTurnDetectionDeserializer(
+        item as VoiceAgentAzureSemanticVadEnTurnDetection,
+      );
+
+    case "azure_semantic_vad_multilingual":
+      return voiceAgentAzureSemanticVadMultilingualTurnDetectionDeserializer(
+        item as VoiceAgentAzureSemanticVadMultilingualTurnDetection,
+      );
+
+    case "semantic_vad":
+      return voiceAgentSemanticVadTurnDetectionDeserializer(
+        item as VoiceAgentSemanticVadTurnDetection,
+      );
+
+    default:
+      return voiceAgentTurnDetectionConfigDeserializer(item);
+  }
+}
+
+/** The turn-detection strategy. Additional values may be added over time. */
+export type VoiceAgentTurnDetectionType =
+  | "server_vad"
+  | "semantic_vad"
+  | "azure_semantic_vad"
+  | "azure_semantic_vad_en"
+  | "azure_semantic_vad_multilingual";
+
+/** Server-side voice activity detection. */
+export interface VoiceAgentServerVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+  threshold?: number;
+  prefix_padding_ms?: number;
+  silence_duration_ms?: number;
+  create_response?: boolean;
+  interrupt_response?: boolean;
+  idle_timeout_ms?: number;
+  type: "server_vad";
+  /** Minimum speech duration required to trigger detection, in milliseconds. */
+  speech_duration_ms?: number;
+  /** Semantic end-of-utterance detection configuration. Set to null to disable it. */
+  end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
+}
+
+export function voiceAgentServerVadTurnDetectionSerializer(
+  item: VoiceAgentServerVadTurnDetection,
+): any {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefix_padding_ms"],
+    silence_duration_ms: item["silence_duration_ms"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+    idle_timeout_ms: item["idle_timeout_ms"],
+    speech_duration_ms: item["speech_duration_ms"],
+    end_of_utterance_detection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : voiceAgentEndOfUtteranceDetectionSerializer(item["end_of_utterance_detection"]),
+  };
+}
+
+export function voiceAgentServerVadTurnDetectionDeserializer(
+  item: any,
+): VoiceAgentServerVadTurnDetection {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefix_padding_ms"],
+    silence_duration_ms: item["silence_duration_ms"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+    idle_timeout_ms: item["idle_timeout_ms"],
+    speech_duration_ms: item["speech_duration_ms"],
+    end_of_utterance_detection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : voiceAgentEndOfUtteranceDetectionDeserializer(item["end_of_utterance_detection"]),
+  };
+}
+
+/** Semantic end-of-utterance detection configuration. */
+export interface VoiceAgentEndOfUtteranceDetection {
+  /** The semantic detection model. */
+  model: VoiceAgentEndOfUtteranceDetectionModel;
+  /** The sensitivity threshold. */
+  threshold_level?: VoiceAgentEndOfUtteranceThresholdLevel;
+  /** The detection timeout in milliseconds. */
+  timeout_ms?: number;
+}
+
+export function voiceAgentEndOfUtteranceDetectionSerializer(
+  item: VoiceAgentEndOfUtteranceDetection,
+): any {
+  return {
+    model: item["model"],
+    threshold_level: item["threshold_level"],
+    timeout_ms: item["timeout_ms"],
+  };
+}
+
+export function voiceAgentEndOfUtteranceDetectionDeserializer(
+  item: any,
+): VoiceAgentEndOfUtteranceDetection {
+  return {
+    model: item["model"],
+    threshold_level: item["threshold_level"],
+    timeout_ms: item["timeout_ms"],
+  };
+}
+
+/** The semantic end-of-utterance detection model. */
+export type VoiceAgentEndOfUtteranceDetectionModel =
+  | "semantic_detection_v1"
+  | "semantic_detection_v1_en"
+  | "semantic_detection_v1_multilingual"
+  | "smart_end_of_turn_detection";
+
+/** The sensitivity threshold for semantic end-of-utterance detection. */
+export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" | "default";
+
+/** Azure semantic voice activity detection. */
+export interface VoiceAgentAzureSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+  type: "azure_semantic_vad";
+  /** Activation threshold for voice activity detection, from 0 to 1. */
+  threshold?: number;
+  /** Audio to include before detected speech, in milliseconds. */
+  prefix_padding_ms?: number;
+  /** Silence required to end speech detection, in milliseconds. */
+  silence_duration_ms?: number;
+  /** Maximum idle time before the detector ends the turn, in milliseconds. */
+  idle_timeout_ms?: number;
+  /** Semantic end-of-utterance detection configuration. Set to null to disable it. */
+  end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
+  /** Minimum speech duration required to trigger detection, in milliseconds. */
+  speech_duration_ms?: number;
+  /** Whether filler words are removed from transcription. */
+  remove_filler_words?: boolean;
+  /** Whether a response is created automatically when speech stops. */
+  create_response?: boolean;
+  /** Whether user speech may interrupt the agent's response. */
+  interrupt_response?: boolean;
+  /** BCP-47 language codes used for speech detection. */
+  languages?: string[];
+}
+
+export function voiceAgentAzureSemanticVadTurnDetectionSerializer(
+  item: VoiceAgentAzureSemanticVadTurnDetection,
+): any {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefix_padding_ms"],
+    silence_duration_ms: item["silence_duration_ms"],
+    idle_timeout_ms: item["idle_timeout_ms"],
+    end_of_utterance_detection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : voiceAgentEndOfUtteranceDetectionSerializer(item["end_of_utterance_detection"]),
+    speech_duration_ms: item["speech_duration_ms"],
+    remove_filler_words: item["remove_filler_words"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentAzureSemanticVadTurnDetectionDeserializer(
+  item: any,
+): VoiceAgentAzureSemanticVadTurnDetection {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefix_padding_ms"],
+    silence_duration_ms: item["silence_duration_ms"],
+    idle_timeout_ms: item["idle_timeout_ms"],
+    end_of_utterance_detection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : voiceAgentEndOfUtteranceDetectionDeserializer(item["end_of_utterance_detection"]),
+    speech_duration_ms: item["speech_duration_ms"],
+    remove_filler_words: item["remove_filler_words"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** English-optimized Azure semantic voice activity detection. */
+export interface VoiceAgentAzureSemanticVadEnTurnDetection extends VoiceAgentTurnDetectionConfig {
+  type: "azure_semantic_vad_en";
+  /** Activation threshold for voice activity detection, from 0 to 1. */
+  threshold?: number;
+  /** Audio to include before detected speech, in milliseconds. */
+  prefix_padding_ms?: number;
+  /** Silence required to end speech detection, in milliseconds. */
+  silence_duration_ms?: number;
+  /** Maximum idle time before the detector ends the turn, in milliseconds. */
+  idle_timeout_ms?: number;
+  /** Semantic end-of-utterance detection configuration. Set to null to disable it. */
+  end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
+  /** Minimum speech duration required to trigger detection, in milliseconds. */
+  speech_duration_ms?: number;
+  /** Whether filler words are removed from transcription. */
+  remove_filler_words?: boolean;
+  /** Whether a response is created automatically when speech stops. */
+  create_response?: boolean;
+  /** Whether user speech may interrupt the agent's response. */
+  interrupt_response?: boolean;
+}
+
+export function voiceAgentAzureSemanticVadEnTurnDetectionSerializer(
+  item: VoiceAgentAzureSemanticVadEnTurnDetection,
+): any {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefix_padding_ms"],
+    silence_duration_ms: item["silence_duration_ms"],
+    idle_timeout_ms: item["idle_timeout_ms"],
+    end_of_utterance_detection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : voiceAgentEndOfUtteranceDetectionSerializer(item["end_of_utterance_detection"]),
+    speech_duration_ms: item["speech_duration_ms"],
+    remove_filler_words: item["remove_filler_words"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+  };
+}
+
+export function voiceAgentAzureSemanticVadEnTurnDetectionDeserializer(
+  item: any,
+): VoiceAgentAzureSemanticVadEnTurnDetection {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefix_padding_ms"],
+    silence_duration_ms: item["silence_duration_ms"],
+    idle_timeout_ms: item["idle_timeout_ms"],
+    end_of_utterance_detection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : voiceAgentEndOfUtteranceDetectionDeserializer(item["end_of_utterance_detection"]),
+    speech_duration_ms: item["speech_duration_ms"],
+    remove_filler_words: item["remove_filler_words"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+  };
+}
+
+/** Multilingual Azure semantic voice activity detection. */
+export interface VoiceAgentAzureSemanticVadMultilingualTurnDetection extends VoiceAgentTurnDetectionConfig {
+  type: "azure_semantic_vad_multilingual";
+  /** Activation threshold for voice activity detection, from 0 to 1. */
+  threshold?: number;
+  /** Audio to include before detected speech, in milliseconds. */
+  prefix_padding_ms?: number;
+  /** Silence required to end speech detection, in milliseconds. */
+  silence_duration_ms?: number;
+  /** Maximum idle time before the detector ends the turn, in milliseconds. */
+  idle_timeout_ms?: number;
+  /** Semantic end-of-utterance detection configuration. Set to null to disable it. */
+  end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
+  /** Minimum speech duration required to trigger detection, in milliseconds. */
+  speech_duration_ms?: number;
+  /** Whether filler words are removed from transcription. */
+  remove_filler_words?: boolean;
+  /** Whether a response is created automatically when speech stops. */
+  create_response?: boolean;
+  /** Whether user speech may interrupt the agent's response. */
+  interrupt_response?: boolean;
+  /** BCP-47 language codes used for speech detection. */
+  languages?: string[];
+}
+
+export function voiceAgentAzureSemanticVadMultilingualTurnDetectionSerializer(
+  item: VoiceAgentAzureSemanticVadMultilingualTurnDetection,
+): any {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefix_padding_ms"],
+    silence_duration_ms: item["silence_duration_ms"],
+    idle_timeout_ms: item["idle_timeout_ms"],
+    end_of_utterance_detection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : voiceAgentEndOfUtteranceDetectionSerializer(item["end_of_utterance_detection"]),
+    speech_duration_ms: item["speech_duration_ms"],
+    remove_filler_words: item["remove_filler_words"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentAzureSemanticVadMultilingualTurnDetectionDeserializer(
+  item: any,
+): VoiceAgentAzureSemanticVadMultilingualTurnDetection {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    threshold: item["threshold"],
+    prefix_padding_ms: item["prefix_padding_ms"],
+    silence_duration_ms: item["silence_duration_ms"],
+    idle_timeout_ms: item["idle_timeout_ms"],
+    end_of_utterance_detection: !item["end_of_utterance_detection"]
+      ? item["end_of_utterance_detection"]
+      : voiceAgentEndOfUtteranceDetectionDeserializer(item["end_of_utterance_detection"]),
+    speech_duration_ms: item["speech_duration_ms"],
+    remove_filler_words: item["remove_filler_words"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** OpenAI semantic VAD turn-detection settings. */
+export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+  eagerness?: "low" | "medium" | "high" | "auto";
+  create_response?: boolean;
+  interrupt_response?: boolean;
+  type: "semantic_vad";
+}
+
+export function voiceAgentSemanticVadTurnDetectionSerializer(
+  item: VoiceAgentSemanticVadTurnDetection,
+): any {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    eagerness: item["eagerness"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+  };
+}
+
+export function voiceAgentSemanticVadTurnDetectionDeserializer(
+  item: any,
+): VoiceAgentSemanticVadTurnDetection {
+  return {
+    type: item["type"],
+    auto_truncate: item["auto_truncate"],
+    eagerness: item["eagerness"],
+    create_response: item["create_response"],
+    interrupt_response: item["interrupt_response"],
+  };
+}
+
+/** Server-side echo cancellation settings for input audio. */
+export interface VoiceAgentEchoCancellation {
+  /** The echo cancellation implementation. Always `server_echo_cancellation`. */
+  type: "server_echo_cancellation";
+  /** Whether reference audio comes from server playback or a client-provided channel. */
+  reference_source?: VoiceAgentEchoCancellationReferenceSource;
+  /** The number of input channels. Use two interleaved channels when `reference_source` is `client`. */
+  channels?: number;
+}
+
+export function voiceAgentEchoCancellationSerializer(item: VoiceAgentEchoCancellation): any {
+  return {
+    type: item["type"],
+    reference_source: item["reference_source"],
+    channels: item["channels"],
+  };
+}
+
+export function voiceAgentEchoCancellationDeserializer(item: any): VoiceAgentEchoCancellation {
+  return {
+    type: item["type"],
+    reference_source: item["reference_source"],
+    channels: item["channels"],
+  };
+}
+
+/** The source of reference audio used for echo cancellation. */
+export type VoiceAgentEchoCancellationReferenceSource = "server" | "client";
+
+/**
+ * Asynchronous input-audio transcription configuration. Extends the OpenAI Realtime transcription
+ * options with the Azure and MAI transcription models, custom speech models, and phrase hints.
+ */
+export interface VoiceAgentInputTranscription {
+  /**
+   * The language of the input audio. Supplying the input language in
+   *   [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format
+   *   will improve accuracy and latency.
+   */
+  language?: string;
+  /** Possible languages of the input audio, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format. Supported by `gpt-transcribe` and `gpt-live-transcribe`. */
+  languages?: string[];
+  /** Words or phrases to guide transcription of the input audio. Supported by `gpt-transcribe` and `gpt-live-transcribe`. */
+  keywords?: string[];
+  /**
+   * An optional text to guide the model's style or continue a previous audio
+   *   segment.
+   *   For `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).
+   *   For `gpt-4o-transcribe` models (excluding `gpt-4o-transcribe-diarize`), the prompt is a free text string, for example "expect words related to technology".
+   *   Prompt is not supported with `gpt-realtime-whisper` in GA Realtime sessions.
+   */
+  prompt?: string;
+  /**
+   * Controls how long the model waits before emitting transcription text.
+   *   Higher values can improve transcription accuracy at the cost of latency.
+   *   Only supported with `gpt-realtime-whisper` in GA Realtime sessions.
+   */
+  delay?: "minimal" | "low" | "medium" | "high" | "xhigh";
+  /** The transcription model identifier. Configure customer custom speech deployments in `custom_speech`. */
+  model: VoiceAgentInputTranscriptionModel;
+  /** Optional customer custom speech deployment configuration, keyed by locale. */
+  custom_speech?: Record<string, string>;
+  /** Optional phrase hints that bias recognition toward domain terms. */
+  phrase_list?: string[];
+}
+
+export function voiceAgentInputTranscriptionSerializer(item: VoiceAgentInputTranscription): any {
+  return {
+    language: item["language"],
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+    keywords: !item["keywords"]
+      ? item["keywords"]
+      : item["keywords"].map((p: any) => {
+          return p;
+        }),
+    prompt: item["prompt"],
+    delay: item["delay"],
+    model: item["model"],
+    custom_speech: item["custom_speech"],
+    phrase_list: !item["phrase_list"]
+      ? item["phrase_list"]
+      : item["phrase_list"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentInputTranscriptionDeserializer(item: any): VoiceAgentInputTranscription {
+  return {
+    language: item["language"],
+    languages: !item["languages"]
+      ? item["languages"]
+      : item["languages"].map((p: any) => {
+          return p;
+        }),
+    keywords: !item["keywords"]
+      ? item["keywords"]
+      : item["keywords"].map((p: any) => {
+          return p;
+        }),
+    prompt: item["prompt"],
+    delay: item["delay"],
+    model: item["model"],
+    custom_speech: !item["custom_speech"]
+      ? item["custom_speech"]
+      : Object.fromEntries(
+          Object.entries(item["custom_speech"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    phrase_list: !item["phrase_list"]
+      ? item["phrase_list"]
+      : item["phrase_list"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/**
+ * The input-audio transcription model identifier. This is a model name, not a Foundry deployment name. Mirrors the transcription models supported by the managed
+ * voice backend, covering the OpenAI Realtime transcription models plus the Azure and MAI models.
+ * Additional values may be added over time.
+ */
+export type VoiceAgentInputTranscriptionModel =
+  | "whisper-1"
+  | "gpt-realtime-whisper"
+  | "gpt-4o-transcribe"
+  | "gpt-4o-mini-transcribe"
+  | "gpt-4o-transcribe-diarize"
+  | "gpt-transcribe"
+  | "gpt-live-transcribe"
+  | "mai-transcribe"
+  | "azure-speech";
+
+/**
+ * Output audio configuration for a voice agent.
+ * Provider-specific fields are selected by `voice_type`:
+ * - `openai`: `voice` and `speed`.
+ * - `azure-standard`: `voice`, `voice_locale`, `speed`, `voice_temperature`, `custom_lexicon_url`,
+ *   `custom_text_normalization_url`, `prefer_locales`, `style`, `pitch`, and `volume`.
+ * - `azure-custom`: all `azure-standard` fields except `style`, plus `custom_voice_endpoint_id`.
+ * - `azure-personal`: all `azure-standard` fields except `style`, plus `personal_voice_model`.
+ * - `avatar-voice-sync`: all `azure-standard` fields except `voice` and `style`, plus `personal_voice_model`; the voice name is derived from the avatar.
+ * - `azure-realtime-native`: `voice` and `speed`.
+ * `format` and `output_audio_timestamp_types` apply to every voice type.
+ */
+export interface VoiceAgentAudioOutputConfig {
+  /** The output audio format. Applies to every `voice_type` and defaults to 24 kHz PCM. */
+  format?: RealtimeAudioFormatsUnion;
+  /** The voice name or identifier. Applies to `openai`, `azure-standard`, `azure-custom`, `azure-personal`, and `azure-realtime-native`. It does not apply to `avatar-voice-sync`, which derives the voice name from the avatar. */
+  voice?: string;
+  /** The voice implementation. */
+  voice_type?: VoiceType;
+  /** The enforced BCP-47 output locale. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  voice_locale?: string;
+  /** The numeric output speed multiplier. Applies to all known `voice_type` values and defaults to 1. */
+  speed?: number;
+  /** The voice variation temperature. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  voice_temperature?: number;
+  /** The URL of a custom pronunciation lexicon. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  custom_lexicon_url?: string;
+  /** The URL of a custom text-normalization configuration. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  custom_text_normalization_url?: string;
+  /** Preferred BCP-47 locales for multilingual synthesis. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  prefer_locales?: string[];
+  /** The voice speaking style. Applies only when `voice_type` is `azure-standard`. */
+  style?: string;
+  /** The voice pitch adjustment. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  pitch?: string;
+  /** The voice volume adjustment. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  volume?: string;
+  /** The Azure custom-voice deployment endpoint identifier. Applies only when `voice_type` is `azure-custom`. */
+  custom_voice_endpoint_id?: string;
+  /** The Azure personal or avatar voice model. Applies only when `voice_type` is `azure-personal` or `avatar-voice-sync`. */
+  personal_voice_model?: string;
+  /** Timestamp kinds to include with output audio. Applies to every `voice_type`. */
+  output_audio_timestamp_types?: VoiceAgentAudioTimestampType[];
+}
+
+export function voiceAgentAudioOutputConfigSerializer(item: VoiceAgentAudioOutputConfig): any {
+  return {
+    format: !item["format"] ? item["format"] : realtimeAudioFormatsUnionSerializer(item["format"]),
+    voice: item["voice"],
+    voice_type: item["voice_type"],
+    voice_locale: item["voice_locale"],
+    speed: item["speed"],
+    voice_temperature: item["voice_temperature"],
+    custom_lexicon_url: item["custom_lexicon_url"],
+    custom_text_normalization_url: item["custom_text_normalization_url"],
+    prefer_locales: !item["prefer_locales"]
+      ? item["prefer_locales"]
+      : item["prefer_locales"].map((p: any) => {
+          return p;
+        }),
+    style: item["style"],
+    pitch: item["pitch"],
+    volume: item["volume"],
+    custom_voice_endpoint_id: item["custom_voice_endpoint_id"],
+    personal_voice_model: item["personal_voice_model"],
+    output_audio_timestamp_types: !item["output_audio_timestamp_types"]
+      ? item["output_audio_timestamp_types"]
+      : item["output_audio_timestamp_types"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentAudioOutputConfigDeserializer(item: any): VoiceAgentAudioOutputConfig {
+  return {
+    format: !item["format"]
+      ? item["format"]
+      : realtimeAudioFormatsUnionDeserializer(item["format"]),
+    voice: item["voice"],
+    voice_type: item["voice_type"],
+    voice_locale: item["voice_locale"],
+    speed: item["speed"],
+    voice_temperature: item["voice_temperature"],
+    custom_lexicon_url: item["custom_lexicon_url"],
+    custom_text_normalization_url: item["custom_text_normalization_url"],
+    prefer_locales: !item["prefer_locales"]
+      ? item["prefer_locales"]
+      : item["prefer_locales"].map((p: any) => {
+          return p;
+        }),
+    style: item["style"],
+    pitch: item["pitch"],
+    volume: item["volume"],
+    custom_voice_endpoint_id: item["custom_voice_endpoint_id"],
+    personal_voice_model: item["personal_voice_model"],
+    output_audio_timestamp_types: !item["output_audio_timestamp_types"]
+      ? item["output_audio_timestamp_types"]
+      : item["output_audio_timestamp_types"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The voice implementation. Additional values may be added over time. */
+export type VoiceType =
+  | "openai"
+  | "azure-standard"
+  | "azure-custom"
+  | "azure-personal"
+  | "avatar-voice-sync"
+  | "azure-realtime-native";
+
+/** An output-audio timestamp kind supported by a voice agent. */
+export type VoiceAgentAudioTimestampType = "word";
+
+/** An output modality the agent may produce. `animation` and `avatar` are used when an avatar is configured. */
+export type VoiceOutputModality = "text" | "audio" | "animation" | "avatar";
+
+/** The maximum output-token count or the literal `inf`. */
+export type VoiceAgentMaxOutputTokens = number | "inf";
+
+export function voiceAgentMaxOutputTokensSerializer(item: VoiceAgentMaxOutputTokens): any {
+  return item;
+}
+
+export function voiceAgentMaxOutputTokensDeserializer(item: any): VoiceAgentMaxOutputTokens {
+  return item;
+}
+
+/** Additional fields that a voice-agent session may include in service outputs. */
+export type VoiceAgentSessionIncludeOption =
+  | "item.input_audio_transcription.logprobs"
+  | "item.input_audio_transcription.phrases"
+  | "file_search_call.results";
+
+/** Fields shared by interim-response configurations. */
+export interface VoiceAgentInterimResponseConfig {
+  /** The interim-response implementation. */
+  /** The discriminator possible values: static_interim_response, llm_interim_response */
+  type: string;
+  /** Conditions that may trigger one interim response. */
+  triggers?: VoiceAgentInterimResponseTrigger[];
+  /** The latency threshold in milliseconds. */
+  latency_threshold_ms?: number;
+}
+
+export function voiceAgentInterimResponseConfigSerializer(
+  item: VoiceAgentInterimResponseConfig,
+): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latency_threshold_ms"],
+  };
+}
+
+export function voiceAgentInterimResponseConfigDeserializer(
+  item: any,
+): VoiceAgentInterimResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latency_threshold_ms"],
+  };
+}
+
+/** Alias for VoiceAgentInterimResponseConfigUnion */
+export type VoiceAgentInterimResponseConfigUnion =
+  | VoiceAgentStaticInterimResponseConfig
+  | VoiceAgentLlmInterimResponseConfig
+  | VoiceAgentInterimResponseConfig;
+
+export function voiceAgentInterimResponseConfigUnionSerializer(
+  item: VoiceAgentInterimResponseConfigUnion,
+): any {
+  switch (item.type) {
+    case "static_interim_response":
+      return voiceAgentStaticInterimResponseConfigSerializer(
+        item as VoiceAgentStaticInterimResponseConfig,
+      );
+
+    case "llm_interim_response":
+      return voiceAgentLlmInterimResponseConfigSerializer(
+        item as VoiceAgentLlmInterimResponseConfig,
+      );
+
+    default:
+      return voiceAgentInterimResponseConfigSerializer(item);
+  }
+}
+
+export function voiceAgentInterimResponseConfigUnionDeserializer(
+  item: any,
+): VoiceAgentInterimResponseConfigUnion {
+  switch (item["type"]) {
+    case "static_interim_response":
+      return voiceAgentStaticInterimResponseConfigDeserializer(
+        item as VoiceAgentStaticInterimResponseConfig,
+      );
+
+    case "llm_interim_response":
+      return voiceAgentLlmInterimResponseConfigDeserializer(
+        item as VoiceAgentLlmInterimResponseConfig,
+      );
+
+    default:
+      return voiceAgentInterimResponseConfigDeserializer(item);
+  }
+}
+
+/** A condition that may trigger an interim response. */
+export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
+
+/** A static interim response selected from configured text. */
+export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterimResponseConfig {
+  type: "static_interim_response";
+  /** Candidate text values for the interim response. */
+  texts?: string[];
+}
+
+export function voiceAgentStaticInterimResponseConfigSerializer(
+  item: VoiceAgentStaticInterimResponseConfig,
+): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latency_threshold_ms"],
+    texts: !item["texts"]
+      ? item["texts"]
+      : item["texts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentStaticInterimResponseConfigDeserializer(
+  item: any,
+): VoiceAgentStaticInterimResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latency_threshold_ms"],
+    texts: !item["texts"]
+      ? item["texts"]
+      : item["texts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** An interim response generated by a language model. */
+export interface VoiceAgentLlmInterimResponseConfig extends VoiceAgentInterimResponseConfig {
+  type: "llm_interim_response";
+  /** The model used to generate interim responses. */
+  model?: string;
+  /** Optional instructions for generating interim responses. */
+  instructions?: string;
+  /** The maximum completion-token count for an interim response. */
+  max_completion_tokens?: number;
+}
+
+export function voiceAgentLlmInterimResponseConfigSerializer(
+  item: VoiceAgentLlmInterimResponseConfig,
+): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latency_threshold_ms"],
+    model: item["model"],
+    instructions: item["instructions"],
+    max_completion_tokens: item["max_completion_tokens"],
+  };
+}
+
+export function voiceAgentLlmInterimResponseConfigDeserializer(
+  item: any,
+): VoiceAgentLlmInterimResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latency_threshold_ms"],
+    model: item["model"],
+    instructions: item["instructions"],
+    max_completion_tokens: item["max_completion_tokens"],
+  };
+}
+
+/** Avatar configuration for a voice agent. These values are session defaults and may be overridden when connecting. */
+export interface VoiceAgentAvatarConfig {
+  /** The avatar type. */
+  type: VoiceAgentAvatarType;
+  /** The avatar character identifier, e.g. 'lisa'. */
+  character: string;
+  /** The avatar style, e.g. 'casual-sitting'. */
+  style?: string;
+  /** Whether the avatar is a customer-customized avatar. Defaults to false. */
+  customized?: boolean;
+  /** The transport used to deliver the avatar video stream. */
+  output_protocol?: VoiceAgentAvatarOutputProtocol;
+  /** The avatar model identifier. */
+  model?: string;
+  /** Avatar video encoder and presentation settings. */
+  video?: VoiceAgentAvatarVideoParams;
+  /** Avatar placement and motion settings. */
+  scene?: VoiceAgentAvatarScene;
+  /** Whether audit audio is emitted with avatar output. Defaults to false. */
+  output_audit_audio?: boolean;
+}
+
+export function voiceAgentAvatarConfigSerializer(item: VoiceAgentAvatarConfig): any {
+  return {
+    type: item["type"],
+    character: item["character"],
+    style: item["style"],
+    customized: item["customized"],
+    output_protocol: item["output_protocol"],
+    model: item["model"],
+    video: !item["video"] ? item["video"] : voiceAgentAvatarVideoParamsSerializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : voiceAgentAvatarSceneSerializer(item["scene"]),
+    output_audit_audio: item["output_audit_audio"],
+  };
+}
+
+export function voiceAgentAvatarConfigDeserializer(item: any): VoiceAgentAvatarConfig {
+  return {
+    type: item["type"],
+    character: item["character"],
+    style: item["style"],
+    customized: item["customized"],
+    output_protocol: item["output_protocol"],
+    model: item["model"],
+    video: !item["video"] ? item["video"] : voiceAgentAvatarVideoParamsDeserializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : voiceAgentAvatarSceneDeserializer(item["scene"]),
+    output_audit_audio: item["output_audit_audio"],
+  };
+}
+
+/** The avatar type. */
+export type VoiceAgentAvatarType = "video_avatar" | "photo_avatar";
+
+/** The transport used to deliver the avatar video stream. */
+export type VoiceAgentAvatarOutputProtocol = "webrtc" | "websocket";
+
+/** Avatar video encoder and presentation settings. */
+export interface VoiceAgentAvatarVideoParams {
+  /** The target video bitrate in bits per second. */
+  bitrate?: number;
+  crop?: VoiceAgentAvatarVideoCrop;
+  resolution?: VoiceAgentAvatarVideoResolution;
+  background?: VoiceAgentAvatarVideoBackground;
+  gop_size?: number;
+}
+
+export function voiceAgentAvatarVideoParamsSerializer(item: VoiceAgentAvatarVideoParams): any {
+  return {
+    bitrate: item["bitrate"],
+    crop: !item["crop"] ? item["crop"] : voiceAgentAvatarVideoCropSerializer(item["crop"]),
+    resolution: !item["resolution"]
+      ? item["resolution"]
+      : voiceAgentAvatarVideoResolutionSerializer(item["resolution"]),
+    background: !item["background"]
+      ? item["background"]
+      : voiceAgentAvatarVideoBackgroundSerializer(item["background"]),
+    gop_size: item["gop_size"],
+  };
+}
+
+export function voiceAgentAvatarVideoParamsDeserializer(item: any): VoiceAgentAvatarVideoParams {
+  return {
+    bitrate: item["bitrate"],
+    crop: !item["crop"] ? item["crop"] : voiceAgentAvatarVideoCropDeserializer(item["crop"]),
+    resolution: !item["resolution"]
+      ? item["resolution"]
+      : voiceAgentAvatarVideoResolutionDeserializer(item["resolution"]),
+    background: !item["background"]
+      ? item["background"]
+      : voiceAgentAvatarVideoBackgroundDeserializer(item["background"]),
+    gop_size: item["gop_size"],
+  };
+}
+
+/** The rectangular crop applied to avatar video. */
+export interface VoiceAgentAvatarVideoCrop {
+  bottom_right: number[];
+  top_left: number[];
+}
+
+export function voiceAgentAvatarVideoCropSerializer(item: VoiceAgentAvatarVideoCrop): any {
+  return {
+    bottom_right: item["bottom_right"].map((p: any) => {
+      return p;
+    }),
+    top_left: item["top_left"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function voiceAgentAvatarVideoCropDeserializer(item: any): VoiceAgentAvatarVideoCrop {
+  return {
+    bottom_right: item["bottom_right"].map((p: any) => {
+      return p;
+    }),
+    top_left: item["top_left"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** The avatar video resolution. */
+export interface VoiceAgentAvatarVideoResolution {
+  width: number;
+  height: number;
+}
+
+export function voiceAgentAvatarVideoResolutionSerializer(
+  item: VoiceAgentAvatarVideoResolution,
+): any {
+  return { width: item["width"], height: item["height"] };
+}
+
+export function voiceAgentAvatarVideoResolutionDeserializer(
+  item: any,
+): VoiceAgentAvatarVideoResolution {
+  return {
+    width: item["width"],
+    height: item["height"],
+  };
+}
+
+/** The avatar video background. */
+export interface VoiceAgentAvatarVideoBackground {
+  image_url?: string;
+  color?: string;
+}
+
+export function voiceAgentAvatarVideoBackgroundSerializer(
+  item: VoiceAgentAvatarVideoBackground,
+): any {
+  return { image_url: item["image_url"], color: item["color"] };
+}
+
+export function voiceAgentAvatarVideoBackgroundDeserializer(
+  item: any,
+): VoiceAgentAvatarVideoBackground {
+  return {
+    image_url: item["image_url"],
+    color: item["color"],
+  };
+}
+
+/** Avatar placement and motion settings. */
+export interface VoiceAgentAvatarScene {
+  zoom?: number;
+  position_x?: number;
+  position_y?: number;
+  rotation_x?: number;
+  rotation_y?: number;
+  rotation_z?: number;
+  amplitude?: number;
+}
+
+export function voiceAgentAvatarSceneSerializer(item: VoiceAgentAvatarScene): any {
+  return {
+    zoom: item["zoom"],
+    position_x: item["position_x"],
+    position_y: item["position_y"],
+    rotation_x: item["rotation_x"],
+    rotation_y: item["rotation_y"],
+    rotation_z: item["rotation_z"],
+    amplitude: item["amplitude"],
+  };
+}
+
+export function voiceAgentAvatarSceneDeserializer(item: any): VoiceAgentAvatarScene {
+  return {
+    zoom: item["zoom"],
+    position_x: item["position_x"],
+    position_y: item["position_y"],
+    rotation_x: item["rotation_x"],
+    rotation_y: item["rotation_y"],
+    rotation_z: item["rotation_z"],
+    amplitude: item["amplitude"],
+  };
+}
+
+export function voiceAgentToolUnionArraySerializer(result: Array<VoiceAgentToolUnion>): any[] {
+  return result.map((item) => {
+    return voiceAgentToolUnionSerializer(item);
+  });
+}
+
+export function voiceAgentToolUnionArrayDeserializer(result: Array<VoiceAgentToolUnion>): any[] {
+  return result.map((item) => {
+    return voiceAgentToolUnionDeserializer(item);
+  });
+}
+
+/** A tool usable by a voice agent. */
+export interface VoiceAgentTool {
+  /** The tool kind. */
+  /** The discriminator possible values: function, mcp, system, toolbox */
+  type: string;
+}
+
+export function voiceAgentToolSerializer(item: VoiceAgentTool): any {
+  return { type: item["type"] };
+}
+
+export function voiceAgentToolDeserializer(item: any): VoiceAgentTool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VoiceAgentToolUnion */
+export type VoiceAgentToolUnion =
+  | VoiceAgentFunctionTool
+  | VoiceAgentMcpTool
+  | VoiceAgentSystemToolUnion
+  | VoiceAgentToolboxTool
+  | VoiceAgentTool;
+
+export function voiceAgentToolUnionSerializer(item: VoiceAgentToolUnion): any {
+  switch (item.type) {
+    case "function":
+      return voiceAgentFunctionToolSerializer(item as VoiceAgentFunctionTool);
+
+    case "mcp":
+      return voiceAgentMcpToolSerializer(item as VoiceAgentMcpTool);
+
+    case "system":
+      return voiceAgentSystemToolUnionSerializer(item as VoiceAgentSystemToolUnion);
+
+    case "toolbox":
+      return voiceAgentToolboxToolSerializer(item as VoiceAgentToolboxTool);
+
+    default:
+      return voiceAgentToolSerializer(item);
+  }
+}
+
+export function voiceAgentToolUnionDeserializer(item: any): VoiceAgentToolUnion {
+  switch (item["type"]) {
+    case "function":
+      return voiceAgentFunctionToolDeserializer(item as VoiceAgentFunctionTool);
+
+    case "mcp":
+      return voiceAgentMcpToolDeserializer(item as VoiceAgentMcpTool);
+
+    case "system":
+      return voiceAgentSystemToolUnionDeserializer(item as VoiceAgentSystemToolUnion);
+
+    case "toolbox":
+      return voiceAgentToolboxToolDeserializer(item as VoiceAgentToolboxTool);
+
+    default:
+      return voiceAgentToolDeserializer(item);
+  }
+}
+
+/** A native function tool executed by the client. */
+export interface VoiceAgentFunctionTool extends VoiceAgentTool {
+  /**
+   * The description of the function, including guidance on when and how
+   *   to call it, and guidance about what to tell the user when calling
+   *   (if anything).
+   */
+  description?: string;
+  /** Parameters of the function in JSON Schema. */
+  parameters?: RealtimeFunctionToolParameters;
+  type: "function";
+  /** The function name. */
+  name: string;
+}
+
+export function voiceAgentFunctionToolSerializer(item: VoiceAgentFunctionTool): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : realtimeFunctionToolParametersSerializer(item["parameters"]),
+    name: item["name"],
+  };
+}
+
+export function voiceAgentFunctionToolDeserializer(item: any): VoiceAgentFunctionTool {
+  return {
+    type: item["type"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : realtimeFunctionToolParametersDeserializer(item["parameters"]),
+    name: item["name"],
+  };
+}
+
+/** An MCP tool available to a voice agent. */
+export interface VoiceAgentMcpTool extends VoiceAgentTool {
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+  type: "mcp";
+  /** The URL for the MCP server. */
+  server_url?: string;
+  /** When the MCP invocation creates a follow-up response. Defaults to `when_idle`. */
+  response_scheduling?: VoiceAgentToolResponseScheduling;
+}
+
+export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    server_url: item["server_url"],
+    response_scheduling: item["response_scheduling"],
+  };
+}
+
+export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    server_url: item["server_url"],
+    response_scheduling: item["response_scheduling"],
+  };
+}
+
+/** When a tool invocation creates a follow-up response. Additional values may be added over time. */
+export type VoiceAgentToolResponseScheduling =
+  "silent" | "when_idle" | "interrupt" | "skip_if_busy";
+
+/** A service-managed control that acts on the active voice session without customer code or external authentication. */
+export interface VoiceAgentSystemTool extends VoiceAgentTool {
+  /** The type of the tool. Always `system`. */
+  type: "system";
+  /** The service-managed control action. Known values are stable; additional values may be added over time. */
+  /** The discriminator possible values: end_conversation */
+  name: VoiceAgentSystemToolName;
+  /** An optional description of the system tool. */
+  description?: string;
+}
+
+export function voiceAgentSystemToolSerializer(item: VoiceAgentSystemTool): any {
+  return { type: item["type"], name: item["name"], description: item["description"] };
+}
+
+export function voiceAgentSystemToolDeserializer(item: any): VoiceAgentSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+  };
+}
+
+/** Alias for VoiceAgentSystemToolUnion */
+export type VoiceAgentSystemToolUnion = VoiceAgentEndConversationSystemTool | VoiceAgentSystemTool;
+
+export function voiceAgentSystemToolUnionSerializer(item: VoiceAgentSystemToolUnion): any {
+  switch (item.name) {
+    case "end_conversation":
+      return voiceAgentEndConversationSystemToolSerializer(
+        item as VoiceAgentEndConversationSystemTool,
+      );
+
+    default:
+      return voiceAgentSystemToolSerializer(item);
+  }
+}
+
+export function voiceAgentSystemToolUnionDeserializer(item: any): VoiceAgentSystemToolUnion {
+  switch (item["name"]) {
+    case "end_conversation":
+      return voiceAgentEndConversationSystemToolDeserializer(
+        item as VoiceAgentEndConversationSystemTool,
+      );
+
+    default:
+      return voiceAgentSystemToolDeserializer(item);
+  }
+}
+
+/** A service-managed voice-session control action. Known values are stable; additional values may be added over time. */
+export type VoiceAgentSystemToolName = "end_conversation";
+
+/** A service-managed control that ends the active conversation. */
+export interface VoiceAgentEndConversationSystemTool extends VoiceAgentSystemTool {
+  /** The service-managed control action. Always `end_conversation`. */
+  name: "end_conversation";
+}
+
+export function voiceAgentEndConversationSystemToolSerializer(
+  item: VoiceAgentEndConversationSystemTool,
+): any {
+  return { type: item["type"], name: item["name"], description: item["description"] };
+}
+
+export function voiceAgentEndConversationSystemToolDeserializer(
+  item: any,
+): VoiceAgentEndConversationSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+  };
+}
+
+/** A reference to a Foundry toolbox, which is a versioned bundle of tools executed through its MCP endpoint. */
+export interface VoiceAgentToolboxTool extends VoiceAgentTool {
+  /** The type of the tool. Always `toolbox`. */
+  type: "toolbox";
+  /** The name of the toolbox to attach. */
+  toolbox_name: string;
+  /** The immutable version of the toolbox to attach. */
+  toolbox_version: string;
+  /** When the toolbox invocation creates a follow-up response. Defaults to `when_idle`. */
+  response_scheduling?: VoiceAgentToolResponseScheduling;
+}
+
+export function voiceAgentToolboxToolSerializer(item: VoiceAgentToolboxTool): any {
+  return {
+    type: item["type"],
+    toolbox_name: item["toolbox_name"],
+    toolbox_version: item["toolbox_version"],
+    response_scheduling: item["response_scheduling"],
+  };
+}
+
+export function voiceAgentToolboxToolDeserializer(item: any): VoiceAgentToolboxTool {
+  return {
+    type: item["type"],
+    toolbox_name: item["toolbox_name"],
+    toolbox_version: item["toolbox_version"],
+    response_scheduling: item["response_scheduling"],
+  };
+}
+
+/** Configuration for sibling Foundry text agents that a voice agent may consult. */
+export interface VoiceAgentSubagentConfig {
+  /** The sibling Foundry text agents, in the same project, that this voice agent may consult. */
+  subagents: VoiceAgentSubagent[];
+}
+
+export function voiceAgentSubagentConfigSerializer(item: VoiceAgentSubagentConfig): any {
+  return { subagents: voiceAgentSubagentArraySerializer(item["subagents"]) };
+}
+
+export function voiceAgentSubagentConfigDeserializer(item: any): VoiceAgentSubagentConfig {
+  return {
+    subagents: voiceAgentSubagentArrayDeserializer(item["subagents"]),
+  };
+}
+
+export function voiceAgentSubagentArraySerializer(result: Array<VoiceAgentSubagent>): any[] {
+  return result.map((item) => {
+    return voiceAgentSubagentSerializer(item);
+  });
+}
+
+export function voiceAgentSubagentArrayDeserializer(result: Array<VoiceAgentSubagent>): any[] {
+  return result.map((item) => {
+    return voiceAgentSubagentDeserializer(item);
+  });
+}
+
+/** A sibling Foundry text agent that a voice agent may consult as a background specialist. */
+export interface VoiceAgentSubagent {
+  /** The name of the subagent. The subagent must be in the same project as the voice agent. */
+  agent_name: string;
+  /** The version of the subagent. When omitted, the active version is used. */
+  agent_version?: string;
+  /** A description of the subagent's capabilities, used by the voice agent to decide whether to forward a query. */
+  agent_capabilities: string;
+  /** Policy for acknowledging forwarded requests and filling gaps while waiting for this subagent's response. */
+  response_policy?: VoiceAgentSubagentResponsePolicy;
+  /** The wall-clock timeout, in seconds, for each invocation of this subagent. When omitted, the service timeout is used. */
+  invoke_timeout_seconds?: number;
+}
+
+export function voiceAgentSubagentSerializer(item: VoiceAgentSubagent): any {
+  return {
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    agent_capabilities: item["agent_capabilities"],
+    response_policy: !item["response_policy"]
+      ? item["response_policy"]
+      : voiceAgentSubagentResponsePolicySerializer(item["response_policy"]),
+    invoke_timeout_seconds: item["invoke_timeout_seconds"],
+  };
+}
+
+export function voiceAgentSubagentDeserializer(item: any): VoiceAgentSubagent {
+  return {
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    agent_capabilities: item["agent_capabilities"],
+    response_policy: !item["response_policy"]
+      ? item["response_policy"]
+      : voiceAgentSubagentResponsePolicyDeserializer(item["response_policy"]),
+    invoke_timeout_seconds: item["invoke_timeout_seconds"],
+  };
+}
+
+/** Policy for delivering responses while a voice agent waits for a subagent. */
+export interface VoiceAgentSubagentResponsePolicy {
+  /** Whether the voice agent provides an immediate acknowledgement before forwarding a request to a subagent. */
+  immediate_ack?: boolean;
+  /** The number of seconds without subagent content or user input before the voice agent provides a gap-filling response. */
+  gap_filling_interval?: number;
+  /** Instructions used to generate the immediate acknowledgement. */
+  ack_instructions?: string;
+  /** Instructions used to generate gap-filling speech while waiting for progress. */
+  gap_filling_instructions?: string;
+  /** Whether progress updates are emitted incrementally instead of only when the subagent invocation completes. Defaults to `false`. */
+  enable_delta_progress?: boolean;
+  /** Instructions used to summarize streamed subagent progress for speech. */
+  progress_instructions?: string;
+  /** The minimum number of seconds between spoken progress updates. */
+  progress_update_interval?: number;
+}
+
+export function voiceAgentSubagentResponsePolicySerializer(
+  item: VoiceAgentSubagentResponsePolicy,
+): any {
+  return {
+    immediate_ack: item["immediate_ack"],
+    gap_filling_interval: item["gap_filling_interval"],
+    ack_instructions: item["ack_instructions"],
+    gap_filling_instructions: item["gap_filling_instructions"],
+    enable_delta_progress: item["enable_delta_progress"],
+    progress_instructions: item["progress_instructions"],
+    progress_update_interval: item["progress_update_interval"],
+  };
+}
+
+export function voiceAgentSubagentResponsePolicyDeserializer(
+  item: any,
+): VoiceAgentSubagentResponsePolicy {
+  return {
+    immediate_ack: item["immediate_ack"],
+    gap_filling_interval: item["gap_filling_interval"],
+    ack_instructions: item["ack_instructions"],
+    gap_filling_instructions: item["gap_filling_instructions"],
+    enable_delta_progress: item["enable_delta_progress"],
+    progress_instructions: item["progress_instructions"],
+    progress_update_interval: item["progress_update_interval"],
   };
 }
 
@@ -5897,43 +5371,6 @@ export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   };
 }
 
-/** model interface ApiError */
-export interface ApiError {
-  code: string | null;
-  message: string;
-  param?: string;
-  type?: string;
-  details?: ApiError[];
-  additionalInfo?: Record<string, any>;
-  debugInfo?: Record<string, any>;
-}
-
-export function apiErrorDeserializer(item: any): ApiError {
-  return {
-    code: item["code"],
-    message: item["message"],
-    param: item["param"],
-    type: item["type"],
-    details: !item["details"] ? item["details"] : apiErrorArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : Object.fromEntries(
-          Object.entries(item["additionalInfo"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    debugInfo: !item["debugInfo"]
-      ? item["debugInfo"]
-      : Object.fromEntries(
-          Object.entries(item["debugInfo"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-  };
-}
-
-export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
-  return result.map((item) => {
-    return apiErrorDeserializer(item);
-  });
-}
-
 /** A deleted agent Object */
 export interface DeleteAgentResponse {
   /** The object type. Always 'agent.deleted'. */
@@ -6156,6 +5593,8 @@ export interface AgentSessionResource {
   readonly last_accessed_at: Date;
   /** The Unix timestamp (in seconds) when the session expires (rolling, 30 days from last activity). */
   readonly expires_at: Date;
+  /** The Unix timestamp (in seconds) when the session sandbox was last observed to stop or go idle. Present only after the session has gone idle at least once, used for accurate idle-billing reconciliation. */
+  readonly stopped_at?: Date;
 }
 
 export function agentSessionResourceDeserializer(item: any): AgentSessionResource {
@@ -6166,6 +5605,7 @@ export function agentSessionResourceDeserializer(item: any): AgentSessionResourc
     created_at: new Date(item["created_at"] * 1000),
     last_accessed_at: new Date(item["last_accessed_at"] * 1000),
     expires_at: new Date(item["expires_at"] * 1000),
+    stopped_at: !item["stopped_at"] ? item["stopped_at"] : new Date(item["stopped_at"] * 1000),
   };
 }
 
@@ -7497,7 +6937,7 @@ export function toolboxToolUnionArrayDeserializer(result: Array<ToolboxToolUnion
 /** An abstract representation of a tool stored in a toolbox. */
 export interface ToolboxTool {
   /** The type of tool. */
-  /** The discriminator possible values: code_interpreter, file_search, web_search, shell, mcp, azure_ai_search, openapi, a2a, a2a_preview, browser_automation_preview, reminder_preview, work_iq_preview, fabric_iq_preview, web_iq_preview, toolbox_search_preview, toolbox_search */
+  /** The discriminator possible values: code_interpreter, file_search, web_search, shell, mcp, azure_ai_search, openapi, a2a, a2a_preview, browser_automation_preview, browser_automation, reminder_preview, work_iq_preview, fabric_iq_preview, web_iq_preview, toolbox_search_preview, toolbox_search */
   type: ToolboxToolType;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
@@ -7545,6 +6985,7 @@ export type ToolboxToolUnion =
   | A2AToolboxTool
   | A2APreviewToolboxTool
   | BrowserAutomationPreviewToolboxTool
+  | BrowserAutomationToolboxTool
   | ReminderPreviewToolboxTool
   | WorkIQPreviewToolboxTool
   | FabricIQPreviewToolboxTool
@@ -7586,6 +7027,9 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
       return browserAutomationPreviewToolboxToolSerializer(
         item as BrowserAutomationPreviewToolboxTool,
       );
+
+    case "browser_automation":
+      return browserAutomationToolboxToolSerializer(item as BrowserAutomationToolboxTool);
 
     case "reminder_preview":
       return reminderPreviewToolboxToolSerializer(item as ReminderPreviewToolboxTool);
@@ -7644,6 +7088,9 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
         item as BrowserAutomationPreviewToolboxTool,
       );
 
+    case "browser_automation":
+      return browserAutomationToolboxToolDeserializer(item as BrowserAutomationToolboxTool);
+
     case "reminder_preview":
       return reminderPreviewToolboxToolDeserializer(item as ReminderPreviewToolboxTool);
 
@@ -7684,7 +7131,8 @@ export type ToolboxToolType =
   | "toolbox_search_preview"
   | "a2a"
   | "shell"
-  | "web_iq_preview";
+  | "web_iq_preview"
+  | "browser_automation";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -7794,6 +7242,8 @@ export function fileSearchToolboxToolDeserializer(item: any): FileSearchToolboxT
 /** A web search tool stored in a toolbox. */
 export interface WebSearchToolboxTool extends ToolboxTool {
   type: "web_search";
+  /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
+  external_web_access?: boolean;
   filters?: WebSearchToolFilters;
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
@@ -7813,6 +7263,7 @@ export function webSearchToolboxToolSerializer(item: WebSearchToolboxTool): any 
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
+    external_web_access: item["external_web_access"],
     filters: !item["filters"] ? item["filters"] : webSearchToolFiltersSerializer(item["filters"]),
     user_location: !item["user_location"]
       ? item["user_location"]
@@ -7832,6 +7283,7 @@ export function webSearchToolboxToolDeserializer(item: any): WebSearchToolboxToo
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
+    external_web_access: item["external_web_access"],
     filters: !item["filters"] ? item["filters"] : webSearchToolFiltersDeserializer(item["filters"]),
     user_location: !item["user_location"]
       ? item["user_location"]
@@ -8415,6 +7867,37 @@ export function browserAutomationPreviewToolboxToolDeserializer(
   };
 }
 
+/** A browser automation tool stored in a toolbox. */
+export interface BrowserAutomationToolboxTool extends ToolboxTool {
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browser_automation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolboxToolSerializer(item: BrowserAutomationToolboxTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
+  };
+}
+
+export function browserAutomationToolboxToolDeserializer(item: any): BrowserAutomationToolboxTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    browser_automation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
+  };
+}
+
 /** A reminder tool stored in a toolbox. */
 export interface ReminderPreviewToolboxTool extends ToolboxTool {
   type: "reminder_preview";
@@ -8770,6 +8253,10 @@ export interface ToolboxObject {
   id: string;
   /** The name of the toolbox. */
   name: string;
+  /** The Unix timestamp (seconds) when the toolbox was last updated. This value changes when a new toolbox version is created or the toolbox is updated. */
+  updated_at: Date;
+  /** The versions associated with the toolbox. */
+  versions: ToolboxVersions;
   /** The version identifier that the toolbox currently points to. Defaults to the latest version. Can be changed via updateToolbox. */
   default_version: string;
 }
@@ -8778,7 +8265,21 @@ export function toolboxObjectDeserializer(item: any): ToolboxObject {
   return {
     id: item["id"],
     name: item["name"],
+    updated_at: new Date(item["updated_at"] * 1000),
+    versions: toolboxVersionsDeserializer(item["versions"]),
     default_version: item["default_version"],
+  };
+}
+
+/** The versions associated with a toolbox. */
+export interface ToolboxVersions {
+  /** The latest version of the toolbox. */
+  latest: ToolboxVersionObject;
+}
+
+export function toolboxVersionsDeserializer(item: any): ToolboxVersions {
+  return {
+    latest: toolboxVersionObjectDeserializer(item["latest"]),
   };
 }
 
@@ -8838,6 +8339,615 @@ export function toolboxVersionObjectArrayDeserializer(result: Array<ToolboxVersi
   return result.map((item) => {
     return toolboxVersionObjectDeserializer(item);
   });
+}
+
+/**
+ * The inputs for generating a voice agent. Only `kind` and `name` are always required.
+ * The authoring service expands these inputs into a full, editable `VoiceAgentDefinition`, which is then created through `POST /agents`.
+ * The generated `instructions` and audio/voice settings are stored as separate fields on the resulting agent
+ * definition, so the caller can edit or override any of them afterward via standard agent versioning.
+ */
+export interface GenerateVoiceAgentRequest {
+  /** The agent kind. Always `voice`. */
+  kind: "voice";
+  /** The unique name for the agent to create. Must be a non-empty DNS-like agent name. */
+  name: string;
+  /** Optional inference mode. When omitted, the authoring service uses `managed`. When supplied, use `managed` or `self_deployed`. */
+  model_type?: VoiceModelType;
+  /** Optional model identifier. Required when `model_type` is `self_deployed`; optional when `model_type` is `managed` or omitted. The service never invents a customer deployment name. */
+  model?: string;
+  /** An optional authoring use case. An empty string is accepted. */
+  use_case?: string;
+  /** An optional natural-language description of what the agent should do. When supplied, it seeds the generated instructions. */
+  goal?: string;
+  /** An optional agent description. The authoring service resolves its fallback when omitted. */
+  description?: string;
+  /** Optional tools carried through verbatim onto the generated agent (see `VoiceAgentTool`). */
+  tools?: VoiceAgentToolUnion[];
+  /** (Preview) When `true`, the generated voice agent is created as a draft — an editable, unpublished version the caller can review and refine before publishing it via the standard create/version path. The service defaults to `false` if a value is not specified by the caller, in which case the agent is created and published normally. */
+  draft?: boolean;
+}
+
+export function generateVoiceAgentRequestSerializer(item: GenerateVoiceAgentRequest): any {
+  return {
+    kind: item["kind"],
+    name: item["name"],
+    model_type: item["model_type"],
+    model: item["model"],
+    use_case: item["use_case"],
+    goal: item["goal"],
+    description: item["description"],
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    draft: item["draft"],
+  };
+}
+
+/** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
+export interface AgentOptimizationJob {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Caller-supplied inputs. */
+  inputs?: AgentOptimizationJobInputs;
+  /** Result produced on success. */
+  readonly result?: AgentOptimizationJobResult;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time. */
+  readonly created_at: Date;
+  /** The timestamp when the job was last updated, represented in Unix time. */
+  readonly updated_at: Date;
+  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
+  readonly progress?: AgentOptimizationJobProgress;
+  /** Non-fatal warnings emitted at any point during optimization. */
+  readonly warnings?: string[];
+}
+
+export function agentOptimizationJobSerializer(item: AgentOptimizationJob): any {
+  return {
+    inputs: !item["inputs"] ? item["inputs"] : agentOptimizationJobInputsSerializer(item["inputs"]),
+  };
+}
+
+export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJob {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : agentOptimizationJobInputsDeserializer(item["inputs"]),
+    result: !item["result"]
+      ? item["result"]
+      : agentOptimizationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+    progress: !item["progress"]
+      ? item["progress"]
+      : agentOptimizationJobProgressDeserializer(item["progress"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : item["warnings"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Caller-supplied inputs for an optimization job. */
+export interface AgentOptimizationJobInputs {
+  /** The agent (and pinned version) being optimized. */
+  agent: OptimizedAgentIdentifier;
+  /** Training dataset — either inline items or a reference to a registered dataset. Required. */
+  train_dataset: AgentOptimizationDatasetInputUnion;
+  /** Optional held-out validation dataset for measuring generalization of the final candidate. */
+  validation_dataset?: AgentOptimizationDatasetInputUnion;
+  /** Job-level evaluators referenced by name and optional version. Required; at least one must be provided. */
+  evaluators: AgentOptimizationEvaluatorRef[];
+  /** Tuning knobs and run-mode. */
+  options?: AgentOptimizationOptions;
+}
+
+export function agentOptimizationJobInputsSerializer(item: AgentOptimizationJobInputs): any {
+  return {
+    agent: optimizedAgentIdentifierSerializer(item["agent"]),
+    train_dataset: agentOptimizationDatasetInputUnionSerializer(item["train_dataset"]),
+    validation_dataset: !item["validation_dataset"]
+      ? item["validation_dataset"]
+      : agentOptimizationDatasetInputUnionSerializer(item["validation_dataset"]),
+    evaluators: agentOptimizationEvaluatorRefArraySerializer(item["evaluators"]),
+    options: !item["options"]
+      ? item["options"]
+      : agentOptimizationOptionsSerializer(item["options"]),
+  };
+}
+
+export function agentOptimizationJobInputsDeserializer(item: any): AgentOptimizationJobInputs {
+  return {
+    agent: optimizedAgentIdentifierDeserializer(item["agent"]),
+    train_dataset: agentOptimizationDatasetInputUnionDeserializer(item["train_dataset"]),
+    validation_dataset: !item["validation_dataset"]
+      ? item["validation_dataset"]
+      : agentOptimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
+    evaluators: agentOptimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
+    options: !item["options"]
+      ? item["options"]
+      : agentOptimizationOptionsDeserializer(item["options"]),
+  };
+}
+
+/** Identifies the registered Foundry agent to optimize (request-only). Skills, tools, and system_prompt are specified in options.optimization_config. */
+export interface OptimizedAgentIdentifier {
+  /** Registered Foundry agent name (required). */
+  agent_name: string;
+  /** Pinned agent version. Defaults to latest if omitted. */
+  agent_version?: string;
+}
+
+export function optimizedAgentIdentifierSerializer(item: OptimizedAgentIdentifier): any {
+  return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
+}
+
+export function optimizedAgentIdentifierDeserializer(item: any): OptimizedAgentIdentifier {
+  return {
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** Base discriminated model for dataset input. Either inline items or a registered reference. */
+export interface AgentOptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  /** The discriminator possible values: inline, reference */
+  type: AgentOptimizationDatasetInputType;
+}
+
+export function agentOptimizationDatasetInputSerializer(item: AgentOptimizationDatasetInput): any {
+  return { type: item["type"] };
+}
+
+export function agentOptimizationDatasetInputDeserializer(
+  item: any,
+): AgentOptimizationDatasetInput {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentOptimizationDatasetInputUnion */
+export type AgentOptimizationDatasetInputUnion =
+  | AgentOptimizationInlineDatasetInput
+  | AgentOptimizationReferenceDatasetInput
+  | AgentOptimizationDatasetInput;
+
+export function agentOptimizationDatasetInputUnionSerializer(
+  item: AgentOptimizationDatasetInputUnion,
+): any {
+  switch (item.type) {
+    case "inline":
+      return agentOptimizationInlineDatasetInputSerializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
+
+    case "reference":
+      return agentOptimizationReferenceDatasetInputSerializer(
+        item as AgentOptimizationReferenceDatasetInput,
+      );
+
+    default:
+      return agentOptimizationDatasetInputSerializer(item);
+  }
+}
+
+export function agentOptimizationDatasetInputUnionDeserializer(
+  item: any,
+): AgentOptimizationDatasetInputUnion {
+  switch (item["type"]) {
+    case "inline":
+      return agentOptimizationInlineDatasetInputDeserializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
+
+    case "reference":
+      return agentOptimizationReferenceDatasetInputDeserializer(
+        item as AgentOptimizationReferenceDatasetInput,
+      );
+
+    default:
+      return agentOptimizationDatasetInputDeserializer(item);
+  }
+}
+
+/** Discriminator values for the dataset input union. */
+export type AgentOptimizationDatasetInputType = "inline" | "reference";
+
+/** Inline dataset — items supplied directly in the request body. */
+export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  type: "inline";
+  /** Dataset items. */
+  items: AgentOptimizationDatasetItem[];
+}
+
+export function agentOptimizationInlineDatasetInputSerializer(
+  item: AgentOptimizationInlineDatasetInput,
+): any {
+  return { type: item["type"], items: agentOptimizationDatasetItemArraySerializer(item["items"]) };
+}
+
+export function agentOptimizationInlineDatasetInputDeserializer(
+  item: any,
+): AgentOptimizationInlineDatasetInput {
+  return {
+    type: item["type"],
+    items: agentOptimizationDatasetItemArrayDeserializer(item["items"]),
+  };
+}
+
+export function agentOptimizationDatasetItemArraySerializer(
+  result: Array<AgentOptimizationDatasetItem>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationDatasetItemSerializer(item);
+  });
+}
+
+export function agentOptimizationDatasetItemArrayDeserializer(
+  result: Array<AgentOptimizationDatasetItem>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationDatasetItemDeserializer(item);
+  });
+}
+
+/** A single item in an inline dataset. */
+export interface AgentOptimizationDatasetItem {
+  /** The user query / prompt. */
+  query?: string;
+  /** Expected ground truth answer. */
+  ground_truth?: string;
+  /** Desired number of conversation turns for simulation mode (1-20). */
+  desired_num_turns?: number;
+  /** Per-item evaluation criteria. */
+  criteria?: AgentOptimizationDatasetCriterion[];
+}
+
+export function agentOptimizationDatasetItemSerializer(item: AgentOptimizationDatasetItem): any {
+  return {
+    query: item["query"],
+    ground_truth: item["ground_truth"],
+    desired_num_turns: item["desired_num_turns"],
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : agentOptimizationDatasetCriterionArraySerializer(item["criteria"]),
+  };
+}
+
+export function agentOptimizationDatasetItemDeserializer(item: any): AgentOptimizationDatasetItem {
+  return {
+    query: item["query"],
+    ground_truth: item["ground_truth"],
+    desired_num_turns: item["desired_num_turns"],
+    criteria: !item["criteria"]
+      ? item["criteria"]
+      : agentOptimizationDatasetCriterionArrayDeserializer(item["criteria"]),
+  };
+}
+
+export function agentOptimizationDatasetCriterionArraySerializer(
+  result: Array<AgentOptimizationDatasetCriterion>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationDatasetCriterionSerializer(item);
+  });
+}
+
+export function agentOptimizationDatasetCriterionArrayDeserializer(
+  result: Array<AgentOptimizationDatasetCriterion>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationDatasetCriterionDeserializer(item);
+  });
+}
+
+/** Evaluation criterion: a name + instruction pair used for per-item scoring. */
+export interface AgentOptimizationDatasetCriterion {
+  /** Criterion name. */
+  name: string;
+  /** Criterion instruction / description. */
+  instruction: string;
+}
+
+export function agentOptimizationDatasetCriterionSerializer(
+  item: AgentOptimizationDatasetCriterion,
+): any {
+  return { name: item["name"], instruction: item["instruction"] };
+}
+
+export function agentOptimizationDatasetCriterionDeserializer(
+  item: any,
+): AgentOptimizationDatasetCriterion {
+  return {
+    name: item["name"],
+    instruction: item["instruction"],
+  };
+}
+
+/** Reference to a registered Foundry dataset. */
+export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
+  /** Dataset input type discriminator. */
+  type: "reference";
+  /** Registered dataset name. */
+  name: string;
+  /** Dataset version. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function agentOptimizationReferenceDatasetInputSerializer(
+  item: AgentOptimizationReferenceDatasetInput,
+): any {
+  return { type: item["type"], name: item["name"], version: item["version"] };
+}
+
+export function agentOptimizationReferenceDatasetInputDeserializer(
+  item: any,
+): AgentOptimizationReferenceDatasetInput {
+  return {
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function agentOptimizationEvaluatorRefArraySerializer(
+  result: Array<AgentOptimizationEvaluatorRef>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationEvaluatorRefSerializer(item);
+  });
+}
+
+export function agentOptimizationEvaluatorRefArrayDeserializer(
+  result: Array<AgentOptimizationEvaluatorRef>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationEvaluatorRefDeserializer(item);
+  });
+}
+
+/** Reference to a named evaluator, optionally pinned to a version. */
+export interface AgentOptimizationEvaluatorRef {
+  /** Evaluator name. */
+  name: string;
+  /** Evaluator version. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function agentOptimizationEvaluatorRefSerializer(item: AgentOptimizationEvaluatorRef): any {
+  return { name: item["name"], version: item["version"] };
+}
+
+export function agentOptimizationEvaluatorRefDeserializer(
+  item: any,
+): AgentOptimizationEvaluatorRef {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Tuning knobs and run-mode for an optimization job. */
+export interface AgentOptimizationOptions {
+  /** Maximum number of optimization candidates to generate. Must be >= 1. Default: 5. */
+  max_candidates?: number;
+  /** Per-target-attribute configuration overrides. Contains skills, tools, system_prompt for the agent, plus model space for model optimization. */
+  optimization_config?: Record<string, any>;
+  /** Model deployment used for evaluation. Defaults to server config (typically 'gpt-4o'). */
+  eval_model?: string;
+  /** Model deployment for optimization reasoning (must be gpt-5 family). Falls back to the default eval model when not set. */
+  optimization_model?: string;
+  /** Evaluation granularity. Null/omitted means per-item single-turn. Set to 'conversation' for per-conversation multi-turn simulation scoring. */
+  evaluation_level?: EvaluationLevel;
+  /** Maximum number of consecutive reflective minibatch rejections before stopping early. A 'stall' occurs when the optimizer proposes a prompt change, evaluates it on a small subset, and the score does not improve — so no full validation-set evaluation is triggered. The counter resets whenever a minibatch passes and its full-validation score beats the current best. Only a sustained plateau of `max_stalls` consecutive minibatch failures triggers the stop. The service defaults to 5 if a value is not specified by the caller. Must be >= 1 when set. */
+  max_stalls?: number;
+}
+
+export function agentOptimizationOptionsSerializer(item: AgentOptimizationOptions): any {
+  return {
+    max_candidates: item["max_candidates"],
+    optimization_config: item["optimization_config"],
+    eval_model: item["eval_model"],
+    optimization_model: item["optimization_model"],
+    evaluation_level: item["evaluation_level"],
+    max_stalls: item["max_stalls"],
+  };
+}
+
+export function agentOptimizationOptionsDeserializer(item: any): AgentOptimizationOptions {
+  return {
+    max_candidates: item["max_candidates"],
+    optimization_config: !item["optimization_config"]
+      ? item["optimization_config"]
+      : Object.fromEntries(
+          Object.entries(item["optimization_config"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    eval_model: item["eval_model"],
+    optimization_model: item["optimization_model"],
+    evaluation_level: item["evaluation_level"],
+    max_stalls: item["max_stalls"],
+  };
+}
+
+/** The level at which evaluation is performed. */
+export type EvaluationLevel = "turn" | "conversation";
+
+/** Terminal-state result body. Populated when status is succeeded or failed. */
+export interface AgentOptimizationJobResult {
+  /** Candidate ID of the original (un-optimized) baseline evaluation. */
+  baseline?: string;
+  /** Candidate ID of the highest-scoring candidate found during optimization. */
+  best?: string;
+  /** All evaluated candidates including baseline. */
+  candidates?: AgentOptimizationCandidate[];
+}
+
+export function agentOptimizationJobResultDeserializer(item: any): AgentOptimizationJobResult {
+  return {
+    baseline: item["baseline"],
+    best: item["best"],
+    candidates: !item["candidates"]
+      ? item["candidates"]
+      : agentOptimizationCandidateArrayDeserializer(item["candidates"]),
+  };
+}
+
+export function agentOptimizationCandidateArrayDeserializer(
+  result: Array<AgentOptimizationCandidate>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationCandidateDeserializer(item);
+  });
+}
+
+/** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
+export interface AgentOptimizationCandidate {
+  /** Server-assigned candidate identifier. Use with GET /candidates/{id} sub-endpoints. */
+  candidate_id?: string;
+  /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
+  name: string;
+  /** What was mutated from the baseline (e.g., {system_prompt: 'new prompt'}). */
+  mutations?: Record<string, any>;
+  /** Average composite score across all tasks. */
+  avg_score: number;
+  /** Average token usage across all tasks. */
+  avg_tokens: number;
+  /** Foundry evaluation identifier used to score this candidate. */
+  eval_id?: string;
+  /** Foundry evaluation run identifier for this candidate's scoring run. */
+  eval_run_id?: string;
+  /** Promotion metadata. Null if the candidate has not been promoted. */
+  promotion?: PromotionInfo;
+}
+
+export function agentOptimizationCandidateDeserializer(item: any): AgentOptimizationCandidate {
+  return {
+    candidate_id: item["candidate_id"],
+    name: item["name"],
+    mutations: !item["mutations"]
+      ? item["mutations"]
+      : Object.fromEntries(
+          Object.entries(item["mutations"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    avg_score: item["avg_score"],
+    avg_tokens: item["avg_tokens"],
+    eval_id: item["eval_id"],
+    eval_run_id: item["eval_run_id"],
+    promotion: !item["promotion"]
+      ? item["promotion"]
+      : promotionInfoDeserializer(item["promotion"]),
+  };
+}
+
+/** Promotion metadata recorded when a candidate is deployed to a Foundry agent. */
+export interface PromotionInfo {
+  /** Timestamp when promotion occurred, represented in Unix time. */
+  promoted_at: Date;
+  /** Name of the Foundry agent this candidate was promoted to. */
+  agent_name: string;
+  /** Version of the Foundry agent this candidate was promoted to. */
+  agent_version: string;
+}
+
+export function promotionInfoDeserializer(item: any): PromotionInfo {
+  return {
+    promoted_at: new Date(item["promoted_at"] * 1000),
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** Extensible status values shared by Foundry jobs. */
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
+
+/** In-flight progress; only populated while status is queued or in_progress. */
+export interface AgentOptimizationJobProgress {
+  /** Number of candidates whose evaluation has completed so far. */
+  candidates_completed: number;
+  /** Best score observed so far across all candidates. */
+  best_score: number;
+  /** Wall-clock time elapsed in seconds since the job began executing. */
+  elapsed_seconds: number;
+}
+
+export function agentOptimizationJobProgressDeserializer(item: any): AgentOptimizationJobProgress {
+  return {
+    candidates_completed: item["candidates_completed"],
+    best_score: item["best_score"],
+    elapsed_seconds: item["elapsed_seconds"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultAgentOptimizationJobListItem {
+  /** The requested list of items. */
+  data: AgentOptimizationJobListItem[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultAgentOptimizationJobListItemDeserializer(
+  item: any,
+): _AgentsPagedResultAgentOptimizationJobListItem {
+  return {
+    data: agentOptimizationJobListItemArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function agentOptimizationJobListItemArrayDeserializer(
+  result: Array<AgentOptimizationJobListItem>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationJobListItemDeserializer(item);
+  });
+}
+
+/** Slim job representation returned by the LIST endpoint. */
+export interface AgentOptimizationJobListItem {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time. */
+  readonly created_at: Date;
+  /** The timestamp when the job was last updated, represented in Unix time. */
+  readonly updated_at: Date;
+  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
+  readonly progress?: AgentOptimizationJobProgress;
+  /** The agent targeted by this optimization job. */
+  readonly agent?: OptimizedAgentIdentifier;
+}
+
+export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
+  return {
+    id: item["id"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+    progress: !item["progress"]
+      ? item["progress"]
+      : agentOptimizationJobProgressDeserializer(item["progress"]),
+    agent: !item["agent"] ? item["agent"] : optimizedAgentIdentifierDeserializer(item["agent"]),
+  };
 }
 
 /** The response data for a requested list of items. */
@@ -9195,9 +9305,6 @@ export function agentInsightTokenUsageDeserializer(item: any): AgentInsightToken
     total_tokens: item["total_tokens"],
   };
 }
-
-/** Extensible status values shared by Foundry jobs. */
-export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
 
 /** The trigger that started an agent insight run. */
 export type AgentInsightRunTrigger = "on_demand" | "scheduled";
@@ -10048,9 +10155,6 @@ export type EvaluatorType = "builtin" | "custom";
 
 /** The category of the evaluator */
 export type EvaluatorCategory = "quality" | "safety" | "agents";
-
-/** The level at which evaluation is performed. */
-export type EvaluationLevel = "turn" | "conversation";
 
 /** Base evaluator configuration with discriminator */
 export interface EvaluatorDefinition {
@@ -11949,34 +12053,6 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
       item["output_tokens_details"],
     ),
     total_tokens: item["total_tokens"],
-  };
-}
-
-/** model interface ResponseUsageInputTokensDetails */
-export interface ResponseUsageInputTokensDetails {
-  cached_tokens: number;
-  cache_write_tokens: number;
-}
-
-export function responseUsageInputTokensDetailsDeserializer(
-  item: any,
-): ResponseUsageInputTokensDetails {
-  return {
-    cached_tokens: item["cached_tokens"],
-    cache_write_tokens: item["cache_write_tokens"],
-  };
-}
-
-/** model interface ResponseUsageOutputTokensDetails */
-export interface ResponseUsageOutputTokensDetails {
-  reasoning_tokens: number;
-}
-
-export function responseUsageOutputTokensDetailsDeserializer(
-  item: any,
-): ResponseUsageOutputTokensDetails {
-  return {
-    reasoning_tokens: item["reasoning_tokens"],
   };
 }
 
@@ -14197,6 +14273,8 @@ export interface TracesDataGenerationJobSource extends DataGenerationJobSource {
   start_time: Date;
   /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
   end_time?: Date;
+  /** Optional explicit list of trace IDs to include. */
+  trace_ids?: string[];
 }
 
 export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerationJobSource): any {
@@ -14208,6 +14286,11 @@ export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerati
     agent_version: item["agent_version"],
     start_time: (item["start_time"].getTime() / 1000) | 0,
     end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+    trace_ids: !item["trace_ids"]
+      ? item["trace_ids"]
+      : item["trace_ids"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -14222,6 +14305,11 @@ export function tracesDataGenerationJobSourceDeserializer(
     agent_version: item["agent_version"],
     start_time: new Date(item["start_time"] * 1000),
     end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
+    trace_ids: !item["trace_ids"]
+      ? item["trace_ids"]
+      : item["trace_ids"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -14250,8 +14338,6 @@ export interface DataGenerationJobOptions {
   /** The data generation job type. */
   /** The discriminator possible values: simple_qna, traces, simulation_seed, tool_use */
   type: DataGenerationJobType;
-  /** Maximum number of samples to generate. */
-  max_samples: number;
   /** The proportion of the generated data to be used for training when the data is used for fine-tuning. The rest will be used for validation. Value should be between 0 and 1. */
   train_split?: number;
   /** The LLM model options. */
@@ -14261,7 +14347,6 @@ export interface DataGenerationJobOptions {
 export function dataGenerationJobOptionsSerializer(item: DataGenerationJobOptions): any {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
@@ -14272,7 +14357,6 @@ export function dataGenerationJobOptionsSerializer(item: DataGenerationJobOption
 export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJobOptions {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
@@ -14361,6 +14445,8 @@ export function dataGenerationModelOptionsDeserializer(item: any): DataGeneratio
 export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOptions {
   /** The data generation job type, which is SimpleQnA for this model. */
   type: "simple_qna";
+  /** Maximum number of samples to generate, up to service-defined limits. */
+  max_samples: number;
   /** The question types to generate. Used only for fine-tuning scenarios. */
   question_types?: SimpleQnAFineTuningQuestionType[];
 }
@@ -14370,11 +14456,11 @@ export function simpleQnADataGenerationJobOptionsSerializer(
 ): any {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsSerializer(item["model_options"]),
+    max_samples: item["max_samples"],
     question_types: !item["question_types"]
       ? item["question_types"]
       : item["question_types"].map((p: any) => {
@@ -14388,11 +14474,11 @@ export function simpleQnADataGenerationJobOptionsDeserializer(
 ): SimpleQnADataGenerationJobOptions {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    max_samples: item["max_samples"],
     question_types: !item["question_types"]
       ? item["question_types"]
       : item["question_types"].map((p: any) => {
@@ -14408,6 +14494,8 @@ export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
 export interface TracesDataGenerationJobOptions extends DataGenerationJobOptions {
   /** The data generation job type, which is Traces for this model. */
   type: "traces";
+  /** Maximum number of samples to generate, up to service-defined limits. If omitted, sampling is turned off. */
+  max_samples?: number;
   /** Whether to redact private content from traces. When omitted or set to true, private content is redacted. Set to false to opt out of redaction. */
   redact_private_content?: boolean;
 }
@@ -14417,11 +14505,11 @@ export function tracesDataGenerationJobOptionsSerializer(
 ): any {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsSerializer(item["model_options"]),
+    max_samples: item["max_samples"],
     redact_private_content: item["redact_private_content"],
   };
 }
@@ -14431,11 +14519,11 @@ export function tracesDataGenerationJobOptionsDeserializer(
 ): TracesDataGenerationJobOptions {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    max_samples: item["max_samples"],
     redact_private_content: item["redact_private_content"],
   };
 }
@@ -14451,7 +14539,6 @@ export function simulationSeedDataGenerationJobOptionsSerializer(
 ): any {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
@@ -14464,7 +14551,6 @@ export function simulationSeedDataGenerationJobOptionsDeserializer(
 ): SimulationSeedDataGenerationJobOptions {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
@@ -14476,6 +14562,8 @@ export function simulationSeedDataGenerationJobOptionsDeserializer(
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
   /** The data generation job type, which is ToolUse for this model. */
   type: "tool_use";
+  /** Maximum number of samples to generate, up to service-defined limits. */
+  max_samples: number;
 }
 
 export function toolUseFineTuningDataGenerationJobOptionsSerializer(
@@ -14483,11 +14571,11 @@ export function toolUseFineTuningDataGenerationJobOptionsSerializer(
 ): any {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsSerializer(item["model_options"]),
+    max_samples: item["max_samples"],
   };
 }
 
@@ -14496,11 +14584,11 @@ export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
 ): ToolUseFineTuningDataGenerationJobOptions {
   return {
     type: item["type"],
-    max_samples: item["max_samples"],
     train_split: item["train_split"],
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    max_samples: item["max_samples"],
   };
 }
 
@@ -14516,12 +14604,19 @@ export interface DataGenerationJobOutputOptions {
   description?: string;
   /** Tags to assign to the output. Applies only to dataset outputs (evaluation scenario); ignored for Azure OpenAI file outputs. */
   tags?: Record<string, string>;
+  /** Controls how dataset outputs are written. If omitted, defaults to `overwrite` and creates the next dataset version using only newly generated rows. */
+  write_mode?: DataGenerationJobOutputWriteMode;
 }
 
 export function dataGenerationJobOutputOptionsSerializer(
   item: DataGenerationJobOutputOptions,
 ): any {
-  return { name: item["name"], description: item["description"], tags: item["tags"] };
+  return {
+    name: item["name"],
+    description: item["description"],
+    tags: item["tags"],
+    write_mode: item["write_mode"],
+  };
 }
 
 export function dataGenerationJobOutputOptionsDeserializer(
@@ -14533,8 +14628,12 @@ export function dataGenerationJobOutputOptionsDeserializer(
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    write_mode: item["write_mode"],
   };
 }
+
+/** The supported write modes for data generation job outputs. */
+export type DataGenerationJobOutputWriteMode = "overwrite" | "merge";
 
 /** Result produced by a successful data generation job. */
 export interface DataGenerationJobResult {
@@ -14701,509 +14800,10 @@ export function dataGenerationJobArrayDeserializer(result: Array<DataGenerationJ
   });
 }
 
-/** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
-export interface AgentOptimizationJob {
-  /** Server-assigned unique identifier. */
-  readonly id: string;
-  /** Caller-supplied inputs. */
-  inputs?: AgentOptimizationJobInputs;
-  /** Result produced on success. */
-  readonly result?: AgentOptimizationJobResult;
-  /** Current lifecycle status. */
-  readonly status: JobStatus;
-  /** Error details — populated only on failure. */
-  readonly error?: ApiError;
-  /** The timestamp when the job was created, represented in Unix time. */
-  readonly created_at: Date;
-  /** The timestamp when the job was last updated, represented in Unix time. */
-  readonly updated_at: Date;
-  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: AgentOptimizationJobProgress;
-  /** Non-fatal warnings emitted at any point during optimization. */
-  readonly warnings?: string[];
-}
-
-export function agentOptimizationJobSerializer(item: AgentOptimizationJob): any {
-  return {
-    inputs: !item["inputs"] ? item["inputs"] : agentOptimizationJobInputsSerializer(item["inputs"]),
-  };
-}
-
-export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJob {
-  return {
-    id: item["id"],
-    inputs: !item["inputs"]
-      ? item["inputs"]
-      : agentOptimizationJobInputsDeserializer(item["inputs"]),
-    result: !item["result"]
-      ? item["result"]
-      : agentOptimizationJobResultDeserializer(item["result"]),
-    status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
-    created_at: new Date(item["created_at"] * 1000),
-    updated_at: new Date(item["updated_at"] * 1000),
-    progress: !item["progress"]
-      ? item["progress"]
-      : agentOptimizationJobProgressDeserializer(item["progress"]),
-    warnings: !item["warnings"]
-      ? item["warnings"]
-      : item["warnings"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Caller-supplied inputs for an optimization job. */
-export interface AgentOptimizationJobInputs {
-  /** The agent (and pinned version) being optimized. */
-  agent: OptimizedAgentIdentifier;
-  /** Training dataset — either inline items or a reference to a registered dataset. Required. */
-  train_dataset: AgentOptimizationDatasetInputUnion;
-  /** Optional held-out validation dataset for measuring generalization of the final candidate. */
-  validation_dataset?: AgentOptimizationDatasetInputUnion;
-  /** Job-level evaluators referenced by name and optional version. Required; at least one must be provided. */
-  evaluators: AgentOptimizationEvaluatorRef[];
-  /** Tuning knobs and run-mode. */
-  options?: AgentOptimizationOptions;
-}
-
-export function agentOptimizationJobInputsSerializer(item: AgentOptimizationJobInputs): any {
-  return {
-    agent: optimizedAgentIdentifierSerializer(item["agent"]),
-    train_dataset: agentOptimizationDatasetInputUnionSerializer(item["train_dataset"]),
-    validation_dataset: !item["validation_dataset"]
-      ? item["validation_dataset"]
-      : agentOptimizationDatasetInputUnionSerializer(item["validation_dataset"]),
-    evaluators: agentOptimizationEvaluatorRefArraySerializer(item["evaluators"]),
-    options: !item["options"]
-      ? item["options"]
-      : agentOptimizationOptionsSerializer(item["options"]),
-  };
-}
-
-export function agentOptimizationJobInputsDeserializer(item: any): AgentOptimizationJobInputs {
-  return {
-    agent: optimizedAgentIdentifierDeserializer(item["agent"]),
-    train_dataset: agentOptimizationDatasetInputUnionDeserializer(item["train_dataset"]),
-    validation_dataset: !item["validation_dataset"]
-      ? item["validation_dataset"]
-      : agentOptimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
-    evaluators: agentOptimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
-    options: !item["options"]
-      ? item["options"]
-      : agentOptimizationOptionsDeserializer(item["options"]),
-  };
-}
-
-/** Identifies the registered Foundry agent to optimize (request-only). Skills, tools, and system_prompt are specified in options.optimization_config. */
-export interface OptimizedAgentIdentifier {
-  /** Registered Foundry agent name (required). */
-  agent_name: string;
-  /** Pinned agent version. Defaults to latest if omitted. */
-  agent_version?: string;
-}
-
-export function optimizedAgentIdentifierSerializer(item: OptimizedAgentIdentifier): any {
-  return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
-}
-
-export function optimizedAgentIdentifierDeserializer(item: any): OptimizedAgentIdentifier {
-  return {
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-  };
-}
-
-/** Base discriminated model for dataset input. Either inline items or a registered reference. */
-export interface AgentOptimizationDatasetInput {
-  /** Dataset input type discriminator. */
-  /** The discriminator possible values: inline, reference */
-  type: AgentOptimizationDatasetInputType;
-}
-
-export function agentOptimizationDatasetInputSerializer(item: AgentOptimizationDatasetInput): any {
-  return { type: item["type"] };
-}
-
-export function agentOptimizationDatasetInputDeserializer(
-  item: any,
-): AgentOptimizationDatasetInput {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for AgentOptimizationDatasetInputUnion */
-export type AgentOptimizationDatasetInputUnion =
-  | AgentOptimizationInlineDatasetInput
-  | AgentOptimizationReferenceDatasetInput
-  | AgentOptimizationDatasetInput;
-
-export function agentOptimizationDatasetInputUnionSerializer(
-  item: AgentOptimizationDatasetInputUnion,
-): any {
-  switch (item.type) {
-    case "inline":
-      return agentOptimizationInlineDatasetInputSerializer(
-        item as AgentOptimizationInlineDatasetInput,
-      );
-
-    case "reference":
-      return agentOptimizationReferenceDatasetInputSerializer(
-        item as AgentOptimizationReferenceDatasetInput,
-      );
-
-    default:
-      return agentOptimizationDatasetInputSerializer(item);
-  }
-}
-
-export function agentOptimizationDatasetInputUnionDeserializer(
-  item: any,
-): AgentOptimizationDatasetInputUnion {
-  switch (item["type"]) {
-    case "inline":
-      return agentOptimizationInlineDatasetInputDeserializer(
-        item as AgentOptimizationInlineDatasetInput,
-      );
-
-    case "reference":
-      return agentOptimizationReferenceDatasetInputDeserializer(
-        item as AgentOptimizationReferenceDatasetInput,
-      );
-
-    default:
-      return agentOptimizationDatasetInputDeserializer(item);
-  }
-}
-
-/** Discriminator values for the dataset input union. */
-export type AgentOptimizationDatasetInputType = "inline" | "reference";
-
-/** Inline dataset — items supplied directly in the request body. */
-export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
-  /** Dataset input type discriminator. */
-  type: "inline";
-  /** Dataset items. */
-  items: AgentOptimizationDatasetItem[];
-}
-
-export function agentOptimizationInlineDatasetInputSerializer(
-  item: AgentOptimizationInlineDatasetInput,
-): any {
-  return { type: item["type"], items: agentOptimizationDatasetItemArraySerializer(item["items"]) };
-}
-
-export function agentOptimizationInlineDatasetInputDeserializer(
-  item: any,
-): AgentOptimizationInlineDatasetInput {
-  return {
-    type: item["type"],
-    items: agentOptimizationDatasetItemArrayDeserializer(item["items"]),
-  };
-}
-
-export function agentOptimizationDatasetItemArraySerializer(
-  result: Array<AgentOptimizationDatasetItem>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationDatasetItemSerializer(item);
-  });
-}
-
-export function agentOptimizationDatasetItemArrayDeserializer(
-  result: Array<AgentOptimizationDatasetItem>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationDatasetItemDeserializer(item);
-  });
-}
-
-/** A single item in an inline dataset. */
-export interface AgentOptimizationDatasetItem {
-  /** The user query / prompt. */
-  query?: string;
-  /** Expected ground truth answer. */
-  ground_truth?: string;
-  /** Desired number of conversation turns for simulation mode (1-20). */
-  desired_num_turns?: number;
-  /** Per-item evaluation criteria. */
-  criteria?: AgentOptimizationDatasetCriterion[];
-}
-
-export function agentOptimizationDatasetItemSerializer(item: AgentOptimizationDatasetItem): any {
-  return {
-    query: item["query"],
-    ground_truth: item["ground_truth"],
-    desired_num_turns: item["desired_num_turns"],
-    criteria: !item["criteria"]
-      ? item["criteria"]
-      : agentOptimizationDatasetCriterionArraySerializer(item["criteria"]),
-  };
-}
-
-export function agentOptimizationDatasetItemDeserializer(item: any): AgentOptimizationDatasetItem {
-  return {
-    query: item["query"],
-    ground_truth: item["ground_truth"],
-    desired_num_turns: item["desired_num_turns"],
-    criteria: !item["criteria"]
-      ? item["criteria"]
-      : agentOptimizationDatasetCriterionArrayDeserializer(item["criteria"]),
-  };
-}
-
-export function agentOptimizationDatasetCriterionArraySerializer(
-  result: Array<AgentOptimizationDatasetCriterion>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationDatasetCriterionSerializer(item);
-  });
-}
-
-export function agentOptimizationDatasetCriterionArrayDeserializer(
-  result: Array<AgentOptimizationDatasetCriterion>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationDatasetCriterionDeserializer(item);
-  });
-}
-
-/** Evaluation criterion: a name + instruction pair used for per-item scoring. */
-export interface AgentOptimizationDatasetCriterion {
-  /** Criterion name. */
-  name: string;
-  /** Criterion instruction / description. */
-  instruction: string;
-}
-
-export function agentOptimizationDatasetCriterionSerializer(
-  item: AgentOptimizationDatasetCriterion,
-): any {
-  return { name: item["name"], instruction: item["instruction"] };
-}
-
-export function agentOptimizationDatasetCriterionDeserializer(
-  item: any,
-): AgentOptimizationDatasetCriterion {
-  return {
-    name: item["name"],
-    instruction: item["instruction"],
-  };
-}
-
-/** Reference to a registered Foundry dataset. */
-export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
-  /** Dataset input type discriminator. */
-  type: "reference";
-  /** Registered dataset name. */
-  name: string;
-  /** Dataset version. If not specified, the latest version is used. */
-  version?: string;
-}
-
-export function agentOptimizationReferenceDatasetInputSerializer(
-  item: AgentOptimizationReferenceDatasetInput,
-): any {
-  return { type: item["type"], name: item["name"], version: item["version"] };
-}
-
-export function agentOptimizationReferenceDatasetInputDeserializer(
-  item: any,
-): AgentOptimizationReferenceDatasetInput {
-  return {
-    type: item["type"],
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-export function agentOptimizationEvaluatorRefArraySerializer(
-  result: Array<AgentOptimizationEvaluatorRef>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationEvaluatorRefSerializer(item);
-  });
-}
-
-export function agentOptimizationEvaluatorRefArrayDeserializer(
-  result: Array<AgentOptimizationEvaluatorRef>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationEvaluatorRefDeserializer(item);
-  });
-}
-
-/** Reference to a named evaluator, optionally pinned to a version. */
-export interface AgentOptimizationEvaluatorRef {
-  /** Evaluator name. */
-  name: string;
-  /** Evaluator version. If not specified, the latest version is used. */
-  version?: string;
-}
-
-export function agentOptimizationEvaluatorRefSerializer(item: AgentOptimizationEvaluatorRef): any {
-  return { name: item["name"], version: item["version"] };
-}
-
-export function agentOptimizationEvaluatorRefDeserializer(
-  item: any,
-): AgentOptimizationEvaluatorRef {
-  return {
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-/** Tuning knobs and run-mode for an optimization job. */
-export interface AgentOptimizationOptions {
-  /** Maximum number of optimization candidates to generate. Must be >= 1. Default: 5. */
-  max_candidates?: number;
-  /** Per-target-attribute configuration overrides. Contains skills, tools, system_prompt for the agent, plus model space for model optimization. */
-  optimization_config?: Record<string, any>;
-  /** Model deployment used for evaluation. Defaults to server config (typically 'gpt-4o'). */
-  eval_model?: string;
-  /** Model deployment for optimization reasoning (must be gpt-5 family). Falls back to the default eval model when not set. */
-  optimization_model?: string;
-  /** Evaluation granularity. Null/omitted means per-item single-turn. Set to 'conversation' for per-conversation multi-turn simulation scoring. */
-  evaluation_level?: EvaluationLevel;
-  /** Maximum number of consecutive reflective minibatch rejections before stopping early. A 'stall' occurs when the optimizer proposes a prompt change, evaluates it on a small subset, and the score does not improve — so no full validation-set evaluation is triggered. The counter resets whenever a minibatch passes and its full-validation score beats the current best. Only a sustained plateau of `max_stalls` consecutive minibatch failures triggers the stop. The service defaults to 5 if a value is not specified by the caller. Must be >= 1 when set. */
-  max_stalls?: number;
-}
-
-export function agentOptimizationOptionsSerializer(item: AgentOptimizationOptions): any {
-  return {
-    max_candidates: item["max_candidates"],
-    optimization_config: item["optimization_config"],
-    eval_model: item["eval_model"],
-    optimization_model: item["optimization_model"],
-    evaluation_level: item["evaluation_level"],
-    max_stalls: item["max_stalls"],
-  };
-}
-
-export function agentOptimizationOptionsDeserializer(item: any): AgentOptimizationOptions {
-  return {
-    max_candidates: item["max_candidates"],
-    optimization_config: !item["optimization_config"]
-      ? item["optimization_config"]
-      : Object.fromEntries(
-          Object.entries(item["optimization_config"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    eval_model: item["eval_model"],
-    optimization_model: item["optimization_model"],
-    evaluation_level: item["evaluation_level"],
-    max_stalls: item["max_stalls"],
-  };
-}
-
-/** Terminal-state result body. Populated when status is succeeded or failed. */
-export interface AgentOptimizationJobResult {
-  /** Candidate ID of the original (un-optimized) baseline evaluation. */
-  baseline?: string;
-  /** Candidate ID of the highest-scoring candidate found during optimization. */
-  best?: string;
-  /** All evaluated candidates including baseline. */
-  candidates?: AgentOptimizationCandidate[];
-}
-
-export function agentOptimizationJobResultDeserializer(item: any): AgentOptimizationJobResult {
-  return {
-    baseline: item["baseline"],
-    best: item["best"],
-    candidates: !item["candidates"]
-      ? item["candidates"]
-      : agentOptimizationCandidateArrayDeserializer(item["candidates"]),
-  };
-}
-
-export function agentOptimizationCandidateArrayDeserializer(
-  result: Array<AgentOptimizationCandidate>,
-): any[] {
-  return result.map((item) => {
-    return agentOptimizationCandidateDeserializer(item);
-  });
-}
-
-/** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
-export interface AgentOptimizationCandidate {
-  /** Server-assigned candidate identifier. Use with GET /candidates/{id} sub-endpoints. */
-  candidate_id?: string;
-  /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
-  name: string;
-  /** What was mutated from the baseline (e.g., {system_prompt: 'new prompt'}). */
-  mutations?: Record<string, any>;
-  /** Average composite score across all tasks. */
-  avg_score: number;
-  /** Average token usage across all tasks. */
-  avg_tokens: number;
-  /** Foundry evaluation identifier used to score this candidate. */
-  eval_id?: string;
-  /** Foundry evaluation run identifier for this candidate's scoring run. */
-  eval_run_id?: string;
-  /** Promotion metadata. Null if the candidate has not been promoted. */
-  promotion?: PromotionInfo;
-}
-
-export function agentOptimizationCandidateDeserializer(item: any): AgentOptimizationCandidate {
-  return {
-    candidate_id: item["candidate_id"],
-    name: item["name"],
-    mutations: !item["mutations"]
-      ? item["mutations"]
-      : Object.fromEntries(
-          Object.entries(item["mutations"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    avg_score: item["avg_score"],
-    avg_tokens: item["avg_tokens"],
-    eval_id: item["eval_id"],
-    eval_run_id: item["eval_run_id"],
-    promotion: !item["promotion"]
-      ? item["promotion"]
-      : promotionInfoDeserializer(item["promotion"]),
-  };
-}
-
-/** Promotion metadata recorded when a candidate is deployed to a Foundry agent. */
-export interface PromotionInfo {
-  /** Timestamp when promotion occurred, represented in Unix time. */
-  promoted_at: Date;
-  /** Name of the Foundry agent this candidate was promoted to. */
-  agent_name: string;
-  /** Version of the Foundry agent this candidate was promoted to. */
-  agent_version: string;
-}
-
-export function promotionInfoDeserializer(item: any): PromotionInfo {
-  return {
-    promoted_at: new Date(item["promoted_at"] * 1000),
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-  };
-}
-
-/** In-flight progress; only populated while status is queued or in_progress. */
-export interface AgentOptimizationJobProgress {
-  /** Number of candidates whose evaluation has completed so far. */
-  candidates_completed: number;
-  /** Best score observed so far across all candidates. */
-  best_score: number;
-  /** Wall-clock time elapsed in seconds since the job began executing. */
-  elapsed_seconds: number;
-}
-
-export function agentOptimizationJobProgressDeserializer(item: any): AgentOptimizationJobProgress {
-  return {
-    candidates_completed: item["candidates_completed"],
-    best_score: item["best_score"],
-    elapsed_seconds: item["elapsed_seconds"],
-  };
-}
-
 /** The response data for a requested list of items. */
-export interface _AgentsPagedResultAgentOptimizationJobListItem {
+export interface _AgentsPagedResultVoiceConversation {
   /** The requested list of items. */
-  data: AgentOptimizationJobListItem[];
+  data: VoiceConversation[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -15212,54 +14812,3554 @@ export interface _AgentsPagedResultAgentOptimizationJobListItem {
   has_more: boolean;
 }
 
-export function _agentsPagedResultAgentOptimizationJobListItemDeserializer(
+export function _agentsPagedResultVoiceConversationDeserializer(
   item: any,
-): _AgentsPagedResultAgentOptimizationJobListItem {
+): _AgentsPagedResultVoiceConversation {
   return {
-    data: agentOptimizationJobListItemArrayDeserializer(item["data"]),
+    data: voiceConversationArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function agentOptimizationJobListItemArrayDeserializer(
-  result: Array<AgentOptimizationJobListItem>,
-): any[] {
+export function voiceConversationArrayDeserializer(result: Array<VoiceConversation>): any[] {
   return result.map((item) => {
-    return agentOptimizationJobListItemDeserializer(item);
+    return voiceConversationDeserializer(item);
   });
 }
 
-/** Slim job representation returned by the LIST endpoint. */
-export interface AgentOptimizationJobListItem {
-  /** Server-assigned unique identifier. */
-  readonly id: string;
-  /** Current lifecycle status. */
-  readonly status: JobStatus;
-  /** Error details — populated only on failure. */
-  readonly error?: ApiError;
-  /** The timestamp when the job was created, represented in Unix time. */
-  readonly created_at: Date;
-  /** The timestamp when the job was last updated, represented in Unix time. */
-  readonly updated_at: Date;
-  /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: AgentOptimizationJobProgress;
-  /** The agent targeted by this optimization job. */
-  readonly agent?: OptimizedAgentIdentifier;
+/**
+ * A persisted voice conversation. The Foundry envelope that owns a voice agent's stored
+ * transcript, responses, per-turn metrics, and audio. It is the parent, retention, and delete boundary:
+ * deleting it cascades to its responses, items, metrics, and audio. When finalization fails, any partial persisted
+ * responses, items, and item audio remain readable.
+ */
+export interface VoiceConversation {
+  /** The unique id of the conversation. */
+  id: string;
+  /** The object type. Always `voice.conversation`. */
+  object: "voice.conversation";
+  /** The lifecycle status of the conversation. */
+  status: VoiceConversationStatus;
+  /** The Unix timestamp (in seconds) for when the conversation was created. */
+  created_at: Date;
+  /** The Unix timestamp (in seconds) for when session and persistence finalization reached the terminal `completed` or `failed` status. Absent while `status` is `in_progress`. */
+  completed_at?: Date;
+  /** A set of key-value pairs attached to the conversation. */
+  metadata?: Record<string, string>;
+  /** Final aggregate token usage across all responses in this conversation. Absent while `status` is `in_progress` and populated after successful `completed` finalization; it may be absent when `status` is `failed`, and values are not guaranteed to be reported incrementally. */
+  usage?: RealtimeResponseUsage;
+  /** The terminal error that prevented persistence finalization. Present only when `status` is `failed`. */
+  last_error?: ApiError;
 }
 
-export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
+export function voiceConversationDeserializer(item: any): VoiceConversation {
   return {
     id: item["id"],
+    object: item["object"],
     status: item["status"],
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    completed_at: !item["completed_at"]
+      ? item["completed_at"]
+      : new Date(item["completed_at"] * 1000),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    last_error: !item["last_error"] ? item["last_error"] : apiErrorDeserializer(item["last_error"]),
+  };
+}
+
+/**
+ * The lifecycle status of a persisted voice conversation:
+ * - `in_progress`: the live session is active, or post-session persistence finalization is pending.
+ * - `completed`: finalization succeeded after normal or client close, `end_conversation`, a max-duration `1001`
+ *   close, or a client or network disconnect that the service can still finalize.
+ * - `failed`: a terminal service, bridge, storage, or unrecoverable transport failure prevented finalization.
+ */
+export type VoiceConversationStatus = "in_progress" | "completed" | "failed";
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultVoiceResponse {
+  /** The requested list of items. */
+  data: VoiceResponse[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultVoiceResponseDeserializer(
+  item: any,
+): _AgentsPagedResultVoiceResponse {
+  return {
+    data: voiceResponseArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function voiceResponseArrayDeserializer(result: Array<VoiceResponse>): any[] {
+  return result.map((item) => {
+    return voiceResponseDeserializer(item);
+  });
+}
+
+/**
+ * A persisted voice response representing one model inference turn within a conversation. In list results the
+ * `output` projection may be omitted; retrieve the
+ * full response (`GET .../responses/{response_id}`) or the paged response-items route
+ * (`GET .../responses/{response_id}/items`) for its output items. `created_at`/`completed_at` are Foundry
+ * durable ordering extensions.
+ */
+export interface VoiceResponse extends VoiceResponseBase {
+  /** The unique id of the response. */
+  id: string;
+  /** The output items produced by the response. May be omitted in list results; retrieve the full response (GET .../responses/{response_id}) or use the paged response-items route (GET .../responses/{response_id}/items) for its output items. Each item's `response_id` also links it back to this response in the conversation-level items list. */
+  output?: RealtimeConversationItemUnion[];
+  /** The id of the conversation this response belongs to. */
+  conversation_id: string;
+  /** The audio configuration used for the response, including the voice and audio format used for output. */
+  audio?: VoiceResponseAudio;
+  /** A set of key-value pairs attached to the response. */
+  metadata?: Record<string, string>;
+  /** The sampling temperature used for the response. */
+  temperature?: number;
+  /** The Unix timestamp (in seconds) for when the response was created. */
+  created_at?: Date;
+  /** The Unix timestamp (in seconds) for when the response completed. */
+  completed_at?: Date;
+}
+
+export function voiceResponseDeserializer(item: any): VoiceResponse {
+  return {
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    id: item["id"],
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
+    conversation_id: item["conversation_id"],
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    temperature: item["temperature"],
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+    completed_at: !item["completed_at"]
+      ? item["completed_at"]
+      : new Date(item["completed_at"] * 1000),
+  };
+}
+
+/** Audio configuration for a response. Follows the OpenAI Realtime GA `audio` object shape. */
+export interface VoiceResponseAudio {
+  /** The audio output configuration used for the response. */
+  output?: VoiceResponseAudioOutput;
+}
+
+export function voiceResponseAudioSerializer(item: VoiceResponseAudio): any {
+  return {
+    output: !item["output"] ? item["output"] : voiceResponseAudioOutputSerializer(item["output"]),
+  };
+}
+
+export function voiceResponseAudioDeserializer(item: any): VoiceResponseAudio {
+  return {
+    output: !item["output"] ? item["output"] : voiceResponseAudioOutputDeserializer(item["output"]),
+  };
+}
+
+/** The flat response audio-output projection, with optional `voice`, `voice_type`, `voice_locale`, and `format` fields. */
+export interface VoiceResponseAudioOutput {
+  /** The voice name used for the response's audio output. */
+  voice?: string;
+  /** The extensible provider/type of the voice used for the response's audio output. */
+  voice_type?: VoiceType;
+  /** The BCP-47 locale of the voice used for the response's audio output. */
+  voice_locale?: string;
+  /** The audio format used for the response's audio output. */
+  format?: RealtimeAudioFormatsUnion;
+}
+
+export function voiceResponseAudioOutputSerializer(item: VoiceResponseAudioOutput): any {
+  return {
+    voice: item["voice"],
+    voice_type: item["voice_type"],
+    voice_locale: item["voice_locale"],
+    format: !item["format"] ? item["format"] : realtimeAudioFormatsUnionSerializer(item["format"]),
+  };
+}
+
+export function voiceResponseAudioOutputDeserializer(item: any): VoiceResponseAudioOutput {
+  return {
+    voice: item["voice"],
+    voice_type: item["voice_type"],
+    voice_locale: item["voice_locale"],
+    format: !item["format"]
+      ? item["format"]
+      : realtimeAudioFormatsUnionDeserializer(item["format"]),
+  };
+}
+
+/** Properties shared by persisted voice responses. */
+export interface VoiceResponseBase {
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
+}
+
+export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
+  return {
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRealtimeConversationItem {
+  /** The requested list of items. */
+  data: RealtimeConversationItemUnion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultRealtimeConversationItemDeserializer(
+  item: any,
+): _AgentsPagedResultRealtimeConversationItem {
+  return {
+    data: realtimeConversationItemUnionArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+/**
+ * Metadata for a single conversation item's audio segment. For bring-your-own-storage (BYOS), the response includes
+ * `blob_uri`, a direct customer-storage URI without a SAS token, that the customer accesses with their own
+ * credentials. For Foundry-managed storage, `blob_uri` is absent and the bytes are streamed through the item's
+ * `/audio/content` route.
+ */
+export interface VoiceAudioItemResponse {
+  /** The id of the conversation the item belongs to. */
+  conversation_id: string;
+  /** The id of the item this audio belongs to. */
+  item_id: string;
+  /** The role the audio belongs to. */
+  role?: VoiceAudioRole;
+  /** The container format of the audio. */
+  format?: VoiceAudioContainerFormat;
+  /** The audio codec. */
+  codec?: VoiceAudioCodec;
+  /** The sample rate in Hz. */
+  sample_rate?: number;
+  /** The number of audio channels. */
+  channels?: number;
+  /** The offset from the session start at which this segment begins. */
+  start_offset_ms?: number;
+  /** The duration of the audio segment. */
+  duration_ms?: number;
+  /** For bring-your-own-storage (BYOS) recordings only: the URI of the recording in the customer's own storage, without a SAS token. The customer downloads it using their own storage credentials. Absent for Foundry-managed storage, where the bytes are streamed via the item's `/audio/content` route instead. */
+  blob_uri?: string;
+}
+
+export function voiceAudioItemResponseDeserializer(item: any): VoiceAudioItemResponse {
+  return {
+    conversation_id: item["conversation_id"],
+    item_id: item["item_id"],
+    role: item["role"],
+    format: item["format"],
+    codec: item["codec"],
+    sample_rate: item["sample_rate"],
+    channels: item["channels"],
+    start_offset_ms: item["start_offset_ms"],
+    duration_ms: item["duration_ms"],
+    blob_uri: item["blob_uri"],
+  };
+}
+
+/** A voice-audio participant role. Additional values may be added over time. */
+export type VoiceAudioRole = "user" | "agent";
+
+/** An audio container format. Additional values may be added over time. */
+export type VoiceAudioContainerFormat = "wav";
+
+/** An audio codec. Additional values may be added over time. */
+export type VoiceAudioCodec = "pcm16" | "pcmu" | "pcma";
+
+/**
+ * Metadata for a conversation item's generated audio. For bring-your-own-storage (BYOS), the response includes
+ * `blob_uri`, a direct customer-storage URI without a SAS token, that the customer accesses with their own
+ * credentials. For Foundry-managed storage, `blob_uri` is absent and the bytes are streamed through the item's
+ * `/audio/generated/content` route.
+ */
+export interface VoiceGeneratedAudioItemResponse {
+  /** The id of the conversation the item belongs to. */
+  conversation_id: string;
+  /** The id of the item this audio belongs to. */
+  item_id: string;
+  /** The role the audio belongs to. */
+  role?: VoiceAudioRole;
+  /** The container format of the audio. */
+  format?: VoiceAudioContainerFormat;
+  /** The audio codec. */
+  codec?: VoiceAudioCodec;
+  /** The sample rate in Hz. */
+  sample_rate?: number;
+  /** The number of audio channels. */
+  channels?: number;
+  /** The offset from the session start at which this segment begins. */
+  start_offset_ms?: number;
+  /** The duration of the audio segment. */
+  duration_ms?: number;
+  /** For bring-your-own-storage (BYOS) recordings only: the URI of the generated audio in the customer's own storage, without a SAS token. The customer downloads it using their own storage credentials. Absent for Foundry-managed storage, where the bytes are streamed via the item's `/audio/generated/content` route instead. */
+  blob_uri?: string;
+}
+
+export function voiceGeneratedAudioItemResponseDeserializer(
+  item: any,
+): VoiceGeneratedAudioItemResponse {
+  return {
+    conversation_id: item["conversation_id"],
+    item_id: item["item_id"],
+    role: item["role"],
+    format: item["format"],
+    codec: item["codec"],
+    sample_rate: item["sample_rate"],
+    channels: item["channels"],
+    start_offset_ms: item["start_offset_ms"],
+    duration_ms: item["duration_ms"],
+    blob_uri: item["blob_uri"],
+  };
+}
+
+/**
+ * Metadata for the merged, whole-call stereo recording of a voice conversation (user audio on the left channel,
+ * agent audio on the right). Built once from the per-turn segments after the session ends and durably cached.
+ * The common metadata (format, sample rate, channels, channel layout, duration) is returned for both
+ * Foundry-managed and bring-your-own-storage (BYOS) recordings. For BYOS the response also includes `blob_uri`,
+ * the URI of the recording in the customer's own storage (no SAS token), which the customer downloads using their
+ * own storage credentials. For Foundry-managed storage `blob_uri` is absent and the bytes are streamed via the
+ * `/audio/content` route instead.
+ */
+export interface VoiceRecordingResponse {
+  /** The id of the conversation this recording belongs to. */
+  conversation_id: string;
+  /** The container format of the recording. */
+  format: VoiceAudioContainerFormat;
+  /** The sample rate of the recording in Hz, e.g. 24000. */
+  sample_rate: number;
+  /** The number of audio channels. The merged recording is stereo (`2`). */
+  channels: number;
+  /** The role assigned to each stereo channel. */
+  channel_layout: VoiceRecordingChannelLayout;
+  /** The total duration of the recording. */
+  duration_ms: number;
+  /** For bring-your-own-storage (BYOS) recordings only: the URI of the recording in the customer's own storage, without a SAS token. The customer downloads it using their own storage credentials. Absent for Foundry-managed storage, where the bytes are streamed via the `/audio/content` route instead. */
+  blob_uri?: string;
+}
+
+export function voiceRecordingResponseDeserializer(item: any): VoiceRecordingResponse {
+  return {
+    conversation_id: item["conversation_id"],
+    format: item["format"],
+    sample_rate: item["sample_rate"],
+    channels: item["channels"],
+    channel_layout: voiceRecordingChannelLayoutDeserializer(item["channel_layout"]),
+    duration_ms: item["duration_ms"],
+    blob_uri: item["blob_uri"],
+  };
+}
+
+/** The role assigned to each channel of a merged stereo voice recording. */
+export interface VoiceRecordingChannelLayout {
+  /** The role carried on the left channel. Always `user`. */
+  left: "user";
+  /** The role carried on the right channel. Always `agent`. */
+  right: "agent";
+}
+
+export function voiceRecordingChannelLayoutDeserializer(item: any): VoiceRecordingChannelLayout {
+  return {
+    left: item["left"],
+    right: item["right"],
+  };
+}
+
+/** The request to create a telephony binding. */
+export interface CreateTelephonyBindingRequest {
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
+  connection_name: string;
+  /** An optional display label for the binding. */
+  label?: string;
+}
+
+export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBindingRequest): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+  };
+}
+
+/** Alias for CreateTelephonyBindingRequestUnion */
+export type CreateTelephonyBindingRequestUnion =
+  | CreateTeamsPhoneExtensionTelephonyBindingRequest
+  | CreateTwilioTelephonyBindingRequest
+  | CreateTelephonyBindingRequest;
+
+export function createTelephonyBindingRequestUnionSerializer(
+  item: CreateTelephonyBindingRequestUnion,
+): any {
+  switch (item.provider) {
+    case "teams_phone_extension":
+      return createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
+        item as CreateTeamsPhoneExtensionTelephonyBindingRequest,
+      );
+
+    case "twilio":
+      return createTwilioTelephonyBindingRequestSerializer(
+        item as CreateTwilioTelephonyBindingRequest,
+      );
+
+    default:
+      return createTelephonyBindingRequestSerializer(item);
+  }
+}
+
+/** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
+export type TelephonyProvider = "teams_phone_extension" | "twilio";
+
+/** The request to create a Microsoft Teams Phone Extension binding. */
+export interface CreateTeamsPhoneExtensionTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function createTeamsPhoneExtensionTelephonyBindingRequestSerializer(
+  item: CreateTeamsPhoneExtensionTelephonyBindingRequest,
+): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+/** The request to create a Twilio binding. */
+export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+  /** The Twilio provider. */
+  provider: "twilio";
+  /** The Twilio E.164 phone number. */
+  phone_number: string;
+}
+
+export function createTwilioTelephonyBindingRequestSerializer(
+  item: CreateTwilioTelephonyBindingRequest,
+): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+  };
+}
+
+/** A telephony binding owned by a voice agent. */
+export interface TelephonyBinding {
+  /** The service-generated binding identifier. */
+  id: string;
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
+  connection_name: string;
+  /** The optional display label for the binding. */
+  label?: string;
+  /** The lifecycle status. */
+  status: TelephonyBindingStatus;
+  /** The service-generated webhook URL to configure with the telephony provider. */
+  incoming_call_url: string;
+}
+
+export function telephonyBindingDeserializer(item: any): TelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+  };
+}
+
+/** Alias for TelephonyBindingUnion */
+export type TelephonyBindingUnion =
+  TeamsPhoneExtensionTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
+
+export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUnion {
+  switch (item["provider"]) {
+    case "teams_phone_extension":
+      return teamsPhoneExtensionTelephonyBindingDeserializer(
+        item as TeamsPhoneExtensionTelephonyBinding,
+      );
+
+    case "twilio":
+      return twilioTelephonyBindingDeserializer(item as TwilioTelephonyBinding);
+
+    default:
+      return telephonyBindingDeserializer(item);
+  }
+}
+
+/** The lifecycle status of a telephony binding. */
+export type TelephonyBindingStatus = "active" | "suspended";
+
+/** A Microsoft Teams Phone Extension binding owned by a voice agent. */
+export interface TeamsPhoneExtensionTelephonyBinding extends TelephonyBinding {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function teamsPhoneExtensionTelephonyBindingDeserializer(
+  item: any,
+): TeamsPhoneExtensionTelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+/** A Twilio binding owned by a voice agent. */
+export interface TwilioTelephonyBinding extends TelephonyBinding {
+  /** The Twilio provider. */
+  provider: "twilio";
+  /** The Twilio E.164 phone number. */
+  phone_number: string;
+}
+
+export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    phone_number: item["phone_number"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultTelephonyBindingListItem {
+  /** The requested list of items. */
+  data: TelephonyBindingListItemUnion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultTelephonyBindingListItemDeserializer(
+  item: any,
+): _AgentsPagedResultTelephonyBindingListItem {
+  return {
+    data: telephonyBindingListItemUnionArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function telephonyBindingListItemUnionArrayDeserializer(
+  result: Array<TelephonyBindingListItemUnion>,
+): any[] {
+  return result.map((item) => {
+    return telephonyBindingListItemUnionDeserializer(item);
+  });
+}
+
+/** A telephony binding returned in a list, including its entity tag. */
+export interface TelephonyBindingListItem {
+  /** The service-generated binding identifier. */
+  id: string;
+  /** The telephony provider. */
+  /** The discriminator possible values: teams_phone_extension, twilio */
+  provider: TelephonyProvider;
+  /** The Foundry connection name for the telephony provider. */
+  connection_name: string;
+  /** The optional display label for the binding. */
+  label?: string;
+  /** The lifecycle status. */
+  status: TelephonyBindingStatus;
+  /** The service-generated webhook URL to configure with the telephony provider. */
+  incoming_call_url: string;
+  /** The entity tag to send in the `If-Match` header when updating or deleting this binding. */
+  readonly etag: string;
+}
+
+export function telephonyBindingListItemDeserializer(item: any): TelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+  };
+}
+
+/** Alias for TelephonyBindingListItemUnion */
+export type TelephonyBindingListItemUnion =
+  | TeamsPhoneExtensionTelephonyBindingListItem
+  | TwilioTelephonyBindingListItem
+  | TelephonyBindingListItem;
+
+export function telephonyBindingListItemUnionDeserializer(
+  item: any,
+): TelephonyBindingListItemUnion {
+  switch (item["provider"]) {
+    case "teams_phone_extension":
+      return teamsPhoneExtensionTelephonyBindingListItemDeserializer(
+        item as TeamsPhoneExtensionTelephonyBindingListItem,
+      );
+
+    case "twilio":
+      return twilioTelephonyBindingListItemDeserializer(item as TwilioTelephonyBindingListItem);
+
+    default:
+      return telephonyBindingListItemDeserializer(item);
+  }
+}
+
+/** A Microsoft Teams Phone Extension binding returned in a list, including its entity tag. */
+export interface TeamsPhoneExtensionTelephonyBindingListItem extends TelephonyBindingListItem {
+  /** The Microsoft Teams Phone Extension provider. */
+  provider: "teams_phone_extension";
+  /** The optional display phone number for the Teams resource account. */
+  phone_number?: string;
+  /** The Microsoft Teams resource-account object identifier as a GUID. */
+  resource_account_object_id: string;
+}
+
+export function teamsPhoneExtensionTelephonyBindingListItemDeserializer(
+  item: any,
+): TeamsPhoneExtensionTelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+/** A Twilio binding returned in a list, including its entity tag. */
+export interface TwilioTelephonyBindingListItem extends TelephonyBindingListItem {
+  /** The Twilio provider. */
+  provider: "twilio";
+  /** The Twilio E.164 phone number. */
+  phone_number: string;
+}
+
+export function twilioTelephonyBindingListItemDeserializer(
+  item: any,
+): TwilioTelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+    phone_number: item["phone_number"],
+  };
+}
+
+/** The request to update an existing telephony binding. Every property is optional and the binding's provider is immutable. */
+export interface UpdateTelephonyBindingRequest {
+  /** The new lifecycle status. */
+  status?: TelephonyBindingStatus;
+  /** The replacement display label. Omit it to preserve the current value; use null to clear it. */
+  label?: string;
+  /** The replacement Foundry connection name. This property is valid only for a Teams Phone Extension binding; a Twilio binding's connection is immutable. */
+  connection_name?: string;
+  /** The replacement Teams Phone Extension display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for a Teams Phone Extension binding. */
+  phone_number?: string;
+}
+
+export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBindingRequest): any {
+  return {
+    status: item["status"],
+    label: item["label"],
+    connection_name: item["connection_name"],
+    phone_number: item["phone_number"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultTelephonyCallSummary {
+  /** The requested list of items. */
+  data: TelephonyCallSummary[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultTelephonyCallSummaryDeserializer(
+  item: any,
+): _AgentsPagedResultTelephonyCallSummary {
+  return {
+    data: telephonyCallSummaryArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function telephonyCallSummaryArrayDeserializer(result: Array<TelephonyCallSummary>): any[] {
+  return result.map((item) => {
+    return telephonyCallSummaryDeserializer(item);
+  });
+}
+
+/** A summary of a durable inbound call to a voice agent. */
+export interface TelephonyCallSummary {
+  /** The service-generated call identifier. */
+  id: string;
+  /** The telephony provider. */
+  provider: TelephonyProvider;
+  /** The provider-assigned call identifier, when available. */
+  provider_call_id?: string;
+  /** The caller's phone number, when supplied by the provider. */
+  caller_number?: string;
+  /** The Teams Phone Extension or Twilio number that received the call. */
+  provider_number?: string;
+  /** The lifecycle status of the call. */
+  status: TelephonyCallStatus;
+  /** The provider-neutral lifecycle phase reached by the call. */
+  phase: TelephonyCallPhase;
+  /** The Unix timestamp (in seconds) for when the inbound webhook was received. */
+  started_at: Date;
+  /** The Unix timestamp (in seconds) for when the provider reported the call as answered. */
+  answered_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
+  media_connected_at?: Date;
+  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
+  agent_session_ready_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call ended. */
+  ended_at?: Date;
+  /** The call duration. */
+  duration_ms?: number;
+  /** The service-generated reason that this single call ended, rather than the outcome of an overall outbound call job. Additional string codes may be returned. */
+  end_reason?: TelephonyCallEndReason;
+  /** The provider status code associated with the terminal result. */
+  provider_status_code?: number;
+  /** The provider subcode associated with the terminal result. */
+  provider_sub_code?: number;
+  /** The provider message associated with the terminal result. */
+  provider_message?: string;
+}
+
+export function telephonyCallSummaryDeserializer(item: any): TelephonyCallSummary {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    provider_call_id: item["provider_call_id"],
+    caller_number: item["caller_number"],
+    provider_number: item["provider_number"],
+    status: item["status"],
+    phase: item["phase"],
+    started_at: new Date(item["started_at"] * 1000),
+    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
+    media_connected_at: !item["media_connected_at"]
+      ? item["media_connected_at"]
+      : new Date(item["media_connected_at"] * 1000),
+    agent_session_ready_at: !item["agent_session_ready_at"]
+      ? item["agent_session_ready_at"]
+      : new Date(item["agent_session_ready_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    duration_ms: item["duration_ms"],
+    end_reason: item["end_reason"],
+    provider_status_code: item["provider_status_code"],
+    provider_sub_code: item["provider_sub_code"],
+    provider_message: item["provider_message"],
+  };
+}
+
+/** The lifecycle status of an inbound telephony call. */
+export type TelephonyCallStatus = "in_progress" | "success" | "failed";
+
+/** The provider-neutral phase reached by an inbound telephony call. */
+export type TelephonyCallPhase =
+  | "received"
+  | "validated"
+  | "admitted"
+  | "answering"
+  | "answered"
+  | "media_connected"
+  | "agent_session_ready"
+  | "bridging"
+  | "managing"
+  | "completed"
+  | "rejected"
+  | "failed";
+
+/** Known service-generated reasons that one telephony call ended, rather than reasons for an overall outbound call job. Additional string codes may be returned. */
+export type TelephonyCallEndReason =
+  | "invalid_webhook_payload"
+  | "webhook_validation_failed"
+  | "binding_not_found"
+  | "binding_suspended"
+  | "admission_rejected"
+  | "admission_check_failed"
+  | "route_agent_mismatch"
+  | "invalid_binding_configuration"
+  | "credential_resolution_failed"
+  | "provider_resource_mismatch"
+  | "endpoint_resolution_failed"
+  | "ingress_setup_failed"
+  | "live_call_conflict"
+  | "live_call_persistence_failed"
+  | "answer_failed"
+  | "provider_disconnected"
+  | "provider_busy"
+  | "provider_no_answer"
+  | "provider_cancelled"
+  | "provider_failed"
+  | "provider_stream_error"
+  | "provider_stream_stopped"
+  | "agent_session_connect_failed"
+  | "media_stream_ended"
+  | "bridge_cancelled"
+  | "bridge_failed"
+  | "managed_hangup"
+  | "managed_transfer"
+  | "manage_hangup_failed"
+  | "manage_transfer_failed";
+
+/** Detailed diagnostics for a durable inbound call to a voice agent. */
+export interface TelephonyCallRecord {
+  /** The service-generated call identifier. */
+  id: string;
+  /** The telephony provider. */
+  provider: TelephonyProvider;
+  /** The provider-assigned call identifier, when available. */
+  provider_call_id?: string;
+  /** The caller's phone number, when supplied by the provider. */
+  caller_number?: string;
+  /** The Teams Phone Extension or Twilio number that received the call. */
+  provider_number?: string;
+  /** The lifecycle status of the call. */
+  status: TelephonyCallStatus;
+  /** The provider-neutral lifecycle phase reached by the call. */
+  phase: TelephonyCallPhase;
+  /** The Unix timestamp (in seconds) for when the inbound webhook was received. */
+  started_at: Date;
+  /** The Unix timestamp (in seconds) for when the provider reported the call as answered. */
+  answered_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
+  media_connected_at?: Date;
+  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
+  agent_session_ready_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call ended. */
+  ended_at?: Date;
+  /** The call duration. */
+  duration_ms?: number;
+  /** The service-generated reason that this single call ended, rather than the outcome of an overall outbound call job. Additional string codes may be returned. */
+  end_reason?: TelephonyCallEndReason;
+  /** The provider status code associated with the terminal result. */
+  provider_status_code?: number;
+  /** The provider subcode associated with the terminal result. */
+  provider_sub_code?: number;
+  /** The provider message associated with the terminal result. */
+  provider_message?: string;
+  /** Detailed provider-neutral call timing. */
+  timing: TelephonyCallTiming;
+  /** Correlation to the customer-facing Foundry trace. */
+  trace?: TelephonyCallTrace;
+  /** The lifecycle timeline. */
+  events: TelephonyCallLifecycleEvent[];
+  /** Whether older lifecycle events were omitted from the timeline. */
+  events_truncated: boolean;
+}
+
+export function telephonyCallRecordDeserializer(item: any): TelephonyCallRecord {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    provider_call_id: item["provider_call_id"],
+    caller_number: item["caller_number"],
+    provider_number: item["provider_number"],
+    status: item["status"],
+    phase: item["phase"],
+    started_at: new Date(item["started_at"] * 1000),
+    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
+    media_connected_at: !item["media_connected_at"]
+      ? item["media_connected_at"]
+      : new Date(item["media_connected_at"] * 1000),
+    agent_session_ready_at: !item["agent_session_ready_at"]
+      ? item["agent_session_ready_at"]
+      : new Date(item["agent_session_ready_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    duration_ms: item["duration_ms"],
+    end_reason: item["end_reason"],
+    provider_status_code: item["provider_status_code"],
+    provider_sub_code: item["provider_sub_code"],
+    provider_message: item["provider_message"],
+    timing: telephonyCallTimingDeserializer(item["timing"]),
+    trace: !item["trace"] ? item["trace"] : telephonyCallTraceDeserializer(item["trace"]),
+    events: telephonyCallLifecycleEventArrayDeserializer(item["events"]),
+    events_truncated: item["events_truncated"],
+  };
+}
+
+/** Detailed provider-neutral timing for an inbound telephony call. */
+export interface TelephonyCallTiming {
+  /** The Unix timestamp (in seconds) for when the provider webhook was received. */
+  received_at?: Date;
+  /** The Unix timestamp (in seconds) for when webhook validation completed. */
+  validated_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call was admitted to an agent binding. */
+  admitted_at?: Date;
+  /** The Unix timestamp (in seconds) for when the service requested that the provider answer the call. */
+  answer_requested_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider reported that the call was answered. */
+  answered_at?: Date;
+  /** The Unix timestamp (in seconds) for when the provider media channel connected. */
+  media_connected_at?: Date;
+  /** The Unix timestamp (in seconds) for when the voice-agent session became ready. */
+  agent_session_ready_at?: Date;
+  /** The Unix timestamp (in seconds) for when caller audio was first observed. */
+  first_caller_audio_at?: Date;
+  /** The Unix timestamp (in seconds) for when agent audio was first observed. */
+  first_agent_audio_at?: Date;
+  /** The Unix timestamp (in seconds) for when the call reached a terminal state. */
+  ended_at?: Date;
+  /** The timestamp used as the basis for duration. */
+  duration_basis?: TelephonyCallDurationBasis;
+  /** The primary source of the timing milestones. Individual lifecycle events identify their own timestamp source separately. */
+  timestamp_source: TelephonyCallTimestampSource;
+}
+
+export function telephonyCallTimingDeserializer(item: any): TelephonyCallTiming {
+  return {
+    received_at: !item["received_at"] ? item["received_at"] : new Date(item["received_at"] * 1000),
+    validated_at: !item["validated_at"]
+      ? item["validated_at"]
+      : new Date(item["validated_at"] * 1000),
+    admitted_at: !item["admitted_at"] ? item["admitted_at"] : new Date(item["admitted_at"] * 1000),
+    answer_requested_at: !item["answer_requested_at"]
+      ? item["answer_requested_at"]
+      : new Date(item["answer_requested_at"] * 1000),
+    answered_at: !item["answered_at"] ? item["answered_at"] : new Date(item["answered_at"] * 1000),
+    media_connected_at: !item["media_connected_at"]
+      ? item["media_connected_at"]
+      : new Date(item["media_connected_at"] * 1000),
+    agent_session_ready_at: !item["agent_session_ready_at"]
+      ? item["agent_session_ready_at"]
+      : new Date(item["agent_session_ready_at"] * 1000),
+    first_caller_audio_at: !item["first_caller_audio_at"]
+      ? item["first_caller_audio_at"]
+      : new Date(item["first_caller_audio_at"] * 1000),
+    first_agent_audio_at: !item["first_agent_audio_at"]
+      ? item["first_agent_audio_at"]
+      : new Date(item["first_agent_audio_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    duration_basis: item["duration_basis"],
+    timestamp_source: item["timestamp_source"],
+  };
+}
+
+/** The timestamp used as the basis for call duration. */
+export type TelephonyCallDurationBasis = "answered" | "received";
+
+/** The source of a telephony lifecycle timestamp. */
+export type TelephonyCallTimestampSource = "provider" | "gateway" | "derived";
+
+/** Correlation from a durable telephony call record to its customer-facing Foundry trace. */
+export interface TelephonyCallTrace {
+  /** The trace availability status. */
+  status: TelephonyCallTraceStatus;
+  /** The W3C trace identifier, when a trace was recorded. */
+  trace_id?: string;
+  /** The root span identifier, when a trace was recorded. */
+  root_span_id?: string;
+  /** The voice-agent conversation identifier, when a conversation was created. */
+  conversation_id?: string;
+  /** Whether the trace was emitted live or after the call ended. */
+  mode?: TelephonyCallTraceMode;
+}
+
+export function telephonyCallTraceDeserializer(item: any): TelephonyCallTrace {
+  return {
+    status: item["status"],
+    trace_id: item["trace_id"],
+    root_span_id: item["root_span_id"],
+    conversation_id: item["conversation_id"],
+    mode: item["mode"],
+  };
+}
+
+/** The availability status of a customer-facing telephony call trace. */
+export type TelephonyCallTraceStatus =
+  "pending" | "emitting" | "available" | "not_recorded" | "not_applicable" | "failed";
+
+/** The mode used to expose a telephony call as a customer-facing Foundry trace. */
+export type TelephonyCallTraceMode = "live" | "post_call";
+
+export function telephonyCallLifecycleEventArrayDeserializer(
+  result: Array<TelephonyCallLifecycleEvent>,
+): any[] {
+  return result.map((item) => {
+    return telephonyCallLifecycleEventDeserializer(item);
+  });
+}
+
+/** A bounded durable observation in the lifecycle of one telephony call. */
+export interface TelephonyCallLifecycleEvent {
+  /** The service-assigned order of the event within the call record. */
+  readonly sequence: number;
+  /** The stable provider-neutral event name. */
+  name: TelephonyCallLifecycleEventName;
+  /** The component that supplied the observation. */
+  source: TelephonyCallLifecycleEventSource;
+  /** The outcome of the observed lifecycle operation. */
+  outcome: TelephonyCallLifecycleEventOutcome;
+  /** The Unix timestamp (in seconds) for when the service observed the event. */
+  observed_at: Date;
+  /** The Unix timestamp (in seconds) for when the event occurred according to the provider. */
+  occurred_at?: Date;
+  /** The source of the event timestamp. */
+  timestamp_source: TelephonyCallTimestampSource;
+  /** A stable service-generated reason associated with this lifecycle event, not necessarily the final outcome of the call. Additional string codes may be returned. */
+  reason?: TelephonyCallLifecycleEventReason;
+  /** The provider event identifier used for idempotency, when supplied. */
+  provider_event_id?: string;
+  /** The provider event sequence, when supplied. */
+  provider_sequence?: number;
+  /** The provider status code associated with the event. */
+  provider_status_code?: number;
+  /** The provider subcode associated with the event. */
+  provider_sub_code?: number;
+}
+
+export function telephonyCallLifecycleEventDeserializer(item: any): TelephonyCallLifecycleEvent {
+  return {
+    sequence: item["sequence"],
+    name: item["name"],
+    source: item["source"],
+    outcome: item["outcome"],
+    observed_at: new Date(item["observed_at"] * 1000),
+    occurred_at: !item["occurred_at"] ? item["occurred_at"] : new Date(item["occurred_at"] * 1000),
+    timestamp_source: item["timestamp_source"],
+    reason: item["reason"],
+    provider_event_id: item["provider_event_id"],
+    provider_sequence: item["provider_sequence"],
+    provider_status_code: item["provider_status_code"],
+    provider_sub_code: item["provider_sub_code"],
+  };
+}
+
+/** A provider-neutral lifecycle event name. Known values are stable; additional values may be added over time. */
+export type TelephonyCallLifecycleEventName =
+  | "telephony.webhook.received"
+  | "telephony.webhook.validation"
+  | "telephony.binding.resolve"
+  | "telephony.provider.answer"
+  | "telephony.media.connect"
+  | "telephony.agent_session.connect"
+  | "telephony.media.first_caller_audio"
+  | "telephony.media.first_agent_audio"
+  | "telephony.call.transfer"
+  | "telephony.call.hangup"
+  | "telephony.call.disconnect";
+
+/** The component that supplied a telephony lifecycle observation. */
+export type TelephonyCallLifecycleEventSource =
+  "gateway" | "teams_phone_extension" | "twilio" | "voice_agent";
+
+/** The outcome of one telephony lifecycle observation. */
+export type TelephonyCallLifecycleEventOutcome =
+  "observed" | "started" | "succeeded" | "failed" | "rejected" | "cancelled";
+
+/** Known service-generated reasons for a telephony lifecycle event. An event reason does not necessarily describe the final outcome of the call. Additional string codes may be returned. */
+export type TelephonyCallLifecycleEventReason =
+  | "invalid_webhook_payload"
+  | "webhook_validation_failed"
+  | "binding_not_found"
+  | "binding_suspended"
+  | "admission_rejected"
+  | "admission_check_failed"
+  | "route_agent_mismatch"
+  | "invalid_binding_configuration"
+  | "credential_resolution_failed"
+  | "provider_resource_mismatch"
+  | "endpoint_resolution_failed"
+  | "ingress_setup_failed"
+  | "live_call_conflict"
+  | "live_call_persistence_failed"
+  | "answer_failed"
+  | "provider_disconnected"
+  | "provider_busy"
+  | "provider_no_answer"
+  | "provider_cancelled"
+  | "provider_failed"
+  | "provider_stream_error"
+  | "provider_stream_stopped"
+  | "agent_session_connect_failed"
+  | "media_stream_ended"
+  | "bridge_cancelled"
+  | "bridge_failed"
+  | "managed_hangup"
+  | "managed_transfer"
+  | "manage_hangup_failed"
+  | "manage_transfer_failed";
+
+/** The telephony transfer targets configured for one voice agent. */
+export interface TelephonyTransferTargets {
+  /** The complete set of destinations to which the voice agent may transfer calls. An empty array clears all targets when replacing the configuration. */
+  transfer_targets: TelephonyTransferTarget[];
+}
+
+export function telephonyTransferTargetsDeserializer(item: any): TelephonyTransferTargets {
+  return {
+    transfer_targets: telephonyTransferTargetArrayDeserializer(item["transfer_targets"]),
+  };
+}
+
+export function telephonyTransferTargetArraySerializer(
+  result: Array<TelephonyTransferTarget>,
+): any[] {
+  return result.map((item) => {
+    return telephonyTransferTargetSerializer(item);
+  });
+}
+
+export function telephonyTransferTargetArrayDeserializer(
+  result: Array<TelephonyTransferTarget>,
+): any[] {
+  return result.map((item) => {
+    return telephonyTransferTargetDeserializer(item);
+  });
+}
+
+/** A named destination to which the voice agent may transfer a call. */
+export interface TelephonyTransferTarget {
+  /** The unique name exposed to the voice agent for this transfer target. */
+  name: string;
+  /** A description that helps the voice agent decide when to use this target. */
+  description: string;
+  /** The provider-specific transfer destination. */
+  destination: TelephonyTransferDestinationUnion;
+}
+
+export function telephonyTransferTargetSerializer(item: TelephonyTransferTarget): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    destination: telephonyTransferDestinationUnionSerializer(item["destination"]),
+  };
+}
+
+export function telephonyTransferTargetDeserializer(item: any): TelephonyTransferTarget {
+  return {
+    name: item["name"],
+    description: item["description"],
+    destination: telephonyTransferDestinationUnionDeserializer(item["destination"]),
+  };
+}
+
+/** A destination for a telephony transfer target. */
+export interface TelephonyTransferDestination {
+  /** The telephony transfer destination type. */
+  /** The discriminator possible values: pstn, teams, sip */
+  kind: TelephonyTransferDestinationKind;
+}
+
+export function telephonyTransferDestinationSerializer(item: TelephonyTransferDestination): any {
+  return { kind: item["kind"] };
+}
+
+export function telephonyTransferDestinationDeserializer(item: any): TelephonyTransferDestination {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for TelephonyTransferDestinationUnion */
+export type TelephonyTransferDestinationUnion =
+  | PstnTelephonyTransferDestination
+  | TeamsTelephonyTransferDestination
+  | SipTelephonyTransferDestination
+  | TelephonyTransferDestination;
+
+export function telephonyTransferDestinationUnionSerializer(
+  item: TelephonyTransferDestinationUnion,
+): any {
+  switch (item.kind) {
+    case "pstn":
+      return pstnTelephonyTransferDestinationSerializer(item as PstnTelephonyTransferDestination);
+
+    case "teams":
+      return teamsTelephonyTransferDestinationSerializer(item as TeamsTelephonyTransferDestination);
+
+    case "sip":
+      return sipTelephonyTransferDestinationSerializer(item as SipTelephonyTransferDestination);
+
+    default:
+      return telephonyTransferDestinationSerializer(item);
+  }
+}
+
+export function telephonyTransferDestinationUnionDeserializer(
+  item: any,
+): TelephonyTransferDestinationUnion {
+  switch (item["kind"]) {
+    case "pstn":
+      return pstnTelephonyTransferDestinationDeserializer(item as PstnTelephonyTransferDestination);
+
+    case "teams":
+      return teamsTelephonyTransferDestinationDeserializer(
+        item as TeamsTelephonyTransferDestination,
+      );
+
+    case "sip":
+      return sipTelephonyTransferDestinationDeserializer(item as SipTelephonyTransferDestination);
+
+    default:
+      return telephonyTransferDestinationDeserializer(item);
+  }
+}
+
+/** The kind of telephony transfer destination. Known values are stable; additional values may be added over time. */
+export type TelephonyTransferDestinationKind = "pstn" | "teams" | "sip";
+
+/** A PSTN destination for a telephony transfer target. */
+export interface PstnTelephonyTransferDestination extends TelephonyTransferDestination {
+  /** The PSTN destination type. */
+  kind: "pstn";
+  /** The E.164 phone number to call. */
+  value: string;
+}
+
+export function pstnTelephonyTransferDestinationSerializer(
+  item: PstnTelephonyTransferDestination,
+): any {
+  return { kind: item["kind"], value: item["value"] };
+}
+
+export function pstnTelephonyTransferDestinationDeserializer(
+  item: any,
+): PstnTelephonyTransferDestination {
+  return {
+    kind: item["kind"],
+    value: item["value"],
+  };
+}
+
+/** A Microsoft Teams destination for a telephony transfer target. */
+export interface TeamsTelephonyTransferDestination extends TelephonyTransferDestination {
+  /** The Microsoft Teams destination type. */
+  kind: "teams";
+  /** The Microsoft Teams user or resource-account identifier. */
+  value: string;
+}
+
+export function teamsTelephonyTransferDestinationSerializer(
+  item: TeamsTelephonyTransferDestination,
+): any {
+  return { kind: item["kind"], value: item["value"] };
+}
+
+export function teamsTelephonyTransferDestinationDeserializer(
+  item: any,
+): TeamsTelephonyTransferDestination {
+  return {
+    kind: item["kind"],
+    value: item["value"],
+  };
+}
+
+/** A SIP destination for a telephony transfer target. */
+export interface SipTelephonyTransferDestination extends TelephonyTransferDestination {
+  /** The SIP destination type. */
+  kind: "sip";
+  /** The SIP or SIPS URI to call. */
+  value: string;
+}
+
+export function sipTelephonyTransferDestinationSerializer(
+  item: SipTelephonyTransferDestination,
+): any {
+  return { kind: item["kind"], value: item["value"] };
+}
+
+export function sipTelephonyTransferDestinationDeserializer(
+  item: any,
+): SipTelephonyTransferDestination {
+  return {
+    kind: item["kind"],
+    value: item["value"],
+  };
+}
+
+/** A request to create one durable direct outbound call job. */
+export interface CreateTelephonyCallJobRequest {
+  /** The phone destination to call. */
+  destination: TelephonyOutboundDestination;
+  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  connection_name: string;
+  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  source: string;
+  /** An optional customer-declared purpose for placing the call. */
+  purpose?: string;
+  /** Structured input values available to the agent and greeting for this call. Agent-declared inputs are validated against their schemas; omitted optional inputs may use their Agent-defined default values, while omitted required inputs are rejected. Additional inputs remain available as dynamic template variables. */
+  structured_inputs?: Record<string, any>;
+  /** The optional execution window. */
+  schedule?: TelephonyCallJobSchedule;
+  /** The provider-attempt retry policy. Omit it for one attempt with no retry delay. */
+  retry_policy?: TelephonyOutboundRetryPolicyUnion;
+}
+
+export function createTelephonyCallJobRequestSerializer(item: CreateTelephonyCallJobRequest): any {
+  return {
+    destination: telephonyOutboundDestinationSerializer(item["destination"]),
+    connection_name: item["connection_name"],
+    source: item["source"],
+    purpose: item["purpose"],
+    structured_inputs: item["structured_inputs"],
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : telephonyCallJobScheduleSerializer(item["schedule"]),
+    retry_policy: !item["retry_policy"]
+      ? item["retry_policy"]
+      : telephonyOutboundRetryPolicyUnionSerializer(item["retry_policy"]),
+  };
+}
+
+/** The destination of an outbound call. */
+export interface TelephonyOutboundDestination {
+  /** The destination type. Only E.164 phone numbers are currently supported. */
+  type: TelephonyOutboundDestinationType;
+  /** The destination E.164 phone number. */
+  value: string;
+}
+
+export function telephonyOutboundDestinationSerializer(item: TelephonyOutboundDestination): any {
+  return { type: item["type"], value: item["value"] };
+}
+
+export function telephonyOutboundDestinationDeserializer(item: any): TelephonyOutboundDestination {
+  return {
+    type: item["type"],
+    value: item["value"],
+  };
+}
+
+/** The type of destination for an outbound call. */
+export type TelephonyOutboundDestinationType = "phone_number";
+
+/** The optional execution window for a direct outbound call. */
+export interface TelephonyCallJobSchedule {
+  /** The earliest instant at which dispatch may begin. */
+  not_before?: Date;
+  /** The instant after which the call job expires without dispatch. */
+  expires_at?: Date;
+}
+
+export function telephonyCallJobScheduleSerializer(item: TelephonyCallJobSchedule): any {
+  return {
+    not_before: !item["not_before"]
+      ? item["not_before"]
+      : (item["not_before"].getTime() / 1000) | 0,
+    expires_at: !item["expires_at"]
+      ? item["expires_at"]
+      : (item["expires_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function telephonyCallJobScheduleDeserializer(item: any): TelephonyCallJobSchedule {
+  return {
+    not_before: !item["not_before"] ? item["not_before"] : new Date(item["not_before"] * 1000),
+    expires_at: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
+  };
+}
+
+/** The retry policy for one durable outbound call intent. `max_attempts` includes the first attempt. Strategy-specific settings are defined by the derived policy. */
+export interface TelephonyOutboundRetryPolicy {
+  /** The retry strategy. Only fixed-interval retries are currently supported. */
+  /** The discriminator possible values: fixed_interval */
+  type: TelephonyOutboundRetryPolicyType;
+  /** The maximum number of provider attempts, including the first attempt. Defaults to 1. */
+  max_attempts?: number;
+}
+
+export function telephonyOutboundRetryPolicySerializer(item: TelephonyOutboundRetryPolicy): any {
+  return { type: item["type"], max_attempts: item["max_attempts"] };
+}
+
+/** Alias for TelephonyOutboundRetryPolicyUnion */
+export type TelephonyOutboundRetryPolicyUnion =
+  TelephonyOutboundFixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
+
+export function telephonyOutboundRetryPolicyUnionSerializer(
+  item: TelephonyOutboundRetryPolicyUnion,
+): any {
+  switch (item.type) {
+    case "fixed_interval":
+      return telephonyOutboundFixedIntervalRetryPolicySerializer(
+        item as TelephonyOutboundFixedIntervalRetryPolicy,
+      );
+
+    default:
+      return telephonyOutboundRetryPolicySerializer(item);
+  }
+}
+
+/** The retry strategy for an outbound call. */
+export type TelephonyOutboundRetryPolicyType = "fixed_interval";
+
+/** A retry policy with a fixed interval between outbound call attempts. */
+export interface TelephonyOutboundFixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
+  /** The fixed-interval retry strategy. */
+  type: "fixed_interval";
+  /** The fixed delay in seconds between attempts. It must be 0 when `max_attempts` is 1, and from 60 through 86400 when retries are enabled. */
+  interval?: number;
+}
+
+export function telephonyOutboundFixedIntervalRetryPolicySerializer(
+  item: TelephonyOutboundFixedIntervalRetryPolicy,
+): any {
+  return { type: item["type"], max_attempts: item["max_attempts"], interval: item["interval"] };
+}
+
+/** A durable direct or campaign-created outbound call intent. */
+export interface TelephonyCallJob {
+  /** The phone destination to call. */
+  destination: TelephonyOutboundDestination;
+  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  connection_name: string;
+  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  source: string;
+  /** An optional customer-declared purpose for placing the call. */
+  purpose?: string;
+  /** Structured input values available to the agent and greeting for this call. Agent-declared inputs are validated against their schemas; omitted optional inputs may use their Agent-defined default values, while omitted required inputs are rejected. Additional inputs remain available as dynamic template variables. */
+  structured_inputs?: Record<string, any>;
+  /** The optional execution window. */
+  schedule?: TelephonyCallJobSchedule;
+  /** The service-generated call-job identifier. */
+  id: string;
+  /** The object type. Always `telephony.call_job`. */
+  object: "telephony.call_job";
+  /** The name of the voice agent used at execution time. */
+  agent_name: string;
+  /** The current call-job lifecycle status. */
+  status: TelephonyCallJobStatus;
+  /** The recorded cancellation request, when cancellation was requested. */
+  cancellation?: TelephonyCallJobCancellation;
+  /** The frozen provider-attempt retry policy. */
+  retry_policy: TelephonyOutboundRetryPolicyResponseUnion;
+  /** The number of provider attempts created so far. */
+  attempt_count: number;
+  /** The Unix timestamp in seconds at which the next retry becomes eligible. */
+  next_attempt_at?: Date;
+  /** The stable service-generated reason for the overall outbound call job, which can span multiple provider attempts, when available. Interpret this with `status`: a queued job can retain a temporary dispatch-deferral reason. Additional string codes may be returned. */
+  terminal_reason?: TelephonyCallJobTerminalReason;
+  /** The monotonically increasing optimistic-concurrency revision. */
+  revision: number;
+  /** The Unix timestamp in seconds when the call job was created. */
+  created_at: Date;
+  /** The Unix timestamp in seconds when the call job was last updated. */
+  updated_at: Date;
+}
+
+export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
+  return {
+    destination: telephonyOutboundDestinationDeserializer(item["destination"]),
+    connection_name: item["connection_name"],
+    source: item["source"],
+    purpose: item["purpose"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : Object.fromEntries(
+          Object.entries(item["structured_inputs"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : telephonyCallJobScheduleDeserializer(item["schedule"]),
+    id: item["id"],
+    object: item["object"],
+    agent_name: item["agent_name"],
+    status: item["status"],
+    cancellation: !item["cancellation"]
+      ? item["cancellation"]
+      : telephonyCallJobCancellationDeserializer(item["cancellation"]),
+    retry_policy: telephonyOutboundRetryPolicyResponseUnionDeserializer(item["retry_policy"]),
+    attempt_count: item["attempt_count"],
+    next_attempt_at: !item["next_attempt_at"]
+      ? item["next_attempt_at"]
+      : new Date(item["next_attempt_at"] * 1000),
+    terminal_reason: item["terminal_reason"],
+    revision: item["revision"],
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
-    progress: !item["progress"]
-      ? item["progress"]
-      : agentOptimizationJobProgressDeserializer(item["progress"]),
-    agent: !item["agent"] ? item["agent"] : optimizedAgentIdentifierDeserializer(item["agent"]),
+  };
+}
+
+/** The lifecycle status of a durable outbound call job. */
+export type TelephonyCallJobStatus =
+  | "accepted"
+  | "waiting_for_schedule"
+  | "queued"
+  | "dispatching"
+  | "in_progress"
+  | "waiting_for_retry"
+  | "cancellation_requested"
+  | "completed"
+  | "blocked"
+  | "expired"
+  | "failed"
+  | "cancelled";
+
+/** A cancellation request recorded for an outbound call job. */
+export interface TelephonyCallJobCancellation {
+  /** The authenticated principal that requested cancellation. */
+  requested_by: string;
+  /** The cancellation mode applied to the call job. */
+  mode: string;
+  /** The Unix timestamp in seconds when cancellation was requested. */
+  requested_at: Date;
+  /** The call-job revision at which cancellation was recorded. */
+  revision: number;
+}
+
+export function telephonyCallJobCancellationDeserializer(item: any): TelephonyCallJobCancellation {
+  return {
+    requested_by: item["requested_by"],
+    mode: item["mode"],
+    requested_at: new Date(item["requested_at"] * 1000),
+    revision: item["revision"],
+  };
+}
+
+/** The frozen retry policy returned for an outbound call or campaign. */
+export interface TelephonyOutboundRetryPolicyResponse {
+  /** The retry strategy. */
+  /** The discriminator possible values: fixed_interval */
+  type: TelephonyOutboundRetryPolicyType;
+  /** The maximum number of provider attempts, including the first attempt. */
+  max_attempts: number;
+}
+
+export function telephonyOutboundRetryPolicyResponseDeserializer(
+  item: any,
+): TelephonyOutboundRetryPolicyResponse {
+  return {
+    type: item["type"],
+    max_attempts: item["max_attempts"],
+  };
+}
+
+/** Alias for TelephonyOutboundRetryPolicyResponseUnion */
+export type TelephonyOutboundRetryPolicyResponseUnion =
+  TelephonyOutboundFixedIntervalRetryPolicyResponse | TelephonyOutboundRetryPolicyResponse;
+
+export function telephonyOutboundRetryPolicyResponseUnionDeserializer(
+  item: any,
+): TelephonyOutboundRetryPolicyResponseUnion {
+  switch (item["type"]) {
+    case "fixed_interval":
+      return telephonyOutboundFixedIntervalRetryPolicyResponseDeserializer(
+        item as TelephonyOutboundFixedIntervalRetryPolicyResponse,
+      );
+
+    default:
+      return telephonyOutboundRetryPolicyResponseDeserializer(item);
+  }
+}
+
+/** The frozen fixed-interval retry policy returned for an outbound call or campaign. */
+export interface TelephonyOutboundFixedIntervalRetryPolicyResponse extends TelephonyOutboundRetryPolicyResponse {
+  /** The fixed-interval retry strategy. */
+  type: "fixed_interval";
+  /** The fixed delay in seconds between attempts. */
+  interval: number;
+}
+
+export function telephonyOutboundFixedIntervalRetryPolicyResponseDeserializer(
+  item: any,
+): TelephonyOutboundFixedIntervalRetryPolicyResponse {
+  return {
+    type: item["type"],
+    max_attempts: item["max_attempts"],
+    interval: item["interval"],
+  };
+}
+
+/** Known terminal reasons for an overall outbound call job, which can span multiple provider attempts. These are distinct from individual call lifecycle reasons. Additional string codes may be returned. */
+export type TelephonyCallJobTerminalReason =
+  | "no_answer"
+  | "no_answer_timeout"
+  | "answer_failed"
+  | "bridge_cancelled"
+  | "bridge_failed"
+  | "voice_session_configuration_invalid"
+  | "connection_project_mismatch"
+  | "outbound_connection_changed"
+  | "outbound_connection_unavailable"
+  | "telephony_binding_invalid"
+  | "telephony_binding_not_found"
+  | "telephony_binding_inactive"
+  | "telephony_binding_changed"
+  | "campaign_not_found"
+  | "campaign_cancelled"
+  | "campaign_completed"
+  | "campaign_failed"
+  | "origination_fence_not_recorded"
+  | "origination_reconciliation_timeout"
+  | "cancellation_reconciliation_timeout"
+  | "provider_callback_timeout_cancellation_reconciliation_timeout";
+
+/** A request to create a draft outbound campaign. */
+export interface CreateTelephonyCampaignRequest {
+  /** A customer-visible name for the campaign. */
+  display_name: string;
+  /** The Foundry connection name in the current project used to originate campaign calls. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  connection_name: string;
+  /** The caller identity used to originate campaign calls. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  source: string;
+  /** An optional customer-declared purpose for campaign calls. */
+  purpose?: string;
+  /** When the published campaign becomes eligible to dispatch calls. */
+  schedule?: TelephonyCampaignSchedule;
+  /** The provider-attempt retry policy inherited by every materialized call job. */
+  retry_policy?: TelephonyOutboundRetryPolicyUnion;
+}
+
+export function createTelephonyCampaignRequestSerializer(
+  item: CreateTelephonyCampaignRequest,
+): any {
+  return {
+    display_name: item["display_name"],
+    connection_name: item["connection_name"],
+    source: item["source"],
+    purpose: item["purpose"],
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : telephonyCampaignScheduleSerializer(item["schedule"]),
+    retry_policy: !item["retry_policy"]
+      ? item["retry_policy"]
+      : telephonyOutboundRetryPolicyUnionSerializer(item["retry_policy"]),
+  };
+}
+
+/** The schedule for an outbound campaign. */
+export interface TelephonyCampaignSchedule {
+  /** Whether calls are eligible immediately after publication or at a future instant. */
+  type: TelephonyCampaignScheduleType;
+  /** The scheduled start instant. Required only when `type` is `scheduled`. */
+  start_at?: Date;
+}
+
+export function telephonyCampaignScheduleSerializer(item: TelephonyCampaignSchedule): any {
+  return {
+    type: item["type"],
+    start_at: !item["start_at"] ? item["start_at"] : (item["start_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function telephonyCampaignScheduleDeserializer(item: any): TelephonyCampaignSchedule {
+  return {
+    type: item["type"],
+    start_at: !item["start_at"] ? item["start_at"] : new Date(item["start_at"] * 1000),
+  };
+}
+
+/** When a published outbound campaign becomes eligible to dispatch calls. */
+export type TelephonyCampaignScheduleType = "immediate" | "scheduled";
+
+/** A durable outbound campaign owned by a voice agent. */
+export interface TelephonyCampaign {
+  /** A customer-visible name for the campaign. */
+  display_name: string;
+  /** The Foundry connection name in the current project used to originate campaign calls. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
+  connection_name: string;
+  /** The caller identity used to originate campaign calls. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
+  source: string;
+  /** An optional customer-declared purpose for campaign calls. */
+  purpose?: string;
+  /** When the published campaign becomes eligible to dispatch calls. */
+  schedule?: TelephonyCampaignSchedule;
+  id: string;
+  object: "telephony.campaign";
+  agent_name: string;
+  configuration_status: TelephonyCampaignConfigurationStatus;
+  execution_status: TelephonyCampaignExecutionStatus;
+  retry_policy: TelephonyOutboundRetryPolicyResponseUnion;
+  latest_successful_validation_id?: string;
+  active_validation_id?: string;
+  active_recipient_import_id?: string;
+  published_at?: Date;
+  call_job_counts: TelephonyCampaignCallJobCounts;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export function telephonyCampaignDeserializer(item: any): TelephonyCampaign {
+  return {
+    display_name: item["display_name"],
+    connection_name: item["connection_name"],
+    source: item["source"],
+    purpose: item["purpose"],
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : telephonyCampaignScheduleDeserializer(item["schedule"]),
+    id: item["id"],
+    object: item["object"],
+    agent_name: item["agent_name"],
+    configuration_status: item["configuration_status"],
+    execution_status: item["execution_status"],
+    retry_policy: telephonyOutboundRetryPolicyResponseUnionDeserializer(item["retry_policy"]),
+    latest_successful_validation_id: item["latest_successful_validation_id"],
+    active_validation_id: item["active_validation_id"],
+    active_recipient_import_id: item["active_recipient_import_id"],
+    published_at: !item["published_at"]
+      ? item["published_at"]
+      : new Date(item["published_at"] * 1000),
+    call_job_counts: telephonyCampaignCallJobCountsDeserializer(item["call_job_counts"]),
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+  };
+}
+
+/** The immutable-configuration lifecycle status of an outbound campaign. */
+export type TelephonyCampaignConfigurationStatus =
+  "draft" | "importing" | "validating" | "publishing" | "published" | "publish_failed";
+
+/** The execution lifecycle status of a published outbound campaign. */
+export type TelephonyCampaignExecutionStatus =
+  "none" | "scheduled" | "running" | "paused" | "completed" | "failed" | "cancelled";
+
+/** Aggregate call-job counts for an outbound campaign. */
+export interface TelephonyCampaignCallJobCounts {
+  total: number;
+  pending: number;
+  in_progress: number;
+  completed: number;
+  failed: number;
+  blocked: number;
+  cancelled: number;
+  expired: number;
+}
+
+export function telephonyCampaignCallJobCountsDeserializer(
+  item: any,
+): TelephonyCampaignCallJobCounts {
+  return {
+    total: item["total"],
+    pending: item["pending"],
+    in_progress: item["in_progress"],
+    completed: item["completed"],
+    failed: item["failed"],
+    blocked: item["blocked"],
+    cancelled: item["cancelled"],
+    expired: item["expired"],
+  };
+}
+
+/** A request to import campaign recipients from a Dataset CSV, JSON array, or JSONL file. Imported Agent-declared structured inputs follow the Agent definition's schema, required, and default-value semantics. */
+export interface ImportTelephonyCampaignRecipientsRequest {
+  source: TelephonyCampaignRecipientImportSource;
+  /** Mappings from recipient properties to source fields or columns. Omit this property or an individual entry to use same-named source fields. Destination and recipient-key source fields are required. Optional source fields may be absent, except the recipient item key when `duplicate_handling` is `keep_each`. */
+  mapping?: TelephonyCampaignRecipientMappingRequest;
+  duplicate_handling?: TelephonyCampaignDuplicateHandling;
+}
+
+export function importTelephonyCampaignRecipientsRequestSerializer(
+  item: ImportTelephonyCampaignRecipientsRequest,
+): any {
+  return {
+    source: telephonyCampaignRecipientImportSourceSerializer(item["source"]),
+    mapping: !item["mapping"]
+      ? item["mapping"]
+      : telephonyCampaignRecipientMappingRequestSerializer(item["mapping"]),
+    duplicate_handling: item["duplicate_handling"],
+  };
+}
+
+/** A Dataset source for campaign recipient import. */
+export interface TelephonyCampaignRecipientImportSource {
+  type: "dataset";
+  dataset_name: string;
+  dataset_version: string;
+  /** A relative path to a CSV, JSON array, or JSONL file in the Dataset version. */
+  file_name: string;
+  format: TelephonyCampaignRecipientImportFormat;
+}
+
+export function telephonyCampaignRecipientImportSourceSerializer(
+  item: TelephonyCampaignRecipientImportSource,
+): any {
+  return {
+    type: item["type"],
+    dataset_name: item["dataset_name"],
+    dataset_version: item["dataset_version"],
+    file_name: item["file_name"],
+    format: item["format"],
+  };
+}
+
+export function telephonyCampaignRecipientImportSourceDeserializer(
+  item: any,
+): TelephonyCampaignRecipientImportSource {
+  return {
+    type: item["type"],
+    dataset_name: item["dataset_name"],
+    dataset_version: item["dataset_version"],
+    file_name: item["file_name"],
+    format: item["format"],
+  };
+}
+
+/** A supported Dataset recipient file format. */
+export type TelephonyCampaignRecipientImportFormat = "csv" | "json" | "jsonl";
+
+/** Optional source-field mappings for a recipient import. Each omitted entry uses its same-named source field. */
+export interface TelephonyCampaignRecipientMappingRequest {
+  /** The source field containing the destination E.164 phone number. Defaults to `destination`. The source field is required for each recipient. */
+  destination?: string;
+  /** The source field containing the recipient key. Defaults to `recipient_key`. The source field is required for each recipient. */
+  recipient_key?: string;
+  /** The source field containing the recipient item key. Defaults to `recipient_item_key`. The source field is required when `duplicate_handling` is `keep_each`; otherwise it may be absent. */
+  recipient_item_key?: string;
+  /** The source field containing the earliest dispatch time as a Unix timestamp in seconds. Defaults to `not_before`. If the source field is absent, no per-recipient start bound is applied. */
+  not_before?: string;
+  /** The source field containing the expiry time as a Unix timestamp in seconds. Defaults to `expires_at`. If the source field is absent, no per-recipient expiry bound is applied. */
+  expires_at?: string;
+}
+
+export function telephonyCampaignRecipientMappingRequestSerializer(
+  item: TelephonyCampaignRecipientMappingRequest,
+): any {
+  return {
+    destination: item["destination"],
+    recipient_key: item["recipient_key"],
+    recipient_item_key: item["recipient_item_key"],
+    not_before: item["not_before"],
+    expires_at: item["expires_at"],
+  };
+}
+
+/** How duplicate recipient keys in an import are handled. */
+export type TelephonyCampaignDuplicateHandling = "reject" | "keep_each" | "merge";
+
+/** The lifecycle status of an outbound telephony operation. */
+export type TelephonyOperationStatus =
+  "not_started" | "running" | "succeeded" | "failed" | "cancelled" | "unknown";
+
+/** A resource produced by a successful outbound telephony operation. */
+export interface TelephonyOperationResource {
+  id: string;
+  type: string;
+}
+
+export function telephonyOperationResourceDeserializer(item: any): TelephonyOperationResource {
+  return {
+    id: item["id"],
+    type: item["type"],
+  };
+}
+
+/** An asynchronous outbound telephony operation. */
+export interface TelephonyOperation {
+  id: string;
+  object: "telephony.operation";
+  status: TelephonyOperationStatus;
+  created_at?: Date;
+  error?: ApiError;
+  resource?: TelephonyOperationResource;
+}
+
+export function telephonyOperationDeserializer(item: any): TelephonyOperation {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    resource: !item["resource"]
+      ? item["resource"]
+      : telephonyOperationResourceDeserializer(item["resource"]),
+  };
+}
+
+/** A durable campaign recipient-import record. */
+export interface TelephonyCampaignRecipientImport {
+  id: string;
+  object: "telephony.campaign.recipient_import";
+  campaign_id: string;
+  status: TelephonyCampaignRecipientImportStatus;
+  source: TelephonyCampaignRecipientImportSource;
+  mapping?: TelephonyCampaignRecipientMapping;
+  duplicate_handling: TelephonyCampaignDuplicateHandling;
+  rows_processed: number;
+  eligible_recipient_count: number;
+  invalid_recipient_count: number;
+  error_code?: string;
+  error_message?: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export function telephonyCampaignRecipientImportDeserializer(
+  item: any,
+): TelephonyCampaignRecipientImport {
+  return {
+    id: item["id"],
+    object: item["object"],
+    campaign_id: item["campaign_id"],
+    status: item["status"],
+    source: telephonyCampaignRecipientImportSourceDeserializer(item["source"]),
+    mapping: !item["mapping"]
+      ? item["mapping"]
+      : telephonyCampaignRecipientMappingDeserializer(item["mapping"]),
+    duplicate_handling: item["duplicate_handling"],
+    rows_processed: item["rows_processed"],
+    eligible_recipient_count: item["eligible_recipient_count"],
+    invalid_recipient_count: item["invalid_recipient_count"],
+    error_code: item["error_code"],
+    error_message: item["error_message"],
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+  };
+}
+
+/** The lifecycle status of a campaign recipient import. */
+export type TelephonyCampaignRecipientImportStatus = "running" | "succeeded" | "failed";
+
+/** Source fields or CSV columns mapped into each campaign recipient. Every unmapped CSV column or JSON/JSONL top-level property becomes a same-named structured input. CSV cells are preserved as strings until Agent-declared inputs are parsed according to their schemas; additional inputs remain strings. */
+export interface TelephonyCampaignRecipientMapping {
+  /** The source field containing the destination E.164 phone number. Defaults to `destination`. The source field is required for each recipient. */
+  destination: string;
+  /** The source field containing the recipient key. Defaults to `recipient_key`. The source field is required for each recipient. */
+  recipient_key: string;
+  /** The source field containing the recipient item key. Defaults to `recipient_item_key`. The source field is required when `duplicate_handling` is `keep_each`; otherwise it may be absent. */
+  recipient_item_key?: string;
+  /** The source field containing the earliest dispatch time as a Unix timestamp in seconds. Defaults to `not_before`. If the source field is absent, no per-recipient start bound is applied. */
+  not_before?: string;
+  /** The source field containing the expiry time as a Unix timestamp in seconds. Defaults to `expires_at`. If the source field is absent, no per-recipient expiry bound is applied. */
+  expires_at?: string;
+}
+
+export function telephonyCampaignRecipientMappingDeserializer(
+  item: any,
+): TelephonyCampaignRecipientMapping {
+  return {
+    destination: item["destination"],
+    recipient_key: item["recipient_key"],
+    recipient_item_key: item["recipient_item_key"],
+    not_before: item["not_before"],
+    expires_at: item["expires_at"],
+  };
+}
+
+/** A request to publish a validated outbound campaign draft. */
+export interface PublishTelephonyCampaignRequest {
+  validation_id: string;
+}
+
+export function publishTelephonyCampaignRequestSerializer(
+  item: PublishTelephonyCampaignRequest,
+): any {
+  return { validation_id: item["validation_id"] };
+}
+
+/** The stable realtime session settings accepted in a `session.update` client event. */
+export interface VoiceAgentSessionUpdateConfig {
+  /** The session type. Always `realtime`. */
+  type: "realtime";
+  /** Instructions applied throughout the session. */
+  instructions?: string;
+  /** The sampling temperature for compatible cascaded pipelines. */
+  temperature?: number;
+  /** The maximum output-token count for one response. */
+  max_output_tokens?: VoiceAgentMaxOutputTokens;
+  /** The output modalities enabled for the session. */
+  output_modalities?: VoiceOutputModality[];
+  /** The input- and output-audio settings for the session. */
+  audio?: VoiceAgentAudioConfig;
+  /** The avatar settings for the session. */
+  avatar?: VoiceAgentSessionAvatarConfig;
+  /** Animation settings for the session. */
+  animation?: VoiceAgentAnimationConfig;
+  /** Tools available to the session. */
+  tools?: VoiceAgentToolUnion[];
+  /** Tool-selection behavior for the session. */
+  tool_choice?: VoiceAgentToolChoice;
+  /** Reasoning settings for compatible realtime models. */
+  reasoning?: RealtimeReasoning;
+  /** Whether the model may call multiple tools in parallel. */
+  parallel_tool_calls?: boolean;
+  /** Additional fields to include in service outputs. */
+  include?: VoiceAgentSessionIncludeOption[];
+  /** Up to 16 string key-value pairs attached to the session. */
+  metadata?: Record<string, string>;
+  /** Interim-response settings for latency and tool execution. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+  /** A proactive assistant greeting started after session configuration. */
+  greeting?: VoiceAgentGreetingConfigUnion;
+}
+
+export function voiceAgentSessionUpdateConfigSerializer(item: VoiceAgentSessionUpdateConfig): any {
+  return {
+    type: item["type"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensSerializer(item["max_output_tokens"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : voiceAgentSessionAvatarConfigSerializer(item["avatar"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : voiceAgentAnimationConfigSerializer(item["animation"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningSerializer(item["reasoning"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: item["metadata"],
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
+  };
+}
+
+export function voiceAgentSessionUpdateConfigDeserializer(
+  item: any,
+): VoiceAgentSessionUpdateConfig {
+  return {
+    type: item["type"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigDeserializer(item["audio"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : voiceAgentSessionAvatarConfigDeserializer(item["avatar"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : voiceAgentAnimationConfigDeserializer(item["animation"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningDeserializer(item["reasoning"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
+  };
+}
+
+/** Avatar settings accepted by the stable voice-agent WebSocket contract. */
+export interface VoiceAgentSessionAvatarConfig extends VoiceAgentAvatarConfig {
+  ice_servers?: VoiceAgentAvatarIceServer[];
+}
+
+export function voiceAgentSessionAvatarConfigSerializer(item: VoiceAgentSessionAvatarConfig): any {
+  return {
+    type: item["type"],
+    character: item["character"],
+    style: item["style"],
+    customized: item["customized"],
+    output_protocol: item["output_protocol"],
+    model: item["model"],
+    video: !item["video"] ? item["video"] : voiceAgentAvatarVideoParamsSerializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : voiceAgentAvatarSceneSerializer(item["scene"]),
+    output_audit_audio: item["output_audit_audio"],
+    ice_servers: !item["ice_servers"]
+      ? item["ice_servers"]
+      : voiceAgentAvatarIceServerArraySerializer(item["ice_servers"]),
+  };
+}
+
+export function voiceAgentSessionAvatarConfigDeserializer(
+  item: any,
+): VoiceAgentSessionAvatarConfig {
+  return {
+    type: item["type"],
+    character: item["character"],
+    style: item["style"],
+    customized: item["customized"],
+    output_protocol: item["output_protocol"],
+    model: item["model"],
+    video: !item["video"] ? item["video"] : voiceAgentAvatarVideoParamsDeserializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : voiceAgentAvatarSceneDeserializer(item["scene"]),
+    output_audit_audio: item["output_audit_audio"],
+    ice_servers: !item["ice_servers"]
+      ? item["ice_servers"]
+      : voiceAgentAvatarIceServerArrayDeserializer(item["ice_servers"]),
+  };
+}
+
+export function voiceAgentAvatarIceServerArraySerializer(
+  result: Array<VoiceAgentAvatarIceServer>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentAvatarIceServerSerializer(item);
+  });
+}
+
+export function voiceAgentAvatarIceServerArrayDeserializer(
+  result: Array<VoiceAgentAvatarIceServer>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentAvatarIceServerDeserializer(item);
+  });
+}
+
+/** An ICE server used for avatar WebRTC negotiation. */
+export interface VoiceAgentAvatarIceServer {
+  urls: string[];
+  username?: string;
+  credential?: string;
+}
+
+export function voiceAgentAvatarIceServerSerializer(item: VoiceAgentAvatarIceServer): any {
+  return {
+    urls: item["urls"].map((p: any) => {
+      return p;
+    }),
+    username: item["username"],
+    credential: item["credential"],
+  };
+}
+
+export function voiceAgentAvatarIceServerDeserializer(item: any): VoiceAgentAvatarIceServer {
+  return {
+    urls: item["urls"].map((p: any) => {
+      return p;
+    }),
+    username: item["username"],
+    credential: item["credential"],
+  };
+}
+
+/** Animation settings for a voice-agent session. */
+export interface VoiceAgentAnimationConfig {
+  /** The animation model name. */
+  model_name?: string;
+  /** The requested animation output kinds. */
+  outputs?: VoiceAgentAnimationOutputType[];
+}
+
+export function voiceAgentAnimationConfigSerializer(item: VoiceAgentAnimationConfig): any {
+  return {
+    model_name: item["model_name"],
+    outputs: !item["outputs"]
+      ? item["outputs"]
+      : item["outputs"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentAnimationConfigDeserializer(item: any): VoiceAgentAnimationConfig {
+  return {
+    model_name: item["model_name"],
+    outputs: !item["outputs"]
+      ? item["outputs"]
+      : item["outputs"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** An animation output produced by a voice-agent session. */
+export type VoiceAgentAnimationOutputType = "blendshapes" | "viseme_id";
+
+/** The effective stable realtime session settings returned by the voice-agent service. */
+export interface VoiceAgentSessionResponseConfig {
+  /** The session type. Always `realtime`. */
+  type: "realtime";
+  /** Instructions applied throughout the session. */
+  instructions?: string;
+  /** The sampling temperature for compatible cascaded pipelines. */
+  temperature?: number;
+  /** The maximum output-token count for one response. */
+  max_output_tokens?: VoiceAgentMaxOutputTokens;
+  /** The output modalities enabled for the session. */
+  output_modalities?: VoiceOutputModality[];
+  /** The input- and output-audio settings for the session. */
+  audio?: VoiceAgentAudioConfig;
+  /** The avatar settings for the session. */
+  avatar?: VoiceAgentSessionAvatarConfig;
+  /** Animation settings for the session. */
+  animation?: VoiceAgentAnimationConfig;
+  /** Tools available to the session. */
+  tools?: VoiceAgentToolUnion[];
+  /** Tool-selection behavior for the session. */
+  tool_choice?: VoiceAgentToolChoice;
+  /** Reasoning settings for compatible realtime models. */
+  reasoning?: RealtimeReasoning;
+  /** Whether the model may call multiple tools in parallel. */
+  parallel_tool_calls?: boolean;
+  /** Additional fields to include in service outputs. */
+  include?: VoiceAgentSessionIncludeOption[];
+  /** Up to 16 string key-value pairs attached to the session. */
+  metadata?: Record<string, string>;
+  /** Interim-response settings for latency and tool execution. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+  /** A proactive assistant greeting started after session configuration. */
+  greeting?: VoiceAgentGreetingConfigUnion;
+  /** The object type. Always `realtime.session`. */
+  object: "realtime.session";
+  /** The session identifier. */
+  id: string;
+  /** The selected model. */
+  model: string;
+  /** The session expiration time as a Unix timestamp in seconds. */
+  expires_at?: Date;
+}
+
+export function voiceAgentSessionResponseConfigSerializer(
+  item: VoiceAgentSessionResponseConfig,
+): any {
+  return {
+    type: item["type"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensSerializer(item["max_output_tokens"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : voiceAgentSessionAvatarConfigSerializer(item["avatar"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : voiceAgentAnimationConfigSerializer(item["animation"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningSerializer(item["reasoning"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: item["metadata"],
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
+    object: item["object"],
+    id: item["id"],
+    model: item["model"],
+    expires_at: !item["expires_at"]
+      ? item["expires_at"]
+      : (item["expires_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function voiceAgentSessionResponseConfigDeserializer(
+  item: any,
+): VoiceAgentSessionResponseConfig {
+  return {
+    type: item["type"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigDeserializer(item["audio"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : voiceAgentSessionAvatarConfigDeserializer(item["avatar"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : voiceAgentAnimationConfigDeserializer(item["animation"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningDeserializer(item["reasoning"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
+    object: item["object"],
+    id: item["id"],
+    model: item["model"],
+    expires_at: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
+  };
+}
+
+/** The `session.avatar.connect` client event. */
+export interface VoiceAgentClientEventSessionAvatarConnect extends RealtimeClientEvent {
+  /** The event type. Always `session.avatar.connect`. */
+  type: "session.avatar.connect";
+  /** An optional client-generated event identifier. */
+  event_id?: string;
+  /** The client's SDP offer for avatar media negotiation. */
+  client_sdp: string;
+}
+
+export function voiceAgentClientEventSessionAvatarConnectSerializer(
+  item: VoiceAgentClientEventSessionAvatarConnect,
+): any {
+  return { type: item["type"], event_id: item["event_id"], client_sdp: item["client_sdp"] };
+}
+
+export function voiceAgentClientEventSessionAvatarConnectDeserializer(
+  item: any,
+): VoiceAgentClientEventSessionAvatarConnect {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_sdp: item["client_sdp"],
+  };
+}
+
+/** Parameters accepted by a voice-agent `response.create` event. */
+export interface VoiceAgentResponseCreateParams {
+  /**
+   * The default system instructions (i.e. system message) prepended to model calls. This field allows the client to guide the model on desired responses. The model can be instructed on response content and format, (e.g. "be extremely succinct", "act friendly", "here are examples of good responses") and on audio behavior (e.g. "talk quickly", "inject emotion into your voice", "laugh frequently"). The instructions are not guaranteed to be followed by the model, but they provide guidance to the model on the desired behavior.
+   *   Note that the server sets default instructions which will be used if this field is not set and are visible in the `session.created` event at the start of the session.
+   */
+  instructions?: string;
+  /** Tools available to the model. */
+  tools?: (RealtimeFunctionTool | MCPTool)[];
+  /**
+   * How the model chooses tools. Provide one of the string modes or force a specific
+   *   function/MCP tool.
+   */
+  tool_choice?: ToolChoiceOptions | ToolChoiceFunction | ToolChoiceMCP;
+  /**
+   * Whether the model may call multiple tools in parallel. Only supported by
+   *   reasoning Realtime models such as `gpt-realtime-2`.
+   */
+  parallel_tool_calls?: boolean;
+  reasoning?: RealtimeReasoning;
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls. Provide an integer between 1 and 4096 to
+   *   limit output tokens, or `inf` for the maximum available tokens for a
+   *   given model. Defaults to `inf`.
+   */
+  max_output_tokens?: number | "inf";
+  /**
+   * Controls which conversation the response is added to. Currently supports
+   *   `auto` and `none`, with `auto` as the default value. The `auto` value
+   *   means that the contents of the response will be added to the default
+   *   conversation. Set this to `none` to create an out-of-band response which
+   *   will not add items to default conversation.
+   */
+  conversation?: "auto" | "none";
+  metadata?: Metadata;
+  /** Modalities that the response may return. */
+  output_modalities?: VoiceOutputModality[];
+  /** Response-specific audio settings. */
+  audio?: PickPropertiesVoiceAgentAudioConfig;
+  /** Conversation items used as inline response input. */
+  input?: RealtimeConversationItemUnion[];
+  /** A pre-generated assistant message used to begin the response. */
+  pre_generated_assistant_message?: RealtimeConversationItemUnion;
+  /** Interim-response settings for this response. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+}
+
+export function voiceAgentResponseCreateParamsSerializer(
+  item: VoiceAgentResponseCreateParams,
+): any {
+  return {
+    instructions: item["instructions"],
+    tools: !item["tools"]
+      ? item["tools"]
+      : _voiceAgentResponseCreateParamsToolArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _voiceAgentResponseCreateParamsToolChoiceSerializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningSerializer(item["reasoning"]),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(item["max_output_tokens"]),
+    conversation: item["conversation"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"]
+      ? item["audio"]
+      : pickPropertiesVoiceAgentAudioConfigSerializer(item["audio"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArraySerializer(item["input"]),
+    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : realtimeConversationItemUnionSerializer(item["pre_generated_assistant_message"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+  };
+}
+
+export function voiceAgentResponseCreateParamsDeserializer(
+  item: any,
+): VoiceAgentResponseCreateParams {
+  return {
+    instructions: item["instructions"],
+    tools: !item["tools"]
+      ? item["tools"]
+      : _voiceAgentResponseCreateParamsToolArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _voiceAgentResponseCreateParamsToolChoiceDeserializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningDeserializer(item["reasoning"]),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    conversation: item["conversation"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"]
+      ? item["audio"]
+      : pickPropertiesVoiceAgentAudioConfigDeserializer(item["audio"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeConversationItemUnionArrayDeserializer(item["input"]),
+    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : realtimeConversationItemUnionDeserializer(item["pre_generated_assistant_message"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+  };
+}
+
+/** The `rtc.call.sdp.create` client event: begins WebRTC signaling with an SDP offer. */
+export interface VoiceAgentClientEventRtcCallSdpCreate extends RealtimeClientEvent {
+  /** The event type. Always `rtc.call.sdp.create`. */
+  type: "rtc.call.sdp.create";
+  /** An optional client-generated event identifier. */
+  event_id?: string;
+  /** The client's SDP offer for the WebRTC connection. */
+  sdp_offer: string;
+  /** Optional session configuration. For an `/agents` endpoint the service rebuilds it authoritatively from the persisted agent definition. */
+  session?: VoiceAgentSessionUpdateConfig;
+}
+
+export function voiceAgentClientEventRtcCallSdpCreateSerializer(
+  item: VoiceAgentClientEventRtcCallSdpCreate,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    sdp_offer: item["sdp_offer"],
+    session: !item["session"]
+      ? item["session"]
+      : voiceAgentSessionUpdateConfigSerializer(item["session"]),
+  };
+}
+
+export function voiceAgentClientEventRtcCallSdpCreateDeserializer(
+  item: any,
+): VoiceAgentClientEventRtcCallSdpCreate {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    sdp_offer: item["sdp_offer"],
+    session: !item["session"]
+      ? item["session"]
+      : voiceAgentSessionUpdateConfigDeserializer(item["session"]),
+  };
+}
+
+/** The `session.update` client event. */
+export interface VoiceAgentClientEventSessionUpdate {
+  /** Optional client-generated ID used to identify this event. This is an arbitrary string that a client may assign. It will be passed back if there is an error with the event, but the corresponding `session.updated` event will not include it. */
+  event_id?: string;
+  /** The event type, must be `session.update`. */
+  type: "session.update";
+  /** The voice-agent session settings to update. */
+  session: VoiceAgentSessionUpdate;
+}
+
+export function voiceAgentClientEventSessionUpdateSerializer(
+  item: VoiceAgentClientEventSessionUpdate,
+): any {
+  return {
+    event_id: item["event_id"],
+    type: item["type"],
+    session: voiceAgentSessionUpdateSerializer(item["session"]),
+  };
+}
+
+export function voiceAgentClientEventSessionUpdateDeserializer(
+  item: any,
+): VoiceAgentClientEventSessionUpdate {
+  return {
+    event_id: item["event_id"],
+    type: item["type"],
+    session: voiceAgentSessionUpdateDeserializer(item["session"]),
+  };
+}
+
+/** The session configuration accepted by a voice-agent session update event. */
+export type VoiceAgentSessionUpdate = VoiceAgentSessionUpdateConfig;
+
+export function voiceAgentSessionUpdateSerializer(item: VoiceAgentSessionUpdate): any {
+  return item;
+}
+
+export function voiceAgentSessionUpdateDeserializer(item: any): VoiceAgentSessionUpdate {
+  return item;
+}
+
+/** The `session.subagent.completed` server event. */
+export interface VoiceAgentServerEventSessionSubagentCompleted extends RealtimeServerEvent {
+  /** The event type. Always `session.subagent.completed`. */
+  type: "session.subagent.completed";
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The identifier of the subagent consultation. */
+  consultation_id: string;
+  /** The identifier of the function call that initiated the consultation. */
+  call_id: string;
+  /** The name of the consulted subagent. */
+  subagent_name: string;
+}
+
+export function voiceAgentServerEventSessionSubagentCompletedSerializer(
+  item: VoiceAgentServerEventSessionSubagentCompleted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    consultation_id: item["consultation_id"],
+    call_id: item["call_id"],
+    subagent_name: item["subagent_name"],
+  };
+}
+
+export function voiceAgentServerEventSessionSubagentCompletedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionSubagentCompleted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    consultation_id: item["consultation_id"],
+    call_id: item["call_id"],
+    subagent_name: item["subagent_name"],
+  };
+}
+
+export function voiceAgentTranscriptionPhraseArraySerializer(
+  result: Array<VoiceAgentTranscriptionPhrase>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentTranscriptionPhraseSerializer(item);
+  });
+}
+
+export function voiceAgentTranscriptionPhraseArrayDeserializer(
+  result: Array<VoiceAgentTranscriptionPhrase>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentTranscriptionPhraseDeserializer(item);
+  });
+}
+
+/** A transcribed phrase with timing information. */
+export interface VoiceAgentTranscriptionPhrase {
+  /** The phrase offset from the beginning of the audio, in milliseconds. */
+  offset_milliseconds: number;
+  /** The phrase duration in milliseconds. */
+  duration_milliseconds: number;
+  /** The transcribed phrase text. */
+  text: string;
+  /** Word-level timing details, when available. */
+  words?: VoiceAgentTranscriptionWord[];
+  /** The detected locale. */
+  locale?: string;
+  /** The transcription confidence score. */
+  confidence?: number;
+}
+
+export function voiceAgentTranscriptionPhraseSerializer(item: VoiceAgentTranscriptionPhrase): any {
+  return {
+    offset_milliseconds: item["offset_milliseconds"],
+    duration_milliseconds: item["duration_milliseconds"],
+    text: item["text"],
+    words: !item["words"]
+      ? item["words"]
+      : voiceAgentTranscriptionWordArraySerializer(item["words"]),
+    locale: item["locale"],
+    confidence: item["confidence"],
+  };
+}
+
+export function voiceAgentTranscriptionPhraseDeserializer(
+  item: any,
+): VoiceAgentTranscriptionPhrase {
+  return {
+    offset_milliseconds: item["offset_milliseconds"],
+    duration_milliseconds: item["duration_milliseconds"],
+    text: item["text"],
+    words: !item["words"]
+      ? item["words"]
+      : voiceAgentTranscriptionWordArrayDeserializer(item["words"]),
+    locale: item["locale"],
+    confidence: item["confidence"],
+  };
+}
+
+export function voiceAgentTranscriptionWordArraySerializer(
+  result: Array<VoiceAgentTranscriptionWord>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentTranscriptionWordSerializer(item);
+  });
+}
+
+export function voiceAgentTranscriptionWordArrayDeserializer(
+  result: Array<VoiceAgentTranscriptionWord>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentTranscriptionWordDeserializer(item);
+  });
+}
+
+/** A time-stamped word in an input-audio transcription. */
+export interface VoiceAgentTranscriptionWord {
+  /** The transcribed word text. */
+  text: string;
+  /** The word offset from the beginning of the audio, in milliseconds. */
+  offset_milliseconds: number;
+  /** The word duration in milliseconds. */
+  duration_milliseconds: number;
+}
+
+export function voiceAgentTranscriptionWordSerializer(item: VoiceAgentTranscriptionWord): any {
+  return {
+    text: item["text"],
+    offset_milliseconds: item["offset_milliseconds"],
+    duration_milliseconds: item["duration_milliseconds"],
+  };
+}
+
+export function voiceAgentTranscriptionWordDeserializer(item: any): VoiceAgentTranscriptionWord {
+  return {
+    text: item["text"],
+    offset_milliseconds: item["offset_milliseconds"],
+    duration_milliseconds: item["duration_milliseconds"],
+  };
+}
+
+/** A live realtime response returned by the voice-agent service in both `response.created` and `response.done` events. */
+export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
+  /** The audio configuration used by the live response, including flat voice provider, locale, and format fields under `output`. */
+  audio?: VoiceResponseAudio;
+  /** The items produced by the live response. */
+  output?: RealtimeConversationItemUnion[];
+}
+
+export function voiceAgentRealtimeResponseSerializer(item: VoiceAgentRealtimeResponse): any {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsSerializer(item["status_details"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioSerializer(item["audio"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArraySerializer(item["output"]),
+  };
+}
+
+export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRealtimeResponse {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    audio: !item["audio"] ? item["audio"] : voiceResponseAudioDeserializer(item["audio"]),
+    output: !item["output"]
+      ? item["output"]
+      : realtimeConversationItemUnionArrayDeserializer(item["output"]),
+  };
+}
+
+/** The effective session configuration returned in voice-agent session lifecycle events. */
+export type VoiceAgentSessionResponse = VoiceAgentSessionResponseConfig;
+
+export function voiceAgentSessionResponseSerializer(item: VoiceAgentSessionResponse): any {
+  return item;
+}
+
+export function voiceAgentSessionResponseDeserializer(item: any): VoiceAgentSessionResponse {
+  return item;
+}
+
+/** The `session.subagent.started` server event. */
+export interface VoiceAgentServerEventSessionSubagentStarted extends RealtimeServerEvent {
+  /** The event type. Always `session.subagent.started`. */
+  type: "session.subagent.started";
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The identifier of the subagent consultation. */
+  consultation_id: string;
+  /** The identifier of the function call that initiated the consultation. */
+  call_id: string;
+  /** The name of the consulted subagent. */
+  subagent_name: string;
+}
+
+export function voiceAgentServerEventSessionSubagentStartedSerializer(
+  item: VoiceAgentServerEventSessionSubagentStarted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    consultation_id: item["consultation_id"],
+    call_id: item["call_id"],
+    subagent_name: item["subagent_name"],
+  };
+}
+
+export function voiceAgentServerEventSessionSubagentStartedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionSubagentStarted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    consultation_id: item["consultation_id"],
+    call_id: item["call_id"],
+    subagent_name: item["subagent_name"],
+  };
+}
+
+/** The `session.subagent.aborted` server event. */
+export interface VoiceAgentServerEventSessionSubagentAborted extends RealtimeServerEvent {
+  /** The event type. Always `session.subagent.aborted`. */
+  type: "session.subagent.aborted";
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The identifier of the subagent consultation. */
+  consultation_id: string;
+  /** The identifier of the function call that initiated the consultation. */
+  call_id: string;
+  /** The name of the consulted subagent. */
+  subagent_name: string;
+  /** The reason the consultation was aborted. */
+  reason: VoiceAgentSubagentAbortReason;
+}
+
+export function voiceAgentServerEventSessionSubagentAbortedSerializer(
+  item: VoiceAgentServerEventSessionSubagentAborted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    consultation_id: item["consultation_id"],
+    call_id: item["call_id"],
+    subagent_name: item["subagent_name"],
+    reason: item["reason"],
+  };
+}
+
+export function voiceAgentServerEventSessionSubagentAbortedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionSubagentAborted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    consultation_id: item["consultation_id"],
+    call_id: item["call_id"],
+    subagent_name: item["subagent_name"],
+    reason: item["reason"],
+  };
+}
+
+/** The reason a subagent consultation was aborted. */
+export type VoiceAgentSubagentAbortReason =
+  "unknown_target" | "timeout" | "cancelled" | "stopped_by_user" | "superseded" | "failed";
+
+/** The `warning` server event. */
+export interface VoiceAgentServerEventWarning extends RealtimeServerEvent {
+  type: "warning";
+  event_id: string;
+  warning: VoiceAgentServerEventWarningDetails;
+}
+
+export function voiceAgentServerEventWarningSerializer(item: VoiceAgentServerEventWarning): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    warning: voiceAgentServerEventWarningDetailsSerializer(item["warning"]),
+  };
+}
+
+export function voiceAgentServerEventWarningDeserializer(item: any): VoiceAgentServerEventWarning {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    warning: voiceAgentServerEventWarningDetailsDeserializer(item["warning"]),
+  };
+}
+
+/** Details of a non-fatal warning. */
+export interface VoiceAgentServerEventWarningDetails {
+  message: string;
+  code?: string;
+  param?: string;
+}
+
+export function voiceAgentServerEventWarningDetailsSerializer(
+  item: VoiceAgentServerEventWarningDetails,
+): any {
+  return { message: item["message"], code: item["code"], param: item["param"] };
+}
+
+export function voiceAgentServerEventWarningDetailsDeserializer(
+  item: any,
+): VoiceAgentServerEventWarningDetails {
+  return {
+    message: item["message"],
+    code: item["code"],
+    param: item["param"],
+  };
+}
+
+/** The `session.avatar.connecting` server event. */
+export interface VoiceAgentServerEventSessionAvatarConnecting extends RealtimeServerEvent {
+  type: "session.avatar.connecting";
+  event_id: string;
+  /** The server's SDP answer for avatar media negotiation. */
+  server_sdp: string;
+}
+
+export function voiceAgentServerEventSessionAvatarConnectingSerializer(
+  item: VoiceAgentServerEventSessionAvatarConnecting,
+): any {
+  return { type: item["type"], event_id: item["event_id"], server_sdp: item["server_sdp"] };
+}
+
+export function voiceAgentServerEventSessionAvatarConnectingDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionAvatarConnecting {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    server_sdp: item["server_sdp"],
+  };
+}
+
+/** The `rtc.call.sdp.created` server event: the SDP answer that completes WebRTC negotiation. */
+export interface VoiceAgentServerEventRtcCallSdpCreated extends RealtimeServerEvent {
+  /** The event type. Always `rtc.call.sdp.created`. */
+  type: "rtc.call.sdp.created";
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The identifier of the established WebRTC call. */
+  rtc_call_id: string;
+  /** The server's SDP answer for the WebRTC connection. */
+  sdp_answer: string;
+}
+
+export function voiceAgentServerEventRtcCallSdpCreatedSerializer(
+  item: VoiceAgentServerEventRtcCallSdpCreated,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    rtc_call_id: item["rtc_call_id"],
+    sdp_answer: item["sdp_answer"],
+  };
+}
+
+export function voiceAgentServerEventRtcCallSdpCreatedDeserializer(
+  item: any,
+): VoiceAgentServerEventRtcCallSdpCreated {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    rtc_call_id: item["rtc_call_id"],
+    sdp_answer: item["sdp_answer"],
+  };
+}
+
+/** The `rtc.call.error` server event: a WebRTC signaling failure. */
+export interface VoiceAgentServerEventRtcCallError extends RealtimeServerEvent {
+  /** The event type. Always `rtc.call.error`. */
+  type: "rtc.call.error";
+  /** An optional server-generated event identifier. */
+  event_id?: string;
+  /** The signaling operation that failed, when known. */
+  operation?: string;
+  /** The identifier of the WebRTC call, when known. */
+  rtc_call_id?: string;
+  /** The error detail. */
+  error: VoiceAgentRtcCallErrorDetails;
+}
+
+export function voiceAgentServerEventRtcCallErrorSerializer(
+  item: VoiceAgentServerEventRtcCallError,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    operation: item["operation"],
+    rtc_call_id: item["rtc_call_id"],
+    error: voiceAgentRtcCallErrorDetailsSerializer(item["error"]),
+  };
+}
+
+export function voiceAgentServerEventRtcCallErrorDeserializer(
+  item: any,
+): VoiceAgentServerEventRtcCallError {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    operation: item["operation"],
+    rtc_call_id: item["rtc_call_id"],
+    error: voiceAgentRtcCallErrorDetailsDeserializer(item["error"]),
+  };
+}
+
+/** Details of a WebRTC signaling error. */
+export interface VoiceAgentRtcCallErrorDetails {
+  /** The error category, following the VoiceLive wire contract: `invalid_request_error` for a client-side signaling fault (for example, a malformed SDP offer) or `server_error` for a service-side failure. Additional categories may be added over time. */
+  type: string;
+  /** A machine-readable error code, when available. */
+  code?: string;
+  /** A human-readable error message. */
+  message: string;
+}
+
+export function voiceAgentRtcCallErrorDetailsSerializer(item: VoiceAgentRtcCallErrorDetails): any {
+  return { type: item["type"], code: item["code"], message: item["message"] };
+}
+
+export function voiceAgentRtcCallErrorDetailsDeserializer(
+  item: any,
+): VoiceAgentRtcCallErrorDetails {
+  return {
+    type: item["type"],
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** The `session.avatar.switch_to_speaking` server event. */
+export interface VoiceAgentServerEventSessionAvatarSwitchToSpeaking extends RealtimeServerEvent {
+  type: "session.avatar.switch_to_speaking";
+  event_id: string;
+  turn_id?: string;
+}
+
+export function voiceAgentServerEventSessionAvatarSwitchToSpeakingSerializer(
+  item: VoiceAgentServerEventSessionAvatarSwitchToSpeaking,
+): any {
+  return { type: item["type"], event_id: item["event_id"], turn_id: item["turn_id"] };
+}
+
+export function voiceAgentServerEventSessionAvatarSwitchToSpeakingDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionAvatarSwitchToSpeaking {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    turn_id: item["turn_id"],
+  };
+}
+
+/** The `session.avatar.switch_to_idle` server event. */
+export interface VoiceAgentServerEventSessionAvatarSwitchToIdle extends RealtimeServerEvent {
+  type: "session.avatar.switch_to_idle";
+  event_id: string;
+  turn_id?: string;
+}
+
+export function voiceAgentServerEventSessionAvatarSwitchToIdleSerializer(
+  item: VoiceAgentServerEventSessionAvatarSwitchToIdle,
+): any {
+  return { type: item["type"], event_id: item["event_id"], turn_id: item["turn_id"] };
+}
+
+export function voiceAgentServerEventSessionAvatarSwitchToIdleDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionAvatarSwitchToIdle {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    turn_id: item["turn_id"],
+  };
+}
+
+/** The `response.audio_timestamp.delta` server event. */
+export interface VoiceAgentServerEventResponseAudioTimestampDelta extends RealtimeServerEvent {
+  type: "response.audio_timestamp.delta";
+  event_id: string;
+  response_id: string;
+  item_id: string;
+  output_index: number;
+  content_index: number;
+  audio_offset_ms: number;
+  audio_duration_ms: number;
+  text: string;
+  timestamp_type: "word";
+}
+
+export function voiceAgentServerEventResponseAudioTimestampDeltaSerializer(
+  item: VoiceAgentServerEventResponseAudioTimestampDelta,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+    audio_offset_ms: item["audio_offset_ms"],
+    audio_duration_ms: item["audio_duration_ms"],
+    text: item["text"],
+    timestamp_type: item["timestamp_type"],
+  };
+}
+
+export function voiceAgentServerEventResponseAudioTimestampDeltaDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseAudioTimestampDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+    audio_offset_ms: item["audio_offset_ms"],
+    audio_duration_ms: item["audio_duration_ms"],
+    text: item["text"],
+    timestamp_type: item["timestamp_type"],
+  };
+}
+
+/** The `response.audio_timestamp.done` server event. */
+export interface VoiceAgentServerEventResponseAudioTimestampDone extends RealtimeServerEvent {
+  type: "response.audio_timestamp.done";
+  event_id: string;
+  response_id: string;
+  item_id: string;
+  output_index: number;
+  content_index: number;
+}
+
+export function voiceAgentServerEventResponseAudioTimestampDoneSerializer(
+  item: VoiceAgentServerEventResponseAudioTimestampDone,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+  };
+}
+
+export function voiceAgentServerEventResponseAudioTimestampDoneDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseAudioTimestampDone {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+  };
+}
+
+/** The `response.animation_blendshapes.delta` server event. */
+export interface VoiceAgentServerEventResponseAnimationBlendshapesDelta extends RealtimeServerEvent {
+  type: "response.animation_blendshapes.delta";
+  event_id: string;
+  response_id: string;
+  item_id: string;
+  output_index: number;
+  content_index: number;
+  /** Animation frames as numeric blendshape weights. */
+  frames: number[][];
+  /** The index of the first frame in this delta. */
+  frame_index: number;
+}
+
+export function voiceAgentServerEventResponseAnimationBlendshapesDeltaSerializer(
+  item: VoiceAgentServerEventResponseAnimationBlendshapesDelta,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+    frames: item["frames"].map((p: any) => {
+      return p.map((p: any) => {
+        return p;
+      });
+    }),
+    frame_index: item["frame_index"],
+  };
+}
+
+export function voiceAgentServerEventResponseAnimationBlendshapesDeltaDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseAnimationBlendshapesDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+    frames: item["frames"].map((p: any) => {
+      return p.map((p1: any) => {
+        return p1;
+      });
+    }),
+    frame_index: item["frame_index"],
+  };
+}
+
+/** The `response.animation_blendshapes.done` server event. */
+export interface VoiceAgentServerEventResponseAnimationBlendshapesDone extends RealtimeServerEvent {
+  type: "response.animation_blendshapes.done";
+  event_id: string;
+  response_id: string;
+  item_id: string;
+  output_index: number;
+}
+
+export function voiceAgentServerEventResponseAnimationBlendshapesDoneSerializer(
+  item: VoiceAgentServerEventResponseAnimationBlendshapesDone,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+  };
+}
+
+export function voiceAgentServerEventResponseAnimationBlendshapesDoneDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseAnimationBlendshapesDone {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+  };
+}
+
+/** The `response.animation_viseme.delta` server event. */
+export interface VoiceAgentServerEventResponseAnimationVisemeDelta extends RealtimeServerEvent {
+  type: "response.animation_viseme.delta";
+  event_id: string;
+  response_id: string;
+  item_id: string;
+  output_index: number;
+  content_index: number;
+  audio_offset_ms: number;
+  viseme_id: number;
+}
+
+export function voiceAgentServerEventResponseAnimationVisemeDeltaSerializer(
+  item: VoiceAgentServerEventResponseAnimationVisemeDelta,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+    audio_offset_ms: item["audio_offset_ms"],
+    viseme_id: item["viseme_id"],
+  };
+}
+
+export function voiceAgentServerEventResponseAnimationVisemeDeltaDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseAnimationVisemeDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+    audio_offset_ms: item["audio_offset_ms"],
+    viseme_id: item["viseme_id"],
+  };
+}
+
+/** The `response.animation_viseme.done` server event. */
+export interface VoiceAgentServerEventResponseAnimationVisemeDone extends RealtimeServerEvent {
+  type: "response.animation_viseme.done";
+  event_id: string;
+  response_id: string;
+  item_id: string;
+  output_index: number;
+  content_index: number;
+}
+
+export function voiceAgentServerEventResponseAnimationVisemeDoneSerializer(
+  item: VoiceAgentServerEventResponseAnimationVisemeDone,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+  };
+}
+
+export function voiceAgentServerEventResponseAnimationVisemeDoneDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseAnimationVisemeDone {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    content_index: item["content_index"],
+  };
+}
+
+/** The `response.video.delta` server event. */
+export interface VoiceAgentServerEventResponseVideoDelta extends RealtimeServerEvent {
+  type: "response.video.delta";
+  event_id: string;
+  output_index: number;
+  codec: string;
+  /** The base64-encoded video frame data. */
+  delta: string;
+}
+
+export function voiceAgentServerEventResponseVideoDeltaSerializer(
+  item: VoiceAgentServerEventResponseVideoDelta,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    output_index: item["output_index"],
+    codec: item["codec"],
+    delta: item["delta"],
+  };
+}
+
+export function voiceAgentServerEventResponseVideoDeltaDeserializer(
+  item: any,
+): VoiceAgentServerEventResponseVideoDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    output_index: item["output_index"],
+    codec: item["codec"],
+    delta: item["delta"],
+  };
+}
+
+/** Properties shared by realtime responses returned by the voice-agent service. */
+export interface VoiceAgentRealtimeResponseBase {
+  /** The unique ID of the response, will look like `resp_1234`. */
+  id?: string;
+  /** The object type, must be `realtime.response`. */
+  object?: "realtime.response";
+  /**
+   * The final status of the response (`completed`, `cancelled`, `failed`, or
+   *   `incomplete`, `in_progress`).
+   */
+  status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+  /** Additional details about the status. */
+  status_details?: RealtimeResponseStatusDetails;
+  metadata?: Metadata;
+  /**
+   * Usage statistics for the Response, this will correspond to billing. A
+   *   Realtime API session will maintain a conversation context and append new
+   *   Items to the Conversation, thus output from previous turns (text and
+   *   audio tokens) will become the input for later turns.
+   */
+  usage?: RealtimeResponseUsage;
+  /**
+   * Which conversation the response is added to, determined by the `conversation`
+   *   field in the `response.create` event. If `auto`, the response will be added to
+   *   the default conversation and the value of `conversation_id` will be an id like
+   *   `conv_1234`. If `none`, the response will not be added to any conversation and
+   *   the value of `conversation_id` will be `null`. If responses are being triggered
+   *   automatically by VAD the response will be added to the default conversation
+   */
+  conversation_id?: string;
+  /**
+   * The set of modalities the model used to respond, currently the only possible values are
+   *   `[\"audio\"]`, `[\"text\"]`. Audio output always include a text transcript. Setting the
+   *   output to mode `text` will disable audio output from the model.
+   */
+  output_modalities?: ("text" | "audio")[];
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls, that was used in this response.
+   */
+  max_output_tokens?: number | "inf";
+}
+
+export function voiceAgentRealtimeResponseBaseSerializer(
+  item: VoiceAgentRealtimeResponseBase,
+): any {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsSerializer(item["status_details"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageSerializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensSerializer(item["max_output_tokens"]),
+  };
+}
+
+export function voiceAgentRealtimeResponseBaseDeserializer(
+  item: any,
+): VoiceAgentRealtimeResponseBase {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    status_details: !item["status_details"]
+      ? item["status_details"]
+      : realtimeResponseStatusDetailsDeserializer(item["status_details"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    conversation_id: item["conversation_id"],
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceResponseBaseMaxOutputTokensDeserializer(item["max_output_tokens"]),
   };
 }
 
@@ -15275,6 +18375,13 @@ export function updateToolboxRequestSerializer(item: UpdateToolboxRequest): any 
   return { default_version: item["default_version"] };
 }
 
+/** The kind-specific inputs for generating and creating an agent. */
+export type GenerateAgentRequest = GenerateVoiceAgentRequest;
+
+export function generateAgentRequestSerializer(item: GenerateAgentRequest): any {
+  return item;
+}
+
 /** Alias for _ListVersionsRequestType */
 export type _ListVersionsRequestType = EvaluatorType | "all";
 
@@ -15282,17 +18389,123 @@ export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestTyp
   return item;
 }
 
+/** A stable v1 message sent by a client over a voice-agent WebSocket. */
+export type VoiceAgentClientEvent =
+  | RealtimeClientEventConversationItemCreate
+  | RealtimeClientEventConversationItemDelete
+  | RealtimeClientEventConversationItemRetrieve
+  | RealtimeClientEventConversationItemTruncate
+  | RealtimeClientEventInputAudioBufferAppend
+  | RealtimeClientEventInputAudioBufferClear
+  | RealtimeClientEventOutputAudioBufferClear
+  | RealtimeClientEventInputAudioBufferCommit
+  | RealtimeClientEventResponseCancel
+  | RealtimeClientEventResponseCreate
+  | VoiceAgentClientEventSessionUpdate
+  | VoiceAgentClientEventSessionAvatarConnect
+  | VoiceAgentClientEventRtcCallSdpCreate;
+
+export function voiceAgentClientEventSerializer(item: VoiceAgentClientEvent): any {
+  return item;
+}
+
+export function voiceAgentClientEventDeserializer(item: any): VoiceAgentClientEvent {
+  return item;
+}
+
+/** A stable v1 message sent by the service over a voice-agent WebSocket. */
+export type VoiceAgentServerEvent =
+  | RealtimeServerEventConversationItemAdded
+  | RealtimeServerEventConversationItemCreated
+  | RealtimeServerEventConversationItemDeleted
+  | RealtimeServerEventConversationItemDone
+  | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted
+  | RealtimeServerEventConversationItemInputAudioTranscriptionDelta
+  | RealtimeServerEventConversationItemInputAudioTranscriptionFailed
+  | RealtimeServerEventConversationItemInputAudioTranscriptionSegment
+  | RealtimeServerEventConversationItemRetrieved
+  | RealtimeServerEventConversationItemTruncated
+  | RealtimeServerEventInputAudioBufferCleared
+  | RealtimeServerEventInputAudioBufferCommitted
+  | RealtimeServerEventInputAudioBufferSpeechStarted
+  | RealtimeServerEventInputAudioBufferSpeechStopped
+  | RealtimeServerEventInputAudioBufferTimeoutTriggered
+  | RealtimeServerEventMCPListToolsCompleted
+  | RealtimeServerEventMCPListToolsFailed
+  | RealtimeServerEventMCPListToolsInProgress
+  | RealtimeServerEventOutputAudioBufferCleared
+  | RealtimeServerEventRateLimitsUpdated
+  | RealtimeServerEventResponseAudioDelta
+  | RealtimeServerEventResponseAudioDone
+  | RealtimeServerEventResponseAudioTranscriptDelta
+  | RealtimeServerEventResponseAudioTranscriptDone
+  | RealtimeServerEventResponseContentPartAdded
+  | RealtimeServerEventResponseContentPartDone
+  | RealtimeServerEventResponseCreated
+  | RealtimeServerEventResponseDone
+  | RealtimeServerEventResponseFunctionCallArgumentsDelta
+  | RealtimeServerEventResponseFunctionCallArgumentsDone
+  | RealtimeServerEventResponseMCPCallArgumentsDelta
+  | RealtimeServerEventResponseMCPCallArgumentsDone
+  | RealtimeServerEventResponseMCPCallCompleted
+  | RealtimeServerEventResponseMCPCallFailed
+  | RealtimeServerEventResponseMCPCallInProgress
+  | RealtimeServerEventResponseOutputItemAdded
+  | RealtimeServerEventResponseOutputItemDone
+  | RealtimeServerEventResponseTextDelta
+  | RealtimeServerEventResponseTextDone
+  | RealtimeServerEventSessionCreated
+  | VoiceAgentServerEventSessionSubagentStarted
+  | VoiceAgentServerEventSessionSubagentCompleted
+  | VoiceAgentServerEventSessionSubagentAborted
+  | RealtimeServerEventSessionUpdated
+  | RealtimeServerEventError
+  | VoiceAgentServerEventWarning
+  | VoiceAgentServerEventSessionAvatarConnecting
+  | VoiceAgentServerEventRtcCallSdpCreated
+  | VoiceAgentServerEventRtcCallError
+  | VoiceAgentServerEventSessionAvatarSwitchToSpeaking
+  | VoiceAgentServerEventSessionAvatarSwitchToIdle
+  | VoiceAgentServerEventResponseAudioTimestampDelta
+  | VoiceAgentServerEventResponseAudioTimestampDone
+  | VoiceAgentServerEventResponseAnimationBlendshapesDelta
+  | VoiceAgentServerEventResponseAnimationBlendshapesDone
+  | VoiceAgentServerEventResponseAnimationVisemeDelta
+  | VoiceAgentServerEventResponseAnimationVisemeDone
+  | VoiceAgentServerEventResponseVideoDelta;
+
+export function voiceAgentServerEventSerializer(item: VoiceAgentServerEvent): any {
+  return item;
+}
+
+export function voiceAgentServerEventDeserializer(item: any): VoiceAgentServerEvent {
+  return item;
+}
+
+/** A JSON text message exchanged over an established voice-agent WebSocket. Audio bytes are base64-encoded in JSON event fields. */
+export type VoiceAgentWebSocketMessage = VoiceAgentClientEvent | VoiceAgentServerEvent;
+
+export function voiceAgentWebSocketMessageSerializer(item: VoiceAgentWebSocketMessage): any {
+  return item;
+}
+
+export function voiceAgentWebSocketMessageDeserializer(item: any): VoiceAgentWebSocketMessage {
+  return item;
+}
+
 /** Type of AgentObjectType */
 export type AgentObjectType =
   "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
 
-/** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
+/** Feature opt-in keys for agent definition operations supporting conditional preview features. */
 export type AgentDefinitionOptInKeys =
   | "WorkflowAgents=V1Preview"
   | "ExternalAgents=V1Preview"
   | "DraftAgents=V1Preview"
   | "VoiceAgents=V1Preview"
-  | "DigitalWorker=V1Preview";
+  | "DigitalWorker=V1Preview"
+  | "GitHubCopilot=V1Preview"
+  | "Skills=V1Preview";
 
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
@@ -15322,11 +18535,19 @@ export type MemoryStoreObjectType =
   | "memory_store.scope.deleted"
   | "memory_store.item.deleted";
 
+/** The transport used for a voice-agent connection. */
+export type VoiceAgentTransport = "websocket" | "webrtc";
+
+/** The WebSocket subprotocol supported by a voice-agent connection. */
+export type VoiceAgentWebSocketSubprotocol = "realtime";
+
 /** Microsoft Foundry API versions */
 export enum KnownVersions {
   /** Microsoft Foundry API version v1. */
   v1 = "v1",
 }
+
+export type ToolboxesInvokeLatestToolboxMcpResponse = { body: any };
 
 export type AgentsDownloadSessionFileResponse = {
   /**
@@ -15397,6 +18618,57 @@ export type DownloadVersionResponse = {
 };
 
 export type BetaSkillsDownloadResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type BetaVoiceAgentsConversationsDownloadAudioResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type BetaVoiceAgentsConversationsDownloadAudioItemResponse = {
   /**
    * BROWSER ONLY
    *
