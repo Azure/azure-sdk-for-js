@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets the GroupQuotas enforcement settings for the ResourceProvider/location. The locations, where GroupQuota enforcement is not enabled will return Not Found.
+ *
+ * @summary gets the GroupQuotas enforcement settings for the ResourceProvider/location. The locations, where GroupQuota enforcement is not enabled will return Not Found.
+ * x-ms-original-file: 2026-09-01-preview/GroupQuotasEnforcement/GetGroupQuotaEnforcement.json
+ */
+async function groupQuotasEnforcementGet() {
+  const credential = new DefaultAzureCredential();
+  const client = new AzureQuotaExtensionAPI(credential);
+  const result = await client.groupQuotaLocationSettings.get(
+    "E7EC67B3-7657-4966-BFFC-41EFD36BAA09",
+    "groupquota1",
+    "Microsoft.Compute",
+    "eastus",
+  );
+  console.log(result);
+}
+
+async function main() {
+  await groupQuotasEnforcementGet();
+}
+
+main().catch(console.error);
