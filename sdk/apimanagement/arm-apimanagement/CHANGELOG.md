@@ -1,14 +1,2813 @@
 # Release History
 
-## 11.0.0-beta.2 (Unreleased)
+## 11.0.0-beta.2 (2026-09-15)
+Compared with version 10.0.0
 
 ### Features Added
+  - Added operation group ApiGatewayHostnameBindingOperations
+  - Added operation group ApiManagementServiceResourcesOperations
+  - Added operation group ApiToolOperations
+  - Added operation group CacheOperations
+  - Added operation group ClientApplicationOperations
+  - Added operation group ClientApplicationProductLinkOperations
+  - Added operation group NotificationOperations
+  - Added operation ApiOperations.createOrUpdate
+  - Added operation ApiOperations.delete
+  - Added operation ApiGatewayOperations.createOrUpdate
+  - Added operation ApiGatewayOperations.delete
+  - Added operation ApiGatewayOperations.update
+  - Added operation ApiGatewayConfigConnectionOperations.createOrUpdate
+  - Added operation ApiGatewayConfigConnectionOperations.delete
+  - Added operation ApiManagementServiceOperations.applyNetworkConfigurationUpdates
+  - Added operation ApiManagementServiceOperations.backup
+  - Added operation ApiManagementServiceOperations.beginRefreshHostnames
+  - Added operation ApiManagementServiceOperations.beginRefreshHostnamesAndWait
+  - Added operation ApiManagementServiceOperations.createOrUpdate
+  - Added operation ApiManagementServiceOperations.delete
+  - Added operation ApiManagementServiceOperations.migrateToStv2
+  - Added operation ApiManagementServiceOperations.refreshHostnames
+  - Added operation ApiManagementServiceOperations.restore
+  - Added operation ApiManagementServiceOperations.update
+  - Added operation ApiSchemaOperations.createOrUpdate
+  - Added operation AuthorizationProviderOperations.refreshSecret
+  - Added operation DeletedServicesOperations.purge
+  - Added operation GlobalSchemaOperations.createOrUpdate
+  - Added operation NamedValueOperations.createOrUpdate
+  - Added operation NamedValueOperations.refreshSecret
+  - Added operation NamedValueOperations.update
+  - Added operation PolicyFragmentOperations.createOrUpdate
+  - Added operation PolicyRestrictionValidationsOperations.byService
+  - Added operation PortalRevisionOperations.createOrUpdate
+  - Added operation PortalRevisionOperations.update
+  - Added operation PrivateEndpointConnectionOperationsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionOperationsOperations.delete
+  - Added operation TenantConfigurationOperations.deploy
+  - Added operation TenantConfigurationOperations.save
+  - Added operation TenantConfigurationOperations.validate
+  - Added operation UserOperations.delete
+  - Added operation WorkspaceApiOperations.createOrUpdate
+  - Added operation WorkspaceApiSchemaOperations.createOrUpdate
+  - Added operation WorkspaceGlobalSchemaOperations.createOrUpdate
+  - Added operation WorkspaceNamedValueOperations.createOrUpdate
+  - Added operation WorkspaceNamedValueOperations.refreshSecret
+  - Added operation WorkspaceNamedValueOperations.update
+  - Added operation WorkspacePolicyFragmentOperations.createOrUpdate
+  - Added Interface AccessInformationContractProperties
+  - Added Interface AccessInformationCreateParameterProperties
+  - Added Interface AccessInformationUpdateParameterProperties
+  - Added Interface AllPoliciesContractProperties
+  - Added Interface ApiGatewayHostnameBindingCreateOrUpdateOptionalParams
+  - Added Interface ApiGatewayHostnameBindingDeleteOptionalParams
+  - Added Interface ApiGatewayHostnameBindingGetOptionalParams
+  - Added Interface ApiGatewayHostnameBindingListByGatewayOptionalParams
+  - Added Interface ApiGatewayHostnameBindingRefreshSecretOptionalParams
+  - Added Interface ApiManagementServiceRefreshHostnamesOptionalParams
+  - Added Interface ApiManagementServiceResourcesPerformConnectivityCheckAsyncOptionalParams
+  - Added Interface ApiReleaseContractProperties
+  - Added Interface ApiToolCreateOrUpdateOptionalParams
+  - Added Interface ApiToolDeleteOptionalParams
+  - Added Interface ApiToolGetEntityTagOptionalParams
+  - Added Interface ApiToolGetOptionalParams
+  - Added Interface ApiToolListByApiOptionalParams
+  - Added Interface ApiToolUpdateOptionalParams
+  - Added Interface AssociationContractProperties
+  - Added Interface AuthorizationAccessPolicyContractProperties
+  - Added Interface AuthorizationContractProperties
+  - Added Interface AuthorizationProviderContractProperties
+  - Added Interface AuthorizationProviderFederatedIdentityCredentialsProperties
+  - Added Interface AuthorizationProviderKeyVaultContract
+  - Added Interface AuthorizationProviderKeyVaultCreateProperties
+  - Added Interface AuthorizationProviderOAuth2FederatedIdentityCredentialsGrantType
+  - Added Interface AuthorizationProviderRefreshSecretOptionalParams
+  - Added Interface BackendFailureResponse
+  - Added Interface BackendReconnectProperties
+  - Added Interface BackendSessionAffinity
+  - Added Interface BackendSessionId
+  - Added Interface CacheContractProperties
+  - Added Interface CacheUpdateProperties
+  - Added Interface CertificateContractProperties
+  - Added Interface CertificateCreateOrUpdateProperties
+  - Added Interface ClientApplicationContract
+  - Added Interface ClientApplicationContractProperties
+  - Added Interface ClientApplicationCreateOrUpdateOptionalParams
+  - Added Interface ClientApplicationDeleteOptionalParams
+  - Added Interface ClientApplicationGetEntityTagOptionalParams
+  - Added Interface ClientApplicationGetOptionalParams
+  - Added Interface ClientApplicationListByServiceOptionalParams
+  - Added Interface ClientApplicationListSecretsOptionalParams
+  - Added Interface ClientApplicationProductLinkContract
+  - Added Interface ClientApplicationProductLinkContractProperties
+  - Added Interface ClientApplicationProductLinkCreateOptionalParams
+  - Added Interface ClientApplicationProductLinkDeleteOptionalParams
+  - Added Interface ClientApplicationProductLinkGetOptionalParams
+  - Added Interface ClientApplicationProductLinkListByClientApplicationsOptionalParams
+  - Added Interface ClientApplicationSecretsContract
+  - Added Interface ClientApplicationSecretsContractEntra
+  - Added Interface ContentTypeContractProperties
+  - Added Interface DeletedServiceContractProperties
+  - Added Interface DeployConfigurationParameterProperties
+  - Added Interface DiagnosticContractProperties
+  - Added Interface DiagnosticContractUpdateProperties
+  - Added Interface DocumentationContractProperties
+  - Added Interface EmailTemplateContractProperties
+  - Added Interface EmailTemplateUpdateParameterProperties
+  - Added Interface GatewayCertificateAuthorityContractProperties
+  - Added Interface GatewayConfigConnectionBaseProperties
+  - Added Interface GatewayContractProperties
+  - Added Interface GatewayHostnameBindingBaseProperties
+  - Added Interface GatewayHostnameBindingCertificate
+  - Added Interface GatewayHostnameBindingKeyVault
+  - Added Interface GatewayHostnameBindingKeyVaultLastStatus
+  - Added Interface GatewayHostnameBindingResource
+  - Added Interface GatewayHostnameConfigurationContractProperties
+  - Added Interface GlobalSchemaContractProperties
+  - Added Interface GroupCreateParametersProperties
+  - Added Interface GroupUpdateParametersProperties
+  - Added Interface IssueAttachmentContractProperties
+  - Added Interface IssueCommentContractProperties
+  - Added Interface LLMDiagnosticSettings
+  - Added Interface LLMMessageDiagnosticSettings
+  - Added Interface LoggerContractProperties
+  - Added Interface LoggerUpdateParameters
+  - Added Interface ManagedServiceIdentity
+  - Added Interface McpEndpoint
+  - Added Interface McpProperties
+  - Added Interface NotificationContractProperties
+  - Added Interface OpenidConnectProviderContractProperties
+  - Added Interface OpenidConnectProviderUpdateContractProperties
+  - Added Interface OperationOperationsListByTagsOptionalParams
+  - Added Interface OperationResultContractProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PolicyContractProperties
+  - Added Interface PolicyDescriptionContractProperties
+  - Added Interface PolicyFragmentContractProperties
+  - Added Interface PolicyRestrictionContractProperties
+  - Added Interface PortalConfigProperties
+  - Added Interface PortalDelegationSettingsProperties
+  - Added Interface PortalRevisionContractProperties
+  - Added Interface PortalSettingsContractProperties
+  - Added Interface PortalSigninSettingProperties
+  - Added Interface PortalSignupSettingsProperties
+  - Added Interface PrivateEndpointConnectionOperationsCreateOrUpdateOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsGetByNameOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsGetPrivateLinkResourceOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsListByServiceOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsListPrivateLinkResourcesOptionalParams
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionWrapperProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProductApiLinkContractProperties
+  - Added Interface ProductApplicationContract
+  - Added Interface ProductApplicationContractEntra
+  - Added Interface ProductEntityBaseParametersApplication
+  - Added Interface ProductGroupLinkContractProperties
+  - Added Interface RecipientEmailContractProperties
+  - Added Interface RecipientUsersContractProperties
+  - Added Interface ResolverEntityBaseContract
+  - Added Interface ResolverUpdateContractProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SaveConfigurationParameterProperties
+  - Added Interface SchemaContractProperties
+  - Added Interface SchemaDocumentProperties
+  - Added Interface SimplePollerLike
+  - Added Interface SubscriptionContractProperties
+  - Added Interface SubscriptionCreateParameterProperties
+  - Added Interface SubscriptionUpdateParameterProperties
+  - Added Interface TagApiLinkContractProperties
+  - Added Interface TagContractProperties
+  - Added Interface TagOperationLinkContractProperties
+  - Added Interface TagProductLinkContractProperties
+  - Added Interface TenantConfigurationSyncStateContractProperties
+  - Added Interface TenantSettingsContractProperties
+  - Added Interface ToolContract
+  - Added Interface ToolContractProperties
+  - Added Interface TrackedResource
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserTokenParameterProperties
+  - Added Interface WikiContractProperties
+  - Added Interface WorkspaceContractProperties
+  - Interface AccessInformationContract has a new optional parameter systemData
+  - Interface AllPoliciesContract has a new optional parameter systemData
+  - Interface AllPoliciesListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface AllPoliciesListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface AllPoliciesListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface AllPoliciesListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiContract has a new optional parameter mcpProperties
+  - Interface ApiContract has a new optional parameter systemData
+  - Interface ApiContractProperties has a new optional parameter mcpProperties
+  - Interface ApiContractUpdateProperties has a new optional parameter mcpProperties
+  - Interface ApiCreateOrUpdateParameter has a new optional parameter mcpProperties
+  - Interface ApiCreateOrUpdateProperties has a new optional parameter mcpProperties
+  - Interface ApiDiagnosticCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDiagnosticCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDiagnosticCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDiagnosticCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiDiagnosticDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDiagnosticDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDiagnosticDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDiagnosticDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiDiagnosticGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDiagnosticGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDiagnosticGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDiagnosticGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiDiagnosticGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDiagnosticGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDiagnosticGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDiagnosticGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiDiagnosticListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDiagnosticListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDiagnosticListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDiagnosticListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiDiagnosticUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiDiagnosticUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiDiagnosticUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiDiagnosticUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiEntityBaseContract has a new optional parameter mcpProperties
+  - Interface ApiExportGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiExportGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiExportGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiExportGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiGatewayConfigConnectionGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiGatewayConfigConnectionGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiGatewayConfigConnectionGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiGatewayConfigConnectionGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiGatewayConfigConnectionListByGatewayOptionalParams has a new optional parameter skipToken
+  - Interface ApiGatewayConfigConnectionListByGatewayOptionalParams has a new optional parameter top
+  - Interface ApiGatewayConfigConnectionListByGatewayOptionalParams has a new optional parameter abortSignal
+  - Interface ApiGatewayConfigConnectionListByGatewayOptionalParams has a new optional parameter requestOptions
+  - Interface ApiGatewayConfigConnectionListByGatewayOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiGatewayConfigConnectionListByGatewayOptionalParams has a new optional parameter onResponse
+  - Interface ApiGatewayGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiGatewayGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiGatewayGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiGatewayGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiGatewayListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface ApiGatewayListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface ApiGatewayListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ApiGatewayListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ApiGatewayListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiGatewayListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ApiGatewayListOptionalParams has a new optional parameter skipToken
+  - Interface ApiGatewayListOptionalParams has a new optional parameter top
+  - Interface ApiGatewayListOptionalParams has a new optional parameter abortSignal
+  - Interface ApiGatewayListOptionalParams has a new optional parameter requestOptions
+  - Interface ApiGatewayListOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiGatewayListOptionalParams has a new optional parameter onResponse
+  - Interface ApiGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueAttachmentCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueAttachmentCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueAttachmentCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueAttachmentCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueAttachmentDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueAttachmentDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueAttachmentDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueAttachmentDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueAttachmentGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueAttachmentGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueAttachmentGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueAttachmentGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueAttachmentGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueAttachmentGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueAttachmentGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueAttachmentGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueAttachmentListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueAttachmentListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueAttachmentListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueAttachmentListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueCommentCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueCommentCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueCommentCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueCommentCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueCommentDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueCommentDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueCommentDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueCommentDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueCommentGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueCommentGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueCommentGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueCommentGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueCommentGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueCommentGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueCommentGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueCommentGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueCommentListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueCommentListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueCommentListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueCommentListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiIssueUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiIssueUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiIssueUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiIssueUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiListByTagsOptionalParams has a new optional parameter abortSignal
+  - Interface ApiListByTagsOptionalParams has a new optional parameter requestOptions
+  - Interface ApiListByTagsOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiListByTagsOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementGatewayConfigConnectionResource has a new optional parameter systemData
+  - Interface ApiManagementGatewaySkusListAvailableSkusOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementGatewaySkusListAvailableSkusOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementGatewaySkusListAvailableSkusOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementGatewaySkusListAvailableSkusOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementOperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementOperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementOperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementOperationsListOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter zoneRedundant
+  - Interface ApiManagementServiceCheckNameAvailabilityOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementServiceCheckNameAvailabilityOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementServiceCheckNameAvailabilityOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementServiceCheckNameAvailabilityOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementServiceGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementServiceGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementServiceGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementServiceGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementServiceGetSsoTokenOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementServiceGetSsoTokenOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementServiceGetSsoTokenOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementServiceGetSsoTokenOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementServiceListByResourceGroupOptionalParams has a new optional parameter skipToken
+  - Interface ApiManagementServiceListByResourceGroupOptionalParams has a new optional parameter top
+  - Interface ApiManagementServiceListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementServiceListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementServiceListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementServiceListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementServiceListOptionalParams has a new optional parameter skipToken
+  - Interface ApiManagementServiceListOptionalParams has a new optional parameter top
+  - Interface ApiManagementServiceListOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementServiceListOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementServiceListOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementServiceListOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementServiceProperties has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceProperties has a new optional parameter zoneRedundant
+  - Interface ApiManagementServiceResource has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceResource has a new optional parameter zoneRedundant
+  - Interface ApiManagementServiceSkusListAvailableServiceSkusOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementServiceSkusListAvailableServiceSkusOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementServiceSkusListAvailableServiceSkusOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementServiceSkusListAvailableServiceSkusOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter zoneRedundant
+  - Interface ApiManagementServiceUpdateProperties has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceUpdateProperties has a new optional parameter zoneRedundant
+  - Interface ApiManagementSkusListOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementSkusListOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementSkusListOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementSkusListOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementWorkspaceLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementWorkspaceLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementWorkspaceLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementWorkspaceLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementWorkspaceLinksListByServiceOptionalParams has a new optional parameter skipToken
+  - Interface ApiManagementWorkspaceLinksListByServiceOptionalParams has a new optional parameter top
+  - Interface ApiManagementWorkspaceLinksListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiManagementWorkspaceLinksListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiManagementWorkspaceLinksListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiManagementWorkspaceLinksListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiManagementWorkspaceLinksResource has a new optional parameter systemData
+  - Interface ApiOperationCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationListByApiOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationPolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationPolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationPolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationPolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationPolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationPolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationPolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationPolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationPolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationPolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationPolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationPolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationPolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationPolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationPolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationPolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationPolicyListByOperationOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationPolicyListByOperationOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationPolicyListByOperationOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationPolicyListByOperationOptionalParams has a new optional parameter onResponse
+  - Interface ApiOperationUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiOperationUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiOperationUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiOperationUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiPolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiPolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiPolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiPolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiPolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiPolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiPolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiPolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiPolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiPolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiPolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiPolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiPolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiPolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiPolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiPolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiPolicyListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface ApiPolicyListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface ApiPolicyListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiPolicyListByApiOptionalParams has a new optional parameter onResponse
+  - Interface ApiProductListByApisOptionalParams has a new optional parameter abortSignal
+  - Interface ApiProductListByApisOptionalParams has a new optional parameter requestOptions
+  - Interface ApiProductListByApisOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiProductListByApisOptionalParams has a new optional parameter onResponse
+  - Interface ApiReleaseContract has a new optional parameter systemData
+  - Interface ApiReleaseCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiReleaseCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiReleaseCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiReleaseCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiReleaseDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiReleaseDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiReleaseDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiReleaseDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiReleaseGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiReleaseGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiReleaseGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiReleaseGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiReleaseGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiReleaseGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiReleaseGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiReleaseGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiReleaseListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiReleaseListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiReleaseListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiReleaseListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiReleaseUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiReleaseUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiReleaseUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiReleaseUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiRevisionListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiRevisionListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiRevisionListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiRevisionListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiSchemaDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiSchemaDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiSchemaDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiSchemaDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiSchemaGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiSchemaGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiSchemaGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiSchemaGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiSchemaGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiSchemaGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiSchemaGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiSchemaGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiSchemaListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface ApiSchemaListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface ApiSchemaListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiSchemaListByApiOptionalParams has a new optional parameter onResponse
+  - Interface ApiTagDescriptionCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiTagDescriptionCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiTagDescriptionCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiTagDescriptionCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiTagDescriptionDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiTagDescriptionDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiTagDescriptionDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiTagDescriptionDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiTagDescriptionGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiTagDescriptionGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiTagDescriptionGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiTagDescriptionGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiTagDescriptionGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiTagDescriptionGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiTagDescriptionGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiTagDescriptionGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiTagDescriptionListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiTagDescriptionListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiTagDescriptionListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiTagDescriptionListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiTagResourceContractProperties has a new optional parameter mcpProperties
+  - Interface ApiUpdateContract has a new optional parameter mcpProperties
+  - Interface ApiUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionSetContract has a new optional parameter systemData
+  - Interface ApiVersionSetCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionSetCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionSetCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionSetCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionSetDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionSetDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionSetDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionSetDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionSetGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionSetGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionSetGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionSetGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionSetGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionSetGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionSetGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionSetGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionSetListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionSetListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionSetListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionSetListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ApiVersionSetUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiVersionSetUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiVersionSetUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiVersionSetUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiWikiCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiWikiCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiWikiCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiWikiCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ApiWikiDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ApiWikiDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ApiWikiDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiWikiDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ApiWikiGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ApiWikiGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ApiWikiGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiWikiGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ApiWikiGetOptionalParams has a new optional parameter abortSignal
+  - Interface ApiWikiGetOptionalParams has a new optional parameter requestOptions
+  - Interface ApiWikiGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiWikiGetOptionalParams has a new optional parameter onResponse
+  - Interface ApiWikisListOptionalParams has a new optional parameter abortSignal
+  - Interface ApiWikisListOptionalParams has a new optional parameter requestOptions
+  - Interface ApiWikisListOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiWikisListOptionalParams has a new optional parameter onResponse
+  - Interface ApiWikiUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ApiWikiUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ApiWikiUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ApiWikiUpdateOptionalParams has a new optional parameter onResponse
+  - Interface AssociationContract has a new optional parameter systemData
+  - Interface AuthorizationAccessPolicyContract has a new optional parameter systemData
+  - Interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationAccessPolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationAccessPolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationAccessPolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationAccessPolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationAccessPolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationAccessPolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationAccessPolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationAccessPolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationAccessPolicyListByAuthorizationOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationAccessPolicyListByAuthorizationOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationAccessPolicyListByAuthorizationOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationAccessPolicyListByAuthorizationOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationConfirmConsentCodeOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationConfirmConsentCodeOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationConfirmConsentCodeOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationConfirmConsentCodeOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationContract has a new optional parameter systemData
+  - Interface AuthorizationCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationDeleteOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationGetOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationGetOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationGetOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationListByAuthorizationProviderOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationListByAuthorizationProviderOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationListByAuthorizationProviderOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationListByAuthorizationProviderOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationLoginLinksPostOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationLoginLinksPostOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationLoginLinksPostOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationLoginLinksPostOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationProviderContract has a new optional parameter systemData
+  - Interface AuthorizationProviderCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationProviderCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationProviderCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationProviderCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationProviderDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationProviderDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationProviderDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationProviderDeleteOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationProviderGetOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationProviderGetOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationProviderGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationProviderGetOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationProviderListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationProviderListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationProviderListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationProviderListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationProviderOAuth2GrantTypes has a new optional parameter authorizationCodeWithFederatedIdentityCredentials
+  - Interface AuthorizationProviderOAuth2Settings has a new optional parameter federatedIdentityCredentialsProperties
+  - Interface AuthorizationProviderOAuth2Settings has a new optional parameter keyVault
+  - Interface AuthorizationServerContract has a new optional parameter systemData
+  - Interface AuthorizationServerCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationServerCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationServerCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationServerCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationServerDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationServerDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationServerDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationServerDeleteOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationServerGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationServerGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationServerGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationServerGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationServerGetOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationServerGetOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationServerGetOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationServerGetOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationServerListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationServerListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationServerListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationServerListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationServerListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationServerListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationServerListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationServerListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface AuthorizationServerUpdateContract has a new optional parameter systemData
+  - Interface AuthorizationServerUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface AuthorizationServerUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface AuthorizationServerUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface AuthorizationServerUpdateOptionalParams has a new optional parameter onResponse
+  - Interface BackendBaseParameters has a new optional parameter azureRegion
+  - Interface BackendBaseParametersPool has a new optional parameter failureResponse
+  - Interface BackendBaseParametersPool has a new optional parameter sessionAffinity
+  - Interface BackendContract has a new optional parameter azureRegion
+  - Interface BackendContract has a new optional parameter systemData
+  - Interface BackendContractProperties has a new optional parameter azureRegion
+  - Interface BackendCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface BackendCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface BackendCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface BackendCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface BackendDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface BackendDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface BackendDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface BackendDeleteOptionalParams has a new optional parameter onResponse
+  - Interface BackendGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface BackendGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface BackendGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface BackendGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface BackendGetOptionalParams has a new optional parameter abortSignal
+  - Interface BackendGetOptionalParams has a new optional parameter requestOptions
+  - Interface BackendGetOptionalParams has a new optional parameter tracingOptions
+  - Interface BackendGetOptionalParams has a new optional parameter onResponse
+  - Interface BackendListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface BackendListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface BackendListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface BackendListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface BackendPool has a new optional parameter failureResponse
+  - Interface BackendPool has a new optional parameter sessionAffinity
+  - Interface BackendPoolItem has a new optional parameter preferredCarbonEmission
+  - Interface BackendReconnectContract has a new optional parameter systemData
+  - Interface BackendReconnectOptionalParams has a new optional parameter abortSignal
+  - Interface BackendReconnectOptionalParams has a new optional parameter requestOptions
+  - Interface BackendReconnectOptionalParams has a new optional parameter tracingOptions
+  - Interface BackendReconnectOptionalParams has a new optional parameter onResponse
+  - Interface BackendTlsProperties has a new optional parameter serverCertificateThumbprints
+  - Interface BackendTlsProperties has a new optional parameter serverX509Names
+  - Interface BackendUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface BackendUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface BackendUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface BackendUpdateOptionalParams has a new optional parameter onResponse
+  - Interface BackendUpdateParameterProperties has a new optional parameter azureRegion
+  - Interface BackendUpdateParameters has a new optional parameter azureRegion
+  - Interface CacheContract has a new optional parameter systemData
+  - Interface CacheCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface CacheCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface CacheCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface CacheCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface CacheDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface CacheDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface CacheDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface CacheDeleteOptionalParams has a new optional parameter onResponse
+  - Interface CacheGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface CacheGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface CacheGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface CacheGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface CacheGetOptionalParams has a new optional parameter abortSignal
+  - Interface CacheGetOptionalParams has a new optional parameter requestOptions
+  - Interface CacheGetOptionalParams has a new optional parameter tracingOptions
+  - Interface CacheGetOptionalParams has a new optional parameter onResponse
+  - Interface CacheListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface CacheListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface CacheListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface CacheListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface CacheUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface CacheUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface CacheUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface CacheUpdateOptionalParams has a new optional parameter onResponse
+  - Interface CertificateContract has a new optional parameter systemData
+  - Interface CertificateCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface CertificateCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface CertificateCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificateCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface CertificateDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface CertificateDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface CertificateDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificateDeleteOptionalParams has a new optional parameter onResponse
+  - Interface CertificateGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface CertificateGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface CertificateGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificateGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface CertificateGetOptionalParams has a new optional parameter abortSignal
+  - Interface CertificateGetOptionalParams has a new optional parameter requestOptions
+  - Interface CertificateGetOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificateGetOptionalParams has a new optional parameter onResponse
+  - Interface CertificateListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface CertificateListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface CertificateListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificateListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface CertificateRefreshSecretOptionalParams has a new optional parameter abortSignal
+  - Interface CertificateRefreshSecretOptionalParams has a new optional parameter requestOptions
+  - Interface CertificateRefreshSecretOptionalParams has a new optional parameter tracingOptions
+  - Interface CertificateRefreshSecretOptionalParams has a new optional parameter onResponse
+  - Interface CircuitBreakerRule has a new optional parameter failureResponse
+  - Interface ContentItemContract has a new optional parameter systemData
+  - Interface ContentItemCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ContentItemCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ContentItemCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentItemCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ContentItemDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ContentItemDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ContentItemDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentItemDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ContentItemGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ContentItemGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ContentItemGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentItemGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ContentItemGetOptionalParams has a new optional parameter abortSignal
+  - Interface ContentItemGetOptionalParams has a new optional parameter requestOptions
+  - Interface ContentItemGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentItemGetOptionalParams has a new optional parameter onResponse
+  - Interface ContentItemListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ContentItemListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ContentItemListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentItemListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ContentTypeContract has a new optional parameter systemData
+  - Interface ContentTypeCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ContentTypeCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ContentTypeCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentTypeCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ContentTypeDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ContentTypeDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ContentTypeDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentTypeDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ContentTypeGetOptionalParams has a new optional parameter abortSignal
+  - Interface ContentTypeGetOptionalParams has a new optional parameter requestOptions
+  - Interface ContentTypeGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentTypeGetOptionalParams has a new optional parameter onResponse
+  - Interface ContentTypeListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ContentTypeListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ContentTypeListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ContentTypeListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface DelegationSettingsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DelegationSettingsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DelegationSettingsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DelegationSettingsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DelegationSettingsGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface DelegationSettingsGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface DelegationSettingsGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface DelegationSettingsGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface DelegationSettingsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DelegationSettingsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DelegationSettingsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DelegationSettingsGetOptionalParams has a new optional parameter onResponse
+  - Interface DelegationSettingsListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface DelegationSettingsListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface DelegationSettingsListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface DelegationSettingsListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface DelegationSettingsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DelegationSettingsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DelegationSettingsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DelegationSettingsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DeletedServiceContract has a new optional parameter systemData
+  - Interface DeletedServicesGetByNameOptionalParams has a new optional parameter abortSignal
+  - Interface DeletedServicesGetByNameOptionalParams has a new optional parameter requestOptions
+  - Interface DeletedServicesGetByNameOptionalParams has a new optional parameter tracingOptions
+  - Interface DeletedServicesGetByNameOptionalParams has a new optional parameter onResponse
+  - Interface DeletedServicesListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface DeletedServicesListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface DeletedServicesListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface DeletedServicesListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface DiagnosticContract has a new optional parameter largeLanguageModel
+  - Interface DiagnosticContract has a new optional parameter systemData
+  - Interface DiagnosticCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DiagnosticCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DiagnosticCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DiagnosticCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DiagnosticDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface DiagnosticDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface DiagnosticDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface DiagnosticDeleteOptionalParams has a new optional parameter onResponse
+  - Interface DiagnosticGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface DiagnosticGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface DiagnosticGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface DiagnosticGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface DiagnosticGetOptionalParams has a new optional parameter abortSignal
+  - Interface DiagnosticGetOptionalParams has a new optional parameter requestOptions
+  - Interface DiagnosticGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DiagnosticGetOptionalParams has a new optional parameter onResponse
+  - Interface DiagnosticListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface DiagnosticListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface DiagnosticListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface DiagnosticListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface DiagnosticUpdateContract has a new optional parameter systemData
+  - Interface DiagnosticUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DiagnosticUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DiagnosticUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DiagnosticUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DocumentationContract has a new optional parameter systemData
+  - Interface DocumentationCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DocumentationCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DocumentationCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DocumentationCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface DocumentationDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface DocumentationDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface DocumentationDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface DocumentationDeleteOptionalParams has a new optional parameter onResponse
+  - Interface DocumentationGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface DocumentationGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface DocumentationGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface DocumentationGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface DocumentationGetOptionalParams has a new optional parameter abortSignal
+  - Interface DocumentationGetOptionalParams has a new optional parameter requestOptions
+  - Interface DocumentationGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DocumentationGetOptionalParams has a new optional parameter onResponse
+  - Interface DocumentationListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface DocumentationListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface DocumentationListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface DocumentationListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface DocumentationUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface DocumentationUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface DocumentationUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface DocumentationUpdateOptionalParams has a new optional parameter onResponse
+  - Interface EmailTemplateContract has a new optional parameter systemData
+  - Interface EmailTemplateCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface EmailTemplateCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface EmailTemplateCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface EmailTemplateCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface EmailTemplateDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface EmailTemplateDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface EmailTemplateDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface EmailTemplateDeleteOptionalParams has a new optional parameter onResponse
+  - Interface EmailTemplateGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface EmailTemplateGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface EmailTemplateGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface EmailTemplateGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface EmailTemplateGetOptionalParams has a new optional parameter abortSignal
+  - Interface EmailTemplateGetOptionalParams has a new optional parameter requestOptions
+  - Interface EmailTemplateGetOptionalParams has a new optional parameter tracingOptions
+  - Interface EmailTemplateGetOptionalParams has a new optional parameter onResponse
+  - Interface EmailTemplateListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface EmailTemplateListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface EmailTemplateListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface EmailTemplateListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface EmailTemplateUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface EmailTemplateUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface EmailTemplateUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface EmailTemplateUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GatewayApiCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayApiCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayApiCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayApiCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GatewayApiDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayApiDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayApiDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayApiDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GatewayApiGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayApiGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayApiGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayApiGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface GatewayApiListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayApiListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayApiListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayApiListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface GatewayCertificateAuthorityContract has a new optional parameter systemData
+  - Interface GatewayCertificateAuthorityCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayCertificateAuthorityCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayCertificateAuthorityCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayCertificateAuthorityCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GatewayCertificateAuthorityDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayCertificateAuthorityDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayCertificateAuthorityDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayCertificateAuthorityDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GatewayCertificateAuthorityGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayCertificateAuthorityGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayCertificateAuthorityGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayCertificateAuthorityGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface GatewayCertificateAuthorityGetOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayCertificateAuthorityGetOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayCertificateAuthorityGetOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayCertificateAuthorityGetOptionalParams has a new optional parameter onResponse
+  - Interface GatewayCertificateAuthorityListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayCertificateAuthorityListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayCertificateAuthorityListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayCertificateAuthorityListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface GatewayContract has a new optional parameter identity
+  - Interface GatewayContract has a new optional parameter systemData
+  - Interface GatewayCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GatewayDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GatewayGenerateTokenOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayGenerateTokenOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayGenerateTokenOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayGenerateTokenOptionalParams has a new optional parameter onResponse
+  - Interface GatewayGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface GatewayGetOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayGetOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayGetOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayGetOptionalParams has a new optional parameter onResponse
+  - Interface GatewayHostnameConfigurationContract has a new optional parameter systemData
+  - Interface GatewayHostnameConfigurationCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayHostnameConfigurationCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayHostnameConfigurationCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayHostnameConfigurationCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GatewayHostnameConfigurationDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayHostnameConfigurationDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayHostnameConfigurationDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayHostnameConfigurationDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GatewayHostnameConfigurationGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayHostnameConfigurationGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayHostnameConfigurationGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayHostnameConfigurationGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface GatewayHostnameConfigurationGetOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayHostnameConfigurationGetOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayHostnameConfigurationGetOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayHostnameConfigurationGetOptionalParams has a new optional parameter onResponse
+  - Interface GatewayHostnameConfigurationListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayHostnameConfigurationListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayHostnameConfigurationListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayHostnameConfigurationListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface GatewayInvalidateDebugCredentialsOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayInvalidateDebugCredentialsOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayInvalidateDebugCredentialsOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayInvalidateDebugCredentialsOptionalParams has a new optional parameter onResponse
+  - Interface GatewayListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface GatewayListDebugCredentialsOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayListDebugCredentialsOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayListDebugCredentialsOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayListDebugCredentialsOptionalParams has a new optional parameter onResponse
+  - Interface GatewayListKeysOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayListKeysOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayListKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayListKeysOptionalParams has a new optional parameter onResponse
+  - Interface GatewayListTraceOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayListTraceOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayListTraceOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayListTraceOptionalParams has a new optional parameter onResponse
+  - Interface GatewayRegenerateKeyOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayRegenerateKeyOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayRegenerateKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayRegenerateKeyOptionalParams has a new optional parameter onResponse
+  - Interface GatewayUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GatewayUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GatewayUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GatewayUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GlobalSchemaContract has a new optional parameter systemData
+  - Interface GlobalSchemaDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GlobalSchemaDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GlobalSchemaDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GlobalSchemaDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GlobalSchemaGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface GlobalSchemaGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface GlobalSchemaGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface GlobalSchemaGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface GlobalSchemaGetOptionalParams has a new optional parameter abortSignal
+  - Interface GlobalSchemaGetOptionalParams has a new optional parameter requestOptions
+  - Interface GlobalSchemaGetOptionalParams has a new optional parameter tracingOptions
+  - Interface GlobalSchemaGetOptionalParams has a new optional parameter onResponse
+  - Interface GlobalSchemaListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface GlobalSchemaListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface GlobalSchemaListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface GlobalSchemaListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverGetOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverGetOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverGetOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverGetOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverListByApiOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverPolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverPolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverPolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverPolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverPolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverPolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverPolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverPolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverPolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverPolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverPolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverPolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverPolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverPolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverPolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverPolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverPolicyListByResolverOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverPolicyListByResolverOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverPolicyListByResolverOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverPolicyListByResolverOptionalParams has a new optional parameter onResponse
+  - Interface GraphQLApiResolverUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GraphQLApiResolverUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GraphQLApiResolverUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GraphQLApiResolverUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GroupContract has a new optional parameter systemData
+  - Interface GroupCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GroupCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GroupCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GroupDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GroupDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GroupDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GroupGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface GroupGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface GroupGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface GroupGetOptionalParams has a new optional parameter abortSignal
+  - Interface GroupGetOptionalParams has a new optional parameter requestOptions
+  - Interface GroupGetOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupGetOptionalParams has a new optional parameter onResponse
+  - Interface GroupListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface GroupListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface GroupListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface GroupUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface GroupUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface GroupUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupUpdateOptionalParams has a new optional parameter onResponse
+  - Interface GroupUserCheckEntityExistsOptionalParams has a new optional parameter abortSignal
+  - Interface GroupUserCheckEntityExistsOptionalParams has a new optional parameter requestOptions
+  - Interface GroupUserCheckEntityExistsOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupUserCheckEntityExistsOptionalParams has a new optional parameter onResponse
+  - Interface GroupUserCreateOptionalParams has a new optional parameter abortSignal
+  - Interface GroupUserCreateOptionalParams has a new optional parameter requestOptions
+  - Interface GroupUserCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupUserCreateOptionalParams has a new optional parameter onResponse
+  - Interface GroupUserDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface GroupUserDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface GroupUserDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupUserDeleteOptionalParams has a new optional parameter onResponse
+  - Interface GroupUserListOptionalParams has a new optional parameter abortSignal
+  - Interface GroupUserListOptionalParams has a new optional parameter requestOptions
+  - Interface GroupUserListOptionalParams has a new optional parameter tracingOptions
+  - Interface GroupUserListOptionalParams has a new optional parameter onResponse
+  - Interface IdentityProviderContract has a new optional parameter certificateId
+  - Interface IdentityProviderContract has a new optional parameter systemData
+  - Interface IdentityProviderContractProperties has a new optional parameter certificateId
+  - Interface IdentityProviderCreateContract has a new optional parameter certificateId
+  - Interface IdentityProviderCreateContract has a new optional parameter systemData
+  - Interface IdentityProviderCreateContractProperties has a new optional parameter certificateId
+  - Interface IdentityProviderCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface IdentityProviderCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface IdentityProviderCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface IdentityProviderCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface IdentityProviderDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface IdentityProviderDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface IdentityProviderDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface IdentityProviderDeleteOptionalParams has a new optional parameter onResponse
+  - Interface IdentityProviderGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface IdentityProviderGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface IdentityProviderGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface IdentityProviderGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface IdentityProviderGetOptionalParams has a new optional parameter abortSignal
+  - Interface IdentityProviderGetOptionalParams has a new optional parameter requestOptions
+  - Interface IdentityProviderGetOptionalParams has a new optional parameter tracingOptions
+  - Interface IdentityProviderGetOptionalParams has a new optional parameter onResponse
+  - Interface IdentityProviderListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface IdentityProviderListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface IdentityProviderListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface IdentityProviderListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface IdentityProviderListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface IdentityProviderListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface IdentityProviderListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface IdentityProviderListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface IdentityProviderUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface IdentityProviderUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface IdentityProviderUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface IdentityProviderUpdateOptionalParams has a new optional parameter onResponse
+  - Interface IdentityProviderUpdateParameters has a new optional parameter certificateId
+  - Interface IdentityProviderUpdateProperties has a new optional parameter certificateId
+  - Interface IssueAttachmentContract has a new optional parameter systemData
+  - Interface IssueCommentContract has a new optional parameter systemData
+  - Interface IssueContract has a new optional parameter systemData
+  - Interface IssueGetOptionalParams has a new optional parameter abortSignal
+  - Interface IssueGetOptionalParams has a new optional parameter requestOptions
+  - Interface IssueGetOptionalParams has a new optional parameter tracingOptions
+  - Interface IssueGetOptionalParams has a new optional parameter onResponse
+  - Interface IssueListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface IssueListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface IssueListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface IssueListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface LoggerContract has a new optional parameter systemData
+  - Interface LoggerCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface LoggerCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface LoggerCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface LoggerCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface LoggerDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface LoggerDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface LoggerDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface LoggerDeleteOptionalParams has a new optional parameter onResponse
+  - Interface LoggerGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface LoggerGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface LoggerGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface LoggerGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface LoggerGetOptionalParams has a new optional parameter abortSignal
+  - Interface LoggerGetOptionalParams has a new optional parameter requestOptions
+  - Interface LoggerGetOptionalParams has a new optional parameter tracingOptions
+  - Interface LoggerGetOptionalParams has a new optional parameter onResponse
+  - Interface LoggerListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface LoggerListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface LoggerListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface LoggerListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface LoggerUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface LoggerUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface LoggerUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface LoggerUpdateOptionalParams has a new optional parameter onResponse
+  - Interface NamedValueContract has a new optional parameter systemData
+  - Interface NamedValueCreateContract has a new optional parameter systemData
+  - Interface NamedValueDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface NamedValueDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface NamedValueDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface NamedValueDeleteOptionalParams has a new optional parameter onResponse
+  - Interface NamedValueGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface NamedValueGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface NamedValueGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface NamedValueGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface NamedValueGetOptionalParams has a new optional parameter abortSignal
+  - Interface NamedValueGetOptionalParams has a new optional parameter requestOptions
+  - Interface NamedValueGetOptionalParams has a new optional parameter tracingOptions
+  - Interface NamedValueGetOptionalParams has a new optional parameter onResponse
+  - Interface NamedValueListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface NamedValueListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface NamedValueListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface NamedValueListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface NamedValueListValueOptionalParams has a new optional parameter abortSignal
+  - Interface NamedValueListValueOptionalParams has a new optional parameter requestOptions
+  - Interface NamedValueListValueOptionalParams has a new optional parameter tracingOptions
+  - Interface NamedValueListValueOptionalParams has a new optional parameter onResponse
+  - Interface NetworkStatusListByLocationOptionalParams has a new optional parameter abortSignal
+  - Interface NetworkStatusListByLocationOptionalParams has a new optional parameter requestOptions
+  - Interface NetworkStatusListByLocationOptionalParams has a new optional parameter tracingOptions
+  - Interface NetworkStatusListByLocationOptionalParams has a new optional parameter onResponse
+  - Interface NetworkStatusListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface NetworkStatusListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface NetworkStatusListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface NetworkStatusListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface NotificationContract has a new optional parameter systemData
+  - Interface NotificationCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface NotificationGetOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationGetOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationGetOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationGetOptionalParams has a new optional parameter onResponse
+  - Interface NotificationListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface NotificationRecipientEmailCheckEntityExistsOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationRecipientEmailCheckEntityExistsOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationRecipientEmailCheckEntityExistsOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationRecipientEmailCheckEntityExistsOptionalParams has a new optional parameter onResponse
+  - Interface NotificationRecipientEmailCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationRecipientEmailCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationRecipientEmailCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationRecipientEmailCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface NotificationRecipientEmailDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationRecipientEmailDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationRecipientEmailDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationRecipientEmailDeleteOptionalParams has a new optional parameter onResponse
+  - Interface NotificationRecipientEmailListByNotificationOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationRecipientEmailListByNotificationOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationRecipientEmailListByNotificationOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationRecipientEmailListByNotificationOptionalParams has a new optional parameter onResponse
+  - Interface NotificationRecipientUserCheckEntityExistsOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationRecipientUserCheckEntityExistsOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationRecipientUserCheckEntityExistsOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationRecipientUserCheckEntityExistsOptionalParams has a new optional parameter onResponse
+  - Interface NotificationRecipientUserCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationRecipientUserCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationRecipientUserCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationRecipientUserCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface NotificationRecipientUserDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationRecipientUserDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationRecipientUserDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationRecipientUserDeleteOptionalParams has a new optional parameter onResponse
+  - Interface NotificationRecipientUserListByNotificationOptionalParams has a new optional parameter abortSignal
+  - Interface NotificationRecipientUserListByNotificationOptionalParams has a new optional parameter requestOptions
+  - Interface NotificationRecipientUserListByNotificationOptionalParams has a new optional parameter tracingOptions
+  - Interface NotificationRecipientUserListByNotificationOptionalParams has a new optional parameter onResponse
+  - Interface OpenidConnectProviderContract has a new optional parameter systemData
+  - Interface OpenIdConnectProviderCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface OpenIdConnectProviderCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface OpenIdConnectProviderCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface OpenIdConnectProviderCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface OpenIdConnectProviderDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface OpenIdConnectProviderDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface OpenIdConnectProviderDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface OpenIdConnectProviderDeleteOptionalParams has a new optional parameter onResponse
+  - Interface OpenIdConnectProviderGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface OpenIdConnectProviderGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface OpenIdConnectProviderGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface OpenIdConnectProviderGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface OpenIdConnectProviderGetOptionalParams has a new optional parameter abortSignal
+  - Interface OpenIdConnectProviderGetOptionalParams has a new optional parameter requestOptions
+  - Interface OpenIdConnectProviderGetOptionalParams has a new optional parameter tracingOptions
+  - Interface OpenIdConnectProviderGetOptionalParams has a new optional parameter onResponse
+  - Interface OpenIdConnectProviderListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface OpenIdConnectProviderListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface OpenIdConnectProviderListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface OpenIdConnectProviderListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface OpenIdConnectProviderListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface OpenIdConnectProviderListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface OpenIdConnectProviderListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface OpenIdConnectProviderListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface OpenIdConnectProviderUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface OpenIdConnectProviderUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface OpenIdConnectProviderUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface OpenIdConnectProviderUpdateOptionalParams has a new optional parameter onResponse
+  - Interface OperationContract has a new optional parameter systemData
+  - Interface OperationResultContract has a new optional parameter systemData
+  - Interface OperationsResultsGetOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsResultsGetOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsResultsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsResultsGetOptionalParams has a new optional parameter onResponse
+  - Interface OperationStatusGetOptionalParams has a new optional parameter abortSignal
+  - Interface OperationStatusGetOptionalParams has a new optional parameter requestOptions
+  - Interface OperationStatusGetOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationStatusGetOptionalParams has a new optional parameter onResponse
+  - Interface OutboundNetworkDependenciesEndpointsListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface OutboundNetworkDependenciesEndpointsListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface OutboundNetworkDependenciesEndpointsListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface OutboundNetworkDependenciesEndpointsListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PolicyContract has a new optional parameter systemData
+  - Interface PolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface PolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface PolicyDescriptionContract has a new optional parameter systemData
+  - Interface PolicyDescriptionListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyDescriptionListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyDescriptionListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyDescriptionListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PolicyFragmentContract has a new optional parameter systemData
+  - Interface PolicyFragmentDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyFragmentDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyFragmentDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyFragmentDeleteOptionalParams has a new optional parameter onResponse
+  - Interface PolicyFragmentGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyFragmentGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyFragmentGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyFragmentGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface PolicyFragmentGetOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyFragmentGetOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyFragmentGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyFragmentGetOptionalParams has a new optional parameter onResponse
+  - Interface PolicyFragmentListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyFragmentListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyFragmentListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyFragmentListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PolicyFragmentListReferencesOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyFragmentListReferencesOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyFragmentListReferencesOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyFragmentListReferencesOptionalParams has a new optional parameter onResponse
+  - Interface PolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface PolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface PolicyListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PolicyRestrictionContract has a new optional parameter systemData
+  - Interface PolicyRestrictionCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyRestrictionCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyRestrictionCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyRestrictionCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface PolicyRestrictionDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyRestrictionDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyRestrictionDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyRestrictionDeleteOptionalParams has a new optional parameter onResponse
+  - Interface PolicyRestrictionGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyRestrictionGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyRestrictionGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyRestrictionGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface PolicyRestrictionGetOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyRestrictionGetOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyRestrictionGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyRestrictionGetOptionalParams has a new optional parameter onResponse
+  - Interface PolicyRestrictionListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyRestrictionListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyRestrictionListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyRestrictionListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PolicyRestrictionUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface PolicyRestrictionUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface PolicyRestrictionUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface PolicyRestrictionUpdateOptionalParams has a new optional parameter onResponse
+  - Interface PortalConfigContract has a new optional parameter systemData
+  - Interface PortalConfigCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface PortalConfigCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface PortalConfigCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalConfigCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface PortalConfigGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface PortalConfigGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface PortalConfigGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalConfigGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface PortalConfigGetOptionalParams has a new optional parameter abortSignal
+  - Interface PortalConfigGetOptionalParams has a new optional parameter requestOptions
+  - Interface PortalConfigGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalConfigGetOptionalParams has a new optional parameter onResponse
+  - Interface PortalConfigListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface PortalConfigListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface PortalConfigListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalConfigListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PortalConfigUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface PortalConfigUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface PortalConfigUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalConfigUpdateOptionalParams has a new optional parameter onResponse
+  - Interface PortalDelegationSettings has a new optional parameter systemData
+  - Interface PortalRevisionContract has a new optional parameter systemData
+  - Interface PortalRevisionGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface PortalRevisionGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface PortalRevisionGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalRevisionGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface PortalRevisionGetOptionalParams has a new optional parameter abortSignal
+  - Interface PortalRevisionGetOptionalParams has a new optional parameter requestOptions
+  - Interface PortalRevisionGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalRevisionGetOptionalParams has a new optional parameter onResponse
+  - Interface PortalRevisionListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface PortalRevisionListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface PortalRevisionListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalRevisionListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PortalSettingsContract has a new optional parameter systemData
+  - Interface PortalSettingsListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface PortalSettingsListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface PortalSettingsListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface PortalSettingsListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface PortalSigninSettings has a new optional parameter systemData
+  - Interface PortalSignupSettings has a new optional parameter systemData
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface PrivateLinkResourceListResult has a new optional parameter nextLink
+  - Interface ProductApiCheckEntityExistsOptionalParams has a new optional parameter abortSignal
+  - Interface ProductApiCheckEntityExistsOptionalParams has a new optional parameter requestOptions
+  - Interface ProductApiCheckEntityExistsOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductApiCheckEntityExistsOptionalParams has a new optional parameter onResponse
+  - Interface ProductApiCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductApiCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductApiCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductApiCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProductApiDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProductApiDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProductApiDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductApiDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProductApiLinkContract has a new optional parameter systemData
+  - Interface ProductApiLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductApiLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductApiLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductApiLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProductApiLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProductApiLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProductApiLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductApiLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProductApiLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProductApiLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProductApiLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductApiLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface ProductApiLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface ProductApiLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface ProductApiLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductApiLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface ProductApiListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface ProductApiListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface ProductApiListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductApiListByProductOptionalParams has a new optional parameter onResponse
+  - Interface ProductContract has a new optional parameter application
+  - Interface ProductContract has a new optional parameter authenticationType
+  - Interface ProductContract has a new optional parameter systemData
+  - Interface ProductContractProperties has a new optional parameter application
+  - Interface ProductContractProperties has a new optional parameter authenticationType
+  - Interface ProductCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProductDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProductDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProductDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProductEntityBaseParameters has a new optional parameter application
+  - Interface ProductEntityBaseParameters has a new optional parameter authenticationType
+  - Interface ProductGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ProductGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGetOptionalParams has a new optional parameter onResponse
+  - Interface ProductGroupCheckEntityExistsOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGroupCheckEntityExistsOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGroupCheckEntityExistsOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGroupCheckEntityExistsOptionalParams has a new optional parameter onResponse
+  - Interface ProductGroupCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGroupCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGroupCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGroupCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProductGroupDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGroupDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGroupDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGroupDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProductGroupLinkContract has a new optional parameter systemData
+  - Interface ProductGroupLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGroupLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGroupLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGroupLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProductGroupLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGroupLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGroupLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGroupLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProductGroupLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGroupLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGroupLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGroupLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface ProductGroupLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGroupLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGroupLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGroupLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface ProductGroupListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface ProductGroupListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface ProductGroupListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductGroupListByProductOptionalParams has a new optional parameter onResponse
+  - Interface ProductListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface ProductListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface ProductListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ProductListByTagsOptionalParams has a new optional parameter abortSignal
+  - Interface ProductListByTagsOptionalParams has a new optional parameter requestOptions
+  - Interface ProductListByTagsOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductListByTagsOptionalParams has a new optional parameter onResponse
+  - Interface ProductPolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductPolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductPolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductPolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProductPolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProductPolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProductPolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductPolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProductPolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ProductPolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ProductPolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductPolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ProductPolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProductPolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProductPolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductPolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface ProductPolicyListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface ProductPolicyListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface ProductPolicyListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductPolicyListByProductOptionalParams has a new optional parameter onResponse
+  - Interface ProductSubscriptionsListOptionalParams has a new optional parameter abortSignal
+  - Interface ProductSubscriptionsListOptionalParams has a new optional parameter requestOptions
+  - Interface ProductSubscriptionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductSubscriptionsListOptionalParams has a new optional parameter onResponse
+  - Interface ProductTagResourceContractProperties has a new optional parameter application
+  - Interface ProductTagResourceContractProperties has a new optional parameter authenticationType
+  - Interface ProductUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProductUpdateParameters has a new optional parameter application
+  - Interface ProductUpdateParameters has a new optional parameter authenticationType
+  - Interface ProductUpdateProperties has a new optional parameter application
+  - Interface ProductUpdateProperties has a new optional parameter authenticationType
+  - Interface ProductWikiCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductWikiCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductWikiCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductWikiCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProductWikiDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface ProductWikiDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface ProductWikiDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductWikiDeleteOptionalParams has a new optional parameter onResponse
+  - Interface ProductWikiGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface ProductWikiGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface ProductWikiGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductWikiGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface ProductWikiGetOptionalParams has a new optional parameter abortSignal
+  - Interface ProductWikiGetOptionalParams has a new optional parameter requestOptions
+  - Interface ProductWikiGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductWikiGetOptionalParams has a new optional parameter onResponse
+  - Interface ProductWikisListOptionalParams has a new optional parameter abortSignal
+  - Interface ProductWikisListOptionalParams has a new optional parameter requestOptions
+  - Interface ProductWikisListOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductWikisListOptionalParams has a new optional parameter onResponse
+  - Interface ProductWikiUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ProductWikiUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ProductWikiUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ProductWikiUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface QuotaByCounterKeysListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaByCounterKeysListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaByCounterKeysListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaByCounterKeysListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface QuotaByCounterKeysUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaByCounterKeysUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaByCounterKeysUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaByCounterKeysUpdateOptionalParams has a new optional parameter onResponse
+  - Interface QuotaByPeriodKeysGetOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaByPeriodKeysGetOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaByPeriodKeysGetOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaByPeriodKeysGetOptionalParams has a new optional parameter onResponse
+  - Interface QuotaByPeriodKeysUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface QuotaByPeriodKeysUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface QuotaByPeriodKeysUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface QuotaByPeriodKeysUpdateOptionalParams has a new optional parameter onResponse
+  - Interface RecipientEmailContract has a new optional parameter systemData
+  - Interface RecipientUserContract has a new optional parameter systemData
+  - Interface RegionListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface RegionListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface RegionListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface RegionListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface ReportsListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface ReportsListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface ReportsListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface ReportsListByApiOptionalParams has a new optional parameter onResponse
+  - Interface ReportsListByGeoOptionalParams has a new optional parameter abortSignal
+  - Interface ReportsListByGeoOptionalParams has a new optional parameter requestOptions
+  - Interface ReportsListByGeoOptionalParams has a new optional parameter tracingOptions
+  - Interface ReportsListByGeoOptionalParams has a new optional parameter onResponse
+  - Interface ReportsListByOperationOptionalParams has a new optional parameter abortSignal
+  - Interface ReportsListByOperationOptionalParams has a new optional parameter requestOptions
+  - Interface ReportsListByOperationOptionalParams has a new optional parameter tracingOptions
+  - Interface ReportsListByOperationOptionalParams has a new optional parameter onResponse
+  - Interface ReportsListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface ReportsListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface ReportsListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface ReportsListByProductOptionalParams has a new optional parameter onResponse
+  - Interface ReportsListByRequestOptionalParams has a new optional parameter abortSignal
+  - Interface ReportsListByRequestOptionalParams has a new optional parameter requestOptions
+  - Interface ReportsListByRequestOptionalParams has a new optional parameter tracingOptions
+  - Interface ReportsListByRequestOptionalParams has a new optional parameter onResponse
+  - Interface ReportsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface ReportsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface ReportsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface ReportsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface ReportsListByTimeOptionalParams has a new optional parameter abortSignal
+  - Interface ReportsListByTimeOptionalParams has a new optional parameter requestOptions
+  - Interface ReportsListByTimeOptionalParams has a new optional parameter tracingOptions
+  - Interface ReportsListByTimeOptionalParams has a new optional parameter onResponse
+  - Interface ReportsListByUserOptionalParams has a new optional parameter abortSignal
+  - Interface ReportsListByUserOptionalParams has a new optional parameter requestOptions
+  - Interface ReportsListByUserOptionalParams has a new optional parameter tracingOptions
+  - Interface ReportsListByUserOptionalParams has a new optional parameter onResponse
+  - Interface ResolverContract has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResourceCollectionValueItem has a new optional parameter systemData
+  - Interface SchemaContract has a new optional parameter document
+  - Interface SchemaContract has a new optional parameter systemData
+  - Interface SignInSettingsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface SignInSettingsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface SignInSettingsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface SignInSettingsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface SignInSettingsGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface SignInSettingsGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface SignInSettingsGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface SignInSettingsGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface SignInSettingsGetOptionalParams has a new optional parameter abortSignal
+  - Interface SignInSettingsGetOptionalParams has a new optional parameter requestOptions
+  - Interface SignInSettingsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface SignInSettingsGetOptionalParams has a new optional parameter onResponse
+  - Interface SignInSettingsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface SignInSettingsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface SignInSettingsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface SignInSettingsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface SignUpSettingsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface SignUpSettingsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface SignUpSettingsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface SignUpSettingsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface SignUpSettingsGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface SignUpSettingsGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface SignUpSettingsGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface SignUpSettingsGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface SignUpSettingsGetOptionalParams has a new optional parameter abortSignal
+  - Interface SignUpSettingsGetOptionalParams has a new optional parameter requestOptions
+  - Interface SignUpSettingsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface SignUpSettingsGetOptionalParams has a new optional parameter onResponse
+  - Interface SignUpSettingsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface SignUpSettingsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface SignUpSettingsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface SignUpSettingsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionContract has a new optional parameter systemData
+  - Interface SubscriptionCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionDeleteOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionGetOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionGetOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionGetOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionGetOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionListOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionListOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionListOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionListOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionRegeneratePrimaryKeyOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionRegeneratePrimaryKeyOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionRegeneratePrimaryKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionRegeneratePrimaryKeyOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionRegenerateSecondaryKeyOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionRegenerateSecondaryKeyOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionRegenerateSecondaryKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionRegenerateSecondaryKeyOptionalParams has a new optional parameter onResponse
+  - Interface SubscriptionUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface SubscriptionUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface SubscriptionUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface SubscriptionUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TagApiLinkContract has a new optional parameter systemData
+  - Interface TagApiLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface TagApiLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface TagApiLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface TagApiLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TagApiLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface TagApiLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface TagApiLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface TagApiLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface TagApiLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface TagApiLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface TagApiLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TagApiLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface TagApiLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface TagApiLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface TagApiLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface TagApiLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface TagAssignToApiOptionalParams has a new optional parameter abortSignal
+  - Interface TagAssignToApiOptionalParams has a new optional parameter requestOptions
+  - Interface TagAssignToApiOptionalParams has a new optional parameter tracingOptions
+  - Interface TagAssignToApiOptionalParams has a new optional parameter onResponse
+  - Interface TagAssignToOperationOptionalParams has a new optional parameter abortSignal
+  - Interface TagAssignToOperationOptionalParams has a new optional parameter requestOptions
+  - Interface TagAssignToOperationOptionalParams has a new optional parameter tracingOptions
+  - Interface TagAssignToOperationOptionalParams has a new optional parameter onResponse
+  - Interface TagAssignToProductOptionalParams has a new optional parameter abortSignal
+  - Interface TagAssignToProductOptionalParams has a new optional parameter requestOptions
+  - Interface TagAssignToProductOptionalParams has a new optional parameter tracingOptions
+  - Interface TagAssignToProductOptionalParams has a new optional parameter onResponse
+  - Interface TagContract has a new optional parameter systemData
+  - Interface TagCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface TagCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface TagCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface TagCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TagDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface TagDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface TagDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface TagDeleteOptionalParams has a new optional parameter onResponse
+  - Interface TagDescriptionContract has a new optional parameter systemData
+  - Interface TagDetachFromApiOptionalParams has a new optional parameter abortSignal
+  - Interface TagDetachFromApiOptionalParams has a new optional parameter requestOptions
+  - Interface TagDetachFromApiOptionalParams has a new optional parameter tracingOptions
+  - Interface TagDetachFromApiOptionalParams has a new optional parameter onResponse
+  - Interface TagDetachFromOperationOptionalParams has a new optional parameter abortSignal
+  - Interface TagDetachFromOperationOptionalParams has a new optional parameter requestOptions
+  - Interface TagDetachFromOperationOptionalParams has a new optional parameter tracingOptions
+  - Interface TagDetachFromOperationOptionalParams has a new optional parameter onResponse
+  - Interface TagDetachFromProductOptionalParams has a new optional parameter abortSignal
+  - Interface TagDetachFromProductOptionalParams has a new optional parameter requestOptions
+  - Interface TagDetachFromProductOptionalParams has a new optional parameter tracingOptions
+  - Interface TagDetachFromProductOptionalParams has a new optional parameter onResponse
+  - Interface TagGetByApiOptionalParams has a new optional parameter abortSignal
+  - Interface TagGetByApiOptionalParams has a new optional parameter requestOptions
+  - Interface TagGetByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface TagGetByApiOptionalParams has a new optional parameter onResponse
+  - Interface TagGetByOperationOptionalParams has a new optional parameter abortSignal
+  - Interface TagGetByOperationOptionalParams has a new optional parameter requestOptions
+  - Interface TagGetByOperationOptionalParams has a new optional parameter tracingOptions
+  - Interface TagGetByOperationOptionalParams has a new optional parameter onResponse
+  - Interface TagGetByProductOptionalParams has a new optional parameter abortSignal
+  - Interface TagGetByProductOptionalParams has a new optional parameter requestOptions
+  - Interface TagGetByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface TagGetByProductOptionalParams has a new optional parameter onResponse
+  - Interface TagGetEntityStateByApiOptionalParams has a new optional parameter abortSignal
+  - Interface TagGetEntityStateByApiOptionalParams has a new optional parameter requestOptions
+  - Interface TagGetEntityStateByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface TagGetEntityStateByApiOptionalParams has a new optional parameter onResponse
+  - Interface TagGetEntityStateByOperationOptionalParams has a new optional parameter abortSignal
+  - Interface TagGetEntityStateByOperationOptionalParams has a new optional parameter requestOptions
+  - Interface TagGetEntityStateByOperationOptionalParams has a new optional parameter tracingOptions
+  - Interface TagGetEntityStateByOperationOptionalParams has a new optional parameter onResponse
+  - Interface TagGetEntityStateByProductOptionalParams has a new optional parameter abortSignal
+  - Interface TagGetEntityStateByProductOptionalParams has a new optional parameter requestOptions
+  - Interface TagGetEntityStateByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface TagGetEntityStateByProductOptionalParams has a new optional parameter onResponse
+  - Interface TagGetEntityStateOptionalParams has a new optional parameter abortSignal
+  - Interface TagGetEntityStateOptionalParams has a new optional parameter requestOptions
+  - Interface TagGetEntityStateOptionalParams has a new optional parameter tracingOptions
+  - Interface TagGetEntityStateOptionalParams has a new optional parameter onResponse
+  - Interface TagGetOptionalParams has a new optional parameter abortSignal
+  - Interface TagGetOptionalParams has a new optional parameter requestOptions
+  - Interface TagGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TagGetOptionalParams has a new optional parameter onResponse
+  - Interface TagListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface TagListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface TagListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface TagListByApiOptionalParams has a new optional parameter onResponse
+  - Interface TagListByOperationOptionalParams has a new optional parameter abortSignal
+  - Interface TagListByOperationOptionalParams has a new optional parameter requestOptions
+  - Interface TagListByOperationOptionalParams has a new optional parameter tracingOptions
+  - Interface TagListByOperationOptionalParams has a new optional parameter onResponse
+  - Interface TagListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface TagListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface TagListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface TagListByProductOptionalParams has a new optional parameter onResponse
+  - Interface TagListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface TagListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface TagListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface TagListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface TagOperationLinkContract has a new optional parameter systemData
+  - Interface TagOperationLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface TagOperationLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface TagOperationLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface TagOperationLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TagOperationLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface TagOperationLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface TagOperationLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface TagOperationLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface TagOperationLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface TagOperationLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface TagOperationLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TagOperationLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface TagOperationLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface TagOperationLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface TagOperationLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface TagOperationLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface TagProductLinkContract has a new optional parameter systemData
+  - Interface TagProductLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface TagProductLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface TagProductLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface TagProductLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TagProductLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface TagProductLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface TagProductLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface TagProductLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface TagProductLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface TagProductLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface TagProductLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TagProductLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface TagProductLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface TagProductLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface TagProductLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface TagProductLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface TagResourceListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface TagResourceListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface TagResourceListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface TagResourceListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface TagUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface TagUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface TagUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface TagUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessCreateOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessCreateOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessCreateOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessGetOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessGetOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessGetOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessGitRegeneratePrimaryKeyOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessGitRegeneratePrimaryKeyOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessGitRegeneratePrimaryKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessGitRegeneratePrimaryKeyOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessGitRegenerateSecondaryKeyOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessGitRegenerateSecondaryKeyOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessGitRegenerateSecondaryKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessGitRegenerateSecondaryKeyOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessRegeneratePrimaryKeyOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessRegeneratePrimaryKeyOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessRegeneratePrimaryKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessRegeneratePrimaryKeyOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessRegenerateSecondaryKeyOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessRegenerateSecondaryKeyOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessRegenerateSecondaryKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessRegenerateSecondaryKeyOptionalParams has a new optional parameter onResponse
+  - Interface TenantAccessUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface TenantAccessUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface TenantAccessUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantAccessUpdateOptionalParams has a new optional parameter onResponse
+  - Interface TenantConfigurationGetSyncStateOptionalParams has a new optional parameter abortSignal
+  - Interface TenantConfigurationGetSyncStateOptionalParams has a new optional parameter requestOptions
+  - Interface TenantConfigurationGetSyncStateOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantConfigurationGetSyncStateOptionalParams has a new optional parameter onResponse
+  - Interface TenantConfigurationSyncStateContract has a new optional parameter systemData
+  - Interface TenantSettingsContract has a new optional parameter systemData
+  - Interface TenantSettingsGetOptionalParams has a new optional parameter abortSignal
+  - Interface TenantSettingsGetOptionalParams has a new optional parameter requestOptions
+  - Interface TenantSettingsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantSettingsGetOptionalParams has a new optional parameter onResponse
+  - Interface TenantSettingsListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface TenantSettingsListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface TenantSettingsListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface TenantSettingsListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface UserConfirmationPasswordSendOptionalParams has a new optional parameter abortSignal
+  - Interface UserConfirmationPasswordSendOptionalParams has a new optional parameter requestOptions
+  - Interface UserConfirmationPasswordSendOptionalParams has a new optional parameter tracingOptions
+  - Interface UserConfirmationPasswordSendOptionalParams has a new optional parameter onResponse
+  - Interface UserContract has a new optional parameter systemData
+  - Interface UserCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface UserCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface UserCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface UserCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface UserGenerateSsoUrlOptionalParams has a new optional parameter abortSignal
+  - Interface UserGenerateSsoUrlOptionalParams has a new optional parameter requestOptions
+  - Interface UserGenerateSsoUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface UserGenerateSsoUrlOptionalParams has a new optional parameter onResponse
+  - Interface UserGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface UserGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface UserGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface UserGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface UserGetOptionalParams has a new optional parameter abortSignal
+  - Interface UserGetOptionalParams has a new optional parameter requestOptions
+  - Interface UserGetOptionalParams has a new optional parameter tracingOptions
+  - Interface UserGetOptionalParams has a new optional parameter onResponse
+  - Interface UserGetSharedAccessTokenOptionalParams has a new optional parameter abortSignal
+  - Interface UserGetSharedAccessTokenOptionalParams has a new optional parameter requestOptions
+  - Interface UserGetSharedAccessTokenOptionalParams has a new optional parameter tracingOptions
+  - Interface UserGetSharedAccessTokenOptionalParams has a new optional parameter onResponse
+  - Interface UserGroupListOptionalParams has a new optional parameter abortSignal
+  - Interface UserGroupListOptionalParams has a new optional parameter requestOptions
+  - Interface UserGroupListOptionalParams has a new optional parameter tracingOptions
+  - Interface UserGroupListOptionalParams has a new optional parameter onResponse
+  - Interface UserIdentitiesListOptionalParams has a new optional parameter abortSignal
+  - Interface UserIdentitiesListOptionalParams has a new optional parameter requestOptions
+  - Interface UserIdentitiesListOptionalParams has a new optional parameter tracingOptions
+  - Interface UserIdentitiesListOptionalParams has a new optional parameter onResponse
+  - Interface UserListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface UserListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface UserListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface UserListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface UserSubscriptionGetOptionalParams has a new optional parameter abortSignal
+  - Interface UserSubscriptionGetOptionalParams has a new optional parameter requestOptions
+  - Interface UserSubscriptionGetOptionalParams has a new optional parameter tracingOptions
+  - Interface UserSubscriptionGetOptionalParams has a new optional parameter onResponse
+  - Interface UserSubscriptionListOptionalParams has a new optional parameter abortSignal
+  - Interface UserSubscriptionListOptionalParams has a new optional parameter requestOptions
+  - Interface UserSubscriptionListOptionalParams has a new optional parameter tracingOptions
+  - Interface UserSubscriptionListOptionalParams has a new optional parameter onResponse
+  - Interface UserUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface UserUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface UserUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface UserUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WikiContract has a new optional parameter systemData
+  - Interface WorkspaceApiDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiDiagnosticCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiDiagnosticCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiDiagnosticCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiDiagnosticCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiDiagnosticDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiDiagnosticDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiDiagnosticDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiDiagnosticDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiDiagnosticGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiDiagnosticGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiDiagnosticGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiDiagnosticGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiDiagnosticGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiDiagnosticGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiDiagnosticGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiDiagnosticGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiDiagnosticListByWorkspaceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiDiagnosticListByWorkspaceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiDiagnosticListByWorkspaceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiDiagnosticListByWorkspaceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiDiagnosticUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiDiagnosticUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiDiagnosticUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiDiagnosticUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiExportGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiExportGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiExportGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiExportGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationListByApiOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationPolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationPolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationPolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationPolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationPolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationPolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationPolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationPolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationPolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationPolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationPolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationPolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationPolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationPolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationPolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationPolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationPolicyListByOperationOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationPolicyListByOperationOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationPolicyListByOperationOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationPolicyListByOperationOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiOperationUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiOperationUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiOperationUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiOperationUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiPolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiPolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiPolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiPolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiPolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiPolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiPolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiPolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiPolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiPolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiPolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiPolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiPolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiPolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiPolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiPolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiPolicyListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiPolicyListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiPolicyListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiPolicyListByApiOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiReleaseCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiReleaseCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiReleaseCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiReleaseCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiReleaseDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiReleaseDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiReleaseDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiReleaseDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiReleaseGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiReleaseGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiReleaseGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiReleaseGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiReleaseGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiReleaseGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiReleaseGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiReleaseGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiReleaseListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiReleaseListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiReleaseListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiReleaseListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiReleaseUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiReleaseUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiReleaseUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiReleaseUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiRevisionListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiRevisionListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiRevisionListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiRevisionListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiSchemaDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiSchemaDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiSchemaDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiSchemaDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiSchemaGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiSchemaGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiSchemaGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiSchemaGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiSchemaGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiSchemaGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiSchemaGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiSchemaGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiSchemaListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiSchemaListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiSchemaListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiSchemaListByApiOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiVersionSetCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiVersionSetCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiVersionSetCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiVersionSetCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiVersionSetDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiVersionSetDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiVersionSetDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiVersionSetDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiVersionSetGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiVersionSetGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiVersionSetGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiVersionSetGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiVersionSetGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiVersionSetGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiVersionSetGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiVersionSetGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiVersionSetListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiVersionSetListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiVersionSetListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiVersionSetListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceApiVersionSetUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceApiVersionSetUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceApiVersionSetUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceApiVersionSetUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceBackendCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceBackendCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceBackendCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceBackendCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceBackendDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceBackendDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceBackendDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceBackendDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceBackendGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceBackendGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceBackendGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceBackendGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceBackendGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceBackendGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceBackendGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceBackendGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceBackendListByWorkspaceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceBackendListByWorkspaceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceBackendListByWorkspaceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceBackendListByWorkspaceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceBackendUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceBackendUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceBackendUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceBackendUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceCertificateCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceCertificateCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceCertificateCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceCertificateCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceCertificateDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceCertificateDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceCertificateDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceCertificateDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceCertificateGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceCertificateGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceCertificateGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceCertificateGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceCertificateGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceCertificateGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceCertificateGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceCertificateGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceCertificateListByWorkspaceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceCertificateListByWorkspaceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceCertificateListByWorkspaceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceCertificateListByWorkspaceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceCertificateRefreshSecretOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceCertificateRefreshSecretOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceCertificateRefreshSecretOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceCertificateRefreshSecretOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceContract has a new optional parameter systemData
+  - Interface WorkspaceCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceDiagnosticCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceDiagnosticCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceDiagnosticCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceDiagnosticCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceDiagnosticDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceDiagnosticDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceDiagnosticDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceDiagnosticDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceDiagnosticGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceDiagnosticGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceDiagnosticGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceDiagnosticGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceDiagnosticGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceDiagnosticGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceDiagnosticGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceDiagnosticGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceDiagnosticListByWorkspaceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceDiagnosticListByWorkspaceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceDiagnosticListByWorkspaceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceDiagnosticListByWorkspaceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceDiagnosticUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceDiagnosticUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceDiagnosticUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceDiagnosticUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGlobalSchemaDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGlobalSchemaDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGlobalSchemaDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGlobalSchemaDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGlobalSchemaGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGlobalSchemaGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGlobalSchemaGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGlobalSchemaGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGlobalSchemaGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGlobalSchemaGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGlobalSchemaGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGlobalSchemaGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGlobalSchemaListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGlobalSchemaListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGlobalSchemaListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGlobalSchemaListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupUserCheckEntityExistsOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupUserCheckEntityExistsOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupUserCheckEntityExistsOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupUserCheckEntityExistsOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupUserCreateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupUserCreateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupUserCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupUserCreateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupUserDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupUserDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupUserDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupUserDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceGroupUserListOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceGroupUserListOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceGroupUserListOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceGroupUserListOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceLoggerCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceLoggerCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceLoggerCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceLoggerCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceLoggerDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceLoggerDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceLoggerDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceLoggerDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceLoggerGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceLoggerGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceLoggerGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceLoggerGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceLoggerGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceLoggerGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceLoggerGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceLoggerGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceLoggerListByWorkspaceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceLoggerListByWorkspaceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceLoggerListByWorkspaceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceLoggerListByWorkspaceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceLoggerUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceLoggerUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceLoggerUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceLoggerUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNamedValueDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNamedValueDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNamedValueDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNamedValueDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNamedValueGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNamedValueGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNamedValueGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNamedValueGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNamedValueGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNamedValueGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNamedValueGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNamedValueGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNamedValueListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNamedValueListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNamedValueListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNamedValueListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNamedValueListValueOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNamedValueListValueOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNamedValueListValueOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNamedValueListValueOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationRecipientEmailCheckEntityExistsOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationRecipientEmailCheckEntityExistsOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationRecipientEmailCheckEntityExistsOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationRecipientEmailCheckEntityExistsOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationRecipientEmailCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationRecipientEmailCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationRecipientEmailCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationRecipientEmailCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationRecipientEmailDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationRecipientEmailDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationRecipientEmailDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationRecipientEmailDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationRecipientEmailListByNotificationOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationRecipientEmailListByNotificationOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationRecipientEmailListByNotificationOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationRecipientEmailListByNotificationOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationRecipientUserCheckEntityExistsOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationRecipientUserCheckEntityExistsOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationRecipientUserCheckEntityExistsOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationRecipientUserCheckEntityExistsOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationRecipientUserCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationRecipientUserCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationRecipientUserCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationRecipientUserCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationRecipientUserDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationRecipientUserDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationRecipientUserDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationRecipientUserDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceNotificationRecipientUserListByNotificationOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceNotificationRecipientUserListByNotificationOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceNotificationRecipientUserListByNotificationOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceNotificationRecipientUserListByNotificationOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyFragmentDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyFragmentDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyFragmentDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyFragmentDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyFragmentGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyFragmentGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyFragmentGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyFragmentGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyFragmentGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyFragmentGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyFragmentGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyFragmentGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyFragmentListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyFragmentListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyFragmentListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyFragmentListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyFragmentListReferencesOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyFragmentListReferencesOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyFragmentListReferencesOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyFragmentListReferencesOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspacePolicyListByApiOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspacePolicyListByApiOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspacePolicyListByApiOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspacePolicyListByApiOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductApiLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductApiLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductApiLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductApiLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductApiLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductApiLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductApiLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductApiLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductApiLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductApiLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductApiLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductApiLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductApiLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductApiLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductApiLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductApiLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductGroupLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductGroupLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductGroupLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductGroupLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductGroupLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductGroupLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductGroupLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductGroupLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductGroupLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductGroupLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductGroupLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductGroupLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductGroupLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductGroupLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductGroupLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductGroupLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductPolicyCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductPolicyCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductPolicyCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductPolicyCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductPolicyDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductPolicyDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductPolicyDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductPolicyDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductPolicyGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductPolicyGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductPolicyGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductPolicyGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductPolicyGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductPolicyGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductPolicyGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductPolicyGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductPolicyListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductPolicyListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductPolicyListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductPolicyListByProductOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceProductUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceProductUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceProductUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceProductUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionGetEntityTagOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionGetEntityTagOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionGetEntityTagOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionGetEntityTagOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionListOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionListOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionListOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionListOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionListSecretsOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionListSecretsOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionListSecretsOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionListSecretsOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionRegeneratePrimaryKeyOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionRegeneratePrimaryKeyOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionRegeneratePrimaryKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionRegeneratePrimaryKeyOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionRegenerateSecondaryKeyOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionRegenerateSecondaryKeyOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionRegenerateSecondaryKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionRegenerateSecondaryKeyOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceSubscriptionUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceSubscriptionUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceSubscriptionUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceSubscriptionUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagApiLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagApiLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagApiLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagApiLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagApiLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagApiLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagApiLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagApiLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagApiLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagApiLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagApiLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagApiLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagApiLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagApiLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagApiLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagApiLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagGetEntityStateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagGetEntityStateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagGetEntityStateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagGetEntityStateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagListByServiceOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagListByServiceOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagListByServiceOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagListByServiceOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagOperationLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagOperationLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagOperationLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagOperationLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagOperationLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagOperationLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagOperationLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagOperationLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagOperationLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagOperationLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagOperationLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagOperationLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagOperationLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagOperationLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagOperationLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagOperationLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagProductLinkCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagProductLinkCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagProductLinkCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagProductLinkCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagProductLinkDeleteOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagProductLinkDeleteOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagProductLinkDeleteOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagProductLinkDeleteOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagProductLinkGetOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagProductLinkGetOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagProductLinkGetOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagProductLinkGetOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagProductLinkListByProductOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagProductLinkListByProductOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagProductLinkListByProductOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagProductLinkListByProductOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceTagUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceTagUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceTagUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceTagUpdateOptionalParams has a new optional parameter onResponse
+  - Interface WorkspaceUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface WorkspaceUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface WorkspaceUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface WorkspaceUpdateOptionalParams has a new optional parameter onResponse
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BackendSessionIdSource
+  - Added Type Alias CarbonEmissionCategory
+  - Added Type Alias ClientApplicationState
+  - Added Type Alias KeyType
+  - Added Type Alias KeyVaultFetchCode
+  - Added Type Alias LlmDiagnosticSettings
+  - Added Type Alias LlmMessageLogTypes
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias McpTransportType
+  - Added Type Alias ProductAuthType
+  - Added Type Alias ReleaseChannel
+  - Added Enum AzureClouds
+  - Added Enum KnownBackendSessionIdSource
+  - Added Enum KnownCarbonEmissionCategory
+  - Added Enum KnownClientApplicationState
+  - Added Enum KnownLlmDiagnosticSettings
+  - Added Enum KnownLlmMessageLogTypes
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMcpTransportType
+  - Added Enum KnownProductAuthType
+  - Added Enum KnownReleaseChannel
+  - Added Enum KnownVersions
+  - Enum KnownApiType has a new value Mcp
+  - Enum KnownSkuType has a new value PremiumV2
+  - Enum KnownSoapApiType has a new value MCP
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation Api.beginDeleteAndWait has a new signature
+  - Operation Api.getEntityTag has a new signature
+  - Operation ApiDiagnostic.getEntityTag has a new signature
+  - Operation ApiGatewayConfigConnection.beginDeleteAndWait has a new signature
+  - Operation ApiIssue.getEntityTag has a new signature
+  - Operation ApiIssueAttachment.getEntityTag has a new signature
+  - Operation ApiIssueComment.getEntityTag has a new signature
+  - Operation ApiOperation.getEntityTag has a new signature
+  - Operation ApiOperationPolicy.getEntityTag has a new signature
+  - Operation ApiPolicy.getEntityTag has a new signature
+  - Operation ApiRelease.getEntityTag has a new signature
+  - Operation ApiSchema.getEntityTag has a new signature
+  - Operation ApiTagDescription.getEntityTag has a new signature
+  - Operation ApiVersionSet.getEntityTag has a new signature
+  - Operation ApiWiki.getEntityTag has a new signature
+  - Operation Authorization.confirmConsentCode has a new signature
+  - Operation AuthorizationServer.getEntityTag has a new signature
+  - Operation Backend.getEntityTag has a new signature
+  - Operation Certificate.getEntityTag has a new signature
+  - Operation ContentItem.getEntityTag has a new signature
+  - Operation DelegationSettings.getEntityTag has a new signature
+  - Operation Diagnostic.getEntityTag has a new signature
+  - Operation Documentation.getEntityTag has a new signature
+  - Operation EmailTemplate.getEntityTag has a new signature
+  - Operation Gateway.getEntityTag has a new signature
+  - Operation GatewayApi.getEntityTag has a new signature
+  - Operation GatewayCertificateAuthority.getEntityTag has a new signature
+  - Operation GatewayHostnameConfiguration.getEntityTag has a new signature
+  - Operation GlobalSchema.getEntityTag has a new signature
+  - Operation GraphQLApiResolver.getEntityTag has a new signature
+  - Operation GraphQLApiResolverPolicy.getEntityTag has a new signature
+  - Operation Group.getEntityTag has a new signature
+  - Operation GroupUser.checkEntityExists has a new signature
+  - Operation IdentityProvider.getEntityTag has a new signature
+  - Operation Logger.getEntityTag has a new signature
+  - Operation NamedValue.getEntityTag has a new signature
+  - Operation NotificationRecipientEmail.checkEntityExists has a new signature
+  - Operation NotificationRecipientUser.checkEntityExists has a new signature
+  - Operation OpenIdConnectProvider.getEntityTag has a new signature
+  - Operation OperationsResults.get has a new signature
+  - Operation Policy.getEntityTag has a new signature
+  - Operation PolicyFragment.getEntityTag has a new signature
+  - Operation PolicyRestriction.getEntityTag has a new signature
+  - Operation PortalConfig.getEntityTag has a new signature
+  - Operation PortalRevision.getEntityTag has a new signature
+  - Operation Product.getEntityTag has a new signature
+  - Operation ProductApi.checkEntityExists has a new signature
+  - Operation ProductGroup.checkEntityExists has a new signature
+  - Operation ProductPolicy.getEntityTag has a new signature
+  - Operation ProductWiki.getEntityTag has a new signature
+  - Operation SignInSettings.getEntityTag has a new signature
+  - Operation SignUpSettings.getEntityTag has a new signature
+  - Operation Subscription.getEntityTag has a new signature
+  - Operation Tag.getEntityState has a new signature
+  - Operation Tag.getEntityStateByApi has a new signature
+  - Operation Tag.getEntityStateByOperation has a new signature
+  - Operation Tag.getEntityStateByProduct has a new signature
+  - Operation TenantAccess.getEntityTag has a new signature
+  - Operation User.beginDeleteAndWait has a new signature
+  - Operation User.getEntityTag has a new signature
+  - Operation Workspace.getEntityTag has a new signature
+  - Operation WorkspaceApi.getEntityTag has a new signature
+  - Operation WorkspaceApiDiagnostic.getEntityTag has a new signature
+  - Operation WorkspaceApiOperation.getEntityTag has a new signature
+  - Operation WorkspaceApiOperationPolicy.getEntityTag has a new signature
+  - Operation WorkspaceApiPolicy.getEntityTag has a new signature
+  - Operation WorkspaceApiRelease.getEntityTag has a new signature
+  - Operation WorkspaceApiSchema.getEntityTag has a new signature
+  - Operation WorkspaceApiVersionSet.getEntityTag has a new signature
+  - Operation WorkspaceBackend.getEntityTag has a new signature
+  - Operation WorkspaceCertificate.getEntityTag has a new signature
+  - Operation WorkspaceDiagnostic.getEntityTag has a new signature
+  - Operation WorkspaceGlobalSchema.getEntityTag has a new signature
+  - Operation WorkspaceGroup.getEntityTag has a new signature
+  - Operation WorkspaceGroupUser.checkEntityExists has a new signature
+  - Operation WorkspaceLogger.getEntityTag has a new signature
+  - Operation WorkspaceNamedValue.getEntityTag has a new signature
+  - Operation WorkspaceNotificationRecipientEmail.checkEntityExists has a new signature
+  - Operation WorkspaceNotificationRecipientUser.checkEntityExists has a new signature
+  - Operation WorkspacePolicy.getEntityTag has a new signature
+  - Operation WorkspacePolicyFragment.getEntityTag has a new signature
+  - Operation WorkspaceProduct.getEntityTag has a new signature
+  - Operation WorkspaceProductPolicy.getEntityTag has a new signature
+  - Operation WorkspaceSubscription.getEntityTag has a new signature
+  - Operation WorkspaceTag.getEntityState has a new signature
+  - Removed Interface AccessInformationCollection
+  - Removed Interface AllPoliciesCollection
+  - Removed Interface ApiCollection
+  - Removed Interface ApiReleaseCollection
+  - Removed Interface ApiRevisionCollection
+  - Removed Interface ApiRevisionInfoContract
+  - Removed Interface ApiVersionSetCollection
+  - Removed Interface AuthorizationAccessPolicyCollection
+  - Removed Interface AuthorizationCollection
+  - Removed Interface AuthorizationProviderCollection
+  - Removed Interface AuthorizationServerCollection
+  - Removed Interface BackendCollection
+  - Removed Interface Cache_2
+  - Removed Interface CacheCollection
+  - Removed Interface CertificateCollection
+  - Removed Interface ContentItemCollection
+  - Removed Interface ContentTypeCollection
+  - Removed Interface DeletedServicesCollection
+  - Removed Interface DiagnosticCollection
+  - Removed Interface DocumentationCollection
+  - Removed Interface EmailTemplateCollection
+  - Removed Interface GatewayCertificateAuthorityCollection
+  - Removed Interface GatewayCollection
+  - Removed Interface GatewayHostnameConfigurationCollection
+  - Removed Interface GatewayResourceSkuResults
+  - Removed Interface GlobalSchemaCollection
+  - Removed Interface GroupCollection
+  - Removed Interface IdentityProviderList
+  - Removed Interface IssueAttachmentCollection
+  - Removed Interface IssueCollection
+  - Removed Interface IssueCommentCollection
+  - Removed Interface LoggerCollection
+  - Removed Interface NamedValueCollection
+  - Removed Interface Notification_2
+  - Removed Interface NotificationCollection
+  - Removed Interface OpenIdConnectProviderCollection
+  - Removed Interface OperationCollection
+  - Removed Interface OperationListByTagsOptionalParams
+  - Removed Interface PerformConnectivityCheckAsyncOptionalParams
+  - Removed Interface PolicyFragmentCollection
+  - Removed Interface PolicyRestrictionCollection
+  - Removed Interface PolicyWithComplianceCollection
+  - Removed Interface PolicyWithComplianceContract
+  - Removed Interface PortalConfigCollection
+  - Removed Interface PortalRevisionCollection
+  - Removed Interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
+  - Removed Interface PrivateEndpointConnectionDeleteOptionalParams
+  - Removed Interface PrivateEndpointConnectionGetByNameOptionalParams
+  - Removed Interface PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams
+  - Removed Interface PrivateEndpointConnectionListByServiceOptionalParams
+  - Removed Interface PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams
+  - Removed Interface ProductApiLinkCollection
+  - Removed Interface ProductCollection
+  - Removed Interface ProductGroupLinkCollection
+  - Removed Interface QuotaCounterValueContract
+  - Removed Interface ReportCollection
+  - Removed Interface RequestReportCollection
+  - Removed Interface ResolverCollection
+  - Removed Interface ResolverResultContract
+  - Removed Interface ResolverResultLogItemContract
+  - Removed Interface ResourceSkuResults
+  - Removed Interface SchemaCollection
+  - Removed Interface SubscriptionCollection
+  - Removed Interface TagApiLinkCollection
+  - Removed Interface TagCollection
+  - Removed Interface TagDescriptionCollection
+  - Removed Interface TagOperationLinkCollection
+  - Removed Interface TagProductLinkCollection
+  - Removed Interface TagResourceCollection
+  - Removed Interface TenantSettingsCollection
+  - Removed Interface UserCollection
+  - Removed Interface UserIdentityCollection
+  - Removed Interface WikiCollection
+  - Removed Interface WorkspaceCollection
+  - Interface SchemaContract no longer has parameter components
+  - Interface SchemaContract no longer has parameter definitions
+  - Interface SchemaContract no longer has parameter value
+  - Parameter value of interface PrivateLinkResourceListResult is now required
+  - Parameter protocol of interface BackendContractProperties is now optional
+  - Parameter url of interface BackendContractProperties is now optional
+  - Removed Type Alias ApiVersionSetContractDetailsVersioningScheme
+  - Removed Type Alias AsyncResolverStatus
+  - Removed Type Alias KeyType_2
+  - Removed Enum KnownApiVersionSetContractDetailsVersioningScheme
 
 ## 11.0.0-beta.1 (2026-06-09)
 Compared with version 10.0.0
