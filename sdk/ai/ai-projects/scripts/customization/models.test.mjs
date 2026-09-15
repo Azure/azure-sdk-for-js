@@ -105,13 +105,13 @@ const publicExample = 'export type { Example } from "./models.js";';
 
 test("model moves preserve customized fields and merge new converter wire mappings", () => {
   const baseText = `
-export interface Example { kind: "example"; old_name: string; }
-export function exampleSerializer(item: Example): any { return { kind: item.kind, old_name: item.old_name }; }
+export interface Example { old_name: string; }
+export function exampleSerializer(item: Example): any { return { old_name: item.old_name }; }
 `;
   const customText = `
-export interface Example { kind: "example"; /** Keep this documentation. */ old_name: string; custom?: string; }
+export interface Example { /** Keep this documentation. */ old_name: string; custom?: string; }
 export function exampleSerializer(item: Example): any {
-  return { custom: item.custom, kind: item.kind, old_name: item.old_name };
+  return { old_name: item.old_name, custom: item.custom };
 }
 `;
   const incoming = new Map([
@@ -122,9 +122,9 @@ export function exampleSerializer(item: Example): any {
     [
       "models/openAI/models.ts",
       `
-export interface Example { kind: "example"; connection_name: string; source: string; }
+export interface Example { connection_name: string; source: string; }
 export function exampleSerializer(item: Example): any {
-  return { kind: item.kind, connection_name: item.connection_name, source: item.source };
+  return { connection_name: item.connection_name, source: item.source };
 }
 `,
     ],
@@ -144,17 +144,14 @@ export function exampleSerializer(item: Example): any {
   assert.equal((output.match(/export interface Example\b/g) ?? []).length, 1);
   assert.match(result.files.get("models/openAI/models.ts"), /from "\.\.\/models\.js"/);
   const actual = evaluate(output).exampleSerializer({
-    kind: "example",
     connection_name: "connection",
     source: "+14255550100",
     custom: "kept",
   });
-  assert.deepEqual(JSON.parse(JSON.stringify(actual)), {
-    kind: "example",
-    connection_name: "connection",
-    source: "+14255550100",
-    custom: "kept",
-  });
+  assert.equal(
+    JSON.stringify(actual),
+    JSON.stringify({ connection_name: "connection", source: "+14255550100", custom: "kept" }),
+  );
   assert.ok(result.exports.some((entry) => entry.name === "Container" && entry.isTypeOnly));
 });
 
@@ -433,7 +430,7 @@ export function apiErrorDeserializer(item: any): ApiError {
 export interface ErrorModel { code: string; message: string; additionalInfo?: Record<string, unknown>; custom?: string; }
 export interface ApiErrorResponse { error: ErrorModel; }
 export function apiErrorDeserializer(item: any): ErrorModel {
-  return { code: item.code, message: item.message, custom: item.custom, additionalInfo: item.additionalInfo };
+  return { code: item.code, message: item.message, additionalInfo: item.additionalInfo, custom: item.custom };
 }
 `,
     'export type { ErrorModel, ApiErrorResponse } from "./models.js";',
@@ -455,14 +452,16 @@ export function apiErrorDeserializer(item: any): ApiError {
     result.exports.some((entry) => entry.name === "ApiError"),
     false,
   );
+  const additionalInfo = { count: 0 };
   const decoded = evaluate(result.files.get(modelFile)).apiErrorDeserializer({
     code: "failure",
     message: "message",
-    additionalInfo: { count: 0 },
+    additionalInfo,
     custom: "kept",
     new_info: "added",
   });
   assert.equal(decoded.additionalInfo.count, 0);
+  assert.equal(decoded.additionalInfo, additionalInfo);
   assert.equal(decoded.custom, "kept");
   assert.equal(decoded.new_info, "added");
 });
