@@ -44,7 +44,6 @@ export interface JobTargetExecutionsOperations {
     options?: JobTargetExecutionsGetOptionalParams,
   ) => Promise<JobExecution>;
 }
-
 function _getJobTargetExecutions(context: SqlManagementContext) {
   return {
     listByJobExecution: (
@@ -106,7 +105,6 @@ function _getJobTargetExecutions(context: SqlManagementContext) {
       ),
   };
 }
-
 export function _getJobTargetExecutionsOperations(
   context: SqlManagementContext,
 ): JobTargetExecutionsOperations {

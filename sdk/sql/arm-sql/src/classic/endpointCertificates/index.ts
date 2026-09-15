@@ -26,7 +26,6 @@ export interface EndpointCertificatesOperations {
     options?: EndpointCertificatesGetOptionalParams,
   ) => Promise<EndpointCertificate>;
 }
-
 function _getEndpointCertificates(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -42,7 +41,6 @@ function _getEndpointCertificates(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, endpointType, options),
   };
 }
-
 export function _getEndpointCertificatesOperations(
   context: SqlManagementContext,
 ): EndpointCertificatesOperations {
