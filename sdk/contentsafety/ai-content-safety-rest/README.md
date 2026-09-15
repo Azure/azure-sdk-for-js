@@ -50,7 +50,7 @@ For more information about how to create a Microsoft Entra application check out
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
-```ts 
+```ts snippet:ReadmeSampleCreateClient_Node
 import { BlocklistClient } from "@azure-rest/ai-content-safety";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -59,14 +59,14 @@ const client = new BlocklistClient("<endpoint>", new DefaultAzureCredential());
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
-```ts 
+```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { BlocklistClient } from "@azure-rest/ai-content-safety";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = new BlocklistClient("<endpoint>", credential);
 ```
 
@@ -86,7 +86,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts 
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
