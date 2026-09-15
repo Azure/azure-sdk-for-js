@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listByWorkflow, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
-  type WorkflowVersionsListByWorkflowOptionalParams,
-  type WorkflowVersionsDeleteOptionalParams,
-  type WorkflowVersionsUpdateOptionalParams,
-  type WorkflowVersionsCreateOrUpdateOptionalParams,
-  type WorkflowVersionsGetOptionalParams,
+export type {
+  WorkflowVersionsListByWorkflowOptionalParams,
+  WorkflowVersionsDeleteOptionalParams,
+  WorkflowVersionsUpdateOptionalParams,
+  WorkflowVersionsCreateOrUpdateOptionalParams,
+  WorkflowVersionsGetOptionalParams,
 } from "./options.js";

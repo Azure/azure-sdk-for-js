@@ -8,30 +8,24 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an Context Resource
  *
  * @summary update an Context Resource
- * x-ms-original-file: 2025-06-01/Contexts_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Contexts_Update_MaximumSet_Gen.json
  */
-async function contextsUpdateMaximumSet(): Promise<void> {
+async function contextsUpdateMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.contexts.update("rgconfigurationmanager", "testname", {
     properties: {
-      capabilities: [
-        {
-          name: "tpylinjcmlnycfpofpxjtqmt",
-          description: "banbenutsngwytoqh",
-          state: "active",
-        },
-      ],
-      hierarchies: [{ name: "upqe", description: "vg" }],
+      capabilities: [{ name: "alufbbxccup", state: "active", description: "hnwcxjwfecxnwsqkoac" }],
+      hierarchies: [{ name: "fz", description: "nlrpsglqgbdmwpantk" }],
     },
-    tags: { key9545: "dhxykbzgliyqxxizttbjhuruhhv" },
+    tags: {},
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await contextsUpdateMaximumSet();
+  await contextsUpdateMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

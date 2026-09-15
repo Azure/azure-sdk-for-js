@@ -8,26 +8,26 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Solution Template Resource
  *
  * @summary update a Solution Template Resource
- * x-ms-original-file: 2025-06-01/SolutionTemplates_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/SolutionTemplates_Update_MaximumSet_Gen.json
  */
-async function solutionTemplatesUpdateMaximumSet() {
+async function solutionTemplatesUpdateMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.solutionTemplates.update("rgconfigurationmanager", "testname", {
     properties: {
-      description: "onqlteg",
-      capabilities: ["relsv"],
+      capabilities: ["wjgogxhkayhrcn"],
       state: "active",
       enableExternalValidation: true,
+      description: "jbsuwcclfsxtzglvk",
     },
-    tags: { key8772: "vbdujmqklnwiepis" },
+    tags: {},
   });
   console.log(result);
 }
 
 async function main() {
-  await solutionTemplatesUpdateMaximumSet();
+  await solutionTemplatesUpdateMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

@@ -11,13 +11,13 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type SolutionTemplatesListBySubscriptionOptionalParams,
-  type SolutionTemplatesListByResourceGroupOptionalParams,
-  type SolutionTemplatesDeleteOptionalParams,
-  type SolutionTemplatesRemoveVersionOptionalParams,
-  type SolutionTemplatesCreateVersionOptionalParams,
-  type SolutionTemplatesUpdateOptionalParams,
-  type SolutionTemplatesCreateOrUpdateOptionalParams,
-  type SolutionTemplatesGetOptionalParams,
+export type {
+  SolutionTemplatesListBySubscriptionOptionalParams,
+  SolutionTemplatesListByResourceGroupOptionalParams,
+  SolutionTemplatesDeleteOptionalParams,
+  SolutionTemplatesRemoveVersionOptionalParams,
+  SolutionTemplatesCreateVersionOptionalParams,
+  SolutionTemplatesUpdateOptionalParams,
+  SolutionTemplatesCreateOrUpdateOptionalParams,
+  SolutionTemplatesGetOptionalParams,
 } from "./options.js";
