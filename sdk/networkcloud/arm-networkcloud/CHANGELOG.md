@@ -1,5 +1,34 @@
 # Release History
 
+## 2.1.0-beta.1 (2026-09-14)
+Compared with version 2.0.0
+
+### Features Added
+  - Added Interface ClusterManagerPatchProperties
+  - Added Interface CyberArkSecretArchiveProviderConfiguration
+  - Added Interface HashiCorpVaultSecretArchiveProviderConfiguration
+  - Added Interface OpenBaoSecretArchiveProviderConfiguration
+  - Added Interface SecretArchiveProviderConfiguration
+  - Interface Cluster has a new optional parameter edgeManagementServiceCaCertificate
+  - Interface ClusterManager has a new optional parameter rolloutRing
+  - Interface ClusterManagerPatchParameters has a new optional parameter properties
+  - Interface ClusterManagerProperties has a new optional parameter rolloutRing
+  - Interface ClusterProperties has a new optional parameter edgeManagementServiceCaCertificate
+  - Interface SecretArchiveReference has a new optional parameter encryptionPublicKey
+  - Interface SecretArchiveSettings has a new optional parameter encryptionPublicKey
+  - Interface SecretArchiveSettings has a new optional parameter providerConfiguration
+  - Added Type Alias KeyValueVersion
+  - Added Type Alias SecretArchiveProviderConfigurationUnion
+  - Added Type Alias SecretArchiveProviderType
+  - Added Type Alias VaultAuthenticationMethod
+  - Added Enum KnownKeyValueVersion
+  - Added Enum KnownSecretArchiveProviderType
+  - Added Enum KnownVaultAuthenticationMethod
+  - Enum KnownAccessBridgeAllowedName has a new value EdgeManagement
+  - Enum KnownVersions has a new value V20260101Preview
+  - Enum KnownVersions has a new value V20260501Preview
+  - Enum KnownVersions has a new value V20260801Preview
+
 ## 2.0.0 (2026-08-18)
 
 ### Features Added
