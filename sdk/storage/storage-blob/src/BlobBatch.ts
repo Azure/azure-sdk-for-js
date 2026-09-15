@@ -91,28 +91,25 @@ export class BlobBatch {
   }
 
   private async addSubRequestInternal(
+    batchType: "delete" | "setAccessTier",
     subRequest: BatchSubRequest,
     assembleSubRequestFunc: () => Promise<void>,
   ): Promise<void> {
     await Mutex.lock(this.batch);
 
     try {
+      if (this.batchType && this.batchType !== batchType) {
+        throw new RangeError(
+          `BlobBatch only supports one operation type per batch and it already is being used for ${this.batchType} operations.`,
+        );
+      }
       this.batchRequest.preAddSubRequest(subRequest);
       await assembleSubRequestFunc();
       this.batchRequest.postAddSubRequest(subRequest);
+      // Committed last so a rejected sub request cannot pin the batch to its operation type.
+      this.batchType = batchType;
     } finally {
       await Mutex.unlock(this.batch);
-    }
-  }
-
-  private setBatchType(batchType: "delete" | "setAccessTier"): void {
-    if (!this.batchType) {
-      this.batchType = batchType;
-    }
-    if (this.batchType !== batchType) {
-      throw new RangeError(
-        `BlobBatch only supports one operation type per batch and it already is being used for ${this.batchType} operations.`,
-      );
     }
   }
 
@@ -192,8 +189,8 @@ export class BlobBatch {
       "BatchDeleteRequest-addSubRequest",
       options,
       async (updatedOptions) => {
-        this.setBatchType("delete");
         await this.addSubRequestInternal(
+          "delete",
           {
             url: url,
             credential: credential,
@@ -296,8 +293,8 @@ export class BlobBatch {
       "BatchSetTierRequest-addSubRequest",
       options,
       async (updatedOptions) => {
-        this.setBatchType("setAccessTier");
         await this.addSubRequestInternal(
+          "setAccessTier",
           {
             url: url,
             credential: credential,

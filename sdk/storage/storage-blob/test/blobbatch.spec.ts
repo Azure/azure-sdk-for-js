@@ -927,6 +927,27 @@ describe("BlobBatch header injection", () => {
     assert.equal(batch.getSubRequests().size, 2);
   });
 
+  it("keeps the batch open to the other operation type when the first sub request is rejected", async () => {
+    const batch = new BlobBatch();
+    await expect(
+      batch.deleteBlob(blobUrl, credential, {
+        requestOptions: { headers: { [`x-custom${CRLF}x-ms-delete-snapshots: include`]: "v" } },
+      } as BlobDeleteOptions),
+    ).rejects.toThrow(/Invalid CR\/LF character in sub request header/);
+
+    await batch.setBlobAccessTier(blobUrl, credential, "Cool");
+    assert.equal(batch.getSubRequests().size, 1);
+  });
+
+  it("still rejects mixing operation types after a sub request succeeds", async () => {
+    const batch = new BlobBatch();
+    await batch.deleteBlob(blobUrl, credential);
+
+    await expect(batch.setBlobAccessTier(blobUrl, credential, "Cool")).rejects.toThrow(
+      /only supports one operation type per batch/,
+    );
+  });
+
   // Drives the serializer directly with a header collection that skips `createHttpHeaders`,
   // proving the guard still holds if upstream value scrubbing ever regresses.
   it("rejects CR/LF in a header value that bypassed header normalization", async () => {
