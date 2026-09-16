@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update a Traffic Manager profile.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PATCH-MonitorConfig.json
  */
-async function profilePatchMonitorConfig(): Promise<void> {
+async function profilePatchMonitorConfig() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function profilePatchMonitorConfig(): Promise<void> {
  * @summary update a Traffic Manager profile.
  * x-ms-original-file: 2026-09-01/Profile-PATCH-RecordType.json
  */
-async function profilePatchRecordType(): Promise<void> {
+async function profilePatchRecordType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -53,7 +53,7 @@ async function profilePatchRecordType(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await profilePatchMonitorConfig();
   await profilePatchRecordType();
 }

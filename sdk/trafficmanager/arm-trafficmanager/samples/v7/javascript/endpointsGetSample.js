@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to gets a Traffic Manager endpoint.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-GET-External-WithGeoMapping.json
  */
-async function endpointGETExternalWithGeoMapping(): Promise<void> {
+async function endpointGETExternalWithGeoMapping() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -29,7 +29,7 @@ async function endpointGETExternalWithGeoMapping(): Promise<void> {
  * @summary gets a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-GET-External-WithLocation.json
  */
-async function endpointGETExternalWithLocation(): Promise<void> {
+async function endpointGETExternalWithLocation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function endpointGETExternalWithLocation(): Promise<void> {
  * @summary gets a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-GET-External-WithSubnetMapping.json
  */
-async function endpointGETExternalWithSubnetMapping(): Promise<void> {
+async function endpointGETExternalWithSubnetMapping() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -61,7 +61,7 @@ async function endpointGETExternalWithSubnetMapping(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await endpointGETExternalWithGeoMapping();
   await endpointGETExternalWithLocation();
   await endpointGETExternalWithSubnetMapping();

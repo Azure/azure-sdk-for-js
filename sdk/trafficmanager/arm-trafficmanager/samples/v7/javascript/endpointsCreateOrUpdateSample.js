@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create or update a Traffic Manager endpoint.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create or update a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithAlwaysServe.json
  */
-async function endpointPUTExternalWithAlwaysServe(): Promise<void> {
+async function endpointPUTExternalWithAlwaysServe() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -37,7 +37,7 @@ async function endpointPUTExternalWithAlwaysServe(): Promise<void> {
  * @summary create or update a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithCustomHeaders.json
  */
-async function endpointPUTExternalWithCustomHeaders(): Promise<void> {
+async function endpointPUTExternalWithCustomHeaders() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -67,7 +67,7 @@ async function endpointPUTExternalWithCustomHeaders(): Promise<void> {
  * @summary create or update a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithGeoMapping.json
  */
-async function endpointPUTExternalWithGeoMapping(): Promise<void> {
+async function endpointPUTExternalWithGeoMapping() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -93,7 +93,7 @@ async function endpointPUTExternalWithGeoMapping(): Promise<void> {
  * @summary create or update a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithLocation.json
  */
-async function endpointPUTExternalWithLocation(): Promise<void> {
+async function endpointPUTExternalWithLocation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -119,7 +119,7 @@ async function endpointPUTExternalWithLocation(): Promise<void> {
  * @summary create or update a Traffic Manager endpoint.
  * x-ms-original-file: 2026-09-01/Endpoint-PUT-External-WithSubnetMapping.json
  */
-async function endpointPUTExternalWithSubnetMapping(): Promise<void> {
+async function endpointPUTExternalWithSubnetMapping() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -142,7 +142,7 @@ async function endpointPUTExternalWithSubnetMapping(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await endpointPUTExternalWithAlwaysServe();
   await endpointPUTExternalWithCustomHeaders();
   await endpointPUTExternalWithGeoMapping();

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to checks the availability of a Traffic Manager Relative DNS name.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary checks the availability of a Traffic Manager Relative DNS name.
  * x-ms-original-file: 2026-09-01/NameAvailabilityTest_NameAvailable-POST-example-21.json
  */
-async function nameAvailabilityTestNameAvailablePost21(): Promise<void> {
+async function nameAvailabilityTestNameAvailablePost21() {
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential);
   const result = await client.profiles.checkTrafficManagerRelativeDnsNameAvailability({
@@ -26,7 +26,7 @@ async function nameAvailabilityTestNameAvailablePost21(): Promise<void> {
  * @summary checks the availability of a Traffic Manager Relative DNS name.
  * x-ms-original-file: 2026-09-01/NameAvailabilityTest_NameNotAvailable-POST-example-23.json
  */
-async function nameAvailabilityTestNameNotAvailablePost23(): Promise<void> {
+async function nameAvailabilityTestNameNotAvailablePost23() {
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential);
   const result = await client.profiles.checkTrafficManagerRelativeDnsNameAvailability({
@@ -36,7 +36,7 @@ async function nameAvailabilityTestNameNotAvailablePost23(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await nameAvailabilityTestNameAvailablePost21();
   await nameAvailabilityTestNameNotAvailablePost23();
 }
