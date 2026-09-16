@@ -1916,8 +1916,8 @@ export interface BetaVoiceAgentsTelephonyListCallsOptionalParams extends Operati
     limit?: number;
     order?: PageOrder;
     provider?: TelephonyProvider;
-    startedAfter?: Date;
-    startedBefore?: Date;
+    startedAfterTime?: Date;
+    startedBeforeTime?: Date;
     status?: TelephonyCallStatus;
 }
 
