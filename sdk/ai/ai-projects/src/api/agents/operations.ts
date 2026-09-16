@@ -358,11 +358,11 @@ export function _getMicrosoft365PublishDefaultsSend(
   options: GetMicrosoft365PublishDefaultsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/microsoft365/publishdefaults{?publishAsDigitalWorker,api-version}",
+    "/agents/{agent_name}/microsoft365/publishdefaults{?publishAsDigitalWorker,api%2Dversion}",
     {
       agent_name: agentName,
       publishAsDigitalWorker: options?.publishAsDigitalWorker,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -410,10 +410,10 @@ export function _getMicrosoft365PackageSend(
   options: GetMicrosoft365PackageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/microsoft365/zip{?api-version}",
+    "/agents/{agent_name}/microsoft365/zip{?api%2Dversion}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,10 +488,10 @@ export function _publishToMicrosoft365Send(
   options: PublishToMicrosoft365OptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/microsoft365/publish{?api-version}",
+    "/agents/{agent_name}/microsoft365/publish{?api%2Dversion}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

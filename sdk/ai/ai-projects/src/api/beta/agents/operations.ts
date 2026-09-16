@@ -326,9 +326,9 @@ export function _createFromPromptSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents:generate{?api-version}",
+    "/agents:generate{?api%2Dversion}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

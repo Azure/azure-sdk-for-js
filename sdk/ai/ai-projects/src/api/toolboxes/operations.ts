@@ -187,10 +187,10 @@ export function _invokeLatestToolboxMcpSend(
   options: ToolboxesInvokeLatestToolboxMcpOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes/{name}:invoke_mcp{?api-version}",
+    "/toolboxes/{name}:invoke_mcp{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
