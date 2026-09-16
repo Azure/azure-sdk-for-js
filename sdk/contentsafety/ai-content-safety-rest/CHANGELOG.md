@@ -12,6 +12,7 @@
 
 - Replaced the default REST factory with named `ContentSafetyClient`, `ContentProvenanceClient`, and `BlocklistClient` classes. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
 - Added dedicated request models for blocklist item and blocklist update payloads so service-generated identifiers are not required as input. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
+- Changed `ImageData.content` from a base64-encoded string to raw `Uint8Array` bytes. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
 
 ## 1.0.2 (2025-08-22)
 
