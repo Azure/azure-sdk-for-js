@@ -5,35 +5,27 @@
  * @summary Demonstrates how to analyze text.
  */
 
-import ContentSafetyClient, {
-  isUnexpected
-} from "@azure-rest/ai-content-safety";
+import { ContentSafetyClient } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
+import "dotenv/config";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
   const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
   const credential = new AzureKeyCredential(key);
-  const client = ContentSafetyClient(endpoint, credential);
+  const client = new ContentSafetyClient(endpoint, credential);
 
   const text = "This is a sample text";
-  const analyzeTextOption = { text: text };
-  const analyzeTextParameters = { body: analyzeTextOption };
+  const result = await client.analyzeText({ text });
 
-  const result = await client.path("/text:analyze").post(analyzeTextParameters);
-
-  if (isUnexpected(result)) {
-    throw result;
-  }
-
-  for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
-    const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
-    console.log(textCategoriesAnalysisOutput.category, " severity: ", textCategoriesAnalysisOutput.severity)
+  for (let i = 0; i < result.categoriesAnalysis.length; i++) {
+    const textCategoriesAnalysisOutput = result.categoriesAnalysis[i];
+    console.log(
+      textCategoriesAnalysisOutput.category,
+      " severity: ",
+      textCategoriesAnalysisOutput.severity,
+    );
   }
 }
 

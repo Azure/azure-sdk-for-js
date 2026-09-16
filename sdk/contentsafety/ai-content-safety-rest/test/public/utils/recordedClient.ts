@@ -4,8 +4,7 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import "./env.js";
-import type { ContentSafetyClient } from "../../../src/index.js";
-import ContentSafety from "../../../src/index.js";
+import { BlocklistClient, ContentSafetyClient } from "../../../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { ClientOptions } from "@azure-rest/core-client";
 
@@ -26,6 +25,7 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function createRecorder(context: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
+  await recorder.setMatcher("CustomDefaultMatcher", { ignoreQueryOrdering: true });
   return recorder;
 }
 
@@ -33,6 +33,21 @@ export function createClient(recorder: Recorder): ContentSafetyClient {
   const endpoint = assertEnvironmentVariable("CONTENT_SAFETY_ENDPOINT");
   const key = assertEnvironmentVariable("CONTENT_SAFETY_API_KEY");
   const credential = new AzureKeyCredential(key);
-  const client = ContentSafety(endpoint, credential, recorder.configureClientOptions({}));
+  const client = new ContentSafetyClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ apiVersion: "2023-10-01" }),
+  );
   return client;
+}
+
+export function createBlocklistClient(recorder: Recorder): BlocklistClient {
+  const endpoint = assertEnvironmentVariable("CONTENT_SAFETY_ENDPOINT");
+  const key = assertEnvironmentVariable("CONTENT_SAFETY_API_KEY");
+  const credential = new AzureKeyCredential(key);
+  return new BlocklistClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ apiVersion: "2023-10-01" }),
+  );
 }
