@@ -51,7 +51,6 @@ export interface TargetsOperations {
     options?: TargetsGetOptionalParams,
   ) => Promise<Target>;
 }
-
 function _getTargets(context: ChaosManagementContext) {
   return {
     list: (
@@ -124,7 +123,6 @@ function _getTargets(context: ChaosManagementContext) {
       ),
   };
 }
-
 export function _getTargetsOperations(context: ChaosManagementContext): TargetsOperations {
   return {
     ..._getTargets(context),

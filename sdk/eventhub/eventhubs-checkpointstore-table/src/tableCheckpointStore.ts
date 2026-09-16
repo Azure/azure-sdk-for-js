@@ -113,7 +113,9 @@ export class TableCheckpointStore implements CheckpointStore {
       logErrorStackTrace(err);
       if (err?.name === "AbortError") throw err;
 
-      throw new Error(`Error occurred while fetching the list of entities. \n${err}`);
+      throw new Error(`Error occurred while fetching the list of entities. \n${err}`, {
+        cause: err,
+      });
     }
   }
 

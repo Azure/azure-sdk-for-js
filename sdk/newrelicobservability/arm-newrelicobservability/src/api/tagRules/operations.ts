@@ -37,7 +37,7 @@ export function _listByNewRelicMonitorResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listByNewRelicMonitorResourceDeserialize(
 
   return _tagRuleListResultDeserializer(result.body);
 }
-
 /** Lists all tag rules associated with a specific New Relic monitor resource, helping you manage and audit the rules that control resource monitoring */
 export function listByNewRelicMonitorResource(
   context: Client,
@@ -77,11 +76,7 @@ export function listByNewRelicMonitorResource(
     () => _listByNewRelicMonitorResourceSend(context, resourceGroupName, monitorName, options),
     _listByNewRelicMonitorResourceDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -99,7 +94,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       ruleSetName: ruleSetName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +116,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a tag rule set for a given New Relic monitor resource, removing fine-grained control over observability based on resource tags */
 export function $delete(
   context: Client,
@@ -136,7 +130,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, monitorName, ruleSetName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -155,7 +149,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       ruleSetName: ruleSetName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +176,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return tagRuleDeserializer(result.body);
 }
-
 /** Updates the tag rules for a specific New Relic monitor resource, allowing you to modify the rules that control which Azure resources are monitored */
 export async function update(
   context: Client,
@@ -218,7 +211,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       ruleSetName: ruleSetName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +238,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return tagRuleDeserializer(result.body);
 }
-
 /** Creates a new set of tag rules for a specific New Relic monitor resource, determining which Azure resources are monitored based on their tags */
 export function createOrUpdate(
   context: Client,
@@ -261,7 +253,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, monitorName, ruleSetName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<TagRule>, TagRule>;
 }
 
@@ -279,7 +271,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       ruleSetName: ruleSetName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -304,7 +296,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ta
 
   return tagRuleDeserializer(result.body);
 }
-
 /** Retrieves the details of the tag rules for a specific New Relic monitor resource, providing insight into its setup and status */
 export async function get(
   context: Client,

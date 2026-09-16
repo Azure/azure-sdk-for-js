@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of executions of an Experiment resource.
  *
  * @summary get a list of executions of an Experiment resource.
- * x-ms-original-file: 2026-05-01-preview/Experiments_ListAllExecutions.json
+ * x-ms-original-file: 2026-08-01-preview/Experiments_ListAllExecutions.json
  */
 async function listAllExecutionsOfAnExperiment() {
   const credential = new DefaultAzureCredential();

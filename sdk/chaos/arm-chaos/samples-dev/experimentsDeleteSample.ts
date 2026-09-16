@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Experiment resource.
  *
  * @summary delete a Experiment resource.
- * x-ms-original-file: 2026-05-01-preview/Experiments_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/Experiments_Delete.json
  */
 async function deleteAExperimentInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

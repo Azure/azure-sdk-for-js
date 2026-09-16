@@ -45,7 +45,7 @@ export function _listCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,6 +72,7 @@ export async function _listCredentialsDeserialize(
 
   return fleetCredentialResultsDeserializer(result.body);
 }
+
 /** Lists the user credentials of a Fleet. */
 export async function listCredentials(
   context: Client,
@@ -91,7 +92,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/fleets{?api%2Dversion,%24top,%24skipToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -120,6 +121,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _fleetListResultDeserializer(result.body);
 }
+
 /** Lists fleets in the specified subscription. */
 export function listBySubscription(
   context: Client,
@@ -130,7 +132,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    },
   );
 }
 
@@ -144,7 +150,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -171,6 +177,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _fleetListResultDeserializer(result.body);
 }
+
 /** Lists fleets in the specified subscription and resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -182,7 +189,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    },
   );
 }
 
@@ -198,7 +209,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -226,6 +237,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a Fleet */
 export function $delete(
   context: Client,
@@ -238,7 +250,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, fleetName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -255,7 +267,7 @@ export function _updateAsyncSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,6 +298,7 @@ export async function _updateAsyncDeserialize(result: PathUncheckedResponse): Pr
 
   return fleetDeserializer(result.body);
 }
+
 /** Update a Fleet */
 export function updateAsync(
   context: Client,
@@ -300,7 +313,7 @@ export function updateAsync(
     getInitialResponse: () =>
       _updateAsyncSend(context, resourceGroupName, fleetName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<Fleet>, Fleet>;
 }
 
@@ -317,7 +330,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,6 +362,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return fleetDeserializer(result.body);
 }
+
 /** Creates or updates a Fleet. */
 export function create(
   context: Client,
@@ -362,7 +376,7 @@ export function create(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, resourceGroupName, fleetName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<Fleet>, Fleet>;
 }
 
@@ -378,7 +392,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -403,6 +417,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fl
 
   return fleetDeserializer(result.body);
 }
+
 /** Gets a Fleet. */
 export async function get(
   context: Client,

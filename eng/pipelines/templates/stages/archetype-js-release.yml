@@ -122,6 +122,11 @@ stages:
                       DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
+                      # Auto-release is post-merge CI on main, so it must not wait for manual package-publish approvals.
+                      ${{ if and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
+                        Environment: 'none'
+                      ${{ else }}:
+                        Environment: 'package-publish'
 
                   - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
                     parameters:

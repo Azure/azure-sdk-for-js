@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-discovery",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Azure AI Discovery client library for JavaScript, providing WorkspaceClient and BookshelfClient.",
   "engines": {
     "node": ">=22.0.0"

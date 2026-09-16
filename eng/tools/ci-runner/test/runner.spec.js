@@ -3,9 +3,11 @@
 
 // @ts-check
 
-import { afterEach, assert, describe, it, vi } from "vitest";
-import { runAllWithDirection } from "../src/runner.js";
-import { spawnPnpm, spawnPnpmWithOutput } from "../src/spawn.js";
+import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
+import { join as pathJoin } from "node:path";
+import { getBaseDir } from "../src/env.js";
+import { runAllWithDirection, runInPackageDirs } from "../src/runner.js";
+import { spawnPnpm, spawnPnpmRun, spawnPnpmWithOutput } from "../src/spawn.js";
 
 vi.mock("../src/spawn.js", async () => {
   return {
@@ -22,6 +24,7 @@ vi.mock("../src/testProxyRestore.js", async () => {
 describe("runAllWithDirection two-pass resolution", () => {
   afterEach(() => {
     vi.resetAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it("should use direct filters when command is short", () => {
@@ -230,5 +233,51 @@ describe("runAllWithDirection two-pass resolution", () => {
     const filterIdx = testCall.indexOf("@azure/app-configuration");
     const paramIdx = testCall.indexOf("--concurrency=1");
     assert.ok(paramIdx > filterIdx, "extra params should come after filters");
+  });
+});
+
+describe("runInPackageDirs failure reporting", () => {
+  beforeEach(() => {
+    vi.stubEnv("TF_BUILD", "");
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("publishes an actionable Azure Pipelines issue for a failed package command", () => {
+    vi.stubEnv("TF_BUILD", "True");
+    vi.mocked(spawnPnpmRun).mockReturnValueOnce(1);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    const result = runInPackageDirs(
+      "check-format",
+      ["sdk/storage/storage-file-datalake"],
+      () => 'Formatting failed 100%.\nRun "pnpm format".',
+    );
+
+    assert.strictEqual(result, 1);
+    assert.deepStrictEqual(errorSpy.mock.calls, [['Formatting failed 100%.\nRun "pnpm format".']]);
+    assert.ok(
+      logSpy.mock.calls.some(
+        (call) =>
+          call[0] ===
+          '##vso[task.logissue type=error]Formatting failed 100%AZP25.%0ARun "pnpm format".',
+      ),
+    );
+  });
+
+  it("reports the command, exit code, and directory when no specialized message is provided", () => {
+    vi.mocked(spawnPnpmRun).mockReturnValueOnce(2);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = runInPackageDirs("lint", [pathJoin(getBaseDir(), "sdk/storage/storage-blob")]);
+
+    assert.strictEqual(result, 2);
+    assert.deepStrictEqual(errorSpy.mock.calls, [
+      ['Command "pnpm run lint" failed with exit code 2 in sdk/storage/storage-blob.'],
+    ]);
   });
 });

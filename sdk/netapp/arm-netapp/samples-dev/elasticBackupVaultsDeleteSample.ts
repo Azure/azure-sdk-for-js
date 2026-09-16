@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified Elastic Backup Vault
  *
  * @summary delete the specified Elastic Backup Vault
- * x-ms-original-file: 2026-05-15-preview/ElasticBackupVaults_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackupVaults_Delete.json
  */
 async function elasticBackupVaultsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

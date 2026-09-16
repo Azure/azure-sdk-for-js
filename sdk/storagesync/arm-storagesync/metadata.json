@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.StorageSync": "2022-09-01"
+    "Microsoft.StorageSync": "2025-12-01"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.StorageSync",
     "CrossLanguageDefinitionId": {
@@ -52,6 +52,8 @@
       "@azure/arm-storagesync!CloudEndpointChangeEnumerationActivity:interface": "Microsoft.StorageSync.CloudEndpointChangeEnumerationActivity",
       "@azure/arm-storagesync!CloudEndpointCreateParameters:interface": "Microsoft.StorageSync.CloudEndpointCreateParameters",
       "@azure/arm-storagesync!CloudEndpointCreateParametersProperties:interface": "Microsoft.StorageSync.CloudEndpointCreateParametersProperties",
+      "@azure/arm-storagesync!CloudEndpointUpdateParameters:interface": "Microsoft.StorageSync.CloudEndpointUpdateParameters",
+      "@azure/arm-storagesync!CloudEndpointUpdateProperties:interface": "Microsoft.StorageSync.CloudEndpointUpdateProperties",
       "@azure/arm-storagesync!CloudEndpointArray:interface": "Microsoft.StorageSync.CloudEndpointArray",
       "@azure/arm-storagesync!BackupRequest:interface": "Microsoft.StorageSync.BackupRequest",
       "@azure/arm-storagesync!PostBackupResponse:interface": "Microsoft.StorageSync.PostBackupResponse",
@@ -117,6 +119,7 @@
       "@azure/arm-storagesync!KnownServerEndpointHealthState:enum": "Microsoft.StorageSync.ServerEndpointHealthState",
       "@azure/arm-storagesync!KnownServerEndpointSyncActivityState:enum": "Microsoft.StorageSync.ServerEndpointSyncActivityState",
       "@azure/arm-storagesync!KnownServerEndpointSyncMode:enum": "Microsoft.StorageSync.ServerEndpointSyncMode",
+      "@azure/arm-storagesync!KnownServerEndpointSyncSessionWarningType:enum": "Microsoft.StorageSync.ServerEndpointSyncSessionWarningType",
       "@azure/arm-storagesync!KnownServerEndpointOfflineDataTransferState:enum": "Microsoft.StorageSync.ServerEndpointOfflineDataTransferState",
       "@azure/arm-storagesync!KnownCloudTieringLowDiskModeState:enum": "Microsoft.StorageSync.CloudTieringLowDiskModeState",
       "@azure/arm-storagesync!KnownInitialDownloadPolicy:enum": "Microsoft.StorageSync.InitialDownloadPolicy",
@@ -156,6 +159,7 @@
       "@azure/arm-storagesync!CloudEndpointsOperations#preBackup:member": "Microsoft.StorageSync.CloudEndpoints.preBackup",
       "@azure/arm-storagesync!CloudEndpointsOperations#listBySyncGroup:member": "Microsoft.StorageSync.CloudEndpoints.listBySyncGroup",
       "@azure/arm-storagesync!CloudEndpointsOperations#delete:member": "Microsoft.StorageSync.CloudEndpoints.delete",
+      "@azure/arm-storagesync!CloudEndpointsOperations#update:member": "Microsoft.StorageSync.CloudEndpoints.update",
       "@azure/arm-storagesync!CloudEndpointsOperations#create:member": "Microsoft.StorageSync.CloudEndpoints.create",
       "@azure/arm-storagesync!CloudEndpointsOperations#get:member": "Microsoft.StorageSync.CloudEndpoints.get",
       "@azure/arm-storagesync!SyncGroupsOperations#listByStorageSyncService:member": "Microsoft.StorageSync.SyncGroups.listByStorageSyncService",

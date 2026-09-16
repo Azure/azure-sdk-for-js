@@ -17,9 +17,9 @@ import type {
   BetaAgentsCreateOptimizationJobOptionalParams,
 } from "../../../api/beta/agents/options.js";
 import type {
-  OptimizationJob,
-  OptimizationJobResult,
-  OptimizationJobListItem,
+  AgentOptimizationJob,
+  AgentOptimizationJobResult,
+  AgentOptimizationJobListItem,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
@@ -35,21 +35,21 @@ export interface BetaAgentsOperations {
   cancelOptimizationJob: (
     jobId: string,
     options?: BetaAgentsCancelOptimizationJobOptionalParams,
-  ) => Promise<OptimizationJob>;
+  ) => Promise<AgentOptimizationJob>;
   /** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
   listOptimizationJobs: (
     options?: BetaAgentsListOptimizationJobsOptionalParams,
-  ) => PagedAsyncIterableIterator<OptimizationJobListItem>;
+  ) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
   /** Get an optimization job by id. */
   getOptimizationJob: (
     jobId: string,
     options?: BetaAgentsGetOptimizationJobOptionalParams,
-  ) => Promise<OptimizationJob>;
+  ) => Promise<AgentOptimizationJob>;
   /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
   createOptimizationJob: (
-    job: OptimizationJob,
+    job: AgentOptimizationJob,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
-  ) => JobPoller<OptimizationJobResult>;
+  ) => JobPoller<AgentOptimizationJobResult>;
 }
 
 function _getBetaAgents(context: AIProjectContext) {
@@ -67,7 +67,7 @@ function _getBetaAgents(context: AIProjectContext) {
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) =>
       getOptimizationJob(context, jobId, options),
     createOptimizationJob: (
-      job: OptimizationJob,
+      job: AgentOptimizationJob,
       options?: BetaAgentsCreateOptimizationJobOptionalParams,
     ) => createOptimizationJob(context, job, options),
   };

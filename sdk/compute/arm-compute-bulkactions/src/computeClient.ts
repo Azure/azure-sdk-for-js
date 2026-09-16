@@ -3,10 +3,10 @@
 
 import type { ComputeContext, ComputeClientOptionalParams } from "./api/index.js";
 import { createCompute } from "./api/index.js";
+import type { BulkCreateOperations } from "./classic/bulkCreate/index.js";
+import { _getBulkCreateOperations } from "./classic/bulkCreate/index.js";
 import type { BulkCreateCustomOperations } from "./classic/bulkCreateCustom/index.js";
 import { _getBulkCreateCustomOperations } from "./classic/bulkCreateCustom/index.js";
-import type { LaunchBulkInstancesOperationOperations } from "./classic/launchBulkInstancesOperation/index.js";
-import { _getLaunchBulkInstancesOperationOperations } from "./classic/launchBulkInstancesOperation/index.js";
 import type { OccurrenceExtensionOperations } from "./classic/occurrenceExtension/index.js";
 import { _getOccurrenceExtensionOperations } from "./classic/occurrenceExtension/index.js";
 import type { OccurrencesOperations } from "./classic/occurrences/index.js";
@@ -60,8 +60,8 @@ export class ComputeClient {
     );
     this.scheduledActionExtension = _getScheduledActionExtensionOperations(this._client);
     this.scheduledActions = _getScheduledActionsOperations(this._client);
+    this.bulkCreate = _getBulkCreateOperations(this._client);
     this.bulkCreateCustom = _getBulkCreateCustomOperations(this._client);
-    this.launchBulkInstancesOperation = _getLaunchBulkInstancesOperationOperations(this._client);
     this.virtualMachineBulkOperations = _getVirtualMachineBulkOperationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
@@ -76,10 +76,10 @@ export class ComputeClient {
   public readonly scheduledActionExtension: ScheduledActionExtensionOperations;
   /** The operation groups for scheduledActions */
   public readonly scheduledActions: ScheduledActionsOperations;
+  /** The operation groups for bulkCreate */
+  public readonly bulkCreate: BulkCreateOperations;
   /** The operation groups for bulkCreateCustom */
   public readonly bulkCreateCustom: BulkCreateCustomOperations;
-  /** The operation groups for launchBulkInstancesOperation */
-  public readonly launchBulkInstancesOperation: LaunchBulkInstancesOperationOperations;
   /** The operation groups for virtualMachineBulkOperations */
   public readonly virtualMachineBulkOperations: VirtualMachineBulkOperationsOperations;
   /** The operation groups for operations */

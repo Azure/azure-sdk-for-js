@@ -88,8 +88,9 @@ steps:
     displayName: "Check snippet changes"
 
   - pwsh: |
-      node eng/tools/ci-runner/index.js check-package-version $(ChangedServices) -packages "$(ArtifactPackageNames)"
+      node eng/tools/ci-runner/index.js check-package-version $(ChangedServices) -packages "$(DirectArtifactPackageNames)"
     displayName: "Check package version"
+    condition: and(succeeded(), ne(variables['DirectArtifactPackageNames'], ''))
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:
