@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FabricClient } from "@azure/arm-fabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const { FabricClient } = require("@azure/arm-fabric");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a FabricCapacity
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a FabricCapacity
  * x-ms-original-file: 2026-09-01-preview/FabricCapacities_CreateOrUpdate.json
  */
-async function createOrUpdateACapacity(): Promise<void> {
+async function createOrUpdateACapacity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function createOrUpdateACapacity(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createOrUpdateACapacity();
 }
 
