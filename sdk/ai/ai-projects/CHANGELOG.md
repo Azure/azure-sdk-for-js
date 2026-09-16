@@ -14,6 +14,7 @@
 - Rename `VoiceAudioItemResponse`, `VoiceGeneratedAudioItemResponse`, and `VoiceRecordingResponse` to `VoiceAudioItem`, `VoiceGeneratedAudioItem`, and `VoiceRecording`, respectively. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
 - Make `TelephonyOutboundFixedIntervalRetryPolicy.interval` required and replace the removed `TelephonyOutboundRetryPolicyResponseUnion` with `TelephonyOutboundRetryPolicyUnion` on `TelephonyCallJob.retry_policy`. The shared policy has optional `max_attempts`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
 - Remove the unreleased `BrowserAutomationTool` and `BrowserAutomationToolboxTool` contracts. Use the retained `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` contracts instead. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
+- Rename `startedAfter` and `startedBefore` to `startedAfterTime` and `startedBeforeTime` in the options for `project.beta.voiceAgents.telephony.listCalls`. Keep the `started_after` and `started_before` wire query names unchanged. [Azure/azure-rest-api-specs#46423](https://github.com/Azure/azure-rest-api-specs/pull/46423)
 
 ### Features Added
 
@@ -34,7 +35,7 @@
 
 ### Other Changes
 
-- Regenerate the client from azure-rest-api-specs commit `ca6532606645a9f69005bf52b1e53f37aad0c09b`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
+- Regenerate the client from azure-rest-api-specs commit `710828f4424a112000ac9a81896a8648f87b7548`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/710828f4424a112000ac9a81896a8648f87b7548)
 - Preserve existing public model exports and custom serializers when the emitter separates models into namespaces.
 - Add samples for voice definitions, voice generation, and read-only telephony inspection, with offline public-client tests for voice authoring and telephony operations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add the `ws` and `https-proxy-agent` dependencies, required by `project.beta.voiceAgents.realtime`.
