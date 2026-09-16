@@ -5,17 +5,17 @@ const { StorageDiscoveryClient } = require("@azure/arm-storagediscovery");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list StorageDiscoveryWorkspace resources by subscription ID
+ * This sample demonstrates how to list StorageDiscoveryWorkspace resources by resource group
  *
- * @summary list StorageDiscoveryWorkspace resources by subscription ID
- * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_ListBySubscription.json
+ * @summary list StorageDiscoveryWorkspace resources by resource group
+ * x-ms-original-file: 2026-10-01-preview/StorageDiscoveryWorkspaces_ListByResourceGroup.json
  */
-async function listStorageDiscoveryWorkspacesBySubscription() {
+async function listStorageDiscoveryWorkspacesByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "b79cb3ba-745e-5d9a-8903-4a02327a7e09";
   const client = new StorageDiscoveryClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.storageDiscoveryWorkspaces.listBySubscription()) {
+  for await (const item of client.storageDiscoveryWorkspaces.listByResourceGroup("sample-rg")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listStorageDiscoveryWorkspacesBySubscription() {
 }
 
 async function main() {
-  await listStorageDiscoveryWorkspacesBySubscription();
+  await listStorageDiscoveryWorkspacesByResourceGroup();
 }
 
 main().catch(console.error);
