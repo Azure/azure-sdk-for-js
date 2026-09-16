@@ -28,15 +28,15 @@ async function test() {
 }
 ```
 
-- Add support to delete messages from an entity in batches using receiver method `deleteMessages()`. The target messages can be constrained to a fixed count, limited to only those earlier than a given date, or unconstrained such that all messages are deleted.
+- Add support to delete messages from an entity in batches using receiver method `deleteMessages()`. The target messages can be constrained to a fixed count, limited to only those earlier than a given date, or unconstrained such that all messages are deleted. [#28627](https://github.com/Azure/azure-sdk-for-js/pull/28627)
 
 ### Bugs Fixed
 
-- Read `com.microsoft:max-message-batch-size` vendor property from the AMQP sender link to correctly limit batch size on Premium large-message entities, where `max-message-size` can be up to 100 MB but the batch limit is 1 MB.
+- Read `com.microsoft:max-message-batch-size` vendor property from the AMQP sender link to correctly limit batch size on Premium large-message entities, where `max-message-size` can be up to 100 MB but the batch limit is 1 MB. [#38049](https://github.com/Azure/azure-sdk-for-js/pull/38049)
 - Fixed `TimeoutNegativeWarning` on Node.js v24+ when timeout budget is exceeded during CBS authentication by clamping remaining-time computations to a minimum of 0. [#38166](https://github.com/Azure/azure-sdk-for-js/pull/38166)
 - Fixed CBS token renewal stopping permanently after a single failed renewal. A transient credential error (for example a failed AAD `getToken` during a workload-identity rotation) no longer leaves the link's token un-renewed; renewal now retries with a capped exponential backoff until it succeeds or the link closes. [#38467](https://github.com/Azure/azure-sdk-for-js/issues/38467)
 
-- Restored previous message batch delete behavior
+- Restored previous message batch delete behavior. [#36994](https://github.com/Azure/azure-sdk-for-js/pull/36994)
 
 ### Other Changes
 
