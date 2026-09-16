@@ -2,7 +2,6 @@
 on:
   pull_request_target:
     types: [labeled]
-    forks: ["*"]
   workflow_dispatch:
     inputs:
       item_number:
