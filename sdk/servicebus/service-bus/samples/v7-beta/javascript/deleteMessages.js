@@ -5,20 +5,18 @@
  * This sample demonstrates deleting messages from a queue.
  *
  * @summary Demonstrates deleting messages from a queue.
- * @azsdk-weight 80
  */
 
-import type { ServiceBusMessage } from "@azure/service-bus";
-import { ServiceBusClient } from "@azure/service-bus";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import "dotenv/config";
+require("dotenv/config");
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-const messages: ServiceBusMessage[] = [
+const messages = [
   { body: "Albert Einstein" },
   { body: "Werner Heisenberg" },
   { body: "Marie Curie" },
@@ -33,7 +31,7 @@ const messages: ServiceBusMessage[] = [
 
 const max32BitNumber = 2147483647;
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
   try {
@@ -86,3 +84,5 @@ main().catch((err) => {
   console.log("deleteMessages Sample - Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };
