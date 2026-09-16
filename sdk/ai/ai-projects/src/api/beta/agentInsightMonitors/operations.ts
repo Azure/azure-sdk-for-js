@@ -62,11 +62,11 @@ export function _updateInsightSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?api-version}",
+    "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?api%2Dversion}",
     {
       monitor_id: monitorId,
       insight_id: insightId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,12 +120,12 @@ export function _getInsightSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?include_details,api-version}",
+    "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?include_details,api%2Dversion}",
     {
       monitor_id: monitorId,
       insight_id: insightId,
       include_details: options?.includeDetails,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +173,7 @@ export function _listInsightsSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/insights{?after,before,limit,order,category,severity,status,include_details,api-version}",
+    "/agent_insight_monitors/{monitor_id}/insights{?after,before,limit,order,category,severity,status,include_details,api%2Dversion}",
     {
       monitor_id: monitorId,
       after: options?.after,
@@ -184,7 +184,7 @@ export function _listInsightsSend(
       severity: options?.severity,
       status: options?.status,
       include_details: options?.includeDetails,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,11 +253,11 @@ export function _cancelRunSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/runs/{run_id}:cancel{?api-version}",
+    "/agent_insight_monitors/{monitor_id}/runs/{run_id}:cancel{?api%2Dversion}",
     {
       monitor_id: monitorId,
       run_id: runId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -308,11 +308,11 @@ export function _getRunSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/runs/{run_id}{?api-version}",
+    "/agent_insight_monitors/{monitor_id}/runs/{run_id}{?api%2Dversion}",
     {
       monitor_id: monitorId,
       run_id: runId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -360,7 +360,7 @@ export function _listRunsSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/runs{?after,before,limit,order,status,trigger,api-version}",
+    "/agent_insight_monitors/{monitor_id}/runs{?after,before,limit,order,status,trigger,api%2Dversion}",
     {
       monitor_id: monitorId,
       after: options?.after,
@@ -369,7 +369,7 @@ export function _listRunsSend(
       order: options?.order,
       status: options?.status,
       trigger: options?.trigger,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -438,10 +438,10 @@ export function _createRunSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/runs{?api-version}",
+    "/agent_insight_monitors/{monitor_id}/runs{?api%2Dversion}",
     {
       monitor_id: monitorId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -512,10 +512,10 @@ export function _resetSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}:reset{?api-version}",
+    "/agent_insight_monitors/{monitor_id}:reset{?api%2Dversion}",
     {
       monitor_id: monitorId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -562,10 +562,10 @@ export function _updateSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}{?api-version}",
+    "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
     {
       monitor_id: monitorId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -617,10 +617,10 @@ export function _deleteAgentInsightMonitorSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}{?api-version}",
+    "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
     {
       monitor_id: monitorId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -668,10 +668,10 @@ export function _getSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}{?api-version}",
+    "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
     {
       monitor_id: monitorId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -718,9 +718,9 @@ export function _createSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors{?api-version}",
+    "/agent_insight_monitors{?api%2Dversion}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -770,14 +770,14 @@ export function _listSend(
 ): StreamableMethod {
   const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors{?after,before,limit,order,agent_name,api-version}",
+    "/agent_insight_monitors{?after,before,limit,order,agent_name,api%2Dversion}",
     {
       after: options?.after,
       before: options?.before,
       limit: options?.limit,
       order: options?.order,
       agent_name: options?.agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -4,6 +4,16 @@
 /**
  * This sample sends raw PCM16 audio to a voice agent and saves streamed PCM audio output.
  *
+ * - Prerequisites: Node.js 22.18+, Azure CLI, access to a voice-enabled Foundry project,
+ *   installed dependencies, and an up-to-date SDK build. Missing `ws` or `.realtime`
+ *   can indicate missing dependencies or stale build output.
+ * - Quick start (PowerShell, from sdk/ai/ai-projects after building):
+ *   ```powershell
+ *   az login
+ *   $env:FOUNDRY_PROJECT_ENDPOINT = "https://<resource>.services.ai.azure.com/api/projects/<project>"
+ *   node samples-dev/agents/agentVoiceRealtimeAudio.ts
+ *   ```
+ *
  * @summary streams PCM audio input and audio/text output with a Foundry voice agent.
  */
 
@@ -11,9 +21,9 @@ const { AIProjectClient, isRestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { once } = require("node:events");
 const { createReadStream, createWriteStream } = require("node:fs");
-const { finished } = require("node:stream/promises");
 const path = require("node:path");
 const { fileURLToPath } = require("node:url");
+const { finished } = require("node:stream/promises");
 require("dotenv/config");
 
 const projectEndpoint = getRequiredEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
@@ -82,6 +92,11 @@ async function main() {
             case "error":
               throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
             case "response.done":
+              if (event.response.status !== "completed") {
+                throw new Error(
+                  `Voice response ${event.response.status ?? "unknown"}: ${JSON.stringify(event.response.status_details ?? {})}`,
+                );
+              }
               // The response can finish before all input has been sent; remember it happened so the
               // pending completion isn't dropped once inputComplete flips below.
               responseComplete = true;
@@ -93,28 +108,33 @@ async function main() {
         }
       })();
 
-      for await (const chunk of createReadStream(audioInputPath, {
-        highWaterMark: inputChunkSize,
-      })) {
-        await connection.sendAudio(chunk);
-        inputAudioByteCount += chunk.byteLength;
-        await delay((chunk.byteLength / (pcmSampleRate * pcmBytesPerSample)) * 1000);
+      const sendAudio = (async () => {
+        for await (const chunk of createReadStream(audioInputPath, {
+          highWaterMark: inputChunkSize,
+        })) {
+          await connection.sendAudio(chunk);
+          inputAudioByteCount += chunk.byteLength;
+          await delay((chunk.byteLength / (pcmSampleRate * pcmBytesPerSample)) * 1000);
+        }
+        const silence = new Uint8Array(inputChunkSize);
+        for (
+          let durationInMs = 0;
+          durationInMs < trailingSilenceDurationInMs;
+          durationInMs += inputChunkDurationInMs
+        ) {
+          await connection.sendAudio(silence);
+          inputAudioByteCount += silence.byteLength;
+          await delay(inputChunkDurationInMs);
+        }
+        inputComplete = true;
+        if (responseComplete) {
+          await connection.close();
+        }
+      })();
+      await Promise.all([consumeEvents, sendAudio]);
+      if (!responseComplete) {
+        throw new Error("Voice connection closed before the response completed.");
       }
-      const silence = new Uint8Array(inputChunkSize);
-      for (
-        let durationInMs = 0;
-        durationInMs < trailingSilenceDurationInMs;
-        durationInMs += inputChunkDurationInMs
-      ) {
-        await connection.sendAudio(silence);
-        inputAudioByteCount += silence.byteLength;
-        await delay(inputChunkDurationInMs);
-      }
-      inputComplete = true;
-      if (responseComplete) {
-        await connection.close();
-      }
-      await consumeEvents;
       const totalAudioByteCount = inputAudioByteCount + outputAudioByteCount;
       console.log(`\nCompleted with ${textCharacterCount} text character(s).`);
       console.log(
