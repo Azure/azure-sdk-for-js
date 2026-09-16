@@ -28,7 +28,7 @@
 
 ### Other Changes
 
-- Keep verbose dataset upload diagnostics focused on noncredential metadata as a defense-in-depth logging improvement.
+- Keep verbose dataset upload diagnostics focused on noncredential metadata as a defense-in-depth logging improvement. [#39993](https://github.com/Azure/azure-sdk-for-js/pull/39993)
 - Regenerate the client from azure-rest-api-specs commit `6bbf003013d52052af35f57f1f29daff9e536ad5`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Preserve existing public model exports and custom serializers when the emitter separates models into namespaces.
 - Add samples for voice definitions, voice generation, read-only telephony inspection, and non-preview browser automation, with offline public-client tests for voice authoring and telephony operations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
