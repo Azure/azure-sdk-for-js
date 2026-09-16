@@ -548,12 +548,12 @@ export function _listCallsSend(
       agent_name: agentName,
       provider: options?.provider,
       status: options?.status,
-      started_after: !options?.startedAfter
-        ? options?.startedAfter
-        : (options?.startedAfter.getTime() / 1000) | 0,
-      started_before: !options?.startedBefore
-        ? options?.startedBefore
-        : (options?.startedBefore.getTime() / 1000) | 0,
+      started_after: !options?.startedAfterTime
+        ? options?.startedAfterTime
+        : (options?.startedAfterTime.getTime() / 1000) | 0,
+      started_before: !options?.startedBeforeTime
+        ? options?.startedBeforeTime
+        : (options?.startedBeforeTime.getTime() / 1000) | 0,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,

@@ -66,9 +66,9 @@ export interface BetaVoiceAgentsTelephonyListCallsOptionalParams extends Operati
   /** Filters calls by lifecycle status. */
   status?: TelephonyCallStatus;
   /** Includes calls that started at or after this Unix timestamp in seconds. */
-  startedAfter?: Date;
+  startedAfterTime?: Date;
   /** Includes calls that started at or before this Unix timestamp in seconds. */
-  startedBefore?: Date;
+  startedBeforeTime?: Date;
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
