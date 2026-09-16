@@ -2037,28 +2037,6 @@ export function browserAutomationToolConnectionParametersDeserializer(
   };
 }
 
-/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
-export interface BrowserAutomationTool extends Tool {
-  /** The object type, which is always 'browser_automation'. */
-  type: "browser_automation";
-  /** The Browser Automation Tool parameters. */
-  browser_automation: BrowserAutomationToolParameters;
-}
-
-export function browserAutomationToolSerializer(item: BrowserAutomationTool): any {
-  return {
-    type: item["type"],
-    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
-  };
-}
-
-export function browserAutomationToolDeserializer(item: any): BrowserAutomationTool {
-  return {
-    type: item["type"],
-    browser_automation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
-  };
-}
-
 /** The input definition information for an Azure Function Tool, as used to configure an Agent. */
 export interface AzureFunctionTool extends Tool {
   /** The object type, which is always 'browser_automation'. */
@@ -6937,7 +6915,7 @@ export function toolboxToolUnionArrayDeserializer(result: Array<ToolboxToolUnion
 /** An abstract representation of a tool stored in a toolbox. */
 export interface ToolboxTool {
   /** The type of tool. */
-  /** The discriminator possible values: code_interpreter, file_search, web_search, shell, mcp, azure_ai_search, openapi, a2a, a2a_preview, browser_automation_preview, browser_automation, reminder_preview, work_iq_preview, fabric_iq_preview, web_iq_preview, toolbox_search_preview, toolbox_search */
+  /** The discriminator possible values: code_interpreter, file_search, web_search, shell, mcp, azure_ai_search, openapi, a2a, a2a_preview, browser_automation_preview, reminder_preview, work_iq_preview, fabric_iq_preview, web_iq_preview, toolbox_search_preview, toolbox_search */
   type: ToolboxToolType;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
@@ -6985,7 +6963,6 @@ export type ToolboxToolUnion =
   | A2AToolboxTool
   | A2APreviewToolboxTool
   | BrowserAutomationPreviewToolboxTool
-  | BrowserAutomationToolboxTool
   | ReminderPreviewToolboxTool
   | WorkIQPreviewToolboxTool
   | FabricIQPreviewToolboxTool
@@ -7027,9 +7004,6 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
       return browserAutomationPreviewToolboxToolSerializer(
         item as BrowserAutomationPreviewToolboxTool,
       );
-
-    case "browser_automation":
-      return browserAutomationToolboxToolSerializer(item as BrowserAutomationToolboxTool);
 
     case "reminder_preview":
       return reminderPreviewToolboxToolSerializer(item as ReminderPreviewToolboxTool);
@@ -7088,9 +7062,6 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
         item as BrowserAutomationPreviewToolboxTool,
       );
 
-    case "browser_automation":
-      return browserAutomationToolboxToolDeserializer(item as BrowserAutomationToolboxTool);
-
     case "reminder_preview":
       return reminderPreviewToolboxToolDeserializer(item as ReminderPreviewToolboxTool);
 
@@ -7131,8 +7102,7 @@ export type ToolboxToolType =
   | "toolbox_search_preview"
   | "a2a"
   | "shell"
-  | "web_iq_preview"
-  | "browser_automation";
+  | "web_iq_preview";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -7864,37 +7834,6 @@ export function browserAutomationPreviewToolboxToolDeserializer(
     browser_automation_preview: browserAutomationToolParametersDeserializer(
       item["browser_automation_preview"],
     ),
-  };
-}
-
-/** A browser automation tool stored in a toolbox. */
-export interface BrowserAutomationToolboxTool extends ToolboxTool {
-  type: "browser_automation";
-  /** The Browser Automation Tool parameters. */
-  browser_automation: BrowserAutomationToolParameters;
-}
-
-export function browserAutomationToolboxToolSerializer(item: BrowserAutomationToolboxTool): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-    browser_automation: browserAutomationToolParametersSerializer(item["browser_automation"]),
-  };
-}
-
-export function browserAutomationToolboxToolDeserializer(item: any): BrowserAutomationToolboxTool {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-    browser_automation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
   };
 }
 
@@ -15097,7 +15036,7 @@ export function _agentsPagedResultRealtimeConversationItemDeserializer(
  * credentials. For Foundry-managed storage, `blob_uri` is absent and the bytes are streamed through the item's
  * `/audio/content` route.
  */
-export interface VoiceAudioItemResponse {
+export interface VoiceAudioItem {
   /** The id of the conversation the item belongs to. */
   conversation_id: string;
   /** The id of the item this audio belongs to. */
@@ -15120,7 +15059,7 @@ export interface VoiceAudioItemResponse {
   blob_uri?: string;
 }
 
-export function voiceAudioItemResponseDeserializer(item: any): VoiceAudioItemResponse {
+export function voiceAudioItemDeserializer(item: any): VoiceAudioItem {
   return {
     conversation_id: item["conversation_id"],
     item_id: item["item_id"],
@@ -15150,7 +15089,7 @@ export type VoiceAudioCodec = "pcm16" | "pcmu" | "pcma";
  * credentials. For Foundry-managed storage, `blob_uri` is absent and the bytes are streamed through the item's
  * `/audio/generated/content` route.
  */
-export interface VoiceGeneratedAudioItemResponse {
+export interface VoiceGeneratedAudioItem {
   /** The id of the conversation the item belongs to. */
   conversation_id: string;
   /** The id of the item this audio belongs to. */
@@ -15173,9 +15112,7 @@ export interface VoiceGeneratedAudioItemResponse {
   blob_uri?: string;
 }
 
-export function voiceGeneratedAudioItemResponseDeserializer(
-  item: any,
-): VoiceGeneratedAudioItemResponse {
+export function voiceGeneratedAudioItemDeserializer(item: any): VoiceGeneratedAudioItem {
   return {
     conversation_id: item["conversation_id"],
     item_id: item["item_id"],
@@ -15199,7 +15136,7 @@ export function voiceGeneratedAudioItemResponseDeserializer(
  * own storage credentials. For Foundry-managed storage `blob_uri` is absent and the bytes are streamed via the
  * `/audio/content` route instead.
  */
-export interface VoiceRecordingResponse {
+export interface VoiceRecording {
   /** The id of the conversation this recording belongs to. */
   conversation_id: string;
   /** The container format of the recording. */
@@ -15216,7 +15153,7 @@ export interface VoiceRecordingResponse {
   blob_uri?: string;
 }
 
-export function voiceRecordingResponseDeserializer(item: any): VoiceRecordingResponse {
+export function voiceRecordingDeserializer(item: any): VoiceRecording {
   return {
     conversation_id: item["conversation_id"],
     format: item["format"],
@@ -16286,6 +16223,13 @@ export function telephonyOutboundRetryPolicySerializer(item: TelephonyOutboundRe
   return { type: item["type"], max_attempts: item["max_attempts"] };
 }
 
+export function telephonyOutboundRetryPolicyDeserializer(item: any): TelephonyOutboundRetryPolicy {
+  return {
+    type: item["type"],
+    max_attempts: item["max_attempts"],
+  };
+}
+
 /** Alias for TelephonyOutboundRetryPolicyUnion */
 export type TelephonyOutboundRetryPolicyUnion =
   TelephonyOutboundFixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
@@ -16304,21 +16248,45 @@ export function telephonyOutboundRetryPolicyUnionSerializer(
   }
 }
 
+export function telephonyOutboundRetryPolicyUnionDeserializer(
+  item: any,
+): TelephonyOutboundRetryPolicyUnion {
+  switch (item["type"]) {
+    case "fixed_interval":
+      return telephonyOutboundFixedIntervalRetryPolicyDeserializer(
+        item as TelephonyOutboundFixedIntervalRetryPolicy,
+      );
+
+    default:
+      return telephonyOutboundRetryPolicyDeserializer(item);
+  }
+}
+
 /** The retry strategy for an outbound call. */
 export type TelephonyOutboundRetryPolicyType = "fixed_interval";
 
-/** A retry policy with a fixed interval between outbound call attempts. */
+/** The frozen fixed-interval retry policy returned for an outbound call or campaign. */
 export interface TelephonyOutboundFixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
   /** The fixed-interval retry strategy. */
   type: "fixed_interval";
-  /** The fixed delay in seconds between attempts. It must be 0 when `max_attempts` is 1, and from 60 through 86400 when retries are enabled. */
-  interval?: number;
+  /** The fixed delay in seconds between attempts. */
+  interval: number;
 }
 
 export function telephonyOutboundFixedIntervalRetryPolicySerializer(
   item: TelephonyOutboundFixedIntervalRetryPolicy,
 ): any {
   return { type: item["type"], max_attempts: item["max_attempts"], interval: item["interval"] };
+}
+
+export function telephonyOutboundFixedIntervalRetryPolicyDeserializer(
+  item: any,
+): TelephonyOutboundFixedIntervalRetryPolicy {
+  return {
+    type: item["type"],
+    max_attempts: item["max_attempts"],
+    interval: item["interval"],
+  };
 }
 
 /** A durable direct or campaign-created outbound call intent. */
@@ -16346,7 +16314,7 @@ export interface TelephonyCallJob {
   /** The recorded cancellation request, when cancellation was requested. */
   cancellation?: TelephonyCallJobCancellation;
   /** The frozen provider-attempt retry policy. */
-  retry_policy: TelephonyOutboundRetryPolicyResponseUnion;
+  retry_policy: TelephonyOutboundRetryPolicyUnion;
   /** The number of provider attempts created so far. */
   attempt_count: number;
   /** The Unix timestamp in seconds at which the next retry becomes eligible. */
@@ -16382,7 +16350,7 @@ export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
     cancellation: !item["cancellation"]
       ? item["cancellation"]
       : telephonyCallJobCancellationDeserializer(item["cancellation"]),
-    retry_policy: telephonyOutboundRetryPolicyResponseUnionDeserializer(item["retry_policy"]),
+    retry_policy: telephonyOutboundRetryPolicyUnionDeserializer(item["retry_policy"]),
     attempt_count: item["attempt_count"],
     next_attempt_at: !item["next_attempt_at"]
       ? item["next_attempt_at"]
@@ -16430,60 +16398,6 @@ export function telephonyCallJobCancellationDeserializer(item: any): TelephonyCa
   };
 }
 
-/** The frozen retry policy returned for an outbound call or campaign. */
-export interface TelephonyOutboundRetryPolicyResponse {
-  /** The retry strategy. */
-  /** The discriminator possible values: fixed_interval */
-  type: TelephonyOutboundRetryPolicyType;
-  /** The maximum number of provider attempts, including the first attempt. */
-  max_attempts: number;
-}
-
-export function telephonyOutboundRetryPolicyResponseDeserializer(
-  item: any,
-): TelephonyOutboundRetryPolicyResponse {
-  return {
-    type: item["type"],
-    max_attempts: item["max_attempts"],
-  };
-}
-
-/** Alias for TelephonyOutboundRetryPolicyResponseUnion */
-export type TelephonyOutboundRetryPolicyResponseUnion =
-  TelephonyOutboundFixedIntervalRetryPolicyResponse | TelephonyOutboundRetryPolicyResponse;
-
-export function telephonyOutboundRetryPolicyResponseUnionDeserializer(
-  item: any,
-): TelephonyOutboundRetryPolicyResponseUnion {
-  switch (item["type"]) {
-    case "fixed_interval":
-      return telephonyOutboundFixedIntervalRetryPolicyResponseDeserializer(
-        item as TelephonyOutboundFixedIntervalRetryPolicyResponse,
-      );
-
-    default:
-      return telephonyOutboundRetryPolicyResponseDeserializer(item);
-  }
-}
-
-/** The frozen fixed-interval retry policy returned for an outbound call or campaign. */
-export interface TelephonyOutboundFixedIntervalRetryPolicyResponse extends TelephonyOutboundRetryPolicyResponse {
-  /** The fixed-interval retry strategy. */
-  type: "fixed_interval";
-  /** The fixed delay in seconds between attempts. */
-  interval: number;
-}
-
-export function telephonyOutboundFixedIntervalRetryPolicyResponseDeserializer(
-  item: any,
-): TelephonyOutboundFixedIntervalRetryPolicyResponse {
-  return {
-    type: item["type"],
-    max_attempts: item["max_attempts"],
-    interval: item["interval"],
-  };
-}
-
 /** Known terminal reasons for an overall outbound call job, which can span multiple provider attempts. These are distinct from individual call lifecycle reasons. Additional string codes may be returned. */
 export type TelephonyCallJobTerminalReason =
   | "no_answer"
@@ -16507,360 +16421,6 @@ export type TelephonyCallJobTerminalReason =
   | "origination_reconciliation_timeout"
   | "cancellation_reconciliation_timeout"
   | "provider_callback_timeout_cancellation_reconciliation_timeout";
-
-/** A request to create a draft outbound campaign. */
-export interface CreateTelephonyCampaignRequest {
-  /** A customer-visible name for the campaign. */
-  display_name: string;
-  /** The Foundry connection name in the current project used to originate campaign calls. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
-  connection_name: string;
-  /** The caller identity used to originate campaign calls. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
-  source: string;
-  /** An optional customer-declared purpose for campaign calls. */
-  purpose?: string;
-  /** When the published campaign becomes eligible to dispatch calls. */
-  schedule?: TelephonyCampaignSchedule;
-  /** The provider-attempt retry policy inherited by every materialized call job. */
-  retry_policy?: TelephonyOutboundRetryPolicyUnion;
-}
-
-export function createTelephonyCampaignRequestSerializer(
-  item: CreateTelephonyCampaignRequest,
-): any {
-  return {
-    display_name: item["display_name"],
-    connection_name: item["connection_name"],
-    source: item["source"],
-    purpose: item["purpose"],
-    schedule: !item["schedule"]
-      ? item["schedule"]
-      : telephonyCampaignScheduleSerializer(item["schedule"]),
-    retry_policy: !item["retry_policy"]
-      ? item["retry_policy"]
-      : telephonyOutboundRetryPolicyUnionSerializer(item["retry_policy"]),
-  };
-}
-
-/** The schedule for an outbound campaign. */
-export interface TelephonyCampaignSchedule {
-  /** Whether calls are eligible immediately after publication or at a future instant. */
-  type: TelephonyCampaignScheduleType;
-  /** The scheduled start instant. Required only when `type` is `scheduled`. */
-  start_at?: Date;
-}
-
-export function telephonyCampaignScheduleSerializer(item: TelephonyCampaignSchedule): any {
-  return {
-    type: item["type"],
-    start_at: !item["start_at"] ? item["start_at"] : (item["start_at"].getTime() / 1000) | 0,
-  };
-}
-
-export function telephonyCampaignScheduleDeserializer(item: any): TelephonyCampaignSchedule {
-  return {
-    type: item["type"],
-    start_at: !item["start_at"] ? item["start_at"] : new Date(item["start_at"] * 1000),
-  };
-}
-
-/** When a published outbound campaign becomes eligible to dispatch calls. */
-export type TelephonyCampaignScheduleType = "immediate" | "scheduled";
-
-/** A durable outbound campaign owned by a voice agent. */
-export interface TelephonyCampaign {
-  /** A customer-visible name for the campaign. */
-  display_name: string;
-  /** The Foundry connection name in the current project used to originate campaign calls. Its category selects Twilio or Azure Communication Services / Teams Phone Extension. No inbound telephony binding is required. */
-  connection_name: string;
-  /** The caller identity used to originate campaign calls. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone Extension connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
-  source: string;
-  /** An optional customer-declared purpose for campaign calls. */
-  purpose?: string;
-  /** When the published campaign becomes eligible to dispatch calls. */
-  schedule?: TelephonyCampaignSchedule;
-  id: string;
-  object: "telephony.campaign";
-  agent_name: string;
-  configuration_status: TelephonyCampaignConfigurationStatus;
-  execution_status: TelephonyCampaignExecutionStatus;
-  retry_policy: TelephonyOutboundRetryPolicyResponseUnion;
-  latest_successful_validation_id?: string;
-  active_validation_id?: string;
-  active_recipient_import_id?: string;
-  published_at?: Date;
-  call_job_counts: TelephonyCampaignCallJobCounts;
-  created_at: Date;
-  updated_at: Date;
-}
-
-export function telephonyCampaignDeserializer(item: any): TelephonyCampaign {
-  return {
-    display_name: item["display_name"],
-    connection_name: item["connection_name"],
-    source: item["source"],
-    purpose: item["purpose"],
-    schedule: !item["schedule"]
-      ? item["schedule"]
-      : telephonyCampaignScheduleDeserializer(item["schedule"]),
-    id: item["id"],
-    object: item["object"],
-    agent_name: item["agent_name"],
-    configuration_status: item["configuration_status"],
-    execution_status: item["execution_status"],
-    retry_policy: telephonyOutboundRetryPolicyResponseUnionDeserializer(item["retry_policy"]),
-    latest_successful_validation_id: item["latest_successful_validation_id"],
-    active_validation_id: item["active_validation_id"],
-    active_recipient_import_id: item["active_recipient_import_id"],
-    published_at: !item["published_at"]
-      ? item["published_at"]
-      : new Date(item["published_at"] * 1000),
-    call_job_counts: telephonyCampaignCallJobCountsDeserializer(item["call_job_counts"]),
-    created_at: new Date(item["created_at"] * 1000),
-    updated_at: new Date(item["updated_at"] * 1000),
-  };
-}
-
-/** The immutable-configuration lifecycle status of an outbound campaign. */
-export type TelephonyCampaignConfigurationStatus =
-  "draft" | "importing" | "validating" | "publishing" | "published" | "publish_failed";
-
-/** The execution lifecycle status of a published outbound campaign. */
-export type TelephonyCampaignExecutionStatus =
-  "none" | "scheduled" | "running" | "paused" | "completed" | "failed" | "cancelled";
-
-/** Aggregate call-job counts for an outbound campaign. */
-export interface TelephonyCampaignCallJobCounts {
-  total: number;
-  pending: number;
-  in_progress: number;
-  completed: number;
-  failed: number;
-  blocked: number;
-  cancelled: number;
-  expired: number;
-}
-
-export function telephonyCampaignCallJobCountsDeserializer(
-  item: any,
-): TelephonyCampaignCallJobCounts {
-  return {
-    total: item["total"],
-    pending: item["pending"],
-    in_progress: item["in_progress"],
-    completed: item["completed"],
-    failed: item["failed"],
-    blocked: item["blocked"],
-    cancelled: item["cancelled"],
-    expired: item["expired"],
-  };
-}
-
-/** A request to import campaign recipients from a Dataset CSV, JSON array, or JSONL file. Imported Agent-declared structured inputs follow the Agent definition's schema, required, and default-value semantics. */
-export interface ImportTelephonyCampaignRecipientsRequest {
-  source: TelephonyCampaignRecipientImportSource;
-  /** Mappings from recipient properties to source fields or columns. Omit this property or an individual entry to use same-named source fields. Destination and recipient-key source fields are required. Optional source fields may be absent, except the recipient item key when `duplicate_handling` is `keep_each`. */
-  mapping?: TelephonyCampaignRecipientMappingRequest;
-  duplicate_handling?: TelephonyCampaignDuplicateHandling;
-}
-
-export function importTelephonyCampaignRecipientsRequestSerializer(
-  item: ImportTelephonyCampaignRecipientsRequest,
-): any {
-  return {
-    source: telephonyCampaignRecipientImportSourceSerializer(item["source"]),
-    mapping: !item["mapping"]
-      ? item["mapping"]
-      : telephonyCampaignRecipientMappingRequestSerializer(item["mapping"]),
-    duplicate_handling: item["duplicate_handling"],
-  };
-}
-
-/** A Dataset source for campaign recipient import. */
-export interface TelephonyCampaignRecipientImportSource {
-  type: "dataset";
-  dataset_name: string;
-  dataset_version: string;
-  /** A relative path to a CSV, JSON array, or JSONL file in the Dataset version. */
-  file_name: string;
-  format: TelephonyCampaignRecipientImportFormat;
-}
-
-export function telephonyCampaignRecipientImportSourceSerializer(
-  item: TelephonyCampaignRecipientImportSource,
-): any {
-  return {
-    type: item["type"],
-    dataset_name: item["dataset_name"],
-    dataset_version: item["dataset_version"],
-    file_name: item["file_name"],
-    format: item["format"],
-  };
-}
-
-export function telephonyCampaignRecipientImportSourceDeserializer(
-  item: any,
-): TelephonyCampaignRecipientImportSource {
-  return {
-    type: item["type"],
-    dataset_name: item["dataset_name"],
-    dataset_version: item["dataset_version"],
-    file_name: item["file_name"],
-    format: item["format"],
-  };
-}
-
-/** A supported Dataset recipient file format. */
-export type TelephonyCampaignRecipientImportFormat = "csv" | "json" | "jsonl";
-
-/** Optional source-field mappings for a recipient import. Each omitted entry uses its same-named source field. */
-export interface TelephonyCampaignRecipientMappingRequest {
-  /** The source field containing the destination E.164 phone number. Defaults to `destination`. The source field is required for each recipient. */
-  destination?: string;
-  /** The source field containing the recipient key. Defaults to `recipient_key`. The source field is required for each recipient. */
-  recipient_key?: string;
-  /** The source field containing the recipient item key. Defaults to `recipient_item_key`. The source field is required when `duplicate_handling` is `keep_each`; otherwise it may be absent. */
-  recipient_item_key?: string;
-  /** The source field containing the earliest dispatch time as a Unix timestamp in seconds. Defaults to `not_before`. If the source field is absent, no per-recipient start bound is applied. */
-  not_before?: string;
-  /** The source field containing the expiry time as a Unix timestamp in seconds. Defaults to `expires_at`. If the source field is absent, no per-recipient expiry bound is applied. */
-  expires_at?: string;
-}
-
-export function telephonyCampaignRecipientMappingRequestSerializer(
-  item: TelephonyCampaignRecipientMappingRequest,
-): any {
-  return {
-    destination: item["destination"],
-    recipient_key: item["recipient_key"],
-    recipient_item_key: item["recipient_item_key"],
-    not_before: item["not_before"],
-    expires_at: item["expires_at"],
-  };
-}
-
-/** How duplicate recipient keys in an import are handled. */
-export type TelephonyCampaignDuplicateHandling = "reject" | "keep_each" | "merge";
-
-/** The lifecycle status of an outbound telephony operation. */
-export type TelephonyOperationStatus =
-  "not_started" | "running" | "succeeded" | "failed" | "cancelled" | "unknown";
-
-/** A resource produced by a successful outbound telephony operation. */
-export interface TelephonyOperationResource {
-  id: string;
-  type: string;
-}
-
-export function telephonyOperationResourceDeserializer(item: any): TelephonyOperationResource {
-  return {
-    id: item["id"],
-    type: item["type"],
-  };
-}
-
-/** An asynchronous outbound telephony operation. */
-export interface TelephonyOperation {
-  id: string;
-  object: "telephony.operation";
-  status: TelephonyOperationStatus;
-  created_at?: Date;
-  error?: ApiError;
-  resource?: TelephonyOperationResource;
-}
-
-export function telephonyOperationDeserializer(item: any): TelephonyOperation {
-  return {
-    id: item["id"],
-    object: item["object"],
-    status: item["status"],
-    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
-    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
-    resource: !item["resource"]
-      ? item["resource"]
-      : telephonyOperationResourceDeserializer(item["resource"]),
-  };
-}
-
-/** A durable campaign recipient-import record. */
-export interface TelephonyCampaignRecipientImport {
-  id: string;
-  object: "telephony.campaign.recipient_import";
-  campaign_id: string;
-  status: TelephonyCampaignRecipientImportStatus;
-  source: TelephonyCampaignRecipientImportSource;
-  mapping?: TelephonyCampaignRecipientMapping;
-  duplicate_handling: TelephonyCampaignDuplicateHandling;
-  rows_processed: number;
-  eligible_recipient_count: number;
-  invalid_recipient_count: number;
-  error_code?: string;
-  error_message?: string;
-  created_at: Date;
-  updated_at: Date;
-}
-
-export function telephonyCampaignRecipientImportDeserializer(
-  item: any,
-): TelephonyCampaignRecipientImport {
-  return {
-    id: item["id"],
-    object: item["object"],
-    campaign_id: item["campaign_id"],
-    status: item["status"],
-    source: telephonyCampaignRecipientImportSourceDeserializer(item["source"]),
-    mapping: !item["mapping"]
-      ? item["mapping"]
-      : telephonyCampaignRecipientMappingDeserializer(item["mapping"]),
-    duplicate_handling: item["duplicate_handling"],
-    rows_processed: item["rows_processed"],
-    eligible_recipient_count: item["eligible_recipient_count"],
-    invalid_recipient_count: item["invalid_recipient_count"],
-    error_code: item["error_code"],
-    error_message: item["error_message"],
-    created_at: new Date(item["created_at"] * 1000),
-    updated_at: new Date(item["updated_at"] * 1000),
-  };
-}
-
-/** The lifecycle status of a campaign recipient import. */
-export type TelephonyCampaignRecipientImportStatus = "running" | "succeeded" | "failed";
-
-/** Source fields or CSV columns mapped into each campaign recipient. Every unmapped CSV column or JSON/JSONL top-level property becomes a same-named structured input. CSV cells are preserved as strings until Agent-declared inputs are parsed according to their schemas; additional inputs remain strings. */
-export interface TelephonyCampaignRecipientMapping {
-  /** The source field containing the destination E.164 phone number. Defaults to `destination`. The source field is required for each recipient. */
-  destination: string;
-  /** The source field containing the recipient key. Defaults to `recipient_key`. The source field is required for each recipient. */
-  recipient_key: string;
-  /** The source field containing the recipient item key. Defaults to `recipient_item_key`. The source field is required when `duplicate_handling` is `keep_each`; otherwise it may be absent. */
-  recipient_item_key?: string;
-  /** The source field containing the earliest dispatch time as a Unix timestamp in seconds. Defaults to `not_before`. If the source field is absent, no per-recipient start bound is applied. */
-  not_before?: string;
-  /** The source field containing the expiry time as a Unix timestamp in seconds. Defaults to `expires_at`. If the source field is absent, no per-recipient expiry bound is applied. */
-  expires_at?: string;
-}
-
-export function telephonyCampaignRecipientMappingDeserializer(
-  item: any,
-): TelephonyCampaignRecipientMapping {
-  return {
-    destination: item["destination"],
-    recipient_key: item["recipient_key"],
-    recipient_item_key: item["recipient_item_key"],
-    not_before: item["not_before"],
-    expires_at: item["expires_at"],
-  };
-}
-
-/** A request to publish a validated outbound campaign draft. */
-export interface PublishTelephonyCampaignRequest {
-  validation_id: string;
-}
-
-export function publishTelephonyCampaignRequestSerializer(
-  item: PublishTelephonyCampaignRequest,
-): any {
-  return { validation_id: item["validation_id"] };
-}
 
 /** The stable realtime session settings accepted in a `session.update` client event. */
 export interface VoiceAgentSessionUpdateConfig {
@@ -18534,12 +18094,6 @@ export type MemoryStoreObjectType =
   | "memory_store.deleted"
   | "memory_store.scope.deleted"
   | "memory_store.item.deleted";
-
-/** The transport used for a voice-agent connection. */
-export type VoiceAgentTransport = "websocket" | "webrtc";
-
-/** The WebSocket subprotocol supported by a voice-agent connection. */
-export type VoiceAgentWebSocketSubprotocol = "realtime";
 
 /** Microsoft Foundry API versions */
 export enum KnownVersions {

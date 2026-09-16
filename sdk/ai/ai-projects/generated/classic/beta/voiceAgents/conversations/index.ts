@@ -37,9 +37,9 @@ import {
 import {
   VoiceConversation,
   VoiceResponse,
-  VoiceAudioItemResponse,
-  VoiceGeneratedAudioItemResponse,
-  VoiceRecordingResponse,
+  VoiceAudioItem,
+  VoiceGeneratedAudioItem,
+  VoiceRecording,
   BetaVoiceAgentsConversationsDownloadAudioResponse,
   BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
   BetaVoiceAgentsConversationsDownloadAudioItemResponse,
@@ -83,7 +83,7 @@ export interface BetaVoiceAgentsConversationsOperations {
     agentName: string,
     conversationId: string,
     options?: BetaVoiceAgentsConversationsGetAudioOptionalParams,
-  ) => Promise<VoiceRecordingResponse>;
+  ) => Promise<VoiceRecording>;
   /**
    * Streams a conversation item's generated audio as a WAV (`audio/wav`) byte stream through the service. This
    * subordinate artifact exists only when playback was interrupted and the service rendered more audio than the
@@ -111,7 +111,7 @@ export interface BetaVoiceAgentsConversationsOperations {
     conversationId: string,
     itemId: string,
     options?: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
-  ) => Promise<VoiceGeneratedAudioItemResponse>;
+  ) => Promise<VoiceGeneratedAudioItem>;
   /**
    * Streams a single conversation item's audio as a WAV (`audio/wav`) byte stream through the service (no SAS
    * URL). This route serves Foundry-managed storage only. For bring-your-own-storage (BYOS) recordings the
@@ -140,7 +140,7 @@ export interface BetaVoiceAgentsConversationsOperations {
     conversationId: string,
     itemId: string,
     options?: BetaVoiceAgentsConversationsGetAudioItemOptionalParams,
-  ) => Promise<VoiceAudioItemResponse>;
+  ) => Promise<VoiceAudioItem>;
   /**
    * Retrieves a single item from the specified conversation by its id, including its transcript. An
    * `input_audio`/`output_audio` content part indicates that audio is available for the item; the canonical per-item
