@@ -5,10 +5,16 @@ import type { VoiceAgentClientEvent, VoiceAgentServerEvent } from "../models/mod
 import * as models from "../models/models.js";
 import { VoiceAgentProtocolError } from "./errors.js";
 
-type ClientEventSerializer = (event: never) => unknown;
-type ServerEventDeserializer = (event: unknown) => VoiceAgentServerEvent;
+type ClientEventSerializer<T extends VoiceAgentClientEvent["type"] = VoiceAgentClientEvent["type"]> =
+  (event: Extract<VoiceAgentClientEvent, { type: T }>) => unknown;
+type ServerEventDeserializer<T extends VoiceAgentServerEvent["type"] = VoiceAgentServerEvent["type"]> =
+  (event: unknown) => Extract<VoiceAgentServerEvent, { type: T }>;
+type RequiredEventFields<T extends VoiceAgentServerEvent["type"] = VoiceAgentServerEvent["type"]> =
+  ReadonlyArray<keyof Extract<VoiceAgentServerEvent, { type: T }>>;
 
-const clientEventSerializers: Record<string, ClientEventSerializer> = {
+const clientEventSerializers: {
+  readonly [K in VoiceAgentClientEvent["type"]]?: ClientEventSerializer<K>;
+} = {
   "conversation.item.create": models.realtimeClientEventConversationItemCreateSerializer,
   "conversation.item.delete": models.realtimeClientEventConversationItemDeleteSerializer,
   "conversation.item.retrieve": models.realtimeClientEventConversationItemRetrieveSerializer,
@@ -24,7 +30,9 @@ const clientEventSerializers: Record<string, ClientEventSerializer> = {
   "session.avatar.connect": models.voiceAgentClientEventSessionAvatarConnectSerializer,
 };
 
-const serverEventDeserializers: Record<string, ServerEventDeserializer> = {
+const serverEventDeserializers: {
+  readonly [K in VoiceAgentServerEvent["type"]]?: ServerEventDeserializer<K>;
+} = {
   "conversation.item.added": models.realtimeServerEventConversationItemAddedDeserializer,
   "conversation.item.created": models.realtimeServerEventConversationItemCreatedDeserializer,
   "conversation.item.deleted": models.realtimeServerEventConversationItemDeletedDeserializer,
@@ -162,7 +170,9 @@ export function deserializeVoiceAgentServerEvent(
     throw new VoiceAgentProtocolError("The service returned an invalid event type discriminator.");
   }
 
-  const deserializer = serverEventDeserializers[eventType];
+  const deserializer = (
+    serverEventDeserializers as Record<string, ServerEventDeserializer | undefined>
+  )[eventType];
   if (!deserializer) {
     throw new VoiceAgentProtocolError(`Unsupported server event type: ${eventType}`);
   }
@@ -183,8 +193,14 @@ export function deserializeVoiceAgentServerEvent(
  * generator — but combined with the universal `event_id` check below it catches the reported class
  * of bug: a minimal payload like `{"type":"response.output_text.delta"}` deserializing "successfully"
  * with every other required property left `undefined`.
+ *
+ * Typed so each field name is checked against the real event interface for its type: a typo, or a
+ * field renamed/removed by a future regeneration, fails to compile here instead of silently
+ * no-op'ing at runtime.
  */
-const requiredServerEventFields: Record<string, string[]> = {
+const requiredServerEventFields: {
+  readonly [K in VoiceAgentServerEvent["type"]]?: RequiredEventFields<K>;
+} = {
   "response.output_text.delta": ["delta", "item_id", "response_id"],
   "response.output_audio.delta": ["delta", "item_id", "response_id"],
   "response.output_audio_transcript.delta": ["delta", "item_id", "response_id"],
@@ -202,20 +218,23 @@ const requiredServerEventFields: Record<string, string[]> = {
   "session.updated": ["session"],
 };
 
-const optionalEventIdServerEvents = new Set<string>(["rtc.call.error"]);
+const optionalEventIdServerEvents = new Set<VoiceAgentServerEvent["type"]>(["rtc.call.error"]);
 
 function validateRequiredServerEventFields(eventType: string, event: unknown): void {
   const record = event as Record<string, unknown>;
   const eventId = record["event_id"];
   if (
-    !optionalEventIdServerEvents.has(eventType) &&
+    !(optionalEventIdServerEvents as ReadonlySet<string>).has(eventType) &&
     (typeof eventId !== "string" || eventId.length === 0)
   ) {
     throw new VoiceAgentProtocolError(
       `The service returned a "${eventType}" event without a required "event_id" field.`,
     );
   }
-  for (const field of requiredServerEventFields[eventType] ?? []) {
+  const fieldsForEventType = (
+    requiredServerEventFields as Record<string, RequiredEventFields | undefined>
+  )[eventType];
+  for (const field of fieldsForEventType ?? []) {
     if (record[field] === undefined) {
       throw new VoiceAgentProtocolError(
         `The service returned a "${eventType}" event without the required "${field}" field.`,
