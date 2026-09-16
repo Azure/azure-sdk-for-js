@@ -14,7 +14,7 @@ import {
 
 /** Operations for managing voice agent conversations and telephony. */
 export interface BetaVoiceAgentsOperations {
-  /** Operations for managing telephony bindings, calls, and campaigns. */
+  /** Operations for managing telephony bindings and calls. */
   telephony: BetaVoiceAgentsTelephonyOperations;
   /** Operations for reading persisted voice conversations and audio. */
   conversations: BetaVoiceAgentsConversationsOperations;

@@ -1832,9 +1832,9 @@ export interface BetaVoiceAgentsConversationsOperations {
     downloadAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams) => Promise<BetaVoiceAgentsConversationsDownloadAudioItemResponse>;
     downloadGeneratedAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams) => Promise<BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse>;
     get: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsGetOptionalParams) => Promise<VoiceConversation>;
-    getAudio: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsGetAudioOptionalParams) => Promise<VoiceRecordingResponse>;
-    getAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsGetAudioItemOptionalParams) => Promise<VoiceAudioItemResponse>;
-    getGeneratedAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams) => Promise<VoiceGeneratedAudioItemResponse>;
+    getAudio: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsGetAudioOptionalParams) => Promise<VoiceRecording>;
+    getAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsGetAudioItemOptionalParams) => Promise<VoiceAudioItem>;
+    getGeneratedAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams) => Promise<VoiceGeneratedAudioItem>;
     getItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsGetItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
     getResponse: (agentName: string, conversationId: string, responseId: string, options?: BetaVoiceAgentsConversationsGetResponseOptionalParams) => Promise<VoiceResponse>;
     list: (agentName: string, options?: BetaVoiceAgentsConversationsListOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
@@ -1856,11 +1856,6 @@ export interface BetaVoiceAgentsTelephonyCancelCallJobOptionalParams extends Ope
 }
 
 // @public
-export interface BetaVoiceAgentsTelephonyCancelCampaignOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
 export interface BetaVoiceAgentsTelephonyCreateBindingOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
     repeatabilityFirstSent?: Date;
@@ -1869,11 +1864,6 @@ export interface BetaVoiceAgentsTelephonyCreateBindingOptionalParams extends Ope
 
 // @public
 export interface BetaVoiceAgentsTelephonyCreateCallJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyCreateCampaignOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
@@ -1903,29 +1893,8 @@ export interface BetaVoiceAgentsTelephonyGetCallOptionalParams extends Operation
 }
 
 // @public
-export interface BetaVoiceAgentsTelephonyGetCampaignOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyGetCampaignRecipientImportOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyGetOperationOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
 export interface BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyImportCampaignRecipientsOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1955,49 +1924,23 @@ export interface BetaVoiceAgentsTelephonyListCallsOptionalParams extends Operati
 // @public
 export interface BetaVoiceAgentsTelephonyOperations {
     cancelCallJob: (agentName: string, callJobId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams) => Promise<TelephonyCallJob>;
-    cancelCampaign: (agentName: string, campaignId: string, options?: BetaVoiceAgentsTelephonyCancelCampaignOptionalParams) => Promise<TelephonyCampaign>;
-    createBinding: (agentName: string, body: CreateTelephonyBindingRequestUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
+    createBinding: (agentName: string, telephonyBinding: CreateTelephonyBindingRequestUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     createCallJob: (agentName: string, idempotencyKey: string, body: CreateTelephonyCallJobRequest, options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
-    createCampaign: (agentName: string, body: CreateTelephonyCampaignRequest, options?: BetaVoiceAgentsTelephonyCreateCampaignOptionalParams) => Promise<TelephonyCampaign>;
     deleteBinding: (agentName: string, bindingId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams) => Promise<void>;
     endCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyEndCallOptionalParams) => Promise<TelephonyCallRecord>;
     getBinding: (agentName: string, bindingId: string, options?: BetaVoiceAgentsTelephonyGetBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     getCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyGetCallOptionalParams) => Promise<TelephonyCallRecord>;
     getCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams) => Promise<TelephonyCallJob>;
-    getCampaign: (agentName: string, campaignId: string, options?: BetaVoiceAgentsTelephonyGetCampaignOptionalParams) => Promise<TelephonyCampaign>;
-    getCampaignRecipientImport: (agentName: string, campaignId: string, importId: string, options?: BetaVoiceAgentsTelephonyGetCampaignRecipientImportOptionalParams) => Promise<TelephonyCampaignRecipientImport>;
-    getOperation: (agentName: string, operationId: string, options?: BetaVoiceAgentsTelephonyGetOperationOptionalParams) => Promise<TelephonyOperation>;
     getTransferTargets: (agentName: string, options?: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
-    importCampaignRecipients: (agentName: string, campaignId: string, idempotencyKey: string, body: ImportTelephonyCampaignRecipientsRequest, options?: BetaVoiceAgentsTelephonyImportCampaignRecipientsOptionalParams) => PollerLike<OperationState_2<TelephonyOperationResource>, TelephonyOperationResource>;
     listBindings: (agentName: string, options?: BetaVoiceAgentsTelephonyListBindingsOptionalParams) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
     listCalls: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallSummary>;
-    pauseCampaign: (agentName: string, campaignId: string, options?: BetaVoiceAgentsTelephonyPauseCampaignOptionalParams) => Promise<TelephonyCampaign>;
-    publishCampaign: (agentName: string, campaignId: string, body: PublishTelephonyCampaignRequest, options?: BetaVoiceAgentsTelephonyPublishCampaignOptionalParams) => PollerLike<OperationState_2<TelephonyOperationResource>, TelephonyOperationResource>;
     replaceTransferTargets: (agentName: string, ifMatch: string, transferTargets: TelephonyTransferTarget[], options?: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
-    resumeCampaign: (agentName: string, campaignId: string, options?: BetaVoiceAgentsTelephonyResumeCampaignOptionalParams) => Promise<TelephonyCampaign>;
     transferCall: (agentName: string, callId: string, target: string, options?: BetaVoiceAgentsTelephonyTransferCallOptionalParams) => Promise<TelephonyCallRecord>;
     updateBinding: (agentName: string, bindingId: string, ifMatch: string, body: UpdateTelephonyBindingRequest, options?: BetaVoiceAgentsTelephonyUpdateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
-    validateCampaign: (agentName: string, campaignId: string, options?: BetaVoiceAgentsTelephonyValidateCampaignOptionalParams) => PollerLike<OperationState_2<TelephonyOperationResource>, TelephonyOperationResource>;
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyPauseCampaignOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyPublishCampaignOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    updateIntervalInMs?: number;
 }
 
 // @public
 export interface BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyResumeCampaignOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
@@ -2009,12 +1952,6 @@ export interface BetaVoiceAgentsTelephonyTransferCallOptionalParams extends Oper
 // @public
 export interface BetaVoiceAgentsTelephonyUpdateBindingOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyValidateCampaignOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2097,19 +2034,6 @@ export interface BrowserAutomationPreviewToolboxTool extends ToolboxTool {
     browser_automation_preview: BrowserAutomationToolParameters;
     // (undocumented)
     type: "browser_automation_preview";
-}
-
-// @public
-export interface BrowserAutomationTool extends Tool {
-    browser_automation: BrowserAutomationToolParameters;
-    type: "browser_automation";
-}
-
-// @public
-export interface BrowserAutomationToolboxTool extends ToolboxTool {
-    browser_automation: BrowserAutomationToolParameters;
-    // (undocumented)
-    type: "browser_automation";
 }
 
 // @public
@@ -2409,16 +2333,6 @@ export interface CreateTelephonyCallJobRequest {
 }
 
 // @public
-export interface CreateTelephonyCampaignRequest {
-    connection_name: string;
-    display_name: string;
-    purpose?: string;
-    retry_policy?: TelephonyOutboundRetryPolicyUnion;
-    schedule?: TelephonyCampaignSchedule;
-    source: string;
-}
-
-// @public
 export interface CreateTranscriptionResponseJsonUsage {
     // (undocumented)
     type: CreateTranscriptionResponseJsonUsageType;
@@ -2478,6 +2392,7 @@ export interface CustomTextFormatParam extends CustomToolParamFormat {
 export interface CustomToolParam extends Tool {
     // (undocumented)
     allowed_callers?: CallableToolAllowedCaller[];
+    async?: boolean;
     defer_loading?: boolean;
     description?: string;
     format?: CustomToolParamFormatUnion;
@@ -2818,6 +2733,7 @@ export interface ErrorModel {
     debugInfo?: Record<string, unknown>;
     details?: ErrorModel[];
     message: string;
+    misalignment?: MisalignmentErrorDetailsResource;
     param?: string;
     type?: string;
 }
@@ -3259,6 +3175,7 @@ export type FunctionShellToolParamEnvironmentUnion = FunctionShellToolParamEnvir
 // @public
 export interface FunctionTool extends Tool {
     allowed_callers?: CallableToolAllowedCaller[];
+    async?: boolean;
     defer_loading?: boolean;
     description?: string;
     name: string;
@@ -3272,6 +3189,7 @@ export interface FunctionTool extends Tool {
 export interface FunctionToolParam {
     // (undocumented)
     allowed_callers?: CallableToolAllowedCaller[];
+    async?: boolean;
     defer_loading?: boolean;
     // (undocumented)
     description?: string;
@@ -3433,7 +3351,7 @@ export interface ImageGenTool extends Tool {
     description?: string;
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
-    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
+    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21";
     moderation?: "auto" | "low";
     name?: string;
     output_compression?: number;
@@ -3449,15 +3367,6 @@ export interface ImageGenTool extends Tool {
 export interface ImageGenToolInputImageMask {
     file_id?: string;
     image_url?: string;
-}
-
-// @public
-export interface ImportTelephonyCampaignRecipientsRequest {
-    // (undocumented)
-    duplicate_handling?: TelephonyCampaignDuplicateHandling;
-    mapping?: TelephonyCampaignRecipientMappingRequest;
-    // (undocumented)
-    source: TelephonyCampaignRecipientImportSource;
 }
 
 // @public
@@ -3965,6 +3874,21 @@ export interface MicrosoftFabricPreviewTool extends Tool {
 }
 
 // @public
+export interface MisalignmentErrorDetailsResource {
+    detailed_explanation?: string;
+    error_type?: MisalignmentErrorType;
+    steer?: MisalignmentSteer;
+}
+
+// @public
+export type MisalignmentErrorType = string | "potentially_unintended_data_transfer" | "potentially_unintended_data_access" | "potentially_unintended_destructive_activity" | "other";
+
+// @public
+export interface MisalignmentSteer {
+    message: string;
+}
+
+// @public
 export interface ModelCredentialRequest {
     blobUri: string;
 }
@@ -4313,12 +4237,6 @@ export interface PstnTelephonyTransferDestination extends TelephonyTransferDesti
 
 // @public
 export type PublishApprovalStatus = "not_published" | "pending" | "approved" | "rejected" | "no_approval_needed";
-
-// @public
-export interface PublishTelephonyCampaignRequest {
-    // (undocumented)
-    validation_id: string;
-}
 
 // @public
 export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
@@ -5820,7 +5738,7 @@ export interface TelephonyCallJob {
     next_attempt_at?: Date;
     object: "telephony.call_job";
     purpose?: string;
-    retry_policy: TelephonyOutboundRetryPolicyResponseUnion;
+    retry_policy: TelephonyOutboundRetryPolicyUnion;
     revision: number;
     schedule?: TelephonyCallJobSchedule;
     source: string;
@@ -5965,175 +5883,6 @@ export type TelephonyCallTraceMode = "live" | "post_call";
 export type TelephonyCallTraceStatus = "pending" | "emitting" | "available" | "not_recorded" | "not_applicable" | "failed";
 
 // @public
-export interface TelephonyCampaign {
-    // (undocumented)
-    active_recipient_import_id?: string;
-    // (undocumented)
-    active_validation_id?: string;
-    // (undocumented)
-    agent_name: string;
-    // (undocumented)
-    call_job_counts: TelephonyCampaignCallJobCounts;
-    // (undocumented)
-    configuration_status: TelephonyCampaignConfigurationStatus;
-    connection_name: string;
-    // (undocumented)
-    created_at: Date;
-    display_name: string;
-    // (undocumented)
-    execution_status: TelephonyCampaignExecutionStatus;
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    latest_successful_validation_id?: string;
-    // (undocumented)
-    object: "telephony.campaign";
-    // (undocumented)
-    published_at?: Date;
-    purpose?: string;
-    // (undocumented)
-    retry_policy: TelephonyOutboundRetryPolicyResponseUnion;
-    schedule?: TelephonyCampaignSchedule;
-    source: string;
-    // (undocumented)
-    updated_at: Date;
-}
-
-// @public
-export interface TelephonyCampaignCallJobCounts {
-    // (undocumented)
-    blocked: number;
-    // (undocumented)
-    cancelled: number;
-    // (undocumented)
-    completed: number;
-    // (undocumented)
-    expired: number;
-    // (undocumented)
-    failed: number;
-    // (undocumented)
-    in_progress: number;
-    // (undocumented)
-    pending: number;
-    // (undocumented)
-    total: number;
-}
-
-// @public
-export type TelephonyCampaignConfigurationStatus = "draft" | "importing" | "validating" | "publishing" | "published" | "publish_failed";
-
-// @public
-export type TelephonyCampaignDuplicateHandling = "reject" | "keep_each" | "merge";
-
-// @public
-export type TelephonyCampaignExecutionStatus = "none" | "scheduled" | "running" | "paused" | "completed" | "failed" | "cancelled";
-
-// @public
-export interface TelephonyCampaignRecipientImport {
-    // (undocumented)
-    campaign_id: string;
-    // (undocumented)
-    created_at: Date;
-    // (undocumented)
-    duplicate_handling: TelephonyCampaignDuplicateHandling;
-    // (undocumented)
-    eligible_recipient_count: number;
-    // (undocumented)
-    error_code?: string;
-    // (undocumented)
-    error_message?: string;
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    invalid_recipient_count: number;
-    // (undocumented)
-    mapping?: TelephonyCampaignRecipientMapping;
-    // (undocumented)
-    object: "telephony.campaign.recipient_import";
-    // (undocumented)
-    rows_processed: number;
-    // (undocumented)
-    source: TelephonyCampaignRecipientImportSource;
-    // (undocumented)
-    status: TelephonyCampaignRecipientImportStatus;
-    // (undocumented)
-    updated_at: Date;
-}
-
-// @public
-export type TelephonyCampaignRecipientImportFormat = "csv" | "json" | "jsonl";
-
-// @public
-export interface TelephonyCampaignRecipientImportSource {
-    // (undocumented)
-    dataset_name: string;
-    // (undocumented)
-    dataset_version: string;
-    file_name: string;
-    // (undocumented)
-    format: TelephonyCampaignRecipientImportFormat;
-    // (undocumented)
-    type: "dataset";
-}
-
-// @public
-export type TelephonyCampaignRecipientImportStatus = "running" | "succeeded" | "failed";
-
-// @public
-export interface TelephonyCampaignRecipientMapping {
-    destination: string;
-    expires_at?: string;
-    not_before?: string;
-    recipient_item_key?: string;
-    recipient_key: string;
-}
-
-// @public
-export interface TelephonyCampaignRecipientMappingRequest {
-    destination?: string;
-    expires_at?: string;
-    not_before?: string;
-    recipient_item_key?: string;
-    recipient_key?: string;
-}
-
-// @public
-export interface TelephonyCampaignSchedule {
-    start_at?: Date;
-    type: TelephonyCampaignScheduleType;
-}
-
-// @public
-export type TelephonyCampaignScheduleType = "immediate" | "scheduled";
-
-// @public
-export interface TelephonyOperation {
-    // (undocumented)
-    created_at?: Date;
-    // (undocumented)
-    error?: ErrorModel;
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    object: "telephony.operation";
-    // (undocumented)
-    resource?: TelephonyOperationResource;
-    // (undocumented)
-    status: TelephonyOperationStatus;
-}
-
-// @public
-export interface TelephonyOperationResource {
-    // (undocumented)
-    id: string;
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export type TelephonyOperationStatus = "not_started" | "running" | "succeeded" | "failed" | "cancelled" | "unknown";
-
-// @public
 export interface TelephonyOutboundDestination {
     type: TelephonyOutboundDestinationType;
     value: string;
@@ -6144,12 +5893,6 @@ export type TelephonyOutboundDestinationType = "phone_number";
 
 // @public
 export interface TelephonyOutboundFixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
-    interval?: number;
-    type: "fixed_interval";
-}
-
-// @public
-export interface TelephonyOutboundFixedIntervalRetryPolicyResponse extends TelephonyOutboundRetryPolicyResponse {
     interval: number;
     type: "fixed_interval";
 }
@@ -6159,15 +5902,6 @@ export interface TelephonyOutboundRetryPolicy {
     max_attempts?: number;
     type: TelephonyOutboundRetryPolicyType;
 }
-
-// @public
-export interface TelephonyOutboundRetryPolicyResponse {
-    max_attempts: number;
-    type: TelephonyOutboundRetryPolicyType;
-}
-
-// @public
-export type TelephonyOutboundRetryPolicyResponseUnion = TelephonyOutboundFixedIntervalRetryPolicyResponse | TelephonyOutboundRetryPolicyResponse;
 
 // @public
 export type TelephonyOutboundRetryPolicyType = "fixed_interval";
@@ -6406,10 +6140,10 @@ export interface ToolboxTool {
 }
 
 // @public
-export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "a2a" | "shell" | "web_iq_preview" | "browser_automation";
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "a2a" | "shell" | "web_iq_preview";
 
 // @public
-export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | ShellToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2AToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | WebIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool | BrowserAutomationToolboxTool;
+export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | ShellToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2AToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | WebIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
 
 // @public
 export interface ToolboxVersionObject {
@@ -6558,7 +6292,7 @@ export interface ToolSearchToolParam extends Tool {
 export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "github_copilot_toolset_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi" | "browser_automation";
 
 // @public
-export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool | BrowserAutomationTool;
+export type ToolUnion = GitHubCopilotToolsetPreview | BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
@@ -7694,7 +7428,7 @@ export type VoiceAudioCodec = "pcm16" | "pcmu" | "pcma";
 export type VoiceAudioContainerFormat = "wav";
 
 // @public
-export interface VoiceAudioItemResponse {
+export interface VoiceAudioItem {
     blob_uri?: string;
     channels?: number;
     codec?: VoiceAudioCodec;
@@ -7734,7 +7468,7 @@ export type VoiceConversationEngineUnion = VoiceHostedAgentConversationEngine | 
 export type VoiceConversationStatus = "in_progress" | "completed" | "failed";
 
 // @public
-export interface VoiceGeneratedAudioItemResponse {
+export interface VoiceGeneratedAudioItem {
     blob_uri?: string;
     channels?: number;
     codec?: VoiceAudioCodec;
@@ -7762,13 +7496,7 @@ export type VoiceModelType = "managed" | "self_deployed";
 export type VoiceOutputModality = "text" | "audio" | "animation" | "avatar";
 
 // @public
-export interface VoiceRecordingChannelLayout {
-    left: "user";
-    right: "agent";
-}
-
-// @public
-export interface VoiceRecordingResponse {
+export interface VoiceRecording {
     blob_uri?: string;
     channel_layout: VoiceRecordingChannelLayout;
     channels: number;
@@ -7776,6 +7504,12 @@ export interface VoiceRecordingResponse {
     duration_ms: number;
     format: VoiceAudioContainerFormat;
     sample_rate: number;
+}
+
+// @public
+export interface VoiceRecordingChannelLayout {
+    left: "user";
+    right: "agent";
 }
 
 // @public

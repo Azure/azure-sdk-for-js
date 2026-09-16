@@ -23,5 +23,4 @@ export type { BetaSchedulesOperations } from "./beta/schedules/index.js";
 export type { BetaSkillsOperations } from "./beta/skills/index.js";
 export type { BetaVoiceAgentsOperations } from "./beta/voiceAgents/index.js";
 export type { BetaVoiceAgentsConversationsOperations } from "./beta/voiceAgents/conversations/index.js";
-export type { BetaVoiceAgentsRealtimeOperations } from "./beta/voiceAgents/realtime/index.js";
 export type { BetaVoiceAgentsTelephonyOperations } from "./beta/voiceAgents/telephony/index.js";

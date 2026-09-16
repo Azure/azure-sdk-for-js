@@ -9,9 +9,9 @@ import type {
   VoiceResponse,
   RealtimeConversationItemUnion,
   _AgentsPagedResultRealtimeConversationItem,
-  VoiceAudioItemResponse,
-  VoiceGeneratedAudioItemResponse,
-  VoiceRecordingResponse,
+  VoiceAudioItem,
+  VoiceGeneratedAudioItem,
+  VoiceRecording,
   BetaVoiceAgentsConversationsDownloadAudioResponse,
   BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
   BetaVoiceAgentsConversationsDownloadAudioItemResponse,
@@ -24,9 +24,9 @@ import {
   voiceResponseDeserializer,
   realtimeConversationItemUnionDeserializer,
   _agentsPagedResultRealtimeConversationItemDeserializer,
-  voiceAudioItemResponseDeserializer,
-  voiceGeneratedAudioItemResponseDeserializer,
-  voiceRecordingResponseDeserializer,
+  voiceAudioItemDeserializer,
+  voiceGeneratedAudioItemDeserializer,
+  voiceRecordingDeserializer,
 } from "../../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../../static-helpers/pagingHelpers.js";
@@ -147,9 +147,7 @@ export function _getAudioSend(
   });
 }
 
-export async function _getAudioDeserialize(
-  result: PathUncheckedResponse,
-): Promise<VoiceRecordingResponse> {
+export async function _getAudioDeserialize(result: PathUncheckedResponse): Promise<VoiceRecording> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -160,7 +158,7 @@ export async function _getAudioDeserialize(
     throw error;
   }
 
-  return voiceRecordingResponseDeserializer(result.body);
+  return voiceRecordingDeserializer(result.body);
 }
 
 /**
@@ -180,7 +178,7 @@ export async function getAudio(
   agentName: string,
   conversationId: string,
   options: BetaVoiceAgentsConversationsGetAudioOptionalParams = { requestOptions: {} },
-): Promise<VoiceRecordingResponse> {
+): Promise<VoiceRecording> {
   const result = await _getAudioSend(context, agentName, conversationId, options);
   return _getAudioDeserialize(result);
 }
@@ -297,7 +295,7 @@ export function _getGeneratedAudioItemSend(
 
 export async function _getGeneratedAudioItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceGeneratedAudioItemResponse> {
+): Promise<VoiceGeneratedAudioItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -308,7 +306,7 @@ export async function _getGeneratedAudioItemDeserialize(
     throw error;
   }
 
-  return voiceGeneratedAudioItemResponseDeserializer(result.body);
+  return voiceGeneratedAudioItemDeserializer(result.body);
 }
 
 /**
@@ -325,7 +323,7 @@ export async function getGeneratedAudioItem(
   options: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams = {
     requestOptions: {},
   },
-): Promise<VoiceGeneratedAudioItemResponse> {
+): Promise<VoiceGeneratedAudioItem> {
   const result = await _getGeneratedAudioItemSend(
     context,
     agentName,
@@ -441,7 +439,7 @@ export function _getAudioItemSend(
 
 export async function _getAudioItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceAudioItemResponse> {
+): Promise<VoiceAudioItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -452,7 +450,7 @@ export async function _getAudioItemDeserialize(
     throw error;
   }
 
-  return voiceAudioItemResponseDeserializer(result.body);
+  return voiceAudioItemDeserializer(result.body);
 }
 
 /**
@@ -469,7 +467,7 @@ export async function getAudioItem(
   conversationId: string,
   itemId: string,
   options: BetaVoiceAgentsConversationsGetAudioItemOptionalParams = { requestOptions: {} },
-): Promise<VoiceAudioItemResponse> {
+): Promise<VoiceAudioItem> {
   const result = await _getAudioItemSend(context, agentName, conversationId, itemId, options);
   return _getAudioItemDeserialize(result);
 }

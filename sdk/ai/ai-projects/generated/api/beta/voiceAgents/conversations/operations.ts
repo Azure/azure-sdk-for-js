@@ -14,12 +14,12 @@ import {
   voiceResponseDeserializer,
   _AgentsPagedResultRealtimeConversationItem,
   _agentsPagedResultRealtimeConversationItemDeserializer,
-  VoiceAudioItemResponse,
-  voiceAudioItemResponseDeserializer,
-  VoiceGeneratedAudioItemResponse,
-  voiceGeneratedAudioItemResponseDeserializer,
-  VoiceRecordingResponse,
-  voiceRecordingResponseDeserializer,
+  VoiceAudioItem,
+  voiceAudioItemDeserializer,
+  VoiceGeneratedAudioItem,
+  voiceGeneratedAudioItemDeserializer,
+  VoiceRecording,
+  voiceRecordingDeserializer,
   BetaVoiceAgentsConversationsDownloadAudioResponse,
   BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
   BetaVoiceAgentsConversationsDownloadAudioItemResponse,
@@ -162,9 +162,7 @@ export function _getAudioSend(
     });
 }
 
-export async function _getAudioDeserialize(
-  result: PathUncheckedResponse,
-): Promise<VoiceRecordingResponse> {
+export async function _getAudioDeserialize(result: PathUncheckedResponse): Promise<VoiceRecording> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -175,7 +173,7 @@ export async function _getAudioDeserialize(
     throw error;
   }
 
-  return voiceRecordingResponseDeserializer(result.body);
+  return voiceRecordingDeserializer(result.body);
 }
 
 /**
@@ -196,7 +194,7 @@ export async function getAudio(
   agentName: string,
   conversationId: string,
   options: BetaVoiceAgentsConversationsGetAudioOptionalParams = { requestOptions: {} },
-): Promise<VoiceRecordingResponse> {
+): Promise<VoiceRecording> {
   const result = await _getAudioSend(context, foundryFeatures, agentName, conversationId, options);
   return _getAudioDeserialize(result);
 }
@@ -315,7 +313,7 @@ export function _getGeneratedAudioItemSend(
 
 export async function _getGeneratedAudioItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceGeneratedAudioItemResponse> {
+): Promise<VoiceGeneratedAudioItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -326,7 +324,7 @@ export async function _getGeneratedAudioItemDeserialize(
     throw error;
   }
 
-  return voiceGeneratedAudioItemResponseDeserializer(result.body);
+  return voiceGeneratedAudioItemDeserializer(result.body);
 }
 
 /**
@@ -342,7 +340,7 @@ export async function getGeneratedAudioItem(
   conversationId: string,
   itemId: string,
   options: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams = { requestOptions: {} },
-): Promise<VoiceGeneratedAudioItemResponse> {
+): Promise<VoiceGeneratedAudioItem> {
   const result = await _getGeneratedAudioItemSend(
     context,
     foundryFeatures,
@@ -463,7 +461,7 @@ export function _getAudioItemSend(
 
 export async function _getAudioItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceAudioItemResponse> {
+): Promise<VoiceAudioItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -474,7 +472,7 @@ export async function _getAudioItemDeserialize(
     throw error;
   }
 
-  return voiceAudioItemResponseDeserializer(result.body);
+  return voiceAudioItemDeserializer(result.body);
 }
 
 /**
@@ -492,7 +490,7 @@ export async function getAudioItem(
   conversationId: string,
   itemId: string,
   options: BetaVoiceAgentsConversationsGetAudioItemOptionalParams = { requestOptions: {} },
-): Promise<VoiceAudioItemResponse> {
+): Promise<VoiceAudioItem> {
   const result = await _getAudioItemSend(
     context,
     foundryFeatures,

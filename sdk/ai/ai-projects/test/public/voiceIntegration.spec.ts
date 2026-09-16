@@ -8,7 +8,6 @@ import { isNodeLike } from "@azure/core-util";
 import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
-  BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
   BetaVoiceAgentsConversationsListOptionalParams,
   VoiceAgentDefinition,
   RealtimeServerEventResponseAudioDelta,
@@ -72,14 +71,22 @@ function createClient(...responses: MockResponse[]): {
 describe("voice post-emitter integration", () => {
   it("wires voice operations without exposing the internal WebSocket handshake", async () => {
     const { client, requests, getToken } = createClient({
-      body: { id: "operation", status: "succeeded" },
+      body: {
+        id: "binding",
+        provider: "twilio",
+        connection_name: "telephony-connection",
+        phone_number: "+15555550100",
+        status: "active",
+        incoming_call_url: "https://example.com/incoming",
+        etag: '"binding-etag"',
+      },
     });
-    await client.beta.voiceAgents.telephony.getOperation("voice agent", "operation", {
+    await client.beta.voiceAgents.telephony.getBinding("voice agent", "binding", {
       foundryFeatures: "VoiceAgents=V1Preview",
     });
     expect(requests).toHaveLength(1);
     expect(new URL(requests[0].url).pathname).toBe(
-      "/api/projects/test-project/agents/voice%20agent/telephony/operations/operation",
+      "/api/projects/test-project/agents/voice%20agent/telephony/bindings/binding",
     );
     expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
     expect(requests[0].headers.get(isNodeLike ? "user-agent" : "x-ms-useragent")).toContain(
@@ -112,7 +119,7 @@ describe("voice post-emitter integration", () => {
       },
     });
     await expect(
-      client.beta.voiceAgents.telephony.getOperation("agent", "operation"),
+      client.beta.voiceAgents.telephony.getBinding("agent", "binding"),
     ).rejects.toMatchObject({
       statusCode: 409,
       details: {
@@ -240,86 +247,28 @@ describe("voice post-emitter integration", () => {
     expect(onResponse).toHaveBeenCalledTimes(2);
   });
 
-  const campaignCases = [
-    {
-      name: "validate",
-      start: (
-        client: AIProjectClient,
-        options: BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
-      ) => client.beta.voiceAgents.telephony.validateCampaign("agent", "campaign", options),
-    },
-    {
-      name: "publish",
-      start: (
-        client: AIProjectClient,
-        options: BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
-      ) =>
-        client.beta.voiceAgents.telephony.publishCampaign(
-          "agent",
-          "campaign",
-          { validation_id: "validation" },
-          options,
-        ),
-    },
-    {
-      name: "import",
-      start: (
-        client: AIProjectClient,
-        options: BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
-      ) =>
-        client.beta.voiceAgents.telephony.importCampaignRecipients(
-          "agent",
-          "campaign",
-          "idempotency-key",
-          {
-            source: {
-              type: "dataset",
-              dataset_name: "recipients",
-              dataset_version: "1",
-              file_name: "recipients.csv",
-              format: "csv",
-            },
-          },
-          options,
-        ),
-    },
-  ];
-
-  it.each(campaignCases)(
-    "retains poll headers and terminal resource id for $name",
-    async ({ start }) => {
-      const { client, requests } = createClient(
-        {
-          status: 202,
-          headers: { "operation-location": `${endpoint}/agents/agent/telephony/operations/op-1` },
-          body: { id: "op-1", status: "running" },
-        },
-        {
-          body: {
-            id: "op-1",
-            status: "succeeded",
-            resource: { id: "campaign-1", type: "telephony.campaign" },
-          },
-        },
-      );
-      const poller = start(client, {
-        updateIntervalInMs: 0,
-        foundryFeatures: "VoiceAgents=V1Preview",
-        requestOptions: { headers: { "x-custom": "retained" } },
-      });
-      expect(await poller.pollUntilDone()).toEqual({
-        id: "campaign-1",
-        type: "telephony.campaign",
-      });
-      expect(requests).toHaveLength(2);
-      expect(requests[1].method).toBe("GET");
-      expect(new URL(requests[1].url).searchParams.get("api-version")).toBe("v1");
-      for (const request of requests) {
-        expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
-        expect(request.headers.get("x-custom")).toBe("retained");
-      }
-    },
-  );
+  it("omits removed campaign operations while retaining call jobs and realtime connections", () => {
+    const { client, requests } = createClient();
+    for (const name of [
+      "createCampaign",
+      "getCampaign",
+      "importCampaignRecipients",
+      "getCampaignRecipientImport",
+      "validateCampaign",
+      "publishCampaign",
+      "pauseCampaign",
+      "resumeCampaign",
+      "cancelCampaign",
+      "getOperation",
+    ]) {
+      expect(client.beta.voiceAgents.telephony).not.toHaveProperty(name);
+    }
+    expect(client.beta.voiceAgents.telephony.createCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.getCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.cancelCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
+    expect(requests).toHaveLength(0);
+  });
 
   it("preserves arbitrary function JSON Schema through voice union serialization", () => {
     const parameters = {
