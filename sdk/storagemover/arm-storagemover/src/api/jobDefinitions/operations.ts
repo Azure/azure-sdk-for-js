@@ -21,6 +21,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  JobDefinitionsReconcileJobOptionalParams,
   JobDefinitionsStopJobOptionalParams,
   JobDefinitionsStartJobOptionalParams,
   JobDefinitionsListOptionalParams,
@@ -32,6 +33,69 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _reconcileJobSend(
+  context: Client,
+  resourceGroupName: string,
+  storageMoverName: string,
+  projectName: string,
+  jobDefinitionName: string,
+  options: JobDefinitionsReconcileJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/reconcileJob{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      storageMoverName: storageMoverName,
+      projectName: projectName,
+      jobDefinitionName: jobDefinitionName,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _reconcileJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<JobRunResourceId> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return jobRunResourceIdDeserializer(result.body);
+}
+/** Post action to reconcile the running job. */
+export async function reconcileJob(
+  context: Client,
+  resourceGroupName: string,
+  storageMoverName: string,
+  projectName: string,
+  jobDefinitionName: string,
+  options: JobDefinitionsReconcileJobOptionalParams = { requestOptions: {} },
+): Promise<JobRunResourceId> {
+  const result = await _reconcileJobSend(
+    context,
+    resourceGroupName,
+    storageMoverName,
+    projectName,
+    jobDefinitionName,
+    options,
+  );
+  return _reconcileJobDeserialize(result);
+}
 
 export function _stopJobSend(
   context: Client,
@@ -49,7 +113,7 @@ export function _stopJobSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,14 +131,15 @@ export async function _stopJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return jobRunResourceIdDeserializer(result.body);
 }
-
 /** Requests the Agent of any active instance of this Job Definition to stop. */
 export async function stopJob(
   context: Client,
@@ -111,7 +176,7 @@ export function _startJobSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,14 +194,15 @@ export async function _startJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return jobRunResourceIdDeserializer(result.body);
 }
-
 /** Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution. */
 export async function startJob(
   context: Client,
@@ -171,7 +237,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       storageMoverName: storageMoverName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,14 +253,15 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _jobDefinitionListDeserializer(result.body);
 }
-
 /** Lists all Job Definitions in a Project. */
 export function list(
   context: Client,
@@ -208,7 +275,7 @@ export function list(
     () => _listSend(context, resourceGroupName, storageMoverName, projectName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
   );
 }
 
@@ -228,7 +295,7 @@ export function _$deleteSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,20 +308,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes a Job Definition resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -276,7 +339,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -297,7 +360,7 @@ export function _updateSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -315,14 +378,15 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return jobDefinitionDeserializer(result.body);
 }
-
 /** Updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged. */
 export async function update(
   context: Client,
@@ -362,7 +426,7 @@ export function _createOrUpdateSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -382,14 +446,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return jobDefinitionDeserializer(result.body);
 }
-
 /** Creates or updates a Job Definition resource, which contains configuration for a single unit of managed data transfer. */
 export async function createOrUpdate(
   context: Client,
@@ -428,7 +493,7 @@ export function _getSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -444,14 +509,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return jobDefinitionDeserializer(result.body);
 }
-
 /** Gets a Job Definition resource. */
 export async function get(
   context: Client,
