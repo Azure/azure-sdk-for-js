@@ -28,7 +28,7 @@ export function _tenantLevelGallerySharingRejectSend(
       location: location,
       sharedGallerySubscriptionId: sharedGallerySubscriptionId,
       sharedGalleryName: sharedGalleryName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,7 @@ export function tenantLevelGallerySharingReject(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-12-03",
+      apiVersion: "2026-03-03",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -99,7 +99,7 @@ export function _tenantLevelGallerySharingAcceptSend(
       location: location,
       sharedGallerySubscriptionId: sharedGallerySubscriptionId,
       sharedGalleryName: sharedGalleryName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,7 +150,7 @@ export function tenantLevelGallerySharingAccept(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-12-03",
+      apiVersion: "2026-03-03",
     },
   ) as PollerLike<OperationState<void>, void>;
 }

@@ -28,7 +28,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
       sharedTo: options?.sharedTo,
     },
     {
@@ -66,7 +66,7 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-03" },
   );
 }
 
@@ -82,7 +82,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       galleryUniqueName: galleryUniqueName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

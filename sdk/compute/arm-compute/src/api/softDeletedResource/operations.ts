@@ -31,7 +31,7 @@ export function _listByArtifactNameSend(
       galleryName: galleryName,
       artifactType: artifactType,
       artifactName: artifactName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,6 +81,6 @@ export function listByArtifactName(
       ),
     _listByArtifactNameDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-03" },
   );
 }

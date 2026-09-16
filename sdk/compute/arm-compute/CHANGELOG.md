@@ -1,8 +1,40 @@
 # Release History
 
-## 25.1.2 (2026-09-14)
+## 25.2.0 (2026-09-16)
 
 ### Features Added
+  - Added Interface DataDiskImageSecurityProfile
+  - Added Interface ImageMetadataProfile
+  - Added Interface MetadataKeyValue
+  - Added Interface SecretsProvisioningComponent
+  - Added Interface SecretsProvisioningSettings
+  - Interface CommunityGalleryImageVersion has a new optional parameter consumptionEndTime
+  - Interface CommunityGalleryImageVersion has a new optional parameter imageState
+  - Interface CommunityGalleryImageVersionProperties has a new optional parameter consumptionEndTime
+  - Interface CommunityGalleryImageVersionProperties has a new optional parameter imageState
+  - Interface DataDiskImageEncryption has a new optional parameter securityProfile
+  - Interface GalleryImageVersion has a new optional parameter imageMetadataProfiles
+  - Interface GalleryImageVersionProperties has a new optional parameter imageMetadataProfiles
+  - Interface GalleryImageVersionsDeleteOptionalParams has a new optional parameter bypassSoftDelete
+  - Interface GalleryImageVersionUpdate has a new optional parameter imageMetadataProfiles
+  - Interface GallerySoftDeletedResource has a new optional parameter consumptionEndTime
+  - Interface GallerySoftDeletedResource has a new optional parameter hardDeletionTargetTime
+  - Interface GallerySoftDeletedResourceProperties has a new optional parameter consumptionEndTime
+  - Interface GallerySoftDeletedResourceProperties has a new optional parameter hardDeletionTargetTime
+  - Interface ImageVersionSecurityProfile has a new optional parameter secretsProvisioningSettings
+  - Interface SharedGalleryImageVersion has a new optional parameter consumptionEndTime
+  - Interface SharedGalleryImageVersion has a new optional parameter imageState
+  - Interface SharedGalleryImageVersionProperties has a new optional parameter consumptionEndTime
+  - Interface SharedGalleryImageVersionProperties has a new optional parameter imageState
+  - Interface SoftDeletePolicy has a new optional parameter gracePeriodInDays
+  - Interface SoftDeletePolicy has a new optional parameter retentionPeriodInDays
+  - Added Type Alias GalleryImageVersionState
+  - Added Type Alias MetadataType
+  - Added Type Alias SecretsProvisioningComponentName
+  - Added Enum KnownGalleryImageVersionState
+  - Added Enum KnownMetadataType
+  - Added Enum KnownSecretsProvisioningComponentName
+  - Enum KnownConfidentialVMEncryptionType has a new value DataDiskEncryptedWithCmk
 
 ## 25.1.1 (2026-08-21)
 

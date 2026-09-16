@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about a gallery Application Version.
  *
  * @summary retrieves information about a gallery Application Version.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryApplicationVersion_Get.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryApplicationVersion_Get.json
  */
 async function getAGalleryApplicationVersion() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getAGalleryApplicationVersion() {
  * This sample demonstrates how to retrieves information about a gallery Application Version.
  *
  * @summary retrieves information about a gallery Application Version.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryApplicationVersionWithReplicationStatus() {
   const credential = new DefaultAzureCredential();

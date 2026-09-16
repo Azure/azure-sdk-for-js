@@ -35,7 +35,7 @@ export function _listSend(
       location: location,
       publicGalleryName: publicGalleryName,
       galleryImageName: galleryImageName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,7 @@ export function list(
     () => _listSend(context, location, publicGalleryName, galleryImageName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-03" },
   );
 }
 
@@ -96,7 +96,7 @@ export function _getSend(
       publicGalleryName: publicGalleryName,
       galleryImageName: galleryImageName,
       galleryImageVersionName: galleryImageVersionName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

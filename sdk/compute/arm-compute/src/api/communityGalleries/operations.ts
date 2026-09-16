@@ -22,7 +22,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       publicGalleryName: publicGalleryName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

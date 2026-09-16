@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reject sharing of a subscription-level shared gallery.
  *
  * @summary reject sharing of a subscription-level shared gallery.
- * x-ms-original-file: 2025-12-03/sharedGalleryInviteExamples/SharedGalleryInvite_Reject.json
+ * x-ms-original-file: 2026-03-03/sharedGalleryInviteExamples/SharedGalleryInvite_Reject.json
  */
 async function rejectAGallerySharedToSubscription() {
   const credential = new DefaultAzureCredential();

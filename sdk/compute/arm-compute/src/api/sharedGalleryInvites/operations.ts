@@ -27,7 +27,7 @@ export function _gallerySharingRejectSend(
       location: location,
       sharedGallerySubscriptionId: sharedGallerySubscriptionId,
       sharedGalleryName: sharedGalleryName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,7 @@ export function gallerySharingReject(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-12-03",
+      apiVersion: "2026-03-03",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -95,7 +95,7 @@ export function _gallerySharingAcceptSend(
       location: location,
       sharedGallerySubscriptionId: sharedGallerySubscriptionId,
       sharedGalleryName: sharedGalleryName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +144,7 @@ export function gallerySharingAccept(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-12-03",
+      apiVersion: "2026-03-03",
     },
   ) as PollerLike<OperationState<void>, void>;
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a community gallery image.
  *
  * @summary get a community gallery image.
- * x-ms-original-file: 2025-12-03/communityGalleryExamples/CommunityGalleryImage_Get.json
+ * x-ms-original-file: 2026-03-03/communityGalleryExamples/CommunityGalleryImage_Get.json
  */
 async function getACommunityGalleryImage() {
   const credential = new DefaultAzureCredential();
