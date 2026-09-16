@@ -10,7 +10,7 @@ import { _getStorageDiscoveryWorkspacesOperations } from "./classic/storageDisco
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type StorageDiscoveryClientOptionalParams } from "./api/storageDiscoveryContext.js";
+export type { StorageDiscoveryClientOptionalParams } from "./api/storageDiscoveryContext.js";
 
 export class StorageDiscoveryClient {
   private _client: StorageDiscoveryContext;
@@ -23,14 +23,7 @@ export class StorageDiscoveryClient {
     subscriptionId: string,
     options: StorageDiscoveryClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createStorageDiscovery(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createStorageDiscovery(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.operations = _getOperationsOperations(this._client);
     this.storageDiscoveryWorkspaces = _getStorageDiscoveryWorkspacesOperations(this._client);
