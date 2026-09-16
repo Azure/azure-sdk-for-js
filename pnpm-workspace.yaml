@@ -4,6 +4,7 @@ packages:
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
   - eng/tools/ci-runner
+  - eng/tools/repo-health-status-report
   - common/tools/vite-plugin-browser-test-map
   - common/tools/warp
   - '!sdk/**/src/**'
