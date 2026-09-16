@@ -402,7 +402,7 @@ async function createDatasetAndGetItsContainer(
     throw new Error("Blob URI is not present or empty");
   }
 
-  // Optional debug logging
+  // Log metadata only; upload URLs can contain credentials.
   logger.verbose(
     `[createDatasetAndGetItsContainer] pendingUploadResponse.pendingUploadId = ${pendingUploadResponse.pendingUploadId}`,
   );
@@ -410,13 +410,7 @@ async function createDatasetAndGetItsContainer(
     `[createDatasetAndGetItsContainer] pendingUploadResponse.pendingUploadType = ${pendingUploadResponse.pendingUploadType}`,
   );
   logger.verbose(
-    `[createDatasetAndGetItsContainer] blobReference.blobUri = ${blobReference.blobUri}`,
-  );
-  logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.storageAccountArmId = ${blobReference.storageAccountArmId}`,
-  );
-  logger.verbose(
-    `[createDatasetAndGetItsContainer] blobReference.credential.sasUri = ${blobReference.credential.sasUri}`,
   );
   logger.verbose(
     `[createDatasetAndGetItsContainer] blobReference.credential.type = ${blobReference.credential.type}`,
