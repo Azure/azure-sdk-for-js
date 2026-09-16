@@ -9,9 +9,9 @@ import type {
   VoiceResponse,
   RealtimeConversationItemUnion,
   _AgentsPagedResultRealtimeConversationItem,
-  VoiceAudioItemResponse,
-  VoiceGeneratedAudioItemResponse,
-  VoiceRecordingResponse,
+  VoiceAudioItem,
+  VoiceGeneratedAudioItem,
+  VoiceRecording,
   BetaVoiceAgentsConversationsDownloadAudioResponse,
   BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
   BetaVoiceAgentsConversationsDownloadAudioItemResponse,
@@ -24,9 +24,9 @@ import {
   voiceResponseDeserializer,
   realtimeConversationItemUnionDeserializer,
   _agentsPagedResultRealtimeConversationItemDeserializer,
-  voiceAudioItemResponseDeserializer,
-  voiceGeneratedAudioItemResponseDeserializer,
-  voiceRecordingResponseDeserializer,
+  voiceAudioItemDeserializer,
+  voiceGeneratedAudioItemDeserializer,
+  voiceRecordingDeserializer,
 } from "../../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../../static-helpers/pagingHelpers.js";
@@ -60,11 +60,11 @@ export function _downloadAudioSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio/content{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio/content{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,11 +127,11 @@ export function _getAudioSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/audio{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,9 +147,7 @@ export function _getAudioSend(
   });
 }
 
-export async function _getAudioDeserialize(
-  result: PathUncheckedResponse,
-): Promise<VoiceRecordingResponse> {
+export async function _getAudioDeserialize(result: PathUncheckedResponse): Promise<VoiceRecording> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -160,7 +158,7 @@ export async function _getAudioDeserialize(
     throw error;
   }
 
-  return voiceRecordingResponseDeserializer(result.body);
+  return voiceRecordingDeserializer(result.body);
 }
 
 /**
@@ -180,7 +178,7 @@ export async function getAudio(
   agentName: string,
   conversationId: string,
   options: BetaVoiceAgentsConversationsGetAudioOptionalParams = { requestOptions: {} },
-): Promise<VoiceRecordingResponse> {
+): Promise<VoiceRecording> {
   const result = await _getAudioSend(context, agentName, conversationId, options);
   return _getAudioDeserialize(result);
 }
@@ -197,12 +195,12 @@ export function _downloadGeneratedAudioItemSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/generated/content{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/generated/content{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,12 +272,12 @@ export function _getGeneratedAudioItemSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/generated{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/generated{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,7 +295,7 @@ export function _getGeneratedAudioItemSend(
 
 export async function _getGeneratedAudioItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceGeneratedAudioItemResponse> {
+): Promise<VoiceGeneratedAudioItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -308,7 +306,7 @@ export async function _getGeneratedAudioItemDeserialize(
     throw error;
   }
 
-  return voiceGeneratedAudioItemResponseDeserializer(result.body);
+  return voiceGeneratedAudioItemDeserializer(result.body);
 }
 
 /**
@@ -325,7 +323,7 @@ export async function getGeneratedAudioItem(
   options: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams = {
     requestOptions: {},
   },
-): Promise<VoiceGeneratedAudioItemResponse> {
+): Promise<VoiceGeneratedAudioItem> {
   const result = await _getGeneratedAudioItemSend(
     context,
     agentName,
@@ -346,12 +344,12 @@ export function _downloadAudioItemSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/content{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio/content{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -418,12 +416,12 @@ export function _getAudioItemSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}/audio{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -441,7 +439,7 @@ export function _getAudioItemSend(
 
 export async function _getAudioItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceAudioItemResponse> {
+): Promise<VoiceAudioItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -452,7 +450,7 @@ export async function _getAudioItemDeserialize(
     throw error;
   }
 
-  return voiceAudioItemResponseDeserializer(result.body);
+  return voiceAudioItemDeserializer(result.body);
 }
 
 /**
@@ -469,7 +467,7 @@ export async function getAudioItem(
   conversationId: string,
   itemId: string,
   options: BetaVoiceAgentsConversationsGetAudioItemOptionalParams = { requestOptions: {} },
-): Promise<VoiceAudioItemResponse> {
+): Promise<VoiceAudioItem> {
   const result = await _getAudioItemSend(context, agentName, conversationId, itemId, options);
   return _getAudioItemDeserialize(result);
 }
@@ -484,12 +482,12 @@ export function _getItemSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items/{item_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       item_id: itemId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -548,7 +546,7 @@ export function _listItemsSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/items{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -556,7 +554,7 @@ export function _listItemsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -630,7 +628,7 @@ export function _listResponseItemsSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}/items{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}/items{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -639,7 +637,7 @@ export function _listResponseItemsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -715,12 +713,12 @@ export function _getResponseSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses/{response_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
       response_id: responseId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -776,7 +774,7 @@ export function _listResponsesSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}/responses{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
@@ -784,7 +782,7 @@ export function _listResponsesSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -857,11 +855,11 @@ export function _$deleteSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -910,11 +908,11 @@ export function _getSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations/{conversation_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       conversation_id: conversationId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -966,14 +964,14 @@ export function _listSend(
   const foundryFeatures = "VoiceAgents=V1Preview";
 
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice/conversations{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/protocols/voice/conversations{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

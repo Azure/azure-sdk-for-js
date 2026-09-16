@@ -23,13 +23,16 @@ export async function main(): Promise<void> {
   };
 
   console.log("Generating a voice agent from a goal...");
-  const agent = await project.beta.agents.createFromPrompt({
-    kind: "voice",
-    name: `sample-generated-voice-${Date.now()}`,
-    model_type: "managed",
-    use_case: "Travel information",
-    goal: "Help callers find information about public transport. Do not make bookings.",
-  });
+  const agent = await project.beta.agents.createFromPrompt(
+    {
+      kind: "voice",
+      name: `sample-generated-voice-${Date.now()}`,
+      model_type: "managed",
+      use_case: "Travel information",
+      goal: "Help callers find information about public transport. Do not make bookings.",
+    },
+    options,
+  );
   try {
     console.log(`Generated agent: ${agent.name}`);
     const savedAgent = await project.agents.get(agent.name, options);

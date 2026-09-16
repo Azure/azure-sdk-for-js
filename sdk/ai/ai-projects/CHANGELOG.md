@@ -8,16 +8,19 @@
 - Move telephony operations from `project.beta.agents` and `project.beta.agentTelephony` to `project.beta.voiceAgents.telephony`, with shorter names such as `createBinding` and `listCalls`. Move `project.beta.agentEndpointConversations` to `project.beta.voiceAgents.conversations` and rename the associated operation and options types. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/2de409f907e0b84ec714953e86025c1a2668add0)
 - Rename `project.beta.agents.generate` to `project.beta.agents.createFromPrompt`. Keep its request body and preview opt-in behavior unchanged. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/2de409f907e0b84ec714953e86025c1a2668add0)
 - Rename voice item-audio methods to `getAudioItem`, `downloadAudioItem`, `getGeneratedAudioItem`, and `downloadGeneratedAudioItem`, with matching response type names. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/6bbf003013d52052af35f57f1f29daff9e536ad5)
-- Rename `connection` to `connection_name` on telephony binding contracts. Replace `telephony_binding_id` with required `connection_name` and scalar `source` fields on outbound call-job and campaign contracts. [Azure/azure-rest-api-specs#46289](https://github.com/Azure/azure-rest-api-specs/pull/46289)
+- Rename `connection` to `connection_name` on telephony binding contracts. Replace `telephony_binding_id` with required `connection_name` and scalar `source` fields on outbound call-job contracts. [Azure/azure-rest-api-specs#46289](https://github.com/Azure/azure-rest-api-specs/pull/46289)
 - Remove the public `project.beta.voiceAgentWebSocket.connectVoiceAgent` handshake operation; the underlying realtime protocol operation is now internal. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/2de409f907e0b84ec714953e86025c1a2668add0)
+- Remove campaign operations and their supporting models and options from `project.beta.voiceAgents.telephony`. Outbound call jobs, bindings, and calls remain available. [Azure/azure-rest-api-specs#46418](https://github.com/Azure/azure-rest-api-specs/pull/46418)
+- Rename `VoiceAudioItemResponse`, `VoiceGeneratedAudioItemResponse`, and `VoiceRecordingResponse` to `VoiceAudioItem`, `VoiceGeneratedAudioItem`, and `VoiceRecording`, respectively. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
+- Make `TelephonyOutboundFixedIntervalRetryPolicy.interval` required and replace the removed `TelephonyOutboundRetryPolicyResponseUnion` with `TelephonyOutboundRetryPolicyUnion` on `TelephonyCallJob.retry_policy`. The shared policy has optional `max_attempts`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
+- Remove the unreleased `BrowserAutomationTool` and `BrowserAutomationToolboxTool` contracts. Use the retained `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` contracts instead. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
 
 ### Features Added
 
 - Add voice agent definitions to `project.agents.createVersion` and `project.beta.agents.createFromPrompt` for authoring a voice agent from a natural-language goal, with `VoiceAgents=V1Preview` opt-in. Include audio, greeting, tool, avatar, subagent, and conversation-storage configuration, plus realtime voice event models. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add telephony binding management, call history and lifecycle operations, and transfer-target configuration to `project.beta.voiceAgents.telephony` for Twilio and Teams Phone Extension voice agents. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
-- Add outbound call jobs and campaigns to `project.beta.voiceAgents.telephony`, including recipient imports, validation, publishing, pause, resume, and cancellation. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add outbound call jobs to `project.beta.voiceAgents.telephony`, including creation, retrieval, and cancellation. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add `project.beta.voiceAgents.conversations` for listing and retrieving voice conversations, responses, and items, deleting conversations, and retrieving or downloading recorded and generated audio. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
-- Add non-preview `browser_automation` tools for agents and toolboxes while retaining the existing preview tools. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add explicit `trace_ids` filtering and dataset output `write_mode` options (`overwrite` or `merge`) to data generation jobs under `project.beta.datasets`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add the optional read-only `AgentSessionResource.stopped_at` timestamp for hosted-agent session lifecycle tracking. [Azure/azure-rest-api-specs#46214](https://github.com/Azure/azure-rest-api-specs/pull/46214)
 - Add known telephony lifecycle, call-end, and outbound-job reason codes while retaining support for unknown string values. [Azure/azure-rest-api-specs#46316](https://github.com/Azure/azure-rest-api-specs/pull/46316)
@@ -25,13 +28,16 @@
 - Expose voice transcription language metadata, multiple language hints, and keyword configuration from the regenerated models. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Expose the existing `external_web_access` setting on web search tools and toolbox tools to control live web access. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add `project.beta.voiceAgents.realtime` (`VoiceAgentRealtimeClient`), a WebSocket client for bidirectional streaming of text, audio (`audio/pcm`, `audio/pcmu`, `audio/pcma`), and tool calls with a voice agent, with browser and React Native support (a Microsoft Entra bearer token carried in the WebSocket subprotocol, since browsers cannot set a custom `Authorization` header on a WebSocket upgrade request).
+- Add the optional `async` flag to function and custom tool definitions. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
+- Add `gpt-image-2` and `gpt-image-2-2026-04-21` to the supported `ImageGenTool.model` values. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
+- Expose structured misalignment details on `ErrorModel.misalignment`. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
 
 ### Other Changes
 
 - Keep verbose dataset upload diagnostics focused on noncredential metadata as a defense-in-depth logging improvement. [#39993](https://github.com/Azure/azure-sdk-for-js/pull/39993)
-- Regenerate the client from azure-rest-api-specs commit `6bbf003013d52052af35f57f1f29daff9e536ad5`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Regenerate the client from azure-rest-api-specs commit `ca6532606645a9f69005bf52b1e53f37aad0c09b`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/ca6532606645a9f69005bf52b1e53f37aad0c09b)
 - Preserve existing public model exports and custom serializers when the emitter separates models into namespaces.
-- Add samples for voice definitions, voice generation, read-only telephony inspection, and non-preview browser automation, with offline public-client tests for voice authoring and telephony operations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
+- Add samples for voice definitions, voice generation, and read-only telephony inspection, with offline public-client tests for voice authoring and telephony operations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Add the `ws` and `https-proxy-agent` dependencies, required by `project.beta.voiceAgents.realtime`.
 
 ## 2.6.0 (2026-09-03)

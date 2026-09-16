@@ -7,8 +7,8 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, expect, it } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
-  BrowserAutomationTool,
-  BrowserAutomationToolboxTool,
+  BrowserAutomationPreviewTool,
+  BrowserAutomationPreviewToolboxTool,
   TelephonyTransferTarget,
   VoiceAgentDefinition,
 } from "../../src/index.js";
@@ -124,10 +124,10 @@ describe("beta agent voice authoring", () => {
     expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
   });
 
-  it("preserves non-preview browser automation in request and response tool unions", async () => {
-    const tool: BrowserAutomationTool = {
-      type: "browser_automation",
-      browser_automation: {
+  it("preserves browser automation preview in request and response tool unions", async () => {
+    const tool: BrowserAutomationPreviewTool = {
+      type: "browser_automation_preview",
+      browser_automation_preview: {
         connection: { project_connection_id: "browser-connection" },
       },
     };
@@ -157,11 +157,11 @@ describe("beta agent voice authoring", () => {
     });
   });
 
-  it("preserves non-preview browser automation in a toolbox", async () => {
-    const tool: BrowserAutomationToolboxTool = {
-      type: "browser_automation",
+  it("preserves browser automation preview in a toolbox", async () => {
+    const tool: BrowserAutomationPreviewToolboxTool = {
+      type: "browser_automation_preview",
       name: "browser",
-      browser_automation: { connection: { project_connection_id: "browser-connection" } },
+      browser_automation_preview: { connection: { project_connection_id: "browser-connection" } },
     };
     const { client, requests } = createClient({
       body: {

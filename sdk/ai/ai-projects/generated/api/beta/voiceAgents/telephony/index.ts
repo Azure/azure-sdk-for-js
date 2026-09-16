@@ -2,16 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  getOperation,
-  cancelCampaign,
-  resumeCampaign,
-  pauseCampaign,
-  publishCampaign,
-  validateCampaign,
-  getCampaignRecipientImport,
-  importCampaignRecipients,
-  getCampaign,
-  createCampaign,
   cancelCallJob,
   getCallJob,
   createCallJob,
@@ -28,16 +18,6 @@ export {
   createBinding,
 } from "./operations.js";
 export type {
-  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
-  BetaVoiceAgentsTelephonyCancelCampaignOptionalParams,
-  BetaVoiceAgentsTelephonyResumeCampaignOptionalParams,
-  BetaVoiceAgentsTelephonyPauseCampaignOptionalParams,
-  BetaVoiceAgentsTelephonyPublishCampaignOptionalParams,
-  BetaVoiceAgentsTelephonyValidateCampaignOptionalParams,
-  BetaVoiceAgentsTelephonyGetCampaignRecipientImportOptionalParams,
-  BetaVoiceAgentsTelephonyImportCampaignRecipientsOptionalParams,
-  BetaVoiceAgentsTelephonyGetCampaignOptionalParams,
-  BetaVoiceAgentsTelephonyCreateCampaignOptionalParams,
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
   BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
   BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
