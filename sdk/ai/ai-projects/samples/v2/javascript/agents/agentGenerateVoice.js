@@ -29,7 +29,7 @@ async function main() {
     model_type: "managed",
     use_case: "Travel information",
     goal: "Help callers find information about public transport. Do not make bookings.",
-  });
+  }, options);
   try {
     console.log(`Generated agent: ${agent.name}`);
     const savedAgent = await project.agents.get(agent.name, options);

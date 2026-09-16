@@ -82,7 +82,7 @@ export async function connectVoiceAgent(
 ): Promise<void> {
   const result = await _connectVoiceAgentSend(context, agentName, {
     ...options,
-    foundryFeaturesQuery: "VoiceAgents=V1Preview",
+    foundryFeaturesQuery: options.foundryFeaturesQuery ?? "VoiceAgents=V1Preview",
   });
   return _connectVoiceAgentDeserialize(result);
 }
