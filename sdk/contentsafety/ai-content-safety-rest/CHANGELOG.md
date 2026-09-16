@@ -4,14 +4,14 @@
 
 ### Features Added
 
-- Added `ContentSafetyClient` operations for Unified Moderate, prompt shielding, and protected-material detection.
-- Added `ContentProvenanceClient` with long-running content provenance detection and poller restoration.
-- Added regex matching support for blocklist items.
+- Added `ContentSafetyClient` operations for Unified Moderate, prompt shielding, and protected-material detection. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
+- Added `ContentProvenanceClient` with long-running content provenance detection and poller restoration. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
+- Added regex matching support for blocklist items. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
 
 ### Breaking Changes
 
-- Replaced the default REST factory with named `ContentSafetyClient`, `ContentProvenanceClient`, and `BlocklistClient` classes.
-- Added dedicated request models for blocklist item and blocklist update payloads so service-generated identifiers are not required as input.
+- Replaced the default REST factory with named `ContentSafetyClient`, `ContentProvenanceClient`, and `BlocklistClient` classes. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
+- Added dedicated request models for blocklist item and blocklist update payloads so service-generated identifiers are not required as input. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
 
 ## 1.0.2 (2025-08-22)
 
