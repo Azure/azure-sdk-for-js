@@ -5,10 +5,12 @@ import type { VoiceAgentClientEvent, VoiceAgentServerEvent } from "../models/mod
 import * as models from "../models/models.js";
 import { VoiceAgentProtocolError } from "./errors.js";
 
-type ClientEventSerializer<T extends VoiceAgentClientEvent["type"] = VoiceAgentClientEvent["type"]> =
-  (event: Extract<VoiceAgentClientEvent, { type: T }>) => unknown;
-type ServerEventDeserializer<T extends VoiceAgentServerEvent["type"] = VoiceAgentServerEvent["type"]> =
-  (event: unknown) => Extract<VoiceAgentServerEvent, { type: T }>;
+type ClientEventSerializer<
+  T extends VoiceAgentClientEvent["type"] = VoiceAgentClientEvent["type"],
+> = (event: Extract<VoiceAgentClientEvent, { type: T }>) => unknown;
+type ServerEventDeserializer<
+  T extends VoiceAgentServerEvent["type"] = VoiceAgentServerEvent["type"],
+> = (event: unknown) => Extract<VoiceAgentServerEvent, { type: T }>;
 type RequiredEventFields<T extends VoiceAgentServerEvent["type"] = VoiceAgentServerEvent["type"]> =
   ReadonlyArray<keyof Extract<VoiceAgentServerEvent, { type: T }>>;
 
