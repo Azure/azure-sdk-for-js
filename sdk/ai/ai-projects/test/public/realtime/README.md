@@ -41,5 +41,5 @@ npm run test:node
 npm run test:browser
 
 # Live test, requires FOUNDRY_PROJECT_ENDPOINT / FOUNDRY_VOICE_MODEL and az login
-TEST_MODE=live npm run test:node -- --grep "live"
+TEST_MODE=live npm run test:node -- -- -t "live"
 ```
