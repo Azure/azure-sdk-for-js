@@ -13,10 +13,6 @@
 - Replaced the default REST factory with named `ContentSafetyClient`, `ContentProvenanceClient`, and `BlocklistClient` classes.
 - Added dedicated request models for blocklist item and blocklist update payloads so service-generated identifiers are not required as input.
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.2 (2025-08-22)
 
 ### Other Changes
