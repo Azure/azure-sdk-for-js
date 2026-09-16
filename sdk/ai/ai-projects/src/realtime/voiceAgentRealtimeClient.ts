@@ -3,6 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TokenCredential } from "@azure/core-auth";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
 import { SDK_VERSION } from "../constants.js";
 import type {
@@ -65,7 +66,7 @@ export interface VoiceAgentRealtimeClientOptions {
 }
 
 /** Options for connecting the realtime client to a voice agent. */
-export interface VoiceAgentRealtimeClientConnectOptions {
+export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions {
   /** Identifier used to correlate the voice session. */
   agentSessionId?: string;
   /** Overrides whether the conversation created by this session is persisted. */
@@ -95,10 +96,7 @@ export interface VoiceAgentCloseResult {
 }
 
 /** Options shared by realtime send operations. */
-export interface VoiceAgentSendOptions {
-  /** Cancels this send operation. */
-  abortSignal?: AbortSignalLike;
-}
+export interface VoiceAgentSendOptions extends OperationOptions {}
 
 /** Options shared by operations that build a protocol event on the caller's behalf. */
 export interface VoiceAgentEventOptions extends VoiceAgentSendOptions {

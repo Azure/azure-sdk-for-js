@@ -80,7 +80,7 @@ export interface Agent {
     agent_endpoint?: AgentEndpointConfig;
     readonly blueprint?: AgentIdentity;
     readonly blueprint_reference?: AgentBlueprintReferenceUnion;
-    readonly configuration_state: AgentState;
+    readonly configuration_state?: AgentState;
     digital_worker_type?: DigitalWorkerType;
     id: string;
     readonly instance_identity?: AgentIdentity;
@@ -7130,7 +7130,7 @@ export class VoiceAgentRealtimeClient {
 }
 
 // @public
-export interface VoiceAgentRealtimeClientConnectOptions {
+export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions {
     abortSignal?: AbortSignalLike;
     agentSessionId?: string;
     agentVersionOverride?: string;
@@ -7230,8 +7230,7 @@ export interface VoiceAgentSendItemOptions extends VoiceAgentEventOptions {
 }
 
 // @public
-export interface VoiceAgentSendOptions {
-    abortSignal?: AbortSignalLike;
+export interface VoiceAgentSendOptions extends OperationOptions {
 }
 
 // @public

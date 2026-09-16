@@ -26,7 +26,7 @@ export interface Agent {
   /** The operational state of the agent. Controls whether the agent endpoint accepts or rejects requests. */
   readonly state: AgentState;
   /** The administrative configuration state of the agent. This reflects whether the agent was explicitly enabled or disabled, independently of identity-derived operational state. */
-  readonly configuration_state: AgentState;
+  readonly configuration_state?: AgentState;
   /** The source of the agent's operational state. When the agent is disabled, indicates where the disabled state originates from. Empty when not derived from a specific source. */
   readonly state_source?: AgentStateSource;
   /** The latest version of the agent. */
