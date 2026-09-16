@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      sampleQueries: CodelessUiConnectorConfigPropertiesSampleQueriesItem[];
      title: string;
  }
-@@ -5272,12 +5272,13 @@
+@@ -5310,12 +5310,13 @@
  // @public
  export type PermissionProviderScope = string;
  
