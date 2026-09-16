@@ -38,7 +38,7 @@ export function _listByManagedInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _listByManagedInstanceDeserialize(
 
   return _managedInstanceDtcListResultDeserializer(result.body);
 }
-
 /** Gets a list of managed instance DTC settings. */
 export function listByManagedInstance(
   context: Client,
@@ -78,7 +77,11 @@ export function listByManagedInstance(
     () => _listByManagedInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByManagedInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -97,7 +100,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       dtcName: dtcName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +129,6 @@ export async function _createOrUpdateDeserialize(
 
   return managedInstanceDtcDeserializer(result.body);
 }
-
 /** Updates managed instance DTC settings. */
 export function createOrUpdate(
   context: Client,
@@ -149,7 +151,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ManagedInstanceDtc>, ManagedInstanceDtc>;
 }
 
@@ -167,7 +169,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       dtcName: dtcName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +194,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return managedInstanceDtcDeserializer(result.body);
 }
-
 /** Gets managed instance DTC settings. */
 export async function get(
   context: Client,

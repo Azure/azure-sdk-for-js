@@ -142,7 +142,6 @@ export interface LongTermRetentionManagedInstanceBackupsOperations {
     options?: LongTermRetentionManagedInstanceBackupsGetByResourceGroupOptionalParams,
   ) => Promise<ManagedInstanceLongTermRetentionBackup>;
 }
-
 function _getLongTermRetentionManagedInstanceBackups(context: SqlManagementContext) {
   return {
     listByResourceGroupInstance: (
@@ -315,7 +314,6 @@ function _getLongTermRetentionManagedInstanceBackups(context: SqlManagementConte
       ),
   };
 }
-
 export function _getLongTermRetentionManagedInstanceBackupsOperations(
   context: SqlManagementContext,
 ): LongTermRetentionManagedInstanceBackupsOperations {
