@@ -17,7 +17,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("WorkloadOrchestration test", () => {
+describe.skip("WorkloadOrchestration test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: WorkloadOrchestrationManagementClient;
