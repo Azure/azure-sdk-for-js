@@ -5,11 +5,14 @@ import { describe, expect, expectTypeOf, it } from "vitest";
 import type {
   AgentSessionResource,
   ApiErrorResponse,
+  BrowserAutomationPreviewTool,
   CreateTelephonyBindingRequest,
   CreateTelephonyBindingRequestUnion,
   CreateTelephonyCallJobRequest,
-  CreateTelephonyCampaignRequest,
   ErrorModel,
+  FunctionTool,
+  MisalignmentErrorDetailsResource,
+  MisalignmentErrorType,
   RealtimeConversationItemMessageAssistant,
   RealtimeConversationItemMessageSystem,
   RealtimeConversationItemMessageUser,
@@ -18,7 +21,9 @@ import type {
   TelephonyCallJob,
   TelephonyCallJobTerminalReason,
   TelephonyCallLifecycleEventReason,
-  TelephonyCampaign,
+  TelephonyOutboundFixedIntervalRetryPolicy,
+  TelephonyOutboundRetryPolicy,
+  TelephonyOutboundRetryPolicyUnion,
   UpdateTelephonyBindingRequest,
   VoiceAgentInputTranscription,
 } from "../../src/models/index.js";
@@ -28,8 +33,16 @@ import {
   apiErrorResponseDeserializer,
   createTelephonyBindingRequestUnionSerializer,
   createTelephonyCallJobRequestSerializer,
-  createTelephonyCampaignRequestSerializer,
+  customToolParamDeserializer,
+  customToolParamSerializer,
   errorDeserializer,
+  functionToolDeserializer,
+  functionToolParamDeserializer,
+  functionToolParamSerializer,
+  functionToolSerializer,
+  imageGenToolDeserializer,
+  imageGenToolSerializer,
+  misalignmentErrorDetailsResourceDeserializer,
   realtimeConversationItemUnionDeserializer,
   realtimeConversationItemUnionSerializer,
   realtimeServerEventConversationItemInputAudioTranscriptionCompletedDeserializer,
@@ -39,7 +52,12 @@ import {
   telephonyCallJobDeserializer,
   telephonyCallLifecycleEventDeserializer,
   telephonyCallSummaryDeserializer,
-  telephonyCampaignDeserializer,
+  telephonyOutboundRetryPolicyUnionDeserializer,
+  telephonyOutboundRetryPolicyUnionSerializer,
+  toolboxToolUnionDeserializer,
+  toolboxToolUnionSerializer,
+  toolUnionDeserializer,
+  toolUnionSerializer,
   updateTelephonyBindingRequestSerializer,
   voiceAgentInputTranscriptionDeserializer,
   voiceAgentInputTranscriptionSerializer,
@@ -123,24 +141,27 @@ describe("regenerated model wire contracts", () => {
     expect(toWire(updateTelephonyBindingRequestSerializer({}))).toEqual({});
   });
 
-  it("requires connection_name and scalar source on outbound requests and responses", () => {
+  it("requires connection_name and scalar source on call-job requests and responses", () => {
     type Connection = { connection_name: string; source: string };
     expectTypeOf<
       Pick<CreateTelephonyCallJobRequest, "connection_name" | "source">
     >().toEqualTypeOf<Connection>();
     expectTypeOf<
-      Pick<CreateTelephonyCampaignRequest, "connection_name" | "source">
-    >().toEqualTypeOf<Connection>();
-    expectTypeOf<
       Pick<TelephonyCallJob, "connection_name" | "source">
     >().toEqualTypeOf<Connection>();
     expectTypeOf<
-      Pick<TelephonyCampaign, "connection_name" | "source">
-    >().toEqualTypeOf<Connection>();
+      TelephonyCallJob["retry_policy"]
+    >().toEqualTypeOf<TelephonyOutboundRetryPolicyUnion>();
+    expectTypeOf<Pick<TelephonyOutboundFixedIntervalRetryPolicy, "interval">>().toEqualTypeOf<{
+      interval: number;
+    }>();
+    expectTypeOf<TelephonyOutboundRetryPolicy["max_attempts"]>().toEqualTypeOf<
+      number | undefined
+    >();
   });
 
   it.each(["+14255550100", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"])(
-    "preserves scalar outbound source %s in call jobs and campaigns",
+    "preserves scalar outbound source %s in call jobs",
     (source) => {
       const call: CreateTelephonyCallJobRequest = {
         destination: { type: "phone_number", value: "+14255550123" },
@@ -164,36 +185,39 @@ describe("regenerated model wire contracts", () => {
       expect(job).toMatchObject(call);
       expect(job).not.toHaveProperty("telephony_binding_id");
       expect(job.created_at).toEqual(new Date(timestamp * 1000));
+    },
+  );
 
-      const campaign: CreateTelephonyCampaignRequest = {
-        display_name: "Renewal reminders",
-        connection_name: connectionName,
-        source,
+  it.each([0, 60])(
+    "uses the unified retry policy with interval %s in requests and responses",
+    (interval) => {
+      const policy: TelephonyOutboundFixedIntervalRetryPolicy = {
+        type: "fixed_interval",
+        interval,
       };
-      expect(toWire(createTelephonyCampaignRequestSerializer(campaign))).toEqual(campaign);
-      const result = telephonyCampaignDeserializer({
-        ...campaign,
-        id: "campaign-test",
-        object: "telephony.campaign",
-        agent_name: "voice-agent",
-        configuration_status: "draft",
-        execution_status: "none",
-        retry_policy: { type: "fixed_interval", max_attempts: 1, interval: 0 },
-        call_job_counts: {
-          total: 0,
-          pending: 0,
-          in_progress: 0,
-          completed: 0,
-          failed: 0,
-          blocked: 0,
-          cancelled: 0,
-          expired: 0,
-        },
-        created_at: timestamp,
-        updated_at: timestamp,
-      });
-      expect(result).toMatchObject(campaign);
-      expect(result).not.toHaveProperty("telephony_binding_id");
+      expect(toWire(telephonyOutboundRetryPolicyUnionSerializer(policy))).toEqual(policy);
+      expect(telephonyOutboundRetryPolicyUnionDeserializer(policy)).toMatchObject(policy);
+
+      const request: CreateTelephonyCallJobRequest = {
+        destination: { type: "phone_number", value: "+14255550123" },
+        connection_name: connectionName,
+        source: "+14255550100",
+        retry_policy: policy,
+      };
+      expect(toWire(createTelephonyCallJobRequestSerializer(request))).toEqual(request);
+      expect(
+        telephonyCallJobDeserializer({
+          ...request,
+          id: "call-job-test",
+          object: "telephony.call_job",
+          agent_name: "voice-agent",
+          status: "queued",
+          attempt_count: 0,
+          revision: 1,
+          created_at: timestamp,
+          updated_at: timestamp,
+        }).retry_policy,
+      ).toMatchObject(policy);
     },
   );
 
@@ -333,7 +357,19 @@ describe("regenerated model wire contracts", () => {
       message: "Review the requested action.",
       param: "tool",
       type: "request_error",
-      details: [{ code: "nested_error", message: "Nested detail.", param: "destination" }],
+      misalignment: {
+        error_type: "potentially_unintended_data_transfer",
+        detailed_explanation: "Review the requested destination.",
+        steer: { message: "Confirm the destination before continuing." },
+      },
+      details: [
+        {
+          code: "nested_error",
+          message: "Nested detail.",
+          param: "destination",
+          misalignment: { error_type: "future_nested_classification" },
+        },
+      ],
       additionalInfo: { policy: { id: "policy-test" } },
       debugInfo: { retryable: false },
     };
@@ -345,6 +381,59 @@ describe("regenerated model wire contracts", () => {
       code: "minimal",
       message: "Minimal error.",
     });
+  });
+
+  it.each(["potentially_unintended_data_access", "future_service_classification"])(
+    "preserves extensible misalignment classification %s",
+    (value) => {
+      const errorType: MisalignmentErrorType = value;
+      const details: MisalignmentErrorDetailsResource = { error_type: errorType };
+      expect(misalignmentErrorDetailsResourceDeserializer(details)).toMatchObject(details);
+      expect(toWire(misalignmentErrorDetailsResourceDeserializer({}))).toEqual({});
+      expect(
+        errorDeserializer({
+          code: "action_blocked",
+          message: "Review the requested action.",
+          misalignment: details,
+        }).misalignment,
+      ).toMatchObject(details);
+    },
+  );
+
+  it.each([false, true])("preserves async=%s on function and custom tools", (async) => {
+    const tool: FunctionTool = { type: "function", name: "lookup", async };
+    expectTypeOf<FunctionTool["parameters"]>().toEqualTypeOf<Record<string, unknown> | undefined>();
+    expectTypeOf<FunctionTool["strict"]>().toEqualTypeOf<boolean | undefined>();
+    expect(toWire(functionToolSerializer(tool))).toEqual(tool);
+    expect(functionToolDeserializer(tool)).toMatchObject(tool);
+    expect(toWire(functionToolParamSerializer(tool))).toEqual(tool);
+    expect(functionToolParamDeserializer(tool)).toMatchObject(tool);
+    expect(toWire(toolUnionSerializer(tool))).toEqual(tool);
+    const custom = { type: "custom" as const, name: "lookup", async };
+    expect(toWire(customToolParamSerializer(custom))).toEqual(custom);
+    expect(customToolParamDeserializer(custom)).toMatchObject(custom);
+  });
+
+  it.each(["gpt-image-2", "gpt-image-2-2026-04-21"] as const)(
+    "preserves image model %s",
+    (model) => {
+      const tool = { type: "image_generation" as const, model };
+      expect(toWire(imageGenToolSerializer(tool))).toEqual(tool);
+      expect(imageGenToolDeserializer(tool)).toMatchObject(tool);
+    },
+  );
+
+  it("retains preview browser automation and its shared parameters after stable-model removal", () => {
+    const tool: BrowserAutomationPreviewTool = {
+      type: "browser_automation_preview",
+      browser_automation_preview: {
+        connection: { project_connection_id: "browser-connection-test" },
+      },
+    };
+    expect(toWire(toolUnionSerializer(tool))).toEqual(tool);
+    expect(toolUnionDeserializer(tool)).toMatchObject(tool);
+    expect(toWire(toolboxToolUnionSerializer(tool))).toEqual(tool);
+    expect(toolboxToolUnionDeserializer(tool)).toMatchObject(tool);
   });
 
   it("forwards explicit offline web search on agent and toolbox tools", () => {
