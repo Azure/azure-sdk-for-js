@@ -43,8 +43,12 @@ export class AsyncQueue<T> implements AsyncIterator<T> {
       const error = new Error(
         `The voice-agent event queue exceeded its capacity of ${this.capacity} buffered event(s); the consumer is not iterating events fast enough.`,
       );
-      this.fail(error);
-      this.options.onOverflow?.(error);
+      try {
+        // Let the owner fail the queue with its public error before applying the fallback.
+        this.options.onOverflow?.(error);
+      } finally {
+        this.fail(error);
+      }
       return;
     }
     this.values.push(value);

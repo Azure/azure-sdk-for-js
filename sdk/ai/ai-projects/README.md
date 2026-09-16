@@ -145,7 +145,7 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
 
 Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
 

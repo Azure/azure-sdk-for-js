@@ -124,12 +124,12 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   }
 
   public async close(code: number, reason: string): Promise<void> {
-    if (!this.webSocket || this.webSocket.readyState === WebSocket.CLOSED) {
+    if (!this.webSocket) {
       return;
     }
     const webSocket = this.webSocket;
     try {
-      if (webSocket.readyState !== WebSocket.CLOSING) {
+      if (webSocket.readyState !== WebSocket.CLOSING && webSocket.readyState !== WebSocket.CLOSED) {
         webSocket.close(code, reason);
       }
       await waitForClose(webSocket, this.closeNotified, this.closeTimeoutInMs);

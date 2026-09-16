@@ -84,11 +84,11 @@ export function _getOperationSend(
   options: BetaVoiceAgentsTelephonyGetOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/operations/{operation_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/operations/{operation_id}{?api-version}",
     {
       agent_name: agentName,
       operation_id: operationId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,11 +140,11 @@ export function _cancelCampaignSend(
   options: BetaVoiceAgentsTelephonyCancelCampaignOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:cancel{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:cancel{?api-version}",
     {
       agent_name: agentName,
       campaign_id: campaignId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,11 +196,11 @@ export function _resumeCampaignSend(
   options: BetaVoiceAgentsTelephonyResumeCampaignOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:resume{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:resume{?api-version}",
     {
       agent_name: agentName,
       campaign_id: campaignId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -252,11 +252,11 @@ export function _pauseCampaignSend(
   options: BetaVoiceAgentsTelephonyPauseCampaignOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:pause{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:pause{?api-version}",
     {
       agent_name: agentName,
       campaign_id: campaignId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -309,11 +309,11 @@ export function _publishCampaignSend(
   options: BetaVoiceAgentsTelephonyPublishCampaignOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:publish{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:publish{?api-version}",
     {
       agent_name: agentName,
       campaign_id: campaignId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -386,11 +386,11 @@ export function _validateCampaignSend(
   options: BetaVoiceAgentsTelephonyValidateCampaignOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:validate{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns/{campaign_id}:validate{?api-version}",
     {
       agent_name: agentName,
       campaign_id: campaignId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -463,12 +463,12 @@ export function _getCampaignRecipientImportSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns/{campaign_id}/recipient_imports/{import_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns/{campaign_id}/recipient_imports/{import_id}{?api-version}",
     {
       agent_name: agentName,
       campaign_id: campaignId,
       import_id: importId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -531,11 +531,11 @@ export function _importCampaignRecipientsSend(
   options: BetaVoiceAgentsTelephonyImportCampaignRecipientsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns/{campaign_id}/recipients:import{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns/{campaign_id}/recipients:import{?api-version}",
     {
       agent_name: agentName,
       campaign_id: campaignId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -623,11 +623,11 @@ export function _getCampaignSend(
   options: BetaVoiceAgentsTelephonyGetCampaignOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns/{campaign_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns/{campaign_id}{?api-version}",
     {
       agent_name: agentName,
       campaign_id: campaignId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,10 +679,10 @@ export function _createCampaignSend(
   options: BetaVoiceAgentsTelephonyCreateCampaignOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/campaigns{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/campaigns{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -737,11 +737,11 @@ export function _cancelCallJobSend(
   options: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}:cancel{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}:cancel{?api-version}",
     {
       agent_name: agentName,
       call_job_id: callJobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -795,11 +795,11 @@ export function _getCallJobSend(
   options: BetaVoiceAgentsTelephonyGetCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}{?api-version}",
     {
       agent_name: agentName,
       call_job_id: callJobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -852,10 +852,10 @@ export function _createCallJobSend(
   options: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/call_jobs{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -912,10 +912,10 @@ export function _replaceTransferTargetsSend(
   options: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/transfer_targets{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -976,10 +976,10 @@ export function _getTransferTargetsSend(
   options: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/transfer_targets{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1030,11 +1030,11 @@ export function _endCallSend(
   options: BetaVoiceAgentsTelephonyEndCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}:end{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}:end{?api-version}",
     {
       agent_name: agentName,
       call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1087,11 +1087,11 @@ export function _transferCallSend(
   options: BetaVoiceAgentsTelephonyTransferCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}:transfer{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}:transfer{?api-version}",
     {
       agent_name: agentName,
       call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1146,11 +1146,11 @@ export function _getCallSend(
   options: BetaVoiceAgentsTelephonyGetCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}{?api-version}",
     {
       agent_name: agentName,
       call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1201,7 +1201,7 @@ export function _listCallsSend(
   options: BetaVoiceAgentsTelephonyListCallsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls{?provider,status,started_after,started_before,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls{?provider,status,started_after,started_before,limit,order,after,before,api-version}",
     {
       agent_name: agentName,
       provider: options?.provider,
@@ -1216,7 +1216,7 @@ export function _listCallsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1287,11 +1287,11 @@ export function _deleteBindingSend(
   options: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api-version}",
     {
       agent_name: agentName,
       binding_id: bindingId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1344,11 +1344,11 @@ export function _updateBindingSend(
   options: BetaVoiceAgentsTelephonyUpdateBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api-version}",
     {
       agent_name: agentName,
       binding_id: bindingId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1405,11 +1405,11 @@ export function _getBindingSend(
   options: BetaVoiceAgentsTelephonyGetBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api-version}",
     {
       agent_name: agentName,
       binding_id: bindingId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1460,7 +1460,7 @@ export function _listBindingsSend(
   options: BetaVoiceAgentsTelephonyListBindingsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings{?provider,status,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?provider,status,limit,order,after,before,api-version}",
     {
       agent_name: agentName,
       provider: options?.provider,
@@ -1469,7 +1469,7 @@ export function _listBindingsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1539,10 +1539,10 @@ export function _createBindingSend(
   options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

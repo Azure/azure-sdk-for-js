@@ -92,6 +92,7 @@ export function _getBetaOperations(
     agents: _getBetaAgentsOperations(context),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
+    /** Operations for managing voice agent conversations and telephony. */
     voiceAgents: _getBetaVoiceAgentsOperations(context, credential, endpoint, realtimeOptions),
   };
 }
