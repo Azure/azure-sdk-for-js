@@ -390,6 +390,63 @@ describe("beta agent telephony operations", () => {
     expect(capturedRequest?.abortSignal).toBe(controller.signal);
   });
 
+  it.each([
+    {
+      name: "the lower time bound",
+      filters: { startedAfterTime: new Date(0) },
+      after: "0",
+      before: null,
+    },
+    {
+      name: "the upper time bound",
+      filters: { startedBeforeTime: new Date(1_700_000_060_000) },
+      after: null,
+      before: "1700000060",
+    },
+    {
+      name: "both time bounds",
+      filters: {
+        startedAfterTime: new Date(0),
+        startedBeforeTime: new Date(1_700_000_060_000),
+      },
+      after: "0",
+      before: "1700000060",
+    },
+    {
+      name: "omitted time bounds",
+      filters: {},
+      after: null,
+      before: null,
+    },
+  ])("preserves $name when paging calls", async ({ filters, after, before }) => {
+    const { client, requests } = createClient(
+      { body: { data: [call], last_id: call.id, has_more: true } },
+      { body: { data: [{ ...call, id: "second" }], has_more: false } },
+    );
+    const ids = [];
+    for await (const result of client.beta.voiceAgents.telephony.listCalls("voice-agent", {
+      ...options,
+      ...filters,
+      limit: 1,
+    })) {
+      ids.push(result.id);
+    }
+
+    expect(ids).toEqual([call.id, "second"]);
+    expect(requests).toHaveLength(2);
+    for (const request of requests) {
+      const query = new URL(request.url).searchParams;
+      expect(query.get("started_after")).toBe(after);
+      expect(query.get("started_before")).toBe(before);
+      expect(query.get("started_after_time")).toBeNull();
+      expect(query.get("started_before_time")).toBeNull();
+      expect(query.get("limit")).toBe("1");
+      expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    }
+    expect(new URL(requests[0].url).searchParams.get("after")).toBeNull();
+    expect(new URL(requests[1].url).searchParams.get("after")).toBe(call.id);
+  });
+
   const listCases = [
     {
       name: "bindings",
