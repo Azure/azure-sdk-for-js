@@ -5394,7 +5394,7 @@ importers:
   sdk/communication/communication-identity:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.2
+        specifier: ^2.6.1
         version: link:../../core/core-client-rest
       '@azure/communication-common':
         specifier: ^2.3.1
