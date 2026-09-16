@@ -4,14 +4,12 @@
 /**
  * This sample sends text to a voice agent, streams text/audio output, and handles a local function.
  *
- * @summary streams text and local function calls with a Foundry voice agent.
+ * @summary Streams text and local function calls with a Foundry voice agent.
  */
 
 import {
   AIProjectClient,
   isRestError,
-  type Agent,
-  type AgentDefinitionUnion,
   type VoiceAgentDefinition,
   type VoiceAgentFunctionTool,
   type RealtimeAudioFormatsUnion,
@@ -121,7 +119,9 @@ export async function main(): Promise<void> {
     }
   } finally {
     if (created) {
-      await project.agents.delete(agentName);
+      await project.agents.delete(agentName, {
+        requestOptions: { headers: { "foundry-features": preview } },
+      });
     }
   }
 }
@@ -191,11 +191,12 @@ async function writeAudio(output: WriteStream, audio: Uint8Array): Promise<void>
   }
 }
 
-async function getOrCreateVoiceAgent(
-  project: AIProjectClient,
-): Promise<{ definition: VoiceAgentDefinition; created: boolean }> {
+async function getOrCreateVoiceAgent(project: AIProjectClient): Promise<{ created: boolean }> {
   try {
-    return { definition: getVoiceDefinition(await project.agents.get(agentName)), created: false };
+    await project.agents.get(agentName, {
+      requestOptions: { headers: { "foundry-features": preview } },
+    });
+    return { created: false };
   } catch (error) {
     if (!isRestError(error) || error.statusCode !== 404) {
       throw error;
@@ -209,28 +210,8 @@ async function getOrCreateVoiceAgent(
     instructions: "You are a helpful voice assistant. Use tools when appropriate.",
     output_modalities: ["text", "audio"],
   };
-  const agent = await project.agents.create(agentName, definition, { foundryFeatures: preview });
-  return { definition: getVoiceDefinition(agent), created: true };
-}
-
-function getVoiceDefinition(agent: Agent): VoiceAgentDefinition {
-  const definition = agent.versions.latest.definition;
-  if (!isVoiceAgentDefinition(definition)) {
-    throw new Error(`Agent ${agent.name} is not a voice agent.`);
-  }
-  return definition;
-}
-
-function isVoiceAgentDefinition(
-  definition: AgentDefinitionUnion,
-): definition is VoiceAgentDefinition {
-  return (
-    definition.kind === "voice" &&
-    "model_type" in definition &&
-    (definition.model_type === "managed" || definition.model_type === "self_deployed") &&
-    "model" in definition &&
-    typeof definition.model === "string"
-  );
+  await project.agents.create(agentName, definition, { foundryFeatures: preview });
+  return { created: true };
 }
 
 function getRequiredEnvironmentVariable(name: string): string {
