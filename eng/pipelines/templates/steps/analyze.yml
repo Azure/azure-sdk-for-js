@@ -48,26 +48,16 @@ steps:
     parameters:
       ServiceDirectories: $(ChangedServicesCsv)
 
-  - script: |
-      npm ci
-    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
-    displayName: "Install eng-package-utils dependencies"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
-      npm ci
-    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
-    displayName: "Install tool dependencies"
+      pnpm install
+    displayName: "Install repository dependencies"
 
   - script: |
       node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
-
-  - template: /eng/pipelines/templates/steps/install-pnpm.yml
-
-  - script: |
-      pnpm install
-    displayName: "Install library dependencies"
 
   - pwsh: |
       pnpm build --filter @azure/eslint-plugin-azure-sdk...
