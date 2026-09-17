@@ -6668,7 +6668,7 @@ export interface VoiceAgentCloseResult {
 }
 
 // @public
-export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentServerEvent> {
+export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentRealtimeEvent> {
     cancelResponse(options?: VoiceAgentCancelResponseOptions): Promise<void>;
     clearInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
     clearOutputAudio(options?: VoiceAgentEventOptions): Promise<void>;
@@ -6894,6 +6894,9 @@ export class VoiceAgentRealtimeError extends Error {
 
 // @public
 export type VoiceAgentRealtimeErrorCode = "authenticationFailed" | "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "protocolError" | "sendFailed";
+
+// @public
+export type VoiceAgentRealtimeEvent = VoiceAgentServerEvent | VoiceAgentUnknownEvent;
 
 // @public
 export interface VoiceAgentRealtimeResponse extends VoiceAgentRealtimeResponseBase {
@@ -7385,6 +7388,13 @@ export type VoiceAgentTurnDetectionConfigUnion = VoiceAgentServerVadTurnDetectio
 
 // @public
 export type VoiceAgentTurnDetectionType = "server_vad" | "semantic_vad" | "azure_semantic_vad" | "azure_semantic_vad_en" | "azure_semantic_vad_multilingual";
+
+// @public
+export interface VoiceAgentUnknownEvent {
+    eventType: string;
+    rawEvent: Record<string, unknown>;
+    type: "unknown";
+}
 
 // @public
 export interface VoiceAgentWebSocketConnectOptions {
