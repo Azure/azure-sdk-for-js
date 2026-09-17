@@ -1881,7 +1881,7 @@ importers:
   sdk/appcontainers/arm-appcontainers:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -2936,7 +2936,7 @@ importers:
   sdk/avs/arm-avs:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.1.0
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -16732,8 +16732,8 @@ importers:
         specifier: ^5.5.0
         version: 5.17.1
       '@azure/msal-node':
-        specifier: ^5.1.5
-        version: 5.4.2
+        specifier: ^6.0.0
+        version: 6.0.1
       open:
         specifier: ^11.0.0
         version: 11.0.0
@@ -16814,8 +16814,8 @@ importers:
         specifier: ^4.7.0
         version: 4.13.1(supports-color@8.1.1)
       '@azure/msal-node':
-        specifier: ^5.1.5
-        version: 5.4.2
+        specifier: ^6.0.0
+        version: 6.0.1
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
         version: 5.3.3
@@ -16887,8 +16887,8 @@ importers:
         specifier: ^4.7.0
         version: 4.13.1(supports-color@8.1.1)
       '@azure/msal-node':
-        specifier: ^5.1.5
-        version: 5.4.2
+        specifier: ^6.0.0
+        version: 6.0.1
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
         version: 5.3.3
@@ -17000,8 +17000,8 @@ importers:
         specifier: ^4.11.0
         version: 4.13.1(supports-color@8.1.1)
       '@azure/msal-node':
-        specifier: ^5.1.5
-        version: 5.4.2
+        specifier: ^6.0.0
+        version: 6.0.1
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
         version: 5.3.3
@@ -27739,7 +27739,7 @@ importers:
   sdk/relay/arm-relay:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -29457,7 +29457,7 @@ importers:
   sdk/securityinsight/arm-securityinsight:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -36119,6 +36119,10 @@ packages:
     resolution: {integrity: sha1-bLo7L5utC9sH7o37+nLv9Lo2nDA=}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-common@16.14.1':
+    resolution: {integrity: sha512-Or6xhPNyi4zHW25158yxBoyxuCqNSPa5YBVqfF1J5Ks4MJWBo/USXdp05DQIPu1Zli00YZu6t0+h6KvHJealxQ==}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-node-extensions@5.3.3':
     resolution: {integrity: sha1-epkwJfLi78Wbvuivs1j9mLvyeHA=}
     engines: {node: '>=20'}
@@ -36136,6 +36140,10 @@ packages:
 
   '@azure/msal-node@5.4.2':
     resolution: {integrity: sha1-EeB7IuSZAznQzjMVTg7+pLLFUPo=}
+    engines: {node: '>=20'}
+
+  '@azure/msal-node@6.0.1':
+    resolution: {integrity: sha512-ixSO1Y/kCVRthRs+hSx/5qkwaunX1/RAePhlMN0wIpIQ4WEZ6AREGGnGd1AP0qspHVsAwzWQKGubpjh50JyJIQ==}
     engines: {node: '>=20'}
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
@@ -42521,6 +42529,8 @@ snapshots:
 
   '@azure/msal-common@16.11.2': {}
 
+  '@azure/msal-common@16.14.1': {}
+
   '@azure/msal-node-extensions@5.3.3':
     dependencies:
       '@azure/msal-common': 16.11.2
@@ -42544,6 +42554,11 @@ snapshots:
   '@azure/msal-node@5.4.2':
     dependencies:
       '@azure/msal-common': 16.11.2
+      jsonwebtoken: 9.0.3
+
+  '@azure/msal-node@6.0.1':
+    dependencies:
+      '@azure/msal-common': 16.14.1
       jsonwebtoken: 9.0.3
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0(supports-color@8.1.1)':
