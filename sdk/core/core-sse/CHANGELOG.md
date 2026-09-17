@@ -1,12 +1,12 @@
 # Release History
 
-## 2.3.1 (Unreleased)
+## 2.4.0 (Unreleased)
 
 ### Features Added
 
 - Add `createReconnectingSseStream` for EventSource-style reconnection with
   `Last-Event-ID`, server-provided retry delays, response validation, cancellation,
-  and optional retry limits.
+  and optional retry limits. [#39976](https://github.com/Azure/azure-sdk-for-js/pull/39976)
 
 ### Breaking Changes
 

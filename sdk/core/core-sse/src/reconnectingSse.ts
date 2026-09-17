@@ -16,6 +16,22 @@ import { createSseParser } from "./sse.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
 const defaultRetryDelayInMs = 3000;
+const maxTimerDelayInMs = 2147483647;
+
+function clampDelay(delayInMs: number): number {
+  return Math.min(delayInMs, maxTimerDelayInMs);
+}
+
+async function safeCancel(cancel: (() => Promise<void>) | undefined): Promise<void> {
+  if (!cancel) {
+    return;
+  }
+  try {
+    await cancel();
+  } catch {
+    // Cleanup must not mask a transport or validation error.
+  }
+}
 
 /**
  * Creates an SSE stream that reconnects when a connection ends unexpectedly.
@@ -41,7 +57,7 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
 
   const abort = (): void => {
     aborter.abort();
-    void activeCancel?.().catch(() => undefined);
+    void safeCancel(activeCancel);
   };
   options.abortSignal?.addEventListener("abort", abort);
 
@@ -52,19 +68,19 @@ export async function createReconnectingSseStream<TResponse extends SseConnectRe
     stopped = true;
     aborter.abort();
     options.abortSignal?.removeEventListener("abort", abort);
-    await activeCancel?.().catch(() => undefined);
+    await safeCancel(activeCancel);
   };
 
   try {
     throwIfAborted(options.abortSignal);
     let lastEventId = options.lastEventId ?? "";
-    let reconnectDelayInMs = retryDelayInMs;
+    let reconnectDelayInMs = clampDelay(retryDelayInMs);
     const parserCallbacks = {
       onId: (value: string) => {
         lastEventId = value;
       },
       onRetry: (value: number) => {
-        reconnectDelayInMs = value;
+        reconnectDelayInMs = clampDelay(value);
       },
     };
     const initial = await establishConnection(
@@ -282,10 +298,13 @@ async function establishConnection<TResponse extends SseConnectResponse>(
 }
 
 async function cancelBody(body: SseStream | undefined): Promise<void> {
-  if (body) {
-    await ensureAsyncIterable(body)
-      .cancel()
-      .catch(() => undefined);
+  if (!body) {
+    return;
+  }
+  try {
+    await ensureAsyncIterable(body).cancel();
+  } catch {
+    // Cleanup must not mask a transport or validation error.
   }
 }
 
