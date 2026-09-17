@@ -51,6 +51,10 @@ permissions:
   actions: read
   security-events: read
   copilot-requests: write
+# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
+engine:
+  id: copilot
+  version: "1.0.80"
 network:
   allowed:
     - defaults
