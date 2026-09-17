@@ -259,6 +259,9 @@ try {
         event.type === "response.output_audio_transcript.delta"
       ) {
         process.stdout.write(event.delta);
+      } else if (event.type === "unknown") {
+        // event.rawEvent preserves all wire fields; validate them before using them.
+        console.log(`Unrecognized server event: ${event.eventType}`);
       } else if (event.type === "response.done") {
         await connection.close();
       }
@@ -272,6 +275,19 @@ try {
   });
 }
 ```
+
+The connection yields `VoiceAgentRealtimeEvent`: a known `VoiceAgentServerEvent` or a
+`VoiceAgentUnknownEvent` with `type: "unknown"`. For unknown events, `eventType` retains the
+original wire discriminator and `rawEvent` retains the complete parsed JSON payload, including
+its original `type`. No known-event field validation or normalization is applied to that payload;
+validate raw fields before using them and avoid logging sensitive payloads. Unknown events do not
+disconnect the session, so subsequent events and sends continue normally. Known `event.type`
+branches still narrow to their existing generated types. A handler accepting only
+`VoiceAgentServerEvent` can be called after excluding `event.type === "unknown"`.
+
+Malformed JSON, missing or invalid discriminators, and malformed known events still fail the
+iteration with `VoiceAgentProtocolError`. Service `error` events remain typed events for the
+caller to handle; this fallback does not change which outbound events `sendEvent()` supports.
 
 Use `project.beta.voiceAgents.conversations` to inspect conversations for Voice Agents configured
 with `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a

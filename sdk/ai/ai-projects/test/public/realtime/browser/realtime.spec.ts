@@ -165,6 +165,56 @@ describe("AIProjectClient browser realtime", () => {
     await expect(connection.closed).resolves.toMatchObject({ code: 1002, wasClean: false });
   });
 
+  it.each([true, false])(
+    "preserves unknown Blob events and continues receiving and sending (unknown first: %s)",
+    async (unknownFirst) => {
+      const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
+      const socket = getSocket();
+      const iterator = connection[Symbol.asyncIterator]();
+      const closed = vi.fn();
+      void connection.closed.then(closed);
+      const close = vi.spyOn(socket, "close");
+      const text = {
+        event_id: "text-1",
+        type: "response.output_text.delta",
+        response_id: "response-1",
+        item_id: "item-1",
+        output_index: 0,
+        content_index: 0,
+        delta: "Hello",
+      };
+      const rawEvent = { type: "unknown", payload: { values: [null, true, 42] } };
+      const audio = {
+        ...text,
+        event_id: "audio-1",
+        type: "response.output_audio.delta",
+        delta: "AQID",
+      };
+      const incoming = unknownFirst ? [rawEvent, text, audio] : [text, rawEvent, audio];
+      for (const event of incoming) {
+        socket.receive(new Blob([JSON.stringify(event)]));
+      }
+      const unknownEvent = { type: "unknown", eventType: "unknown", rawEvent };
+      const audioEvent = { ...audio, delta: new Uint8Array([1, 2, 3]) };
+      const received = [await iterator.next(), await iterator.next(), await iterator.next()];
+      expect(received.map((result) => result.value)).toEqual(
+        unknownFirst ? [unknownEvent, text, audioEvent] : [text, unknownEvent, audioEvent],
+      );
+      expect(connection.state).toBe("connected");
+      expect(socket.readyState).toBe(MockBrowserWebSocket.OPEN);
+      expect(close).not.toHaveBeenCalled();
+      expect(closed).not.toHaveBeenCalled();
+
+      await connection.sendText("Continue", { createResponse: false });
+      expect(JSON.parse(socket.sentMessages[0]).item.content[0].text).toBe("Continue");
+      expect(closed).not.toHaveBeenCalled();
+      await connection.close();
+      await expect(connection.closed).resolves.toMatchObject({ code: 1000, wasClean: true });
+      expect(closed).toHaveBeenCalledOnce();
+      expect((await iterator.next()).done).toBe(true);
+    },
+  );
+
   it("finishes closing when the browser socket does not emit close", async () => {
     vi.useFakeTimers();
     const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");

@@ -27,7 +27,7 @@ import {
   type VoiceAgentDefinition,
   type VoiceAgentTurnDetectionConfigUnion,
   type RealtimeAudioFormatsUnion,
-  type VoiceAgentServerEvent,
+  type VoiceAgentRealtimeEvent,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -185,8 +185,10 @@ async function writeAudio(output: WriteStream, audio: Uint8Array): Promise<void>
 }
 
 /** Summarizes a server event with a short, useful detail for the event log. */
-function describeEvent(event: VoiceAgentServerEvent): string {
+function describeEvent(event: VoiceAgentRealtimeEvent): string {
   switch (event.type) {
+    case "unknown":
+      return ` (unrecognized event type: ${event.eventType})`;
     case "response.output_audio.delta":
       return ` (${event.delta.byteLength} bytes)`;
     case "response.output_text.delta":

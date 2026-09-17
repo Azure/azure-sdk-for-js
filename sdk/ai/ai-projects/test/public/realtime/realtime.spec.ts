@@ -9,7 +9,16 @@ import {
   VoiceAgentConnectionError,
   VoiceAgentProtocolError,
 } from "@azure/ai-projects";
-import type { KnownApiVersions, VoiceAgentConnectionState } from "@azure/ai-projects";
+import type {
+  KnownApiVersions,
+  RealtimeServerEventResponseAudioDelta,
+  RealtimeServerEventResponseTextDelta,
+  VoiceAgentConnection,
+  VoiceAgentConnectionState,
+  VoiceAgentRealtimeEvent,
+  VoiceAgentServerEvent,
+  VoiceAgentUnknownEvent,
+} from "@azure/ai-projects";
 import type {
   VoiceAgentWebSocketConnectOptions,
   VoiceAgentWebSocketFactory,
@@ -21,7 +30,7 @@ import {
   serializeVoiceAgentClientEvent,
 } from "$internal/realtime/protocol.js";
 import { SDK_VERSION } from "$internal/constants.js";
-import { assert, describe, expect, it } from "vitest";
+import { assert, describe, expect, expectTypeOf, it, vi } from "vitest";
 
 class TestCredential implements TokenCredential {
   public requestedScopes?: string | string[];
@@ -180,9 +189,211 @@ describe("AIProjectClient realtime", () => {
     }
 
     expect(() => deserializeVoiceAgentServerEvent("not-json")).toThrow(VoiceAgentProtocolError);
-    expect(() => deserializeVoiceAgentServerEvent('{"type":"future.event"}')).toThrow(
-      /Unsupported server event type/,
-    );
+  });
+
+  it.each(["future.event", "unknown", "constructor", "toString", "__proto__"])(
+    "preserves the complete unknown %s event without known-schema validation",
+    (type) => {
+      const rawEvent = {
+        type,
+        delta: "AQID",
+        nested: { enabled: true, values: [null, 42, "text", { type: "session.created" }] },
+        session: { audio: null, future_setting: ["unmodified"] },
+        eventType: "a payload field",
+        rawEvent: { type: "another payload field" },
+      };
+      const json = JSON.stringify(rawEvent);
+      for (const data of [json, new TextEncoder().encode(json).buffer]) {
+        const event = deserializeVoiceAgentServerEvent(data);
+        expect(event).toEqual({ type: "unknown", eventType: type, rawEvent });
+        if (event.type === "unknown") {
+          expectTypeOf(event).toEqualTypeOf<VoiceAgentUnknownEvent>();
+          expect(event.rawEvent).not.toHaveProperty("event_id");
+          expect(event.rawEvent["delta"]).toBe("AQID");
+        }
+      }
+
+      expect(deserializeVoiceAgentServerEvent(JSON.stringify({ type, event_id: null }))).toEqual({
+        type: "unknown",
+        eventType: type,
+        rawEvent: { type, event_id: null },
+      });
+    },
+  );
+
+  it.each([
+    ["not-json", "invalid JSON"],
+    ["null", "without a type discriminator"],
+    ["[]", "without a type discriminator"],
+    ['"future.event"', "without a type discriminator"],
+    ["{}", "without a type discriminator"],
+    ['{"type":null}', "invalid event type discriminator"],
+    ['{"type":42}', "invalid event type discriminator"],
+    ['{"type":{}}', "invalid event type discriminator"],
+    ['{"type":"response.output_text.delta"}', 'required "event_id"'],
+    ['{"type":"response.output_text.delta","event_id":"text-1"}', 'required "delta"'],
+  ])("retains protocol failures for %s", async (data, message) => {
+    expect(() => deserializeVoiceAgentServerEvent(data)).toThrow(VoiceAgentProtocolError);
+    expect(() => deserializeVoiceAgentServerEvent(data)).toThrow(message);
+
+    const factory = new MockWebSocketFactory();
+    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent");
+    const next = connection[Symbol.asyncIterator]().next();
+    factory.transport.receiveRaw(data);
+    await expect(next).rejects.toThrow(VoiceAgentProtocolError);
+    await expect(connection.closed).resolves.toMatchObject({ code: 1002, wasClean: false });
+    expect(connection.state).toBe("disconnected");
+  });
+
+  it("does not reinterpret a malformed known event as an unknown event", async () => {
+    const factory = new MockWebSocketFactory();
+    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent");
+    const next = connection[Symbol.asyncIterator]().next();
+    factory.transport.receive({ type: "session.created", event_id: "session-1" });
+    await expect(next).rejects.toBeInstanceOf(VoiceAgentProtocolError);
+    await expect(connection.closed).resolves.toMatchObject({ code: 1002, wasClean: false });
+  });
+
+  it.each(["session.created", "session.updated"])(
+    "still normalizes known %s session settings",
+    (type) => {
+      const event = deserializeVoiceAgentServerEvent(
+        JSON.stringify({
+          type,
+          event_id: "session-1",
+          session: {
+            type: "realtime",
+            audio: {
+              input: {
+                turn_detection: {
+                  type: "azure_semantic_vad",
+                  prefix_padding_ms: 200,
+                  end_of_utterance_detection: {
+                    model: "semantic_detection_v1",
+                    timeout_ms: 800,
+                    extra: "not in known schema",
+                  },
+                },
+              },
+            },
+          },
+        }),
+      );
+      assert.ok(event.type === "session.created" || event.type === "session.updated");
+      expect(event.session.audio?.input?.turn_detection).toMatchObject({
+        type: "azure_semantic_vad",
+        prefix_padding_ms: 200,
+        end_of_utterance_detection: { model: "semantic_detection_v1", timeout_ms: 800 },
+      });
+      expect(event.session.audio?.input?.turn_detection).not.toHaveProperty(
+        "end_of_utterance_detection.extra",
+      );
+    },
+  );
+
+  it("preserves known-event narrowing in the public realtime event union", () => {
+    expectTypeOf<VoiceAgentConnection>().toExtend<AsyncIterable<VoiceAgentRealtimeEvent>>();
+    const checkEvent = (event: VoiceAgentRealtimeEvent): void => {
+      switch (event.type) {
+        case "unknown":
+          expectTypeOf(event).toEqualTypeOf<VoiceAgentUnknownEvent>();
+          expectTypeOf(event.eventType).toEqualTypeOf<string>();
+          break;
+        case "response.output_text.delta":
+          expectTypeOf(event).toEqualTypeOf<RealtimeServerEventResponseTextDelta>();
+          expectTypeOf(event.delta).toEqualTypeOf<string>();
+          break;
+        case "response.output_audio.delta":
+          expectTypeOf(event).toEqualTypeOf<RealtimeServerEventResponseAudioDelta>();
+          expectTypeOf(event.delta).toEqualTypeOf<Uint8Array>();
+          break;
+      }
+      if (event.type !== "unknown") {
+        expectTypeOf(event).toEqualTypeOf<VoiceAgentServerEvent>();
+      }
+    };
+    checkEvent(deserializeVoiceAgentServerEvent('{"type":"future.event"}'));
+  });
+
+  it.each([true, false])(
+    "keeps event order and the connection open (unknown first: %s)",
+    async (unknownFirst) => {
+      const factory = new MockWebSocketFactory();
+      const states: VoiceAgentConnectionState[] = [];
+      const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent", {
+        onConnectionStateChange: (state) => states.push(state),
+      });
+      const closed = vi.fn();
+      void connection.closed.then(closed);
+      const close = vi.spyOn(factory.transport, "close");
+      const iterator = connection[Symbol.asyncIterator]();
+      const text = {
+        type: "response.output_text.delta",
+        event_id: "text-1",
+        response_id: "response-1",
+        item_id: "item-1",
+        output_index: 0,
+        content_index: 0,
+        delta: "Hello",
+      };
+      const rawEvent = { type: "future.event", data: [null, { value: 1 }] };
+      const audio = {
+        ...text,
+        type: "response.output_audio.delta",
+        event_id: "audio-1",
+        delta: "AQID",
+      };
+      const incoming = unknownFirst ? [rawEvent, text, audio] : [text, rawEvent, audio];
+      const expected = {
+        unknown: { type: "unknown", eventType: "future.event", rawEvent },
+        audio: { ...audio, delta: new Uint8Array([1, 2, 3]) },
+      };
+      const next = iterator.next();
+      for (const event of incoming) {
+        factory.transport.receive(event);
+      }
+      const received = [await next, await iterator.next(), await iterator.next()];
+      expect(received.map((result) => result.value)).toEqual(
+        unknownFirst
+          ? [expected.unknown, text, expected.audio]
+          : [text, expected.unknown, expected.audio],
+      );
+      expect(connection.state).toBe("connected");
+      expect(states).toEqual(["connecting", "connected"]);
+      expect(closed).not.toHaveBeenCalled();
+      expect(close).not.toHaveBeenCalled();
+
+      await connection.sendText("Continue", { createResponse: false });
+      expect(JSON.parse(factory.transport.sentMessages[0]).item.content[0].text).toBe("Continue");
+      expect(closed).not.toHaveBeenCalled();
+
+      await connection.close();
+      expect(closed).toHaveBeenCalledOnce();
+      await expect(connection.closed).resolves.toMatchObject({ code: 1000, wasClean: true });
+      expect((await iterator.next()).done).toBe(true);
+    },
+  );
+
+  it("keeps service errors and unsupported outbound events distinct from the fallback", async () => {
+    const factory = new MockWebSocketFactory();
+    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent");
+    const iterator = connection[Symbol.asyncIterator]();
+    const serviceError = {
+      type: "error",
+      event_id: "error-1",
+      error: { type: "invalid_request_error", code: "invalid_value", message: "Invalid input." },
+    };
+    factory.transport.receive(serviceError);
+    expect((await iterator.next()).value).toMatchObject(serviceError);
+    expect(connection.state).toBe("connected");
+
+    await expect(
+      // @ts-expect-error Verify the runtime guard for callers without TypeScript.
+      connection.sendEvent({ type: "future.event" }),
+    ).rejects.toThrow("Unsupported client event type: future.event");
+    expect(factory.transport.sentMessages).toHaveLength(0);
+    expect(connection.state).toBe("connected");
+    await connection.close();
   });
 
   it("inherits project connection options and exposes one realtime client", async () => {

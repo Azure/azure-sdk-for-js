@@ -149,6 +149,9 @@ describe("snippets", function () {
             event.type === "response.output_audio_transcript.delta"
           ) {
             process.stdout.write(event.delta);
+          } else if (event.type === "unknown") {
+            // event.rawEvent preserves all wire fields; validate them before using them.
+            console.log(`Unrecognized server event: ${event.eventType}`);
           } else if (event.type === "response.done") {
             await connection.close();
           }

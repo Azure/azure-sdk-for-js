@@ -34,6 +34,10 @@
 - Expose structured misalignment details on `ErrorModel.misalignment`. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
 - Add `project.toolboxes.invokeLatestToolboxMcp` for invoking the latest toolbox version through its MCP endpoint. [#39933](https://github.com/Azure/azure-sdk-for-js/pull/39933)
 
+### Bugs Fixed
+
+- Preserve unrecognized realtime server events as `VoiceAgentUnknownEvent` (`type: "unknown"`, original `eventType`, and complete `rawEvent`) instead of disconnecting. Connections now yield `VoiceAgentRealtimeEvent` while retaining known-event narrowing and malformed-event errors. [#39919](https://github.com/Azure/azure-sdk-for-js/pull/39919)
+
 ### Other Changes
 
 - Keep verbose dataset upload diagnostics focused on noncredential metadata as a defense-in-depth logging improvement. [#39993](https://github.com/Azure/azure-sdk-for-js/pull/39993)
