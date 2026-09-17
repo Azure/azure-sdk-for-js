@@ -389,14 +389,21 @@ class InnerBatchRequest {
   }
 
   public appendSubRequestToBody(request: PipelineRequest) {
+    // `new URL()` already strips CR/LF from the path, but the invariant is enforced here so it
+    // does not depend on that, and so the method is covered too.
+    const requestLine = `${request.method.toString()} ${getURLPathAndQuery(
+      request.url,
+    )} ${HTTP_VERSION_1_1}`;
+    if (HEADER_CRLF_PATTERN.test(requestLine)) {
+      throw new RangeError("Invalid CR/LF character in sub request line.");
+    }
+
     // Start to assemble sub request
     let subRequest = [
       this.subRequestPrefix, // sub request constant prefix
       `${HeaderConstants.CONTENT_ID}: ${this.operationCount}`, // sub request's content ID
       "", // empty line after sub request's content ID
-      `${request.method.toString()} ${getURLPathAndQuery(
-        request.url,
-      )} ${HTTP_VERSION_1_1}${HTTP_LINE_ENDING}`, // sub request start line with method
+      `${requestLine}${HTTP_LINE_ENDING}`, // sub request start line with method
     ].join(HTTP_LINE_ENDING);
 
     for (const [name, value] of request.headers) {

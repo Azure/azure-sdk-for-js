@@ -966,4 +966,25 @@ describe("BlobBatch header injection", () => {
     assert.throws(() => innerBatchRequest.appendSubRequestToBody(request), RangeError);
     assert.notInclude(batch.getHttpRequestBody(), "x-ms-delete-snapshots");
   });
+
+  // The URL parser strips CR/LF from the path, but the method is interpolated into the same line
+  // without passing through it.
+  it("rejects CR/LF in the sub request line", async () => {
+    const batch = new BlobBatch();
+    const innerBatchRequest = (batch as any).batchRequest;
+    const request = {
+      method: `DELETE${CRLF}x-ms-delete-snapshots: include`,
+      url: blobUrl,
+      headers: {
+        *[Symbol.iterator](): IterableIterator<[string, string]> {},
+      },
+    } as unknown as PipelineRequest;
+
+    assert.throws(
+      () => innerBatchRequest.appendSubRequestToBody(request),
+      RangeError,
+      /Invalid CR\/LF character in sub request line/,
+    );
+    assert.notInclude(batch.getHttpRequestBody(), "x-ms-delete-snapshots");
+  });
 });
