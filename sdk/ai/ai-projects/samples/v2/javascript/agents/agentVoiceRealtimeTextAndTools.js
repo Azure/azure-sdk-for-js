@@ -136,6 +136,8 @@ function parseWeatherToolArguments(value) {
 /** Summarizes a server event with a short, useful detail for the event log. */
 function describeEvent(event) {
   switch (event.type) {
+    case "unknown":
+      return ` (unrecognized event type: ${event.eventType})`;
     case "response.output_audio.delta":
       return ` (${event.delta.byteLength} bytes)`;
     case "response.output_text.delta":

@@ -13,7 +13,7 @@ import {
   type VoiceAgentDefinition,
   type VoiceAgentFunctionTool,
   type RealtimeAudioFormatsUnion,
-  type VoiceAgentServerEvent,
+  type VoiceAgentRealtimeEvent,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -141,8 +141,10 @@ function parseWeatherToolArguments(value: string): { city: string } {
 }
 
 /** Summarizes a server event with a short, useful detail for the event log. */
-function describeEvent(event: VoiceAgentServerEvent): string {
+function describeEvent(event: VoiceAgentRealtimeEvent): string {
   switch (event.type) {
+    case "unknown":
+      return ` (unrecognized event type: ${event.eventType})`;
     case "response.output_audio.delta":
       return ` (${event.delta.byteLength} bytes)`;
     case "response.output_text.delta":
