@@ -655,10 +655,6 @@ export interface AgentSessionResource {
 export type AgentSessionStatus = "creating" | "active" | "idle" | "updating" | "failed" | "deleting" | "deleted" | "expired";
 
 // @public
-export interface AgentsGenerateAgentOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AgentsGetOptionalParams extends OperationOptions {
 }
 

@@ -1180,7 +1180,6 @@ export type {
   AgentsGetTelephonyBindingOptionalParams,
   AgentsListTelephonyBindingsOptionalParams,
   AgentsCreateTelephonyBindingOptionalParams,
-  AgentsGenerateAgentOptionalParams,
 } from "./api/agents/index.js";
 export type {
   BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
