@@ -184,8 +184,37 @@ const dynamicImportMessage =
   "specifier and declare the dependency. If this is an approved advanced case, disable this rule " +
   "on the line with a justification comment.";
 
-const noDynamicModuleLoad: FlatConfig.Config = {
-  name: "azsdk/no-dynamic-module-load",
+// `instanceof` compares constructor identity, so a check against a class from another package
+// only matches instances built by the exact same copy of that package. A consumer whose
+// dependency tree resolves two copies silently takes the wrong branch — the code type-checks
+// and fails only at runtime. Use the structural type guard the owning package exports.
+//
+// This is a name-based check rather than a type-aware one. Every occurrence in the repo comes
+// from a small, known set of classes, and matching on the name also catches the cases that
+// arrive through a re-export. The trade-off is that it cannot tell an imported class from a
+// same-named local one, so the package that *declares* one of these classes disables the rule
+// on that line with a justification comment.
+const crossPackageInstanceofClasses = [
+  "RestError",
+  "AzureKeyCredential",
+  "AzureNamedKeyCredential",
+  "AzureSASCredential",
+  "Pipeline",
+].join("|");
+
+const crossPackageInstanceofMessage =
+  "Do not use `instanceof` with a class from another package: it compares constructor identity, " +
+  "so it returns false for an instance built by a second copy of that package in the consumer's " +
+  "dependency tree. Use the structural type guard instead — for example `isRestError`, " +
+  "`isKeyCredential`, `isNamedKeyCredential`, `isSASCredential`, or `isTokenCredential`. If this " +
+  "package declares the class itself, disable this rule on the line with a justification comment.";
+
+// A package that must relax one of these selectors should disable it on the offending line with
+// a justification comment. Do not re-declare `no-restricted-syntax` in a package config: ESLint
+// replaces the option array rather than merging it, so every other selector is silently lost,
+// and lowering the severity has the same effect because warnings never fail lint.
+const restrictedSyntax: FlatConfig.Config = {
+  name: "azsdk/restricted-syntax",
   files: ["**/src/**/*.ts", "**/src/**/*.cts", "**/src/**/*.mts"],
   rules: {
     "no-restricted-syntax": [
@@ -200,6 +229,14 @@ const noDynamicModuleLoad: FlatConfig.Config = {
       // Literal `import("pkg")` stays allowed (and is covered by eslint-plugin-import); only a non-literal
       // specifier — `import(expr)` / `import(`${x}`)` — hides the dependency and is flagged here.
       { selector: "ImportExpression[source.type!='Literal']", message: dynamicImportMessage },
+      {
+        selector: `BinaryExpression[operator='instanceof'][right.name=/^(${crossPackageInstanceofClasses})$/]`,
+        message: crossPackageInstanceofMessage,
+      },
+      {
+        selector: `BinaryExpression[operator='instanceof'][right.property.name=/^(${crossPackageInstanceofClasses})$/]`,
+        message: crossPackageInstanceofMessage,
+      },
     ],
   },
 };
@@ -321,6 +358,6 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
       "@azure/azure-sdk/ts-no-direct-child-process": "error",
     },
   },
-  noDynamicModuleLoad,
+  restrictedSyntax,
   srcRuntimeDepsOnly,
 ];
