@@ -10082,8 +10082,8 @@ export function tracesEvaluatorGenerationJobSourceSerializer(
     agent_version: item["agent_version"],
     start_time: !item["start_time"]
       ? item["start_time"]
-      : (item["start_time"].getTime() / 1000) | 0,
-    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+      : (item["start_time"].getTime() / 1000) || 0,
+    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) || 0,
   };
 }
 
@@ -13843,8 +13843,8 @@ export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerati
     agent_version: item["agent_version"],
     start_time: !item["start_time"]
       ? item["start_time"]
-      : (item["start_time"].getTime() / 1000) | 0,
-    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+      : (item["start_time"].getTime() / 1000) || 0,
+    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) || 0,
 
     trace_ids: !item["trace_ids"]
       ? item["trace_ids"]
@@ -20409,10 +20409,10 @@ export function telephonyCallJobScheduleSerializer(item: TelephonyCallJobSchedul
   return {
     not_before: !item["not_before"]
       ? item["not_before"]
-      : (item["not_before"].getTime() / 1000) | 0,
+      : (item["not_before"].getTime() / 1000) || 0,
     expires_at: !item["expires_at"]
       ? item["expires_at"]
-      : (item["expires_at"].getTime() / 1000) | 0,
+      : (item["expires_at"].getTime() / 1000) || 0,
   };
 }
 
@@ -20994,7 +20994,7 @@ export function voiceAgentSessionResponseConfigSerializer(
     model: item["model"],
     expires_at: !item["expires_at"]
       ? item["expires_at"]
-      : (item["expires_at"].getTime() / 1000) | 0,
+      : (item["expires_at"].getTime() / 1000) || 0,
   };
 }
 
