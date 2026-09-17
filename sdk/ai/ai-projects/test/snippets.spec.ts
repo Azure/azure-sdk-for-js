@@ -157,7 +157,9 @@ describe("snippets", function () {
         await connection.dispose();
       }
     } finally {
-      await project.agents.delete(voiceAgent.name);
+      await project.agents.delete(voiceAgent.name, {
+        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+      });
     }
   });
 
