@@ -72,7 +72,9 @@ See [scripts/update-tsp-commit.ps1](./scripts/update-tsp-commit.ps1).
 npm run generate:client
 ```
 
-This runs `tsp-client update -d && npm run format && dev-tool customization apply`. The emitter writes **directly into `generated/` and `src/`** — there is no `incoming/` snapshot. The next skill (`apply-post-emitter-edits`) inspects the resulting working-tree diff via `git diff` rather than a separate staging directory.
+This runs `tsp-client update -d && npm run customize`. The `customize` hook runs the repository merge, the package-specific resolver and guards, post-emitter cleanup, formatting, and a final guard pass. The next skill (`apply-post-emitter-edits`) audits the resulting working-tree diff and handles changes outside the executable policies; the script does not replace that review. There is no `incoming/` snapshot.
+
+If the package resolver or guards report an unsupported or unsafe change, emission has already completed. Preserve the emitted output, restore the saved YAML filename in Step 4, and review the reported declarations with `apply-post-emitter-edits`. Do not rerun emission or bypass the guards to make a provisional package succeed. After an explicit policy or source correction, run the package resolver/guards, post-emitter cleanup, and formatting directly; do not rerun the generic merge against a dirty target.
 
 ### Step 4: Restore the saved-yaml filename
 
@@ -100,4 +102,4 @@ Once this skill completes, hand off to the `apply-post-emitter-edits` skill to m
 
 - This skill never commits. It only edits `tsp-location.saved.yaml`, writes `temp/typespec-commit-descriptions.md`, and runs the emitter.
 - The branch default is `feature/foundry-release`. Override only when explicitly asked.
-- The emitter writes directly into `generated/` and `src/`. Leave those changes in the working tree (do **not** stash, revert, or stage them) so `apply-post-emitter-edits` can inspect them via `git diff`.
+- With this package's existing `generated/` baseline, the emitter updates `generated/`; the `customize` hook three-way merges that output into `src/`. Leave those changes in the working tree (do **not** stash, revert, or stage them) so `apply-post-emitter-edits` can inspect them via `git diff`.

@@ -1,11 +1,11 @@
 ---
 name: apply-post-emitter-edits
-description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
+description: "Apply language-specific post-emitter fixes to ai-projects after TypeSpec emission and customization update src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
 ---
 
 # Apply Post-Emitter Edits to ai-projects
 
-The TypeSpec emitter writes **directly into `src/` and `generated/`**. This skill reviews that working-tree diff, then handles the work in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory and no three-way merge.
+The TypeSpec emitter updates **`generated/`**, and the `customize` hook three-way merges the committed customization layer into **`src/`**. This skill reviews that working-tree diff, then handles the work in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no separate `incoming/` staging directory.
 
 When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file only to validate whether changed SDK source matches upstream TypeSpec intent. The standing workarounds still apply, but upstream commit descriptions can justify specific non-additive spec changes that should be preserved rather than reverted.
 
@@ -29,6 +29,21 @@ The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.m
 
 Run from `sdk/ai/ai-projects/`.
 
+`npm run customize` invokes the repository merge, then the executable package
+resolver and guards in `scripts/customize.mjs`. It applies post-emitter cleanup,
+formats the result, and runs the guards again. Both local `npm run generate:client`
+and the SDK generation pipeline use this hook. See
+[the customization tooling](../../../scripts/customization/README.md) for the
+supported policies and resolver fixture tests. The agent skill remains the
+review/recovery workflow for changes outside those policies.
+
+The generic merge can leave conflict markers, but the package phase runs before
+formatting and rejects unresolved or unsafe results. If it stops, inspect its
+file/declaration/member diagnostics and extend a justified policy or complete
+the review below. Do not rerun the generic merge against dirty `src/`. Never
+select one conflict side as a complete solution: relocated operations, renamed
+models, paging behavior, and poller customizations must still be reconciled.
+
 Use this phase order to avoid mixing unrelated decisions:
 
 | Phase          | Steps                            | Exit point                                                                                                                                         |
@@ -40,14 +55,14 @@ Use this phase order to avoid mixing unrelated decisions:
 
 ### Recovery: customization stopped on a dirty target
 
-`npm run generate:client` runs formatting before `dev-tool customization apply`. If the active formatter rewrites committed `src/` files, customization can stop with `Uncommitted changes were detected in the target directory` after generation has already updated `generated/`.
+Older versions of `npm run generate:client` ran formatting before `dev-tool customization apply`; the current `customize` hook merges before formatting. When recovering from an older run, formatter rewrites to committed `src/` files can explain `Uncommitted changes were detected in the target directory` after generation has already updated `generated/`.
 
 Do not regenerate again and do not restore all of `src/`. First confirm that regeneration preflight recorded a clean `src/` tree, inspect every current `src/` diff, and identify changes that are formatter-only. Restore only those proven formatter-created files, then apply customization to the already-emitted `generated/` tree:
 
 ```powershell
 git diff -- src
 git restore --source=HEAD -- <verified-formatter-only-files>
-npx dev-tool customization apply
+npm run customize
 ```
 
 If any affected file had a user change before regeneration, stop and recover that change instead of restoring the file. After customization completes, continue with Step 0 and repeat the protected-file audit in Step 1.
@@ -379,7 +394,7 @@ Remove-Item -ErrorAction SilentlyContinue `
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
 
-Do not run `scripts/post-emitter.mjs` as a substitute for the per-rule checks without auditing its output. It currently also rewrites user-agent construction in protected client/context files. If it is run, immediately repeat Step 1 and revert unrelated emitter drift while preserving reviewed, necessary integration changes before building.
+The `customize` hook runs `scripts/post-emitter.mjs` after resolution and pre-write validation, then formats the source and runs the guards again. Do not treat the user-agent cleanup script as the entire customization phase. It rewrites user-agent construction in protected client/context files, so include its output in the Step 1 audit. If it is rerun manually, repeat the guards and formatting before building.
 
 ### Step 6: Build and surface verification
 
@@ -421,7 +436,7 @@ Once the build is green, hand off to the `author-samples` skill.
 
 - Do **not** accept broad emitter rewrites of protected files. Permit only narrowly scoped, necessary integration changes backed by upstream evidence, an intentional-delta audit, and focused validation.
 - Do **not** stage or commit before this skill completes; downstream skills (`author-samples`, `author-tests`, `update-changelog`, `open-regeneration-pr`) rely on the working-tree diff being intact.
-- Do **not** introduce an `incoming/` staging directory or `git merge-file` workflow — the emitter writes directly to `src/` and `generated/`, and the workflow operates on the resulting `git diff`.
+- Do **not** introduce a second `incoming/` staging directory or ad hoc `git merge-file` workflow. The existing customization command performs the merge; this skill operates on its resulting working-tree diff.
 - Do **not** use unbounded `(Get-Content X) -replace 'old', 'new' | Set-Content X` for parameter renames — it silently corrupts substrings (`name` → `toolboxName` produced `toolboxtoolboxName`). Always use `(?<![\w.])old(?![\w])` word-boundary anchors and prefer per-line edits.
 - Do **not** delegate the entire build-fix loop to a single subagent prompt with seven independent tasks — observed failure mode is the subagent stopping after 3 of N. Either run fixes inline or split into ≤3 fixes per subagent invocation.
 - Do **not** trust `npx dev-tool run extract-api` after a single source edit — it may pick up stale `dist/` artifacts. Run `npm run build` (which cleans first) before re-extracting if the API report still shows old symbols.

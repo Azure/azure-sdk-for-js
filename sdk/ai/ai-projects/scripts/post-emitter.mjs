@@ -46,30 +46,18 @@ function getAllTsFiles(dir) {
 function fixUserAgentPrefix(content) {
   // Handle: `${prefixFromOptions} azsdk-js-client` => `${prefixFromOptions}`
   //         `${prefixFromOptions} azsdk-js-api`    => `${prefixFromOptions}`
-  content = content.replace(
-    /(\$\{[^}]+\}) azsdk-js-(?:client|api)`/g,
-    "$1`",
-  );
+  content = content.replace(/(\$\{[^}]+\}) azsdk-js-(?:client|api)`/g, "$1`");
 
   // Handle: `${prefixFromOptions} azsdk-js-api ${userAgentInfo}` => `${prefixFromOptions} ${userAgentInfo}`
   //         `${prefixFromOptions} azsdk-js-client ${...}`        => `${prefixFromOptions} ${...}`
-  content = content.replace(
-    /(\$\{[^}]+\}) azsdk-js-(?:client|api) /g,
-    "$1 ",
-  );
+  content = content.replace(/(\$\{[^}]+\}) azsdk-js-(?:client|api) /g, "$1 ");
 
   // Handle standalone: `azsdk-js-client` or `azsdk-js-api` => ""
-  content = content.replace(
-    /`azsdk-js-(?:client|api)`/g,
-    '""',
-  );
+  content = content.replace(/`azsdk-js-(?:client|api)`/g, '""');
 
   // Handle: `azsdk-js-api ${userAgentInfo}` => `${userAgentInfo}`
   //         `azsdk-js-client ${...}`        => `${...}`
-  content = content.replace(
-    /`azsdk-js-(?:client|api) /g,
-    "`",
-  );
+  content = content.replace(/`azsdk-js-(?:client|api) /g, "`");
 
   return content;
 }
