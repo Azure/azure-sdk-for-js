@@ -532,10 +532,10 @@ export function _listCallsSend(
       status: options?.status,
       started_after: !options?.startedAfterTime
         ? options?.startedAfterTime
-        : (options?.startedAfterTime.getTime() / 1000) | 0,
+        : options?.startedAfterTime.getTime() / 1000,
       started_before: !options?.startedBeforeTime
         ? options?.startedBeforeTime
-        : (options?.startedBeforeTime.getTime() / 1000) | 0,
+        : options?.startedBeforeTime.getTime() / 1000,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,

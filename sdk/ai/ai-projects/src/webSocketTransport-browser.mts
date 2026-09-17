@@ -130,7 +130,11 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
     const webSocket = this.webSocket;
     try {
       if (webSocket.readyState !== WebSocket.CLOSING && webSocket.readyState !== WebSocket.CLOSED) {
-        webSocket.close(code, reason);
+        if (code === 1000 || (code >= 3000 && code <= 4999)) {
+          webSocket.close(code, reason);
+        } else {
+          webSocket.close();
+        }
       }
       await waitForClose(webSocket, this.closeNotified, this.closeTimeoutInMs);
     } catch (error) {
