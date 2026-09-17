@@ -4,6 +4,7 @@
 import type { VoiceAgentClientEvent, VoiceAgentServerEvent } from "../models/models.js";
 import * as models from "../models/models.js";
 import { VoiceAgentProtocolError } from "./errors.js";
+import type { VoiceAgentRealtimeEvent } from "./events.js";
 
 type ClientEventSerializer<
   T extends VoiceAgentClientEvent["type"] = VoiceAgentClientEvent["type"],
@@ -152,7 +153,7 @@ function restoreMessageItemFields(item: unknown, serializedItem: Record<string, 
 /** @internal */
 export function deserializeVoiceAgentServerEvent(
   data: string | ArrayBuffer,
-): VoiceAgentServerEvent {
+): VoiceAgentRealtimeEvent {
   const text = typeof data === "string" ? data : new TextDecoder().decode(data);
   let parsed: unknown;
   try {
@@ -172,11 +173,15 @@ export function deserializeVoiceAgentServerEvent(
     throw new VoiceAgentProtocolError("The service returned an invalid event type discriminator.");
   }
 
-  const deserializer = (
-    serverEventDeserializers as Record<string, ServerEventDeserializer | undefined>
-  )[eventType];
+  const deserializer = Object.prototype.hasOwnProperty.call(serverEventDeserializers, eventType)
+    ? (serverEventDeserializers as Record<string, ServerEventDeserializer | undefined>)[eventType]
+    : undefined;
   if (!deserializer) {
-    throw new VoiceAgentProtocolError(`Unsupported server event type: ${eventType}`);
+    return {
+      type: "unknown",
+      eventType,
+      rawEvent: parsed as Record<string, unknown>,
+    };
   }
   const event = deserializer(parsed);
   validateRequiredServerEventFields(eventType, event);

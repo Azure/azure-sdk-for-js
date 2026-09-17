@@ -11,6 +11,7 @@ export {
   VoiceAgentRealtimeClient,
   KnownVoiceAgentConnectionState,
 } from "./realtime/voiceAgentRealtimeClient.js";
+export type { VoiceAgentRealtimeEvent, VoiceAgentUnknownEvent } from "./realtime/events.js";
 export type {
   VoiceAgentRealtimeClientOptions,
   VoiceAgentRealtimeClientConnectOptions,

@@ -10,7 +10,6 @@ import type {
   RealtimeConversationItemUnion,
   VoiceAgentClientEvent,
   VoiceAgentResponseCreateParams,
-  VoiceAgentServerEvent,
   VoiceAgentSessionUpdateConfig,
 } from "../models/models.js";
 import { logger } from "../logger.js";
@@ -21,6 +20,7 @@ import {
   VoiceAgentProtocolError,
 } from "./errors.js";
 import { deserializeVoiceAgentServerEvent, serializeVoiceAgentClientEvent } from "./protocol.js";
+import type { VoiceAgentRealtimeEvent } from "./events.js";
 import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketTransport,
@@ -140,8 +140,10 @@ export interface VoiceAgentCancelResponseOptions extends VoiceAgentEventOptions 
  * Supports exactly one `for await` iteration over server events; a second attempt throws.
  * Exiting the loop early (`break`, `return`, or an uncaught error in the loop body) closes
  * the connection as a side effect.
+ * Unrecognized server event types are delivered as {@link VoiceAgentUnknownEvent} without
+ * interrupting the stream. Malformed events still fail the iteration with a protocol error.
  */
-export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentServerEvent> {
+export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentRealtimeEvent> {
   /** Current connection state. */
   readonly state: VoiceAgentConnectionState;
   /** Resolves once the connection is closed. */
@@ -233,7 +235,7 @@ export class VoiceAgentRealtimeClient {
 }
 
 class VoiceAgentConnectionImpl implements VoiceAgentConnection {
-  private readonly events: AsyncQueue<VoiceAgentServerEvent>;
+  private readonly events: AsyncQueue<VoiceAgentRealtimeEvent>;
   private readonly transport: VoiceAgentWebSocketTransport;
   private readonly closePromise: Promise<VoiceAgentCloseResult>;
   private resolveClose!: (result: VoiceAgentCloseResult) => void;
@@ -252,7 +254,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     private readonly connectOptions: VoiceAgentRealtimeClientConnectOptions,
     factory: VoiceAgentWebSocketFactory,
   ) {
-    this.events = new AsyncQueue<VoiceAgentServerEvent>(10_000, {
+    this.events = new AsyncQueue<VoiceAgentRealtimeEvent>(10_000, {
       onOverflow: (error) => this.handleEventQueueOverflow(error),
     });
     this.transport = factory.create();
@@ -479,7 +481,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     return this.close();
   }
 
-  public async *[Symbol.asyncIterator](): AsyncIterator<VoiceAgentServerEvent> {
+  public async *[Symbol.asyncIterator](): AsyncIterator<VoiceAgentRealtimeEvent> {
     if (this.iteratorStarted) {
       throw new VoiceAgentConnectionError(
         "A voice-agent connection supports one active event iterator.",
