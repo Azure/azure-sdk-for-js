@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0 (2026-09-16)
+## 6.2.0 (2026-09-16)
 
 ### Features Added
   - Class TrafficManagerManagementClient has a new constructor "constructor(credential: TokenCredential, options?: TrafficManagerManagementClientOptionalParams);"
@@ -85,8 +85,6 @@
   - Added Enum AzureClouds
   - Added Enum KnownRecordType
   - Added Enum KnownVersions
-
-### Breaking Changes
   - Operation Endpoints.delete has a new signature
   - Operation Profiles.delete has a new signature
 

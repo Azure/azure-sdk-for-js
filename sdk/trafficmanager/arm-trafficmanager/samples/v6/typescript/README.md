@@ -72,23 +72,23 @@ node dist/endpointsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[endpointscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/endpointsCreateOrUpdateSample.ts
-[endpointsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/endpointsDeleteSample.ts
-[endpointsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/endpointsGetSample.ts
-[endpointsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/endpointsUpdateSample.ts
-[geographichierarchiesgetdefaultsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/geographicHierarchiesGetDefaultSample.ts
-[heatmapgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/heatMapGetSample.ts
-[profileschecktrafficmanagernameavailabilityv2sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/profilesCheckTrafficManagerNameAvailabilityV2Sample.ts
-[profileschecktrafficmanagerrelativednsnameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/profilesCheckTrafficManagerRelativeDnsNameAvailabilitySample.ts
-[profilescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/profilesCreateOrUpdateSample.ts
-[profilesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/profilesDeleteSample.ts
-[profilesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/profilesGetSample.ts
-[profileslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/profilesListByResourceGroupSample.ts
-[profileslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/profilesListBySubscriptionSample.ts
-[profilesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/profilesUpdateSample.ts
-[trafficmanagerusermetricskeyscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/trafficManagerUserMetricsKeysCreateOrUpdateSample.ts
-[trafficmanagerusermetricskeysdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/trafficManagerUserMetricsKeysDeleteSample.ts
-[trafficmanagerusermetricskeysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v7/typescript/src/trafficManagerUserMetricsKeysGetSample.ts
+[endpointscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/endpointsCreateOrUpdateSample.ts
+[endpointsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/endpointsDeleteSample.ts
+[endpointsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/endpointsGetSample.ts
+[endpointsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/endpointsUpdateSample.ts
+[geographichierarchiesgetdefaultsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/geographicHierarchiesGetDefaultSample.ts
+[heatmapgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/heatMapGetSample.ts
+[profileschecktrafficmanagernameavailabilityv2sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/profilesCheckTrafficManagerNameAvailabilityV2Sample.ts
+[profileschecktrafficmanagerrelativednsnameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/profilesCheckTrafficManagerRelativeDnsNameAvailabilitySample.ts
+[profilescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/profilesCreateOrUpdateSample.ts
+[profilesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/profilesDeleteSample.ts
+[profilesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/profilesGetSample.ts
+[profileslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/profilesListByResourceGroupSample.ts
+[profileslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/profilesListBySubscriptionSample.ts
+[profilesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/profilesUpdateSample.ts
+[trafficmanagerusermetricskeyscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/trafficManagerUserMetricsKeysCreateOrUpdateSample.ts
+[trafficmanagerusermetricskeysdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/trafficManagerUserMetricsKeysDeleteSample.ts
+[trafficmanagerusermetricskeysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/typescript/src/trafficManagerUserMetricsKeysGetSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-trafficmanager
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/trafficmanager/arm-trafficmanager/README.md

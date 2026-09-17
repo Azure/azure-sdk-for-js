@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-trafficmanager",
-  "version": "7.0.0",
+  "version": "6.2.0",
   "description": "A generated SDK for TrafficManagerManagementClient.",
   "engines": {
     "node": ">=22.0.0"
