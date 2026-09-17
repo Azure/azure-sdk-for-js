@@ -142,14 +142,16 @@ async function* toMessage(
 ): AsyncIterableIterator<EventMessage> {
   let message = createMessage();
   let pendingId: string | undefined;
+  let lastEventId = "";
   const decoder = new TextDecoder();
   for await (const { line, fieldLen } of lineIter) {
     if (line.length === 0) {
       if (pendingId !== undefined) {
+        lastEventId = pendingId;
         callbacks?.onId?.(pendingId);
       }
       if (message.data !== undefined) {
-        yield message as EventMessage;
+        yield { ...message, id: lastEventId } as EventMessage;
       }
       message = createMessage();
       pendingId = undefined;
@@ -170,7 +172,6 @@ async function* toMessage(
           break;
         case "id":
           if (!value.includes("\0")) {
-            message.id = value;
             pendingId = value;
           }
           break;

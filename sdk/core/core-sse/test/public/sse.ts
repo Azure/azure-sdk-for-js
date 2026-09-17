@@ -93,12 +93,13 @@ export function buildSseTests(
         write(createDataLine(encoder.encode("foo")));
         write(createId(encoder.encode("1")));
         write(encoder.encode("\n"));
-        write(createDataEvent(encoder.encode("bar")));
+        write(createDataEvent(encoder.encode("retains the preceding ID")));
+        write(createDataLine(encoder.encode("bar")));
         write(createId(Uint8Array.from([])));
         write(encoder.encode("\n"));
       });
-      const ids = ["1", ""];
-      await assertAsyncIterable(stream, 2, (event, i) => {
+      const ids = ["1", "1", ""];
+      await assertAsyncIterable(stream, 3, (event, i) => {
         assert.equal(event.id, ids[i]);
       });
     });
