@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to adds resources to the specified scheduled action.
  *
  * @summary adds resources to the specified scheduled action.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_AttachResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_AttachResources_MaximumSet_Gen.json
  */
 async function addResourcesToAScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();

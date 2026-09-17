@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all operations available Azure Security Insights Resource Provider.
  *
  * @summary lists all operations available Azure Security Insights Resource Provider.
- * x-ms-original-file: 2025-07-01-preview/operations/ListOperations.json
+ * x-ms-original-file: 2025-10-01-preview/operations/ListOperations.json
  */
 async function getAllOperations() {
   const credential = new DefaultAzureCredential();

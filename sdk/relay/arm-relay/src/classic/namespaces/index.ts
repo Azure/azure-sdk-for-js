@@ -174,6 +174,7 @@ export interface NamespacesOperations {
     options?: NamespacesGetAuthorizationRuleOptionalParams,
   ) => Promise<AuthorizationRule>;
 }
+
 function _getNamespaces(context: RelayAPIContext) {
   return {
     checkNameAvailability: (
@@ -322,6 +323,7 @@ function _getNamespaces(context: RelayAPIContext) {
       ),
   };
 }
+
 export function _getNamespacesOperations(context: RelayAPIContext): NamespacesOperations {
   return {
     ..._getNamespaces(context),
