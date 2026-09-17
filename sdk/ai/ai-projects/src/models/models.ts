@@ -10080,10 +10080,8 @@ export function tracesEvaluatorGenerationJobSourceSerializer(
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: !item["start_time"]
-      ? item["start_time"]
-      : (item["start_time"].getTime() / 1000) || 0,
-    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) || 0,
+    start_time: !item["start_time"] ? item["start_time"] : item["start_time"].getTime() / 1000 || 0,
+    end_time: !item["end_time"] ? item["end_time"] : item["end_time"].getTime() / 1000 || 0,
   };
 }
 
@@ -13841,10 +13839,8 @@ export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerati
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: !item["start_time"]
-      ? item["start_time"]
-      : (item["start_time"].getTime() / 1000) || 0,
-    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) || 0,
+    start_time: !item["start_time"] ? item["start_time"] : item["start_time"].getTime() / 1000 || 0,
+    end_time: !item["end_time"] ? item["end_time"] : item["end_time"].getTime() / 1000 || 0,
 
     trace_ids: !item["trace_ids"]
       ? item["trace_ids"]
@@ -20407,12 +20403,8 @@ export interface TelephonyCallJobSchedule {
 
 export function telephonyCallJobScheduleSerializer(item: TelephonyCallJobSchedule): any {
   return {
-    not_before: !item["not_before"]
-      ? item["not_before"]
-      : (item["not_before"].getTime() / 1000) || 0,
-    expires_at: !item["expires_at"]
-      ? item["expires_at"]
-      : (item["expires_at"].getTime() / 1000) || 0,
+    not_before: !item["not_before"] ? item["not_before"] : item["not_before"].getTime() / 1000 || 0,
+    expires_at: !item["expires_at"] ? item["expires_at"] : item["expires_at"].getTime() / 1000 || 0,
   };
 }
 
@@ -20992,9 +20984,7 @@ export function voiceAgentSessionResponseConfigSerializer(
     object: item["object"],
     id: item["id"],
     model: item["model"],
-    expires_at: !item["expires_at"]
-      ? item["expires_at"]
-      : (item["expires_at"].getTime() / 1000) || 0,
+    expires_at: !item["expires_at"] ? item["expires_at"] : item["expires_at"].getTime() / 1000 || 0,
   };
 }
 
