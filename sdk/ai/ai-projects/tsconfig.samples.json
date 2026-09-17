@@ -5,5 +5,9 @@
       "@azure/ai-projects": ["./dist/esm"]
     },
     "lib": ["ES2022", "DOM"]
-  }
+  },
+  // The browser sample is a standalone Vite app with its own tsconfig.json/package.json and
+  // build tooling (see samples-dev/voiceAgentBrowser/README.md); it is not part of this
+  // project's Node-oriented samples typecheck.
+  "exclude": ["./samples-dev/voiceAgentBrowser"]
 }
