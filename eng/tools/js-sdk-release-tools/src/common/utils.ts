@@ -1,7 +1,7 @@
 import shell from "shelljs";
 import path, { join, posix } from "path";
 import fs from "fs";
-import { SDKType, RunMode, ModularSDKType } from "./types.js";
+import { EmitterName, SDKType, RunMode, ModularSDKType } from "./types.js";
 import { logger } from "../utils/logger.js";
 import { Project, ScriptTarget, SourceFile } from "ts-morph";
 import { readFile } from "fs/promises";
@@ -18,7 +18,8 @@ const { exists } = fsExtra;
 
 // ./eng/common/scripts/TypeSpec-Project-Process.ps1 script forces to use emitter '@azure-tools/typespec-ts',
 // so do NOT change the emitter
-const emitterName = "@azure-tools/typespec-ts";
+export const emitterName: EmitterName = "@azure-tools/typespec-ts";
+export const provisioningEmitterName: EmitterName = "@azure-tools/typespec-ts-provisioning";
 
 // 1 hour in milliseconds unit
 export const defaultChildProcessTimeout = 60 * 60 * 1000;
@@ -279,9 +280,10 @@ export async function loadTspConfig(
 export async function getGeneratedPackageDirectory(
   typeSpecDirectory: string,
   sdkRepoRoot: string,
+  typespecEmitter: EmitterName = emitterName,
 ): Promise<string> {
   const tspConfig = await resolveOptions(typeSpecDirectory, sdkRepoRoot);
-  const emitterOptions = tspConfig.options?.[emitterName];
+  const emitterOptions = tspConfig.options?.[typespecEmitter];
   // Try to get package directory from emitter-output-dir first
   const emitterOutputDir = emitterOptions?.["emitter-output-dir"];
   if (emitterOutputDir) {
@@ -306,7 +308,7 @@ export async function getGeneratedPackageDirectory(
   }
   if (!packageDir) {
     throw new Error(
-      `Miss package-dir in ${emitterName} options of tspconfig.yaml. ${messageToTspConfigSample}`,
+      `Miss package-dir in ${typespecEmitter} options of tspconfig.yaml. ${messageToTspConfigSample}`,
     );
   }
   const packageDirFromRoot = posix.join(sdkRepoRoot, serviceDir, packageDir);
@@ -422,6 +424,7 @@ export async function resolveOptions(
 export function specifyApiVersionToGenerateSDKByTypeSpec(
   typeSpecDirectory: string,
   apiVersion: string,
+  typespecEmitter: EmitterName = emitterName,
 ) {
   const tspConfigPath = path.join(typeSpecDirectory, "tspconfig.yaml");
   if (!fs.existsSync(tspConfigPath)) {
@@ -437,9 +440,9 @@ export function specifyApiVersionToGenerateSDKByTypeSpec(
     throw new Error(`Failed to parse tspconfig.yaml: ${error}`);
   }
 
-  const emitterOptions = tspConfig.options?.[emitterName];
+  const emitterOptions = tspConfig.options?.[typespecEmitter];
   if (!emitterOptions) {
-    throw new Error(`Failed to find ${emitterName} options in tspconfig.yaml.`);
+    throw new Error(`Failed to find ${typespecEmitter} options in tspconfig.yaml.`);
   }
 
   const apiVersionInTspConfig = emitterOptions["api-version"];
@@ -600,9 +603,10 @@ export async function cleanupSamplesFolder(packageDirectory: string): Promise<vo
 
 export async function getPackageNameFromTspConfig(
   typeSpecDirectory: string,
+  typespecEmitter: EmitterName = emitterName,
 ): Promise<string | undefined> {
   const tspConfig = await resolveOptions(typeSpecDirectory);
-  const emitterOptions = tspConfig.options?.[emitterName];
+  const emitterOptions = tspConfig.options?.[typespecEmitter];
 
   // Get from package-details.name which is the actual NPM package name
   if (emitterOptions?.["package-details"]?.name) {
