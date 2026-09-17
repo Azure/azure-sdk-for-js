@@ -2,7 +2,7 @@
 
 ## 2.7.0 (Unreleased)
 
-### Breaking Changes 
+### Breaking Changes
 
 - Remove `max_samples` from the shared `DataGenerationJobOptions` and inherited `SimulationSeedDataGenerationJobOptions` contract. Keep it required on `SimpleQnADataGenerationJobOptions`, `TaskGenerationDataGenerationJobOptions`, and `ToolUseFineTuningDataGenerationJobOptions`, and make it optional on `TracesDataGenerationJobOptions`. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Move telephony operations from `project.beta.agents` and `project.beta.agentTelephony` to `project.beta.voiceAgents.telephony`, with shorter names such as `createBinding` and `listCalls`. Move `project.beta.agentEndpointConversations` to `project.beta.voiceAgents.conversations` and rename the associated operation and options types. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/2de409f907e0b84ec714953e86025c1a2668add0)
