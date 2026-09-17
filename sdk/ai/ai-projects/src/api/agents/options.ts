@@ -59,36 +59,6 @@ export interface AgentsDownloadSessionFileOptionalParams extends OperationOption
 export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentsReplaceTelephonyTransferTargetsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsGetTelephonyTransferTargetsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsEndTelephonyCallOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsTransferTelephonyCallOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsGetTelephonyCallOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-/** Optional parameters. */
 export interface AgentsListTelephonyCallsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "VoiceAgents=V1Preview";

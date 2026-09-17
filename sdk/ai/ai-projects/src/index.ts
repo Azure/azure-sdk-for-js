@@ -1169,11 +1169,6 @@ export type {
   TranscriptionLanguage,
 } from "./models/index.js";
 export type {
-  AgentsReplaceTelephonyTransferTargetsOptionalParams,
-  AgentsGetTelephonyTransferTargetsOptionalParams,
-  AgentsEndTelephonyCallOptionalParams,
-  AgentsTransferTelephonyCallOptionalParams,
-  AgentsGetTelephonyCallOptionalParams,
   AgentsListTelephonyCallsOptionalParams,
   AgentsDeleteTelephonyBindingOptionalParams,
   AgentsUpdateTelephonyBindingOptionalParams,

@@ -636,11 +636,6 @@ export interface AgentsEnableOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsEndTelephonyCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
 export interface AgentSessionResource {
     agent_session_id: string;
     readonly created_at: Date;
@@ -668,16 +663,6 @@ export interface AgentsGetSessionOptionalParams extends OperationOptions {
 
 // @public
 export interface AgentsGetTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface AgentsGetTelephonyCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface AgentsGetTelephonyTransferTargetsOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
@@ -784,11 +769,6 @@ export interface AgentsOperations {
 export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOptionalParams;
 
 // @public
-export interface AgentsReplaceTelephonyTransferTargetsOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
 export interface AgentsStopSessionOptionalParams extends OperationOptions {
 }
 
@@ -797,11 +777,6 @@ export type AgentState = "enabled" | "disabled";
 
 // @public
 export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
-
-// @public
-export interface AgentsTransferTelephonyCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
 
 // @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
