@@ -32,6 +32,7 @@
 - Add the optional `async` flag to function and custom tool definitions. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
 - Add `gpt-image-2` and `gpt-image-2-2026-04-21` to the supported `ImageGenTool.model` values. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
 - Expose structured misalignment details on `ErrorModel.misalignment`. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
+- Add `project.toolboxes.invokeLatestToolboxMcp` for invoking the latest toolbox version through its MCP endpoint. [#39933](https://github.com/Azure/azure-sdk-for-js/pull/39933)
 
 ### Other Changes
 
