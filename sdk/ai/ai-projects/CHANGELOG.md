@@ -28,15 +28,11 @@
 - Expose typed system, user, and assistant message items already supported by realtime voice conversations. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Expose voice transcription language metadata, multiple language hints, and keyword configuration from the regenerated models. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
 - Expose the existing `external_web_access` setting on web search tools and toolbox tools to control live web access. [#39911](https://github.com/Azure/azure-sdk-for-js/issues/39911)
-- Add `project.beta.voiceAgents.realtime` (`VoiceAgentRealtimeClient`), a WebSocket client for bidirectional streaming of text, audio (`audio/pcm`, `audio/pcmu`, `audio/pcma`), and tool calls with a voice agent, with browser and React Native support (a Microsoft Entra bearer token carried in the WebSocket subprotocol, since browsers cannot set a custom `Authorization` header on a WebSocket upgrade request). [#39922](https://github.com/Azure/azure-sdk-for-js/pull/39922)
+- Add `project.beta.voiceAgents.realtime` (`VoiceAgentRealtimeClient`), a WebSocket client for bidirectional streaming of text, audio (`audio/pcm`, `audio/pcmu`, `audio/pcma`), and tool calls with a voice agent, with browser and React Native support (a Microsoft Entra bearer token carried in the WebSocket subprotocol, since browsers cannot set a custom `Authorization` header on a WebSocket upgrade request). Connections yield `VoiceAgentRealtimeEvent`, including `VoiceAgentUnknownEvent` fallbacks that preserve the original event type and payload for forward compatibility. [#39922](https://github.com/Azure/azure-sdk-for-js/pull/39922) [#40010](https://github.com/Azure/azure-sdk-for-js/pull/40010)
 - Add the optional `async` flag to function and custom tool definitions. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
 - Add `gpt-image-2` and `gpt-image-2-2026-04-21` to the supported `ImageGenTool.model` values. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
 - Expose structured misalignment details on `ErrorModel.misalignment`. [Azure/azure-rest-api-specs#46209](https://github.com/Azure/azure-rest-api-specs/pull/46209)
 - Add `project.toolboxes.invokeLatestToolboxMcp` for invoking the latest toolbox version through its MCP endpoint. [#39933](https://github.com/Azure/azure-sdk-for-js/pull/39933)
-
-### Bugs Fixed
-
-- Preserve unrecognized realtime server events as `VoiceAgentUnknownEvent` (`type: "unknown"`, original `eventType`, and complete `rawEvent`) instead of disconnecting. Connections now yield `VoiceAgentRealtimeEvent` while retaining known-event narrowing and malformed-event errors. [#39919](https://github.com/Azure/azure-sdk-for-js/pull/39919)
 
 ### Other Changes
 
