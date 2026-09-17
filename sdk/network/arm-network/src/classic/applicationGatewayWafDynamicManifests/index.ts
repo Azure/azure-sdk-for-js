@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/applicationGatewayWafDynamicManifests/operations.js";
 import type { ApplicationGatewayWafDynamicManifestsListOptionalParams } from "../../api/applicationGatewayWafDynamicManifests/options.js";
-import type { ApplicationGatewayWafDynamicManifestResult } from "../../models/microsoft/network/models.js";
+import type { ApplicationGatewayWafDynamicManifestResult } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApplicationGatewayWafDynamicManifests operations. */

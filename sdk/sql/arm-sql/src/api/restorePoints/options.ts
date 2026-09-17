@@ -8,12 +8,9 @@ export interface RestorePointsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RestorePointsListByDatabaseOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface RestorePointsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface RestorePointsGetOptionalParams extends OperationOptions {}
