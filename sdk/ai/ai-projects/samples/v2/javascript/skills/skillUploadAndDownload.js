@@ -17,16 +17,17 @@
  * @summary Demonstrates uploading and downloading a skill package.
  */
 
-const { AIProjectClient } = require("@azure/ai-projects");
+const { AIProjectClient, isRestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { RestError } = require("@azure/core-rest-pipeline");
 const { readFileSync, writeFileSync } = require("node:fs");
 const path = require("node:path");
+const { fileURLToPath } = require("node:url");
 const { buffer } = require("node:stream/consumers");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const skillName = "canvas-design";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const skillFilePath = path.resolve(__dirname, "../assets/canvas-design.zip");
 const downloadFolder = path.dirname(skillFilePath);
 
@@ -38,7 +39,7 @@ async function main() {
     await project.beta.skills.delete(skillName);
     console.log(`Skill \`${skillName}\` deleted`);
   } catch (e) {
-    if (!(e instanceof RestError && e.statusCode === 404)) {
+    if (!(isRestError(e) && e.statusCode === 404)) {
       throw e;
     }
   }
