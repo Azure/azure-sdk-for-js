@@ -66,7 +66,8 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
 
   constructor(options: StatsbeatOptions) {
     super();
-    this.connectionString = super.getConnectionString(options.endpointUrl);
+    this.connectionString =
+      options.connectionString ?? super.getConnectionString(options.endpointUrl);
     const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this.connectionString,
     };
@@ -174,6 +175,16 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
         endpoint: this.networkProperties.endpoint,
         host,
       };
+    });
+  }
+
+  /**
+   * Apply a OneSettings SDKStats destination without changing customer-endpoint dimensions.
+   * @internal
+   */
+  public async updateConnectionString(connectionString: string): Promise<void> {
+    await this.networkAzureExporter.updateConnectionString(connectionString, () => {
+      this.connectionString = connectionString;
     });
   }
 
