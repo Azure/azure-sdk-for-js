@@ -44,7 +44,6 @@ export interface UsersOperations {
     options?: UsersGetOptionalParams,
   ) => Promise<User>;
 }
-
 function _getUsers(context: MongoClusterManagementContext) {
   return {
     listByMongoCluster: (
@@ -73,7 +72,6 @@ function _getUsers(context: MongoClusterManagementContext) {
     ) => get(context, resourceGroupName, mongoClusterName, userName, options),
   };
 }
-
 export function _getUsersOperations(context: MongoClusterManagementContext): UsersOperations {
   return {
     ..._getUsers(context),

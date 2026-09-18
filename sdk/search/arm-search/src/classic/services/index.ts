@@ -65,11 +65,6 @@ export interface ServicesOperations {
    * Deletes a search service in the given resource group, along with its associated resources.
    * Returns 200 (OK) on successful deletion, or 204 (No Content) if the service is not found.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     searchServiceName: string,
@@ -115,7 +110,6 @@ export interface ServicesOperations {
     options?: ServicesCheckNameAvailabilityOptionalParams,
   ) => Promise<CheckNameAvailabilityOutput>;
 }
-
 function _getServices(context: SearchManagementContext) {
   return {
     upgrade: (
@@ -195,7 +189,6 @@ function _getServices(context: SearchManagementContext) {
       checkNameAvailability(context, name, options),
   };
 }
-
 export function _getServicesOperations(context: SearchManagementContext): ServicesOperations {
   return {
     ..._getServices(context),

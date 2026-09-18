@@ -35,7 +35,7 @@ export function _refreshSend(
       resourceGroupName: resourceGroupName,
       subscriptionId: context.subscriptionId,
       fabricName: fabricName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       "%24filter": options?.filter,
     },
     {
@@ -90,7 +90,7 @@ export function _inquireSend(
       vaultName: vaultName,
       fabricName: fabricName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       "%24filter": options?.filter,
     },
     {
@@ -150,7 +150,7 @@ export function _unregisterSend(
       vaultName: vaultName,
       fabricName: fabricName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +213,7 @@ export function _registerSend(
       vaultName: vaultName,
       fabricName: fabricName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -271,7 +271,7 @@ export function register(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<ProtectionContainerResource>, ProtectionContainerResource>;
 }
 
@@ -291,7 +291,7 @@ export function _getSend(
       vaultName: vaultName,
       fabricName: fabricName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

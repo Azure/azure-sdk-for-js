@@ -63,7 +63,6 @@ export interface LongTermRetentionPoliciesOperations {
     options?: LongTermRetentionPoliciesGetOptionalParams,
   ) => Promise<LongTermRetentionPolicy>;
 }
-
 function _getLongTermRetentionPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -136,7 +135,6 @@ function _getLongTermRetentionPolicies(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, policyName, options),
   };
 }
-
 export function _getLongTermRetentionPoliciesOperations(
   context: SqlManagementContext,
 ): LongTermRetentionPoliciesOperations {

@@ -3,14 +3,14 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { TagsObject, LocalNetworkGateway } from "../../models/microsoft/network/models.js";
+import type { _LocalNetworkGatewayListResult } from "../../models/models.js";
+import { _localNetworkGatewayListResultDeserializer } from "../../models/models.js";
+import type { TagsObject, LocalNetworkGateway } from "../../models/network/models.js";
 import {
   tagsObjectSerializer,
   localNetworkGatewaySerializer,
   localNetworkGatewayDeserializer,
-} from "../../models/microsoft/network/models.js";
-import type { _LocalNetworkGatewayListResult } from "../../models/models.js";
-import { _localNetworkGatewayListResultDeserializer } from "../../models/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -36,7 +36,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -91,7 +91,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localNetworkGatewayName: localNetworkGatewayName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +127,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, localNetworkGatewayName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -144,7 +144,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localNetworkGatewayName: localNetworkGatewayName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,7 +205,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localNetworkGatewayName: localNetworkGatewayName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,7 +249,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, localNetworkGatewayName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<LocalNetworkGateway>, LocalNetworkGateway>;
 }
 
@@ -265,7 +265,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localNetworkGatewayName: localNetworkGatewayName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

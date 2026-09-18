@@ -4,6 +4,9 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface ExpressRouteCircuitAuthorizationsListKeysOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface ExpressRouteCircuitAuthorizationsListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

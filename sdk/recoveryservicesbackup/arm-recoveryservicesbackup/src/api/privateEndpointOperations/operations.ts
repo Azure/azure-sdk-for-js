@@ -25,7 +25,7 @@ export function _getOperationStatusSend(
       vaultName: vaultName,
       privateEndpointConnectionName: privateEndpointConnectionName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

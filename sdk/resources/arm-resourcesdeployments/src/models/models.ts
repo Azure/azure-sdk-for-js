@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Deployment information. */
 export interface DeploymentExtended extends ExtensionResource {
   /** Deployment properties. */
@@ -458,6 +459,7 @@ export enum KnownAliasPathAttributes {
  * **Modifiable**: The token that the alias path is referring to is modifiable by policies with 'modify' effect.
  */
 export type AliasPathAttributes = string;
+
 /** The type of the alias. */
 export type AliasType = "NotSpecified" | "PlainText" | "Mask";
 
@@ -636,6 +638,14 @@ export function parametersLinkDeserializer(item: any): ParametersLink {
   };
 }
 
+export function deploymentExtensionDefinitionArraySerializer(
+  result: Array<DeploymentExtensionDefinition>,
+): any[] {
+  return result.map((item) => {
+    return deploymentExtensionDefinitionSerializer(item);
+  });
+}
+
 export function deploymentExtensionDefinitionArrayDeserializer(
   result: Array<DeploymentExtensionDefinition>,
 ): any[] {
@@ -652,10 +662,16 @@ export interface DeploymentExtensionDefinition {
   readonly name?: string;
   /** The extension version. */
   readonly version?: string;
-  /** The extension configuration ID. It uniquely identifies a deployment control plane within an extension. */
+  /** The extension configuration ID. It uniquely identifies a deployment target within an extension. */
   readonly configId?: string;
+  /** The extension configuration hash. Can be used to distinguish different configurations that have the same config ID. */
+  readonly configHash?: string;
   /** The extension configuration. */
   readonly config?: Record<string, DeploymentExtensionConfigItem>;
+}
+
+export function deploymentExtensionDefinitionSerializer(_item: DeploymentExtensionDefinition): any {
+  return {};
 }
 
 export function deploymentExtensionDefinitionDeserializer(
@@ -666,6 +682,7 @@ export function deploymentExtensionDefinitionDeserializer(
     name: item["name"],
     version: item["version"],
     configId: item["configId"],
+    configHash: item["configHash"],
     config: !item["config"]
       ? item["config"]
       : deploymentExtensionConfigItemRecordDeserializer(item["config"]),
@@ -692,10 +709,8 @@ export function deploymentExtensionConfigItemRecordDeserializer(
   return result;
 }
 
-/** model interface DeploymentExtensionConfigItem */
+/** Represents the value for an extension config property. */
 export interface DeploymentExtensionConfigItem {
-  /** The value type of the extension config property. */
-  readonly type?: ExtensionConfigPropertyType;
   /** The value of the extension config property. */
   value?: any;
   /** The Azure Key Vault reference used to retrieve the secret value of the extension config property. */
@@ -715,34 +730,12 @@ export function deploymentExtensionConfigItemDeserializer(
   item: any,
 ): DeploymentExtensionConfigItem {
   return {
-    type: item["type"],
     value: item["value"],
     keyVaultReference: !item["keyVaultReference"]
       ? item["keyVaultReference"]
       : keyVaultParameterReferenceDeserializer(item["keyVaultReference"]),
   };
 }
-
-/** Known values of {@link ExtensionConfigPropertyType} that the service accepts. */
-export enum KnownExtensionConfigPropertyType {
-  /** Property type representing a string value. */
-  String = "String",
-  /** Property type representing an integer value. */
-  Int = "Int",
-  /** Property type representing a boolean value. */
-  Bool = "Bool",
-  /** Property type representing an array value. */
-  Array = "Array",
-  /** Property type representing an object value. */
-  Object = "Object",
-  /** Property type representing a secure string value. */
-  SecureString = "SecureString",
-  /** Property type representing a secure object value. */
-  SecureObject = "SecureObject",
-}
-
-/** Type of ExtensionConfigPropertyType */
-export type ExtensionConfigPropertyType = string;
 
 /** Azure Key Vault parameter reference. */
 export interface KeyVaultParameterReference {
@@ -844,6 +837,8 @@ export interface ResourceReference {
   readonly identifiers?: any;
   /** The API version the resource was deployed with. */
   readonly apiVersion?: string;
+  /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
+  symbolicNamePath?: string[];
 }
 
 export function resourceReferenceDeserializer(item: any): ResourceReference {
@@ -855,6 +850,11 @@ export function resourceReferenceDeserializer(item: any): ResourceReference {
     resourceType: item["resourceType"],
     identifiers: item["identifiers"],
     apiVersion: item["apiVersion"],
+    symbolicNamePath: !item["symbolicNamePath"]
+      ? item["symbolicNamePath"]
+      : item["symbolicNamePath"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1467,6 +1467,8 @@ export function scopedDeploymentWhatIfSerializer(item: ScopedDeploymentWhatIf): 
 export interface DeploymentWhatIfProperties extends DeploymentProperties {
   /** Optional What-If operation settings. */
   whatIfSettings?: DeploymentWhatIfSettings;
+  /** Resource predictions that can be utilized by what-if to produce potential modification changes. */
+  resourcePredictions?: DeploymentResourceWhatIfPrediction[];
 }
 
 export function deploymentWhatIfPropertiesSerializer(item: DeploymentWhatIfProperties): any {
@@ -1504,6 +1506,9 @@ export function deploymentWhatIfPropertiesSerializer(item: DeploymentWhatIfPrope
     whatIfSettings: !item["whatIfSettings"]
       ? item["whatIfSettings"]
       : deploymentWhatIfSettingsSerializer(item["whatIfSettings"]),
+    resourcePredictions: !item["resourcePredictions"]
+      ? item["resourcePredictions"]
+      : deploymentResourceWhatIfPredictionArraySerializer(item["resourcePredictions"]),
   };
 }
 
@@ -1519,6 +1524,47 @@ export function deploymentWhatIfSettingsSerializer(item: DeploymentWhatIfSetting
 
 /** The format of the What-If results */
 export type WhatIfResultFormat = "ResourceIdOnly" | "FullResourcePayloads";
+
+export function deploymentResourceWhatIfPredictionArraySerializer(
+  result: Array<DeploymentResourceWhatIfPrediction>,
+): any[] {
+  return result.map((item) => {
+    return deploymentResourceWhatIfPredictionSerializer(item);
+  });
+}
+
+/** A prediction for a deployment resource by its symbolic name path. */
+export interface DeploymentResourceWhatIfPrediction {
+  /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
+  symbolicNamePath: string[];
+  /** The predicted fully-qualified Azure resource ID. */
+  resourceId?: string;
+  /** The predicted extension usage. */
+  extension?: DeploymentExtensionDefinition;
+  /** The predicted resource type. */
+  resourceType?: string;
+  /** The predicted extensible resource identifiers. */
+  identifiers?: any;
+  /** The predicted API version. */
+  apiVersion?: string;
+}
+
+export function deploymentResourceWhatIfPredictionSerializer(
+  item: DeploymentResourceWhatIfPrediction,
+): any {
+  return {
+    symbolicNamePath: item["symbolicNamePath"].map((p: any) => {
+      return p;
+    }),
+    resourceId: item["resourceId"],
+    extension: !item["extension"]
+      ? item["extension"]
+      : deploymentExtensionDefinitionSerializer(item["extension"]),
+    resourceType: item["resourceType"],
+    identifiers: item["identifiers"],
+    apiVersion: item["apiVersion"],
+  };
+}
 
 /** Result of the What-If operation. Contains a list of predicted changes and a URL link to get to the next set of results. */
 export interface WhatIfOperationResult {
@@ -1574,12 +1620,14 @@ export function whatIfChangeArrayDeserializer(result: Array<WhatIfChange>): any[
 
 /** Information about a single resource change predicted by What-If operation. */
 export interface WhatIfChange {
-  /** Resource ID */
+  /** The fully-qualified ARM resource ID for this change. */
   resourceId?: string;
   /** The resource id of the Deployment responsible for this change. */
   deploymentId?: string;
   /** The symbolic name of the resource responsible for this change. */
   symbolicName?: string;
+  /** The resource type of the resource. */
+  resourceType?: string;
   /** A subset of properties that uniquely identify a Bicep extensible resource because it lacks a resource id like an Azure resource has. */
   identifiers?: any;
   /** The extension the resource was deployed with. */
@@ -1601,6 +1649,7 @@ export function whatIfChangeDeserializer(item: any): WhatIfChange {
     resourceId: item["resourceId"],
     deploymentId: item["deploymentId"],
     symbolicName: item["symbolicName"],
+    resourceType: item["resourceType"],
     identifiers: item["identifiers"],
     extension: !item["extension"]
       ? item["extension"]
@@ -1791,6 +1840,8 @@ export interface TargetResource {
   apiVersion?: string;
   /** The symbolic name of the resource as defined in the deployment template. */
   symbolicName?: string;
+  /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
+  symbolicNamePath?: string[];
 }
 
 export function targetResourceDeserializer(item: any): TargetResource {
@@ -1804,6 +1855,11 @@ export function targetResourceDeserializer(item: any): TargetResource {
     identifiers: item["identifiers"],
     apiVersion: item["apiVersion"],
     symbolicName: item["symbolicName"],
+    symbolicNamePath: !item["symbolicNamePath"]
+      ? item["symbolicNamePath"]
+      : item["symbolicNamePath"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1846,6 +1902,8 @@ export function deploymentOperationArrayDeserializer(result: Array<DeploymentOpe
 export enum KnownVersions {
   /** The 2025-04-01 API version. */
   V20250401 = "2025-04-01",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
 }
 
 export function _whatIfOperationResultPropertiesDeserializer(item: any) {
