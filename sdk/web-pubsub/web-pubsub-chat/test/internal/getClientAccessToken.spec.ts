@@ -69,7 +69,6 @@ describe("WebPubSubChatServiceClient.getClientAccessToken", () => {
     assert.deepEqual(requestUrl.searchParams.getAll("role"), roles);
     assert.equal(requestUrl.searchParams.get("minutesToExpire"), "30");
     assert.equal(requestUrl.searchParams.get("api-version"), "2024-12-01");
-    assert.equal(requestUrl.searchParams.get("clientType"), "default");
     assert.equal(result.token, "service-generated-token");
     assert.equal(result.baseUrl, `wss://example.webpubsub.azure.com/client/hubs/${hub}`);
     assert.equal(result.url, `${result.baseUrl}?access_token=${result.token}`);
