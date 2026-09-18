@@ -1,5 +1,7 @@
 ---
 on:
+  check_suite:
+    types: [completed]
   pull_request_target:
     types: [labeled]
     forks: ["*"]
@@ -20,13 +22,104 @@ on:
     issues: write
     pull-requests: write
   steps:
-    - name: Wait for Copilot code review
-      id: wait_for_copilot_review
-      if: github.event_name == 'workflow_dispatch' && github.event.inputs.wait_for_copilot_review == 'true'
+    - name: Resolve target pull request
+      id: gate
       uses: actions/github-script@v9.0.0
       with:
         script: |
-          const pr = Number(context.payload.inputs.item_number);
+          if (context.eventName === 'workflow_dispatch') {
+            core.setOutput('pr_number', context.payload.inputs.item_number);
+            core.setOutput('ready', 'true');
+            return;
+          }
+
+          if (context.eventName === 'pull_request_target') {
+            const isTriggerLabel = context.payload.label?.name === 'mgmt-review-needed';
+            core.setOutput('pr_number', String(context.payload.pull_request.number));
+            core.setOutput('ready', String(isTriggerLabel));
+            return;
+          }
+
+          const prs = context.payload.check_suite?.pull_requests || [];
+
+          if (prs.length === 0) {
+            core.setOutput('ready', 'false');
+            core.notice('Check Suite is not associated with a pull request.');
+            return;
+          }
+
+          for (const prRef of prs) {
+            const prNumber = prRef.number;
+            const { data: pr } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: prNumber,
+            });
+
+            const labels = new Set(
+              (pr.labels || []).map((label) => label.name.toLowerCase()),
+            );
+            const isAutoPR = (pr.title || '').includes('AutoPR');
+            const hasMgmt = labels.has('mgmt');
+            const alreadyReviewed = labels.has('mgmt-review-added');
+            const reviewInProgress = labels.has('mgmt-review-in-progress');
+
+            core.info(
+              `PR #${prNumber}: ` +
+              `AutoPR=${isAutoPR}, ` +
+              `mgmt=${hasMgmt}, ` +
+              `reviewed=${alreadyReviewed}, ` +
+              `inProgress=${reviewInProgress}`
+            );
+
+            if (
+              isAutoPR &&
+              hasMgmt &&
+              !alreadyReviewed &&
+              !reviewInProgress
+            ) {
+              core.setOutput('ready', 'true');
+              core.setOutput('pr_number', String(prNumber));
+              return;
+            }
+          }
+
+          core.setOutput('ready', 'false');
+    - name: Mark review in progress
+      if: steps.gate.outputs.ready == 'true'
+      uses: actions/github-script@v9.0.0
+      env:
+        PR_NUMBER: ${{ steps.gate.outputs.pr_number }}
+      with:
+        script: |
+          const pr = Number(process.env.PR_NUMBER);
+
+          // Remove trigger label
+          try {
+            await github.rest.issues.removeLabel({
+              ...context.repo,
+              issue_number: pr,
+              name: 'mgmt-review-needed'
+            });
+          } catch (e) {
+            core.warning(`Could not remove trigger label: ${e.message}`);
+          }
+          // Add in-progress label
+          try {
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: pr,
+              labels: ['mgmt-review-in-progress']
+            });
+          } catch (e) {
+            core.warning(`Could not add in-progress label: ${e.message}`);
+          }
+    - name: Wait for Copilot code review
+      id: wait_for_copilot_review
+      if: steps.gate.outputs.ready == 'true' && github.event_name == 'workflow_dispatch' && github.event.inputs.wait_for_copilot_review == 'true'
+      uses: actions/github-script@v9.0.0
+      with:
+        script: |
+          const pr = Number('${{ steps.gate.outputs.pr_number }}');
           const { data: pullRequest } = await github.rest.pulls.get({
             ...context.repo,
             pull_number: pr,
@@ -59,11 +152,11 @@ on:
           core.warning('Timed out waiting for Copilot code review to complete; skipping comment resolution');
           core.setOutput('completed', 'false');
     - name: Resolve Copilot review comments
-      if: github.event_name != 'workflow_dispatch' || github.event.inputs.wait_for_copilot_review != 'true' || steps.wait_for_copilot_review.outputs.completed == 'true'
+      if: steps.gate.outputs.ready == 'true' && (github.event_name != 'workflow_dispatch' || github.event.inputs.wait_for_copilot_review != 'true' || steps.wait_for_copilot_review.outputs.completed == 'true')
       uses: actions/github-script@v9.0.0
       with:
         script: |
-          const pr = context.payload.pull_request?.number ?? Number(context.payload.inputs?.item_number);
+          const pr = Number('${{ steps.gate.outputs.pr_number }}');
           let cursor = null;
 
           do {
@@ -111,39 +204,18 @@ on:
 
             cursor = threads.pageInfo.hasNextPage ? threads.pageInfo.endCursor : null;
           } while (cursor);
-    - name: Swap trigger label to in-progress
-      id: swap_label
-      if: github.event_name == 'pull_request_target' && github.event.label.name == 'mgmt-review-needed'
-      uses: actions/github-script@v9.0.0
-      with:
-        script: |
-          const pr = context.payload.pull_request.number;
-          // Remove trigger label
-          try {
-            await github.rest.issues.removeLabel({
-              ...context.repo,
-              issue_number: pr,
-              name: 'mgmt-review-needed'
-            });
-          } catch (e) {
-            core.warning(`Could not remove trigger label: ${e.message}`);
-          }
-          // Add in-progress label
-          try {
-            await github.rest.issues.addLabels({
-              ...context.repo,
-              issue_number: pr,
-              labels: ['mgmt-review-in-progress']
-            });
-          } catch (e) {
-            core.warning(`Could not add in-progress label: ${e.message}`);
-          }
+jobs:
+  pre-activation:
+    outputs:
+      pr_number: ${{ steps.gate.outputs.pr_number }}
+      ready: ${{ steps.gate.outputs.ready }}
 checkout: false
 labels: [mgmt-review-needed]
-if: github.event.label.name == 'mgmt-review-needed' || github.event_name == 'workflow_dispatch'
+if: needs.pre_activation.outputs.ready == 'true' && needs.pre_activation.outputs.pr_number != ''
 concurrency:
-  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}-${{ github.event.label.name || '' }}"
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.check_suite.pull_requests[0].number || github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}"
   cancel-in-progress: true
+  job-discriminator: ${{ github.run_id }}
 description: "Review a pull request for management-plane SDKs"
 permissions:
   contents: read
@@ -188,17 +260,17 @@ safe-outputs:
   create-pull-request-review-comment:
     max: 10
     side: "RIGHT"
-    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+    target: "${{ needs.pre_activation.outputs.pr_number }}"
   submit-pull-request-review:
     max: 1
     footer: "if-body"
-    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+    target: "${{ needs.pre_activation.outputs.pr_number }}"
   add-labels:
     max: 1
-    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+    target: "${{ needs.pre_activation.outputs.pr_number }}"
   remove-labels:
     max: 1
-    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+    target: "${{ needs.pre_activation.outputs.pr_number }}"
   dispatch-workflow:
     - format-auto-fix
   messages:
@@ -215,7 +287,7 @@ timeout-minutes: 35
 You are an SDK release assistant that reviews management-plane SDK PRs and provides API surface and tooling review comments.
 
 ## Workflow to review the management PR
-Review Azure SDK for JS management library pull request #${{ github.event.pull_request.number }} against the official API review guidelines.
+Review Azure SDK for JS management library pull request #${{ needs.pre_activation.outputs.pr_number }} against the official API review guidelines.
 
 Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guidelines.md).
 
@@ -304,4 +376,4 @@ After completing all review steps, update the PR labels to indicate completion:
 1. Remove the `mgmt-review-in-progress` label
 2. Add the `mgmt-review-added` label
 
-Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.
+Use the GitHub MCP tool to manage these labels on PR #${{ needs.pre_activation.outputs.pr_number }}.
