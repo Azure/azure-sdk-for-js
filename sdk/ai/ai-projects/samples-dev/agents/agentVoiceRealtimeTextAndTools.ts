@@ -25,7 +25,7 @@ import "dotenv/config";
 
 const projectEndpoint = getRequiredEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
 const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-text-${Date.now()}`;
-const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
+const modelName = process.env["FOUNDRY_VOICE_AGENT_MODEL"]?.trim() || "gpt-realtime";
 const audioOutputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "voice-agent-output.pcm";
 const preview = "VoiceAgents=V1Preview" as const;
