@@ -5,21 +5,23 @@ const { ContainerInstanceManagementClient } = require("@azure/arm-containerinsta
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get a SandboxGroup
+ * This sample demonstrates how to update an AiAgentsGroup
  *
- * @summary get a SandboxGroup
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsGet.json
+ * @summary update an AiAgentsGroup
+ * x-ms-original-file: 2026-08-01-preview/AiAgentsGroupsUpdate.json
  */
-async function getASandboxGroup() {
+async function updateAAiAgentsGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
-  const result = await client.sandboxGroups.get("myResourceGroup", "mySandboxGroup");
+  const result = await client.aiAgentsGroups.update("myResourceGroup", "myAiAgentsGroup", {
+    tags: { environment: "production" },
+  });
   console.log(result);
 }
 
 async function main() {
-  await getASandboxGroup();
+  await updateAAiAgentsGroup();
 }
 
 main().catch(console.error);

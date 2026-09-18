@@ -63,7 +63,6 @@ export interface CGProfileOperations {
     options?: CGProfileGetByRevisionNumberOptionalParams,
   ) => Promise<ContainerGroupProfile>;
 }
-
 function _getCGProfile(context: ContainerInstanceManagementContext) {
   return {
     delete: (
@@ -115,7 +114,6 @@ function _getCGProfile(context: ContainerInstanceManagementContext) {
       ),
   };
 }
-
 export function _getCGProfileOperations(
   context: ContainerInstanceManagementContext,
 ): CGProfileOperations {

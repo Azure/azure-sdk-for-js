@@ -104,18 +104,18 @@
         "default": "./dist/commonjs/api/containers/index.js"
       }
     },
-    "./api/sandboxGroups": {
+    "./api/aiAgentsGroups": {
       "browser": {
-        "types": "./dist/browser/api/sandboxGroups/index.d.ts",
-        "default": "./dist/browser/api/sandboxGroups/index.js"
+        "types": "./dist/browser/api/aiAgentsGroups/index.d.ts",
+        "default": "./dist/browser/api/aiAgentsGroups/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/sandboxGroups/index.d.ts",
-        "default": "./dist/esm/api/sandboxGroups/index.js"
+        "types": "./dist/esm/api/aiAgentsGroups/index.d.ts",
+        "default": "./dist/esm/api/aiAgentsGroups/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/sandboxGroups/index.d.ts",
-        "default": "./dist/commonjs/api/sandboxGroups/index.js"
+        "types": "./dist/commonjs/api/aiAgentsGroups/index.d.ts",
+        "default": "./dist/commonjs/api/aiAgentsGroups/index.js"
       }
     },
     "./api/cgProfile": {

@@ -24,7 +24,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,7 +46,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete container group virtual network association links. The operation does not delete other resources provided by the user. */
 export function $delete(
   context: Client,
@@ -61,6 +60,6 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, virtualNetworkName, subnetName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
