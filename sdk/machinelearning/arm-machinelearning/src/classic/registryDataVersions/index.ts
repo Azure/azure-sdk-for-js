@@ -104,7 +104,6 @@ export interface RegistryDataVersionsOperations {
     options?: RegistryDataVersionsGetOptionalParams,
   ) => Promise<DataVersionBase>;
 }
-
 function _getRegistryDataVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     createOrGetStartPendingUpload: (
@@ -212,7 +211,6 @@ function _getRegistryDataVersions(context: AzureMachineLearningServicesManagemen
     ) => get(context, resourceGroupName, registryName, name, version, options),
   };
 }
-
 export function _getRegistryDataVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RegistryDataVersionsOperations {

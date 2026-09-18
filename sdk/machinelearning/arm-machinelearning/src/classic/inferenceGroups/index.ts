@@ -198,7 +198,6 @@ export interface InferenceGroupsOperations {
     options?: InferenceGroupsGetOptionalParams,
   ) => Promise<InferenceGroup>;
 }
-
 function _getInferenceGroups(context: AzureMachineLearningServicesManagementContext) {
   return {
     listSkus: (
@@ -446,7 +445,6 @@ function _getInferenceGroups(context: AzureMachineLearningServicesManagementCont
     ) => get(context, resourceGroupName, workspaceName, poolName, groupName, options),
   };
 }
-
 export function _getInferenceGroupsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): InferenceGroupsOperations {

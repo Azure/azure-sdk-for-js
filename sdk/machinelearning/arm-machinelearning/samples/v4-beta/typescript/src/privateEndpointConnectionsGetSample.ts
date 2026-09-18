@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to called by end-users to get a PE connection.
  *
  * @summary called by end-users to get a PE connection.
- * x-ms-original-file: 2026-03-15-preview/PrivateEndpointConnection/get.json
+ * x-ms-original-file: 2026-05-15-preview/PrivateEndpointConnection/get.json
  */
 async function workspaceGetPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

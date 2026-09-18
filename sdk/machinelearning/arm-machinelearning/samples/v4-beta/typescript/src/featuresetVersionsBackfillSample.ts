@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to backfill.
  *
  * @summary backfill.
- * x-ms-original-file: 2026-03-15-preview/Workspace/FeaturesetVersion/backfill.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/FeaturesetVersion/backfill.json
  */
 async function backfillWorkspaceFeaturesetVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

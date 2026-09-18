@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list versions.
  *
  * @summary list versions.
- * x-ms-original-file: 2026-03-15-preview/Registry/EnvironmentVersion/list.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/EnvironmentVersion/list.json
  */
 async function listRegistryEnvironmentVersion() {
   const credential = new DefaultAzureCredential();

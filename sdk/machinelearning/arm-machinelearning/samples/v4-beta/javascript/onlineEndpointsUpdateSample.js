@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update Online Endpoint (asynchronous).
  *
  * @summary update Online Endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/OnlineEndpoint/update.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/OnlineEndpoint/update.json
  */
 async function updateWorkspaceOnlineEndpoint() {
   const credential = new DefaultAzureCredential();

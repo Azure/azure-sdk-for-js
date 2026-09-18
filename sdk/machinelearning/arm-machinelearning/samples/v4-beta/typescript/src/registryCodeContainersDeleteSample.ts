@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Code container.
  *
  * @summary delete Code container.
- * x-ms-original-file: 2026-03-15-preview/Registry/CodeContainer/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/CodeContainer/delete.json
  */
 async function deleteRegistryCodeContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

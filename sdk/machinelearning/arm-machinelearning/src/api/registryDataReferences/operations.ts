@@ -33,7 +33,7 @@ export function _getBlobReferenceSASSend(
       registryName: registryName,
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,6 @@ export async function _getBlobReferenceSASDeserialize(
 
   return getBlobReferenceSASResponseDtoDeserializer(result.body);
 }
-
 /** Get blob reference SAS Uri. */
 export async function getBlobReferenceSAS(
   context: Client,

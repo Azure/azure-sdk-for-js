@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists keys of Azure Machine Learning Workspace's storage account.
  *
  * @summary lists keys of Azure Machine Learning Workspace's storage account.
- * x-ms-original-file: 2026-03-15-preview/Workspace/listStorageAccountKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/listStorageAccountKeys.json
  */
 async function listWorkspaceKeys() {
   const credential = new DefaultAzureCredential();

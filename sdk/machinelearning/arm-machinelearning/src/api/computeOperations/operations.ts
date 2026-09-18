@@ -70,7 +70,7 @@ export function _resizeSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +96,6 @@ export async function _resizeDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Updates the size of a Compute Instance. */
 export function resize(
   context: Client,
@@ -112,7 +111,7 @@ export function resize(
     getInitialResponse: () =>
       _resizeSend(context, resourceGroupName, workspaceName, computeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -130,7 +129,7 @@ export function _getAllowedResizeSizesSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -157,7 +156,6 @@ export async function _getAllowedResizeSizesDeserialize(
 
   return virtualMachineSizeListResultDeserializer(result.body);
 }
-
 /** Returns supported virtual machine sizes for resize. */
 export async function getAllowedResizeSizes(
   context: Client,
@@ -191,7 +189,7 @@ export function _updateIdleShutdownSettingSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,7 +217,6 @@ export async function _updateIdleShutdownSettingDeserialize(
 
   return;
 }
-
 /** Updates the idle shutdown setting of a compute instance. */
 export async function updateIdleShutdownSetting(
   context: Client,
@@ -254,7 +251,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -276,7 +273,6 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Posts a restart action to a compute instance */
 export function restart(
   context: Client,
@@ -291,7 +287,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, workspaceName, computeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -309,7 +305,7 @@ export function _stopSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,7 +327,6 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
 
   return;
 }
-
 /** Posts a stop action to a compute instance */
 export function stop(
   context: Client,
@@ -346,7 +341,7 @@ export function stop(
     getInitialResponse: () =>
       _stopSend(context, resourceGroupName, workspaceName, computeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -364,7 +359,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -386,7 +381,6 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
-
 /** Posts a start action to a compute instance */
 export function start(
   context: Client,
@@ -401,7 +395,7 @@ export function start(
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, workspaceName, computeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -420,7 +414,7 @@ export function _updateDataMountsSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -446,7 +440,6 @@ export async function _updateDataMountsDeserialize(result: PathUncheckedResponse
 
   return;
 }
-
 /** Update Data Mounts of a Machine Learning compute. */
 export async function updateDataMounts(
   context: Client,
@@ -481,7 +474,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -508,7 +501,6 @@ export async function _listKeysDeserialize(
 
   return computeSecretsUnionDeserializer(result.body);
 }
-
 /** Gets secrets related to Machine Learning compute (storage keys, service credentials, etc). */
 export async function listKeys(
   context: Client,
@@ -541,7 +533,7 @@ export function _listNodesSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -568,7 +560,6 @@ export async function _listNodesDeserialize(
 
   return _amlComputeNodesInformationDeserializer(result.body);
 }
-
 /** Get the details (e.g IP address, port etc) of all the compute nodes in the compute. */
 export function listNodes(
   context: Client,
@@ -585,7 +576,7 @@ export function listNodes(
     {
       itemName: "nodes",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -605,7 +596,7 @@ export function _updateCustomServicesSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -633,7 +624,6 @@ export async function _updateCustomServicesDeserialize(
 
   return;
 }
-
 /** Updates the custom services list. The list of custom services provided shall be overwritten. */
 export async function updateCustomServices(
   context: Client,
@@ -666,7 +656,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24skip": options?.skip,
     },
     {
@@ -694,7 +684,6 @@ export async function _listDeserialize(
 
   return _paginatedComputeResourcesListDeserializer(result.body);
 }
-
 /** Gets computes in specified workspace. */
 export function list(
   context: Client,
@@ -710,7 +699,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -730,7 +719,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       underlyingResourceAction: underlyingResourceAction,
     },
     {
@@ -753,7 +742,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes specified Machine Learning compute. */
 export function $delete(
   context: Client,
@@ -776,7 +764,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -795,7 +783,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -822,7 +810,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return computeResourceDeserializer(result.body);
 }
-
 /** Updates properties of a compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. */
 export function update(
   context: Client,
@@ -838,7 +825,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, computeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<ComputeResource>, ComputeResource>;
 }
 
@@ -857,7 +844,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -886,7 +873,6 @@ export async function _createOrUpdateDeserialize(
 
   return computeResourceDeserializer(result.body);
 }
-
 /** Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet. */
 export function createOrUpdate(
   context: Client,
@@ -909,7 +895,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<ComputeResource>, ComputeResource>;
 }
 
@@ -927,7 +913,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -952,7 +938,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return computeResourceDeserializer(result.body);
 }
-
 /** Gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them. */
 export async function get(
   context: Client,

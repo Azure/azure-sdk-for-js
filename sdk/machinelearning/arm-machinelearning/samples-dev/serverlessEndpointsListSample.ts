@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Serverless Endpoints.
  *
  * @summary list Serverless Endpoints.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ServerlessEndpoint/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ServerlessEndpoint/list.json
  */
 async function listWorkspaceServerlessEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

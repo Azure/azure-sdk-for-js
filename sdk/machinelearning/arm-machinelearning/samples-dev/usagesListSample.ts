@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the current usage information as well as limits for AML resources for given subscription and location.
  *
  * @summary gets the current usage information as well as limits for AML resources for given subscription and location.
- * x-ms-original-file: 2026-03-15-preview/Usage/list.json
+ * x-ms-original-file: 2026-05-15-preview/Usage/list.json
  */
 async function listUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -92,7 +92,6 @@ export interface ManagedNetworkSettingsOperations {
     options?: ManagedNetworkSettingsGetOptionalParams,
   ) => Promise<ManagedNetworkSettingsPropertiesBasicResource>;
 }
-
 function _getManagedNetworkSettings(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -173,7 +172,6 @@ function _getManagedNetworkSettings(context: AzureMachineLearningServicesManagem
     ) => get(context, resourceGroupName, workspaceName, managedNetworkName, options),
   };
 }
-
 export function _getManagedNetworkSettingsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ManagedNetworkSettingsOperations {

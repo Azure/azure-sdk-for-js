@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to posts a restart action to a compute instance
  *
  * @summary posts a restart action to a compute instance
- * x-ms-original-file: 2026-03-15-preview/Compute/restart.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/restart.json
  */
 async function restartComputeInstanceCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();

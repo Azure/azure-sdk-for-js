@@ -52,7 +52,7 @@ export function _regenerateKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,7 +81,6 @@ export async function _regenerateKeysDeserialize(
 
   return accountApiKeysDeserializer(result.body);
 }
-
 /** Regenerate account keys */
 export async function regenerateKeys(
   context: Client,
@@ -116,7 +115,7 @@ export function _getModelsSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,7 +142,6 @@ export async function _getModelsDeserialize(
 
   return endpointModelsDeserializer(result.body);
 }
-
 /** Get available models under the endpoint resource. */
 export function getModels(
   context: Client,
@@ -160,7 +158,7 @@ export function getModels(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -179,7 +177,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +202,6 @@ export async function _listKeysDeserialize(result: PathUncheckedResponse): Promi
 
   return endpointKeysDeserializer(result.body);
 }
-
 /** List keys for the endpoint resource. */
 export async function listKeys(
   context: Client,
@@ -235,7 +232,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       endpointType: options?.endpointType,
       includeOnlineEndpoints: options?.includeOnlineEndpoints ?? false,
       includeServerlessEndpoints: options?.includeServerlessEndpoints ?? false,
@@ -268,7 +265,6 @@ export async function _listDeserialize(
 
   return _endpointResourcePropertiesBasicResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List All the endpoints under this workspace */
 export function list(
   context: Client,
@@ -284,7 +280,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -304,7 +300,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -333,7 +329,6 @@ export async function _createOrUpdateDeserialize(
 
   return endpointResourcePropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Create or update endpoint resource with the specified parameters */
 export function createOrUpdate(
   context: Client,
@@ -352,7 +347,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, workspaceName, endpointName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<
     OperationState<EndpointResourcePropertiesBasicResource>,
     EndpointResourcePropertiesBasicResource
@@ -373,7 +368,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -400,7 +395,6 @@ export async function _getDeserialize(
 
   return endpointResourcePropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Gets endpoint resource */
 export async function get(
   context: Client,

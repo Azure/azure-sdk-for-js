@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a batch inference deployment by id.
  *
  * @summary gets a batch inference deployment by id.
- * x-ms-original-file: 2026-03-15-preview/Workspace/BatchDeployment/get.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/BatchDeployment/get.json
  */
 async function getWorkspaceBatchDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

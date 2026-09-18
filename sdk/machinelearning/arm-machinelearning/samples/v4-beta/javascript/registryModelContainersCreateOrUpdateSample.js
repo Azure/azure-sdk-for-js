@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update model container.
  *
  * @summary create or update model container.
- * x-ms-original-file: 2026-03-15-preview/Registry/ModelContainer/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/ModelContainer/createOrUpdate.json
  */
 async function createOrUpdateRegistryModelContainer() {
   const credential = new DefaultAzureCredential();

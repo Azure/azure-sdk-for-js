@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerate account keys
  *
  * @summary regenerate account keys
- * x-ms-original-file: 2026-03-15-preview/Endpoint/regenerateKey.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/regenerateKey.json
  */
 async function regenerateEndpointKeys() {
   const credential = new DefaultAzureCredential();
