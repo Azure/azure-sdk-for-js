@@ -8371,7 +8371,7 @@ importers:
         specifier: catalog:testing
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
 
-  sdk/contentsafety/ai-content-safety-rest:
+  sdk/contentsafety/ai-content-safety:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.7.0
