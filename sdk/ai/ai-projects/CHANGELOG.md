@@ -1,6 +1,6 @@
 # Release History
 
-## 2.7.0 (Unreleased)
+## 2.7.0 (2026-09-18)
 
 ### Breaking Changes
 
