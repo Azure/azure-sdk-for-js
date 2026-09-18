@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-deviceprovisioningservices",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "A generated SDK for IotDpsClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -87,7 +87,8 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-deviceprovisioningservices",
