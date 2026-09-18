@@ -27,4 +27,8 @@ typescript:
   generate-metadata: false
   azure-arm: false
 module-kind: esm
+directive:
+  from: swagger-document
+  where: $.info
+  transform: $.version = "2026-09-23";
 ```
