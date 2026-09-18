@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Network": "2024-04-01-preview"
+    "Microsoft.Network": "2026-09-01"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Network",
     "CrossLanguageDefinitionId": {
