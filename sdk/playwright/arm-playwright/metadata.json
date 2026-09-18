@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Playwright.Management": "2026-02-01-preview"
+    "Playwright.Management": "2026-08-01-preview"
   },
-  "emitterVersion": "0.51.1",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Playwright.Management",
     "CrossLanguageDefinitionId": {
