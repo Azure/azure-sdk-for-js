@@ -53,7 +53,7 @@ export interface ScheduleOperationsOperations {
     scheduleName: string,
     parameters: ScheduleCreateOrUpdateParameters,
     options?: ScheduleOperationsCreateOrUpdateOptionalParams,
-  ) => Promise<Schedule | undefined>;
+  ) => Promise<Schedule | void>;
   /** Retrieve the schedule identified by schedule name. */
   get: (
     resourceGroupName: string,

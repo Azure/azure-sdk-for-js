@@ -2742,7 +2742,7 @@ export interface ScheduleOperationsListByAutomationAccountOptionalParams extends
 
 // @public
 export interface ScheduleOperationsOperations {
-    createOrUpdate: (resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: ScheduleCreateOrUpdateParameters, options?: ScheduleOperationsCreateOrUpdateOptionalParams) => Promise<Schedule | undefined>;
+    createOrUpdate: (resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: ScheduleCreateOrUpdateParameters, options?: ScheduleOperationsCreateOrUpdateOptionalParams) => Promise<Schedule | void>;
     delete: (resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: ScheduleOperationsDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: ScheduleOperationsGetOptionalParams) => Promise<Schedule>;
     listByAutomationAccount: (resourceGroupName: string, automationAccountName: string, options?: ScheduleOperationsListByAutomationAccountOptionalParams) => PagedAsyncIterableIterator<Schedule>;

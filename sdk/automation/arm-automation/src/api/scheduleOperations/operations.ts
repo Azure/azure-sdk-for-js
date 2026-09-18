@@ -233,7 +233,7 @@ export function _createOrUpdateSend(
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<Schedule | undefined> {
+): Promise<Schedule | void> {
   const expectedStatuses = ["200", "201", "409"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -244,7 +244,11 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return result.body ? scheduleDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return scheduleDeserializer(result.body);
 }
 
 /** Create a schedule. */
@@ -255,7 +259,7 @@ export async function createOrUpdate(
   scheduleName: string,
   parameters: ScheduleCreateOrUpdateParameters,
   options: ScheduleOperationsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<Schedule | undefined> {
+): Promise<Schedule | void> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
