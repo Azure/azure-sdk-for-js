@@ -9507,6 +9507,52 @@ importers:
         specifier: catalog:testing
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
 
+  sdk/core/provisioning-core:
+    dependencies:
+      pluralize:
+        specifier: ^8.0.0
+        version: 8.0.0
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.1
+      '@types/pluralize':
+        specifier: ^0.0.33
+        version: 0.0.33
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.10(playwright@1.62.0)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))(vitest@4.1.10)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.10(supports-color@8.1.1)(vitest@4.1.10)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.8.0(supports-color@8.1.1)
+      playwright:
+        specifier: catalog:testing
+        version: 1.62.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.6
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
+
   sdk/core/ts-http-runtime:
     dependencies:
       http-proxy-agent:
@@ -18517,6 +18563,49 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
+
+  sdk/keyvault/provisioning-keyvault:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: workspace:1.0.0-beta.1
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.1
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.10(playwright@1.62.0)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))(vitest@4.1.10)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.10(supports-color@8.1.1)(vitest@4.1.10)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.8.0(supports-color@8.1.1)
+      playwright:
+        specifier: catalog:testing
+        version: 1.62.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.6
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
 
   sdk/kubernetesconfiguration/arm-kubernetesconfiguration:
     dependencies:
@@ -38000,6 +38089,9 @@ packages:
   '@types/pg@8.15.6':
     resolution: {integrity: sha1-TfdZC5rFV8vlR54AdOwVQMvdrZs=}
 
+  '@types/pluralize@0.0.33':
+    resolution: {integrity: sha1-itkBg2jFhNJoZn3ZrNWzuAboyCo=}
+
   '@types/priorityqueuejs@1.0.4':
     resolution: {integrity: sha1-2bRDYvzf+CCTvQCtA1fJgTggg+g=}
 
@@ -40767,6 +40859,10 @@ packages:
     resolution: {integrity: sha1-7d7blLDkkqbHQlpgKw6t6jXHFSY=}
     engines: {node: '>=20'}
     hasBin: true
+
+  pluralize@8.0.0:
+    resolution: {integrity: sha1-Gm+hajjRKhkB4DIPoBcFHFOc47E=}
+    engines: {node: '>=4'}
 
   pngjs@7.0.0:
     resolution: {integrity: sha1-qLdEYCDrvGrHOdtsVBWmXRcJDiY=}
@@ -44564,6 +44660,8 @@ snapshots:
       pg-protocol: 1.15.0
       pg-types: 2.2.0
 
+  '@types/pluralize@0.0.33': {}
+
   '@types/priorityqueuejs@1.0.4': {}
 
   '@types/prompts@2.4.9':
@@ -47790,6 +47888,8 @@ snapshots:
       playwright-core: 1.62.0
     optionalDependencies:
       fsevents: 2.3.2
+
+  pluralize@8.0.0: {}
 
   pngjs@7.0.0: {}
 
