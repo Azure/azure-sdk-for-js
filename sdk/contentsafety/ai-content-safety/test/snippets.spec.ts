@@ -79,6 +79,21 @@ describe("snippets", () => {
     void updateBlocklist;
   });
 
+  it("ReadmeSampleListBlocklistItemPages", async () => {
+    const client = new BlocklistClient("<endpoint>", new DefaultAzureCredential());
+
+    async function listBlocklistItemPages(): Promise<void> {
+      const pages = client.listTextBlocklistItems("<blocklist-name>").byPage({ maxPageSize: 20 });
+      for await (const page of pages) {
+        for (const item of page) {
+          console.log(item.blocklistItemId, item.text);
+        }
+      }
+    }
+
+    void listBlocklistItemPages;
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });

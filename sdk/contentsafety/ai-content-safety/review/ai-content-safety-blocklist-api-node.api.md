@@ -63,6 +63,7 @@ export function listTextBlocklistItems(context: BlocklistContext, blocklistName:
 
 // @public
 export interface ListTextBlocklistItemsOptionalParams extends OperationOptions {
+    // @deprecated
     maxpagesize?: number;
     skip?: number;
     top?: number;

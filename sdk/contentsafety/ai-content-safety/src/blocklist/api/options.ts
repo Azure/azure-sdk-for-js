@@ -15,7 +15,10 @@ export interface ListTextBlocklistItemsOptionalParams extends OperationOptions {
   top?: number;
   /** The number of result items to skip. */
   skip?: number;
-  /** The maximum number of result items per page. */
+  /**
+   * The maximum number of result items per page.
+   * @deprecated Use the iterator's `byPage({ maxPageSize })` option instead.
+   */
   maxpagesize?: number;
 }
 

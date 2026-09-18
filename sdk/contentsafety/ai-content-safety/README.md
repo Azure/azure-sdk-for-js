@@ -152,6 +152,24 @@ async function updateBlocklist(): Promise<void> {
 void updateBlocklist;
 ```
 
+Use `byPage({ maxPageSize })` to request a maximum page size when listing blocklist items:
+
+```ts snippet:ReadmeSampleListBlocklistItemPages
+import { BlocklistClient } from "@azure/ai-content-safety";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new BlocklistClient("<endpoint>", new DefaultAzureCredential());
+async function listBlocklistItemPages(): Promise<void> {
+  const pages = client.listTextBlocklistItems("<blocklist-name>").byPage({ maxPageSize: 20 });
+  for await (const page of pages) {
+    for (const item of page) {
+      console.log(item.blocklistItemId, item.text);
+    }
+  }
+}
+void listBlocklistItemPages;
+```
+
 ## Troubleshooting
 
 ### Logging

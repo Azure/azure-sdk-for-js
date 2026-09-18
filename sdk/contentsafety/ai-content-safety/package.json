@@ -91,6 +91,7 @@
   "browser": "./dist/browser/index.js",
   "//sampleConfiguration": {
     "productName": "ContentSafety",
+    "apiRefLink": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety/review/ai-content-safety-node.api.md",
     "productSlugs": [
       "azure"
     ],

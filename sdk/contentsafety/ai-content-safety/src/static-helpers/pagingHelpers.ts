@@ -18,6 +18,8 @@ export interface PageSettings {
    * A reference to a specific page to start iterating from.
    */
   continuationToken?: string;
+  /** The maximum number of items requested per page, when supported by the operation. */
+  maxPageSize?: number;
 }
 
 /**
@@ -67,7 +69,10 @@ export interface PagedResult<
   /**
    * A method that returns a page of results.
    */
-  getPage: (pageLink?: string) => Promise<{ page: TPage; nextPageLink?: string } | undefined>;
+  getPage: (
+    pageLink?: string,
+    maxPageSize?: number,
+  ) => Promise<{ page: TPage; nextPageLink?: string } | undefined>;
   /**
    * a function to implement the `byPage` method on the paged async iterator.
    */
@@ -88,6 +93,7 @@ export interface BuildPagedAsyncIteratorOptions {
   nextLinkMethod?: "GET" | "POST";
   apiVersion?: string;
   requestOptions?: OperationOptions;
+  maxPageSizeParamName?: string;
 }
 
 /**
@@ -100,7 +106,7 @@ export function buildPagedAsyncIterator<
   TResponse extends PathUncheckedResponse = PathUncheckedResponse,
 >(
   client: Client,
-  getInitialResponse: () => PromiseLike<TResponse>,
+  getInitialResponse: (maxPageSize?: number) => PromiseLike<TResponse>,
   processResponseBody: (result: TResponse) => PromiseLike<unknown>,
   expectedStatuses: string[],
   options: BuildPagedAsyncIteratorOptions = {},
@@ -110,12 +116,19 @@ export function buildPagedAsyncIterator<
   const nextLinkMethod = options.nextLinkMethod ?? "GET";
   const apiVersion = options.apiVersion;
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
-    getPage: async (pageLink?: string) => {
+    getPage: async (pageLink?: string, maxPageSize?: number) => {
       let result;
       if (pageLink === undefined) {
-        result = await getInitialResponse();
+        result = await getInitialResponse(maxPageSize);
       } else {
-        const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
+        let resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
+        if (maxPageSize !== undefined && options.maxPageSizeParamName) {
+          const url = new URL(resolvedPageLink, "https://microsoft.com");
+          url.searchParams.set(options.maxPageSizeParamName, String(maxPageSize));
+          const pathEnd = resolvedPageLink.search(/[?#]/);
+          const path = pathEnd === -1 ? resolvedPageLink : resolvedPageLink.slice(0, pathEnd);
+          resolvedPageLink = `${path}${url.search}${url.hash}`;
+        }
         const requestParameters = operationOptionsToRequestParameters(options.requestOptions ?? {});
         result =
           nextLinkMethod === "POST"
@@ -132,9 +145,10 @@ export function buildPagedAsyncIterator<
       };
     },
     byPage: (settings?: TPageSettings) => {
-      const { continuationToken } = settings ?? {};
+      const { continuationToken, maxPageSize } = settings ?? {};
       return getPageAsyncIterator(pagedResult, {
         pageLink: continuationToken,
+        maxPageSize,
       });
     },
   };
@@ -167,9 +181,10 @@ function getPagedAsyncIterator<
     byPage:
       pagedResult?.byPage ??
       ((settings?: TPageSettings) => {
-        const { continuationToken } = settings ?? {};
+        const { continuationToken, maxPageSize } = settings ?? {};
         return getPageAsyncIterator(pagedResult, {
           pageLink: continuationToken,
+          maxPageSize,
         });
       }),
   };
@@ -188,10 +203,11 @@ async function* getPageAsyncIterator<TElement, TPage, TPageSettings extends Page
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
   options: {
     pageLink?: string;
+    maxPageSize?: number;
   } = {},
 ): AsyncIterableIterator<ContinuablePage<TElement, TPage>> {
-  const { pageLink } = options;
-  let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink);
+  const { pageLink, maxPageSize } = options;
+  let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink, maxPageSize);
   if (!response) {
     return;
   }
@@ -199,7 +215,7 @@ async function* getPageAsyncIterator<TElement, TPage, TPageSettings extends Page
   result.continuationToken = response.nextPageLink;
   yield result;
   while (response.nextPageLink) {
-    response = await pagedResult.getPage(response.nextPageLink);
+    response = await pagedResult.getPage(response.nextPageLink, maxPageSize);
     if (!response) {
       return;
     }

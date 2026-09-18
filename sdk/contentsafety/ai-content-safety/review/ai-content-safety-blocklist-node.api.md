@@ -57,6 +57,7 @@ export interface GetTextBlocklistOptionalParams extends OperationOptions {
 
 // @public
 export interface ListTextBlocklistItemsOptionalParams extends OperationOptions {
+    // @deprecated
     maxpagesize?: number;
     skip?: number;
     top?: number;

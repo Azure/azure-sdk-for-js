@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
+import type { PathUncheckedResponse } from "@azure-rest/core-client";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert, describe, expect, it } from "vitest";
+import type { DetectProvenanceResult } from "../../src/index.js";
 import {
   BlocklistClient,
   ContentProvenanceClient,
@@ -228,6 +230,58 @@ describe("preview operations", () => {
     );
   });
 
+  it("applies byPage maxPageSize to initial, continuation, and resumed requests", async () => {
+    const requests: PipelineRequest[] = [];
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        requests.push(request);
+        const isFirstPage = !new URL(request.url).searchParams.has("skip");
+        return createJsonResponse(request, 200, {
+          value: [{ blocklistItemId: isFirstPage ? "first" : "second", text: "example" }],
+          ...(isFirstPage
+            ? {
+                nextLink: `${endpoint}/contentsafety/text/blocklists/list-1/blocklistItems?skip=1&maxpagesize=99`,
+              }
+            : {}),
+        });
+      },
+    };
+    const client = new BlocklistClient(endpoint, credential, { httpClient });
+    const options = {
+      maxpagesize: 10,
+      requestOptions: { headers: { "x-test-header": "preserved" } },
+    };
+    const pages = client.listTextBlocklistItems("list-1", options).byPage({ maxPageSize: 1 });
+    const firstPage = await pages.next();
+    assert.isFalse(firstPage.done);
+    assert.equal(firstPage.value?.[0].blocklistItemId, "first");
+    const continuationToken = firstPage.value?.continuationToken;
+    assert.isString(continuationToken);
+    const secondPage = await pages.next();
+    assert.equal(secondPage.value?.[0].blocklistItemId, "second");
+    assert.isTrue((await pages.next()).done);
+
+    const resumedPages = client.listTextBlocklistItems("list-1", options).byPage({
+      continuationToken,
+      maxPageSize: 2,
+    });
+    assert.equal((await resumedPages.next()).value?.[0].blocklistItemId, "second");
+    assert.isTrue((await resumedPages.next()).done);
+    assert.lengthOf(requests, 3);
+    assert.deepEqual(
+      requests.map((request) => new URL(request.url).searchParams.getAll("maxpagesize")),
+      [["1"], ["1"], ["2"]],
+    );
+    for (const request of requests) {
+      assert.equal(request.headers.get("x-test-header"), "preserved");
+      assert.equal(
+        new URL(request.url).searchParams.get("api-version"),
+        KnownVersions.V20260901Preview,
+      );
+    }
+    assert.equal(options.maxpagesize, 10);
+  });
+
   it("restores and completes a content provenance poller", async () => {
     const { client, requests } = createProvenanceClient({
       id: "operation-1",
@@ -273,6 +327,45 @@ describe("preview operations", () => {
     assert.equal(result.outcome, "ProvenanceDetected");
     assert.equal(result.results?.[0].type, "C2PA");
     assert.instanceOf(result.results?.[0].timestamp, Date);
+  });
+
+  it("restores a poller with a typed custom response deserializer", async () => {
+    type ProvenanceResponse = Omit<PathUncheckedResponse, "body" | "status"> & {
+      status: "200";
+      body: { result: DetectProvenanceResult };
+    };
+    const { client, requests } = createProvenanceClient({
+      id: "operation-1",
+      status: "Succeeded",
+      kind: "Detect",
+      result: { outcome: "ProvenanceDetected", results: [] },
+    });
+    const poller = client.detect(
+      { content: { uri: "https://example.blob.core.windows.net/media/image.png" } },
+      { updateIntervalInMs: 0 },
+    );
+    await poller.submitted();
+    const serializedState = await poller.serialize();
+    let deserialized = false;
+    const restoredPoller = restorePoller<ProvenanceResponse, DetectProvenanceResult>(
+      client,
+      serializedState,
+      client.detect.bind(client),
+      {
+        updateIntervalInMs: 0,
+        processResponseBody: async (response: ProvenanceResponse) => {
+          deserialized = true;
+          return response.body.result;
+        },
+      },
+    );
+
+    assert.deepEqual(await restoredPoller.pollUntilDone(), {
+      outcome: "ProvenanceDetected",
+      results: [],
+    });
+    assert.isTrue(deserialized);
+    assert.lengthOf(requests, 2);
   });
 
   it("surfaces content provenance service failures", async () => {

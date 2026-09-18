@@ -36,7 +36,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: ContentProvenanceClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
-  options?: RestorePollerOptions<TResult>,
+  options?: RestorePollerOptions<TResult, TResponse>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
   const { initialRequestUrl, requestMethod, metadata } = pollerConfig;

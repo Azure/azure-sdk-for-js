@@ -182,7 +182,11 @@ export function listTextBlocklistItems(
 ): PagedAsyncIterableIterator<TextBlocklistItem> {
   return buildPagedAsyncIterator(
     context,
-    () => _listTextBlocklistItemsSend(context, blocklistName, options),
+    (maxPageSize) =>
+      _listTextBlocklistItemsSend(context, blocklistName, {
+        ...options,
+        maxpagesize: maxPageSize ?? options.maxpagesize,
+      }),
     _listTextBlocklistItemsDeserialize,
     ["200"],
     {
@@ -190,6 +194,7 @@ export function listTextBlocklistItems(
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion ?? "2026-09-01-preview",
       requestOptions: options,
+      maxPageSizeParamName: "maxpagesize",
     },
   );
 }

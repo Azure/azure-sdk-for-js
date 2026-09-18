@@ -15,3 +15,8 @@
 - Replaced the default REST factory with named `ContentSafetyClient`, `ContentProvenanceClient`, and `BlocklistClient` classes. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
 - Added dedicated request models for blocklist item and blocklist update payloads so service-generated identifiers are not required as input. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
 - Changed `ImageData.content` from a base64-encoded string to raw `Uint8Array` bytes. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
+
+### Bugs Fixed
+
+- Honor `byPage({ maxPageSize })` for initial, continuation, and resumed blocklist-item pages. The operation-level `maxpagesize` option remains supported but is deprecated. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))
+- Preserve the custom response type in `restorePoller` deserialization callbacks. ([#39966](https://github.com/Azure/azure-sdk-for-js/pull/39966))

@@ -275,6 +275,7 @@ export enum KnownVersions {
 
 // @public
 export interface ListTextBlocklistItemsOptionalParams extends OperationOptions {
+    // @deprecated
     maxpagesize?: number;
     skip?: number;
     top?: number;
@@ -297,6 +298,7 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 // @public
 export interface PageSettings {
     continuationToken?: string;
+    maxPageSize?: number;
 }
 
 // @public
@@ -330,7 +332,7 @@ export interface RemoveBlocklistItemsOptions {
 export { RestError }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContentProvenanceClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContentProvenanceClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult, TResponse>): PollerLike<OperationState_2<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
