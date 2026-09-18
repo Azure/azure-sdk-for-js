@@ -5,8 +5,10 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-content-safety)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-content-safety)
+- [API report](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety/review/ai-content-safety-node.api.md)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety/samples/v1-beta)
+
+This package has not yet been published to npm. The npm package page and hosted API reference will be available after the first release.
 
 ## Getting started
 
@@ -23,7 +25,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/ai-content-safety` package
 
-Install the Azure AI Content Safety client library for JavaScript with `npm`:
+After the first beta release, install the Azure AI Content Safety client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/ai-content-safety@next
