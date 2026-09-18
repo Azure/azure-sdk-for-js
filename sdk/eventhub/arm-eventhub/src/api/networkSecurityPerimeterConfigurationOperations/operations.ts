@@ -26,7 +26,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,7 +53,6 @@ export async function _listDeserialize(
 
   return networkSecurityPerimeterConfigurationListDeserializer(result.body);
 }
-
 /** Gets list of current NetworkSecurityPerimeterConfiguration for Namespace */
 export async function list(
   context: Client,

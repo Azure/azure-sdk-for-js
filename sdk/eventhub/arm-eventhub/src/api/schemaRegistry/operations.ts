@@ -33,7 +33,7 @@ export function _listByNamespaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
       "%24skip": options?.skip,
       "%24top": options?.top,
     },
@@ -62,7 +62,6 @@ export async function _listByNamespaceDeserialize(
 
   return _schemaGroupListResultDeserializer(result.body);
 }
-
 /** Gets all the Schema Groups in a Namespace. */
 export function listByNamespace(
   context: Client,
@@ -75,7 +74,11 @@ export function listByNamespace(
     () => _listByNamespaceSend(context, resourceGroupName, namespaceName, options),
     _listByNamespaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -93,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       schemaGroupName: schemaGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +118,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an EventHub schema group. */
 export async function $delete(
   context: Client,
@@ -149,7 +151,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       schemaGroupName: schemaGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +180,6 @@ export async function _createOrUpdateDeserialize(
 
   return schemaGroupDeserializer(result.body);
 }
-
 /** Creates or Updates an EventHub schema group. */
 export async function createOrUpdate(
   context: Client,
@@ -213,7 +214,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       schemaGroupName: schemaGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -238,7 +239,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 
   return schemaGroupDeserializer(result.body);
 }
-
 /** Gets the details of an EventHub schema group. */
 export async function get(
   context: Client,

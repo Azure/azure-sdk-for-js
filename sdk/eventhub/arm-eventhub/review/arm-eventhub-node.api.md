@@ -279,7 +279,7 @@ export interface ConfigurationGetOptionalParams extends OperationOptions {
 // @public
 export interface ConfigurationOperations {
     get: (resourceGroupName: string, clusterName: string, options?: ConfigurationGetOptionalParams) => Promise<ClusterQuotaConfigurationProperties>;
-    patch: (resourceGroupName: string, clusterName: string, parameters: ClusterQuotaConfigurationProperties, options?: ConfigurationPatchOptionalParams) => Promise<ClusterQuotaConfigurationProperties | undefined>;
+    patch: (resourceGroupName: string, clusterName: string, parameters: ClusterQuotaConfigurationProperties, options?: ConfigurationPatchOptionalParams) => Promise<ClusterQuotaConfigurationProperties | void>;
 }
 
 // @public
@@ -429,7 +429,7 @@ export interface EHNamespace extends ProxyResource {
     encryption?: Encryption;
     geoDataReplication?: GeoDataReplicationProperties;
     identity?: Identity;
-    ipV6Enabled?: boolean;
+    ipAddressType?: IpAddressType;
     isAutoInflateEnabled?: boolean;
     kafkaEnabled?: boolean;
     location?: string;
@@ -467,7 +467,7 @@ export interface EHNamespaceProperties {
     disableLocalAuth?: boolean;
     encryption?: Encryption;
     geoDataReplication?: GeoDataReplicationProperties;
-    ipV6Enabled?: boolean;
+    ipAddressType?: IpAddressType;
     isAutoInflateEnabled?: boolean;
     kafkaEnabled?: boolean;
     maximumThroughputUnits?: number;
@@ -546,6 +546,7 @@ export class EventHubManagementClient {
     readonly consumerGroups: ConsumerGroupsOperations;
     readonly disasterRecoveryConfigs: DisasterRecoveryConfigsOperations;
     readonly eventHubs: EventHubsOperations;
+    readonly fabricShortcuts: FabricShortcutsOperations;
     readonly namespaces: NamespacesOperations;
     readonly networkSecurityPerimeterConfigurationOperations: NetworkSecurityPerimeterConfigurationOperationsOperations;
     readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
@@ -554,6 +555,7 @@ export class EventHubManagementClient {
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly privateLinkResources: PrivateLinkResourcesOperations;
     readonly schemaRegistry: SchemaRegistryOperations;
+    readonly upgradePreferencesOperations: UpgradePreferencesOperationsOperations;
 }
 
 // @public
@@ -634,6 +636,84 @@ export interface EventHubsRegenerateKeysOptionalParams extends OperationOptions 
 }
 
 // @public
+export interface ExceptionWindow {
+    action: ExceptionWindowAction;
+    date: Date;
+    durationMinutes: number;
+    startTimeOfDay: string;
+}
+
+// @public
+export type ExceptionWindowAction = "Block" | "Allow";
+
+// @public
+export interface FabricShortcut extends ProxyResource {
+    readonly location?: string;
+    properties?: FabricShortcutProperties;
+}
+
+// @public
+export interface FabricShortcutConfiguration {
+    artifactId: string;
+    artifactName?: string;
+    logAnalyticsResourceId?: string;
+    premiumCapacityId?: string;
+    tenantId: string;
+    workspaceId: string;
+    workspaceName?: string;
+}
+
+// @public
+export interface FabricShortcutProperties {
+    configuration: FabricShortcutConfiguration;
+    readonly createdAt?: Date;
+    readonly modifiedAt?: Date;
+    shortcutStatus?: FabricShortcutStatus;
+    shortcutType?: FabricShortcutType;
+    readonly statusDescription?: string;
+}
+
+// @public
+export interface FabricShortcutsApproveOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricShortcutsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricShortcutsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricShortcutsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricShortcutsListByEventHubOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricShortcutsOperations {
+    approve: (resourceGroupName: string, namespaceName: string, eventHubName: string, fabricShortcutName: string, options?: FabricShortcutsApproveOptionalParams) => Promise<FabricShortcut>;
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, eventHubName: string, fabricShortcutName: string, resource: FabricShortcut, options?: FabricShortcutsCreateOrUpdateOptionalParams) => Promise<FabricShortcut>;
+    delete: (resourceGroupName: string, namespaceName: string, eventHubName: string, fabricShortcutName: string, options?: FabricShortcutsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, eventHubName: string, fabricShortcutName: string, options?: FabricShortcutsGetOptionalParams) => Promise<FabricShortcut>;
+    listByEventHub: (resourceGroupName: string, namespaceName: string, eventHubName: string, options?: FabricShortcutsListByEventHubOptionalParams) => PagedAsyncIterableIterator<FabricShortcut>;
+    reject: (resourceGroupName: string, namespaceName: string, eventHubName: string, fabricShortcutName: string, options?: FabricShortcutsRejectOptionalParams) => Promise<FabricShortcut>;
+}
+
+// @public
+export interface FabricShortcutsRejectOptionalParams extends OperationOptions {
+}
+
+// @public
+export type FabricShortcutStatus = "Pending" | "Approved" | "Rejected";
+
+// @public
+export type FabricShortcutType = "Entity" | "Network";
+
+// @public
 export interface FailOver {
     force?: boolean;
     primaryLocation?: string;
@@ -661,6 +741,9 @@ export interface Identity {
     type?: ManagedServiceIdentityType;
     userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
+
+// @public
+export type IpAddressType = string;
 
 export { isRestError }
 
@@ -728,6 +811,12 @@ export enum KnownEndPointProvisioningState {
 export enum KnownGeoDRRoleType {
     Primary = "Primary",
     Secondary = "Secondary"
+}
+
+// @public
+export enum KnownIpAddressType {
+    DualStack = "DualStack",
+    IPv4 = "IPv4"
 }
 
 // @public
@@ -864,7 +953,16 @@ export enum KnownTlsVersion {
 
 // @public
 export enum KnownVersions {
-    V20260101 = "2026-01-01"
+    V20250501Preview = "2025-05-01-preview",
+    V20260101 = "2026-01-01",
+    V20260701Preview = "2026-07-01-preview"
+}
+
+// @public
+export interface MaintenanceWindow {
+    dayOfWeek: UpgradePreferenceDayOfWeek;
+    durationMinutes: number;
+    startTimeOfDay: string;
 }
 
 // @public
@@ -982,7 +1080,7 @@ export interface NamespacesOperations {
     listKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams) => Promise<AccessKeys>;
     listNetworkRuleSet: (resourceGroupName: string, namespaceName: string, options?: NamespacesListNetworkRuleSetOptionalParams) => Promise<NetworkRuleSetListResult>;
     regenerateKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams) => Promise<AccessKeys>;
-    update: (resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesUpdateOptionalParams) => Promise<EHNamespace | undefined>;
+    update: (resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesUpdateOptionalParams) => Promise<EHNamespace | void>;
 }
 
 // @public
@@ -1459,6 +1557,47 @@ export type TlsVersion = string;
 
 // @public
 export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";
+
+// @public
+export type UpgradePreferenceDayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+
+// @public
+export interface UpgradePreferences extends ProxyResource {
+    properties?: UpgradePreferencesProperties;
+}
+
+// @public
+export interface UpgradePreferencesOperationsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface UpgradePreferencesOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface UpgradePreferencesOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, clusterName: string, resource: UpgradePreferences, options?: UpgradePreferencesOperationsCreateOrUpdateOptionalParams) => Promise<UpgradePreferences>;
+    get: (resourceGroupName: string, clusterName: string, options?: UpgradePreferencesOperationsGetOptionalParams) => Promise<UpgradePreferences>;
+    upgradeNow: (resourceGroupName: string, clusterName: string, options?: UpgradePreferencesOperationsUpgradeNowOptionalParams) => Promise<UpgradePreferences | void>;
+}
+
+// @public
+export interface UpgradePreferencesOperationsUpgradeNowOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface UpgradePreferencesProperties {
+    exceptionWindows?: ExceptionWindow[];
+    maintenanceWindows?: MaintenanceWindow[];
+    readonly upgradeStatus?: UpgradeStatus;
+}
+
+// @public
+export interface UpgradeStatus {
+    completesAt?: Date;
+    inProgress: boolean;
+    pendingUpgrade: boolean;
+}
 
 // @public
 export interface UserAssignedIdentity {

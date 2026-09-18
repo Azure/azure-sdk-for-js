@@ -35,7 +35,7 @@ export function _listByEventHubSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       eventHubName: eventHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
       "%24skip": options?.skip,
       "%24top": options?.top,
     },
@@ -64,7 +64,6 @@ export async function _listByEventHubDeserialize(
 
   return _consumerGroupListResultDeserializer(result.body);
 }
-
 /** Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace. */
 export function listByEventHub(
   context: Client,
@@ -78,7 +77,11 @@ export function listByEventHub(
     () => _listByEventHubSend(context, resourceGroupName, namespaceName, eventHubName, options),
     _listByEventHubDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -98,7 +101,7 @@ export function _$deleteSend(
       namespaceName: namespaceName,
       eventHubName: eventHubName,
       consumerGroupName: consumerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a consumer group from the specified Event Hub and resource group. */
 export async function $delete(
   context: Client,
@@ -158,7 +160,7 @@ export function _createOrUpdateSend(
       namespaceName: namespaceName,
       eventHubName: eventHubName,
       consumerGroupName: consumerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,7 +189,6 @@ export async function _createOrUpdateDeserialize(
 
   return consumerGroupDeserializer(result.body);
 }
-
 /** Creates or updates an Event Hubs consumer group as a nested resource within a Namespace. */
 export async function createOrUpdate(
   context: Client,
@@ -226,7 +227,7 @@ export function _getSend(
       namespaceName: namespaceName,
       eventHubName: eventHubName,
       consumerGroupName: consumerGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +252,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return consumerGroupDeserializer(result.body);
 }
-
 /** Gets a description for the specified consumer group. */
 export async function get(
   context: Client,
