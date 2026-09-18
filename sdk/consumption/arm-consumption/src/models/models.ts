@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Result of listing consumption operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface _OperationListResult {
   /** List of consumption operations supported by the Microsoft.Consumption resource provider. */
@@ -3053,7 +3053,7 @@ export interface LegacyReservationRecommendationProperties {
   /** The usage date for looking back. */
   readonly firstUsageDate?: Date;
   /** Shared or single recommendation. */
-  /** The discriminator possible values: Single, Shared */
+  /** The discriminator possible values: Single, Shared, ManagementGroup */
   scope: string;
   /** List of sku properties */
   readonly skuProperties?: SkuProperty[];
@@ -3095,6 +3095,7 @@ export function legacyReservationRecommendationPropertiesDeserializer(
 export type LegacyReservationRecommendationPropertiesUnion =
   | LegacySingleScopeReservationRecommendationProperties
   | LegacySharedScopeReservationRecommendationProperties
+  | LegacyManagementGroupScopeReservationRecommendationProperties
   | LegacyReservationRecommendationProperties;
 
 export function legacyReservationRecommendationPropertiesUnionDeserializer(
@@ -3109,6 +3110,11 @@ export function legacyReservationRecommendationPropertiesUnionDeserializer(
     case "Shared":
       return legacySharedScopeReservationRecommendationPropertiesDeserializer(
         item as LegacySharedScopeReservationRecommendationProperties,
+      );
+
+    case "ManagementGroup":
+      return legacyManagementGroupScopeReservationRecommendationPropertiesDeserializer(
+        item as LegacyManagementGroupScopeReservationRecommendationProperties,
       );
 
     default:
@@ -3208,6 +3214,46 @@ export function legacySharedScopeReservationRecommendationPropertiesDeserializer
   };
 }
 
+/** The properties of the legacy reservation recommendation for management group scope. */
+export interface LegacyManagementGroupScopeReservationRecommendationProperties extends LegacyReservationRecommendationProperties {
+  /** Management group id associated with management group scoped recommendation. */
+  readonly managementGroupId: string;
+  /** The tenant ID associated with the management group. */
+  readonly tenantId: string;
+  /** Shared or single recommendation. */
+  scope: "ManagementGroup";
+}
+
+export function legacyManagementGroupScopeReservationRecommendationPropertiesDeserializer(
+  item: any,
+): LegacyManagementGroupScopeReservationRecommendationProperties {
+  return {
+    lookBackPeriod: item["lookBackPeriod"],
+    instanceFlexibilityRatio: item["instanceFlexibilityRatio"],
+    instanceFlexibilityGroup: item["instanceFlexibilityGroup"],
+    normalizedSize: item["normalizedSize"],
+    recommendedQuantityNormalized: item["recommendedQuantityNormalized"],
+    meterId: item["meterId"],
+    resourceType: item["resourceType"],
+    term: item["term"],
+    costWithNoReservedInstances: item["costWithNoReservedInstances"],
+    recommendedQuantity: item["recommendedQuantity"],
+    totalCostWithReservedInstances: item["totalCostWithReservedInstances"],
+    netSavings: item["netSavings"],
+    firstUsageDate: !item["firstUsageDate"]
+      ? item["firstUsageDate"]
+      : new Date(item["firstUsageDate"]),
+    scope: item["scope"],
+    skuProperties: !item["skuProperties"]
+      ? item["skuProperties"]
+      : skuPropertyArrayDeserializer(item["skuProperties"]),
+    lastUsageDate: !item["lastUsageDate"] ? item["lastUsageDate"] : new Date(item["lastUsageDate"]),
+    totalHours: item["totalHours"],
+    managementGroupId: item["managementGroupId"],
+    tenantId: item["tenantId"],
+  };
+}
+
 /** Modern reservation recommendation. */
 export interface ModernReservationRecommendation extends ReservationRecommendation {
   /** Properties for modern reservation recommendation */
@@ -3268,7 +3314,7 @@ export interface ModernReservationRecommendationProperties {
   /** The usage date for looking back. */
   readonly firstUsageDate?: Date;
   /** Shared or single recommendation. */
-  /** The discriminator possible values: Single, Shared */
+  /** The discriminator possible values: Single, Shared, ManagementGroup */
   scope: string;
   /** List of sku properties */
   readonly skuProperties?: SkuProperty[];
@@ -3318,6 +3364,7 @@ export function modernReservationRecommendationPropertiesDeserializer(
 export type ModernReservationRecommendationPropertiesUnion =
   | ModernSingleScopeReservationRecommendationProperties
   | ModernSharedScopeReservationRecommendationProperties
+  | ModernManagementGroupScopeReservationRecommendationProperties
   | ModernReservationRecommendationProperties;
 
 export function modernReservationRecommendationPropertiesUnionDeserializer(
@@ -3332,6 +3379,11 @@ export function modernReservationRecommendationPropertiesUnionDeserializer(
     case "Shared":
       return modernSharedScopeReservationRecommendationPropertiesDeserializer(
         item as ModernSharedScopeReservationRecommendationProperties,
+      );
+
+    case "ManagementGroup":
+      return modernManagementGroupScopeReservationRecommendationPropertiesDeserializer(
+        item as ModernManagementGroupScopeReservationRecommendationProperties,
       );
 
     default:
@@ -3422,6 +3474,52 @@ export function modernSharedScopeReservationRecommendationPropertiesDeserializer
   };
 }
 
+/** The properties of the modern reservation recommendation for management group scope. */
+export interface ModernManagementGroupScopeReservationRecommendationProperties extends ModernReservationRecommendationProperties {
+  /** Management group id associated with management group scoped recommendation. */
+  readonly managementGroupId: string;
+  /** The tenant ID associated with the management group. */
+  readonly tenantId: string;
+  /** Shared or single recommendation. */
+  scope: "ManagementGroup";
+}
+
+export function modernManagementGroupScopeReservationRecommendationPropertiesDeserializer(
+  item: any,
+): ModernManagementGroupScopeReservationRecommendationProperties {
+  return {
+    location: item["location"],
+    lookBackPeriod: item["lookBackPeriod"],
+    instanceFlexibilityRatio: item["instanceFlexibilityRatio"],
+    instanceFlexibilityGroup: item["instanceFlexibilityGroup"],
+    normalizedSize: item["normalizedSize"],
+    recommendedQuantityNormalized: item["recommendedQuantityNormalized"],
+    meterId: item["meterId"],
+    term: item["term"],
+    costWithNoReservedInstances: !item["costWithNoReservedInstances"]
+      ? item["costWithNoReservedInstances"]
+      : amountDeserializer(item["costWithNoReservedInstances"]),
+    recommendedQuantity: item["recommendedQuantity"],
+    resourceType: item["resourceType"],
+    totalCostWithReservedInstances: !item["totalCostWithReservedInstances"]
+      ? item["totalCostWithReservedInstances"]
+      : amountDeserializer(item["totalCostWithReservedInstances"]),
+    netSavings: !item["netSavings"] ? item["netSavings"] : amountDeserializer(item["netSavings"]),
+    firstUsageDate: !item["firstUsageDate"]
+      ? item["firstUsageDate"]
+      : new Date(item["firstUsageDate"]),
+    scope: item["scope"],
+    skuProperties: !item["skuProperties"]
+      ? item["skuProperties"]
+      : skuPropertyArrayDeserializer(item["skuProperties"]),
+    skuName: item["skuName"],
+    lastUsageDate: !item["lastUsageDate"] ? item["lastUsageDate"] : new Date(item["lastUsageDate"]),
+    totalHours: item["totalHours"],
+    managementGroupId: item["managementGroupId"],
+    tenantId: item["tenantId"],
+  };
+}
+
 /** Reservation recommendation details. */
 export interface ReservationRecommendationDetailsModel extends Resource {
   /** Resource Location. */
@@ -3444,6 +3542,12 @@ export interface ReservationRecommendationDetailsModel extends Resource {
   readonly scope?: string;
   /** Historical usage details used to calculate the estimated savings. */
   readonly usage?: ReservationRecommendationDetailsUsageProperties;
+  /** Management group id associated with management group scoped recommendation. */
+  readonly managementGroupId?: string;
+  /** The tenant ID associated with the management group. Populated only when managementGroupId is populated. */
+  readonly tenantId?: string;
+  /** Projected usage details used for generating the recommendation. */
+  readonly projectedUsage?: ReservationRecommendationDetailsProjectedUsageProperties;
 }
 
 export function reservationRecommendationDetailsModelDeserializer(
@@ -3482,6 +3586,12 @@ export interface ReservationRecommendationDetailsProperties {
   readonly scope?: string;
   /** Historical usage details used to calculate the estimated savings. */
   readonly usage?: ReservationRecommendationDetailsUsageProperties;
+  /** Management group id associated with management group scoped recommendation. */
+  readonly managementGroupId?: string;
+  /** The tenant ID associated with the management group. Populated only when managementGroupId is populated. */
+  readonly tenantId?: string;
+  /** Projected usage details used for generating the recommendation. */
+  readonly projectedUsage?: ReservationRecommendationDetailsProjectedUsageProperties;
 }
 
 export function reservationRecommendationDetailsPropertiesDeserializer(
@@ -3500,6 +3610,13 @@ export function reservationRecommendationDetailsPropertiesDeserializer(
     usage: !item["usage"]
       ? item["usage"]
       : reservationRecommendationDetailsUsagePropertiesDeserializer(item["usage"]),
+    managementGroupId: item["managementGroupId"],
+    tenantId: item["tenantId"],
+    projectedUsage: !item["projectedUsage"]
+      ? item["projectedUsage"]
+      : reservationRecommendationDetailsProjectedUsagePropertiesDeserializer(
+          item["projectedUsage"],
+        ),
   };
 }
 
@@ -3636,6 +3753,20 @@ export function reservationRecommendationDetailsUsagePropertiesDeserializer(
           return p;
         }),
     usageGrain: item["usageGrain"],
+  };
+}
+
+/** Details about projected usage data that has been used for computing the recommendation. */
+export interface ReservationRecommendationDetailsProjectedUsageProperties {
+  /** Total projected retail usage in commitment units (CUs). */
+  readonly totalRetailUsageInCUs?: number;
+}
+
+export function reservationRecommendationDetailsProjectedUsagePropertiesDeserializer(
+  item: any,
+): ReservationRecommendationDetailsProjectedUsageProperties {
+  return {
+    totalRetailUsageInCUs: item["totalRetailUsageInCUs"],
   };
 }
 
@@ -4600,6 +4731,8 @@ export enum KnownScope {
   Single = "Single",
   /** Shared */
   Shared = "Shared",
+  /** Management group scoped recommendation. */
+  ManagementGroup = "ManagementGroup",
 }
 
 /** Type of Scope */
@@ -4635,6 +4768,8 @@ export type LookBackPeriod = string;
 export enum KnownVersions {
   /** The 2024-08-01 API version. */
   V20240801 = "2024-08-01",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
 }
 
 export function _priceSheetResultPropertiesDeserializer(item: any) {
@@ -5005,6 +5140,13 @@ export function _reservationRecommendationDetailsModelPropertiesDeserializer(ite
     usage: !item["usage"]
       ? item["usage"]
       : reservationRecommendationDetailsUsagePropertiesDeserializer(item["usage"]),
+    managementGroupId: item["managementGroupId"],
+    tenantId: item["tenantId"],
+    projectedUsage: !item["projectedUsage"]
+      ? item["projectedUsage"]
+      : reservationRecommendationDetailsProjectedUsagePropertiesDeserializer(
+          item["projectedUsage"],
+        ),
   };
 }
 
