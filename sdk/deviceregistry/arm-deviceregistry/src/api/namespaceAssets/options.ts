@@ -4,7 +4,13 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface NamespaceAssetsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface NamespaceAssetsExecuteActionOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NamespaceAssetsListByNamespaceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface NamespaceAssetsDeleteOptionalParams extends OperationOptions {
