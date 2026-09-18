@@ -1,6 +1,20 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/solutionTypes/index.ts",
+    "../src/api/inventory/index.ts",
+    "../src/api/solutionConfigurations/index.ts",
+    "../src/api/publicCloudConnectors/index.ts",
+    "../src/api/generateGcpTemplate/index.ts",
+    "../src/api/generateAwsTemplate/index.ts",
+    "../src/api/serviceConfigurations/index.ts",
+    "../src/api/endpoints/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }
