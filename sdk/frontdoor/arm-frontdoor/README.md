@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/frontdoor/arm-frontdoor)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-frontdoor)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-frontdoor?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-frontdoor)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/frontdoor/arm-frontdoor/samples)
 
 ## Getting started

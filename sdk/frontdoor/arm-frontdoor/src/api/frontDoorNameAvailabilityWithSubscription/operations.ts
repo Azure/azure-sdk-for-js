@@ -25,7 +25,7 @@ export function _checkSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
