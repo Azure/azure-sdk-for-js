@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** The serviceGroup details. */
 export interface ServiceGroup extends ProxyResource {
   /** ServiceGroup creation request body parameters. */
@@ -51,6 +52,8 @@ export interface ServiceGroupProperties {
   readonly provisioningState?: ProvisioningState;
   /** The display name of the serviceGroup. For example, ServiceGroupTest1 */
   displayName?: string;
+  /** The attributes of the serviceGroup. */
+  attributes?: ServiceGroupAttributes;
   /** The details of the parent serviceGroup. */
   parent?: ParentServiceGroupProperties;
 }
@@ -58,6 +61,9 @@ export interface ServiceGroupProperties {
 export function serviceGroupPropertiesSerializer(item: ServiceGroupProperties): any {
   return {
     displayName: item["displayName"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : serviceGroupAttributesSerializer(item["attributes"]),
     parent: !item["parent"]
       ? item["parent"]
       : parentServiceGroupPropertiesSerializer(item["parent"]),
@@ -68,6 +74,9 @@ export function serviceGroupPropertiesDeserializer(item: any): ServiceGroupPrope
   return {
     provisioningState: item["provisioningState"],
     displayName: item["displayName"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : serviceGroupAttributesDeserializer(item["attributes"]),
     parent: !item["parent"]
       ? item["parent"]
       : parentServiceGroupPropertiesDeserializer(item["parent"]),
@@ -101,6 +110,22 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** The attributes of the serviceGroup. */
+export interface ServiceGroupAttributes {
+  /** The criticality designation of the service group. Valid values range from 0 through 4. */
+  criticality?: number;
+}
+
+export function serviceGroupAttributesSerializer(item: ServiceGroupAttributes): any {
+  return { criticality: item["criticality"] };
+}
+
+export function serviceGroupAttributesDeserializer(item: any): ServiceGroupAttributes {
+  return {
+    criticality: item["criticality"],
+  };
+}
+
 /** The details of the parent serviceGroup. */
 export interface ParentServiceGroupProperties {
   /** The fully qualified ID of the parent serviceGroup.  For example, '/providers/Microsoft.Management/serviceGroups/TestServiceGroup' */
@@ -120,8 +145,8 @@ export function parentServiceGroupPropertiesDeserializer(item: any): ParentServi
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -147,8 +172,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -280,37 +305,110 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Response holding an array of service groups and a nextLink that supports pagination */
-export interface ServiceGroupCollectionResponse {
-  /** The ServiceGroup items on this page */
-  value: ServiceGroup[];
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function serviceGroupCollectionResponseDeserializer(
-  item: any,
-): ServiceGroupCollectionResponse {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
-    value: serviceGroupArrayDeserializer(item["value"]),
+    value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function serviceGroupArraySerializer(result: Array<ServiceGroup>): any[] {
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
   return result.map((item) => {
-    return serviceGroupSerializer(item);
+    return operationDeserializer(item);
   });
 }
 
-export function serviceGroupArrayDeserializer(result: Array<ServiceGroup>): any[] {
-  return result.map((item) => {
-    return serviceGroupDeserializer(item);
-  });
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
 }
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for an operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2024-02-01-preview API version. */
-  V20240201Preview = "2024-02-01-preview",
+  /** The 2026-08-01 API version. */
+  V20260801 = "2026-08-01",
 }

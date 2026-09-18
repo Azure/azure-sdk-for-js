@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the details of the serviceGroup
  *
  * @summary get the details of the serviceGroup
- * x-ms-original-file: 2024-02-01-preview/ServiceGroup_Get.json
+ * x-ms-original-file: 2026-08-01/ServiceGroup_Get.json
  */
 async function getServiceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
