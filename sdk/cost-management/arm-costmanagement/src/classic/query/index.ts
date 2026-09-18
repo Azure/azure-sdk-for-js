@@ -27,9 +27,8 @@ export interface QueryOperations {
     scope: string,
     parameters: QueryDefinition,
     options?: QueryUsageOptionalParams,
-  ) => Promise<QueryResult | undefined>;
+  ) => Promise<QueryResult | void>;
 }
-
 function _getQuery(context: CostManagementContext) {
   return {
     usageByExternalCloudProviderType: (
@@ -49,7 +48,6 @@ function _getQuery(context: CostManagementContext) {
       usage(context, scope, parameters, options),
   };
 }
-
 export function _getQueryOperations(context: CostManagementContext): QueryOperations {
   return {
     ..._getQuery(context),
