@@ -1,6 +1,6 @@
 # Release History
 
-## 20.2.0 (2026-09-16)
+## 20.2.0 (2026-09-18)
 
 ### Features Added
   - Added operation group ContextCacheContainersOperations
