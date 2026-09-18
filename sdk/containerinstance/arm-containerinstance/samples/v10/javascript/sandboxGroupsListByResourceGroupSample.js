@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to list SandboxGroup resources by resource group
+ *
+ * @summary list SandboxGroup resources by resource group
+ * x-ms-original-file: 2026-07-01/SandboxGroupsListByResourceGroup.json
+ */
+async function listSandboxGroupsByResourceGroup() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.sandboxGroups.listByResourceGroup("myResourceGroup")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await listSandboxGroupsByResourceGroup();
+}
+
+main().catch(console.error);
