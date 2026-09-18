@@ -71,6 +71,7 @@ export async function _diagnosticListByVirtualMachineDeserialize(
 
   return _virtualMachineDiagnosticRunCommandsListResultDeserializer(result.body);
 }
+
 /** The operation to get all diagnostic run commands of a Virtual Machine. */
 export function diagnosticListByVirtualMachine(
   context: Client,
@@ -125,6 +126,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** The operation to delete the diagnostic run command. */
 export function $delete(
   context: Client,
@@ -185,6 +187,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** The operation to update the diagnostic run command. */
 export function update(
   context: Client,
@@ -246,6 +249,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** The operation to create or update the diagnostic run command. */
 export function createOrUpdate(
   context: Client,
@@ -309,6 +313,7 @@ export async function _getByVirtualMachineDeserialize(
 
   return virtualMachineDiagnosticRunCommandDeserializer(result.body);
 }
+
 /** The operation to get the diagnostic run command. */
 export async function getByVirtualMachine(
   context: Client,

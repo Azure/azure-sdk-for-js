@@ -102,6 +102,7 @@ export interface InterconnectBlocksOperations {
     options?: InterconnectBlocksGetOptionalParams,
   ) => Promise<InterconnectBlock>;
 }
+
 function _getInterconnectBlocks(context: ComputeManagementContext) {
   return {
     listBySubscription: (options?: InterconnectBlocksListBySubscriptionOptionalParams) =>
@@ -198,6 +199,7 @@ function _getInterconnectBlocks(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, interconnectBlockName, options),
   };
 }
+
 export function _getInterconnectBlocksOperations(
   context: ComputeManagementContext,
 ): InterconnectBlocksOperations {
