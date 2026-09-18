@@ -286,7 +286,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           expiresOnTimestamp: token.expiresOn.getTime(),
           token: token.accessToken,
           refreshAfterTimestamp: token.refreshOn?.getTime(),
-          tokenType: "Bearer",
+          tokenType: token.tokenType?.toLowerCase() === "pop" ? "pop" : "Bearer",
         } as AccessToken;
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));

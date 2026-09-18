@@ -111,7 +111,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
           refreshAfterTimestamp: parseRefreshTimestamp(parsedBody),
-          tokenType: "Bearer",
+          tokenType: parsedBody.token_type ?? "Bearer",
         } as AccessToken,
         refreshToken: parsedBody.refresh_token,
       };

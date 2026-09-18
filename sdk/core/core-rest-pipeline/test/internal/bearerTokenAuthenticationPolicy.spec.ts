@@ -169,6 +169,33 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
   });
 
+  it("correctly adds an Authentication header with a PoP token", async function () {
+    const mockToken = "pop-token";
+    const tokenScopes = ["scope1", "scope2"];
+    const fakeGetToken = vi.fn().mockResolvedValue({
+      token: mockToken,
+      expiresOnTimestamp: new Date().getTime(),
+      tokenType: "pop",
+    });
+    const mockCredential: TokenCredential = {
+      getToken: fakeGetToken,
+    };
+
+    const request = defaultRequest();
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValue(successResponse);
+
+    const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential);
+    await bearerTokenAuthPolicy.sendRequest(request, next);
+
+    assert.strictEqual(request.headers.get("Authorization"), `pop ${mockToken}`);
+  });
+
   it("refreshes the token on initial request", async () => {
     const expiresOn = Date.now() + 1000 * 60; // One minute later.
     const credential = new MockRefreshAzureCredential(expiresOn);

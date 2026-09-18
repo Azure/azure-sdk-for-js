@@ -45,6 +45,7 @@ export function mapScopesToResource(scopes: string | string[]): string | undefin
 export interface TokenResponseParsedBody {
   access_token?: string;
   refresh_token?: string;
+  token_type?: "Bearer" | "pop";
   expires_in: number;
   expires_on?: number | string;
   refresh_on?: number | string;
