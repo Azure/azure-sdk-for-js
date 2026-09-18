@@ -441,4 +441,203 @@ describe("PartitionRangeManager", () => {
       assert.equal(result.lastPartitionBeforeCutoff?.rangeId, "second");
     });
   });
+
+  describe("Sliding Window Behavior - Removing Finished Ranges", () => {
+    /**
+     * These tests validate the sliding window fix from PR #36765 which ensures
+     * finished partition key ranges are properly removed and don't persist in continuation tokens.
+     */
+
+    it("should remove single finished range and advance sliding window", () => {
+      // Arrange: Add three ranges to the manager
+      const rangeMap = new Map<string, QueryRangeMapping>();
+      rangeMap.set("range1", createMockRangeMapping(10, "token1"));
+      rangeMap.set("range2", createMockRangeMapping(5, "token2"));
+      rangeMap.set("range3", createMockRangeMapping(15, "token3"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
+
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+
+      // Act: Remove range1 (simulating it finished)
+      partitionRangeManager.removePartitionRangeMapping("range1");
+
+      // Assert: Sliding window should still have unprocessed ranges (range2, range3)
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+    });
+
+    it("should remove intermediate finished range and advance sliding window", () => {
+      // Arrange: Add three ranges
+      const rangeMap = new Map<string, QueryRangeMapping>();
+      rangeMap.set("range1", createMockRangeMapping(10, "token1"));
+      rangeMap.set("range2", createMockRangeMapping(5, "token2"));
+      rangeMap.set("range3", createMockRangeMapping(15, "token3"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
+
+      // Act: Remove intermediate range2
+      partitionRangeManager.removePartitionRangeMapping("range2");
+
+      // Assert: Sliding window should advance, still having range1 and range3
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+    });
+
+    it("should remove multiple intermediate ranges and advance sliding window", () => {
+      // Arrange: Add five ranges
+      const rangeMap = new Map<string, QueryRangeMapping>();
+      rangeMap.set("range1", createMockRangeMapping(10, "token1"));
+      rangeMap.set("range2", createMockRangeMapping(5, "token2"));
+      rangeMap.set("range3", createMockRangeMapping(8, "token3"));
+      rangeMap.set("range4", createMockRangeMapping(12, "token4"));
+      rangeMap.set("range5", createMockRangeMapping(20, "token5"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
+
+      // Act: Remove ranges 2, 3, 4 (intermediate ranges)
+      partitionRangeManager.removePartitionRangeMapping("range2");
+      partitionRangeManager.removePartitionRangeMapping("range3");
+      partitionRangeManager.removePartitionRangeMapping("range4");
+
+      // Assert: Window advanced, still has range1 and range5
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+    });
+
+    it("should report no unprocessed ranges when all ranges finish", () => {
+      // Arrange: Add two ranges
+      const rangeMap = new Map<string, QueryRangeMapping>();
+      rangeMap.set("range1", createMockRangeMapping(10, "token1"));
+      rangeMap.set("range2", createMockRangeMapping(5, "token2"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
+
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+
+      // Act: Remove all ranges
+      partitionRangeManager.removePartitionRangeMapping("range1");
+      partitionRangeManager.removePartitionRangeMapping("range2");
+
+      // Assert: No unprocessed ranges remain
+      assert.isFalse(partitionRangeManager.hasUnprocessedRanges());
+    });
+
+    it("should handle sequential removal of ranges simulating sliding window progression", () => {
+      // Arrange: Add ranges sequentially and remove as they finish
+      const rangeMap1 = new Map<string, QueryRangeMapping>();
+      rangeMap1.set("range1", createMockRangeMapping(10, "token1"));
+      rangeMap1.set("range2", createMockRangeMapping(5, "token2"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap1);
+
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+
+      // Act: Remove range1
+      partitionRangeManager.removePartitionRangeMapping("range1");
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+
+      // Act: Add a new range while range2 is still active (simulating new ranges arriving)
+      const rangeMap2 = new Map<string, QueryRangeMapping>();
+      rangeMap2.set("range3", createMockRangeMapping(15, "token3"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap2);
+
+      // Act: Remove range2
+      partitionRangeManager.removePartitionRangeMapping("range2");
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges()); // range3 still there
+
+      // Act: Remove range3
+      partitionRangeManager.removePartitionRangeMapping("range3");
+      assert.isFalse(partitionRangeManager.hasUnprocessedRanges());
+    });
+
+    it("should correctly process ranges after some are removed", () => {
+      // Arrange: Add ranges and remove some
+      const rangeMap = new Map<string, QueryRangeMapping>();
+      rangeMap.set("range1", createMockRangeMapping(10, "token1"));
+      rangeMap.set("range2", createMockRangeMapping(5, "token2"));
+      rangeMap.set("range3", createMockRangeMapping(15, "token3"));
+      rangeMap.set("range4", createMockRangeMapping(8, "token4"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
+
+      // Remove range1 and range2
+      partitionRangeManager.removePartitionRangeMapping("range1");
+      partitionRangeManager.removePartitionRangeMapping("range2");
+
+      // Act: Process remaining ranges
+      const result = partitionRangeManager.processParallelRanges(20);
+
+      // Assert: Should process range3 and range4
+      assert.equal(result.endIndex, 15); // Only range3 fits in pageSize 20
+      assert.deepEqual(result.processedRanges, ["range3"]);
+    });
+
+    it("should handle removeExhaustedRanges correctly in sliding window", () => {
+      // Arrange: Create ranges with some exhausted
+      const ranges = [
+        createMockRangeMapping(10, "valid-token1"),
+        createMockRangeMapping(5, null), // Exhausted
+        createMockRangeMapping(8, "valid-token2"),
+        createMockRangeMapping(12, ""), // Exhausted
+        createMockRangeMapping(15, "valid-token3"),
+      ];
+
+      // Act: Filter exhausted ranges
+      const result = partitionRangeManager.removeExhaustedRanges(ranges);
+
+      // Assert: Only non-exhausted ranges remain
+      assert.equal(result.length, 3);
+      assert.equal(result[0].itemCount, 10);
+      assert.equal(result[0].continuationToken, "valid-token1");
+      assert.equal(result[1].itemCount, 8);
+      assert.equal(result[1].continuationToken, "valid-token2");
+      assert.equal(result[2].itemCount, 15);
+      assert.equal(result[2].continuationToken, "valid-token3");
+    });
+
+    it("should not process removed ranges in ORDER BY queries", () => {
+      // Arrange: Add ranges
+      const rangeMap = new Map<string, QueryRangeMapping>();
+      rangeMap.set("range1", createMockRangeMapping(10, "token1"));
+      rangeMap.set("range2", createMockRangeMapping(5, "token2"));
+      rangeMap.set("range3", createMockRangeMapping(15, "token3"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap);
+
+      // Remove range1
+      partitionRangeManager.removePartitionRangeMapping("range1");
+
+      // Act: Process ORDER BY ranges
+      const result = partitionRangeManager.processOrderByRanges(10);
+
+      // Assert: Should start with range2 (range1 was removed from sliding window)
+      assert.equal(result.endIndex, 5); // Only range2 fits in pageSize 10
+      assert.deepEqual(result.processedRanges, ["range2"]);
+      assert.isNotNull(result.lastRangeBeforePageLimit);
+      assert.equal(result.lastRangeBeforePageLimit?.itemCount, 5);
+    });
+
+    it("should maintain correct sliding window state after multiple operations", () => {
+      // Arrange: Complex scenario with adds and removes
+      const rangeMap1 = new Map<string, QueryRangeMapping>();
+      rangeMap1.set("range1", createMockRangeMapping(10, "token1"));
+      rangeMap1.set("range2", createMockRangeMapping(5, "token2"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap1);
+
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+
+      // Remove range1
+      partitionRangeManager.removePartitionRangeMapping("range1");
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+
+      // Add more ranges
+      const rangeMap2 = new Map<string, QueryRangeMapping>();
+      rangeMap2.set("range3", createMockRangeMapping(15, "token3"));
+      rangeMap2.set("range4", createMockRangeMapping(8, "token4"));
+      partitionRangeManager.addPartitionKeyRangeMap(rangeMap2);
+
+      // Remove range2 and range3
+      partitionRangeManager.removePartitionRangeMapping("range2");
+      partitionRangeManager.removePartitionRangeMapping("range3");
+
+      // Assert: Only range4 remains
+      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+
+      // Process remaining ranges
+      const result = partitionRangeManager.processParallelRanges(10);
+      assert.equal(result.endIndex, 8);
+      assert.deepEqual(result.processedRanges, ["range4"]);
+    });
+  });
 });
