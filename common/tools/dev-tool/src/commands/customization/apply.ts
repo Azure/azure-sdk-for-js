@@ -106,6 +106,35 @@ export default leafCommand(commandInfo, async (options) => {
   const generatedDirectory = path.join(info.path, options.sourceDirectory);
   const customizedDirectory = path.join(info.path, options.targetDirectory);
 
+  const resolvedGenerated = path.resolve(generatedDirectory);
+  const resolvedCustomized = path.resolve(customizedDirectory);
+  const resolvedProjectRoot = path.resolve(info.path);
+
+  // Validate that neither source nor target directory escapes the project root
+  if (!resolvedCustomized.startsWith(resolvedProjectRoot + path.sep)) {
+    log(
+      "❌ The target directory must be a subdirectory of the project root (e.g., 'src').",
+    );
+    return false;
+  }
+
+  if (!resolvedGenerated.startsWith(resolvedProjectRoot + path.sep)) {
+    log(
+      "❌ The source directory must be a subdirectory of the project root (e.g., 'generated').",
+    );
+    return false;
+  }
+
+  // Validate that source and target directories are not the same or overlapping
+  if (
+    resolvedGenerated === resolvedCustomized ||
+    resolvedGenerated.startsWith(resolvedCustomized + path.sep) ||
+    resolvedCustomized.startsWith(resolvedGenerated + path.sep)
+  ) {
+    log("❌ The source and target directories must not be the same or overlapping paths.");
+    return false;
+  }
+
   if (!existsSync(generatedDirectory)) {
     log(`❌ Could not find source directory ${generatedDirectory}`);
     return false;
