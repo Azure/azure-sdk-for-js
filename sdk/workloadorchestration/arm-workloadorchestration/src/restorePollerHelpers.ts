@@ -1,11 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementClient } from "./workloadOrchestrationManagementClient.js";
+import type { WorkloadOrchestrationManagementClient } from "./workloadOrchestrationManagementClient.js";
 import {
   _$deleteDeserialize,
-  _updateDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/solutionDeployments/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeConfigTemplateMetadatas,
+  _updateDeserialize,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeConfigTemplateMetadatas,
+} from "./api/configTemplateMetadatas/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeSiteReferences,
+  _updateDeserialize as _updateDeserializeSiteReferences,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeSiteReferences,
 } from "./api/siteReferences/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeContexts,
@@ -33,8 +42,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkflows,
 } from "./api/workflows/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeConfigTemplateVersions,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeConfigTemplateVersions,
+} from "./api/configTemplateVersions/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeConfigTemplates,
   _createVersionDeserialize,
+  _unLinkFromHierarchiesDeserialize,
+  _linkToHierarchiesDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeConfigTemplates,
 } from "./api/configTemplates/operations.js";
 import {
@@ -49,8 +64,11 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeSolutionTemplates,
 } from "./api/solutionTemplates/operations.js";
 import {
+  _bulkReviewSolutionDeserialize,
   _bulkPublishSolutionDeserialize,
   _bulkDeploySolutionDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeSolutionTemplateVersions,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeSolutionTemplateVersions,
 } from "./api/solutionTemplateVersions/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeSolutions,
@@ -58,10 +76,15 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeSolutions,
 } from "./api/solutions/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeSchemaReferences,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeSchemaReferences,
+} from "./api/schemaReferences/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeDynamicSchemaVersions,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDynamicSchemaVersions,
 } from "./api/dynamicSchemaVersions/operations.js";
 import {
+  _unstageSolutionVersionDeserialize,
   _updateExternalValidationStatusDeserialize,
   _publishSolutionVersionDeserialize,
   _reviewSolutionVersionDeserialize,
@@ -92,14 +115,10 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDynamicSchemas,
 } from "./api/dynamicSchemas/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -143,6 +162,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -153,178 +173,151 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionDeployments/{solutionDeploymentName}":
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionDeployments/{solutionDeploymentName}":
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}":
     {
-      deserializer: _$deleteDeserialize,
+      deserializer: _$deleteDeserializeConfigTemplateMetadatas,
       expectedStatuses: ["202", "204", "200"],
     },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}":
+    {
+      deserializer: _createOrUpdateDeserializeConfigTemplateMetadatas,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}":
+    { deserializer: _$deleteDeserializeSiteReferences, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserializeSiteReferences, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}":
     {
-      deserializer: _createOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserializeSiteReferences,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}":
-    {
-      deserializer: _$deleteDeserializeContexts,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeContexts, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}":
-    {
-      deserializer: _updateDeserializeContexts,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeContexts, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}":
-    {
-      deserializer: _createOrUpdateDeserializeContexts,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserializeContexts, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}":
-    {
-      deserializer: _$deleteDeserializeDiagnostics,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeDiagnostics, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}":
-    {
-      deserializer: _updateDeserializeDiagnostics,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeDiagnostics, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}":
     {
       deserializer: _createOrUpdateDeserializeDiagnostics,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}":
-    {
-      deserializer: _$deleteDeserializeExecutions,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeExecutions, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}":
-    {
-      deserializer: _updateDeserializeExecutions,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeExecutions, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}":
-    {
-      deserializer: _createOrUpdateDeserializeExecutions,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserializeExecutions, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}":
-    {
-      deserializer: _$deleteDeserializeWorkflowVersions,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeWorkflowVersions, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}":
-    {
-      deserializer: _updateDeserializeWorkflowVersions,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeWorkflowVersions, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}":
     {
       deserializer: _createOrUpdateDeserializeWorkflowVersions,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}":
+    { deserializer: _$deleteDeserializeWorkflows, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}":
+    { deserializer: _updateDeserializeWorkflows, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}":
+    { deserializer: _createOrUpdateDeserializeWorkflows, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}":
     {
-      deserializer: _$deleteDeserializeWorkflows,
+      deserializer: _$deleteDeserializeConfigTemplateVersions,
       expectedStatuses: ["202", "204", "200"],
     },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}":
     {
-      deserializer: _updateDeserializeWorkflows,
-      expectedStatuses: ["200", "202"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}":
-    {
-      deserializer: _createOrUpdateDeserializeWorkflows,
+      deserializer: _createOrUpdateDeserializeConfigTemplateVersions,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}":
-    {
-      deserializer: _$deleteDeserializeConfigTemplates,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeConfigTemplates, expectedStatuses: ["202", "204", "200"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/createVersion":
-    {
-      deserializer: _createVersionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _createVersionDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/unLinkFromHierarchies":
+    { deserializer: _unLinkFromHierarchiesDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/linkToHierarchies":
+    { deserializer: _linkToHierarchiesDeserialize, expectedStatuses: ["202", "200", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}":
     {
       deserializer: _createOrUpdateDeserializeConfigTemplates,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}":
-    {
-      deserializer: _$deleteDeserializeInstances,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeInstances, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}":
-    {
-      deserializer: _updateDeserializeInstances,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeInstances, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}":
-    {
-      deserializer: _createOrUpdateDeserializeInstances,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserializeInstances, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}":
-    {
-      deserializer: _$deleteDeserializeSolutionTemplates,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeSolutionTemplates, expectedStatuses: ["202", "204", "200"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/removeVersion":
-    {
-      deserializer: _removeVersionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _removeVersionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/createVersion":
     {
       deserializer: _createVersionDeserializeSolutionTemplates,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}":
     {
       deserializer: _createOrUpdateDeserializeSolutionTemplates,
       expectedStatuses: ["200", "201", "202"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkReviewSolution":
+    { deserializer: _bulkReviewSolutionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkPublishSolution":
-    {
-      deserializer: _bulkPublishSolutionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _bulkPublishSolutionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkDeploySolution":
+    { deserializer: _bulkDeploySolutionDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}":
     {
-      deserializer: _bulkDeploySolutionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}":
-    {
-      deserializer: _$deleteDeserializeSolutions,
+      deserializer: _$deleteDeserializeSolutionTemplateVersions,
       expectedStatuses: ["202", "204", "200"],
     },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}":
     {
-      deserializer: _updateDeserializeSolutions,
-      expectedStatuses: ["200", "202"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}":
-    {
-      deserializer: _createOrUpdateDeserializeSolutions,
+      deserializer: _createOrUpdateDeserializeSolutionTemplateVersions,
       expectedStatuses: ["200", "201", "202"],
     },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}":
+    { deserializer: _$deleteDeserializeSolutions, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}":
+    { deserializer: _updateDeserializeSolutions, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}":
+    { deserializer: _createOrUpdateDeserializeSolutions, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}": {
+    deserializer: _$deleteDeserializeSchemaReferences,
+    expectedStatuses: ["202", "204", "200"],
+  },
+  "PUT /{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}": {
+    deserializer: _createOrUpdateDeserializeSchemaReferences,
+    expectedStatuses: ["200", "201", "202"],
+  },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}":
     {
       deserializer: _$deleteDeserializeDynamicSchemaVersions,
@@ -335,101 +328,55 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeDynamicSchemaVersions,
       expectedStatuses: ["200", "201", "202"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/unstageSolutionVersion":
+    { deserializer: _unstageSolutionVersionDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/updateExternalValidationStatus":
     {
       deserializer: _updateExternalValidationStatusDeserialize,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/publishSolutionVersion":
-    {
-      deserializer: _publishSolutionVersionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _publishSolutionVersionDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/reviewSolutionVersion":
-    {
-      deserializer: _reviewSolutionVersionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _reviewSolutionVersionDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/resolveConfiguration":
-    {
-      deserializer: _resolveConfigurationDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _resolveConfigurationDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/removeRevision":
-    {
-      deserializer: _removeRevisionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _removeRevisionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/uninstallSolution":
-    {
-      deserializer: _uninstallSolutionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _uninstallSolutionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/installSolution":
-    {
-      deserializer: _installSolutionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _installSolutionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}":
-    {
-      deserializer: _$deleteDeserializeTargets,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeTargets, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}":
-    {
-      deserializer: _updateDeserializeTargets,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeTargets, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}":
-    {
-      deserializer: _createOrUpdateDeserializeTargets,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserializeTargets, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}":
-    {
-      deserializer: _$deleteDeserializeSolutionVersions,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeSolutionVersions, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}":
-    {
-      deserializer: _updateDeserializeSolutionVersions,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeSolutionVersions, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}":
     {
       deserializer: _createOrUpdateDeserializeSolutionVersions,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}":
-    {
-      deserializer: _$deleteDeserializeSchemaVersions,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeSchemaVersions, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}":
     {
       deserializer: _createOrUpdateDeserializeSchemaVersions,
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/createVersion":
-    {
-      deserializer: _createVersionDeserializeSchemas,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _createVersionDeserializeSchemas, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}":
-    {
-      deserializer: _$deleteDeserializeSchemas,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeSchemas, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}":
-    {
-      deserializer: _createOrUpdateDeserializeSchemas,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserializeSchemas, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}":
-    {
-      deserializer: _$deleteDeserializeDynamicSchemas,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeDynamicSchemas, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}":
     {
       deserializer: _createOrUpdateDeserializeDynamicSchemas,
@@ -505,4 +452,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }
