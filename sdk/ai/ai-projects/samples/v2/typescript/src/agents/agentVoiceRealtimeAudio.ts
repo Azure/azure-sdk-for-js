@@ -25,7 +25,7 @@ import {
   type VoiceAgentDefinition,
   type VoiceAgentTurnDetectionConfigUnion,
   type RealtimeAudioFormatsUnion,
-  type VoiceAgentServerEvent,
+  type VoiceAgentRealtimeEvent,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -43,8 +43,7 @@ const modelName = process.env["FOUNDRY_VOICE_AGENT_MODEL"]?.trim() || "gpt-realt
 // service will eventually drop the connection (observed as a 1006 abnormal close).
 // Defaults to the checked-in sample fixture (a few seconds of synthesized speech) so this
 // sample also runs unattended, e.g. in the live-test pipeline's `execute:samples` step.
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const defaultAudioInputPath = path.join(__dirname, "assets/input.pcm");
 const audioInputPath =
   process.env["FOUNDRY_VOICE_AGENT_AUDIO_INPUT_FILE"]?.trim() || defaultAudioInputPath;
@@ -184,8 +183,10 @@ async function writeAudio(output: WriteStream, audio: Uint8Array): Promise<void>
 }
 
 /** Summarizes a server event with a short, useful detail for the event log. */
-function describeEvent(event: VoiceAgentServerEvent): string {
+function describeEvent(event: VoiceAgentRealtimeEvent): string {
   switch (event.type) {
+    case "unknown":
+      return ` (unrecognized event type: ${event.eventType})`;
     case "response.output_audio.delta":
       return ` (${event.delta.byteLength} bytes)`;
     case "response.output_text.delta":

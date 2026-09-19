@@ -22,6 +22,23 @@ describe("snippets", () => {
     await client.start();
   });
 
+  it("ReadmeSampleRecoveryEvents", async () => {
+    // Disabling fresh reconnect does not disable reliable recovery.
+    const client = new WebPubSubClient("<client-access-url>", { autoReconnect: false });
+    // @ts-preserve-whitespace
+    // Register listeners before starting the client.
+    client.on("recovering", (e) => {
+      console.log(`Recovering connection ${e.connectionId}.`);
+    });
+    client.on("recovered", (e) => {
+      console.log(
+        `Connection ${e.connectionId} recovered; message replay may still be in progress.`,
+      );
+    });
+    // @ts-preserve-whitespace
+    await client.start();
+  });
+
   it("ReadmeSampleJoinGroups", async () => {
     const client = new WebPubSubClient("<client-access-url>");
     // @ts-preserve-whitespace

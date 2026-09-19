@@ -13,7 +13,7 @@ import type {
   GenerateExpressRouteLagsLOAResult,
   _ExpressRouteLagLinkListResult,
   _ExpressRouteLagMemberListResult,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import {
   expressRouteLagSerializer,
   expressRouteLagDeserializer,
@@ -25,7 +25,7 @@ import {
   generateExpressRouteLagsLOAResultDeserializer,
   _expressRouteLagLinkListResultDeserializer,
   _expressRouteLagMemberListResultDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -61,7 +61,7 @@ export function _membersListSend(
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
       linkName: linkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +102,7 @@ export function membersList(
     () => _membersListSend(context, resourceGroupName, expressRouteLagName, linkName, options),
     _membersListDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -122,7 +122,7 @@ export function _membersGetSend(
       expressRouteLagName: expressRouteLagName,
       linkName: linkName,
       memberName: memberName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +182,7 @@ export function _linksListSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -222,7 +222,7 @@ export function linksList(
     () => _linksListSend(context, resourceGroupName, expressRouteLagName, options),
     _linksListDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -240,7 +240,7 @@ export function _linksGetSend(
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
       linkName: linkName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -299,7 +299,7 @@ export function _generateLoaSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -355,7 +355,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteLags{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -393,7 +393,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -407,7 +407,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -446,7 +446,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -462,7 +462,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -498,7 +498,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, expressRouteLagName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -515,7 +515,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -574,7 +574,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -618,7 +618,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, expressRouteLagName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<ExpressRouteLag>, ExpressRouteLag>;
 }
 
@@ -634,7 +634,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

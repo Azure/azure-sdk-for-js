@@ -49,7 +49,6 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesGetOptionalParams,
   ) => Promise<FirewallRule>;
 }
-
 function _getFirewallRules(context: MongoClusterManagementContext) {
   return {
     listByMongoCluster: (
@@ -86,7 +85,6 @@ function _getFirewallRules(context: MongoClusterManagementContext) {
     ) => get(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
   };
 }
-
 export function _getFirewallRulesOperations(
   context: MongoClusterManagementContext,
 ): FirewallRulesOperations {

@@ -43,6 +43,7 @@ export interface Agent {
   readonly blueprint?: AgentIdentity;
   /** The blueprint for the agent */
   readonly blueprint_reference?: AgentBlueprintReferenceUnion;
+  /** The agent card describing the agent and the skills it can perform. */
   agent_card?: AgentCard;
 }
 
@@ -376,6 +377,7 @@ export function raiSseTextSelectorDeserializer(item: any): RaiSseTextSelector {
 
 /** The hosted agent definition. */
 export interface HostedAgentDefinition extends AgentDefinition {
+  /** The kind of agent definition. Always `hosted` for an agent deployed to the hosted runtime. */
   kind: "hosted";
   /** The CPU configuration for the hosted agent. */
   cpu: string;
@@ -1935,7 +1937,9 @@ export function _fabricIQPreviewToolRequireApprovalDeserializer(
 
 /** model interface MCPToolRequireApproval */
 export interface MCPToolRequireApproval {
+  /** The filter selecting MCP tools whose calls always require approval. */
   always?: MCPToolFilter;
+  /** The filter selecting MCP tools whose calls never require approval. */
   never?: MCPToolFilter;
 }
 
@@ -2049,6 +2053,9 @@ export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions 
 export interface CodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
+  /**
+   * The callers that may invoke this code interpreter tool, either directly or programmatically.
+   */
   allowed_callers?: CallableToolAllowedCaller[];
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
@@ -3495,6 +3502,7 @@ export interface CustomToolParam extends Tool {
   format?: CustomToolParamFormatUnion;
   /** Whether this tool should be deferred and discovered via tool search. */
   defer_loading?: boolean;
+  /** The callers that may invoke this custom tool, either directly or programmatically. */
   allowed_callers?: CallableToolAllowedCaller[];
   /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
   async?: boolean;
@@ -3632,6 +3640,7 @@ export interface WebSearchPreviewTool extends Tool {
   user_location?: ApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: SearchContextSize;
+  /** The content types to include in web search results, such as text or images. */
   search_content_types?: SearchContentType[];
 }
 
@@ -3709,6 +3718,7 @@ export type SearchContentType = "text" | "image";
 export interface ApplyPatchToolParam extends Tool {
   /** The type of the tool. Always `apply_patch`. */
   type: "apply_patch";
+  /** The callers that may invoke this apply-patch tool, either directly or programmatically. */
   allowed_callers?: CallableToolAllowedCaller[];
 }
 
@@ -3809,14 +3819,21 @@ export function _namespaceToolParamToolDeserializer(item: any): _NamespaceToolPa
 
 /** model interface FunctionToolParam */
 export interface FunctionToolParam {
+  /** The name used to identify the function in tool calls. */
   name: string;
+  /** A description of the function that helps the model decide when and how to call it. */
   description?: string;
+  /** The JSON Schema describing the arguments accepted by the function. */
   parameters?: EmptyModelParam;
+  /** Whether function arguments must strictly match the parameters schema. */
   strict?: boolean;
+  /** The type of the function tool. Always `function`. */
   type: "function";
+  /** The JSON Schema describing the function output. */
   output_schema?: Record<string, any>;
   /** Whether this function should be deferred and discovered via tool search. */
   defer_loading?: boolean;
+  /** The callers that may invoke this function tool, either directly or programmatically. */
   allowed_callers?: CallableToolAllowedCaller[];
   /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
   async?: boolean;
@@ -3883,7 +3900,9 @@ export interface ToolSearchToolParam extends Tool {
   type: "tool_search";
   /** Whether tool search is executed by the server or by the client. */
   execution?: ToolSearchExecutionType;
+  /** Guidance shown to the model for a tool search implementation that runs on the client. */
   description?: string;
+  /** The parameter schema for a tool search implementation that runs on the client. */
   parameters?: EmptyModelParam;
 }
 
@@ -4219,6 +4238,10 @@ export type TelemetryTransportProtocol = "Http" | "Grpc";
 
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
+  /**
+   * The kind of agent definition. Always `prompt` for an agent configured with a model and
+   * instructions.
+   */
   kind: "prompt";
   /** (Preview) The managed runtime and agent loop used to execute this prompt agent. */
   harness?: AgentHarnessUnion;
@@ -4241,6 +4264,7 @@ export interface PromptAgentDefinition extends AgentDefinition {
    * Defaults to `1`.
    */
   top_p?: number;
+  /** Configuration for the model reasoning behavior when generating responses. */
   reasoning?: Reasoning;
   /**
    * An array of tools the model may call while generating a response. You
@@ -4495,9 +4519,25 @@ export interface Reasoning {
    *   When returned on a response, this is the effective execution mode.
    */
   mode?: ReasoningModeEnum;
+  /**
+   * The reasoning effort requested for the response. Lower effort can reduce latency and reasoning
+   * token usage; supported values depend on the model.
+   */
   effort?: ReasoningEffort;
+  /**
+   * The level of detail requested for the model's reasoning summary, or `auto` to let the model
+   * choose.
+   */
   summary?: "auto" | "concise" | "detailed";
+  /**
+   * Controls whether reasoning items from the current turn or all turns are included in later model
+   * context; `auto` lets the model choose.
+   */
   context?: "auto" | "current_turn" | "all_turns";
+  /**
+   * Legacy setting for the level of detail in the model's reasoning summary. Use `summary` for new
+   * configurations.
+   */
   generate_summary?: "auto" | "concise" | "detailed";
 }
 
@@ -4554,6 +4594,7 @@ export function _promptAgentDefinitionToolChoiceDeserializer(
  * the model can call.
  */
 export interface ToolChoiceParam {
+  /** The kind of tool the model should call when generating a response. */
   type: ToolChoiceParamType;
 }
 
@@ -4784,6 +4825,7 @@ export interface ToolChoiceMCP extends ToolChoiceParam {
   type: "mcp";
   /** The label of the MCP server to use. */
   server_label: string;
+  /** The name of the tool to invoke on the MCP server identified by `server_label`. */
   name?: string;
 }
 
@@ -4855,6 +4897,7 @@ export function specificFunctionShellParamDeserializer(item: any): SpecificFunct
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceFileSearch extends ToolChoiceParam {
+  /** Selects the file search tool. Always `file_search`. */
   type: "file_search";
 }
 
@@ -4873,6 +4916,7 @@ export function toolChoiceFileSearchDeserializer(item: any): ToolChoiceFileSearc
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
+  /** Selects the preview web search tool. Always `web_search_preview`. */
   type: "web_search_preview";
 }
 
@@ -4891,6 +4935,7 @@ export function toolChoiceWebSearchPreviewDeserializer(item: any): ToolChoiceWeb
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
+  /** Selects the preview computer use tool. Always `computer_use_preview`. */
   type: "computer_use_preview";
 }
 
@@ -4909,6 +4954,10 @@ export function toolChoiceComputerUsePreviewDeserializer(item: any): ToolChoiceC
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
+  /**
+   * Selects the March 11, 2025 preview version of the web search tool. Always
+   * `web_search_preview_2025_03_11`.
+   */
   type: "web_search_preview_2025_03_11";
 }
 
@@ -4931,6 +4980,7 @@ export function toolChoiceWebSearchPreview20250311Deserializer(
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceImageGeneration extends ToolChoiceParam {
+  /** Selects the image generation tool. Always `image_generation`. */
   type: "image_generation";
 }
 
@@ -4949,6 +4999,7 @@ export function toolChoiceImageGenerationDeserializer(item: any): ToolChoiceImag
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
+  /** Selects the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
 }
 
@@ -4967,6 +5018,7 @@ export function toolChoiceCodeInterpreterDeserializer(item: any): ToolChoiceCode
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceComputer extends ToolChoiceParam {
+  /** Selects the computer tool. Always `computer`. */
   type: "computer";
 }
 
@@ -4985,6 +5037,7 @@ export function toolChoiceComputerDeserializer(item: any): ToolChoiceComputer {
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceComputerUse extends ToolChoiceParam {
+  /** Selects the computer use tool. Always `computer_use`. */
   type: "computer_use";
 }
 
@@ -5000,6 +5053,7 @@ export function toolChoiceComputerUseDeserializer(item: any): ToolChoiceComputer
 
 /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
 export interface PromptAgentDefinitionTextOptions {
+  /** The format of the model text response, such as plain text or structured JSON. */
   format?: TextResponseFormatUnion;
 }
 
@@ -5031,6 +5085,7 @@ export function promptAgentDefinitionTextOptionsDeserializer(
  * is preferred for models that support it.
  */
 export interface TextResponseFormat {
+  /** The output format requested from the model, such as plain text or structured JSON. */
   type: TextResponseFormatConfigurationType;
 }
 
@@ -5103,7 +5158,9 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormat {
    *   underscores and dashes, with a maximum length of 64.
    */
   name: string;
+  /** The JSON Schema that defines the required structure of the model's output. */
   schema: Record<string, unknown>;
+  /** Whether the model's generated output must strictly conform to the supplied JSON Schema. */
   strict?: boolean;
 }
 
@@ -5216,6 +5273,7 @@ export function structuredInputDefinitionDeserializer(item: any): StructuredInpu
 
 /** The workflow agent definition. */
 export interface WorkflowAgentDefinition extends AgentDefinition {
+  /** The agent kind. Always `workflow` for an agent defined by a workflow. */
   kind: "workflow";
   /** The CSDL YAML definition of the workflow. */
   workflow?: string;
@@ -5245,6 +5303,7 @@ export function workflowAgentDefinitionDeserializer(item: any): WorkflowAgentDef
  * over customer-emitted OpenTelemetry data.
  */
 export interface ExternalAgentDefinition extends AgentDefinition {
+  /** The kind of agent definition. Always `external` for an agent hosted outside Foundry. */
   kind: "external";
   /**
    * The OpenTelemetry agent identifier used to attribute customer-emitted spans to this Foundry agent.
@@ -5300,6 +5359,7 @@ export type AgentIdentityStatus = "active" | "disabled";
 
 /** model interface AgentBlueprintReference */
 export interface AgentBlueprintReference {
+  /** The type of agent identity blueprint referenced. */
   type: AgentBlueprintReferenceType;
 }
 
@@ -5346,6 +5406,7 @@ export type AgentBlueprintReferenceType = "ManagedAgentIdentityBlueprint";
 
 /** model interface ManagedAgentIdentityBlueprintReference */
 export interface ManagedAgentIdentityBlueprintReference extends AgentBlueprintReference {
+  /** The type of blueprint reference. Always `ManagedAgentIdentityBlueprint`. */
   type: "ManagedAgentIdentityBlueprint";
   /** The ID of the managed blueprint */
   blueprint_id: string;
@@ -5407,11 +5468,16 @@ export function agentEndpointConfigDeserializer(item: any): AgentEndpointConfig 
   };
 }
 
-/** @deprecated Use AgentEndpointConfig instead. */
+/**
+ * Configuration for routing, protocols, and authorization at an agent endpoint.
+ *
+ * @deprecated Use AgentEndpointConfig instead.
+ */
 export type AgentEndpoint = AgentEndpointConfig;
 
 /** model interface VersionSelector */
 export interface VersionSelector {
+  /** The rules that determine how requests are routed among agent versions. */
   version_selection_rules: VersionSelectionRuleUnion[];
 }
 
@@ -5449,6 +5515,7 @@ export function versionSelectionRuleUnionArrayDeserializer(
 
 /** model interface VersionSelectionRule */
 export interface VersionSelectionRule {
+  /** The routing strategy used to select an agent version. */
   type: VersionSelectionRuleType;
   /** The agent version to route traffic to */
   agent_version: string;
@@ -5493,6 +5560,10 @@ export type VersionSelectionRuleType = "FixedRatio";
 
 /** model interface FixedRatioVersionSelectionRule */
 export interface FixedRatioVersionSelectionRule extends VersionSelectionRule {
+  /**
+   * The type of version selection rule. Always `FixedRatio` for routing a fixed percentage of
+   * traffic.
+   */
   type: "FixedRatio";
   /** The percentage of traffic to route to the version. Must be between 0 and 100. */
   traffic_percentage: number;
@@ -5682,6 +5753,7 @@ export function agentEndpointAuthorizationSchemeUnionArrayDeserializer(
 
 /** model interface AgentEndpointAuthorizationScheme */
 export interface AgentEndpointAuthorizationScheme {
+  /** The authorization scheme used by the agent endpoint. */
   type: AgentEndpointAuthorizationSchemeType;
 }
 
@@ -5761,6 +5833,7 @@ export type AgentEndpointAuthorizationSchemeType =
 
 /** model interface EntraAuthorizationScheme */
 export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {
+  /** Identifies the Microsoft Entra authorization scheme. Always `Entra`. */
   type: "Entra";
 }
 
@@ -5778,6 +5851,7 @@ export function entraAuthorizationSchemeDeserializer(item: any): EntraAuthorizat
 
 /** model interface BotServiceAuthorizationScheme */
 export interface BotServiceAuthorizationScheme extends AgentEndpointAuthorizationScheme {
+  /** Identifies the Bot Service authorization scheme. Always `BotService`. */
   type: "BotService";
 }
 
@@ -5795,6 +5869,7 @@ export function botServiceAuthorizationSchemeDeserializer(
 
 /** model interface BotServiceRbacAuthorizationScheme */
 export interface BotServiceRbacAuthorizationScheme extends AgentEndpointAuthorizationScheme {
+  /** Identifies the Bot Service role-based authorization scheme. Always `BotServiceRbac`. */
   type: "BotServiceRbac";
 }
 
@@ -5814,6 +5889,7 @@ export function botServiceRbacAuthorizationSchemeDeserializer(
 
 /** model interface BotServiceTenantAuthorizationScheme */
 export interface BotServiceTenantAuthorizationScheme extends AgentEndpointAuthorizationScheme {
+  /** Identifies the Bot Service tenant authorization scheme. Always `BotServiceTenant`. */
   type: "BotServiceTenant";
 }
 
@@ -7755,7 +7831,12 @@ export type ToolboxToolType =
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
+  /** The type of the code interpreter toolbox tool. Always `code_interpreter`. */
   type: "code_interpreter";
+  /**
+   * The callers that may invoke this code interpreter toolbox tool, either directly or
+   * programmatically.
+   */
   allowed_callers?: CallableToolAllowedCaller[];
   /**
    * The code interpreter container. Can be a container ID or an object that
@@ -7806,11 +7887,13 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
 
 /** A file search tool stored in a toolbox. */
 export interface FileSearchToolboxTool extends ToolboxTool {
+  /** The type of the file search toolbox tool. Always `file_search`. */
   type: "file_search";
   /** The maximum number of results to return. This number should be between 1 and 50 inclusive. */
   max_num_results?: number;
   /** Ranking options for search. */
   ranking_options?: RankingOptions;
+  /** Filters that restrict which files are included in the search. */
   filters?: Filters;
   /** The IDs of the vector stores to search. */
   vector_store_ids?: string[];
@@ -7860,8 +7943,11 @@ export function fileSearchToolboxToolDeserializer(item: any): FileSearchToolboxT
 
 /** A web search tool stored in a toolbox. */
 export interface WebSearchToolboxTool extends ToolboxTool {
+  /** The toolbox tool type. Always `web_search` for a web search tool. */
   type: "web_search";
+  /** Filters that restrict web search results to allowed domains. */
   filters?: WebSearchToolFilters;
+  /** The user's approximate location, used to improve the relevance of web search results. */
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
@@ -7916,6 +8002,7 @@ export function webSearchToolboxToolDeserializer(item: any): WebSearchToolboxToo
 
 /** An MCP tool stored in a toolbox. */
 export interface MCPToolboxTool extends ToolboxTool {
+  /** The type of the MCP toolbox tool. Always `mcp`. */
   type: "mcp";
   /** A label for this MCP server, used to identify it in tool calls. */
   server_label: string;
@@ -7960,9 +8047,15 @@ export interface MCPToolboxTool extends ToolboxTool {
   authorization?: string;
   /** Optional description of the MCP server, used to provide more context. */
   server_description?: string;
+  /** Custom HTTP headers to include in requests to the MCP server. */
   headers?: Record<string, string>;
+  /** The MCP tools available for use, specified by name or a tool filter. */
   allowed_tools?: string[] | MCPToolFilter;
+  /** The callers that may invoke this MCP toolbox tool, either directly or programmatically. */
   allowed_callers?: CallableToolAllowedCaller[];
+  /**
+   * Whether MCP tool calls require approval, either for all tools or for tools selected by filters.
+   */
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
@@ -8038,6 +8131,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
 
 /** An Azure AI Search tool stored in a toolbox. */
 export interface AzureAISearchToolboxTool extends ToolboxTool {
+  /** The type of the Azure AI Search toolbox tool. Always `azure_ai_search`. */
   type: "azure_ai_search";
   /** The azure ai search index resource. */
   azure_ai_search: AzureAISearchToolResource;
@@ -8069,6 +8163,7 @@ export function azureAISearchToolboxToolDeserializer(item: any): AzureAISearchTo
 
 /** An OpenAPI tool stored in a toolbox. */
 export interface OpenApiToolboxTool extends ToolboxTool {
+  /** The type of the OpenAPI toolbox tool. Always `openapi`. */
   type: "openapi";
   /** The openapi function definition. */
   openapi: OpenApiFunctionDefinition;
@@ -8100,6 +8195,7 @@ export function openApiToolboxToolDeserializer(item: any): OpenApiToolboxTool {
 
 /** An A2A tool stored in a toolbox. */
 export interface A2APreviewToolboxTool extends ToolboxTool {
+  /** The type of the preview A2A toolbox tool. Always `a2a_preview`. */
   type: "a2a_preview";
   /** Base URL of the agent. */
   base_url?: string;
@@ -8153,6 +8249,9 @@ export function a2APreviewToolboxToolDeserializer(item: any): A2APreviewToolboxT
 
 /** A browser automation tool stored in a toolbox. */
 export interface BrowserAutomationPreviewToolboxTool extends ToolboxTool {
+  /**
+   * The type of the preview browser automation toolbox tool. Always `browser_automation_preview`.
+   */
   type: "browser_automation_preview";
   /** The Browser Automation Tool parameters. */
   browser_automation_preview: BrowserAutomationToolParameters;
@@ -8192,6 +8291,7 @@ export function browserAutomationPreviewToolboxToolDeserializer(
 
 /** A reminder tool stored in a toolbox. */
 export interface ReminderPreviewToolboxTool extends ToolboxTool {
+  /** The toolbox tool type. Always `reminder_preview`. */
   type: "reminder_preview";
 }
 
@@ -8219,6 +8319,7 @@ export function reminderPreviewToolboxToolDeserializer(item: any): ReminderPrevi
 
 /** A WorkIQ tool stored in a toolbox. */
 export interface WorkIQPreviewToolboxTool extends ToolboxTool {
+  /** The toolbox tool type. Always `work_iq_preview` for a WorkIQ tool. */
   type: "work_iq_preview";
   /** The ID of the WorkIQ project connection. */
   project_connection_id: string;
@@ -8250,6 +8351,7 @@ export function workIQPreviewToolboxToolDeserializer(item: any): WorkIQPreviewTo
 
 /** A FabricIQ tool stored in a toolbox. */
 export interface FabricIQPreviewToolboxTool extends ToolboxTool {
+  /** The type of the preview FabricIQ toolbox tool. Always `fabric_iq_preview`. */
   type: "fabric_iq_preview";
   /** The ID of the FabricIQ project connection. */
   project_connection_id: string;
@@ -9113,6 +9215,7 @@ export interface AzureAIAgentTarget extends EvaluationTarget {
   version?: string;
   /** The parameters used to control the sampling behavior of the agent during text generation. */
   tool_descriptions?: ToolDescription[];
+  /** The tools available to the target agent during evaluation. */
   tools?: ToolUnion[];
 }
 
@@ -9647,6 +9750,10 @@ export function promptBasedEvaluatorDefinitionDeserializer(
 
 /** Rubric-based evaluator definition — stores dimensions produced by the generate API. Used for both quality and safety evaluators. */
 export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
+  /**
+   * The evaluator definition type. Always `rubric` for an evaluator that scores against rubric
+   * dimensions.
+   */
   type: "rubric";
   /** The set of dimensions — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual dimension with id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same Dimension structure. */
   dimensions: Dimension[];
@@ -9726,6 +9833,7 @@ export function dimensionDeserializer(item: any): Dimension {
 
 /** Endpoint-based evaluator definition. The customer owns and hosts an HTTP endpoint that implements the evaluation contract. The evaluator references a Project Connection by name; the connection stores the endpoint URL and credentials (API Key or Entra ID). At execution time, the service resolves the connection to obtain the endpoint URL and authentication details, then calls the endpoint for each evaluation row. */
 export interface EndpointBasedEvaluatorDefinition extends EvaluatorDefinition {
+  /** The type of the endpoint-based evaluator. Always `endpoint`. */
   type: "endpoint";
   /** Name of the Project Connection that stores the endpoint URL and credentials. The connection must exist on the project and have a non-empty target URL. Supported auth types: ApiKey (sends `api-key` header) and AAD/Entra ID (acquires a bearer token via the project's Managed Identity). */
   connection_name: string;
@@ -10080,10 +10188,8 @@ export function tracesEvaluatorGenerationJobSourceSerializer(
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: !item["start_time"]
-      ? item["start_time"]
-      : (item["start_time"].getTime() / 1000) | 0,
-    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+    start_time: !item["start_time"] ? item["start_time"] : item["start_time"].getTime() / 1000 || 0,
+    end_time: !item["end_time"] ? item["end_time"] : item["end_time"].getTime() / 1000 || 0,
   };
 }
 
@@ -11657,6 +11763,7 @@ export function responseUsageInputTokensDetailsDeserializer(
 
 /** model interface ResponseUsageOutputTokensDetails */
 export interface ResponseUsageOutputTokensDetails {
+  /** The number of output tokens used for reasoning when generating the response. */
   reasoning_tokens: number;
 }
 
@@ -13841,10 +13948,8 @@ export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerati
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: !item["start_time"]
-      ? item["start_time"]
-      : (item["start_time"].getTime() / 1000) | 0,
-    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+    start_time: !item["start_time"] ? item["start_time"] : item["start_time"].getTime() / 1000 || 0,
+    end_time: !item["end_time"] ? item["end_time"] : item["end_time"].getTime() / 1000 || 0,
 
     trace_ids: !item["trace_ids"]
       ? item["trace_ids"]
@@ -14133,7 +14238,11 @@ export function simulationSeedDataGenerationJobOptionsDeserializer(
   };
 }
 
-/** @deprecated Use `SimulationSeedDataGenerationJobOptions` instead. */
+/**
+ * Options for the legacy task generation job, including the maximum number of generated samples.
+ *
+ * @deprecated Use `SimulationSeedDataGenerationJobOptions` instead.
+ */
 export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
   /** Maximum number of samples to generate. */
   max_samples: number;
@@ -14953,37 +15062,105 @@ export interface AgentOptimizationJobListItem {
   readonly agent?: OptimizedAgentIdentifier;
 }
 
-/** @deprecated Use `AgentOptimizationJob` instead. */
+/**
+ * An agent optimization job that tracks inputs, progress, status, and candidate evaluation results.
+ *
+ * @deprecated Use `AgentOptimizationJob` instead.
+ */
 export type OptimizationJob = AgentOptimizationJob;
-/** @deprecated Use `AgentOptimizationJobInputs` instead. */
+/**
+ * The agent, datasets, evaluators, and options supplied to an agent optimization job.
+ *
+ * @deprecated Use `AgentOptimizationJobInputs` instead.
+ */
 export type OptimizationJobInputs = AgentOptimizationJobInputs;
-/** @deprecated Use `OptimizedAgentIdentifier` instead. */
+/**
+ * Identifies the registered Foundry agent and optional version to optimize.
+ *
+ * @deprecated Use `OptimizedAgentIdentifier` instead.
+ */
 export type OptimizationAgentIdentifier = OptimizedAgentIdentifier;
-/** @deprecated Use `AgentOptimizationDatasetInput` instead. */
+/**
+ * The base description of an inline or registered dataset supplied to an agent optimization job.
+ *
+ * @deprecated Use `AgentOptimizationDatasetInput` instead.
+ */
 export type OptimizationDatasetInput = AgentOptimizationDatasetInput;
-/** @deprecated Use `AgentOptimizationDatasetInputUnion` instead. */
+/**
+ * An optimization dataset supplied as inline items or a reference to a registered Foundry dataset.
+ *
+ * @deprecated Use `AgentOptimizationDatasetInputUnion` instead.
+ */
 export type OptimizationDatasetInputUnion = AgentOptimizationDatasetInputUnion;
-/** @deprecated Use `AgentOptimizationDatasetInputType` instead. */
+/**
+ * The supported forms of optimization dataset input: inline items or a registered dataset
+ * reference.
+ *
+ * @deprecated Use `AgentOptimizationDatasetInputType` instead.
+ */
 export type OptimizationDatasetInputType = AgentOptimizationDatasetInputType;
-/** @deprecated Use `AgentOptimizationInlineDatasetInput` instead. */
+/**
+ * Optimization dataset items supplied directly in the request body.
+ *
+ * @deprecated Use `AgentOptimizationInlineDatasetInput` instead.
+ */
 export type OptimizationInlineDatasetInput = AgentOptimizationInlineDatasetInput;
-/** @deprecated Use `AgentOptimizationDatasetItem` instead. */
+/**
+ * An inline optimization dataset item containing a query, expected answer, and evaluation criteria.
+ *
+ * @deprecated Use `AgentOptimizationDatasetItem` instead.
+ */
 export type OptimizationDatasetItem = AgentOptimizationDatasetItem;
-/** @deprecated Use `AgentOptimizationDatasetCriterion` instead. */
+/**
+ * A named evaluation instruction used to score an optimization dataset item.
+ *
+ * @deprecated Use `AgentOptimizationDatasetCriterion` instead.
+ */
 export type OptimizationDatasetCriterion = AgentOptimizationDatasetCriterion;
-/** @deprecated Use `AgentOptimizationReferenceDatasetInput` instead. */
+/**
+ * A reference to a registered Foundry dataset by name and optional version for agent optimization.
+ *
+ * @deprecated Use `AgentOptimizationReferenceDatasetInput` instead.
+ */
 export type OptimizationReferenceDatasetInput = AgentOptimizationReferenceDatasetInput;
-/** @deprecated Use `AgentOptimizationEvaluatorRef` instead. */
+/**
+ * A reference to an evaluator by name and optional version for an agent optimization job.
+ *
+ * @deprecated Use `AgentOptimizationEvaluatorRef` instead.
+ */
 export type OptimizationEvaluatorRef = AgentOptimizationEvaluatorRef;
-/** @deprecated Use `AgentOptimizationOptions` instead. */
+/**
+ * Settings that control candidate generation, model selection, and evaluation for an agent
+ * optimization job.
+ *
+ * @deprecated Use `AgentOptimizationOptions` instead.
+ */
 export type OptimizationOptions = AgentOptimizationOptions;
-/** @deprecated Use `AgentOptimizationJobResult` instead. */
+/**
+ * The evaluated candidates and identifiers of the baseline and best candidate from an optimization
+ * job.
+ *
+ * @deprecated Use `AgentOptimizationJobResult` instead.
+ */
 export type OptimizationJobResult = AgentOptimizationJobResult;
-/** @deprecated Use `AgentOptimizationCandidate` instead. */
+/**
+ * The configuration changes and aggregated evaluation results for an agent optimization candidate.
+ *
+ * @deprecated Use `AgentOptimizationCandidate` instead.
+ */
 export type OptimizationCandidate = AgentOptimizationCandidate;
-/** @deprecated Use `AgentOptimizationJobProgress` instead. */
+/**
+ * A progress snapshot containing completed candidate counts, the best score, and elapsed execution
+ * time.
+ *
+ * @deprecated Use `AgentOptimizationJobProgress` instead.
+ */
 export type OptimizationJobProgress = AgentOptimizationJobProgress;
-/** @deprecated Use `AgentOptimizationJobListItem` instead. */
+/**
+ * A summary of an agent optimization job returned by a list operation.
+ *
+ * @deprecated Use `AgentOptimizationJobListItem` instead.
+ */
 export type OptimizationJobListItem = AgentOptimizationJobListItem;
 
 export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
@@ -15067,6 +15244,7 @@ export enum KnownApiVersions {
   v1 = "v1",
 }
 
+/** The downloaded agent session file, exposed as a browser Blob or Node.js readable stream. */
 export type AgentsDownloadSessionFileResponse = {
   /**
    * BROWSER ONLY
@@ -15102,6 +15280,10 @@ export type GetMicrosoft365PackageResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/**
+ * The downloaded ZIP archive containing hosted agent code, exposed as a browser Blob or Node.js
+ * readable stream.
+ */
 export type AgentsDownloadAgentCodeResponse = {
   /**
    * BROWSER ONLY
@@ -15119,6 +15301,10 @@ export type AgentsDownloadAgentCodeResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/**
+ * The ZIP archive for a specified skill version, exposed as a browser Blob or Node.js readable
+ * stream.
+ */
 export type DownloadVersionResponse = {
   /**
    * BROWSER ONLY
@@ -15136,6 +15322,10 @@ export type DownloadVersionResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/**
+ * The ZIP archive for the default version of a skill, exposed as a browser Blob or Node.js readable
+ * stream.
+ */
 export type BetaSkillsDownloadResponse = {
   /**
    * BROWSER ONLY
@@ -15352,6 +15542,10 @@ export type PublishApprovalStatus =
 export interface ShellToolboxTool extends ToolboxTool {
   /** The type of the tool. Always `shell`. */
   type: "shell";
+  /**
+   * The invocation modes permitted to call this shell tool: direct calls, programmatic calls, or
+   * both.
+   */
   allowed_callers?: CallableToolAllowedCaller[];
   /** The environment in which shell commands are executed. Specify an automatically provisioned container or an existing container. */
   environment: ToolboxShellEnvironmentUnion;
@@ -15454,6 +15648,7 @@ export interface ToolboxShellContainerAutoEnvironment extends ToolboxShellEnviro
   type: "container_auto";
   /** An optional list of uploaded files to make available to your code. */
   file_ids?: string[];
+  /** The memory limit to apply to the automatically provisioned shell container. */
   memory_limit?: ContainerMemoryLimit;
   /** An optional list of skills referenced by id or inline data. */
   skills?: ContainerSkillUnion[];
@@ -15589,6 +15784,7 @@ export function toolboxShellContainerReferenceEnvironmentDeserializer(
 
 /** An A2A tool stored in a toolbox. */
 export interface A2AToolboxTool extends ToolboxTool {
+  /** The type of the A2A toolbox tool. Always `a2a`. */
   type: "a2a";
   /** Base URL of the agent. */
   base_url?: string;
@@ -15646,6 +15842,7 @@ export function a2AToolboxToolDeserializer(item: any): A2AToolboxTool {
 
 /** A WebIQ tool stored in a toolbox. */
 export interface WebIQPreviewToolboxTool extends ToolboxTool {
+  /** The toolbox tool type. Always `web_iq_preview` for a WebIQ tool. */
   type: "web_iq_preview";
   /** The ID of the WebIQ project connection. */
   project_connection_id: string;
@@ -15988,6 +16185,7 @@ export function voiceAgentGreetingConfigUnionDeserializer(
 
 /** A deterministic greeting rendered with the voice agent's structured inputs and synthesized without model-authored generation. */
 export interface VoiceAgentTemplateGreetingConfig extends VoiceAgentGreetingConfig {
+  /** The greeting type. Always `template` for a greeting rendered from a text template. */
   type: "template";
   /** The Handlebars text template spoken at session start. */
   text: string;
@@ -16010,6 +16208,7 @@ export function voiceAgentTemplateGreetingConfigDeserializer(
 
 /** A greeting authored by the session model from a scoped opening-turn prompt. */
 export interface VoiceAgentLlmGeneratedGreetingConfig extends VoiceAgentGreetingConfig {
+  /** The greeting type. Always `llm_generated` for a greeting generated by the session model. */
   type: "llm_generated";
   /** The Handlebars prompt that guides the opening turn. */
   prompt: string;
@@ -16133,6 +16332,7 @@ export function voiceAgentAudioInputConfigDeserializer(item: any): VoiceAgentAud
 
 /** model interface RealtimeAudioFormats */
 export interface RealtimeAudioFormats {
+  /** The audio encoding used for realtime input or output. */
   type: RealtimeAudioFormatsType;
 }
 
@@ -16190,7 +16390,9 @@ export type RealtimeAudioFormatsType = "audio/pcm" | "audio/pcmu" | "audio/pcma"
 
 /** model interface RealtimeAudioFormatsAudioPcm */
 export interface RealtimeAudioFormatsAudioPcm extends RealtimeAudioFormats {
+  /** The PCM audio format identifier. Always `audio/pcm`. */
   type: "audio/pcm";
+  /** The PCM sample rate in hertz. The supported value is `24000`. */
   rate?: 24000;
 }
 
@@ -16207,6 +16409,7 @@ export function realtimeAudioFormatsAudioPcmDeserializer(item: any): RealtimeAud
 
 /** model interface RealtimeAudioFormatsAudioPcmu */
 export interface RealtimeAudioFormatsAudioPcmu extends RealtimeAudioFormats {
+  /** The mu-law PCM audio format identifier. Always `audio/pcmu`. */
   type: "audio/pcmu";
 }
 
@@ -16224,6 +16427,7 @@ export function realtimeAudioFormatsAudioPcmuDeserializer(
 
 /** model interface RealtimeAudioFormatsAudioPcma */
 export interface RealtimeAudioFormatsAudioPcma extends RealtimeAudioFormats {
+  /** The A-law PCM audio format identifier. Always `audio/pcma`. */
   type: "audio/pcma";
 }
 
@@ -16364,12 +16568,28 @@ export type VoiceAgentTurnDetectionType =
 
 /** Server-side voice activity detection. */
 export interface VoiceAgentServerVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+  /**
+   * The activation threshold for voice activity detection. Higher values require louder audio to
+   * detect speech.
+   */
   threshold?: number;
+  /** The amount of audio, in milliseconds, to include before the detected start of speech. */
   prefix_padding_ms?: number;
+  /** The duration of silence, in milliseconds, required to detect the end of speech. */
   silence_duration_ms?: number;
+  /**
+   * Whether to generate a response automatically when voice activity detection identifies the end
+   * of speech.
+   */
   create_response?: boolean;
+  /** Whether detected user speech automatically interrupts an ongoing response. */
   interrupt_response?: boolean;
+  /**
+   * The idle duration, in milliseconds, after the last response's audio finishes playing before an
+   * automatic response is triggered.
+   */
   idle_timeout_ms?: number;
+  /** The turn-detection type. Always `server_vad` for server-side voice activity detection. */
   type: "server_vad";
   /** Minimum speech duration required to trigger detection, in milliseconds. */
   speech_duration_ms?: number;
@@ -16457,6 +16677,10 @@ export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" |
 
 /** Azure semantic voice activity detection. */
 export interface VoiceAgentAzureSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+  /**
+   * The turn-detection type. Always `azure_semantic_vad` for Azure semantic voice activity
+   * detection.
+   */
   type: "azure_semantic_vad";
   /** Activation threshold for voice activity detection, from 0 to 1. */
   threshold?: number;
@@ -16532,6 +16756,10 @@ export function voiceAgentAzureSemanticVadTurnDetectionDeserializer(
 
 /** English-optimized Azure semantic voice activity detection. */
 export interface VoiceAgentAzureSemanticVadEnTurnDetection extends VoiceAgentTurnDetectionConfig {
+  /**
+   * The turn-detection type. Always `azure_semantic_vad_en` for English-optimized Azure semantic
+   * voice activity detection.
+   */
   type: "azure_semantic_vad_en";
   /** Activation threshold for voice activity detection, from 0 to 1. */
   threshold?: number;
@@ -16595,6 +16823,10 @@ export function voiceAgentAzureSemanticVadEnTurnDetectionDeserializer(
 
 /** Multilingual Azure semantic voice activity detection. */
 export interface VoiceAgentAzureSemanticVadMultilingualTurnDetection extends VoiceAgentTurnDetectionConfig {
+  /**
+   * The turn-detection type. Always `azure_semantic_vad_multilingual` for multilingual Azure
+   * semantic voice activity detection.
+   */
   type: "azure_semantic_vad_multilingual";
   /** Activation threshold for voice activity detection, from 0 to 1. */
   threshold?: number;
@@ -16670,9 +16902,19 @@ export function voiceAgentAzureSemanticVadMultilingualTurnDetectionDeserializer(
 
 /** OpenAI semantic VAD turn-detection settings. */
 export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+  /**
+   * How quickly the detector concludes that the user has finished speaking. `low` allows longer
+   * pauses, while `high` responds sooner.
+   */
   eagerness?: "low" | "medium" | "high" | "auto";
+  /**
+   * Whether to generate a response automatically when the detector determines that the user has
+   * finished speaking.
+   */
   create_response?: boolean;
+  /** Whether detected user speech automatically interrupts an ongoing response. */
   interrupt_response?: boolean;
+  /** The turn-detection type. Always `semantic_vad` for semantic voice activity detection. */
   type: "semantic_vad";
 }
 
@@ -17059,6 +17301,10 @@ export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
 
 /** A static interim response selected from configured text. */
 export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterimResponseConfig {
+  /**
+   * The interim-response type. Always `static_interim_response` for a response selected from
+   * configured text.
+   */
   type: "static_interim_response";
   /** Candidate text values for the interim response. */
   texts?: string[];
@@ -17104,6 +17350,10 @@ export function voiceAgentStaticInterimResponseConfigDeserializer(
 
 /** An interim response generated by a language model. */
 export interface VoiceAgentLlmInterimResponseConfig extends VoiceAgentInterimResponseConfig {
+  /**
+   * The interim-response type. Always `llm_interim_response` for a response generated by a language
+   * model.
+   */
   type: "llm_interim_response";
   /** The model used to generate interim responses. */
   model?: string;
@@ -17207,9 +17457,13 @@ export type VoiceAgentAvatarOutputProtocol = "webrtc" | "websocket";
 export interface VoiceAgentAvatarVideoParams {
   /** The target video bitrate in bits per second. */
   bitrate?: number;
+  /** The rectangular region to retain when cropping the avatar video. */
   crop?: VoiceAgentAvatarVideoCrop;
+  /** The width and height of the avatar video. */
   resolution?: VoiceAgentAvatarVideoResolution;
+  /** The background image or color used for the avatar video. */
   background?: VoiceAgentAvatarVideoBackground;
+  /** The group-of-pictures (GOP) size, which controls the interval between video keyframes. */
   gop_size?: number;
 }
 
@@ -17243,7 +17497,9 @@ export function voiceAgentAvatarVideoParamsDeserializer(item: any): VoiceAgentAv
 
 /** The rectangular crop applied to avatar video. */
 export interface VoiceAgentAvatarVideoCrop {
+  /** The [x, y] coordinates of the bottom-right corner of the video crop rectangle. */
   bottom_right: number[];
+  /** The [x, y] coordinates of the top-left corner of the video crop rectangle. */
   top_left: number[];
 }
 
@@ -17271,7 +17527,9 @@ export function voiceAgentAvatarVideoCropDeserializer(item: any): VoiceAgentAvat
 
 /** The avatar video resolution. */
 export interface VoiceAgentAvatarVideoResolution {
+  /** The width of the avatar video, in pixels. */
   width: number;
+  /** The height of the avatar video, in pixels. */
   height: number;
 }
 
@@ -17292,7 +17550,9 @@ export function voiceAgentAvatarVideoResolutionDeserializer(
 
 /** The avatar video background. */
 export interface VoiceAgentAvatarVideoBackground {
+  /** The URL of the image used as the avatar video background. */
   image_url?: string;
+  /** The background color of the avatar video. */
   color?: string;
 }
 
@@ -17313,12 +17573,19 @@ export function voiceAgentAvatarVideoBackgroundDeserializer(
 
 /** Avatar placement and motion settings. */
 export interface VoiceAgentAvatarScene {
+  /** The zoom level applied to the avatar in the scene. */
   zoom?: number;
+  /** The horizontal position of the avatar in the scene. */
   position_x?: number;
+  /** The vertical position of the avatar in the scene. */
   position_y?: number;
+  /** The avatar's rotation around the x-axis. */
   rotation_x?: number;
+  /** The avatar's rotation around the y-axis. */
   rotation_y?: number;
+  /** The avatar's rotation around the z-axis. */
   rotation_z?: number;
+  /** The amplitude of the avatar's motion. */
   amplitude?: number;
 }
 
@@ -17431,6 +17698,7 @@ export interface VoiceAgentFunctionTool extends VoiceAgentTool {
   description?: string;
   /** Parameters of the function in JSON Schema. */
   parameters?: RealtimeFunctionToolParameters;
+  /** The tool type. Always `function` for a function executed by the client. */
   type: "function";
   /** The function name. */
   name: string;
@@ -17485,9 +17753,16 @@ export interface VoiceAgentMcpTool extends VoiceAgentTool {
   authorization?: string;
   /** Optional description of the MCP server, used to provide more context. */
   server_description?: string;
+  /** HTTP headers to include in requests to the MCP server. */
   headers?: Record<string, string>;
+  /**
+   * The tool names or filter that determines which tools from the MCP server are available to the
+   * voice agent.
+   */
   allowed_tools?: string[] | MCPToolFilter;
+  /** The callers that may invoke tools exposed by this MCP server. */
   allowed_callers?: CallableToolAllowedCaller[];
+  /** The approval policy for MCP tool calls, specified globally or for selected tools. */
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
@@ -17495,6 +17770,7 @@ export interface VoiceAgentMcpTool extends VoiceAgentTool {
   project_connection_id?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   tool_configs?: Record<string, ToolConfig>;
+  /** The tool type. Always `mcp` for tools exposed by an MCP server. */
   type: "mcp";
   /** The URL for the MCP server. */
   server_url?: string;
@@ -18856,10 +19132,18 @@ export type VoiceConversationStatus = "in_progress" | "completed" | "failed";
 
 /** model interface RealtimeResponseUsage */
 export interface RealtimeResponseUsage {
+  /** The combined number of input and output tokens for this response. */
   total_tokens?: number;
+  /** The number of tokens supplied as input when generating this response. */
   input_tokens?: number;
+  /** The number of tokens generated as output for this response. */
   output_tokens?: number;
+  /**
+   * The breakdown of input tokens by content type and cache usage. Cached tokens are included in
+   * the input token count.
+   */
   input_token_details?: RealtimeResponseUsageInputTokenDetails;
+  /** The breakdown of generated output tokens by content type. */
   output_token_details?: RealtimeResponseUsageOutputTokenDetails;
 }
 
@@ -18893,10 +19177,15 @@ export function realtimeResponseUsageDeserializer(item: any): RealtimeResponseUs
 
 /** model interface RealtimeResponseUsageInputTokenDetails */
 export interface RealtimeResponseUsageInputTokenDetails {
+  /** The number of input tokens reused from the cache for this response. */
   cached_tokens?: number;
+  /** The number of text tokens used as input for this response. */
   text_tokens?: number;
+  /** The number of image tokens used as input for this response. */
   image_tokens?: number;
+  /** The number of audio tokens used as input for this response. */
   audio_tokens?: number;
+  /** The breakdown of cached input tokens by content type. */
   cached_tokens_details?: RealtimeResponseUsageInputTokenDetailsCachedTokensDetails;
 }
 
@@ -18934,8 +19223,11 @@ export function realtimeResponseUsageInputTokenDetailsDeserializer(
 
 /** model interface RealtimeResponseUsageInputTokenDetailsCachedTokensDetails */
 export interface RealtimeResponseUsageInputTokenDetailsCachedTokensDetails {
+  /** The number of cached text tokens reused as input for this response. */
   text_tokens?: number;
+  /** The number of cached image tokens reused as input for this response. */
   image_tokens?: number;
+  /** The number of cached audio tokens reused as input for this response. */
   audio_tokens?: number;
 }
 
@@ -18961,7 +19253,9 @@ export function realtimeResponseUsageInputTokenDetailsCachedTokensDetailsDeseria
 
 /** model interface RealtimeResponseUsageOutputTokenDetails */
 export interface RealtimeResponseUsageOutputTokenDetails {
+  /** The number of text tokens generated in this response. */
   text_tokens?: number;
+  /** The number of audio tokens generated in this response. */
   audio_tokens?: number;
 }
 
@@ -19086,6 +19380,7 @@ export function realtimeConversationItemUnionArrayDeserializer(
 
 /** A single item within a Realtime conversation. */
 export interface RealtimeConversationItem {
+  /** The kind of conversation item, which determines its content and associated fields. */
   type: RealtimeConversationItemType;
 }
 
@@ -19190,7 +19485,9 @@ export type RealtimeConversationItemType =
 
 /** model interface RealtimeConversationItemMessage */
 export interface RealtimeConversationItemMessage extends RealtimeConversationItem {
+  /** The role of the message sender in the conversation. */
   role: RealtimeConversationItemMessageType;
+  /** The conversation item type. Always `message`. */
   type: "message";
 }
 
@@ -19336,7 +19633,9 @@ export function realtimeConversationItemMessageSystemContentArrayDeserializer(
 
 /** model interface RealtimeConversationItemMessageSystemContent */
 export interface RealtimeConversationItemMessageSystemContent {
+  /** The system message content type. Always `input_text`. */
   type?: "input_text";
+  /** The instructions or context supplied in this system message content part. */
   text?: string;
 }
 
@@ -19424,11 +19723,17 @@ export function realtimeConversationItemMessageUserContentArrayDeserializer(
 
 /** model interface RealtimeConversationItemMessageUserContent */
 export interface RealtimeConversationItemMessageUserContent {
+  /** Whether this user content part contains input text, audio, or an image. */
   type?: "input_text" | "input_audio" | "input_image";
+  /** The user's text for an `input_text` content part. */
   text?: string;
+  /** Base64-encoded user audio in the session's configured input audio format. */
   audio?: string;
+  /** The image for an `input_image` content part, supplied as a base64 data URL. */
   image_url?: string;
+  /** The level of image detail to use when processing an `input_image` content part. */
   detail?: "auto" | "low" | "high";
+  /** A transcript associated with the user's input audio for reference on the message item. */
   transcript?: string;
 }
 
@@ -19527,9 +19832,13 @@ export function realtimeConversationItemMessageAssistantContentArrayDeserializer
 
 /** model interface RealtimeConversationItemMessageAssistantContent */
 export interface RealtimeConversationItemMessageAssistantContent {
+  /** Whether this assistant content part contains output text or output audio. */
   type?: "output_text" | "output_audio";
+  /** The assistant's text for an `output_text` content part. */
   text?: string;
+  /** Base64-encoded assistant audio in the session's configured output audio format. */
   audio?: string;
+  /** The text transcript associated with the assistant's audio content. */
   transcript?: string;
 }
 
@@ -19669,6 +19978,7 @@ export interface RealtimeMCPApprovalResponse extends RealtimeConversationItem {
   approval_request_id: string;
   /** Whether the request was approved. */
   approve: boolean;
+  /** An explanation of the decision to approve or reject the MCP tool invocation. */
   reason?: string;
   /** The Unix timestamp (in seconds) for when the item was persisted. */
   readonly created_at?: Date;
@@ -19750,9 +20060,11 @@ export function mcpListToolsToolArrayDeserializer(result: Array<MCPListToolsTool
 export interface MCPListToolsTool {
   /** The name of the tool. */
   name: string;
+  /** A description of the tool provided by the MCP server. */
   description?: string;
   /** The JSON schema describing the tool's input. */
   input_schema: MCPListToolsToolInputSchema;
+  /** Additional metadata supplied by the MCP server about the tool. */
   annotations?: MCPListToolsToolAnnotations;
 }
 
@@ -19812,8 +20124,14 @@ export interface RealtimeMCPToolCall extends RealtimeConversationItem {
   name: string;
   /** A JSON string of the arguments passed to the tool. */
   arguments: string;
+  /**
+   * The identifier of the approval request associated with this tool invocation, when one was
+   * required.
+   */
   approval_request_id?: string;
+  /** The result returned by the invoked MCP tool. */
   output?: string;
+  /** Details of a protocol, HTTP, or tool execution failure associated with this invocation. */
   error?: RealtimeMCPErrorUnion;
   /** The Unix timestamp (in seconds) for when the item was persisted. */
   readonly created_at?: Date;
@@ -19851,6 +20169,7 @@ export function realtimeMCPToolCallDeserializer(item: any): RealtimeMCPToolCall 
 
 /** model interface RealtimeMCPError */
 export interface RealtimeMCPError {
+  /** The category of failure encountered while invoking an MCP tool. */
   type: RealtimeMCPErrorType;
 }
 
@@ -19908,8 +20227,11 @@ export type RealtimeMCPErrorType = "protocol_error" | "tool_execution_error" | "
 
 /** model interface RealtimeMCPProtocolError */
 export interface RealtimeMCPProtocolError extends RealtimeMCPError {
+  /** The MCP error category. Always `protocol_error`. */
   type: "protocol_error";
+  /** The numeric error code reported for the MCP protocol failure. */
   code: number;
+  /** A description of the MCP protocol failure. */
   message: string;
 }
 
@@ -19927,7 +20249,9 @@ export function realtimeMCPProtocolErrorDeserializer(item: any): RealtimeMCPProt
 
 /** model interface RealtimeMCPToolExecutionError */
 export interface RealtimeMCPToolExecutionError extends RealtimeMCPError {
+  /** The MCP error category. Always `tool_execution_error`. */
   type: "tool_execution_error";
+  /** A description of the failure that occurred while the MCP tool was executing. */
   message: string;
 }
 
@@ -19946,8 +20270,11 @@ export function realtimeMCPToolExecutionErrorDeserializer(
 
 /** model interface RealtimeMCPHttpError */
 export interface RealtimeMCPHttpError extends RealtimeMCPError {
+  /** The MCP error category. Always `http_error`. */
   type: "http_error";
+  /** The error code associated with the failed HTTP request to the MCP server. */
   code: number;
+  /** A description of the HTTP failure encountered while communicating with the MCP server. */
   message: string;
 }
 
@@ -20105,8 +20432,14 @@ export function voiceResponseBaseDeserializer(item: any): VoiceResponseBase {
 
 /** model interface RealtimeResponseStatusDetails */
 export interface RealtimeResponseStatusDetails {
+  /** The response outcome to which these status details apply. */
   type?: "completed" | "cancelled" | "failed" | "incomplete";
+  /**
+   * The reason the response was cancelled or left incomplete, such as a detected turn, client
+   * cancellation, token limit, or content filter.
+   */
   reason?: "turn_detected" | "client_cancelled" | "max_output_tokens" | "content_filter";
+  /** Details of the error that caused the response to fail. */
   error?: RealtimeResponseStatusDetailsError;
 }
 
@@ -20134,7 +20467,9 @@ export function realtimeResponseStatusDetailsDeserializer(
 
 /** model interface RealtimeResponseStatusDetailsError */
 export interface RealtimeResponseStatusDetailsError {
+  /** The category of error that caused the response to fail. */
   type?: string;
+  /** A machine-readable code identifying the response failure. */
   code?: string;
 }
 
@@ -20407,12 +20742,8 @@ export interface TelephonyCallJobSchedule {
 
 export function telephonyCallJobScheduleSerializer(item: TelephonyCallJobSchedule): any {
   return {
-    not_before: !item["not_before"]
-      ? item["not_before"]
-      : (item["not_before"].getTime() / 1000) | 0,
-    expires_at: !item["expires_at"]
-      ? item["expires_at"]
-      : (item["expires_at"].getTime() / 1000) | 0,
+    not_before: !item["not_before"] ? item["not_before"] : item["not_before"].getTime() / 1000 || 0,
+    expires_at: !item["expires_at"] ? item["expires_at"] : item["expires_at"].getTime() / 1000 || 0,
   };
 }
 
@@ -20767,6 +21098,7 @@ export function voiceAgentSessionUpdateConfigDeserializer(
 
 /** Avatar settings accepted by the stable voice-agent WebSocket contract. */
 export interface VoiceAgentSessionAvatarConfig extends VoiceAgentAvatarConfig {
+  /** The ICE servers used to negotiate the avatar's WebRTC connection. */
   ice_servers?: VoiceAgentAvatarIceServer[];
 }
 
@@ -20824,8 +21156,11 @@ export function voiceAgentAvatarIceServerArrayDeserializer(
 
 /** An ICE server used for avatar WebRTC negotiation. */
 export interface VoiceAgentAvatarIceServer {
+  /** The STUN or TURN server URLs used for avatar WebRTC connectivity. */
   urls: string[];
+  /** The username used to authenticate with the ICE server. */
   username?: string;
+  /** The credential used to authenticate with the ICE server. */
   credential?: string;
 }
 
@@ -20884,6 +21219,7 @@ export type VoiceAgentAnimationOutputType = "blendshapes" | "viseme_id";
 
 /** Configuration for reasoning-capable Realtime models such as `gpt-realtime-2`. */
 export interface RealtimeReasoning {
+  /** The amount of reasoning effort requested from a reasoning-capable realtime model. */
   effort?: RealtimeReasoningEffort;
 }
 
@@ -20992,9 +21328,7 @@ export function voiceAgentSessionResponseConfigSerializer(
     object: item["object"],
     id: item["id"],
     model: item["model"],
-    expires_at: !item["expires_at"]
-      ? item["expires_at"]
-      : (item["expires_at"].getTime() / 1000) | 0,
+    expires_at: !item["expires_at"] ? item["expires_at"] : item["expires_at"].getTime() / 1000 || 0,
   };
 }
 
@@ -21077,6 +21411,7 @@ export function voiceAgentClientEventSessionAvatarConnectDeserializer(
 
 /** A realtime client event. */
 export interface RealtimeClientEvent {
+  /** The protocol event type identifying the action requested by the client. */
   type: RealtimeClientEventType;
 }
 
@@ -21271,6 +21606,7 @@ export interface RealtimeClientEventConversationItemCreate extends RealtimeClien
    *   If set to an existing ID, it allows an item to be inserted mid-conversation. If the ID cannot be found, an error will be returned and the item will not be added.
    */
   previous_item_id?: string;
+  /** The message, function call, or function result to add to the conversation. */
   item: RealtimeConversationItemUnion;
 }
 
@@ -21597,6 +21933,7 @@ export interface RealtimeClientEventResponseCreate extends RealtimeClientEvent {
   event_id?: string;
   /** The event type, must be `response.create`. */
   type: "response.create";
+  /** Configuration for this response, including overrides of the session's inference settings. */
   response?: VoiceAgentResponseCreateParams;
 }
 
@@ -21643,6 +21980,7 @@ export interface VoiceAgentResponseCreateParams {
    *   reasoning Realtime models such as `gpt-realtime-2`.
    */
   parallel_tool_calls?: boolean;
+  /** Reasoning settings for the response when using a reasoning-capable realtime model. */
   reasoning?: RealtimeReasoning;
   /**
    * Maximum number of output tokens for a single assistant response,
@@ -21659,6 +21997,7 @@ export interface VoiceAgentResponseCreateParams {
    *   will not add items to default conversation.
    */
   conversation?: "auto" | "none";
+  /** Custom string key-value pairs to associate with the response. */
   metadata?: Metadata;
   /** Modalities that the response may return. */
   output_modalities?: VoiceOutputModality[];
@@ -22028,6 +22367,7 @@ export function voiceAgentServerEventSessionSubagentCompletedDeserializer(
 
 /** A realtime server event. */
 export interface RealtimeServerEvent {
+  /** The protocol event type identifying the update reported by the service. */
   type: RealtimeServerEventType;
 }
 
@@ -22753,7 +23093,9 @@ export interface RealtimeServerEventConversationItemCreated extends RealtimeServ
   event_id: string;
   /** The event type, must be `conversation.item.created`. */
   type: "conversation.item.created";
+  /** The identifier of the conversation item immediately preceding the created item. */
   previous_item_id?: string;
+  /** The conversation item created by the service. */
   item: RealtimeConversationItemUnion;
 }
 
@@ -22834,6 +23176,7 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionCompl
   content_index: number;
   /** The transcribed text. */
   transcript: string;
+  /** Token log probabilities for the completed input audio transcription, when available. */
   logprobs?: LogProbProperties[];
   /** Usage statistics for the transcription, this is billed according to the ASR model's pricing rather than the realtime model's pricing. */
   usage: TranscriptTextUsageTokens | TranscriptTextUsageDuration;
@@ -23019,7 +23362,9 @@ export function transcriptTextUsageTokensDeserializer(item: any): TranscriptText
 
 /** model interface TranscriptTextUsageTokensInputTokenDetails */
 export interface TranscriptTextUsageTokensInputTokenDetails {
+  /** The number of text input tokens processed by the transcription model. */
   text_tokens?: number;
+  /** The number of audio input tokens processed by the transcription model. */
   audio_tokens?: number;
 }
 
@@ -23171,6 +23516,7 @@ export interface RealtimeServerEventConversationItemInputAudioTranscriptionDelta
   content_index?: number;
   /** The text delta. */
   delta?: string;
+  /** Token log probabilities for this incremental transcription result, when available. */
   logprobs?: LogProbProperties[];
 }
 
@@ -23255,9 +23601,13 @@ export function realtimeServerEventConversationItemInputAudioTranscriptionFailed
 
 /** model interface RealtimeServerEventConversationItemInputAudioTranscriptionFailedError */
 export interface RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
+  /** The category of error that caused input audio transcription to fail. */
   type?: string;
+  /** A machine-readable code identifying the input audio transcription failure. */
   code?: string;
+  /** A description of why input audio transcription failed. */
   message?: string;
+  /** The request parameter associated with the transcription failure, when applicable. */
   param?: string;
 }
 
@@ -23284,6 +23634,10 @@ export interface RealtimeServerEventConversationItemRetrieved extends RealtimeSe
   event_id: string;
   /** The event type, must be `conversation.item.retrieved`. */
   type: "conversation.item.retrieved";
+  /**
+   * The service's representation of the requested conversation item, including available audio
+   * data.
+   */
   item: RealtimeConversationItemUnion;
 }
 
@@ -23392,6 +23746,10 @@ export interface RealtimeServerEventInputAudioBufferCommitted extends RealtimeSe
   event_id: string;
   /** The event type, must be `input_audio_buffer.committed`. */
   type: "input_audio_buffer.committed";
+  /**
+   * The identifier of the conversation item preceding the user message created from the committed
+   * audio.
+   */
   previous_item_id?: string;
   /** The ID of the user message item that will be created. */
   item_id: string;
@@ -23565,9 +23923,13 @@ export function realtimeServerEventRateLimitsUpdatedRateLimitsArrayDeserializer(
 
 /** model interface RealtimeServerEventRateLimitsUpdatedRateLimits */
 export interface RealtimeServerEventRateLimitsUpdatedRateLimits {
+  /** Whether this rate limit applies to requests or tokens. */
   name?: "requests" | "tokens";
+  /** The maximum number of requests or tokens allowed in the rate limit window. */
   limit?: number;
+  /** The number of requests or tokens still available in the current rate limit window. */
   remaining?: number;
+  /** The number of seconds remaining until this rate limit resets. */
   reset_seconds?: number;
 }
 
@@ -23834,9 +24196,13 @@ export function realtimeServerEventResponseContentPartAddedDeserializer(
 
 /** model interface RealtimeServerEventResponseContentPartAddedPart */
 export interface RealtimeServerEventResponseContentPartAddedPart {
+  /** Whether the added content part contains audio or text. */
   type?: "audio" | "text";
+  /** Text included when the added content part has type `text`. */
   text?: string;
+  /** Base64-encoded audio included when the added content part has type `audio`. */
   audio?: string;
+  /** The transcript associated with an added audio content part. */
   transcript?: string;
 }
 
@@ -23913,9 +24279,13 @@ export function realtimeServerEventResponseContentPartDoneDeserializer(
 
 /** model interface RealtimeServerEventResponseContentPartDonePart */
 export interface RealtimeServerEventResponseContentPartDonePart {
+  /** Whether the finalized content part contains audio or text. */
   type?: "audio" | "text";
+  /** Text included when the finalized content part has type `text`. */
   text?: string;
+  /** Base64-encoded audio included when the finalized content part has type `audio`. */
   audio?: string;
+  /** The transcript associated with a finalized audio content part. */
   transcript?: string;
   /** The audio format, when this is an audio content part. */
   format?: RealtimeAudioFormatsUnion;
@@ -23956,6 +24326,7 @@ export interface RealtimeServerEventResponseCreated extends RealtimeServerEvent 
   event_id: string;
   /** The event type, must be `response.created`. */
   type: "response.created";
+  /** The newly created response in its initial `in_progress` state. */
   response: VoiceAgentRealtimeResponse;
 }
 
@@ -24053,6 +24424,7 @@ export interface RealtimeServerEventResponseDone extends RealtimeServerEvent {
   event_id: string;
   /** The event type, must be `response.done`. */
   type: "response.done";
+  /** The response's final status and generated output items, excluding raw audio data. */
   response: VoiceAgentRealtimeResponse;
 }
 
@@ -24185,6 +24557,7 @@ export interface RealtimeServerEventResponseOutputItemAdded extends RealtimeServ
   response_id: string;
   /** The index of the output item in the Response. */
   output_index: number;
+  /** The output item added to the response as generation begins for that item. */
   item: RealtimeConversationItemUnion;
 }
 
@@ -24225,6 +24598,9 @@ export interface RealtimeServerEventResponseOutputItemDone extends RealtimeServe
   response_id: string;
   /** The index of the output item in the Response. */
   output_index: number;
+  /**
+   * The output item after streaming ends, including when its response is interrupted or incomplete.
+   */
   item: RealtimeConversationItemUnion;
 }
 
@@ -24473,7 +24849,9 @@ export interface RealtimeServerEventConversationItemAdded extends RealtimeServer
   event_id: string;
   /** The event type, must be `conversation.item.added`. */
   type: "conversation.item.added";
+  /** The identifier of the conversation item immediately preceding the added item. */
   previous_item_id?: string;
+  /** The added conversation item, which may still be in progress while a response is generated. */
   item: RealtimeConversationItemUnion;
 }
 
@@ -24508,7 +24886,9 @@ export interface RealtimeServerEventConversationItemDone extends RealtimeServerE
   event_id: string;
   /** The event type, must be `conversation.item.done`. */
   type: "conversation.item.done";
+  /** The identifier of the conversation item immediately preceding the finalized item. */
   previous_item_id?: string;
+  /** The finalized conversation item, excluding raw audio data. */
   item: RealtimeConversationItemUnion;
 }
 
@@ -24730,6 +25110,7 @@ export interface RealtimeServerEventResponseMCPCallArgumentsDelta extends Realti
   output_index: number;
   /** The JSON-encoded arguments delta. */
   delta: string;
+  /** Indicates, when present, that the arguments delta was obfuscated. */
   obfuscation?: string;
 }
 
@@ -24991,8 +25372,11 @@ export type VoiceAgentSubagentAbortReason =
 
 /** The `warning` server event. */
 export interface VoiceAgentServerEventWarning extends RealtimeServerEvent {
+  /** The event type. Always `warning`. */
   type: "warning";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** Details of the non-fatal warning reported by the service. */
   warning: VoiceAgentServerEventWarningDetails;
 }
 
@@ -25014,8 +25398,11 @@ export function voiceAgentServerEventWarningDeserializer(item: any): VoiceAgentS
 
 /** Details of a non-fatal warning. */
 export interface VoiceAgentServerEventWarningDetails {
+  /** A human-readable description of the warning. */
   message: string;
+  /** A machine-readable code identifying the warning. */
   code?: string;
+  /** The parameter associated with the warning, when applicable. */
   param?: string;
 }
 
@@ -25037,7 +25424,9 @@ export function voiceAgentServerEventWarningDetailsDeserializer(
 
 /** The `session.avatar.connecting` server event. */
 export interface VoiceAgentServerEventSessionAvatarConnecting extends RealtimeServerEvent {
+  /** The event type. Always `session.avatar.connecting`. */
   type: "session.avatar.connecting";
+  /** The unique identifier of the server event. */
   event_id: string;
   /** The server's SDP answer for avatar media negotiation. */
   server_sdp: string;
@@ -25157,8 +25546,11 @@ export function voiceAgentRtcCallErrorDetailsDeserializer(
 
 /** The `session.avatar.switch_to_speaking` server event. */
 export interface VoiceAgentServerEventSessionAvatarSwitchToSpeaking extends RealtimeServerEvent {
+  /** The event type. Always `session.avatar.switch_to_speaking`. */
   type: "session.avatar.switch_to_speaking";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The identifier of the conversation turn associated with the transition to speaking. */
   turn_id?: string;
 }
 
@@ -25180,8 +25572,11 @@ export function voiceAgentServerEventSessionAvatarSwitchToSpeakingDeserializer(
 
 /** The `session.avatar.switch_to_idle` server event. */
 export interface VoiceAgentServerEventSessionAvatarSwitchToIdle extends RealtimeServerEvent {
+  /** The event type. Always `session.avatar.switch_to_idle`. */
   type: "session.avatar.switch_to_idle";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The identifier of the conversation turn associated with the transition to idle. */
   turn_id?: string;
 }
 
@@ -25203,15 +25598,25 @@ export function voiceAgentServerEventSessionAvatarSwitchToIdleDeserializer(
 
 /** The `response.audio_timestamp.delta` server event. */
 export interface VoiceAgentServerEventResponseAudioTimestampDelta extends RealtimeServerEvent {
+  /** The event type. Always `response.audio_timestamp.delta`. */
   type: "response.audio_timestamp.delta";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The identifier of the response associated with this event. */
   response_id: string;
+  /** The identifier of the output item associated with this event. */
   item_id: string;
+  /** The index of the output item in the response. */
   output_index: number;
+  /** The index of the content part in the item's content array. */
   content_index: number;
+  /** The starting audio offset, in milliseconds, of the timestamped text. */
   audio_offset_ms: number;
+  /** The duration, in milliseconds, of the audio corresponding to the timestamped text. */
   audio_duration_ms: number;
+  /** The word associated with this audio timestamp. */
   text: string;
+  /** The granularity of the audio timestamp. Always `word`. */
   timestamp_type: "word";
 }
 
@@ -25251,11 +25656,17 @@ export function voiceAgentServerEventResponseAudioTimestampDeltaDeserializer(
 
 /** The `response.audio_timestamp.done` server event. */
 export interface VoiceAgentServerEventResponseAudioTimestampDone extends RealtimeServerEvent {
+  /** The event type. Always `response.audio_timestamp.done`. */
   type: "response.audio_timestamp.done";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The identifier of the response associated with this event. */
   response_id: string;
+  /** The identifier of the output item associated with this event. */
   item_id: string;
+  /** The index of the output item in the response. */
   output_index: number;
+  /** The index of the content part in the item's content array. */
   content_index: number;
 }
 
@@ -25287,11 +25698,17 @@ export function voiceAgentServerEventResponseAudioTimestampDoneDeserializer(
 
 /** The `response.animation_blendshapes.delta` server event. */
 export interface VoiceAgentServerEventResponseAnimationBlendshapesDelta extends RealtimeServerEvent {
+  /** The event type. Always `response.animation_blendshapes.delta`. */
   type: "response.animation_blendshapes.delta";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The identifier of the response associated with this event. */
   response_id: string;
+  /** The identifier of the output item associated with this event. */
   item_id: string;
+  /** The index of the output item in the response. */
   output_index: number;
+  /** The index of the content part in the item's content array. */
   content_index: number;
   /** Animation frames as numeric blendshape weights. */
   frames: number[][];
@@ -25339,10 +25756,15 @@ export function voiceAgentServerEventResponseAnimationBlendshapesDeltaDeserializ
 
 /** The `response.animation_blendshapes.done` server event. */
 export interface VoiceAgentServerEventResponseAnimationBlendshapesDone extends RealtimeServerEvent {
+  /** The event type. Always `response.animation_blendshapes.done`. */
   type: "response.animation_blendshapes.done";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The identifier of the response associated with this event. */
   response_id: string;
+  /** The identifier of the output item associated with this event. */
   item_id: string;
+  /** The index of the output item in the response. */
   output_index: number;
 }
 
@@ -25372,13 +25794,21 @@ export function voiceAgentServerEventResponseAnimationBlendshapesDoneDeserialize
 
 /** The `response.animation_viseme.delta` server event. */
 export interface VoiceAgentServerEventResponseAnimationVisemeDelta extends RealtimeServerEvent {
+  /** The event type. Always `response.animation_viseme.delta`. */
   type: "response.animation_viseme.delta";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The identifier of the response associated with this event. */
   response_id: string;
+  /** The identifier of the output item associated with this event. */
   item_id: string;
+  /** The index of the output item in the response. */
   output_index: number;
+  /** The index of the content part in the item's content array. */
   content_index: number;
+  /** The audio offset, in milliseconds, at which the viseme occurs. */
   audio_offset_ms: number;
+  /** The identifier of the viseme to display at the specified audio offset. */
   viseme_id: number;
 }
 
@@ -25414,11 +25844,17 @@ export function voiceAgentServerEventResponseAnimationVisemeDeltaDeserializer(
 
 /** The `response.animation_viseme.done` server event. */
 export interface VoiceAgentServerEventResponseAnimationVisemeDone extends RealtimeServerEvent {
+  /** The event type. Always `response.animation_viseme.done`. */
   type: "response.animation_viseme.done";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The identifier of the response associated with this event. */
   response_id: string;
+  /** The identifier of the output item associated with this event. */
   item_id: string;
+  /** The index of the output item in the response. */
   output_index: number;
+  /** The index of the content part in the item's content array. */
   content_index: number;
 }
 
@@ -25450,9 +25886,13 @@ export function voiceAgentServerEventResponseAnimationVisemeDoneDeserializer(
 
 /** The `response.video.delta` server event. */
 export interface VoiceAgentServerEventResponseVideoDelta extends RealtimeServerEvent {
+  /** The event type. Always `response.video.delta`. */
   type: "response.video.delta";
+  /** The unique identifier of the server event. */
   event_id: string;
+  /** The index of the output item in the response. */
   output_index: number;
+  /** The codec used to encode the video frame data. */
   codec: string;
   /** The base64-encoded video frame data. */
   delta: string;
@@ -25484,6 +25924,7 @@ export function voiceAgentServerEventResponseVideoDeltaDeserializer(
 
 /** Token usage statistics for the request. */
 export interface CreateTranscriptionResponseJsonUsage {
+  /** Whether transcription usage is measured in tokens or audio duration. */
   type: CreateTranscriptionResponseJsonUsageType;
 }
 
@@ -25551,6 +25992,7 @@ export interface VoiceAgentRealtimeResponseBase {
   status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
   /** Additional details about the status. */
   status_details?: RealtimeResponseStatusDetails;
+  /** Custom string key-value pairs associated with the response. */
   metadata?: Metadata;
   /**
    * Usage statistics for the Response, this will correspond to billing. A
@@ -25631,10 +26073,15 @@ export function voiceAgentRealtimeResponseBaseDeserializer(
 
 /** model interface RealtimeServerEventErrorError */
 export interface RealtimeServerEventErrorError {
+  /** The category of realtime error, such as an invalid request or a server error. */
   type: string;
+  /** A machine-readable code identifying the realtime error. */
   code?: string;
+  /** A description of the realtime error intended for diagnostic use. */
   message: string;
+  /** The request parameter associated with the error, when applicable. */
   param?: string;
+  /** The identifier of the client event that caused the error, when applicable. */
   event_id?: string;
 }
 
@@ -25807,6 +26254,10 @@ export type VoiceAgentTransport = "websocket" | "webrtc";
 /** The WebSocket subprotocol supported by a voice-agent connection. */
 export type VoiceAgentWebSocketSubprotocol = "realtime";
 
+/**
+ * The merged stereo WAV recording of a voice conversation, exposed as a browser Blob or Node.js
+ * readable stream.
+ */
 export type BetaVoiceAgentsConversationsDownloadAudioResponse = {
   /**
    * BROWSER ONLY
@@ -25824,6 +26275,10 @@ export type BetaVoiceAgentsConversationsDownloadAudioResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/**
+ * The generated WAV audio for an interrupted conversation item, exposed as a browser Blob or
+ * Node.js readable stream.
+ */
 export type BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
   /**
    * BROWSER ONLY
@@ -25841,6 +26296,7 @@ export type BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/** The WAV audio for a conversation item, exposed as a browser Blob or Node.js readable stream. */
 export type BetaVoiceAgentsConversationsDownloadAudioItemResponse = {
   /**
    * BROWSER ONLY
