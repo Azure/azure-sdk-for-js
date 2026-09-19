@@ -8,6 +8,7 @@ extends:
     TestResourceDirectories:
       - ai/ai-projects/
     MatrixFilters:
+      - TestType=^(?!sample).*
       - DependencyVersion=^$
     EnvVars:
       FOUNDRY_PROJECT_ENDPOINT: $(FOUNDRY_PROJECT_ENDPOINT)

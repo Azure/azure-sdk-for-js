@@ -11,6 +11,9 @@ import { createRecorder, createProjectsClient } from "../../utils/createClient.j
 const isLive = isLiveMode();
 const modelName = process.env["FOUNDRY_VOICE_AGENT_MODEL"]?.trim() || "gpt-realtime";
 const preview = "VoiceAgents=V1Preview" as const;
+// get/delete have no `foundryFeatures` shorthand, so the preview opt-in required to read or
+// remove a persisted voice agent must be passed as a raw header.
+const previewRequestOptions = { requestOptions: { headers: { "foundry-features": preview } } };
 
 // Browser-only counterpart to ../node/voiceAgentWebSocketLive.spec.ts. The protocol behavior
 // tested there is transport-agnostic, so this file focuses on what is actually browser-specific:
@@ -32,7 +35,7 @@ describe.runIf(isLive)(
 
     afterEach(async () => {
       for (const agentName of createdAgents) {
-        await client.agents.delete(agentName).catch(() => undefined);
+        await client.agents.delete(agentName, previewRequestOptions).catch(() => undefined);
       }
       createdAgents.length = 0;
       await recorder.stop();
@@ -40,7 +43,7 @@ describe.runIf(isLive)(
 
     async function ensureAgentExists(agentName: string, definition: VoiceAgentDefinition) {
       try {
-        await client.agents.get(agentName);
+        await client.agents.get(agentName, previewRequestOptions);
       } catch (error) {
         if (!isRestError(error) || error.statusCode !== 404) {
           throw error;
