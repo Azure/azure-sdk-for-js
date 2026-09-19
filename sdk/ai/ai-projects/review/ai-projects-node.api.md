@@ -557,13 +557,6 @@ export interface AgentsCreateSessionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsCreateTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    repeatabilityFirstSent?: Date;
-    repeatabilityRequestId?: string;
-}
-
-// @public
 export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
 }
 
@@ -589,11 +582,6 @@ export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AgentsDeleteTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
@@ -657,11 +645,6 @@ export interface AgentsGetSessionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsGetTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
 export interface AgentsGetVersionOptionalParams extends OperationOptions {
 }
 
@@ -689,30 +672,6 @@ export interface AgentsListSessionsOptionalParams extends OperationOptions {
     before?: string;
     limit?: number;
     order?: PageOrder;
-}
-
-// @public
-export interface AgentsListTelephonyBindingsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    provider?: TelephonyProvider;
-    status?: TelephonyBindingStatus;
-}
-
-// @public
-export interface AgentsListTelephonyCallsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    provider?: TelephonyProvider;
-    startedAfter?: Date;
-    startedBefore?: Date;
-    status?: TelephonyCallStatus;
 }
 
 // @public
@@ -791,11 +750,6 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
     description?: string;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
-}
-
-// @public
-export interface AgentsUpdateTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public

@@ -7,14 +7,27 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { isRestError } from "@azure/ai-projects";
 import type {
   AIProjectClient,
+  RealtimeAudioFormatsUnion,
   VoiceAgentDefinition,
   VoiceAgentFunctionTool,
-} from "../../../src/index.js";
-import { createRecorder, createProjectsClient } from "../utils/createClient.js";
+  VoiceAgentServerVadTurnDetection,
+} from "../../../../src/index.js";
+import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
+import { createReadStream } from "node:fs";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const isLive = isLiveMode();
-const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
+const modelName = process.env["FOUNDRY_VOICE_AGENT_MODEL"]?.trim() || "gpt-realtime";
 const preview = "VoiceAgents=V1Preview" as const;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const pcmSampleRate = 24_000;
+const pcmBytesPerSample = 2;
+const audioInputPath = path.join(__dirname, "../data/input.pcm");
+
+function delay(durationInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, durationInMs));
+}
 
 describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", () => {
   let recorder: Recorder;
@@ -333,5 +346,235 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
     } finally {
       await connection.dispose();
     }
+  }, 120_000);
+
+  it("streams audio input and output", async () => {
+    const agentName = `voice-agent-audio-streaming-${Date.now()}`;
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      model_type: "managed",
+      model: modelName,
+      instructions: "Listen carefully and answer the user's request.",
+      output_modalities: ["text", "audio"],
+    };
+
+    await ensureAgentExists(agentName, definition);
+
+    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    let inputAudioByteCount = 0;
+    let outputAudioByteCount = 0;
+    let inputComplete = false;
+    let responseComplete = false;
+
+    try {
+      const pcmFormat: RealtimeAudioFormatsUnion = { type: "audio/pcm", rate: pcmSampleRate };
+      await connection.configureSession({
+        type: "realtime",
+        output_modalities: ["text", "audio"],
+        audio: {
+          input: { format: pcmFormat },
+          output: { format: pcmFormat },
+        },
+      });
+
+      const consumeEvents = (async () => {
+        for await (const event of connection) {
+          switch (event.type) {
+            case "response.output_audio.delta":
+              outputAudioByteCount += event.delta.byteLength;
+              break;
+            case "error":
+              throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
+            case "response.done":
+              // The response can finish before all input has been sent; only close once both
+              // sides have finished, matching agentVoiceRealtimeAudio.ts's synchronization.
+              responseComplete = true;
+              if (inputComplete) {
+                await connection.close();
+              }
+              break;
+          }
+        }
+      })();
+
+      // Pace the input in real time and follow it with trailing silence so server-side turn
+      // detection can observe speech boundaries, matching agentVoiceRealtimeAudio.ts's approach.
+      const chunkDurationInMs = 100;
+      const chunkSize = (pcmSampleRate * pcmBytesPerSample * chunkDurationInMs) / 1000;
+      for await (const chunk of createReadStream(audioInputPath, { highWaterMark: chunkSize })) {
+        await connection.sendAudio(chunk);
+        inputAudioByteCount += chunk.byteLength;
+        await delay((chunk.byteLength / (pcmSampleRate * pcmBytesPerSample)) * 1000);
+      }
+      const silence = new Uint8Array(chunkSize);
+      for (let elapsedMs = 0; elapsedMs < 1_000; elapsedMs += chunkDurationInMs) {
+        await connection.sendAudio(silence);
+        inputAudioByteCount += silence.byteLength;
+        await delay(chunkDurationInMs);
+      }
+      inputComplete = true;
+      if (responseComplete) {
+        await connection.close();
+      }
+
+      await consumeEvents;
+    } finally {
+      await connection.dispose();
+    }
+
+    assert.ok(responseComplete, "expected the response to complete");
+    assert.isAbove(inputAudioByteCount, 0, "expected input audio to be sent");
+    assert.isAbove(outputAudioByteCount, 0, "expected audio output to be streamed");
+  }, 120_000);
+
+  it("configures turn detection settings", async () => {
+    const agentName = `voice-agent-turn-detection-${Date.now()}`;
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      model_type: "managed",
+      model: modelName,
+      instructions: "Simple assistant",
+      output_modalities: ["text"],
+    };
+
+    await ensureAgentExists(agentName, definition);
+
+    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    let updatedThreshold: number | undefined;
+    let updatedSilenceDurationMs: number | undefined;
+    let sessionUpdatedCount = 0;
+
+    try {
+      await connection.configureSession({
+        type: "realtime",
+        output_modalities: ["text"],
+        audio: {
+          input: {
+            turn_detection: {
+              type: "server_vad",
+              threshold: 0.6,
+              silence_duration_ms: 400,
+              create_response: true,
+            },
+          },
+        },
+      });
+
+      for await (const event of connection) {
+        if (event.type === "session.updated") {
+          sessionUpdatedCount++;
+          // The service also emits a session.updated event right after connect (reflecting its
+          // own defaults) before the one that reflects this test's configureSession call.
+          if (sessionUpdatedCount < 2) {
+            continue;
+          }
+          const turnDetection = event.session.audio?.input?.turn_detection;
+          // Same fallback-narrowing limitation documented in src/realtime/protocol.ts's
+          // serializeTurnDetection: the generated union's fallback member widens `type` to the
+          // full literal union, so an explicit cast reflects the switch's real narrowing.
+          if (turnDetection?.type === "server_vad") {
+            const serverVad = turnDetection as VoiceAgentServerVadTurnDetection;
+            updatedThreshold = serverVad.threshold;
+            updatedSilenceDurationMs = serverVad.silence_duration_ms;
+          }
+          await connection.close();
+          break;
+        }
+      }
+    } finally {
+      await connection.dispose();
+    }
+
+    assert.approximately(updatedThreshold ?? 0, 0.6, 0.001);
+    assert.equal(updatedSilenceDurationMs, 400);
+  }, 120_000);
+
+  it("cancels an in-progress response", async () => {
+    const agentName = `voice-agent-cancel-response-${Date.now()}`;
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      model_type: "managed",
+      model: modelName,
+      instructions: "Tell long, detailed stories when asked.",
+      output_modalities: ["text"],
+    };
+
+    await ensureAgentExists(agentName, definition);
+
+    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    let sawTextDelta = false;
+    let responseStatus: string | undefined;
+
+    try {
+      await connection.configureSession({ type: "realtime", output_modalities: ["text"] });
+      await connection.sendText(
+        "Tell me a very long, detailed three-paragraph story about a journey.",
+      );
+
+      for await (const event of connection) {
+        switch (event.type) {
+          case "response.output_text.delta":
+            if (!sawTextDelta) {
+              sawTextDelta = true;
+              await connection.cancelResponse();
+            }
+            break;
+          case "error":
+            throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
+          case "response.done":
+            responseStatus = event.response.status;
+            await connection.close();
+            break;
+        }
+      }
+    } finally {
+      await connection.dispose();
+    }
+
+    assert.ok(sawTextDelta, "expected at least one text delta before cancelling");
+    assert.equal(responseStatus, "cancelled");
+  }, 120_000);
+
+  it("rejects clearing the output audio buffer without avatar mode configured", async () => {
+    const agentName = `voice-agent-clear-output-rejection-${Date.now()}`;
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      model_type: "managed",
+      model: modelName,
+      instructions: "Answer with a few descriptive sentences.",
+      output_modalities: ["audio"],
+    };
+
+    await ensureAgentExists(agentName, definition);
+
+    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    let errorCode: string | undefined;
+
+    try {
+      const pcmFormat: RealtimeAudioFormatsUnion = { type: "audio/pcm", rate: pcmSampleRate };
+      await connection.configureSession({
+        type: "realtime",
+        output_modalities: ["audio"],
+        audio: { output: { format: pcmFormat } },
+      });
+
+      // clearOutputAudio() only sends the client event; the service validates and reports
+      // rejection asynchronously as an "error" server event, not a rejected promise.
+      await connection.clearOutputAudio();
+
+      for await (const event of connection) {
+        if (event.type === "error") {
+          errorCode = event.error.code;
+          await connection.close();
+          break;
+        }
+      }
+    } finally {
+      await connection.dispose();
+    }
+
+    // Voice Agents (unlike the raw Realtime API) only supports output-buffer barge-in when the
+    // session is configured for avatar mode; this documents that real service constraint.
+    assert.equal(errorCode, "avatar_not_configured");
   }, 120_000);
 });

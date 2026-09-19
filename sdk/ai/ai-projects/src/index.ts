@@ -1170,14 +1170,6 @@ export type {
   TranscriptionLanguage,
 } from "./models/index.js";
 export type {
-  AgentsListTelephonyCallsOptionalParams,
-  AgentsDeleteTelephonyBindingOptionalParams,
-  AgentsUpdateTelephonyBindingOptionalParams,
-  AgentsGetTelephonyBindingOptionalParams,
-  AgentsListTelephonyBindingsOptionalParams,
-  AgentsCreateTelephonyBindingOptionalParams,
-} from "./api/agents/index.js";
-export type {
   BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
   BetaVoiceAgentsConversationsGetAudioOptionalParams,
   BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,

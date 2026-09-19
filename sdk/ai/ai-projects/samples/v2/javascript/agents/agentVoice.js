@@ -14,10 +14,10 @@ require("dotenv/config");
 async function main() {
   // Set these values in .env. The deployment must support realtime or cascaded voice.
   const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"];
-  const deploymentName = process.env["FOUNDRY_MODEL_NAME"];
+  const deploymentName = process.env["FOUNDRY_VOICE_AGENT_MODEL"];
   if (!projectEndpoint || !deploymentName) {
     throw new Error(
-      "Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_MODEL_NAME before running this sample.",
+      "Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_VOICE_AGENT_MODEL before running this sample.",
     );
   }
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());

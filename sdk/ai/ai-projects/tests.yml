@@ -1,0 +1,14 @@
+trigger: none
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+  parameters:
+    PackageName: "@azure/ai-projects"
+    ServiceDirectory: ai
+    TestResourceDirectories:
+      - ai/ai-projects/
+    MatrixFilters:
+      - DependencyVersion=^$
+    EnvVars:
+      FOUNDRY_PROJECT_ENDPOINT: $(FOUNDRY_PROJECT_ENDPOINT)
+      FOUNDRY_VOICE_AGENT_MODEL: $(MODEL_DEPLOYMENT_NAME)

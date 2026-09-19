@@ -39,7 +39,7 @@ import "dotenv/config";
 
 const projectEndpoint = getRequiredEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
 const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-audio-${Date.now()}`;
-const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
+const modelName = process.env["FOUNDRY_VOICE_AGENT_MODEL"]?.trim() || "gpt-realtime";
 // The input file must contain raw PCM16 24kHz mono audio with real, audible speech.
 // Silence or non-speech noise will never trigger server-side turn detection, and the
 // service will eventually drop the connection (observed as a 1006 abnormal close).
