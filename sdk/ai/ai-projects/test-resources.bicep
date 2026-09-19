@@ -17,8 +17,12 @@ param identity object = {
 }
 
 // Built-in role definition IDs
-// "Azure AI Account Owner" - full control-plane management of AI projects/accounts.
-var azureAiAccountOwnerRoleDefinitionId = 'e47c6f54-e4a2-4754-9501-8e0985b135e1'
+// "Foundry User" - data-plane access for a Foundry project (create/read/update/delete agents,
+// voice agents, realtime sessions, etc.), plus read-only control-plane access. The live tests
+// only call data-plane APIs against the already-provisioned project below, so this (rather than
+// a control-plane-only role such as "Foundry Account Owner", which has no data actions at all)
+// is what the test principal actually needs.
+var foundryUserRoleDefinitionId = '53ca6127-db72-4b80-b1b0-d745d6d5456d'
 
 @description('The name of the realtime-capable model to deploy for Voice Agents live tests.')
 param modelName string = 'gpt-realtime'
@@ -99,14 +103,14 @@ resource modelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-
   }
 }
 
-// Grant the test application identity "Azure AI Account Owner" on the AI Services account so
-// live tests can create/manage voice agents (e.g. AIProjectClient.agents.createVersion()).
+// Grant the test application identity "Foundry User" on the AI Services account so live tests
+// can create/manage voice agents (e.g. AIProjectClient.agents.createVersion()).
 // Skipped when no test principal is supplied (local-only deploys).
 resource agentRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(testApplicationOid)) {
   scope: aiServices
-  name: guid(aiServices.id, testApplicationOid, azureAiAccountOwnerRoleDefinitionId)
+  name: guid(aiServices.id, testApplicationOid, foundryUserRoleDefinitionId)
   properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', azureAiAccountOwnerRoleDefinitionId)
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', foundryUserRoleDefinitionId)
     principalId: testApplicationOid
     principalType: 'ServicePrincipal'
   }
