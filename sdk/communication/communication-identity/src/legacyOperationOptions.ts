@@ -34,8 +34,16 @@ export async function withLegacyOperationOptions<T>(
       return value;
     }
 
-    if (response) {
-      options.onResponse?.(response, response.parsedBody, responseError ?? error);
+    const errorWithResponse = getErrorWithResponse(error);
+    const legacyResponse = response ?? errorWithResponse?.response;
+    if (legacyResponse) {
+      const flatResponse = response
+        ? response.parsedBody
+        : (errorWithResponse?.details ?? legacyResponse.parsedBody ?? {});
+      if (!response && errorWithResponse) {
+        errorWithResponse.details = flatResponse;
+      }
+      options.onResponse?.(legacyResponse, flatResponse, responseError ?? error);
     }
 
     throw error;
@@ -47,6 +55,22 @@ export async function withLegacyOperationOptions<T>(
     options.onResponse?.(response, value);
   }
   return value;
+}
+
+function getErrorWithResponse(
+  error: unknown,
+): { response: FullOperationResponse; details?: unknown } | undefined {
+  if (
+    typeof error !== "object" ||
+    error === null ||
+    !("response" in error) ||
+    typeof error.response !== "object" ||
+    error.response === null
+  ) {
+    return undefined;
+  }
+
+  return error as { response: FullOperationResponse; details?: unknown };
 }
 
 function convertOperationOptions(

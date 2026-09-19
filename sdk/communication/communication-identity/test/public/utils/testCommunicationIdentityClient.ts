@@ -5,6 +5,7 @@ import type {
   CommunicationAccessToken,
   CommunicationIdentityClientOptions,
   CommunicationUserToken,
+  CreateUserAndTokenOptions,
   TokenScope,
 } from "../../../src/index.js";
 import { CommunicationIdentityClient } from "../../../src/index.js";
@@ -17,6 +18,8 @@ import {
 } from "./mockHttpClients.js";
 import type { OperationOptions } from "@azure/core-client";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
+
+type CreateUserAndTokenTestOptions = CreateUserAndTokenOptions;
 
 export class TestCommunicationIdentityClient {
   private connectionString: string = "endpoint=https://contoso.spool.azure.local;accesskey=banana";
@@ -56,7 +59,7 @@ export class TestCommunicationIdentityClient {
 
   public async createUserAndTokenTest(
     scopes: TokenScope[],
-    options: OperationOptions = {},
+    options: CreateUserAndTokenTestOptions = {},
   ): Promise<CommunicationUserToken> {
     // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {

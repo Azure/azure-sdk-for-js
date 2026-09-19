@@ -6,9 +6,12 @@ import { isCommunicationUserIdentifier } from "@azure/communication-common";
 import type { HttpClient } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
+  createUserAndTokenHttpClient,
+  createUserHttpClient,
   createMockHttpClient,
   getTokenForTeamsUserHttpClient,
   getTokenHttpClient,
+  revokeTokensHttpClient,
 } from "./utils/mockHttpClients.js";
 import {
   CommunicationIdentityClient,
@@ -132,7 +135,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
       requestOptions: { shouldDeserialize: false },
     });
 
-    assert.deepEqual(response, {
+    expect(response).toEqual({
       error: { code: "BadRequest", message: "bad request" },
     });
   });
@@ -174,6 +177,45 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.instanceOf(error, RestError);
   });
 
+  it("preserves legacy callbacks for non-RestError failures with a response", async () => {
+    const pipelineError = new Error("pipeline failure") as Error & {
+      statusCode: number;
+      response: {
+        status: number;
+        headers: ReturnType<typeof createHttpHeaders>;
+        request: Parameters<HttpClient["sendRequest"]>[0];
+        bodyAsText: string;
+      };
+      details?: unknown;
+    };
+    const httpClient: HttpClient = {
+      async sendRequest(request) {
+        pipelineError.statusCode = 418;
+        pipelineError.response = {
+          status: pipelineError.statusCode,
+          headers: createHttpHeaders(),
+          request,
+          bodyAsText: JSON.stringify({ error: { code: "Teapot" } }),
+        };
+        throw pipelineError;
+      },
+    };
+    const client = new CommunicationIdentityClient(
+      "endpoint=https://contoso.spool.azure.local;accesskey=banana",
+      { httpClient } as CommunicationIdentityClientOptions,
+    );
+    const onResponse = vi.fn();
+
+    await expect(client.getToken(user, ["chat"], { onResponse })).rejects.toBe(pipelineError);
+
+    expect(onResponse).toHaveBeenCalledOnce();
+    const [rawResponse, flatResponse, error] = onResponse.mock.calls[0];
+    assert.equal(rawResponse.status, 418);
+    assert.deepEqual(flatResponse, {});
+    assert.equal(error, pipelineError);
+    assert.deepEqual(pipelineError.details, {});
+  });
+
   it("preserves the legacy onResponse error arguments", async () => {
     const responseBody = { error: { code: "BadRequest", message: "bad request" } };
     const client = new CommunicationIdentityClient(
@@ -202,11 +244,70 @@ describe("CommunicationIdentityClient [Mocked]", () => {
 
   it("[createUser] excludes _response from results", async () => {
     const client = new TestCommunicationIdentityClient();
+    const spy = vi.spyOn(createUserHttpClient, "sendRequest");
     const newUser = await client.createUserTest();
 
     assert.isTrue(isCommunicationUserIdentifier(newUser));
     assert.equal(newUser.communicationUserId, "identity");
     assert.isFalse("_response" in newUser);
+    expect(spy).toHaveBeenCalledOnce();
+
+    const request = spy.mock.calls[0][0];
+    assert.equal(request.method, "POST");
+    assert.include(request.url, "/identities?api-version=2026-09-23");
+    assert.isUndefined(request.body);
+  });
+
+  it("sends scopes and expiration when creating a user and token", async () => {
+    const client = new TestCommunicationIdentityClient();
+    const spy = vi.spyOn(createUserAndTokenHttpClient, "sendRequest");
+
+    const response = await client.createUserAndTokenTest(["chat"], {
+      tokenExpiresInMinutes: 60,
+    });
+
+    assert.equal(response.user.communicationUserId, "identity");
+    assert.equal(response.token, "token");
+    expect(spy).toHaveBeenCalledOnce();
+
+    const request = spy.mock.calls[0][0];
+    assert.equal(request.method, "POST");
+    assert.include(request.url, "/identities?api-version=2026-09-23");
+    assert.deepEqual(JSON.parse(request.body as string), {
+      createTokenWithScopes: ["chat"],
+      expiresInMinutes: 60,
+    });
+  });
+
+  it("sends the expected revoke and delete requests", async () => {
+    const client = new TestCommunicationIdentityClient();
+    const revokeSpy = vi.spyOn(revokeTokensHttpClient, "sendRequest");
+
+    await client.revokeTokensTest(user);
+
+    expect(revokeSpy).toHaveBeenCalledOnce();
+    const revokeRequest = revokeSpy.mock.calls[0][0];
+    assert.equal(revokeRequest.method, "POST");
+    assert.include(
+      revokeRequest.url,
+      "/identities/ACS_ID/:revokeAccessTokens?api-version=2026-09-23",
+    );
+    assert.isUndefined(revokeRequest.body);
+
+    const deleteHttpClient = createMockHttpClient(204);
+    const deleteSpy = vi.spyOn(deleteHttpClient, "sendRequest");
+    const deleteClient = new CommunicationIdentityClient(
+      "endpoint=https://contoso.spool.azure.local;accesskey=banana",
+      { httpClient: deleteHttpClient } as CommunicationIdentityClientOptions,
+    );
+
+    await deleteClient.deleteUser(user);
+
+    expect(deleteSpy).toHaveBeenCalledOnce();
+    const deleteRequest = deleteSpy.mock.calls[0][0];
+    assert.equal(deleteRequest.method, "DELETE");
+    assert.include(deleteRequest.url, "/identities/ACS_ID?api-version=2026-09-23");
+    assert.isUndefined(deleteRequest.body);
   });
 
   it("exchanges Teams token for ACS token", async () => {
@@ -217,6 +318,15 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.equal(response.token, "token");
     assert.equal(response.expiresOn.toDateString(), new Date("2011/11/30").toDateString());
     expect(spy).toHaveBeenCalledOnce();
+
+    const request = spy.mock.calls[0][0];
+    assert.equal(request.method, "POST");
+    assert.include(request.url, "/teamsUser/:exchangeAccessToken?api-version=2026-09-23");
+    assert.deepEqual(JSON.parse(request.body as string), {
+      token: "TeamsToken",
+      appId: "appId",
+      userId: "userId",
+    });
   });
 
   it("[getTokenForTeamsUser] excludes _response from results", async () => {

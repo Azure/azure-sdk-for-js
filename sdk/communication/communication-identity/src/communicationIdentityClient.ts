@@ -145,14 +145,7 @@ export class CommunicationIdentityClient {
   /**
    * Creates a single user.
    *
-   * Sends no request body. That matches the behaviour this client has always had:
-   * AutoRest's serializer produced an empty JSON object here, but core-client
-   * dropped it before the request reached the wire, so a body was never sent.
-   * Recorded traffic from 1.3.2 confirms it — `Content-Length: 0` and no body.
-   *
-   * Passing an explicit empty body to make the request "match AutoRest" is
-   * therefore a regression, not a fix: it adds a body the service has never been
-   * sent, and the recorded tests fail with a request/record body mismatch.
+   * The request is sent without a body, matching previous versions of this client.
    *
    * @param options - Additional options for the request.
    */
@@ -161,6 +154,7 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-createUser",
       options,
       async (updatedOptions) => {
+        // Keep the body undefined because the GA client omitted an empty serialized body on the wire.
         const result = await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
           this.client.identityOperations.create(generatedOptions),
         );
