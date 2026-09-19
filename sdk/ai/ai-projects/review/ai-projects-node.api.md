@@ -557,13 +557,6 @@ export interface AgentsCreateSessionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsCreateTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    repeatabilityFirstSent?: Date;
-    repeatabilityRequestId?: string;
-}
-
-// @public
 export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
 }
 
@@ -589,11 +582,6 @@ export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AgentsDeleteTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
@@ -631,11 +619,6 @@ export interface AgentsEnableOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsEndTelephonyCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
 export interface AgentSessionResource {
     agent_session_id: string;
     readonly created_at: Date;
@@ -650,10 +633,6 @@ export interface AgentSessionResource {
 export type AgentSessionStatus = "creating" | "active" | "idle" | "updating" | "failed" | "deleting" | "deleted" | "expired";
 
 // @public
-export interface AgentsGenerateAgentOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AgentsGetOptionalParams extends OperationOptions {
 }
 
@@ -663,21 +642,6 @@ export interface AgentsGetSessionLogStreamOptionalParams extends OperationOption
 
 // @public
 export interface AgentsGetSessionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AgentsGetTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface AgentsGetTelephonyCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface AgentsGetTelephonyTransferTargetsOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
@@ -708,30 +672,6 @@ export interface AgentsListSessionsOptionalParams extends OperationOptions {
     before?: string;
     limit?: number;
     order?: PageOrder;
-}
-
-// @public
-export interface AgentsListTelephonyBindingsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    provider?: TelephonyProvider;
-    status?: TelephonyBindingStatus;
-}
-
-// @public
-export interface AgentsListTelephonyCallsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    provider?: TelephonyProvider;
-    startedAfter?: Date;
-    startedBefore?: Date;
-    status?: TelephonyCallStatus;
 }
 
 // @public
@@ -783,11 +723,6 @@ export interface AgentsOperations {
 export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOptionalParams;
 
 // @public
-export interface AgentsReplaceTelephonyTransferTargetsOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
 export interface AgentsStopSessionOptionalParams extends OperationOptions {
 }
 
@@ -796,11 +731,6 @@ export type AgentState = "enabled" | "disabled";
 
 // @public
 export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
-
-// @public
-export interface AgentsTransferTelephonyCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
 
 // @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
@@ -820,11 +750,6 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
     description?: string;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
-}
-
-// @public
-export interface AgentsUpdateTelephonyBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
