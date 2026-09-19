@@ -1,4 +1,10 @@
 # Release History
+
+## 12.0.0 (2026-09-18)
+
+### Breaking Changes
+  - Operation ScheduleOperationsOperations.createOrUpdate has a new signature
+
     
 ## 11.0.0 (2026-07-27)
 ### Features Added
