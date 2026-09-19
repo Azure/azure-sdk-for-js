@@ -1,11 +1,5 @@
 # Release History
 
-## 2.8.0 (Unreleased)
-
-### Breaking Changes
-
-- Remove the unused `AgentsListTelephonyCallsOptionalParams`, `AgentsDeleteTelephonyBindingOptionalParams`, `AgentsUpdateTelephonyBindingOptionalParams`, `AgentsGetTelephonyBindingOptionalParams`, `AgentsListTelephonyBindingsOptionalParams`, and `AgentsCreateTelephonyBindingOptionalParams` optional-parameter types, which had no corresponding operations. The underlying telephony operations already live under `project.beta.voiceAgents.telephony`.
-
 ## 2.7.0 (2026-09-18)
 
 ### Breaking Changes
