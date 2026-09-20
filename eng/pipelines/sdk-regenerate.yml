@@ -1,4 +1,5 @@
 # JS SDK TypeSpec breaking-change check pipeline (ARM and data-plane).
+# PR validation for this pipeline runs only when this file or sdk-regenerate.mjs changes.
 #
 # Stages / jobs:
 #   Setup              Resolve emitter version, build shard matrix, pin
