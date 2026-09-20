@@ -36,8 +36,8 @@ param modelVersion string = '2025-08-28'
 @description('The SKU name for the model deployment. Example: GlobalStandard')
 param modelSkuName string = 'GlobalStandard'
 
-@description('The capacity of the model deployment in TPM.')
-param modelCapacity int = 40
+@description('The capacity of the model deployment. Unlike general chat models, gpt-realtime is quota-limited in Requests Per Minute (RPM), not TPM, and the CI test-resources subscription only has 10 RPM available in eastus2 (buildId 6859756). The live tests only need to establish a handful of realtime sessions, and this deployment runs once per parallel test matrix job (5 in the current matrix) sharing that same quota pool, so keep this low.')
+param modelCapacity int = 1
 
 // Variables
 var aiServicesName = '${baseName}-ai'
