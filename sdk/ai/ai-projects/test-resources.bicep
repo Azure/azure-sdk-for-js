@@ -1,8 +1,8 @@
 @description('The base resource name for AI Services.')
 param baseName string = resourceGroup().name
 
-@description('Region for the AI Services account. Voice Agents realtime streaming requires a managed/realtime-capable model (e.g. gpt-realtime), which is only available in a subset of regions. westus2 is confirmed (via the dogfood project this test suite was validated against) to support the gpt-realtime deployment used by the live test matrix.')
-param aiServicesLocation string = 'westus2'
+@description('Region for the AI Services account. Voice Agents realtime streaming requires a managed/realtime-capable model (e.g. gpt-realtime), which is only available in a subset of regions. eastus2 is what sdk/voicelive/test-resources.bicep already uses and documents as supporting "the full model set exercised by the live test matrix" (gpt-realtime, gpt-realtime-mini, phi4-mm-realtime, phi4-mini); westus2 deployment of gpt-realtime failed preflight validation in the CI test-resources subscription (buildId 6859739).')
+param aiServicesLocation string = 'eastus2'
 
 @description('The principal ID of the test application identity. Provided by New-TestResources.ps1 in CI; defaults to empty for local deploys.')
 param testApplicationOid string = ''
@@ -30,8 +30,8 @@ param modelName string = 'gpt-realtime'
 @description('The model format of the model you want to deploy. Example: OpenAI')
 param modelFormat string = 'OpenAI'
 
-@description('The version of the model you want to deploy. Verified via az cognitiveservices account deployment list against a working gpt-realtime deployment.')
-param modelVersion string = '2026-01-12'
+@description('The version of the model you want to deploy. 2025-08-28 is the current default gpt-realtime version in eastus2 (verified via "az cognitiveservices model list --location eastus2"); the previous 2026-01-12 pin failed preflight validation for this model/account kind.')
+param modelVersion string = '2025-08-28'
 
 @description('The SKU name for the model deployment. Example: GlobalStandard')
 param modelSkuName string = 'GlobalStandard'
