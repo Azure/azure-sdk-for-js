@@ -1,0 +1,734 @@
+# JavaScript, TypeScript, and Node.js for one Rust-backed item read
+
+This guide owns the language and runtime concepts needed to implement a
+single-item read. The [prototype guide](JS_SDK_RUST_READ_PROTOTYPE.md) owns
+the source trace, framework evaluation, Portal questions, implementation gates,
+and performance experiment.
+
+Read one bite at a time. There are **approximately 32 bites across the
+two guides**: 1-18 here, then 19-32 in the prototype guide. This replaces the
+broader 45-concept draft, not a record of lessons completed. Bites 1 and 2
+are the opening orientation; rewriting later material does not mean it
+has been taught or implemented.
+
+The example is always the customer's database `checkout`, container `orders`,
+item `order-42`, and partition-key value `customer-17`.
+Use the JavaScript API name `Item.read()`: `read_item` is the corresponding
+Python operation, not a method we should add to the JavaScript public API.
+
+A **path** is where JavaScript runs (Node.js or browser). An **actor** is who
+calls `Item.read()` (customer server, customer website, or Portal Data Explorer).
+
+## Bite 1 of approximately 32: Where the customer's read runs
+
+The customer already has one order in Cosmos DB and wants that order back.
+They do not want to query every order and pick one.
+
+That stored record is an **item**:
+
+```json
+{
+  "id": "order-42",
+  "customerId": "customer-17",
+  "status": "submitted"
+}
+```
+
+The account holds a **database** named `checkout`. Inside it, a **container**
+named `orders` holds items. The container is partitioned by `/customerId`, so
+this item lives under partition-key value `customer-17`.
+
+A **point read** fetches one item using its `id` and partition-key value.
+Those two values are enough.
+
+The application is written in **JavaScript**. It uses the SDK package
+`@azure/cosmos`. The public operation is `Item.read()` in
+`sdk\cosmosdb\cosmos\src\client\Item\Item.ts`. We will not add a Python-style
+`read_item()` method.
+
+```ts
+const item = client
+  .database("checkout")
+  .container("orders")
+  .item("order-42", "customer-17");
+
+const response = await item.read();
+```
+
+`client` is an already configured `CosmosClient`. `await` means this function
+waits until that future result is ready (scheduling is bite 10).
+
+| Who | Has | Does |
+|---|---|---|
+| Caller | `id` `order-42`, partition-key value `customer-17` | Calls `item.read()` |
+| SDK (`Item`) | Those values plus account settings | Starts the point read |
+| Cosmos DB | The stored item | Returns it, or a not-found result |
+
+A page that **displays** `order-42` is not automatically running the SDK.
+If Node.js did the read and sent JSON to the page, only the server ran the SDK.
+
+There are **two paths** and **three actors**:
+
+| Path | Actor | Flow |
+|---|---|---|
+| **Node.js** — JavaScript outside a browser | Customer server application | Customer server → SDK in Node.js → Cosmos DB |
+| **Browser** — JavaScript in a web page, with different network and file-loading rules than Node.js | Customer website | Customer website JS → SDK in that page → approved network route → Cosmos DB |
+| **Browser** (same path, different actor) | Portal Data Explorer | Portal Explorer JS → SDK in Portal’s page → approved network route → Cosmos DB |
+
+Portal and the customer website share the browser path. They are not the same
+product: different owners ship the SDK and set page/network rules. Using Portal
+does not prove the customer’s website can load and run the SDK.
+
+This prototype must work on **both paths**. A Node-only success is not the
+complete requirement.
+
+**Established here:** example item; `Item.read()`; path versus actor.
+
+**Not this bite:** TypeScript, npm, and which files get loaded (bite 2);
+`await` scheduling (bite 10); how the request reaches Cosmos, including
+Gateway V2 (later).
+
+Source: [Item.ts](../../sdk/cosmosdb/cosmos/src/client/Item/Item.ts).
+
+## Bite 2 of approximately 32: What is built and loaded
+
+Bite 1’s call only works if the application can **load** SDK files. Loading is
+not the point read. Someone must turn source into those files first.
+
+The SDK is written in **TypeScript**: JavaScript plus compile-time type
+checking. A **build** checks source and writes files an application can load.
+It does not talk to Cosmos DB and does not read `order-42`.
+
+`package.json` names the package `@azure/cosmos`. After build, the published
+files live under `dist/`. Today those files are JavaScript.
+
+Verified entries in `sdk\cosmosdb\cosmos\package.json`:
+
+| Path that will load the SDK | Prepared files |
+|---|---|
+| Browser | `dist/browser/index.js` |
+| Node.js | `dist/esm/index.js` and `dist/commonjs/index.js` |
+
+Why two Node.js files exist is a later bite. For this bite: the two **paths**
+already load different JavaScript files. One npm package does not mean one
+identical file for Node.js and the browser.
+
+**npm** is both the package registry and the install tool. Jobs stay separate:
+
+```text
+SDK team: TypeScript source -> build -> npm package
+Application team: install @azure/cosmos -> build/deploy application
+Actor: run application -> call Item.read()
+```
+
+The Portal user does not run `npm install`. Portal is an actor on the browser
+path. Public Explorer source (`Azure/cosmos-explorer`) depends on
+`@azure/cosmos` and uses Webpack to put application and SDK JavaScript on the
+page (`webpack --mode production`). That is Explorer’s application build, not
+the SDK’s compiler, and not proof of the exact Portal build a given session
+runs. Explorer is a web app (`react` / `react-dom`); it is not a React Native
+app.
+
+Adding Rust later means a **second compilation**: Rust source becomes a file
+the path must be able to load. A Node-only binary is not the browser path.
+Which file that is, and how each path loads it, waits until we choose a
+framework.
+
+**Established here:** build is not the read; `@azure/cosmos` already emits
+different `dist/` files per path; Rust adds a compiled artifact each path
+must be able to load.
+
+**Not this bite:** type-declaration files, `import` versus `require`,
+`warp.config.yml`, Webpack internals, Wasm, C-ABI, NAPI-RS, React Native.
+
+Sources: [package.json](../../sdk/cosmosdb/cosmos/package.json),
+[Explorer package.json](https://github.com/Azure/cosmos-explorer/blob/master/package.json).
+
+## Concept 3 of approximately 32: Objects, values, and partition keys
+
+An **object** groups named properties. `response.resource` is an object
+representing the order when a successful response contains one.
+It is not JSON text.
+
+```js
+const order = { id: "order-42", customerId: "customer-17", status: "submitted" };
+const text = JSON.stringify(order);
+```
+
+`JSON.stringify` produces text. `JSON.parse` converts JSON text back into
+JavaScript values; it does not validate the customer's business schema.
+`const` declares a name whose assigned value cannot be replaced.
+Concept 5 explains why the referenced object can still change.
+
+Inputs must retain their types:
+
+| Value | Meaning relevant to the boundary |
+|---|---|
+| `"customer-17"` | A string partition-key value |
+| `17` | A number, not the string `"17"` |
+| `false` | A Boolean value, not an omitted argument |
+| `null` | An explicit null value |
+| `undefined` | An absent/undefined value; not interchangeable with null |
+| `["customer-17", "west"]` | An array; the full SDK also supports multi-component keys |
+
+Do not use `value || defaultValue` to decide whether a key was supplied:
+it also replaces `false`, `0`, and `""`.
+
+The first experiment accepts a supplied string key. Other key forms require
+explicit rejection on the experimental path until implemented. The existing
+SDK remains capable of more. In particular, an omitted key can cause a
+partition-key-definition lookup; it is not an instruction to search for any
+item with this ID.
+
+Sources: [PartitionKey.ts](../../sdk/cosmosdb/cosmos/src/documents/PartitionKey.ts),
+[extractPartitionKey.ts](../../sdk/cosmosdb/cosmos/src/extractPartitionKey.ts).
+
+## Concept 4 of approximately 32: Functions and callbacks
+
+The binding receives values through a **function**, a callable piece of code.
+**Parameters** name its inputs; **arguments** are the values supplied in a call.
+
+```js
+function describeOrder(id, customerId) {
+  return `${customerId}/${id}`;
+}
+
+const description = describeOrder("order-42", "customer-17");
+```
+
+`return` supplies the result. Backticks form a string in which `${...}` inserts
+a value. This function constructs text; it does not contact Cosmos DB.
+An arrow function is another function form:
+
+```js
+const describeOrder = (id, customerId) => `${customerId}/${id}`;
+```
+
+A **callback** is a function passed to other code to invoke.
+Explorer's authorization provider and request plugin are callbacks.
+A callback is not automatically asynchronous and does not create a thread.
+Passing its name into Rust does not make it safe to invoke from any Rust thread.
+
+Source: [Plugin.ts](../../sdk/cosmosdb/cosmos/src/plugins/Plugin.ts),
+[JavaScript functions][functions].
+
+## Concept 5 of approximately 32: References, copies, and closures
+
+The customer can change an options object after starting a read.
+The adapter must not accidentally read the changed values later.
+
+```js
+const options = { excludedLocations: ["West US"] };
+const alias = options;
+const shallowCopy = { ...options };
+alias.excludedLocations.push("East US");
+```
+
+All three objects/names still refer to the same nested array.
+The spread syntax creates a **shallow copy**: a new outer object, not independent
+copies of everything inside it. `const` does not freeze the array.
+
+A **closure** is a function retaining access to surrounding variables:
+
+```js
+const operationId = "read-1";
+const identifyCompletion = () => operationId;
+```
+
+This helps match an asynchronous completion to its caller, but retaining the
+closure can also keep referenced objects alive. Copy required request inputs
+deliberately and release retained callbacks after completion or cleanup.
+Do not mutate the caller's options merely to prepare Rust arguments.
+
+**Destructuring** gives selected properties their own names:
+
+```js
+const { resource, statusCode } = response;
+```
+
+This does not make `resource` an independent copy of the order object.
+The syntax appears in the SDK's request and response preparation.
+
+Source: [JavaScript closures][closures], [spread syntax][spread].
+
+## Concept 6 of approximately 32: Classes and the lifetime of a client
+
+A **class** defines objects with state and methods.
+An **instance** is one such object; a **constructor** initializes it.
+A **method** is a function on that object.
+
+```js
+class OrderReference {
+  constructor(id) {
+    this.id = id;
+  }
+
+  describe() {
+    return this.id;
+  }
+}
+```
+
+This is a teaching class, not an SDK replacement. `this` refers to the receiving
+instance. Passing an ordinary method as an unbound callback can lose that
+receiver; do not assume a retained credential method will still have its `this`.
+
+In TypeScript classes, `public` and `private` describe access restrictions
+checked by TypeScript. `readonly` prevents reassignment through that typed
+property, not all mutation of nested values. A `get` accessor computes a
+property when read; `response.requestCharge` is one SDK example.
+
+The real `CosmosClient`, `Database`, `Container`, and `Item` are different
+objects. An `Item` identifies an item; creating the reference is not the same
+as fetching its body.
+
+Reuse one configured client for the measured reads. The proposed Rust runtime
+and driver must also survive across reads. Recreating them per call measures
+setup and discards useful state.
+
+Source: [CosmosClient.ts](../../sdk/cosmosdb/cosmos/src/CosmosClient.ts),
+[Item.ts](../../sdk/cosmosdb/cosmos/src/client/Item/Item.ts).
+
+## Concept 7 of approximately 32: Imports and environment-specific modules
+
+A **module** exposes or consumes code through exports and imports.
+
+```ts
+import { CosmosClient } from "@azure/cosmos";
+import type { ItemResponse } from "@azure/cosmos";
+```
+
+The first import obtains a runtime value. `import type` supplies only
+TypeScript information and is removed from emitted JavaScript.
+A Node-specific type import is therefore not itself a browser runtime dependency.
+
+**ES modules** use `import`/`export`; **CommonJS** commonly uses `require`.
+The SDK supplies both Node arrangements plus its browser entry.
+An internal `.js` import in a `.ts` file names the eventual JavaScript module;
+the repository's build resolves its TypeScript source.
+
+A **conditional export** selects package entry files for a consuming environment.
+The prototype must keep native loaders out of browser imports. Test the packed
+package through the application build, not only a direct import of a local file.
+
+`await import(...)` can defer loading a module. It moves initialization cost
+to that point; it does not remove it. A missing native/Wasm file must fail
+explicitly on the selected experimental path.
+
+Source: [package exports](../../sdk/cosmosdb/cosmos/package.json),
+[TypeScript modules][ts-modules].
+
+## Concept 8 of approximately 32: TypeScript checks do not validate network data
+
+The customer wants mistakes such as a numeric order ID caught before execution.
+An **interface** describes an expected shape:
+
+```ts
+interface Order {
+  id: string;
+  customerId: string;
+  status: string;
+}
+```
+
+`: string` is a type annotation. TypeScript can also infer types from values.
+These checks do not run inside Cosmos DB or make Rust validate this interface.
+
+`value?: string` permits omission. `string | undefined` is a **union** of
+possible types. A runtime check such as `typeof value === "string"` narrows
+the possibilities. `unknown` requires checking before use; `any` disables
+many useful checks.
+
+`value as Order` tells the compiler to trust the programmer. It does not
+transform or validate the value. Validate the experimental binding's inputs
+because callers can use plain JavaScript without TypeScript checking.
+
+`response.resource?.id` uses **optional chaining**: if `resource` is absent or
+null, the expression returns undefined instead of accessing `id`.
+The `??` operator substitutes a fallback only for null/undefined, unlike `||`.
+Neither operator justifies replacing a semantically meaningful null partition
+key or missing service metadata with an invented default.
+
+Source: [TypeScript everyday types][ts-types].
+
+## Concept 9 of approximately 32: Generics describe the response, not its parser
+
+A **generic** supplies a type parameter to reusable code.
+The current public method includes:
+
+```ts
+public async read<T extends ItemDefinition = any>(
+  options: RequestOptions = {},
+): Promise<ItemResponse<T>>
+```
+
+This is a signature excerpt, not a complete function.
+`T` is the caller's selected item type, constrained by `ItemDefinition`.
+`= any` is the existing default. `options = {}` supplies an empty options object
+when the argument is omitted/undefined; it does not make arbitrary null input valid.
+
+```ts
+const response = await item.read<Order>();
+```
+
+Here `item` is the configured `Item` from Concept 1.
+`ItemResponse<Order>` includes operation metadata and a possibly absent
+`resource`. It does not create an `Order` class instance.
+The response also retains an `item` reference for subsequent operations.
+
+`T & Resource` in the implementation is an **intersection type**: the type
+combines the customer's fields with SDK resource fields. It is not a runtime
+merge of two objects. TypeScript's `extends` here constrains `T`; it does not
+make the returned JSON inherit from a customer class.
+
+Rust must return enough information to construct that real SDK response.
+Returning only an order-shaped object is not API compatibility.
+
+Sources: [ItemResponse.ts](../../sdk/cosmosdb/cosmos/src/client/Item/ItemResponse.ts),
+[ResourceResponse.ts](../../sdk/cosmosdb/cosmos/src/request/ResourceResponse.ts).
+
+## Concept 10 of approximately 32: Promises, await, and errors
+
+The read cannot immediately return an order while the network is still busy.
+A Promise begins pending and then **settles**: it fulfills with a value or
+rejects with a reason.
+
+An `async` JavaScript function returns a Promise. `await` suspends that
+function's continuation while it waits; it does not move all its code to a
+background thread.
+
+```ts
+async function readOrder(item: import("@azure/cosmos").Item) {
+  const response = await item.read<Order>();
+  if (response.statusCode === 404) {
+    return response;
+  }
+  if (response.statusCode !== 200 || response.resource === undefined) {
+    throw new Error("The order read did not return the expected response.");
+  }
+  return response;
+}
+```
+
+The caller handles a rejection with `try`/`catch` or propagates it.
+Do not turn a rejected authorization/network request into an empty successful
+order. The current JS `Item.read` catches a 404 and returns an `ItemResponse`;
+not every non-success status rejects. Preserve this JS behavior rather than
+copying Python's exception convention.
+
+Resolving the submission Promise before Rust has completed the operation
+would measure submission, not read latency.
+
+Source: [Item.read](../../sdk/cosmosdb/cosmos/src/client/Item/Item.ts),
+[async functions][async-functions].
+
+## Concept 11 of approximately 32: Node's event loop is not a Rust executor
+
+The server must handle other work while the order read waits.
+The **event loop** runs JavaScript callbacks and continuations. Long synchronous
+work on that thread delays them, even when a surrounding function is `async`.
+
+Node also has a **libuv worker pool** for selected blocking operations.
+`worker_threads` creates separate JavaScript execution contexts.
+Neither is automatically the scheduler for a Rust asynchronous driver.
+
+**Concurrency** means multiple operations are in progress. It does not imply
+simultaneous JavaScript execution:
+
+```js
+const first = item.read();
+const second = item.read();
+const responses = await Promise.all([first, second]);
+```
+
+Both calls target the same read-only example. `Promise.all` rejects if an input
+rejects, but does not cancel the other operation.
+The load generator must also limit outstanding work; starting unlimited
+Promises can exhaust memory while making a throughput number misleading.
+
+For the native prototype, prefer running asynchronous driver work on its Rust
+executor and scheduling completion onto JavaScript. Blocking a libuv worker
+for every pending network read is a different design with a queue to measure,
+not equivalent to nonblocking execution.
+
+Source: [Node event-loop guidance][event-loop].
+
+## Concept 12 of approximately 32: Bytes, strings, and response copies
+
+The service sends an encoded body; the application consumes JavaScript values.
+A **byte** is a unit of binary data. **UTF-8** encodes text using one or more
+bytes per character.
+
+```js
+const text = '{"id":"order-42","note":"caf\u00e9"}';
+const bytes = new TextEncoder().encode(text);
+const decoded = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+const order = JSON.parse(decoded);
+```
+
+`Uint8Array` represents a view of bytes and works in browser code.
+Node's `Buffer` is also a byte-oriented type, but is not automatically a
+browser global. Respect a view's byte offset and length rather than passing
+its entire underlying allocation.
+
+The proposed response path must state where it converts the driver's supported
+body representation into JavaScript:
+
+```text
+Driver result -> owned/retained bytes -> UTF-8 JSON text -> JavaScript object
+```
+
+Do not assume a Gateway V2 wire frame is JSON text. Its protocol decoding belongs
+to the driver. Count actual copies and parsing steps at the binding boundary.
+Avoid parsing an order into an application-specific Rust struct merely to
+serialize it back to JSON for JavaScript.
+
+**Zero-copy** means a particular transfer avoids copying bytes, not that all
+serialization disappears. A view into freed native memory is invalid.
+For the first implementation, prefer a clear ownership/copy contract over an
+unproved zero-copy optimization.
+
+Source: [encoding API][encoding],
+[schema-agnostic driver boundary](../../../azure-sdk-for-rust/sdk/cosmos/docs/adrs/0002-schema-agnostic-driver-boundary.md).
+
+## Concept 13 of approximately 32: The Rust vocabulary the adapter needs
+
+A Rust **crate** is a compilation unit. **Cargo** builds crates and resolves
+dependencies using `Cargo.toml`; `Cargo.lock` records resolved versions.
+Features select compile-time capabilities, not arbitrary runtime compatibility.
+
+For the read adapter, learn these types when reading its signatures:
+
+| Rust construct | Role in this read |
+|---|---|
+| `String` / `&str` | Owned text / borrowed text |
+| `Vec<u8>` | Owned bytes |
+| `Option<T>` | A value that may be absent |
+| `Result<T, E>` | Success or a typed error |
+| `Arc<T>` | Shared ownership that can keep client state alive across tasks |
+| `async fn` / future | Work an executor must poll toward completion |
+
+The `?` operator propagates a failure. A **borrow** accesses another owner's
+value without taking responsibility for releasing it.
+Inputs used after the JavaScript call returns must have a valid longer lifetime.
+
+**Tokio** is the asynchronous runtime used by the inspected native Rust paths.
+Calling `block_on` on Node's JavaScript thread would wait there and block it.
+The Python synchronous binding releases Python's lock while waiting; that is
+not a recipe to copy into Node's event loop.
+
+Source: Python binding
+[driver_runner.rs](../../../azure-sdk-for-python/sdk/cosmos/azure-cosmos/azure_cosmos_rust/src/wire/driver_runner.rs),
+[Rust Book][rust-book].
+
+## Concept 14 of approximately 32: Node-API and asynchronous completion
+
+Node needs a supported way to invoke compiled Rust and receive JavaScript values.
+**Node-API** is Node's native-addon API with a defined ABI compatibility boundary.
+It does not make one binary portable across operating systems or into a browser.
+
+NAPI-RS and Neon provide Rust bindings for this kind of integration.
+Their detailed comparison belongs in Concept 22.
+The intended sequence is:
+
+```text
+JS thread: validate/copy inputs, submit work, return Promise
+Rust executor: perform the driver operation
+JS thread: convert result, construct ItemResponse, settle Promise
+```
+
+An executor thread cannot use arbitrary JavaScript objects or invoke a retained
+credential callback directly. Use the framework's supported return-to-JavaScript
+mechanism, keep references alive for the required interval, and propagate
+callback failures.
+
+The Rust executor, JavaScript callback queue, and in-flight operation registry
+must not grow without limits. Promise completion and native-memory cleanup
+are separate responsibilities.
+
+Sources: [Node-API][node-api], [NAPI-RS async functions][napi-async],
+[Neon Channel][neon-channel].
+
+## Concept 15 of approximately 32: Browser Wasm still needs a host
+
+The compiled Rust code can calculate which order to request, but it still
+needs something to send the request. A **host** is the surrounding environment
+that supplies facilities the compiled code cannot provide on its own.
+In our browser example, that includes browser-provided network access.
+
+A Wasm **import** is a function or other facility the module asks its host
+to supply. A Wasm **export** is something the module makes callable outside
+it. For the order read, distinguish calling the engine from sending a request:
+
+```text
+JavaScript calls an exported Rust read function
+    -> compiled engine prepares the order request
+    -> engine calls an imported host networking function
+    -> host sends the request and returns the result
+```
+
+**wasm-bindgen** is a tool/library that generates the connecting code between
+Rust/Wasm and JavaScript. **web-sys** supplies Rust bindings to browser APIs
+such as `fetch`, the browser function that sends web requests.
+
+**WASI** expands to **WebAssembly System Interface**: standardized interfaces
+through which Wasm software can ask a host for facilities.
+It is neither the `.wasm` file format nor a complete operating system.
+A host must implement the particular interfaces the compiled module imports.
+Different WASI versions and host implementations do not provide identical
+facilities or permissions.
+
+WASI is **not required for every browser Rust design**. A wasm-bindgen design
+can call JavaScript/browser APIs directly. A WASI-targeted design instead
+needs the selected WASI host implementation as well.
+Neither arrangement automatically supplies native TCP sockets, all Node APIs,
+or the existing Rust HTTP client.
+Running a Rust addition function is therefore a much smaller result than
+running this driver.
+
+A **Web Worker** runs separately from the page's main JavaScript context.
+Passing data to it uses messages, copies, or explicit transfer/shared-memory
+mechanisms. Workers do not automatically bypass browser network rules.
+Synchronous Wasm on the main page can still delay interaction.
+
+The browser's `fetch` can use HTTP/2 through the browser's networking stack.
+**HTTP** is the protocol for the web request/response exchange; **HTTP/2** is
+one version of that protocol.
+That does not expose the native driver's socket, connection-pool, or
+HTTP/2 configuration API to Wasm. Ask which host functions this exact build
+imports and what implements them, not simply whether "Wasm supports HTTP/2."
+
+The driver currently configures native-oriented connection behavior.
+The feasibility work must establish an owner-supported browser execution and
+transport path, not just a Wasm loader.
+That is the hard Gateway V2 gate in Concept 23.
+
+Loading Wasm also need not block the entire website. The application can render
+its surrounding interface before loading the read engine on demand. That
+moves cost to first use rather than removing it. The prototype guide owns
+the download, initialization, and first-order-display measurements.
+
+Sources: [wasm-bindgen deployment][wasm-deploy],
+[web-sys][web-sys], [WASI][wasi], [Fetch standard][fetch-standard].
+
+## Concept 16 of approximately 32: Browser policy affects loading and requests
+
+The browser application must both load the compiled code and reach the account.
+Those are different checks.
+
+**CORS** is the destination server's permission for a page from another origin
+to access a response. It is not Cosmos authorization.
+Preflight approval and access to required response headers must be checked.
+Code can reach a response while still being unable to read a needed header.
+
+**Content Security Policy**, or **CSP**, can restrict script/Wasm execution,
+workers, and network destinations. A Wasm compilation permission is not
+permission to connect to arbitrary accounts.
+
+Some threaded Wasm arrangements require shared memory.
+**Cross-origin isolation** is a browser security state needed for relevant
+shared-memory facilities. Portal embedding adds parent-page and deployment
+constraints; a child page cannot assume a local-development header change
+will establish that state in Portal.
+
+Use the same checks for customer browser applications, not only Portal.
+Do not weaken a site's policy just to make a prototype load.
+Concept 24 separates source-verifiable Explorer behavior from deployment
+questions for its owners.
+
+Sources: [CORS][cors], [CSP script policy][csp],
+[cross-origin isolation][isolation].
+
+## Concept 17 of approximately 32: Initialization, cancellation, and disposal
+
+JavaScript client construction is synchronous. Driver initialization can require
+asynchronous metadata work. The experimental implementation must bridge that
+difference without blocking or changing the public constructor into a Promise.
+
+One proposed design is a shared initialization Promise per experimental client:
+concurrent reads wait for the same initialization, not separate drivers.
+Its failure stays visible; it must not silently switch back to JavaScript.
+The implementation must define whether and how initialization can be retried.
+
+An **AbortSignal** communicates cancellation:
+
+```js
+const controller = new AbortController();
+const pending = item.read({ abortSignal: controller.signal });
+controller.abort();
+```
+
+The caller must still observe `pending`'s outcome. Aborting a signal does not,
+by itself, cancel a Rust task. The binding must connect the signal to the
+operation and remove its listener when no longer needed.
+
+Do not cancel shared client initialization just because one waiting read
+cancels. Conversely, do not leave an abandoned read running indefinitely.
+Define the deadline across initialization, queueing, retries, and completion.
+The existing JS HTTP-attempt timeout is not proof of a whole-call deadline.
+
+Current `CosmosClient.dispose()` clears SDK background state; it is not an
+existing Promise-returning Rust drain API. A prototype must specify how it
+rejects new work, deals with active work, and releases native state while
+preserving that public surface. Garbage collection is not a reliable deadline
+for closing a client or stopping a runtime.
+
+Sources: [RequestHandler.ts](../../sdk/cosmosdb/cosmos/src/request/RequestHandler.ts),
+[CosmosClient.dispose](../../sdk/cosmosdb/cosmos/src/CosmosClient.ts).
+
+## Concept 18 of approximately 32: Build-time success versus runtime proof
+
+The reader is now ready to distinguish these checkpoints:
+
+```text
+TypeScript checks -> JS package builds -> native/Wasm artifact loads
+    -> driver initializes -> read executes -> ItemResponse returns
+```
+
+Each arrow can fail independently.
+A type declaration can exist while its native implementation is missing.
+A successful package build does not prove the browser entry loaded.
+A Rust initialization log does not prove the read used Rust or Gateway V2.
+
+The repo uses **pnpm** for workspace dependencies and **Turborepo** to order
+package build tasks. These are build tools, not runtimes used by the customer's
+read. Concept 27 gives the scoped build procedure.
+
+**Source maps** connect emitted JavaScript to TypeScript for debugging.
+Rust symbols help identify native execution. Keep detailed tracing/profilers
+in diagnostic runs rather than quietly adding their overhead to clean timings.
+
+The current package's `test:browser` script is `echo skipped`.
+Its successful exit is not a browser test. A real browser/Portal check must
+load the candidate and exercise the operation.
+
+Continue with
+[Concept 19: trace the existing read](JS_SDK_RUST_READ_PROTOTYPE.md#concept-19-of-approximately-32-trace-the-existing-read).
+
+## Sources
+
+Local links refer to this JavaScript checkout or named sibling checkouts.
+The prototype guide records revisions and their evidence limits.
+Language references explain constructs; SDK source determines SDK behavior.
+
+[explorer-read]: https://github.com/Azure/cosmos-explorer/blob/master/src/Common/dataAccess/readDocument.ts
+[node-addons]: https://nodejs.org/api/addons.html
+[node-api]: https://nodejs.org/api/n-api.html
+[functions]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
+[closures]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures
+[spread]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+[ts-modules]: https://www.typescriptlang.org/docs/handbook/2/modules.html
+[ts-types]: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html
+[async-functions]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+[event-loop]: https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop
+[encoding]: https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API
+[rust-book]: https://doc.rust-lang.org/book/
+[napi-async]: https://napi.rs/docs/concepts/async-fn
+[neon-channel]: https://docs.neon-bindings.com/neon/event/struct.Channel.html
+[wasm-deploy]: https://wasm-bindgen.github.io/wasm-bindgen/reference/deployment.html
+[web-sys]: https://wasm-bindgen.github.io/wasm-bindgen/web-sys/index.html
+[wasi]: https://wasi.dev/
+[cors]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS
+[csp]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/script-src
+[isolation]: https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated
+[fetch-standard]: https://fetch.spec.whatwg.org/
