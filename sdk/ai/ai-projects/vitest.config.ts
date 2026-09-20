@@ -13,9 +13,12 @@ import viteConfig from "../../../vitest.shared.config.ts";
 export default process.env["TEST_SCOPE"] === "voiceAgents"
   ? (() => {
       // mergeConfig concatenates array fields (like test.include) rather than replacing them, so
-      // build off a cloned config via an empty merge, then replace include/exclude directly.
+      // build off a cloned config via an empty merge, then replace include directly. Keep the
+      // inherited exclude (e.g. "test/**/browser/*.spec.ts") so the Node run doesn't also pick up
+      // the browser-specific voiceAgentWebSocketLive.spec.ts, which would exercise the Node
+      // conditional export instead of Chromium and no longer validate the browser transport.
       const scoped = mergeConfig(viteConfig, defineConfig({}));
-      scoped.test = { ...scoped.test, include: ["test/**/voiceAgent*.spec.ts"], exclude: [] };
+      scoped.test = { ...scoped.test, include: ["test/**/voiceAgent*.spec.ts"] };
       return scoped;
     })()
   : viteConfig;

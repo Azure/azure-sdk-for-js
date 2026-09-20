@@ -24,9 +24,11 @@ never make a network request.
 ### Live Tests (node/voiceAgentWebSocketLive.spec.ts, browser/voiceAgentWebSocketLive.spec.ts)
 
 These tests run only in live mode and exercise real-time WebSocket streaming end-to-end, against
-the ai-projects package-wide live pipeline (see `../../../tests.yml`/`../../../test-resources.bicep`
-— the pipeline provisions resources for the whole `@azure/ai-projects` package, not just voice
-agents; voice agents are simply the only feature with live tests today).
+the ai-projects package's live pipeline (see `../../../tests.yml`/`../../../test-resources.bicep`).
+That pipeline provisions only the Foundry project endpoint and a realtime-capable voice model, and
+sets `TEST_SCOPE=voiceAgents` so `../../../vitest.config.ts`/`../../../vitest.browser.config.ts`
+restrict the live run to just the Voice Agent specs — the package's other live-capable tests (AI
+Search, Bing, storage, etc.) need env vars this pipeline doesn't provision, so they don't run here.
 
 **node/voiceAgentWebSocketLive.spec.ts** (uses `node:fs` to stream the audio fixture below):
 

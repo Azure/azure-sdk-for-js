@@ -10,12 +10,14 @@ const isVoiceAgentLiveTestScope = process.env["TEST_SCOPE"] === "voiceAgents";
 let baseConfig = viteConfig;
 if (isVoiceAgentLiveTestScope) {
   // mergeConfig concatenates array fields (like test.include) rather than replacing them, so
-  // build off a cloned config via an empty merge, then replace include/exclude directly.
+  // build off a cloned config via an empty merge, then replace include directly. Keep the
+  // inherited exclude (e.g. "dist-test/**/node/*.spec.js") so this browser run doesn't also
+  // collect the Node-specific voiceAgentWebSocketLive.spec.js, which imports node:fs and cannot
+  // run in Chromium.
   baseConfig = mergeConfig(viteConfig, defineConfig({}));
   baseConfig.test = {
     ...baseConfig.test,
     include: ["dist-test/**/voiceAgent*.spec.js"],
-    exclude: [],
   };
 }
 
