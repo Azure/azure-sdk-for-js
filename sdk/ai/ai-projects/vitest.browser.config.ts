@@ -5,8 +5,22 @@ import { defineConfig, mergeConfig } from "vitest/config";
 import { playwright } from "@vitest/browser-playwright";
 import viteConfig from "../../../vitest.browser.shared.config.ts";
 
+// See vitest.config.ts for why this only takes effect in the Voice Agents live-test pipeline.
+const isVoiceAgentLiveTestScope = process.env["TEST_SCOPE"] === "voiceAgents";
+let baseConfig = viteConfig;
+if (isVoiceAgentLiveTestScope) {
+  // mergeConfig concatenates array fields (like test.include) rather than replacing them, so
+  // build off a cloned config via an empty merge, then replace include/exclude directly.
+  baseConfig = mergeConfig(viteConfig, defineConfig({}));
+  baseConfig.test = {
+    ...baseConfig.test,
+    include: ["dist-test/**/voiceAgent*.spec.js"],
+    exclude: [],
+  };
+}
+
 export default mergeConfig(
-  viteConfig,
+  baseConfig,
   defineConfig({
     test: {
       browser: {
