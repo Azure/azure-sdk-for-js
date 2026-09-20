@@ -4,8 +4,10 @@ import:
   - ../../.vscode/cspell.json
 words:
   - Agentic
-  - xhigh
+  - KHTML
   - pcma
   - pcmu
   - viseme
+  - vnet
   - webrtc
+  - xhigh
