@@ -349,6 +349,22 @@ describe("report aggregation", () => {
     expect(cells["Live Tests Build Number"]).toBe("");
   });
 
+  it("appends the new Lint columns last to preserve existing column order", async () => {
+    const dataplane: PackagesWithStatus = {
+      "@azure/example": createPackageStatus("example"),
+    };
+
+    writeFileMock.mockClear();
+    await writeToCsv(dataplane, {});
+
+    const header = (writeFileMock.mock.calls[0][1] as string).split("\n")[0].split(",");
+    expect(header.slice(-2)).toEqual(["Lint", "Lint Link"]);
+    // The build-number columns keep their original positions right after their
+    // corresponding link column.
+    expect(header[header.indexOf("CI Link") + 1]).toBe("CI Build Number");
+    expect(header[header.indexOf("Live Tests Link") + 1]).toBe("Live Tests Build Number");
+  });
+
   it("leaves live-test fields blank when a package has CI but no live-test pipeline", async () => {
     const packageDetails = createPackageStatus("example");
     const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };

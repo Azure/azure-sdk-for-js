@@ -530,12 +530,12 @@ export async function writeToCsv(
     "Package",
     "Status",
     "Owned by SDK team",
-    "Lint",
-    "Lint Link",
     "CI",
     "CI Link",
+    "CI Build Number",
     "Live Tests",
     "Live Tests Link",
+    "Live Tests Build Number",
     // "Tests - Live Weekly",
     // "Tests - Live Weekly Link",
     // "Weekly Build Number",
@@ -545,10 +545,10 @@ export async function writeToCsv(
     "SLA - Questions Link",
     "SLA - Bugs Link",
     "Total Customer-reported Issues Link",
-    // Build-number columns are appended last so existing consumers that read
-    // the earlier columns by position are not broken by their addition.
-    "CI Build Number",
-    "Live Tests Build Number",
+    // Lint and Lint Link are new columns; append them last so existing tools
+    // that consume the report by column position are not broken.
+    "Lint",
+    "Lint Link",
   ];
   const csvData = Object.entries(dataplane).map(([pkgName, pkgDetails]) => {
     const status = pkgDetails.status;
@@ -557,17 +557,15 @@ export async function writeToCsv(
       pkgName,
       status,
       SDK_OWNED.includes(pkgName) ? "YES" : "NO",
-      // Lint is a release blocker sourced from the CI pipeline. Preserve a blank
-      // for unmatched pipelines; otherwise emit the normalized PASS/FAIL/UNKNOWN.
-      pipelines[pkgName]?.ci ? (pkgDetails.lint?.status ?? "") : "",
-      pipelines[pkgName]?.ci ? (pkgDetails.lint?.link ?? "") : "",
       // Use the normalized CI status from reportStatus rather than the raw
       // Azure DevOps value, keeping the blank for packages with no CI pipeline.
       pipelines[pkgName]?.ci ? (pkgDetails.ci?.status ?? "") : "",
       pipelines[pkgName]?.ci?.link ?? "",
+      pipelines[pkgName]?.ci?.buildNumber ?? "",
       // Same for live tests: emit the normalized status for matched pipelines.
       pipelines[pkgName]?.tests ? (pkgDetails.tests?.status ?? "") : "",
       pipelines[pkgName]?.tests?.link ?? "",
+      pipelines[pkgName]?.tests?.buildNumber ?? "",
       // pipelines[pkgName].weeklyTests?.weeklyTests?.status ?? "",
       // pipelines[pkgName].weeklyTests?.link ?? "",
       // pipelines[pkgName].weeklyTests?.buildNumber ?? "",
@@ -577,10 +575,12 @@ export async function writeToCsv(
       pkgDetails.sla?.question?.link ?? "",
       pkgDetails.sla?.bug?.link ?? "",
       pkgDetails.customerIssues?.link ?? "",
-      // Build-number columns are appended last to match the header order and
-      // avoid shifting the positions existing CSV consumers rely on.
-      pipelines[pkgName]?.ci?.buildNumber ?? "",
-      pipelines[pkgName]?.tests?.buildNumber ?? "",
+      // Lint is a release blocker sourced from the CI pipeline. Appended last to
+      // match the header order and avoid shifting positions existing CSV
+      // consumers rely on. Preserve a blank for unmatched pipelines; otherwise
+      // emit the normalized PASS/FAIL/UNKNOWN.
+      pipelines[pkgName]?.ci ? (pkgDetails.lint?.status ?? "") : "",
+      pipelines[pkgName]?.ci ? (pkgDetails.lint?.link ?? "") : "",
     ].join(",");
   });
   await writeFile(
