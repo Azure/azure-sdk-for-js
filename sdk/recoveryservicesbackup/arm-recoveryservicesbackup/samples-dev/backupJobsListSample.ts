@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provides a pageable list of jobs.
  *
  * @summary provides a pageable list of jobs.
- * x-ms-original-file: 2026-07-01/Common/ListJobs.json
+ * x-ms-original-file: 2026-08-01/Common/ListJobs.json
  */
 async function listAllJobs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listAllJobs(): Promise<void> {
  * This sample demonstrates how to provides a pageable list of jobs.
  *
  * @summary provides a pageable list of jobs.
- * x-ms-original-file: 2026-07-01/Common/ListJobsWithAllSupportedFilters.json
+ * x-ms-original-file: 2026-08-01/Common/ListJobsWithAllSupportedFilters.json
  */
 async function listJobsWithFilters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function listJobsWithFilters(): Promise<void> {
  * This sample demonstrates how to provides a pageable list of jobs.
  *
  * @summary provides a pageable list of jobs.
- * x-ms-original-file: 2026-07-01/Common/ListJobsWithStartTimeAndEndTimeFilters.json
+ * x-ms-original-file: 2026-08-01/Common/ListJobsWithStartTimeAndEndTimeFilters.json
  */
 async function listJobsWithTimeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

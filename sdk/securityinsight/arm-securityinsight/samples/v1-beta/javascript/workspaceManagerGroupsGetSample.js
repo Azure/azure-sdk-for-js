@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a workspace manager group
  *
  * @summary gets a workspace manager group
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerGroups/GetWorkspaceManagerGroup.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerGroups/GetWorkspaceManagerGroup.json
  */
 async function getAWorkspaceManagerGroup() {
   const credential = new DefaultAzureCredential();

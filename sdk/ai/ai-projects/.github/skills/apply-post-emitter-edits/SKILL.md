@@ -33,7 +33,7 @@ Use this phase order to avoid mixing unrelated decisions:
 
 | Phase          | Steps                            | Exit point                                                                                                                                         |
 | -------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cleanup        | Step -1, Step 0, Step 1          | Upstream intent is known, conflict markers are gone, protected files are restored.                                                                 |
+| Cleanup        | Step -1, Step 0, Step 1          | Upstream intent is known, conflict markers are gone, protected customizations are preserved and intentional deltas audited.                        |
 | Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
 | Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                       |
 | Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                            |
@@ -85,7 +85,9 @@ Treat custom-side conflict resolution as syntax cleanup, not proof that the file
 
 ### Step 1: Pre-flight — verify protected files are intact
 
-Inspect `git diff` for the protected paths listed in [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md). If the emitter touched any of them, **revert those files and surface to a human**:
+Inspect `git diff` for the protected paths listed in [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md). Reject broad emitter rewrites or deletion. Narrowly scoped changes necessary to integrate verified upstream APIs are permitted: start from the clean customized baseline, preserve existing behavior, and review each intentional delta against upstream evidence. For new operation groups, extend the existing client's wiring and exports rather than replacing its constructor, authentication scopes, tracing, or OpenAI integration. Preserve paging options/headers, `ErrorModel`, and `foundryFeatures` conventions.
+
+Record the clean pre-regeneration ref as `$baseline` (`HEAD` only when it still represents that baseline). On resumed sessions where emitter output is already committed, use the recorded clean ref for every comparison and restoration in this skill, and pass `--base-ref <clean-ref>` to both guards. Do not rerun generation, reset history, or restore to a partially integrated `HEAD`.
 
 - `src/aiProjectClient.ts`, `src/constants.ts`
 - `src/getCustomFetch-browser.mts`, `src/getCustomFetch.ts`
@@ -106,15 +108,16 @@ $protected = @(
   'src/api/datasets/operations.ts','src/classic/telemetry/index.ts',
   'src/classic/datasets/index.ts','src/classic/index.ts'
 )
-$changed = git diff --name-only --relative HEAD -- src
-$violations = $changed | Where-Object { $protected -contains $_ -or $_ -like 'src/static-helpers/*' }
-if ($violations) {
-  Write-Warning "Protected files modified by emitter; reverting:`n$($violations -join "`n")"
-  $violations | ForEach-Object { git restore --source=HEAD -- $_ }
+$changed = git diff --name-only --relative $baseline -- src
+$protectedChanges = $changed | Where-Object { $protected -contains $_ -or $_ -like 'src/static-helpers/*' }
+foreach ($path in $protectedChanges) {
+  git diff $baseline -- $path
 }
 ```
 
 `--relative` is required when this command runs from the package directory. Without it, Git may return paths such as `sdk/ai/ai-projects/src/aiProjectClient.ts`, which do not match the package-relative protected list and produce a false zero-violation result.
+
+For every protected delta, document the upstream API that requires it and the custom behavior retained. Revert only proven emitter drift, never preexisting user edits or reviewed integration changes. Add focused regression tests and run the build, API extraction, lint, and formatting checks below. Stop for unresolved drift or genuine validation failures, not merely because a protected file changed.
 
 ### Step 2: Propagate new public-surface additions from generated/ to src/
 
@@ -276,8 +279,8 @@ declaration, and filters their re-exports from `src/models/index.ts` and `src/in
 removes an independent support declaration merely because a removed declaration references it;
 review such now-unused support declarations manually. It does not replace either barrel, so
 hand-maintained imports, non-model exports, tracing exports, and poller customizations remain intact.
-Use `--base-ref <ref>` only when repairing a committed bad merge whose clean customization baseline
-is not `HEAD`.
+Use `--base-ref <ref>` when the clean customization baseline is not `HEAD`, including a resumed
+session where emitter output was already committed.
 
 If upstream or review evidence requires removing a customized export that never existed in
 `generated/`, pass its exact declaration name to the parity guard after making the removal:
@@ -376,7 +379,7 @@ Remove-Item -ErrorAction SilentlyContinue `
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
 
-Do not run `scripts/post-emitter.mjs` as a substitute for the per-rule checks without auditing its output. It currently also rewrites user-agent construction in protected client/context files. If it is run, immediately repeat Step 1 and restore every protected-file change before building.
+Do not run `scripts/post-emitter.mjs` as a substitute for the per-rule checks without auditing its output. It currently also rewrites user-agent construction in protected client/context files. If it is run, immediately repeat Step 1 and revert unrelated emitter drift while preserving reviewed, necessary integration changes before building.
 
 ### Step 6: Build and surface verification
 
@@ -416,7 +419,7 @@ Once the build is green, hand off to the `author-samples` skill.
 
 ## Anti-patterns
 
-- Do **not** "fix" a protected file even if its diff looks innocuous — revert it instead.
+- Do **not** accept broad emitter rewrites of protected files. Permit only narrowly scoped, necessary integration changes backed by upstream evidence, an intentional-delta audit, and focused validation.
 - Do **not** stage or commit before this skill completes; downstream skills (`author-samples`, `author-tests`, `update-changelog`, `open-regeneration-pr`) rely on the working-tree diff being intact.
 - Do **not** introduce an `incoming/` staging directory or `git merge-file` workflow — the emitter writes directly to `src/` and `generated/`, and the workflow operates on the resulting `git diff`.
 - Do **not** use unbounded `(Get-Content X) -replace 'old', 'new' | Set-Content X` for parameter renames — it silently corrupts substrings (`name` → `toolboxName` produced `toolboxtoolboxName`). Always use `(?<![\w.])old(?![\w])` word-boundary anchors and prefer per-line edits.
