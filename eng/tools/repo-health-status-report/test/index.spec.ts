@@ -103,6 +103,13 @@ function createPackageStatusWithCiBeforeLint(serviceDir: string): PackageStatus 
   };
 }
 
+function readCsvRow(csv: string, pkgName: string): Record<string, string> {
+  const lines = csv.trim().split("\n");
+  const headers = lines[0].split(",");
+  const row = lines.find((line) => line.split(",")[1] === pkgName)!.split(",");
+  return Object.fromEntries(headers.map((header, i) => [header, row[i] ?? ""]));
+}
+
 async function runBuild(
   buildKind: (typeof buildKinds)[number]["buildKind"],
   pipelines: Record<string, PipelineResults>,
@@ -334,7 +341,12 @@ describe("report aggregation", () => {
     await writeToCsv(dataplane, {});
 
     expect(writeFileMock).toHaveBeenCalledOnce();
-    expect(writeFileMock.mock.calls[0][1]).toContain("example,@azure/example,GOOD,NO,,,,,,,,");
+    const cells = readCsvRow(writeFileMock.mock.calls[0][1] as string, "@azure/example");
+    expect(cells["Lint"]).toBe("");
+    expect(cells["CI"]).toBe("");
+    expect(cells["CI Build Number"]).toBe("");
+    expect(cells["Live Tests"]).toBe("");
+    expect(cells["Live Tests Build Number"]).toBe("");
   });
 
   it("leaves live-test fields blank when a package has CI but no live-test pipeline", async () => {
@@ -355,14 +367,12 @@ describe("report aggregation", () => {
 
     writeFileMock.mockClear();
     await writeToCsv(dataplane, pipelines);
-    const csv = writeFileMock.mock.calls[0][1] as string;
-    const row = csv
-      .split("\n")
-      .find((line) => line.startsWith("example,@azure/example"))!
-      .split(",");
+    const cells = readCsvRow(writeFileMock.mock.calls[0][1] as string, "@azure/example");
     // ...but the CSV live-test columns (status, link, build number) stay blank,
     // not UNKNOWN.
-    expect(row.slice(9, 12)).toEqual(["", "", ""]);
+    expect(cells["Live Tests"]).toBe("");
+    expect(cells["Live Tests Link"]).toBe("");
+    expect(cells["Live Tests Build Number"]).toBe("");
   });
 
   it("normalizes the SLA cutoff to UTC midnight so counts match the linked query", () => {

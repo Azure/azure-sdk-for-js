@@ -534,10 +534,8 @@ export async function writeToCsv(
     "Lint Link",
     "CI",
     "CI Link",
-    "CI Build Number",
     "Live Tests",
     "Live Tests Link",
-    "Live Tests Build Number",
     // "Tests - Live Weekly",
     // "Tests - Live Weekly Link",
     // "Weekly Build Number",
@@ -547,6 +545,10 @@ export async function writeToCsv(
     "SLA - Questions Link",
     "SLA - Bugs Link",
     "Total Customer-reported Issues Link",
+    // Build-number columns are appended last so existing consumers that read
+    // the earlier columns by position are not broken by their addition.
+    "CI Build Number",
+    "Live Tests Build Number",
   ];
   const csvData = Object.entries(dataplane).map(([pkgName, pkgDetails]) => {
     const status = pkgDetails.status;
@@ -563,11 +565,9 @@ export async function writeToCsv(
       // Azure DevOps value, keeping the blank for packages with no CI pipeline.
       pipelines[pkgName]?.ci ? (pkgDetails.ci?.status ?? "") : "",
       pipelines[pkgName]?.ci?.link ?? "",
-      pipelines[pkgName]?.ci?.buildNumber ?? "",
       // Same for live tests: emit the normalized status for matched pipelines.
       pipelines[pkgName]?.tests ? (pkgDetails.tests?.status ?? "") : "",
       pipelines[pkgName]?.tests?.link ?? "",
-      pipelines[pkgName]?.tests?.buildNumber ?? "",
       // pipelines[pkgName].weeklyTests?.weeklyTests?.status ?? "",
       // pipelines[pkgName].weeklyTests?.link ?? "",
       // pipelines[pkgName].weeklyTests?.buildNumber ?? "",
@@ -577,6 +577,10 @@ export async function writeToCsv(
       pkgDetails.sla?.question?.link ?? "",
       pkgDetails.sla?.bug?.link ?? "",
       pkgDetails.customerIssues?.link ?? "",
+      // Build-number columns are appended last to match the header order and
+      // avoid shifting the positions existing CSV consumers rely on.
+      pipelines[pkgName]?.ci?.buildNumber ?? "",
+      pipelines[pkgName]?.tests?.buildNumber ?? "",
     ].join(",");
   });
   await writeFile(
