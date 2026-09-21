@@ -252,8 +252,11 @@ export async function getBuildResult(
   cache?: BuildResultCache,
 ): Promise<void> {
   if (!pipelineId) {
+    // No matching pipeline definition exists for this kind. Do not synthesize a
+    // pipeline entry: leaving pipelines[pkgName][buildKind] undefined keeps the
+    // CSV existence check emitting blank fields for the unmatched pipeline.
+    // reportTestResult still marks the package's check as UNKNOWN.
     console.warn(`No ${buildKind} pipeline ID found for ${pkgName}`);
-    recordAllPipeline(buildKind, pipelines[pkgName], "UNKNOWN");
     return;
   }
 
@@ -402,7 +405,7 @@ export function recordTotalCustomerIssues(
 
 function recordSlaStatus(
   dataplane: PackagesWithStatus,
-  githubIssue: CustomerIssue,
+  githubIssue: Pick<CustomerIssue, "labels">,
   trackedLabels: Record<string, string[]>,
   timePeriod: number,
   kind: "question" | "bug",
@@ -439,6 +442,36 @@ async function reportSlaAndTotalIssues(dataplane: PackagesWithStatus) {
   const trackedLabels = await mapCodeownersToLabel(dataplane);
   const issues = await getCustomerIssues();
   recordTotalCustomerIssues(dataplane, issues, trackedLabels);
+  recordSlaForIssues(dataplane, issues, trackedLabels);
+}
+
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Normalizes a timestamp to the start (midnight) of its UTC day.
+ *
+ * The GitHub issue link truncates the cutoff to a `YYYY-MM-DD` date, which
+ * GitHub interprets as UTC midnight. Flooring the counting cutoff to the same
+ * UTC day boundary keeps the reported count and its linked query in sync.
+ */
+export function toUtcDayStart(timestamp: number): number {
+  const date = new Date(timestamp);
+  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+}
+
+/**
+ * Counts open customer issues that have breached their SLA window and records
+ * both the count and the matching GitHub query link per package.
+ *
+ * @param now - reference time used to derive the SLA cutoffs; defaults to the
+ * current time and is injectable for deterministic tests.
+ */
+export function recordSlaForIssues(
+  dataplane: PackagesWithStatus,
+  issues: Pick<CustomerIssue, "labels" | "created_at">[],
+  trackedLabels: Record<string, string[]>,
+  now: number = Date.now(),
+): void {
   const filtered = issues.filter(
     (issue) =>
       !issue.labels.some((label) =>
@@ -447,9 +480,10 @@ async function reportSlaAndTotalIssues(dataplane: PackagesWithStatus) {
         ),
       ),
   );
-  const today = Date.now();
-  const thirtyDaysAgo = today - 30 * 24 * 60 * 60 * 1000;
-  const ninetyDaysAgo = today - 90 * 24 * 60 * 60 * 1000;
+  // Floor each cutoff to UTC midnight so the counting window matches the
+  // truncated YYYY-MM-DD date used by the GitHub query link.
+  const thirtyDaysAgo = toUtcDayStart(now - 30 * DAY_IN_MS);
+  const ninetyDaysAgo = toUtcDayStart(now - 90 * DAY_IN_MS);
 
   for (const issue of filtered) {
     const createdDate = new Date(issue.created_at);

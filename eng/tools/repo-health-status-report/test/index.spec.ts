@@ -24,6 +24,7 @@ vi.mock("node:fs/promises", async (importOriginal) => {
 import { writeFile } from "node:fs/promises";
 import {
   getBuildResult,
+  recordSlaForIssues,
   recordTotalCustomerIssues,
   reportStatus,
   writeToCsv,
@@ -229,6 +230,17 @@ describe("getBuildResult", () => {
     expect(jsonSpy).not.toHaveBeenCalled();
     expect(pipelines["@azure/example"].ci?.ci?.status).toBe("UNKNOWN");
   });
+
+  it("does not synthesize a pipeline entry when the pipeline id is missing", async () => {
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/example": { ci: { id: 123 } },
+    };
+
+    await getBuildResult("tests", "@azure/example", pipelines, "token", undefined);
+
+    expect(pipelines["@azure/example"].tests).toBeUndefined();
+    expect(getBuildMock).not.toHaveBeenCalled();
+  });
 });
 
 describe("report aggregation", () => {
@@ -318,10 +330,60 @@ describe("report aggregation", () => {
       "@azure/example": createPackageStatus("example"),
     };
 
+    writeFileMock.mockClear();
     await writeToCsv(dataplane, {});
 
     expect(writeFileMock).toHaveBeenCalledOnce();
     expect(writeFileMock.mock.calls[0][1]).toContain("example,@azure/example,GOOD,NO,,,,,,,,");
+  });
+
+  it("leaves live-test fields blank when a package has CI but no live-test pipeline", async () => {
+    const packageDetails = createPackageStatus("example");
+    const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/example": { ci: { ci: { status: "succeeded" }, lint: { status: "succeeded" } } },
+    };
+
+    // main() calls getTestsResult with an undefined id for the missing live-test
+    // pipeline; it must not create pipelines[pkgName].tests.
+    await getBuildResult("tests", "@azure/example", pipelines, "token", undefined);
+    expect(pipelines["@azure/example"].tests).toBeUndefined();
+
+    reportStatus(dataplane, pipelines);
+    // The package's own check is still marked UNKNOWN...
+    expect(packageDetails.tests.status).toBe("UNKNOWN");
+
+    writeFileMock.mockClear();
+    await writeToCsv(dataplane, pipelines);
+    const csv = writeFileMock.mock.calls[0][1] as string;
+    const row = csv
+      .split("\n")
+      .find((line) => line.startsWith("example,@azure/example"))!
+      .split(",");
+    // ...but the CSV live-test columns (status, link, build number) stay blank,
+    // not UNKNOWN.
+    expect(row.slice(9, 12)).toEqual(["", "", ""]);
+  });
+
+  it("normalizes the SLA cutoff to UTC midnight so counts match the linked query", () => {
+    const packageDetails = createPackageStatus("storage", "Storage");
+    const dataplane: PackagesWithStatus = { "@azure/storage-blob": packageDetails };
+    const trackedLabels = { Storage: ["storage"] };
+    // 30 days before `now` is 2026-08-22T09:04:51Z, whose UTC day starts at
+    // 2026-08-22T00:00:00Z. The link truncates the cutoff to 2026-08-22.
+    const now = Date.parse("2026-09-21T09:04:51Z");
+    const issues = [
+      // Created earlier on the cutoff day but after UTC midnight: excluded by the
+      // truncated-date link, so it must not be counted.
+      { labels: ["question", "Storage"], created_at: "2026-08-22T05:00:00Z" },
+      // Created before the cutoff day: counted.
+      { labels: ["question", "Storage"], created_at: "2026-08-21T23:00:00Z" },
+    ];
+
+    recordSlaForIssues(dataplane, issues, trackedLabels, now);
+
+    expect(packageDetails.sla?.question?.num).toBe(1);
+    expect(packageDetails.sla?.question?.link).toContain("created%3A%3C2026-08-22");
   });
 });
 
