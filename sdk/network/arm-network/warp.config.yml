@@ -6,8 +6,8 @@ exports:
   "./api": "./src/api/index.ts"
   "./models": "./src/models/index.ts"
   "./models/common": "./src/models/common/index.ts"
-  "./models/microsoft/network": "./src/models/microsoft/network/index.ts"
-  "./models/microsoft/network/connectionAnalyzerEndpointTypes": "./src/models/microsoft/network/connectionAnalyzerEndpointTypes/index.ts"
+  "./models/network": "./src/models/network/index.ts"
+  "./models/network/connectionAnalyzerEndpointTypes": "./src/models/network/connectionAnalyzerEndpointTypes/index.ts"
 
 targets:
   - name: browser

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the containers that can be registered to Recovery Services Vault.
  *
  * @summary lists the containers that can be registered to Recovery Services Vault.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectableContainers_List.json
+ * x-ms-original-file: 2026-08-01/AzureStorage/ProtectableContainers_List.json
  */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage() {
   const credential = new DefaultAzureCredential();

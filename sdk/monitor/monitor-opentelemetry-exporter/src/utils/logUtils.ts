@@ -39,7 +39,6 @@ import {
   ApplicationInsightsAvailabilityNameAttribute,
   ApplicationInsightsAvailabilityRunLocation,
   ApplicationInsightsAvailabilitySuccess,
-  ApplicationInsightsAvailabilityTestTimestamp,
   ApplicationInsightsBaseType,
   ApplicationInsightsCustomEventName,
   ApplicationInsightsCustomMeasurements,
@@ -60,7 +59,7 @@ import {
  * @internal
  */
 export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
-  let time = hrTimeToDate(log.hrTime);
+  const time = hrTimeToDate(log.hrTime);
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
@@ -113,7 +112,6 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     name = ApplicationInsightsAvailabilityName;
     baseType = ApplicationInsightsAvailabilityBaseType;
     baseData = availabilityData;
-    time = getAvailabilityTime(log) ?? time;
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
@@ -191,16 +189,6 @@ function getAvailabilityData(log: ReadableLogRecord): AvailabilityData | undefin
       getAttributeString(log, ApplicationInsightsAvailabilityMessage) ??
       (log.body === undefined ? undefined : serializeAttribute(log.body)),
   };
-}
-
-function getAvailabilityTime(log: ReadableLogRecord): Date | undefined {
-  const testTimestamp = log.attributes[ApplicationInsightsAvailabilityTestTimestamp];
-  if (typeof testTimestamp !== "string") {
-    return;
-  }
-
-  const time = new Date(testTimestamp);
-  return Number.isNaN(time.getTime()) ? undefined : time;
 }
 
 function getAttributeString(log: ReadableLogRecord, attributeName: string): string | undefined {

@@ -55,8 +55,8 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     const stringToSign: string =
       [
         request.method.toUpperCase(),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LANGUAGE),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_ENCODING),
+        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LANGUAGE),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),

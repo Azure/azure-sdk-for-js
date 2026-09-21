@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a bookmark relation.
  *
  * @summary gets a bookmark relation.
- * x-ms-original-file: 2025-07-01-preview/bookmarks/relations/GetBookmarkRelationByName.json
+ * x-ms-original-file: 2025-10-01-preview/bookmarks/relations/GetBookmarkRelationByName.json
  */
 async function getABookmarkRelation() {
   const credential = new DefaultAzureCredential();
