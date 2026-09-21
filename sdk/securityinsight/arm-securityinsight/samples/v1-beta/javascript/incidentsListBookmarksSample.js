@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all bookmarks for an incident.
  *
  * @summary gets all bookmarks for an incident.
- * x-ms-original-file: 2025-07-01-preview/incidents/IncidentBookmarks/Incidents_ListBookmarks.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/IncidentBookmarks/Incidents_ListBookmarks.json
  */
 async function incidentsListBookmarks() {
   const credential = new DefaultAzureCredential();

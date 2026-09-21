@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cancels the next occurrence of the specified scheduled action.
  *
  * @summary cancels the next occurrence of the specified scheduled action.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_CancelNextOccurrence_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/ScheduledActions_CancelNextOccurrence_MaximumSet_Gen.json
  */
 async function cancelTheNextScheduledActionOccurrence() {
   const credential = new DefaultAzureCredential();

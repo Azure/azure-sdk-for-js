@@ -114,6 +114,7 @@ export interface HybridConnectionsOperations {
     options?: HybridConnectionsGetAuthorizationRuleOptionalParams,
   ) => Promise<AuthorizationRule>;
 }
+
 function _getHybridConnections(context: RelayAPIContext) {
   return {
     listByNamespace: (
@@ -242,6 +243,7 @@ function _getHybridConnections(context: RelayAPIContext) {
       ),
   };
 }
+
 export function _getHybridConnectionsOperations(
   context: RelayAPIContext,
 ): HybridConnectionsOperations {

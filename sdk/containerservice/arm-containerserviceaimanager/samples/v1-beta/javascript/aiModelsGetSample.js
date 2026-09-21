@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a AIModel
  *
  * @summary get a AIModel
- * x-ms-original-file: 2026-05-02-preview/AIModels_Get.json
+ * x-ms-original-file: 2026-09-02-preview/AIModels_Get.json
  */
 async function aiModelsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

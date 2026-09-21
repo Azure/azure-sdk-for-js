@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a source control.
  *
  * @summary creates a source control.
- * x-ms-original-file: 2025-07-01-preview/sourcecontrols/CreateSourceControl.json
+ * x-ms-original-file: 2025-10-01-preview/sourcecontrols/CreateSourceControl.json
  */
 async function createsOrUpdatesASourceControl() {
   const credential = new DefaultAzureCredential();

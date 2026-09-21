@@ -79,7 +79,6 @@ export interface JobStepsOperations {
     options?: JobStepsGetOptionalParams,
   ) => Promise<JobStep>;
 }
-
 function _getJobSteps(context: SqlManagementContext) {
   return {
     listByVersion: (
@@ -162,7 +161,6 @@ function _getJobSteps(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, jobAgentName, jobName, stepName, options),
   };
 }
-
 export function _getJobStepsOperations(context: SqlManagementContext): JobStepsOperations {
   return {
     ..._getJobSteps(context),

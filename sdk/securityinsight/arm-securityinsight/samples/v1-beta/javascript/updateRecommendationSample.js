@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch a recommendation.
  *
  * @summary patch a recommendation.
- * x-ms-original-file: 2025-07-01-preview/recommendations/PatchRecommendation.json
+ * x-ms-original-file: 2025-10-01-preview/recommendations/PatchRecommendation.json
  */
 async function createsARecommendation() {
   const credential = new DefaultAzureCredential();

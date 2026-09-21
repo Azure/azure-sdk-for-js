@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-05-02-preview"
+    "Microsoft.ContainerService": "2026-09-02-preview"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -33,7 +33,6 @@
       "@azure/arm-containerserviceaimanager!AIModelProperties:interface": "Microsoft.ContainerService.AIModelProperties",
       "@azure/arm-containerserviceaimanager!ModelSpec:interface": "Microsoft.ContainerService.ModelSpec",
       "@azure/arm-containerserviceaimanager!AIModelListResult:interface": "Azure.ResourceManager.ResourceListResult",
-      "@azure/arm-containerserviceaimanager!CalculateCostRequest:interface": "Microsoft.ContainerService.CalculateCostRequest",
       "@azure/arm-containerserviceaimanager!CalculateCostResponse:interface": "Microsoft.ContainerService.CalculateCostResponse",
       "@azure/arm-containerserviceaimanager!CalculateCostPlan:interface": "Microsoft.ContainerService.CalculateCostPlan",
       "@azure/arm-containerserviceaimanager!ServingPerformanceEstimation:interface": "Microsoft.ContainerService.ServingPerformanceEstimation",
@@ -42,6 +41,8 @@
       "@azure/arm-containerserviceaimanager!ModelSourceProperties:interface": "Microsoft.ContainerService.ModelSourceProperties",
       "@azure/arm-containerserviceaimanager!CredentialValue:interface": "Microsoft.ContainerService.CredentialValue",
       "@azure/arm-containerserviceaimanager!InlineCredential:interface": "Microsoft.ContainerService.InlineCredential",
+      "@azure/arm-containerserviceaimanager!ManagedIdentityCredential:interface": "Microsoft.ContainerService.ManagedIdentityCredential",
+      "@azure/arm-containerserviceaimanager!MicrosoftFoundrySource:interface": "Microsoft.ContainerService.MicrosoftFoundrySource",
       "@azure/arm-containerserviceaimanager!ModelSourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-containerserviceaimanager!ModelDeployment:interface": "Microsoft.ContainerService.ModelDeployment",
       "@azure/arm-containerserviceaimanager!ModelDeploymentProperties:interface": "Microsoft.ContainerService.ModelDeploymentProperties",
@@ -51,6 +52,11 @@
       "@azure/arm-containerserviceaimanager!ModelDeploymentOverrides:interface": "Microsoft.ContainerService.ModelDeploymentOverrides",
       "@azure/arm-containerserviceaimanager!ModelDeploymentStatus:interface": "Microsoft.ContainerService.ModelDeploymentStatus",
       "@azure/arm-containerserviceaimanager!ModelDeploymentListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-containerserviceaimanager!CustomAIModel:interface": "Microsoft.ContainerService.CustomAIModel",
+      "@azure/arm-containerserviceaimanager!CustomAIModelProperties:interface": "Microsoft.ContainerService.CustomAIModelProperties",
+      "@azure/arm-containerserviceaimanager!BaseModelReference:interface": "Microsoft.ContainerService.BaseModelReference",
+      "@azure/arm-containerserviceaimanager!CustomAIModelSpec:interface": "Microsoft.ContainerService.CustomAIModelSpec",
+      "@azure/arm-containerserviceaimanager!CustomAIModelListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-containerserviceaimanager!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-containerserviceaimanager!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
       "@azure/arm-containerserviceaimanager!KnownAIManagerProvisioningState:enum": "Microsoft.ContainerService.AIManagerProvisioningState",
@@ -63,8 +69,14 @@
       "@azure/arm-containerserviceaimanager!KnownModelSourceType:enum": "Microsoft.ContainerService.ModelSourceType",
       "@azure/arm-containerserviceaimanager!KnownModelDeploymentProvisioningState:enum": "Microsoft.ContainerService.ModelDeploymentProvisioningState",
       "@azure/arm-containerserviceaimanager!KnownModelDeploymentPerformanceMode:enum": "Microsoft.ContainerService.ModelDeploymentPerformanceMode",
+      "@azure/arm-containerserviceaimanager!KnownCustomAIModelProvisioningState:enum": "Microsoft.ContainerService.CustomAIModelProvisioningState",
       "@azure/arm-containerserviceaimanager!KnownVersions:enum": "Microsoft.ContainerService.Versions",
       "@azure/arm-containerserviceaimanager!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-containerserviceaimanager!CustomAIModelsOperations#calculateCost:member": "Microsoft.ContainerService.CustomAIModels.calculateCost",
+      "@azure/arm-containerserviceaimanager!CustomAIModelsOperations#list:member": "Microsoft.ContainerService.CustomAIModels.list",
+      "@azure/arm-containerserviceaimanager!CustomAIModelsOperations#delete:member": "Microsoft.ContainerService.CustomAIModels.delete",
+      "@azure/arm-containerserviceaimanager!CustomAIModelsOperations#createOrUpdate:member": "Microsoft.ContainerService.CustomAIModels.createOrUpdate",
+      "@azure/arm-containerserviceaimanager!CustomAIModelsOperations#get:member": "Microsoft.ContainerService.CustomAIModels.get",
       "@azure/arm-containerserviceaimanager!ModelDeploymentsOperations#listByAIManagerNamespace:member": "Microsoft.ContainerService.ModelDeployments.listByAIManagerNamespace",
       "@azure/arm-containerserviceaimanager!ModelDeploymentsOperations#delete:member": "Microsoft.ContainerService.ModelDeployments.delete",
       "@azure/arm-containerserviceaimanager!ModelDeploymentsOperations#createOrUpdate:member": "Microsoft.ContainerService.ModelDeployments.createOrUpdate",

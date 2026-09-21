@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all relations of an entity.
  *
  * @summary gets all relations of an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/relations/GetAllEntityRelations.json
+ * x-ms-original-file: 2025-10-01-preview/entities/relations/GetAllEntityRelations.json
  */
 async function getAllRelationsOfAnEntity(): Promise<void> {
   const credential = new DefaultAzureCredential();

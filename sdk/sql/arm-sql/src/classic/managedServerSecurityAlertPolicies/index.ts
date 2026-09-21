@@ -69,7 +69,6 @@ export interface ManagedServerSecurityAlertPoliciesOperations {
     options?: ManagedServerSecurityAlertPoliciesGetOptionalParams,
   ) => Promise<ManagedServerSecurityAlertPolicy>;
 }
-
 function _getManagedServerSecurityAlertPolicies(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -134,7 +133,6 @@ function _getManagedServerSecurityAlertPolicies(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, securityAlertPolicyName, options),
   };
 }
-
 export function _getManagedServerSecurityAlertPoliciesOperations(
   context: SqlManagementContext,
 ): ManagedServerSecurityAlertPoliciesOperations {
