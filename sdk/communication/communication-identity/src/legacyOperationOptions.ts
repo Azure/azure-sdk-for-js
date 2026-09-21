@@ -7,6 +7,7 @@ import type {
   OperationRequestOptions as GeneratedRequestOptions,
 } from "@azure-rest/core-client";
 import type { OperationOptions, OperationRequestOptions } from "@azure/core-client";
+import { isRestError, RestError } from "@azure/core-rest-pipeline";
 
 type CompatibleRequestOptions = OperationRequestOptions &
   GeneratedRequestOptions & {
@@ -34,7 +35,8 @@ export async function withLegacyOperationOptions<T>(
       return value;
     }
 
-    const errorWithResponse = getErrorWithResponse(error);
+    const normalizedError = normalizeResponseError(error, response, responseError);
+    const errorWithResponse = getErrorWithResponse(normalizedError);
     const legacyResponse = response ?? errorWithResponse?.response;
     if (legacyResponse) {
       const flatResponse = response
@@ -43,10 +45,10 @@ export async function withLegacyOperationOptions<T>(
       if (!response && errorWithResponse) {
         errorWithResponse.details = flatResponse;
       }
-      options.onResponse?.(legacyResponse, flatResponse, responseError ?? error);
+      options.onResponse?.(legacyResponse, flatResponse, responseError ?? normalizedError);
     }
 
-    throw error;
+    throw normalizedError;
   }
 
   const value = shouldDeserialize(options, response) ? result : (response?.parsedBody as T);
@@ -71,6 +73,34 @@ function getErrorWithResponse(
   }
 
   return error as { response: FullOperationResponse; details?: unknown };
+}
+
+function normalizeResponseError(
+  error: unknown,
+  response: FullOperationResponse | undefined,
+  responseError: unknown,
+): unknown {
+  if (!response || response.status < 400 || responseError !== undefined || isRestError(error)) {
+    return error;
+  }
+
+  const details = response.parsedBody;
+  const message =
+    typeof details === "string"
+      ? details
+      : typeof details === "object" &&
+          details !== null &&
+          "message" in details &&
+          typeof details.message === "string"
+        ? details.message
+        : `Unexpected status code: ${response.status}`;
+  const restError = new RestError(message, {
+    statusCode: response.status,
+    request: response.request,
+    response,
+  });
+  restError.details = details;
+  return restError;
 }
 
 function convertOperationOptions(

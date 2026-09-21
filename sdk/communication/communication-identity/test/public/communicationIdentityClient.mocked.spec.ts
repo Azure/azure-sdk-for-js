@@ -235,6 +235,78 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.instanceOf(error, RestError);
   });
 
+  it("preserves RestError metadata for non-envelope gateway errors", async () => {
+    const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => ({
+      status: 502,
+      headers: createHttpHeaders({ "content-type": "text/plain" }),
+      request,
+      bodyAsText: "Bad Gateway",
+    }));
+    const client = new CommunicationIdentityClient(
+      "endpoint=https://contoso.spool.azure.local;accesskey=banana",
+      {
+        httpClient: { sendRequest },
+        retryOptions: { maxRetries: 0 },
+      } as CommunicationIdentityClientOptions,
+    );
+
+    await client.getToken(user, ["chat"]).then(
+      () => assert.fail("Expected the gateway response to reject"),
+      (error: unknown) => {
+        assert.instanceOf(error, RestError);
+        assert.equal(error.message, "Bad Gateway");
+        assert.equal(error.statusCode, 502);
+        assert.equal(error.response?.bodyAsText, "Bad Gateway");
+        assert.equal(error.details, "Bad Gateway");
+      },
+    );
+
+    expect(sendRequest).toHaveBeenCalledOnce();
+  });
+
+  it("validates required operation arguments before sending a request", () => {
+    const sendRequest = vi.fn<HttpClient["sendRequest"]>();
+    const client = new CommunicationIdentityClient(
+      "endpoint=https://contoso.spool.azure.local;accesskey=banana",
+      { httpClient: { sendRequest } } as CommunicationIdentityClientOptions,
+    );
+
+    expect(() => client.getToken({} as CommunicationUserIdentifier, ["chat"])).toThrowError(
+      "id cannot be null or undefined.",
+    );
+    expect(() => client.getToken(user, undefined as never)).toThrowError(
+      "scopes cannot be null or undefined.",
+    );
+    expect(() => client.revokeTokens({} as CommunicationUserIdentifier)).toThrowError(
+      "id cannot be null or undefined.",
+    );
+    expect(() => client.createUserAndToken(undefined as never)).toThrowError(
+      "scopes cannot be null or undefined.",
+    );
+    expect(() => client.deleteUser({} as CommunicationUserIdentifier)).toThrowError(
+      "id cannot be null or undefined.",
+    );
+    expect(() =>
+      client.getTokenForTeamsUser({
+        clientId: "clientId",
+        userObjectId: "userObjectId",
+      } as never),
+    ).toThrowError("teamsUserAadToken cannot be null or undefined.");
+    expect(() =>
+      client.getTokenForTeamsUser({
+        teamsUserAadToken: "token",
+        userObjectId: "userObjectId",
+      } as never),
+    ).toThrowError("clientId cannot be null or undefined.");
+    expect(() =>
+      client.getTokenForTeamsUser({
+        teamsUserAadToken: "token",
+        clientId: "clientId",
+      } as never),
+    ).toThrowError("userObjectId cannot be null or undefined.");
+    expect(sendRequest).not.toHaveBeenCalled();
+  });
+
   it("[getToken] excludes _response from results", async () => {
     const client = new TestCommunicationIdentityClient();
     const response = await client.getTokenTest(user, ["chat"]);

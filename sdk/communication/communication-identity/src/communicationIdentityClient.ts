@@ -107,10 +107,12 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: GetTokenOptions = {},
   ): Promise<CommunicationAccessToken> {
+    const userId = getCommunicationUserId(user);
+    assertRequired(scopes, "scopes");
     return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
       return withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
         this.client.identityOperations.issueAccessToken(
-          user.communicationUserId,
+          userId,
           { scopes, expiresInMinutes: options.tokenExpiresInMinutes },
           generatedOptions,
         ),
@@ -128,15 +130,13 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     options: OperationOptions = {},
   ): Promise<void> {
+    const userId = getCommunicationUserId(user);
     return tracingClient.withSpan(
       "CommunicationIdentity-revokeTokens",
       options,
       async (updatedOptions) => {
         await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
-          this.client.identityOperations.revokeAccessTokens(
-            user.communicationUserId,
-            generatedOptions,
-          ),
+          this.client.identityOperations.revokeAccessTokens(userId, generatedOptions),
         );
       },
     );
@@ -175,6 +175,7 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: CreateUserAndTokenOptions = {},
   ): Promise<CommunicationUserToken> {
+    assertRequired(scopes, "scopes");
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
       options,
@@ -208,15 +209,13 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     options: OperationOptions = {},
   ): Promise<void> {
+    const userId = getCommunicationUserId(user);
     return tracingClient.withSpan(
       "CommunicationIdentity-deleteUser",
       options,
       async (updatedOptions) => {
         await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
-          this.client.identityOperations.deleteIdentityOperation(
-            user.communicationUserId,
-            generatedOptions,
-          ),
+          this.client.identityOperations.deleteIdentityOperation(userId, generatedOptions),
         );
       },
     );
@@ -230,6 +229,10 @@ export class CommunicationIdentityClient {
   public getTokenForTeamsUser(
     options: GetTokenForTeamsUserOptions,
   ): Promise<CommunicationAccessToken> {
+    assertRequired(options, "options");
+    assertRequired(options.teamsUserAadToken, "teamsUserAadToken");
+    assertRequired(options.clientId, "clientId");
+    assertRequired(options.userObjectId, "userObjectId");
     return tracingClient.withSpan(
       "CommunicationIdentity-getTokenForTeamsUser",
       options,
@@ -247,5 +250,17 @@ export class CommunicationIdentityClient {
         );
       },
     );
+  }
+}
+
+function getCommunicationUserId(user: CommunicationUserIdentifier): string {
+  const userId = user?.communicationUserId;
+  assertRequired(userId, "id");
+  return userId;
+}
+
+function assertRequired<T>(value: T | null | undefined, name: string): asserts value is T {
+  if (value === null || value === undefined) {
+    throw new Error(`${name} cannot be null or undefined.`);
   }
 }
