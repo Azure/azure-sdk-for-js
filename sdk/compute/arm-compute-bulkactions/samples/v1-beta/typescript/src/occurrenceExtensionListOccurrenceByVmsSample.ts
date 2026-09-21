@@ -8,14 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists scheduled action occurrences associated with the specified VM.
  *
  * @summary lists scheduled action occurrences associated with the specified VM.
- * x-ms-original-file: 2026-09-06-preview/OccurrenceExtension_ListOccurrenceByVms_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/OccurrenceExtension_ListOccurrenceByVms_BasicSuccess.json
  */
-async function listScheduledActionOccurrencesForAComputeResource(): Promise<void> {
+async function listRecurringScheduledActionOccurrencesForAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeClient(credential);
   const resArray = new Array();
   for await (const item of client.occurrenceExtension.listOccurrenceByVms(
-    "subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm",
+    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-01",
   )) {
     resArray.push(item);
   }
@@ -24,7 +24,7 @@ async function listScheduledActionOccurrencesForAComputeResource(): Promise<void
 }
 
 async function main(): Promise<void> {
-  await listScheduledActionOccurrencesForAComputeResource();
+  await listRecurringScheduledActionOccurrencesForAVirtualMachine();
 }
 
 main().catch(console.error);

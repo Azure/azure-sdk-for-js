@@ -39,49 +39,53 @@ import type {
 
 /** Interface representing a VirtualMachineBulkOperations operations. */
 export interface VirtualMachineBulkOperationsOperations {
-  /** BulkReimage: Execute reimage operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /**
+   * This feature is currently in preview.
+   *
+   * Reimage one or more virtual machines. Reimaging is destructive and can replace operating system disk contents. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
+   */
   bulkReimageOperation: (
     resourceGroupName: string,
     location: string,
     requestBody: ExecuteReimageRequest,
     options?: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
   ) => Promise<ReimageResourceOperationResponse>;
-  /** BulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request */
+  /** Cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed. */
   bulkCancelOperations: (
     resourceGroupName: string,
     location: string,
     requestBody: CancelOperationsContent,
     options?: VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams,
   ) => Promise<CancelOperationsResponse>;
-  /** BulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines */
+  /** Get the current status of one or more operations identified by their Bulk Action Operation Ids. */
   bulkGetOperationsStatus: (
     resourceGroupName: string,
     location: string,
     requestBody: GetOperationStatusContent,
     options?: VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams,
   ) => Promise<GetOperationStatusResponse>;
-  /** BulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /** Delete one or more virtual machines. This operation is destructive. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates. */
   bulkDeleteOperation: (
     resourceGroupName: string,
     location: string,
     requestBody: ExecuteDeleteContent,
     options?: VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams,
   ) => Promise<DeleteResourceOperationResponse>;
-  /** BulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /** Start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates. */
   bulkStartOperation: (
     resourceGroupName: string,
     location: string,
     requestBody: ExecuteStartContent,
     options?: VirtualMachineBulkOperationsBulkStartOperationOptionalParams,
   ) => Promise<StartResourceOperationResponse>;
-  /** BulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /** Hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates. */
   bulkHibernateOperation: (
     resourceGroupName: string,
     location: string,
     requestBody: ExecuteHibernateContent,
     options?: VirtualMachineBulkOperationsBulkHibernateOperationOptionalParams,
   ) => Promise<HibernateResourceOperationResponse>;
-  /** BulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /** Deallocate one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates. */
   bulkDeallocateOperation: (
     resourceGroupName: string,
     location: string,

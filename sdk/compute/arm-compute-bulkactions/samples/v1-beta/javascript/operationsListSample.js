@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary list the operations for the provider
  * x-ms-original-file: 2026-09-06-preview/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSetGenExample() {
+async function _02OperationsListMaximumSetGenExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function operationsListMaximumSetGenExample() {
  * @summary list the operations for the provider
  * x-ms-original-file: 2026-09-06-preview/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumGenExample() {
+async function _01OperationsListMinimumGenExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -41,8 +41,8 @@ async function operationsListMinimumGenExample() {
 }
 
 async function main() {
-  await operationsListMaximumSetGenExample();
-  await operationsListMinimumGenExample();
+  await _02OperationsListMaximumSetGenExample();
+  await _01OperationsListMinimumGenExample();
 }
 
 main().catch(console.error);
