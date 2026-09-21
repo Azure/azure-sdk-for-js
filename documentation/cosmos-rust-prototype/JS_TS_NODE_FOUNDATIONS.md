@@ -246,34 +246,51 @@ Sources: [Item.ts](../../sdk/cosmosdb/cosmos/src/client/Item/Item.ts),
 [PartitionKey.ts](../../sdk/cosmosdb/cosmos/src/documents/PartitionKey.ts),
 [extractPartitionKey.ts](../../sdk/cosmosdb/cosmos/src/extractPartitionKey.ts).
 
-## Concept 4 of approximately 32: Functions and callbacks
+## Bite 4 of approximately 32: Calling a function with those two values
 
-The binding receives values through a **function**, a callable piece of code.
-**Parameters** name its inputs; **arguments** are the values supplied in a call.
+Bite 3 named the two values. They do nothing until the application **asks**
+the SDK to use them.
 
-```js
-function describeOrder(id, customerId) {
-  return `${customerId}/${id}`;
-}
+A **function** is a named piece of code the application can run.
+`container.item` is a function. `item.read` is a function. Neither is Cosmos
+DB by itself; each is how the application starts the next step.
 
-const description = describeOrder("order-42", "customer-17");
+**Parameters** are the names the function uses for its inputs. **Arguments**
+are the values the caller actually passes.
+
+In `Item.ts`, `item` is constructed with id and partition key. The application
+supplies the arguments `"order-42"` and `"customer-17"`:
+
+```ts
+const item = container.item("order-42", "customer-17");
+const response = await item.read();
 ```
 
-`return` supplies the result. Backticks form a string in which `${...}` inserts
-a value. This function constructs text; it does not contact Cosmos DB.
-An arrow function is another function form:
+Walk:
 
-```js
-const describeOrder = (id, customerId) => `${customerId}/${id}`;
+```text
+Caller has the two values from bite 3
+    -> calls container.item with those arguments
+    -> gets an Item that already holds that pair
+    -> calls item.read() with no extra identity arguments
+    -> the SDK starts the point read
 ```
 
-A **callback** is a function passed to other code to invoke.
-Explorer's authorization provider and request plugin are callbacks.
-A callback is not automatically asynchronous and does not create a thread.
-Passing its name into Rust does not make it safe to invoke from any Rust thread.
+`read()` can take **options** later (timeouts, headers). This experiment still
+identifies the item only with the pair already stored on `Item`. `read()` does
+not take a second copy of `"customer-17"`.
 
-Source: [Plugin.ts](../../sdk/cosmosdb/cosmos/src/plugins/Plugin.ts),
-[JavaScript functions][functions].
+A function that only builds text (for example joining `customer-17/order-42`)
+does not contact Cosmos DB. `item.read()` does, because the SDK implements
+that function to start the lookup.
+
+**Established:** the application starts the read by calling functions;
+arguments are the bite-3 values; `read()` uses the pair already on `Item`.
+
+**Not this bite:** callbacks (token providers, plugins); arrow-function
+syntax; `await` (bite 10); handing the call into Rust.
+
+Source: [Item.ts](../../sdk/cosmosdb/cosmos/src/client/Item/Item.ts).
 
 ## Concept 5 of approximately 32: References, copies, and closures
 
