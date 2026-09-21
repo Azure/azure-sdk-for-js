@@ -54,6 +54,7 @@ export type {
   IdentityType,
   SecureScoreLevel,
   BcdrSecurityLevel,
+  RegionOfChoiceSettings,
   IdentityData,
   ResourceIdentityType,
   UserIdentity,

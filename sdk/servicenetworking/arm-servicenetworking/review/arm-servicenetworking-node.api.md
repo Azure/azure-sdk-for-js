@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -85,6 +87,16 @@ export interface AssociationUpdateProperties {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -94,7 +106,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -118,9 +130,16 @@ export interface Frontend extends TrackedResource {
 }
 
 // @public
+export interface FrontendAssociation {
+    id: string;
+}
+
+// @public
 export interface FrontendProperties {
+    association?: FrontendAssociation;
     readonly fqdn?: string;
     readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     securityPolicyConfigurations?: SecurityPolicyConfigurations;
 }
 
@@ -163,6 +182,8 @@ export interface FrontendUpdate {
 
 // @public
 export interface FrontendUpdateProperties {
+    association?: FrontendAssociation;
+    publicNetworkAccess?: PublicNetworkAccess;
     securityPolicyConfigurations?: SecurityPolicyConfigurations;
 }
 
@@ -186,6 +207,8 @@ export interface IpAccessRulesPolicy {
 export interface IpAccessRulesSecurityPolicy {
     id: string;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -225,6 +248,14 @@ export enum KnownPolicyType {
 }
 
 // @public
+export enum KnownPrivateLinkServiceConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -236,11 +267,16 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownVersions {
     V2023_11_01 = "2023-11-01",
-    V20240501Preview = "2024-05-01-preview",
-    V20250301Preview = "2025-03-01-preview",
-    V2025_05_01 = "2025-01-01"
+    V2025_05_01 = "2025-01-01",
+    V2026_03_01 = "2026-03-01"
 }
 
 // @public
@@ -288,7 +324,94 @@ export interface PageSettings {
 export type PolicyType = string;
 
 // @public
+export interface PrivateEndpointConnection extends ProxyResource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly privateEndpoint?: PrivateEndpointReference;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionsInterfaceDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsInterfaceGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsInterfaceListByTrafficControllerOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsInterfaceOperations {
+    delete: (resourceGroupName: string, trafficControllerName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsInterfaceDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, trafficControllerName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsInterfaceGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    listByTrafficController: (resourceGroupName: string, trafficControllerName: string, options?: PrivateEndpointConnectionsInterfaceListByTrafficControllerOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    update: (resourceGroupName: string, trafficControllerName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: PrivateEndpointConnectionsInterfaceUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsInterfaceUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointReference {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly requiredMembers?: string[];
+    readonly requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourcesInterfaceGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesInterfaceListByTrafficControllerOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesInterfaceOperations {
+    get: (resourceGroupName: string, trafficControllerName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesInterfaceGetOptionalParams) => Promise<PrivateLinkResource>;
+    listByTrafficController: (resourceGroupName: string, trafficControllerName: string, options?: PrivateLinkResourcesInterfaceListByTrafficControllerOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateLinkServiceConnectionStatus;
+}
+
+// @public
+export type PrivateLinkServiceConnectionStatus = string;
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export interface Resource {
@@ -302,6 +425,8 @@ export interface Resource {
 export interface ResourceId {
     id: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceNetworkingManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -382,6 +507,8 @@ export class ServiceNetworkingManagementClient {
     readonly frontendsInterface: FrontendsInterfaceOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly privateEndpointConnectionsInterface: PrivateEndpointConnectionsInterfaceOperations;
+    readonly privateLinkResourcesInterface: PrivateLinkResourcesInterfaceOperations;
     readonly securityPoliciesInterface: SecurityPoliciesInterfaceOperations;
     readonly trafficControllerInterface: TrafficControllerInterfaceOperations;
 }
@@ -389,6 +516,7 @@ export class ServiceNetworkingManagementClient {
 // @public
 export interface ServiceNetworkingManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -453,6 +581,7 @@ export interface TrafficControllerProperties {
     readonly associations?: ResourceId[];
     readonly configurationEndpoints?: string[];
     readonly frontends?: ResourceId[];
+    readonly privateEndpointConnections?: ResourceId[];
     readonly provisioningState?: ProvisioningState;
     readonly securityPolicies?: ResourceId[];
     securityPolicyConfigurations?: SecurityPolicyConfigurations;

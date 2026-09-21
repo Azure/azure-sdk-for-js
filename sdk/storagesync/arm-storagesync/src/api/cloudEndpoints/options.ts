@@ -49,6 +49,12 @@ export interface CloudEndpointsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface CloudEndpointsUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface CloudEndpointsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

@@ -100,6 +100,7 @@ export interface ManagedNamespacesOperations {
     options?: ManagedNamespacesGetOptionalParams,
   ) => Promise<ManagedNamespace>;
 }
+
 function _getManagedNamespaces(context: ContainerServiceContext) {
   return {
     listCredential: (
@@ -208,6 +209,7 @@ function _getManagedNamespaces(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, managedNamespaceName, options),
   };
 }
+
 export function _getManagedNamespacesOperations(
   context: ContainerServiceContext,
 ): ManagedNamespacesOperations {

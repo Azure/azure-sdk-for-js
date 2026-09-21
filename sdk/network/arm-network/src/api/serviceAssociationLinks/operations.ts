@@ -3,8 +3,8 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { ServiceAssociationLinksListResult } from "../../models/microsoft/network/models.js";
-import { serviceAssociationLinksListResultDeserializer } from "../../models/microsoft/network/models.js";
+import type { ServiceAssociationLinksListResult } from "../../models/network/models.js";
+import { serviceAssociationLinksListResultDeserializer } from "../../models/network/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { ServiceAssociationLinksListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -24,7 +24,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

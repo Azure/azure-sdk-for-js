@@ -161,6 +161,14 @@ describe("snippets", () => {
     )) {
       console.log("Session ID:", sessionId);
     }
+    // @ts-preserve-whitespace
+    // List only sessions whose stored session state was set or updated in the last seven days
+    const sessionStateUpdatedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue", {
+      sessionStateUpdatedAfter,
+    })) {
+      console.log("Recently updated session ID:", sessionId);
+    }
   });
 
   it("ReadmeSampleSendMessage_Session", async () => {
@@ -191,6 +199,27 @@ describe("snippets", () => {
       await serviceBusAdministrationClient.getQueueRuntimeProperties(queueName);
     console.log(`Number of messages in the queue = ${queueRuntimeProperties.totalMessageCount}`);
     // @ts-preserve-whitespace
+    // Topic runtime properties additionally report the total number of SQL and correlation filters
+    // across all of the topic's subscriptions. These counts are served by the 2024-05 service API
+    // version and later; on an older version they are `undefined`.
+    const topicName = "my-topic";
+    const subscriptionName = "my-subscription";
+    await serviceBusAdministrationClient.createTopic(topicName);
+    // A new subscription carries a default rule with a SQL TrueFilter. Adding a correlation rule
+    // gives the topic one of each, so the counts below aggregate across the subscription's rules.
+    await serviceBusAdministrationClient.createSubscription(topicName, subscriptionName);
+    await serviceBusAdministrationClient.createRule(
+      topicName,
+      subscriptionName,
+      "my-correlation-rule",
+      { correlationId: "my-correlation-id" },
+    );
+    const topicRuntimeProperties =
+      await serviceBusAdministrationClient.getTopicRuntimeProperties(topicName);
+    console.log(`SQL filter count = ${topicRuntimeProperties.sqlFilterCount}`);
+    console.log(`Correlation filter count = ${topicRuntimeProperties.correlationFilterCount}`);
+    // @ts-preserve-whitespace
+    await serviceBusAdministrationClient.deleteTopic(topicName);
     await serviceBusAdministrationClient.deleteQueue(queueName);
   });
 

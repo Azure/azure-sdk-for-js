@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.RecoveryServices": "2026-05-01"
+    "Microsoft.RecoveryServices": "2026-07-01"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.RecoveryServices",
     "CrossLanguageDefinitionId": {
@@ -34,6 +34,7 @@
       "@azure/arm-recoveryservices!SoftDeleteSettings:interface": "Microsoft.RecoveryServices.SoftDeleteSettings",
       "@azure/arm-recoveryservices!SourceScanConfiguration:interface": "Microsoft.RecoveryServices.SourceScanConfiguration",
       "@azure/arm-recoveryservices!AssociatedIdentity:interface": "Microsoft.RecoveryServices.AssociatedIdentity",
+      "@azure/arm-recoveryservices!RegionOfChoiceSettings:interface": "Microsoft.RecoveryServices.RegionOfChoiceSettings",
       "@azure/arm-recoveryservices!IdentityData:interface": "Microsoft.RecoveryServices.IdentityData",
       "@azure/arm-recoveryservices!UserIdentity:interface": "Microsoft.RecoveryServices.UserIdentity",
       "@azure/arm-recoveryservices!Sku:interface": "Microsoft.RecoveryServices.Sku",

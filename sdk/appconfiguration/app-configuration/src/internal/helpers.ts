@@ -508,24 +508,40 @@ export function hasUnderscoreResponse<T extends object>(
 /**
  * Get the scope for the App Configuration service based on the endpoint and audience.
  * If the audience is provided, it will be used as the scope.
- * If not, the scope is defaulted to Azure Public Cloud when not specified.
+ * If not, the scope is inferred from the endpoint.
  *
  * @internal
  */
 export function getScope(appConfigEndpoint: string, appConfigAudience?: string): string {
   if (appConfigAudience) {
     return `${appConfigAudience}/.default`;
-  } else if (
-    appConfigEndpoint.endsWith("azconfig.azure.us") ||
-    appConfigEndpoint.endsWith("appconfig.azure.us")
-  ) {
-    return `${KnownAppConfigAudience.AzureGovernment}/.default`;
-  } else if (
-    appConfigEndpoint.endsWith("azconfig.azure.cn") ||
-    appConfigEndpoint.endsWith("appconfig.azure.cn")
-  ) {
-    return `${KnownAppConfigAudience.AzureChina}/.default`;
-  } else {
-    return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
   }
+
+  const hostname = new URL(appConfigEndpoint).hostname;
+  const stagingDomain = "appconfig-staging.azure.com";
+  if (hostname.endsWith(`.${stagingDomain}`)) {
+    return `https://${stagingDomain}/.default`;
+  }
+
+  const labels = hostname.split(".");
+  for (let index = labels.length - 1; index >= 0; index--) {
+    const label = labels[index].toLowerCase();
+    if (label === "appconfig" || label === "azconfig") {
+      return `https://${labels.slice(index).join(".")}/.default`;
+    }
+  }
+
+  return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
+}
+
+/**
+ * Encodes a value for use as a URL path parameter according to RFC 3986.
+ *
+ * @internal
+ */
+export function encodePathParameter(str: string): string {
+  return encodeURIComponent(str).replace(
+    /[!'()*]/g,
+    (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
+  );
 }

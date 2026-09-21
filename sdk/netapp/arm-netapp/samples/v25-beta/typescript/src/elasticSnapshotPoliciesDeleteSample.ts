@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a ElasticSnapshotPolicy
  *
  * @summary delete a ElasticSnapshotPolicy
- * x-ms-original-file: 2026-05-15-preview/ElasticSnapshotPolicies_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticSnapshotPolicies_Delete.json
  */
 async function elasticSnapshotPoliciesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

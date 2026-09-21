@@ -1,6 +1,43 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/netAppResourceUsages/index.ts",
+    "../src/api/netAppResource/index.ts",
+    "../src/api/subvolumes/index.ts",
+    "../src/api/backupsUnderVolume/index.ts",
+    "../src/api/backupsUnderBackupVault/index.ts",
+    "../src/api/pools/index.ts",
+    "../src/api/backupsUnderAccount/index.ts",
+    "../src/api/accounts/index.ts",
+    "../src/api/netAppResourceRegionInfos/index.ts",
+    "../src/api/netAppResourceQuotaLimits/index.ts",
+    "../src/api/activeDirectoryConfigs/index.ts",
+    "../src/api/elasticBackups/index.ts",
+    "../src/api/elasticBackupPolicies/index.ts",
+    "../src/api/elasticBackupVaults/index.ts",
+    "../src/api/elasticSnapshotPolicies/index.ts",
+    "../src/api/elasticSnapshots/index.ts",
+    "../src/api/elasticVolumes/index.ts",
+    "../src/api/elasticCapacityPools/index.ts",
+    "../src/api/elasticAccounts/index.ts",
+    "../src/api/caches/index.ts",
+    "../src/api/buckets/index.ts",
+    "../src/api/backupVaults/index.ts",
+    "../src/api/ransomwareReports/index.ts",
+    "../src/api/volumeQuotaRules/index.ts",
+    "../src/api/backupPolicies/index.ts",
+    "../src/api/snapshotPolicies/index.ts",
+    "../src/api/snapshots/index.ts",
+    "../src/api/volumes/index.ts",
+    "../src/api/backups/index.ts",
+    "../src/api/volumeGroups/index.ts",
+    "../src/api/netAppResourceQuotaLimitsAccount/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

@@ -20,7 +20,7 @@ on:
   steps:
     - name: Gate — verify CI complete and PR is a mgmt PR
       id: gate
-      uses: actions/github-script@v9
+      uses: actions/github-script@v9.0.0
       env:
         CHECK_SUITE_APP: ${{ github.event.check_suite.app.name }}
         HEAD_SHA: ${{ github.event.check_suite.head_sha }}
@@ -92,6 +92,10 @@ permissions:
   pull-requests: read
   actions: read
   copilot-requests: write
+# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
+engine:
+  id: copilot
+  version: "1.0.80"
 strict: false
 network:
   allowed:
@@ -105,6 +109,7 @@ safe-outputs:
   threat-detection:
     engine:
       id: copilot
+      version: "1.0.80"
       model: gpt-5.6-sol
     prompt: |
       The workflow source prompt is trusted configuration and is expected to

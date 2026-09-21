@@ -66,6 +66,7 @@ export interface TransitHubOperations {
     options?: TransitHubGetOptionalParams,
   ) => Promise<TransitHubResource>;
 }
+
 function _getTransitHub(context: MissionContext) {
   return {
     listBySubscription: (
@@ -106,6 +107,7 @@ function _getTransitHub(context: MissionContext) {
     ) => get(context, resourceGroupName, communityName, transitHubName, options),
   };
 }
+
 export function _getTransitHubOperations(context: MissionContext): TransitHubOperations {
   return {
     ..._getTransitHub(context),

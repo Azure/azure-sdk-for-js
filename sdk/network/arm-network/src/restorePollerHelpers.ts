@@ -113,10 +113,17 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeCustomIPPrefixes,
 } from "./api/customIPPrefixes/operations.js";
 import { _createDeserialize as _createDeserializeVipSwap } from "./api/vipSwap/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeAddressPrefixSets,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeAddressPrefixSets,
+} from "./api/addressPrefixSets/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeFirstPartyServiceTags,
+  _updateTagsDeserialize as _updateTagsDeserializeFirstPartyServiceTags,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeFirstPartyServiceTags,
+} from "./api/firstPartyServiceTags/operations.js";
 import { _getNodeAvailabilityDeserialize } from "./api/interconnectGroups/operations.js";
 import {
-  _updateServicesDeserialize,
-  _updateAddressLocationsDeserialize,
   _$deleteDeserialize as _$deleteDeserializeServiceGateways,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeServiceGateways,
 } from "./api/serviceGateways/operations.js";
@@ -223,6 +230,7 @@ import {
   _setVpnclientIpsecParametersDeserialize,
   _getRoutesInformationDeserialize as _getRoutesInformationDeserializeVirtualNetworkGateways,
   _getResiliencyInformationDeserialize as _getResiliencyInformationDeserializeVirtualNetworkGateways,
+  _getEffectiveRoutesDeserialize,
   _getAdvertisedRoutesDeserialize,
   _getLearnedRoutesDeserialize,
   _getBgpPeerStatusDeserialize,
@@ -246,6 +254,7 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeSubnets,
 } from "./api/subnets/operations.js";
 import {
+  _moveIpConfigurationsDeserialize,
   _$deleteDeserialize as _$deleteDeserializeVirtualNetworks,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualNetworks,
 } from "./api/virtualNetworks/operations.js";
@@ -293,6 +302,9 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeFlowLogs,
 } from "./api/flowLogs/operations.js";
 import {
+  _connectionAnalyzersQueryDeserialize,
+  _connectionAnalyzersDeleteDeserialize,
+  _connectionAnalyzersCreateDeserialize,
   _getNetworkConfigurationDiagnosticDeserialize,
   _listAvailableProvidersDeserialize,
   _getAzureReachabilityReportDeserialize,
@@ -311,6 +323,10 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualApplianceSites,
 } from "./api/virtualApplianceSites/operations.js";
 import {
+  _abortMigrationDeserialize,
+  _commitMigrationDeserialize,
+  _executeMigrationDeserialize,
+  _prepareMigrationDeserialize,
   _getBootDiagnosticLogsDeserialize,
   _reimageDeserialize,
   _restartDeserialize,
@@ -380,6 +396,10 @@ import {
   _createDeserialize as _createDeserializeIpamPools,
 } from "./api/ipamPools/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeFirewallPolicyKubeSelectorGroups,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeFirewallPolicyKubeSelectorGroups,
+} from "./api/firewallPolicyKubeSelectorGroups/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeFirewallPolicyRuleCollectionGroups,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeFirewallPolicyRuleCollectionGroups,
 } from "./api/firewallPolicyRuleCollectionGroups/operations.js";
@@ -387,6 +407,10 @@ import {
   _$deleteDeserialize as _$deleteDeserializeFirewallPolicies,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeFirewallPolicies,
 } from "./api/firewallPolicies/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeExpressRouteLags,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeExpressRouteLags,
+} from "./api/expressRouteLags/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeExpressRoutePortAuthorizations,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeExpressRoutePortAuthorizations,
@@ -396,6 +420,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeExpressRoutePorts,
 } from "./api/expressRoutePorts/operations.js";
 import {
+  _rollbackCircuitMigrationDeserialize,
+  _commitCircuitMigrationDeserialize,
+  _migrateCircuitDeserialize,
+  _restoreBgpForCircuitMigrationDeserialize,
+  _shutDownBgpForCircuitMigrationDeserialize,
+  _prepareCircuitMigrationDeserialize,
+  _getCircuitMigrationInfoDeserialize,
+  _validateCircuitMigrationDeserialize,
   _listRoutesTableDeserialize,
   _listRoutesTableSummaryDeserialize,
   _listArpTableDeserialize,
@@ -447,7 +479,7 @@ import {
 } from "./api/networkInterfaces/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeBastionHosts,
-  _updateTagsDeserialize as _updateTagsDeserializeBastionHosts,
+  _updateDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeBastionHosts,
 } from "./api/bastionHosts/operations.js";
 import {
@@ -458,13 +490,14 @@ import {
   _updateTagsDeserialize as _updateTagsDeserializeAzureFirewalls,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAzureFirewalls,
 } from "./api/azureFirewalls/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeAuthenticationPolicies } from "./api/authenticationPolicies/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeApplicationSecurityGroups,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeApplicationSecurityGroups,
 } from "./api/applicationSecurityGroups/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeApplicationGatewayPrivateEndpointConnections,
-  _updateDeserialize,
+  _updateDeserialize as _updateDeserializeApplicationGatewayPrivateEndpointConnections,
 } from "./api/applicationGatewayPrivateEndpointConnections/operations.js";
 import {
   _backendHealthOnDemandDeserialize,
@@ -792,15 +825,30 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}":
     { deserializer: _createDeserializeVipSwap, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}/addressPrefixSets/{addressPrefixSetName}":
+    { deserializer: _$deleteDeserializeAddressPrefixSets, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}/addressPrefixSets/{addressPrefixSetName}":
+    {
+      deserializer: _createOrUpdateDeserializeAddressPrefixSets,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firstPartyServiceTags/{firstPartyServiceTagName}":
+    {
+      deserializer: _$deleteDeserializeFirstPartyServiceTags,
+      expectedStatuses: ["200", "202", "204"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firstPartyServiceTags/{firstPartyServiceTagName}":
+    {
+      deserializer: _updateTagsDeserializeFirstPartyServiceTags,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firstPartyServiceTags/{firstPartyServiceTagName}":
+    {
+      deserializer: _createOrUpdateDeserializeFirstPartyServiceTags,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups/{interconnectGroupName}/nodeAvailability":
     { deserializer: _getNodeAvailabilityDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}/updateServices":
-    { deserializer: _updateServicesDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}/updateAddressLocations":
-    {
-      deserializer: _updateAddressLocationsDeserialize,
-      expectedStatuses: ["202", "204", "200", "201"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}":
     { deserializer: _$deleteDeserializeServiceGateways, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}":
@@ -1089,6 +1137,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _getResiliencyInformationDeserializeVirtualNetworkGateways,
       expectedStatuses: ["200", "202", "201"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getEffectiveRoutes":
+    { deserializer: _getEffectiveRoutesDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes":
     { deserializer: _getAdvertisedRoutesDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getLearnedRoutes":
@@ -1144,6 +1194,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserializeSubnets, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}":
     { deserializer: _createOrUpdateDeserializeSubnets, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/moveIpConfigurations":
+    { deserializer: _moveIpConfigurationsDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}":
     { deserializer: _$deleteDeserializeVirtualNetworks, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}":
@@ -1242,6 +1294,18 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserializeFlowLogs, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}":
     { deserializer: _createOrUpdateDeserializeFlowLogs, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}/query":
+    { deserializer: _connectionAnalyzersQueryDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}":
+    {
+      deserializer: _connectionAnalyzersDeleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}":
+    {
+      deserializer: _connectionAnalyzersCreateDeserialize,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic":
     {
       deserializer: _getNetworkConfigurationDiagnosticDeserialize,
@@ -1282,6 +1346,14 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeVirtualApplianceSites,
       expectedStatuses: ["200", "201", "202"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/abortMigration":
+    { deserializer: _abortMigrationDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/commitMigration":
+    { deserializer: _commitMigrationDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/executeMigration":
+    { deserializer: _executeMigrationDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/prepareMigration":
+    { deserializer: _prepareMigrationDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/getBootDiagnosticLogs":
     { deserializer: _getBootDiagnosticLogsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/reimage":
@@ -1444,6 +1516,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserializeIpamPools, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}":
     { deserializer: _createDeserializeIpamPools, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/kubeSelectorGroups/{kubeSelectorGroupName}":
+    {
+      deserializer: _$deleteDeserializeFirewallPolicyKubeSelectorGroups,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/kubeSelectorGroups/{kubeSelectorGroupName}":
+    {
+      deserializer: _createOrUpdateDeserializeFirewallPolicyKubeSelectorGroups,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}":
     {
       deserializer: _$deleteDeserializeFirewallPolicyRuleCollectionGroups,
@@ -1459,6 +1541,13 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}":
     {
       deserializer: _createOrUpdateDeserializeFirewallPolicies,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}":
+    { deserializer: _$deleteDeserializeExpressRouteLags, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}":
+    {
+      deserializer: _createOrUpdateDeserializeExpressRouteLags,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}":
@@ -1478,6 +1567,28 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeExpressRoutePorts,
       expectedStatuses: ["200", "201", "202"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/rollbackCircuitMigration":
+    { deserializer: _rollbackCircuitMigrationDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/commitCircuitMigration":
+    { deserializer: _commitCircuitMigrationDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/migrateCircuit":
+    { deserializer: _migrateCircuitDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/restoreBgpForCircuitMigration":
+    {
+      deserializer: _restoreBgpForCircuitMigrationDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/shutDownBgpForCircuitMigration":
+    {
+      deserializer: _shutDownBgpForCircuitMigrationDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/prepareCircuitMigration":
+    { deserializer: _prepareCircuitMigrationDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/getCircuitMigrationInfo":
+    { deserializer: _getCircuitMigrationInfoDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/validateCircuitMigration":
+    { deserializer: _validateCircuitMigrationDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}":
     { deserializer: _listRoutesTableDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}":
@@ -1620,7 +1731,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}":
     { deserializer: _$deleteDeserializeBastionHosts, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}":
-    { deserializer: _updateTagsDeserializeBastionHosts, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}":
     {
       deserializer: _createOrUpdateDeserializeBastionHosts,
@@ -1641,6 +1752,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeAzureFirewalls,
       expectedStatuses: ["200", "201", "202"],
     },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/authenticationPolicies/{authenticationPolicyName}":
+    {
+      deserializer: _createOrUpdateDeserializeAuthenticationPolicies,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}":
     {
       deserializer: _$deleteDeserializeApplicationSecurityGroups,
@@ -1657,7 +1773,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "202", "204"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+    {
+      deserializer: _updateDeserializeApplicationGatewayPrivateEndpointConnections,
+      expectedStatuses: ["200", "202", "201"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand":
     { deserializer: _backendHealthOnDemandDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth":

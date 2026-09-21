@@ -338,7 +338,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
 // @public
 export interface ServiceBusAdministrationClientOptions extends CommonClientOptions {
-    serviceVersion?: "2021-05" | "2017-04";
+    serviceVersion?: "2024-05" | "2021-05" | "2017-04";
 }
 
 // @public
@@ -659,11 +659,13 @@ export interface TopicProperties {
 // @public
 export interface TopicRuntimeProperties {
     accessedAt: Date;
+    correlationFilterCount?: number;
     createdAt: Date;
     modifiedAt: Date;
     name: string;
     scheduledMessageCount: number;
     sizeInBytes?: number;
+    sqlFilterCount?: number;
     subscriptionCount?: number;
 }
 

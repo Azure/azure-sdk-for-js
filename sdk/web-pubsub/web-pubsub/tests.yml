@@ -5,5 +5,7 @@ extends:
     parameters:
       PackageName: "@azure/web-pubsub"
       ServiceDirectory: web-pubsub
+      TestResourceDirectories:
+        - web-pubsub/web-pubsub
       MatrixFilters:
         - DependencyVersion=^$

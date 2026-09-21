@@ -63,3 +63,6 @@ export interface BetaAgentsCreateOptimizationJobOptionalParams extends Operation
   /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
   operationId?: string;
 }
+
+/** Optional parameters. */
+export interface BetaAgentsCreateFromPromptOptionalParams extends OperationOptions {}

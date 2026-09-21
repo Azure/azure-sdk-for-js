@@ -125,11 +125,11 @@ export interface ServiceBusAdministrationClientOptions extends CommonClientOptio
   /**
    * Service version of the ATOM API.
    *
-   * Currently supported = "2021-05" | "2017-04"
+   * Currently supported = "2024-05" | "2021-05" | "2017-04"
    *
-   * Defaults to "2021-05".
+   * Defaults to "2024-05".
    */
-  serviceVersion?: "2021-05" | "2017-04";
+  serviceVersion?: "2024-05" | "2021-05" | "2017-04";
 }
 
 /**
@@ -2120,6 +2120,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
           error,
+        { cause: error },
       );
     }
   }

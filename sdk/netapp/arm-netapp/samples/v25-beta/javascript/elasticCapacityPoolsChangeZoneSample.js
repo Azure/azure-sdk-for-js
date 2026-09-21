@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to moves pool to another zone
  *
  * @summary moves pool to another zone
- * x-ms-original-file: 2026-05-15-preview/ElasticCapacityPools_ChangeZone.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticCapacityPools_ChangeZone.json
  */
 async function elasticCapacityPoolsChangeZone() {
   const credential = new DefaultAzureCredential();

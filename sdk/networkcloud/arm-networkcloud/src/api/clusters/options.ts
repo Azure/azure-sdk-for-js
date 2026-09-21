@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ClusterPatchParameters,
   ClusterDeployParameters,
   ClusterInspectParameters,
   ClusterScanRuntimeParameters,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ClustersUpdateVersionOptionalParams extends OperationOptions {

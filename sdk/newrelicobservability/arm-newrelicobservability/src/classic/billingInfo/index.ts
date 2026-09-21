@@ -15,14 +15,12 @@ export interface BillingInfoOperations {
     options?: BillingInfoGetOptionalParams,
   ) => Promise<BillingInfoResponse>;
 }
-
 function _getBillingInfo(context: NewRelicObservabilityContext) {
   return {
     get: (resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams) =>
       get(context, resourceGroupName, monitorName, options),
   };
 }
-
 export function _getBillingInfoOperations(
   context: NewRelicObservabilityContext,
 ): BillingInfoOperations {

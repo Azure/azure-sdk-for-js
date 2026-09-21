@@ -1,19 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext as Client } from "../index.js";
-import {
-  defaultErrorResponseDeserializer,
-  FunctionsExtensionInvokeFunctionsHostResponse,
-} from "../../models/models.js";
+import type { ContainerAppsAPIContext as Client } from "../index.js";
+import type { FunctionsExtensionInvokeFunctionsHostResponse } from "../../models/models.js";
+import { defaultErrorResponseDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { FunctionsExtensionInvokeFunctionsHostOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { FunctionsExtensionInvokeFunctionsHostOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _invokeFunctionsHostSend(
   context: Client,
@@ -31,7 +25,7 @@ export function _invokeFunctionsHostSend(
       containerAppName: containerAppName,
       revisionName: revisionName,
       functionAppName: functionAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,7 +43,9 @@ export async function _invokeFunctionsHostDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

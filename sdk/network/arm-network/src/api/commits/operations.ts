@@ -3,10 +3,10 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { Commit } from "../../models/microsoft/network/models.js";
-import { commitSerializer, commitDeserializer } from "../../models/microsoft/network/models.js";
 import type { _CommitListResult } from "../../models/models.js";
 import { _commitListResultDeserializer } from "../../models/models.js";
+import type { Commit } from "../../models/network/models.js";
+import { commitSerializer, commitDeserializer } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -33,7 +33,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -73,7 +73,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkManagerName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
   );
 }
 
@@ -91,7 +91,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       commitName: commitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +128,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkManagerName, commitName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -147,7 +147,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       commitName: commitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,7 +197,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<Commit>, Commit>;
 }
 
@@ -215,7 +215,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       commitName: commitName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

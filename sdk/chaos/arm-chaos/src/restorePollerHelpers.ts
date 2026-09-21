@@ -2,14 +2,17 @@
 // Licensed under the MIT License.
 
 import type { ChaosManagementClient } from "./chaosManagementClient.js";
+import { _cancelDeserialize } from "./api/scenarioRuns/operations.js";
 import {
   _fixResourcePermissionsDeserialize,
   _validateDeserialize,
+  _executeDeserialize,
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
 } from "./api/scenarioConfigurations/operations.js";
 import {
-  _refreshRecommendationsDeserialize,
+  _evaluateDeserialize,
+  _discoverDeserialize,
   _$deleteDeserialize as _$deleteDeserializeWorkspaces,
   _updateDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkspaces,
@@ -22,7 +25,7 @@ import {
 } from "./api/privateAccesses/operations.js";
 import {
   _startDeserialize,
-  _cancelDeserialize,
+  _cancelDeserialize as _cancelDeserializeExperiments,
   _$deleteDeserialize as _$deleteDeserializeExperiments,
   _updateDeserialize as _updateDeserializeExperiments,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeExperiments,
@@ -97,16 +100,22 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/runs/{runId}/cancel":
+    { deserializer: _cancelDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}/fixResourcePermissions":
     { deserializer: _fixResourcePermissionsDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}/validate":
     { deserializer: _validateDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}/execute":
+    { deserializer: _executeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/scenarios/{scenarioName}/configurations/{scenarioConfigurationName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/refreshRecommendations":
-    { deserializer: _refreshRecommendationsDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/evaluate":
+    { deserializer: _evaluateDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}/discover":
+    { deserializer: _discoverDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}":
     { deserializer: _$deleteDeserializeWorkspaces, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/workspaces/{workspaceName}":
@@ -130,7 +139,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/start":
     { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/cancel":
-    { deserializer: _cancelDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _cancelDeserializeExperiments, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}":
     { deserializer: _$deleteDeserializeExperiments, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}":

@@ -12,13 +12,11 @@ export interface OperationsOperations {
   /** Gets a list of hybrid compute operations. */
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationValue>;
 }
-
 function _getOperations(context: HybridComputeManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOperationsOperations(
   context: HybridComputeManagementContext,
 ): OperationsOperations {
