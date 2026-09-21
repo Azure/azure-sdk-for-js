@@ -10,12 +10,6 @@ extends:
     MatrixFilters:
       - TestType=^(?!sample).*
       - DependencyVersion=^$
-      # These live tests only exercise the Voice Agents cloud service (via TEST_SCOPE below),
-      # which is OS-agnostic - there's no Windows/macOS-specific behavior to validate here, unlike
-      # the package's normal offline unit tests. Restricting to Ubuntu (still covering both Node
-      # and browser transports) cuts the per-run gpt-realtime deployment count from 5 to 2, since
-      # this pipeline's model quota is easily exhausted by repeated full-matrix runs.
-      - OSVmImage=^ubuntu
     EnvVars:
       FOUNDRY_PROJECT_ENDPOINT: $(FOUNDRY_PROJECT_ENDPOINT)
       FOUNDRY_VOICE_AGENT_MODEL: $(MODEL_DEPLOYMENT_NAME)
