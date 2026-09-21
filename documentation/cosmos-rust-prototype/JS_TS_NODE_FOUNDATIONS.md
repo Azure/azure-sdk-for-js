@@ -16,15 +16,12 @@ item `order-42`, and partition-key value `customer-17`.
 Use the JavaScript API name `Item.read()`: `read_item` is the corresponding
 Python operation, not a method we should add to the JavaScript public API.
 
-A **path** is where JavaScript runs (Node.js or browser). An **actor** is who
-calls `Item.read()` (customer server, customer website, or Portal Data Explorer).
-
 ## Bite 1 of approximately 32: Where the customer's read runs
 
-The customer already has one order in Cosmos DB and wants that order back.
-They do not want to query every order and pick one.
+The customer already stored one order in Cosmos DB and wants that order back.
+They do not want to list every order in `orders` and pick one.
 
-That stored record is an **item**:
+The stored record is an **item**:
 
 ```json
 {
@@ -34,17 +31,17 @@ That stored record is an **item**:
 }
 ```
 
-The account holds a **database** named `checkout`. Inside it, a **container**
+The account has a **database** named `checkout`. Inside it, a **container**
 named `orders` holds items. The container is partitioned by `/customerId`, so
-this item lives under partition-key value `customer-17`.
+this item sits with other items whose `customerId` is `customer-17`.
 
-A **point read** fetches one item using its `id` and partition-key value.
-Those two values are enough.
+A **point read** is the lookup that uses the item id and that partition-key
+value. Those two values are enough. Searching is not required.
 
-The application is written in **JavaScript**. It uses the SDK package
-`@azure/cosmos`. The public operation is `Item.read()` in
+The customer's application should not send that lookup as hand-written HTTP.
+It uses the SDK package `@azure/cosmos`. The public method is `Item.read()` in
 `sdk\cosmosdb\cosmos\src\client\Item\Item.ts`. We will not add a Python-style
-`read_item()` method.
+`read_item()`.
 
 ```ts
 const item = client
@@ -56,93 +53,110 @@ const response = await item.read();
 ```
 
 `client` is an already configured `CosmosClient`. `await` means this function
-waits until that future result is ready (scheduling is bite 10).
+waits until the result is ready. How waiting is scheduled is bite 10.
 
-| Who | Has | Does |
-|---|---|---|
-| Caller | `id` `order-42`, partition-key value `customer-17` | Calls `item.read()` |
-| SDK (`Item`) | Those values plus account settings | Starts the point read |
-| Cosmos DB | The stored item | Returns it, or a not-found result |
+Walk for this call:
 
-A page that **displays** `order-42` is not automatically running the SDK.
-If Node.js did the read and sent JSON to the page, only the server ran the SDK.
+```text
+Caller has id "order-42" and partition-key value "customer-17"
+    -> application calls item.read()
+    -> Item in the SDK starts the point read
+    -> Cosmos DB returns this item, or not found
+```
 
-There are **two paths** and **three actors**:
+JavaScript is the language of that application. It can run in more than one
+place.
 
-| Path | Actor | Flow |
-|---|---|---|
-| **Node.js** — JavaScript outside a browser | Customer server application | Customer server → SDK in Node.js → Cosmos DB |
-| **Browser** — JavaScript in a web page, with different network and file-loading rules than Node.js | Customer website | Customer website JS → SDK in that page → approved network route → Cosmos DB |
-| **Browser** (same path, different actor) | Portal Data Explorer | Portal Explorer JS → SDK in Portal’s page → approved network route → Cosmos DB |
+**Node.js** is a program that runs JavaScript outside a browser (on a machine
+or in the cloud). That is one **path**: where the SDK process actually runs.
 
-Portal and the customer website share the browser path. They are not the same
-product: different owners ship the SDK and set page/network rules. Using Portal
-does not prove the customer’s website can load and run the SDK.
+```text
+Customer server application -> SDK in Node.js -> Cosmos DB
+```
 
+A **browser** is the program that shows a web page. It also runs JavaScript,
+with different network and file-loading rules than Node.js. That is the
+second path.
+
+The customer's website can call `item.read()` in the page. Then the SDK runs
+in the browser. Showing `order-42` on a page is not enough: if Node.js did
+the read and sent JSON to the page, only the server ran the SDK.
+
+```text
+Customer website -> SDK in that page -> approved network route -> Cosmos DB
+```
+
+**Portal Data Explorer** is Microsoft's Cosmos UI. The customer can open it
+and look at the same item. It is also a browser page that can call the SDK.
+Same path (browser), different **actor**: who owns the page and ships the
+files. Public Explorer source shows a browser caller. That source is not the
+JavaScript a given Portal session actually downloaded, including which
+`@azure/cosmos` version that session resolved.
+
+```text
+Portal Data Explorer -> SDK in Portal's page -> approved network route -> Cosmos DB
+```
+
+Using Portal does not prove the customer's website can load and run the SDK.
 This prototype must work on **both paths**. A Node-only success is not the
 complete requirement.
 
-**Established here:** example item; `Item.read()`; path versus actor.
+**Established:** the example item; `Item.read()`; two paths (Node.js, browser);
+three actors (customer server, customer website, Portal).
 
-**Not this bite:** TypeScript, npm, and which files get loaded (bite 2);
-`await` scheduling (bite 10); how the request reaches Cosmos, including
-Gateway V2 (later).
+**Not this bite:** which files get loaded (bite 2); `await` scheduling
+(bite 10); how the request reaches Cosmos (later).
 
 Source: [Item.ts](../../sdk/cosmosdb/cosmos/src/client/Item/Item.ts).
 
 ## Bite 2 of approximately 32: What is built and loaded
 
-Bite 1’s call only works if the application can **load** SDK files. Loading is
-not the point read. Someone must turn source into those files first.
+The customer's application can call `item.read()` only if it can load the SDK.
+Loading files is not the point read. Someone must turn source into those files
+first.
 
-The SDK is written in **TypeScript**: JavaScript plus compile-time type
-checking. A **build** checks source and writes files an application can load.
-It does not talk to Cosmos DB and does not read `order-42`.
+The SDK is written in **TypeScript**: JavaScript plus checks that run before
+the program runs. A **build** is that check-and-write step. It produces files.
+It does not contact Cosmos DB and does not return `order-42`.
 
-`package.json` names the package `@azure/cosmos`. After build, the published
-files live under `dist/`. Today those files are JavaScript.
+`package.json` names the package `@azure/cosmos`. After the build, the files
+the application loads live under `dist/`. Today they are JavaScript.
 
-Verified entries in `sdk\cosmosdb\cosmos\package.json`:
+The Node.js path and the browser path do not load the same file. In
+`sdk\cosmosdb\cosmos\package.json`:
 
-| Path that will load the SDK | Prepared files |
-|---|---|
-| Browser | `dist/browser/index.js` |
-| Node.js | `dist/esm/index.js` and `dist/commonjs/index.js` |
+- Browser loads `dist/browser/index.js`.
+- Node.js loads `dist/esm/index.js` or `dist/commonjs/index.js`.
 
-Why two Node.js files exist is a later bite. For this bite: the two **paths**
-already load different JavaScript files. One npm package does not mean one
-identical file for Node.js and the browser.
+Why Node.js has two files is a later bite. What matters now: one package name
+is not one file for every path.
 
-**npm** is both the package registry and the install tool. Jobs stay separate:
+Jobs stay separate:
 
 ```text
 SDK team: TypeScript source -> build -> npm package
-Application team: install @azure/cosmos -> build/deploy application
-Actor: run application -> call Item.read()
+Application team: install @azure/cosmos -> put it in the application
+Actor: run the application -> call Item.read()
 ```
 
-The Portal user does not run `npm install`. Portal is an actor on the browser
-path. Public Explorer source (`Azure/cosmos-explorer`) depends on
-`@azure/cosmos` and uses Webpack to put application and SDK JavaScript on the
-page (`webpack --mode production`). That is Explorer’s application build, not
-the SDK’s compiler, and not proof of the exact Portal build a given session
-runs. Explorer is a web app (`react` / `react-dom`); it is not a React Native
-app.
+**npm** is the package registry and the install tool. A Portal user looking at
+`order-42` does not run `npm install`. Portal's own application build puts
+browser JavaScript on the page. How that build works is a later bite. Public
+Explorer source depends on `@azure/cosmos`; that is not proof of the exact
+Portal build a session runs, including which `@azure/cosmos` version it
+resolved.
 
-Adding Rust later means a **second compilation**: Rust source becomes a file
-the path must be able to load. A Node-only binary is not the browser path.
-Which file that is, and how each path loads it, waits until we choose a
-framework.
+When we add Rust, there is a second compilation: Rust source becomes a file
+the **path** must be able to load. A file that only Node.js can load does not
+cover the browser path. Which file that is waits until we choose a framework.
 
-**Established here:** build is not the read; `@azure/cosmos` already emits
-different `dist/` files per path; Rust adds a compiled artifact each path
-must be able to load.
+**Established:** build is not the read; the two paths already load different
+`dist/` files; Rust will add another file each path must load.
 
 **Not this bite:** type-declaration files, `import` versus `require`,
-`warp.config.yml`, Webpack internals, Wasm, C-ABI, NAPI-RS, React Native.
+`warp.config.yml`, Webpack, Wasm, C-ABI, NAPI-RS, React Native.
 
-Sources: [package.json](../../sdk/cosmosdb/cosmos/package.json),
-[Explorer package.json](https://github.com/Azure/cosmos-explorer/blob/master/package.json).
+Source: [package.json](../../sdk/cosmosdb/cosmos/package.json).
 
 ## Concept 3 of approximately 32: Objects, values, and partition keys
 
