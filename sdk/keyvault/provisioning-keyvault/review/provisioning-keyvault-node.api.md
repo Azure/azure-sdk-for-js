@@ -43,7 +43,7 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
 }
 
 // @public
-export interface AccessPolicyEntry {
+interface AccessPolicyEntry {
     applicationId?: string;
     objectId: string;
     permissions: Permissions;
@@ -51,7 +51,7 @@ export interface AccessPolicyEntry {
 }
 
 // @public
-export interface AccessPolicyEntryInput extends InputOf<AccessPolicyEntry> {
+interface AccessPolicyEntryInput extends InputOf<AccessPolicyEntry> {
     applicationId?: ExpressionOrValue<string> | undefined;
     objectId: ExpressionOrValue<string>;
     permissions: PermissionsInput;
@@ -59,10 +59,10 @@ export interface AccessPolicyEntryInput extends InputOf<AccessPolicyEntry> {
 }
 
 // @public (undocumented)
-export const accessPolicyEntryShape: FlatModelShape;
+const accessPolicyEntryShape: FlatModelShape;
 
 // @public
-export type AccessPolicyEntryView = AccessPolicyEntryInput;
+type AccessPolicyEntryView = AccessPolicyEntryInput;
 
 // @public (undocumented)
 export interface AccessPolicyProps {
@@ -71,32 +71,32 @@ export interface AccessPolicyProps {
 }
 
 // @public (undocumented)
-export interface Action {
+interface Action {
     type?: KeyRotationPolicyActionType;
 }
 
 // @public (undocumented)
-export interface ActionInput extends InputOf<Action> {
+interface ActionInput extends InputOf<Action> {
     type?: ExpressionOrValue<KeyRotationPolicyActionType> | undefined;
 }
 
 // @public (undocumented)
-export const actionShape: FlatModelShape;
+const actionShape: FlatModelShape;
 
 // @public
-export type ActionsRequired = string;
+type ActionsRequired = string;
 
 // @public (undocumented)
-export type ActionView = ActionInput;
+type ActionView = ActionInput;
 
 // @public
-export type ActivationStatus = string;
+type ActivationStatus = string;
 
 // @public
-export type CertificatePermissions = string;
+type CertificatePermissions = string;
 
 // @public
-export type CreateMode = "recover" | "default";
+type CreateMode = "recover" | "default";
 
 // @public
 export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/deletedManagedHSMs"> {
@@ -118,7 +118,7 @@ export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/de
 }
 
 // @public
-export interface DeletedManagedHsmProperties {
+interface DeletedManagedHsmProperties {
     deletionDate?: Date;
     location?: string;
     mhsmId?: string;
@@ -128,14 +128,14 @@ export interface DeletedManagedHsmProperties {
 }
 
 // @public
-export interface DeletedManagedHsmPropertiesInput extends InputOf<DeletedManagedHsmProperties> {
+interface DeletedManagedHsmPropertiesInput extends InputOf<DeletedManagedHsmProperties> {
 }
 
 // @public (undocumented)
-export const deletedManagedHsmPropertiesShape: FlatModelShape;
+const deletedManagedHsmPropertiesShape: FlatModelShape;
 
 // @public
-export interface DeletedManagedHsmPropertiesView extends InputOf<DeletedManagedHsmProperties> {
+interface DeletedManagedHsmPropertiesView extends InputOf<DeletedManagedHsmProperties> {
     readonly deletionDate?: Expression<Date> | undefined;
     readonly location?: Expression<string> | undefined;
     readonly mhsmId?: Expression<string> | undefined;
@@ -169,7 +169,7 @@ export class DeletedVault extends Resource<"Microsoft.KeyVault/locations/deleted
 }
 
 // @public
-export interface DeletedVaultProperties {
+interface DeletedVaultProperties {
     deletionDate?: Date;
     location?: string;
     purgeProtectionEnabled?: boolean;
@@ -179,14 +179,14 @@ export interface DeletedVaultProperties {
 }
 
 // @public
-export interface DeletedVaultPropertiesInput extends InputOf<DeletedVaultProperties> {
+interface DeletedVaultPropertiesInput extends InputOf<DeletedVaultProperties> {
 }
 
 // @public (undocumented)
-export const deletedVaultPropertiesShape: FlatModelShape;
+const deletedVaultPropertiesShape: FlatModelShape;
 
 // @public
-export interface DeletedVaultPropertiesView extends InputOf<DeletedVaultProperties> {
+interface DeletedVaultPropertiesView extends InputOf<DeletedVaultProperties> {
     readonly deletionDate?: Expression<Date> | undefined;
     readonly location?: Expression<string> | undefined;
     readonly purgeProtectionEnabled?: Expression<boolean> | undefined;
@@ -201,35 +201,35 @@ export interface DeletedVaultProps {
 }
 
 // @public
-export type DeletionRecoveryLevel = string;
+type DeletionRecoveryLevel = string;
 
 // @public
-export interface IpRule {
+interface IpRule {
     value: string;
 }
 
 // @public
-export interface IpRuleInput extends InputOf<IpRule> {
+interface IpRuleInput extends InputOf<IpRule> {
     value: ExpressionOrValue<string>;
 }
 
 // @public (undocumented)
-export const ipRuleShape: FlatModelShape;
+const ipRuleShape: FlatModelShape;
 
 // @public
-export type IpRuleView = IpRuleInput;
+type IpRuleView = IpRuleInput;
 
 // @public
-export type JsonWebKeyCurveName = string;
+type JsonWebKeyCurveName = string;
 
 // @public
-export type JsonWebKeyOperation = string;
+type JsonWebKeyOperation = string;
 
 // @public
-export type JsonWebKeyType = string;
+type JsonWebKeyType = string;
 
 // @public
-export interface KeyAttributes {
+interface KeyAttributes {
     created?: number;
     enabled?: boolean;
     expires?: number;
@@ -240,7 +240,7 @@ export interface KeyAttributes {
 }
 
 // @public
-export interface KeyAttributesInput extends InputOf<KeyAttributes> {
+interface KeyAttributesInput extends InputOf<KeyAttributes> {
     enabled?: ExpressionOrValue<boolean> | undefined;
     expires?: ExpressionOrValue<number> | undefined;
     exportable?: ExpressionOrValue<boolean> | undefined;
@@ -248,10 +248,10 @@ export interface KeyAttributesInput extends InputOf<KeyAttributes> {
 }
 
 // @public (undocumented)
-export const keyAttributesShape: FlatModelShape;
+const keyAttributesShape: FlatModelShape;
 
 // @public
-export interface KeyAttributesView extends InputOf<KeyAttributes> {
+interface KeyAttributesView extends InputOf<KeyAttributes> {
     readonly created?: Expression<number> | undefined;
     enabled?: ExpressionOrValue<boolean> | undefined;
     expires?: ExpressionOrValue<number> | undefined;
@@ -262,10 +262,10 @@ export interface KeyAttributesView extends InputOf<KeyAttributes> {
 }
 
 // @public
-export type KeyPermissions = string;
+type KeyPermissions = string;
 
 // @public
-export interface KeyProperties {
+interface KeyProperties {
     attributes?: KeyAttributes;
     curveName?: JsonWebKeyCurveName;
     // (undocumented)
@@ -279,7 +279,7 @@ export interface KeyProperties {
 }
 
 // @public
-export interface KeyPropertiesInput extends InputOf<KeyProperties> {
+interface KeyPropertiesInput extends InputOf<KeyProperties> {
     attributes?: KeyAttributesInput | undefined;
     curveName?: ExpressionOrValue<JsonWebKeyCurveName> | undefined;
     // (undocumented)
@@ -291,10 +291,10 @@ export interface KeyPropertiesInput extends InputOf<KeyProperties> {
 }
 
 // @public (undocumented)
-export const keyPropertiesShape: FlatModelShape;
+const keyPropertiesShape: FlatModelShape;
 
 // @public
-export interface KeyPropertiesView extends InputOf<KeyProperties> {
+interface KeyPropertiesView extends InputOf<KeyProperties> {
     attributes?: KeyAttributesView | undefined;
     curveName?: ExpressionOrValue<JsonWebKeyCurveName> | undefined;
     // (undocumented)
@@ -308,43 +308,43 @@ export interface KeyPropertiesView extends InputOf<KeyProperties> {
 }
 
 // @public (undocumented)
-export interface KeyReleasePolicy {
+interface KeyReleasePolicy {
     contentType?: string;
     data?: Uint8Array;
 }
 
 // @public (undocumented)
-export interface KeyReleasePolicyInput extends InputOf<KeyReleasePolicy> {
+interface KeyReleasePolicyInput extends InputOf<KeyReleasePolicy> {
     contentType?: ExpressionOrValue<string> | undefined;
     data?: ExpressionOrValue<Uint8Array> | undefined;
 }
 
 // @public (undocumented)
-export const keyReleasePolicyShape: FlatModelShape;
+const keyReleasePolicyShape: FlatModelShape;
 
 // @public (undocumented)
-export type KeyReleasePolicyView = KeyReleasePolicyInput;
+type KeyReleasePolicyView = KeyReleasePolicyInput;
 
 // @public
-export type KeyRotationPolicyActionType = "rotate" | "notify";
+type KeyRotationPolicyActionType = "rotate" | "notify";
 
 // @public (undocumented)
-export interface KeyRotationPolicyAttributes {
+interface KeyRotationPolicyAttributes {
     created?: number;
     expiryTime?: string;
     updated?: number;
 }
 
 // @public (undocumented)
-export interface KeyRotationPolicyAttributesInput extends InputOf<KeyRotationPolicyAttributes> {
+interface KeyRotationPolicyAttributesInput extends InputOf<KeyRotationPolicyAttributes> {
     expiryTime?: ExpressionOrValue<string> | undefined;
 }
 
 // @public (undocumented)
-export const keyRotationPolicyAttributesShape: FlatModelShape;
+const keyRotationPolicyAttributesShape: FlatModelShape;
 
 // @public (undocumented)
-export interface KeyRotationPolicyAttributesView extends InputOf<KeyRotationPolicyAttributes> {
+interface KeyRotationPolicyAttributesView extends InputOf<KeyRotationPolicyAttributes> {
     readonly created?: Expression<number> | undefined;
     expiryTime?: ExpressionOrValue<string> | undefined;
     readonly updated?: Expression<number> | undefined;
@@ -412,22 +412,22 @@ export interface KeyVaultProps {
 }
 
 // @public (undocumented)
-export interface LifetimeAction {
+interface LifetimeAction {
     action?: Action;
     trigger?: Trigger;
 }
 
 // @public (undocumented)
-export interface LifetimeActionInput extends InputOf<LifetimeAction> {
+interface LifetimeActionInput extends InputOf<LifetimeAction> {
     action?: ActionInput | undefined;
     trigger?: TriggerInput | undefined;
 }
 
 // @public (undocumented)
-export const lifetimeActionShape: FlatModelShape;
+const lifetimeActionShape: FlatModelShape;
 
 // @public (undocumented)
-export type LifetimeActionView = LifetimeActionInput;
+type LifetimeActionView = LifetimeActionInput;
 
 // @public
 export class ManagedHsm extends Resource<"Microsoft.KeyVault/managedHSMs"> {
@@ -462,20 +462,20 @@ export class ManagedHsm extends Resource<"Microsoft.KeyVault/managedHSMs"> {
 }
 
 // @public (undocumented)
-export interface ManagedHsmAction {
+interface ManagedHsmAction {
     type?: KeyRotationPolicyActionType;
 }
 
 // @public (undocumented)
-export interface ManagedHsmActionInput extends InputOf<ManagedHsmAction> {
+interface ManagedHsmActionInput extends InputOf<ManagedHsmAction> {
     type?: ExpressionOrValue<KeyRotationPolicyActionType> | undefined;
 }
 
 // @public (undocumented)
-export const managedHsmActionShape: FlatModelShape;
+const managedHsmActionShape: FlatModelShape;
 
 // @public (undocumented)
-export type ManagedHsmActionView = ManagedHsmActionInput;
+type ManagedHsmActionView = ManagedHsmActionInput;
 
 // @public
 export class ManagedHsmKey extends Resource<"Microsoft.KeyVault/managedHSMs/keys"> {
@@ -504,7 +504,7 @@ export class ManagedHsmKey extends Resource<"Microsoft.KeyVault/managedHSMs/keys
 }
 
 // @public
-export interface ManagedHsmKeyAttributes {
+interface ManagedHsmKeyAttributes {
     created?: number;
     enabled?: boolean;
     expires?: number;
@@ -515,7 +515,7 @@ export interface ManagedHsmKeyAttributes {
 }
 
 // @public
-export interface ManagedHsmKeyAttributesInput extends InputOf<ManagedHsmKeyAttributes> {
+interface ManagedHsmKeyAttributesInput extends InputOf<ManagedHsmKeyAttributes> {
     enabled?: ExpressionOrValue<boolean> | undefined;
     expires?: ExpressionOrValue<number> | undefined;
     exportable?: ExpressionOrValue<boolean> | undefined;
@@ -523,10 +523,10 @@ export interface ManagedHsmKeyAttributesInput extends InputOf<ManagedHsmKeyAttri
 }
 
 // @public (undocumented)
-export const managedHsmKeyAttributesShape: FlatModelShape;
+const managedHsmKeyAttributesShape: FlatModelShape;
 
 // @public
-export interface ManagedHsmKeyAttributesView extends InputOf<ManagedHsmKeyAttributes> {
+interface ManagedHsmKeyAttributesView extends InputOf<ManagedHsmKeyAttributes> {
     readonly created?: Expression<number> | undefined;
     enabled?: ExpressionOrValue<boolean> | undefined;
     expires?: ExpressionOrValue<number> | undefined;
@@ -537,7 +537,7 @@ export interface ManagedHsmKeyAttributesView extends InputOf<ManagedHsmKeyAttrib
 }
 
 // @public
-export interface ManagedHsmKeyProperties {
+interface ManagedHsmKeyProperties {
     attributes?: ManagedHsmKeyAttributes;
     curveName?: JsonWebKeyCurveName;
     // (undocumented)
@@ -551,7 +551,7 @@ export interface ManagedHsmKeyProperties {
 }
 
 // @public
-export interface ManagedHsmKeyPropertiesInput extends InputOf<ManagedHsmKeyProperties> {
+interface ManagedHsmKeyPropertiesInput extends InputOf<ManagedHsmKeyProperties> {
     attributes?: ManagedHsmKeyAttributesInput | undefined;
     curveName?: ExpressionOrValue<JsonWebKeyCurveName> | undefined;
     // (undocumented)
@@ -563,10 +563,10 @@ export interface ManagedHsmKeyPropertiesInput extends InputOf<ManagedHsmKeyPrope
 }
 
 // @public (undocumented)
-export const managedHsmKeyPropertiesShape: FlatModelShape;
+const managedHsmKeyPropertiesShape: FlatModelShape;
 
 // @public
-export interface ManagedHsmKeyPropertiesView extends InputOf<ManagedHsmKeyProperties> {
+interface ManagedHsmKeyPropertiesView extends InputOf<ManagedHsmKeyProperties> {
     attributes?: ManagedHsmKeyAttributesView | undefined;
     curveName?: ExpressionOrValue<JsonWebKeyCurveName> | undefined;
     // (undocumented)
@@ -587,62 +587,62 @@ export interface ManagedHsmKeyProps {
 }
 
 // @public (undocumented)
-export interface ManagedHsmKeyReleasePolicy {
+interface ManagedHsmKeyReleasePolicy {
     contentType?: string;
     data?: Uint8Array;
 }
 
 // @public (undocumented)
-export interface ManagedHsmKeyReleasePolicyInput extends InputOf<ManagedHsmKeyReleasePolicy> {
+interface ManagedHsmKeyReleasePolicyInput extends InputOf<ManagedHsmKeyReleasePolicy> {
     contentType?: ExpressionOrValue<string> | undefined;
     data?: ExpressionOrValue<Uint8Array> | undefined;
 }
 
 // @public (undocumented)
-export const managedHsmKeyReleasePolicyShape: FlatModelShape;
+const managedHsmKeyReleasePolicyShape: FlatModelShape;
 
 // @public (undocumented)
-export type ManagedHsmKeyReleasePolicyView = ManagedHsmKeyReleasePolicyInput;
+type ManagedHsmKeyReleasePolicyView = ManagedHsmKeyReleasePolicyInput;
 
 // @public (undocumented)
-export interface ManagedHsmKeyRotationPolicyAttributes {
+interface ManagedHsmKeyRotationPolicyAttributes {
     created?: number;
     expiryTime?: string;
     updated?: number;
 }
 
 // @public (undocumented)
-export interface ManagedHsmKeyRotationPolicyAttributesInput extends InputOf<ManagedHsmKeyRotationPolicyAttributes> {
+interface ManagedHsmKeyRotationPolicyAttributesInput extends InputOf<ManagedHsmKeyRotationPolicyAttributes> {
     expiryTime?: ExpressionOrValue<string> | undefined;
 }
 
 // @public (undocumented)
-export const managedHsmKeyRotationPolicyAttributesShape: FlatModelShape;
+const managedHsmKeyRotationPolicyAttributesShape: FlatModelShape;
 
 // @public (undocumented)
-export interface ManagedHsmKeyRotationPolicyAttributesView extends InputOf<ManagedHsmKeyRotationPolicyAttributes> {
+interface ManagedHsmKeyRotationPolicyAttributesView extends InputOf<ManagedHsmKeyRotationPolicyAttributes> {
     readonly created?: Expression<number> | undefined;
     expiryTime?: ExpressionOrValue<string> | undefined;
     readonly updated?: Expression<number> | undefined;
 }
 
 // @public (undocumented)
-export interface ManagedHsmLifetimeAction {
+interface ManagedHsmLifetimeAction {
     action?: ManagedHsmAction;
     trigger?: ManagedHsmTrigger;
 }
 
 // @public (undocumented)
-export interface ManagedHsmLifetimeActionInput extends InputOf<ManagedHsmLifetimeAction> {
+interface ManagedHsmLifetimeActionInput extends InputOf<ManagedHsmLifetimeAction> {
     action?: ManagedHsmActionInput | undefined;
     trigger?: ManagedHsmTriggerInput | undefined;
 }
 
 // @public (undocumented)
-export const managedHsmLifetimeActionShape: FlatModelShape;
+const managedHsmLifetimeActionShape: FlatModelShape;
 
 // @public (undocumented)
-export type ManagedHsmLifetimeActionView = ManagedHsmLifetimeActionInput;
+type ManagedHsmLifetimeActionView = ManagedHsmLifetimeActionInput;
 
 // @public
 export class ManagedHsmPrivateEndpointConnection extends Resource<"Microsoft.KeyVault/managedHSMs/privateEndpointConnections"> {
@@ -690,7 +690,7 @@ export interface ManagedHsmPrivateEndpointConnectionProps {
 }
 
 // @public
-export interface ManagedHsmProperties {
+interface ManagedHsmProperties {
     createMode?: CreateMode;
     enablePurgeProtection?: boolean;
     enableSoftDelete?: boolean;
@@ -708,7 +708,7 @@ export interface ManagedHsmProperties {
 }
 
 // @public
-export interface ManagedHsmPropertiesInput extends InputOf<ManagedHsmProperties> {
+interface ManagedHsmPropertiesInput extends InputOf<ManagedHsmProperties> {
     createMode?: ExpressionOrValue<CreateMode> | undefined;
     enablePurgeProtection?: ExpressionOrValue<boolean> | undefined;
     enableSoftDelete?: ExpressionOrValue<boolean> | undefined;
@@ -721,10 +721,10 @@ export interface ManagedHsmPropertiesInput extends InputOf<ManagedHsmProperties>
 }
 
 // @public (undocumented)
-export const managedHsmPropertiesShape: FlatModelShape;
+const managedHsmPropertiesShape: FlatModelShape;
 
 // @public
-export interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> {
+interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> {
     createMode?: ExpressionOrValue<CreateMode> | undefined;
     enablePurgeProtection?: ExpressionOrValue<boolean> | undefined;
     enableSoftDelete?: ExpressionOrValue<boolean> | undefined;
@@ -752,89 +752,89 @@ export interface ManagedHsmProps {
 }
 
 // @public (undocumented)
-export interface ManagedHsmRotationPolicy {
+interface ManagedHsmRotationPolicy {
     attributes?: ManagedHsmKeyRotationPolicyAttributes;
     lifetimeActions?: ManagedHsmLifetimeAction[];
 }
 
 // @public (undocumented)
-export interface ManagedHsmRotationPolicyInput extends InputOf<ManagedHsmRotationPolicy> {
+interface ManagedHsmRotationPolicyInput extends InputOf<ManagedHsmRotationPolicy> {
     attributes?: ManagedHsmKeyRotationPolicyAttributesInput | undefined;
     lifetimeActions?: InputArray<ManagedHsmLifetimeActionInput, ManagedHsmLifetimeAction[]> | undefined;
 }
 
 // @public (undocumented)
-export const managedHsmRotationPolicyShape: FlatModelShape;
+const managedHsmRotationPolicyShape: FlatModelShape;
 
 // @public (undocumented)
-export interface ManagedHsmRotationPolicyView extends InputOf<ManagedHsmRotationPolicy> {
+interface ManagedHsmRotationPolicyView extends InputOf<ManagedHsmRotationPolicy> {
     attributes?: ManagedHsmKeyRotationPolicyAttributesView | undefined;
     lifetimeActions?: InputArray<ManagedHsmLifetimeActionView, ManagedHsmLifetimeAction[]> | undefined;
 }
 
 // @public
-export interface ManagedHsmSecurityDomainProperties {
+interface ManagedHsmSecurityDomainProperties {
     activationStatus?: ActivationStatus;
     activationStatusMessage?: string;
 }
 
 // @public
-export interface ManagedHsmSecurityDomainPropertiesInput extends InputOf<ManagedHsmSecurityDomainProperties> {
+interface ManagedHsmSecurityDomainPropertiesInput extends InputOf<ManagedHsmSecurityDomainProperties> {
 }
 
 // @public (undocumented)
-export const managedHsmSecurityDomainPropertiesShape: FlatModelShape;
+const managedHsmSecurityDomainPropertiesShape: FlatModelShape;
 
 // @public
-export interface ManagedHsmSecurityDomainPropertiesView extends InputOf<ManagedHsmSecurityDomainProperties> {
+interface ManagedHsmSecurityDomainPropertiesView extends InputOf<ManagedHsmSecurityDomainProperties> {
     readonly activationStatus?: Expression<ActivationStatus> | undefined;
     readonly activationStatusMessage?: Expression<string> | undefined;
 }
 
 // @public
-export interface ManagedHsmSku {
+interface ManagedHsmSku {
     family: ManagedHsmSkuFamily;
-    name: ManagedHsmSkuNameV2;
+    name: ManagedHsmSkuName;
 }
 
 // @public
-export type ManagedHsmSkuFamily = string;
+type ManagedHsmSkuFamily = string;
 
 // @public
-export interface ManagedHsmSkuInput extends InputOf<ManagedHsmSku> {
+interface ManagedHsmSkuInput extends InputOf<ManagedHsmSku> {
     family: ExpressionOrValue<ManagedHsmSkuFamily>;
-    name: ExpressionOrValue<ManagedHsmSkuNameV2>;
+    name: ExpressionOrValue<ManagedHsmSkuName>;
 }
 
 // @public
-export type ManagedHsmSkuNameV2 = string;
+type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6" | "Custom_C42" | "Custom_C10";
 
 // @public (undocumented)
-export const managedHsmSkuShape: FlatModelShape;
+const managedHsmSkuShape: FlatModelShape;
 
 // @public
-export type ManagedHsmSkuView = ManagedHsmSkuInput;
+type ManagedHsmSkuView = ManagedHsmSkuInput;
 
 // @public (undocumented)
-export interface ManagedHsmTrigger {
+interface ManagedHsmTrigger {
     timeAfterCreate?: string;
     timeBeforeExpiry?: string;
 }
 
 // @public (undocumented)
-export interface ManagedHsmTriggerInput extends InputOf<ManagedHsmTrigger> {
+interface ManagedHsmTriggerInput extends InputOf<ManagedHsmTrigger> {
     timeAfterCreate?: ExpressionOrValue<string> | undefined;
     timeBeforeExpiry?: ExpressionOrValue<string> | undefined;
 }
 
 // @public (undocumented)
-export const managedHsmTriggerShape: FlatModelShape;
+const managedHsmTriggerShape: FlatModelShape;
 
 // @public (undocumented)
-export type ManagedHsmTriggerView = ManagedHsmTriggerInput;
+type ManagedHsmTriggerView = ManagedHsmTriggerInput;
 
 // @public
-export interface ManagedServiceIdentity {
+interface ManagedServiceIdentity {
     principalId?: string;
     tenantId?: string;
     type: ManagedServiceIdentityType;
@@ -842,19 +842,19 @@ export interface ManagedServiceIdentity {
 }
 
 // @public
-export interface ManagedServiceIdentityInput extends InputOf<ManagedServiceIdentity> {
+interface ManagedServiceIdentityInput extends InputOf<ManagedServiceIdentity> {
     type: ExpressionOrValue<ManagedServiceIdentityType>;
     userAssignedIdentities?: InputRecord<UserAssignedIdentityInput | ExpressionOrValue<null>, Record<string, UserAssignedIdentity | null>> | undefined;
 }
 
 // @public (undocumented)
-export const managedServiceIdentityShape: FlatModelShape;
+const managedServiceIdentityShape: FlatModelShape;
 
 // @public
-export type ManagedServiceIdentityType = string;
+type ManagedServiceIdentityType = string;
 
 // @public
-export interface ManagedServiceIdentityView extends InputOf<ManagedServiceIdentity> {
+interface ManagedServiceIdentityView extends InputOf<ManagedServiceIdentity> {
     readonly principalId?: Expression<string> | undefined;
     readonly tenantId?: Expression<string> | undefined;
     type: ExpressionOrValue<ManagedServiceIdentityType>;
@@ -862,41 +862,41 @@ export interface ManagedServiceIdentityView extends InputOf<ManagedServiceIdenti
 }
 
 // @public
-export interface MhsmGeoReplicatedRegion {
+interface MhsmGeoReplicatedRegion {
     isPrimary?: boolean;
     name?: string;
 }
 
 // @public
-export interface MhsmGeoReplicatedRegionInput extends InputOf<MhsmGeoReplicatedRegion> {
+interface MhsmGeoReplicatedRegionInput extends InputOf<MhsmGeoReplicatedRegion> {
     isPrimary?: ExpressionOrValue<boolean> | undefined;
     name?: ExpressionOrValue<string> | undefined;
 }
 
 // @public (undocumented)
-export const mhsmGeoReplicatedRegionShape: FlatModelShape;
+const mhsmGeoReplicatedRegionShape: FlatModelShape;
 
 // @public
-export type MhsmGeoReplicatedRegionView = MhsmGeoReplicatedRegionInput;
+type MhsmGeoReplicatedRegionView = MhsmGeoReplicatedRegionInput;
 
 // @public
-export interface MhsmipRule {
+interface MhsmipRule {
     value: string;
 }
 
 // @public
-export interface MhsmipRuleInput extends InputOf<MhsmipRule> {
+interface MhsmipRuleInput extends InputOf<MhsmipRule> {
     value: ExpressionOrValue<string>;
 }
 
 // @public (undocumented)
-export const mhsmipRuleShape: FlatModelShape;
+const mhsmipRuleShape: FlatModelShape;
 
 // @public
-export type MhsmipRuleView = MhsmipRuleInput;
+type MhsmipRuleView = MhsmipRuleInput;
 
 // @public
-export interface MhsmNetworkRuleSet {
+interface MhsmNetworkRuleSet {
     bypass?: NetworkRuleBypassOptions;
     defaultAction?: NetworkRuleAction;
     ipRules?: MhsmipRule[];
@@ -905,7 +905,7 @@ export interface MhsmNetworkRuleSet {
 }
 
 // @public
-export interface MhsmNetworkRuleSetInput extends InputOf<MhsmNetworkRuleSet> {
+interface MhsmNetworkRuleSetInput extends InputOf<MhsmNetworkRuleSet> {
     bypass?: ExpressionOrValue<NetworkRuleBypassOptions> | undefined;
     defaultAction?: ExpressionOrValue<NetworkRuleAction> | undefined;
     ipRules?: InputArray<MhsmipRuleInput, MhsmipRule[]> | undefined;
@@ -914,120 +914,120 @@ export interface MhsmNetworkRuleSetInput extends InputOf<MhsmNetworkRuleSet> {
 }
 
 // @public (undocumented)
-export const mhsmNetworkRuleSetShape: FlatModelShape;
+const mhsmNetworkRuleSetShape: FlatModelShape;
 
 // @public
-export type MhsmNetworkRuleSetView = MhsmNetworkRuleSetInput;
+type MhsmNetworkRuleSetView = MhsmNetworkRuleSetInput;
 
 // @public
-export interface MhsmPrivateEndpoint {
+interface MhsmPrivateEndpoint {
 }
 
 // @public
-export interface MhsmPrivateEndpointConnectionItem {
+interface MhsmPrivateEndpointConnectionItem {
     properties?: MhsmPrivateEndpointConnectionProperties;
 }
 
 // @public
-export interface MhsmPrivateEndpointConnectionItemInput extends InputOf<MhsmPrivateEndpointConnectionItem> {
+interface MhsmPrivateEndpointConnectionItemInput extends InputOf<MhsmPrivateEndpointConnectionItem> {
 }
 
 // @public (undocumented)
-export const mhsmPrivateEndpointConnectionItemShape: FlatModelShape;
+const mhsmPrivateEndpointConnectionItemShape: FlatModelShape;
 
 // @public
-export interface MhsmPrivateEndpointConnectionItemView extends InputOf<MhsmPrivateEndpointConnectionItem> {
+interface MhsmPrivateEndpointConnectionItemView extends InputOf<MhsmPrivateEndpointConnectionItem> {
     readonly properties?: Expression<MhsmPrivateEndpointConnectionProperties> | undefined;
 }
 
 // @public
-export interface MhsmPrivateEndpointConnectionProperties {
+interface MhsmPrivateEndpointConnectionProperties {
     privateEndpoint?: MhsmPrivateEndpoint;
     privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionState;
 }
 
 // @public
-export interface MhsmPrivateEndpointConnectionPropertiesInput extends InputOf<MhsmPrivateEndpointConnectionProperties> {
+interface MhsmPrivateEndpointConnectionPropertiesInput extends InputOf<MhsmPrivateEndpointConnectionProperties> {
     privateEndpoint?: MhsmPrivateEndpointInput | undefined;
     privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionStateInput | undefined;
 }
 
 // @public (undocumented)
-export const mhsmPrivateEndpointConnectionPropertiesShape: FlatModelShape;
+const mhsmPrivateEndpointConnectionPropertiesShape: FlatModelShape;
 
 // @public
-export type MhsmPrivateEndpointConnectionPropertiesView = MhsmPrivateEndpointConnectionPropertiesInput;
+type MhsmPrivateEndpointConnectionPropertiesView = MhsmPrivateEndpointConnectionPropertiesInput;
 
 // @public
-export interface MhsmPrivateEndpointInput extends InputOf<MhsmPrivateEndpoint> {
+interface MhsmPrivateEndpointInput extends InputOf<MhsmPrivateEndpoint> {
 }
 
 // @public (undocumented)
-export const mhsmPrivateEndpointShape: FlatModelShape;
+const mhsmPrivateEndpointShape: FlatModelShape;
 
 // @public
-export type MhsmPrivateEndpointView = MhsmPrivateEndpointInput;
+type MhsmPrivateEndpointView = MhsmPrivateEndpointInput;
 
 // @public
-export interface MhsmPrivateLinkServiceConnectionState {
+interface MhsmPrivateLinkServiceConnectionState {
     actionsRequired?: ActionsRequired;
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
 }
 
 // @public
-export interface MhsmPrivateLinkServiceConnectionStateInput extends InputOf<MhsmPrivateLinkServiceConnectionState> {
+interface MhsmPrivateLinkServiceConnectionStateInput extends InputOf<MhsmPrivateLinkServiceConnectionState> {
     actionsRequired?: ExpressionOrValue<ActionsRequired> | undefined;
     description?: ExpressionOrValue<string> | undefined;
     status?: ExpressionOrValue<PrivateEndpointServiceConnectionStatus> | undefined;
 }
 
 // @public (undocumented)
-export const mhsmPrivateLinkServiceConnectionStateShape: FlatModelShape;
+const mhsmPrivateLinkServiceConnectionStateShape: FlatModelShape;
 
 // @public
-export type MhsmPrivateLinkServiceConnectionStateView = MhsmPrivateLinkServiceConnectionStateInput;
+type MhsmPrivateLinkServiceConnectionStateView = MhsmPrivateLinkServiceConnectionStateInput;
 
 // @public
-export interface MhsmServiceTagRule {
+interface MhsmServiceTagRule {
     tag: string;
 }
 
 // @public
-export interface MhsmServiceTagRuleInput extends InputOf<MhsmServiceTagRule> {
+interface MhsmServiceTagRuleInput extends InputOf<MhsmServiceTagRule> {
     tag: ExpressionOrValue<string>;
 }
 
 // @public (undocumented)
-export const mhsmServiceTagRuleShape: FlatModelShape;
+const mhsmServiceTagRuleShape: FlatModelShape;
 
 // @public
-export type MhsmServiceTagRuleView = MhsmServiceTagRuleInput;
+type MhsmServiceTagRuleView = MhsmServiceTagRuleInput;
 
 // @public
-export interface MhsmVirtualNetworkRule {
+interface MhsmVirtualNetworkRule {
     id: string;
 }
 
 // @public
-export interface MhsmVirtualNetworkRuleInput extends InputOf<MhsmVirtualNetworkRule> {
+interface MhsmVirtualNetworkRuleInput extends InputOf<MhsmVirtualNetworkRule> {
     id: ExpressionOrValue<string>;
 }
 
 // @public (undocumented)
-export const mhsmVirtualNetworkRuleShape: FlatModelShape;
+const mhsmVirtualNetworkRuleShape: FlatModelShape;
 
 // @public
-export type MhsmVirtualNetworkRuleView = MhsmVirtualNetworkRuleInput;
+type MhsmVirtualNetworkRuleView = MhsmVirtualNetworkRuleInput;
 
 // @public
-export type NetworkRuleAction = string;
+type NetworkRuleAction = string;
 
 // @public
-export type NetworkRuleBypassOptions = string;
+type NetworkRuleBypassOptions = string;
 
 // @public
-export interface NetworkRuleSet {
+interface NetworkRuleSet {
     bypass?: NetworkRuleBypassOptions;
     defaultAction?: NetworkRuleAction;
     ipRules?: IpRule[];
@@ -1035,7 +1035,7 @@ export interface NetworkRuleSet {
 }
 
 // @public
-export interface NetworkRuleSetInput extends InputOf<NetworkRuleSet> {
+interface NetworkRuleSetInput extends InputOf<NetworkRuleSet> {
     bypass?: ExpressionOrValue<NetworkRuleBypassOptions> | undefined;
     defaultAction?: ExpressionOrValue<NetworkRuleAction> | undefined;
     ipRules?: InputArray<IpRuleInput, IpRule[]> | undefined;
@@ -1043,13 +1043,13 @@ export interface NetworkRuleSetInput extends InputOf<NetworkRuleSet> {
 }
 
 // @public (undocumented)
-export const networkRuleSetShape: FlatModelShape;
+const networkRuleSetShape: FlatModelShape;
 
 // @public
-export type NetworkRuleSetView = NetworkRuleSetInput;
+type NetworkRuleSetView = NetworkRuleSetInput;
 
 // @public
-export interface Permissions {
+interface Permissions {
     certificates?: CertificatePermissions[];
     keys?: KeyPermissions[];
     secrets?: SecretPermissions[];
@@ -1057,7 +1057,7 @@ export interface Permissions {
 }
 
 // @public
-export interface PermissionsInput extends InputOf<Permissions> {
+interface PermissionsInput extends InputOf<Permissions> {
     certificates?: InputArray<ExpressionOrValue<CertificatePermissions>, CertificatePermissions[]> | undefined;
     keys?: InputArray<ExpressionOrValue<KeyPermissions>, KeyPermissions[]> | undefined;
     secrets?: InputArray<ExpressionOrValue<SecretPermissions>, SecretPermissions[]> | undefined;
@@ -1065,103 +1065,103 @@ export interface PermissionsInput extends InputOf<Permissions> {
 }
 
 // @public (undocumented)
-export const permissionsShape: FlatModelShape;
+const permissionsShape: FlatModelShape;
 
 // @public
-export type PermissionsView = PermissionsInput;
+type PermissionsView = PermissionsInput;
 
 // @public
-export interface PrivateEndpoint {
+interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnectionItem {
+interface PrivateEndpointConnectionItem {
     properties?: PrivateEndpointConnectionProperties;
 }
 
 // @public
-export interface PrivateEndpointConnectionItemInput extends InputOf<PrivateEndpointConnectionItem> {
+interface PrivateEndpointConnectionItemInput extends InputOf<PrivateEndpointConnectionItem> {
 }
 
 // @public (undocumented)
-export const privateEndpointConnectionItemShape: FlatModelShape;
+const privateEndpointConnectionItemShape: FlatModelShape;
 
 // @public
-export interface PrivateEndpointConnectionItemView extends InputOf<PrivateEndpointConnectionItem> {
+interface PrivateEndpointConnectionItemView extends InputOf<PrivateEndpointConnectionItem> {
     readonly properties?: Expression<PrivateEndpointConnectionProperties> | undefined;
 }
 
 // @public
-export interface PrivateEndpointConnectionProperties {
+interface PrivateEndpointConnectionProperties {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
 }
 
 // @public
-export interface PrivateEndpointConnectionPropertiesInput extends InputOf<PrivateEndpointConnectionProperties> {
+interface PrivateEndpointConnectionPropertiesInput extends InputOf<PrivateEndpointConnectionProperties> {
     privateEndpoint?: PrivateEndpointInput | undefined;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateInput | undefined;
 }
 
 // @public (undocumented)
-export const privateEndpointConnectionPropertiesShape: FlatModelShape;
+const privateEndpointConnectionPropertiesShape: FlatModelShape;
 
 // @public
-export type PrivateEndpointConnectionPropertiesView = PrivateEndpointConnectionPropertiesInput;
+type PrivateEndpointConnectionPropertiesView = PrivateEndpointConnectionPropertiesInput;
 
 // @public
-export interface PrivateEndpointInput extends InputOf<PrivateEndpoint> {
+interface PrivateEndpointInput extends InputOf<PrivateEndpoint> {
 }
 
 // @public
-export type PrivateEndpointServiceConnectionStatus = string;
+type PrivateEndpointServiceConnectionStatus = string;
 
 // @public (undocumented)
-export const privateEndpointShape: FlatModelShape;
+const privateEndpointShape: FlatModelShape;
 
 // @public
-export type PrivateEndpointView = PrivateEndpointInput;
+type PrivateEndpointView = PrivateEndpointInput;
 
 // @public
-export interface PrivateLinkServiceConnectionState {
+interface PrivateLinkServiceConnectionState {
     actionsRequired?: ActionsRequired;
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
 }
 
 // @public
-export interface PrivateLinkServiceConnectionStateInput extends InputOf<PrivateLinkServiceConnectionState> {
+interface PrivateLinkServiceConnectionStateInput extends InputOf<PrivateLinkServiceConnectionState> {
     actionsRequired?: ExpressionOrValue<ActionsRequired> | undefined;
     description?: ExpressionOrValue<string> | undefined;
     status?: ExpressionOrValue<PrivateEndpointServiceConnectionStatus> | undefined;
 }
 
 // @public (undocumented)
-export const privateLinkServiceConnectionStateShape: FlatModelShape;
+const privateLinkServiceConnectionStateShape: FlatModelShape;
 
 // @public
-export type PrivateLinkServiceConnectionStateView = PrivateLinkServiceConnectionStateInput;
+type PrivateLinkServiceConnectionStateView = PrivateLinkServiceConnectionStateInput;
 
 // @public
-export type PublicNetworkAccess = string;
+type PublicNetworkAccess = string;
 
 // @public (undocumented)
-export interface RotationPolicy {
+interface RotationPolicy {
     attributes?: KeyRotationPolicyAttributes;
     lifetimeActions?: LifetimeAction[];
 }
 
 // @public (undocumented)
-export interface RotationPolicyInput extends InputOf<RotationPolicy> {
+interface RotationPolicyInput extends InputOf<RotationPolicy> {
     attributes?: KeyRotationPolicyAttributesInput | undefined;
     lifetimeActions?: InputArray<LifetimeActionInput, LifetimeAction[]> | undefined;
 }
 
 // @public (undocumented)
-export const rotationPolicyShape: FlatModelShape;
+const rotationPolicyShape: FlatModelShape;
 
 // @public (undocumented)
-export interface RotationPolicyView extends InputOf<RotationPolicy> {
+interface RotationPolicyView extends InputOf<RotationPolicy> {
     attributes?: KeyRotationPolicyAttributesView | undefined;
     lifetimeActions?: InputArray<LifetimeActionView, LifetimeAction[]> | undefined;
 }
@@ -1194,7 +1194,7 @@ export class Secret extends Resource<"Microsoft.KeyVault/vaults/secrets"> {
 }
 
 // @public
-export interface SecretAttributes {
+interface SecretAttributes {
     created?: Date;
     enabled?: boolean;
     expires?: Date;
@@ -1203,17 +1203,17 @@ export interface SecretAttributes {
 }
 
 // @public
-export interface SecretAttributesInput extends InputOf<SecretAttributes> {
+interface SecretAttributesInput extends InputOf<SecretAttributes> {
     enabled?: ExpressionOrValue<boolean> | undefined;
     expires?: ExpressionOrValue<Date> | undefined;
     notBefore?: ExpressionOrValue<Date> | undefined;
 }
 
 // @public (undocumented)
-export const secretAttributesShape: FlatModelShape;
+const secretAttributesShape: FlatModelShape;
 
 // @public
-export interface SecretAttributesView extends InputOf<SecretAttributes> {
+interface SecretAttributesView extends InputOf<SecretAttributes> {
     readonly created?: Expression<Date> | undefined;
     enabled?: ExpressionOrValue<boolean> | undefined;
     expires?: ExpressionOrValue<Date> | undefined;
@@ -1222,10 +1222,10 @@ export interface SecretAttributesView extends InputOf<SecretAttributes> {
 }
 
 // @public
-export type SecretPermissions = string;
+type SecretPermissions = string;
 
 // @public
-export interface SecretProperties {
+interface SecretProperties {
     attributes?: SecretAttributes;
     contentType?: string;
     secretUri?: string;
@@ -1234,17 +1234,17 @@ export interface SecretProperties {
 }
 
 // @public
-export interface SecretPropertiesInput extends InputOf<SecretProperties> {
+interface SecretPropertiesInput extends InputOf<SecretProperties> {
     attributes?: SecretAttributesInput | undefined;
     contentType?: ExpressionOrValue<string> | undefined;
     value?: ExpressionOrValue<string> | undefined;
 }
 
 // @public (undocumented)
-export const secretPropertiesShape: FlatModelShape;
+const secretPropertiesShape: FlatModelShape;
 
 // @public
-export interface SecretPropertiesView extends InputOf<SecretProperties> {
+interface SecretPropertiesView extends InputOf<SecretProperties> {
     attributes?: SecretAttributesView | undefined;
     contentType?: ExpressionOrValue<string> | undefined;
     readonly secretUri?: Expression<string> | undefined;
@@ -1260,108 +1260,294 @@ export interface SecretProps {
 }
 
 // @public
-export interface Sku {
+interface Sku {
     family: SkuFamily;
     name: SkuName;
 }
 
 // @public
-export type SkuFamily = string;
+type SkuFamily = string;
 
 // @public
-export interface SkuInput extends InputOf<Sku> {
+interface SkuInput extends InputOf<Sku> {
     family: ExpressionOrValue<SkuFamily>;
     name: ExpressionOrValue<SkuName>;
 }
 
 // @public
-export type SkuName = "standard" | "premium";
+type SkuName = "standard" | "premium";
 
 // @public (undocumented)
-export const skuShape: FlatModelShape;
+const skuShape: FlatModelShape;
 
 // @public
-export type SkuView = SkuInput;
+type SkuView = SkuInput;
 
 // @public
-export type StoragePermissions = string;
-
-// @public
-export type TokenBindingMode = string;
-
-// @public
-export interface TokenBindingParameters {
-    minimumTokenBindingStrength?: TokenBindingStrength;
-    mode?: TokenBindingMode;
-}
-
-// @public
-export interface TokenBindingParametersInput extends InputOf<TokenBindingParameters> {
-    minimumTokenBindingStrength?: ExpressionOrValue<TokenBindingStrength> | undefined;
-    mode?: ExpressionOrValue<TokenBindingMode> | undefined;
-}
+type StoragePermissions = string;
 
 // @public (undocumented)
-export const tokenBindingParametersShape: FlatModelShape;
-
-// @public
-export type TokenBindingParametersView = TokenBindingParametersInput;
-
-// @public
-export type TokenBindingStrength = string;
-
-// @public (undocumented)
-export interface Trigger {
+interface Trigger {
     timeAfterCreate?: string;
     timeBeforeExpiry?: string;
 }
 
 // @public (undocumented)
-export interface TriggerInput extends InputOf<Trigger> {
+interface TriggerInput extends InputOf<Trigger> {
     timeAfterCreate?: ExpressionOrValue<string> | undefined;
     timeBeforeExpiry?: ExpressionOrValue<string> | undefined;
 }
 
 // @public (undocumented)
-export const triggerShape: FlatModelShape;
+const triggerShape: FlatModelShape;
 
 // @public (undocumented)
-export type TriggerView = TriggerInput;
+type TriggerView = TriggerInput;
+
+declare namespace types {
+    export {
+        CreateMode,
+        KeyRotationPolicyActionType,
+        ManagedHsmSkuName,
+        SkuName,
+        AccessPolicyEntry,
+        AccessPolicyEntryInput,
+        AccessPolicyEntryView,
+        accessPolicyEntryShape,
+        Action,
+        ActionInput,
+        ActionView,
+        actionShape,
+        DeletedManagedHsmProperties,
+        DeletedManagedHsmPropertiesInput,
+        DeletedManagedHsmPropertiesView,
+        deletedManagedHsmPropertiesShape,
+        DeletedVaultProperties,
+        DeletedVaultPropertiesInput,
+        DeletedVaultPropertiesView,
+        deletedVaultPropertiesShape,
+        IpRule,
+        IpRuleInput,
+        IpRuleView,
+        ipRuleShape,
+        KeyAttributes,
+        KeyAttributesInput,
+        KeyAttributesView,
+        keyAttributesShape,
+        KeyProperties,
+        KeyPropertiesInput,
+        KeyPropertiesView,
+        keyPropertiesShape,
+        KeyReleasePolicy,
+        KeyReleasePolicyInput,
+        KeyReleasePolicyView,
+        keyReleasePolicyShape,
+        KeyRotationPolicyAttributes,
+        KeyRotationPolicyAttributesInput,
+        KeyRotationPolicyAttributesView,
+        keyRotationPolicyAttributesShape,
+        LifetimeAction,
+        LifetimeActionInput,
+        LifetimeActionView,
+        lifetimeActionShape,
+        ManagedHsmAction,
+        ManagedHsmActionInput,
+        ManagedHsmActionView,
+        managedHsmActionShape,
+        ManagedHsmKeyAttributes,
+        ManagedHsmKeyAttributesInput,
+        ManagedHsmKeyAttributesView,
+        managedHsmKeyAttributesShape,
+        ManagedHsmKeyProperties,
+        ManagedHsmKeyPropertiesInput,
+        ManagedHsmKeyPropertiesView,
+        managedHsmKeyPropertiesShape,
+        ManagedHsmKeyReleasePolicy,
+        ManagedHsmKeyReleasePolicyInput,
+        ManagedHsmKeyReleasePolicyView,
+        managedHsmKeyReleasePolicyShape,
+        ManagedHsmKeyRotationPolicyAttributes,
+        ManagedHsmKeyRotationPolicyAttributesInput,
+        ManagedHsmKeyRotationPolicyAttributesView,
+        managedHsmKeyRotationPolicyAttributesShape,
+        ManagedHsmLifetimeAction,
+        ManagedHsmLifetimeActionInput,
+        ManagedHsmLifetimeActionView,
+        managedHsmLifetimeActionShape,
+        ManagedHsmProperties,
+        ManagedHsmPropertiesInput,
+        ManagedHsmPropertiesView,
+        managedHsmPropertiesShape,
+        ManagedHsmRotationPolicy,
+        ManagedHsmRotationPolicyInput,
+        ManagedHsmRotationPolicyView,
+        managedHsmRotationPolicyShape,
+        ManagedHsmSecurityDomainProperties,
+        ManagedHsmSecurityDomainPropertiesInput,
+        ManagedHsmSecurityDomainPropertiesView,
+        managedHsmSecurityDomainPropertiesShape,
+        ManagedHsmSku,
+        ManagedHsmSkuInput,
+        ManagedHsmSkuView,
+        managedHsmSkuShape,
+        ManagedHsmTrigger,
+        ManagedHsmTriggerInput,
+        ManagedHsmTriggerView,
+        managedHsmTriggerShape,
+        ManagedServiceIdentity,
+        ManagedServiceIdentityInput,
+        ManagedServiceIdentityView,
+        managedServiceIdentityShape,
+        MhsmGeoReplicatedRegion,
+        MhsmGeoReplicatedRegionInput,
+        MhsmGeoReplicatedRegionView,
+        mhsmGeoReplicatedRegionShape,
+        MhsmipRule,
+        MhsmipRuleInput,
+        MhsmipRuleView,
+        mhsmipRuleShape,
+        MhsmNetworkRuleSet,
+        MhsmNetworkRuleSetInput,
+        MhsmNetworkRuleSetView,
+        mhsmNetworkRuleSetShape,
+        MhsmPrivateEndpoint,
+        MhsmPrivateEndpointInput,
+        MhsmPrivateEndpointView,
+        mhsmPrivateEndpointShape,
+        MhsmPrivateEndpointConnectionItem,
+        MhsmPrivateEndpointConnectionItemInput,
+        MhsmPrivateEndpointConnectionItemView,
+        mhsmPrivateEndpointConnectionItemShape,
+        MhsmPrivateEndpointConnectionProperties,
+        MhsmPrivateEndpointConnectionPropertiesInput,
+        MhsmPrivateEndpointConnectionPropertiesView,
+        mhsmPrivateEndpointConnectionPropertiesShape,
+        MhsmPrivateLinkServiceConnectionState,
+        MhsmPrivateLinkServiceConnectionStateInput,
+        MhsmPrivateLinkServiceConnectionStateView,
+        mhsmPrivateLinkServiceConnectionStateShape,
+        MhsmServiceTagRule,
+        MhsmServiceTagRuleInput,
+        MhsmServiceTagRuleView,
+        mhsmServiceTagRuleShape,
+        MhsmVirtualNetworkRule,
+        MhsmVirtualNetworkRuleInput,
+        MhsmVirtualNetworkRuleView,
+        mhsmVirtualNetworkRuleShape,
+        NetworkRuleSet,
+        NetworkRuleSetInput,
+        NetworkRuleSetView,
+        networkRuleSetShape,
+        Permissions,
+        PermissionsInput,
+        PermissionsView,
+        permissionsShape,
+        PrivateEndpoint,
+        PrivateEndpointInput,
+        PrivateEndpointView,
+        privateEndpointShape,
+        PrivateEndpointConnectionItem,
+        PrivateEndpointConnectionItemInput,
+        PrivateEndpointConnectionItemView,
+        privateEndpointConnectionItemShape,
+        PrivateEndpointConnectionProperties,
+        PrivateEndpointConnectionPropertiesInput,
+        PrivateEndpointConnectionPropertiesView,
+        privateEndpointConnectionPropertiesShape,
+        PrivateLinkServiceConnectionState,
+        PrivateLinkServiceConnectionStateInput,
+        PrivateLinkServiceConnectionStateView,
+        privateLinkServiceConnectionStateShape,
+        RotationPolicy,
+        RotationPolicyInput,
+        RotationPolicyView,
+        rotationPolicyShape,
+        SecretAttributes,
+        SecretAttributesInput,
+        SecretAttributesView,
+        secretAttributesShape,
+        SecretProperties,
+        SecretPropertiesInput,
+        SecretPropertiesView,
+        secretPropertiesShape,
+        Sku,
+        SkuInput,
+        SkuView,
+        skuShape,
+        Trigger,
+        TriggerInput,
+        TriggerView,
+        triggerShape,
+        UserAssignedIdentity,
+        UserAssignedIdentityInput,
+        UserAssignedIdentityView,
+        userAssignedIdentityShape,
+        VaultAccessPolicyProperties,
+        VaultAccessPolicyPropertiesInput,
+        VaultAccessPolicyPropertiesView,
+        vaultAccessPolicyPropertiesShape,
+        VaultProperties,
+        VaultPropertiesInput,
+        VaultPropertiesView,
+        vaultPropertiesShape,
+        VirtualNetworkRule,
+        VirtualNetworkRuleInput,
+        VirtualNetworkRuleView,
+        virtualNetworkRuleShape,
+        ActionsRequired,
+        ActivationStatus,
+        CertificatePermissions,
+        DeletionRecoveryLevel,
+        JsonWebKeyCurveName,
+        JsonWebKeyOperation,
+        JsonWebKeyType,
+        KeyPermissions,
+        ManagedHsmSkuFamily,
+        ManagedServiceIdentityType,
+        NetworkRuleAction,
+        NetworkRuleBypassOptions,
+        PrivateEndpointServiceConnectionStatus,
+        PublicNetworkAccess,
+        SecretPermissions,
+        SkuFamily,
+        StoragePermissions
+    }
+}
 
 // @public
-export interface UserAssignedIdentity {
+interface UserAssignedIdentity {
     clientId?: string;
     principalId?: string;
 }
 
 // @public
-export interface UserAssignedIdentityInput extends InputOf<UserAssignedIdentity> {
+interface UserAssignedIdentityInput extends InputOf<UserAssignedIdentity> {
 }
 
 // @public (undocumented)
-export const userAssignedIdentityShape: FlatModelShape;
+const userAssignedIdentityShape: FlatModelShape;
 
 // @public
-export interface UserAssignedIdentityView extends InputOf<UserAssignedIdentity> {
+interface UserAssignedIdentityView extends InputOf<UserAssignedIdentity> {
     readonly clientId?: Expression<string> | undefined;
     readonly principalId?: Expression<string> | undefined;
 }
 
 // @public
-export interface VaultAccessPolicyProperties {
+interface VaultAccessPolicyProperties {
     accessPolicies: AccessPolicyEntry[];
 }
 
 // @public
-export interface VaultAccessPolicyPropertiesInput extends InputOf<VaultAccessPolicyProperties> {
+interface VaultAccessPolicyPropertiesInput extends InputOf<VaultAccessPolicyProperties> {
     accessPolicies: InputArray<AccessPolicyEntryInput, AccessPolicyEntry[]>;
 }
 
 // @public (undocumented)
-export const vaultAccessPolicyPropertiesShape: FlatModelShape;
+const vaultAccessPolicyPropertiesShape: FlatModelShape;
 
 // @public
-export type VaultAccessPolicyPropertiesView = VaultAccessPolicyPropertiesInput;
+type VaultAccessPolicyPropertiesView = VaultAccessPolicyPropertiesInput;
 
 // @public
 export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
@@ -1433,7 +1619,7 @@ export interface VaultPrivateEndpointConnectionProps {
 }
 
 // @public
-export interface VaultProperties {
+interface VaultProperties {
     accessPolicies?: AccessPolicyEntry[];
     createMode?: CreateMode;
     enabledForDeployment?: boolean;
@@ -1449,12 +1635,11 @@ export interface VaultProperties {
     sku: Sku;
     softDeleteRetentionInDays?: number;
     tenantId: string;
-    tokenBindingParameters?: TokenBindingParameters;
     vaultUri?: string;
 }
 
 // @public
-export interface VaultPropertiesInput extends InputOf<VaultProperties> {
+interface VaultPropertiesInput extends InputOf<VaultProperties> {
     accessPolicies?: InputArray<AccessPolicyEntryInput, AccessPolicyEntry[]> | undefined;
     createMode?: ExpressionOrValue<CreateMode> | undefined;
     enabledForDeployment?: ExpressionOrValue<boolean> | undefined;
@@ -1468,15 +1653,14 @@ export interface VaultPropertiesInput extends InputOf<VaultProperties> {
     sku: SkuInput;
     softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
     tenantId: ExpressionOrValue<string>;
-    tokenBindingParameters?: TokenBindingParametersInput | undefined;
     vaultUri?: ExpressionOrValue<string> | undefined;
 }
 
 // @public (undocumented)
-export const vaultPropertiesShape: FlatModelShape;
+const vaultPropertiesShape: FlatModelShape;
 
 // @public
-export interface VaultPropertiesView extends InputOf<VaultProperties> {
+interface VaultPropertiesView extends InputOf<VaultProperties> {
     accessPolicies?: InputArray<AccessPolicyEntryView, AccessPolicyEntry[]> | undefined;
     createMode?: ExpressionOrValue<CreateMode> | undefined;
     enabledForDeployment?: ExpressionOrValue<boolean> | undefined;
@@ -1492,7 +1676,6 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
     sku: SkuView;
     softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
     tenantId: ExpressionOrValue<string>;
-    tokenBindingParameters?: TokenBindingParametersView | undefined;
     vaultUri?: ExpressionOrValue<string> | undefined;
 }
 
@@ -1523,22 +1706,22 @@ export interface VersionProps {
 }
 
 // @public
-export interface VirtualNetworkRule {
+interface VirtualNetworkRule {
     id: string;
     ignoreMissingVnetServiceEndpoint?: boolean;
 }
 
 // @public
-export interface VirtualNetworkRuleInput extends InputOf<VirtualNetworkRule> {
+interface VirtualNetworkRuleInput extends InputOf<VirtualNetworkRule> {
     id: ExpressionOrValue<string>;
     ignoreMissingVnetServiceEndpoint?: ExpressionOrValue<boolean> | undefined;
 }
 
 // @public (undocumented)
-export const virtualNetworkRuleShape: FlatModelShape;
+const virtualNetworkRuleShape: FlatModelShape;
 
 // @public
-export type VirtualNetworkRuleView = VirtualNetworkRuleInput;
+type VirtualNetworkRuleView = VirtualNetworkRuleInput;
 
 // (No @packageDocumentation comment for this package)
 

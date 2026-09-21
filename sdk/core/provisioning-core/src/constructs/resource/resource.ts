@@ -71,7 +71,7 @@ export interface ResourceState<TType extends string = string> {
    * cross-RG lookup). Future scope-hoisted resource types may emit it on
    * deployable resources too — for example, deploying a
    * `Microsoft.Management/managementGroups` from a subscription-targeted
-   * file requires `scope: tenant()`. See `docs/bicep/scope.md` section 2.2.
+   * file requires `scope: tenant()`. See `contributing/bicep/bicep-scope.md` section 2.2.
    *
    * For ordinary deployable resources this field is `undefined` — their
    * deployment scope is determined by the file's `targetScope` (or by the

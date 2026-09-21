@@ -145,22 +145,51 @@ const EXPRESSION_NODE_KINDS: Record<ExpressionNode["kind"], true> = {
   "interpolated-string": true,
 };
 
-/**
- * Tests whether a value is a raw `ExpressionNode` data object (one of the
- * AST node kinds defined above). Returns false for `Expression<T>` proxies;
- * use `isExpression` from `./expressions.js` for that.
- *
- * Once narrowed, branch on `node.kind` to handle each variant — TypeScript's
- * discriminated-union narrowing gives full per-variant typing automatically.
- */
+/** Tests whether a value structurally matches a raw expression AST node. */
 export function isExpressionNode(value: unknown): value is ExpressionNode {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "kind" in value &&
-    typeof (value as { kind: unknown }).kind === "string" &&
-    (value as { kind: string }).kind in EXPRESSION_NODE_KINDS
-  );
+  if (
+    typeof value !== "object" ||
+    value === null ||
+    !("kind" in value) ||
+    typeof (value as { kind: unknown }).kind !== "string"
+  ) {
+    return false;
+  }
+  const node = value as Record<string, unknown>;
+  if (!((node.kind as string) in EXPRESSION_NODE_KINDS)) return false;
+  switch (node.kind) {
+    case "fn-call":
+      return typeof node.operator === "string" && Array.isArray(node.args);
+    case "symbolic-value":
+      return typeof node.path === "string";
+    case "identifier":
+      return typeof node.id === "string" || typeof node.id === "object";
+    case "property-access":
+      return (
+        isExpressionNode(node.base) && typeof node.property === "string" && node.nullish === false
+      );
+    case "array-access":
+      return (
+        isExpressionNode(node.base) &&
+        "index" in node &&
+        node.nullish === false &&
+        node.fromEnd === false
+      );
+    case "binary":
+      return typeof node.operator === "string" && "left" in node && "right" in node;
+    case "unary":
+      return typeof node.operator === "string" && "argument" in node;
+    case "ternary":
+      return "condition" in node && "trueValue" in node && "falseValue" in node;
+    case "instance-function-call":
+      return (
+        isExpressionNode(node.base) && typeof node.name === "string" && Array.isArray(node.args)
+      );
+    case "interpolated-string":
+      return Array.isArray(node.segments);
+    default:
+      return false;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -199,14 +228,53 @@ export function propertyAccessExpressionNode<TValue = unknown>(
         nullish: false,
         armPath,
       }
-    : { kind: "property-access", base, property, nullish: false };
+    : {
+        kind: "property-access",
+        base,
+        property,
+        nullish: false,
+      };
 }
 
 export function arrayAccessExpressionNode<TValue = unknown>(
   base: ExpressionNode,
   index: ArrayAccessIndex,
 ): ArrayAccessExpressionNode<TValue> {
-  return { kind: "array-access", base, index, nullish: false, fromEnd: false };
+  return {
+    kind: "array-access",
+    base,
+    index,
+    nullish: false,
+    fromEnd: false,
+  };
+}
+
+export function binaryExpressionNode<TValue = unknown>(
+  operator: BinaryOperator,
+  left: unknown,
+  right: unknown,
+): BinaryExpressionNode<TValue> {
+  return { kind: "binary", operator, left, right };
+}
+
+export function unaryExpressionNode<TValue = unknown>(
+  operator: UnaryOperator,
+  argument: unknown,
+): UnaryExpressionNode<TValue> {
+  return { kind: "unary", operator, argument };
+}
+
+export function ternaryExpressionNode<TValue = unknown>(
+  condition: unknown,
+  trueValue: unknown,
+  falseValue: unknown,
+): TernaryExpressionNode<TValue> {
+  return {
+    kind: "ternary",
+    condition,
+    trueValue,
+    falseValue,
+  };
 }
 
 export function instanceFunctionCallExpressionNode<TValue = unknown>(
@@ -214,7 +282,12 @@ export function instanceFunctionCallExpressionNode<TValue = unknown>(
   name: string,
   args: readonly unknown[],
 ): InstanceFunctionCallExpressionNode<TValue> {
-  return { kind: "instance-function-call", base, name, args };
+  return {
+    kind: "instance-function-call",
+    base,
+    name,
+    args,
+  };
 }
 
 export function interpolatedStringExpressionNode<TValue = unknown>(

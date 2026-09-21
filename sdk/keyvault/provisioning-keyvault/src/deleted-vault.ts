@@ -12,12 +12,13 @@ import {
 import {
   createDeferredShape,
   createFlatModelShape,
+  createStringShape,
   type ResourceNamingRules,
   type ResourceProps,
 } from "@azure/provisioning-core/internal";
 import { type DeletedVaultProperties, deletedVaultPropertiesShape } from "./types.js";
 
-const API_VERSION = "2026-03-01-preview";
+const API_VERSION = "2026-02-01";
 
 export interface DeletedVaultProps {
   /**
@@ -48,10 +49,10 @@ export class DeletedVault extends Resource<"Microsoft.KeyVault/locations/deleted
   static {
     this.registerShape(
       createFlatModelShape({
-        name: { armPath: ["name"] },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => deletedVaultPropertiesShape),
+          value: createDeferredShape(() => deletedVaultPropertiesShape),
           readOnly: true,
         },
       }),

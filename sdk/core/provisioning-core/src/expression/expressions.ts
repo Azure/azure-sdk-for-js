@@ -4,11 +4,14 @@
 import { navigateShape, type NavShape } from "../shape/shape.js";
 import {
   arrayAccessExpressionNode,
+  binaryExpressionNode,
   functionCallExpressionNode,
   propertyAccessExpressionNode,
+  ternaryExpressionNode,
   type BinaryOperator,
   type ExpressionNode,
   type UnaryOperator,
+  unaryExpressionNode,
 } from "./ast-nodes.js";
 
 // ---------------------------------------------------------------------------
@@ -67,11 +70,18 @@ export type Expression<T = unknown> = ExpressionBrand<T> &
   ExpressionTag &
   ExpressionShape<NonNullable<T>>;
 
-export type ExpressionShape<T> = T extends readonly (infer U)[]
-  ? {
-      readonly length: Expression<number>;
-      readonly [index: number]: Expression<U>;
-    }
+export type ExpressionShape<T> = T extends readonly unknown[]
+  ? number extends T["length"]
+    ? {
+        readonly length: Expression<number>;
+        readonly [index: number]: Expression<T[number]>;
+      }
+    : {
+        readonly [K in Exclude<keyof T, keyof any[]>]: Expression<T[K]>;
+      } & {
+        readonly length: Expression<number>;
+        readonly [index: number]: Expression<T[number]>;
+      }
   : T extends object
     ? {
         readonly [K in keyof T as T[K] extends (...a: any[]) => any ? never : K]-?: Expression<
@@ -126,6 +136,17 @@ export interface InputArray<T, Raw = readonly T[]> extends InputOf<Raw> {
 export interface InputRecord<V, Raw = Record<string, V>> extends InputOf<Raw> {
   [key: string]: V;
 }
+
+/** Writable input form for a fixed-length heterogeneous tuple. */
+export type InputTuple<
+  T extends readonly unknown[],
+  Raw extends readonly unknown[] = T,
+> = InputOf<Raw> & {
+  length: T["length"] | Expression<number>;
+  [index: number]: T[number] | Expression<Raw[number]>;
+} & {
+  [K in Exclude<keyof T, keyof any[]>]: T[K];
+};
 
 // ---------------------------------------------------------------------------
 // ExpressionOrValue
@@ -372,11 +393,11 @@ export function createBinaryExpression<T>(
   left: unknown,
   right: unknown,
 ): Expression<T> {
-  return wrapExpression({ kind: "binary", operator: op, left, right });
+  return wrapExpression(binaryExpressionNode(op, left, right));
 }
 
 export function createUnaryExpression<T>(op: UnaryOperator, argument: unknown): Expression<T> {
-  return wrapExpression({ kind: "unary", operator: op, argument });
+  return wrapExpression(unaryExpressionNode(op, argument));
 }
 
 export function createTernaryExpression<T>(
@@ -384,12 +405,7 @@ export function createTernaryExpression<T>(
   trueValue: unknown,
   falseValue: unknown,
 ): Expression<T> {
-  return wrapExpression({
-    kind: "ternary",
-    condition,
-    trueValue,
-    falseValue,
-  });
+  return wrapExpression(ternaryExpressionNode(condition, trueValue, falseValue));
 }
 
 export function createFunctionCallExpression<T>(name: string, args: unknown[]): Expression<T> {

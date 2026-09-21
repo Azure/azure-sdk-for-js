@@ -9,7 +9,8 @@
 import { createOutput, type OutputValue } from "../../constructs/output.js";
 import { createParameter } from "../../constructs/parameter.js";
 import { createVariable, type VariableValue } from "../../constructs/variable.js";
-import { createIndexedResourceProxy, deref } from "../../constructs/resource/resource-proxy.js";
+import { createIndexedResourceProxy } from "../../constructs/resource/resource-proxy.js";
+import { isLoopedResource } from "../../constructs/resource/resource-utils.js";
 import {
   createLoopedResource,
   Loop,
@@ -22,11 +23,7 @@ import { Stack } from "../../constructs/stack.js";
 import { wrapExpression, isExpression, type Expression } from "../../expression/expressions.js";
 import { namingRequiredPolicy } from "../../naming/naming-policy.js";
 import { getShape } from "../../shape/shape-registry.js";
-import {
-  identifierExpressionNode,
-  symbolicValueExpressionNode,
-} from "../../expression/ast-nodes.js";
-import { isResource } from "../../constructs/resource/resource-utils.js";
+import { symbolicValueExpressionNode } from "../../expression/ast-nodes.js";
 import {
   resolveResource,
   type ResolveOptions,
@@ -39,6 +36,7 @@ import {
   type InfraNode,
   type ResourceDeclarationNode,
   type SerializationDocument,
+  type VariableDeclarationNode,
 } from "../contract/index.js";
 
 import {
@@ -48,7 +46,7 @@ import {
   type DeserializationSymbolMap,
 } from "./expression.js";
 import { raiseState } from "./lower.js";
-import { orderResourceEntries } from "./resource-order.js";
+import { collectDependenciesForDeclaration } from "../utils.js";
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -108,9 +106,7 @@ function constructStack(file: InfraNode, options: DeserializeOptions | undefined
   const symbols: DeserializationSymbolMap = new Map();
 
   processParams(file, rootStack, symbols);
-  processVariables(file, rootStack, symbols);
-
-  processResources(file, rootStack, symbols, options);
+  processDeclarations(file, rootStack, symbols, options);
   processOutputs(file, rootStack, symbols);
 
   return rootStack;
@@ -177,39 +173,104 @@ function processParams(
   }
 }
 
-function processVariables(
+function processDeclarations(
   file: InfraNode,
   stackHandle: Stack,
   symbols: DeserializationSymbolMap,
-): void {
-  for (const [, v] of Object.entries(file.variables ?? {})) {
-    assertSymbolAvailable(symbols, v.bicepIdentifier);
-    const sym = createVariable(
-      stackHandle,
-      v.bicepIdentifier,
-      deserializeExpression(v.value, symbols) as VariableValue,
-      {
-        ...(v.decorators?.description !== undefined
-          ? { description: v.decorators.description }
-          : {}),
-        ...(v.decorators?.export ? { export: true } : {}),
-      },
-    );
-    symbols.set(v.bicepIdentifier, sym);
-  }
-}
-
-function processResources(
-  file: InfraNode,
-  scopeHandle: Stack | Resource,
-  symbols: DeserializationSymbolMap,
   options: DeserializeOptions | undefined,
 ): void {
-  const entries = Object.entries(file.resources ?? {});
-  for (const [, node] of orderResourceEntries(entries)) {
+  type IndexedDeclaration =
+    | { readonly kind: "resource"; readonly node: ResourceDeclarationNode }
+    | { readonly kind: "variable"; readonly node: VariableDeclarationNode };
+  const declarations = new Map<string, IndexedDeclaration>();
+
+  function registerDeclaration(declaration: IndexedDeclaration): void {
+    const { node } = declaration;
     assertSymbolAvailable(symbols, node.bicepIdentifier);
-    const resource = createResource(node, scopeHandle, symbols, options);
-    symbols.set(node.bicepIdentifier, resource);
+    const previous = declarations.get(node.bicepIdentifier);
+    if (previous !== undefined) {
+      const category =
+        previous.kind === "resource" && declaration.kind === "resource"
+          ? "resource"
+          : "declaration";
+      throw new Error(`Duplicate ${category} identifier "${node.bicepIdentifier}".`);
+    }
+    declarations.set(node.bicepIdentifier, declaration);
+  }
+
+  for (const node of Object.values(file.variables ?? {})) {
+    registerDeclaration({ kind: "variable", node });
+  }
+  for (const node of Object.values(file.resources ?? {})) {
+    registerDeclaration({ kind: "resource", node });
+  }
+
+  const pending: {
+    declaration: IndexedDeclaration;
+    dependencies: Iterator<string>;
+  }[] = [];
+  const active = new Map<string, number>();
+
+  function pushDeclaration(declaration: IndexedDeclaration): void {
+    const { node } = declaration;
+    const identifiers = collectDependenciesForDeclaration(node);
+    active.set(node.bicepIdentifier, pending.length);
+    pending.push({ declaration, dependencies: identifiers.values() });
+  }
+
+  for (const declaration of declarations.values()) {
+    if (symbols.has(declaration.node.bicepIdentifier)) continue;
+    pushDeclaration(declaration);
+
+    while (pending.length > 0) {
+      const frame = pending[pending.length - 1]!;
+      const dependency = frame.dependencies.next();
+      if (!dependency.done) {
+        if (symbols.has(dependency.value)) continue;
+        const target = declarations.get(dependency.value);
+        if (target === undefined) continue;
+        const cycleStart = active.get(dependency.value);
+        if (cycleStart !== undefined) {
+          const cycle = pending.slice(cycleStart).map((entry) => entry.declaration);
+          const category = cycle.every((entry) => entry.kind === "resource")
+            ? "Resource"
+            : "Declaration";
+          const path = [...cycle.map((entry) => entry.node.bicepIdentifier), dependency.value]
+            .map((identifier) => `"${identifier}"`)
+            .join(" -> ");
+          throw new Error(`${category} dependency cycle detected: ${path}.`);
+        }
+        pushDeclaration(target);
+        continue;
+      }
+
+      constructDeclaration(frame.declaration);
+      active.delete(frame.declaration.node.bicepIdentifier);
+      pending.pop();
+    }
+  }
+
+  function constructDeclaration(declaration: IndexedDeclaration): void {
+    if (declaration.kind === "resource") {
+      symbols.set(
+        declaration.node.bicepIdentifier,
+        createResource(declaration.node, stackHandle, symbols, options),
+      );
+      return;
+    }
+    const { node } = declaration;
+    const sym = createVariable(
+      stackHandle,
+      node.bicepIdentifier,
+      deserializeExpression(node.value, symbols) as VariableValue,
+      {
+        ...(node.decorators?.description !== undefined
+          ? { description: node.decorators.description }
+          : {}),
+        ...(node.decorators?.export ? { export: true } : {}),
+      },
+    );
+    symbols.set(node.bicepIdentifier, sym);
   }
 }
 
@@ -360,15 +421,19 @@ function buildResource(
   options: DeserializeOptions | undefined,
   authoring?: ResourceAuthoringContext,
 ): Resource | LoopedResource<Resource> {
-  // Determine ProvisioningComponent parent. Prefer `parent:` (explicit nesting);
-  // otherwise an identifier-form `scope:` is the extension-resource shape
-  // and the symbolic name points at the ProvisioningComponent-tree parent. The renderer
-  // will re-derive `parent:` vs `scope:` from ARM type matching on the
-  // round-trip.
   let context: ProvisioningComponent = defaultScope;
   const parentNode = body["parent"];
   const scopeNode = body["scope"];
-  let reparentedToRg = false;
+  if (
+    parentNode !== undefined &&
+    parentNode.kind !== "identifier" &&
+    parentNode.kind !== "array-access"
+  ) {
+    throw new Error(`Resource "${res.bicepIdentifier}" has an invalid "parent" reference.`);
+  }
+  if (!res.existing && scopeNode !== undefined && scopeNode.kind !== "identifier") {
+    throw new Error(`Resource "${res.bicepIdentifier}" has an invalid "scope" reference.`);
+  }
   if (parentNode?.kind === "identifier") {
     context = requireResourceHandle(parentNode.id, symbols, res.bicepIdentifier, "parent");
   } else if (parentNode?.kind === "array-access") {
@@ -391,55 +456,31 @@ function buildResource(
       throw new Error(`Resource "${res.bicepIdentifier}" has an invalid "parent" reference.`);
     }
   } else if (scopeNode?.kind === "identifier") {
-    context = requireResourceHandle(scopeNode.id, symbols, res.bicepIdentifier, "scope");
-  } else if (
-    scopeNode?.kind === "function-call" &&
-    scopeNode.target === "resourceGroup" &&
-    scopeNode.args.length === 1
-  ) {
-    // A resource carrying `scope: resourceGroup('rg-name')` is the
-    // split-signal form emitted by serialize() for resources (deployable or
-    // `existing`) whose nearest ProvisioningComponent ancestor is a ResourceGroup. On
-    // deserialize, find the in-file ResourceGroup handle with that name and
-    // use it as the ProvisioningComponent parent so the round-trip re-emits the same
-    // split signal. If no in-file ResourceGroup matches, this is a genuine
-    // external cross-RG lookup (only meaningful for `existing` resources)
-    // and is captured as an explicit `scope` below.
-    const arg = scopeNode.args[0];
-    if (arg?.kind === "string") {
-      for (const handle of symbols.values()) {
-        if (
-          isResource(handle) &&
-          handle.type === "Microsoft.Resources/resourceGroups" &&
-          deref(handle.name) === arg.value
-        ) {
-          context = handle as ProvisioningComponent;
-          reparentedToRg = true;
-          break;
-        }
-      }
+    const scopeResource = requireResourceHandle(
+      scopeNode.id,
+      symbols,
+      res.bicepIdentifier,
+      "scope",
+    );
+    if (isLoopedResource(scopeResource)) {
+      throw new Error(
+        `Resource "${res.bicepIdentifier}" references resource collection ` +
+          `"${scopeNode.id}" in "scope"; expected a single resource.`,
+      );
     }
+    context = scopeResource;
   }
 
-  // Existing resources may carry a non-identifier `scope:` for cross-scope
-  // lookups (e.g. `scope: resourceGroup('shared')`) that does NOT resolve to
-  // an in-file ResourceGroup. Capture it as an expression to thread into the
-  // new resource's `scope` props field. A scope that DID resolve to an
-  // in-file ResourceGroup (reparented above) is the synthetic split-signal
-  // and must not be re-captured as an explicit scope.
   let existingScope: ScopeExpression | undefined;
-  if (
-    res.existing &&
-    !reparentedToRg &&
-    scopeNode !== undefined &&
-    scopeNode.kind !== "identifier"
-  ) {
-    const val = deserializeExpression(scopeNode, symbols);
-    existingScope = (
-      isExpression(val)
-        ? (val as Expression<unknown>)
-        : wrapExpression(identifierExpressionNode(String(val)))
-    ) as ScopeExpression;
+  if (res.existing && scopeNode !== undefined && scopeNode.kind !== "identifier") {
+    const scope = deserializeExpression(scopeNode, symbols);
+    if (!isExpression(scope)) {
+      throw new Error(
+        `Resource "${res.bicepIdentifier}" has an invalid "scope" value: ` +
+          `expected an expression, received "${scopeNode.kind}".`,
+      );
+    }
+    existingScope = scope;
   }
 
   // Collect non-reserved properties

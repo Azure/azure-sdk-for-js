@@ -12,6 +12,8 @@ import {
 import {
   createDeferredShape,
   createFlatModelShape,
+  createRecordShape,
+  createStringShape,
   type InputRecord,
   type ResourceNamingRules,
   type ResourceProps,
@@ -35,7 +37,7 @@ import {
   type VaultPropertiesView,
 } from "./types.js";
 
-const API_VERSION = "2026-03-01-preview";
+const API_VERSION = "2026-02-01";
 
 export interface KeyVaultProps {
   /**
@@ -89,11 +91,11 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
   static {
     this.registerShape(
       createFlatModelShape({
-        location: { armPath: ["location"], readOnly: true },
-        name: { armPath: ["name"] },
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => vaultAccessPolicyPropertiesShape),
+          value: createDeferredShape(() => vaultAccessPolicyPropertiesShape),
         },
       }),
     );
@@ -205,14 +207,14 @@ export class Version extends Resource<"Microsoft.KeyVault/vaults/keys/versions">
   static {
     this.registerShape(
       createFlatModelShape({
-        location: { armPath: ["location"], readOnly: true },
-        name: { armPath: ["name"] },
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => keyPropertiesShape),
+          value: createDeferredShape(() => keyPropertiesShape),
           readOnly: true,
         },
-        tags: { armPath: ["tags"], readOnly: true },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
       }),
     );
     this.register();
@@ -302,13 +304,13 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
   static {
     this.registerShape(
       createFlatModelShape({
-        location: { armPath: ["location"], readOnly: true },
-        name: { armPath: ["name"] },
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => keyPropertiesShape),
+          value: createDeferredShape(() => keyPropertiesShape),
         },
-        tags: { armPath: ["tags"] },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
       }),
     );
     this.register();
@@ -421,14 +423,14 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
   static {
     this.registerShape(
       createFlatModelShape({
-        etag: { armPath: ["etag"] },
-        location: { armPath: ["location"], readOnly: true },
-        name: { armPath: ["name"] },
+        etag: { armPath: ["etag"], value: createStringShape() },
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => privateEndpointConnectionPropertiesShape),
+          value: createDeferredShape(() => privateEndpointConnectionPropertiesShape),
         },
-        tags: { armPath: ["tags"], readOnly: true },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
       }),
     );
     this.register();
@@ -553,13 +555,13 @@ export class Secret extends Resource<"Microsoft.KeyVault/vaults/secrets"> {
   static {
     this.registerShape(
       createFlatModelShape({
-        location: { armPath: ["location"], readOnly: true },
-        name: { armPath: ["name"] },
+        location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => secretPropertiesShape),
+          value: createDeferredShape(() => secretPropertiesShape),
         },
-        tags: { armPath: ["tags"] },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
       }),
     );
     this.register();
@@ -657,13 +659,13 @@ export class KeyVault extends Resource<"Microsoft.KeyVault/vaults"> {
   static {
     this.registerShape(
       createFlatModelShape({
-        location: { armPath: ["location"] },
-        name: { armPath: ["name"] },
+        location: { armPath: ["location"], value: createStringShape() },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => vaultPropertiesShape),
+          value: createDeferredShape(() => vaultPropertiesShape),
         },
-        tags: { armPath: ["tags"] },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
       }),
     );
     this.register();

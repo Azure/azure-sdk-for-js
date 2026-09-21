@@ -12,6 +12,8 @@ import {
 import {
   createDeferredShape,
   createFlatModelShape,
+  createRecordShape,
+  createStringShape,
   type InputRecord,
   type ResourceNamingRules,
   type ResourceProps,
@@ -35,7 +37,7 @@ import {
   type MhsmPrivateEndpointConnectionPropertiesView,
 } from "./types.js";
 
-const API_VERSION = "2026-03-01-preview";
+const API_VERSION = "2026-02-01";
 
 export interface ManagedHsmProps {
   /**
@@ -108,13 +110,13 @@ export class KeyVaultManagedHsmKey extends Resource<"Microsoft.KeyVault/managedH
   static {
     this.registerShape(
       createFlatModelShape({
-        name: { armPath: ["name"] },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => managedHsmKeyPropertiesShape),
+          value: createDeferredShape(() => managedHsmKeyPropertiesShape),
           readOnly: true,
         },
-        tags: { armPath: ["tags"], readOnly: true },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
       }),
     );
     this.register();
@@ -199,12 +201,12 @@ export class ManagedHsmKey extends Resource<"Microsoft.KeyVault/managedHSMs/keys
   static {
     this.registerShape(
       createFlatModelShape({
-        name: { armPath: ["name"] },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => managedHsmKeyPropertiesShape),
+          value: createDeferredShape(() => managedHsmKeyPropertiesShape),
         },
-        tags: { armPath: ["tags"] },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
       }),
     );
     this.register();
@@ -330,19 +332,19 @@ export class ManagedHsmPrivateEndpointConnection extends Resource<"Microsoft.Key
   static {
     this.registerShape(
       createFlatModelShape({
-        etag: { armPath: ["etag"] },
+        etag: { armPath: ["etag"], value: createStringShape() },
         identity: {
           armPath: ["identity"],
-          target: createDeferredShape(() => managedServiceIdentityShape),
+          value: createDeferredShape(() => managedServiceIdentityShape),
         },
-        location: { armPath: ["location"] },
-        name: { armPath: ["name"] },
+        location: { armPath: ["location"], value: createStringShape() },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => mhsmPrivateEndpointConnectionPropertiesShape),
+          value: createDeferredShape(() => mhsmPrivateEndpointConnectionPropertiesShape),
         },
-        sku: { armPath: ["sku"], target: createDeferredShape(() => managedHsmSkuShape) },
-        tags: { armPath: ["tags"] },
+        sku: { armPath: ["sku"], value: createDeferredShape(() => managedHsmSkuShape) },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
       }),
     );
     this.register();
@@ -484,16 +486,16 @@ export class ManagedHsm extends Resource<"Microsoft.KeyVault/managedHSMs"> {
       createFlatModelShape({
         identity: {
           armPath: ["identity"],
-          target: createDeferredShape(() => managedServiceIdentityShape),
+          value: createDeferredShape(() => managedServiceIdentityShape),
         },
-        location: { armPath: ["location"] },
-        name: { armPath: ["name"] },
+        location: { armPath: ["location"], value: createStringShape() },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => managedHsmPropertiesShape),
+          value: createDeferredShape(() => managedHsmPropertiesShape),
         },
-        sku: { armPath: ["sku"], target: createDeferredShape(() => managedHsmSkuShape) },
-        tags: { armPath: ["tags"] },
+        sku: { armPath: ["sku"], value: createDeferredShape(() => managedHsmSkuShape) },
+        tags: { armPath: ["tags"], value: createRecordShape(createStringShape()) },
       }),
     );
     this.register();

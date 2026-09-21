@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -255,9 +255,9 @@
+@@ -403,9 +403,9 @@
          extensionResourceId,
          int,
          min,
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
          first,
          last,
          contains,
-@@ -388,9 +388,9 @@
+@@ -542,9 +542,9 @@
  // @public (undocumented)
  function lastIndexOf(value: ExpressionOrValue<string>, searchString: ExpressionOrValue<string>): Expression<number>;
  

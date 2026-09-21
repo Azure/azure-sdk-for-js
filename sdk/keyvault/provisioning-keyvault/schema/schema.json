@@ -49,7 +49,16 @@
         "deletionDate": {
           "type": "string",
           "required": false,
-          "readOnly": true
+          "readOnly": true,
+          "encoding": {
+            "kind": "date-time-text",
+            "source": "utcDateTime",
+            "format": "rfc3339",
+            "clientMode": "client",
+            "wire": {
+              "kind": "string"
+            }
+          }
         },
         "location": {
           "type": "string",
@@ -69,13 +78,24 @@
         "scheduledPurgeDate": {
           "type": "string",
           "required": false,
-          "readOnly": true
+          "readOnly": true,
+          "encoding": {
+            "kind": "date-time-text",
+            "source": "utcDateTime",
+            "format": "rfc3339",
+            "clientMode": "client",
+            "wire": {
+              "kind": "string"
+            }
+          }
         },
         "tags": {
           "type": "record",
           "required": false,
           "readOnly": true,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
@@ -87,7 +107,16 @@
         "deletionDate": {
           "type": "string",
           "required": false,
-          "readOnly": true
+          "readOnly": true,
+          "encoding": {
+            "kind": "date-time-text",
+            "source": "utcDateTime",
+            "format": "rfc3339",
+            "clientMode": "client",
+            "wire": {
+              "kind": "string"
+            }
+          }
         },
         "location": {
           "type": "string",
@@ -102,13 +131,24 @@
         "scheduledPurgeDate": {
           "type": "string",
           "required": false,
-          "readOnly": true
+          "readOnly": true,
+          "encoding": {
+            "kind": "date-time-text",
+            "source": "utcDateTime",
+            "format": "rfc3339",
+            "clientMode": "client",
+            "wire": {
+              "kind": "string"
+            }
+          }
         },
         "tags": {
           "type": "record",
           "required": false,
           "readOnly": true,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         },
         "vaultId": {
           "type": "string",
@@ -199,17 +239,19 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "string",
-          "elementEnumValues": [
-            "encrypt",
-            "decrypt",
-            "sign",
-            "verify",
-            "wrapKey",
-            "unwrapKey",
-            "import",
-            "release"
-          ]
+          "element": {
+            "type": "string",
+            "enumValues": [
+              "encrypt",
+              "decrypt",
+              "sign",
+              "verify",
+              "wrapKey",
+              "unwrapKey",
+              "import",
+              "release"
+            ]
+          }
         },
         "keySize": {
           "type": "int",
@@ -230,7 +272,7 @@
           "type": "string",
           "required": false,
           "readOnly": false,
-          "enumValues": ["EC", "EC-HSM", "RSA", "RSA-HSM", "oct-HSM"]
+          "enumValues": ["EC", "EC-HSM", "RSA", "RSA-HSM"]
         },
         "release_policy": {
           "type": "object",
@@ -262,9 +304,13 @@
           "required": false,
           "readOnly": false,
           "encoding": {
-            "encoding": "base64url",
-            "wireKind": "string",
-            "sourceKind": "bytes"
+            "kind": "bytes",
+            "source": "bytes",
+            "format": "base64url",
+            "clientMode": "client",
+            "wire": {
+              "kind": "string"
+            }
           }
         }
       }
@@ -392,17 +438,19 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "string",
-          "elementEnumValues": [
-            "encrypt",
-            "decrypt",
-            "sign",
-            "verify",
-            "wrapKey",
-            "unwrapKey",
-            "import",
-            "release"
-          ]
+          "element": {
+            "type": "string",
+            "enumValues": [
+              "encrypt",
+              "decrypt",
+              "sign",
+              "verify",
+              "wrapKey",
+              "unwrapKey",
+              "import",
+              "release"
+            ]
+          }
         },
         "keySize": {
           "type": "int",
@@ -423,7 +471,7 @@
           "type": "string",
           "required": false,
           "readOnly": false,
-          "enumValues": ["EC", "EC-HSM", "RSA", "RSA-HSM", "oct-HSM"]
+          "enumValues": ["EC", "EC-HSM", "RSA", "RSA-HSM"]
         },
         "release_policy": {
           "type": "object",
@@ -455,9 +503,13 @@
           "required": false,
           "readOnly": false,
           "encoding": {
-            "encoding": "base64url",
-            "wireKind": "string",
-            "sourceKind": "bytes"
+            "kind": "bytes",
+            "source": "bytes",
+            "format": "base64url",
+            "clientMode": "client",
+            "wire": {
+              "kind": "string"
+            }
           }
         }
       }
@@ -535,7 +587,9 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "string"
+          "element": {
+            "type": "string"
+          }
         },
         "networkAcls": {
           "type": "object",
@@ -547,8 +601,10 @@
           "type": "array",
           "required": false,
           "readOnly": true,
-          "elementType": "object",
-          "elementRef": "#/definitions/MHSMPrivateEndpointConnectionItem"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/MHSMPrivateEndpointConnectionItem"
+          }
         },
         "publicNetworkAccess": {
           "type": "string",
@@ -561,13 +617,24 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/MHSMGeoReplicatedRegion"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/MHSMGeoReplicatedRegion"
+          }
         },
         "scheduledPurgeDate": {
           "type": "string",
           "required": false,
-          "readOnly": true
+          "readOnly": true,
+          "encoding": {
+            "kind": "date-time-text",
+            "source": "utcDateTime",
+            "format": "rfc3339",
+            "clientMode": "client",
+            "wire": {
+              "kind": "string"
+            }
+          }
         },
         "securityDomainProperties": {
           "type": "object",
@@ -608,8 +675,10 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/ManagedHsmLifetimeAction"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/ManagedHsmLifetimeAction"
+          }
         }
       }
     },
@@ -643,7 +712,7 @@
           "enumValues": ["B", "C"]
         },
         "name": {
-          "type": "string",
+          "type": "enum",
           "required": true,
           "readOnly": false,
           "enumValues": ["Standard_B1", "Custom_B32", "Custom_B6", "Custom_C42", "Custom_C10"]
@@ -692,8 +761,10 @@
           "type": "record",
           "required": false,
           "readOnly": false,
-          "valueType": "object",
-          "valueRef": "#/definitions/UserAssignedIdentity"
+          "value": {
+            "type": "object",
+            "$ref": "#/definitions/UserAssignedIdentity"
+          }
         }
       }
     },
@@ -747,22 +818,28 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/MHSMIPRule"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/MHSMIPRule"
+          }
         },
         "serviceTags": {
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/MHSMServiceTagRule"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/MHSMServiceTagRule"
+          }
         },
         "virtualNetworkRules": {
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/MHSMVirtualNetworkRule"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/MHSMVirtualNetworkRule"
+          }
         }
       }
     },
@@ -873,15 +950,19 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/IPRule"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/IPRule"
+          }
         },
         "virtualNetworkRules": {
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/VirtualNetworkRule"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/VirtualNetworkRule"
+          }
         }
       }
     },
@@ -894,95 +975,103 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "string",
-          "elementEnumValues": [
-            "all",
-            "get",
-            "list",
-            "delete",
-            "create",
-            "import",
-            "update",
-            "managecontacts",
-            "getissuers",
-            "listissuers",
-            "setissuers",
-            "deleteissuers",
-            "manageissuers",
-            "recover",
-            "purge",
-            "backup",
-            "restore"
-          ]
+          "element": {
+            "type": "string",
+            "enumValues": [
+              "all",
+              "get",
+              "list",
+              "delete",
+              "create",
+              "import",
+              "update",
+              "managecontacts",
+              "getissuers",
+              "listissuers",
+              "setissuers",
+              "deleteissuers",
+              "manageissuers",
+              "recover",
+              "purge",
+              "backup",
+              "restore"
+            ]
+          }
         },
         "keys": {
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "string",
-          "elementEnumValues": [
-            "all",
-            "encrypt",
-            "decrypt",
-            "wrapKey",
-            "unwrapKey",
-            "sign",
-            "verify",
-            "get",
-            "list",
-            "create",
-            "update",
-            "import",
-            "delete",
-            "backup",
-            "restore",
-            "recover",
-            "purge",
-            "release",
-            "rotate",
-            "getrotationpolicy",
-            "setrotationpolicy"
-          ]
+          "element": {
+            "type": "string",
+            "enumValues": [
+              "all",
+              "encrypt",
+              "decrypt",
+              "wrapKey",
+              "unwrapKey",
+              "sign",
+              "verify",
+              "get",
+              "list",
+              "create",
+              "update",
+              "import",
+              "delete",
+              "backup",
+              "restore",
+              "recover",
+              "purge",
+              "release",
+              "rotate",
+              "getrotationpolicy",
+              "setrotationpolicy"
+            ]
+          }
         },
         "secrets": {
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "string",
-          "elementEnumValues": [
-            "all",
-            "get",
-            "list",
-            "set",
-            "delete",
-            "backup",
-            "restore",
-            "recover",
-            "purge"
-          ]
+          "element": {
+            "type": "string",
+            "enumValues": [
+              "all",
+              "get",
+              "list",
+              "set",
+              "delete",
+              "backup",
+              "restore",
+              "recover",
+              "purge"
+            ]
+          }
         },
         "storage": {
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "string",
-          "elementEnumValues": [
-            "all",
-            "get",
-            "list",
-            "delete",
-            "set",
-            "update",
-            "regeneratekey",
-            "recover",
-            "purge",
-            "backup",
-            "restore",
-            "setsas",
-            "listsas",
-            "getsas",
-            "deletesas"
-          ]
+          "element": {
+            "type": "string",
+            "enumValues": [
+              "all",
+              "get",
+              "list",
+              "delete",
+              "set",
+              "update",
+              "regeneratekey",
+              "recover",
+              "purge",
+              "backup",
+              "restore",
+              "setsas",
+              "listsas",
+              "getsas",
+              "deletesas"
+            ]
+          }
         }
       }
     },
@@ -1063,8 +1152,10 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/LifetimeAction"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/LifetimeAction"
+          }
         }
       }
     },
@@ -1078,9 +1169,14 @@
           "required": false,
           "readOnly": true,
           "encoding": {
-            "encoding": "unixTimestamp",
-            "wireKind": "int",
-            "sourceKind": "utcDateTime"
+            "kind": "unix-timestamp",
+            "source": "utcDateTime",
+            "unit": "seconds",
+            "clientMode": "client",
+            "wire": {
+              "kind": "integer",
+              "scalar": "int32"
+            }
           }
         },
         "enabled": {
@@ -1093,9 +1189,14 @@
           "required": false,
           "readOnly": false,
           "encoding": {
-            "encoding": "unixTimestamp",
-            "wireKind": "int",
-            "sourceKind": "utcDateTime"
+            "kind": "unix-timestamp",
+            "source": "utcDateTime",
+            "unit": "seconds",
+            "clientMode": "client",
+            "wire": {
+              "kind": "integer",
+              "scalar": "int32"
+            }
           }
         },
         "nbf": {
@@ -1103,9 +1204,14 @@
           "required": false,
           "readOnly": false,
           "encoding": {
-            "encoding": "unixTimestamp",
-            "wireKind": "int",
-            "sourceKind": "utcDateTime"
+            "kind": "unix-timestamp",
+            "source": "utcDateTime",
+            "unit": "seconds",
+            "clientMode": "client",
+            "wire": {
+              "kind": "integer",
+              "scalar": "int32"
+            }
           }
         },
         "updated": {
@@ -1113,9 +1219,14 @@
           "required": false,
           "readOnly": true,
           "encoding": {
-            "encoding": "unixTimestamp",
-            "wireKind": "int",
-            "sourceKind": "utcDateTime"
+            "kind": "unix-timestamp",
+            "source": "utcDateTime",
+            "unit": "seconds",
+            "clientMode": "client",
+            "wire": {
+              "kind": "integer",
+              "scalar": "int32"
+            }
           }
         }
       }
@@ -1172,30 +1283,6 @@
         }
       }
     },
-    "TokenBindingParameters": {
-      "type": "object",
-      "required": false,
-      "readOnly": false,
-      "properties": {
-        "minimumTokenBindingStrength": {
-          "type": "string",
-          "required": false,
-          "readOnly": false,
-          "enumValues": [
-            "NoValidation",
-            "Unattested",
-            "AttestedTrustedLaunch",
-            "AttestedConfidential"
-          ]
-        },
-        "mode": {
-          "type": "string",
-          "required": false,
-          "readOnly": false,
-          "enumValues": ["Enforced", "NotEnforced"]
-        }
-      }
-    },
     "Trigger": {
       "type": "object",
       "required": false,
@@ -1239,8 +1326,10 @@
           "type": "array",
           "required": true,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/AccessPolicyEntry"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/AccessPolicyEntry"
+          }
         }
       }
     },
@@ -1253,8 +1342,10 @@
           "type": "array",
           "required": false,
           "readOnly": false,
-          "elementType": "object",
-          "elementRef": "#/definitions/AccessPolicyEntry"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/AccessPolicyEntry"
+          }
         },
         "createMode": {
           "type": "enum",
@@ -1312,8 +1403,10 @@
           "type": "array",
           "required": false,
           "readOnly": true,
-          "elementType": "object",
-          "elementRef": "#/definitions/PrivateEndpointConnectionItem"
+          "element": {
+            "type": "object",
+            "$ref": "#/definitions/PrivateEndpointConnectionItem"
+          }
         },
         "publicNetworkAccess": {
           "type": "string",
@@ -1337,12 +1430,6 @@
           "type": "string",
           "required": true,
           "readOnly": false
-        },
-        "tokenBindingParameters": {
-          "type": "object",
-          "required": false,
-          "readOnly": false,
-          "$ref": "#/definitions/TokenBindingParameters"
         },
         "vaultUri": {
           "type": "string",
@@ -1372,7 +1459,7 @@
   "resources": {
     "Microsoft.KeyVault/locations/deletedManagedHSMs": {
       "resourceType": "Microsoft.KeyVault/locations/deletedManagedHSMs",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "none",
       "properties": {
         "name": {
@@ -1390,7 +1477,7 @@
     },
     "Microsoft.KeyVault/locations/deletedVaults": {
       "resourceType": "Microsoft.KeyVault/locations/deletedVaults",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "none",
       "properties": {
         "name": {
@@ -1408,7 +1495,7 @@
     },
     "Microsoft.KeyVault/managedHSMs": {
       "resourceType": "Microsoft.KeyVault/managedHSMs",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "body",
       "properties": {
         "identity": {
@@ -1443,13 +1530,15 @@
           "type": "record",
           "required": false,
           "readOnly": false,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
     "Microsoft.KeyVault/managedHSMs/keys": {
       "resourceType": "Microsoft.KeyVault/managedHSMs/keys",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "body",
       "properties": {
         "name": {
@@ -1467,13 +1556,15 @@
           "type": "record",
           "required": false,
           "readOnly": false,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
     "Microsoft.KeyVault/managedHSMs/keys/versions": {
       "resourceType": "Microsoft.KeyVault/managedHSMs/keys/versions",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "none",
       "properties": {
         "name": {
@@ -1491,13 +1582,15 @@
           "type": "record",
           "required": false,
           "readOnly": true,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
     "Microsoft.KeyVault/managedHSMs/privateEndpointConnections": {
       "resourceType": "Microsoft.KeyVault/managedHSMs/privateEndpointConnections",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "body",
       "properties": {
         "etag": {
@@ -1537,13 +1630,15 @@
           "type": "record",
           "required": false,
           "readOnly": false,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
     "Microsoft.KeyVault/vaults": {
       "resourceType": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "body",
       "properties": {
         "location": {
@@ -1566,13 +1661,15 @@
           "type": "record",
           "required": false,
           "readOnly": false,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
     "Microsoft.KeyVault/vaults/accessPolicies": {
       "resourceType": "Microsoft.KeyVault/vaults/accessPolicies",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "body",
       "properties": {
         "location": {
@@ -1595,7 +1692,7 @@
     },
     "Microsoft.KeyVault/vaults/keys": {
       "resourceType": "Microsoft.KeyVault/vaults/keys",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "body",
       "properties": {
         "location": {
@@ -1618,13 +1715,15 @@
           "type": "record",
           "required": false,
           "readOnly": false,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
     "Microsoft.KeyVault/vaults/keys/versions": {
       "resourceType": "Microsoft.KeyVault/vaults/keys/versions",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "none",
       "properties": {
         "location": {
@@ -1647,13 +1746,15 @@
           "type": "record",
           "required": false,
           "readOnly": true,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
     "Microsoft.KeyVault/vaults/privateEndpointConnections": {
       "resourceType": "Microsoft.KeyVault/vaults/privateEndpointConnections",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "body",
       "properties": {
         "etag": {
@@ -1681,13 +1782,15 @@
           "type": "record",
           "required": false,
           "readOnly": true,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     },
     "Microsoft.KeyVault/vaults/secrets": {
       "resourceType": "Microsoft.KeyVault/vaults/secrets",
-      "apiVersion": "2026-03-01-preview",
+      "apiVersion": "2026-02-01",
       "writeMode": "body",
       "properties": {
         "location": {
@@ -1710,7 +1813,9 @@
           "type": "record",
           "required": false,
           "readOnly": false,
-          "valueType": "string"
+          "value": {
+            "type": "string"
+          }
         }
       }
     }

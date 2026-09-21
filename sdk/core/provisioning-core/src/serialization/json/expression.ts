@@ -39,6 +39,8 @@ import type {
   TernaryOperationExpression,
   UnaryOperationExpression,
 } from "../contract/index.js";
+import type { ParameterMetadata } from "../../constructs/parameter.js";
+import type { VariableMetadata } from "../../constructs/variable.js";
 
 export type SerializableValue =
   | CoreExpressionNode
@@ -52,7 +54,10 @@ export type SerializableValue =
       readonly [key: string]: SerializableValue | undefined;
     };
 
-export type SerializationSymbolMap = Map<ResourceDeclaration, string>;
+export type SerializationSymbolMap = Map<
+  ResourceDeclaration | CoreExpressionNode | ParameterMetadata | VariableMetadata,
+  string
+>;
 
 type SymbolValue = Expression<unknown> | Resource | LoopedResource<Resource>;
 export type DeserializationSymbolMap = Map<string, SymbolValue>;
@@ -403,8 +408,12 @@ export function serializeExpression(
       case "array-access":
         return serializeMemberAccessExpression(value, symbolMap);
 
-      case "symbolic-value":
-        return serializeSymbolicPath(value.path);
+      case "symbolic-value": {
+        const identifier = symbolMap.get(value);
+        return identifier === undefined
+          ? serializeSymbolicPath(value.path)
+          : { kind: "identifier", id: identifier };
+      }
     }
   }
 

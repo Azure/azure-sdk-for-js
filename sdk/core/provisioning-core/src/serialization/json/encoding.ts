@@ -1,113 +1,350 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * Wire-encoding helpers driven by `PropertyEncoding` metadata on
- * descriptor entries.
- *
- * `@encode` in TypeSpec is a wire-only annotation: the user-facing TS
- * type stays as the source scalar (`Date`, `Uint8Array`, ISO8601 string
- * for `duration`, ...). The serializer (`lowerState`) calls
- * {@link encodeWireValue} just before writing each leaf into the wire
- * tree; the deserializer (`raiseState`) calls {@link decodeWireValue}
- * to convert wire primitives back to their source representation.
- *
- * The helpers are deliberately permissive: when a value isn't of the
- * expected source type (e.g. user already passed a pre-encoded
- * primitive), it is returned unchanged. This preserves backwards-
- * compatible behavior for callers that already format encoded values
- * themselves.
- */
+import { isExpressionNode } from "../../expression/ast-nodes.js";
+import { isExpression } from "../../expression/expressions.js";
+import type {
+  BytesEncodingDescriptor,
+  DateTimeTextEncodingDescriptor,
+  IntegerScalarName,
+  NumericScalarName,
+  NumericStringEncodingDescriptor,
+  UnixTimestampEncodingDescriptor,
+  ValueEncodingDescriptor,
+} from "../../shape/value-encoding.js";
 
-import type { PropertyEncoding } from "../../shape/shape.js";
-
-/**
- * Encode a leaf value to its wire form. Recurses into arrays and plain
- * objects so `Array<utcDateTime>` / `Record<string, bytes>` properties
- * work without callers reasoning about element-vs-collection encoding.
- */
-export function encodeWireValue(value: unknown, encoding: PropertyEncoding): unknown {
+export function encodeWireValue(
+  value: unknown,
+  encoding: ValueEncodingDescriptor,
+  path: readonly string[] = [],
+): unknown {
   if (value === null || value === undefined) return value;
-  if (Array.isArray(value)) {
-    return value.map((v) => encodeWireValue(v, encoding));
+  if (isExpression(value) || isExpressionNode(value)) return value;
+
+  switch (encoding.kind) {
+    case "date-time-text":
+      return encodeDateTimeText(value, encoding, path);
+    case "unix-timestamp":
+      return encodeUnixTimestamp(value, encoding, path);
+    case "duration-iso8601":
+      return requireIsoDuration(value, path);
+    case "duration-numeric":
+      return requireInteger(value, encoding.wire.scalar, path);
+    case "bytes":
+      return encodeBytes(value, encoding, path);
+    case "plain-date":
+      return encoding.clientMode === "wire"
+        ? requirePlainDate(value, path)
+        : encodePlainDate(value, path);
+    case "numeric-string":
+      return requireNumericString(value, encoding, path);
+    case "boolean-string":
+      if (encoding.clientMode === "wire") return requireBooleanString(value, path);
+      if (typeof value !== "boolean") fail(path, `Expected a boolean, got ${describe(value)}.`);
+      return String(value);
   }
-  if (isPlainObject(value)) {
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value)) {
-      out[k] = encodeWireValue(v, encoding);
-    }
-    return out;
-  }
-  return encodeLeaf(value, encoding);
 }
 
-/**
- * Inverse of {@link encodeWireValue}: decode a wire-form leaf back to
- * its source representation.
- */
-export function decodeWireValue(value: unknown, encoding: PropertyEncoding): unknown {
+export function decodeWireValue(
+  value: unknown,
+  encoding: ValueEncodingDescriptor,
+  path: readonly string[] = [],
+): unknown {
   if (value === null || value === undefined) return value;
-  if (Array.isArray(value)) {
-    return value.map((v) => decodeWireValue(v, encoding));
-  }
-  if (isPlainObject(value)) {
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value)) {
-      out[k] = decodeWireValue(v, encoding);
+  if (isExpression(value) || isExpressionNode(value)) return value;
+
+  switch (encoding.kind) {
+    case "date-time-text":
+      return decodeDateTimeText(value, encoding, path);
+    case "unix-timestamp": {
+      const seconds = requireInteger(value, encoding.wire.scalar, path);
+      if (encoding.clientMode === "wire") return seconds;
+      const date = new Date(seconds * 1000);
+      if (Number.isNaN(date.getTime())) {
+        fail(path, "Unix timestamp is outside the JavaScript Date range.");
+      }
+      return date;
     }
-    return out;
-  }
-  return decodeLeaf(value, encoding);
-}
-
-function encodeLeaf(value: unknown, enc: PropertyEncoding): unknown {
-  switch (enc.sourceKind) {
-    case "utcDateTime":
-    case "offsetDateTime":
-      if (value instanceof Date) {
-        switch (enc.encoding) {
-          case "rfc7231":
-            return value.toUTCString();
-          case "unixTimestamp":
-            return Math.floor(value.getTime() / 1000);
-          case "rfc3339":
-          default:
-            return value.toISOString();
-        }
-      }
-      return value;
+    case "duration-iso8601":
+      return requireIsoDuration(value, path);
+    case "duration-numeric":
+      return requireInteger(value, encoding.wire.scalar, path);
     case "bytes":
-      if (value instanceof Uint8Array) {
-        const b64 = uint8ArrayToBase64(value);
-        return enc.encoding === "base64url" ? base64ToBase64Url(b64) : b64;
-      }
-      return value;
-    default:
-      // duration / unknown sources: passthrough. Numeric values for
-      // seconds/milliseconds are already wire-correct; ISO8601 strings
-      // for the default encoding are already wire-correct.
-      return value;
+      return decodeBytes(value, encoding, path);
+    case "plain-date": {
+      const date = requirePlainDate(value, path);
+      return encoding.clientMode === "wire" ? date : new Date(`${date}T00:00:00.000Z`);
+    }
+    case "numeric-string":
+      return requireNumericString(value, encoding, path);
+    case "boolean-string": {
+      const booleanText = requireBooleanString(value, path);
+      return encoding.clientMode === "wire" ? booleanText : booleanText.toLowerCase() === "true";
+    }
   }
 }
 
-function decodeLeaf(value: unknown, enc: PropertyEncoding): unknown {
-  switch (enc.sourceKind) {
-    case "utcDateTime":
-    case "offsetDateTime":
-      if (typeof value === "string") return new Date(value);
-      if (typeof value === "number" && enc.encoding === "unixTimestamp") {
-        return new Date(value * 1000);
+function encodeDateTimeText(
+  value: unknown,
+  encoding: DateTimeTextEncodingDescriptor,
+  path: readonly string[],
+): string {
+  if (encoding.clientMode === "wire") {
+    if (encoding.source === "offsetDateTime") {
+      const clientText = requireDateString(value, "rfc3339", path);
+      if (encoding.format === "rfc7231") {
+        requireWholeSecondDateTime(clientText, path);
+        return new Date(clientText).toUTCString();
       }
-      return value;
-    case "bytes":
-      if (typeof value === "string") {
-        const b64 = enc.encoding === "base64url" ? base64UrlToBase64(value) : value;
-        return base64ToUint8Array(b64);
-      }
-      return value;
-    default:
-      return value;
+      return clientText;
+    }
+    return requireDateString(value, encoding.format, path);
   }
+  const date = requireDate(value, path);
+  if (encoding.format === "rfc7231") {
+    if (date.getUTCMilliseconds() !== 0) {
+      fail(path, "RFC7231 conversion would lose millisecond precision.");
+    }
+    return date.toUTCString();
+  }
+  return date.toISOString();
+}
+
+function decodeDateTimeText(
+  value: unknown,
+  encoding: DateTimeTextEncodingDescriptor,
+  path: readonly string[],
+): unknown {
+  const text = requireDateString(value, encoding.format, path);
+  if (encoding.source === "offsetDateTime") {
+    return encoding.format === "rfc7231" ? new Date(text).toISOString() : text;
+  }
+  if (encoding.clientMode === "wire") return text;
+  return new Date(text);
+}
+
+function encodeUnixTimestamp(
+  value: unknown,
+  encoding: UnixTimestampEncodingDescriptor,
+  path: readonly string[],
+): number {
+  if (encoding.clientMode === "wire") {
+    return requireInteger(value, encoding.wire.scalar, path);
+  }
+  const date = requireDate(value, path);
+  if (date.getTime() % 1000 !== 0) {
+    fail(path, "Unix timestamp conversion would lose millisecond precision.");
+  }
+  return requireInteger(date.getTime() / 1000, encoding.wire.scalar, path);
+}
+
+function encodeBytes(
+  value: unknown,
+  encoding: BytesEncodingDescriptor,
+  path: readonly string[],
+): string {
+  if (encoding.clientMode === "wire") {
+    return requireBase64(value, encoding.format, path);
+  }
+  if (!(value instanceof Uint8Array)) {
+    fail(path, `Expected Uint8Array, got ${describe(value)}.`);
+  }
+  const base64 = uint8ArrayToBase64(value);
+  return encoding.format === "base64url" ? base64ToBase64Url(base64) : base64;
+}
+
+function decodeBytes(
+  value: unknown,
+  encoding: BytesEncodingDescriptor,
+  path: readonly string[],
+): unknown {
+  const text = requireBase64(value, encoding.format, path);
+  if (encoding.clientMode === "wire") return text;
+  const base64 = encoding.format === "base64url" ? base64UrlToBase64(text) : text;
+  return base64ToUint8Array(base64);
+}
+
+function requireDate(value: unknown, path: readonly string[]): Date {
+  if (!(value instanceof Date) || Number.isNaN(value.getTime())) {
+    fail(path, `Expected a valid Date, got ${describe(value)}.`);
+  }
+  return value;
+}
+
+function encodePlainDate(value: unknown, path: readonly string[]): string {
+  const date = requireDate(value, path);
+  if (
+    date.getUTCHours() !== 0 ||
+    date.getUTCMinutes() !== 0 ||
+    date.getUTCSeconds() !== 0 ||
+    date.getUTCMilliseconds() !== 0
+  ) {
+    fail(path, "Plain-date conversion requires UTC midnight.");
+  }
+  return date.toISOString().slice(0, 10);
+}
+
+function requireWholeSecondDateTime(value: string, path: readonly string[]): void {
+  const date = new Date(value);
+  if (date.getUTCMilliseconds() !== 0) {
+    fail(path, "RFC7231 conversion would lose subsecond precision.");
+  }
+}
+
+function requireDateString(
+  value: unknown,
+  format: "rfc3339" | "rfc7231",
+  path: readonly string[],
+): string {
+  const isValid =
+    format === "rfc3339"
+      ? isValidRfc3339(String(value))
+      : /^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} GMT$/.test(
+          String(value),
+        ) &&
+        !Number.isNaN(Date.parse(String(value))) &&
+        new Date(String(value)).toUTCString() === value;
+  if (typeof value !== "string" || !isValid) {
+    fail(path, `Expected a valid ${format} date string, got ${describe(value)}.`);
+  }
+  return value;
+}
+
+const ISO_DURATION =
+  /^-?P(?=\d|T\d)(?:(?:\d+(?:\.\d+)?Y)?(?:\d+(?:\.\d+)?M)?(?:\d+(?:\.\d+)?W)?(?:\d+(?:\.\d+)?D)?)(?:T(?:\d+(?:\.\d+)?H)?(?:\d+(?:\.\d+)?M)?(?:\d+(?:\.\d+)?S)?)?$/;
+
+function requireIsoDuration(value: unknown, path: readonly string[]): string {
+  if (typeof value !== "string" || !ISO_DURATION.test(value)) {
+    fail(path, `Expected an ISO8601 day/time duration, got ${describe(value)}.`);
+  }
+
+  return value;
+}
+
+function requirePlainDate(value: unknown, path: readonly string[]): string {
+  if (
+    typeof value !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(value) ||
+    Number.isNaN(Date.parse(`${value}T00:00:00.000Z`)) ||
+    new Date(`${value}T00:00:00.000Z`).toISOString().slice(0, 10) !== value
+  ) {
+    fail(path, `Expected a YYYY-MM-DD date, got ${describe(value)}.`);
+  }
+  return value;
+}
+
+function requireInteger(
+  value: unknown,
+  scalar: IntegerScalarName,
+  path: readonly string[],
+): number {
+  if (
+    typeof value !== "number" ||
+    !Number.isSafeInteger(value) ||
+    !inIntegerRange(BigInt(value), scalar)
+  ) {
+    fail(path, `Expected a safe ${scalar} value, got ${describe(value)}.`);
+  }
+  return value;
+}
+
+const CANONICAL_NUMBER = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/;
+
+function requireNumericString(
+  value: unknown,
+  encoding: NumericStringEncodingDescriptor,
+  path: readonly string[],
+): string {
+  const pattern = encoding.source === "integer" ? /^-?(?:0|[1-9]\d*)$/ : CANONICAL_NUMBER;
+  if (typeof value !== "string" || !pattern.test(value)) {
+    fail(path, `Expected a canonical numeric string, got ${describe(value)}.`);
+  }
+  if (
+    encoding.source === "integer"
+      ? !inIntegerRange(BigInt(value), encoding.sourceScalar)
+      : !Number.isFinite(Number(value))
+  ) {
+    fail(path, `Numeric string is outside '${encoding.sourceScalar}' range.`);
+  }
+  return value;
+}
+
+const INTEGER_RANGES: Partial<Record<NumericScalarName, readonly [bigint, bigint]>> = {
+  safeint: [BigInt(Number.MIN_SAFE_INTEGER), BigInt(Number.MAX_SAFE_INTEGER)],
+  int8: [-128n, 127n],
+  uint8: [0n, 255n],
+  int16: [-32768n, 32767n],
+  uint16: [0n, 65535n],
+  int32: [-2147483648n, 2147483647n],
+  uint32: [0n, 4294967295n],
+  int64: [-9223372036854775808n, 9223372036854775807n],
+  uint64: [0n, 18446744073709551615n],
+};
+
+function inIntegerRange(value: bigint, scalar: NumericScalarName): boolean {
+  const range = INTEGER_RANGES[scalar];
+  return range ? value >= range[0] && value <= range[1] : true;
+}
+
+function requireBooleanString(value: unknown, path: readonly string[]): string {
+  if (value !== "true" && value !== "false") {
+    fail(path, `Expected 'true' or 'false', got ${describe(value)}.`);
+  }
+  return value;
+}
+
+function isValidRfc3339(value: string): boolean {
+  const match =
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?:Z|[+-](\d{2}):(\d{2}))$/.exec(
+      value,
+    );
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > new Date(Date.UTC(year, month, 0)).getUTCDate() ||
+    Number(match[4]) > 23 ||
+    Number(match[5]) > 59 ||
+    Number(match[6]) > 59 ||
+    Number(match[7] ?? 0) > 23 ||
+    Number(match[8] ?? 0) > 59
+  ) {
+    return false;
+  }
+  return !Number.isNaN(Date.parse(value));
+}
+
+function requireBase64(
+  value: unknown,
+  format: "base64" | "base64url",
+  path: readonly string[],
+): string {
+  if (typeof value !== "string") {
+    fail(path, `Expected a ${format} string, got ${describe(value)}.`);
+  }
+  const pattern =
+    format === "base64"
+      ? /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+      : /^[A-Za-z0-9_-]*$/;
+  if (!pattern.test(value)) {
+    fail(path, `Expected a valid ${format} string.`);
+  }
+  if (format === "base64url" && value.length % 4 === 1) {
+    fail(path, "Expected a valid base64url string length.");
+  }
+  const base64 = format === "base64url" ? base64UrlToBase64(value) : value;
+  const canonical =
+    format === "base64url"
+      ? base64ToBase64Url(uint8ArrayToBase64(base64ToUint8Array(base64)))
+      : uint8ArrayToBase64(base64ToUint8Array(base64));
+  if (canonical !== value) {
+    fail(path, `Expected a canonical ${format} string.`);
+  }
+  return value;
 }
 
 function uint8ArrayToBase64(value: Uint8Array): string {
@@ -124,17 +361,22 @@ function base64ToUint8Array(value: string): Uint8Array {
   return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
-function base64ToBase64Url(b64: string): string {
-  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+function base64ToBase64Url(base64: string): string {
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-function base64UrlToBase64(b64url: string): string {
-  const padded = b64url + "=".repeat((4 - (b64url.length % 4)) % 4);
+function base64UrlToBase64(base64url: string): string {
+  const padded = base64url + "=".repeat((4 - (base64url.length % 4)) % 4);
   return padded.replace(/-/g, "+").replace(/_/g, "/");
 }
 
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  if (value === null || typeof value !== "object") return false;
-  const proto = Object.getPrototypeOf(value);
-  return proto === Object.prototype || proto === null;
+function describe(value: unknown): string {
+  if (value instanceof Date) return "Date";
+  if (value instanceof Uint8Array) return "Uint8Array";
+  return value === null ? "null" : typeof value;
+}
+
+function fail(path: readonly string[], message: string): never {
+  const location = path.length > 0 ? path.join(".") : "<value>";
+  throw new TypeError(`Invalid encoded value at '${location}': ${message}`);
 }

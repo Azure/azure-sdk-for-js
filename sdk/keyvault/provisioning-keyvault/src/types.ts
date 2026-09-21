@@ -4,9 +4,16 @@
 import type { Expression, ExpressionOrValue } from "@azure/provisioning-core";
 import {
   createArrayShape,
+  createBooleanShape,
+  createBytesShape,
+  createDateShape,
   createDeferredShape,
+  createEnumShape,
   createFlatModelShape,
+  createNumberShape,
   createRecordShape,
+  createStringShape,
+  createUnionShape,
   type FlatModelShape,
   type InputArray,
   type InputOf,
@@ -22,6 +29,12 @@ export type CreateMode = "recover" | "default";
  * The type of action.
  */
 export type KeyRotationPolicyActionType = "rotate" | "notify";
+
+/**
+ * SKU of the managed HSM Pool
+ */
+export type ManagedHsmSkuName =
+  "Standard_B1" | "Custom_B32" | "Custom_B6" | "Custom_C42" | "Custom_C10";
 
 /**
  * SKU name to specify whether the key vault is a standard vault or a premium vault.
@@ -78,10 +91,10 @@ export interface AccessPolicyEntryInput extends InputOf<AccessPolicyEntry> {
 export type AccessPolicyEntryView = AccessPolicyEntryInput;
 
 export const accessPolicyEntryShape: FlatModelShape = createFlatModelShape({
-  applicationId: { armPath: ["applicationId"] },
-  objectId: { armPath: ["objectId"] },
-  permissions: { armPath: ["permissions"], target: createDeferredShape(() => permissionsShape) },
-  tenantId: { armPath: ["tenantId"] },
+  applicationId: { armPath: ["applicationId"], value: createStringShape() },
+  objectId: { armPath: ["objectId"], value: createStringShape() },
+  permissions: { armPath: ["permissions"], value: createDeferredShape(() => permissionsShape) },
+  tenantId: { armPath: ["tenantId"], value: createStringShape() },
 });
 
 export interface Action {
@@ -101,7 +114,7 @@ export interface ActionInput extends InputOf<Action> {
 export type ActionView = ActionInput;
 
 export const actionShape: FlatModelShape = createFlatModelShape({
-  type: { armPath: ["type"] },
+  type: { armPath: ["type"], value: createEnumShape() },
 });
 
 /**
@@ -170,12 +183,36 @@ export interface DeletedManagedHsmPropertiesView extends InputOf<DeletedManagedH
 }
 
 export const deletedManagedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
-  deletionDate: { armPath: ["deletionDate"], readOnly: true },
-  location: { armPath: ["location"], readOnly: true },
-  mhsmId: { armPath: ["mhsmId"], readOnly: true },
-  purgeProtectionEnabled: { armPath: ["purgeProtectionEnabled"], readOnly: true },
-  scheduledPurgeDate: { armPath: ["scheduledPurgeDate"], readOnly: true },
-  tags: { armPath: ["tags"], readOnly: true },
+  deletionDate: {
+    armPath: ["deletionDate"],
+    value: createDateShape({
+      kind: "date-time-text",
+      source: "utcDateTime",
+      format: "rfc3339",
+      clientMode: "client",
+      wire: { kind: "string" },
+    }),
+    readOnly: true,
+  },
+  location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+  mhsmId: { armPath: ["mhsmId"], value: createStringShape(), readOnly: true },
+  purgeProtectionEnabled: {
+    armPath: ["purgeProtectionEnabled"],
+    value: createBooleanShape(),
+    readOnly: true,
+  },
+  scheduledPurgeDate: {
+    armPath: ["scheduledPurgeDate"],
+    value: createDateShape({
+      kind: "date-time-text",
+      source: "utcDateTime",
+      format: "rfc3339",
+      clientMode: "client",
+      wire: { kind: "string" },
+    }),
+    readOnly: true,
+  },
+  tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
 });
 
 /**
@@ -244,12 +281,36 @@ export interface DeletedVaultPropertiesView extends InputOf<DeletedVaultProperti
 }
 
 export const deletedVaultPropertiesShape: FlatModelShape = createFlatModelShape({
-  deletionDate: { armPath: ["deletionDate"], readOnly: true },
-  location: { armPath: ["location"], readOnly: true },
-  purgeProtectionEnabled: { armPath: ["purgeProtectionEnabled"], readOnly: true },
-  scheduledPurgeDate: { armPath: ["scheduledPurgeDate"], readOnly: true },
-  tags: { armPath: ["tags"], readOnly: true },
-  vaultId: { armPath: ["vaultId"], readOnly: true },
+  deletionDate: {
+    armPath: ["deletionDate"],
+    value: createDateShape({
+      kind: "date-time-text",
+      source: "utcDateTime",
+      format: "rfc3339",
+      clientMode: "client",
+      wire: { kind: "string" },
+    }),
+    readOnly: true,
+  },
+  location: { armPath: ["location"], value: createStringShape(), readOnly: true },
+  purgeProtectionEnabled: {
+    armPath: ["purgeProtectionEnabled"],
+    value: createBooleanShape(),
+    readOnly: true,
+  },
+  scheduledPurgeDate: {
+    armPath: ["scheduledPurgeDate"],
+    value: createDateShape({
+      kind: "date-time-text",
+      source: "utcDateTime",
+      format: "rfc3339",
+      clientMode: "client",
+      wire: { kind: "string" },
+    }),
+    readOnly: true,
+  },
+  tags: { armPath: ["tags"], value: createRecordShape(createStringShape()), readOnly: true },
+  vaultId: { armPath: ["vaultId"], value: createStringShape(), readOnly: true },
 });
 
 /**
@@ -278,7 +339,7 @@ export interface IpRuleInput extends InputOf<IpRule> {
 export type IpRuleView = IpRuleInput;
 
 export const ipRuleShape: FlatModelShape = createFlatModelShape({
-  value: { armPath: ["value"] },
+  value: { armPath: ["value"], value: createStringShape() },
 });
 
 /**
@@ -372,13 +433,13 @@ export interface KeyAttributesView extends InputOf<KeyAttributes> {
 }
 
 export const keyAttributesShape: FlatModelShape = createFlatModelShape({
-  created: { armPath: ["created"], readOnly: true },
-  enabled: { armPath: ["enabled"] },
-  expires: { armPath: ["exp"] },
-  exportable: { armPath: ["exportable"] },
-  notBefore: { armPath: ["nbf"] },
-  recoveryLevel: { armPath: ["recoveryLevel"], readOnly: true },
-  updated: { armPath: ["updated"], readOnly: true },
+  created: { armPath: ["created"], value: createNumberShape(), readOnly: true },
+  enabled: { armPath: ["enabled"], value: createBooleanShape() },
+  expires: { armPath: ["exp"], value: createNumberShape() },
+  exportable: { armPath: ["exportable"], value: createBooleanShape() },
+  notBefore: { armPath: ["nbf"], value: createNumberShape() },
+  recoveryLevel: { armPath: ["recoveryLevel"], value: createUnionShape(), readOnly: true },
+  updated: { armPath: ["updated"], value: createNumberShape(), readOnly: true },
 });
 
 /**
@@ -491,20 +552,20 @@ export interface KeyPropertiesView extends InputOf<KeyProperties> {
 }
 
 export const keyPropertiesShape: FlatModelShape = createFlatModelShape({
-  attributes: { armPath: ["attributes"], target: createDeferredShape(() => keyAttributesShape) },
-  curveName: { armPath: ["curveName"] },
-  keyOps: { armPath: ["keyOps"] },
-  keySize: { armPath: ["keySize"] },
-  keyUri: { armPath: ["keyUri"], readOnly: true },
-  keyUriWithVersion: { armPath: ["keyUriWithVersion"], readOnly: true },
-  kty: { armPath: ["kty"] },
+  attributes: { armPath: ["attributes"], value: createDeferredShape(() => keyAttributesShape) },
+  curveName: { armPath: ["curveName"], value: createUnionShape() },
+  keyOps: { armPath: ["keyOps"], value: createArrayShape(createUnionShape()) },
+  keySize: { armPath: ["keySize"], value: createNumberShape() },
+  keyUri: { armPath: ["keyUri"], value: createStringShape(), readOnly: true },
+  keyUriWithVersion: { armPath: ["keyUriWithVersion"], value: createStringShape(), readOnly: true },
+  kty: { armPath: ["kty"], value: createUnionShape() },
   releasePolicy: {
     armPath: ["release_policy"],
-    target: createDeferredShape(() => keyReleasePolicyShape),
+    value: createDeferredShape(() => keyReleasePolicyShape),
   },
   rotationPolicy: {
     armPath: ["rotationPolicy"],
-    target: createDeferredShape(() => rotationPolicyShape),
+    value: createDeferredShape(() => rotationPolicyShape),
   },
 });
 
@@ -533,10 +594,16 @@ export interface KeyReleasePolicyInput extends InputOf<KeyReleasePolicy> {
 export type KeyReleasePolicyView = KeyReleasePolicyInput;
 
 export const keyReleasePolicyShape: FlatModelShape = createFlatModelShape({
-  contentType: { armPath: ["contentType"] },
+  contentType: { armPath: ["contentType"], value: createStringShape() },
   data: {
     armPath: ["data"],
-    encoding: { encoding: "base64url", wireKind: "string", sourceKind: "bytes" },
+    value: createBytesShape({
+      kind: "bytes",
+      source: "bytes",
+      format: "base64url",
+      clientMode: "client",
+      wire: { kind: "string" },
+    }),
   },
 });
 
@@ -578,9 +645,9 @@ export interface KeyRotationPolicyAttributesView extends InputOf<KeyRotationPoli
 }
 
 export const keyRotationPolicyAttributesShape: FlatModelShape = createFlatModelShape({
-  created: { armPath: ["created"], readOnly: true },
-  expiryTime: { armPath: ["expiryTime"] },
-  updated: { armPath: ["updated"], readOnly: true },
+  created: { armPath: ["created"], value: createNumberShape(), readOnly: true },
+  expiryTime: { armPath: ["expiryTime"], value: createStringShape() },
+  updated: { armPath: ["updated"], value: createNumberShape(), readOnly: true },
 });
 
 export interface LifetimeAction {
@@ -608,8 +675,8 @@ export interface LifetimeActionInput extends InputOf<LifetimeAction> {
 export type LifetimeActionView = LifetimeActionInput;
 
 export const lifetimeActionShape: FlatModelShape = createFlatModelShape({
-  action: { armPath: ["action"], target: createDeferredShape(() => actionShape) },
-  trigger: { armPath: ["trigger"], target: createDeferredShape(() => triggerShape) },
+  action: { armPath: ["action"], value: createDeferredShape(() => actionShape) },
+  trigger: { armPath: ["trigger"], value: createDeferredShape(() => triggerShape) },
 });
 
 export interface ManagedHsmAction {
@@ -629,7 +696,7 @@ export interface ManagedHsmActionInput extends InputOf<ManagedHsmAction> {
 export type ManagedHsmActionView = ManagedHsmActionInput;
 
 export const managedHsmActionShape: FlatModelShape = createFlatModelShape({
-  type: { armPath: ["type"] },
+  type: { armPath: ["type"], value: createEnumShape() },
 });
 
 /**
@@ -723,13 +790,13 @@ export interface ManagedHsmKeyAttributesView extends InputOf<ManagedHsmKeyAttrib
 }
 
 export const managedHsmKeyAttributesShape: FlatModelShape = createFlatModelShape({
-  created: { armPath: ["created"], readOnly: true },
-  enabled: { armPath: ["enabled"] },
-  expires: { armPath: ["exp"] },
-  exportable: { armPath: ["exportable"] },
-  notBefore: { armPath: ["nbf"] },
-  recoveryLevel: { armPath: ["recoveryLevel"], readOnly: true },
-  updated: { armPath: ["updated"], readOnly: true },
+  created: { armPath: ["created"], value: createNumberShape(), readOnly: true },
+  enabled: { armPath: ["enabled"], value: createBooleanShape() },
+  expires: { armPath: ["exp"], value: createNumberShape() },
+  exportable: { armPath: ["exportable"], value: createBooleanShape() },
+  notBefore: { armPath: ["nbf"], value: createNumberShape() },
+  recoveryLevel: { armPath: ["recoveryLevel"], value: createUnionShape(), readOnly: true },
+  updated: { armPath: ["updated"], value: createNumberShape(), readOnly: true },
 });
 
 /**
@@ -844,21 +911,21 @@ export interface ManagedHsmKeyPropertiesView extends InputOf<ManagedHsmKeyProper
 export const managedHsmKeyPropertiesShape: FlatModelShape = createFlatModelShape({
   attributes: {
     armPath: ["attributes"],
-    target: createDeferredShape(() => managedHsmKeyAttributesShape),
+    value: createDeferredShape(() => managedHsmKeyAttributesShape),
   },
-  curveName: { armPath: ["curveName"] },
-  keyOps: { armPath: ["keyOps"] },
-  keySize: { armPath: ["keySize"] },
-  keyUri: { armPath: ["keyUri"], readOnly: true },
-  keyUriWithVersion: { armPath: ["keyUriWithVersion"], readOnly: true },
-  kty: { armPath: ["kty"] },
+  curveName: { armPath: ["curveName"], value: createUnionShape() },
+  keyOps: { armPath: ["keyOps"], value: createArrayShape(createUnionShape()) },
+  keySize: { armPath: ["keySize"], value: createNumberShape() },
+  keyUri: { armPath: ["keyUri"], value: createStringShape(), readOnly: true },
+  keyUriWithVersion: { armPath: ["keyUriWithVersion"], value: createStringShape(), readOnly: true },
+  kty: { armPath: ["kty"], value: createUnionShape() },
   releasePolicy: {
     armPath: ["release_policy"],
-    target: createDeferredShape(() => managedHsmKeyReleasePolicyShape),
+    value: createDeferredShape(() => managedHsmKeyReleasePolicyShape),
   },
   rotationPolicy: {
     armPath: ["rotationPolicy"],
-    target: createDeferredShape(() => managedHsmRotationPolicyShape),
+    value: createDeferredShape(() => managedHsmRotationPolicyShape),
   },
 });
 
@@ -887,10 +954,16 @@ export interface ManagedHsmKeyReleasePolicyInput extends InputOf<ManagedHsmKeyRe
 export type ManagedHsmKeyReleasePolicyView = ManagedHsmKeyReleasePolicyInput;
 
 export const managedHsmKeyReleasePolicyShape: FlatModelShape = createFlatModelShape({
-  contentType: { armPath: ["contentType"] },
+  contentType: { armPath: ["contentType"], value: createStringShape() },
   data: {
     armPath: ["data"],
-    encoding: { encoding: "base64url", wireKind: "string", sourceKind: "bytes" },
+    value: createBytesShape({
+      kind: "bytes",
+      source: "bytes",
+      format: "base64url",
+      clientMode: "client",
+      wire: { kind: "string" },
+    }),
   },
 });
 
@@ -932,9 +1005,9 @@ export interface ManagedHsmKeyRotationPolicyAttributesView extends InputOf<Manag
 }
 
 export const managedHsmKeyRotationPolicyAttributesShape: FlatModelShape = createFlatModelShape({
-  created: { armPath: ["created"], readOnly: true },
-  expiryTime: { armPath: ["expiryTime"] },
-  updated: { armPath: ["updated"], readOnly: true },
+  created: { armPath: ["created"], value: createNumberShape(), readOnly: true },
+  expiryTime: { armPath: ["expiryTime"], value: createStringShape() },
+  updated: { armPath: ["updated"], value: createNumberShape(), readOnly: true },
 });
 
 export interface ManagedHsmLifetimeAction {
@@ -962,8 +1035,8 @@ export interface ManagedHsmLifetimeActionInput extends InputOf<ManagedHsmLifetim
 export type ManagedHsmLifetimeActionView = ManagedHsmLifetimeActionInput;
 
 export const managedHsmLifetimeActionShape: FlatModelShape = createFlatModelShape({
-  action: { armPath: ["action"], target: createDeferredShape(() => managedHsmActionShape) },
-  trigger: { armPath: ["trigger"], target: createDeferredShape(() => managedHsmTriggerShape) },
+  action: { armPath: ["action"], value: createDeferredShape(() => managedHsmActionShape) },
+  trigger: { armPath: ["trigger"], value: createDeferredShape(() => managedHsmTriggerShape) },
 });
 
 /**
@@ -1133,34 +1206,47 @@ export interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> 
 }
 
 export const managedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
-  createMode: { armPath: ["createMode"] },
-  enablePurgeProtection: { armPath: ["enablePurgeProtection"] },
-  enableSoftDelete: { armPath: ["enableSoftDelete"] },
-  hsmUri: { armPath: ["hsmUri"], readOnly: true },
-  initialAdminObjectIds: { armPath: ["initialAdminObjectIds"] },
+  createMode: { armPath: ["createMode"], value: createEnumShape() },
+  enablePurgeProtection: { armPath: ["enablePurgeProtection"], value: createBooleanShape() },
+  enableSoftDelete: { armPath: ["enableSoftDelete"], value: createBooleanShape() },
+  hsmUri: { armPath: ["hsmUri"], value: createStringShape(), readOnly: true },
+  initialAdminObjectIds: {
+    armPath: ["initialAdminObjectIds"],
+    value: createArrayShape(createStringShape()),
+  },
   networkAcls: {
     armPath: ["networkAcls"],
-    target: createDeferredShape(() => mhsmNetworkRuleSetShape),
+    value: createDeferredShape(() => mhsmNetworkRuleSetShape),
   },
   privateEndpointConnections: {
     armPath: ["privateEndpointConnections"],
-    target: createArrayShape(createDeferredShape(() => mhsmPrivateEndpointConnectionItemShape)),
+    value: createArrayShape(createDeferredShape(() => mhsmPrivateEndpointConnectionItemShape)),
     readOnly: true,
   },
-  publicNetworkAccess: { armPath: ["publicNetworkAccess"] },
+  publicNetworkAccess: { armPath: ["publicNetworkAccess"], value: createUnionShape() },
   regions: {
     armPath: ["regions"],
-    target: createArrayShape(createDeferredShape(() => mhsmGeoReplicatedRegionShape)),
+    value: createArrayShape(createDeferredShape(() => mhsmGeoReplicatedRegionShape)),
   },
-  scheduledPurgeDate: { armPath: ["scheduledPurgeDate"], readOnly: true },
-  securityDomainProperties: {
-    armPath: ["securityDomainProperties"],
-    target: createDeferredShape(() => managedHsmSecurityDomainPropertiesShape),
+  scheduledPurgeDate: {
+    armPath: ["scheduledPurgeDate"],
+    value: createDateShape({
+      kind: "date-time-text",
+      source: "utcDateTime",
+      format: "rfc3339",
+      clientMode: "client",
+      wire: { kind: "string" },
+    }),
     readOnly: true,
   },
-  softDeleteRetentionInDays: { armPath: ["softDeleteRetentionInDays"] },
-  statusMessage: { armPath: ["statusMessage"], readOnly: true },
-  tenantId: { armPath: ["tenantId"] },
+  securityDomainProperties: {
+    armPath: ["securityDomainProperties"],
+    value: createDeferredShape(() => managedHsmSecurityDomainPropertiesShape),
+    readOnly: true,
+  },
+  softDeleteRetentionInDays: { armPath: ["softDeleteRetentionInDays"], value: createNumberShape() },
+  statusMessage: { armPath: ["statusMessage"], value: createStringShape(), readOnly: true },
+  tenantId: { armPath: ["tenantId"], value: createStringShape() },
 });
 
 export interface ManagedHsmRotationPolicy {
@@ -1201,11 +1287,11 @@ export interface ManagedHsmRotationPolicyView extends InputOf<ManagedHsmRotation
 export const managedHsmRotationPolicyShape: FlatModelShape = createFlatModelShape({
   attributes: {
     armPath: ["attributes"],
-    target: createDeferredShape(() => managedHsmKeyRotationPolicyAttributesShape),
+    value: createDeferredShape(() => managedHsmKeyRotationPolicyAttributesShape),
   },
   lifetimeActions: {
     armPath: ["lifetimeActions"],
-    target: createArrayShape(createDeferredShape(() => managedHsmLifetimeActionShape)),
+    value: createArrayShape(createDeferredShape(() => managedHsmLifetimeActionShape)),
   },
 });
 
@@ -1243,8 +1329,12 @@ export interface ManagedHsmSecurityDomainPropertiesView extends InputOf<ManagedH
 }
 
 export const managedHsmSecurityDomainPropertiesShape: FlatModelShape = createFlatModelShape({
-  activationStatus: { armPath: ["activationStatus"], readOnly: true },
-  activationStatusMessage: { armPath: ["activationStatusMessage"], readOnly: true },
+  activationStatus: { armPath: ["activationStatus"], value: createUnionShape(), readOnly: true },
+  activationStatusMessage: {
+    armPath: ["activationStatusMessage"],
+    value: createStringShape(),
+    readOnly: true,
+  },
 });
 
 /**
@@ -1258,7 +1348,7 @@ export interface ManagedHsmSku {
   /**
    * SKU of the managed HSM Pool
    */
-  name: ManagedHsmSkuNameV2;
+  name: ManagedHsmSkuName;
 }
 
 /**
@@ -1272,7 +1362,7 @@ export interface ManagedHsmSkuInput extends InputOf<ManagedHsmSku> {
   /**
    * SKU of the managed HSM Pool
    */
-  name: ExpressionOrValue<ManagedHsmSkuNameV2>;
+  name: ExpressionOrValue<ManagedHsmSkuName>;
 }
 
 /**
@@ -1281,8 +1371,8 @@ export interface ManagedHsmSkuInput extends InputOf<ManagedHsmSku> {
 export type ManagedHsmSkuView = ManagedHsmSkuInput;
 
 export const managedHsmSkuShape: FlatModelShape = createFlatModelShape({
-  family: { armPath: ["family"] },
-  name: { armPath: ["name"] },
+  family: { armPath: ["family"], value: createUnionShape() },
+  name: { armPath: ["name"], value: createEnumShape() },
 });
 
 export interface ManagedHsmTrigger {
@@ -1310,8 +1400,8 @@ export interface ManagedHsmTriggerInput extends InputOf<ManagedHsmTrigger> {
 export type ManagedHsmTriggerView = ManagedHsmTriggerInput;
 
 export const managedHsmTriggerShape: FlatModelShape = createFlatModelShape({
-  timeAfterCreate: { armPath: ["timeAfterCreate"] },
-  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"] },
+  timeAfterCreate: { armPath: ["timeAfterCreate"], value: createStringShape() },
+  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"], value: createStringShape() },
 });
 
 /**
@@ -1383,12 +1473,12 @@ export interface ManagedServiceIdentityView extends InputOf<ManagedServiceIdenti
 }
 
 export const managedServiceIdentityShape: FlatModelShape = createFlatModelShape({
-  principalId: { armPath: ["principalId"], readOnly: true },
-  tenantId: { armPath: ["tenantId"], readOnly: true },
-  type: { armPath: ["type"] },
+  principalId: { armPath: ["principalId"], value: createStringShape(), readOnly: true },
+  tenantId: { armPath: ["tenantId"], value: createStringShape(), readOnly: true },
+  type: { armPath: ["type"], value: createUnionShape() },
   userAssignedIdentities: {
     armPath: ["userAssignedIdentities"],
-    target: createRecordShape(createDeferredShape(() => userAssignedIdentityShape)),
+    value: createRecordShape(createDeferredShape(() => userAssignedIdentityShape)),
   },
 });
 
@@ -1426,8 +1516,8 @@ export interface MhsmGeoReplicatedRegionInput extends InputOf<MhsmGeoReplicatedR
 export type MhsmGeoReplicatedRegionView = MhsmGeoReplicatedRegionInput;
 
 export const mhsmGeoReplicatedRegionShape: FlatModelShape = createFlatModelShape({
-  isPrimary: { armPath: ["isPrimary"] },
-  name: { armPath: ["name"] },
+  isPrimary: { armPath: ["isPrimary"], value: createBooleanShape() },
+  name: { armPath: ["name"], value: createStringShape() },
 });
 
 /**
@@ -1456,7 +1546,7 @@ export interface MhsmipRuleInput extends InputOf<MhsmipRule> {
 export type MhsmipRuleView = MhsmipRuleInput;
 
 export const mhsmipRuleShape: FlatModelShape = createFlatModelShape({
-  value: { armPath: ["value"] },
+  value: { armPath: ["value"], value: createStringShape() },
 });
 
 /**
@@ -1518,19 +1608,19 @@ export interface MhsmNetworkRuleSetInput extends InputOf<MhsmNetworkRuleSet> {
 export type MhsmNetworkRuleSetView = MhsmNetworkRuleSetInput;
 
 export const mhsmNetworkRuleSetShape: FlatModelShape = createFlatModelShape({
-  bypass: { armPath: ["bypass"] },
-  defaultAction: { armPath: ["defaultAction"] },
+  bypass: { armPath: ["bypass"], value: createUnionShape() },
+  defaultAction: { armPath: ["defaultAction"], value: createUnionShape() },
   ipRules: {
     armPath: ["ipRules"],
-    target: createArrayShape(createDeferredShape(() => mhsmipRuleShape)),
+    value: createArrayShape(createDeferredShape(() => mhsmipRuleShape)),
   },
   serviceTags: {
     armPath: ["serviceTags"],
-    target: createArrayShape(createDeferredShape(() => mhsmServiceTagRuleShape)),
+    value: createArrayShape(createDeferredShape(() => mhsmServiceTagRuleShape)),
   },
   virtualNetworkRules: {
     armPath: ["virtualNetworkRules"],
-    target: createArrayShape(createDeferredShape(() => mhsmVirtualNetworkRuleShape)),
+    value: createArrayShape(createDeferredShape(() => mhsmVirtualNetworkRuleShape)),
   },
 });
 
@@ -1579,7 +1669,7 @@ export interface MhsmPrivateEndpointConnectionItemView extends InputOf<MhsmPriva
 export const mhsmPrivateEndpointConnectionItemShape: FlatModelShape = createFlatModelShape({
   properties: {
     armPath: ["properties"],
-    target: createDeferredShape(() => mhsmPrivateEndpointConnectionPropertiesShape),
+    value: createDeferredShape(() => mhsmPrivateEndpointConnectionPropertiesShape),
     readOnly: true,
   },
 });
@@ -1621,11 +1711,11 @@ export type MhsmPrivateEndpointConnectionPropertiesView =
 export const mhsmPrivateEndpointConnectionPropertiesShape: FlatModelShape = createFlatModelShape({
   privateEndpoint: {
     armPath: ["privateEndpoint"],
-    target: createDeferredShape(() => mhsmPrivateEndpointShape),
+    value: createDeferredShape(() => mhsmPrivateEndpointShape),
   },
   privateLinkServiceConnectionState: {
     armPath: ["privateLinkServiceConnectionState"],
-    target: createDeferredShape(() => mhsmPrivateLinkServiceConnectionStateShape),
+    value: createDeferredShape(() => mhsmPrivateLinkServiceConnectionStateShape),
   },
 });
 
@@ -1671,9 +1761,9 @@ export interface MhsmPrivateLinkServiceConnectionStateInput extends InputOf<Mhsm
 export type MhsmPrivateLinkServiceConnectionStateView = MhsmPrivateLinkServiceConnectionStateInput;
 
 export const mhsmPrivateLinkServiceConnectionStateShape: FlatModelShape = createFlatModelShape({
-  actionsRequired: { armPath: ["actionsRequired"] },
-  description: { armPath: ["description"] },
-  status: { armPath: ["status"] },
+  actionsRequired: { armPath: ["actionsRequired"], value: createUnionShape() },
+  description: { armPath: ["description"], value: createStringShape() },
+  status: { armPath: ["status"], value: createUnionShape() },
 });
 
 /**
@@ -1702,7 +1792,7 @@ export interface MhsmServiceTagRuleInput extends InputOf<MhsmServiceTagRule> {
 export type MhsmServiceTagRuleView = MhsmServiceTagRuleInput;
 
 export const mhsmServiceTagRuleShape: FlatModelShape = createFlatModelShape({
-  tag: { armPath: ["tag"] },
+  tag: { armPath: ["tag"], value: createStringShape() },
 });
 
 /**
@@ -1731,7 +1821,7 @@ export interface MhsmVirtualNetworkRuleInput extends InputOf<MhsmVirtualNetworkR
 export type MhsmVirtualNetworkRuleView = MhsmVirtualNetworkRuleInput;
 
 export const mhsmVirtualNetworkRuleShape: FlatModelShape = createFlatModelShape({
-  id: { armPath: ["id"] },
+  id: { armPath: ["id"], value: createStringShape() },
 });
 
 /**
@@ -1784,15 +1874,15 @@ export interface NetworkRuleSetInput extends InputOf<NetworkRuleSet> {
 export type NetworkRuleSetView = NetworkRuleSetInput;
 
 export const networkRuleSetShape: FlatModelShape = createFlatModelShape({
-  bypass: { armPath: ["bypass"] },
-  defaultAction: { armPath: ["defaultAction"] },
+  bypass: { armPath: ["bypass"], value: createUnionShape() },
+  defaultAction: { armPath: ["defaultAction"], value: createUnionShape() },
   ipRules: {
     armPath: ["ipRules"],
-    target: createArrayShape(createDeferredShape(() => ipRuleShape)),
+    value: createArrayShape(createDeferredShape(() => ipRuleShape)),
   },
   virtualNetworkRules: {
     armPath: ["virtualNetworkRules"],
-    target: createArrayShape(createDeferredShape(() => virtualNetworkRuleShape)),
+    value: createArrayShape(createDeferredShape(() => virtualNetworkRuleShape)),
   },
 });
 
@@ -1847,10 +1937,10 @@ export interface PermissionsInput extends InputOf<Permissions> {
 export type PermissionsView = PermissionsInput;
 
 export const permissionsShape: FlatModelShape = createFlatModelShape({
-  certificates: { armPath: ["certificates"] },
-  keys: { armPath: ["keys"] },
-  secrets: { armPath: ["secrets"] },
-  storage: { armPath: ["storage"] },
+  certificates: { armPath: ["certificates"], value: createArrayShape(createUnionShape()) },
+  keys: { armPath: ["keys"], value: createArrayShape(createUnionShape()) },
+  secrets: { armPath: ["secrets"], value: createArrayShape(createUnionShape()) },
+  storage: { armPath: ["storage"], value: createArrayShape(createUnionShape()) },
 });
 
 /**
@@ -1898,7 +1988,7 @@ export interface PrivateEndpointConnectionItemView extends InputOf<PrivateEndpoi
 export const privateEndpointConnectionItemShape: FlatModelShape = createFlatModelShape({
   properties: {
     armPath: ["properties"],
-    target: createDeferredShape(() => privateEndpointConnectionPropertiesShape),
+    value: createDeferredShape(() => privateEndpointConnectionPropertiesShape),
     readOnly: true,
   },
 });
@@ -1939,11 +2029,11 @@ export type PrivateEndpointConnectionPropertiesView = PrivateEndpointConnectionP
 export const privateEndpointConnectionPropertiesShape: FlatModelShape = createFlatModelShape({
   privateEndpoint: {
     armPath: ["privateEndpoint"],
-    target: createDeferredShape(() => privateEndpointShape),
+    value: createDeferredShape(() => privateEndpointShape),
   },
   privateLinkServiceConnectionState: {
     armPath: ["privateLinkServiceConnectionState"],
-    target: createDeferredShape(() => privateLinkServiceConnectionStateShape),
+    value: createDeferredShape(() => privateLinkServiceConnectionStateShape),
   },
 });
 
@@ -1989,9 +2079,9 @@ export interface PrivateLinkServiceConnectionStateInput extends InputOf<PrivateL
 export type PrivateLinkServiceConnectionStateView = PrivateLinkServiceConnectionStateInput;
 
 export const privateLinkServiceConnectionStateShape: FlatModelShape = createFlatModelShape({
-  actionsRequired: { armPath: ["actionsRequired"] },
-  description: { armPath: ["description"] },
-  status: { armPath: ["status"] },
+  actionsRequired: { armPath: ["actionsRequired"], value: createUnionShape() },
+  description: { armPath: ["description"], value: createStringShape() },
+  status: { armPath: ["status"], value: createUnionShape() },
 });
 
 export interface RotationPolicy {
@@ -2030,11 +2120,11 @@ export interface RotationPolicyView extends InputOf<RotationPolicy> {
 export const rotationPolicyShape: FlatModelShape = createFlatModelShape({
   attributes: {
     armPath: ["attributes"],
-    target: createDeferredShape(() => keyRotationPolicyAttributesShape),
+    value: createDeferredShape(() => keyRotationPolicyAttributesShape),
   },
   lifetimeActions: {
     armPath: ["lifetimeActions"],
-    target: createArrayShape(createDeferredShape(() => lifetimeActionShape)),
+    value: createArrayShape(createDeferredShape(() => lifetimeActionShape)),
   },
 });
 
@@ -2111,21 +2201,45 @@ export interface SecretAttributesView extends InputOf<SecretAttributes> {
 export const secretAttributesShape: FlatModelShape = createFlatModelShape({
   created: {
     armPath: ["created"],
-    encoding: { encoding: "unixTimestamp", wireKind: "int", sourceKind: "utcDateTime" },
+    value: createDateShape({
+      kind: "unix-timestamp",
+      source: "utcDateTime",
+      unit: "seconds",
+      clientMode: "client",
+      wire: { kind: "integer", scalar: "int32" },
+    }),
     readOnly: true,
   },
-  enabled: { armPath: ["enabled"] },
+  enabled: { armPath: ["enabled"], value: createBooleanShape() },
   expires: {
     armPath: ["exp"],
-    encoding: { encoding: "unixTimestamp", wireKind: "int", sourceKind: "utcDateTime" },
+    value: createDateShape({
+      kind: "unix-timestamp",
+      source: "utcDateTime",
+      unit: "seconds",
+      clientMode: "client",
+      wire: { kind: "integer", scalar: "int32" },
+    }),
   },
   notBefore: {
     armPath: ["nbf"],
-    encoding: { encoding: "unixTimestamp", wireKind: "int", sourceKind: "utcDateTime" },
+    value: createDateShape({
+      kind: "unix-timestamp",
+      source: "utcDateTime",
+      unit: "seconds",
+      clientMode: "client",
+      wire: { kind: "integer", scalar: "int32" },
+    }),
   },
   updated: {
     armPath: ["updated"],
-    encoding: { encoding: "unixTimestamp", wireKind: "int", sourceKind: "utcDateTime" },
+    value: createDateShape({
+      kind: "unix-timestamp",
+      source: "utcDateTime",
+      unit: "seconds",
+      clientMode: "client",
+      wire: { kind: "integer", scalar: "int32" },
+    }),
     readOnly: true,
   },
 });
@@ -2201,11 +2315,15 @@ export interface SecretPropertiesView extends InputOf<SecretProperties> {
 }
 
 export const secretPropertiesShape: FlatModelShape = createFlatModelShape({
-  attributes: { armPath: ["attributes"], target: createDeferredShape(() => secretAttributesShape) },
-  contentType: { armPath: ["contentType"] },
-  secretUri: { armPath: ["secretUri"], readOnly: true },
-  secretUriWithVersion: { armPath: ["secretUriWithVersion"], readOnly: true },
-  value: { armPath: ["value"] },
+  attributes: { armPath: ["attributes"], value: createDeferredShape(() => secretAttributesShape) },
+  contentType: { armPath: ["contentType"], value: createStringShape() },
+  secretUri: { armPath: ["secretUri"], value: createStringShape(), readOnly: true },
+  secretUriWithVersion: {
+    armPath: ["secretUriWithVersion"],
+    value: createStringShape(),
+    readOnly: true,
+  },
+  value: { armPath: ["value"], value: createStringShape() },
 });
 
 /**
@@ -2242,46 +2360,8 @@ export interface SkuInput extends InputOf<Sku> {
 export type SkuView = SkuInput;
 
 export const skuShape: FlatModelShape = createFlatModelShape({
-  family: { armPath: ["family"] },
-  name: { armPath: ["name"] },
-});
-
-/**
- * Configuration for Token Binding for Entra tokens
- */
-export interface TokenBindingParameters {
-  /**
-   * Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order.
-   */
-  minimumTokenBindingStrength?: TokenBindingStrength;
-  /**
-   * This specifies whether token binding is disabled, enabled or enforced.
-   */
-  mode?: TokenBindingMode;
-}
-
-/**
- * Input type for Configuration for Token Binding for Entra tokens
- */
-export interface TokenBindingParametersInput extends InputOf<TokenBindingParameters> {
-  /**
-   * Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order.
-   */
-  minimumTokenBindingStrength?: ExpressionOrValue<TokenBindingStrength> | undefined;
-  /**
-   * This specifies whether token binding is disabled, enabled or enforced.
-   */
-  mode?: ExpressionOrValue<TokenBindingMode> | undefined;
-}
-
-/**
- * View type for Configuration for Token Binding for Entra tokens
- */
-export type TokenBindingParametersView = TokenBindingParametersInput;
-
-export const tokenBindingParametersShape: FlatModelShape = createFlatModelShape({
-  minimumTokenBindingStrength: { armPath: ["minimumTokenBindingStrength"] },
-  mode: { armPath: ["mode"] },
+  family: { armPath: ["family"], value: createUnionShape() },
+  name: { armPath: ["name"], value: createEnumShape() },
 });
 
 export interface Trigger {
@@ -2309,8 +2389,8 @@ export interface TriggerInput extends InputOf<Trigger> {
 export type TriggerView = TriggerInput;
 
 export const triggerShape: FlatModelShape = createFlatModelShape({
-  timeAfterCreate: { armPath: ["timeAfterCreate"] },
-  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"] },
+  timeAfterCreate: { armPath: ["timeAfterCreate"], value: createStringShape() },
+  timeBeforeExpiry: { armPath: ["timeBeforeExpiry"], value: createStringShape() },
 });
 
 /**
@@ -2347,8 +2427,8 @@ export interface UserAssignedIdentityView extends InputOf<UserAssignedIdentity> 
 }
 
 export const userAssignedIdentityShape: FlatModelShape = createFlatModelShape({
-  clientId: { armPath: ["clientId"], readOnly: true },
-  principalId: { armPath: ["principalId"], readOnly: true },
+  clientId: { armPath: ["clientId"], value: createStringShape(), readOnly: true },
+  principalId: { armPath: ["principalId"], value: createStringShape(), readOnly: true },
 });
 
 /**
@@ -2379,7 +2459,7 @@ export type VaultAccessPolicyPropertiesView = VaultAccessPolicyPropertiesInput;
 export const vaultAccessPolicyPropertiesShape: FlatModelShape = createFlatModelShape({
   accessPolicies: {
     armPath: ["accessPolicies"],
-    target: createArrayShape(createDeferredShape(() => accessPolicyEntryShape)),
+    value: createArrayShape(createDeferredShape(() => accessPolicyEntryShape)),
   },
 });
 
@@ -2448,10 +2528,6 @@ export interface VaultProperties {
    */
   tenantId: string;
   /**
-   * Configuration for Token Binding for Entra tokens
-   */
-  tokenBindingParameters?: TokenBindingParameters;
-  /**
    * The URI of the vault for performing operations on keys and secrets.
    */
   vaultUri?: string;
@@ -2513,10 +2589,6 @@ export interface VaultPropertiesInput extends InputOf<VaultProperties> {
    * The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
    */
   tenantId: ExpressionOrValue<string>;
-  /**
-   * Configuration for Token Binding for Entra tokens
-   */
-  tokenBindingParameters?: TokenBindingParametersInput | undefined;
   /**
    * The URI of the vault for performing operations on keys and secrets.
    */
@@ -2588,10 +2660,6 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
    */
   tenantId: ExpressionOrValue<string>;
   /**
-   * Configuration for Token Binding for Entra tokens
-   */
-  tokenBindingParameters?: TokenBindingParametersView | undefined;
-  /**
    * The URI of the vault for performing operations on keys and secrets.
    */
   vaultUri?: ExpressionOrValue<string> | undefined;
@@ -2600,31 +2668,30 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
 export const vaultPropertiesShape: FlatModelShape = createFlatModelShape({
   accessPolicies: {
     armPath: ["accessPolicies"],
-    target: createArrayShape(createDeferredShape(() => accessPolicyEntryShape)),
+    value: createArrayShape(createDeferredShape(() => accessPolicyEntryShape)),
   },
-  createMode: { armPath: ["createMode"] },
-  enabledForDeployment: { armPath: ["enabledForDeployment"] },
-  enabledForDiskEncryption: { armPath: ["enabledForDiskEncryption"] },
-  enabledForTemplateDeployment: { armPath: ["enabledForTemplateDeployment"] },
-  enablePurgeProtection: { armPath: ["enablePurgeProtection"] },
-  enableRbacAuthorization: { armPath: ["enableRbacAuthorization"] },
-  enableSoftDelete: { armPath: ["enableSoftDelete"] },
-  hsmPoolResourceId: { armPath: ["hsmPoolResourceId"], readOnly: true },
-  networkAcls: { armPath: ["networkAcls"], target: createDeferredShape(() => networkRuleSetShape) },
+  createMode: { armPath: ["createMode"], value: createEnumShape() },
+  enabledForDeployment: { armPath: ["enabledForDeployment"], value: createBooleanShape() },
+  enabledForDiskEncryption: { armPath: ["enabledForDiskEncryption"], value: createBooleanShape() },
+  enabledForTemplateDeployment: {
+    armPath: ["enabledForTemplateDeployment"],
+    value: createBooleanShape(),
+  },
+  enablePurgeProtection: { armPath: ["enablePurgeProtection"], value: createBooleanShape() },
+  enableRbacAuthorization: { armPath: ["enableRbacAuthorization"], value: createBooleanShape() },
+  enableSoftDelete: { armPath: ["enableSoftDelete"], value: createBooleanShape() },
+  hsmPoolResourceId: { armPath: ["hsmPoolResourceId"], value: createStringShape(), readOnly: true },
+  networkAcls: { armPath: ["networkAcls"], value: createDeferredShape(() => networkRuleSetShape) },
   privateEndpointConnections: {
     armPath: ["privateEndpointConnections"],
-    target: createArrayShape(createDeferredShape(() => privateEndpointConnectionItemShape)),
+    value: createArrayShape(createDeferredShape(() => privateEndpointConnectionItemShape)),
     readOnly: true,
   },
-  publicNetworkAccess: { armPath: ["publicNetworkAccess"] },
-  sku: { armPath: ["sku"], target: createDeferredShape(() => skuShape) },
-  softDeleteRetentionInDays: { armPath: ["softDeleteRetentionInDays"] },
-  tenantId: { armPath: ["tenantId"] },
-  tokenBindingParameters: {
-    armPath: ["tokenBindingParameters"],
-    target: createDeferredShape(() => tokenBindingParametersShape),
-  },
-  vaultUri: { armPath: ["vaultUri"] },
+  publicNetworkAccess: { armPath: ["publicNetworkAccess"], value: createStringShape() },
+  sku: { armPath: ["sku"], value: createDeferredShape(() => skuShape) },
+  softDeleteRetentionInDays: { armPath: ["softDeleteRetentionInDays"], value: createNumberShape() },
+  tenantId: { armPath: ["tenantId"], value: createStringShape() },
+  vaultUri: { armPath: ["vaultUri"], value: createStringShape() },
 });
 
 /**
@@ -2661,8 +2728,11 @@ export interface VirtualNetworkRuleInput extends InputOf<VirtualNetworkRule> {
 export type VirtualNetworkRuleView = VirtualNetworkRuleInput;
 
 export const virtualNetworkRuleShape: FlatModelShape = createFlatModelShape({
-  id: { armPath: ["id"] },
-  ignoreMissingVnetServiceEndpoint: { armPath: ["ignoreMissingVnetServiceEndpoint"] },
+  id: { armPath: ["id"], value: createStringShape() },
+  ignoreMissingVnetServiceEndpoint: {
+    armPath: ["ignoreMissingVnetServiceEndpoint"],
+    value: createBooleanShape(),
+  },
 });
 
 /**
@@ -2793,8 +2863,6 @@ export type JsonWebKeyOperation = string;
  * - `"RSA"`
  *
  * - `"RSA-HSM"`
- *
- * - `"oct-HSM"`
  */
 export type JsonWebKeyType = string;
 
@@ -2855,23 +2923,6 @@ export type KeyPermissions = string;
  * - `"C"`
  */
 export type ManagedHsmSkuFamily = string;
-
-/**
- * SKU of the managed HSM Pool
- *
- * Known values:
- *
- * - `"Standard_B1"`: Standard_B1 SKU
- *
- * - `"Custom_B32"`: Custom_B32 SKU
- *
- * - `"Custom_B6"`: Custom_B6 SKU
- *
- * - `"Custom_C42"`: Custom_C42 SKU
- *
- * - `"Custom_C10"`: Custom_C10 SKU
- */
-export type ManagedHsmSkuNameV2 = string;
 
 /**
  * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
@@ -3002,29 +3053,3 @@ export type SkuFamily = string;
  * - `"deletesas"`
  */
 export type StoragePermissions = string;
-
-/**
- * This specifies whether token binding is disabled, enabled or enforced.
- *
- * Known values:
- *
- * - `"Enforced"`: Token binding is enforced for the vault. Only bounded tokens will be accepted. Bearer tokens will be rejected.
- *
- * - `"NotEnforced"`: Token binding is not enforced for the vault. Bounded tokens will be rejected.
- */
-export type TokenBindingMode = string;
-
-/**
- * Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order.
- *
- * Known values:
- *
- * - `"NoValidation"`: This is default when token binding is not enabled.
- *
- * - `"Unattested"`: No attestation proof is required for the bounded token.
- *
- * - `"AttestedTrustedLaunch"`: Bounded Entra token must originate from a trusted launch VM with attestation proof from the attestation authority like Microsoft Azure Attestation.
- *
- * - `"AttestedConfidential"`: Bounded Entra token must originate from a confidential VM with attestation proof from the attestation authority like Microsoft Azure Attestation.
- */
-export type TokenBindingStrength = string;

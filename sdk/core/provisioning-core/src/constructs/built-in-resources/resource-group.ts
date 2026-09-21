@@ -12,7 +12,7 @@ import type { ResourceNamingRules } from "../../naming/naming-rules.js";
 import { deref } from "../resource/resource-proxy.js";
 import type { ExistingResourceProps } from "../resource/resource.js";
 import { Resource } from "../resource/resource.js";
-import { createFlatModelShape } from "../../shape/shape.js";
+import { createFlatModelShape, createRecordShape, createStringShape } from "../../shape/shape.js";
 
 const resourceGroupNamingRules: ResourceNamingRules = {
   abbreviation: "rg",
@@ -63,10 +63,13 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
   static {
     this.registerShape(
       createFlatModelShape({
-        name: { armPath: ["name"] },
-        location: { armPath: ["location"] },
-        tags: { armPath: ["tags"] },
-        managedBy: { armPath: ["managedBy"] },
+        name: { armPath: ["name"], value: createStringShape() },
+        location: { armPath: ["location"], value: createStringShape() },
+        tags: {
+          armPath: ["tags"],
+          value: createRecordShape(createStringShape()),
+        },
+        managedBy: { armPath: ["managedBy"], value: createStringShape() },
       }),
     );
     this.register();

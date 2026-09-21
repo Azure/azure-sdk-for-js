@@ -10,6 +10,12 @@ function add(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>):
 // @public
 function and(...conditions: ExpressionOrValue<boolean>[]): Expression<boolean>;
 
+// @public
+export interface AnyShape {
+    // (undocumented)
+    readonly kind: "any";
+}
+
 // @public (undocumented)
 export interface ArrayAccessExpressionNode<_TValue = unknown> {
     // (undocumented)
@@ -29,7 +35,7 @@ export type ArrayAccessIndex = number | string | ExpressionNode;
 // @public
 export interface ArrayShape {
     // (undocumented)
-    readonly element: NestedShape;
+    readonly element: ValueShape;
     // (undocumented)
     readonly kind: "array";
 }
@@ -58,6 +64,69 @@ export interface BinaryExpressionNode<_TValue = unknown> {
 // @public
 export type BinaryOperator = "%" | "*" | "+" | "-" | "/" | "<" | "<=" | "==" | "!=" | "=~" | "!~" | ">" | ">=" | "&&" | "||" | "??";
 
+// @public
+export interface BooleanLiteralShape {
+    readonly encoding?: BooleanValueEncodingDescriptor;
+    // (undocumented)
+    readonly kind: "booleanLiteral";
+}
+
+// @public
+export interface BooleanShape {
+    // (undocumented)
+    readonly encoding?: BooleanValueEncodingDescriptor;
+    // (undocumented)
+    readonly kind: "boolean";
+}
+
+// @public (undocumented)
+export interface BooleanStringEncodingDescriptor {
+    // (undocumented)
+    readonly clientMode: "client" | "wire";
+    // (undocumented)
+    readonly kind: "boolean-string";
+    // (undocumented)
+    readonly source: "boolean";
+    // (undocumented)
+    readonly wire: {
+        readonly kind: "string";
+    };
+}
+
+// @public
+export type BooleanValueEncodingDescriptor = BooleanStringEncodingDescriptor & {
+    readonly clientMode: "client";
+};
+
+// @public (undocumented)
+export interface BytesEncodingDescriptor {
+    // (undocumented)
+    readonly clientMode: "client" | "wire";
+    // (undocumented)
+    readonly format: "base64" | "base64url";
+    // (undocumented)
+    readonly kind: "bytes";
+    // (undocumented)
+    readonly source: "bytes";
+    // (undocumented)
+    readonly wire: {
+        readonly kind: "string";
+    };
+}
+
+// @public
+export interface BytesShape {
+    // (undocumented)
+    readonly encoding?: BytesValueEncodingDescriptor;
+    // (undocumented)
+    readonly kind: "bytes";
+}
+
+// @public
+export type BytesValueEncodingDescriptor = BytesEncodingDescriptor & {
+    readonly clientMode: "client";
+};
+
 // @public (undocumented)
 function coalesce<T>(left: ExpressionOrValue<T>, right: ExpressionOrValue<T>): Expression<T>;
 
@@ -70,6 +139,9 @@ function concat(...values: ExpressionOrValue<string>[]): Expression<string>;
 // @public (undocumented)
 function cond<T>(condition: ExpressionOrValue<boolean>, trueValue: ExpressionOrValue<T>, falseValue: ExpressionOrValue<T>): Expression<T>;
 
+// @public
+export type ContainerShape = ArrayShape | RecordShape | TupleShape;
+
 // @public (undocumented)
 function contains(container: ExpressionOrValue<unknown>, value: ExpressionOrValue<unknown>): Expression<boolean>;
 
@@ -81,6 +153,40 @@ export function createParameter<T extends keyof PrimitiveTypeMap = keyof Primiti
 
 // @public
 export function createVariable<TValue extends VariableValue = VariableValue>(stack: Stack, name: string, value: TValue, options?: VariableOptions): Variable<TValue>;
+
+// @public
+export interface DateShape {
+    // (undocumented)
+    readonly encoding?: DateValueEncodingDescriptor;
+    // (undocumented)
+    readonly kind: "date";
+}
+
+// @public (undocumented)
+export interface DateTimeTextEncodingDescriptor {
+    // (undocumented)
+    readonly clientMode: "client" | "wire";
+    // (undocumented)
+    readonly format: "rfc3339" | "rfc7231";
+    // (undocumented)
+    readonly kind: "date-time-text";
+    // (undocumented)
+    readonly source: "utcDateTime" | "offsetDateTime";
+    // (undocumented)
+    readonly wire: {
+        readonly kind: "string";
+    };
+}
+
+// @public
+export type DateValueEncodingDescriptor = (DateTimeTextEncodingDescriptor & {
+    readonly source: "utcDateTime";
+    readonly clientMode: "client";
+}) | (UnixTimestampEncodingDescriptor & {
+    readonly clientMode: "client";
+}) | (PlainDateEncodingDescriptor & {
+    readonly clientMode: "client";
+});
 
 // @public
 export class DefaultNamingPolicy implements NamingPolicy {
@@ -136,10 +242,47 @@ export interface DiscriminatorNames {
 function div(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
 // @public (undocumented)
+export interface DurationIso8601EncodingDescriptor {
+    // (undocumented)
+    readonly clientMode: "wire";
+    // (undocumented)
+    readonly kind: "duration-iso8601";
+    // (undocumented)
+    readonly source: "duration";
+    // (undocumented)
+    readonly wire: {
+        readonly kind: "string";
+    };
+}
+
+// @public (undocumented)
+export interface DurationNumericEncodingDescriptor {
+    // (undocumented)
+    readonly clientMode: "wire";
+    // (undocumented)
+    readonly kind: "duration-numeric";
+    // (undocumented)
+    readonly source: "duration";
+    // (undocumented)
+    readonly unit: "seconds" | "milliseconds";
+    // (undocumented)
+    readonly wire: {
+        readonly kind: "integer";
+        readonly scalar: IntegerScalarName;
+    };
+}
+
+// @public (undocumented)
 function empty(value: ExpressionOrValue<unknown>): Expression<boolean>;
 
 // @public (undocumented)
 function endsWith(value: ExpressionOrValue<string>, suffix: ExpressionOrValue<string>): Expression<boolean>;
+
+// @public
+export interface EnumShape {
+    // (undocumented)
+    readonly kind: "enum";
+}
 
 // @public
 function environment(): Expression<unknown>;
@@ -169,9 +312,14 @@ export type ExpressionNode<T = unknown> = FunctionCallExpressionNode<T> | Symbol
 export type ExpressionOrValue<T> = T | Expression<T>;
 
 // @public (undocumented)
-export type ExpressionShape<T> = T extends readonly (infer U)[] ? {
+export type ExpressionShape<T> = T extends readonly unknown[] ? number extends T["length"] ? {
     readonly length: Expression<number>;
-    readonly [index: number]: Expression<U>;
+    readonly [index: number]: Expression<T[number]>;
+} : {
+    readonly [K in Exclude<keyof T, keyof any[]>]: Expression<T[K]>;
+} & {
+    readonly length: Expression<number>;
+    readonly [index: number]: Expression<T[number]>;
 } : T extends object ? {
     readonly [K in keyof T as T[K] extends (...a: any[]) => any ? never : K]-?: Expression<Exclude<T[K], undefined>>;
 } : {};
@@ -348,6 +496,12 @@ export interface InstanceFunctionCallExpressionNode<_TValue = unknown> {
 function int(value: ExpressionOrValue<unknown>): Expression<number>;
 
 // @public (undocumented)
+export const INTEGER_SCALAR_NAMES: readonly ["integer", "safeint", "int8", "int16", "int32", "int64", "uint8", "uint16", "uint32", "uint64"];
+
+// @public (undocumented)
+export type IntegerScalarName = (typeof INTEGER_SCALAR_NAMES)[number];
+
+// @public (undocumented)
 export interface InterpolatedStringExpressionNode<_TValue = unknown> {
     // (undocumented)
     readonly kind: "interpolated-string";
@@ -461,11 +615,56 @@ function neg(value: ExpressionOrValue<number>): Expression<number>;
 // @public (undocumented)
 function neq(left: ExpressionOrValue<unknown>, right: ExpressionOrValue<unknown>): Expression<boolean>;
 
-// @public
-export type NestedShape = DeferredShape<ModelShape> | ArrayShape | RecordShape;
-
 // @public (undocumented)
 function not(value: ExpressionOrValue<boolean>): Expression<boolean>;
+
+// @public
+export interface NullShape {
+    // (undocumented)
+    readonly kind: "null";
+}
+
+// @public
+export interface NumberLiteralShape {
+    readonly encoding?: NumericStringEncodingDescriptor;
+    // (undocumented)
+    readonly kind: "numberLiteral";
+}
+
+// @public
+export interface NumberShape {
+    // (undocumented)
+    readonly encoding?: NumberValueEncodingDescriptor;
+    // (undocumented)
+    readonly kind: "number";
+}
+
+// @public
+export type NumberValueEncodingDescriptor = (UnixTimestampEncodingDescriptor & {
+    readonly clientMode: "wire";
+}) | DurationNumericEncodingDescriptor;
+
+// @public (undocumented)
+export const NUMERIC_SCALAR_NAMES: readonly ["integer", "safeint", "int8", "int16", "int32", "int64", "uint8", "uint16", "uint32", "uint64", "numeric", "decimal", "decimal128", "float", "float32", "float64"];
+
+// @public (undocumented)
+export type NumericScalarName = (typeof NUMERIC_SCALAR_NAMES)[number];
+
+// @public (undocumented)
+export interface NumericStringEncodingDescriptor {
+    // (undocumented)
+    readonly clientMode: "wire";
+    // (undocumented)
+    readonly kind: "numeric-string";
+    // (undocumented)
+    readonly source: "integer" | "number";
+    // (undocumented)
+    readonly sourceScalar: NumericScalarName;
+    // (undocumented)
+    readonly wire: {
+        readonly kind: "string";
+    };
+}
 
 // @public (undocumented)
 function objectValues(obj: ExpressionOrValue<object>): Expression<unknown[]>;
@@ -566,6 +765,20 @@ export type ParameterOptions<T extends keyof PrimitiveTypeMap = keyof PrimitiveT
 // @public
 export type ParameterValue<T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap> = ExpressionOrValue<PrimitiveTypeMap[T]>;
 
+// @public (undocumented)
+export interface PlainDateEncodingDescriptor {
+    // (undocumented)
+    readonly clientMode: "client" | "wire";
+    // (undocumented)
+    readonly kind: "plain-date";
+    // (undocumented)
+    readonly source: "plainDate";
+    // (undocumented)
+    readonly wire: {
+        readonly kind: "string";
+    };
+}
+
 // @public
 export interface PrimitiveTypeMap {
     // (undocumented)
@@ -599,21 +812,13 @@ export interface PropertyAccessExpressionNode<_TValue = unknown> {
 }
 
 // @public
-export interface PropertyEncoding {
-    readonly encoding?: string;
-    readonly sourceKind: string;
-    readonly wireKind: "string" | "int" | "number" | "boolean";
-}
-
-// @public
 export type PropertySegment = string | number;
 
 // @public
 export interface PropertyShape {
     readonly armPath: readonly string[];
-    readonly encoding?: PropertyEncoding;
     readonly readOnly?: boolean;
-    readonly target?: NestedShape;
+    readonly value: ValueShape;
 }
 
 // @public
@@ -651,7 +856,7 @@ export interface RecordShape {
     // (undocumented)
     readonly kind: "record";
     // (undocumented)
-    readonly value: NestedShape;
+    readonly value: ValueShape;
 }
 
 // @public (undocumented)
@@ -882,6 +1087,31 @@ export interface StackOptions {
 // @public (undocumented)
 function startsWith(value: ExpressionOrValue<string>, prefix: ExpressionOrValue<string>): Expression<boolean>;
 
+// @public
+export interface StringLiteralShape {
+    // (undocumented)
+    readonly kind: "stringLiteral";
+}
+
+// @public
+export interface StringShape {
+    // (undocumented)
+    readonly encoding?: StringValueEncodingDescriptor;
+    // (undocumented)
+    readonly kind: "string";
+}
+
+// @public
+export type StringValueEncodingDescriptor = (DateTimeTextEncodingDescriptor & {
+    readonly clientMode: "wire";
+}) | DurationIso8601EncodingDescriptor | (BytesEncodingDescriptor & {
+    readonly clientMode: "wire";
+}) | (PlainDateEncodingDescriptor & {
+    readonly clientMode: "wire";
+}) | NumericStringEncodingDescriptor | (BooleanStringEncodingDescriptor & {
+    readonly clientMode: "wire";
+});
+
 // @public (undocumented)
 function sub(left: ExpressionOrValue<number>, right: ExpressionOrValue<number>): Expression<number>;
 
@@ -930,6 +1160,9 @@ interface TenantScope {
     readonly tenantId: string;
 }
 
+// @public
+export type TerminalValueShape = AnyShape | StringShape | BooleanShape | NumberShape | BytesShape | DateShape | StringLiteralShape | NumberLiteralShape | BooleanLiteralShape | EnumShape | UnionShape | NullShape;
+
 // @public (undocumented)
 export interface TernaryExpressionNode<_TValue = unknown> {
     // (undocumented)
@@ -951,6 +1184,14 @@ function toUpper(value: ExpressionOrValue<string>): Expression<string>;
 // @public (undocumented)
 function trim(value: ExpressionOrValue<string>): Expression<string>;
 
+// @public
+export interface TupleShape {
+    // (undocumented)
+    readonly kind: "tuple";
+    // (undocumented)
+    readonly values: readonly ValueShape[];
+}
+
 // @public (undocumented)
 export interface UnaryExpressionNode<_TValue = unknown> {
     // (undocumented)
@@ -967,8 +1208,37 @@ export type UnaryOperator = "!" | "-";
 // @public (undocumented)
 function union<T, U>(a: ExpressionOrValue<T>, b: ExpressionOrValue<U>): Expression<T | U>;
 
+// @public
+export interface UnionShape {
+    // (undocumented)
+    readonly kind: "union";
+}
+
 // @public (undocumented)
 function uniqueString(...values: ExpressionOrValue<string>[]): Expression<string>;
+
+// @public (undocumented)
+export interface UnixTimestampEncodingDescriptor {
+    // (undocumented)
+    readonly clientMode: "client" | "wire";
+    // (undocumented)
+    readonly kind: "unix-timestamp";
+    // (undocumented)
+    readonly source: "utcDateTime";
+    // (undocumented)
+    readonly unit: "seconds";
+    // (undocumented)
+    readonly wire: {
+        readonly kind: "integer";
+        readonly scalar: IntegerScalarName;
+    };
+}
+
+// @public (undocumented)
+export type ValueEncodingDescriptor = DateTimeTextEncodingDescriptor | UnixTimestampEncodingDescriptor | DurationIso8601EncodingDescriptor | DurationNumericEncodingDescriptor | BytesEncodingDescriptor | PlainDateEncodingDescriptor | NumericStringEncodingDescriptor | BooleanStringEncodingDescriptor;
+
+// @public (undocumented)
+export type ValueShape = TerminalValueShape | DeferredShape<ModelShape> | ContainerShape;
 
 // @public (undocumented)
 export type Variable<TValue extends VariableValue = VariableValue> = Expression<ExpressionValue<TValue>>;

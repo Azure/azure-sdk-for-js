@@ -30,6 +30,14 @@
  *     and distinct `properties` shapes. The same machinery applies to
  *     nested models that use a `@discriminator` field.
  */
+import type {
+  BooleanValueEncodingDescriptor,
+  BytesValueEncodingDescriptor,
+  DateValueEncodingDescriptor,
+  NumberValueEncodingDescriptor,
+  NumericStringEncodingDescriptor,
+  StringValueEncodingDescriptor,
+} from "./value-encoding.js";
 
 /** The standard single-model shape. */
 export interface FlatModelShape {
@@ -82,7 +90,7 @@ export interface DiscriminatedModelShape {
    * Entries may be:
    *  - a {@link FlatModelShape} — the terminal, common case;
    *  - a {@link DeferredShape} — breaks emit-order / cyclic-reference
-   *    hazards, exactly as {@link PropertyShape.target} does;
+   *    hazards, exactly as {@link PropertyShape.value} does;
    *  - a nested {@link DiscriminatedModelShape} — a variant that is
    *    itself a discriminated base on a *different* field. TypeSpec
    *    permits this (`@discriminator("kind") model Pet`, then
@@ -120,22 +128,13 @@ export interface PropertyShape {
   readonly armPath: readonly string[];
 
   /**
-   * Where this property's value points to when the value needs its own
-   * recursion (a nested model, an array, or a record). Undefined for
-   * leaf values (scalars, enums, literals, plain arrays/records of
-   * scalars).
+   * Describes this property's value for navigation and wire conversion.
+   * Model and container shapes recurse into nested values; a
+   * {@link TerminalValueShape} explicitly terminates recursion. Scalar
+   * terminal shapes carry only the encodings valid for their client-side
+   * JavaScript representation.
    */
-  readonly target?: NestedShape;
-
-  /**
-   * `@encode` metadata. Wire-only — the user-facing TS type stays as
-   * the source scalar; serialization (`lowerState`) reads this to
-   * convert the source-typed value into its encoded wire form, and
-   * deserialization (`raiseState`) reads it to convert back.
-   *
-   * Undefined when the source property has no `@encode` decorator.
-   */
-  readonly encoding?: PropertyEncoding;
+  readonly value: ValueShape;
 
   /**
    * `true` when ARM treats this property as server-set (visible in GET
@@ -150,36 +149,6 @@ export interface PropertyShape {
 }
 
 /**
- * Wire-encoding metadata mirroring TypeSpec's `@encode` decorator.
- *
- * The user-facing TS type for an encoded property stays as the source
- * scalar (e.g. a `Date` for `utcDateTime`, an ISO8601 string or number
- * for `duration`, a `Uint8Array` for `bytes`). The serializer reads
- * this metadata to encode the value to its wire form, and the
- * deserializer to decode it back.
- */
-export interface PropertyEncoding {
-  /**
-   * The encoding name from `@encode`, e.g. `"rfc3339"`, `"rfc7231"`,
-   * `"unixTimestamp"`, `"ISO8601"`, `"seconds"`, `"milliseconds"`,
-   * `"base64"`, `"base64url"`. Undefined when `@encode` was used with
-   * only an explicit target type (rare).
-   */
-  readonly encoding?: string;
-
-  /** Wire-side scalar kind that the encoded value serializes as. */
-  readonly wireKind: "string" | "int" | "number" | "boolean";
-
-  /**
-   * Source TypeSpec scalar name walked up to the closest known std
-   * scalar (e.g. `"duration"`, `"utcDateTime"`, `"offsetDateTime"`,
-   * `"bytes"`). Falls back to the leaf scalar name when no known std
-   * ancestor is found.
-   */
-  readonly sourceKind: string;
-}
-
-/**
  * Deferred reference to a shape value. The thunk is called on
  * dereference so the actual shape lookup is deferred.
  *
@@ -189,7 +158,7 @@ export interface PropertyEncoding {
  * can point to other models, and ARM types include both self-
  * referential (tree-like) and mutually-referential (cyclic) structures.
  * If we embedded a {@link ModelShape} value directly inside another
- * model shape's `target` field, both shapes would need to be fully
+ * model shape's value field, both shapes would need to be fully
  * initialized when the parent is constructed. That's impossible
  * whenever:
  *
@@ -206,7 +175,7 @@ export interface PropertyEncoding {
  * when the thunk is called — by which time the module graph has
  * finished evaluating and both shapes are fully constructed.
  *
- * Only the model variant of {@link NestedShape} carries a reference —
+ * Only the model variant of {@link ValueShape} carries a reference —
  * container shapes (`array`, `record`) are eager because they don't
  * reference any module-level binding directly; the inner reference
  * deeper down handles cycle-breaking.
@@ -219,25 +188,125 @@ export interface DeferredShape<T> {
 /** An array-of-T property/container shape. */
 export interface ArrayShape {
   readonly kind: "array";
-  readonly element: NestedShape;
+  readonly element: ValueShape;
 }
 
 /** A `Record<string, T>` property/container shape. */
 export interface RecordShape {
   readonly kind: "record";
-  readonly value: NestedShape;
+  readonly value: ValueShape;
+}
+
+/** A fixed-length heterogeneous tuple property/container shape. */
+export interface TupleShape {
+  readonly kind: "tuple";
+  readonly values: readonly ValueShape[];
+}
+
+/** A TypeSpec scalar rendered as TypeScript `any`. */
+export interface AnyShape {
+  readonly kind: "any";
+}
+
+/** A scalar whose client-side JavaScript representation is `string`. */
+export interface StringShape {
+  readonly kind: "string";
+  readonly encoding?: StringValueEncodingDescriptor;
+}
+
+/** A scalar whose client-side JavaScript representation is `boolean`. */
+export interface BooleanShape {
+  readonly kind: "boolean";
+  readonly encoding?: BooleanValueEncodingDescriptor;
+}
+
+/** A scalar whose client-side JavaScript representation is `number`. */
+export interface NumberShape {
+  readonly kind: "number";
+  readonly encoding?: NumberValueEncodingDescriptor;
+}
+
+/** A scalar whose client-side JavaScript representation is `Uint8Array`. */
+export interface BytesShape {
+  readonly kind: "bytes";
+  readonly encoding?: BytesValueEncodingDescriptor;
+}
+
+/** A scalar whose client-side JavaScript representation is `Date`. */
+export interface DateShape {
+  readonly kind: "date";
+  readonly encoding?: DateValueEncodingDescriptor;
+}
+
+/** A terminal TypeSpec string literal. Literals cannot carry `@encode`. */
+export interface StringLiteralShape {
+  readonly kind: "stringLiteral";
+}
+
+/** A terminal TypeSpec numeric literal. */
+export interface NumberLiteralShape {
+  readonly kind: "numberLiteral";
+  /** `@encode(string)` when the numeric literal is exposed as wire text. */
+  readonly encoding?: NumericStringEncodingDescriptor;
+}
+
+/** A terminal TypeSpec boolean literal. */
+export interface BooleanLiteralShape {
+  readonly kind: "booleanLiteral";
+  /** `@encode(string)` while the client value remains a boolean literal. */
+  readonly encoding?: BooleanValueEncodingDescriptor;
+}
+
+/** A terminal TypeSpec enum. Enums cannot carry `@encode`. */
+export interface EnumShape {
+  readonly kind: "enum";
 }
 
 /**
- * What a property's value (or a container's element/value) points to
- * for the purpose of recursive lowering / raising. Either a deferred
- * reference to a model shape, or an eager container shape whose
- * element/value itself is a {@link NestedShape}.
- *
- * Absent entirely on {@link PropertyShape.target} when the value is a
- * leaf (scalar / enum / literal).
+ * A terminal TypeSpec union for which no single structural shape can be
+ * selected. Unions cannot carry `@encode` in the provisioning emitter.
  */
-export type NestedShape = DeferredShape<ModelShape> | ArrayShape | RecordShape;
+export interface UnionShape {
+  readonly kind: "union";
+}
+
+/** The TypeSpec `null` intrinsic. */
+export interface NullShape {
+  readonly kind: "null";
+}
+
+/**
+ * Concrete terminal values in the generated client API.
+ *
+ * Scalar kinds describe the JavaScript value accepted by the generated
+ * TypeScript surface, not necessarily the semantic TypeSpec scalar. For
+ * example, a numeric `duration` is a {@link NumberShape}, while the default
+ * ISO8601 duration is a {@link StringShape}; their narrowed `encoding` fields
+ * retain the TypeSpec source semantics needed for wire conversion. Numeric and
+ * boolean literal shapes can carry the same narrowly applicable encodings that
+ * TypeSpec permits on those values. String literals, enums, unions, and null
+ * remain distinct non-encodable terminal categories.
+ * Expressions are orthogonal wrappers around any value shape and are handled
+ * before shape-directed conversion.
+ */
+export type TerminalValueShape =
+  | AnyShape
+  | StringShape
+  | BooleanShape
+  | NumberShape
+  | BytesShape
+  | DateShape
+  | StringLiteralShape
+  | NumberLiteralShape
+  | BooleanLiteralShape
+  | EnumShape
+  | UnionShape
+  | NullShape;
+
+/** A container through which property navigation can continue. */
+export type ContainerShape = ArrayShape | RecordShape | TupleShape;
+
+export type ValueShape = TerminalValueShape | DeferredShape<ModelShape> | ContainerShape;
 
 // ---------------------------------------------------------------------------
 // Constructor helpers
@@ -279,17 +348,116 @@ export const createDeferredShape = <T>(value: () => T): DeferredShape<T> => ({
   value,
 });
 
+/** Build an {@link AnyShape}. */
+export const createAnyShape = (): AnyShape => ({ kind: "any" });
+
+/** Build a {@link StringShape}, optionally with a compatible wire encoding. */
+export const createStringShape = (encoding?: StringValueEncodingDescriptor): StringShape => ({
+  kind: "string",
+  ...(encoding ? { encoding } : {}),
+});
+
+/** Build a {@link BooleanShape}, optionally with a compatible wire encoding. */
+export const createBooleanShape = (encoding?: BooleanValueEncodingDescriptor): BooleanShape => ({
+  kind: "boolean",
+  ...(encoding ? { encoding } : {}),
+});
+
+/** Build a {@link NumberShape}, optionally with a compatible wire encoding. */
+export const createNumberShape = (encoding?: NumberValueEncodingDescriptor): NumberShape => ({
+  kind: "number",
+  ...(encoding ? { encoding } : {}),
+});
+
+/** Build a {@link BytesShape}, optionally with a compatible wire encoding. */
+export const createBytesShape = (encoding?: BytesValueEncodingDescriptor): BytesShape => ({
+  kind: "bytes",
+  ...(encoding ? { encoding } : {}),
+});
+
+/** Build a {@link DateShape}, optionally with a compatible wire encoding. */
+export const createDateShape = (encoding?: DateValueEncodingDescriptor): DateShape => ({
+  kind: "date",
+  ...(encoding ? { encoding } : {}),
+});
+
+/** Build a terminal {@link StringLiteralShape}. */
+export const createStringLiteralShape = (): StringLiteralShape => ({
+  kind: "stringLiteral",
+});
+
+/** Build a terminal {@link NumberLiteralShape}. */
+export const createNumberLiteralShape = (
+  encoding?: NumericStringEncodingDescriptor,
+): NumberLiteralShape => ({
+  kind: "numberLiteral",
+  ...(encoding ? { encoding } : {}),
+});
+
+/** Build a terminal {@link BooleanLiteralShape}. */
+export const createBooleanLiteralShape = (
+  encoding?: BooleanValueEncodingDescriptor,
+): BooleanLiteralShape => ({
+  kind: "booleanLiteral",
+  ...(encoding ? { encoding } : {}),
+});
+
+/** Build a terminal {@link EnumShape}. */
+export const createEnumShape = (): EnumShape => ({ kind: "enum" });
+
+/** Build a terminal {@link UnionShape}. */
+export const createUnionShape = (): UnionShape => ({ kind: "union" });
+
+/** Build a terminal {@link NullShape}. */
+export const createNullShape = (): NullShape => ({ kind: "null" });
+
 /** Build an {@link ArrayShape}. */
-export const createArrayShape = (element: NestedShape): ArrayShape => ({
+export const createArrayShape = (element: ValueShape): ArrayShape => ({
   kind: "array",
   element,
 });
 
 /** Build a {@link RecordShape}. */
-export const createRecordShape = (value: NestedShape): RecordShape => ({
+export const createRecordShape = (value: ValueShape): RecordShape => ({
   kind: "record",
   value,
 });
+
+/** Build a {@link TupleShape}. */
+export const createTupleShape = (values: readonly ValueShape[]): TupleShape => ({
+  kind: "tuple",
+  values,
+});
+
+/** Return whether a value shape terminates property navigation. */
+export function isTerminalValueShape(shape: ValueShape): shape is TerminalValueShape {
+  switch (shape.kind) {
+    case "any":
+    case "string":
+    case "boolean":
+    case "number":
+    case "bytes":
+    case "date":
+    case "stringLiteral":
+    case "numberLiteral":
+    case "booleanLiteral":
+    case "enum":
+    case "union":
+    case "null":
+      return true;
+    case "deferred":
+    case "array":
+    case "record":
+    case "tuple":
+      return false;
+    default:
+      return assertNeverShape(shape);
+  }
+}
+
+function assertNeverShape(shape: never): never {
+  throw new Error(`Unhandled value shape: ${String(shape)}`);
+}
 
 // ---------------------------------------------------------------------------
 // Helpers used by the runtime proxy + lowering pass
@@ -299,10 +467,10 @@ export const createRecordShape = (value: NestedShape): RecordShape => ({
  * Runtime navigation position for a typed proxy. Either:
  *   - a {@link ModelShape} — we're at a model's properties, whether or
  *     not its variant is known,
- *   - an {@link ArrayShape} or {@link RecordShape} — we're at a
- *     container that hasn't yet been indexed,
- *   - `undefined` — the current position is untyped (leaf, unknown, or
- *     the proxy was created without a shape).
+ *   - a {@link ContainerShape} — we're at a container that hasn't yet been
+ *     indexed,
+ *   - `undefined` — the current position is terminal, unknown, or the proxy
+ *     was created without a shape.
  *
  * Proxies carry a `NavShape` through each access so they can stamp and
  * resolve the correct shape on deeper navigation.
@@ -310,7 +478,7 @@ export const createRecordShape = (value: NestedShape): RecordShape => ({
  * Navigation never sits at a {@link DeferredShape} — refs are resolved
  * eagerly as soon as the proxy encounters them.
  */
-export type NavShape = ModelShape | ArrayShape | RecordShape | undefined;
+export type NavShape = ModelShape | ContainerShape | undefined;
 
 /**
  * Resolve a {@link ModelShape} to the single concrete variant that
@@ -450,9 +618,11 @@ function scoreShape(
 
   for (const [key, sub] of Object.entries(value)) {
     const prop = byKey.get(key);
-    if (!prop) continue;
+    if (!prop) {
+      continue;
+    }
     score += 1;
-    score += scoreNested(sub, prop.target, valueKeyedBy, visiting);
+    score += scoreNested(sub, prop.value, valueKeyedBy, visiting);
   }
 
   visiting.delete(value);
@@ -466,11 +636,13 @@ function scoreShape(
  */
 function scoreNested(
   value: unknown,
-  target: NestedShape | undefined,
+  target: ValueShape | undefined,
   valueKeyedBy: "js" | "arm",
   visiting: WeakSet<object>,
 ): number {
-  if (!target || value === null || typeof value !== "object") return 0;
+  if (!target || isTerminalValueShape(target) || value === null || typeof value !== "object") {
+    return 0;
+  }
 
   if (target.kind === "array") {
     if (!Array.isArray(value) || value.length === 0) return 0;
@@ -482,6 +654,15 @@ function scoreNested(
     const first = Object.values(value)[0];
     if (first === undefined) return 0;
     return scoreNested(first, target.value, valueKeyedBy, visiting);
+  }
+
+  if (target.kind === "tuple") {
+    if (!Array.isArray(value)) return 0;
+    return target.values.reduce(
+      (score, tupleValue, index) =>
+        score + scoreNested(value[index], tupleValue, valueKeyedBy, visiting),
+      0,
+    );
   }
 
   if (Array.isArray(value)) return 0;
@@ -583,13 +764,13 @@ export function navigateShape(
   value?: unknown,
 ): { readonly stamp: PropertyShape | undefined; readonly next: NavShape } {
   if (typeof segment === "number") {
-    return { stamp: undefined, next: peelContainer(nav) };
+    return { stamp: undefined, next: peelContainer(nav, segment) };
   }
   if (isModelShape(nav)) {
     const flat = resolveModelShape(nav, asRecord(value));
     const stamp = flat?.byJsName[segment];
     if (!stamp) return { stamp: undefined, next: undefined };
-    return { stamp, next: derefTarget(stamp.target) };
+    return { stamp, next: derefTarget(stamp.value) };
   }
   // String segment against a container — treat as a record key access.
   if (nav && nav.kind === "record") {
@@ -612,14 +793,15 @@ function isModelShape(nav: NavShape): nav is ModelShape {
  * Peel one container layer off `nav`. Returns `undefined` for
  * non-containers (caller treats the step as passthrough).
  */
-function peelContainer(nav: NavShape): NavShape {
+function peelContainer(nav: NavShape, index: number): NavShape {
   if (!nav || isModelShape(nav)) return undefined;
   if (nav.kind === "array") return derefTarget(nav.element);
-  return derefTarget(nav.value);
+  if (nav.kind === "record") return derefTarget(nav.value);
+  return derefTarget(nav.values[index]);
 }
 
 /**
- * Convert a {@link NestedShape} — where a property *points* — into a
+ * Convert a {@link ValueShape} — where a property *points* — into a
  * {@link NavShape} — where navigation now *is*.
  *
  * The only real work is forcing a {@link DeferredShape} thunk; the
@@ -632,8 +814,8 @@ function peelContainer(nav: NavShape): NavShape {
  * {@link resolveModelShape}, which picks a variant and is a much
  * heavier operation.
  */
-function derefTarget(t: NestedShape | undefined): NavShape {
-  if (!t) return undefined;
-  if (t.kind === "deferred") return t.value();
-  return t;
+function derefTarget(shape: ValueShape | undefined): NavShape {
+  if (!shape || isTerminalValueShape(shape)) return undefined;
+  if (shape.kind === "deferred") return shape.value();
+  return shape;
 }

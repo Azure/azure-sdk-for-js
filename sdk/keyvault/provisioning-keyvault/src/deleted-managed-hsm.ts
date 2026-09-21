@@ -12,12 +12,13 @@ import {
 import {
   createDeferredShape,
   createFlatModelShape,
+  createStringShape,
   type ResourceNamingRules,
   type ResourceProps,
 } from "@azure/provisioning-core/internal";
 import { type DeletedManagedHsmProperties, deletedManagedHsmPropertiesShape } from "./types.js";
 
-const API_VERSION = "2026-03-01-preview";
+const API_VERSION = "2026-02-01";
 
 export interface DeletedManagedHsmProps {
   /**
@@ -48,10 +49,10 @@ export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/de
   static {
     this.registerShape(
       createFlatModelShape({
-        name: { armPath: ["name"] },
+        name: { armPath: ["name"], value: createStringShape() },
         properties: {
           armPath: ["properties"],
-          target: createDeferredShape(() => deletedManagedHsmPropertiesShape),
+          value: createDeferredShape(() => deletedManagedHsmPropertiesShape),
           readOnly: true,
         },
       }),

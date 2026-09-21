@@ -4,4 +4,4 @@
 
 ### Features Added
 
-- Initial preview of Azure Key Vault provisioning resources generated from the `2026-03-01-preview` TypeSpec contract.
+- Initial preview of Azure Key Vault provisioning resources generated from the `2026-02-01` TypeSpec contract.

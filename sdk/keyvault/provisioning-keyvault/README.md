@@ -26,4 +26,4 @@ new Secret(vault, {
 });
 ```
 
-The generated resource model uses the `2026-03-01-preview` Azure Key Vault management API.
+The generated resource model uses the `2026-02-01` Azure Key Vault management API.

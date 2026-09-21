@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./types.js";
+export * as types from "./types.js";
 export { DeletedManagedHsm, type DeletedManagedHsmProps } from "./deleted-managed-hsm.js";
 export { DeletedVault, type DeletedVaultProps } from "./deleted-vault.js";
 export {

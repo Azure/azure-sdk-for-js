@@ -54,6 +54,6 @@ describe("public entrypoints", () => {
 
     expect(stack.getResources(KeyVault)).toEqual([vault]);
     expect(stack.getResources()).toHaveLength(6);
-    expect(KeyVault.apiVersion).toBe("2026-03-01-preview");
+    expect(KeyVault.apiVersion).toBe("2026-02-01");
   });
 });

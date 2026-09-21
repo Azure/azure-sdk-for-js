@@ -5,7 +5,6 @@ import {
   type Expression,
   type ExpressionOrValue,
   createBinaryExpression,
-  wrapExpression,
   createFunctionCallExpression,
   createTernaryExpression,
   createUnaryExpression,
@@ -117,11 +116,7 @@ export function and(...conditions: ExpressionOrValue<boolean>[]): Expression<boo
   if (conditions.length === 1) {
     const c = conditions[0];
     if (isExpression(c)) return c as Expression<boolean>;
-    return wrapExpression({
-      kind: "unary",
-      operator: "!",
-      argument: { kind: "unary", operator: "!", argument: c },
-    }) as Expression<boolean>;
+    return createUnaryExpression<boolean>("!", createUnaryExpression<boolean>("!", c));
   }
   let result: ExpressionOrValue<boolean> = conditions[0]!;
   for (let i = 1; i < conditions.length; i++) {
@@ -141,11 +136,7 @@ export function or(...conditions: ExpressionOrValue<boolean>[]): Expression<bool
   if (conditions.length === 1) {
     const c = conditions[0];
     if (isExpression(c)) return c as Expression<boolean>;
-    return wrapExpression({
-      kind: "unary",
-      operator: "!",
-      argument: { kind: "unary", operator: "!", argument: c },
-    }) as Expression<boolean>;
+    return createUnaryExpression<boolean>("!", createUnaryExpression<boolean>("!", c));
   }
   let result: ExpressionOrValue<boolean> = conditions[0]!;
   for (let i = 1; i < conditions.length; i++) {

@@ -15,7 +15,7 @@ import {
 } from "../../constructs/resource/resource-proxy.js";
 import { definedProps } from "../../util.js";
 import { getShape } from "../../shape/shape-registry.js";
-import { isExpression } from "../../expression/expressions.js";
+import { isExpression, unwrapExpression } from "../../expression/expressions.js";
 import { isExpressionNode } from "../../expression/ast-nodes.js";
 import {
   isResource,
@@ -35,7 +35,6 @@ import type {
 } from "../contract/index.js";
 import { sanitizeIdentifier } from "./util.js";
 import { lowerState } from "./lower.js";
-import { orderResourceEntries } from "./resource-order.js";
 import {
   serializeDefinedObjectEntries,
   serializeExpression,
@@ -75,19 +74,44 @@ function hasNestedResourceHandle(value: unknown): boolean {
   return false;
 }
 
-function createSymbolMap(resources: readonly ResourceDeclaration[]): SerializationSymbolMap {
+function createSymbolMap(
+  resources: readonly ResourceDeclaration[],
+  stack: Stack,
+): SerializationSymbolMap {
   const symbolMap: SerializationSymbolMap = new Map();
   const counts = new Map<string, number>();
+  const usedNames = new Set<string>();
+
+  function allocateName(stem: string): string {
+    let count = counts.get(stem) ?? 0;
+    let identifier: string;
+    do {
+      count++;
+      identifier = count === 1 ? stem : `${stem}${count}`;
+    } while (usedNames.has(identifier));
+    counts.set(stem, count);
+    usedNames.add(identifier);
+    return identifier;
+  }
 
   for (const resource of resources) {
     const typeName = resource.type.split("/").at(-1) ?? "resource";
     const stem = sanitizeIdentifier(pluralizeLib.singular(typeName));
-    const count = (counts.get(stem) ?? 0) + 1;
-
-    counts.set(stem, count);
-    symbolMap.set(resource, count === 1 ? stem : `${stem}${count}`);
+    symbolMap.set(resource, allocateName(stem));
+  }
+  for (const parameter of stack.parameters.getAllMetadata()) {
+    const identifier = allocateName(parameter.name);
+    symbolMap.set(parameter, identifier);
+    symbolMap.set(unwrapExpression(stack.parameters.get(parameter.name)!), identifier);
+  }
+  for (const variable of stack.variables.getAllMetadata()) {
+    const identifier = allocateName(variable.name);
+    symbolMap.set(variable, identifier);
+    symbolMap.set(unwrapExpression(stack.variables.get(variable.name)!), identifier);
   }
 
+  // Outputs have a separate Bicep namespace and are not same-stack expression
+  // targets, so they keep their authored names outside this symbol map.
   return symbolMap;
 }
 
@@ -202,27 +226,15 @@ function serializeResourceProperties(
   if (scopeValue !== undefined) {
     properties.scope = serializeExpression(scopeValue as SerializableValue, symbolMap);
   } else if (armParent === undefined) {
-    // Synthetic split-signal: a non-extension resource that lives under a
-    // `ResourceGroup` component (somewhere in its ancestor chain) carries
-    // `scope: resourceGroup('rg-name')` so the file-layout pass can split it
-    // into a child module scoped to that RG. The split pass strips this
-    // field from the emitted Bicep — inside the child module the resource is
-    // implicitly at the right scope. This is necessary because Bicep does
-    // not allow `scope: resourceGroup(...)` on a regular resource
-    // declaration; cross-RG placement always requires a module boundary.
-    //
-    // This applies to `existing` references too: an `existing`, RG-scoped
-    // resource in a subscription-targeted stack must live in a resourceGroup
-    // module (a storage account, key vault, etc. is not subscription-scoped).
-    // An `existing` resource with a user-supplied `scope` (genuine cross-RG
-    // lookup) takes the branch above and is left untouched.
     const rgAncestor = getResourceGroupAncestor(resource);
     if (rgAncestor !== undefined) {
-      const rawRg = unwrapResourceHandle(rgAncestor);
+      const groupId = symbolMap.get(rgAncestor);
+      if (groupId === undefined) {
+        throw new Error("Resource group not found in symbol map.");
+      }
       properties.scope = {
-        kind: "function-call",
-        target: "resourceGroup",
-        args: [serializeExpression(rawRg.name as SerializableValue, symbolMap)],
+        kind: "identifier",
+        id: groupId,
       };
     }
   }
@@ -374,8 +386,9 @@ function serializeParameters(
   if (stack.parameters.size === 0) return undefined;
   return Object.fromEntries(
     stack.parameters.getAllMetadata().map((p) => {
+      const identifier = symbolMap.get(p)!;
       const node: ParameterDeclarationNode = definedProps({
-        bicepIdentifier: p.name,
+        bicepIdentifier: identifier,
         valueType: { kind: "primitive-type" as const, name: p.type },
         defaultValue:
           p.defaultValue !== undefined
@@ -383,7 +396,7 @@ function serializeParameters(
             : undefined,
         decorators: buildDecorators(p, symbolMap),
       });
-      return [p.name, node];
+      return [identifier, node];
     }),
   );
 }
@@ -395,12 +408,13 @@ function serializeVariables(
   if (stack.variables.size === 0) return undefined;
   return Object.fromEntries(
     stack.variables.getAllMetadata().map((v) => {
+      const identifier = symbolMap.get(v)!;
       const node: VariableDeclarationNode = definedProps({
-        bicepIdentifier: v.name,
+        bicepIdentifier: identifier,
         value: serializeExpression(v.value as SerializableValue, symbolMap),
         decorators: buildDecorators(v, symbolMap),
       });
-      return [v.name, node];
+      return [identifier, node];
     }),
   );
 }
@@ -439,20 +453,16 @@ function serializeFile(
   resources: readonly ResourceDeclaration[],
   symbolMap: SerializationSymbolMap,
 ): InfraNode {
-  const resourceEntries = resources.map((resource) => serializeResource(resource, symbolMap));
-
-  // Reject duplicate resource identifiers and dependency cycles while
-  // producing dependency-first output. Deserialization sorts independently,
-  // and Bicep rendering does not require this ordering.
-  const sorted = orderResourceEntries(resourceEntries);
-
   return {
     ...(stack.targetScope !== "resourceGroup" ? { targetScope: stack.targetScope } : {}),
     fileName: `${stack.name}.bicep`,
     ...definedProps({
       parameters: serializeParameters(stack, symbolMap),
       variables: serializeVariables(stack, symbolMap),
-      resources: sorted.length === 0 ? undefined : Object.fromEntries(sorted),
+      resources:
+        resources.length === 0
+          ? undefined
+          : Object.fromEntries(resources.map((resource) => serializeResource(resource, symbolMap))),
       outputs: serializeOutputs(stack, symbolMap),
     }),
   };
@@ -464,7 +474,7 @@ export function serialize(input: Stack | readonly Stack[]): SerializationDocumen
   return {
     infras: stacks.map((stack) => {
       const resources = collectAllResources(stack);
-      const symbolMap = createSymbolMap(resources);
+      const symbolMap = createSymbolMap(resources, stack);
       return serializeFile(stack, resources, symbolMap);
     }),
   };

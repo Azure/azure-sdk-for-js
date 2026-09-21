@@ -7,9 +7,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -45,9 +45,9 @@
+@@ -14,9 +14,9 @@
  // @public
- interface AccessPolicyEntry {
+ export interface AccessPolicyEntry {
      applicationId?: string;
      objectId: string;
 -    permissions: Permissions;
@@ -18,36 +18,26 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1048,17 +1048,17 @@
+@@ -782,17 +782,18 @@
  // @public
- type NetworkRuleSetView = NetworkRuleSetInput;
+ export type NetworkRuleSetView = NetworkRuleSetInput;
  
  // @public
--interface Permissions {
+-export interface Permissions {
 +interface Permissions_2 {
      certificates?: CertificatePermissions[];
      keys?: KeyPermissions[];
      secrets?: SecretPermissions[];
      storage?: StoragePermissions[];
  }
++export { Permissions_2 as Permissions }
  
  // @public
--interface PermissionsInput extends InputOf<Permissions> {
-+interface PermissionsInput extends InputOf<Permissions_2> {
+-export interface PermissionsInput extends InputOf<Permissions> {
++export interface PermissionsInput extends InputOf<Permissions_2> {
      certificates?: InputArray<ExpressionOrValue<CertificatePermissions>, CertificatePermissions[]> | undefined;
      keys?: InputArray<ExpressionOrValue<KeyPermissions>, KeyPermissions[]> | undefined;
      secrets?: InputArray<ExpressionOrValue<SecretPermissions>, SecretPermissions[]> | undefined;
      storage?: InputArray<ExpressionOrValue<StoragePermissions>, StoragePermissions[]> | undefined;
-@@ -1437,9 +1437,9 @@
-         NetworkRuleSet,
-         NetworkRuleSetInput,
-         NetworkRuleSetView,
-         networkRuleSetShape,
--        Permissions,
-+        Permissions_2 as Permissions,
-         PermissionsInput,
-         PermissionsView,
-         permissionsShape,
-         PrivateEndpoint,
 
 ```

@@ -5,17 +5,27 @@
  * ARM state-shape conversion.
  *
  * lowerState maps JS property names to ARM paths, restores flattened
- * nesting, and encodes leaf values using the supplied model shape.
+ * nesting, and encodes terminal values using the supplied model shape.
  * raiseState performs the inverse conversion for deserialization.
  * Both follow nested model, array, and record shapes and preserve unknown
  * keys. Property-access expression lowering lives in expression.ts.
  */
 
-import { type ModelShape, type NestedShape, resolveModelShape } from "../../shape/shape.js";
+import {
+  isTerminalValueShape,
+  type ModelShape,
+  type ValueShape,
+  resolveModelShape,
+} from "../../shape/shape.js";
 import { isExpression } from "../../expression/expressions.js";
+import { isExpressionNode } from "../../expression/ast-nodes.js";
 import { decodeWireValue, encodeWireValue } from "./encoding.js";
 
 const MISSING = Symbol("missing");
+
+function assertNeverValueShape(shape: never): never {
+  throw new Error(`Unhandled value shape: ${String(shape)}`);
+}
 
 // ---------------------------------------------------------------------------
 // State lowering
@@ -58,15 +68,8 @@ export function lowerState(
 
   for (const [jsKey, rawValue] of Object.entries(state)) {
     const propShape = flat?.byJsName[jsKey];
-    let loweredValue = lowerValue(rawValue, propShape?.target, visited);
-
-    // Apply `@encode` after structural lowering. Encoding is wire-only
-    // and only meaningful at leaves (or arrays/records of leaves) —
-    // when a `target` is present the leaf metadata lives on the nested
-    // shape, not here.
-    if (propShape?.encoding && !propShape.target) {
-      loweredValue = encodeWireValue(loweredValue, propShape.encoding);
-    }
+    const path = propShape?.armPath.length ? propShape.armPath : [jsKey];
+    const loweredValue = lowerValue(rawValue, propShape?.value, visited, path);
 
     if (!propShape) {
       // Passthrough: key not in shape (e.g. CDK-internal, or emitter
@@ -75,7 +78,6 @@ export function lowerState(
       continue;
     }
 
-    const path = propShape.armPath.length > 0 ? propShape.armPath : [jsKey];
     assignPath(out, path, loweredValue);
   }
 
@@ -84,37 +86,51 @@ export function lowerState(
 
 function lowerValue(
   value: unknown,
-  target: NestedShape | undefined,
+  shape: ValueShape | undefined,
   visited: WeakSet<object>,
+  path: readonly string[],
 ): unknown {
   if (value === null || value === undefined) return value;
+  if (isExpression(value) || isExpressionNode(value)) return value;
 
-  if (!target) {
+  if (!shape) {
     return value;
   }
 
-  if (target.kind === "deferred") {
-    if (!isPlainObject(value)) return value;
-    // `lowerState` resolves the variant itself, per property, using
-    // `value` as the discriminator source.
-    return lowerState(value, target.value(), visited);
-  }
-
-  if (target.kind === "array") {
-    if (!Array.isArray(value)) return value;
-    return value.map((item) => lowerValue(item, target.element, visited));
-  }
-
-  if (target.kind === "record") {
-    if (!isPlainObject(value)) return value;
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value)) {
-      out[k] = lowerValue(v, target.value, visited);
+  if (isTerminalValueShape(shape)) {
+    if ("encoding" in shape && shape.encoding) {
+      return encodeWireValue(value, shape.encoding, path);
     }
-    return out;
+    return value;
   }
 
-  return value;
+  switch (shape.kind) {
+    case "deferred":
+      if (!isPlainObject(value)) return value;
+      // `lowerState` resolves the variant itself, per property, using
+      // `value` as the discriminator source.
+      return lowerState(value, shape.value(), visited);
+    case "array":
+      if (!Array.isArray(value)) return value;
+      return value.map((item, index) =>
+        lowerValue(item, shape.element, visited, [...path, String(index)]),
+      );
+    case "record": {
+      if (!isPlainObject(value)) return value;
+      const out: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(value)) {
+        out[k] = lowerValue(v, shape.value, visited, [...path, k]);
+      }
+      return out;
+    }
+    case "tuple":
+      if (!Array.isArray(value)) return value;
+      return value.map((item, index) =>
+        lowerValue(item, shape.values[index], visited, [...path, String(index)]),
+      );
+    default:
+      return assertNeverValueShape(shape);
+  }
 }
 
 /**
@@ -238,10 +254,7 @@ export function raiseState(
     const extracted = extractPath(working, path);
     if (extracted === MISSING) continue;
 
-    let raised = raiseValue(extracted, propShape.target, visited);
-    if (propShape.encoding && !propShape.target) {
-      raised = decodeWireValue(raised, propShape.encoding);
-    }
+    const raised = raiseValue(extracted, propShape.value, visited, path);
     out[jsName] = raised;
 
     consumedTopLevel.add(path[0]!);
@@ -268,33 +281,47 @@ export function raiseState(
 
 function raiseValue(
   value: unknown,
-  target: NestedShape | undefined,
+  shape: ValueShape | undefined,
   visited: WeakSet<object>,
+  path: readonly string[],
 ): unknown {
   if (value === null || value === undefined) return value;
-  if (!target) return value;
+  if (isExpression(value) || isExpressionNode(value)) return value;
+  if (!shape) return value;
 
-  if (target.kind === "deferred") {
-    if (!isPlainObject(value)) return value;
-    // `raiseState` selects the variant itself, against ARM keys.
-    return raiseState(value, target.value(), visited);
-  }
-
-  if (target.kind === "array") {
-    if (!Array.isArray(value)) return value;
-    return value.map((item) => raiseValue(item, target.element, visited));
-  }
-
-  if (target.kind === "record") {
-    if (!isPlainObject(value)) return value;
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value)) {
-      out[k] = raiseValue(v, target.value, visited);
+  if (isTerminalValueShape(shape)) {
+    if ("encoding" in shape && shape.encoding) {
+      return decodeWireValue(value, shape.encoding, path);
     }
-    return out;
+    return value;
   }
 
-  return value;
+  switch (shape.kind) {
+    case "deferred":
+      if (!isPlainObject(value)) return value;
+      // `raiseState` selects the variant itself, against ARM keys.
+      return raiseState(value, shape.value(), visited);
+    case "array":
+      if (!Array.isArray(value)) return value;
+      return value.map((item, index) =>
+        raiseValue(item, shape.element, visited, [...path, String(index)]),
+      );
+    case "record": {
+      if (!isPlainObject(value)) return value;
+      const out: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(value)) {
+        out[k] = raiseValue(v, shape.value, visited, [...path, k]);
+      }
+      return out;
+    }
+    case "tuple":
+      if (!Array.isArray(value)) return value;
+      return value.map((item, index) =>
+        raiseValue(item, shape.values[index], visited, [...path, String(index)]),
+      );
+    default:
+      return assertNeverValueShape(shape);
+  }
 }
 
 /**
@@ -338,7 +365,12 @@ function structuredCloneLike(
   seen.add(value);
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(value)) {
-    out[k] = isPlainObject(v) ? structuredCloneLike(v, seen) : v;
+    out[k] =
+      isExpression(v) || isExpressionNode(v)
+        ? v
+        : isPlainObject(v)
+          ? structuredCloneLike(v, seen)
+          : v;
   }
   return out;
 }
