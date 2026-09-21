@@ -76,7 +76,7 @@ export async function getCustomerIssues(): Promise<CustomerIssue[]> {
     per_page: 100,
   });
   for await (const { data } of iterator) {
-    issues.push(...data);
+    issues.push(...data.filter((issue) => !issue.pull_request));
   }
   return issues;
 }
@@ -163,15 +163,13 @@ export async function mapCodeownersToLabel(dataplane: PackagesWithStatus) {
   console.dir(trackedLabels, { depth: 4 });
   console.dir(dataplane, { depth: 4 });
 
-  // Surface packages that never received a PRLabel from CODEOWNERS. Without a
-  // label, both issue aggregators skip them and silently report zero SLA and
-  // customer-reported issues, which would otherwise look like healthy zeroes.
+  // Surface packages that never received a PRLabel from CODEOWNERS.
   const unlabeled = Object.keys(dataplane).filter(
     (pkg) => !(dataplane[pkg] as PackageStatus).label,
   );
   if (unlabeled.length > 0) {
     console.warn(
-      `Warning: ${unlabeled.length} package(s) have no matching PRLabel in CODEOWNERS and will report zero SLA/customer issues: ${unlabeled.join(", ")}`,
+      `Warning: ${unlabeled.length} package(s) have no matching PRLabel in CODEOWNERS and will leave SLA/customer issue fields blank: ${unlabeled.join(", ")}`,
     );
   }
 

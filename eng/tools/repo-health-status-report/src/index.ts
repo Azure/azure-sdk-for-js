@@ -289,16 +289,6 @@ async function getTestsResult(
   await getBuildResult("tests", pkgName, pipelines, token, pipelineId, cache);
 }
 
-async function getWeeklyTestsResult(
-  pkgName: string,
-  pipelines: Record<string, PipelineResults>,
-  token: string,
-  pipelineId?: number,
-  cache?: BuildResultCache,
-) {
-  await getBuildResult("weeklyTests", pkgName, pipelines, token, pipelineId, cache);
-}
-
 /**
  * Retrieves the "js - ..." pipelines from Azure DevOps.
  */
@@ -347,11 +337,11 @@ function reportOverallStatus(packageDetails: PackageStatus): void {
 }
 
 function reportTestResult(
-  testKind: "ci" | "lint" | "tests",
+  testKind: "ci" | "lint" | "samples" | "tests",
   pipeline: PipelineResults | undefined,
   packageDetails: PackageStatus,
 ): void {
-  const pipelineKind = testKind === "lint" ? "ci" : testKind;
+  const pipelineKind = testKind === "lint" ? "ci" : testKind === "samples" ? "tests" : testKind;
   if (!pipeline) {
     console.warn(`No ${testKind} pipeline found for ${packageDetails.serviceDir}`);
     packageDetails[testKind] = { status: "UNKNOWN" };
@@ -512,6 +502,7 @@ export function reportStatus(
 ): void {
   for (const [packageName, packageDetails] of Object.entries(dataplane)) {
     reportTestResult("tests", pipelines[packageName], packageDetails);
+    reportTestResult("samples", pipelines[packageName], packageDetails);
     reportTestResult("ci", pipelines[packageName], packageDetails);
     reportTestResult("lint", pipelines[packageName], packageDetails);
     reportOverallStatus(packageDetails);
@@ -545,10 +536,12 @@ export async function writeToCsv(
     "SLA - Questions Link",
     "SLA - Bugs Link",
     "Total Customer-reported Issues Link",
-    // Lint and Lint Link are new columns; append them last so existing tools
-    // that consume the report by column position are not broken.
+    // Append new columns so existing tools that consume earlier fields by
+    // position are not broken.
     "Lint",
     "Lint Link",
+    "Samples",
+    "Samples Link",
   ];
   const csvData = Object.entries(dataplane).map(([pkgName, pkgDetails]) => {
     const status = pkgDetails.status;
@@ -569,18 +562,18 @@ export async function writeToCsv(
       // pipelines[pkgName].weeklyTests?.weeklyTests?.status ?? "",
       // pipelines[pkgName].weeklyTests?.link ?? "",
       // pipelines[pkgName].weeklyTests?.buildNumber ?? "",
-      pkgDetails.sla?.question?.num ?? 0,
-      pkgDetails.sla?.bug?.num ?? 0,
-      pkgDetails.customerIssues?.num ?? 0,
-      pkgDetails.sla?.question?.link ?? "",
-      pkgDetails.sla?.bug?.link ?? "",
-      pkgDetails.customerIssues?.link ?? "",
-      // Lint is a release blocker sourced from the CI pipeline. Appended last to
-      // match the header order and avoid shifting positions existing CSV
-      // consumers rely on. Preserve a blank for unmatched pipelines; otherwise
-      // emit the normalized PASS/FAIL/UNKNOWN.
+      pkgDetails.label ? (pkgDetails.sla?.question?.num ?? 0) : "",
+      pkgDetails.label ? (pkgDetails.sla?.bug?.num ?? 0) : "",
+      pkgDetails.label ? (pkgDetails.customerIssues?.num ?? 0) : "",
+      pkgDetails.label ? (pkgDetails.sla?.question?.link ?? "") : "",
+      pkgDetails.label ? (pkgDetails.sla?.bug?.link ?? "") : "",
+      pkgDetails.label ? (pkgDetails.customerIssues?.link ?? "") : "",
+      // Lint is a release blocker sourced from the CI pipeline. Preserve a
+      // blank for unmatched pipelines; otherwise emit PASS/FAIL/UNKNOWN.
       pipelines[pkgName]?.ci ? (pkgDetails.lint?.status ?? "") : "",
       pipelines[pkgName]?.ci ? (pkgDetails.lint?.link ?? "") : "",
+      pipelines[pkgName]?.tests ? (pkgDetails.samples?.status ?? "") : "",
+      pipelines[pkgName]?.tests ? (pkgDetails.samples?.link ?? "") : "",
     ].join(",");
   });
   await writeFile(
@@ -613,13 +606,6 @@ async function main() {
   for (const [pkgName, pipelineIds] of Object.entries(pipelines)) {
     await getCiResult(pkgName, pipelines, token, pipelineIds.ci?.id, buildResultCache);
     await getTestsResult(pkgName, pipelines, token, pipelineIds.tests?.id, buildResultCache);
-    await getWeeklyTestsResult(
-      pkgName,
-      pipelines,
-      token,
-      pipelineIds.weeklyTests?.id,
-      buildResultCache,
-    );
   }
 
   reportStatus(dataplane as unknown as PackagesWithStatus, pipelines);

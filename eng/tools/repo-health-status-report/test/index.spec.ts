@@ -164,6 +164,18 @@ describe("getBuildResult", () => {
     expect(pipelines["@azure/example"].tests?.tests?.status).toBe("failed");
   });
 
+  it("records sample tasks from the tests pipeline", async () => {
+    const pipelines = createPipelines("tests");
+    getBuildMock.mockResolvedValue(createBuildResponse());
+    getBuildTimelineMock.mockResolvedValue(
+      new Response(JSON.stringify({ records: [{ name: "Execute Samples", result: "failed" }] })),
+    );
+
+    await runBuild("tests", pipelines);
+
+    expect(pipelines["@azure/example"].tests?.samples?.status).toBe("failed");
+  });
+
   it("fetches a shared pipeline only once", async () => {
     const pipelines: Record<string, PipelineResults> = {
       "@azure/first": { ci: { id: 123 } },
@@ -318,6 +330,35 @@ describe("report aggregation", () => {
     expect(packageDetails.status).toBe("BLOCKED");
   });
 
+  it("normalizes and reports failed sample tasks", async () => {
+    const packageDetails = createPackageStatus("example");
+    const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/example": {
+        ci: {
+          ci: { status: "succeeded" },
+          lint: { status: "succeeded" },
+        },
+        tests: {
+          link: "https://example.test/build/456",
+          tests: { status: "succeeded" },
+          samples: { status: "failed" },
+        },
+      },
+    };
+
+    reportStatus(dataplane, pipelines);
+
+    expect(packageDetails.tests.status).toBe("PASS");
+    expect(packageDetails.samples.status).toBe("FAIL");
+
+    writeFileMock.mockClear();
+    await writeToCsv(dataplane, pipelines);
+    const cells = readCsvRow(writeFileMock.mock.calls[0][1] as string, "@azure/example");
+    expect(cells["Samples"]).toBe("FAIL");
+    expect(cells["Samples Link"]).toBe("https://example.test/build/456");
+  });
+
   it("records issues for every service directory sharing a label", () => {
     const dataplane: PackagesWithStatus = {
       "@azure/first": createPackageStatus("first", "Shared"),
@@ -347,9 +388,13 @@ describe("report aggregation", () => {
     expect(cells["CI Build Number"]).toBe("");
     expect(cells["Live Tests"]).toBe("");
     expect(cells["Live Tests Build Number"]).toBe("");
+    expect(cells["Samples"]).toBe("");
+    expect(cells["SLA - Questions"]).toBe("");
+    expect(cells["SLA - Bugs"]).toBe("");
+    expect(cells["Total Customer-reported Issues"]).toBe("");
   });
 
-  it("appends the new Lint columns last to preserve existing column order", async () => {
+  it("appends new check columns to preserve existing column order", async () => {
     const dataplane: PackagesWithStatus = {
       "@azure/example": createPackageStatus("example"),
     };
@@ -358,7 +403,7 @@ describe("report aggregation", () => {
     await writeToCsv(dataplane, {});
 
     const header = (writeFileMock.mock.calls[0][1] as string).split("\n")[0].split(",");
-    expect(header.slice(-2)).toEqual(["Lint", "Lint Link"]);
+    expect(header.slice(-4)).toEqual(["Lint", "Lint Link", "Samples", "Samples Link"]);
     // The build-number columns keep their original positions right after their
     // corresponding link column.
     expect(header[header.indexOf("CI Link") + 1]).toBe("CI Build Number");

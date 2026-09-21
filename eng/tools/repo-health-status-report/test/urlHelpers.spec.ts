@@ -14,7 +14,7 @@ describe("urlHelpers", () => {
   describe("buildUrl", () => {
     it("should return the correct build URL", () => {
       const pipelineId = 2470;
-      const expectedUrl = `https://dev.azure.com/azure-sdk/internal/_apis/build/builds?definitions=${pipelineId}&branchName=refs/heads/main&$top=1&queryOrder=finishTimeDescending&reasonFilter=schedule&api-version=7.0`;
+      const expectedUrl = `https://dev.azure.com/azure-sdk/internal/_apis/build/builds?definitions=${pipelineId}&branchName=refs/heads/main&$top=1&queryOrder=finishTimeDescending&reasonFilter=schedule&statusFilter=completed&api-version=7.0`;
       assert.equal(buildUrl(pipelineId), expectedUrl);
       console.log(buildUrl(pipelineId));
     });
