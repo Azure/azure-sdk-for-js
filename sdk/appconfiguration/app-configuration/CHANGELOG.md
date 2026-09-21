@@ -9,7 +9,7 @@
 ### Bugs Fixed
 
 - Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes.
-- Fixed custom request headers not being sent after the TypeSpec migration in 1.12.0.
+- Fixed custom request headers not being sent after the TypeSpec migration in 1.12.0. [#39596](https://github.com/Azure/azure-sdk-for-js/issues/39596)
 
 ### Other Changes
 
