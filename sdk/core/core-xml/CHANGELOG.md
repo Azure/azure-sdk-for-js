@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Strip leading byte order marks before parsing XML in browsers.
+- Strip leading byte order marks before parsing XML in browsers. [PR #40032](https://github.com/Azure/azure-sdk-for-js/pull/40032)
 
 ### Other Changes
 
