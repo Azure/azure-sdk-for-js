@@ -4075,7 +4075,7 @@ export function openBaoSecretArchiveProviderConfigurationDeserializer(
 export interface ClusterUpdateStrategy {
   /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
   maxUnavailable?: number;
-  /** The mode of operation for runtime protection. */
+  /** The strategy for updating the cluster. */
   strategyType: ClusterUpdateStrategyType;
   /** Selection of how the threshold should be evaluated. */
   thresholdType: ValidationThresholdType;
@@ -4105,7 +4105,7 @@ export function clusterUpdateStrategyDeserializer(item: any): ClusterUpdateStrat
   };
 }
 
-/** The mode of operation for runtime protection. */
+/** The strategy for updating the cluster. */
 export enum KnownClusterUpdateStrategyType {
   /** Update the cluster in rack-by-rack increments. */
   Rack = "Rack",
@@ -4114,7 +4114,7 @@ export enum KnownClusterUpdateStrategyType {
 }
 
 /**
- * The mode of operation for runtime protection. \
+ * The strategy for updating the cluster. \
  * {@link KnownClusterUpdateStrategyType} can be used interchangeably with ClusterUpdateStrategyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -4705,7 +4705,7 @@ export function clusterSecretArchivePatchSerializer(item: ClusterSecretArchivePa
 export interface ClusterUpdateStrategyPatch {
   /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
   maxUnavailable?: number;
-  /** The mode of operation for runtime protection. */
+  /** The strategy for updating the cluster. */
   strategyType?: ClusterUpdateStrategyType;
   /** Selection of how the threshold should be evaluated. */
   thresholdType?: ValidationThresholdType;
@@ -7849,12 +7849,12 @@ export interface StorageAppliance extends TrackedResource {
   administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   readonly caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7922,12 +7922,12 @@ export interface StorageApplianceProperties {
   administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   readonly caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7966,9 +7966,9 @@ export function storageAppliancePropertiesSerializer(item: StorageAppliancePrope
   return {
     administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
     rackId: item["rackId"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
   };
 }
 
@@ -7978,9 +7978,9 @@ export function storageAppliancePropertiesDeserializer(item: any): StorageApplia
       item["administratorCredentials"],
     ),
     rackId: item["rackId"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
     caCertificate: !item["caCertificate"]
       ? item["caCertificate"]
       : certificateInfoDeserializer(item["caCertificate"]),
@@ -11760,9 +11760,9 @@ export function _storageAppliancePropertiesSerializer(item: StorageAppliance): a
   return {
     administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
     rackId: item["rackId"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
   };
 }
 
@@ -11772,9 +11772,9 @@ export function _storageAppliancePropertiesDeserializer(item: any) {
       item["administratorCredentials"],
     ),
     rackId: item["rackId"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
     caCertificate: !item["caCertificate"]
       ? item["caCertificate"]
       : certificateInfoDeserializer(item["caCertificate"]),
