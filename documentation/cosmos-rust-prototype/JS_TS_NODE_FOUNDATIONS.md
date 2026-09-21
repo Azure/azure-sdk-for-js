@@ -158,43 +158,92 @@ cover the browser path. Which file that is waits until we choose a framework.
 
 Source: [package.json](../../sdk/cosmosdb/cosmos/package.json).
 
-## Concept 3 of approximately 32: Objects, values, and partition keys
+## Bite 3 of approximately 32: The two values that identify the item
 
-An **object** groups named properties. `response.resource` is an object
-representing the order when a successful response contains one.
-It is not JSON text.
+The customer already knows which order they want: `order-42` for customer
+`customer-17`. Cosmos DB will not search the `orders` container for them. It
+will look in one place, and only if the application names that place correctly.
 
-```js
-const order = { id: "order-42", customerId: "customer-17", status: "submitted" };
-const text = JSON.stringify(order);
+A **point read** is that lookup. It needs two values, not one.
+
+The first value is the item **id**: `"order-42"`. That is the item's name
+inside its partition. Two different customers could each have an item named
+`order-42`. The id alone is not enough.
+
+The second value is the **partition-key value**: `"customer-17"`. The container
+`orders` is partitioned by `/customerId`, so Cosmos DB stores this order with
+the other orders whose `customerId` is `customer-17`. The partition-key value
+tells the service which of those groups to open.
+
+Those two strings are what the application already has when it calls:
+
+```ts
+container.item("order-42", "customer-17")
 ```
 
-`JSON.stringify` produces text. `JSON.parse` converts JSON text back into
-JavaScript values; it does not validate the customer's business schema.
-`const` declares a name whose assigned value cannot be replaced.
-Concept 5 explains why the referenced object can still change.
+`Item.ts` stores them on the `Item` object. `read()` then uses that same pair.
+Nothing in this call asks Cosmos DB to scan other customers.
 
-Inputs must retain their types:
+**Why the type of the second value matters**
 
-| Value | Meaning relevant to the boundary |
-|---|---|
-| `"customer-17"` | A string partition-key value |
-| `17` | A number, not the string `"17"` |
-| `false` | A Boolean value, not an omitted argument |
-| `null` | An explicit null value |
-| `undefined` | An absent/undefined value; not interchangeable with null |
-| `["customer-17", "west"]` | An array; the full SDK also supports multi-component keys |
+`"customer-17"` is a **string**: text in quotes. `17` is a **number**. They are
+not the same value.
 
-Do not use `value || defaultValue` to decide whether a key was supplied:
-it also replaces `false`, `0`, and `""`.
+If this order was written with `"customerId": "customer-17"` and the caller
+passes `17`, the lookup is for a different key. The service does not treat
+them as "close enough". The customer would not get this order.
 
-The first experiment accepts a supplied string key. Other key forms require
-explicit rejection on the experimental path until implemented. The existing
-SDK remains capable of more. In particular, an omitted key can cause a
-partition-key-definition lookup; it is not an instruction to search for any
-item with this ID.
+`PartitionKey.ts` is the SDK file that lists which types a partition-key value
+may be: string, number, boolean, `null`, or an array of those when the
+container has more than one key path. This experiment uses one supplied
+**string**, `"customer-17"`.
 
-Sources: [PartitionKey.ts](../../sdk/cosmosdb/cosmos/src/documents/PartitionKey.ts),
+`false` is the boolean false, not "I skipped the argument". `null` is an
+explicit null key, not "I forgot". **Omitted** means the caller did not pass a
+key at all (`undefined` in JavaScript).
+
+**Why omitted is a different problem**
+
+Suppose the application writes `.item("order-42")` and leaves out the key.
+That is not "find any `order-42`".
+
+`Item.read()` calls `setPartitionKeyIfUndefined` in `extractPartitionKey.ts`.
+That function checks `partitionKey === undefined`. Only then does it read the
+container's partition-key **definition** — the description that the path is
+`/customerId`. It does not search items. It fills in a stand-in for a missing
+key so the rest of the existing SDK can continue.
+
+The experimental Rust path must not pretend an omitted key is a successful
+point read of `order-42`. Until that path implements omitted keys, it should
+refuse them.
+
+Do not write `value || "customer-17"` to "fill in" a missing key. In
+JavaScript that also replaces `false`, `0`, and `""`, which are real values.
+
+**What this bite is for**
+
+We will later hand these two values to Rust. If JavaScript already mixed up
+string and number, or treated "no argument" as a search, the binding cannot
+fix that.
+
+Walk for this experiment:
+
+```text
+Caller has id "order-42" and string key "customer-17"
+    -> Item stores that pair
+    -> read() uses that pair
+    -> Cosmos DB looks in the customer-17 partition for order-42
+    -> the stored item is returned, or not found
+```
+
+**Established:** the point read is identified by id plus partition-key value;
+`"customer-17"` is not `17`; omitting the key is not a search.
+
+**Not this bite:** turning the item into JSON text; how Rust stores the key;
+arrays of keys.
+
+Sources: [Item.ts](../../sdk/cosmosdb/cosmos/src/client/Item/Item.ts),
+[PartitionKey.ts](../../sdk/cosmosdb/cosmos/src/documents/PartitionKey.ts),
 [extractPartitionKey.ts](../../sdk/cosmosdb/cosmos/src/extractPartitionKey.ts).
 
 ## Concept 4 of approximately 32: Functions and callbacks
