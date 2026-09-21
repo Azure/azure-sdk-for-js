@@ -380,7 +380,8 @@ export async function retryForever<T>(
   ) {
     config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
   }
-  if (!config.retryOptions.mode) {
+  // eslint-disable-next-line eqeqeq
+  if (config.retryOptions.mode == undefined) {
     config.retryOptions.mode = RetryMode.Fixed;
   }
 
