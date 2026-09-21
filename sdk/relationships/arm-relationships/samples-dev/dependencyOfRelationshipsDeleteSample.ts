@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a DependencyOfRelationship
  *
  * @summary delete a DependencyOfRelationship
- * x-ms-original-file: 2023-09-01-preview/DependencyOfRelationships_Delete.json
+ * x-ms-original-file: 2026-03-01-preview/DependencyOfRelationships_Delete.json
  */
 async function dependencyOfRelationshipsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

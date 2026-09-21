@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a ServiceGroupMemberRelationship
  *
  * @summary delete a ServiceGroupMemberRelationship
- * x-ms-original-file: 2023-09-01-preview/ServiceGroupMemberRelationships_Delete.json
+ * x-ms-original-file: 2026-03-01-preview/ServiceGroupMemberRelationships_Delete.json
  */
 async function serviceGroupMemberRelationshipsDelete() {
   const credential = new DefaultAzureCredential();
