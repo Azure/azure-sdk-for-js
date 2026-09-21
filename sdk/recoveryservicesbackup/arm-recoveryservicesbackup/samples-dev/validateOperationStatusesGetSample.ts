@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary fetches the status of a triggered validate operation. The status can be in progress, completed
  * or failed. You can refer to the OperationStatus enum for all the possible states of the operation.
  * If operation has completed, this method returns the list of errors obtained while validating the operation.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ValidateOperationStatus.json
+ * x-ms-original-file: 2026-08-01/AzureIaasVm/ValidateOperationStatus.json
  */
 async function getOperationStatusOfValidateOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();

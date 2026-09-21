@@ -289,7 +289,6 @@ export interface DatabasesOperations {
     options?: DatabasesGetOptionalParams,
   ) => Promise<Database>;
 }
-
 function _getDatabases(context: SqlManagementContext) {
   return {
     listByElasticPool: (
@@ -619,7 +618,6 @@ function _getDatabases(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, options),
   };
 }
-
 export function _getDatabasesOperations(context: SqlManagementContext): DatabasesOperations {
   return {
     ..._getDatabases(context),

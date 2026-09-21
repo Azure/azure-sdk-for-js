@@ -1,13 +1,24 @@
 # Release History
 
-## 1.0.0-beta.45 (Unreleased)
+## 1.0.0-beta.46 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed database dependency mapping for the stable OpenTelemetry attributes `db.system.name`, `db.namespace`, `db.query.text`, and `db.operation.name` without duplicating mapped attributes in custom properties, while retaining legacy attribute support, existing database type classification, and database server address and port properties. [microsoft/ApplicationInsights-node.js#1533](https://github.com/microsoft/ApplicationInsights-node.js/pull/1533)
+- Fixed OneSettings configuration profiles incorrectly identifying Azure Monitor and Microsoft OpenTelemetry distro processes as standalone exporters. [#39923](https://github.com/Azure/azure-sdk-for-js/pull/39923)
+
+### Other Changes
+
+## 1.0.0-beta.45 (2026-09-04)
 
 ### Features Added
 
 - Added support for exporting finite numeric entries from the `microsoft.custom_measurements` span and log attribute as Breeze measurements. [Telemetry Collection Spec #887](https://github.com/aep-health-and-standards/Telemetry-Collection-Spec/pull/887)
 - Added support for exporting availability telemetry from OpenTelemetry log records with `microsoft.availability.*` attributes. [#39734](https://github.com/Azure/azure-sdk-for-js/pull/39734)
-
-### Breaking Changes
 
 ### Bugs Fixed
 

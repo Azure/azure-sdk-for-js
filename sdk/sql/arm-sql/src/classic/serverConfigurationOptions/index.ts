@@ -63,7 +63,6 @@ export interface ServerConfigurationOptionsOperations {
     options?: ServerConfigurationOptionsGetOptionalParams,
   ) => Promise<ServerConfigurationOption>;
 }
-
 function _getServerConfigurationOptions(context: SqlManagementContext) {
   return {
     listByManagedInstance: (
@@ -129,7 +128,6 @@ function _getServerConfigurationOptions(context: SqlManagementContext) {
       get(context, resourceGroupName, managedInstanceName, serverConfigurationOptionName, options),
   };
 }
-
 export function _getServerConfigurationOptionsOperations(
   context: SqlManagementContext,
 ): ServerConfigurationOptionsOperations {

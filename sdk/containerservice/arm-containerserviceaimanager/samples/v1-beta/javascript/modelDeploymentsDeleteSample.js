@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a ModelDeployment
  *
  * @summary delete a ModelDeployment
- * x-ms-original-file: 2026-05-02-preview/ModelDeployments_Delete.json
+ * x-ms-original-file: 2026-09-02-preview/ModelDeployments_Delete.json
  */
 async function modelDeploymentsDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

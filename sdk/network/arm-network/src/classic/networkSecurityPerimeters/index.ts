@@ -18,10 +18,7 @@ import type {
   NetworkSecurityPerimetersCreateOrUpdateOptionalParams,
   NetworkSecurityPerimetersGetOptionalParams,
 } from "../../api/networkSecurityPerimeters/options.js";
-import type {
-  NetworkSecurityPerimeter,
-  UpdateTagsRequest,
-} from "../../models/microsoft/network/models.js";
+import type { NetworkSecurityPerimeter, UpdateTagsRequest } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

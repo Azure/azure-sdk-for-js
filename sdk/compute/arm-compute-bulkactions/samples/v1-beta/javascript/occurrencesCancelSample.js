@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cancels the specified occurrence for the specified resource IDs.
  *
  * @summary cancels the specified occurrence for the specified resource IDs.
- * x-ms-original-file: 2026-08-06-preview/Occurrences_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-06-preview/Occurrences_Cancel_MaximumSet_Gen.json
  */
 async function cancelResourcesInAScheduledActionOccurrence() {
   const credential = new DefaultAzureCredential();
