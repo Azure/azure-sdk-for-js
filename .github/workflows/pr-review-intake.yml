@@ -1,0 +1,18 @@
+name: PR Review Intake
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions: {}
+
+jobs:
+  request:
+    if: >-
+      contains(fromJSON('["architecture-review-needed","performance-review-needed","dependency-review-needed","mgmt-review-needed","docs-review-needed","security-review-needed","test-review-needed"]'), github.event.label.name)
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    steps:
+      # The trusted router uses GitHub's run metadata, not artifacts or PR code.
+      - name: Signal a review request
+        run: echo "PR review requested."
