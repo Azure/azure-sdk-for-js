@@ -60,7 +60,7 @@ Hardcoded versions for cataloged deps are wrong:
 
 ## New Dependency Approval Gate
 
-New third-party runtime `dependencies` in shipped libraries (`sdk-type` `client`/`mgmt`) must be first-party (`@azure*`, `@microsoft/*`, `@typespec/*`) or listed in `eng/approved-third-party-dependencies.yml` (`allowed`, or an `exceptions` entry naming the package). Enforced by the `@azure/azure-sdk/ts-package-json-approved-dependencies` ESLint rule. Flag any new runtime dep not covered there.
+New third-party runtime `dependencies` in shipped libraries (`sdk-type` `client`, `mgmt`, or `provisioning`) must be first-party (`@azure*`, `@microsoft/*`, `@typespec/*`) or listed in `eng/approved-third-party-dependencies.yml` (`allowed`, or an `exceptions` entry naming the package). Enforced by the `@azure/azure-sdk/ts-package-json-approved-dependencies` ESLint rule. Flag any new runtime dep not covered there.
 
 ## Dev vs Runtime Boundary
 
@@ -90,7 +90,7 @@ All SDK packages declare a minimum supported Node.js version in their `engines` 
 
 - `files`: `dist/`, types entry, `README.md`, `LICENSE`, `CHANGELOG.md`
 - `sideEffects: false` (enables tree-shaking)
-- `sdk-type`: `client` | `mgmt` | `perf-test` | `utility`
+- `sdk-type`: `client` | `mgmt` | `provisioning` | `perf-test` | `utility`
 - Scripts: `build`, `clean`, `check-format`, `format`, `lint`, `lint:fix`, `pack`, `test`, `test:browser`, `test:node`
 - No lifecycle hooks: `preinstall`, `prebuild`, `prepack` — build system runs steps explicitly
 

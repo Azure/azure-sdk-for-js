@@ -2,7 +2,7 @@
   "name": "@azure/provisioning-keyvault",
   "version": "1.0.0-beta.1",
   "description": "Azure Provisioning constructs for Azure Key Vault",
-  "sdk-type": "client",
+  "sdk-type": "provisioning",
   "autoPublish": false,
   "type": "module",
   "main": "./dist/commonjs/index.js",

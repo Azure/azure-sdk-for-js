@@ -140,7 +140,7 @@ export const repository = packageJsonCheck({
   },
 });
 
-const sdkTypes = ["client", "mgmt", "utility"];
+const sdkTypes = ["client", "mgmt", "provisioning", "utility"];
 
 export const sdkType = packageJsonCheck({
   description: `package.json sdk-type field must be one of: ${sdkTypes.join(", ")}`,
