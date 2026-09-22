@@ -8,9 +8,13 @@
 
 ### Bugs Fixed
 
-- Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes.
+- Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes. [#39594](https://github.com/Azure/azure-sdk-for-js/issues/39594)
+- Fixed custom request headers not being sent after the TypeSpec migration in 1.12.0. [#39596](https://github.com/Azure/azure-sdk-for-js/issues/39596)
+- Fixed a bug that incorrectly truncated configuration setting keys containing reserved URL characters such as `?`. [#39670](https://github.com/Azure/azure-sdk-for-js/issues/39670)
 
 ### Other Changes
+
+- Improved Microsoft Entra authentication in sovereign clouds when using a `TokenCredential`. When `audience` is not set, the client now infers it from the App Configuration endpoint. An explicitly configured audience continues to override the inferred value.
 
 ## 1.12.1 (2026-06-22)
 

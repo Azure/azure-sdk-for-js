@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of Action resources for a given location.
  *
  * @summary get a list of Action resources for a given location.
- * x-ms-original-file: 2026-05-01-preview/Actions_List.json
+ * x-ms-original-file: 2026-08-01-preview/Actions_List.json
  */
 async function listAllActionsForWestus2Location(): Promise<void> {
   const credential = new DefaultAzureCredential();

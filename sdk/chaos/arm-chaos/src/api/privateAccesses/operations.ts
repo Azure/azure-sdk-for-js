@@ -52,7 +52,7 @@ export function _listPrivateEndpointConnectionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateAccessName: privateAccessName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,14 +70,15 @@ export async function _listPrivateEndpointConnectionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _privateEndpointConnectionListResultDeserializer(result.body);
 }
-
 /** List information about private endpoint connections under a private access resource */
 export function listPrivateEndpointConnections(
   context: Client,
@@ -94,7 +95,7 @@ export function listPrivateEndpointConnections(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -113,7 +114,7 @@ export function _deleteAPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       privateAccessName: privateAccessName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,14 +129,15 @@ export async function _deleteAPrivateEndpointConnectionDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes a private endpoint connection under a private access resource. */
 export function deleteAPrivateEndpointConnection(
   context: Client,
@@ -160,7 +162,7 @@ export function deleteAPrivateEndpointConnection(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -179,7 +181,7 @@ export function _getAPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       privateAccessName: privateAccessName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,14 +199,15 @@ export async function _getAPrivateEndpointConnectionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Gets information about a private endpoint connection under a private access resource. */
 export async function getAPrivateEndpointConnection(
   context: Client,
@@ -235,7 +238,7 @@ export function _getPrivateLinkResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateAccessName: privateAccessName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,14 +256,15 @@ export async function _getPrivateLinkResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return privateLinkResourceListResultDeserializer(result.body);
 }
-
 /** Gets the private link resources possible under private access resource */
 export async function getPrivateLinkResources(
   context: Client,
@@ -285,7 +289,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/privateAccesses{?api%2Dversion,continuationToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       continuationToken: options?.continuationToken,
     },
     {
@@ -304,14 +308,15 @@ export async function _listAllDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _privateAccessListResultDeserializer(result.body);
 }
-
 /** Get a list of private access resources in a subscription. */
 export function listAll(
   context: Client,
@@ -325,7 +330,7 @@ export function listAll(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -340,7 +345,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       continuationToken: options?.continuationToken,
     },
     {
@@ -359,14 +364,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _privateAccessListResultDeserializer(result.body);
 }
-
 /** Get a list of private access resources in a resource group. */
 export function list(
   context: Client,
@@ -381,7 +387,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -398,7 +404,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateAccessName: privateAccessName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -411,14 +417,15 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete a private access */
 export function $delete(
   context: Client,
@@ -431,7 +438,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, privateAccessName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -448,7 +455,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateAccessName: privateAccessName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -466,14 +473,15 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return privateAccessDeserializer(result.body);
 }
-
 /** Patch a private access tags */
 export function update(
   context: Client,
@@ -488,7 +496,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, privateAccessName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<PrivateAccess>, PrivateAccess>;
 }
 
@@ -505,7 +513,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateAccessName: privateAccessName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -525,14 +533,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return privateAccessDeserializer(result.body);
 }
-
 /** Create or update a private access */
 export function createOrUpdate(
   context: Client,
@@ -547,7 +556,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, privateAccessName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<PrivateAccess>, PrivateAccess>;
 }
 
@@ -563,7 +572,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateAccessName: privateAccessName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -579,14 +588,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return privateAccessDeserializer(result.body);
 }
-
 /** Get a private access resource */
 export async function get(
   context: Client,

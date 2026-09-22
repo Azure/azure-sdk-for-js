@@ -33,8 +33,27 @@ import { KnownApiVersions } from "./models/models.js";
 import { getTracingFetch } from "./tracing/tracingFetch.js";
 import { resolveTracingConfig } from "./tracing/configuration.js";
 import type { ResolvedTracingConfig } from "./tracing/configuration.js";
+import type { VoiceAgentRealtimeClientOptions } from "./realtime/voiceAgentRealtimeClient.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
+
+/**
+ * Resolves the effective options for the realtime voice-agent client: explicit `realtimeOptions`
+ * values win, otherwise each falls back to its corresponding top-level client option so realtime
+ * connections stay consistent with the rest of the client by default.
+ */
+function resolveRealtimeOptions(
+  options: AIProjectClientOptionalParams,
+  userAgentPrefix: string | undefined,
+): VoiceAgentRealtimeClientOptions {
+  const { realtimeOptions } = options;
+  return {
+    ...realtimeOptions,
+    apiVersion: realtimeOptions?.apiVersion ?? options.apiVersion,
+    credentialScopes: realtimeOptions?.credentialScopes ?? options.credentials?.scopes,
+    userAgentPrefix: realtimeOptions?.userAgentPrefix ?? userAgentPrefix,
+  };
+}
 
 /**
  * The main client for the AIProjectClient service. It provides access to the various operations available in the service.
@@ -107,7 +126,12 @@ export class AIProjectClient {
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
-    this.beta = _getBetaOperations(this._cognitiveScopeClient);
+    this.beta = _getBetaOperations(
+      this._cognitiveScopeClient,
+      credential,
+      options.endpoint ?? endpoint,
+      resolveRealtimeOptions(options, prefixFromOptions),
+    );
     this.telemetry = _getTelemetryOperations(this.connections);
   }
 
@@ -136,6 +160,7 @@ export class AIProjectClient {
    * - skills
    * - routines
    * - models
+   * - realtime (voice-agent WebSocket connections)
    */
   public readonly beta: BetaOperations;
   /** The operation groups for telemetry */

@@ -108,7 +108,6 @@ export interface ManagedInstanceLongTermRetentionPoliciesOperations {
     options?: ManagedInstanceLongTermRetentionPoliciesGetOptionalParams,
   ) => Promise<ManagedInstanceLongTermRetentionPolicy>;
 }
-
 function _getManagedInstanceLongTermRetentionPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -223,7 +222,6 @@ function _getManagedInstanceLongTermRetentionPolicies(context: SqlManagementCont
     ) => get(context, resourceGroupName, managedInstanceName, databaseName, policyName, options),
   };
 }
-
 export function _getManagedInstanceLongTermRetentionPoliciesOperations(
   context: SqlManagementContext,
 ): ManagedInstanceLongTermRetentionPoliciesOperations {

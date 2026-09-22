@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get an execution of an Experiment resource.
  *
  * @summary get an execution of an Experiment resource.
- * x-ms-original-file: 2026-05-01-preview/Experiments_GetExecution.json
+ * x-ms-original-file: 2026-08-01-preview/Experiments_GetExecution.json
  */
 async function getTheExecutionOfAExperiment(): Promise<void> {
   const credential = new DefaultAzureCredential();

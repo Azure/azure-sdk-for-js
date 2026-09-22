@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the specified Elastic Backup Policy in the NetApp account
  *
  * @summary create or update the specified Elastic Backup Policy in the NetApp account
- * x-ms-original-file: 2026-05-15-preview/ElasticBackupPolicies_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackupPolicies_CreateOrUpdate.json
  */
 async function elasticBackupPoliciesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

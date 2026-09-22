@@ -4,14 +4,22 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface ActionConfiguration {
+    authorizationAction?: string;
+    maxBatchSize?: number;
+}
 
 // @public
 export interface AdditionalAuthorization {
@@ -50,6 +58,7 @@ export interface ApiProfile {
 
 // @public
 export interface ApplicationDataAuthorization {
+    excludeApplicationIdFromManifest?: boolean;
     resourceTypes?: string[];
     role: Role;
 }
@@ -58,6 +67,14 @@ export interface ApplicationDataAuthorization {
 export interface ApplicationProviderAuthorization {
     managedByRoleDefinitionId?: string;
     roleDefinitionId?: string;
+}
+
+// @public
+export interface AppliedManifestInfo {
+    appliedCommitId?: string;
+    manifestAppliedAt?: Date;
+    previousCommitId?: string;
+    region?: string;
 }
 
 // @public
@@ -123,9 +140,6 @@ export interface AuthorizedApplicationsOperations {
 
 // @public
 export type AvailabilityZonePolicy = string;
-
-// @public
-export type AvailableCheckInManifestEnvironment = string;
 
 // @public
 export enum AzureClouds {
@@ -237,10 +251,12 @@ export interface CustomRolloutsOperations {
 export interface CustomRolloutSpecification {
     autoProvisionConfig?: CustomRolloutSpecificationAutoProvisionConfig;
     canary?: CustomRolloutSpecificationCanary;
+    manifestCheckinSpecification?: ManifestCheckinSpecification;
     providerRegistration?: CustomRolloutSpecificationProviderRegistration;
     refreshSubscriptionRegistration?: boolean;
     releaseScopes?: string[];
     resourceTypeRegistrations?: ResourceTypeRegistration[];
+    rolloutId?: string;
     skipReleaseScopeValidation?: boolean;
 }
 
@@ -267,6 +283,7 @@ export interface CustomRolloutsStopOptionalParams extends OperationOptions {
 // @public
 export interface CustomRolloutStatus {
     completedRegions?: string[];
+    completedRegionsInfo?: AppliedManifestInfo[];
     failedOrSkippedRegions?: Record<string, ExtendedErrorInfo>;
     manifestCheckinStatus?: CustomRolloutStatusManifestCheckinStatus;
 }
@@ -331,6 +348,7 @@ export interface DefaultRolloutSpecification {
     expeditedRollout?: DefaultRolloutSpecificationExpeditedRollout;
     highTraffic?: DefaultRolloutSpecificationHighTraffic;
     lowTraffic?: DefaultRolloutSpecificationLowTraffic;
+    manifestCheckinSpecification?: ManifestCheckinSpecification;
     mediumTraffic?: DefaultRolloutSpecificationMediumTraffic;
     providerRegistration?: DefaultRolloutSpecificationProviderRegistration;
     resourceTypeRegistrations?: ResourceTypeRegistration[];
@@ -397,12 +415,6 @@ export interface DeleteDependency {
     linkedProperty?: string;
     linkedType?: string;
     requiredFeatures?: string[];
-}
-
-// @public
-export interface DstsConfiguration {
-    serviceDnsName?: string;
-    serviceName: string;
 }
 
 // @public
@@ -480,13 +492,8 @@ export type ExtensionOptionType = string;
 // @public
 export interface FanoutLinkedNotificationRule {
     actions?: string[];
-    dstsConfiguration?: FanoutLinkedNotificationRuleDstsConfiguration;
     endpoints?: ResourceProviderEndpoint[];
     tokenAuthConfiguration?: TokenAuthConfiguration;
-}
-
-// @public
-export interface FanoutLinkedNotificationRuleDstsConfiguration extends DstsConfiguration {
 }
 
 // @public
@@ -510,35 +517,15 @@ export interface FilterRule {
 export type FrontdoorRequestMode = string;
 
 // @public
-export interface FrontloadPayload {
-    properties: FrontloadPayloadProperties;
-}
-
-// @public
-export interface FrontloadPayloadProperties {
-    copyFromLocation: string;
-    environmentType: AvailableCheckInManifestEnvironment;
-    excludeResourceTypes: string[];
-    frontloadLocation: string;
-    ignoreFields: string[];
-    includeResourceTypes: string[];
-    operationType: string;
-    overrideEndpointLevelFields: FrontloadPayloadPropertiesOverrideEndpointLevelFields;
-    overrideManifestLevelFields: FrontloadPayloadPropertiesOverrideManifestLevelFields;
-    providerNamespace: string;
-    serviceFeatureFlag: ServiceFeatureFlagAction;
-}
-
-// @public
-export interface FrontloadPayloadPropertiesOverrideEndpointLevelFields extends ResourceTypeEndpointBase {
-}
-
-// @public
-export interface FrontloadPayloadPropertiesOverrideManifestLevelFields extends ManifestLevelPropertyBag {
-}
-
-// @public
 export interface GenerateManifestOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GroupConnectivityInformation {
+    groupId: string;
+    redirectMapId?: string;
+    requiredMembers: string[];
+    requiredZoneNames: string[];
 }
 
 // @public
@@ -559,6 +546,8 @@ export type IdentityManagementTypes = string;
 
 // @public
 export type Intent = string;
+
+export { isRestError }
 
 // @public
 export enum KnownAdditionalOptions {
@@ -589,16 +578,6 @@ export enum KnownAvailabilityZonePolicy {
     MultiZoned = "MultiZoned",
     NotSpecified = "NotSpecified",
     SingleZoned = "SingleZoned"
-}
-
-// @public
-export enum KnownAvailableCheckInManifestEnvironment {
-    All = "All",
-    Canary = "Canary",
-    Fairfax = "Fairfax",
-    Mooncake = "Mooncake",
-    NotSpecified = "NotSpecified",
-    Prod = "Prod"
 }
 
 // @public
@@ -679,6 +658,7 @@ export enum KnownExtendedLocationType {
 export enum KnownExtensionCategory {
     BestMatchOperationBegin = "BestMatchOperationBegin",
     NotSpecified = "NotSpecified",
+    ResourceBillingNotification = "ResourceBillingNotification",
     ResourceCreationBegin = "ResourceCreationBegin",
     ResourceCreationCompleted = "ResourceCreationCompleted",
     ResourceCreationValidate = "ResourceCreationValidate",
@@ -754,6 +734,12 @@ export enum KnownLegacyOperation {
 }
 
 // @public
+export enum KnownLinkedAccessCheckOptions {
+    IgnoreEmptyStringLinkedType = "IgnoreEmptyStringLinkedType",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
 export enum KnownLinkedAction {
     Blocked = "Blocked",
     Enabled = "Enabled",
@@ -782,10 +768,9 @@ export enum KnownLoggingDirections {
 }
 
 // @public
-export enum KnownManifestResourceDeletionPolicy {
-    Cascade = "Cascade",
-    Force = "Force",
-    NotSpecified = "NotSpecified"
+export enum KnownManifestCheckinOption {
+    AttemptAutomaticManifestCheckin = "AttemptAutomaticManifestCheckin",
+    DoNotAttemptAutomaticManifestCheckin = "DoNotAttemptAutomaticManifestCheckin"
 }
 
 // @public
@@ -895,19 +880,6 @@ export enum KnownQuotaPolicy {
 }
 
 // @public
-export enum KnownReadiness {
-    ClosingDown = "ClosingDown",
-    Deprecated = "Deprecated",
-    GA = "GA",
-    InDevelopment = "InDevelopment",
-    InternalOnly = "InternalOnly",
-    PrivatePreview = "PrivatePreview",
-    PublicPreview = "PublicPreview",
-    RemovedFromARM = "RemovedFromARM",
-    Retired = "Retired"
-}
-
-// @public
 export enum KnownRegionality {
     Global = "Global",
     NotSpecified = "NotSpecified",
@@ -915,10 +887,16 @@ export enum KnownRegionality {
 }
 
 // @public
-export enum KnownResourceDeletionPolicy {
-    CascadeDeleteAll = "CascadeDeleteAll",
-    CascadeDeleteProxyOnlyChildren = "CascadeDeleteProxyOnlyChildren",
+export enum KnownResourceAccessPolicy {
     NotSpecified = "NotSpecified"
+}
+
+// @public
+export enum KnownResourceDeletionPolicy {
+    Cascade = "Cascade",
+    Force = "Force",
+    NotSpecified = "NotSpecified",
+    SoftDelete = "SoftDelete"
 }
 
 // @public
@@ -931,6 +909,7 @@ export enum KnownResourceProviderCapabilitiesEffect {
 // @public
 export enum KnownResourceProviderType {
     AuthorizationFree = "AuthorizationFree",
+    Decommissioned = "Decommissioned",
     External = "External",
     Hidden = "Hidden",
     Internal = "Internal",
@@ -1005,6 +984,15 @@ export enum KnownRoutingType {
 }
 
 // @public
+export enum KnownRPaaSResourceDeletionPolicy {
+    Cascade = "Cascade",
+    CascadeDeleteAll = "CascadeDeleteAll",
+    CascadeDeleteProxyOnlyChildren = "CascadeDeleteProxyOnlyChildren",
+    Force = "Force",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
 export enum KnownServerFailureResponseMessageType {
     NotSpecified = "NotSpecified",
     OutageReporting = "OutageReporting"
@@ -1014,12 +1002,6 @@ export enum KnownServerFailureResponseMessageType {
 export enum KnownServiceClientOptionsType {
     DisableAutomaticDecompression = "DisableAutomaticDecompression",
     NotSpecified = "NotSpecified"
-}
-
-// @public
-export enum KnownServiceFeatureFlagAction {
-    Create = "Create",
-    DoNotCreate = "DoNotCreate"
 }
 
 // @public
@@ -1142,7 +1124,14 @@ export enum KnownTrafficRegionCategory {
 
 // @public
 export enum KnownVersions {
-    V20240901 = "2024-09-01"
+    V20240901 = "2024-09-01",
+    V20251001 = "2025-10-01"
+}
+
+// @public
+export enum KnownWriteLockState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1167,7 +1156,11 @@ export interface LinkedAccessCheck {
     linkedActionVerb?: string;
     linkedProperty?: string;
     linkedType?: string;
+    readonly options?: LinkedAccessCheckOptions;
 }
+
+// @public
+export type LinkedAccessCheckOptions = string;
 
 // @public
 export type LinkedAction = string;
@@ -1198,6 +1191,7 @@ export interface LocalizedOperationDefinition {
     isDataAction?: boolean;
     name: string;
     origin?: OperationOrigins;
+    properties?: any;
 }
 
 // @public
@@ -1220,6 +1214,7 @@ export interface LocalizedOperationDisplayDefinition {
     pl?: LocalizedOperationDisplayDefinitionPl;
     ptBR?: LocalizedOperationDisplayDefinitionPtBR;
     ptPT?: LocalizedOperationDisplayDefinitionPtPT;
+    qpsPloc?: LocalizedOperationDisplayDefinitionQpsPloc;
     ru?: LocalizedOperationDisplayDefinitionRu;
     sv?: LocalizedOperationDisplayDefinitionSv;
     zhHans?: LocalizedOperationDisplayDefinitionZhHans;
@@ -1283,6 +1278,10 @@ export interface LocalizedOperationDisplayDefinitionPtPT extends OperationsDispl
 }
 
 // @public
+export interface LocalizedOperationDisplayDefinitionQpsPloc extends OperationsDisplayDefinition {
+}
+
+// @public
 export interface LocalizedOperationDisplayDefinitionRu extends OperationsDisplayDefinition {
 }
 
@@ -1330,42 +1329,51 @@ export interface LoggingRuleHiddenPropertyPaths extends LoggingHiddenPropertyPat
 }
 
 // @public
-export interface ManifestLevelPropertyBag {
-    resourceHydrationAccounts?: ResourceHydrationAccount[];
+export interface ManagedResourceGroupDenyAssignmentConfiguration {
+    enabled?: boolean;
+    notActions?: string[];
 }
 
 // @public
-export type ManifestResourceDeletionPolicy = string;
+export type ManifestCheckinOption = string;
 
 // @public
-export type MarketplaceType = "NotSpecified" | "AddOn" | "Bypass" | "Store";
+export interface ManifestCheckinSpecification {
+    manifestCheckinOption?: ManifestCheckinOption;
+    manifestCheckinParams?: CheckinManifestParams;
+}
+
+// @public
+export interface ManifestInfo extends ProxyResource {
+    properties?: ManifestInfoProperties;
+}
+
+// @public
+export interface ManifestInfoProperties {
+    readonly commitId?: string;
+    manifest?: string;
+    manifestUri?: string;
+}
+
+// @public
+export interface ManifestsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManifestsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManifestsOperations {
+    createOrUpdate: (providerNamespace: string, environment: string, properties: ManifestInfo, options?: ManifestsCreateOrUpdateOptionalParams) => Promise<ManifestInfo>;
+    get: (providerNamespace: string, environment: string, options?: ManifestsGetOptionalParams) => Promise<ManifestInfo>;
+}
+
+// @public
+export type MarketplaceType = "NotSpecified" | "AddOn" | "Bypass" | "Store" | "ProviderHub";
 
 // @public
 export type MessageScope = string;
-
-// @public
-export interface NewRegionFrontloadReleaseCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NewRegionFrontloadReleaseGenerateManifestOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NewRegionFrontloadReleaseGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NewRegionFrontloadReleaseOperations {
-    createOrUpdate: (providerNamespace: string, releaseName: string, properties: FrontloadPayload, options?: NewRegionFrontloadReleaseCreateOrUpdateOptionalParams) => Promise<DefaultRollout>;
-    generateManifest: (providerNamespace: string, properties: FrontloadPayload, options?: NewRegionFrontloadReleaseGenerateManifestOptionalParams) => Promise<ResourceProviderManifest>;
-    get: (providerNamespace: string, releaseName: string, options?: NewRegionFrontloadReleaseGetOptionalParams) => Promise<DefaultRollout>;
-    stop: (providerNamespace: string, releaseName: string, options?: NewRegionFrontloadReleaseStopOptionalParams) => Promise<void>;
-}
-
-// @public
-export interface NewRegionFrontloadReleaseStopOptionalParams extends OperationOptions {
-}
 
 // @public
 export interface Notification {
@@ -1494,7 +1502,7 @@ export interface OperationsOperations {
     createOrUpdate: (providerNamespace: string, operationsPutContent: OperationsPutContent, options?: OperationsCreateOrUpdateOptionalParams) => Promise<OperationsPutContent>;
     delete: (providerNamespace: string, options?: OperationsDeleteOptionalParams) => Promise<void>;
     list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationsDefinition>;
-    listByProviderRegistration: (providerNamespace: string, options?: OperationsListByProviderRegistrationOptionalParams) => Promise<OperationsDefinition[]>;
+    listByProviderRegistration: (providerNamespace: string, options?: OperationsListByProviderRegistrationOptionalParams) => Promise<OperationsPutContent>;
 }
 
 // @public
@@ -1535,6 +1543,12 @@ export type PolicyExecutionType = string;
 export type PreflightOption = string;
 
 // @public
+export interface PrivateEndpointConfiguration {
+    groupConnectivityInformation: GroupConnectivityInformation[];
+    minApiVersion: string;
+}
+
+// @public
 export interface PrivateResourceProviderConfiguration {
     allowedSubscriptions?: string[];
 }
@@ -1548,7 +1562,7 @@ export class ProviderHubClient {
     readonly customRollouts: CustomRolloutsOperations;
     readonly defaultRollouts: DefaultRolloutsOperations;
     generateManifest(providerNamespace: string, options?: GenerateManifestOptionalParams): Promise<ResourceProviderManifest>;
-    readonly newRegionFrontloadRelease: NewRegionFrontloadReleaseOperations;
+    readonly manifests: ManifestsOperations;
     readonly notificationRegistrations: NotificationRegistrationsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -1641,6 +1655,8 @@ export type ProviderRegistrationKind = string;
 
 // @public
 export interface ProviderRegistrationProperties extends ResourceProviderManifestProperties {
+    enablePresetResourceTypes?: boolean;
+    oboSubscriptionId?: string;
     privateResourceProviderConfiguration?: ProviderRegistrationPropertiesPrivateResourceProviderConfiguration;
     providerHubMetadata?: ProviderRegistrationPropertiesProviderHubMetadata;
     readonly provisioningState?: ProvisioningState;
@@ -1708,9 +1724,6 @@ export interface QuotaRule {
 }
 
 // @public
-export type Readiness = string;
-
-// @public
 export type Regionality = string;
 
 // @public
@@ -1734,7 +1747,7 @@ export interface Resource {
 }
 
 // @public
-export type ResourceAccessPolicy = "NotSpecified" | "AcisReadAllowed" | "AcisActionAllowed";
+export type ResourceAccessPolicy = string;
 
 // @public
 export interface ResourceAccessRole {
@@ -1759,6 +1772,18 @@ export interface ResourceConcurrencyControlOption {
 
 // @public
 export type ResourceDeletionPolicy = string;
+
+// @public
+export interface ResourceDeletionPolicyAndProperties {
+    policyName?: ResourceDeletionPolicy;
+    properties?: ResourceDeletionPolicyProperties;
+}
+
+// @public
+export interface ResourceDeletionPolicyProperties {
+    maximumRetentionTime?: string;
+    minimumRetentionTime?: string;
+}
 
 // @public
 export interface ResourceGraphConfiguration {
@@ -1856,6 +1881,7 @@ export interface ResourceProviderManagement {
     errorResponseMessageOptions?: ResourceProviderManagementErrorResponseMessageOptions;
     expeditedRolloutMetadata?: ResourceProviderManagementExpeditedRolloutMetadata;
     expeditedRolloutSubmitters?: string[];
+    featureManagementOwners?: string[];
     incidentContactEmail?: string;
     incidentRoutingService?: string;
     incidentRoutingTeam?: string;
@@ -1865,7 +1891,6 @@ export interface ResourceProviderManagement {
     resourceAccessPolicy?: ResourceAccessPolicy;
     resourceAccessRoles?: ResourceAccessRole[];
     schemaOwners?: string[];
-    serviceTreeInfos?: ServiceTreeInfo[];
 }
 
 // @public
@@ -1902,6 +1927,7 @@ export interface ResourceProviderManifest {
     resourceTypes?: ResourceType[];
     serviceName?: string;
     services?: ResourceProviderService[];
+    tokenAuthConfiguration?: TokenAuthConfiguration;
 }
 
 // @public
@@ -1917,7 +1943,6 @@ export interface ResourceProviderManifestProperties {
     capabilities?: ResourceProviderCapabilities[];
     crossTenantTokenValidation?: CrossTenantTokenValidation;
     customManifestVersion?: string;
-    dstsConfiguration?: ResourceProviderManifestPropertiesDstsConfiguration;
     enableTenantLinkedNotification?: boolean;
     featuresRule?: ResourceProviderManifestPropertiesFeaturesRule;
     globalNotificationEndpoints?: ResourceProviderEndpoint[];
@@ -1945,10 +1970,6 @@ export interface ResourceProviderManifestProperties {
     serviceName?: string;
     services?: ResourceProviderService[];
     templateDeploymentOptions?: ResourceProviderManifestPropertiesTemplateDeploymentOptions;
-}
-
-// @public
-export interface ResourceProviderManifestPropertiesDstsConfiguration extends DstsConfiguration {
 }
 
 // @public
@@ -2036,11 +2057,11 @@ export interface ResourceType {
     quotaRule?: QuotaRule;
     requestHeaderOptions?: ResourceTypeRequestHeaderOptions;
     requiredFeatures?: string[];
-    resourceDeletionPolicy?: ManifestResourceDeletionPolicy;
+    resourceDeletionPolicies?: ResourceDeletionPolicyAndProperties[];
+    resourceDeletionPolicy?: ResourceDeletionPolicy;
     resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules;
     resourceValidation?: ResourceValidation;
     routingType?: RoutingType;
-    serviceTreeInfos?: ServiceTreeInfo[];
     skuLink?: string;
     subscriptionStateRules?: SubscriptionStateRule[];
     templateDeploymentPolicy?: ResourceTypeTemplateDeploymentPolicy;
@@ -2055,7 +2076,6 @@ export interface ResourceTypeEndpoint {
     apiVersion?: string;
     apiVersions?: string[];
     dataBoundary?: DataBoundary;
-    dstsConfiguration?: ResourceTypeEndpointDstsConfiguration;
     enabled?: boolean;
     endpointType?: EndpointTypeResourceType;
     endpointUri?: string;
@@ -2068,34 +2088,6 @@ export interface ResourceTypeEndpoint {
     timeout?: string;
     tokenAuthConfiguration?: TokenAuthConfiguration;
     zones?: string[];
-}
-
-// @public
-export interface ResourceTypeEndpointBase {
-    apiVersion: string;
-    apiVersions: string[];
-    dstsConfiguration: ResourceTypeEndpointBaseDstsConfiguration;
-    enabled: boolean;
-    endpointType: EndpointType;
-    endpointUri: string;
-    featuresRule: ResourceTypeEndpointBaseFeaturesRule;
-    locations: string[];
-    requiredFeatures: string[];
-    skuLink: string;
-    timeout: string;
-    zones: string[];
-}
-
-// @public
-export interface ResourceTypeEndpointBaseDstsConfiguration extends DstsConfiguration {
-}
-
-// @public
-export interface ResourceTypeEndpointBaseFeaturesRule extends FeaturesRule {
-}
-
-// @public
-export interface ResourceTypeEndpointDstsConfiguration extends DstsConfiguration {
 }
 
 // @public
@@ -2130,6 +2122,14 @@ export interface ResourceTypeFeaturesRule extends FeaturesRule {
 
 // @public
 export interface ResourceTypeIdentityManagement extends IdentityManagement {
+}
+
+// @public
+export interface ResourceTypeManagedResourceGroupConfiguration {
+    applicationIds?: string[];
+    denyAssignmentConfiguration?: ManagedResourceGroupDenyAssignmentConfiguration;
+    enabled?: boolean;
+    resourceGroupLocationOverride?: string;
 }
 
 // @public
@@ -2170,7 +2170,6 @@ export interface ResourceTypeRegistrationProperties {
     defaultApiVersion?: string;
     disallowedActionVerbs?: string[];
     disallowedEndUserOperations?: string[];
-    dstsConfiguration?: ResourceTypeRegistrationPropertiesDstsConfiguration;
     enableAsyncOperation?: boolean;
     enableThirdPartyS2S?: boolean;
     endpoints?: ResourceTypeEndpoint[];
@@ -2188,6 +2187,7 @@ export interface ResourceTypeRegistrationProperties {
     linkedNotificationRules?: LinkedNotificationRule[];
     linkedOperationRules?: LinkedOperationRule[];
     loggingRules?: LoggingRule[];
+    managedResourceGroupConfiguration?: ResourceTypeManagedResourceGroupConfiguration;
     management?: ResourceTypeRegistrationPropertiesManagement;
     manifestLink?: string;
     marketplaceOptions?: ResourceTypeRegistrationPropertiesMarketplaceOptions;
@@ -2197,6 +2197,7 @@ export interface ResourceTypeRegistrationProperties {
     onBehalfOfTokens?: ResourceTypeOnBehalfOfToken;
     openApiConfiguration?: OpenApiConfiguration;
     policyExecutionType?: PolicyExecutionType;
+    privateEndpointConfiguration?: PrivateEndpointConfiguration;
     readonly provisioningState?: ProvisioningState;
     quotaRule?: QuotaRule;
     regionality?: Regionality;
@@ -2204,7 +2205,8 @@ export interface ResourceTypeRegistrationProperties {
     requiredFeatures?: string[];
     resourceCache?: ResourceTypeRegistrationPropertiesResourceCache;
     resourceConcurrencyControlOptions?: Record<string, ResourceConcurrencyControlOption>;
-    resourceDeletionPolicy?: ResourceDeletionPolicy;
+    resourceDeletionPolicies?: ResourceDeletionPolicyAndProperties[];
+    resourceDeletionPolicy?: RPaaSResourceDeletionPolicy;
     resourceGraphConfiguration?: ResourceTypeRegistrationPropertiesResourceGraphConfiguration;
     resourceManagementOptions?: ResourceTypeRegistrationPropertiesResourceManagementOptions;
     resourceMovePolicy?: ResourceTypeRegistrationPropertiesResourceMovePolicy;
@@ -2215,16 +2217,17 @@ export interface ResourceTypeRegistrationProperties {
     resourceValidation?: ResourceValidation;
     routingRule?: ResourceTypeRegistrationPropertiesRoutingRule;
     routingType?: RoutingType;
-    serviceTreeInfos?: ServiceTreeInfo[];
     skuLink?: string;
     subscriptionLifecycleNotificationSpecifications?: ResourceTypeRegistrationPropertiesSubscriptionLifecycleNotificationSpecifications;
     subscriptionStateRules?: SubscriptionStateRule[];
+    superScaleEnabled?: boolean;
     supportsTags?: boolean;
     swaggerSpecifications?: SwaggerSpecification[];
     templateDeploymentOptions?: ResourceTypeRegistrationPropertiesTemplateDeploymentOptions;
     templateDeploymentPolicy?: ResourceTypeRegistrationPropertiesTemplateDeploymentPolicy;
     throttlingRules?: ThrottlingRule[];
     tokenAuthConfiguration?: TokenAuthConfiguration;
+    writeLock?: WriteLockConfiguration;
 }
 
 // @public
@@ -2241,10 +2244,6 @@ export interface ResourceTypeRegistrationPropertiesCapacityRule {
 
 // @public
 export interface ResourceTypeRegistrationPropertiesCheckNameAvailabilitySpecifications extends CheckNameAvailabilitySpecifications {
-}
-
-// @public
-export interface ResourceTypeRegistrationPropertiesDstsConfiguration extends DstsConfiguration {
 }
 
 // @public
@@ -2299,6 +2298,11 @@ export interface ResourceTypeRegistrationPropertiesResourceManagementOptions {
 
 // @public
 export interface ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport {
+    actionConfigurations?: ActionConfiguration[];
+    batchContractVersion?: string;
+    maxBatchSize?: number;
+    maxNestedBatchSize?: number;
+    requiredFeatures?: string[];
     supportedOperations?: SupportedOperations;
 }
 
@@ -2381,6 +2385,8 @@ export interface ResourceTypeTemplateDeploymentPolicy extends TemplateDeployment
 // @public
 export type ResourceValidation = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ProviderHubClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -2404,23 +2410,16 @@ export interface RolloutStatusBase {
 export type RoutingType = string;
 
 // @public
+export type RPaaSResourceDeletionPolicy = string;
+
+// @public
 export type ServerFailureResponseMessageType = string;
 
 // @public
 export type ServiceClientOptionsType = string;
 
 // @public
-export type ServiceFeatureFlagAction = string;
-
-// @public
 export type ServiceStatus = string;
-
-// @public
-export interface ServiceTreeInfo {
-    componentId?: string;
-    readiness?: Readiness;
-    serviceId?: string;
-}
 
 // @public
 export type SignedRequestScope = string;
@@ -2670,6 +2669,7 @@ export interface ThirdPartyProviderAuthorization {
 
 // @public
 export interface ThrottlingMetric {
+    bucketSize?: string;
     interval?: string;
     limit: number;
     type: ThrottlingMetricType;
@@ -2718,6 +2718,14 @@ export interface TypedErrorInfo {
     readonly info?: any;
     type: string;
 }
+
+// @public
+export interface WriteLockConfiguration {
+    state?: WriteLockState;
+}
+
+// @public
+export type WriteLockState = string;
 
 // (No @packageDocumentation comment for this package)
 

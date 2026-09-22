@@ -3,15 +3,12 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  SwapResource,
-  SwapResourceListResult,
-} from "../../models/microsoft/network/models.js";
+import type { SwapResource, SwapResourceListResult } from "../../models/network/models.js";
 import {
   swapResourceSerializer,
   swapResourceDeserializer,
   swapResourceListResultDeserializer,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -35,7 +32,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       groupName: groupName,
       resourceName: resourceName,
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,7 +85,7 @@ export function _createSend(
       groupName: groupName,
       resourceName: resourceName,
       singletonResource: "swap",
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +125,7 @@ export function create(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, groupName, resourceName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-09-01",
+    apiVersion: "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -145,7 +142,7 @@ export function _getSend(
       groupName: groupName,
       resourceName: resourceName,
       singletonResource: "swap",
-      "api%2Dversion": "2025-09-01",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -99,12 +99,14 @@ export class StatsbeatMetrics {
   }
 
   protected getConnectionString(endpointUrl: string): string {
-    const currentEndpoint = endpointUrl;
-    for (let i = 0; i < EU_ENDPOINTS.length; i++) {
-      if (currentEndpoint.includes(EU_ENDPOINTS[i])) {
-        return EU_CONNECTION_STRING;
-      }
+    let region: string;
+    try {
+      const stampName = new URL(endpointUrl).hostname.toLowerCase().split(".")[0];
+      region = stampName.split("-")[0];
+    } catch {
+      return NON_EU_CONNECTION_STRING;
     }
-    return NON_EU_CONNECTION_STRING;
+
+    return EU_ENDPOINTS.includes(region) ? EU_CONNECTION_STRING : NON_EU_CONNECTION_STRING;
   }
 }

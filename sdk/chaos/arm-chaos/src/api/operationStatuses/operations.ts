@@ -24,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -42,14 +42,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return operationStatusResultDeserializer(result.body);
 }
-
 /** Returns the current status of an async operation. */
 export async function get(
   context: Client,

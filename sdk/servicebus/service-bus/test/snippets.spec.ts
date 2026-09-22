@@ -161,6 +161,14 @@ describe("snippets", () => {
     )) {
       console.log("Session ID:", sessionId);
     }
+    // @ts-preserve-whitespace
+    // List only sessions whose stored session state was set or updated in the last seven days
+    const sessionStateUpdatedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue", {
+      sessionStateUpdatedAfter,
+    })) {
+      console.log("Recently updated session ID:", sessionId);
+    }
   });
 
   it("ReadmeSampleSendMessage_Session", async () => {

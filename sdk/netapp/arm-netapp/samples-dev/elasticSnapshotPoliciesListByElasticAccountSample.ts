@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ElasticSnapshotPolicy resources by ElasticAccount
  *
  * @summary list ElasticSnapshotPolicy resources by ElasticAccount
- * x-ms-original-file: 2026-05-15-preview/ElasticSnapshotPolicies_ListByElasticAccount.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticSnapshotPolicies_ListByElasticAccount.json
  */
 async function elasticSnapshotPoliciesListByElasticAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();

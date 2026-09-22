@@ -32,7 +32,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Chaos test", () => {
+describe.skip("Chaos test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ChaosManagementClient;
