@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlatformValidationContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { PlatformValidationContext as Client } from "../index.js";
+import type {
   CloudValidation,
-  cloudValidationSerializer,
-  cloudValidationDeserializer,
   CloudValidationUpdate,
-  cloudValidationUpdateSerializer,
   _CloudValidationListResult,
-  _cloudValidationListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  cloudValidationSerializer,
+  cloudValidationDeserializer,
+  cloudValidationUpdateSerializer,
+  _cloudValidationListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   CloudValidationsListBySubscriptionOptionalParams,
   CloudValidationsListByResourceGroupOptionalParams,
   CloudValidationsDeleteOptionalParams,
@@ -26,13 +26,9 @@ import {
   CloudValidationsCreateOrUpdateOptionalParams,
   CloudValidationsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,

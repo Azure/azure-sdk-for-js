@@ -12,9 +12,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function validationTestVersionsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
-  const result = await client.validationTestVersions.get("test1", "1.0.0");
+  const result = await client.validationTestVersions.get("linux-quality-validation", "1.0.0");
   console.log(result);
 }
 

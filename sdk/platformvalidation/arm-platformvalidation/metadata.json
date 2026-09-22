@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.PlatformValidation": "2026-08-01-preview"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.PlatformValidation",
     "CrossLanguageDefinitionId": {
@@ -53,18 +53,15 @@
       "@azure/arm-platformvalidation!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-platformvalidation!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
       "@azure/arm-platformvalidation!KnownProvisioningState:enum": "Microsoft.PlatformValidation.ProvisioningState",
-      "@azure/arm-platformvalidation!KnownCloudValidationOverallState:enum": "Microsoft.PlatformValidation.CloudValidationOverallState",
       "@azure/arm-platformvalidation!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-platformvalidation!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-platformvalidation!KnownValidationExecutionPlanProvisioningState:enum": "Microsoft.PlatformValidation.ValidationExecutionPlanProvisioningState",
-      "@azure/arm-platformvalidation!KnownValidationExecutionPlanOverallState:enum": "Microsoft.PlatformValidation.ValidationExecutionPlanOverallState",
       "@azure/arm-platformvalidation!KnownExecutionPlanRunStatus:enum": "Microsoft.PlatformValidation.ExecutionPlanRunStatus",
       "@azure/arm-platformvalidation!KnownTestRunOverallResult:enum": "Microsoft.PlatformValidation.TestRunOverallResult",
       "@azure/arm-platformvalidation!KnownExecutionPlanRunProvisioningState:enum": "Microsoft.PlatformValidation.ExecutionPlanRunProvisioningState",
       "@azure/arm-platformvalidation!KnownValidationTestRunStatus:enum": "Microsoft.PlatformValidation.ValidationTestRunStatus",
       "@azure/arm-platformvalidation!KnownValidationTestRunProvisioningState:enum": "Microsoft.PlatformValidation.ValidationTestRunProvisioningState",
       "@azure/arm-platformvalidation!KnownCatalogAudience:enum": "Microsoft.PlatformValidation.CatalogAudience",
-      "@azure/arm-platformvalidation!KnownValidationTestOverallState:enum": "Microsoft.PlatformValidation.ValidationTestOverallState",
       "@azure/arm-platformvalidation!KnownValidationTestInputDataType:enum": "Microsoft.PlatformValidation.ValidationTestInputDataType",
       "@azure/arm-platformvalidation!KnownVersions:enum": "Microsoft.PlatformValidation.Versions",
       "@azure/arm-platformvalidation!ValidationTestCategoriesOperations#listBySubscription:member": "Microsoft.PlatformValidation.ValidationTestCategories.listBySubscription",

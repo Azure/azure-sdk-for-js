@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function cloudValidationsListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.cloudValidations.listBySubscription()) {
@@ -30,7 +30,7 @@ async function cloudValidationsListBySubscriptionMaximumSet(): Promise<void> {
  */
 async function cloudValidationsListBySubscriptionMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.cloudValidations.listBySubscription()) {

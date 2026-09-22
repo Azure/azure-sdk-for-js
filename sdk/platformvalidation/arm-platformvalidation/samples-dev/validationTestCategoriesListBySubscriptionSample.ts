@@ -12,11 +12,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function validationTestCategoriesListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.validationTestCategories.listBySubscription({
-    filter: "yolfvidccdfa",
+    filter: "audience eq 'Public'",
   })) {
     resArray.push(item);
   }
@@ -32,7 +32,7 @@ async function validationTestCategoriesListBySubscriptionMaximumSet(): Promise<v
  */
 async function validationTestCategoriesListBySubscriptionMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.validationTestCategories.listBySubscription()) {

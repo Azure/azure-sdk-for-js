@@ -12,9 +12,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function operationStatusGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
-  const result = await client.operationStatus.get("obkgllzbzclv", "mewjfcrlycxuylboqxenpnsxxgcncx");
+  const result = await client.operationStatus.get(
+    "southcentralus",
+    "11111111-1111-4111-8111-111111111111",
+  );
   console.log(result);
 }
 
@@ -26,9 +29,12 @@ async function operationStatusGetMaximumSet(): Promise<void> {
  */
 async function operationStatusGetMaximumSetGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
-  const result = await client.operationStatus.get("obkgllzbzclv", "mewjfcrlycxuylboqxenpnsxxgcncx");
+  const result = await client.operationStatus.get(
+    "southcentralus",
+    "11111111-1111-4111-8111-111111111111",
+  );
   console.log(result);
 }
 

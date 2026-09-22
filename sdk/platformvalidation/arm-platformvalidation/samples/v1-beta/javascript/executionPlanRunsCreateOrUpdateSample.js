@@ -12,14 +12,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function executionPlanRunsCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
   const result = await client.executionPlanRuns.createOrUpdate(
     "rgvalidate",
     "cvtest01",
-    "veptest01",
-    "veprun01",
-    { properties: { description: "zwakqazgtploz" } },
+    "contoso-linux-cert",
+    "run-001",
+    { properties: { description: "Run the Contoso Linux image certification plan." } },
   );
   console.log(result);
 }

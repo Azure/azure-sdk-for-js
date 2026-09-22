@@ -1,34 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlatformValidationContext as Client } from "../index.js";
+import type { PlatformValidationContext as Client } from "../index.js";
+import type { ExecutionPlanRun, _ExecutionPlanRunListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  ExecutionPlanRun,
   executionPlanRunSerializer,
   executionPlanRunDeserializer,
-  _ExecutionPlanRunListResult,
   _executionPlanRunListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ExecutionPlanRunsListByExecutionPlanOptionalParams,
   ExecutionPlanRunsDeleteOptionalParams,
   ExecutionPlanRunsCreateOrUpdateOptionalParams,
   ExecutionPlanRunsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByExecutionPlanSend(
   context: Client,

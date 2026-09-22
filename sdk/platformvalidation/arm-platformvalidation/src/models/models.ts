@@ -263,14 +263,12 @@ export interface CloudValidationProperties {
   readonly provisioningState?: ProvisioningState;
   /** Error details. Populated when provisioningState is Failed or Canceled. */
   readonly error?: ErrorDetail;
-  /** The overall state of the resource. */
-  overallState?: CloudValidationOverallState;
   /** Managed On Behalf Of Configuration. */
   readonly managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 }
 
 export function cloudValidationPropertiesSerializer(item: CloudValidationProperties): any {
-  return { description: item["description"], overallState: item["overallState"] };
+  return { description: item["description"] };
 }
 
 export function cloudValidationPropertiesDeserializer(item: any): CloudValidationProperties {
@@ -278,7 +276,6 @@ export function cloudValidationPropertiesDeserializer(item: any): CloudValidatio
     description: item["description"],
     provisioningState: item["provisioningState"],
     error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    overallState: item["overallState"],
     managedOnBehalfOfConfiguration: !item["managedOnBehalfOfConfiguration"]
       ? item["managedOnBehalfOfConfiguration"]
       : managedOnBehalfOfConfigurationDeserializer(item["managedOnBehalfOfConfiguration"]),
@@ -320,24 +317,6 @@ export enum KnownProvisioningState {
  * **Accepted**: The resource create request has been accepted
  */
 export type ProvisioningState = string;
-
-/** The Overall states of the validation resource. */
-export enum KnownCloudValidationOverallState {
-  /** The resource is in enabled state. */
-  Enabled = "Enabled",
-  /** The resource is in disabled state. */
-  Disabled = "Disabled",
-}
-
-/**
- * The Overall states of the validation resource. \
- * {@link KnownCloudValidationOverallState} can be used interchangeably with CloudValidationOverallState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: The resource is in enabled state. \
- * **Disabled**: The resource is in disabled state.
- */
-export type CloudValidationOverallState = string;
 
 /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
 export interface ManagedOnBehalfOfConfiguration {
@@ -522,14 +501,12 @@ export function cloudValidationUpdateSerializer(item: CloudValidationUpdate): an
 export interface CloudValidationUpdateProperties {
   /** The description of the resource. */
   description?: string;
-  /** The overall state of the resource. */
-  overallState?: CloudValidationOverallState;
 }
 
 export function cloudValidationUpdatePropertiesSerializer(
   item: CloudValidationUpdateProperties,
 ): any {
-  return { description: item["description"], overallState: item["overallState"] };
+  return { description: item["description"] };
 }
 
 /** The response of a CloudValidation list operation. */
@@ -600,6 +577,8 @@ export interface ValidationExecutionPlanProperties {
   /**
    * URI where the configuration of the execution plan is defined.
    * Either this property or `planConfigurationJson` is mandatory while creating; they are mutually exclusive.
+   * This must be a plain, non-SAS reference (no embedded credentials, tokens, or query-string secrets);
+   * the service reads the referenced content using its managed identity.
    * This value is returned as-is in get responses, so it must not contain credentials or other secrets.
    */
   planConfigurationUri?: string;
@@ -614,8 +593,6 @@ export interface ValidationExecutionPlanProperties {
   readonly provisioningState?: ValidationExecutionPlanProvisioningState;
   /** Error details. Populated when provisioningState is Failed or Canceled. */
   readonly error?: ErrorDetail;
-  /** The overall state of the resource. */
-  overallState?: ValidationExecutionPlanOverallState;
 }
 
 export function validationExecutionPlanPropertiesSerializer(
@@ -625,7 +602,6 @@ export function validationExecutionPlanPropertiesSerializer(
     description: item["description"],
     planConfigurationUri: item["planConfigurationUri"],
     planConfigurationJson: item["planConfigurationJson"],
-    overallState: item["overallState"],
   };
 }
 
@@ -638,7 +614,6 @@ export function validationExecutionPlanPropertiesDeserializer(
     planConfigurationJson: item["planConfigurationJson"],
     provisioningState: item["provisioningState"],
     error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    overallState: item["overallState"],
   };
 }
 
@@ -669,24 +644,6 @@ export enum KnownValidationExecutionPlanProvisioningState {
  */
 export type ValidationExecutionPlanProvisioningState = string;
 
-/** The Overall states of the validation execution plan. */
-export enum KnownValidationExecutionPlanOverallState {
-  /** The resource is in enabled state. */
-  Enabled = "Enabled",
-  /** The resource is in disabled state. */
-  Disabled = "Disabled",
-}
-
-/**
- * The Overall states of the validation execution plan. \
- * {@link KnownValidationExecutionPlanOverallState} can be used interchangeably with ValidationExecutionPlanOverallState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: The resource is in enabled state. \
- * **Disabled**: The resource is in disabled state.
- */
-export type ValidationExecutionPlanOverallState = string;
-
 /** The type used for update operations of the ValidationExecutionPlan. */
 export interface ValidationExecutionPlanUpdate {
   /** Resource tags. */
@@ -711,6 +668,8 @@ export interface ValidationExecutionPlanUpdateProperties {
   /**
    * URI where the configuration of the execution plan is defined.
    * Either this property or `planConfigurationJson` is mandatory while creating; they are mutually exclusive.
+   * This must be a plain, non-SAS reference (no embedded credentials, tokens, or query-string secrets);
+   * the service reads the referenced content using its managed identity.
    * This value is returned as-is in get responses, so it must not contain credentials or other secrets.
    */
   planConfigurationUri?: string;
@@ -721,8 +680,6 @@ export interface ValidationExecutionPlanUpdateProperties {
    * This value is returned as-is in get responses, so it must not contain credentials or other secrets.
    */
   planConfigurationJson?: string;
-  /** The overall state of the resource. */
-  overallState?: ValidationExecutionPlanOverallState;
 }
 
 export function validationExecutionPlanUpdatePropertiesSerializer(
@@ -732,7 +689,6 @@ export function validationExecutionPlanUpdatePropertiesSerializer(
     description: item["description"],
     planConfigurationUri: item["planConfigurationUri"],
     planConfigurationJson: item["planConfigurationJson"],
-    overallState: item["overallState"],
   };
 }
 
@@ -1039,13 +995,13 @@ export interface ValidationTestRunProperties {
   readonly completedAt?: Date;
   /** The time at which the test run result was reported. */
   readonly reportedAt?: Date;
-  /** The name of the validation test (ValidationTest resource name, not an ARM resource ID) in the validation test catalog. */
-  testId?: string;
+  /** The resource ID of the validation test in the validation test catalog. */
+  readonly testId?: string;
   /**
    * Validation test run inputs json, conforming to the input contract declared by `ValidationTestInput` on the corresponding validation test.
    * This value is returned as-is in get responses, so it must not contain credentials or other secrets.
    */
-  inputsJson?: string;
+  readonly inputsJson?: string;
   /** Detailed pass information when the test passes. */
   readonly passDetails?: ValidationTestPassDetails[];
   /** Detailed failure information when the test fails. */
@@ -1233,36 +1189,38 @@ export function validationTestDeserializer(item: any): ValidationTest {
 
 /** Validation test catalog properties. */
 export interface ValidationTestProperties {
+  /** Display name of the validation test. */
+  readonly displayName?: string;
   /** Validation test description. */
-  description?: string;
+  readonly description?: string;
   /** Audience visibility of this validation test. */
-  audience?: CatalogAudience;
+  readonly audience?: CatalogAudience;
   /** Provisioning state of the validation test catalog resource. */
   readonly provisioningState?: ResourceProvisioningState;
   /** The names of the validation test categories (ValidationTestCategory resource names, not ARM resource IDs) associated with this test. */
-  categoryIds?: string[];
-  /** Overall state of the validation test. */
-  overallState?: ValidationTestOverallState;
+  readonly categoryIds?: string[];
   /**
-   * Owners of the validation test definition, expressed as aliases.
+   * Owners of the validation test definition, expressed as team or distribution list aliases.
+   * Individual user aliases and directory object identifiers are not published in this field.
    * Only catalog publishers(limited to microsoft internal only) set this value through an internal publishing process; end users of the validation
    * service consume catalog entries read-only through Get/List and cannot modify it.
    */
-  owners?: string[];
+  readonly owners?: string[];
   /** Declared input contract for this validation test. */
-  inputs?: ValidationTestInput[];
+  readonly inputs?: ValidationTestInput[];
   /** URI of the location where the test artifact is stored. */
-  testStoreUri?: string;
+  readonly testStoreUri?: string;
   /** The resource ID of the current immutable version snapshot. */
-  currentVersion?: string;
+  readonly currentVersion?: string;
   /** The resource ID of the latest published version snapshot. */
-  latestPublishedVersion?: string;
+  readonly latestPublishedVersion?: string;
   /** Timestamp of the last version publication. */
-  lastPublishedAt?: Date;
+  readonly lastPublishedAt?: Date;
 }
 
 export function validationTestPropertiesDeserializer(item: any): ValidationTestProperties {
   return {
+    displayName: item["displayName"],
     description: item["description"],
     audience: item["audience"],
     provisioningState: item["provisioningState"],
@@ -1271,7 +1229,6 @@ export function validationTestPropertiesDeserializer(item: any): ValidationTestP
       : item["categoryIds"].map((p: any) => {
           return p;
         }),
-    overallState: item["overallState"],
     owners: !item["owners"]
       ? item["owners"]
       : item["owners"].map((p: any) => {
@@ -1304,30 +1261,6 @@ export enum KnownCatalogAudience {
  * **Internal**: Visible only to authorized Microsoft-internal callers.
  */
 export type CatalogAudience = string;
-
-/** The overall state of a validation test or test version. */
-export enum KnownValidationTestOverallState {
-  /** The validation test definition is in draft state. */
-  Draft = "Draft",
-  /** The validation test definition is active. */
-  Active = "Active",
-  /** The validation test definition is published. */
-  Published = "Published",
-  /** The validation test definition is disabled. */
-  Disabled = "Disabled",
-}
-
-/**
- * The overall state of a validation test or test version. \
- * {@link KnownValidationTestOverallState} can be used interchangeably with ValidationTestOverallState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Draft**: The validation test definition is in draft state. \
- * **Active**: The validation test definition is active. \
- * **Published**: The validation test definition is published. \
- * **Disabled**: The validation test definition is disabled.
- */
-export type ValidationTestOverallState = string;
 
 export function validationTestInputArrayDeserializer(result: Array<ValidationTestInput>): any[] {
   return result.map((item) => {
@@ -1453,34 +1386,36 @@ export function validationTestVersionDeserializer(item: any): ValidationTestVers
 
 /** Validation test version catalog properties. */
 export interface ValidationTestVersionProperties {
+  /** Display name of the validation test version. */
+  readonly displayName?: string;
   /** Validation test description. */
-  description?: string;
+  readonly description?: string;
   /** Audience visibility of this validation test version. */
-  audience?: CatalogAudience;
+  readonly audience?: CatalogAudience;
   /** Provisioning state of the validation test version catalog resource. */
   readonly provisioningState?: ResourceProvisioningState;
   /** The names of the validation test categories (ValidationTestCategory resource names, not ARM resource IDs) associated with this test version. */
-  categoryIds?: string[];
-  /** Overall state of the validation test. */
-  overallState?: ValidationTestOverallState;
+  readonly categoryIds?: string[];
   /**
-   * Owners of the validation test version definition, expressed as email aliases or Microsoft Entra object IDs.
+   * Owners of the validation test version definition, expressed as team or distribution list aliases.
+   * Individual user aliases and directory object identifiers are not published in this field.
    * Only catalog publishers set this value through an internal publishing process; end users of the validation
    * service consume catalog entries read-only through Get/List and cannot modify it.
    */
-  owners?: string[];
+  readonly owners?: string[];
   /** Declared input contract for this validation test version. */
-  inputs?: ValidationTestInput[];
+  readonly inputs?: ValidationTestInput[];
   /** SHA-256 hash of the version content used for integrity and deduplication. */
-  contentHash?: string;
+  readonly contentHash?: string;
   /** URI of the location where the test artifact is stored. */
-  testStoreUri?: string;
+  readonly testStoreUri?: string;
 }
 
 export function validationTestVersionPropertiesDeserializer(
   item: any,
 ): ValidationTestVersionProperties {
   return {
+    displayName: item["displayName"],
     description: item["description"],
     audience: item["audience"],
     provisioningState: item["provisioningState"],
@@ -1489,7 +1424,6 @@ export function validationTestVersionPropertiesDeserializer(
       : item["categoryIds"].map((p: any) => {
           return p;
         }),
-    overallState: item["overallState"],
     owners: !item["owners"]
       ? item["owners"]
       : item["owners"].map((p: any) => {
@@ -1549,11 +1483,11 @@ export function validationTestCategoryDeserializer(item: any): ValidationTestCat
 /** Validation test category properties. */
 export interface ValidationTestCategoryProperties {
   /** Display name of the validation test category. */
-  displayName?: string;
+  readonly displayName?: string;
   /** Validation test category description. */
-  description?: string;
+  readonly description?: string;
   /** Audience visibility of this validation test category. */
-  audience?: CatalogAudience;
+  readonly audience?: CatalogAudience;
   /** Provisioning state of the validation test category catalog resource. */
   readonly provisioningState?: ResourceProvisioningState;
   /**
@@ -1562,13 +1496,14 @@ export interface ValidationTestCategoryProperties {
    * top-level parent's category id. Sub-categories cannot themselves have sub-categories,
    * and a category must not reference itself as its own parent.
    */
-  parentCategoryId?: string;
+  readonly parentCategoryId?: string;
   /**
-   * Owners of the validation test category, expressed as email aliases or Microsoft Entra object IDs.
+   * Owners of the validation test category, expressed as team or distribution list aliases.
+   * Individual user aliases and directory object identifiers are not published in this field.
    * Only catalog publishers set this value through an internal publishing process; end users of the validation
    * service consume catalog entries read-only through Get/List and cannot modify it.
    */
-  owners?: string[];
+  readonly owners?: string[];
 }
 
 export function validationTestCategoryPropertiesDeserializer(

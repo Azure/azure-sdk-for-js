@@ -12,12 +12,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function cloudValidationsCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
   const result = await client.cloudValidations.createOrUpdate("rgvalidate", "cvtest01", {
-    properties: { description: "ezutdlxrzaemjqpqpandwfixfkfk", overallState: "Enabled" },
-    tags: { key2277: "hspkpujzhlthqsisfkvwgsfajnxws" },
-    location: "byryro",
+    properties: {
+      description:
+        "Cloud validation that groups platform validation execution plans for the target subscription.",
+    },
+    tags: { environment: "production" },
+    location: "southcentralus",
   });
   console.log(result);
 }

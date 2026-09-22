@@ -12,21 +12,21 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function validationExecutionPlansCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "7BB14EC4-B6DC-4C0C-807F-C3562C790F07";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlatformValidationClient(credential, subscriptionId);
   const result = await client.validationExecutionPlans.createOrUpdate(
     "rgvalidate",
     "cvtest01",
-    "veptest01",
+    "contoso-linux-cert",
     {
       properties: {
-        description: "ortzzlmaoxmwtcjkjkvuxx",
-        planConfigurationUri: "xsouolufo",
-        planConfigurationJson: "vmqqmcdpvhgu",
-        overallState: "Enabled",
+        description:
+          "Runs all public Linux-compatible AzCertify catalog tests against the Contoso Linux image.",
+        planConfigurationJson:
+          '{"apiVersion":"microsoft.PlatformValidation/validationExecutionPlan.v0","kind":"ValidationExecutionPlan","metadata":{"name":"contoso-linux-cert"},"parameters":{"certificationPackageReference":{"osType":"Linux","vmGenerationType":"V1","architectureType":"X64","recommendedVMSizes":["Standard_D4s_v3"],"storageProfile":{"osDiskImage":{"sourceVhdUri":"https://contoso.blob.core.windows.net/vhds/img.vhd?<sas>"},"dataDiskImages":[]},"additionalProperties":{}}},"authoring":{"steps":[{"name":"os-disk-size","type":"test","testRef":"/providers/Microsoft.PlatformValidation/validationTests/os-disk-size/versions/1.0.0"},{"name":"data-disk-size","type":"test","testRef":"/providers/Microsoft.PlatformValidation/validationTests/data-disk-size/versions/1.0.0"},{"name":"malware-defender","type":"test","testRef":"/providers/Microsoft.PlatformValidation/validationTests/malware-defender/versions/1.0.0"},{"name":"malware-esrp","type":"test","testRef":"/providers/Microsoft.PlatformValidation/validationTests/malware-esrp/versions/1.0.0"},{"name":"linux-quality-validation","type":"test","testRef":"/providers/Microsoft.PlatformValidation/validationTests/linux-quality-validation/versions/1.0.0","inputs":{"concurrency":1,"testSuite":[{"testNames":["smoke_test","validate_netvsc_reload"]}]}}]}}',
       },
-      tags: { key3482: "px" },
-      location: "cqqovjagjsndikbdlpltbtxisptjh",
+      tags: { "owner-team": "azure-platform-validation" },
+      location: "southcentralus",
     },
   );
   console.log(result);

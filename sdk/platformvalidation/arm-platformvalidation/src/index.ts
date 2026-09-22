@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -23,7 +24,6 @@ export type {
   CloudValidation,
   CloudValidationProperties,
   ProvisioningState,
-  CloudValidationOverallState,
   ManagedOnBehalfOfConfiguration,
   MoboBrokerResource,
   TrackedResource,
@@ -36,7 +36,6 @@ export type {
   ValidationExecutionPlan,
   ValidationExecutionPlanProperties,
   ValidationExecutionPlanProvisioningState,
-  ValidationExecutionPlanOverallState,
   ValidationExecutionPlanUpdate,
   ValidationExecutionPlanUpdateProperties,
   ExecutionPlanRun,
@@ -55,7 +54,6 @@ export type {
   ValidationTest,
   ValidationTestProperties,
   CatalogAudience,
-  ValidationTestOverallState,
   ValidationTestInput,
   ValidationTestInputDefinition,
   ValidationTestInputDataType,
@@ -68,18 +66,15 @@ export {
   KnownOrigin,
   KnownActionType,
   KnownProvisioningState,
-  KnownCloudValidationOverallState,
   KnownCreatedByType,
   KnownResourceProvisioningState,
   KnownValidationExecutionPlanProvisioningState,
-  KnownValidationExecutionPlanOverallState,
   KnownExecutionPlanRunStatus,
   KnownTestRunOverallResult,
   KnownExecutionPlanRunProvisioningState,
   KnownValidationTestRunStatus,
   KnownValidationTestRunProvisioningState,
   KnownCatalogAudience,
-  KnownValidationTestOverallState,
   KnownValidationTestInputDataType,
   KnownVersions,
 } from "./models/index.js";

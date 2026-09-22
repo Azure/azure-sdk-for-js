@@ -4,16 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -37,14 +37,10 @@ export interface CloudValidation extends TrackedResource {
 }
 
 // @public
-export type CloudValidationOverallState = string;
-
-// @public
 export interface CloudValidationProperties {
     description?: string;
     readonly error?: ErrorDetail;
     readonly managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
-    overallState?: CloudValidationOverallState;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -96,7 +92,6 @@ export interface CloudValidationUpdate {
 // @public
 export interface CloudValidationUpdateProperties {
     description?: string;
-    overallState?: CloudValidationOverallState;
 }
 
 // @public
@@ -193,12 +188,6 @@ export enum KnownCatalogAudience {
 }
 
 // @public
-export enum KnownCloudValidationOverallState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -262,12 +251,6 @@ export enum KnownTestRunOverallResult {
 }
 
 // @public
-export enum KnownValidationExecutionPlanOverallState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownValidationExecutionPlanProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -284,14 +267,6 @@ export enum KnownValidationTestInputDataType {
     Number = "Number",
     Object = "Object",
     String = "String"
-}
-
-// @public
-export enum KnownValidationTestOverallState {
-    Active = "Active",
-    Disabled = "Disabled",
-    Draft = "Draft",
-    Published = "Published"
 }
 
 // @public
@@ -477,13 +452,9 @@ export interface ValidationExecutionPlan extends TrackedResource {
 }
 
 // @public
-export type ValidationExecutionPlanOverallState = string;
-
-// @public
 export interface ValidationExecutionPlanProperties {
     description?: string;
     readonly error?: ErrorDetail;
-    overallState?: ValidationExecutionPlanOverallState;
     planConfigurationJson?: string;
     planConfigurationUri?: string;
     readonly provisioningState?: ValidationExecutionPlanProvisioningState;
@@ -534,7 +505,6 @@ export interface ValidationExecutionPlanUpdate {
 // @public
 export interface ValidationExecutionPlanUpdateProperties {
     description?: string;
-    overallState?: ValidationExecutionPlanOverallState;
     planConfigurationJson?: string;
     planConfigurationUri?: string;
 }
@@ -566,11 +536,11 @@ export interface ValidationTestCategory extends ProxyResource {
 
 // @public
 export interface ValidationTestCategoryProperties {
-    audience?: CatalogAudience;
-    description?: string;
-    displayName?: string;
-    owners?: string[];
-    parentCategoryId?: string;
+    readonly audience?: CatalogAudience;
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly owners?: string[];
+    readonly parentCategoryId?: string;
     readonly provisioningState?: ResourceProvisioningState;
 }
 
@@ -602,9 +572,6 @@ export interface ValidationTestInputDefinition {
 }
 
 // @public
-export type ValidationTestOverallState = string;
-
-// @public
 export interface ValidationTestPassDetails {
     readonly resultCode?: string;
     readonly resultDetails?: string;
@@ -613,17 +580,17 @@ export interface ValidationTestPassDetails {
 
 // @public
 export interface ValidationTestProperties {
-    audience?: CatalogAudience;
-    categoryIds?: string[];
-    currentVersion?: string;
-    description?: string;
-    inputs?: ValidationTestInput[];
-    lastPublishedAt?: Date;
-    latestPublishedVersion?: string;
-    overallState?: ValidationTestOverallState;
-    owners?: string[];
+    readonly audience?: CatalogAudience;
+    readonly categoryIds?: string[];
+    readonly currentVersion?: string;
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly inputs?: ValidationTestInput[];
+    readonly lastPublishedAt?: Date;
+    readonly latestPublishedVersion?: string;
+    readonly owners?: string[];
     readonly provisioningState?: ResourceProvisioningState;
-    testStoreUri?: string;
+    readonly testStoreUri?: string;
 }
 
 // @public
@@ -636,13 +603,13 @@ export interface ValidationTestRunProperties {
     readonly completedAt?: Date;
     readonly error?: ErrorDetail;
     readonly failureDetails?: ValidationTestFailureDetails[];
-    inputsJson?: string;
+    readonly inputsJson?: string;
     readonly passDetails?: ValidationTestPassDetails[];
     readonly provisioningState?: ValidationTestRunProvisioningState;
     readonly reportedAt?: Date;
     readonly startedAt?: Date;
     readonly status?: ValidationTestRunStatus;
-    testId?: string;
+    readonly testId?: string;
 }
 
 // @public
@@ -687,15 +654,15 @@ export interface ValidationTestVersion extends ProxyResource {
 
 // @public
 export interface ValidationTestVersionProperties {
-    audience?: CatalogAudience;
-    categoryIds?: string[];
-    contentHash?: string;
-    description?: string;
-    inputs?: ValidationTestInput[];
-    overallState?: ValidationTestOverallState;
-    owners?: string[];
+    readonly audience?: CatalogAudience;
+    readonly categoryIds?: string[];
+    readonly contentHash?: string;
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly inputs?: ValidationTestInput[];
+    readonly owners?: string[];
     readonly provisioningState?: ResourceProvisioningState;
-    testStoreUri?: string;
+    readonly testStoreUri?: string;
 }
 
 // @public
