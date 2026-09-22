@@ -85,7 +85,7 @@ export function customizeNewOperation({ text, sendText, deserializeText, members
     if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
       const paging = node.expression.text === "buildPagedAsyncIterator" && cursor;
       const polling = node.expression.text === "getLongRunningPoller";
-      const argument = paging ? node.arguments[4] : polling ? node.arguments[1] : undefined;
+      const argument = paging ? node.arguments[4] : polling ? node.arguments.at(-1) : undefined;
       if (argument && ts.isObjectLiteralExpression(argument)) {
         const present = new Set(argument.properties.map((item) => nameOf(item.name)));
         const additions = [];
