@@ -82,7 +82,7 @@
 # PRLabel: %Azure.Identity
 /sdk/identity/    @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
 
-# AzureSdkOwners: @KarishmaGhiya @maorleger @minhanh-phan
+# AzureSdkOwners: @KarishmaGhiya @minhanh-phan
 # ServiceLabel: %Azure.Identity
 
 # ServiceLabel: %Batch
