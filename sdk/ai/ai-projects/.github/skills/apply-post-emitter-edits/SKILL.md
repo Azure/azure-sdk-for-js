@@ -29,11 +29,9 @@ The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.m
 
 Run from `sdk/ai/ai-projects/`.
 
-`npm run customize` applies the customization layer, runs formatting, and invokes
-`npm run post-emitter` (`scripts/post-emitter.mjs`) as its final step. Both local
-`npm run generate:client` and the SDK generation pipeline use this hook. It automates
-only the fixes implemented in that script; the audits and remaining edits below are
-still required.
+`npm run customize` applies the customization layer and then runs formatting.
+Both local `npm run generate:client` and the SDK generation pipeline use this hook.
+The audits and per-rule edits below are still required.
 
 Use this phase order to avoid mixing unrelated decisions:
 
@@ -385,7 +383,7 @@ Remove-Item -ErrorAction SilentlyContinue `
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
 
-The `customize` hook runs `scripts/post-emitter.mjs` after a successful merge and formatting pass. Do not treat it as a substitute for the per-rule checks: it also rewrites user-agent construction in protected client/context files, so include its output in the Step 1 audit. If it is rerun manually, immediately repeat Step 1 and revert unrelated emitter drift while preserving reviewed, necessary integration changes before building.
+The `customize` hook intentionally does not run `scripts/post-emitter.mjs`: that script removes the existing `azsdk-js-client` and `azsdk-js-api` user-agent tokens from protected client/context files. Preserve those tokens and follow the per-rule checks instead. If the script is run manually, immediately repeat Step 1 and restore unintended user-agent changes before building.
 
 ### Step 6: Build and surface verification
 
