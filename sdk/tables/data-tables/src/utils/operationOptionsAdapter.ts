@@ -7,6 +7,7 @@ import type {
 } from "@azure/core-client";
 import type {
   OperationOptions as RestOperationOptions,
+  OperationRequestOptions as RestOperationRequestOptions,
   PathUncheckedResponse,
 } from "@azure-rest/core-client";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -17,8 +18,8 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
  * based operations.
  *
  * The two `OperationOptions` interfaces look similar but are not structurally compatible:
- * - `requestOptions.customHeaders` (core-client) must be mapped to `requestOptions.headers` (rest),
- *   otherwise user-provided headers are silently dropped at request time.
+ * - `requestOptions.customHeaders` (core-client) is preserved for core normalization alongside
+ *   canonical `requestOptions.headers` (rest), which take precedence case-insensitively.
  * - `serializerOptions` and `requestOptions.shouldDeserialize` (core-client only) have no rest
  *   equivalent and are intentionally dropped.
  *
@@ -51,14 +52,16 @@ export function toRestOperationOptions(
   if (requestOptions !== undefined) {
     const {
       customHeaders,
+      headers,
       timeout,
       onUploadProgress,
       onDownloadProgress,
       allowInsecureConnection,
-    } = requestOptions;
+    } = requestOptions as typeof requestOptions & Pick<RestOperationRequestOptions, "headers">;
 
     restOptions.requestOptions = {
-      ...(customHeaders !== undefined ? { headers: customHeaders } : {}),
+      ...(customHeaders !== undefined ? { customHeaders } : {}),
+      ...(headers !== undefined ? { headers } : {}),
       ...(timeout !== undefined ? { timeout } : {}),
       ...(onUploadProgress !== undefined ? { onUploadProgress } : {}),
       ...(onDownloadProgress !== undefined ? { onDownloadProgress } : {}),
