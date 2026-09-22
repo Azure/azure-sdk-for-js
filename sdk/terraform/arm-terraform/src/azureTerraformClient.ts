@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getTerraformOperations, TerraformOperations } from "./classic/terraform/index.js";
-import {
-  createAzureTerraform,
-  AzureTerraformContext,
-  AzureTerraformClientOptionalParams,
-} from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { AzureTerraformContext, AzureTerraformClientOptionalParams } from "./api/index.js";
+import { createAzureTerraform } from "./api/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { TerraformOperations } from "./classic/terraform/index.js";
+import { _getTerraformOperations } from "./classic/terraform/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureTerraformClientOptionalParams } from "./api/azureTerraformContext.js";
+export type { AzureTerraformClientOptionalParams } from "./api/azureTerraformContext.js";
 
 export class AzureTerraformClient {
   private _client: AzureTerraformContext;
@@ -24,21 +23,14 @@ export class AzureTerraformClient {
     subscriptionId: string,
     options: AzureTerraformClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAzureTerraform(credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAzureTerraform(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.terraform = getTerraformOperations(this._client, subscriptionId);
+    this.terraform = _getTerraformOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for Terraform */
+  /** The operation groups for terraform */
   public readonly terraform: TerraformOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }

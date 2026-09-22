@@ -13,7 +13,7 @@ import { isError } from "@azure/core-util";
 import { GZippingPolicy } from "./gZippingPolicy.js";
 import { concurrentRun } from "./utils/concurrentPoolHelper.js";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper.js";
-export { LogsIngestionClientOptions } from "./api/logsIngestionContext.js";
+export type { LogsIngestionClientOptions } from "./api/logsIngestionContext.js";
 
 const DEFAULT_MAX_CONCURRENCY = 5;
 

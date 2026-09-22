@@ -1,0 +1,66 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { ComputeLimitContext, ComputeLimitClientOptionalParams } from "./api/index.js";
+import { createComputeLimit } from "./api/index.js";
+import type { FeaturesOperations } from "./classic/features/index.js";
+import { _getFeaturesOperations } from "./classic/features/index.js";
+import type { GuestSubscriptionsOperations } from "./classic/guestSubscriptions/index.js";
+import { _getGuestSubscriptionsOperations } from "./classic/guestSubscriptions/index.js";
+import type { MemberCapOverridesOperations } from "./classic/memberCapOverrides/index.js";
+import { _getMemberCapOverridesOperations } from "./classic/memberCapOverrides/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { SharedLimitCapsOperations } from "./classic/sharedLimitCaps/index.js";
+import { _getSharedLimitCapsOperations } from "./classic/sharedLimitCaps/index.js";
+import type { SharedLimitsOperations } from "./classic/sharedLimits/index.js";
+import { _getSharedLimitsOperations } from "./classic/sharedLimits/index.js";
+import type { TrustedHostSubscriptionsOperations } from "./classic/trustedHostSubscriptions/index.js";
+import { _getTrustedHostSubscriptionsOperations } from "./classic/trustedHostSubscriptions/index.js";
+import type { VmFamiliesOperations } from "./classic/vmFamilies/index.js";
+import { _getVmFamiliesOperations } from "./classic/vmFamilies/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+
+export type { ComputeLimitClientOptionalParams } from "./api/computeLimitContext.js";
+
+export class ComputeLimitClient {
+  private _client: ComputeLimitContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
+
+  /** Microsoft Azure Compute Limit Resource Provider. */
+  constructor(
+    credential: TokenCredential,
+    subscriptionId: string,
+    options: ComputeLimitClientOptionalParams = {},
+  ) {
+    this._client = createComputeLimit(credential, subscriptionId, options);
+    this.pipeline = this._client.pipeline;
+    this.memberCapOverrides = _getMemberCapOverridesOperations(this._client);
+    this.sharedLimitCaps = _getSharedLimitCapsOperations(this._client);
+    this.vmFamilies = _getVmFamiliesOperations(this._client);
+    this.features = _getFeaturesOperations(this._client);
+    this.sharedLimits = _getSharedLimitsOperations(this._client);
+    this.trustedHostSubscriptions = _getTrustedHostSubscriptionsOperations(this._client);
+    this.guestSubscriptions = _getGuestSubscriptionsOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
+  }
+
+  /** The operation groups for memberCapOverrides */
+  public readonly memberCapOverrides: MemberCapOverridesOperations;
+  /** The operation groups for sharedLimitCaps */
+  public readonly sharedLimitCaps: SharedLimitCapsOperations;
+  /** The operation groups for vmFamilies */
+  public readonly vmFamilies: VmFamiliesOperations;
+  /** The operation groups for features */
+  public readonly features: FeaturesOperations;
+  /** The operation groups for sharedLimits */
+  public readonly sharedLimits: SharedLimitsOperations;
+  /** The operation groups for trustedHostSubscriptions */
+  public readonly trustedHostSubscriptions: TrustedHostSubscriptionsOperations;
+  /** The operation groups for guestSubscriptions */
+  public readonly guestSubscriptions: GuestSubscriptionsOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
+}

@@ -11,9 +11,9 @@ import type {
   DocumentIngress,
   MonitoringDataPoint,
   PublishOptionalParams,
-  PublishResponse,
   CollectionConfigurationError,
 } from "../../../generated/index.js";
+import type { QuickpulseResponse } from "./sender.js";
 import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils.js";
 
 /**
@@ -21,7 +21,7 @@ import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../ut
  */
 export class QuickpulseMetricExporter implements PushMetricExporter {
   private sender: QuickpulseSender;
-  private postCallback: (response: PublishResponse | undefined) => void;
+  private postCallback: (response: QuickpulseResponse | undefined) => void;
   private getDocumentsFn: () => DocumentIngress[];
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;

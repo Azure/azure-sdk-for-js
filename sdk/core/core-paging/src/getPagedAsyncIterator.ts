@@ -28,7 +28,7 @@ export function getPagedAsyncIterator<
       return this;
     },
     byPage:
-      pagedResult?.byPage ??
+      pagedResult.byPage ??
       (((settings?: PageSettings) => {
         const { continuationToken, maxPageSize } = settings ?? {};
         return getPageAsyncIterator(pagedResult, {

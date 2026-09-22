@@ -89,14 +89,7 @@ export interface HybridSearchQueryInfo {
 export type GroupByExpressions = string[];
 
 export type AggregateType =
-  | "Average"
-  | "Count"
-  | "Max"
-  | "Min"
-  | "Sum"
-  | "MakeSet"
-  | "MakeList"
-  | "CountIf";
+  "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList" | "CountIf";
 
 export interface GroupByAliasToAggregateType {
   [key: string]: AggregateType;

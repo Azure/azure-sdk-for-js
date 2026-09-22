@@ -2,12 +2,14 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure SiteRecoveryManagement client.
 
+Open API for RecoveryServicesSiteRecovery
 
+Key links:
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-recoveryservices-siterecovery) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-recoveryservices-siterecovery)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/samples)
 
 ## Getting started
 
@@ -35,7 +37,7 @@ npm install @azure/arm-recoveryservices-siterecovery
 To create a client object to access the Azure SiteRecoveryManagement API, you will need the `endpoint` of your Azure SiteRecoveryManagement resource and a `credential`. The Azure SiteRecoveryManagement client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure SiteRecoveryManagement resource in the [Azure Portal][azure_portal].
 
-You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
 To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
@@ -63,13 +65,14 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new SiteRecoveryManagementClient(credential, subscriptionId);
 ```
+
 
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
@@ -96,7 +99,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -106,9 +109,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-
-[azure_cli]: https://learn.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

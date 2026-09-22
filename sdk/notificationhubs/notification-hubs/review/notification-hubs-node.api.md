@@ -5,10 +5,12 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
@@ -745,6 +747,8 @@ export interface InstallationTemplate {
     tags?: string[];
 }
 
+export { isRestError }
+
 // @public
 export interface JsonNotification extends NotificationCommon {
     contentType: "application/json;charset=utf-8";
@@ -995,6 +999,8 @@ export interface RegistrationResult {
 
 // @public
 export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "FcmV1" | "FcmV1Template" | "Mpns" | "MpnsTemplate" | "Xiaomi" | "XiaomiTemplate" | "Windows" | "WindowsTemplate";
+
+export { RestError }
 
 // @public
 export interface ScheduleNotificationOptions extends OperationOptions {

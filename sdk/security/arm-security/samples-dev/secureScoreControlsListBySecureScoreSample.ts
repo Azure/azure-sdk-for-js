@@ -1,57 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get all security controls for a specific initiative within a scope
- *
- * @summary Get all security controls for a specific initiative within a scope
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScores/ListSecureScoreControlsForName_builtin_example.json
- */
-
-import type { SecureScoreControlsListBySecureScoreOptionalParams } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const secureScoreName = "ascScore";
+/**
+ * This sample demonstrates how to get all security controls for a specific initiative within a scope
+ *
+ * @summary get all security controls for a specific initiative within a scope
+ * x-ms-original-file: 2020-01-01/secureScores/ListSecureScoreControlsForNameWithExpand_builtin_example.json
+ */
+async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.secureScoreControls.listBySecureScore(secureScoreName)) {
+  for await (const item of client.secureScoreControls.listBySecureScore("ascScore", {
+    expand: "definition",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Get all security controls for a specific initiative within a scope
+ * This sample demonstrates how to get all security controls for a specific initiative within a scope
  *
- * @summary Get all security controls for a specific initiative within a scope
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScores/ListSecureScoreControlsForNameWithExpand_builtin_example.json
+ * @summary get all security controls for a specific initiative within a scope
+ * x-ms-original-file: 2020-01-01/secureScores/ListSecureScoreControlsForName_builtin_example.json
  */
-async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const secureScoreName = "ascScore";
-  const expand = "definition";
-  const options: SecureScoreControlsListBySecureScoreOptionalParams = {
-    expand,
-  };
+async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.secureScoreControls.listBySecureScore(secureScoreName, options)) {
+  for await (const item of client.secureScoreControls.listBySecureScore("ascScore")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative();
   await getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter();
+  await getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative();
 }
 
 main().catch(console.error);

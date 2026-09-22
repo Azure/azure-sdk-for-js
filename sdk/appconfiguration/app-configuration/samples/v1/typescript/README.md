@@ -26,6 +26,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [listRevisions.ts][listrevisions]                               | Demonstrates listing revisions for a configuration setting.                                                                                                                                                                                                                                                                                                                                                       |
 | [secretReference.ts][secretreference]                           | SecretReference represents a configuration setting that references as KeyVault secret.                                                                                                                                                                                                                                                                                                                            |
 | [featureFlag.ts][featureflag]                                   | Feature flags are settings that follow specific JSON schema for the value.                                                                                                                                                                                                                                                                                                                                        |
+| [testData.ts][testdata]                                         | Serialized sample App Configuration KeyValueModified event payload.                                                                                                                                                                                                                                                                                                                                               |
 
 ## Prerequisites
 
@@ -69,10 +70,10 @@ npm run build
 node dist/helloworld.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node dist/helloworld.js
+npx cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node dist/helloworld.js
 ```
 
 ## Next Steps
@@ -91,6 +92,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listRevisions.ts
 [secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/secretReference.ts
 [featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/featureFlag.ts
+[testdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/testData.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfigurationaccount]: https://learn.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store

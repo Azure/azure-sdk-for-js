@@ -1,0 +1,21 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  bulkReimageOperation,
+  bulkCancelOperations,
+  bulkGetOperationsStatus,
+  bulkDeleteOperation,
+  bulkStartOperation,
+  bulkHibernateOperation,
+  bulkDeallocateOperation,
+} from "./operations.js";
+export type {
+  VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
+  VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams,
+  VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams,
+  VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams,
+  VirtualMachineBulkOperationsBulkStartOperationOptionalParams,
+  VirtualMachineBulkOperationsBulkHibernateOperationOptionalParams,
+  VirtualMachineBulkOperationsBulkDeallocateOperationOptionalParams,
+} from "./options.js";

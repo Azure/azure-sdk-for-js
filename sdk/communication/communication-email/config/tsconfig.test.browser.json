@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/communication-email": ["../src/index.ts"],
+      "@azure/communication-email/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

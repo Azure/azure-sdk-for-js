@@ -168,7 +168,7 @@ describe("Library/Config", () => {
     it("Default config", () => {
       const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
-      assert.deepStrictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
+      assert.deepStrictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         true,
@@ -193,6 +193,15 @@ describe("Library/Config", () => {
         undefined,
         "Wrong storageDirectory",
       );
+    });
+
+    it("microsoft.rate_limited without arg keeps default tracesPerSecond=5 in InternalConfig", () => {
+      vi.stubEnv("OTEL_TRACES_SAMPLER", "microsoft.rate_limited");
+
+      const config = new InternalConfig();
+
+      assert.strictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
+      assert.strictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
     });
 
     it("Partial configurations are supported", () => {
@@ -261,8 +270,8 @@ describe("Library/Config", () => {
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      assert.ok(typeof config.azureMonitorExporterOptions?.connectionString === "string");
-      assert.ok(typeof config.samplingRatio === "number");
+      assert.equal(typeof config.azureMonitorExporterOptions?.connectionString, "string");
+      assert.equal(typeof config.samplingRatio, "number");
     });
 
     it("should accept zero sampling ratio", () => {
@@ -333,13 +342,13 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
       "opentelemetry",
     );
-    assert.ok(
+    assert.isTrue(
       String(config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME]).startsWith(
         "unknown_service:",
       ),
       "Wrong SERVICE_NAME",
     );
-    assert.ok(
+    assert.isTrue(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
         0,
       "Wrong TELEMETRY_SDK_VERSION",
@@ -383,10 +392,7 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
       "test-region",
     );
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT],
-      "test-slot",
-    );
+    assert.strictEqual(config.resource.attributes["deployment.environment.name"], "test-slot");
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.HOST_ID],
       "test-hostname",
@@ -426,10 +432,32 @@ describe("OpenTelemetry Resource", () => {
     );
   });
 
+  it("Azure AKS resource attributes", () => {
+    const env = <{ [id: string]: string }>{};
+    const originalEnv = process.env;
+    env.CLUSTER_RESOURCE_ID =
+      "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config = new InternalConfig();
+    process.env = originalEnv;
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+      "azure.aks",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.K8S_CLUSTER_NAME],
+      "test-cluster",
+    );
+  });
+
   it("Azure VM resource attributes", () => {
     vi.spyOn(azureVmDetector, "detect").mockResolvedValue(resourceFromAttributes(testAttributes));
     const config = new InternalConfig();
-    assert.ok(config);
+    assert.isDefined(config);
 
     // Wait for the async VM resource detector to finish (ensure detect is called)
     setTimeout(() => {
@@ -450,6 +478,70 @@ describe("OpenTelemetry Resource", () => {
         CloudPlatformValues.AZURE_VM,
       );
     }, 1000);
+  });
+
+  describe("VM resource detection", () => {
+    // The spy in the VM test above is never restored, so clear its call history before each
+    // case here, and restore afterwards so these mocks do not leak into later tests.
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    // Swap in a clean environment so ambient App Service variables on the machine running
+    // the tests cannot decide the outcome.
+    function createConfigWithEnv(env: { [id: string]: string }): InternalConfig {
+      const originalEnv = process.env;
+      process.env = env;
+      try {
+        return new InternalConfig();
+      } finally {
+        process.env = originalEnv;
+      }
+    }
+
+    it("skips the IMDS probe on App Service", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({ WEBSITE_SITE_NAME: "test-site" });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("skips the IMDS probe on Azure Functions", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({ WEBSITE_SITE_NAME: "test-site", FUNCTIONS_EXTENSION_VERSION: "~4" });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("skips the IMDS probe on AKS", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({
+        CLUSTER_RESOURCE_ID:
+          "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster",
+      });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("skips the IMDS probe on Container Apps", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({
+        CONTAINER_APP_NAME: "test-app",
+        CONTAINER_APP_REVISION: "test-app--rev1",
+        CONTAINER_APP_HOSTNAME: "test-app.internal",
+        CONTAINER_APP_ENV_DNS_SUFFIX: "test.azurecontainerapps.io",
+        CONTAINER_APP_PORT: "80",
+        CONTAINER_APP_REPLICA_NAME: "test-app--rev1-abc",
+      });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("probes IMDS when no platform is detected", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({});
+      expect(detect).toHaveBeenCalled();
+    });
   });
 
   it("OTEL_RESOURCE_ATTRIBUTES", () => {

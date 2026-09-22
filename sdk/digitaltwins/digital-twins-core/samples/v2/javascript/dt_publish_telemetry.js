@@ -8,7 +8,6 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digital-twins-core");
 const { inspect } = require("util");
-const { v4 } = require("uuid");
 
 async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
@@ -29,7 +28,7 @@ async function main() {
   // Publish telemetry message
   const digitalTwinId = "<digital twin ID>"; // Digital twin ID must exist in your Azure Digital Twins instance
   const telemetryPayload = { Telemetry1: 5 };
-  const response = await serviceClient.publishTelemetry(digitalTwinId, telemetryPayload, v4());
+  const response = await serviceClient.publishTelemetry(digitalTwinId, telemetryPayload, crypto.randomUUID());
   console.log(`Publish Component Telemetry response:`);
   console.log(inspect(response));
 }

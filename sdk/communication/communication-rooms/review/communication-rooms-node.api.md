@@ -7,9 +7,11 @@
 import type { CommonClientOptions } from '@azure/core-client';
 import type { CommunicationIdentifier } from '@azure/communication-common';
 import type { CommunicationIdentifierKind } from '@azure/communication-common';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -38,6 +40,8 @@ export type DeleteRoomOptions = OperationOptions;
 // @public
 export type GetRoomOptions = OperationOptions;
 
+export { isRestError }
+
 // @public
 export type ListParticipantsOptions = OperationOptions;
 
@@ -49,6 +53,8 @@ export type ParticipantRole = "Presenter" | "Attendee" | "Consumer" | "Collabora
 
 // @public
 export type RemoveParticipantsOptions = OperationOptions;
+
+export { RestError }
 
 // @public
 export interface RoomParticipant {

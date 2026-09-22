@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Agent resource.
  *
  * @summary creates or updates an Agent resource.
- * x-ms-original-file: 2025-07-01/Agents_Update.json
+ * x-ms-original-file: 2025-12-01/Agents_Update.json
  */
 async function agentsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

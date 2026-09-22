@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import { ThreadRun, ToolOutput } from "../../models/models.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type { ThreadRun, ToolOutput } from "../../models/models.js";
+import type {
   RunsCancelRunOptionalParams,
   RunsSubmitToolOutputsToRunOptionalParams,
   RunsUpdateRunOptionalParams,
@@ -20,11 +20,11 @@ import {
   createRun,
   createRunAndPoll,
 } from "../../api/runs/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { AgentRunResponse } from "../../models/streamingModels.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AgentRunResponse } from "../../models/streamingModels.js";
 import { createThreadAndRun } from "../../api/operations.js";
-import { CreateThreadAndRunOptionalParams } from "../../api/options.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { CreateThreadAndRunOptionalParams } from "../../api/options.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Runs operations. */
 export interface RunsOperations {

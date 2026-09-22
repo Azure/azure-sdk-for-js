@@ -1,3 +1,7 @@
 {
-  "extends": "../../../tsconfig.lib.json"
+  "extends": "../../../tsconfig.lib.json",
+  "compilerOptions": {
+    "lib": ["DOM"],
+    "allowJs": true
+  }
 }

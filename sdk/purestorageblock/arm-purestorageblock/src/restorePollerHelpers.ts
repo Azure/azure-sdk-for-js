@@ -1,8 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockClient } from "./blockClient.js";
-import { _$deleteDeserialize, _updateDeserialize } from "./api/avsVmVolumes/operations.js";
+import type { BlockClient } from "./blockClient.js";
+import { _$deleteDeserialize, _createDeserialize } from "./api/volumeGroupSnapshots/operations.js";
+import { _activateResourceDeserialize } from "./api/saaSOperationGroup/operations.js";
+import { _$deleteDeserialize as _$deleteDeserializeRecoverableVolumeGroups } from "./api/recoverableVolumeGroups/operations.js";
+import {
+  _overwriteDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeVolumes,
+  _updateDeserialize,
+  _createDeserialize as _createDeserializeVolumes,
+} from "./api/volumes/operations.js";
+import {
+  _overwriteDeserialize as _overwriteDeserializeVolumeGroups,
+  _$deleteDeserialize as _$deleteDeserializeVolumeGroups,
+  _updateDeserialize as _updateDeserializeVolumeGroups,
+  _createDeserialize as _createDeserializeVolumeGroups,
+} from "./api/volumeGroups/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeAvsVmVolumes,
+  _updateDeserialize as _updateDeserializeAvsVmVolumes,
+} from "./api/avsVmVolumes/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeAvsVms,
   _updateDeserialize as _updateDeserializeAvsVms,
@@ -19,22 +37,19 @@ import {
   _enableAvsConnectionDeserialize,
   _$deleteDeserialize as _$deleteDeserializeStoragePools,
   _updateDeserialize as _updateDeserializeStoragePools,
-  _createDeserialize,
+  _createDeserialize as _createDeserializeStoragePools,
 } from "./api/storagePools/operations.js";
 import {
+  _linkSaaSDeserialize,
   _$deleteDeserialize as _$deleteDeserializeReservations,
   _updateDeserialize as _updateDeserializeReservations,
   _createDeserialize as _createDeserializeReservations,
 } from "./api/reservations/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -69,8 +84,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -79,6 +93,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -89,33 +104,54 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}/snapshots/{snapshotName}":
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}/snapshots/{snapshotName}":
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/providers/PureStorage.Block/activateSaaS": {
+    deserializer: _activateResourceDeserialize,
+    expectedStatuses: ["200", "202", "201"],
+  },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/recoverableVolumeGroups/{recoverableVolumeGroupName}":
+    {
+      deserializer: _$deleteDeserializeRecoverableVolumeGroups,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}/volumes/{volumeName}/overwrite":
+    { deserializer: _overwriteDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}/volumes/{volumeName}":
+    { deserializer: _$deleteDeserializeVolumes, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}/volumes/{volumeName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}/volumes/{volumeName}":
+    { deserializer: _createDeserializeVolumes, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}/overwrite":
+    { deserializer: _overwriteDeserializeVolumeGroups, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}":
+    { deserializer: _$deleteDeserializeVolumeGroups, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}":
+    { deserializer: _updateDeserializeVolumeGroups, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/volumeGroups/{volumeGroupName}":
+    { deserializer: _createDeserializeVolumeGroups, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/avsVms/{avsVmId}/avsVmVolumes/{volumeId}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeAvsVmVolumes, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/avsVms/{avsVmId}/avsVmVolumes/{volumeId}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserializeAvsVmVolumes, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/avsVms/{avsVmId}":
-    {
-      deserializer: _$deleteDeserializeAvsVms,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeAvsVms, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/avsVms/{avsVmId}":
-    {
-      deserializer: _updateDeserializeAvsVms,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeAvsVms, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/avsStorageContainers/{storageContainerName}/volumes/{volumeId}":
     {
       deserializer: _$deleteDeserializeAvsStorageContainerVolumes,
@@ -124,7 +160,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/avsStorageContainers/{storageContainerName}/volumes/{volumeId}":
     {
       deserializer: _updateDeserializeAvsStorageContainerVolumes,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/avsStorageContainers/{storageContainerName}":
     {
@@ -132,52 +168,27 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["202", "204", "200"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/repairAvsConnection":
-    {
-      deserializer: _repairAvsConnectionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _repairAvsConnectionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/finalizeAvsConnection":
-    {
-      deserializer: _finalizeAvsConnectionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _finalizeAvsConnectionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/disableAvsConnection":
-    {
-      deserializer: _disableAvsConnectionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _disableAvsConnectionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/enableAvsConnection":
-    {
-      deserializer: _enableAvsConnectionDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _enableAvsConnectionDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}":
-    {
-      deserializer: _$deleteDeserializeStoragePools,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeStoragePools, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}":
-    {
-      deserializer: _updateDeserializeStoragePools,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeStoragePools, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201"] },
+    { deserializer: _createDeserializeStoragePools, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/reservations/{reservationName}/linkSaaS":
+    { deserializer: _linkSaaSDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/reservations/{reservationName}":
-    {
-      deserializer: _$deleteDeserializeReservations,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeReservations, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/reservations/{reservationName}":
-    {
-      deserializer: _updateDeserializeReservations,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeReservations, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/reservations/{reservationName}":
-    {
-      deserializer: _createDeserializeReservations,
-      expectedStatuses: ["200", "201"],
-    },
+    { deserializer: _createDeserializeReservations, expectedStatuses: ["200", "201", "202"] },
 };
 
 function getDeserializationHelper(
@@ -248,4 +259,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

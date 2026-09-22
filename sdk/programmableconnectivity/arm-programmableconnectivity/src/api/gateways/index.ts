@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  GatewaysListBySubscriptionOptionalParams,
-  GatewaysListByResourceGroupOptionalParams,
-  GatewaysDeleteOptionalParams,
-  GatewaysUpdateOptionalParams,
-  GatewaysCreateOrUpdateOptionalParams,
-  GatewaysGetOptionalParams,
+  type GatewaysListBySubscriptionOptionalParams,
+  type GatewaysListByResourceGroupOptionalParams,
+  type GatewaysDeleteOptionalParams,
+  type GatewaysUpdateOptionalParams,
+  type GatewaysCreateOrUpdateOptionalParams,
+  type GatewaysGetOptionalParams,
 } from "./options.js";

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
+
 /** Full backup operation */
 export interface FullBackupOperation {
   /** Status of the backup operation. */
@@ -291,6 +293,83 @@ export function settingArrayDeserializer(result: Array<Setting>): any[] {
   return result.map((item) => {
     return settingDeserializer(item);
   });
+}
+
+/** An EkmConnection model object. */
+export interface EkmConnection {
+  /** EKM proxy FQDN (Fully Qualified Domain Name). Only allowed characters are a-z, A-Z, 0-9, hyphen (-), dot (.), and colon (:). */
+  host: string;
+  /** Optional path prefix for the EKM proxy (if any). */
+  pathPrefix?: string;
+  /** The root CA certificate chain that issued the proxy server's certificate. An array of certificates in the certificate chain, each in DER format and base64 encoded. */
+  serverCaCertificates: Uint8Array[];
+  /** The subject common name of the server certificate of EKM Proxy. */
+  serverSubjectCommonName?: string;
+}
+
+export function ekmConnectionSerializer(item: EkmConnection): any {
+  return {
+    host: item["host"],
+    path_prefix: item["pathPrefix"],
+    server_ca_certificates: item["serverCaCertificates"].map((certificate) =>
+      uint8ArrayToString(certificate, "base64"),
+    ),
+    server_subject_common_name: item["serverSubjectCommonName"],
+  };
+}
+
+export function ekmConnectionDeserializer(item: any): EkmConnection {
+  return {
+    host: item["host"],
+    pathPrefix: item["path_prefix"],
+    serverCaCertificates: item["server_ca_certificates"].map((certificate: string) =>
+      stringToUint8Array(certificate, "base64"),
+    ),
+    serverSubjectCommonName: item["server_subject_common_name"],
+  };
+}
+
+/** EKM proxy client certificate information. */
+export interface EkmProxyClientCertificateInfo {
+  /** The client root CA certificate chain to authenticate to the EKM proxy. An array of certificates in the certificate chain, each in DER format and base64 encoded. */
+  readonly caCertificates: Uint8Array[];
+  /** The subject common name of the client certificate used to authenticate to the EKM proxy. */
+  readonly subjectCommonName: string;
+}
+
+export function ekmProxyClientCertificateInfoDeserializer(
+  item: any,
+): EkmProxyClientCertificateInfo {
+  return {
+    caCertificates: item["ca_certificates"].map((certificate: string) =>
+      stringToUint8Array(certificate, "base64"),
+    ),
+    subjectCommonName: item["subject_common_name"],
+  };
+}
+
+/** EKM proxy information. */
+export interface EkmProxyInfo {
+  /** The highest version of proxy interface API supported by the EKM Proxy. */
+  apiVersion: string;
+  /** The name of the proxy vendor. */
+  proxyVendor: string;
+  /** The name of the proxy product and its version. */
+  proxyName: string;
+  /** The name of the EKM vendor. */
+  ekmVendor: string;
+  /** The name of the EKM product and its version. */
+  ekmProduct: string;
+}
+
+export function ekmProxyInfoDeserializer(item: any): EkmProxyInfo {
+  return {
+    apiVersion: item["api_version"],
+    proxyVendor: item["proxy_vendor"],
+    proxyName: item["proxy_name"],
+    ekmVendor: item["ekm_vendor"],
+    ekmProduct: item["ekm_product"],
+  };
 }
 
 /** Role definition. */
@@ -733,4 +812,8 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-07-01 API version. */
+  V20250701 = "2025-07-01",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
 }

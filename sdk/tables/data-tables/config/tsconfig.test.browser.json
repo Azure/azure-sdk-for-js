@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/data-tables": ["../src/index.ts"],
+      "@azure/data-tables/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

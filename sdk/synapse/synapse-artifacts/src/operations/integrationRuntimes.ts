@@ -19,6 +19,50 @@ import type {
   IntegrationRuntimesGetResponse,
 } from "../models/index.js";
 
+/** Class containing IntegrationRuntimes operations. */
+export class IntegrationRuntimesImpl implements IntegrationRuntimes {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class IntegrationRuntimes class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * List Integration Runtimes
+   * @param options The options parameters.
+   */
+  async list(
+    options?: IntegrationRuntimesListOptionalParams,
+  ): Promise<IntegrationRuntimesListResponse> {
+    return tracingClient.withSpan("ArtifactsClient.list", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { options },
+        listOperationSpec,
+      ) as Promise<IntegrationRuntimesListResponse>;
+    });
+  }
+
+  /**
+   * Get Integration Runtime
+   * @param integrationRuntimeName The Integration Runtime name
+   * @param options The options parameters.
+   */
+  async get(
+    integrationRuntimeName: string,
+    options?: IntegrationRuntimesGetOptionalParams,
+  ): Promise<IntegrationRuntimesGetResponse> {
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { integrationRuntimeName, options },
+        getOperationSpec,
+      ) as Promise<IntegrationRuntimesGetResponse>;
+    });
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -54,48 +98,3 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-
-/** Class containing IntegrationRuntimes operations. */
-export class IntegrationRuntimesImpl implements IntegrationRuntimes {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class IntegrationRuntimes class.
-   * @param client - Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * List Integration Runtimes
-   * @param options - The options parameters.
-   */
-  async list(
-    options?: IntegrationRuntimesListOptionalParams,
-  ): Promise<IntegrationRuntimesListResponse> {
-    return tracingClient.withSpan("ArtifactsClient.list", options ?? {}, async (updatedOptions) => {
-      return this.client.sendOperationRequest(
-        { updatedOptions },
-        listOperationSpec,
-      ) as Promise<IntegrationRuntimesListResponse>;
-    });
-  }
-
-  /**
-   * Get Integration Runtime
-   * @param integrationRuntimeName - The Integration Runtime name
-   * @param options - The options parameters.
-   */
-  async get(
-    integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetOptionalParams,
-  ): Promise<IntegrationRuntimesGetResponse> {
-    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (updatedOptions) => {
-      return this.client.sendOperationRequest(
-        { integrationRuntimeName, updatedOptions },
-        getOperationSpec,
-      ) as Promise<IntegrationRuntimesGetResponse>;
-    });
-  }
-}

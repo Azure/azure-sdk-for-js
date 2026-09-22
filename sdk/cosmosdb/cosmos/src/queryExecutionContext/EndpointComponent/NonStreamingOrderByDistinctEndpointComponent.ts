@@ -9,6 +9,8 @@ import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult.js"
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue.js";
 import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap.js";
 import { OrderByComparator } from "../orderByComparator.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
+import { createParallelQueryResult } from "../parallelQueryResult.js";
 
 /**
  * @hidden
@@ -87,7 +89,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
   public hasMoreResults(): boolean {
     if (this.priorityQueueBufferSize === 0) return false;
-    return this.executionContext.hasMoreResults();
+    return !this.isCompleted && this.executionContext.hasMoreResults();
   }
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
@@ -110,29 +112,65 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (this.executionContext.hasMoreResults()) {
       // Grab the next result
       const response = await this.executionContext.fetchMore(diagnosticNode);
-      if (response === undefined || response.result === undefined) {
+
+      if (!response) {
         this.isCompleted = true;
         if (this.aggregateMap.size() > 0) {
           await this.buildFinalResultArray();
+          const result = createParallelQueryResult(this.finalResultArray, new Map(), {}, undefined);
+
           return {
-            result: this.finalResultArray,
-            headers: response.headers,
+            result,
+            headers: resHeaders,
           };
         }
-        return { result: undefined, headers: response.headers };
+        return { result: undefined, headers: resHeaders };
       }
+
       resHeaders = response.headers;
-      for (const item of response.result) {
-        if (item) {
-          const key = await hashObject(item?.payload);
-          this.aggregateMap.set(key, item);
+      const pageIsEmpty =
+        response.result === undefined ||
+        !Array.isArray(response.result.buffer) ||
+        response.result.buffer.length === 0;
+
+      if (pageIsEmpty && !this.executionContext.hasMoreResults()) {
+        this.isCompleted = true;
+        if (this.aggregateMap.size() > 0) {
+          await this.buildFinalResultArray();
+          const result = createParallelQueryResult(this.finalResultArray, new Map(), {}, undefined);
+
+          return {
+            result,
+            headers: resHeaders,
+          };
+        }
+        return { result: undefined, headers: resHeaders };
+      }
+
+      if (!pageIsEmpty) {
+        const parallelResult = response.result as ParallelQueryResult;
+        const dataToProcess: NonStreamingOrderByResult[] =
+          parallelResult.buffer as NonStreamingOrderByResult[];
+
+        for (const item of dataToProcess) {
+          if (item) {
+            const key = await hashObject(item?.payload);
+            this.aggregateMap.set(key, item);
+          }
         }
       }
 
       // return [] to signal that there are more results to fetch.
       if (this.executionContext.hasMoreResults()) {
+        const result = createParallelQueryResult(
+          [], // empty buffer
+          new Map(),
+          undefined,
+          undefined,
+        );
+
         return {
-          result: [],
+          result,
           headers: resHeaders,
         };
       }
@@ -142,14 +180,18 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
       this.isCompleted = true;
       await this.buildFinalResultArray();
+      const result = createParallelQueryResult(this.finalResultArray, new Map());
+
       return {
-        result: this.finalResultArray,
+        result,
         headers: resHeaders,
       };
     }
     // Signal that there are no more results.
+    const result = createParallelQueryResult([], new Map());
+
     return {
-      result: undefined,
+      result,
       headers: resHeaders,
     };
   }

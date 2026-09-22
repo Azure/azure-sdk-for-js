@@ -8,7 +8,6 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digital-twins-core");
 const { inspect } = require("util");
-const { v4 } = require("uuid");
 
 async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
@@ -34,7 +33,7 @@ async function main() {
     digitalTwinId,
     componentPath,
     telemetryPayload,
-    v4()
+    crypto.randomUUID()
   );
   console.log(`Publish Component Telemetry response:`);
   console.log(inspect(response));

@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IncomingMessage } from "node:http";
+import type { NodeIncomingMessage } from "#platform/types";
+import { cancelNodeStream } from "#platform/types";
+import { stringToUint8Array } from "@azure/core-util";
 import type { NodeJSReadableStream } from "./models.js";
 
 export function createStream<T>(
@@ -49,7 +51,7 @@ function iteratorToStream<T>(
   cancel: () => PromiseLike<void>,
 ): ReadableStream<T> {
   return new ReadableStream({
-    async pull(controller) {
+    async pull(controller: ReadableStreamDefaultController<T>) {
       const { value, done } = await iterator.next();
       if (done) {
         controller.close();
@@ -62,7 +64,7 @@ function iteratorToStream<T>(
 }
 
 export function ensureAsyncIterable(
-  stream: IncomingMessage | NodeJSReadableStream | ReadableStream<Uint8Array>,
+  stream: NodeIncomingMessage | NodeJSReadableStream | ReadableStream<Uint8Array>,
 ): {
   cancel(): Promise<void>;
   iterable: AsyncIterable<Uint8Array>;
@@ -92,14 +94,7 @@ export function ensureAsyncIterable(
     };
   } else {
     return {
-      cancel: async () => {
-        // socket could be null if the connection is already closed
-        if ("socket" in stream && stream.socket) {
-          stream.socket.end();
-        } else {
-          stream.destroy();
-        }
-      },
+      cancel: async () => cancelNodeStream(stream),
       iterable: toUint8ArrayIterable(stream as AsyncIterable<unknown>),
     };
   }
@@ -125,12 +120,11 @@ async function* readStream<T>(
 async function* toUint8ArrayIterable(
   iterable: AsyncIterable<unknown>,
 ): AsyncIterableIterator<Uint8Array> {
-  const encoder = new TextEncoder();
   for await (const chunk of iterable) {
     if (chunk instanceof Uint8Array) {
       yield chunk;
     } else if (typeof chunk === "string") {
-      yield encoder.encode(chunk);
+      yield stringToUint8Array(chunk, "utf-8");
     } else {
       throw new TypeError("Expected the SSE stream to contain Uint8Array or string chunks.");
     }
@@ -140,8 +134,8 @@ async function* toUint8ArrayIterable(
 function isReadableStream(body: unknown): body is ReadableStream {
   return Boolean(
     body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function",
+    typeof (body as ReadableStream).getReader === "function" &&
+    typeof (body as ReadableStream).tee === "function",
   );
 }
 

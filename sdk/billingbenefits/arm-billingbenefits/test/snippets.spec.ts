@@ -8,7 +8,8 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new BillingBenefitsRP(new DefaultAzureCredential());
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
+    const client = new BillingBenefitsRP(new DefaultAzureCredential(), subscriptionId);
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -16,7 +17,8 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new BillingBenefitsRP(credential);
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
+    const client = new BillingBenefitsRP(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {

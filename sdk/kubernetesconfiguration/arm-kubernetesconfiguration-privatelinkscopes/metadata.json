@@ -1,0 +1,50 @@
+{
+  "apiVersions": {
+    "Microsoft.KubernetesConfiguration": "2024-11-01-preview"
+  },
+  "emitterVersion": "0.50.4",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.KubernetesConfiguration",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkResource:interface": "Microsoft.KubernetesConfiguration.PrivateLinkResource",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkResourceProperties:interface": "Azure.ResourceManager.CommonTypes.PrivateLinkResourceProperties",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateEndpointConnection:interface": "Microsoft.KubernetesConfiguration.PrivateEndpointConnection",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateEndpointConnectionProperties:interface": "Azure.ResourceManager.CommonTypes.PrivateEndpointConnectionProperties",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateEndpoint:interface": "Azure.ResourceManager.CommonTypes.PrivateEndpoint",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkServiceConnectionState:interface": "Azure.ResourceManager.CommonTypes.PrivateLinkServiceConnectionState",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateEndpointConnectionListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KubernetesConfigurationPrivateLinkScope:interface": "Microsoft.KubernetesConfiguration.KubernetesConfigurationPrivateLinkScope",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KubernetesConfigurationPrivateLinkScopeProperties:interface": "Microsoft.KubernetesConfiguration.KubernetesConfigurationPrivateLinkScopeProperties",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!TagsResource:interface": "Microsoft.KubernetesConfiguration.TagsResource",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KubernetesConfigurationPrivateLinkScopeListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KnownPrivateEndpointServiceConnectionStatus:enum": "Azure.ResourceManager.CommonTypes.PrivateEndpointServiceConnectionStatus",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KnownPrivateEndpointConnectionProvisioningState:enum": "Azure.ResourceManager.CommonTypes.PrivateEndpointConnectionProvisioningState",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KnownPublicNetworkAccessType:enum": "Microsoft.KubernetesConfiguration.PublicNetworkAccessType",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KnownProvisioningState:enum": "Microsoft.KubernetesConfiguration.ProvisioningState",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!KnownVersions:enum": "Microsoft.KubernetesConfiguration.Versions",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkScopesOperations#list:member": "Microsoft.KubernetesConfiguration.KubernetesConfigurationPrivateLinkScopes.list",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkScopesOperations#listByResourceGroup:member": "Microsoft.KubernetesConfiguration.KubernetesConfigurationPrivateLinkScopes.listByResourceGroup",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkScopesOperations#delete:member": "Microsoft.KubernetesConfiguration.KubernetesConfigurationPrivateLinkScopes.delete",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkScopesOperations#updateTags:member": "Microsoft.KubernetesConfiguration.KubernetesConfigurationPrivateLinkScopes.updateTags",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkScopesOperations#createOrUpdate:member": "Microsoft.KubernetesConfiguration.KubernetesConfigurationPrivateLinkScopes.createOrUpdate",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkScopesOperations#get:member": "Microsoft.KubernetesConfiguration.KubernetesConfigurationPrivateLinkScopes.get",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateEndpointConnectionsOperations#listByPrivateLinkScope:member": "Microsoft.KubernetesConfiguration.PrivateEndpointConnections.listByPrivateLinkScope",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateEndpointConnectionsOperations#delete:member": "Microsoft.KubernetesConfiguration.PrivateEndpointConnections.delete",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateEndpointConnectionsOperations#createOrUpdate:member": "Microsoft.KubernetesConfiguration.PrivateEndpointConnections.createOrUpdate",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateEndpointConnectionsOperations#get:member": "Microsoft.KubernetesConfiguration.PrivateEndpointConnections.get",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkResourcesOperations#listByPrivateLinkScope:member": "Microsoft.KubernetesConfiguration.PrivateLinkResources.listByPrivateLinkScope",
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes!PrivateLinkResourcesOperations#get:member": "Microsoft.KubernetesConfiguration.PrivateLinkResources.get"
+    }
+  }
+}

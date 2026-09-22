@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ChatMessageReceivedEvent,
   ChatThreadPropertiesUpdatedEvent,
   ParticipantsAddedEvent,
@@ -22,7 +22,7 @@ type ChatEventId =
   | "realTimeNotificationConnected"
   | "realTimeNotificationDisconnected";
 
-export {
+export type {
   ChatEventId,
   ChatMessageReceivedEvent,
   ChatThreadPropertiesUpdatedEvent,

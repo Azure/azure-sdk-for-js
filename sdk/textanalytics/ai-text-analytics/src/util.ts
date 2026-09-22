@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
+// Re-export delay from core-util for convenience
+export { delay } from "@azure/core-util";
 import { logger } from "./logger.js";
 import type {
   ErrorResponse,
@@ -250,16 +252,6 @@ export async function throwError<T>(p: Promise<T>): Promise<T> {
   } catch (e: unknown) {
     throw transformError(e);
   }
-}
-
-/**
- * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @internal
- * @param timeInMs - The number of milliseconds to be delayed.
- * @returns Resolved promise
- */
-export function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
 /**

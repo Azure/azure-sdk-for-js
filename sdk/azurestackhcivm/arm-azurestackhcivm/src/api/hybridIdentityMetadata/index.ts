@@ -3,6 +3,6 @@
 
 export { listByVirtualMachineInstance, get } from "./operations.js";
 export {
-  HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
-  HybridIdentityMetadataGetOptionalParams,
+  type HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
+  type HybridIdentityMetadataGetOptionalParams,
 } from "./options.js";

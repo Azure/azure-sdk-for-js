@@ -14,9 +14,7 @@ export function _getSend(
   resourceGroupName: string,
   vaultName: string,
   operationId: string,
-  options: BackupVaultOperationResultsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupVaultOperationResultsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/operationResults/{operationId}{?api%2Dversion}",
@@ -25,7 +23,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -33,19 +31,25 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<BackupVaultResource> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<BackupVaultResource | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return backupVaultResourceDeserializer(result.body);
@@ -57,10 +61,8 @@ export async function get(
   resourceGroupName: string,
   vaultName: string,
   operationId: string,
-  options: BackupVaultOperationResultsGetOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<BackupVaultResource | null> {
+  options: BackupVaultOperationResultsGetOptionalParams = { requestOptions: {} },
+): Promise<BackupVaultResource | void> {
   const result = await _getSend(context, resourceGroupName, vaultName, operationId, options);
   return _getDeserialize(result);
 }

@@ -1,30 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   CertificateItem,
   CertificateAttributes,
-  KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
   KeyVaultError,
   ErrorModel,
   DeletedCertificateBundle,
   CertificatePolicy,
   KeyProperties,
-  KnownJsonWebKeyType,
   JsonWebKeyType,
-  KnownJsonWebKeyCurveName,
   JsonWebKeyCurveName,
   SecretProperties,
   X509CertificateProperties,
   SubjectAlternativeNames,
-  KnownKeyUsageType,
   KeyUsageType,
   LifetimeAction,
   Trigger,
   Action,
   CertificatePolicyAction,
   IssuerParameters,
+  PlatformManaged,
   Contacts,
   Contact,
   CertificateIssuerItem,
@@ -45,5 +42,11 @@ export {
   BackupCertificateResult,
   CertificateRestoreParameters,
   DeletedCertificateItem,
+} from "./models.js";
+export {
+  KnownDeletionRecoveryLevel,
+  KnownJsonWebKeyType,
+  KnownJsonWebKeyCurveName,
+  KnownKeyUsageType,
   KnownVersions,
 } from "./models.js";

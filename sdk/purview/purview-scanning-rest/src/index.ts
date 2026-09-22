@@ -4,13 +4,14 @@
 import PurviewScanningRestClient from "./purviewScanningRestClient.js";
 
 export * from "./purviewScanningRestClient.js";
-export * from "./parameters.js";
-export * from "./responses.js";
-export * from "./clientDefinitions.js";
+export type * from "./parameters.js";
+export type * from "./responses.js";
+export type * from "./clientDefinitions.js";
 export * from "./isUnexpected.js";
-export * from "./models.js";
-export * from "./outputModels.js";
+export type * from "./models.js";
+export type * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export * from "./pollingHelper.js";
 
 export default PurviewScanningRestClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

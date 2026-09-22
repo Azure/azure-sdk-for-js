@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  IConfigApiReport,
+  IConfigDocModel,
+  IConfigFile,
+  ExtractorMessage,
+  ExtractorResult,
+} from "@microsoft/api-extractor";
 import {
   Extractor,
   ExtractorConfig,
   ExtractorLogLevel,
-  IConfigApiReport,
-  IConfigDocModel,
-  IConfigFile,
   ConsoleMessageId,
-  ExtractorMessage,
 } from "@microsoft/api-extractor";
 import { createTwoFilesPatch, parsePatch } from "diff";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { createPrinter } from "../../util/printer";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { createPrinter } from "../../util/printer.ts";
 import path from "node:path";
 import { readFile, writeFile, unlink, mkdir, rm, stat } from "node:fs/promises";
-import { ProjectInfo, resolveProject } from "../../util/resolveProject";
+import type { ProjectInfo } from "../../util/resolveProject.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
 import { existsSync } from "node:fs";
 
 export const commandInfo = makeCommandInfo(
@@ -43,13 +47,21 @@ interface RuntimeApiFiles {
 }
 
 async function getTsconfigFile(projectPath: string, runtime: string): Promise<string> {
-  const tsconfigPath = path.join(projectPath, `tsconfig.src.${runtime}.json`);
+  // For "node" runtime use "esm" (there are no tsconfig.src.node.json files);
+  // for other runtimes use the runtime name directly.
+  const name = runtime === "node" ? "tsconfig.src.esm.json" : `tsconfig.src.${runtime}.json`;
+
+  // 1. Try runtime-specific tsconfig in the config/ subdirectory
+  const candidate = path.join(projectPath, "config", name);
   try {
-    await stat(tsconfigPath);
-    return tsconfigPath;
+    await stat(candidate);
+    return candidate;
   } catch {
-    return path.join(projectPath, `tsconfig.src.json`);
+    // not found, fall back
   }
+
+  // 2. Fall back to generic tsconfig.src.json in the package directory
+  return path.join(projectPath, `tsconfig.src.json`);
 }
 
 interface ApiJson {
@@ -69,16 +81,19 @@ interface ApiJson {
 }
 
 async function buildExportConfiguration(
-  packageJson: { exports: Record<string, Record<string, { types: string }>> },
+  packageJson: { exports: Record<string, Record<string, { types: string }>>; name: string },
   projectRoot: string,
 ): Promise<ExportEntry[] | undefined> {
   const exports = packageJson.exports;
   if (!exports) return undefined;
 
   const exportEntries: ExportEntry[] = [];
+  const isManagement = isManagementPackage(packageJson.name);
   for (const [pathKey, entry] of Object.entries(exports)) {
     if (pathKey === "./package.json") continue;
     const isMainExport = pathKey === ".";
+    // Skip subpath exports for management packages
+    if (isManagement && !isMainExport) continue;
     const baseName = isMainExport ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-");
     const common = {
       path: pathKey,
@@ -129,7 +144,7 @@ function extractApi(
   configObject: IConfigFile,
   configObjectFullPath: string,
   packageJsonFullPath: string,
-): boolean {
+): ExtractorResult {
   const config = ExtractorConfig.prepare({
     configObject,
     configObjectFullPath,
@@ -146,7 +161,7 @@ function extractApi(
       `API Extractor completed with ${result.errorCount} errors and ${result.warningCount} warnings`,
     );
   }
-  return result.succeeded;
+  return result;
 }
 
 function createApiDiff(
@@ -251,7 +266,14 @@ async function extractApiForEntry(
     };
   }
 
-  extractApi(newConfig, configPath, pkgPath);
+  const extractResult = extractApi(newConfig, configPath, pkgPath);
+  if (!extractResult.succeeded) {
+    throw new Error(
+      `API Extractor failed for entry '${createNameWithRuntime(entry)}' ` +
+        `(mainEntryPoint: ${entry.mainEntryPointFilePath}) with ${extractResult.errorCount} errors ` +
+        `and ${extractResult.warningCount} warnings. Expected report at ${tempReportPath}.`,
+    );
+  }
 
   const content = await readFile(tempReportPath, "utf-8");
   await unlink(tempReportPath);
@@ -270,7 +292,9 @@ async function writeRuntimeApiFiles(
       const isNodeRuntime = runtime === "node";
       const filename = `${packageName}${pathSuffix}-${runtime}${isNodeRuntime ? ".api.md" : ".api.diff.md"}`;
       const filePath = path.join(reviewDirPath, filename);
-      await writeFile(filePath, content);
+      await withFsRetry(`writing ${runtime} API review file ${filePath}`, () =>
+        writeFile(filePath, content),
+      );
       log.info(`Written ${runtime} API ${isNodeRuntime ? "file" : "diff"} to ${filename}`);
     }
   }
@@ -278,6 +302,34 @@ async function writeRuntimeApiFiles(
 
 function getUnscopedPackageName(packageName: string): string {
   return packageName.includes("/") ? packageName.split("/")[1] : packageName;
+}
+
+function isManagementPackage(packageName: string): boolean {
+  return packageName.includes("/arm-");
+}
+
+const TRANSIENT_FS_CODES = new Set(["EBUSY", "EPERM", "EMFILE", "EAGAIN", "UNKNOWN"]);
+
+async function withFsRetry<T>(
+  description: string,
+  op: () => Promise<T>,
+  attempts = 4,
+  baseDelayMs = 150,
+): Promise<T> {
+  let lastErr: unknown;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      return await op();
+    } catch (err) {
+      lastErr = err;
+      const code = (err as NodeJS.ErrnoException)?.code;
+      if (i === attempts || !code || !TRANSIENT_FS_CODES.has(code)) break;
+      log.warn(`${description} failed (attempt ${i}/${attempts}) with ${code}; retrying...`);
+      await new Promise((r) => globalThis.setTimeout(r, baseDelayMs * i));
+    }
+  }
+  const code = (lastErr as NodeJS.ErrnoException)?.code ?? "unknown error";
+  throw new Error(`${description} failed after ${attempts} attempts (${code})`, { cause: lastErr });
 }
 
 async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
@@ -290,6 +342,7 @@ async function buildMergedApiJson(
   reportTempDir: string,
   exports: ExportEntry[],
   dependencies: Record<string, string>,
+  version: string,
   useMerged: boolean = false,
 ): Promise<string | undefined> {
   const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
@@ -307,9 +360,11 @@ async function buildMergedApiJson(
     return;
   }
 
-  const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
+  const apiJson = await withFsRetry(`reading API JSON ${mainApiJsonPath}`, () =>
+    loadApiJsonForSubPath(mainApiJsonPath),
+  );
   apiJson.metadata.dependencies = dependencies;
-
+  apiJson.metadata.version = version;
   for (const subpath of exports) {
     if (!subpath.isSubpath || subpath.runtime !== mainNodeExport.runtime) continue;
     const nameWithRuntime = createNameWithRuntime(subpath);
@@ -320,7 +375,9 @@ async function buildMergedApiJson(
     }
 
     log.debug(`loading api package for "${nameWithRuntime}"`);
-    const subpathApiJson = await loadApiJsonForSubPath(p);
+    const subpathApiJson = await withFsRetry(`reading API JSON ${p}`, () =>
+      loadApiJsonForSubPath(p),
+    );
     const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
     if (!entryPoint) {
       log.debug(`No EntryPoint found in ${p}`);
@@ -330,14 +387,16 @@ async function buildMergedApiJson(
     entryPoint.canonicalReference = `${entryPoint.canonicalReference}/${subpath.baseName}`;
     apiJson.members.push(entryPoint);
     log.debug(`deleting ${p} after merging its entrypoint`);
-    await unlink(p);
+    await withFsRetry(`removing merged subpath temp file ${p}`, () => unlink(p));
   }
 
   const augmentedApiJsonPath = useMerged
     ? mainApiJsonPath
     : mainApiJsonPath.replace(".api.json", `.augmented.json`);
   log.info(`writing merged api to ${augmentedApiJsonPath}`);
-  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
+  await withFsRetry(`writing merged API JSON to ${augmentedApiJsonPath}`, () =>
+    writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2)),
+  );
   return augmentedApiJsonPath;
 }
 
@@ -396,21 +455,32 @@ export default leafCommand(commandInfo, async () => {
       }
     }
     const unscoped = getUnscopedPackageName(projectInfo.name);
-    await writeRuntimeApiFiles(runtimeApiFiles, reviewDir, unscoped);
+    try {
+      await writeRuntimeApiFiles(runtimeApiFiles, reviewDir, unscoped);
+    } catch (err) {
+      log.error(`[extract-api] Failed to write API review files for ${projectInfo.name}:`, err);
+      success = false;
+    }
 
     if (baseConfig.docModel?.enabled) {
       const reportTempDir = path.join(projectInfo.path, "temp");
       const nodeExports = exports.filter((e) => e.runtime === "node");
-      await buildMergedApiJson(
-        unscoped,
-        reportTempDir,
-        nodeExports,
-        pkgJson["dependencies"] || {},
-        true,
-      );
+      try {
+        await buildMergedApiJson(
+          unscoped,
+          reportTempDir,
+          nodeExports,
+          pkgJson["dependencies"] || {},
+          pkgJson["version"],
+          true,
+        );
+      } catch (err) {
+        log.error(`[extract-api] Failed to build merged API JSON for ${projectInfo.name}:`, err);
+        success = false;
+      }
     }
   } else {
-    success = extractApi(baseConfig, configPath, pkgPath);
+    success = extractApi(baseConfig, configPath, pkgPath).succeeded;
   }
 
   return success;

@@ -81,7 +81,7 @@ export interface BearerTokenCredential {
 
 // @public
 export interface BodyPart {
-    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    body: ((() => WebReadableStream<Uint8Array>) | (() => NodeReadableStream)) | WebReadableStream<Uint8Array> | NodeReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
 
@@ -114,6 +114,7 @@ export type ClientOptions = PipelineOptions & {
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
     pipeline?: Pipeline;
+    internal?: InternalClientOptions;
 };
 
 // @public
@@ -183,7 +184,7 @@ export interface GetOAuth2TokenOptions {
 
 // @public
 export type HttpBrowserStreamResponse = HttpResponse & {
-    body?: ReadableStream<Uint8Array>;
+    body?: WebReadableStream<Uint8Array>;
 };
 
 // @public
@@ -207,7 +208,7 @@ export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" |
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
-    body?: NodeJS.ReadableStream;
+    body?: NodeReadableStream;
 };
 
 // @public
@@ -227,12 +228,17 @@ export interface ImplicitFlow {
 }
 
 // @public
+export interface InternalClientOptions {
+    noDefaultAcceptHeader?: boolean;
+}
+
+// @public
 export function isRestError(e: unknown): e is RestError;
 
 // @public
 export interface KeyObject {
     passphrase?: string | undefined;
-    pem: string | Buffer;
+    pem: string | NodeBuffer;
 }
 
 // @public
@@ -252,6 +258,12 @@ export interface MultipartRequestBody {
 export interface NoAuthAuthScheme {
     kind: "noAuth";
 }
+
+// @public
+export type NodeBuffer = Buffer;
+
+// @public
+export type NodeReadableStream = NodeJS.ReadableStream;
 
 // @public
 export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
@@ -400,9 +412,9 @@ export interface PipelineRequestOptions {
 export interface PipelineResponse {
     blobBody?: Promise<Blob>;
     bodyAsText?: string | null;
-    browserStreamBody?: ReadableStream<Uint8Array>;
+    browserStreamBody?: WebReadableStream<Uint8Array>;
     headers: HttpHeaders;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
     request: PipelineRequest;
     status: number;
 }
@@ -424,7 +436,7 @@ export interface ProxySettings {
 
 // @public
 export interface PxfObject {
-    buf: string | Buffer;
+    buf: string | NodeBuffer;
     passphrase?: string | undefined;
 }
 
@@ -441,11 +453,12 @@ export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: u
 
 // @public
 export interface RedirectPolicyOptions {
+    allowCrossOriginRedirects?: boolean;
     maxRetries?: number;
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeReadableStream | (() => NodeReadableStream) | WebReadableStream<Uint8Array> | (() => WebReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export type RequestParameters = {
@@ -518,11 +531,11 @@ export interface TelemetryOptions {
 
 // @public
 export interface TlsSettings {
-    ca?: string | Buffer | Array<string | Buffer> | undefined;
-    cert?: string | Buffer | Array<string | Buffer> | undefined;
-    key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+    ca?: string | NodeBuffer | Array<string | NodeBuffer> | undefined;
+    cert?: string | NodeBuffer | Array<string | NodeBuffer> | undefined;
+    key?: string | NodeBuffer | Array<NodeBuffer | KeyObject> | undefined;
     passphrase?: string | undefined;
-    pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+    pfx?: string | NodeBuffer | Array<string | NodeBuffer | PxfObject> | undefined;
 }
 
 // @public
@@ -554,6 +567,9 @@ export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): str
 export interface UserAgentPolicyOptions {
     userAgentPrefix?: string;
 }
+
+// @public
+export type WebReadableStream<R = any> = ReadableStream<R>;
 
 // (No @packageDocumentation comment for this package)
 

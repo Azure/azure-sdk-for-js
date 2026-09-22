@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { generateUpdateRun } from "./operations.js";
-export { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";
+export type { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";

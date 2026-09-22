@@ -8,10 +8,12 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -318,6 +320,8 @@ export type GetPage<TPage> = (pageLink: string) => Promise<{
     nextPageLink?: string;
 }>;
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: GetMetric200Response | GetMetricDefaultResponse): response is GetMetricDefaultResponse;
 
@@ -454,7 +458,7 @@ export interface ObservedEventOutput {
 // Warning: (ae-forgotten-export) The symbol "OnlineExperimentationClient_2" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function OnlineExperimentationClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: OnlineExperimentationClientOptions): OnlineExperimentationClient_2;
+export function OnlineExperimentationClient(endpointParam: string, credentials: TokenCredential, input?: OnlineExperimentationClientOptions): OnlineExperimentationClient_2;
 
 // @public
 export interface OnlineExperimentationClientOptions extends ClientOptions {
@@ -507,6 +511,8 @@ export interface PercentileMetricDefinitionOutput extends ExperimentMetricDefini
     type: "Percentile";
     value: AggregatedValueOutput;
 }
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

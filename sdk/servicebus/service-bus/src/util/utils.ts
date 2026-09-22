@@ -514,11 +514,7 @@ export type EntityStatus =
  * Possible values for `availabilityStatus` of the Service Bus messaging entities.
  */
 export type EntityAvailabilityStatus =
-  | "Available"
-  | "Limited"
-  | "Renaming"
-  | "Restoring"
-  | "Unknown";
+  "Available" | "Limited" | "Renaming" | "Restoring" | "Unknown";
 
 /**
  * @internal
@@ -641,7 +637,7 @@ export const getHttpResponseOnly = (pipelineResponse: PipelineResponse): HttpRes
  * @internal
  * Type with the service versions for the ATOM API.
  */
-export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";
+export type ServiceBusAtomAPIVersion = "2024-05" | "2021-05" | "2017-04";
 
 /**
  * @internal

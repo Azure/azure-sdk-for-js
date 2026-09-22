@@ -1,3 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Serialized sample App Configuration KeyValueModified event payload.
+ * @azsdk-weight 20
+ */
 export const appConfigTestEvent: string = JSON.stringify({
   id: "deb8e00d-8c64-4b6e-9cab-282259c7674f",
   topic:

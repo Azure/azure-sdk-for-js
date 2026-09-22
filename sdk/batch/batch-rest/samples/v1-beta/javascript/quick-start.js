@@ -8,10 +8,7 @@
 const createClient = require("@azure-rest/batch").default,
   { isUnexpected, paginate } = require("@azure-rest/batch");
 const { DefaultAzureCredential } = require("@azure/identity");
-
-// Load the .env file if it exists
-// eslint-disable-next-line import/no-extraneous-dependencies
-require("dotenv").config();
+require("dotenv/config");
 
 const batchAccountEndpoint = process.env["BATCH_ACCOUNT_ENDPOINT"] || "<batch account endpoint>";
 const poolName = "samplepool";

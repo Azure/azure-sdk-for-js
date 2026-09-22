@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Storage Movers in a resource group.
  *
  * @summary lists all Storage Movers in a resource group.
- * x-ms-original-file: 2025-07-01/StorageMovers_List.json
+ * x-ms-original-file: 2025-12-01/StorageMovers_List.json
  */
 async function storageMoversList() {
   const credential = new DefaultAzureCredential();

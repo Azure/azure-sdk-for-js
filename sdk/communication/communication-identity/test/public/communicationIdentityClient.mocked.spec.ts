@@ -6,7 +6,6 @@ import { isCommunicationUserIdentifier } from "@azure/communication-common";
 import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mockHttpClients.js";
 import { CommunicationIdentityClient } from "../../src/index.js";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient.js";
-import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 describe("CommunicationIdentityClient [Mocked]", () => {
@@ -33,9 +32,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
 
     const request = spy.mock.calls[0][0];
 
-    if (isNodeLike) {
-      assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
-    }
+    assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
 
     assert.typeOf(request.headers.get(dateHeader), "string");
     assert.isDefined(request.headers.get("authorization"));

@@ -481,6 +481,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
 // @public
 export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     clientId?: string;
+    enableAzureProxy?: boolean;
     tenantId?: string;
     tokenFilePath?: string;
 }

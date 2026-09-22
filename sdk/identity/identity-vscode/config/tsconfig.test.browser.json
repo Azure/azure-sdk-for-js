@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity-vscode": ["../dist/browser/index.d.ts"],
+      "@azure/identity-vscode/*": ["../dist/browser/*"],
+      "$internal/*": ["../dist/browser/*"]
+    }
+  },
+  "include": ["../test"]
+}

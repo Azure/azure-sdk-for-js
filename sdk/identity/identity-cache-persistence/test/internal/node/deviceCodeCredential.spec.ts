@@ -35,130 +35,120 @@ describe("DeviceCodeCredential (internal)", () => {
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async (ctx) => {
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
+  // OSX asks for passwords on CI, so we need to skip these tests from our automation
+  // These tests should not run live because this credential requires user interaction.
+  it.skipIf(process.platform === "darwin" || isLiveMode())(
+    "Accepts tokenCachePersistenceOptions",
+    async (ctx) => {
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        enabled: true,
+        name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
+        unsafeAllowUnencryptedStorage: true,
+      };
 
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      enabled: true,
-      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true,
-    };
+      // Emptying the token cache before we start.
+      const persistence = await createPersistence(tokenCachePersistenceOptions);
+      persistence?.save("{}");
 
-    // Emptying the token cache before we start.
-    const persistence = await createPersistence(tokenCachePersistenceOptions);
-    persistence?.save("{}");
+      const credential = new DeviceCodeCredential(
+        recorder.configureClientOptions({
+          tokenCachePersistenceOptions,
+        }),
+      );
 
-    const credential = new DeviceCodeCredential(
-      recorder.configureClientOptions({
-        tokenCachePersistenceOptions,
-      }),
-    );
+      await credential.getToken(scope);
+      const result = await persistence?.load();
+      const parsedResult = JSON.parse(result!);
+      assert.isDefined(parsedResult.AccessToken);
+    },
+  );
 
-    await credential.getToken(scope);
-    const result = await persistence?.load();
-    const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
-  });
+  it.skipIf(process.platform === "darwin" || isLiveMode())(
+    "Authenticates silently with tokenCachePersistenceOptions",
+    async (ctx) => {
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
+      // These tests should not run live because this credential requires user interaction.
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        enabled: true,
+        name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
+        unsafeAllowUnencryptedStorage: true,
+      };
 
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      enabled: true,
-      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true,
-    };
+      // Emptying the token cache before we start.
+      const persistence = await createPersistence(tokenCachePersistenceOptions);
+      persistence?.save("{}");
 
-    // Emptying the token cache before we start.
-    const persistence = await createPersistence(tokenCachePersistenceOptions);
-    persistence?.save("{}");
+      const credential = new DeviceCodeCredential(
+        recorder.configureClientOptions({
+          tokenCachePersistenceOptions,
+        }),
+      );
 
-    const credential = new DeviceCodeCredential(
-      recorder.configureClientOptions({
-        tokenCachePersistenceOptions,
-      }),
-    );
+      await credential.getToken(scope);
+      expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
+      expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
-    await credential.getToken(scope);
-    expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
-    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
+      // The cache should have a token a this point
+      const result = await persistence?.load();
+      const parsedResult = JSON.parse(result!);
+      assert.isDefined(parsedResult.AccessToken);
 
-    // The cache should have a token a this point
-    const result = await persistence?.load();
-    const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+      await credential.getToken(scope);
+      expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
+      expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
+    },
+  );
 
-    await credential.getToken(scope);
-    expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
-    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
-  });
+  it.skipIf(process.platform === "darwin" || isLiveMode())(
+    "allows passing an authenticationRecord to avoid further manual authentications",
+    async (ctx) => {
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
+      // These tests should not run live because this credential requires user interaction.
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        enabled: true,
+        name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
+        unsafeAllowUnencryptedStorage: true,
+      };
 
-  it("allows passing an authenticationRecord to avoid further manual authentications", async (ctx) => {
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      ctx.skip();
-    }
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      enabled: true,
-      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true,
-    };
+      // Emptying the token cache before we start.
+      const persistence = await createPersistence(tokenCachePersistenceOptions);
+      persistence?.save("{}");
 
-    // Emptying the token cache before we start.
-    const persistence = await createPersistence(tokenCachePersistenceOptions);
-    persistence?.save("{}");
+      const credential = new DeviceCodeCredential(
+        recorder.configureClientOptions({
+          // To be able to re-use the account, the Token Cache must also have been provided.
+          // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
+          tokenCachePersistenceOptions,
+        }),
+      );
 
-    const credential = new DeviceCodeCredential(
-      recorder.configureClientOptions({
-        // To be able to re-use the account, the Token Cache must also have been provided.
-        // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
-        tokenCachePersistenceOptions,
-      }),
-    );
+      const account = await credential.authenticate(scope);
+      assert.isDefined(account);
+      expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
+      expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
-    const account = await credential.authenticate(scope);
-    assert.ok(account);
-    expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
-    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
+      const credential2 = new DeviceCodeCredential(
+        recorder.configureClientOptions({
+          authenticationRecord: account,
+          // To be able to re-use the account, the Token Cache must also have been provided.
+          // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
+          tokenCachePersistenceOptions,
+        }),
+      );
 
-    const credential2 = new DeviceCodeCredential(
-      recorder.configureClientOptions({
-        authenticationRecord: account,
-        // To be able to re-use the account, the Token Cache must also have been provided.
-        // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
-        tokenCachePersistenceOptions,
-      }),
-    );
+      // The cache should have a token a this point
+      const result = await persistence?.load();
+      const parsedResult = JSON.parse(result!);
+      assert.isDefined(parsedResult.AccessToken);
 
-    // The cache should have a token a this point
-    const result = await persistence?.load();
-    const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+      const token = await credential2.getToken(scope);
+      assert.isDefined(token?.token);
+      assert.isTrue(token?.expiresOnTimestamp! > Date.now());
+      expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
 
-    const token = await credential2.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
-    expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
-
-    // Resolved with issue - https://github.com/Azure/azure-sdk-for-js/issues/24349
-    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
-  });
+      // Resolved with issue - https://github.com/Azure/azure-sdk-for-js/issues/24349
+      expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
+    },
+  );
 });

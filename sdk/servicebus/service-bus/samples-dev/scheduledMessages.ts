@@ -56,12 +56,10 @@ async function sendScheduledMessages(sbClient: ServiceBusClient): Promise<void> 
   // createSender() handles sending to a queue or a topic
   const sender = sbClient.createSender(queueName);
 
-  const messages: ServiceBusMessage[] = listOfScientists.map(
-    (scientist): ServiceBusMessage => ({
-      body: `${scientist.firstName} ${scientist.lastName}`,
-      subject: "Scientist",
-    }),
-  );
+  const messages: ServiceBusMessage[] = listOfScientists.map((scientist): ServiceBusMessage => ({
+    body: `${scientist.firstName} ${scientist.lastName}`,
+    subject: "Scientist",
+  }));
 
   const timeNowUtc = new Date(Date.now());
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
@@ -103,7 +101,7 @@ async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
 
   queueReceiver = sbClient.createReceiver(queueName);
 
-  await queueReceiver.subscribe({
+  queueReceiver.subscribe({
     processMessage,
     processError,
   });

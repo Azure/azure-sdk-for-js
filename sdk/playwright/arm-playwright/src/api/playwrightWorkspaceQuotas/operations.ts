@@ -1,30 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { PlaywrightManagementContext as Client } from "../index.js";
+import type {
   QuotaName,
   PlaywrightWorkspaceQuota,
-  playwrightWorkspaceQuotaDeserializer,
   _PlaywrightWorkspaceQuotaListResult,
-  _playwrightWorkspaceQuotaListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  playwrightWorkspaceQuotaDeserializer,
+  _playwrightWorkspaceQuotaListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
   PlaywrightWorkspaceQuotasGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByPlaywrightWorkspaceSend(
   context: Client,
@@ -40,7 +36,7 @@ export function _listByPlaywrightWorkspaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       playwrightWorkspaceName: playwrightWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,10 +44,7 @@ export function _listByPlaywrightWorkspaceSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -62,6 +55,7 @@ export async function _listByPlaywrightWorkspaceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -83,7 +77,11 @@ export function listByPlaywrightWorkspace(
       _listByPlaywrightWorkspaceSend(context, resourceGroupName, playwrightWorkspaceName, options),
     _listByPlaywrightWorkspaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    },
   );
 }
 
@@ -101,7 +99,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       playwrightWorkspaceName: playwrightWorkspaceName,
       quotaName: quotaName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,10 +107,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -123,6 +118,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

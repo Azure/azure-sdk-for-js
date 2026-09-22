@@ -1,77 +1,81 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ComputeScheduleContext as Client } from "../index.js";
+import type {
   SubmitDeallocateRequest,
-  submitDeallocateRequestSerializer,
   DeallocateResourceOperationResponse,
-  deallocateResourceOperationResponseDeserializer,
   SubmitHibernateRequest,
-  submitHibernateRequestSerializer,
   HibernateResourceOperationResponse,
-  hibernateResourceOperationResponseDeserializer,
   SubmitStartRequest,
-  submitStartRequestSerializer,
   StartResourceOperationResponse,
-  startResourceOperationResponseDeserializer,
   ExecuteDeallocateRequest,
-  executeDeallocateRequestSerializer,
   ExecuteHibernateRequest,
-  executeHibernateRequestSerializer,
   ExecuteStartRequest,
-  executeStartRequestSerializer,
+  ExecuteCreateFlexRequest,
+  CreateFlexResourceOperationResponse,
   ExecuteCreateRequest,
-  executeCreateRequestSerializer,
   CreateResourceOperationResponse,
-  createResourceOperationResponseDeserializer,
   ExecuteDeleteRequest,
-  executeDeleteRequestSerializer,
   DeleteResourceOperationResponse,
-  deleteResourceOperationResponseDeserializer,
   GetOperationStatusRequest,
-  getOperationStatusRequestSerializer,
   GetOperationStatusResponse,
-  getOperationStatusResponseDeserializer,
   CancelOperationsRequest,
-  cancelOperationsRequestSerializer,
   CancelOperationsResponse,
-  cancelOperationsResponseDeserializer,
   GetOperationErrorsRequest,
-  getOperationErrorsRequestSerializer,
   GetOperationErrorsResponse,
-  getOperationErrorsResponseDeserializer,
   ScheduledAction,
-  scheduledActionSerializer,
-  scheduledActionDeserializer,
   ScheduledActionUpdate,
-  scheduledActionUpdateSerializer,
   _ScheduledActionListResult,
-  _scheduledActionListResultDeserializer,
   _ResourceListResponse,
-  _resourceListResponseDeserializer,
   ScheduledActionResource,
-  ResourceAttachRequest,
-  resourceAttachRequestSerializer,
+  ResourceAttachRequestInput,
   RecurringActionsResourceOperationResult,
-  recurringActionsResourceOperationResultDeserializer,
   ResourceDetachRequest,
-  resourceDetachRequestSerializer,
-  ResourcePatchRequest,
-  resourcePatchRequestSerializer,
+  ResourcePatchRequestInput,
   CancelOccurrenceRequest,
-  cancelOccurrenceRequestSerializer,
   Occurrence,
-  occurrenceDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  submitDeallocateRequestSerializer,
+  deallocateResourceOperationResponseDeserializer,
+  submitHibernateRequestSerializer,
+  hibernateResourceOperationResponseDeserializer,
+  submitStartRequestSerializer,
+  startResourceOperationResponseDeserializer,
+  executeDeallocateRequestSerializer,
+  executeHibernateRequestSerializer,
+  executeStartRequestSerializer,
+  executeCreateFlexRequestSerializer,
+  createFlexResourceOperationResponseDeserializer,
+  executeCreateRequestSerializer,
+  createResourceOperationResponseDeserializer,
+  executeDeleteRequestSerializer,
+  deleteResourceOperationResponseDeserializer,
+  getOperationStatusRequestSerializer,
+  getOperationStatusResponseDeserializer,
+  cancelOperationsRequestSerializer,
+  cancelOperationsResponseDeserializer,
+  getOperationErrorsRequestSerializer,
+  getOperationErrorsResponseDeserializer,
+  scheduledActionSerializer,
+  scheduledActionDeserializer,
+  scheduledActionUpdateSerializer,
+  _scheduledActionListResultDeserializer,
+  _resourceListResponseDeserializer,
+  resourceAttachRequestInputSerializer,
+  recurringActionsResourceOperationResultDeserializer,
+  resourceDetachRequestSerializer,
+  resourcePatchRequestInputSerializer,
+  cancelOccurrenceRequestSerializer,
+  occurrenceDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ScheduledActionsCancelNextOccurrenceOptionalParams,
   ScheduledActionsEnableOptionalParams,
@@ -91,6 +95,7 @@ import {
   ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
   ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams,
   ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
   ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
@@ -98,21 +103,15 @@ import {
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _triggerManualOccurrenceSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  options: ScheduledActionsTriggerManualOccurrenceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsTriggerManualOccurrenceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ComputeSchedule/scheduledActions/{scheduledActionName}/triggerManualOccurrence{?api%2Dversion}",
@@ -120,7 +119,7 @@ export function _triggerManualOccurrenceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,10 +127,7 @@ export function _triggerManualOccurrenceSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -142,6 +138,7 @@ export async function _triggerManualOccurrenceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -153,9 +150,7 @@ export async function triggerManualOccurrence(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  options: ScheduledActionsTriggerManualOccurrenceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsTriggerManualOccurrenceOptionalParams = { requestOptions: {} },
 ): Promise<Occurrence> {
   const result = await _triggerManualOccurrenceSend(
     context,
@@ -171,9 +166,7 @@ export function _cancelNextOccurrenceSend(
   resourceGroupName: string,
   scheduledActionName: string,
   body: CancelOccurrenceRequest,
-  options: ScheduledActionsCancelNextOccurrenceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsCancelNextOccurrenceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ComputeSchedule/scheduledActions/{scheduledActionName}/cancelNextOccurrence{?api%2Dversion}",
@@ -181,7 +174,7 @@ export function _cancelNextOccurrenceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,10 +183,7 @@ export function _cancelNextOccurrenceSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cancelOccurrenceRequestSerializer(body),
   });
 }
@@ -205,6 +195,7 @@ export async function _cancelNextOccurrenceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -217,9 +208,7 @@ export async function cancelNextOccurrence(
   resourceGroupName: string,
   scheduledActionName: string,
   body: CancelOccurrenceRequest,
-  options: ScheduledActionsCancelNextOccurrenceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsCancelNextOccurrenceOptionalParams = { requestOptions: {} },
 ): Promise<RecurringActionsResourceOperationResult> {
   const result = await _cancelNextOccurrenceSend(
     context,
@@ -243,19 +232,13 @@ export function _enableSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _enableDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -263,6 +246,7 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -292,19 +276,13 @@ export function _disableSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _disableDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -312,6 +290,7 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -333,10 +312,8 @@ export function _patchResourcesSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourcePatchRequest,
-  options: ScheduledActionsPatchResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  body: ResourcePatchRequestInput,
+  options: ScheduledActionsPatchResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ComputeSchedule/scheduledActions/{scheduledActionName}/patchResources{?api%2Dversion}",
@@ -344,7 +321,7 @@ export function _patchResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -353,11 +330,8 @@ export function _patchResourcesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: resourcePatchRequestSerializer(body),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: resourcePatchRequestInputSerializer(body),
   });
 }
 
@@ -368,6 +342,7 @@ export async function _patchResourcesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -379,10 +354,8 @@ export async function patchResources(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourcePatchRequest,
-  options: ScheduledActionsPatchResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  body: ResourcePatchRequestInput,
+  options: ScheduledActionsPatchResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RecurringActionsResourceOperationResult> {
   const result = await _patchResourcesSend(
     context,
@@ -399,9 +372,7 @@ export function _detachResourcesSend(
   resourceGroupName: string,
   scheduledActionName: string,
   body: ResourceDetachRequest,
-  options: ScheduledActionsDetachResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsDetachResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ComputeSchedule/scheduledActions/{scheduledActionName}/detachResources{?api%2Dversion}",
@@ -409,7 +380,7 @@ export function _detachResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -418,10 +389,7 @@ export function _detachResourcesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: resourceDetachRequestSerializer(body),
   });
 }
@@ -433,6 +401,7 @@ export async function _detachResourcesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -445,9 +414,7 @@ export async function detachResources(
   resourceGroupName: string,
   scheduledActionName: string,
   body: ResourceDetachRequest,
-  options: ScheduledActionsDetachResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsDetachResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RecurringActionsResourceOperationResult> {
   const result = await _detachResourcesSend(
     context,
@@ -463,10 +430,8 @@ export function _attachResourcesSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourceAttachRequest,
-  options: ScheduledActionsAttachResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  body: ResourceAttachRequestInput,
+  options: ScheduledActionsAttachResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ComputeSchedule/scheduledActions/{scheduledActionName}/attachResources{?api%2Dversion}",
@@ -474,7 +439,7 @@ export function _attachResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -483,11 +448,8 @@ export function _attachResourcesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: resourceAttachRequestSerializer(body),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: resourceAttachRequestInputSerializer(body),
   });
 }
 
@@ -498,6 +460,7 @@ export async function _attachResourcesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -509,10 +472,8 @@ export async function attachResources(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourceAttachRequest,
-  options: ScheduledActionsAttachResourcesOptionalParams = {
-    requestOptions: {},
-  },
+  body: ResourceAttachRequestInput,
+  options: ScheduledActionsAttachResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RecurringActionsResourceOperationResult> {
   const result = await _attachResourcesSend(
     context,
@@ -536,7 +497,7 @@ export function _listResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -544,10 +505,7 @@ export function _listResourcesSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -558,6 +516,7 @@ export async function _listResourcesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -576,21 +535,23 @@ export function listResources(
     () => _listResourcesSend(context, resourceGroupName, scheduledActionName, options),
     _listResourcesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    },
   );
 }
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: ScheduledActionsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/scheduledActions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -598,10 +559,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -612,6 +570,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -621,32 +580,32 @@ export async function _listBySubscriptionDeserialize(
 /** List ScheduledAction resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: ScheduledActionsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduledAction> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: ScheduledActionsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ComputeSchedule/scheduledActions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -654,10 +613,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -668,6 +624,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -678,16 +635,18 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: ScheduledActionsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduledAction> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    },
   );
 }
 
@@ -703,19 +662,13 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -723,6 +676,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -730,11 +684,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a ScheduledAction */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -747,6 +696,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, scheduledActionName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -763,7 +713,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -772,10 +722,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: scheduledActionUpdateSerializer(properties),
   });
 }
@@ -785,6 +732,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -814,9 +762,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   scheduledActionName: string,
   resource: ScheduledAction,
-  options: ScheduledActionsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ComputeSchedule/scheduledActions/{scheduledActionName}{?api%2Dversion}",
@@ -824,7 +770,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -833,10 +779,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: scheduledActionSerializer(resource),
   });
 }
@@ -848,6 +791,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -860,9 +804,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   scheduledActionName: string,
   resource: ScheduledAction,
-  options: ScheduledActionsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ScheduledAction>, ScheduledAction> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -870,6 +812,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, scheduledActionName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<ScheduledAction>, ScheduledAction>;
 }
 
@@ -885,7 +828,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -893,10 +836,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -905,6 +845,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -926,16 +867,14 @@ export function _virtualMachinesGetOperationErrorsSend(
   context: Client,
   locationparameter: string,
   requestBody: GetOperationErrorsRequest,
-  options: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationErrors{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -944,10 +883,7 @@ export function _virtualMachinesGetOperationErrorsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: getOperationErrorsRequestSerializer(requestBody),
   });
 }
@@ -959,6 +895,7 @@ export async function _virtualMachinesGetOperationErrorsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -970,9 +907,7 @@ export async function virtualMachinesGetOperationErrors(
   context: Client,
   locationparameter: string,
   requestBody: GetOperationErrorsRequest,
-  options: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams = { requestOptions: {} },
 ): Promise<GetOperationErrorsResponse> {
   const result = await _virtualMachinesGetOperationErrorsSend(
     context,
@@ -987,16 +922,14 @@ export function _virtualMachinesCancelOperationsSend(
   context: Client,
   locationparameter: string,
   requestBody: CancelOperationsRequest,
-  options: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesCancelOperations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1005,10 +938,7 @@ export function _virtualMachinesCancelOperationsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cancelOperationsRequestSerializer(requestBody),
   });
 }
@@ -1020,6 +950,7 @@ export async function _virtualMachinesCancelOperationsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1031,9 +962,7 @@ export async function virtualMachinesCancelOperations(
   context: Client,
   locationparameter: string,
   requestBody: CancelOperationsRequest,
-  options: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams = { requestOptions: {} },
 ): Promise<CancelOperationsResponse> {
   const result = await _virtualMachinesCancelOperationsSend(
     context,
@@ -1048,16 +977,14 @@ export function _virtualMachinesGetOperationStatusSend(
   context: Client,
   locationparameter: string,
   requestBody: GetOperationStatusRequest,
-  options: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationStatus{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1066,10 +993,7 @@ export function _virtualMachinesGetOperationStatusSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: getOperationStatusRequestSerializer(requestBody),
   });
 }
@@ -1081,6 +1005,7 @@ export async function _virtualMachinesGetOperationStatusDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1092,9 +1017,7 @@ export async function virtualMachinesGetOperationStatus(
   context: Client,
   locationparameter: string,
   requestBody: GetOperationStatusRequest,
-  options: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams = { requestOptions: {} },
 ): Promise<GetOperationStatusResponse> {
   const result = await _virtualMachinesGetOperationStatusSend(
     context,
@@ -1109,16 +1032,14 @@ export function _virtualMachinesExecuteDeleteSend(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteDeleteRequest,
-  options: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteDelete{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1127,10 +1048,7 @@ export function _virtualMachinesExecuteDeleteSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: executeDeleteRequestSerializer(requestBody),
   });
 }
@@ -1142,20 +1060,19 @@ export async function _virtualMachinesExecuteDeleteDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
   return deleteResourceOperationResponseDeserializer(result.body);
 }
 
-/** VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+/** [PRIVATE PREVIEW]: VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
 export async function virtualMachinesExecuteDelete(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteDeleteRequest,
-  options: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteResourceOperationResponse> {
   const result = await _virtualMachinesExecuteDeleteSend(
     context,
@@ -1170,16 +1087,14 @@ export function _virtualMachinesExecuteCreateSend(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteCreateRequest,
-  options: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteCreate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1188,10 +1103,7 @@ export function _virtualMachinesExecuteCreateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: executeCreateRequestSerializer(requestBody),
   });
 }
@@ -1203,20 +1115,19 @@ export async function _virtualMachinesExecuteCreateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
   return createResourceOperationResponseDeserializer(result.body);
 }
 
-/** VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+/** [PRIVATE PREVIEW]: VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
 export async function virtualMachinesExecuteCreate(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteCreateRequest,
-  options: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams = { requestOptions: {} },
 ): Promise<CreateResourceOperationResponse> {
   const result = await _virtualMachinesExecuteCreateSend(
     context,
@@ -1227,20 +1138,18 @@ export async function virtualMachinesExecuteCreate(
   return _virtualMachinesExecuteCreateDeserialize(result);
 }
 
-export function _virtualMachinesExecuteStartSend(
+export function _virtualMachinesExecuteCreateFlexSend(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteStartRequest,
-  options: ScheduledActionsVirtualMachinesExecuteStartOptionalParams = {
-    requestOptions: {},
-  },
+  body: ExecuteCreateFlexRequest,
+  options: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteStart{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteCreateFlex{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1249,10 +1158,62 @@ export function _virtualMachinesExecuteStartSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: executeCreateFlexRequestSerializer(body),
+  });
+}
+
+export async function _virtualMachinesExecuteCreateFlexDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CreateFlexResourceOperationResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return createFlexResourceOperationResponseDeserializer(result.body);
+}
+
+/** VirtualMachinesExecuteCreateFlex: Execute create operation for a batch of virtual machines with flex properties, this operation is triggered as soon as Computeschedule receives it. */
+export async function virtualMachinesExecuteCreateFlex(
+  context: Client,
+  locationparameter: string,
+  body: ExecuteCreateFlexRequest,
+  options: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams = { requestOptions: {} },
+): Promise<CreateFlexResourceOperationResponse> {
+  const result = await _virtualMachinesExecuteCreateFlexSend(
+    context,
+    locationparameter,
+    body,
+    options,
+  );
+  return _virtualMachinesExecuteCreateFlexDeserialize(result);
+}
+
+export function _virtualMachinesExecuteStartSend(
+  context: Client,
+  locationparameter: string,
+  requestBody: ExecuteStartRequest,
+  options: ScheduledActionsVirtualMachinesExecuteStartOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteStart{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: executeStartRequestSerializer(requestBody),
   });
 }
@@ -1264,6 +1225,7 @@ export async function _virtualMachinesExecuteStartDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1275,9 +1237,7 @@ export async function virtualMachinesExecuteStart(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteStartRequest,
-  options: ScheduledActionsVirtualMachinesExecuteStartOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteStartOptionalParams = { requestOptions: {} },
 ): Promise<StartResourceOperationResponse> {
   const result = await _virtualMachinesExecuteStartSend(
     context,
@@ -1292,16 +1252,14 @@ export function _virtualMachinesExecuteHibernateSend(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteHibernateRequest,
-  options: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteHibernate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1310,10 +1268,7 @@ export function _virtualMachinesExecuteHibernateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: executeHibernateRequestSerializer(requestBody),
   });
 }
@@ -1325,6 +1280,7 @@ export async function _virtualMachinesExecuteHibernateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1336,9 +1292,7 @@ export async function virtualMachinesExecuteHibernate(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteHibernateRequest,
-  options: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams = { requestOptions: {} },
 ): Promise<HibernateResourceOperationResponse> {
   const result = await _virtualMachinesExecuteHibernateSend(
     context,
@@ -1353,16 +1307,14 @@ export function _virtualMachinesExecuteDeallocateSend(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteDeallocateRequest,
-  options: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteDeallocate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1371,10 +1323,7 @@ export function _virtualMachinesExecuteDeallocateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: executeDeallocateRequestSerializer(requestBody),
   });
 }
@@ -1386,6 +1335,7 @@ export async function _virtualMachinesExecuteDeallocateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1397,9 +1347,7 @@ export async function virtualMachinesExecuteDeallocate(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteDeallocateRequest,
-  options: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams = { requestOptions: {} },
 ): Promise<DeallocateResourceOperationResponse> {
   const result = await _virtualMachinesExecuteDeallocateSend(
     context,
@@ -1414,16 +1362,14 @@ export function _virtualMachinesSubmitStartSend(
   context: Client,
   locationparameter: string,
   requestBody: SubmitStartRequest,
-  options: ScheduledActionsVirtualMachinesSubmitStartOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesSubmitStartOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitStart{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1432,10 +1378,7 @@ export function _virtualMachinesSubmitStartSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: submitStartRequestSerializer(requestBody),
   });
 }
@@ -1447,6 +1390,7 @@ export async function _virtualMachinesSubmitStartDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1458,9 +1402,7 @@ export async function virtualMachinesSubmitStart(
   context: Client,
   locationparameter: string,
   requestBody: SubmitStartRequest,
-  options: ScheduledActionsVirtualMachinesSubmitStartOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesSubmitStartOptionalParams = { requestOptions: {} },
 ): Promise<StartResourceOperationResponse> {
   const result = await _virtualMachinesSubmitStartSend(
     context,
@@ -1475,16 +1417,14 @@ export function _virtualMachinesSubmitHibernateSend(
   context: Client,
   locationparameter: string,
   requestBody: SubmitHibernateRequest,
-  options: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitHibernate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1493,10 +1433,7 @@ export function _virtualMachinesSubmitHibernateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: submitHibernateRequestSerializer(requestBody),
   });
 }
@@ -1508,6 +1445,7 @@ export async function _virtualMachinesSubmitHibernateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1519,9 +1457,7 @@ export async function virtualMachinesSubmitHibernate(
   context: Client,
   locationparameter: string,
   requestBody: SubmitHibernateRequest,
-  options: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams = { requestOptions: {} },
 ): Promise<HibernateResourceOperationResponse> {
   const result = await _virtualMachinesSubmitHibernateSend(
     context,
@@ -1536,16 +1472,14 @@ export function _virtualMachinesSubmitDeallocateSend(
   context: Client,
   locationparameter: string,
   requestBody: SubmitDeallocateRequest,
-  options: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitDeallocate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       locationparameter: locationparameter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1554,10 +1488,7 @@ export function _virtualMachinesSubmitDeallocateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: submitDeallocateRequestSerializer(requestBody),
   });
 }
@@ -1569,6 +1500,7 @@ export async function _virtualMachinesSubmitDeallocateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1580,9 +1512,7 @@ export async function virtualMachinesSubmitDeallocate(
   context: Client,
   locationparameter: string,
   requestBody: SubmitDeallocateRequest,
-  options: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams = { requestOptions: {} },
 ): Promise<DeallocateResourceOperationResponse> {
   const result = await _virtualMachinesSubmitDeallocateSend(
     context,

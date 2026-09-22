@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
-import { operationsList } from "../../api/operations/index.js";
-import { OperationsListOptionalParams } from "../../api/options.js";
-import { Operation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { list } from "../../api/operations/operations.js";
+import type { OperationsListOptionalParams } from "../../api/operations/options.js";
+import type { Operation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
@@ -15,7 +15,7 @@ export interface OperationsOperations {
 
 function _getOperations(context: DeviceRegistryManagementContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 

@@ -4,7 +4,6 @@
 */
 
 import React, { useState } from "react";
-import { v4 as guid } from "uuid";
 import TodoItem from "./TodoItem";
 import { useTodos, Todo } from "../hooks/useTodos";
 
@@ -26,7 +25,7 @@ export default function TodoList(): JSX.Element {
       e.preventDefault();
       const newTodo = {
         done: false,
-        id: guid(),
+        id: crypto.randomUUID(),
         label: newTodoLabel
       };
 

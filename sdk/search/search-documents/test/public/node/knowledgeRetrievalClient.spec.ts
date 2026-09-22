@@ -1,83 +1,114 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type { OpenAIClient } from "@azure/openai";
-import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import type {
-  AzureOpenAIParameters,
-  KnowledgeRetrievalClient,
-  SearchClient,
-  SearchIndexClient,
-} from "../../../src/index.js";
+import type { SearchClient, SearchIndexClient } from "../../../src/index.js";
+import { KnowledgeRetrievalClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
-import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
-describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
+import { createRandomIndexName, createIndex, WAIT_TIME, populateIndex } from "../utils/setup.js";
+
+interface PreviewClients {
+  baseName: string;
+  knowledgeRetrievalClient: KnowledgeRetrievalClient;
+}
+
+function createPreviewClients(recorder: Recorder, baseName: string): PreviewClients {
+  const recordedBaseName = recorder.variable("TEST_BASE_NAME", baseName);
+
+  const credential = createTestCredential();
+  const endPoint: string = assertEnvironmentVariable("ENDPOINT");
+
+  const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+    endPoint,
+    recordedBaseName,
+    credential,
+    recorder.configureClientOptions({}),
+  );
+
+  return {
+    knowledgeRetrievalClient,
+    baseName: recordedBaseName,
+  };
+}
+
+describe("Knowledge", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
-  let openAIClient: OpenAIClient;
   let TEST_INDEX_NAME: string;
-  let TEST_AGENT_NAME: string;
+  let TEST_BASE_NAME: string;
+  let TEST_KS_NAME: string;
   let knowledgeRetrievalClient: KnowledgeRetrievalClient;
-  let azureOpenAIParameters: AzureOpenAIParameters;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     TEST_INDEX_NAME = createRandomIndexName();
-    TEST_AGENT_NAME = createRandomIndexName();
+    TEST_BASE_NAME = createRandomIndexName();
     ({
       searchClient,
       indexClient,
-      openAIClient,
-      knowledgeRetrievalClient,
       indexName: TEST_INDEX_NAME,
-      agentName: TEST_AGENT_NAME,
-      azureOpenAIParameters,
-    } = await createClients<Hotel>(
-      defaultServiceVersion,
+    } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+    ({ knowledgeRetrievalClient, baseName: TEST_BASE_NAME } = createPreviewClients(
       recorder,
-      TEST_INDEX_NAME,
-      TEST_AGENT_NAME,
+      TEST_BASE_NAME,
     ));
+    TEST_KS_NAME = `searchindex-ks-${TEST_INDEX_NAME}`;
     await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
 
-    await indexClient.createKnowledgeAgent({
-      name: TEST_AGENT_NAME,
-      models: [
-        {
-          kind: "azureOpenAI",
-          azureOpenAIParameters: { ...azureOpenAIParameters, modelName: "gpt-4o" },
-        },
-      ],
-      targetIndexes: [{ indexName: TEST_INDEX_NAME }],
+    await indexClient.createKnowledgeSource({
+      kind: "searchIndex",
+      name: TEST_KS_NAME,
+      searchIndexParameters: {
+        searchIndexName: TEST_INDEX_NAME,
+        searchFields: [{ name: "hotelName" }, { name: "description" }],
+        semanticConfigurationName: "semantic-configuration",
+      },
     });
 
+    await indexClient.createKnowledgeBase({
+      name: TEST_BASE_NAME,
+      knowledgeSources: [{ name: TEST_KS_NAME }],
+    } as any);
+
     await delay(WAIT_TIME);
-    await populateIndex(searchClient, openAIClient);
+    await populateIndex(searchClient);
   });
 
   afterEach(async () => {
-    await indexClient.deleteKnowledgeAgent(TEST_AGENT_NAME);
-    await indexClient.deleteIndex(TEST_INDEX_NAME);
-    await delay(WAIT_TIME);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteKnowledgeBase(TEST_BASE_NAME).catch(() => {});
+      await indexClient.deleteKnowledgeSource(TEST_KS_NAME).catch(() => {});
+      await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+      await delay(WAIT_TIME);
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   describe("KnowledgeRetrievalClient", () => {
-    it("executes queries", async () => {
-      const result = await knowledgeRetrievalClient.retrieveKnowledge({
-        messages: [
+    it("executes queries", { timeout: 60000 }, async () => {
+      const result = await knowledgeRetrievalClient.retrieve({
+        intents: [
           {
-            role: "user",
-            content: [{ type: "text", text: "What is the most luxurious hotel?" }],
+            type: "semantic",
+            search: "What is the most luxurious hotel?",
           },
         ],
+        retrievalReasoningEffort: {
+          kind: "minimal",
+        },
       });
-      assert.deepEqual(result, {});
+
+      assert.exists(result.activity);
+      assert.exists(result.references);
+      assert.exists(result.response);
+      assert.isTrue(result.response.length > 0);
     });
   });
 });

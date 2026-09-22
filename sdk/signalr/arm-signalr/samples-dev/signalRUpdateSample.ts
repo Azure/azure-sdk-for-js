@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Operation to update an exiting resource.
- *
- * @summary Operation to update an exiting resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_Update.json
- */
-
-import type { SignalRResource } from "@azure/arm-signalr";
 import { SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to operation to update an exiting resource.
+ *
+ * @summary operation to update an exiting resource.
+ * x-ms-original-file: 2025-01-01-preview/SignalR_Update.json
+ */
 async function signalRUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["SIGNALR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["SIGNALR_RESOURCE_GROUP"] || "myResourceGroup";
-  const resourceName = "mySignalRService";
-  const parameters: SignalRResource = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new SignalRManagementClient(credential, subscriptionId);
+  const result = await client.signalR.update("myResourceGroup", "mySignalRService", {
+    identity: { type: "SystemAssigned" },
+    kind: "SignalR",
+    location: "eastus",
     cors: { allowedOrigins: ["https://foo.com", "https://bar.com"] },
     disableAadAuth: false,
     disableLocalAuth: false,
@@ -28,13 +27,10 @@ async function signalRUpdate(): Promise<void> {
       { flag: "EnableMessagingLogs", properties: {}, value: "False" },
       { flag: "EnableLiveTrace", properties: {}, value: "False" },
     ],
-    identity: { type: "SystemAssigned" },
-    kind: "SignalR",
     liveTraceConfiguration: {
       categories: [{ name: "ConnectivityLogs", enabled: "true" }],
       enabled: "false",
     },
-    location: "eastus",
     networkACLs: {
       defaultAction: "Deny",
       privateEndpoints: [
@@ -46,17 +42,12 @@ async function signalRUpdate(): Promise<void> {
       publicNetwork: { allow: ["ClientConnection"] },
     },
     publicNetworkAccess: "Enabled",
-    serverless: { connectionTimeoutInSeconds: 5 },
-    sku: { name: "Premium_P1", capacity: 1, tier: "Premium" },
-    tags: { key1: "value1" },
+    serverless: { connectionTimeoutInSeconds: 5, keepAliveIntervalInSeconds: 5 },
     tls: { clientCertEnabled: false },
     upstream: {
       templates: [
         {
-          auth: {
-            type: "ManagedIdentity",
-            managedIdentity: { resource: "api://example" },
-          },
+          auth: { type: "ManagedIdentity", managedIdentity: { resource: "api://example" } },
           categoryPattern: "*",
           eventPattern: "connect,disconnect",
           hubPattern: "*",
@@ -64,14 +55,9 @@ async function signalRUpdate(): Promise<void> {
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SignalRManagementClient(credential, subscriptionId);
-  const result = await client.signalR.beginUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    parameters,
-  );
+    sku: { name: "Premium_P1", capacity: 1, tier: "Premium" },
+    tags: { key1: "value1" },
+  });
   console.log(result);
 }
 

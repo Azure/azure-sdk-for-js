@@ -29,8 +29,7 @@ export interface TestCertificateClientInterface {
 /**
  * An interface representing the state of the restore certificate's poll operation
  */
-export interface RestoreCertificateBackupPollOperationState
-  extends PollOperationState<KeyVaultCertificate> {
+export interface RestoreCertificateBackupPollOperationState extends PollOperationState<KeyVaultCertificate> {
   /**
    * The backup of the certificate.
    */
@@ -48,8 +47,10 @@ export interface RestoreCertificateBackupPollOperationState
 /**
  * An interface representing a restore certificate's poll operation
  */
-export interface RestoreCertificateBackupPollOperation
-  extends PollOperation<RestoreCertificateBackupPollOperationState, KeyVaultCertificate> {}
+export interface RestoreCertificateBackupPollOperation extends PollOperation<
+  RestoreCertificateBackupPollOperationState,
+  KeyVaultCertificate
+> {}
 
 /**
  * Reaches to the service and updates the restore certificate's poll operation.

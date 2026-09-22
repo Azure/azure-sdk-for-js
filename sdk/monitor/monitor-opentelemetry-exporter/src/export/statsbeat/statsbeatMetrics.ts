@@ -25,10 +25,11 @@ export class StatsbeatMetrics {
   protected async getResourceProvider(): Promise<void> {
     // Check resource provider
     this.resourceProvider = StatsbeatResourceProvider.unknown;
-    if (process.env.AKS_ARM_NAMESPACE_ID) {
+    if (process.env.AKS_ARM_NAMESPACE_ID || process.env.KUBERNETES_SERVICE_HOST) {
       // AKS
       this.resourceProvider = StatsbeatResourceProvider.aks;
-      this.resourceIdentifier = process.env.AKS_ARM_NAMESPACE_ID;
+      this.resourceIdentifier =
+        process.env.AKS_ARM_NAMESPACE_ID || process.env.KUBERNETES_SERVICE_HOST || "";
     } else if (process.env.WEBSITE_SITE_NAME && !process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Web apps
       this.resourceProvider = StatsbeatResourceProvider.appsvc;
@@ -98,12 +99,14 @@ export class StatsbeatMetrics {
   }
 
   protected getConnectionString(endpointUrl: string): string {
-    const currentEndpoint = endpointUrl;
-    for (let i = 0; i < EU_ENDPOINTS.length; i++) {
-      if (currentEndpoint.includes(EU_ENDPOINTS[i])) {
-        return EU_CONNECTION_STRING;
-      }
+    let region: string;
+    try {
+      const stampName = new URL(endpointUrl).hostname.toLowerCase().split(".")[0];
+      region = stampName.split("-")[0];
+    } catch {
+      return NON_EU_CONNECTION_STRING;
     }
-    return NON_EU_CONNECTION_STRING;
+
+    return EU_ENDPOINTS.includes(region) ? EU_CONNECTION_STRING : NON_EU_CONNECTION_STRING;
   }
 }

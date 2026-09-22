@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { VirtualMachine, VirtualMachineRestrictMovement } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { restrictMovement, get, list } from "../../api/virtualMachines/operations.js";
+import type {
   VirtualMachinesRestrictMovementOptionalParams,
   VirtualMachinesGetOptionalParams,
   VirtualMachinesListOptionalParams,
 } from "../../api/virtualMachines/options.js";
-import { restrictMovement, get, list } from "../../api/virtualMachines/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { VirtualMachine, VirtualMachineRestrictMovement } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualMachines operations. */
 export interface VirtualMachinesOperations {

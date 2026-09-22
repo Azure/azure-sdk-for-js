@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "@azure/arm-containerservicesafeguards client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,8 @@
     "@azure/arm-containerservicesafeguards": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.9.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

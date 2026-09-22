@@ -1,0 +1,50 @@
+{
+  "apiVersions": {
+    "Microsoft.ConfidentialLedger": "2026-02-23"
+  },
+  "emitterVersion": "0.53.3",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.ConfidentialLedger",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-confidentialledger!CheckNameAvailabilityRequest:interface": "Azure.ResourceManager.CommonTypes.CheckNameAvailabilityRequest",
+      "@azure/arm-confidentialledger!CheckNameAvailabilityResponse:interface": "Azure.ResourceManager.CommonTypes.CheckNameAvailabilityResponse",
+      "@azure/arm-confidentialledger!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-confidentialledger!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-confidentialledger!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-confidentialledger!ResourceProviderOperationList:interface": "Microsoft.ConfidentialLedger.ResourceProviderOperationList",
+      "@azure/arm-confidentialledger!ResourceProviderOperationDefinition:interface": "Microsoft.ConfidentialLedger.ResourceProviderOperationDefinition",
+      "@azure/arm-confidentialledger!ResourceProviderOperationDisplay:interface": "Microsoft.ConfidentialLedger.ResourceProviderOperationDisplay",
+      "@azure/arm-confidentialledger!ConfidentialLedger:interface": "Microsoft.ConfidentialLedger.ConfidentialLedger",
+      "@azure/arm-confidentialledger!LedgerProperties:interface": "Microsoft.ConfidentialLedger.LedgerProperties",
+      "@azure/arm-confidentialledger!AADBasedSecurityPrincipal:interface": "Microsoft.ConfidentialLedger.AADBasedSecurityPrincipal",
+      "@azure/arm-confidentialledger!CertBasedSecurityPrincipal:interface": "Microsoft.ConfidentialLedger.CertBasedSecurityPrincipal",
+      "@azure/arm-confidentialledger!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-confidentialledger!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-confidentialledger!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-confidentialledger!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-confidentialledger!ConfidentialLedgerList:interface": "Microsoft.ConfidentialLedger.ConfidentialLedgerList",
+      "@azure/arm-confidentialledger!ConfidentialLedgerFilesExport:interface": "Microsoft.ConfidentialLedger.ConfidentialLedgerFilesExport",
+      "@azure/arm-confidentialledger!ConfidentialLedgerFilesExportResponse:interface": "Microsoft.ConfidentialLedger.ConfidentialLedgerFilesExportResponse",
+      "@azure/arm-confidentialledger!KnownCheckNameAvailabilityReason:enum": "Azure.ResourceManager.CommonTypes.CheckNameAvailabilityReason",
+      "@azure/arm-confidentialledger!KnownRunningState:enum": "Microsoft.ConfidentialLedger.RunningState",
+      "@azure/arm-confidentialledger!KnownLedgerType:enum": "Microsoft.ConfidentialLedger.LedgerType",
+      "@azure/arm-confidentialledger!KnownProvisioningState:enum": "Microsoft.ConfidentialLedger.ProvisioningState",
+      "@azure/arm-confidentialledger!KnownLedgerSku:enum": "Microsoft.ConfidentialLedger.LedgerSku",
+      "@azure/arm-confidentialledger!KnownLedgerRoleName:enum": "Microsoft.ConfidentialLedger.LedgerRoleName",
+      "@azure/arm-confidentialledger!KnownEnclavePlatform:enum": "Microsoft.ConfidentialLedger.EnclavePlatform",
+      "@azure/arm-confidentialledger!KnownApplicationType:enum": "Microsoft.ConfidentialLedger.ApplicationType",
+      "@azure/arm-confidentialledger!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-confidentialledger!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-confidentialledger!KnownVersions:enum": "Microsoft.ConfidentialLedger.Versions",
+      "@azure/arm-confidentialledger!ConfidentialLedgerClient#checkNameAvailability:member(1)": "Microsoft.ConfidentialLedger.checkNameAvailability",
+      "@azure/arm-confidentialledger!LedgerOperations#filesExport:member": "Microsoft.ConfidentialLedger.ConfidentialLedgers.filesExport",
+      "@azure/arm-confidentialledger!LedgerOperations#listBySubscription:member": "Microsoft.ConfidentialLedger.ConfidentialLedgers.listBySubscription",
+      "@azure/arm-confidentialledger!LedgerOperations#listByResourceGroup:member": "Microsoft.ConfidentialLedger.ConfidentialLedgers.listByResourceGroup",
+      "@azure/arm-confidentialledger!LedgerOperations#delete:member": "Microsoft.ConfidentialLedger.ConfidentialLedgers.delete",
+      "@azure/arm-confidentialledger!LedgerOperations#update:member": "Microsoft.ConfidentialLedger.ConfidentialLedgers.update",
+      "@azure/arm-confidentialledger!LedgerOperations#create:member": "Microsoft.ConfidentialLedger.ConfidentialLedgers.create",
+      "@azure/arm-confidentialledger!LedgerOperations#get:member": "Microsoft.ConfidentialLedger.ConfidentialLedgers.get",
+      "@azure/arm-confidentialledger!OperationsOperations#list:member": "Azure.ResourceManager.Legacy.Operations.list"
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "messaging",
+  "name": "@azure-samples/messaging-react-native-expo",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -20,6 +20,7 @@
     "buffer": "^6.0.3",
     "expo": "~54.0.13",
     "expo-constants": "~18.0.9",
+    "expo-crypto": "~15.0.7",
     "expo-font": "~14.0.9",
     "expo-haptics": "~15.0.7",
     "expo-image": "~3.0.9",

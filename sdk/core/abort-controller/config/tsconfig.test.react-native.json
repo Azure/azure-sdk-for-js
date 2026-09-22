@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.react-native.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/abort-controller": ["../src/index.ts"],
+      "@azure/abort-controller/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

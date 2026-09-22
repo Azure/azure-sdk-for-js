@@ -761,11 +761,12 @@ export function transformEventsForSend(
     for (let i = 0; i < eventCount; i++) {
       const originalEvent = events[i];
       const tracingProperty = tracingProperties[i];
-      // Create a copy of the user's event so we can add the tracing property.
-      const event: EventData = {
-        ...originalEvent,
-        properties: { ...originalEvent.properties, ...tracingProperty },
-      };
+      const event: EventData = tracingProperty
+        ? {
+            ...originalEvent,
+            properties: { ...originalEvent.properties, ...tracingProperty },
+          }
+        : originalEvent;
       const rheaMessage = toRheaMessage(event, options.partitionKey);
 
       // populate idempotent message annotations

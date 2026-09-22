@@ -155,24 +155,21 @@ export function isUnexpected(
 ): response is ClustersListDefaultResponse;
 export function isUnexpected(
   response:
-    | ClustersListUpgradableVersions200Response
-    | ClustersListUpgradableVersionsDefaultResponse,
+    ClustersListUpgradableVersions200Response | ClustersListUpgradableVersionsDefaultResponse,
 ): response is ClustersListUpgradableVersionsDefaultResponse;
 export function isUnexpected(
   response: ClusterVersionsGet200Response | ClusterVersionsGetDefaultResponse,
 ): response is ClusterVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | ClusterVersionsGetByEnvironment200Response
-    | ClusterVersionsGetByEnvironmentDefaultResponse,
+    ClusterVersionsGetByEnvironment200Response | ClusterVersionsGetByEnvironmentDefaultResponse,
 ): response is ClusterVersionsGetByEnvironmentDefaultResponse;
 export function isUnexpected(
   response: ClusterVersionsList200Response | ClusterVersionsListDefaultResponse,
 ): response is ClusterVersionsListDefaultResponse;
 export function isUnexpected(
   response:
-    | ClusterVersionsListByEnvironment200Response
-    | ClusterVersionsListByEnvironmentDefaultResponse,
+    ClusterVersionsListByEnvironment200Response | ClusterVersionsListByEnvironmentDefaultResponse,
 ): response is ClusterVersionsListByEnvironmentDefaultResponse;
 export function isUnexpected(
   response: OperationsList200Response | OperationsListDefaultResponse,
@@ -182,8 +179,7 @@ export function isUnexpected(
 ): response is ApplicationTypesGetDefaultResponse;
 export function isUnexpected(
   response:
-    | ApplicationTypesCreateOrUpdate200Response
-    | ApplicationTypesCreateOrUpdateDefaultResponse,
+    ApplicationTypesCreateOrUpdate200Response | ApplicationTypesCreateOrUpdateDefaultResponse,
 ): response is ApplicationTypesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:

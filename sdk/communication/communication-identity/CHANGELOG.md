@@ -1,5 +1,11 @@
 # Release History
 
+## 1.4.0-beta.2 (Unreleased)
+
+### Other Changes
+
+- Optimized type imports for improved tree-shaking and build performance.
+
 ## 1.4.0-beta.1 (2025-06-09)
 
 ### Features Added

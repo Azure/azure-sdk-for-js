@@ -39,7 +39,7 @@ describe("WebPubSubClient", function () {
           { autoReconnect: false } as WebPubSubClientOptions,
         );
         const protocol = client["_protocol"];
-        assert.equal("json.reliable.webpubsub.azure.v1", protocol.name);
+        assert.equal(protocol.name, "json.reliable.webpubsub.azure.v1");
         const options = client["_options"];
         assert.isFalse(options.autoReconnect);
       });

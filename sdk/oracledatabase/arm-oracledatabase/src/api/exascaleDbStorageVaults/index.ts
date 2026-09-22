@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
-  ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
-  ExascaleDbStorageVaultsDeleteOptionalParams,
-  ExascaleDbStorageVaultsUpdateOptionalParams,
-  ExascaleDbStorageVaultsCreateOptionalParams,
-  ExascaleDbStorageVaultsGetOptionalParams,
+  type ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+  type ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
+  type ExascaleDbStorageVaultsDeleteOptionalParams,
+  type ExascaleDbStorageVaultsUpdateOptionalParams,
+  type ExascaleDbStorageVaultsCreateOptionalParams,
+  type ExascaleDbStorageVaultsGetOptionalParams,
 } from "./options.js";

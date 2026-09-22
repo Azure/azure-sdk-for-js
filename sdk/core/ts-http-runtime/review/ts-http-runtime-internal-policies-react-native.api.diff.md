@@ -7,28 +7,37 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -44,10 +44,10 @@
+@@ -12,9 +12,9 @@
  
+ // @public
+ export function decompressResponsePolicy(): PipelinePolicy;
+ 
+-// @public
++// @public (undocumented)
+ export const decompressResponsePolicyName = "decompressResponsePolicy";
+ 
+ // @public
+ export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
+@@ -45,9 +45,9 @@
  // @public
  export const formDataPolicyName = "formDataPolicy";
  
--// @public @deprecated
+ // @public @deprecated
 -export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
-+// @public (undocumented)
-+export function getDefaultProxySettings(): never;
++export function getDefaultProxySettings(_proxyUrl?: string): ProxySettings | undefined;
  
  // @public
  export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
  
-@@ -67,13 +67,11 @@
+@@ -67,13 +67,13 @@
  // @public
  export const multipartPolicyName = "multipartPolicy";
  
  // @public
 -export function proxyPolicy(proxySettings?: ProxySettings, options?: {
--    customNoProxyList?: string[];
--}): PipelinePolicy;
-+export function proxyPolicy(): never;
++export function proxyPolicy(_proxySettings?: ProxySettings, _options?: {
+     customNoProxyList?: string[];
+ }): PipelinePolicy;
  
 -// @public
 +// @public (undocumented)

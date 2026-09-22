@@ -9,12 +9,16 @@ import type {
 } from "../../../src/core/managementClient.js";
 import { getPromiseResolverForTest } from "./unittestUtils.js";
 import { describe, it, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import type { Mock } from "vitest";
+import type { OnErrorNoContext } from "../../../src/core/messageReceiver.js";
 import { assert, expect } from "../../public/utils/chai.js";
 
 describe("autoLockRenewer unit tests", () => {
   let autoLockRenewer: LockRenewer;
-  let renewLockSpy: ReturnType<typeof vi.spyOn<ManagementClient, any>>;
-  let onErrorFake: ReturnType<typeof vi.fn>;
+  let renewLockSpy: Mock<
+    (_lockToken: string, _options?: SendManagementRequestOptions) => Promise<Date>
+  >;
+  let onErrorFake: Mock<OnErrorNoContext>;
 
   const limits = {
     maxAdditionalTimeToRenewLock: 7,
@@ -50,7 +54,7 @@ describe("autoLockRenewer unit tests", () => {
     } as ManagementClient;
 
     renewLockSpy = vi.spyOn(managementClient, "renewLock");
-    onErrorFake = vi.fn(async (_err: Error | MessagingError) => {
+    onErrorFake = vi.fn((_err: Error | MessagingError) => {
       /** Nothing to do here */
     });
 

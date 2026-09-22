@@ -6,18 +6,18 @@
  * can use them without themselves depending on that command's package.
  */
 
-import fs from "fs-extra";
+import { readdir } from "node:fs/promises";
 import path from "node:path";
-import { spawn, SpawnOptions } from "node:child_process";
-import { makeCommandInfo, subCommand } from "../../framework/command";
-import { CommandOptions } from "../../framework/CommandInfo";
-import { CommandModule } from "../../framework/CommandModule";
-import { createPrinter } from "../../util/printer";
-import { isWindows } from "../../util/platform";
+import { spawn, type SpawnOptions } from "@azure/core-process";
+import { makeCommandInfo, subCommand } from "../../framework/command.ts";
+import type { CommandOptions } from "../../framework/CommandInfo.ts";
+import type { CommandModule } from "../../framework/CommandModule.ts";
+import { resolveNodeBinTarget } from "../../util/nodeCli.ts";
+import { createPrinter } from "../../util/printer.ts";
 
 const log = createPrinter("vendored");
 
-const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin");
+const DOT_BIN_PATH = path.resolve(import.meta.dirname, "..", "..", "..", "node_modules", ".bin");
 
 /**
  * Wraps a command in an executor that satisfies the dev-tool command interface.
@@ -29,18 +29,13 @@ function makeCommandExecutor(
   commandName: string,
   options?: SpawnOptions,
 ): (...args: string[]) => Promise<boolean> {
-  const commandPath = isWindows()
-    ? path.join(DOT_BIN_PATH, `${commandName}.CMD`)
-    : path.join(DOT_BIN_PATH, commandName);
-
-  const spawnOptions = options || {};
-  spawnOptions.stdio = "inherit";
-  spawnOptions.shell = isWindows();
+  const spawnOptions = { ...options, stdio: "inherit" } satisfies SpawnOptions;
 
   return (...args: string[]) =>
     new Promise<boolean>((resolve, reject) => {
-      log.debug("Running vendored command:", commandPath);
-      const command = spawn(commandPath, args, spawnOptions);
+      const [executable, ...commandArgs] = buildVendoredCommand(commandName, args);
+      log.debug("Running vendored command:", commandArgs[1]);
+      const command = spawn(executable, commandArgs, spawnOptions);
 
       // If the command exited 0, then we treat that as a success
       command.on("exit", (code) => {
@@ -50,11 +45,25 @@ function makeCommandExecutor(
     });
 }
 
+export function buildVendoredCommand(
+  commandName: string,
+  args: readonly string[],
+  binPath: string = DOT_BIN_PATH,
+): string[] {
+  const commandPath = resolveNodeBinTarget(path.join(binPath, commandName));
+  return [process.execPath, "--", commandPath, ...args];
+}
+
 export const commandInfo = makeCommandInfo("vendored", "run dev-tool's dependency commands");
 
+async function getVendoredCommandNames(): Promise<string[]> {
+  return (await readdir(DOT_BIN_PATH)).filter(
+    (commandName) => !commandName.startsWith("_") && !/\.(?:cmd|ps1)$/i.test(commandName),
+  );
+}
+
 export default async (...args: string[]): Promise<boolean> => {
-  // I'm not 100% sure what underscore-prefixed commands do, but the only one we have now is _mocha.
-  const commands = (await fs.readdir(DOT_BIN_PATH)).filter((cmd) => !cmd.startsWith("_"));
+  const commands = await getVendoredCommandNames();
 
   const executor = subCommand(
     commandInfo,
@@ -78,7 +87,7 @@ export async function vendoredWithOptions(
   options: SpawnOptions,
   ...args: string[]
 ): Promise<boolean> {
-  const commands = (await fs.readdir(DOT_BIN_PATH)).filter((cmd) => !cmd.startsWith("_"));
+  const commands = await getVendoredCommandNames();
 
   const executor = subCommand(
     commandInfo,

@@ -43,7 +43,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     ```json
       "dependencies": {
          "@azure/<service-sdk>": "^<version-in-master-branch>",
-         "@azure-tools/test-perf": "^1.0.0"
+         "@azure-tools/test-perf": "workspace:^"
        }
     ```
 

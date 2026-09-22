@@ -5,16 +5,12 @@
  * @summary Deletes the blobs associated with a given manifest from the repository.
  */
 
-import {
-  ContainerRegistryContentClient,
-  KnownManifestMediaType,
-  OciImageManifest,
-} from "@azure/container-registry";
+import type { OciImageManifest } from "@azure/container-registry";
+import { ContainerRegistryContentClient, KnownManifestMediaType } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";

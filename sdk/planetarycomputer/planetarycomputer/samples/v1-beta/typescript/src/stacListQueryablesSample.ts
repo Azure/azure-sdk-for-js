@@ -1,0 +1,21 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to list global queryables.
+ *
+ * @summary list global queryables.
+ */
+import { DefaultAzureCredential } from "@azure/identity";
+import { PlanetaryComputerProClient } from "@azure/planetarycomputer";
+
+async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const endpoint = process.env.PLANETARYCOMPUTER_ENDPOINT || "<your-geocatalog-endpoint>";
+  const client = new PlanetaryComputerProClient(endpoint, credential);
+
+  const result = await client.stac.getQueryables();
+  console.log(result);
+}
+
+main().catch(console.error);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
+import type { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
 import {
   list,
   $delete,
@@ -10,7 +10,7 @@ import {
   get,
   refresh,
 } from "../../api/managedPrivateEndpoints/operations.js";
-import {
+import type {
   ManagedPrivateEndpointsListOptionalParams,
   ManagedPrivateEndpointsDeleteOptionalParams,
   ManagedPrivateEndpointsUpdateOptionalParams,
@@ -18,12 +18,12 @@ import {
   ManagedPrivateEndpointsGetOptionalParams,
   ManagedPrivateEndpointsRefreshOptionalParams,
 } from "../../api/managedPrivateEndpoints/options.js";
-import {
+import type {
   ManagedPrivateEndpointModel,
   ManagedPrivateEndpointUpdateParameters,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedPrivateEndpoints operations. */
 export interface ManagedPrivateEndpointsOperations {

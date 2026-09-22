@@ -21,7 +21,7 @@ export async function main(): Promise<void> {
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
-  const phoneNumbers = await client.listPurchasedPhoneNumbers();
+  const phoneNumbers = client.listPurchasedPhoneNumbers();
 
   for await (const phoneNumber of phoneNumbers) {
     console.log(`The phone number id is: ${phoneNumber.id}`);

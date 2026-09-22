@@ -10,6 +10,7 @@ import {
   SASProtocol,
   StorageSharedKeyCredential,
 } from "../src/index.js";
+import { buffer } from "node:stream/consumers";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
@@ -383,22 +384,10 @@ describe("snippets", () => {
     // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
     const downloadResponse = await fileClient.read();
     if (downloadResponse.readableStreamBody) {
-      const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+      // Download the raw bytes of the file. Use `text` from "node:stream/consumers"
+      // instead if you want to read the content as a string directly.
+      const downloaded = await buffer(downloadResponse.readableStreamBody);
       console.log("Downloaded file content:", downloaded.toString());
-    }
-    // @ts-preserve-whitespace
-    // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
-    async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-      return new Promise((resolve, reject) => {
-        const chunks: Buffer[] = [];
-        readableStream.on("data", (data) => {
-          chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-        });
-        readableStream.on("end", () => {
-          resolve(Buffer.concat(chunks));
-        });
-        readableStream.on("error", reject);
-      });
     }
   });
 
@@ -439,22 +428,10 @@ describe("snippets", () => {
     // Query and convert a file to a string
     const queryResponse = await fileClient.query("select * from BlobStorage");
     if (queryResponse.readableStreamBody) {
-      const responseBuffer = await streamToBuffer(queryResponse.readableStreamBody);
-      const downloaded = responseBuffer.toString();
-      console.log(`Query file content: ${downloaded}`);
-    }
-    // @ts-preserve-whitespace
-    async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-      return new Promise((resolve, reject) => {
-        const chunks: Buffer[] = [];
-        readableStream.on("data", (data) => {
-          chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-        });
-        readableStream.on("end", () => {
-          resolve(Buffer.concat(chunks));
-        });
-        readableStream.on("error", reject);
-      });
+      // Read the response bytes. Use `text` from "node:stream/consumers" instead
+      // if you want the response as a string directly.
+      const responseBuffer = await buffer(queryResponse.readableStreamBody);
+      console.log(`Query file content: ${responseBuffer.toString()}`);
     }
   });
 

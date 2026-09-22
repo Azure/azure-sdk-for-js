@@ -3,9 +3,9 @@
 
 export { $delete, update, createOrUpdate, get, list } from "./operations.js";
 export {
-  SitesBySubscriptionDeleteOptionalParams,
-  SitesBySubscriptionUpdateOptionalParams,
-  SitesBySubscriptionCreateOrUpdateOptionalParams,
-  SitesBySubscriptionGetOptionalParams,
-  SitesBySubscriptionListOptionalParams,
+  type SitesBySubscriptionDeleteOptionalParams,
+  type SitesBySubscriptionUpdateOptionalParams,
+  type SitesBySubscriptionCreateOrUpdateOptionalParams,
+  type SitesBySubscriptionGetOptionalParams,
+  type SitesBySubscriptionListOptionalParams,
 } from "./options.js";

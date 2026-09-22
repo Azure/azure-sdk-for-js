@@ -126,7 +126,7 @@ describe("Change Feed", async () => {
       return fakeList([]) as any;
     });
     const changeFeed = await changeFeedFactory.create(serviceClientStub);
-    assert.ok(!changeFeed.hasNext());
+    assert.isFalse(changeFeed.hasNext());
   });
 
   it("no years after start time", async () => {
@@ -143,7 +143,7 @@ describe("Change Feed", async () => {
     const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2020, 0)),
     });
-    assert.ok(!changeFeed.hasNext());
+    assert.isFalse(changeFeed.hasNext());
   });
 
   it("no segments remaining in start year", async () => {
@@ -172,14 +172,14 @@ describe("Change Feed", async () => {
     const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2019, 5)),
     });
-    assert.ok(!changeFeed.hasNext());
+    assert.isFalse(changeFeed.hasNext());
   });
 
   it("getChange", async () => {
     const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2019, 0)),
     });
-    assert.ok(changeFeed.hasNext());
+    assert.isTrue(changeFeed.hasNext());
 
     const event = await changeFeed.getChange();
     assert.equal(event, 0 as unknown as BlobChangeFeedEvent | undefined);
@@ -189,14 +189,14 @@ describe("Change Feed", async () => {
       vi.mocked(segmentStubs[i].hasNext).mockReturnValue(false);
       vi.mocked(segmentStubs[i].getChange).mockResolvedValue(undefined);
     }
-    assert.ok(changeFeed.hasNext());
+    assert.isTrue(changeFeed.hasNext());
     const event2 = await changeFeed.getChange();
     assert.equal(event2, 2 as unknown as BlobChangeFeedEvent | undefined);
 
     // advanced to next year
     vi.mocked(segmentStubs[2].hasNext).mockReturnValue(false);
     vi.mocked(segmentStubs[2].getChange).mockResolvedValue(undefined);
-    assert.ok(changeFeed.hasNext());
+    assert.isTrue(changeFeed.hasNext());
     const event3 = await changeFeed.getChange();
     assert.equal(event3, 3 as unknown as BlobChangeFeedEvent | undefined);
 
@@ -205,7 +205,7 @@ describe("Change Feed", async () => {
     vi.mocked(segmentStubs[3].getChange).mockResolvedValue(undefined);
     const event4 = await changeFeed.getChange();
     assert.equal(event4, undefined);
-    assert.ok(!changeFeed.hasNext());
+    assert.isFalse(changeFeed.hasNext());
   });
 
   it("with start and end time", async () => {
@@ -214,14 +214,14 @@ describe("Change Feed", async () => {
       start: new Date(Date.UTC(2019, 2, 2, 21)),
       end: new Date(Date.UTC(2019, 3, 3, 22)),
     });
-    assert.ok(!changeFeed.hasNext());
+    assert.isFalse(changeFeed.hasNext());
 
     // end earlier than lastConsumable
     const changeFeed2 = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2019, 3, 3, 22)),
       end: new Date(Date.UTC(2019, 4, 3, 22)),
     });
-    assert.ok(changeFeed2.hasNext());
+    assert.isTrue(changeFeed2.hasNext());
     const event = await changeFeed2.getChange();
     assert.equal(event, 1 as unknown as BlobChangeFeedEvent | undefined);
 
@@ -235,14 +235,14 @@ describe("Change Feed", async () => {
       start: lastConsumable,
       end: new Date(lastConsumable.getTime() + 1),
     });
-    assert.ok(!changeFeed3.hasNext());
+    assert.isFalse(changeFeed3.hasNext());
   });
 
   it("with continuation token", async () => {
     const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2020, 2, 2, 20)),
     });
-    assert.ok(changeFeed.hasNext());
+    assert.isTrue(changeFeed.hasNext());
 
     const containerUri = "https://account.blob.core.windows.net/$blobchangefeed";
     (containerClientStub as any).url = containerUri;
@@ -256,7 +256,7 @@ describe("Change Feed", async () => {
     });
     const continuation = JSON.stringify(changeFeed.getCursor());
     const changeFeed2 = await changeFeedFactory.create(serviceClientStub, continuation);
-    assert.ok(changeFeed2.hasNext());
+    assert.isTrue(changeFeed2.hasNext());
     const event = await changeFeed.getChange();
     assert.equal(event, 3 as unknown as BlobChangeFeedEvent | undefined);
 
@@ -269,7 +269,7 @@ describe("Change Feed", async () => {
     vi.mocked(segmentStubs[3].hasNext).mockReturnValue(false);
     vi.mocked(segmentStubs[3].getChange).mockResolvedValue(undefined);
     const changeFeed3 = await changeFeedFactory.create(serviceClientStub, continuation);
-    assert.ok(changeFeed3.hasNext());
+    assert.isTrue(changeFeed3.hasNext());
     const event2 = await changeFeed3.getChange();
     assert.equal(event2, 4 as unknown as BlobChangeFeedEvent | undefined);
   });
@@ -279,6 +279,6 @@ describe("Change Feed", async () => {
       statusCode: 404,
     });
     const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined);
-    assert.ok(!changeFeed.hasNext(), "Should return empty change feed");
+    assert.isFalse(changeFeed.hasNext(), "Should return empty change feed");
   });
 });

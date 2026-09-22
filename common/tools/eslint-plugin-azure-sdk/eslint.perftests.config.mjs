@@ -1,7 +1,8 @@
 import eslintJs from "@eslint/js";
+import { defineConfig } from "eslint/config";
 import tsEsLint from "typescript-eslint";
 
-export default tsEsLint.config(
+export default defineConfig(
   {
     languageOptions: {
       parserOptions: {

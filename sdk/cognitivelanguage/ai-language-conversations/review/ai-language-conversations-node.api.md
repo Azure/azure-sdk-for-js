@@ -6,9 +6,11 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import type * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -521,6 +523,8 @@ export interface InputWarning {
     message: string;
     targetRef?: string;
 }
+
+export { isRestError }
 
 // @public
 export type JobState = string;
@@ -1137,6 +1141,8 @@ export interface RequestStatistics {
 
 // @public
 export type ResolutionKind = string;
+
+export { RestError }
 
 // @public
 export type Role = string;

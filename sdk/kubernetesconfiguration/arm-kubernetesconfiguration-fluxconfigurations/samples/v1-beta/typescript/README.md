@@ -1,15 +1,15 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-kubernetesconfiguration-fluxconfigurations client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-kubernetesconfiguration-fluxconfigurations in some common scenarios.
 
-| **File Name**                                                                       | **Description**                                                                                                                                                                                                                                                                                               |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [fluxConfigOperationStatusGetSample.ts][fluxconfigoperationstatusgetsample]         | Get Async Operation status x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/GetFluxConfigurationAsyncOperationStatus.json                                                                           |
-| [fluxConfigurationsCreateOrUpdateSample.ts][fluxconfigurationscreateorupdatesample] | Create a new Kubernetes Flux Configuration. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/CreateFluxConfiguration.json                                                                           |
-| [fluxConfigurationsDeleteSample.ts][fluxconfigurationsdeletesample]                 | This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from the source repo. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/DeleteFluxConfiguration.json |
-| [fluxConfigurationsGetSample.ts][fluxconfigurationsgetsample]                       | Gets details of the Flux Configuration. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/GetFluxConfiguration.json                                                                                  |
-| [fluxConfigurationsListSample.ts][fluxconfigurationslistsample]                     | List all Flux Configurations. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/ListFluxConfigurations.json                                                                                          |
-| [fluxConfigurationsUpdateSample.ts][fluxconfigurationsupdatesample]                 | Update an existing Kubernetes Flux Configuration. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/PatchFluxConfiguration.json                                                                      |
+| **File Name**                                                                       | **Description**                                                                                                                                                                   |
+| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [fluxConfigOperationStatusGetSample.ts][fluxconfigoperationstatusgetsample]         | get Async Operation status x-ms-original-file: 2025-04-01/GetFluxConfigurationAsyncOperationStatus.json                                                                           |
+| [fluxConfigurationsCreateOrUpdateSample.ts][fluxconfigurationscreateorupdatesample] | create a new Kubernetes Flux Configuration. x-ms-original-file: 2025-04-01/CreateFluxConfiguration.json                                                                           |
+| [fluxConfigurationsDeleteSample.ts][fluxconfigurationsdeletesample]                 | this will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from the source repo. x-ms-original-file: 2025-04-01/DeleteFluxConfiguration.json |
+| [fluxConfigurationsGetSample.ts][fluxconfigurationsgetsample]                       | gets details of the Flux Configuration. x-ms-original-file: 2025-04-01/GetFluxConfiguration.json                                                                                  |
+| [fluxConfigurationsListSample.ts][fluxconfigurationslistsample]                     | list all Flux Configurations. x-ms-original-file: 2025-04-01/ListFluxConfigurations.json                                                                                          |
+| [fluxConfigurationsUpdateSample.ts][fluxconfigurationsupdatesample]                 | update an existing Kubernetes Flux Configuration. x-ms-original-file: 2025-04-01/PatchFluxConfiguration.json                                                                      |
 
 ## Prerequisites
 
@@ -51,10 +51,10 @@ npm run build
 node dist/fluxConfigOperationStatusGetSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KUBERNETESCONFIGURATION_SUBSCRIPTION_ID="<kubernetesconfiguration subscription id>" KUBERNETESCONFIGURATION_RESOURCE_GROUP="<kubernetesconfiguration resource group>" node dist/fluxConfigOperationStatusGetSample.js
+node dist/fluxConfigOperationStatusGetSample.js
 ```
 
 ## Next Steps

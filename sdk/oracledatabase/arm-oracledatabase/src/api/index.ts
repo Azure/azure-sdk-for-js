@@ -3,6 +3,6 @@
 
 export {
   createOracleDatabaseManagement,
-  OracleDatabaseManagementContext,
-  OracleDatabaseManagementClientOptionalParams,
+  type OracleDatabaseManagementContext,
+  type OracleDatabaseManagementClientOptionalParams,
 } from "./oracleDatabaseManagementContext.js";

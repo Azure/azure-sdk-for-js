@@ -7,7 +7,7 @@ import { rewriteUrl } from "../../src/http/utils.js";
 describe("rewriteUrl", () => {
   it("should return undefined when the input url is undefined", () => {
     const result = rewriteUrl({ url: undefined, baseUrl: "https://new.example.com" });
-    assert.equal(result, undefined);
+    assert.isUndefined(result);
   });
 
   it("should return the original url when baseUrl is undefined", () => {
@@ -64,5 +64,14 @@ describe("rewriteUrl", () => {
     const baseUrl = "https://new.example.com:8080";
     const result = rewriteUrl({ url: inputUrl, baseUrl });
     assert.equal(result, "https://new.example.com:8080/path");
+  });
+});
+
+describe("http/utils.ts", () => {
+  it("throws when relative URL cannot be resolved with invalid baseUrl", () => {
+    // relative URL that can't be parsed even with baseUrl as base
+    assert.throws(() => {
+      rewriteUrl({ url: "://malformed", baseUrl: "not-a-url" });
+    }, /Invalid input URL provided/);
   });
 });

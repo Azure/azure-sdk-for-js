@@ -34,8 +34,21 @@
   "packageOptions": {
     "breakingChangeLabel": "CI-BreakingChange-JavaScript",
     "breakingChangesLabel": "BreakingChange-JavaScript-Sdk",
+    "sdkBreakingChangePatternFile": "documentation/sdk-breaking-changes-guide-migration.md",
     "buildScript": {
       "path": "./eng/scripts/build-sdk.ps1"
+    },
+    "updateChangelogContentScript": {
+      "path": "./eng/scripts/update-changelog-content.ps1"
+    },
+    "getSdkChangesScript": {
+      "path": "./eng/scripts/get-sdk-changes.ps1"
+    },
+    "updateVersionScript": {
+      "path": "./eng/scripts/update-version.ps1"
+    },
+    "updateMetadataScript": {
+      "path": "./eng/scripts/update-metadata.ps1"
     }
   }
 }

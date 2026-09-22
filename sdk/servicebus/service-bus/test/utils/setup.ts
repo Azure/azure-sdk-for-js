@@ -10,12 +10,11 @@ declare module "vitest" {
   type MyEnvVarKeys = {
     [K in keyof typeof EnvVarKeys]: string;
   };
-  export interface ProvidedContext
-    extends Omit<
-      MyEnvVarKeys,
-      | typeof EnvVarKeys.SERVICEBUS_CONNECTION_STRING
-      | typeof EnvVarKeys.SERVICEBUS_CONNECTION_STRING_PREMIUM
-    > {
+  export interface ProvidedContext extends Omit<
+    MyEnvVarKeys,
+    | typeof EnvVarKeys.SERVICEBUS_CONNECTION_STRING
+    | typeof EnvVarKeys.SERVICEBUS_CONNECTION_STRING_PREMIUM
+  > {
     [EnvVarKeys.SERVICEBUS_CONNECTION_STRING]: string | undefined;
     [EnvVarKeys.SERVICEBUS_CONNECTION_STRING_PREMIUM]: string | undefined;
   }

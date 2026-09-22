@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  configurePlatformConsoleAuth,
+  listPlatformConsoleActivationCode,
   repairAvsConnection,
   finalizeAvsConnection,
   disableAvsConnection,
@@ -16,7 +18,9 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
+export type {
+  StoragePoolsConfigurePlatformConsoleAuthOptionalParams,
+  StoragePoolsListPlatformConsoleActivationCodeOptionalParams,
   StoragePoolsRepairAvsConnectionOptionalParams,
   StoragePoolsFinalizeAvsConnectionOptionalParams,
   StoragePoolsDisableAvsConnectionOptionalParams,

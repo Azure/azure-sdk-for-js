@@ -7,14 +7,14 @@ import { WebPubSubEventHandler } from "../src/webPubSubEventHandler.js";
 describe("Can create event handler", function () {
   it("Can provide default path", () => {
     const dispatcher = new WebPubSubEventHandler("hub");
-    assert.equal("/api/webpubsub/hubs/hub/", dispatcher.path);
+    assert.equal(dispatcher.path, "/api/webpubsub/hubs/hub/");
   });
 
   it("Supports custom path", () => {
     const dispatcher = new WebPubSubEventHandler("hub", {
       path: "/custom",
     });
-    assert.equal("/custom/", dispatcher.path);
+    assert.equal(dispatcher.path, "/custom/");
   });
 
   it("Throw with invalid endpoints", () => {

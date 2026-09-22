@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { ContentType } from "../models/models.js";
 
 /** Optional parameters. */
 export interface RestoreSecretOptionalParams extends OperationOptions {}
@@ -37,7 +38,14 @@ export interface GetSecretsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface GetSecretOptionalParams extends OperationOptions {}
+export interface GetSecretOptionalParams extends OperationOptions {
+  /**
+   * The media type (MIME type) of the certificate. If a supported format is specified,
+   * the certificate content is converted to the requested format. Currently, only PFX to PEM
+   * conversion is supported.
+   */
+  outContentType?: ContentType;
+}
 
 /** Optional parameters. */
 export interface UpdateSecretOptionalParams extends OperationOptions {}

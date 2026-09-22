@@ -75,11 +75,6 @@ export interface ManagedClustersOperations {
     options?: ManagedClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ManagedCluster>;
   /** Delete a Service Fabric managed cluster resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -91,7 +86,7 @@ export interface ManagedClustersOperations {
     clusterName: string,
     parameters: ManagedClusterUpdateParameters,
     options?: ManagedClustersUpdateOptionalParams,
-  ) => Promise<ManagedCluster>;
+  ) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
   /** Create or update a Service Fabric managed cluster resource with the specified name. */
   createOrUpdate: (
     resourceGroupName: string,

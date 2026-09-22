@@ -20,9 +20,7 @@ export const valueSectionTypeCode = 0x77 as const;
  */
 export interface RheaAmqpSection {
   typecode:
-    | typeof dataSectionTypeCode
-    | typeof sequenceSectionTypeCode
-    | typeof valueSectionTypeCode;
+    typeof dataSectionTypeCode | typeof sequenceSectionTypeCode | typeof valueSectionTypeCode;
   content: any;
 }
 
@@ -67,7 +65,7 @@ export const defaultDataTransformer = {
           `${err ? err.stack : JSON.stringify(err)}`;
         logger.warning("[encode] " + msg);
         logErrorStackTrace(logger, err);
-        throw new Error(msg);
+        throw new Error(msg, { cause: err });
       }
     }
     return result;

@@ -3,8 +3,8 @@
 
 export { list, $delete, create, get } from "./operations.js";
 export {
-  DeploymentSafeguardsListOptionalParams,
-  DeploymentSafeguardsDeleteOptionalParams,
-  DeploymentSafeguardsCreateOptionalParams,
-  DeploymentSafeguardsGetOptionalParams,
+  type DeploymentSafeguardsListOptionalParams,
+  type DeploymentSafeguardsDeleteOptionalParams,
+  type DeploymentSafeguardsCreateOptionalParams,
+  type DeploymentSafeguardsGetOptionalParams,
 } from "./options.js";

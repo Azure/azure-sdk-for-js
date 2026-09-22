@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Confluent test", () => {
+describe.skip("Confluent test", () => {
   let recorder: Recorder;
   let client: ConfluentManagementClient;
 

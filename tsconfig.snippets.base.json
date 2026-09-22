@@ -2,8 +2,7 @@
   "extends": "./tsconfig.nonlib",
   "compilerOptions": {
     "skipLibCheck": true,
-    "lib": [],
-    "strict": true,
+    "types": ["node"],
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": true,

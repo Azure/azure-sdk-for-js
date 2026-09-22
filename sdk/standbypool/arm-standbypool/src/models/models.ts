@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -158,21 +164,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** A StandbyVirtualMachinePoolResource. */
@@ -197,7 +196,9 @@ export function standbyVirtualMachinePoolResourceDeserializer(
   item: any,
 ): StandbyVirtualMachinePoolResource {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -254,6 +255,10 @@ export interface StandbyVirtualMachinePoolElasticityProfile {
   maxReadyCapacity: number;
   /** Specifies the desired minimum number of virtual machines in the standby virtual machine pool. MinReadyCapacity cannot exceed MaxReadyCapacity. */
   minReadyCapacity?: number;
+  /** Specifies the duration to wait after virtual machine provisioning before the virtual machine becomes available for use. The duration should be specified in ISO 8601 format (e.g., PT2S for 2 seconds). */
+  postProvisioningDelay?: string;
+  /** Specifies the dynamic sizing configuration. */
+  dynamicSizing?: DynamicSizing;
 }
 
 export function standbyVirtualMachinePoolElasticityProfileSerializer(
@@ -262,6 +267,10 @@ export function standbyVirtualMachinePoolElasticityProfileSerializer(
   return {
     maxReadyCapacity: item["maxReadyCapacity"],
     minReadyCapacity: item["minReadyCapacity"],
+    postProvisioningDelay: item["postProvisioningDelay"],
+    dynamicSizing: !item["dynamicSizing"]
+      ? item["dynamicSizing"]
+      : dynamicSizingSerializer(item["dynamicSizing"]),
   };
 }
 
@@ -271,6 +280,26 @@ export function standbyVirtualMachinePoolElasticityProfileDeserializer(
   return {
     maxReadyCapacity: item["maxReadyCapacity"],
     minReadyCapacity: item["minReadyCapacity"],
+    postProvisioningDelay: item["postProvisioningDelay"],
+    dynamicSizing: !item["dynamicSizing"]
+      ? item["dynamicSizing"]
+      : dynamicSizingDeserializer(item["dynamicSizing"]),
+  };
+}
+
+/** Specifies the dynamic sizing configuration. */
+export interface DynamicSizing {
+  /** Indicates whether dynamic sizing is enabled for the standby pool. */
+  enabled?: boolean;
+}
+
+export function dynamicSizingSerializer(item: DynamicSizing): any {
+  return { enabled: item["enabled"] };
+}
+
+export function dynamicSizingDeserializer(item: any): DynamicSizing {
+  return {
+    enabled: item["enabled"],
   };
 }
 
@@ -339,7 +368,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -414,7 +445,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -827,7 +858,9 @@ export function standbyContainerGroupPoolResourceDeserializer(
   item: any,
 ): StandbyContainerGroupPoolResource {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -894,6 +927,8 @@ export interface StandbyContainerGroupPoolElasticityProfile {
   maxReadyCapacity: number;
   /** Specifies refill policy of the pool. */
   refillPolicy?: RefillPolicy;
+  /** Specifies the dynamic sizing configuration. */
+  dynamicSizing?: DynamicSizing;
 }
 
 export function standbyContainerGroupPoolElasticityProfileSerializer(
@@ -902,6 +937,9 @@ export function standbyContainerGroupPoolElasticityProfileSerializer(
   return {
     maxReadyCapacity: item["maxReadyCapacity"],
     refillPolicy: item["refillPolicy"],
+    dynamicSizing: !item["dynamicSizing"]
+      ? item["dynamicSizing"]
+      : dynamicSizingSerializer(item["dynamicSizing"]),
   };
 }
 
@@ -911,6 +949,9 @@ export function standbyContainerGroupPoolElasticityProfileDeserializer(
   return {
     maxReadyCapacity: item["maxReadyCapacity"],
     refillPolicy: item["refillPolicy"],
+    dynamicSizing: !item["dynamicSizing"]
+      ? item["dynamicSizing"]
+      : dynamicSizingDeserializer(item["dynamicSizing"]),
   };
 }
 
@@ -1265,4 +1306,6 @@ export enum KnownVersions {
   _20240301 = "2024-03-01",
   /** API Version 2025-03-01. */
   _20250301 = "2025-03-01",
+  /** API Version 2025-10-01. */
+  _20251001 = "2025-10-01",
 }

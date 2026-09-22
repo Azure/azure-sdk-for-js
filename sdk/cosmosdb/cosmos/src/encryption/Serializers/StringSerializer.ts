@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Serializer } from "./Serializer.js";
+import type { Serializer } from "./Serializer.js";
 
 export class StringSerializer implements Serializer {
   private static characterEncoding: BufferEncoding = "utf-8";

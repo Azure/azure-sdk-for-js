@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  GroupQuotaSubscriptionsListOptionalParams,
-  GroupQuotaSubscriptionsDeleteOptionalParams,
-  GroupQuotaSubscriptionsUpdateOptionalParams,
-  GroupQuotaSubscriptionsCreateOrUpdateOptionalParams,
-  GroupQuotaSubscriptionsGetOptionalParams,
+  type GroupQuotaSubscriptionsListOptionalParams,
+  type GroupQuotaSubscriptionsDeleteOptionalParams,
+  type GroupQuotaSubscriptionsUpdateOptionalParams,
+  type GroupQuotaSubscriptionsCreateOrUpdateOptionalParams,
+  type GroupQuotaSubscriptionsGetOptionalParams,
 } from "./options.js";

@@ -1,0 +1,11 @@
+{
+  "apiVersions": {
+    "preview-service": "2025-01-01-preview",
+    "stable-service": "2024-11-01"
+  },
+  "emitterVersion": "0.47.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Test",
+    "CrossLanguageDefinitionId": {}
+  }
+}

@@ -8,7 +8,6 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { inspect } from "node:util";
-import { v4 } from "uuid";
 
 async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
@@ -34,7 +33,7 @@ async function main(): Promise<void> {
     digitalTwinId,
     componentPath,
     telemetryPayload,
-    v4()
+    crypto.randomUUID()
   );
   console.log(`Publish Component Telemetry response:`);
   console.log(inspect(response));

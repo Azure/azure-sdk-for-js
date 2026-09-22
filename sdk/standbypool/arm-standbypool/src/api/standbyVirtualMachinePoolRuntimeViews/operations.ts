@@ -1,29 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { StandbyPoolManagementContext as Client } from "../index.js";
+import type {
   StandbyVirtualMachinePoolRuntimeViewResource,
-  standbyVirtualMachinePoolRuntimeViewResourceDeserializer,
   _StandbyVirtualMachinePoolRuntimeViewResourceListResult,
-  _standbyVirtualMachinePoolRuntimeViewResourceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  standbyVirtualMachinePoolRuntimeViewResourceDeserializer,
+  _standbyVirtualMachinePoolRuntimeViewResourceListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
   StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByStandbyPoolSend(
   context: Client,
@@ -39,7 +35,7 @@ export function _listByStandbyPoolSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       standbyVirtualMachinePoolName: standbyVirtualMachinePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,10 +43,7 @@ export function _listByStandbyPoolSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -61,6 +54,7 @@ export async function _listByStandbyPoolDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -82,7 +76,7 @@ export function listByStandbyPool(
       _listByStandbyPoolSend(context, resourceGroupName, standbyVirtualMachinePoolName, options),
     _listByStandbyPoolDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
 
@@ -91,9 +85,7 @@ export function _getSend(
   resourceGroupName: string,
   standbyVirtualMachinePoolName: string,
   runtimeView: string,
-  options: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/runtimeViews/{runtimeView}{?api%2Dversion}",
@@ -102,7 +94,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       standbyVirtualMachinePoolName: standbyVirtualMachinePoolName,
       runtimeView: runtimeView,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,10 +102,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -124,6 +113,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -136,9 +126,7 @@ export async function get(
   resourceGroupName: string,
   standbyVirtualMachinePoolName: string,
   runtimeView: string,
-  options: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams = { requestOptions: {} },
 ): Promise<StandbyVirtualMachinePoolRuntimeViewResource> {
   const result = await _getSend(
     context,

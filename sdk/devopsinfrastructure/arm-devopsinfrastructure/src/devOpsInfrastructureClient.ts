@@ -24,7 +24,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { DevOpsInfrastructureClientOptionalParams } from "./api/devOpsInfrastructureContext.js";
+export { type DevOpsInfrastructureClientOptionalParams } from "./api/devOpsInfrastructureContext.js";
 
 export class DevOpsInfrastructureClient {
   private _client: DevOpsInfrastructureContext;

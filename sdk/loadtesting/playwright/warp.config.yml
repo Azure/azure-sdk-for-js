@@ -1,0 +1,16 @@
+extends: ../../../warp.base.config.yml
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./reporter": "./src/reporter/index.ts"
+
+targets:
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

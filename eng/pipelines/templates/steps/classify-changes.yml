@@ -1,0 +1,46 @@
+# Reads diff.json produced by save-package-properties.yml and sets a single
+# SkipTests flag using inverted logic: tests are skipped ONLY when every
+# changed file matches a strict allowlist of known-inert patterns.
+#
+# Any unrecognised file automatically triggers full CI (safe default).
+# In non-PR builds (or when diff.json is absent) SkipTests defaults to false
+# so that all steps run unconditionally.
+
+steps:
+  - pwsh: |
+      $diffPath = "$(Build.ArtifactStagingDirectory)/diff/diff.json"
+      $isPR = "$(Build.Reason)" -eq "PullRequest"
+
+      # Default: run everything
+      $skipTests = $false
+
+      if ($isPR -and (Test-Path $diffPath)) {
+        $diff = Get-Content -Raw $diffPath | ConvertFrom-Json
+        $files = @($diff.ChangedFiles)
+
+        if ($files.Count -gt 0) {
+          # Check each file structurally by path segments.
+          # Tests are skipped ONLY when every file is a known-inert change.
+          $nonInertFiles = @($files | Where-Object {
+            $parts = $_.Split('/')
+            $isChangelog = $parts.Count -eq 4 -and $parts[0] -eq 'sdk' -and $parts[3] -eq 'CHANGELOG.md'
+            $isSample = $parts.Count -gt 3 -and $parts[0] -eq 'sdk' -and $parts -contains 'samples'
+            -not ($isChangelog -or $isSample)
+          })
+
+          if ($nonInertFiles.Count -eq 0) {
+            $skipTests = $true
+            Write-Host "All $($files.Count) changed files match the test-skip allowlist."
+          }
+          else {
+            Write-Host "$($nonInertFiles.Count) file(s) outside the allowlist — tests will run:"
+            $nonInertFiles | Select-Object -First 10 | ForEach-Object { Write-Host "  $_" }
+            if ($nonInertFiles.Count -gt 10) { Write-Host "  ... and $($nonInertFiles.Count - 10) more" }
+          }
+        }
+      }
+
+      Write-Host "SkipTests=$skipTests"
+      echo "##vso[task.setvariable variable=SkipTests;isOutput=true]$skipTests"
+    name: scope
+    displayName: "Classify PR change scope"

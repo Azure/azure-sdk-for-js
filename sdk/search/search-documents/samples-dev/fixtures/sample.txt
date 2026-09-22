@@ -1,0 +1,3 @@
+Azure AI Search is a cloud search service with built-in AI capabilities.
+It supports a File knowledge source that ingests files such as PDF, DOCX, TXT, HTML, and Markdown directly into the search service.
+Once ingested, the content is chunked, vectorized using the configured embedding model, and indexed for retrieval.

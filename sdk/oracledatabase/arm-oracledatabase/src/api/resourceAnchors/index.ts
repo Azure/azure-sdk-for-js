@@ -10,10 +10,10 @@ export {
   listBySubscription,
 } from "./operations.js";
 export {
-  ResourceAnchorsListByResourceGroupOptionalParams,
-  ResourceAnchorsDeleteOptionalParams,
-  ResourceAnchorsUpdateOptionalParams,
-  ResourceAnchorsGetOptionalParams,
-  ResourceAnchorsCreateOrUpdateOptionalParams,
-  ResourceAnchorsListBySubscriptionOptionalParams,
+  type ResourceAnchorsListByResourceGroupOptionalParams,
+  type ResourceAnchorsDeleteOptionalParams,
+  type ResourceAnchorsUpdateOptionalParams,
+  type ResourceAnchorsGetOptionalParams,
+  type ResourceAnchorsCreateOrUpdateOptionalParams,
+  type ResourceAnchorsListBySubscriptionOptionalParams,
 } from "./options.js";

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { StorageCacheManagementClient } from "../src/storageCacheManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -106,7 +107,7 @@ describe.skip("StorageCache test", () => {
 
   it("caches list test", async () => {
     const resArray = new Array();
-    for await (let item of client.caches.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.caches.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -115,7 +116,7 @@ describe.skip("StorageCache test", () => {
   it("caches delete test", async () => {
     const resArray = new Array();
     await client.caches.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
-    for await (let item of client.caches.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.caches.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

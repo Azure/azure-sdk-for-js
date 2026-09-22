@@ -13,7 +13,6 @@ import {
   defaultLoggerCallback,
   ensureValidMsalToken,
   getAuthority,
-  getAuthorityHost,
   getKnownAuthorities,
   getMSALLogLevel,
   handleMsalError,
@@ -30,6 +29,9 @@ import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOption
 import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import { getAuthorityHost } from "../../util/authorityHost.js";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -215,7 +217,7 @@ export interface MsalClient {
 /**
  * Represents the options for configuring the MsalClient.
  */
-export interface MsalClientOptions {
+export interface MsalClientOptions extends CommonClientOptions {
   /**
    * Parameters that enable WAM broker authentication in the InteractiveBrowserCredential.
    */
@@ -234,17 +236,21 @@ export interface MsalClientOptions {
   /**
    * A custom authority host.
    */
-  authorityHost?: IdentityClient["tokenCredentialOptions"]["authorityHost"];
+  authorityHost?: string;
 
   /**
    * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
    */
-  loggingOptions?: IdentityClient["tokenCredentialOptions"]["loggingOptions"];
-
-  /**
-   * The token credential options for the MsalClient.
-   */
-  tokenCredentialOptions?: IdentityClient["tokenCredentialOptions"];
+  loggingOptions?: LogPolicyOptions & {
+    /**
+     * Allows logging account information once the authentication flow succeeds.
+     */
+    allowLoggingAccountIdentifiers?: boolean;
+    /**
+     * Allows logging personally identifiable information for customer support.
+     */
+    enableUnsafeSupportLogging?: boolean;
+  };
 
   /**
    * Determines whether instance discovery is disabled.
@@ -281,11 +287,10 @@ export function generateMsalConfiguration(
     clientId,
   );
 
-  // TODO: move and reuse getIdentityClientAuthorityHost
   const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
   const httpClient = new IdentityClient({
-    ...msalClientOptions.tokenCredentialOptions,
+    ...msalClientOptions,
     authorityHost: authority,
     loggingOptions: msalClientOptions.loggingOptions,
   });
@@ -451,9 +456,9 @@ export function createMsalClient(
     };
 
     if (state.pluginConfiguration.broker.isEnabled) {
-      silentRequest.tokenQueryParameters ||= {};
+      silentRequest.extraQueryParameters ||= {};
       if (state.pluginConfiguration.broker.enableMsaPassthrough) {
-        silentRequest.tokenQueryParameters["msal_request_type"] = "consumer_passthrough";
+        silentRequest.extraQueryParameters["msal_request_type"] = "consumer_passthrough";
       }
     }
 
@@ -775,7 +780,7 @@ export function createMsalClient(
     return {
       openBrowser: async (url) => {
         const open = await import("open");
-        await open.default(url, { newInstance: true });
+        await open.default(url);
       },
       scopes,
       authority: calculateRequestAuthority(options),
@@ -812,7 +817,7 @@ export function createMsalClient(
     }
 
     if (state.pluginConfiguration.broker.enableMsaPassthrough) {
-      (interactiveRequest.tokenQueryParameters ??= {})["msal_request_type"] =
+      (interactiveRequest.extraQueryParameters ??= {})["msal_request_type"] =
         "consumer_passthrough";
     }
     if (useDefaultBrokerAccount) {

@@ -15,7 +15,6 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { inspect } from "node:util";
-import { v4 } from "uuid";
 import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
 import building from "./dtdl/models/building.json";
 
@@ -44,7 +43,7 @@ async function main(): Promise<void> {
   console.log(inspect(model));
 
   // Create digital twin based on the created model
-  const digitalTwinId = `digitalTwin-${v4()}`;
+  const digitalTwinId = `digitalTwin-${crypto.randomUUID()}`;
   const newTwin = JSON.stringify(buildingTwin);
   const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, newTwin);
   console.log(`Created Digital Twin:`);

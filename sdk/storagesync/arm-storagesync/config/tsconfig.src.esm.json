@@ -1,0 +1,21 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/operationStatusOperations/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/workflows/index.ts",
+    "../src/api/registeredServers/index.ts",
+    "../src/api/serverEndpoints/index.ts",
+    "../src/api/cloudEndpoints/index.ts",
+    "../src/api/syncGroups/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/storageSyncServices/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
+}

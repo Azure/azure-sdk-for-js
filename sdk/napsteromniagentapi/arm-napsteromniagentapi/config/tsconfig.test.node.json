@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-napsteromniagentapi": ["../src/index.ts"],
+      "@azure/arm-napsteromniagentapi/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

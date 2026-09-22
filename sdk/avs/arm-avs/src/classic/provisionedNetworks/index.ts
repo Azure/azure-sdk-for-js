@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { ProvisionedNetwork } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { get, list } from "../../api/provisionedNetworks/operations.js";
+import type {
   ProvisionedNetworksGetOptionalParams,
   ProvisionedNetworksListOptionalParams,
 } from "../../api/provisionedNetworks/options.js";
-import { get, list } from "../../api/provisionedNetworks/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ProvisionedNetwork } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ProvisionedNetworks operations. */
 export interface ProvisionedNetworksOperations {

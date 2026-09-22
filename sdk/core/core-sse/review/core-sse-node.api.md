@@ -14,7 +14,7 @@ export function createReconnectingSseStream<TResponse extends SseConnectResponse
 export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
 
 // @public
-export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
+export function createSseStream(chunkStream: NodeIncomingMessage): EventMessageStream;
 
 // @public
 export function createSseStream(chunkStream: NodeJSReadableStream): EventMessageStream;
@@ -29,6 +29,9 @@ export interface EventMessage {
 
 // @public
 export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable & AsyncIterable<EventMessage>;
+
+// @public
+export type NodeIncomingMessage = IncomingMessage;
 
 // @public
 export interface NodeJSReadableStream extends NodeJS.ReadableStream {
@@ -71,7 +74,7 @@ export class SseRetryError extends Error {
 }
 
 // @public
-export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | IncomingMessage;
+export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | NodeIncomingMessage;
 
 // (No @packageDocumentation comment for this package)
 

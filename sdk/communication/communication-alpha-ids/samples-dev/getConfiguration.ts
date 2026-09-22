@@ -6,8 +6,7 @@
  */
 
 import type { DynamicAlphaIdConfiguration } from "@azure-tools/communication-alpha-ids";
-import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
-import { RestError } from "@azure/core-rest-pipeline";
+import { AlphaIdsClient, RestError } from "@azure-tools/communication-alpha-ids";
 
 // Load the .env file if it exists
 import "dotenv/config";

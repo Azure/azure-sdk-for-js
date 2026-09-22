@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
-import {
+import type { KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { createKeyVault } from "./api/index.js";
+import type {
   FullBackupOperation,
   SASTokenParameter,
   PreBackupOperationParameters,
@@ -14,8 +15,11 @@ import {
   UpdateSettingRequest,
   Setting,
   SettingsListResult,
+  EkmConnection,
+  EkmProxyClientCertificateInfo,
+  EkmProxyInfo,
 } from "./models/models.js";
-import {
+import type {
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,
@@ -27,6 +31,12 @@ import {
   PreFullBackupOptionalParams,
   FullBackupOptionalParams,
   FullBackupStatusOptionalParams,
+  DeleteEkmConnectionOptionalParams,
+  UpdateEkmConnectionOptionalParams,
+  CreateEkmConnectionOptionalParams,
+  CheckEkmConnectionOptionalParams,
+  GetEkmCertificateOptionalParams,
+  GetEkmConnectionOptionalParams,
 } from "./api/options.js";
 import {
   getSettings,
@@ -40,20 +50,22 @@ import {
   preFullBackup,
   fullBackup,
   fullBackupStatus,
+  deleteEkmConnection,
+  updateEkmConnection,
+  createEkmConnection,
+  checkEkmConnection,
+  getEkmCertificate,
+  getEkmConnection,
 } from "./api/operations.js";
-import {
-  RoleAssignmentsOperations,
-  _getRoleAssignmentsOperations,
-} from "./classic/roleAssignments/index.js";
-import {
-  RoleDefinitionsOperations,
-  _getRoleDefinitionsOperations,
-} from "./classic/roleDefinitions/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { RoleAssignmentsOperations } from "./classic/roleAssignments/index.js";
+import { _getRoleAssignmentsOperations } from "./classic/roleAssignments/index.js";
+import type { RoleDefinitionsOperations } from "./classic/roleDefinitions/index.js";
+import { _getRoleDefinitionsOperations } from "./classic/roleDefinitions/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;
@@ -77,6 +89,50 @@ export class KeyVaultClient {
     this.pipeline = this._client.pipeline;
     this.roleAssignments = _getRoleAssignmentsOperations(this._client);
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);
+  }
+
+  /** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exist, this operation fails. This operation requires ekm/delete permission. */
+  deleteEkmConnection(
+    options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return deleteEkmConnection(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) updates the existing EKM connection. If the EKM connection does not exist, this operation fails. This operation requires ekm/write permission. */
+  updateEkmConnection(
+    ekmConnection: EkmConnection,
+    options: UpdateEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return updateEkmConnection(this._client, ekmConnection, options);
+  }
+
+  /** The External Key Manager (EKM) sets up the EKM connection. If the EKM connection already exists, this operation fails. This operation requires ekm/write permission. */
+  createEkmConnection(
+    ekmConnection: EkmConnection,
+    options: CreateEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return createEkmConnection(this._client, ekmConnection, options);
+  }
+
+  /** The External Key Manager (EKM) Check operation checks the connectivity and authentication with the EKM proxy. This operation requires ekm/read permission. */
+  checkEkmConnection(
+    options: CheckEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmProxyInfo> {
+    return checkEkmConnection(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) Certificate Get operation returns Proxy client certificate. This operation requires ekm/read permission. */
+  getEkmCertificate(
+    options: GetEkmCertificateOptionalParams = { requestOptions: {} },
+  ): Promise<EkmProxyClientCertificateInfo> {
+    return getEkmCertificate(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) Get operation returns EKM connection. This operation requires ekm/read permission. */
+  getEkmConnection(
+    options: GetEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return getEkmConnection(this._client, options);
   }
 
   /** Retrieves a list of all the available account settings that can be configured. */

@@ -1,0 +1,4 @@
+directory: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/HanaOnAzure
+commit: 4375d0c4eb36e73152199e484c0d4537ddd4c9da
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

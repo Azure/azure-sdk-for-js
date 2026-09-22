@@ -17,15 +17,13 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _listSend(
   context: Client,
   resourceId: string,
-  options: BackupInstancesExtensionRoutingListOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesExtensionRoutingListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceId}/providers/Microsoft.DataProtection/backupInstances{?api%2Dversion}",
     {
       resourceId: resourceId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -33,10 +31,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -46,7 +41,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -57,15 +55,13 @@ export async function _listDeserialize(
 export function list(
   context: Client,
   resourceId: string,
-  options: BackupInstancesExtensionRoutingListOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesExtensionRoutingListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<BackupInstanceResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

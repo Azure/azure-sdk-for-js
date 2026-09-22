@@ -1,42 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { AzureTerraformClient } from "./azureTerraformClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
-  BaseExportModel,
-  BaseExportModelUnion,
-  KnownType,
-  Type,
-  KnownTargetProvider,
-  TargetProvider,
-  ExportQuery,
-  ExportResource,
-  ExportResourceGroup,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  TerraformOperationStatus,
-  ExportResult,
-  KnownResourceProvisioningState,
-  ResourceProvisioningState,
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
-  KnownVersions,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  BaseExportModel,
+  BaseExportModelUnion,
+  Type,
+  TargetProvider,
+  AzureExtensionResourceType,
+  ExportQuery,
+  AuthorizationScopeFilter,
+  ExportResource,
+  ExportResourceGroup,
+  TerraformOperationStatus,
+  ExportResult,
+  ResourceProvisioningState,
 } from "./models/index.js";
 export {
-  AzureTerraformClientOptionalParams,
-  OperationsListOptionalParams,
-  TerraformExportTerraformOptionalParams,
-} from "./api/index.js";
-export { OperationsOperations, TerraformOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+  KnownOrigin,
+  KnownActionType,
+  KnownType,
+  KnownTargetProvider,
+  KnownAzureExtensionResourceType,
+  KnownAuthorizationScopeFilter,
+  KnownResourceProvisioningState,
+  KnownVersions,
+} from "./models/index.js";
+export type { AzureTerraformClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { TerraformExportTerraformOptionalParams } from "./api/terraform/index.js";
+export type { OperationsOperations, TerraformOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

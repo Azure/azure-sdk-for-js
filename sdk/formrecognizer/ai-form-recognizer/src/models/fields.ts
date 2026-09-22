@@ -69,8 +69,9 @@ export type DocumentField =
 /**
  * A DocumentField that has a string value.
  */
-export interface DocumentStringField<Value extends string = string>
-  extends DocumentValueField<Value> {
+export interface DocumentStringField<
+  Value extends string = string,
+> extends DocumentValueField<Value> {
   /** Field kind: "string". */
   kind: "string";
 }
@@ -224,8 +225,9 @@ export interface DocumentBooleanField extends DocumentValueField<boolean> {
 /**
  * A DocumentField that consists of several named properties that have their own DocumentField values.
  */
-export interface DocumentObjectField<Properties = { [k: string]: DocumentField | undefined }>
-  extends DocumentFieldCommon {
+export interface DocumentObjectField<
+  Properties = { [k: string]: DocumentField | undefined },
+> extends DocumentFieldCommon {
   /** Field kind: "object". */
   kind: "object";
 

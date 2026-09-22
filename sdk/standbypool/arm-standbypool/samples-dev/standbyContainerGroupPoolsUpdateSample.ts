@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { StandbyPoolManagementClient } from "@azure/arm-standbypool";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to update a StandbyContainerGroupPoolResource
  *
  * @summary update a StandbyContainerGroupPoolResource
- * x-ms-original-file: 2025-03-01/StandbyContainerGroupPools_Update.json
+ * x-ms-original-file: 2025-10-01/StandbyContainerGroupPools_Update.json
  */
-
-import { StandbyPoolManagementClient } from "@azure/arm-standbypool";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function standbyContainerGroupPoolsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
@@ -18,7 +17,11 @@ async function standbyContainerGroupPoolsUpdate(): Promise<void> {
   const result = await client.standbyContainerGroupPools.update("rgstandbypool", "pool", {
     tags: {},
     properties: {
-      elasticityProfile: { maxReadyCapacity: 1743, refillPolicy: "always" },
+      elasticityProfile: {
+        maxReadyCapacity: 1743,
+        refillPolicy: "always",
+        dynamicSizing: { enabled: true },
+      },
       containerGroupProperties: {
         containerGroupProfile: {
           id: "/subscriptions/00000000-0000-0000-0000-000000000009/resourceGroups/rgstandbypool/providers/Microsoft.ContainerInstance/containerGroupProfiles/cgProfile",

@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/keyvault-common": ["../src/index.ts"]
+    }
+  }
+}

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { UserDelegationKey } from "@azure/storage-common";
 import type {
   CopyStatusType,
   DirectoryDeleteHeaders,
@@ -39,7 +40,9 @@ import type {
   ShareSetMetadataHeaders,
   ShareStats,
   ShareSetPropertiesHeaders,
-} from "./generated/src/models/index.js";
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKey as UserDelegationKeyModel,
+} from "./generated-classic-models.js";
 import type {
   FileDownloadResponse,
   FilePosixProperties,
@@ -222,6 +225,8 @@ export interface FileCreateHeaders {
   fileParentId?: string;
   /** Properties of NFS files. */
   posixProperties?: FilePosixProperties;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -527,6 +532,10 @@ export interface FileDownloadHeaders {
   leaseStatus?: LeaseStatusType;
   /** Properties of NFS files. */
   posixProperties?: FilePosixProperties;
+  /** Indicates the response body contains a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
   /** Error Code */
   errorCode?: string;
 }
@@ -571,14 +580,12 @@ export type FileRenameResponse = WithResponse<FileRenameHeaders, FileRenameHeade
 
 // explicitly exporting types that we need.
 
-export {
+export type {
   CopyStatusType,
   DeleteSnapshotsOptionType,
-  FileDownloadOptionalParams,
   FileGetRangeListHeaders,
   FileLastWrittenMode,
   FileServiceProperties,
-  FileUploadRangeFromURLOptionalParams,
   PermissionCopyModeType,
   ListSharesIncludeType,
   FileRange as RangeModel,
@@ -612,6 +619,7 @@ export {
   ServiceGetPropertiesHeaders,
   ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
+  ServiceGetUserDelegationKeyHeaders,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,
   ShareCreatePermissionHeaders,
@@ -634,16 +642,20 @@ export {
   LeaseStateType,
   LeaseStatusType,
   CopyFileSmbInfo,
+  ShareNfsSettings,
+  ShareNfsSettingsEncryptionInTransit,
   ShareProtocolSettings,
   ShareSmbSettings,
+  ShareSmbSettingsEncryptionInTransit,
   SmbMultichannel,
   ShareFileRangeList,
   ClearRange,
   ShareAccessTier,
   ShareRootSquash,
-} from "./generated/src/models/index.js";
+  UserDelegationKey as UserDelegationKeyModel,
+} from "./generated-classic-models.js";
 
-export {
+export type {
   FileDownloadResponse as RawFileDownloadResponse,
   FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
 } from "./models.js";
@@ -706,6 +718,26 @@ export interface ListFilesAndDirectoriesSegmentResponse {
 /** Defines values for AccessRight. */
 export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
 
+/**
+ * A range of bytes within an Azure file, as returned by {@link ShareFileClient.listRanges}
+ * and {@link ShareFileClient.listRangesDiff}.
+ */
+export interface ShareFileRange {
+  /**
+   * Start byte position of the range.
+   */
+  start: number;
+  /**
+   * End byte position of the range, inclusive.
+   */
+  end: number;
+  /**
+   * Indicates whether this range is a cleared range (`true`) or a valid data range (`false`).
+   * When listing ranges via {@link ShareFileClient.listRanges}, this is always `false`.
+   */
+  isClear: boolean;
+}
+
 /** A listed Azure Storage handle item. */
 export interface HandleItem {
   /** XSMB service handle ID */
@@ -734,3 +766,12 @@ export interface ListHandlesResponse {
   handleList?: HandleItem[];
   continuationToken: string;
 }
+
+/**
+ * Contains response data for the {@link getUserDelegationKey} operation.
+ */
+export declare type ServiceGetUserDelegationKeyResponse = WithResponse<
+  UserDelegationKey & ServiceGetUserDelegationKeyHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKeyModel
+>;

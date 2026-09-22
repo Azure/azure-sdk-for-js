@@ -9,6 +9,7 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
+import type { NodeJSReadableStream, UserDelegationKey } from "@azure/storage-common";
 import type {
   CopyFileSmbInfo,
   DeleteSnapshotsOptionType,
@@ -24,7 +25,6 @@ import type {
   FileAbortCopyResponse,
   FileCreateResponse,
   FileDeleteResponse,
-  FileDownloadOptionalParams,
   FileDownloadResponseModel,
   FileForceCloseHandlesHeaders,
   FileGetPropertiesResponse,
@@ -47,6 +47,7 @@ import type {
   ShareCreateResponse,
   ShareCreateSnapshotResponse,
   ShareDeleteResponse,
+  ShareFileRange,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
   ShareGetPropertiesResponseModel,
@@ -84,7 +85,6 @@ import type {
   DirectoryListHandlesHeaders,
   DirectoryRenameHeaders,
   FileCreateHeaders,
-  FileDownloadHeaders,
   FileGetPropertiesHeaders,
   FileDeleteHeaders,
   FileSetMetadataHeaders,
@@ -93,7 +93,6 @@ import type {
   FileStartCopyHeaders,
   FileAbortCopyHeaders,
   FileListHandlesHeaders,
-  RawFileDownloadResponse,
   FileCreateHardLinkResponse,
   FileSetHTTPHeadersHeaders,
   FileCreateHardLinkHeaders,
@@ -103,11 +102,23 @@ import type {
   FileGetSymbolicLinkHeaders,
 } from "./generatedModels.js";
 import type {
+  FileCreateOptionalParams,
   FileRenameHeaders,
+  FileUploadRangeOptionalParams,
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
-} from "./generated/src/models/index.js";
-import type { Share, Directory, File } from "./generated/src/operationsInterfaces/index.js";
+  LeaseDurationType,
+  LeaseStateType,
+  LeaseStatusType,
+} from "./generated-classic-models.js";
+import type {
+  ShareOperations,
+  DirectoryOperations,
+  FileOperations,
+  ListFilesIncludeType,
+  ShareFileRangeListSegment,
+  FileDownloadOptionalParams as FileDownloadOptionalParamsInternal,
+} from "./generated/index.js";
 import type { Pipeline, PipelineLike } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import {
@@ -132,10 +143,13 @@ import {
   ConvertInternalResponseOfListFiles,
   ConvertInternalResponseOfListHandles,
   assertResponse,
+  adjustResponse,
   removeEmptyString,
+  extractShareFileRangeItems,
   asSharePermission,
   parseOctalFileMode,
   toOctalFileMode,
+  setUploadChecksumParameters,
 } from "./utils/utils.common.js";
 import { Credential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
@@ -147,7 +161,7 @@ import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-pagin
 import { FileDownloadResponse } from "./FileDownloadResponse.js";
 import type { Range } from "./Range.js";
 import { rangeToString } from "./Range.js";
-import type {
+import {
   CloseHandlesInfo,
   FileAndDirectoryCreateCommonOptions,
   FileAndDirectorySetPropertiesCommonOptions,
@@ -159,6 +173,7 @@ import type {
   ShareClientConfig,
   FilePosixProperties,
   TimeNowType,
+  StorageChecksumAlgorithm,
 } from "./models.js";
 import {
   fileAttributesToString,
@@ -169,6 +184,8 @@ import {
   toShareProtocolsString,
   toShareProtocols,
   fileChangeTimeToString,
+  rawHeadersToMetadata,
+  metadataToRawHeaders,
 } from "./models.js";
 import { Batch } from "./utils/Batch.js";
 import { BufferScheduler } from "./utils/BufferScheduler.js";
@@ -178,7 +195,7 @@ import {
   readStreamToLocalFile,
   streamToBuffer,
 } from "./utils/utils.js";
-import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
+import type { StorageClientContext } from "./StorageClient.js";
 import { randomUUID } from "@azure/core-util";
 import {
   generateFileSASQueryParameters,
@@ -188,10 +205,14 @@ import type { ShareSASPermissions } from "./ShareSASPermissions.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import type { FileSASPermissions } from "./FileSASPermissions.js";
-import type { ListFilesIncludeType } from "./generated/src/index.js";
-import { Readable } from "node:stream";
+import type { Readable } from "node:stream";
+import {
+  StorageCRC64Calculator,
+  structuredMessageDecodingBrowser,
+  structuredMessageDecodingStream,
+} from "@azure/storage-common";
 
-export { ShareClientOptions, ShareClientConfig } from "./models.js";
+export type { ShareClientOptions, ShareClientConfig } from "./models.js";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -421,12 +442,16 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
    */
   paidBurstingMaxIops?: number;
+
   /**
    * Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares.
    * Specifies the provisioned number of input/output operations per second (IOPS) of the share. If this is not specified, the provisioned IOPS is set to value calculated based on recommendation formula.
    */
   shareProvisionedIops?: number;
-  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
+
+  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps).
+   * If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula.
+   */
   shareProvisionedBandwidthMibps?: number;
 }
 
@@ -646,7 +671,7 @@ export class ShareClient extends StorageClient {
   /**
    * Share operation context provided by protocol layer.
    */
-  private context: Share;
+  private context: ShareOperations;
 
   private _name: string;
 
@@ -793,12 +818,17 @@ export class ShareClient extends StorageClient {
    */
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
     return tracingClient.withSpan("ShareClient-create", options, async (updatedOptions) => {
+      const { metadata, ...restOptions } = updatedOptions;
+      const metadataHeaders = metadataToRawHeaders(metadata);
       return assertResponse<ShareCreateHeaders, ShareCreateHeaders>(
-        await this.context.create({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-          enabledProtocols: toShareProtocolsString(updatedOptions.protocols),
-        }),
+        adjustResponse(
+          await this.context.create({
+            ...restOptions,
+            ...this.shareClientConfig,
+            enabledProtocols: toShareProtocolsString(updatedOptions.protocols),
+            requestOptions: { headers: metadataHeaders },
+          }),
+        ),
       );
     });
   }
@@ -827,6 +857,7 @@ export class ShareClient extends StorageClient {
           if (e.details?.errorCode === "ShareAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -1014,12 +1045,27 @@ export class ShareClient extends StorageClient {
     options: ShareGetPropertiesOptions = {},
   ): Promise<ShareGetPropertiesResponse> {
     return tracingClient.withSpan("ShareClient-getProperties", options, async (updatedOptions) => {
-      const res = assertResponse<ShareGetPropertiesHeaders, ShareGetPropertiesHeaders>(
-        await this.context.getProperties(updatedOptions),
+      const response = adjustResponse(
+        await this.context.getProperties({
+          ...updatedOptions,
+          ...updatedOptions.leaseAccessConditions,
+        }),
       );
+      const wrappedRes = {
+        ...response,
+        _response: response._response, // _response is made non-enumerable,
+        leaseDuration: response.leaseDuration
+          ? (response.leaseDuration as LeaseDurationType)
+          : undefined,
+        leaseState: response.leaseState ? (response.leaseState as LeaseStateType) : undefined,
+        leaseStatus: response.leaseStatus ? (response.leaseStatus as LeaseStatusType) : undefined,
+        rootSquash: response.rootSquash ? (response.rootSquash as ShareRootSquash) : undefined,
+      };
+      const res = assertResponse<ShareGetPropertiesHeaders, ShareGetPropertiesHeaders>(wrappedRes);
       return {
         ...res,
         ...this.shareClientConfig,
+        metadata: rawHeadersToMetadata(res._response.headers.rawHeaders()),
         protocols: toShareProtocols(res.enabledProtocols),
       };
     });
@@ -1036,10 +1082,13 @@ export class ShareClient extends StorageClient {
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
     return tracingClient.withSpan("ShareClient-delete", options, async (updatedOptions) => {
       return assertResponse<ShareDeleteHeaders, ShareDeleteHeaders>(
-        await this.context.delete({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        }),
+        adjustResponse(
+          await this.context.delete({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+          }),
+        ),
       );
     });
   }
@@ -1068,6 +1117,7 @@ export class ShareClient extends StorageClient {
         ) {
           return {
             succeeded: false,
+            errorCode: e.details?.errorCode,
             ...e.response?.parsedHeaders,
             _response: e.response,
           };
@@ -1093,12 +1143,16 @@ export class ShareClient extends StorageClient {
     options: ShareSetMetadataOptions = {},
   ): Promise<ShareSetMetadataResponse> {
     return tracingClient.withSpan("ShareClient-setMetadata", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(metadata);
       return assertResponse<ShareSetMetadataHeaders, ShareSetMetadataHeaders>(
-        await this.context.setMetadata({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-          metadata,
-        }),
+        adjustResponse(
+          await this.context.setMetadata({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
+          }),
+        ),
       );
     });
   }
@@ -1123,18 +1177,21 @@ export class ShareClient extends StorageClient {
       options,
       async (updatedOptions) => {
         const response = assertResponse<
-          ShareGetAccessPolicyHeaders & SignedIdentifierModel[],
+          ShareGetAccessPolicyHeaders & { items: SignedIdentifierModel[] },
           ShareGetAccessPolicyHeaders,
-          SignedIdentifierModel[]
+          { items: SignedIdentifierModel[] }
         >(
-          await this.context.getAccessPolicy({
-            ...updatedOptions,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.getAccessPolicy({
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
 
         const res: ShareGetAccessPolicyResponse = {
-          _response: response._response,
+          _response: response._response as any,
           date: response.date,
           etag: response.etag,
           lastModified: response.lastModified,
@@ -1143,7 +1200,7 @@ export class ShareClient extends StorageClient {
           version: response.version,
         };
 
-        for (const identifier of response) {
+        for (const identifier of response.items) {
           let accessPolicy: any = undefined;
           if (identifier.accessPolicy) {
             accessPolicy = {
@@ -1212,11 +1269,14 @@ export class ShareClient extends StorageClient {
         }
 
         return assertResponse<ShareSetAccessPolicyHeaders, ShareSetAccessPolicyHeaders>(
-          await this.context.setAccessPolicy({
-            ...updatedOptions,
-            ...this.shareClientConfig,
-            shareAcl: acl,
-          }),
+          adjustResponse(
+            await this.context.setAccessPolicy({
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              ...this.shareClientConfig,
+              shareAcl: { items: acl },
+            }),
+          ),
         );
       },
     );
@@ -1232,11 +1292,16 @@ export class ShareClient extends StorageClient {
     options: ShareCreateSnapshotOptions = {},
   ): Promise<ShareCreateSnapshotResponse> {
     return tracingClient.withSpan("ShareClient-createSnapshot", options, async (updatedOptions) => {
+      const { metadata, ...restOptions } = updatedOptions;
+      const metadataHeaders = metadataToRawHeaders(metadata);
       return assertResponse<ShareCreateSnapshotHeaders, ShareCreateSnapshotHeaders>(
-        await this.context.createSnapshot({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        }),
+        adjustResponse(
+          await this.context.createSnapshot({
+            ...restOptions,
+            ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
+          }),
+        ),
       );
     });
   }
@@ -1256,11 +1321,14 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetQuotaResponse> {
     return tracingClient.withSpan("ShareClient-setQuota", options, async (updatedOptions) => {
       return assertResponse<ShareSetPropertiesHeaders, ShareSetPropertiesHeaders>(
-        await this.context.setProperties({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-          quota: quotaInGB,
-        }),
+        adjustResponse(
+          await this.context.setProperties({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+            quota: quotaInGB,
+          }),
+        ),
       );
     });
   }
@@ -1276,12 +1344,15 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetPropertiesResponse> {
     return tracingClient.withSpan("ShareClient-setProperties", options, async (updatedOptions) => {
       return assertResponse<ShareSetPropertiesHeaders, ShareSetPropertiesHeaders>(
-        await this.context.setProperties({
-          ...options,
-          ...this.shareClientConfig,
-          quota: options.quotaInGB,
-          tracingOptions: updatedOptions.tracingOptions,
-        }),
+        adjustResponse(
+          await this.context.setProperties({
+            ...options,
+            ...options.leaseAccessConditions,
+            ...this.shareClientConfig,
+            quota: options.quotaInGB,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        ),
       );
     });
   }
@@ -1301,10 +1372,13 @@ export class ShareClient extends StorageClient {
         ShareGetStatisticsHeaders,
         ShareStats
       >(
-        await this.context.getStatistics({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        }),
+        adjustResponse(
+          await this.context.getStatistics({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+          }),
+        ),
       );
 
       const GBBytes = 1024 * 1024 * 1024;
@@ -1329,10 +1403,12 @@ export class ShareClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ShareCreatePermissionHeaders, ShareCreatePermissionHeaders>(
-          await this.context.createPermission(asSharePermission(filePermission), {
-            ...updatedOptions,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.createPermission(asSharePermission(filePermission), {
+              ...updatedOptions,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
       },
     );
@@ -1356,10 +1432,12 @@ export class ShareClient extends StorageClient {
         ShareGetPermissionHeaders,
         SharePermission
       >(
-        await this.context.getPermission(filePermissionKey, {
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        }),
+        adjustResponse(
+          await this.context.getPermission(filePermissionKey, {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
+        ),
       );
     });
   }
@@ -1430,6 +1508,58 @@ export class ShareClient extends StorageClient {
       this.credential,
     ).stringToSign;
   }
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: ShareGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    const sas = generateFileSASQueryParameters(
+      {
+        shareName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationStringToSign(
+    options: ShareGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateFileSASQueryParametersInternal(
+      {
+        shareName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).stringToSign;
+  }
 }
 
 /**
@@ -1448,8 +1578,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 }
 
 export interface DirectoryProperties
-  extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -1707,7 +1836,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * context provided by protocol layer.
    */
-  private context: Directory;
+  private context: DirectoryOperations;
 
   private _shareName: string;
   private _path: string;
@@ -1818,27 +1947,32 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-create",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.create({
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileAttributes: updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : undefined,
-          owner: updatedOptions.posixProperties?.owner,
-          group: updatedOptions.posixProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-          ...this.shareClientConfig,
-        });
+        const { metadata, ...restOptions } = updatedOptions;
+        const metadataHeaders = metadataToRawHeaders(metadata);
+        const response = adjustResponse(
+          await this.context.create({
+            ...restOptions,
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+            fileAttributes: updatedOptions.fileAttributes
+              ? fileAttributesToString(updatedOptions.fileAttributes!)
+              : undefined,
+            owner: updatedOptions.posixProperties?.owner,
+            group: updatedOptions.posixProperties?.group,
+            fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+            ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
+          }),
+        );
         const wrappedRes = {
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          ...response,
+          _response: response._response, // _response is made non-enumerable,
           posixProperties: {
-            fileMode: parseOctalFileMode(rawResponse.fileMode),
-            fileType: rawResponse.nfsFileType,
-            owner: rawResponse.owner,
-            group: rawResponse.group,
+            fileMode: parseOctalFileMode(response.fileMode),
+            fileType: response.nfsFileType,
+            owner: response.owner,
+            group: response.group,
           },
         };
         return assertResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>(wrappedRes);
@@ -1870,6 +2004,7 @@ export class ShareDirectoryClient extends StorageClient {
           if (e.details?.errorCode === "ResourceAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -1895,28 +2030,33 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-setProperties",
       properties,
       async (updatedOptions) => {
-        const rawResponse = await this.context.setProperties({
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileAttributes: updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : undefined,
-          owner: updatedOptions.posixProperties?.owner,
-          group: updatedOptions.posixProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-          ...this.shareClientConfig,
-        });
-        return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response,
+        const response = adjustResponse(
+          await this.context.setProperties({
+            ...updatedOptions,
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+            fileAttributes: updatedOptions.fileAttributes
+              ? fileAttributesToString(updatedOptions.fileAttributes!)
+              : undefined,
+            owner: updatedOptions.posixProperties?.owner,
+            group: updatedOptions.posixProperties?.group,
+            fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+            ...this.shareClientConfig,
+          }),
+        );
+        const wrappedRes = {
+          ...response,
+          _response: response._response,
           posixProperties: {
-            fileMode: parseOctalFileMode(rawResponse.fileMode),
-            owner: rawResponse.owner,
-            group: rawResponse.group,
+            fileMode: parseOctalFileMode(response.fileMode),
+            owner: response.owner,
+            group: response.group,
           },
-        } as any);
+        };
+        return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>(
+          wrappedRes,
+        );
       },
     );
   }
@@ -2156,20 +2296,26 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-getProperties",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.getProperties({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
-        return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response,
+        const response = adjustResponse(
+          await this.context.getProperties({
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
+        );
+        const wrappedRes = {
+          ...response,
+          _response: response._response,
+          metadata: rawHeadersToMetadata(response._response.headers.rawHeaders()),
           posixProperties: {
-            fileMode: parseOctalFileMode(rawResponse.fileMode),
-            owner: rawResponse.owner,
-            group: rawResponse.group,
-            fileType: rawResponse.nfsFileType,
+            fileMode: parseOctalFileMode(response.fileMode),
+            owner: response.owner,
+            group: response.group,
+            fileType: response.nfsFileType,
           },
-        } as any);
+        };
+        return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>(
+          wrappedRes,
+        );
       },
     );
   }
@@ -2188,7 +2334,9 @@ export class ShareDirectoryClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<DirectoryDeleteHeaders, DirectoryDeleteHeaders>(
-          await this.context.delete({ ...updatedOptions, ...this.shareClientConfig }),
+          adjustResponse(
+            await this.context.delete({ ...updatedOptions, ...this.shareClientConfig }),
+          ),
         );
       },
     );
@@ -2221,6 +2369,7 @@ export class ShareDirectoryClient extends StorageClient {
           ) {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -2247,12 +2396,15 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-setMetadata",
       options,
       async (updatedOptions) => {
+        const metadataHeaders = metadataToRawHeaders(metadata);
         return assertResponse<DirectorySetMetadataHeaders, DirectorySetMetadataHeaders>(
-          await this.context.setMetadata({
-            ...updatedOptions,
-            metadata,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.setMetadata({
+              ...updatedOptions,
+              ...this.shareClientConfig,
+              requestOptions: { headers: metadataHeaders },
+            }),
+          ),
         );
       },
     );
@@ -2300,9 +2452,8 @@ export class ShareDirectoryClient extends StorageClient {
       options.prefix = undefined;
     }
 
-    let marker: string | undefined;
     for await (const listFilesAndDirectoriesResponse of this.iterateFilesAndDirectoriesSegments(
-      marker,
+      undefined,
       options,
     )) {
       for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
@@ -2541,23 +2692,25 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-listFilesAndDirectoriesSegment",
       options,
       async (updatedOptions) => {
-        const rawResponse = assertResponse<
+        const response = assertResponse<
           DirectoryListFilesAndDirectoriesSegmentHeaders &
             GeneratedListFilesAndDirectoriesSegmentResponse,
           DirectoryListFilesAndDirectoriesSegmentHeaders,
           GeneratedListFilesAndDirectoriesSegmentResponse
         >(
-          await this.context.listFilesAndDirectoriesSegment({
-            ...updatedOptions,
-            marker,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.listFilesAndDirectoriesSegment({
+              ...updatedOptions,
+              marker,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
         const wrappedResponse: DirectoryListFilesAndDirectoriesSegmentResponse = {
-          ...ConvertInternalResponseOfListFiles(rawResponse),
+          ...ConvertInternalResponseOfListFiles(response),
           _response: {
-            ...rawResponse._response,
-            parsedBody: ConvertInternalResponseOfListFiles(rawResponse._response.parsedBody),
+            ...response._response,
+            parsedBody: ConvertInternalResponseOfListFiles(response._response.parsedBody),
           }, // _response is made non-enumerable
         };
         return wrappedResponse;
@@ -2597,8 +2750,7 @@ export class ShareDirectoryClient extends StorageClient {
   private async *listHandleItems(
     options: DirectoryListHandlesSegmentOptions = {},
   ): AsyncIterableIterator<HandleItem> {
-    let marker: string | undefined;
-    for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
+    for await (const listHandlesResponse of this.iterateHandleSegments(undefined, options)) {
       if (listHandlesResponse.handleList) {
         for (const handle of listHandlesResponse.handleList) {
           yield handle;
@@ -2785,11 +2937,13 @@ export class ShareDirectoryClient extends StorageClient {
           DirectoryListHandlesHeaders,
           GeneratedListHandlesResponse
         >(
-          await this.context.listHandles({
-            ...updatedOptions,
-            marker,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.listHandles({
+              ...updatedOptions,
+              marker,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
 
         // TODO: Protocol layer issue that when handle list is in returned XML
@@ -2832,20 +2986,22 @@ export class ShareDirectoryClient extends StorageClient {
         if (marker === "") {
           marker = undefined;
         }
-        const rawResponse = assertResponse<
+        const response = assertResponse<
           DirectoryForceCloseHandlesHeaders,
           DirectoryForceCloseHandlesHeaders
         >(
-          await this.context.forceCloseHandles("*", {
-            ...updatedOptions,
-            marker,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.forceCloseHandles("*", {
+              ...updatedOptions,
+              marker,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
         return {
-          ...rawResponse,
-          closedHandlesCount: rawResponse.numberOfHandlesClosed ?? 0,
-          closeFailureCount: rawResponse.numberOfHandlesFailedToClose ?? 0,
+          ...response,
+          closedHandlesCount: response.numberOfHandlesClosed ?? 0,
+          closeFailureCount: response.numberOfHandlesFailedToClose ?? 0,
         };
       },
     );
@@ -2911,11 +3067,13 @@ export class ShareDirectoryClient extends StorageClient {
           );
         }
 
-        const rawResponse = await this.context.forceCloseHandles(handleId, {
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
-        const response = rawResponse as DirectoryForceCloseHandlesResponse;
+        const rawResponse = adjustResponse(
+          await this.context.forceCloseHandles(handleId, {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
+        );
+        const response = rawResponse as unknown as DirectoryForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
         response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
         return response;
@@ -2985,21 +3143,19 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-rename",
       options,
       async (updatedOptions) => {
+        const { metadata, ...restOptions } = updatedOptions;
+        const metadataHeaders = metadataToRawHeaders(metadata);
         const response = assertResponse<DirectoryRenameHeaders, DirectoryRenameHeaders>(
-          await destDirectory.context.rename(this.url, {
-            ...updatedOptions,
-            sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
-              ? {
-                  sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
-                }
-              : undefined,
-            destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
-              ? {
-                  destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
-                }
-              : undefined,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await destDirectory.context.rename(this.url, {
+              ...restOptions,
+              ...updatedOptions.copyFileSmbInfo,
+              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions?.leaseId,
+              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions?.leaseId,
+              ...this.shareClientConfig,
+              requestOptions: { headers: metadataHeaders },
+            }),
+          ),
         );
 
         return {
@@ -3032,6 +3188,29 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
+   * An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).
+   */
+  contentMD5?: Uint8Array;
+  /**
+   * Specifies the number of bytes being transmitted in the request body. When the content is set to NULL, the value of this header must be set to zero.
+   */
+  contentLength?: number;
+
+  /**
+   * Initial data.
+   */
+  content?: HttpRequestBody;
+
+  /**
+   * Progress updating event handler.
+   */
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -3102,6 +3281,11 @@ export interface FileDownloadOptions extends CommonOptions {
   rangeGetContentMD5?: boolean;
 
   /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
    * Download progress updating event handler.
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -3146,6 +3330,10 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * By default, the value will be set as Now.
    */
   fileLastWrittenMode?: FileLastWrittenMode;
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -3278,6 +3466,122 @@ export type FileGetRangeListResponse = WithResponse<
 >;
 
 /**
+ * Options to configure the {@link ShareFileClient.listRanges} operation.
+ */
+export interface FileListRangesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
+  range?: Range;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * Options to configure the {@link ShareFileClient.listRangesDiff} operation.
+ */
+export interface FileListRangesDiffOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
+  range?: Range;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * This header is allowed only when prevShareSnapshot parameter is set.
+   * Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed.
+   * If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response.
+   * The default value is false.
+   */
+  includeRenames?: boolean;
+}
+
+/**
+ * Options to configure listing range segments, used internally by
+ * {@link ShareFileClient.listRanges} and {@link ShareFileClient.listRangesDiff}.
+ */
+interface FileListRangesSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
+  range?: Range;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * This header is allowed only when prevShareSnapshot parameter is set.
+   * Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed.
+   * If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response.
+   * The default value is false.
+   */
+  includeRenames?: boolean;
+  /**
+   * The previous share snapshot to compare with, when listing range diffs.
+   */
+  prevShareSnapshot?: string;
+  /**
+   * Specifies the maximum number of ranges to return per page.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * The body of a single page of results for the {@link ShareFileClient.listRanges} and
+ * {@link ShareFileClient.listRangesDiff} operations.
+ */
+export interface FileListRangesSegment {
+  /**
+   * The valid data ranges for the file.
+   */
+  ranges?: RangeModel[];
+  /**
+   * The cleared ranges for the file. Present when listing range diffs.
+   */
+  clearRanges?: RangeModel[];
+  /**
+   * The next marker returned by the service if there are more ranges to list.
+   */
+  nextMarker?: string;
+}
+
+/**
+ * Contains a single page of results for the {@link ShareFileClient.listRanges} and
+ * {@link ShareFileClient.listRangesDiff} operations.
+ */
+export type FileListRangesSegmentResponse = WithResponse<
+  FileGetRangeListHeaders &
+    FileListRangesSegment & {
+      /**
+       * A token that identifies the portion of the list to be returned with the next list operation.
+       * The value is opaque to the client.
+       */
+      continuationToken?: string;
+    },
+  FileGetRangeListHeaders,
+  FileListRangesSegment
+>;
+
+/**
  * Options to configure the {@link ShareFileClient.startCopyFromURL} operation.
  */
 export interface FileStartCopyOptions extends CommonOptions {
@@ -3356,8 +3660,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
  * Options to configure the {@link ShareFileClient.setHttpHeaders} operation.
  */
 export interface FileSetHttpHeadersOptions
-  extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3388,8 +3691,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
  * Options to configure the {@link ShareFileClient.resize} operation.
  */
 export interface FileResizeOptions
-  extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3607,6 +3909,10 @@ export interface FileUploadStreamOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -3652,6 +3958,11 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -3700,6 +4011,11 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -3873,7 +4189,7 @@ export class ShareFileClient extends StorageClient {
   /**
    * context provided by protocol layer.
    */
-  private context: File;
+  private context: FileOperations;
 
   private _shareName: string;
   private _path: string;
@@ -4033,8 +4349,12 @@ export class ShareFileClient extends StorageClient {
 
     options.fileHttpHeaders = options.fileHttpHeaders || {};
     return tracingClient.withSpan("ShareFileClient-create", options, async (updatedOptions) => {
-      const rawResponse = await this.context.create(size, {
-        ...updatedOptions,
+      const { metadata, ...restOptions } = updatedOptions;
+      const metadataHeaders = metadataToRawHeaders(metadata);
+      const parameters: FileCreateOptionalParams = {
+        ...restOptions,
+        ...updatedOptions.leaseAccessConditions,
+        ...updatedOptions.fileHttpHeaders,
         fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
         fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
         fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
@@ -4046,16 +4366,43 @@ export class ShareFileClient extends StorageClient {
         fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
         nfsFileType: updatedOptions.posixProperties?.fileType,
         ...this.shareClientConfig,
-      });
+      };
+
+      if (options.content !== undefined) {
+        if (options.contentLength === undefined) {
+          throw new RangeError(`contentLength must be specified when creating file with content`);
+        }
+
+        const createChecksumBody = await setUploadChecksumParameters(
+          options.content,
+          options.contentLength,
+          parameters,
+          options,
+          this.shareClientConfig?.uploadContentChecksumAlgorithm,
+        );
+
+        parameters.requestOptions = {
+          onUploadProgress: updatedOptions.onProgress,
+        };
+        parameters.body = createChecksumBody.body;
+        parameters.contentLength = createChecksumBody.contentLength;
+      }
+
+      const response = adjustResponse(
+        await this.context.create(size, {
+          ...parameters,
+          requestOptions: { headers: metadataHeaders },
+        } as FileCreateOptionalParams & { body: any }),
+      );
 
       const wrappedRes = {
-        ...rawResponse,
-        _response: (rawResponse as any)._response, // _response is made non-enumerable,
+        ...response,
+        _response: response._response, // _response is made non-enumerable,
         posixProperties: {
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-          fileType: rawResponse.nfsFileType,
-          owner: rawResponse.owner,
-          group: rawResponse.group,
+          fileMode: parseOctalFileMode(response.fileMode),
+          fileType: response.nfsFileType,
+          owner: response.owner,
+          group: response.group,
         },
       };
       return assertResponse<FileCreateHeaders, FileCreateHeaders>(wrappedRes);
@@ -4079,6 +4426,7 @@ export class ShareFileClient extends StorageClient {
    *
    * ```ts snippet:ReadmeSampleDownloadFileAndConvertToString_Node
    * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   * import { buffer } from "node:stream/consumers";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
@@ -4099,22 +4447,10 @@ export class ShareFileClient extends StorageClient {
    * // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
    * const downloadFileResponse = await fileClient.download();
    * if (downloadFileResponse.readableStreamBody) {
-   *   const buffer = await streamToBuffer(downloadFileResponse.readableStreamBody);
-   *   console.log(`Downloaded file content: ${buffer.toString()}`);
-   * }
-   *
-   * // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer
-   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-   *   return new Promise((resolve, reject) => {
-   *     const chunks: Buffer[] = [];
-   *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-   *     });
-   *     readableStream.on("end", () => {
-   *       resolve(Buffer.concat(chunks));
-   *     });
-   *     readableStream.on("error", reject);
-   *   });
+   *   // Download the raw bytes of the file. Use `text` from "node:stream/consumers"
+   *   // instead if you want to read the content as a string directly.
+   *   const downloaded = await buffer(downloadFileResponse.readableStreamBody);
+   *   console.log(`Downloaded file content: ${downloaded.toString()}`);
    * }
    * ```
    *
@@ -4148,34 +4484,60 @@ export class ShareFileClient extends StorageClient {
     options: FileDownloadOptions = {},
   ): Promise<FileDownloadResponseModel> {
     return tracingClient.withSpan("ShareFileClient-download", options, async (updatedOptions) => {
+      let contentChecksumAlgorithm =
+        options.contentChecksumAlgorithm ??
+        this.shareClientConfig?.downloadContentChecksumAlgorithm;
+      if (contentChecksumAlgorithm === undefined) {
+        contentChecksumAlgorithm = "Customized";
+      } else if (contentChecksumAlgorithm === "Auto") {
+        contentChecksumAlgorithm = "StorageCrc64";
+      }
+
+      if (contentChecksumAlgorithm === "StorageCrc64") {
+        await StorageCRC64Calculator.init();
+      }
       if (updatedOptions.rangeGetContentMD5 && offset === 0 && count === undefined) {
         throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
       }
 
       const downloadFullFile = offset === 0 && !count;
-      const rawResponse = await this.context.download({
-        ...updatedOptions,
-        requestOptions: {
-          onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-        },
-        range: downloadFullFile ? undefined : rangeToString({ offset, count }),
-        ...this.shareClientConfig,
-      });
+      const response = adjustResponse(
+        await this.context.download({
+          ...updatedOptions,
+          ...updatedOptions.leaseAccessConditions,
+          requestOptions: {
+            onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+          },
+          range: downloadFullFile ? undefined : rangeToString({ offset, count }),
+          ...this.shareClientConfig,
+          structuredBodyType:
+            contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
+        }),
+      );
 
-      const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
-        ...rawResponse,
-        _response: (rawResponse as any)._response, // _response is made non-enumerable,
+      const wrappedRes = {
+        ...response,
+        _response: response._response, // _response is made non-enumerable
+        metadata: rawHeadersToMetadata(response._response.headers.rawHeaders()),
         posixProperties: {
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-          owner: rawResponse.owner,
-          group: rawResponse.group,
-          linkCount: rawResponse.linkCount,
+          fileMode: parseOctalFileMode(response.fileMode),
+          owner: response.owner,
+          group: response.group,
+          linkCount: response.linkCount,
         },
-      } as any);
+        leaseDuration: response.leaseDuration
+          ? (response.leaseDuration as LeaseDurationType)
+          : undefined,
+        leaseState: response.leaseState ? (response.leaseState as LeaseStateType) : undefined,
+        leaseStatus: response.leaseStatus ? (response.leaseStatus as LeaseStatusType) : undefined,
+      };
 
       // Return browser response immediately
       if (!isNodeLike) {
-        return res;
+        if (contentChecksumAlgorithm === "StorageCrc64") {
+          wrappedRes.blobBody = structuredMessageDecodingBrowser(await wrappedRes.blobBody!);
+        }
+        return wrappedRes as FileDownloadResponseModel;
       }
 
       // We support retrying when download stream unexpected ends in Node.js runtime
@@ -4188,18 +4550,27 @@ export class ShareFileClient extends StorageClient {
         updatedOptions.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
       }
 
-      if (res.contentLength === undefined) {
+      if (wrappedRes.contentLength === undefined) {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
 
+      const contentLength =
+        contentChecksumAlgorithm === "StorageCrc64"
+          ? wrappedRes.structuredContentLength!
+          : wrappedRes.contentLength!;
+
       return new FileDownloadResponse(
-        res,
-        async (start: number): Promise<NodeJS.ReadableStream> => {
-          const updatedDownloadOptions: FileDownloadOptionalParams = {
+        wrappedRes as FileDownloadResponseModel,
+        async (start: number): Promise<NodeJSReadableStream> => {
+          const updatedDownloadOptions: FileDownloadOptionalParamsInternal = {
+            ...updatedOptions,
             range: rangeToString({
-              count: offset + res.contentLength! - start,
+              count: offset + contentLength - start,
               offset: start,
             }),
+            ...this.shareClientConfig,
+            structuredBodyType:
+              contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
           };
 
           // Debug purpose only
@@ -4209,19 +4580,22 @@ export class ShareFileClient extends StorageClient {
           //   }, options: ${JSON.stringify(chunkDownloadOptions)}`
           // );
 
-          const downloadRes = await this.context.download({
-            ...updatedOptions,
-            ...updatedDownloadOptions,
-            ...this.shareClientConfig, // TODO: confirm whether this is needed
-          });
+          const downloadRes = await this.context.download(updatedDownloadOptions);
 
-          if (!(downloadRes.etag === res.etag)) {
+          if (!(downloadRes.etag === wrappedRes.etag)) {
             throw new Error("File has been modified concurrently");
           }
-          return downloadRes.readableStreamBody!;
+
+          const resBody = downloadRes.readableStreamBody! as NodeJSReadableStream; // NodeJS branch since browser response is returned early
+
+          if (contentChecksumAlgorithm === "StorageCrc64") {
+            return structuredMessageDecodingStream(resBody, {}) as NodeJSReadableStream;
+          } else {
+            return resBody;
+          }
         },
         offset,
-        res.contentLength!,
+        contentLength,
         {
           maxRetryRequests: updatedOptions.maxRetryRequests,
           onProgress: updatedOptions.onProgress,
@@ -4268,21 +4642,31 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-getProperties",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.getProperties({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
-        return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+        const response = adjustResponse(
+          await this.context.getProperties({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+          }),
+        );
+        const wrappedRes = {
+          ...response,
+          _response: response._response, // _response is made non-enumerable,
+          metadata: rawHeadersToMetadata(response._response.headers.rawHeaders()),
           posixProperties: {
-            fileMode: parseOctalFileMode(rawResponse.fileMode),
-            fileType: rawResponse.nfsFileType,
-            owner: rawResponse.owner,
-            group: rawResponse.group,
-            linkCount: rawResponse.linkCount,
+            fileMode: parseOctalFileMode(response.fileMode),
+            fileType: response.nfsFileType,
+            owner: response.owner,
+            group: response.group,
+            linkCount: response.linkCount,
           },
-        } as any);
+          leaseDuration: response.leaseDuration
+            ? (response.leaseDuration as LeaseDurationType)
+            : undefined,
+          leaseState: response.leaseState ? (response.leaseState as LeaseStateType) : undefined,
+          leaseStatus: response.leaseStatus ? (response.leaseStatus as LeaseStatusType) : undefined,
+        };
+        return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>(wrappedRes);
       },
     );
   }
@@ -4303,30 +4687,35 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setProperties",
       properties,
       async (updatedOptions) => {
-        const rawResponse = await this.context.setHttpHeaders({
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileAttributes: updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : undefined,
-          owner: updatedOptions.posixProperties?.owner,
-          group: updatedOptions.posixProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-          ...this.shareClientConfig,
-        });
+        const response = adjustResponse(
+          await this.context.setHttpHeaders({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...updatedOptions.fileHttpHeaders,
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+            fileAttributes: updatedOptions.fileAttributes
+              ? fileAttributesToString(updatedOptions.fileAttributes!)
+              : undefined,
+            owner: updatedOptions.posixProperties?.owner,
+            group: updatedOptions.posixProperties?.group,
+            fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+            ...this.shareClientConfig,
+          }),
+        );
 
-        return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+        const wrappedRes = {
+          ...response,
+          _response: response._response, // _response is made non-enumerable,
           posixProperties: {
-            fileMode: parseOctalFileMode(rawResponse.fileMode),
-            owner: rawResponse.owner,
-            group: rawResponse.group,
-            linkCount: rawResponse.linkCount,
+            fileMode: parseOctalFileMode(response.fileMode),
+            owner: response.owner,
+            group: response.group,
+            linkCount: response.linkCount,
           },
-        } as any);
+        };
+        return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>(wrappedRes);
       },
     );
   }
@@ -4351,7 +4740,13 @@ export class ShareFileClient extends StorageClient {
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
     return tracingClient.withSpan("ShareFileClient-delete", options, async (updatedOptions) => {
       return assertResponse<FileDeleteHeaders, FileDeleteHeaders>(
-        await this.context.delete({ ...updatedOptions, ...this.shareClientConfig }),
+        adjustResponse(
+          await this.context.delete({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+          }),
+        ),
       );
     });
   }
@@ -4392,6 +4787,7 @@ export class ShareFileClient extends StorageClient {
           ) {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -4424,30 +4820,34 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setHTTPHeaders",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.setHttpHeaders({
-          ...updatedOptions,
-          fileHttpHeaders,
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileAttributes: updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : undefined,
-          owner: updatedOptions.posixProperties?.owner,
-          group: updatedOptions.posixProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-          ...this.shareClientConfig,
-        });
-        return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+        const response = adjustResponse(
+          await this.context.setHttpHeaders({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...fileHttpHeaders,
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileAttributes: updatedOptions.fileAttributes
+              ? fileAttributesToString(updatedOptions.fileAttributes!)
+              : undefined,
+            owner: updatedOptions.posixProperties?.owner,
+            group: updatedOptions.posixProperties?.group,
+            fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+            ...this.shareClientConfig,
+          }),
+        );
+        const wrappedRes = {
+          ...response,
+          _response: response._response, // _response is made non-enumerable,
           posixProperties: {
-            fileMode: parseOctalFileMode(rawResponse.fileMode),
-            owner: rawResponse.owner,
-            group: rawResponse.group,
-            linkCount: rawResponse.linkCount,
+            fileMode: parseOctalFileMode(response.fileMode),
+            owner: response.owner,
+            group: response.group,
+            linkCount: response.linkCount,
           },
-        } as any);
+        };
+        return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>(wrappedRes);
       },
     );
   }
@@ -4473,28 +4873,32 @@ export class ShareFileClient extends StorageClient {
     // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
     options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
     return tracingClient.withSpan("ShareFileClient-resize", options, async (updatedOptions) => {
-      const rawResponse = await this.context.setHttpHeaders({
-        ...updatedOptions,
-        fileContentLength: length,
-        fileChangeOn: fileChangeTimeToString(options.changeTime),
-        fileCreatedOn: fileCreationTimeToString(options.creationTime),
-        fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
-        fileAttributes: fileAttributesToString(updatedOptions.fileAttributes!),
-        owner: updatedOptions.posixProperties?.owner,
-        group: updatedOptions.posixProperties?.group,
-        fileMode: toOctalFileMode(options.posixProperties?.fileMode),
-        ...this.shareClientConfig,
-      });
-      return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
-        ...rawResponse,
-        _response: (rawResponse as any)._response,
+      const response = adjustResponse(
+        await this.context.setHttpHeaders({
+          ...updatedOptions,
+          ...updatedOptions.leaseAccessConditions,
+          fileContentLength: length,
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+          fileAttributes: fileAttributesToString(updatedOptions.fileAttributes!),
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(options.posixProperties?.fileMode),
+          ...this.shareClientConfig,
+        }),
+      );
+      const wrappedRes = {
+        ...response,
+        _response: response._response,
         posixProperties: {
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-          owner: rawResponse.owner,
-          group: rawResponse.group,
-          linkCount: rawResponse.linkCount,
+          fileMode: parseOctalFileMode(response.fileMode),
+          owner: response.owner,
+          group: response.group,
+          linkCount: response.linkCount,
         },
-      } as any);
+      };
+      return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>(wrappedRes);
     });
   }
 
@@ -4517,12 +4921,16 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setMetadata",
       options,
       async (updatedOptions) => {
+        const metadataHeaders = metadataToRawHeaders(metadata);
         return assertResponse<FileSetMetadataHeaders, FileSetMetadataHeaders>(
-          await this.context.setMetadata({
-            ...updatedOptions,
-            metadata,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.setMetadata({
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              ...this.shareClientConfig,
+              requestOptions: { headers: metadataHeaders },
+            }),
+          ),
         );
       },
     );
@@ -4594,21 +5002,34 @@ export class ShareFileClient extends StorageClient {
           throw new RangeError(`offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
         }
 
-        return assertResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>(
+        const parameters: FileUploadRangeOptionalParams = {
+          ...updatedOptions,
+          ...updatedOptions.leaseAccessConditions,
+          requestOptions: {
+            onUploadProgress: updatedOptions.onProgress,
+          },
+          ...this.shareClientConfig,
+        };
+        const uploadBodyParameters = await setUploadChecksumParameters(
+          body,
+          contentLength,
+          parameters,
+          options,
+          this.shareClientConfig?.uploadContentChecksumAlgorithm,
+        );
+
+        parameters.body = uploadBodyParameters.body;
+
+        const response = adjustResponse(
           await this.context.uploadRange(
             rangeToString({ count: contentLength, offset }),
             "update",
-            contentLength,
-            {
-              ...updatedOptions,
-              requestOptions: {
-                onUploadProgress: updatedOptions.onProgress,
-              },
-              body,
-              ...this.shareClientConfig,
-            },
+            uploadBodyParameters.contentLength,
+            parameters as FileUploadRangeOptionalParams & { body: any },
           ),
         );
+
+        return assertResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>(response);
       },
     );
   }
@@ -4642,21 +5063,34 @@ export class ShareFileClient extends StorageClient {
           throw new RangeError(`count must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
         }
 
-        return assertResponse<FileUploadRangeFromURLHeaders, FileUploadRangeFromURLHeaders>(
-          await this.context.uploadRangeFromURL(
+        const response = adjustResponse(
+          await this.context.uploadRangeFromUrl(
             rangeToString({ offset: destOffset, count }),
             sourceURL,
+            "update",
             0,
             {
               ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              sourceContentCrc64: updatedOptions.sourceContentCrc64,
+              sourceIfMatchCrc64: updatedOptions.sourceConditions?.sourceIfMatchCrc64,
+              sourceIfNoneMatchCrc64: updatedOptions.sourceConditions?.sourceIfNoneMatchCrc64,
               sourceRange: rangeToString({ offset: sourceOffset, count }),
-              sourceModifiedAccessConditions: updatedOptions.sourceConditions,
               copySourceAuthorization: httpAuthorizationToString(
                 updatedOptions.sourceAuthorization,
               ),
               ...this.shareClientConfig,
             },
           ),
+        );
+
+        const wrappedRes = {
+          ...response,
+          _response: response._response, // _response is made non-enumerable,
+        };
+
+        return assertResponse<FileUploadRangeFromURLHeaders, FileUploadRangeFromURLHeaders>(
+          wrappedRes,
         );
       },
     );
@@ -4680,11 +5114,17 @@ export class ShareFileClient extends StorageClient {
       }
 
       return assertResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>(
-        await this.context.uploadRange(
-          rangeToString({ count: contentLength, offset }),
-          "clear",
-          0,
-          { ...updatedOptions, ...this.shareClientConfig },
+        adjustResponse(
+          await this.context.uploadRange(
+            rangeToString({ count: contentLength, offset }),
+            "clear",
+            0,
+            {
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              ...this.shareClientConfig,
+            },
+          ),
         ),
       );
     });
@@ -4692,6 +5132,9 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * Returns the list of valid ranges for a file.
+   *
+   * @deprecated Use {@link ShareFileClient.listRanges} instead, which returns a paginated
+   * async iterable and supports files with a large number of ranges.
    *
    * @param options - Options to File Get range List operation.
    */
@@ -4707,11 +5150,14 @@ export class ShareFileClient extends StorageClient {
           FileGetRangeListHeaders,
           ShareFileRangeList
         >(
-          await this.context.getRangeList({
-            ...updatedOptions,
-            range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.getRangeList({
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
 
         // Only returns ranges, ignoring clearRanges.
@@ -4730,6 +5176,9 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns the list of ranges that differ between a previous share snapshot and this file.
    *
+   * @deprecated Use {@link ShareFileClient.listRangesDiff} instead, which returns a paginated
+   * async iterable and supports files with a large number of ranges.
+   *
    * @param prevShareSnapshot - The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
    * @param options -
    */
@@ -4746,14 +5195,172 @@ export class ShareFileClient extends StorageClient {
           FileGetRangeListHeaders,
           ShareFileRangeList
         >(
-          await this.context.getRangeList({
-            ...updatedOptions,
-            prevsharesnapshot: prevShareSnapshot,
-            supportRename: options.includeRenames,
-            range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.getRangeList({
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              prevsharesnapshot: prevShareSnapshot,
+              supportRename: options.includeRenames,
+              range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
+      },
+    );
+  }
+
+  /**
+   * Returns the list of valid ranges for a file, as a paginated async iterable.
+   *
+   * `.byPage()` returns an async iterable iterator to list the ranges in pages.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-ranges
+   *
+   * @param options - Options to the File List Ranges operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listRanges(
+    options: FileListRangesOptions = {},
+  ): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse> {
+    const iter = this.listRangeItems(options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.iterateRangeSegments(removeEmptyString(settings.continuationToken), {
+          maxPageSize: settings.maxPageSize,
+          ...options,
+        });
+      },
+    };
+  }
+
+  /**
+   * Returns the list of ranges that differ between a previous share snapshot and this file,
+   * as a paginated async iterable.
+   *
+   * `.byPage()` returns an async iterable iterator to list the ranges in pages.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-ranges
+   *
+   * @param prevShareSnapshot - The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
+   * @param options - Options to the File List Ranges Diff operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listRangesDiff(
+    prevShareSnapshot: string,
+    options: FileListRangesDiffOptions = {},
+  ): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse> {
+    const iter = this.listRangeItems({ ...options, prevShareSnapshot });
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.iterateRangeSegments(removeEmptyString(settings.continuationToken), {
+          maxPageSize: settings.maxPageSize,
+          ...options,
+          prevShareSnapshot,
+        });
+      },
+    };
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for {@link ShareFileRange} items.
+   *
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async *listRangeItems(
+    options: FileListRangesSegmentOptions = {},
+  ): AsyncIterableIterator<ShareFileRange> {
+    for await (const segment of this.iterateRangeSegments(undefined, options)) {
+      yield* extractShareFileRangeItems(segment.ranges, segment.clearRanges);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for {@link FileListRangesSegmentResponse} objects.
+   *
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async *iterateRangeSegments(
+    marker?: string,
+    options: FileListRangesSegmentOptions = {},
+  ): AsyncIterableIterator<FileListRangesSegmentResponse> {
+    let rangeSegment;
+    do {
+      rangeSegment = await this.listRangeSegment(marker, options);
+      marker = rangeSegment.continuationToken;
+      yield await rangeSegment;
+    } while (marker);
+  }
+
+  /**
+   * Returns a single segment of ranges for a file, starting from the specified marker.
+   *
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async listRangeSegment(
+    marker?: string,
+    options: FileListRangesSegmentOptions = {},
+  ): Promise<FileListRangesSegmentResponse> {
+    return tracingClient.withSpan(
+      "ShareFileClient-listRangeSegment",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          FileGetRangeListHeaders & ShareFileRangeListSegment,
+          FileGetRangeListHeaders,
+          ShareFileRangeListSegment
+        >(
+          adjustResponse(
+            await this.context.listAllRanges({
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              marker: marker === "" ? undefined : marker,
+              maxResults: updatedOptions.maxPageSize,
+              prevsharesnapshot: updatedOptions.prevShareSnapshot,
+              supportRename: updatedOptions.includeRenames,
+              range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
+              ...this.shareClientConfig,
+            }),
+          ),
+        );
+
+        const wrappedResponse: FileListRangesSegmentResponse = {
+          ...response,
+          continuationToken: response.nextMarker ? response.nextMarker : undefined,
+        };
+        return wrappedResponse;
       },
     );
   }
@@ -4779,15 +5386,20 @@ export class ShareFileClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<FileStartCopyHeaders, FileStartCopyHeaders>(
-          await this.context.startCopy(copySource, {
-            ...updatedOptions,
-            ...this.shareClientConfig,
-            owner: updatedOptions.posixProperties?.owner,
-            group: updatedOptions.posixProperties?.group,
-            fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-            fileModeCopyMode: updatedOptions.fileModeCopyMode,
-            fileOwnerCopyMode: updatedOptions.fileOwnerCopyMode,
-          }),
+          adjustResponse(
+            await this.context.startCopy(copySource, {
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              ...updatedOptions.copyFileSmbInfo,
+              ...updatedOptions.posixProperties,
+              ...this.shareClientConfig,
+              owner: updatedOptions.posixProperties?.owner,
+              group: updatedOptions.posixProperties?.group,
+              fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+              fileModeCopyMode: updatedOptions.fileModeCopyMode,
+              fileOwnerCopyMode: updatedOptions.fileOwnerCopyMode,
+            }),
+          ),
         );
       },
     );
@@ -4810,7 +5422,13 @@ export class ShareFileClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<FileAbortCopyHeaders, FileAbortCopyHeaders>(
-          await this.context.abortCopy(copyId, { ...updatedOptions, ...this.shareClientConfig }),
+          adjustResponse(
+            await this.context.abortCopy(copyId, {
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
       },
     );
@@ -4999,6 +5617,7 @@ export class ShareFileClient extends StorageClient {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
@@ -5124,6 +5743,7 @@ export class ShareFileClient extends StorageClient {
               `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
                 'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
                 `\t ${error.message}`,
+              { cause: error },
             );
           }
         }
@@ -5148,6 +5768,7 @@ export class ShareFileClient extends StorageClient {
               maxRetryRequests: options.maxRetryRequestsPerRange,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
             });
             const stream = response.readableStreamBody!;
             await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -5236,6 +5857,7 @@ export class ShareFileClient extends StorageClient {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
             });
 
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -5318,11 +5940,14 @@ export class ShareFileClient extends StorageClient {
           FileListHandlesHeaders,
           GeneratedListHandlesResponse
         >(
-          await this.context.listHandles({
-            ...updatedOptions,
-            ...this.shareClientConfig,
-            marker,
-          }),
+          adjustResponse(
+            await this.context.listHandles({
+              ...updatedOptions,
+              maxResults: updatedOptions.maxPageSize,
+              ...this.shareClientConfig,
+              marker,
+            }),
+          ),
         );
 
         // TODO: Protocol layer issue that when handle list is in returned XML
@@ -5376,8 +6001,7 @@ export class ShareFileClient extends StorageClient {
   private async *listHandleItems(
     options: FileListHandlesSegmentOptions = {},
   ): AsyncIterableIterator<HandleItem> {
-    let marker: string | undefined;
-    for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
+    for await (const listHandlesResponse of this.iterateHandleSegments(undefined, options)) {
       if (listHandlesResponse.handleList) {
         for (const handle of listHandlesResponse.handleList) {
           yield handle;
@@ -5446,12 +6070,14 @@ export class ShareFileClient extends StorageClient {
       options,
       async (updatedOptions) => {
         marker = marker === "" ? undefined : marker;
-        const rawResponse = await this.context.forceCloseHandles("*", {
-          ...updatedOptions,
-          ...this.shareClientConfig,
-          marker,
-        });
-        const response = rawResponse as FileForceCloseHandlesResponse;
+        const rawResponse = adjustResponse(
+          await this.context.forceCloseHandles("*", {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+            marker,
+          }),
+        );
+        const response = rawResponse as unknown as FileForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
         response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
         return response;
@@ -5520,11 +6146,13 @@ export class ShareFileClient extends StorageClient {
           );
         }
 
-        const rawResponse = await this.context.forceCloseHandles(handleId, {
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
-        const response = rawResponse as FileForceCloseHandlesResponse;
+        const rawResponse = adjustResponse(
+          await this.context.forceCloseHandles(handleId, {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
+        );
+        const response = rawResponse as unknown as FileForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
         response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
         return response;
@@ -5546,21 +6174,25 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-createHardLink",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.createHardLink(targetFile, {
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
-        return assertResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+        const response = adjustResponse(
+          await this.context.createHardLink(targetFile, {
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+          }),
+        );
+        const wrappedRes = {
+          ...response,
+          _response: response._response, // _response is made non-enumerable,
           posixProperties: {
-            fileMode: parseOctalFileMode(rawResponse.fileMode),
-            fileType: rawResponse.nfsFileType,
-            owner: rawResponse.owner,
-            group: rawResponse.group,
-            linkCount: rawResponse.linkCount,
+            fileMode: parseOctalFileMode(response.fileMode),
+            fileType: response.nfsFileType,
+            owner: response.owner,
+            group: response.group,
+            linkCount: response.linkCount,
           },
-        } as any);
+        };
+        return assertResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>(wrappedRes);
       },
     );
   }
@@ -5580,20 +6212,28 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-createSymbolicLink",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.createSymbolicLink(linkText, {
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
+        const { metadata, ...restOptions } = updatedOptions;
+        const metadataHeaders = metadataToRawHeaders(metadata);
+        const response = adjustResponse(
+          await this.context.createSymbolicLink(linkText, {
+            ...restOptions,
+            ...updatedOptions.leaseAccessConditions,
+            fileCreationTime: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteTime: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+            ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
+          }),
+        );
         return assertResponse<FileCreateSymbolicLinkHeaders, FileCreateSymbolicLinkHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          ...response,
+          _response: response._response, // _response is made non-enumerable,
           posixProperties: {
-            fileMode: parseOctalFileMode(rawResponse.fileMode),
-            owner: rawResponse.owner,
-            group: rawResponse.group,
-            fileType: rawResponse.nfsFileType,
+            fileMode: parseOctalFileMode(response.fileMode),
+            owner: response.owner,
+            group: response.group,
+            fileType: response.nfsFileType,
           },
-        } as any);
+        } as FileCreateSymbolicLinkResponse);
       },
     );
   }
@@ -5610,10 +6250,12 @@ export class ShareFileClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<FileGetSymbolicLinkHeaders, FileGetSymbolicLinkHeaders>(
-          await this.context.getSymbolicLink({
-            ...updatedOptions,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.context.getSymbolicLink({
+              ...updatedOptions,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
       },
     );
@@ -5689,6 +6331,60 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: ShareGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    const sas = generateFileSASQueryParameters(
+      {
+        shareName: this.shareName,
+        filePath: this.path,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationStringToSign(
+    options: ShareGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateFileSASQueryParametersInternal(
+      {
+        shareName: this.shareName,
+        filePath: this.path,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).stringToSign;
+  }
+
+  /**
    * Renames a file.
    * This API only supports renaming a file in the same share.
    *
@@ -5746,26 +6442,20 @@ export class ShareFileClient extends StorageClient {
 
     const destFile = new ShareFileClient(destinationUrl, this.pipeline, this.shareClientConfig);
     return tracingClient.withSpan("ShareFileClient-rename", options, async (updatedOptions) => {
+      const { metadata, ...restOptions } = updatedOptions;
+      const metadataHeaders = metadataToRawHeaders(metadata);
       const response = assertResponse<FileRenameHeaders, FileRenameHeaders>(
-        await destFile.context.rename(this.url, {
-          ...updatedOptions,
-          sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
-            ? {
-                sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
-              }
-            : undefined,
-          destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
-            ? {
-                destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
-              }
-            : undefined,
-          fileHttpHeaders: options.contentType
-            ? {
-                fileContentType: options.contentType,
-              }
-            : undefined,
-          ...this.shareClientConfig,
-        }),
+        adjustResponse(
+          await destFile.context.rename(this.url, {
+            ...restOptions,
+            ...updatedOptions.copyFileSmbInfo,
+            sourceLeaseId: updatedOptions.sourceLeaseAccessConditions?.leaseId,
+            destinationLeaseId: updatedOptions.destinationLeaseAccessConditions?.leaseId,
+            fileContentType: options.contentType,
+            ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
+          }),
+        ),
       );
 
       return {
@@ -5847,7 +6537,7 @@ export interface LeaseOperationOptions extends CommonOptions {
 export class ShareLeaseClient {
   private _leaseId: string;
   private _url: string;
-  private fileOrShare: File | Share;
+  private fileOrShare: FileOperations | ShareOperations;
 
   private shareClientConfig?: ShareClientConfig;
   /**
@@ -5907,12 +6597,14 @@ export class ShareLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.acquireLease({
-            ...updatedOptions,
-            ...this.shareClientConfig,
-            duration,
-            proposedLeaseId: this._leaseId,
-          }),
+          adjustResponse(
+            await this.fileOrShare.acquireLease({
+              ...updatedOptions,
+              ...this.shareClientConfig,
+              leaseDuration: duration,
+              proposedLeaseId: this._leaseId,
+            }),
+          ),
         );
       },
     );
@@ -5937,11 +6629,13 @@ export class ShareLeaseClient {
           LeaseOperationResponseHeaders,
           LeaseOperationResponseHeaders
         >(
-          await this.fileOrShare.changeLease(this._leaseId, {
-            ...updatedOptions,
-            ...this.shareClientConfig,
-            proposedLeaseId,
-          }),
+          adjustResponse(
+            await this.fileOrShare.changeLease(this._leaseId, {
+              ...updatedOptions,
+              ...this.shareClientConfig,
+              proposedLeaseId,
+            }),
+          ),
         );
         this._leaseId = proposedLeaseId;
         return response;
@@ -5962,10 +6656,12 @@ export class ShareLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.releaseLease(this._leaseId, {
-            ...updatedOptions,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.fileOrShare.releaseLease(this._leaseId, {
+              ...updatedOptions,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
       },
     );
@@ -5983,10 +6679,12 @@ export class ShareLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.breakLease({
-            ...updatedOptions,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.fileOrShare.breakLease({
+              ...updatedOptions,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
       },
     );
@@ -6009,10 +6707,12 @@ export class ShareLeaseClient {
           throw new RangeError("The renewLease operation is not available for lease on file.");
         }
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.renewLease(this._leaseId, {
-            ...updatedOptions,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.fileOrShare.renewLease(this._leaseId, {
+              ...updatedOptions,
+              ...this.shareClientConfig,
+            }),
+          ),
         );
       },
     );
@@ -6022,6 +6722,6 @@ export class ShareLeaseClient {
 /**
  * @internal
  */
-function isFile(fileOrShare: File | Share): fileOrShare is File {
+function isFile(fileOrShare: FileOperations | ShareOperations): fileOrShare is FileOperations {
   return "renewLease" in fileOrShare;
 }

@@ -4,8 +4,9 @@
 import { AbortError } from "@azure/abort-controller";
 import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
 import { Readable } from "node:stream";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 
-export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
+export type ReadableStreamGetter = (offset: number) => Promise<NodeJSReadableStream>;
 
 export interface RetriableReadableStreamOptions {
   /**

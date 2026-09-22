@@ -29,16 +29,16 @@ import type {
 export interface SparkJobDefinitionOperations {
   /**
    * Lists spark job definitions.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listSparkJobDefinitionsByWorkspace(
     options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
   /**
    * Creates or updates a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param sparkJobDefinition - Spark Job Definition resource definition.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param sparkJobDefinition Spark Job Definition resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -52,9 +52,9 @@ export interface SparkJobDefinitionOperations {
   >;
   /**
    * Creates or updates a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param sparkJobDefinition - Spark Job Definition resource definition.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param sparkJobDefinition Spark Job Definition resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
@@ -63,8 +63,8 @@ export interface SparkJobDefinitionOperations {
   ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
   /**
    * Gets a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
    */
   getSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -72,8 +72,8 @@ export interface SparkJobDefinitionOperations {
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
   /**
    * Deletes a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
    */
   beginDeleteSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -81,8 +81,8 @@ export interface SparkJobDefinitionOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
    */
   beginDeleteSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
@@ -90,8 +90,8 @@ export interface SparkJobDefinitionOperations {
   ): Promise<void>;
   /**
    * Executes the spark job definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
    */
   beginExecuteSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -104,8 +104,8 @@ export interface SparkJobDefinitionOperations {
   >;
   /**
    * Executes the spark job definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
    */
   beginExecuteSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
@@ -113,9 +113,9 @@ export interface SparkJobDefinitionOperations {
   ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse>;
   /**
    * Renames a sparkJobDefinition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -124,9 +124,9 @@ export interface SparkJobDefinitionOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sparkJobDefinition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
@@ -135,8 +135,8 @@ export interface SparkJobDefinitionOperations {
   ): Promise<void>;
   /**
    * Debug the spark job definition.
-   * @param sparkJobDefinitionAzureResource - Spark Job Definition resource definition.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
+   * @param options The options parameters.
    */
   beginDebugSparkJobDefinition(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
@@ -149,8 +149,8 @@ export interface SparkJobDefinitionOperations {
   >;
   /**
    * Debug the spark job definition.
-   * @param sparkJobDefinitionAzureResource - Spark Job Definition resource definition.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
+   * @param options The options parameters.
    */
   beginDebugSparkJobDefinitionAndWait(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,

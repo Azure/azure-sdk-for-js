@@ -110,7 +110,6 @@ export function prepareMSALResponses(): RawTestResponse[] {
 
 /**
  * Sets up the environment necessary to do unit testing to Identity credentials.
- * We leverage Sinon to mock the internals of the http and the https modules (in Node, and the SinonFakeXMLHttpRequest in the browser).
  * Once the environment is set, we return a set of utility functions.
  * Some of these functions can be used to test promises that send individual requests,
  * others allow testing or full-on credential requests
@@ -296,7 +295,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     try {
       // In Node, due to Node 16 dropping uncaught rejections,
       // we need to make sure to trigger the promise and wait for it on the same line.
-      // So loosely tell Sinon's clock to advance the time,
+      // So loosely tell vitest's clock to advance the time,
       // and then we trigger our main getToken request, and wait for it.
       // All the errors will be safely be caught by the try surrounding the getToken request.
       await vi.runAllTimersAsync();

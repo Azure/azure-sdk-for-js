@@ -84,6 +84,19 @@ describe("snippets", () => {
     console.log("result: ", result);
   });
 
+  it("ReadmeSampleCreateExternalKey", async () => {
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const vaultName = "<YOUR KEYVAULT NAME>";
+    const url = `https://${vaultName}.managedhsm.azure.net`;
+    // @ts-preserve-whitespace
+    const client = new KeyClient(url, credential);
+    // @ts-preserve-whitespace
+    const keyName = "MyKeyName";
+    const result = await client.createExternalKey(keyName, { id: "my-external-key-id" });
+    console.log("result: ", result);
+  });
+
   it("ReadmeSampleImportKey", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
@@ -306,6 +319,36 @@ describe("snippets", () => {
     const keyName = "MyKeyName";
     // @ts-preserve-whitespace
     const result = await client.releaseKey("myKey", "<attestation-target>");
+  });
+
+  it("ReadmeSampleSecureWrapKey", async () => {
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const vaultName = "<YOUR KEYVAULT NAME>";
+    const url = `https://${vaultName}.managedhsm.azure.net`;
+    // @ts-preserve-whitespace
+    const client = new KeyClient(url, credential);
+    // @ts-preserve-whitespace
+    const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+    console.log(wrapped.keyID, wrapped.algorithm, wrapped.result);
+  });
+
+  it("ReadmeSampleSecureUnwrapKey", async () => {
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const vaultName = "<YOUR KEYVAULT NAME>";
+    const url = `https://${vaultName}.managedhsm.azure.net`;
+    // @ts-preserve-whitespace
+    const client = new KeyClient(url, credential);
+    // @ts-preserve-whitespace
+    const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+    const unwrapped = await client.secureUnwrapKey(
+      "myKey",
+      wrapped.algorithm,
+      wrapped.result,
+      "<attestation-target>",
+    );
+    console.log(unwrapped.keyID, unwrapped.algorithm, unwrapped.result);
   });
 
   it("ReadmeSampleGetKeyRotationPolicy", async () => {

@@ -103,17 +103,14 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
       it("validate model training response", async () => {
         const model = await requireModel();
 
-        assert.ok(model, "Expecting valid response");
-        assert.ok(model.modelId);
+        assert.isDefined(model);
+        assert.isDefined(model.modelId);
 
         assert.isNotEmpty(model.docTypes);
         const submodel = model.docTypes![model.modelId];
 
         // When training with labels, we will have expectations for the names
-        assert.ok(
-          submodel.fieldSchema["Signature"],
-          "Expecting field with name 'Signature' to be valid",
-        );
+        assert.isDefined(submodel.fieldSchema["Signature"]);
       });
 
       /*
@@ -152,15 +149,15 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
           assert.isNotEmpty(tables);
           const [table] = tables!;
 
-          assert.ok(table.boundingRegions?.[0].polygon);
+          assert.isDefined(table.boundingRegions?.[0].polygon);
           assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-          assert.ok(document?.fields);
-          assert.ok(document?.fields["Merchant"]);
-          assert.ok(document?.fields["DatedAs"]);
-          assert.ok(document?.fields["CompanyPhoneNumber"]);
-          assert.ok(document?.fields["CompanyName"]);
-          assert.ok(document?.fields["Signature"]);
+          assert.isDefined(document?.fields);
+          assert.isDefined(document?.fields["Merchant"]);
+          assert.isDefined(document?.fields["DatedAs"]);
+          assert.isDefined(document?.fields["CompanyPhoneNumber"]);
+          assert.isDefined(document?.fields["CompanyName"]);
+          assert.isDefined(document?.fields["Signature"]);
         });
       });
 
@@ -171,7 +168,7 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
 
         assert.strictEqual(modelDetails.modelId, model.modelId);
         assert.strictEqual(modelDetails.description, model.description);
-        assert.ok(modelDetails.docTypes);
+        assert.isDefined(modelDetails.docTypes);
       });
     });
 
@@ -198,7 +195,7 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
       it("iterate models in account", async () => {
         const modelsInAccount = [];
         for await (const model of client.listDocumentModels()) {
-          assert.ok(model.modelId);
+          assert.isDefined(model.modelId);
           modelsInAccount.push(model.modelId);
         }
 
@@ -210,8 +207,8 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
       it("old-style iteration with next model info", async () => {
         const iter = client.listDocumentModels();
         const item = getYieldedValue(await iter.next());
-        assert.ok(item, `Expecting a model but got ${item}`);
-        assert.ok(item.modelId, `Expecting a model id but got ${item.modelId}`);
+        assert.isDefined(item);
+        assert.isDefined(item.modelId);
       });
 
       it("delete models from the account", async () => {
@@ -256,7 +253,7 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
 
       assert.equal(model.modelId, modelId);
       assert.equal(model.modelId, modelId);
-      assert.ok(model.docTypes);
+      assert.isDefined(model.docTypes);
 
       return model.modelId;
     }
@@ -271,9 +268,9 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
     );
 
     const composedModel = await composePoller.pollUntilDone();
-    assert.ok(composedModel.modelId);
+    assert.isDefined(composedModel.modelId);
     assert.equal(composedModel.modelId, modelId);
-    assert.ok(composedModel.docTypes);
+    assert.isDefined(composedModel.docTypes);
 
     // Submodels
     assert.equal(Object.entries(composedModel.docTypes ?? {}).length, 2);
@@ -320,10 +317,10 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
     );
     const copyResult = await poller.pollUntilDone();
 
-    assert.ok(copyResult, "Expecting valid copy result");
+    assert.isDefined(copyResult);
     assert.equal(copyResult.modelId, targetAuth.targetModelId);
 
-    assert.ok(copyResult.createdOn, "Expecting valid 'trainingStartedOn' property");
+    assert.isDefined(copyResult.createdOn);
 
     const targetModel = await trainingClient.getDocumentModel(copyResult.modelId);
 

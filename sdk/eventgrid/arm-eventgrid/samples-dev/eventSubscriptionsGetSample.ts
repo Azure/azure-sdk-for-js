@@ -1,215 +1,181 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get properties of an event subscription.
- *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForCustomTopic.json
- */
-
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get properties of an event subscription.
+ *
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic.json
+ */
 async function eventSubscriptionsGetForCustomTopic(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForCustomTopic_AzureFunctionDestination.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicAzureFunctionDestination(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForCustomTopic_EventHubDestination.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicEventHubDestination(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForCustomTopic_HybridConnectionDestination.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicHybridConnectionDestination(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForCustomTopic_ServiceBusQueueDestination.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicServiceBusQueueDestination(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForCustomTopic_ServiceBusTopicDestination.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicServiceBusTopicDestination(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForCustomTopic_StorageQueueDestination.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicStorageQueueDestination(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForCustomTopic_WebhookDestination.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicWebhookDestination(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForResource.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForResource.json
  */
 async function eventSubscriptionsGetForResource(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
-  const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1",
+    "examplesubscription1",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForResourceGroup.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForResourceGroup.json
  */
 async function eventSubscriptionsGetForResourceGroup(): Promise<void> {
-  const scope =
-    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg";
-  const eventSubscriptionName = "examplesubscription2";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg",
+    "examplesubscription2",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get properties of an event subscription.
+ * This sample demonstrates how to get properties of an event subscription.
  *
- * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_GetForSubscription.json
+ * @summary get properties of an event subscription.
+ * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForSubscription.json
  */
 async function eventSubscriptionsGetForSubscription(): Promise<void> {
-  const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40";
-  const eventSubscriptionName = "examplesubscription3";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
-    scope,
-    eventSubscriptionName,
+    "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40",
+    "examplesubscription3",
   );
   console.log(result);
 }

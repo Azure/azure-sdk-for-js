@@ -22,8 +22,9 @@ export interface KeyVaultCertificatePollerOptions {
 /**
  * An interface representing the public shape of the state of a Key Vault Certificate Poller's operations.
  */
-export interface KeyVaultCertificatePollOperationState<TResult>
-  extends PollOperationState<TResult> {
+export interface KeyVaultCertificatePollOperationState<
+  TResult,
+> extends PollOperationState<TResult> {
   /**
    * The name of the certificate.
    */
@@ -86,8 +87,7 @@ export interface KeyVaultCertificatePollOperationOptions {
 export class KeyVaultCertificatePollOperation<
   TState extends KeyVaultCertificatePollOperationState<TResult>,
   TResult,
-> implements PollOperation<TState, TResult>
-{
+> implements PollOperation<TState, TResult> {
   private cancelMessage: string = "";
 
   constructor(

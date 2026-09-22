@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import { RunStep } from "../../models/models.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type { RunStep } from "../../models/models.js";
+import type {
   RunStepsListRunStepsOptionalParams,
   RunStepsGetRunStepOptionalParams,
 } from "../../api/runSteps/options.js";
 import { listRunSteps, getRunStep } from "../../api/runSteps/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RunSteps operations. */
 export interface RunStepsOperations {

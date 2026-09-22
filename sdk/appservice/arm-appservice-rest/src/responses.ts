@@ -189,14 +189,12 @@ export interface AppServiceCertificateOrdersListDefaultResponse extends HttpResp
 }
 
 /** Validate information for a certificate order. */
-export interface AppServiceCertificateOrdersValidatePurchaseInformation204Response
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersValidatePurchaseInformation204Response extends HttpResponse {
   status: "204";
 }
 
 /** Validate information for a certificate order. */
-export interface AppServiceCertificateOrdersValidatePurchaseInformationDefaultResponse
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersValidatePurchaseInformationDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -208,8 +206,7 @@ export interface AppServiceCertificateOrdersListByResourceGroup200Response exten
 }
 
 /** Get certificate orders in a resource group. */
-export interface AppServiceCertificateOrdersListByResourceGroupDefaultResponse
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersListByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -297,22 +294,19 @@ export interface AppServiceCertificateOrdersGetCertificateDefaultResponse extend
 }
 
 /** Creates or updates a certificate and associates with key vault secret. */
-export interface AppServiceCertificateOrdersCreateOrUpdateCertificate200Response
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersCreateOrUpdateCertificate200Response extends HttpResponse {
   status: "200";
   body: AppServiceCertificateResourceOutput;
 }
 
 /** Creates or updates a certificate and associates with key vault secret. */
-export interface AppServiceCertificateOrdersCreateOrUpdateCertificate201Response
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersCreateOrUpdateCertificate201Response extends HttpResponse {
   status: "201";
   body: AppServiceCertificateResourceOutput;
 }
 
 /** Creates or updates a certificate and associates with key vault secret. */
-export interface AppServiceCertificateOrdersCreateOrUpdateCertificateDefaultResponse
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersCreateOrUpdateCertificateDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -384,8 +378,7 @@ export interface AppServiceCertificateOrdersResendRequestEmails204Response exten
 }
 
 /** Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order */
-export interface AppServiceCertificateOrdersResendRequestEmailsDefaultResponse
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersResendRequestEmailsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -408,64 +401,55 @@ export interface AppServiceCertificateOrdersVerifyDomainOwnership204Response ext
 }
 
 /** Verify domain ownership for this certificate order. */
-export interface AppServiceCertificateOrdersVerifyDomainOwnershipDefaultResponse
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersVerifyDomainOwnershipDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Retrieve the list of certificate actions. */
-export interface AppServiceCertificateOrdersRetrieveCertificateActions200Response
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersRetrieveCertificateActions200Response extends HttpResponse {
   status: "200";
   body: Array<CertificateOrderActionOutput>;
 }
 
 /** Retrieve the list of certificate actions. */
-export interface AppServiceCertificateOrdersRetrieveCertificateActionsDefaultResponse
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersRetrieveCertificateActionsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Retrieve email history. */
-export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistory200Response
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistory200Response extends HttpResponse {
   status: "200";
   body: Array<CertificateEmailOutput>;
 }
 
 /** Retrieve email history. */
-export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistoryDefaultResponse
-  extends HttpResponse {
+export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistoryDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Microsoft.CertificateRegistration to get the list of detectors for this RP. */
-export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponse200Response
-  extends HttpResponse {
+export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponse200Response extends HttpResponse {
   status: "200";
   body: DetectorResponseCollectionOutput;
 }
 
 /** Microsoft.CertificateRegistration to get the list of detectors for this RP. */
-export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseDefaultResponse
-  extends HttpResponse {
+export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Microsoft.CertificateRegistration call to get a detector response from App Lens. */
-export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponse200Response
-  extends HttpResponse {
+export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponse200Response extends HttpResponse {
   status: "200";
   body: DetectorResponseOutput;
 }
 
 /** Microsoft.CertificateRegistration call to get a detector response from App Lens. */
-export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseDefaultResponse
-  extends HttpResponse {
+export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -899,29 +883,25 @@ export interface AppServiceEnvironmentsChangeVnetDefaultResponse extends HttpRes
 }
 
 /** Get networking configuration of an App Service Environment */
-export interface AppServiceEnvironmentsGetAseV3NetworkingConfiguration200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetAseV3NetworkingConfiguration200Response extends HttpResponse {
   status: "200";
   body: AseV3NetworkingConfigurationOutput;
 }
 
 /** Get networking configuration of an App Service Environment */
-export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Update networking configuration of an App Service Environment */
-export interface AppServiceEnvironmentsUpdateAseNetworkingConfiguration200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsUpdateAseNetworkingConfiguration200Response extends HttpResponse {
   status: "200";
   body: AseV3NetworkingConfigurationOutput;
 }
 
 /** Update networking configuration of an App Service Environment */
-export interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -951,15 +931,13 @@ export interface AppServiceEnvironmentsGetDiagnosticsItemDefaultResponse extends
 }
 
 /** Get the network endpoints of all inbound dependencies of an App Service Environment. */
-export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpoints200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpoints200Response extends HttpResponse {
   status: "200";
   body: InboundEnvironmentEndpointCollectionOutput;
 }
 
 /** Get the network endpoints of all inbound dependencies of an App Service Environment. */
-export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -1001,8 +979,7 @@ export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePool202Response ex
 }
 
 /** Create or update a multi-role pool. */
-export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -1026,29 +1003,25 @@ export interface AppServiceEnvironmentsUpdateMultiRolePoolDefaultResponse extend
 }
 
 /** Get metric definitions for a specific instance of a multi-role pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitions200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitions200Response extends HttpResponse {
   status: "200";
   body: ResourceMetricDefinitionCollectionOutput;
 }
 
 /** Get metric definitions for a specific instance of a multi-role pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Get metric definitions for a multi-role pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListMultiRoleMetricDefinitions200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsListMultiRoleMetricDefinitions200Response extends HttpResponse {
   status: "200";
   body: ResourceMetricDefinitionCollectionOutput;
 }
 
 /** Get metric definitions for a multi-role pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListMultiRoleMetricDefinitionsDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsListMultiRoleMetricDefinitionsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -1090,92 +1063,79 @@ export interface AppServiceEnvironmentsListOperationsDefaultResponse extends Htt
 }
 
 /** Get the network endpoints of all outbound dependencies of an App Service Environment. */
-export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpoints200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpoints200Response extends HttpResponse {
   status: "200";
   body: OutboundEnvironmentEndpointCollectionOutput;
 }
 
 /** Get the network endpoints of all outbound dependencies of an App Service Environment. */
-export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Gets the list of private endpoints associated with a hosting environment */
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionList200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetPrivateEndpointConnectionList200Response extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionCollectionOutput;
 }
 
 /** Gets the list of private endpoints associated with a hosting environment */
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Gets a private endpoint connection */
-export interface AppServiceEnvironmentsGetPrivateEndpointConnection200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetPrivateEndpointConnection200Response extends HttpResponse {
   status: "200";
   body: RemotePrivateEndpointConnectionARMResourceOutput;
 }
 
 /** Gets a private endpoint connection */
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsGetPrivateEndpointConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection200Response extends HttpResponse {
   status: "200";
   body: RemotePrivateEndpointConnectionARMResourceOutput;
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection202Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection202Response extends HttpResponse {
   status: "202";
   body: RemotePrivateEndpointConnectionARMResourceOutput;
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a private endpoint connection */
-export interface AppServiceEnvironmentsDeletePrivateEndpointConnection200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsDeletePrivateEndpointConnection200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
 
 /** Deletes a private endpoint connection */
-export interface AppServiceEnvironmentsDeletePrivateEndpointConnection202Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsDeletePrivateEndpointConnection202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
 }
 
 /** Deletes a private endpoint connection */
-export interface AppServiceEnvironmentsDeletePrivateEndpointConnection204Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsDeletePrivateEndpointConnection204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Deletes a private endpoint connection */
-export interface AppServiceEnvironmentsDeletePrivateEndpointConnectionDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsDeletePrivateEndpointConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -1312,8 +1272,7 @@ export interface AppServiceEnvironmentsCreateOrUpdateWorkerPool202Response exten
 }
 
 /** Create or update a worker pool. */
-export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -1337,29 +1296,25 @@ export interface AppServiceEnvironmentsUpdateWorkerPoolDefaultResponse extends H
 }
 
 /** Get metric definitions for a specific instance of a worker pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitions200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitions200Response extends HttpResponse {
   status: "200";
   body: ResourceMetricDefinitionCollectionOutput;
 }
 
 /** Get metric definitions for a specific instance of a worker pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Get metric definitions for a worker pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListWebWorkerMetricDefinitions200Response
-  extends HttpResponse {
+export interface AppServiceEnvironmentsListWebWorkerMetricDefinitions200Response extends HttpResponse {
   status: "200";
   body: ResourceMetricDefinitionCollectionOutput;
 }
 
 /** Get metric definitions for a worker pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListWebWorkerMetricDefinitionsDefaultResponse
-  extends HttpResponse {
+export interface AppServiceEnvironmentsListWebWorkerMetricDefinitionsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -2031,15 +1986,13 @@ export interface DeletedWebAppsGetDeletedWebAppByLocationDefaultResponse extends
 }
 
 /** List Hosting Environment Detector Responses */
-export interface DiagnosticsListHostingEnvironmentDetectorResponses200Response
-  extends HttpResponse {
+export interface DiagnosticsListHostingEnvironmentDetectorResponses200Response extends HttpResponse {
   status: "200";
   body: DetectorResponseCollectionOutput;
 }
 
 /** List Hosting Environment Detector Responses */
-export interface DiagnosticsListHostingEnvironmentDetectorResponsesDefaultResponse
-  extends HttpResponse {
+export interface DiagnosticsListHostingEnvironmentDetectorResponsesDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -2051,8 +2004,7 @@ export interface DiagnosticsGetHostingEnvironmentDetectorResponse200Response ext
 }
 
 /** Get Hosting Environment Detector Response */
-export interface DiagnosticsGetHostingEnvironmentDetectorResponseDefaultResponse
-  extends HttpResponse {
+export interface DiagnosticsGetHostingEnvironmentDetectorResponseDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -2327,8 +2279,7 @@ export interface GlobalGetSubscriptionOperationWithAsyncResponse204Response exte
 }
 
 /** Gets an operation in a subscription and given region */
-export interface GlobalGetSubscriptionOperationWithAsyncResponseDefaultResponse
-  extends HttpResponse {
+export interface GlobalGetSubscriptionOperationWithAsyncResponseDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -2534,14 +2485,12 @@ export interface RecommendationsResetAllFiltersDefaultResponse extends HttpRespo
 }
 
 /** Disables the specified rule so it will not apply to a subscription in the future. */
-export interface RecommendationsDisableRecommendationForSubscription200Response
-  extends HttpResponse {
+export interface RecommendationsDisableRecommendationForSubscription200Response extends HttpResponse {
   status: "200";
 }
 
 /** Disables the specified rule so it will not apply to a subscription in the future. */
-export interface RecommendationsDisableRecommendationForSubscriptionDefaultResponse
-  extends HttpResponse {
+export interface RecommendationsDisableRecommendationForSubscriptionDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -2553,22 +2502,19 @@ export interface RecommendationsListHistoryForHostingEnvironment200Response exte
 }
 
 /** Get past recommendations for an app, optionally specified by the time range. */
-export interface RecommendationsListHistoryForHostingEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface RecommendationsListHistoryForHostingEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Get all recommendations for a hosting environment. */
-export interface RecommendationsListRecommendedRulesForHostingEnvironment200Response
-  extends HttpResponse {
+export interface RecommendationsListRecommendedRulesForHostingEnvironment200Response extends HttpResponse {
   status: "200";
   body: RecommendationCollectionOutput;
 }
 
 /** Get all recommendations for a hosting environment. */
-export interface RecommendationsListRecommendedRulesForHostingEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface RecommendationsListRecommendedRulesForHostingEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -2579,21 +2525,18 @@ export interface RecommendationsDisableAllForHostingEnvironment204Response exten
 }
 
 /** Disable all recommendations for an app. */
-export interface RecommendationsDisableAllForHostingEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface RecommendationsDisableAllForHostingEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Reset all recommendation opt-out settings for an app. */
-export interface RecommendationsResetAllFiltersForHostingEnvironment204Response
-  extends HttpResponse {
+export interface RecommendationsResetAllFiltersForHostingEnvironment204Response extends HttpResponse {
   status: "204";
 }
 
 /** Reset all recommendation opt-out settings for an app. */
-export interface RecommendationsResetAllFiltersForHostingEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface RecommendationsResetAllFiltersForHostingEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -2605,21 +2548,18 @@ export interface RecommendationsGetRuleDetailsByHostingEnvironment200Response ex
 }
 
 /** Get a recommendation rule for an app. */
-export interface RecommendationsGetRuleDetailsByHostingEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface RecommendationsGetRuleDetailsByHostingEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Disables the specific rule for a web site permanently. */
-export interface RecommendationsDisableRecommendationForHostingEnvironment200Response
-  extends HttpResponse {
+export interface RecommendationsDisableRecommendationForHostingEnvironment200Response extends HttpResponse {
   status: "200";
 }
 
 /** Disables the specific rule for a web site permanently. */
-export interface RecommendationsDisableRecommendationForHostingEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface RecommendationsDisableRecommendationForHostingEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -3148,29 +3088,25 @@ export interface StaticSitesDeleteStaticSiteBuildDefaultResponse extends HttpRes
 }
 
 /** Creates or updates the app settings of a static site build. */
-export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettings200Response
-  extends HttpResponse {
+export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettings200Response extends HttpResponse {
   status: "200";
   body: StringDictionaryOutput;
 }
 
 /** Creates or updates the app settings of a static site build. */
-export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Creates or updates the function app settings of a static site build. */
-export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings200Response
-  extends HttpResponse {
+export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings200Response extends HttpResponse {
   status: "200";
   body: StringDictionaryOutput;
 }
 
 /** Creates or updates the function app settings of a static site build. */
-export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -3206,76 +3142,65 @@ export interface StaticSitesListStaticSiteBuildFunctionAppSettings200Response ex
 }
 
 /** Gets the application settings of a static site build. */
-export interface StaticSitesListStaticSiteBuildFunctionAppSettingsDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesListStaticSiteBuildFunctionAppSettingsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Gets the details of the user provided function apps registered with a static site build */
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild200Response
-  extends HttpResponse {
+export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild200Response extends HttpResponse {
   status: "200";
   body: StaticSiteUserProvidedFunctionAppsCollectionOutput;
 }
 
 /** Gets the details of the user provided function apps registered with a static site build */
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Gets the details of the user provided function app registered with a static site build */
-export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild200Response
-  extends HttpResponse {
+export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild200Response extends HttpResponse {
   status: "200";
   body: StaticSiteUserProvidedFunctionAppARMResourceOutput;
 }
 
 /** Gets the details of the user provided function app registered with a static site build */
-export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Register a user provided function app with a static site build */
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild200Response
-  extends HttpResponse {
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild200Response extends HttpResponse {
   status: "200";
   body: StaticSiteUserProvidedFunctionAppARMResourceOutput;
 }
 
 /** Register a user provided function app with a static site build */
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild202Response
-  extends HttpResponse {
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild202Response extends HttpResponse {
   status: "202";
   body: StaticSiteUserProvidedFunctionAppARMResourceOutput;
 }
 
 /** Register a user provided function app with a static site build */
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Detach the user provided function app from the static site build */
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild200Response
-  extends HttpResponse {
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild200Response extends HttpResponse {
   status: "200";
 }
 
 /** Detach the user provided function app from the static site build */
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild204Response
-  extends HttpResponse {
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild204Response extends HttpResponse {
   status: "204";
 }
 
 /** Detach the user provided function app from the static site build */
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -3291,8 +3216,7 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteBuild202Response ext
 }
 
 /** Deploys zipped content to a specific environment of a static site. */
-export interface StaticSitesCreateZipDeploymentForStaticSiteBuildDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesCreateZipDeploymentForStaticSiteBuildDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -3304,22 +3228,19 @@ export interface StaticSitesCreateOrUpdateStaticSiteAppSettings200Response exten
 }
 
 /** Creates or updates the app settings of a static site. */
-export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Creates or updates the function app settings of a static site. */
-export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings200Response
-  extends HttpResponse {
+export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings200Response extends HttpResponse {
   status: "200";
   body: StringDictionaryOutput;
 }
 
 /** Creates or updates the function app settings of a static site. */
-export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -3373,8 +3294,7 @@ export interface StaticSitesCreateOrUpdateStaticSiteCustomDomain202Response exte
 }
 
 /** Creates a new static site custom domain in an existing resource group and static site. */
-export interface StaticSitesCreateOrUpdateStaticSiteCustomDomainDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesCreateOrUpdateStaticSiteCustomDomainDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -3396,20 +3316,17 @@ export interface StaticSitesDeleteStaticSiteCustomDomainDefaultResponse extends 
 }
 
 /** Validates a particular custom domain can be added to a static site. */
-export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSite200Response
-  extends HttpResponse {
+export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSite200Response extends HttpResponse {
   status: "200";
 }
 
 /** Validates a particular custom domain can be added to a static site. */
-export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSite202Response
-  extends HttpResponse {
+export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSite202Response extends HttpResponse {
   status: "202";
 }
 
 /** Validates a particular custom domain can be added to a static site. */
-export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -3515,22 +3432,19 @@ export interface StaticSitesGetPrivateEndpointConnectionDefaultResponse extends 
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface StaticSitesApproveOrRejectPrivateEndpointConnection200Response
-  extends HttpResponse {
+export interface StaticSitesApproveOrRejectPrivateEndpointConnection200Response extends HttpResponse {
   status: "200";
   body: RemotePrivateEndpointConnectionARMResourceOutput;
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface StaticSitesApproveOrRejectPrivateEndpointConnection202Response
-  extends HttpResponse {
+export interface StaticSitesApproveOrRejectPrivateEndpointConnection202Response extends HttpResponse {
   status: "202";
   body: RemotePrivateEndpointConnectionARMResourceOutput;
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface StaticSitesApproveOrRejectPrivateEndpointConnectionDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesApproveOrRejectPrivateEndpointConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -3583,69 +3497,59 @@ export interface StaticSitesResetStaticSiteApiKeyDefaultResponse extends HttpRes
 }
 
 /** Gets the details of the user provided function apps registered with a static site */
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSite200Response
-  extends HttpResponse {
+export interface StaticSitesGetUserProvidedFunctionAppsForStaticSite200Response extends HttpResponse {
   status: "200";
   body: StaticSiteUserProvidedFunctionAppsCollectionOutput;
 }
 
 /** Gets the details of the user provided function apps registered with a static site */
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Gets the details of the user provided function app registered with a static site */
-export interface StaticSitesGetUserProvidedFunctionAppForStaticSite200Response
-  extends HttpResponse {
+export interface StaticSitesGetUserProvidedFunctionAppForStaticSite200Response extends HttpResponse {
   status: "200";
   body: StaticSiteUserProvidedFunctionAppARMResourceOutput;
 }
 
 /** Gets the details of the user provided function app registered with a static site */
-export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Register a user provided function app with a static site */
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSite200Response
-  extends HttpResponse {
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSite200Response extends HttpResponse {
   status: "200";
   body: StaticSiteUserProvidedFunctionAppARMResourceOutput;
 }
 
 /** Register a user provided function app with a static site */
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSite202Response
-  extends HttpResponse {
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSite202Response extends HttpResponse {
   status: "202";
   body: StaticSiteUserProvidedFunctionAppARMResourceOutput;
 }
 
 /** Register a user provided function app with a static site */
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Detach the user provided function app from the static site */
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSite200Response
-  extends HttpResponse {
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSite200Response extends HttpResponse {
   status: "200";
 }
 
 /** Detach the user provided function app from the static site */
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSite204Response
-  extends HttpResponse {
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSite204Response extends HttpResponse {
   status: "204";
 }
 
 /** Detach the user provided function app from the static site */
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteDefaultResponse
-  extends HttpResponse {
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -4113,8 +4017,7 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferences200Response ext
 }
 
 /** Gets the config reference app settings and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesDefaultResponse
-  extends HttpResponse {
+export interface WebAppsGetSiteConnectionStringKeyVaultReferencesDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -4126,8 +4029,7 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReference200Response exte
 }
 
 /** Gets the config reference and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferenceDefaultResponse
-  extends HttpResponse {
+export interface WebAppsGetSiteConnectionStringKeyVaultReferenceDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -4553,8 +4455,7 @@ export interface WebAppsCreateOrUpdateDomainOwnershipIdentifier200Response exten
 }
 
 /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierDefaultResponse
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -5314,8 +5215,7 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionDefaultResponse extends 
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheck200Response
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheck200Response extends HttpResponse {
   status: "200";
   body: SwiftVirtualNetworkOutput;
 }
@@ -5324,8 +5224,7 @@ export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheck200R
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckDefaultResponse
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -5350,8 +5249,7 @@ export interface WebAppsDeleteSwiftVirtualNetworkDefaultResponse extends HttpRes
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheck200Response
-  extends HttpResponse {
+export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheck200Response extends HttpResponse {
   status: "200";
   body: SwiftVirtualNetworkOutput;
 }
@@ -5360,8 +5258,7 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheck200Response
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckDefaultResponse
-  extends HttpResponse {
+export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -5649,8 +5546,7 @@ export interface WebAppsApproveOrRejectPrivateEndpointConnection202Response exte
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface WebAppsApproveOrRejectPrivateEndpointConnectionDefaultResponse
-  extends HttpResponse {
+export interface WebAppsApproveOrRejectPrivateEndpointConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -6214,8 +6110,7 @@ export interface WebAppsListBasicPublishingCredentialsPoliciesSlot200Response ex
 }
 
 /** Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site. */
-export interface WebAppsListBasicPublishingCredentialsPoliciesSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsListBasicPublishingCredentialsPoliciesSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -6448,29 +6343,25 @@ export interface WebAppsGetAppSettingKeyVaultReferenceSlotDefaultResponse extend
 }
 
 /** Gets the config reference app settings and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlot200Response
-  extends HttpResponse {
+export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlot200Response extends HttpResponse {
   status: "200";
   body: ApiKVReferenceCollectionOutput;
 }
 
 /** Gets the config reference app settings and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Gets the config reference and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlot200Response
-  extends HttpResponse {
+export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlot200Response extends HttpResponse {
   status: "200";
   body: ApiKVReferenceOutput;
 }
 
 /** Gets the config reference and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -6866,15 +6757,13 @@ export interface WebAppsGetDomainOwnershipIdentifierSlotDefaultResponse extends 
 }
 
 /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlot200Response
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlot200Response extends HttpResponse {
   status: "200";
   body: IdentifierOutput;
 }
 
 /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -7300,8 +7189,7 @@ export interface WebAppsCreateOrUpdateRelayServiceConnectionSlot200Response exte
 }
 
 /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-export interface WebAppsCreateOrUpdateRelayServiceConnectionSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateRelayServiceConnectionSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -7587,8 +7475,7 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionSlotDefaultResponse exte
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Response
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Response extends HttpResponse {
   status: "200";
   body: SwiftVirtualNetworkOutput;
 }
@@ -7597,8 +7484,7 @@ export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -7623,8 +7509,7 @@ export interface WebAppsDeleteSwiftVirtualNetworkSlotDefaultResponse extends Htt
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Response
-  extends HttpResponse {
+export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Response extends HttpResponse {
   status: "200";
   body: SwiftVirtualNetworkOutput;
 }
@@ -7633,8 +7518,7 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Respo
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -7910,22 +7794,19 @@ export interface WebAppsGetPrivateEndpointConnectionSlotDefaultResponse extends 
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlot200Response
-  extends HttpResponse {
+export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlot200Response extends HttpResponse {
   status: "200";
   body: RemotePrivateEndpointConnectionARMResourceOutput;
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlot202Response
-  extends HttpResponse {
+export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlot202Response extends HttpResponse {
   status: "202";
   body: RemotePrivateEndpointConnectionARMResourceOutput;
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -8145,8 +8026,7 @@ export interface WebAppsListPublishingProfileXmlWithSecretsSlot200Response exten
 }
 
 /** Gets the publishing profile for an app (or deployment slot, if specified). */
-export interface WebAppsListPublishingProfileXmlWithSecretsSlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsListPublishingProfileXmlWithSecretsSlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }
@@ -8712,8 +8592,7 @@ export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlot200Response exten
 }
 
 /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotDefaultResponse
-  extends HttpResponse {
+export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotDefaultResponse extends HttpResponse {
   status: string;
   body: DefaultErrorResponseOutput;
 }

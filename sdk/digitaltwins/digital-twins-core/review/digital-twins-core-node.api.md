@@ -6,8 +6,10 @@
 
 import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -220,6 +222,8 @@ export interface IncomingRelationshipCollection {
     value: IncomingRelationship[];
 }
 
+export { isRestError }
+
 // @public
 export interface ListEventRoutesOptions extends coreClient.OperationOptions {
     resultsPerPage?: number;
@@ -277,6 +281,8 @@ export interface RelationshipCollection {
     nextLink?: string;
     value: Record<string, unknown>[];
 }
+
+export { RestError }
 
 // (No @packageDocumentation comment for this package)
 

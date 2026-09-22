@@ -1,0 +1,955 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _operationListResultDeserializer(item: any): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
+}
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for an operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
+/** Guest subscription that consumes shared compute limits. */
+export interface GuestSubscription extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: GuestSubscriptionProperties;
+}
+
+export function guestSubscriptionSerializer(item: GuestSubscription): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : guestSubscriptionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function guestSubscriptionDeserializer(item: any): GuestSubscription {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : guestSubscriptionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties for guest subscription. */
+export interface GuestSubscriptionProperties {
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function guestSubscriptionPropertiesSerializer(_item: GuestSubscriptionProperties): any {
+  return {};
+}
+
+export function guestSubscriptionPropertiesDeserializer(item: any): GuestSubscriptionProperties {
+  return {
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The provisioning state of a resource type. */
+export enum KnownResourceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type ResourceProvisioningState = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** The response of a GuestSubscription list operation. */
+export interface _GuestSubscriptionListResult {
+  /** The GuestSubscription items on this page */
+  value: GuestSubscription[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _guestSubscriptionListResultDeserializer(item: any): _GuestSubscriptionListResult {
+  return {
+    value: guestSubscriptionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function guestSubscriptionArraySerializer(result: Array<GuestSubscription>): any[] {
+  return result.map((item) => {
+    return guestSubscriptionSerializer(item);
+  });
+}
+
+export function guestSubscriptionArrayDeserializer(result: Array<GuestSubscription>): any[] {
+  return result.map((item) => {
+    return guestSubscriptionDeserializer(item);
+  });
+}
+
+/**
+ * A host subscription that a guest subscription trusts for sharing compute limits.
+ * A guest subscription can trust multiple host subscriptions; establishing trust does
+ * not by itself associate the guest with a host. Guest-to-host association happens at
+ * check-in time, where a subscription can be a guest of at most one host per region.
+ */
+export interface TrustedHostSubscription extends ProxyResource {}
+
+export function trustedHostSubscriptionSerializer(_item: TrustedHostSubscription): any {
+  return {};
+}
+
+export function trustedHostSubscriptionDeserializer(item: any): TrustedHostSubscription {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a TrustedHostSubscription list operation. */
+export interface _TrustedHostSubscriptionListResult {
+  /** The TrustedHostSubscription items on this page */
+  value: TrustedHostSubscription[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _trustedHostSubscriptionListResultDeserializer(
+  item: any,
+): _TrustedHostSubscriptionListResult {
+  return {
+    value: trustedHostSubscriptionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function trustedHostSubscriptionArraySerializer(
+  result: Array<TrustedHostSubscription>,
+): any[] {
+  return result.map((item) => {
+    return trustedHostSubscriptionSerializer(item);
+  });
+}
+
+export function trustedHostSubscriptionArrayDeserializer(
+  result: Array<TrustedHostSubscription>,
+): any[] {
+  return result.map((item) => {
+    return trustedHostSubscriptionDeserializer(item);
+  });
+}
+
+/** Compute limits shared by the subscription. */
+export interface SharedLimit extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SharedLimitProperties;
+}
+
+export function sharedLimitSerializer(item: SharedLimit): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : sharedLimitPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function sharedLimitDeserializer(item: any): SharedLimit {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : sharedLimitPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the compute shared limit. */
+export interface SharedLimitProperties {
+  /** The limit name properties. */
+  readonly resourceName?: LimitName;
+  /** The maximum permitted usage of the resource. */
+  readonly limit?: number;
+  /** The quota units, such as Count. */
+  readonly unit?: string;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function sharedLimitPropertiesSerializer(_item: SharedLimitProperties): any {
+  return {};
+}
+
+export function sharedLimitPropertiesDeserializer(item: any): SharedLimitProperties {
+  return {
+    resourceName: !item["resourceName"]
+      ? item["resourceName"]
+      : limitNameDeserializer(item["resourceName"]),
+    limit: item["limit"],
+    unit: item["unit"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Properties of the limit name. */
+export interface LimitName {
+  /** The limit name. */
+  value: string;
+  /** The localized limit name. */
+  readonly localizedValue?: string;
+}
+
+export function limitNameDeserializer(item: any): LimitName {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+/** The response of a SharedLimit list operation. */
+export interface _SharedLimitListResult {
+  /** The SharedLimit items on this page */
+  value: SharedLimit[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _sharedLimitListResultDeserializer(item: any): _SharedLimitListResult {
+  return {
+    value: sharedLimitArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function sharedLimitArraySerializer(result: Array<SharedLimit>): any[] {
+  return result.map((item) => {
+    return sharedLimitSerializer(item);
+  });
+}
+
+export function sharedLimitArrayDeserializer(result: Array<SharedLimit>): any[] {
+  return result.map((item) => {
+    return sharedLimitDeserializer(item);
+  });
+}
+
+/** Compute limit feature. */
+export interface Feature extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FeatureProperties;
+}
+
+export function featureDeserializer(item: any): Feature {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : featurePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the compute limit feature. */
+export interface FeatureProperties {
+  /** The current state of the feature (for example, Enabled, Disabled). */
+  state?: FeatureState;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function featurePropertiesDeserializer(item: any): FeatureProperties {
+  return {
+    state: item["state"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The allowed states for a compute limit feature. */
+export enum KnownFeatureState {
+  /** The feature is enabled. */
+  Enabled = "Enabled",
+  /** The feature is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The allowed states for a compute limit feature. \
+ * {@link KnownFeatureState} can be used interchangeably with FeatureState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The feature is enabled. \
+ * **Disabled**: The feature is disabled.
+ */
+export type FeatureState = string;
+
+/** The response of a Feature list operation. */
+export interface _FeatureListResult {
+  /** The Feature items on this page */
+  value: Feature[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _featureListResultDeserializer(item: any): _FeatureListResult {
+  return {
+    value: featureArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function featureArrayDeserializer(result: Array<Feature>): any[] {
+  return result.map((item) => {
+    return featureDeserializer(item);
+  });
+}
+
+/** Request body for feature enable action. */
+export interface FeatureEnableRequest {
+  /** The Service Tree identifier associated with this feature action. */
+  serviceTreeId?: string;
+}
+
+export function featureEnableRequestSerializer(item: FeatureEnableRequest): any {
+  return { serviceTreeId: item["serviceTreeId"] };
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+  /** Fully qualified ID of the resource against which the original async operation was started. */
+  readonly resourceId?: string;
+}
+
+export function operationStatusResultDeserializer(item: any): OperationStatusResult {
+  return {
+    id: item["id"],
+    name: item["name"],
+    status: item["status"],
+    percentComplete: item["percentComplete"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    operations: !item["operations"]
+      ? item["operations"]
+      : operationStatusResultArrayDeserializer(item["operations"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    resourceId: item["resourceId"],
+  };
+}
+
+export function operationStatusResultArrayDeserializer(
+  result: Array<OperationStatusResult>,
+): any[] {
+  return result.map((item) => {
+    return operationStatusResultDeserializer(item);
+  });
+}
+
+/** VM family resource representing a virtual machine family and its category. */
+export interface VmFamily extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VmFamilyProperties;
+}
+
+export function vmFamilyDeserializer(item: any): VmFamily {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : vmFamilyPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a VM family resource. */
+export interface VmFamilyProperties {
+  /** The category of the VM family (for example, GeneralPurpose, ComputeOptimized). */
+  category?: string;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function vmFamilyPropertiesDeserializer(item: any): VmFamilyProperties {
+  return {
+    category: item["category"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a VmFamily list operation. */
+export interface _VmFamilyListResult {
+  /** The VmFamily items on this page */
+  value: VmFamily[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _vmFamilyListResultDeserializer(item: any): _VmFamilyListResult {
+  return {
+    value: vmFamilyArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function vmFamilyArrayDeserializer(result: Array<VmFamily>): any[] {
+  return result.map((item) => {
+    return vmFamilyDeserializer(item);
+  });
+}
+
+/**
+ * Shared limit cap configuration for a VM family, owned by a host subscription
+ * and propagated to its member subscriptions. The same resource type is
+ * readable by host and member subscriptions, but write operations (PUT/DELETE)
+ * are scoped to the caller's subscription as the host.
+ */
+export interface SharedLimitCap extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SharedLimitCapProperties;
+}
+
+export function sharedLimitCapSerializer(item: SharedLimitCap): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : sharedLimitCapPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function sharedLimitCapDeserializer(item: any): SharedLimitCap {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : sharedLimitCapPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a shared limit cap resource. */
+export interface SharedLimitCapProperties {
+  /**
+   * The default member cap value (in count units).
+   * Set to a non-negative integer to apply a cap to all member subscriptions
+   * that do not have a per-member override. Omit the property to leave no
+   * default cap in effect.
+   */
+  defaultMemberCap?: number;
+  /**
+   * Controls whether the service validates the aggregate cap against the
+   * group limit for the VM family.
+   *
+   * SUM(caps) is the sum of all per-member overrides' cap values plus
+   * `defaultMemberCap` multiplied by the number of member subscriptions without an override.
+   *
+   * When true, the service rejects any configuration where SUM(caps)
+   * exceeds the group limit. When false, SUM(caps) is permitted to exceed
+   * the group limit.
+   *
+   * Enabling this flag is rejected if the current configuration already breaches the group limit;
+   * reduce caps first, then enable.
+   */
+  isBoundedCap: boolean;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function sharedLimitCapPropertiesSerializer(item: SharedLimitCapProperties): any {
+  return { defaultMemberCap: item["defaultMemberCap"], isBoundedCap: item["isBoundedCap"] };
+}
+
+export function sharedLimitCapPropertiesDeserializer(item: any): SharedLimitCapProperties {
+  return {
+    defaultMemberCap: item["defaultMemberCap"],
+    isBoundedCap: item["isBoundedCap"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a SharedLimitCap list operation. */
+export interface _SharedLimitCapListResult {
+  /** The SharedLimitCap items on this page */
+  value: SharedLimitCap[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _sharedLimitCapListResultDeserializer(item: any): _SharedLimitCapListResult {
+  return {
+    value: sharedLimitCapArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function sharedLimitCapArraySerializer(result: Array<SharedLimitCap>): any[] {
+  return result.map((item) => {
+    return sharedLimitCapSerializer(item);
+  });
+}
+
+export function sharedLimitCapArrayDeserializer(result: Array<SharedLimitCap>): any[] {
+  return result.map((item) => {
+    return sharedLimitCapDeserializer(item);
+  });
+}
+
+/** Request body for the `setMemberCapOverrides` action. */
+export interface SetMemberCapOverridesRequest {
+  /**
+   * The full set of per-member cap overrides to persist for this resource.
+   * This call replaces the existing set entirely; supply an empty array
+   * (`[]`) to clear all overrides.
+   */
+  memberCapOverrides: MemberCap[];
+}
+
+export function setMemberCapOverridesRequestSerializer(item: SetMemberCapOverridesRequest): any {
+  return { memberCapOverrides: memberCapArraySerializer(item["memberCapOverrides"]) };
+}
+
+export function memberCapArraySerializer(result: Array<MemberCap>): any[] {
+  return result.map((item) => {
+    return memberCapSerializer(item);
+  });
+}
+
+export function memberCapArrayDeserializer(result: Array<MemberCap>): any[] {
+  return result.map((item) => {
+    return memberCapDeserializer(item);
+  });
+}
+
+/** Per-member cap override. Pairs a member subscription with its cap value. */
+export interface MemberCap {
+  /** The member subscription identifier this cap applies to. */
+  subscriptionId: string;
+  /** The cap value in count units for this member subscription. */
+  cap: number;
+}
+
+export function memberCapSerializer(item: MemberCap): any {
+  return { subscriptionId: item["subscriptionId"], cap: item["cap"] };
+}
+
+export function memberCapDeserializer(item: any): MemberCap {
+  return {
+    subscriptionId: item["subscriptionId"],
+    cap: item["cap"],
+  };
+}
+
+/** Response body for the `setMemberCapOverrides` action. */
+export interface SetMemberCapOverridesResult {
+  /** The per-member cap overrides as persisted after the action completed. */
+  memberCapOverrides: MemberCap[];
+}
+
+export function setMemberCapOverridesResultDeserializer(item: any): SetMemberCapOverridesResult {
+  return {
+    memberCapOverrides: memberCapArrayDeserializer(item["memberCapOverrides"]),
+  };
+}
+
+/**
+ * Member cap override as a standalone child resource of `SharedLimitCap`.
+ * Use this resource to read or modify a single member's cap without
+ * resending the entire `memberCapOverrides` array on the parent.
+ */
+export interface MemberCapOverride extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MemberCapOverrideProperties;
+}
+
+export function memberCapOverrideSerializer(item: MemberCapOverride): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : memberCapOverridePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function memberCapOverrideDeserializer(item: any): MemberCapOverride {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : memberCapOverridePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a per-member cap override. */
+export interface MemberCapOverrideProperties {
+  /** The cap value in count units for this member subscription. */
+  cap: number;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function memberCapOverridePropertiesSerializer(item: MemberCapOverrideProperties): any {
+  return { cap: item["cap"] };
+}
+
+export function memberCapOverridePropertiesDeserializer(item: any): MemberCapOverrideProperties {
+  return {
+    cap: item["cap"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a MemberCapOverride list operation. */
+export interface _MemberCapOverrideListResult {
+  /** The MemberCapOverride items on this page */
+  value: MemberCapOverride[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _memberCapOverrideListResultDeserializer(item: any): _MemberCapOverrideListResult {
+  return {
+    value: memberCapOverrideArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function memberCapOverrideArraySerializer(result: Array<MemberCapOverride>): any[] {
+  return result.map((item) => {
+    return memberCapOverrideSerializer(item);
+  });
+}
+
+export function memberCapOverrideArrayDeserializer(result: Array<MemberCapOverride>): any[] {
+  return result.map((item) => {
+    return memberCapOverrideDeserializer(item);
+  });
+}
+
+/** The available API versions. */
+export enum KnownVersions {
+  /** The 2025-08-15 API version. */
+  V20250815 = "2025-08-15",
+  /** The 2026-03-20 API version. */
+  V20260320 = "2026-03-20",
+  /** The 2026-04-30 API version. */
+  V20260430 = "2026-04-30",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-07-31 API version. */
+  V20260731 = "2026-07-31",
+}

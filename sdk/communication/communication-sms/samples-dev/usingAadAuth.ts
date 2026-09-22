@@ -8,9 +8,7 @@
 import { parseConnectionString } from "@azure/communication-common";
 import type { SmsSendRequest } from "@azure/communication-sms";
 import { SmsClient } from "@azure/communication-sms";
-import { isNodeLike } from "@azure/core-util";
-import type { TokenCredential } from "@azure/identity";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -36,13 +34,7 @@ export async function main(): Promise<void> {
   }
 
   // get credentials
-  const credential: TokenCredential = isNodeLike
-    ? new DefaultAzureCredential()
-    : new ClientSecretCredential(
-        process.env.AZURE_TENANT_ID,
-        process.env.AZURE_CLIENT_ID,
-        process.env.AZURE_CLIENT_SECRET,
-      );
+  const credential = new DefaultAzureCredential();
 
   // create new client with endpoint and credentials
   const client = new SmsClient(endpoint, credential);

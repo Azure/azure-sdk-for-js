@@ -1,7 +1,17 @@
 # Release History
     
-## 1.0.0-beta.1 (2025-05-26)
+## 1.0.1 (Unreleased)
 
 ### Features Added
 
-Initial release of @azure/arm-planetarycomputer
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0 (2026-04-30)
+
+### Features Added
+
+This is the first stable version with the package of @azure/arm-planetarycomputer

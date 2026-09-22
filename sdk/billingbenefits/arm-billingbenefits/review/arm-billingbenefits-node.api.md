@@ -4,14 +4,51 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export interface ApplicableMacc extends ProxyResource {
+    allowContributors?: boolean;
+    automaticShortfall?: EnablementMode;
+    automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+    billingAccountResourceId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    endAt?: Date;
+    entityType?: MaccEntityType;
+    milestones?: MaccMilestone[];
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    productCode?: string;
+    readonly provisioningState?: string;
+    resourceId?: string;
+    shortfall?: Shortfall;
+    startAt?: Date;
+    status?: MaccStatus;
+    systemId?: string;
+}
+
+// @public
+export interface ApplicableMaccsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ApplicableMaccsOperations {
+    list: (billingAccountId: string, options?: ApplicableMaccsListOptionalParams) => PagedAsyncIterableIterator<ApplicableMacc>;
+}
 
 // @public
 export interface AppliedScopeProperties {
@@ -25,41 +62,103 @@ export interface AppliedScopeProperties {
 // @public
 export type AppliedScopeType = string;
 
+// @public
+export type ApplyDiscountOn = string;
+
+// @public
+export interface AutomaticShortfallSuppressReason {
+    code?: string;
+    message?: string;
+}
+
+// @public
+export interface Award {
+    readonly balanceVersion?: number;
+    credit?: Commitment;
+    duration?: Term;
+    endAt?: Date;
+    readonly resourceId?: string;
+    startAt?: Date;
+    readonly systemId?: string;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface BenefitOperations {
+    validate: (body: BenefitValidateRequest, options?: BenefitValidateOptionalParams) => Promise<BenefitValidateResponse>;
+}
+
+// @public
+export type BenefitType = string;
+
+// @public
+export interface BenefitValidateModel {
+    benefitType: BenefitType;
+}
+
+// @public
+export type BenefitValidateModelUnion = ConditionalCreditsValidateModel | CreditsValidateModel | MaccValidateModel | SavingsPlanValidateModel | BenefitValidateModel;
+
+// @public
+export interface BenefitValidateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BenefitValidateRequest {
+    benefits?: BenefitValidateModelUnion[];
+}
+
+// @public
+export interface BenefitValidateResponse {
+    benefits?: BenefitValidateResponseProperty[];
+    nextLink?: string;
+}
+
+// @public
+export interface BenefitValidateResponseProperty {
+    reason?: string;
+    reasonCode?: string;
+    resourceId?: string;
+    valid?: boolean;
+}
+
 // @public (undocumented)
-export class BillingBenefitsRP extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: BillingBenefitsRPOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    reservationOrderAlias: ReservationOrderAlias;
-    // (undocumented)
-    savingsPlan: SavingsPlan;
-    // (undocumented)
-    savingsPlanOrder: SavingsPlanOrder;
-    // (undocumented)
-    savingsPlanOrderAlias: SavingsPlanOrderAlias;
-    validatePurchase(body: SavingsPlanPurchaseValidateRequest, options?: ValidatePurchaseOptionalParams): Promise<ValidatePurchaseResponse>;
+export class BillingBenefitsRP {
+    constructor(credential: TokenCredential, options?: BillingBenefitsRPOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: BillingBenefitsRPOptionalParams);
+    readonly applicableMaccs: ApplicableMaccsOperations;
+    readonly benefit: BenefitOperations;
+    readonly conditionalCreditContributors: ConditionalCreditContributorsOperations;
+    readonly conditionalCredits: ConditionalCreditsOperations;
+    readonly contributors: ContributorsOperations;
+    readonly credits: CreditsOperations;
+    readonly discount: DiscountOperations;
+    readonly discounts: DiscountsOperations;
+    readonly freeServices: FreeServicesOperations;
+    readonly maccs: MaccsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly reservationOrderAlias: ReservationOrderAliasOperations;
+    readonly savingsPlan: SavingsPlanOperations;
+    readonly savingsPlanOrder: SavingsPlanOrderOperations;
+    readonly savingsPlanOrderAlias: SavingsPlanOrderAliasOperations;
+    readonly sellerResource: SellerResourceOperations;
+    readonly sources: SourcesOperations;
 }
 
 // @public
-export interface BillingBenefitsRPOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface BillingBenefitsRPOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface BillingInformation {
-    // (undocumented)
-    billingCurrencyProratedAmount?: Price;
-    // (undocumented)
-    billingCurrencyRemainingCommitmentAmount?: Price;
-    // (undocumented)
-    billingCurrencyTotalPaidAmount?: Price;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -75,6 +174,25 @@ export interface BillingPlanInformation {
 }
 
 // @public
+export interface CatalogClaimsItem {
+    // (undocumented)
+    catalogClaimsItemType?: string;
+    // (undocumented)
+    value?: string;
+}
+
+// @public
+export interface ChargeShortfallRequest {
+    balanceVersion?: number;
+    charge?: Commitment;
+    endAt?: Date;
+    productCode?: string;
+    resourceId?: string;
+    startAt?: Date;
+    systemId?: string;
+}
+
+// @public
 export interface Commitment extends Price {
     grain?: CommitmentGrain;
 }
@@ -83,11 +201,667 @@ export interface Commitment extends Price {
 export type CommitmentGrain = string;
 
 // @public
+export interface ConditionalCredit extends TrackedResource {
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
+    plan?: Plan;
+    properties?: ConditionalCreditPropertiesUnion;
+    sku?: Sku;
+}
+
+// @public
+export interface ConditionalCreditContributor extends ProxyResource {
+    readonly benefitResourceId?: string;
+    billingAccountResourceId?: string;
+    displayName?: string;
+    endAt?: Date;
+    entityType?: "Contributor";
+    readonly milestones?: ContributorConditionalCreditMilestone[];
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    productCode?: string;
+    readonly provisioningState?: ConditionalCreditsProvisioningState;
+    resourceId?: string;
+    startAt?: Date;
+    status?: ConditionalCreditStatus;
+    systemId?: string;
+}
+
+// @public
+export interface ConditionalCreditContributorsGetFromPrimaryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConditionalCreditContributorsListFromApplicableConditionalCreditOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConditionalCreditContributorsListFromPrimaryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConditionalCreditContributorsOperations {
+    getFromPrimary: (resourceGroupName: string, conditionalCreditName: string, contributorName: string, options?: ConditionalCreditContributorsGetFromPrimaryOptionalParams) => Promise<ConditionalCreditContributor>;
+    listFromApplicableConditionalCredit: (billingAccountId: string, systemId: string, options?: ConditionalCreditContributorsListFromApplicableConditionalCreditOptionalParams) => PagedAsyncIterableIterator<ConditionalCreditContributor>;
+    listFromPrimary: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditContributorsListFromPrimaryOptionalParams) => PagedAsyncIterableIterator<ConditionalCreditContributor>;
+}
+
+// @public
+export type ConditionalCreditEntityType = string;
+
+// @public
+export interface ConditionalCreditMilestone extends ConditionalCreditMilestoneBase {
+    award?: Award;
+}
+
+// @public
+export interface ConditionalCreditMilestoneBase {
+    award?: Award;
+    endAt?: Date;
+    milestoneId?: string;
+    name?: string;
+    spendTarget?: Price;
+    status?: MilestoneStatus;
+}
+
+// @public
+export interface ConditionalCreditPatchRequest {
+    allowContributors?: EnablementMode;
+    displayName?: string;
+    endAt?: Date;
+    milestones?: ConditionalCreditMilestone[];
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ConditionalCreditPatchRequestProperties {
+    allowContributors?: EnablementMode;
+    displayName?: string;
+    endAt?: Date;
+    milestones?: ConditionalCreditMilestone[];
+}
+
+// @public
+export interface ConditionalCreditProperties {
+    readonly benefitResourceId?: string;
+    billingAccountResourceId?: string;
+    displayName?: string;
+    endAt?: Date;
+    entityType: ConditionalCreditEntityType;
+    productCode?: string;
+    readonly provisioningState?: ConditionalCreditsProvisioningState;
+    resourceId?: string;
+    startAt?: Date;
+    status?: ConditionalCreditStatus;
+}
+
+// @public
+export type ConditionalCreditPropertiesUnion = ContributorConditionalCreditProperties | PrimaryConditionalCreditProperties | ConditionalCreditProperties;
+
+// @public
+export interface ConditionalCreditsCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConditionalCreditsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConditionalCreditsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConditionalCreditsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConditionalCreditsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConditionalCreditsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConditionalCreditsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<ConditionalCredit>, ConditionalCredit>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsCancelOptionalParams) => Promise<ConditionalCredit>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCredit, options?: ConditionalCreditsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ConditionalCredit>, ConditionalCredit>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCredit, options?: ConditionalCreditsCreateOrUpdateOptionalParams) => Promise<ConditionalCredit>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCreditPatchRequest, options?: ConditionalCreditsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ConditionalCredit>, ConditionalCredit>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCreditPatchRequest, options?: ConditionalCreditsUpdateOptionalParams) => Promise<ConditionalCredit>;
+    cancel: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsCancelOptionalParams) => PollerLike<OperationState<ConditionalCredit>, ConditionalCredit>;
+    createOrUpdate: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCredit, options?: ConditionalCreditsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ConditionalCredit>, ConditionalCredit>;
+    delete: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsGetOptionalParams) => Promise<ConditionalCredit>;
+    listByResourceGroup: (resourceGroupName: string, options?: ConditionalCreditsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConditionalCredit>;
+    listBySubscription: (options?: ConditionalCreditsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConditionalCredit>;
+    scopeList: (scope: string, options?: ConditionalCreditsScopeListOptionalParams) => PagedAsyncIterableIterator<ConditionalCredit>;
+    update: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCreditPatchRequest, options?: ConditionalCreditsUpdateOptionalParams) => PollerLike<OperationState<ConditionalCredit>, ConditionalCredit>;
+}
+
+// @public
+export type ConditionalCreditsProvisioningState = string;
+
+// @public
+export interface ConditionalCreditsScopeListOptionalParams extends OperationOptions {
+}
+
+// @public
+export type ConditionalCreditStatus = string;
+
+// @public
+export interface ConditionalCreditsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConditionalCreditsValidateModel extends BenefitValidateModel {
+    benefitType: "ConditionalCredits";
+    properties?: ConditionalCreditPropertiesUnion;
+}
+
+// @public
+export interface ConditionsItem {
+    // (undocumented)
+    conditionName?: string;
+    // (undocumented)
+    type?: string;
+    value?: string[];
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export interface Contributor extends ProxyResource {
+    allowContributors?: boolean;
+    automaticShortfall?: EnablementMode;
+    automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+    billingAccountResourceId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    endAt?: Date;
+    entityType?: MaccEntityType;
+    milestones?: MaccMilestone[];
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    productCode?: string;
+    readonly provisioningState?: string;
+    resourceId?: string;
+    shortfall?: Shortfall;
+    startAt?: Date;
+    status?: MaccStatus;
+    systemId?: string;
+}
+
+// @public
+export interface ContributorConditionalCreditMilestone extends ConditionalCreditMilestoneBase {
+}
+
+// @public
+export interface ContributorConditionalCreditProperties extends ConditionalCreditProperties {
+    entityType: "Contributor";
+    readonly milestones?: ContributorConditionalCreditMilestone[];
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    productCode?: string;
+    startAt?: Date;
+    systemId?: string;
+}
+
+// @public
+export interface ContributorsGetFromPrimaryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContributorsListFromApplicableMaccOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContributorsListFromPrimaryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContributorsOperations {
+    getFromPrimary: (resourceGroupName: string, maccName: string, contributorName: string, options?: ContributorsGetFromPrimaryOptionalParams) => Promise<Contributor>;
+    listFromApplicableMacc: (billingAccountId: string, systemId: string, options?: ContributorsListFromApplicableMaccOptionalParams) => PagedAsyncIterableIterator<Contributor>;
+    listFromPrimary: (resourceGroupName: string, maccName: string, options?: ContributorsListFromPrimaryOptionalParams) => PagedAsyncIterableIterator<Contributor>;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
+export interface Credit extends TrackedResource {
+    billingAccountResourceId?: string;
+    readonly billingProfileResourceId?: string;
+    breakdown?: CreditBreakdownItem[];
+    credit?: Commitment;
+    readonly customerId?: string;
+    endAt?: Date;
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
+    plan?: Plan;
+    policies?: CreditPolicies;
+    productCode?: string;
+    readonly provisioningState?: ProvisioningState;
+    reason?: CreditReason;
+    resourceId?: string;
+    sku?: Sku;
+    startAt?: Date;
+    status?: CreditStatus;
+    systemId?: string;
+}
+
+// @public
+export interface CreditBreakdownItem {
+    allocation?: Commitment;
+    dimensions?: CreditDimension[];
+    endAt?: Date;
+    startAt?: Date;
+}
+
+// @public
+export interface CreditDimension {
+    key: string;
+    value: string;
+}
+
+// @public
+export type CreditExpirationPolicy = string;
+
+// @public
+export interface CreditPatchProperties {
+    breakdown?: CreditBreakdownItem[];
+    credit?: Commitment;
+    endAt?: Date;
+}
+
+// @public
+export interface CreditPatchRequest {
+    breakdown?: CreditBreakdownItem[];
+    credit?: Commitment;
+    endAt?: Date;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CreditPolicies {
+    expiration?: CreditExpirationPolicy;
+    redemption?: CreditRedemptionPolicy;
+}
+
+// @public
+export interface CreditProperties {
+    billingAccountResourceId?: string;
+    readonly billingProfileResourceId?: string;
+    breakdown?: CreditBreakdownItem[];
+    credit?: Commitment;
+    readonly customerId?: string;
+    endAt?: Date;
+    policies?: CreditPolicies;
+    productCode?: string;
+    readonly provisioningState?: ProvisioningState;
+    reason?: CreditReason;
+    resourceId?: string;
+    startAt?: Date;
+    status?: CreditStatus;
+    systemId?: string;
+}
+
+// @public
+export interface CreditReason {
+    code?: string;
+    description?: string;
+}
+
+// @public
+export type CreditRedemptionPolicy = string;
+
+// @public
+export interface CreditsCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CreditsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CreditsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CreditsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreditsListApplicableOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreditsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreditsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreditsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, creditName: string, options?: CreditsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<Credit>, Credit>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, creditName: string, options?: CreditsCancelOptionalParams) => Promise<Credit>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, creditName: string, body: Credit, options?: CreditsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Credit>, Credit>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, creditName: string, body: Credit, options?: CreditsCreateOptionalParams) => Promise<Credit>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, creditName: string, options?: CreditsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, creditName: string, options?: CreditsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, creditName: string, body: CreditPatchRequest, options?: CreditsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Credit>, Credit>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, creditName: string, body: CreditPatchRequest, options?: CreditsUpdateOptionalParams) => Promise<Credit>;
+    cancel: (resourceGroupName: string, creditName: string, options?: CreditsCancelOptionalParams) => PollerLike<OperationState<Credit>, Credit>;
+    create: (resourceGroupName: string, creditName: string, body: Credit, options?: CreditsCreateOptionalParams) => PollerLike<OperationState<Credit>, Credit>;
+    delete: (resourceGroupName: string, creditName: string, options?: CreditsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, creditName: string, options?: CreditsGetOptionalParams) => Promise<Credit>;
+    listApplicable: (scope: string, options?: CreditsListApplicableOptionalParams) => PagedAsyncIterableIterator<Credit>;
+    listByResourceGroup: (resourceGroupName: string, options?: CreditsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Credit>;
+    listBySubscription: (options?: CreditsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Credit>;
+    update: (resourceGroupName: string, creditName: string, body: CreditPatchRequest, options?: CreditsUpdateOptionalParams) => PollerLike<OperationState<Credit>, Credit>;
+}
+
+// @public
+export interface CreditSource extends TrackedResource {
+    credit?: Commitment;
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    impactedBillingPeriod?: string;
+    kind?: string;
+    managedBy?: string;
+    plan?: Plan;
+    sku?: Sku;
+    sourceResourceId?: string;
+    status?: CreditStatus;
+}
+
+// @public
+export interface CreditSourcePatchRequest {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CreditSourceProperties {
+    credit?: Commitment;
+    impactedBillingPeriod?: string;
+    sourceResourceId?: string;
+    status?: CreditStatus;
+}
+
+// @public
+export type CreditStatus = string;
+
+// @public
+export interface CreditsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CreditsValidateModel extends BenefitValidateModel {
+    benefitType: "Credits";
+    readonly etag?: string;
+    readonly id?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    location?: string;
+    managedBy?: string;
+    readonly name?: string;
+    plan?: Plan;
+    properties?: CreditProperties;
+    sku?: Sku;
+    readonly systemData?: SystemData;
+    tags?: Record<string, string>;
+    readonly type?: string;
+}
+
+// @public
+export interface CustomPriceProperties {
+    billingPeriod?: string;
+    catalogClaims: CatalogClaimsItem[];
+    catalogId: string;
+    marketSetPrices: MarketSetPricesItems[];
+    meterType?: string;
+    ruleType: DiscountRuleType;
+    termUnits?: string;
+}
+
+// @public
+export interface Discount extends TrackedResource {
+    readonly etag?: string;
+    identity?: ServiceManagedIdentity;
+    kind?: string;
+    managedBy?: string;
+    plan?: Plan;
+    properties?: DiscountPropertiesUnion;
+    sku?: Sku;
+}
+
+// @public
+export type DiscountAppliedScopeType = string;
+
+// @public
+export type DiscountCombinationRule = string;
+
+// @public
+export type DiscountEntityType = string;
+
+// @public
+export interface DiscountGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscountOperations {
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, discountName: string, body: DiscountPatchRequest, options?: DiscountUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Discount>, Discount>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, discountName: string, body: DiscountPatchRequest, options?: DiscountUpdateOptionalParams) => Promise<Discount>;
+    get: (resourceGroupName: string, discountName: string, options?: DiscountGetOptionalParams) => Promise<Discount>;
+    update: (resourceGroupName: string, discountName: string, body: DiscountPatchRequest, options?: DiscountUpdateOptionalParams) => PollerLike<OperationState<Discount>, Discount>;
+}
+
+// @public
+export interface DiscountPatchRequest {
+    displayName?: string;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DiscountPatchRequestProperties {
+    displayName?: string;
+}
+
+// @public
+export interface DiscountProperties {
+    appliedScopeType?: DiscountAppliedScopeType;
+    readonly benefitResourceId?: string;
+    readonly billingAccountResourceId?: string;
+    readonly billingProfileResourceId?: string;
+    readonly customerResourceId?: string;
+    displayName?: string;
+    entityType: DiscountEntityType;
+    productCode: string;
+    readonly provisioningState?: DiscountProvisioningState;
+    startAt: Date;
+    readonly status?: DiscountStatus;
+    systemId?: string;
+}
+
+// @public
+export type DiscountPropertiesUnion = EntityTypeAffiliateDiscount | EntityTypePrimaryDiscount | DiscountProperties;
+
+// @public
+export type DiscountProvisioningState = string;
+
+// @public
+export type DiscountRuleType = string;
+
+// @public
+export interface DiscountsCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscountsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscountsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscountsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, discountName: string, options?: DiscountsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<Discount>, Discount>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, discountName: string, options?: DiscountsCancelOptionalParams) => Promise<Discount>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, discountName: string, body: Discount, options?: DiscountsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Discount>, Discount>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, discountName: string, body: Discount, options?: DiscountsCreateOptionalParams) => Promise<Discount>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, discountName: string, options?: DiscountsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, discountName: string, options?: DiscountsDeleteOptionalParams) => Promise<void>;
+    cancel: (resourceGroupName: string, discountName: string, options?: DiscountsCancelOptionalParams) => PollerLike<OperationState<Discount>, Discount>;
+    create: (resourceGroupName: string, discountName: string, body: Discount, options?: DiscountsCreateOptionalParams) => PollerLike<OperationState<Discount>, Discount>;
+    delete: (resourceGroupName: string, discountName: string, options?: DiscountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    resourceGroupList: (resourceGroupName: string, options?: DiscountsResourceGroupListOptionalParams) => PagedAsyncIterableIterator<Discount>;
+    scopeList: (scope: string, options?: DiscountsScopeListOptionalParams) => PagedAsyncIterableIterator<Discount>;
+    subscriptionList: (options?: DiscountsSubscriptionListOptionalParams) => PagedAsyncIterableIterator<Discount>;
+}
+
+// @public
+export interface DiscountsResourceGroupListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscountsScopeListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscountsSubscriptionListOptionalParams extends OperationOptions {
+}
+
+// @public
+export type DiscountStatus = string;
+
+// @public
+export type DiscountType = string;
+
+// @public
+export interface DiscountTypeCustomPrice extends DiscountTypeProperties {
+    customPriceProperties?: CustomPriceProperties;
+    discountType: "CustomPrice" | "CustomPriceMultiCurrency";
+    productFamilyName?: string;
+    productId?: string;
+    skuId?: string;
+}
+
+// @public
+export interface DiscountTypeCustomPriceMultiCurrency extends DiscountTypeCustomPrice {
+    discountType: "CustomPriceMultiCurrency";
+}
+
+// @public
+export type DiscountTypeCustomPriceUnion = DiscountTypeCustomPriceMultiCurrency | DiscountTypeCustomPrice;
+
+// @public
+export interface DiscountTypeProduct extends DiscountTypeProperties {
+    discountType: "Product";
+    productFamilyName?: string;
+    productId?: string;
+}
+
+// @public
+export interface DiscountTypeProductFamily extends DiscountTypeProperties {
+    discountType: "ProductFamily";
+    productFamilyName?: string;
+}
+
+// @public
+export interface DiscountTypeProductSku extends DiscountTypeProperties {
+    discountType: "Sku";
+    productFamilyName?: string;
+    productId?: string;
+    skuId?: string;
+}
+
+// @public
+export interface DiscountTypeProperties {
+    applyDiscountOn: ApplyDiscountOn;
+    conditions?: ConditionsItem[];
+    discountCombinationRule?: DiscountCombinationRule;
+    discountPercentage?: number;
+    discountType: DiscountType;
+    priceGuaranteeProperties?: PriceGuaranteeProperties;
+}
+
+// @public
+export type DiscountTypePropertiesUnion = DiscountTypeProductFamily | DiscountTypeProduct | DiscountTypeProductSku | DiscountTypeCustomPriceUnion | DiscountTypeProperties;
+
+// @public
+export interface DiscountUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EnablementMode = string;
+
+// @public
+export interface EntityTypeAffiliateDiscount extends DiscountProperties {
+    readonly endAt?: Date;
+    entityType: "Affiliate";
+    readonly primaryResourceId?: string;
+}
+
+// @public
+export interface EntityTypePrimaryDiscount extends DiscountProperties {
+    discountTypeProperties?: DiscountTypePropertiesUnion;
+    endAt: Date;
+    entityType: "Primary";
+}
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -105,17 +879,111 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedStatusInfo {
     message?: string;
     statusCode?: string;
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface FreeServices extends TrackedResource {
+    readonly billingAccountResourceId?: string;
+    readonly billingProfileResourceId?: string;
+    readonly customerResourceId?: string;
+    endAt?: Date;
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
+    plan?: Plan;
+    productCode?: string;
+    readonly provisioningState?: string;
+    sku?: Sku;
+    startAt?: Date;
+    status?: FreeServicesStatus;
+    systemId?: string;
+}
+
+// @public
+export interface FreeServicesCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FreeServicesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FreeServicesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FreeServicesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FreeServicesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FreeServicesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, freeServiceName: string, body: FreeServices, options?: FreeServicesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<FreeServices>, FreeServices>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, freeServiceName: string, body: FreeServices, options?: FreeServicesCreateOptionalParams) => Promise<FreeServices>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, freeServiceName: string, options?: FreeServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, freeServiceName: string, options?: FreeServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, freeServiceName: string, body: FreeServicesPatchRequest, options?: FreeServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FreeServices>, FreeServices>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, freeServiceName: string, body: FreeServicesPatchRequest, options?: FreeServicesUpdateOptionalParams) => Promise<FreeServices>;
+    create: (resourceGroupName: string, freeServiceName: string, body: FreeServices, options?: FreeServicesCreateOptionalParams) => PollerLike<OperationState<FreeServices>, FreeServices>;
+    delete: (resourceGroupName: string, freeServiceName: string, options?: FreeServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, freeServiceName: string, options?: FreeServicesGetOptionalParams) => Promise<FreeServices>;
+    listByResourceGroup: (resourceGroupName: string, options?: FreeServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<FreeServices>;
+    listBySubscription: (options?: FreeServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<FreeServices>;
+    update: (resourceGroupName: string, freeServiceName: string, body: FreeServicesPatchRequest, options?: FreeServicesUpdateOptionalParams) => PollerLike<OperationState<FreeServices>, FreeServices>;
+}
+
+// @public
+export interface FreeServicesPatchRequest {
+    endAt?: Date;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface FreeServicesPatchRequestProperties {
+    endAt?: Date;
+}
+
+// @public
+export interface FreeServicesProperties {
+    readonly billingAccountResourceId?: string;
+    readonly billingProfileResourceId?: string;
+    readonly customerResourceId?: string;
+    endAt?: Date;
+    productCode?: string;
+    readonly provisioningState?: string;
+    startAt?: Date;
+    status?: FreeServicesStatus;
+    systemId?: string;
+}
+
+// @public
+export type FreeServicesStatus = string;
+
+// @public
+export interface FreeServicesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type InstanceFlexibility = string;
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -130,13 +998,58 @@ export enum KnownAppliedScopeType {
 }
 
 // @public
+export enum KnownApplyDiscountOn {
+    Consume = "Consume",
+    Purchase = "Purchase",
+    Renew = "Renew"
+}
+
+// @public
+export enum KnownBenefitType {
+    ConditionalCredits = "ConditionalCredits",
+    Credits = "Credits",
+    Macc = "MACC",
+    SavingsPlan = "SavingsPlan"
+}
+
+// @public
 export enum KnownBillingPlan {
     P1M = "P1M"
 }
 
 // @public
 export enum KnownCommitmentGrain {
-    Hourly = "Hourly"
+    FullTerm = "FullTerm",
+    Hourly = "Hourly",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownConditionalCreditEntityType {
+    Contributor = "Contributor",
+    Primary = "Primary"
+}
+
+// @public
+export enum KnownConditionalCreditsProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Pending = "Pending",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownConditionalCreditStatus {
+    Active = "Active",
+    Canceled = "Canceled",
+    Completed = "Completed",
+    Failed = "Failed",
+    Pending = "Pending",
+    PendingSettlement = "PendingSettlement",
+    Scheduled = "Scheduled",
+    Stopped = "Stopped",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -148,9 +1061,162 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCreditExpirationPolicy {
+    None = "None",
+    SuspendBillingProfile = "SuspendBillingProfile"
+}
+
+// @public
+export enum KnownCreditRedemptionPolicy {
+    AutoRedeem = "AutoRedeem",
+    ManualRedeem = "ManualRedeem",
+    NotApplicable = "NotApplicable"
+}
+
+// @public
+export enum KnownCreditStatus {
+    Active = "Active",
+    Canceled = "Canceled",
+    Exhausted = "Exhausted",
+    Expired = "Expired",
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Pending = "Pending",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownDiscountAppliedScopeType {
+    BillingAccount = "BillingAccount",
+    BillingProfile = "BillingProfile",
+    Customer = "Customer"
+}
+
+// @public
+export enum KnownDiscountCombinationRule {
+    BestOf = "BestOf",
+    Stackable = "Stackable"
+}
+
+// @public
+export enum KnownDiscountEntityType {
+    Affiliate = "Affiliate",
+    Primary = "Primary"
+}
+
+// @public
+export enum KnownDiscountProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Pending = "Pending",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownDiscountRuleType {
+    FixedListPrice = "FixedListPrice",
+    FixedPriceLock = "FixedPriceLock",
+    PriceCeiling = "PriceCeiling"
+}
+
+// @public
+export enum KnownDiscountStatus {
+    Active = "Active",
+    Canceled = "Canceled",
+    Expired = "Expired",
+    Failed = "Failed",
+    Pending = "Pending"
+}
+
+// @public
+export enum KnownDiscountType {
+    CustomPrice = "CustomPrice",
+    CustomPriceMultiCurrency = "CustomPriceMultiCurrency",
+    Product = "Product",
+    ProductFamily = "ProductFamily",
+    Sku = "Sku"
+}
+
+// @public
+export enum KnownEnablementMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownFreeServicesStatus {
+    Active = "Active",
+    Canceled = "Canceled",
+    Completed = "Completed",
+    Pending = "Pending",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownInstanceFlexibility {
     Off = "Off",
     On = "On"
+}
+
+// @public
+export enum KnownMaccEntityType {
+    Contributor = "Contributor",
+    Primary = "Primary"
+}
+
+// @public
+export enum KnownMaccMilestoneStatus {
+    Active = "Active",
+    Canceled = "Canceled",
+    Completed = "Completed",
+    Failed = "Failed",
+    Pending = "Pending",
+    PendingSettlement = "PendingSettlement",
+    Removed = "Removed",
+    Scheduled = "Scheduled",
+    ShortfallCharged = "ShortfallCharged",
+    ShortfallWaived = "ShortfallWaived",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownMaccStatus {
+    Active = "Active",
+    Canceled = "Canceled",
+    Completed = "Completed",
+    Failed = "Failed",
+    Pending = "Pending",
+    PendingSettlement = "PendingSettlement",
+    Scheduled = "Scheduled",
+    ShortfallCharged = "ShortfallCharged",
+    ShortfallWaived = "ShortfallWaived",
+    Stopped = "Stopped",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownMilestoneStatus {
+    Active = "Active",
+    Canceled = "Canceled",
+    Completed = "Completed",
+    Failed = "Failed",
+    Missed = "Missed",
+    Pending = "Pending",
+    PendingSettlement = "PendingSettlement",
+    Removed = "Removed",
+    Scheduled = "Scheduled",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -169,10 +1235,9 @@ export enum KnownPaymentStatus {
 }
 
 // @public
-export enum KnownPricingCurrencyDuration {
-    P1M = "P1M",
-    P1Y = "P1Y",
-    P3Y = "P3Y"
+export enum KnownPricingPolicy {
+    Locked = "Locked",
+    Protected = "Protected"
 }
 
 // @public
@@ -218,11 +1283,248 @@ export enum KnownReservedResourceType {
 }
 
 // @public
+export enum KnownServiceManagedIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownTerm {
+    P1M = "P1M",
     P1Y = "P1Y",
     P3Y = "P3Y",
     P5Y = "P5Y"
 }
+
+// @public
+export enum KnownVersions {
+    V20251201Preview = "2025-12-01-preview"
+}
+
+// @public
+export interface Macc extends TrackedResource {
+    allowContributors?: boolean;
+    automaticShortfall?: EnablementMode;
+    automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+    billingAccountResourceId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    endAt?: Date;
+    entityType?: MaccEntityType;
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
+    milestones?: MaccMilestone[];
+    plan?: Plan;
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    productCode?: string;
+    readonly provisioningState?: string;
+    resourceId?: string;
+    shortfall?: Shortfall;
+    sku?: Sku;
+    startAt?: Date;
+    status?: MaccStatus;
+    systemId?: string;
+}
+
+// @public
+export type MaccEntityType = string;
+
+// @public
+export interface MaccMilestone {
+    automaticShortfall?: EnablementMode;
+    automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+    commitment?: Price;
+    endAt?: Date;
+    milestoneId?: string;
+    shortfall?: Shortfall;
+    status?: MaccMilestoneStatus;
+}
+
+// @public
+export type MaccMilestoneStatus = string;
+
+// @public
+export interface MaccModelProperties {
+    allowContributors?: boolean;
+    automaticShortfall?: EnablementMode;
+    automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+    billingAccountResourceId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    endAt?: Date;
+    entityType: MaccEntityType;
+    milestones?: MaccMilestone[];
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    productCode?: string;
+    readonly provisioningState?: string;
+    resourceId?: string;
+    shortfall?: Shortfall;
+    startAt?: Date;
+    status?: MaccStatus;
+    systemId?: string;
+}
+
+// @public
+export interface MaccPatchRequest {
+    allowContributors?: boolean;
+    automaticShortfall?: EnablementMode;
+    automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+    commitment?: Commitment;
+    displayName?: string;
+    endAt?: Date;
+    milestones?: MaccMilestone[];
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    status?: MaccMilestoneStatus;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface MaccPatchRequestProperties {
+    allowContributors?: boolean;
+    automaticShortfall?: EnablementMode;
+    automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+    commitment?: Commitment;
+    displayName?: string;
+    endAt?: Date;
+    milestones?: MaccMilestone[];
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    status?: MaccMilestoneStatus;
+}
+
+// @public
+export interface MaccsCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaccsChargeShortfallOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaccsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaccsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaccsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaccsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaccsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaccsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, maccName: string, options?: MaccsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, maccName: string, options?: MaccsCancelOptionalParams) => Promise<Macc>;
+    // @deprecated (undocumented)
+    beginChargeShortfall: (resourceGroupName: string, maccName: string, body: ChargeShortfallRequest, options?: MaccsChargeShortfallOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginChargeShortfallAndWait: (resourceGroupName: string, maccName: string, body: ChargeShortfallRequest, options?: MaccsChargeShortfallOptionalParams) => Promise<Macc>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, maccName: string, body: Macc, options?: MaccsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, maccName: string, body: Macc, options?: MaccsCreateOptionalParams) => Promise<Macc>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, maccName: string, options?: MaccsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, maccName: string, options?: MaccsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, maccName: string, body: MaccPatchRequest, options?: MaccsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, maccName: string, body: MaccPatchRequest, options?: MaccsUpdateOptionalParams) => Promise<Macc>;
+    // @deprecated (undocumented)
+    beginWriteOff: (resourceGroupName: string, maccName: string, options?: MaccsWriteOffOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginWriteOffAndWait: (resourceGroupName: string, maccName: string, options?: MaccsWriteOffOptionalParams) => Promise<Macc>;
+    cancel: (resourceGroupName: string, maccName: string, options?: MaccsCancelOptionalParams) => PollerLike<OperationState<Macc>, Macc>;
+    chargeShortfall: (resourceGroupName: string, maccName: string, body: ChargeShortfallRequest, options?: MaccsChargeShortfallOptionalParams) => PollerLike<OperationState<Macc>, Macc>;
+    create: (resourceGroupName: string, maccName: string, body: Macc, options?: MaccsCreateOptionalParams) => PollerLike<OperationState<Macc>, Macc>;
+    delete: (resourceGroupName: string, maccName: string, options?: MaccsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, maccName: string, options?: MaccsGetOptionalParams) => Promise<Macc>;
+    listByResourceGroup: (resourceGroupName: string, options?: MaccsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Macc>;
+    listBySubscription: (options?: MaccsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Macc>;
+    update: (resourceGroupName: string, maccName: string, body: MaccPatchRequest, options?: MaccsUpdateOptionalParams) => PollerLike<OperationState<Macc>, Macc>;
+    writeOff: (resourceGroupName: string, maccName: string, options?: MaccsWriteOffOptionalParams) => PollerLike<OperationState<Macc>, Macc>;
+}
+
+// @public
+export type MaccStatus = string;
+
+// @public
+export interface MaccsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaccsWriteOffOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaccValidateModel extends BenefitValidateModel {
+    allowContributors?: boolean;
+    automaticShortfall?: EnablementMode;
+    automaticShortfallSuppressReason?: AutomaticShortfallSuppressReason;
+    benefitType: "MACC";
+    billingAccountResourceId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    endAt?: Date;
+    entityType?: MaccEntityType;
+    milestones?: MaccMilestone[];
+    primaryBillingAccountResourceId?: string;
+    primaryResourceId?: string;
+    productCode?: string;
+    readonly provisioningState?: string;
+    resourceId?: string;
+    shortfall?: Shortfall;
+    startAt?: Date;
+    status?: MaccStatus;
+    systemId?: string;
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export interface MarketSetPricesItems {
+    currency: string;
+    // (undocumented)
+    markets: string[];
+    value: number;
+}
+
+// @public
+export type MilestoneStatus = string;
 
 // @public
 export interface Operation {
@@ -242,44 +1544,35 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationResultError {
-    code?: string;
-    message?: string;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PaymentDetail {
     billingAccount?: string;
     billingCurrencyTotal?: Price;
     dueDate?: Date;
+    // (undocumented)
     readonly extendedStatusInfo?: ExtendedStatusInfo;
     paymentDate?: Date;
     pricingCurrencyTotal?: Price;
@@ -289,7 +1582,16 @@ export interface PaymentDetail {
 // @public
 export type PaymentStatus = string;
 
-// @public (undocumented)
+// @public
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
+}
+
+// @public
 export interface Price {
     // (undocumented)
     amount?: number;
@@ -297,17 +1599,30 @@ export interface Price {
 }
 
 // @public
-export type PricingCurrencyDuration = string;
+export interface PriceGuaranteeProperties {
+    priceGuaranteeDate?: Date;
+    pricingPolicy?: PricingPolicy;
+}
 
-// @public (undocumented)
-export interface PricingCurrencyTotal extends Price {
-    duration?: PricingCurrencyDuration;
+// @public
+export type PricingPolicy = string;
+
+// @public
+export interface PrimaryConditionalCreditProperties extends ConditionalCreditProperties {
+    allowContributors?: EnablementMode;
+    entityType: "Primary";
+    milestones?: ConditionalCreditMilestone[];
+    systemId?: string;
 }
 
 // @public
 export type ProvisioningState = string;
 
-// @public (undocumented)
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface PurchaseRequest {
     appliedScopeProperties?: AppliedScopeProperties;
     appliedScopeType?: AppliedScopeType;
@@ -317,44 +1632,47 @@ export interface PurchaseRequest {
     displayName?: string;
     readonly effectiveDateTime?: Date;
     renew?: boolean;
-    sku?: Sku;
+    sku?: ResourceSku;
     term?: Term;
 }
 
-// @public (undocumented)
+// @public
+export interface PurchaseRequestProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    billingPlan?: BillingPlan;
+    billingScopeId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    readonly effectiveDateTime?: Date;
+    renew?: boolean;
+    term?: Term;
+}
+
+// @public
 export interface RenewProperties {
     // (undocumented)
     purchaseProperties?: PurchaseRequest;
 }
 
 // @public
-export interface ReservationOrderAlias {
-    beginCreate(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<PollerLike<PollOperationState<ReservationOrderAliasCreateResponse>, ReservationOrderAliasCreateResponse>>;
-    beginCreateAndWait(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<ReservationOrderAliasCreateResponse>;
-    get(reservationOrderAliasName: string, options?: ReservationOrderAliasGetOptionalParams): Promise<ReservationOrderAliasGetResponse>;
-}
-
-// @public
-export interface ReservationOrderAliasCreateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReservationOrderAliasCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReservationOrderAliasCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReservationOrderAliasCreateResponse = ReservationOrderAliasResponse;
-
-// @public
-export interface ReservationOrderAliasGetOptionalParams extends coreClient.OperationOptions {
+export interface ReservationOrderAliasGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReservationOrderAliasGetResponse = ReservationOrderAliasResponse;
+export interface ReservationOrderAliasOperations {
+    // @deprecated (undocumented)
+    beginCreate: (reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ReservationOrderAliasResponse>, ReservationOrderAliasResponse>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams) => Promise<ReservationOrderAliasResponse>;
+    create: (reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams) => PollerLike<OperationState<ReservationOrderAliasResponse>, ReservationOrderAliasResponse>;
+    get: (reservationOrderAliasName: string, options?: ReservationOrderAliasGetOptionalParams) => Promise<ReservationOrderAliasResponse>;
+}
 
 // @public
 export interface ReservationOrderAliasRequest extends Resource {
@@ -369,7 +1687,22 @@ export interface ReservationOrderAliasRequest extends Resource {
     reservedResourceProperties?: ReservationOrderAliasRequestPropertiesReservedResourceProperties;
     reservedResourceType?: ReservedResourceType;
     reviewDateTime?: Date;
-    sku: Sku;
+    sku: ResourceSku;
+    term?: Term;
+}
+
+// @public
+export interface ReservationOrderAliasRequestProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    billingPlan?: BillingPlan;
+    billingScopeId?: string;
+    displayName?: string;
+    quantity?: number;
+    renew?: boolean;
+    reservedResourceProperties?: ReservationOrderAliasRequestPropertiesReservedResourceProperties;
+    reservedResourceType?: ReservedResourceType;
+    reviewDateTime?: Date;
     term?: Term;
 }
 
@@ -379,7 +1712,7 @@ export interface ReservationOrderAliasRequestPropertiesReservedResourcePropertie
 }
 
 // @public
-export interface ReservationOrderAliasResponse extends Resource {
+export interface ReservationOrderAliasResponse extends ProxyResource {
     appliedScopeProperties?: AppliedScopeProperties;
     appliedScopeType?: AppliedScopeType;
     billingPlan?: BillingPlan;
@@ -393,7 +1726,24 @@ export interface ReservationOrderAliasResponse extends Resource {
     reservedResourceProperties?: ReservationOrderAliasResponsePropertiesReservedResourceProperties;
     reservedResourceType?: ReservedResourceType;
     reviewDateTime?: Date;
-    sku: Sku;
+    sku: ResourceSku;
+    term?: Term;
+}
+
+// @public
+export interface ReservationOrderAliasResponseProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    billingPlan?: BillingPlan;
+    billingScopeId?: string;
+    displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    quantity?: number;
+    renew?: boolean;
+    readonly reservationOrderId?: string;
+    reservedResourceProperties?: ReservationOrderAliasResponsePropertiesReservedResourceProperties;
+    reservedResourceType?: ReservedResourceType;
+    reviewDateTime?: Date;
     term?: Term;
 }
 
@@ -414,6 +1764,24 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceSku {
+    // (undocumented)
+    name?: string;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BillingBenefitsRP, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface RoleAssignmentEntity {
     id?: string;
     name?: string;
@@ -423,31 +1791,19 @@ export interface RoleAssignmentEntity {
 }
 
 // @public
-export interface SavingsPlan {
-    get(savingsPlanOrderId: string, savingsPlanId: string, options?: SavingsPlanGetOptionalParams): Promise<SavingsPlanGetResponse>;
-    list(savingsPlanOrderId: string, options?: SavingsPlanListOptionalParams): PagedAsyncIterableIterator<SavingsPlanModel>;
-    listAll(options?: SavingsPlanListAllOptionalParams): PagedAsyncIterableIterator<SavingsPlanModel>;
-    update(savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams): Promise<SavingsPlanUpdateResponse>;
-    validateUpdate(savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateValidateRequest, options?: SavingsPlanValidateUpdateOptionalParams): Promise<SavingsPlanValidateUpdateResponse>;
+export interface RoleAssignmentEntityProperties {
+    principalId?: string;
+    roleDefinitionId?: string;
+    scope?: string;
 }
 
 // @public
-export interface SavingsPlanGetOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type SavingsPlanGetResponse = SavingsPlanModel;
-
-// @public
-export interface SavingsPlanListAllNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SavingsPlanListAllNextResponse = SavingsPlanModelListResult;
-
-// @public
-export interface SavingsPlanListAllOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanListAllOptionalParams extends OperationOptions {
     filter?: string;
     orderby?: string;
     refreshSummary?: string;
@@ -457,24 +1813,11 @@ export interface SavingsPlanListAllOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type SavingsPlanListAllResponse = SavingsPlanModelListResult;
-
-// @public
-export interface SavingsPlanListNextOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SavingsPlanListNextResponse = SavingsPlanModelList;
-
-// @public
-export interface SavingsPlanListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SavingsPlanListResponse = SavingsPlanModelList;
-
-// @public
-export interface SavingsPlanModel extends Resource {
+export interface SavingsPlanModel extends ProxyResource {
     appliedScopeProperties?: AppliedScopeProperties;
     appliedScopeType?: AppliedScopeType;
     benefitStartTime?: Date;
@@ -488,6 +1831,7 @@ export interface SavingsPlanModel extends Resource {
     readonly displayProvisioningState?: string;
     readonly effectiveDateTime?: Date;
     readonly expiryDateTime?: Date;
+    // (undocumented)
     readonly extendedStatusInfo?: ExtendedStatusInfo;
     readonly provisioningState?: ProvisioningState;
     readonly purchaseDateTime?: Date;
@@ -496,64 +1840,65 @@ export interface SavingsPlanModel extends Resource {
     // (undocumented)
     renewProperties?: RenewProperties;
     renewSource?: string;
-    sku: Sku;
+    sku: ResourceSku;
     term?: Term;
     readonly userFriendlyAppliedScopeType?: string;
     readonly utilization?: Utilization;
 }
 
-// @public (undocumented)
-export interface SavingsPlanModelList {
-    nextLink?: string;
+// @public
+export interface SavingsPlanModelProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    benefitStartTime?: Date;
+    readonly billingAccountId?: string;
+    billingPlan?: BillingPlan;
+    readonly billingProfileId?: string;
+    billingScopeId?: string;
+    commitment?: Commitment;
+    readonly customerId?: string;
+    displayName?: string;
+    readonly displayProvisioningState?: string;
+    readonly effectiveDateTime?: Date;
+    readonly expiryDateTime?: Date;
     // (undocumented)
-    value?: SavingsPlanModel[];
-}
-
-// @public (undocumented)
-export interface SavingsPlanModelListResult {
-    readonly additionalProperties?: SavingsPlanSummary[];
-    readonly nextLink?: string;
-    readonly value?: SavingsPlanModel[];
-}
-
-// @public
-export interface SavingsPlanOrder {
-    elevate(savingsPlanOrderId: string, options?: SavingsPlanOrderElevateOptionalParams): Promise<SavingsPlanOrderElevateResponse>;
-    get(savingsPlanOrderId: string, options?: SavingsPlanOrderGetOptionalParams): Promise<SavingsPlanOrderGetResponse>;
-    list(options?: SavingsPlanOrderListOptionalParams): PagedAsyncIterableIterator<SavingsPlanOrderModel>;
+    readonly extendedStatusInfo?: ExtendedStatusInfo;
+    readonly provisioningState?: ProvisioningState;
+    readonly purchaseDateTime?: Date;
+    renew?: boolean;
+    renewDestination?: string;
+    // (undocumented)
+    renewProperties?: RenewProperties;
+    renewSource?: string;
+    term?: Term;
+    readonly userFriendlyAppliedScopeType?: string;
+    readonly utilization?: Utilization;
 }
 
 // @public
-export interface SavingsPlanOrderAlias {
-    beginCreate(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<PollerLike<PollOperationState<SavingsPlanOrderAliasCreateResponse>, SavingsPlanOrderAliasCreateResponse>>;
-    beginCreateAndWait(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<SavingsPlanOrderAliasCreateResponse>;
-    get(savingsPlanOrderAliasName: string, options?: SavingsPlanOrderAliasGetOptionalParams): Promise<SavingsPlanOrderAliasGetResponse>;
+export interface SavingsPlanOperations {
+    // @deprecated (undocumented)
+    beginUpdate: (savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SavingsPlanModel>, SavingsPlanModel>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams) => Promise<SavingsPlanModel>;
+    get: (savingsPlanOrderId: string, savingsPlanId: string, options?: SavingsPlanGetOptionalParams) => Promise<SavingsPlanModel>;
+    list: (savingsPlanOrderId: string, options?: SavingsPlanListOptionalParams) => PagedAsyncIterableIterator<SavingsPlanModel>;
+    listAll: (options?: SavingsPlanListAllOptionalParams) => PagedAsyncIterableIterator<SavingsPlanModel>;
+    update: (savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams) => PollerLike<OperationState<SavingsPlanModel>, SavingsPlanModel>;
+    validateUpdate: (savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateValidateRequest, options?: SavingsPlanValidateUpdateOptionalParams) => Promise<SavingsPlanValidateResponse>;
 }
 
 // @public
-export interface SavingsPlanOrderAliasCreateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SavingsPlanOrderAliasCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SavingsPlanOrderAliasCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SavingsPlanOrderAliasCreateResponse = SavingsPlanOrderAliasModel;
-
-// @public
-export interface SavingsPlanOrderAliasGetOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanOrderAliasGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SavingsPlanOrderAliasGetResponse = SavingsPlanOrderAliasModel;
-
-// @public
-export interface SavingsPlanOrderAliasModel extends Resource {
+export interface SavingsPlanOrderAliasModel extends ProxyResource {
     appliedScopeProperties?: AppliedScopeProperties;
     appliedScopeType?: AppliedScopeType;
     billingPlan?: BillingPlan;
@@ -562,42 +1907,51 @@ export interface SavingsPlanOrderAliasModel extends Resource {
     displayName?: string;
     kind?: string;
     readonly provisioningState?: ProvisioningState;
+    renew?: boolean;
     readonly savingsPlanOrderId?: string;
-    sku: Sku;
+    sku: ResourceSku;
     term?: Term;
 }
 
 // @public
-export interface SavingsPlanOrderElevateOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanOrderAliasOperations {
+    // @deprecated (undocumented)
+    beginCreate: (savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams) => Promise<SimplePollerLike<OperationState<SavingsPlanOrderAliasModel>, SavingsPlanOrderAliasModel>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams) => Promise<SavingsPlanOrderAliasModel>;
+    create: (savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams) => PollerLike<OperationState<SavingsPlanOrderAliasModel>, SavingsPlanOrderAliasModel>;
+    get: (savingsPlanOrderAliasName: string, options?: SavingsPlanOrderAliasGetOptionalParams) => Promise<SavingsPlanOrderAliasModel>;
 }
 
 // @public
-export type SavingsPlanOrderElevateResponse = RoleAssignmentEntity;
+export interface SavingsPlanOrderAliasProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    billingPlan?: BillingPlan;
+    billingScopeId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    renew?: boolean;
+    readonly savingsPlanOrderId?: string;
+    term?: Term;
+}
 
 // @public
-export interface SavingsPlanOrderGetOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanOrderElevateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SavingsPlanOrderGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type SavingsPlanOrderGetResponse = SavingsPlanOrderModel;
-
-// @public
-export interface SavingsPlanOrderListNextOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanOrderListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SavingsPlanOrderListNextResponse = SavingsPlanOrderModelList;
-
-// @public
-export interface SavingsPlanOrderListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SavingsPlanOrderListResponse = SavingsPlanOrderModelList;
-
-// @public
-export interface SavingsPlanOrderModel extends Resource {
+export interface SavingsPlanOrderModel extends ProxyResource {
     benefitStartTime?: Date;
     readonly billingAccountId?: string;
     billingPlan?: BillingPlan;
@@ -606,26 +1960,40 @@ export interface SavingsPlanOrderModel extends Resource {
     readonly customerId?: string;
     displayName?: string;
     readonly expiryDateTime?: Date;
+    // (undocumented)
     readonly extendedStatusInfo?: ExtendedStatusInfo;
     planInformation?: BillingPlanInformation;
     readonly provisioningState?: ProvisioningState;
     // (undocumented)
     savingsPlans?: string[];
-    sku: Sku;
+    sku: ResourceSku;
     term?: Term;
 }
 
-// @public (undocumented)
-export interface SavingsPlanOrderModelList {
-    nextLink?: string;
+// @public
+export interface SavingsPlanOrderModelProperties {
+    benefitStartTime?: Date;
+    readonly billingAccountId?: string;
+    billingPlan?: BillingPlan;
+    readonly billingProfileId?: string;
+    billingScopeId?: string;
+    readonly customerId?: string;
+    displayName?: string;
+    readonly expiryDateTime?: Date;
     // (undocumented)
-    value?: SavingsPlanOrderModel[];
+    readonly extendedStatusInfo?: ExtendedStatusInfo;
+    planInformation?: BillingPlanInformation;
+    readonly provisioningState?: ProvisioningState;
+    // (undocumented)
+    savingsPlans?: string[];
+    term?: Term;
 }
 
-// @public (undocumented)
-export interface SavingsPlanPurchaseValidateRequest {
-    // (undocumented)
-    benefits?: SavingsPlanOrderAliasModel[];
+// @public
+export interface SavingsPlanOrderOperations {
+    elevate: (savingsPlanOrderId: string, options?: SavingsPlanOrderElevateOptionalParams) => Promise<RoleAssignmentEntity>;
+    get: (savingsPlanOrderId: string, options?: SavingsPlanOrderGetOptionalParams) => Promise<SavingsPlanOrderModel>;
+    list: (options?: SavingsPlanOrderListOptionalParams) => PagedAsyncIterableIterator<SavingsPlanOrderModel>;
 }
 
 // @public
@@ -648,13 +2016,8 @@ export interface SavingsPlanSummaryCount {
 }
 
 // @public
-export interface SavingsPlanUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface SavingsPlanUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -673,15 +2036,33 @@ export interface SavingsPlanUpdateRequestProperties {
 }
 
 // @public
-export type SavingsPlanUpdateResponse = SavingsPlanModel;
-
-// @public (undocumented)
 export interface SavingsPlanUpdateValidateRequest {
     // (undocumented)
     benefits?: SavingsPlanUpdateRequestProperties[];
 }
 
-// @public (undocumented)
+// @public
+export interface SavingsPlanValidateModel extends BenefitValidateModel {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    benefitType: "SavingsPlan";
+    billingPlan?: BillingPlan;
+    billingScopeId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    readonly id?: string;
+    kind?: string;
+    readonly name?: string;
+    readonly provisioningState?: ProvisioningState;
+    renew?: boolean;
+    readonly savingsPlanOrderId?: string;
+    sku: ResourceSku;
+    readonly systemData?: SystemData;
+    term?: Term;
+    readonly type?: string;
+}
+
+// @public
 export interface SavingsPlanValidateResponse {
     // (undocumented)
     benefits?: SavingsPlanValidResponseProperty[];
@@ -689,11 +2070,8 @@ export interface SavingsPlanValidateResponse {
 }
 
 // @public
-export interface SavingsPlanValidateUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SavingsPlanValidateUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type SavingsPlanValidateUpdateResponse = SavingsPlanValidateResponse;
 
 // @public
 export interface SavingsPlanValidResponseProperty {
@@ -703,8 +2081,115 @@ export interface SavingsPlanValidResponseProperty {
 }
 
 // @public
+export interface SellerResourceListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SellerResourceListRequest {
+    billingAccountResourceId?: string;
+    contributors?: boolean;
+    filter?: string;
+    milestones?: boolean;
+    primaryResourceId?: string;
+}
+
+// @public
+export interface SellerResourceListRequestProperties {
+    billingAccountResourceId: string;
+    contributors?: boolean;
+    filter?: string;
+    milestones?: boolean;
+    primaryResourceId?: string;
+}
+
+// @public
+export interface SellerResourceOperations {
+    list: (body: SellerResourceListRequest, options?: SellerResourceListOptionalParams) => Promise<Macc[]>;
+}
+
+// @public
+export interface ServiceManagedIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ServiceManagedIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ServiceManagedIdentityType = string;
+
+// @public
+export interface Shortfall {
+    balanceVersion?: number;
+    charge?: Commitment;
+    endAt?: Date;
+    productCode?: string;
+    resourceId?: string;
+    startAt?: Date;
+    systemId?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface Sku {
-    name?: string;
+    capacity?: number;
+    family?: string;
+    name: string;
+    size?: string;
+    tier?: SkuTier;
+}
+
+// @public
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+
+// @public
+export interface SourcesCreateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SourcesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SourcesListByCreditOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SourcesOperations {
+    create: (resourceGroupName: string, creditName: string, sourceName: string, body: CreditSource, options?: SourcesCreateOptionalParams) => Promise<CreditSource>;
+    delete: (resourceGroupName: string, creditName: string, sourceName: string, options?: SourcesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, creditName: string, sourceName: string, options?: SourcesGetOptionalParams) => Promise<CreditSource>;
+    listByCredit: (resourceGroupName: string, creditName: string, options?: SourcesListByCreditOptionalParams) => PagedAsyncIterableIterator<CreditSource>;
+    update: (resourceGroupName: string, creditName: string, sourceName: string, body: CreditSourcePatchRequest, options?: SourcesUpdateOptionalParams) => Promise<CreditSource>;
+}
+
+// @public
+export interface SourcesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -721,6 +2206,18 @@ export interface SystemData {
 export type Term = string;
 
 // @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface Utilization {
     aggregates?: UtilizationAggregates[];
     readonly trend?: string;
@@ -733,13 +2230,6 @@ export interface UtilizationAggregates {
     readonly value?: number;
     readonly valueUnit?: string;
 }
-
-// @public
-export interface ValidatePurchaseOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ValidatePurchaseResponse = SavingsPlanValidateResponse;
 
 // (No @packageDocumentation comment for this package)
 

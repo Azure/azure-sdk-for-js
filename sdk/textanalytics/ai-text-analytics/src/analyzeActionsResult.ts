@@ -81,8 +81,7 @@ export type RecognizeCategorizedEntitiesActionErrorResult = TextAnalyticsActionE
 /**
  * The results of a succeeded recognize categorized entities action.
  */
-export interface RecognizeCategorizedEntitiesActionSuccessResult
-  extends TextAnalyticsActionSuccessState {
+export interface RecognizeCategorizedEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each categorized entities recognition action.
    */
@@ -93,8 +92,7 @@ export interface RecognizeCategorizedEntitiesActionSuccessResult
  * The result of a recognize categorized entities action.
  */
 export type RecognizeCategorizedEntitiesActionResult =
-  | RecognizeCategorizedEntitiesActionSuccessResult
-  | RecognizeCategorizedEntitiesActionErrorResult;
+  RecognizeCategorizedEntitiesActionSuccessResult | RecognizeCategorizedEntitiesActionErrorResult;
 
 /**
  * The error of a recognize pii entities action.
@@ -115,8 +113,7 @@ export interface RecognizePiiEntitiesActionSuccessResult extends TextAnalyticsAc
  * The result of a recognize pii entities action.
  */
 export type RecognizePiiEntitiesActionResult =
-  | RecognizePiiEntitiesActionSuccessResult
-  | RecognizePiiEntitiesActionErrorResult;
+  RecognizePiiEntitiesActionSuccessResult | RecognizePiiEntitiesActionErrorResult;
 
 /**
  * The error of a extract key phrases action.
@@ -137,8 +134,7 @@ export interface ExtractKeyPhrasesActionSuccessResult extends TextAnalyticsActio
  * The result of a extract key phrases action.
  */
 export type ExtractKeyPhrasesActionResult =
-  | ExtractKeyPhrasesActionSuccessResult
-  | ExtractKeyPhrasesActionErrorResult;
+  ExtractKeyPhrasesActionSuccessResult | ExtractKeyPhrasesActionErrorResult;
 
 /**
  * The error of a recognize linked entities action.
@@ -148,8 +144,7 @@ export type RecognizeLinkedEntitiesActionErrorResult = TextAnalyticsActionErrorR
 /**
  * The results of a succeeded recognize linked entities action.
  */
-export interface RecognizeLinkedEntitiesActionSuccessResult
-  extends TextAnalyticsActionSuccessState {
+export interface RecognizeLinkedEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each linked entities recognition action.
    */
@@ -160,8 +155,7 @@ export interface RecognizeLinkedEntitiesActionSuccessResult
  * The result of a recognize linked entities action.
  */
 export type RecognizeLinkedEntitiesActionResult =
-  | RecognizeLinkedEntitiesActionSuccessResult
-  | RecognizeLinkedEntitiesActionErrorResult;
+  RecognizeLinkedEntitiesActionSuccessResult | RecognizeLinkedEntitiesActionErrorResult;
 
 /**
  * The error of an analyze sentiment action.
@@ -182,8 +176,7 @@ export interface AnalyzeSentimentActionSuccessResult extends TextAnalyticsAction
  * The result of an analyze sentiment action.
  */
 export type AnalyzeSentimentActionResult =
-  | AnalyzeSentimentActionSuccessResult
-  | AnalyzeSentimentActionErrorResult;
+  AnalyzeSentimentActionSuccessResult | AnalyzeSentimentActionErrorResult;
 
 /**
  * The results of an analyze Actions operation represented as a paged iterator that

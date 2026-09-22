@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a security sub-assessment on your scanned resource
- *
- * @summary Get a security sub-assessment on your scanned resource
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/SubAssessments/GetSubAssessment_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get a security sub-assessment on your scanned resource
+ *
+ * @summary get a security sub-assessment on your scanned resource
+ * x-ms-original-file: 2019-01-01-preview/SubAssessments/GetSubAssessment_example.json
+ */
 async function getSecurityRecommendationTaskFromSecurityDataLocation(): Promise<void> {
-  const scope =
-    "subscriptions/212f9889-769e-45ae-ab43-6da33674bd26/resourceGroups/DEMORG/providers/Microsoft.Compute/virtualMachines/vm2";
-  const assessmentName = "1195afff-c881-495e-9bc5-1486211ae03f";
-  const subAssessmentName = "95f7da9c-a2a4-1322-0758-fcd24ef09b85";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
-  const result = await client.subAssessments.get(scope, assessmentName, subAssessmentName);
+  const result = await client.subAssessments.get(
+    "subscriptions/212f9889-769e-45ae-ab43-6da33674bd26/resourceGroups/DEMORG/providers/Microsoft.Compute/virtualMachines/vm2",
+    "1195afff-c881-495e-9bc5-1486211ae03f",
+    "95f7da9c-a2a4-1322-0758-fcd24ef09b85",
+  );
   console.log(result);
 }
 

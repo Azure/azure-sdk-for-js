@@ -3,12 +3,14 @@
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
-import type { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
-import type {
+import type { ContainerEncryptionScope, HttpRequestBody, WithResponse } from "@azure/storage-blob";
+import {
   CpkInfo,
+  DataLakeGetUserDelegationKeyParameters,
   FileSystemEncryptionScope,
   PathAccessControlItem,
   PathPermissions,
+  StorageChecksumAlgorithm,
 } from "../models.js";
 
 import {
@@ -20,7 +22,10 @@ import {
 } from "./constants.js";
 import type { HttpResponse } from "@azure/storage-blob";
 import type { HttpHeadersLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
 import { toAcl, toPermissions } from "../transforms.js";
+import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -157,20 +162,18 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   ) {
     // Account connection string
 
-    let defaultEndpointsProtocol = "";
-    let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
-    let endpointSuffix = "";
-
     // Get account name and key
-    accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    const accountName = getValueInConnString(connectionString, "AccountName");
+    const accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!blobEndpoint) {
       // BlobEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const defaultEndpointsProtocol = getValueInConnString(
+        connectionString,
+        "DefaultEndpointsProtocol",
+      );
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -178,7 +181,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
         );
       }
 
-      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      const endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }
@@ -527,6 +530,14 @@ export function iEqual(str1: string, str2: string): boolean {
   return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
 }
 
+const accountNameSuffixes = [
+  "-secondary-ipv6",
+  "-secondary-dualstack",
+  "-ipv6",
+  "-dualstack",
+  "-secondary",
+];
+
 /**
  * Extracts account name from the url
  * @param url - url to extract the account name from
@@ -538,7 +549,14 @@ export function getAccountNameFromUrl(url: string): string {
   try {
     if (parsedUrl.hostname.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+      // `${defaultEndpointsProtocol}://${accountName}-suffix.blob.${endpointSuffix}`;
       accountName = parsedUrl.hostname.split(".")[0];
+      for (let i = 0; i < accountNameSuffixes.length; ++i) {
+        const suffix = accountNameSuffixes[i];
+        if (accountName.endsWith(suffix)) {
+          accountName = accountName.substring(0, accountName.length - suffix.length);
+        }
+      }
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
@@ -550,7 +568,7 @@ export function getAccountNameFromUrl(url: string): string {
     }
     return accountName;
   } catch (error: any) {
-    throw new Error("Unable to extract accountName with provided information.");
+    throw new Error("Unable to extract accountName with provided information.", { cause: error });
   }
 }
 
@@ -643,6 +661,41 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
+/**
+ * Converts a TypeSpec-generated response (with StorageCompatResponseInfo) into the
+ * legacy compat response shape expected by the public API surface.
+ */
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
+  compatResponse.parsedBody = result._response.parsedBody;
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  Object.defineProperty(result, "_response", {
+    value: compatResponse,
+    enumerable: false,
+  });
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
+}
+
 export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
   encryptionContext?: string;
   owner?: string;
@@ -694,4 +747,75 @@ export function ParsePathGetPropertiesExtraHeaderValues(
     response._response.parsedHeaders.acl = response.acl;
   }
   return response;
+}
+
+interface UploadChecksumParametersLike {
+  /** Parameter group */
+  transactionalContentHash?: Uint8Array;
+  transactionalContentCrc64?: Uint8Array;
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  structuredBodyType?: string;
+  structuredContentLength?: number;
+}
+
+interface UploadChecksumOptionsLike {
+  transactionalContentMD5?: Uint8Array;
+  transactionalContentCrc64?: Uint8Array;
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  structuredBodyType?: string;
+  structuredContentLength?: number;
+}
+
+interface UploadCheckSumBody {
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  body: HttpRequestBody;
+  contentLength: number;
+}
+
+export async function setUploadChecksumParameters(
+  body: HttpRequestBody,
+  contentLength: number,
+  parameters: UploadChecksumParametersLike,
+  uploadOptions: UploadChecksumOptionsLike,
+  configContentChecksumAlgorithm?: StorageChecksumAlgorithm,
+): Promise<UploadCheckSumBody> {
+  let contentChecksumAlgorithm =
+    uploadOptions.contentChecksumAlgorithm ?? configContentChecksumAlgorithm;
+  if (contentChecksumAlgorithm === undefined) {
+    contentChecksumAlgorithm = "Customized";
+  }
+
+  if (contentChecksumAlgorithm === "Auto") {
+    contentChecksumAlgorithm = "StorageCrc64";
+  }
+
+  let bodyInfo = undefined;
+  if (contentChecksumAlgorithm === "Customized") {
+    parameters.transactionalContentHash = uploadOptions.transactionalContentMD5;
+    parameters.transactionalContentCrc64 = uploadOptions.transactionalContentCrc64;
+  } else if (contentChecksumAlgorithm === "StorageCrc64") {
+    await StorageCRC64Calculator.init();
+    bodyInfo = await structuredMessageEncoding(body, contentLength);
+    parameters.structuredBodyType = "XSM/1.0; properties=crc64";
+    parameters.structuredContentLength = contentLength;
+  }
+
+  return {
+    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : body,
+    contentLength:
+      contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.encodedContentLength : contentLength,
+    contentChecksumAlgorithm: contentChecksumAlgorithm,
+  };
+}
+
+export function isDataLakeGetUserDelegationKeyParameters(
+  parameter: unknown,
+): parameter is DataLakeGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
+  }
+
+  const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
+
+  return castParameter.expiresOn instanceof Date;
 }

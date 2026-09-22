@@ -257,9 +257,7 @@ export class EventHubConsumerClient {
     private _consumerGroup: string,
     connectionStringOrFullyQualifiedNamespace2: string,
     checkpointStoreOrEventHubNameOrOptions3?:
-      | CheckpointStore
-      | EventHubConsumerClientOptions
-      | string,
+      CheckpointStore | EventHubConsumerClientOptions | string,
     checkpointStoreOrCredentialOrOptions4?:
       | CheckpointStore
       | EventHubConsumerClientOptions

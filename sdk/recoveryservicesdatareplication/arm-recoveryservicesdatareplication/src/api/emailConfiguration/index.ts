@@ -3,7 +3,7 @@
 
 export { list, create, get } from "./operations.js";
 export {
-  EmailConfigurationListOptionalParams,
-  EmailConfigurationCreateOptionalParams,
-  EmailConfigurationGetOptionalParams,
+  type EmailConfigurationListOptionalParams,
+  type EmailConfigurationCreateOptionalParams,
+  type EmailConfigurationGetOptionalParams,
 } from "./options.js";

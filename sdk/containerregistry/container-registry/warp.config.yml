@@ -1,0 +1,13 @@
+# warp.config.yml — @azure/container-registry build configuration
+
+extends: ../../../warp.base.config.yml
+
+targets:
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

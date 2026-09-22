@@ -9,8 +9,8 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-export { Widget, ColorType, AnalyzeResult } from "./api/models.js";
-export {
+export type { Widget, ColorType, AnalyzeResult } from "./api/models.js";
+export type {
   ListWidgetsOptions,
   GetWidgetOptions,
   CreateWidgetOptions,
@@ -18,5 +18,5 @@ export {
   DeleteWidgetOptions,
   AnalyzeWidgetOptions,
 } from "./api/operations.js";
-export { WidgetServiceClient, WidgetServiceClientOptions } from "./WidgetServiceClient.js";
-export { RequestOptions } from "./common/interfaces.js";
+export { WidgetServiceClient, type WidgetServiceClientOptions } from "./WidgetServiceClient.js";
+export type { RequestOptions } from "./common/interfaces.js";

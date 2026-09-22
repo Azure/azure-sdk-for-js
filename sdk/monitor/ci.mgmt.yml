@@ -1,16 +1,20 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
       - main
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/monitor/ci.mgmt.yml
       - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
       - sdk/monitor/arm-monitor
+      - sdk/monitor/arm-monitorslis
+      - sdk/monitor/arm-monitorworkspaces
 pr:
   branches:
     include:
@@ -25,6 +29,8 @@ pr:
       - sdk/monitor/ci.mgmt.yml
       - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
       - sdk/monitor/arm-monitor
+      - sdk/monitor/arm-monitorslis
+      - sdk/monitor/arm-monitorworkspaces
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -35,3 +41,7 @@ extends:
         safeName: azurearmmonitor
       - name: azure-arm-monitor-profile-2020-09-01-hybrid
         safeName: azurearmmonitorprofile20200901hybrid
+      - name: azure-arm-monitorslis
+        safeName: azurearmmonitorslis
+      - name: azure-arm-monitorworkspaces
+        safeName: azurearmmonitorworkspaces

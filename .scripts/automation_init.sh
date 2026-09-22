@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-echo "Install tsp-client"
-cd eng/common/tsp-client
-npm ci
-cd ../../..
+set -e
+npm --prefix eng/common/tsp-client ci
 npm install -g pnpm
-npm install -g @azure-tools/js-sdk-release-tools
+npm --prefix eng/tools/js-sdk-release-tools ci
+npm --prefix eng/tools/js-sdk-release-tools run build
+echo "Using local @azure-tools/js-sdk-release-tools version:"
+npm --prefix eng/tools/js-sdk-release-tools pkg get version || true

@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2024-11-19)
+## 1.0.0 (2026-07-23)
 
 ### Features Added
 
-Initial release of the Azure ConnectedCache package
+This is the first stable release of the @azure/arm-connectedcache package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.

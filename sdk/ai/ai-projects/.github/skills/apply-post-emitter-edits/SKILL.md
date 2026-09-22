@@ -1,0 +1,435 @@
+---
+name: apply-post-emitter-edits
+description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
+---
+
+# Apply Post-Emitter Edits to ai-projects
+
+The TypeSpec emitter writes **directly into `src/` and `generated/`**. This skill reviews that working-tree diff, then handles the work in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory and no three-way merge.
+
+When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file only to validate whether changed SDK source matches upstream TypeSpec intent. The standing workarounds still apply, but upstream commit descriptions can justify specific non-additive spec changes that should be preserved rather than reverted.
+
+## When to Use
+
+- Right after the `regenerate-from-typespec` skill has run `npm run generate:client`.
+- `git status` shows uncommitted changes under `src/` and/or `generated/`.
+- `temp/typespec-commit-descriptions.md` exists and should be used to validate that the post-merge SDK diff adheres to the upstream TypeSpec change descriptions.
+- You need to apply the standing list of search/replace/rename workarounds to emitted code.
+- You're verifying that protected hand-maintained files were not clobbered.
+
+## Inputs
+
+- The working-tree diff: `git diff -- sdk/ai/ai-projects/src sdk/ai/ai-projects/generated`.
+- `temp/typespec-commit-descriptions.md` from `regenerate-from-typespec` — upstream commit subjects and bodies for the old-exclusive/new-inclusive TypeSpec range.
+- [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md) — protected files, additions-only models, `foundryFeatures` rule, `BetaEvaluatorsOperations.list` rule.
+
+The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.md](../../../scripts/post-emitter-workarounds.md). If it has been updated, prefer it over the bundled reference.
+
+## Procedure
+
+Run from `sdk/ai/ai-projects/`.
+
+Use this phase order to avoid mixing unrelated decisions:
+
+| Phase          | Steps                            | Exit point                                                                                                                                         |
+| -------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cleanup        | Step -1, Step 0, Step 1          | Upstream intent is known, conflict markers are gone, protected customizations are preserved and intentional deltas audited.                        |
+| Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
+| Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                       |
+| Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                            |
+
+### Recovery: customization stopped on a dirty target
+
+`npm run generate:client` runs formatting before `dev-tool customization apply`. If the active formatter rewrites committed `src/` files, customization can stop with `Uncommitted changes were detected in the target directory` after generation has already updated `generated/`.
+
+Do not regenerate again and do not restore all of `src/`. First confirm that regeneration preflight recorded a clean `src/` tree, inspect every current `src/` diff, and identify changes that are formatter-only. Restore only those proven formatter-created files, then apply customization to the already-emitted `generated/` tree:
+
+```powershell
+git diff -- src
+git restore --source=HEAD -- <verified-formatter-only-files>
+npx dev-tool customization apply
+```
+
+If any affected file had a user change before regeneration, stop and recover that change instead of restoring the file. After customization completes, continue with Step 0 and repeat the protected-file audit in Step 1.
+
+### Step -1: Read the upstream validation guide
+
+If `temp/typespec-commit-descriptions.md` exists, read it before resolving conflicts or reverting model changes. Extract the expected upstream themes (for example: added operations, renamed parameters, removed fields, required-vs-optional shape changes, hidden protocol methods). Use those descriptions to validate the final `src/`, `generated/`, and API report diffs.
+
+Do not use the guide to keep extensive emitted-code changes that are unrelated to the captured upstream commit descriptions. Use it as the deciding evidence only for specific conflicts between a standing rule and an upstream-described TypeSpec change, such as a removed field, renamed parameter, requiredness change, or hidden protocol method. In particular, preserve non-additive model changes only when they are clearly described by the TypeSpec commits in the captured range.
+
+### Step 0: Resolve diff3 conflict markers (if present)
+
+`dev-tool customization apply` may emit literal git-style conflict markers (`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`) into `src/` files when the spec and the customization layer diverge in the same hunk. Use the custom side (the block between `=======` and `>>>>>>>`) as the structural starting point, then use Step 2 and Step 2a to restore additions made by the new generated side. The custom side preserves names and hand-written behavior, but it is not semantically complete when the generator added members in the same hunk.
+
+The cleanup below deliberately selects the custom side only as a first pass:
+
+```powershell
+$conflicted = Get-ChildItem -Recurse -File src -Include *.ts |
+  Select-String -Pattern '<<<<<<<' -SimpleMatch -List | ForEach-Object { $_.Path }
+foreach ($f in $conflicted) {
+  $content = Get-Content $f -Raw
+  $pattern = '(?s)<<<<<<< [^\r\n]*\r?\n.*?\r?\n=======\r?\n(.*?)>>>>>>> [^\r\n]*\r?\n'
+  $resolved = [regex]::Replace($content, $pattern, '$1')
+  Set-Content -Path $f -Value $resolved -NoNewline
+  Write-Host "$f resolved"
+}
+# Verify no markers remain anywhere:
+Get-ChildItem -Recurse -File src -Include *.ts |
+  Select-String -Pattern '<<<<<<<' -SimpleMatch -List | ForEach-Object { $_.Path }
+```
+
+If the custom side is missing a type that the spec side adds (common when the spec introduces a brand-new model type like `SessionLogEvent`), Step 2 will catch it. Don't try to merge sides by hand here.
+
+Treat custom-side conflict resolution as syntax cleanup, not proof that the file is semantically merged. A conflict can discard a newly generated interface member or request-body property while leaving the file compilable. Immediately after resolving markers, run the member-level check in Step 2a and the duplicate scan from Step 2b. Also compare the exported names in `src/models/models.ts` with `HEAD`. If dozens of duplicates or removals appear, do not repair the merged file declaration by declaration: restore the affected additions-only file from `HEAD`, then use Step 2 to reapply only genuine generated additions.
+
+### Step 1: Pre-flight — verify protected files are intact
+
+Inspect `git diff` for the protected paths listed in [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md). Reject broad emitter rewrites or deletion. Narrowly scoped changes necessary to integrate verified upstream APIs are permitted: start from the clean customized baseline, preserve existing behavior, and review each intentional delta against upstream evidence. For new operation groups, extend the existing client's wiring and exports rather than replacing its constructor, authentication scopes, tracing, or OpenAI integration. Preserve paging options/headers, `ErrorModel`, and `foundryFeatures` conventions.
+
+Record the clean pre-regeneration ref as `$baseline` (`HEAD` only when it still represents that baseline). On resumed sessions where emitter output is already committed, use the recorded clean ref for every comparison and restoration in this skill, and pass `--base-ref <clean-ref>` to both guards. Do not rerun generation, reset history, or restore to a partially integrated `HEAD`.
+
+- `src/aiProjectClient.ts`, `src/constants.ts`
+- `src/getCustomFetch-browser.mts`, `src/getCustomFetch.ts`
+- `src/overwriteOpenAIClient.ts`, `src/util.ts`
+- `src/api/aiProjectContext.ts`
+- `src/api/telemetry/index.ts`, `src/api/telemetry/operations.ts`
+- `src/api/datasets/operations.ts`
+- `src/classic/telemetry/index.ts`, `src/classic/datasets/index.ts`, `src/classic/index.ts`
+- `src/static-helpers/**`
+
+Quick check (run from `sdk/ai/ai-projects/`):
+
+```powershell
+$protected = @(
+  'src/aiProjectClient.ts','src/constants.ts','src/getCustomFetch-browser.mts',
+  'src/getCustomFetch.ts','src/overwriteOpenAIClient.ts','src/util.ts',
+  'src/api/aiProjectContext.ts','src/api/telemetry/index.ts','src/api/telemetry/operations.ts',
+  'src/api/datasets/operations.ts','src/classic/telemetry/index.ts',
+  'src/classic/datasets/index.ts','src/classic/index.ts'
+)
+$changed = git diff --name-only --relative $baseline -- src
+$protectedChanges = $changed | Where-Object { $protected -contains $_ -or $_ -like 'src/static-helpers/*' }
+foreach ($path in $protectedChanges) {
+  git diff $baseline -- $path
+}
+```
+
+`--relative` is required when this command runs from the package directory. Without it, Git may return paths such as `sdk/ai/ai-projects/src/aiProjectClient.ts`, which do not match the package-relative protected list and produce a false zero-violation result.
+
+For every protected delta, document the upstream API that requires it and the custom behavior retained. Revert only proven emitter drift, never preexisting user edits or reviewed integration changes. Add focused regression tests and run the build, API extraction, lint, and formatting checks below. Stop for unresolved drift or genuine validation failures, not merely because a protected file changed.
+
+### Step 2: Propagate new public-surface additions from generated/ to src/
+
+**Critical**: `dev-tool customization apply` does **not** automatically copy newly emitted public types/operations into `src/` for files that have an existing customization layer. You must do this by hand.
+
+For each file in `generated/` that gained new exports in this regen, copy those additions into the corresponding `src/` file. Most commonly affected:
+
+- `generated/models/models.ts` → `src/models/models.ts` (new model interfaces, unions, serializers, deserializers)
+- `generated/models/index.ts` → `src/models/index.ts` (new re-exports)
+- `generated/api/<area>/operations.ts` → `src/api/<area>/operations.ts` (new operation methods)
+- `generated/classic/<area>/index.ts` → `src/classic/<area>/index.ts` (new operations on the classic surface)
+
+**Top-level detection script** — list every type/function exported from `generated/` that is missing in `src/`. This does not inspect members of declarations that already exist; Step 2a covers that gap.
+
+```powershell
+$genFiles = Get-ChildItem -Recurse generated -Include *.ts -File
+foreach ($g in $genFiles) {
+  $rel = (Resolve-Path -Relative $g.FullName) -replace '^\.\\generated\\','src\'
+  if (-not (Test-Path $rel)) { continue }
+  $genExports = Select-String -Path $g.FullName -Pattern '^export (interface|type|function|const|class) (\w+)' |
+    ForEach-Object { $_.Matches[0].Groups[2].Value }
+  $srcExports = Select-String -Path $rel -Pattern '^export (interface|type|function|const|class) (\w+)' |
+    ForEach-Object { $_.Matches[0].Groups[2].Value }
+  $missing = $genExports | Where-Object { $_ -and ($srcExports -notcontains $_) }
+  if ($missing) { Write-Host "$rel missing: $($missing -join ', ')" }
+}
+```
+
+For each `missing` entry, **first classify it** as one of:
+
+- **Rename** (customization side won during conflict resolution): the type's purpose already exists in `src/` under a different name. Examples observed: `_FileSearchToolFiltersValue` ↔ `_ComparisonFilterValue`, `_FileSearchToolFiltersFilter` ↔ `_CompoundFilterFilter`, `_updateAgentSend` ↔ `_updateSend`, `DeleteVersionOptionalParams` ↔ `BetaToolboxesDeleteVersionOptionalParams`, `listSessionFiles` ↔ `getSessionFiles`. **Action**: skip propagation. If the spec-side name is still referenced inside `src/models/models.ts` (e.g. inside a serializer body the customization didn't touch), add a private alias rather than copying the definition:
+  ```ts
+  /** Alias for _FileSearchToolFiltersValue (spec-rename of _ComparisonFilterValue) */
+  type _FileSearchToolFiltersValue = _ComparisonFilterValue;
+  ```
+  Quick rename detector — count occurrences in gen vs src for each candidate; `gen=N, src=0` is a strong rename signal:
+  ```powershell
+  foreach ($n in $candidates) {
+    $g = (Select-String -Path generated/models/models.ts -Pattern "\b$([regex]::Escape($n))\b" | Measure-Object).Count
+    $s = (Select-String -Path src/models/models.ts       -Pattern "\b$([regex]::Escape($n))\b" | Measure-Object).Count
+    Write-Host "$n : gen=$g src=$s"
+  }
+  ```
+- **Genuine addition**: the type is new to the spec and has no equivalent in `src/`. Examples observed: `FabricIQPreviewTool`, `SessionLogEvent`, `TelemetryConfig`, `AgentVersionStatus`. **Action**: propagate per the buckets below.
+
+Then, for each genuine addition:
+
+1. **Models** (`src/models/models.ts`, `src/models/index.ts`): paste the new interfaces / serializers / deserializers / re-exports from `generated/`. The "additions only" rule means **only add**; never delete or modify existing entries even if `generated/` did so.
+2. **Operations** (`src/api/.../operations.ts`): paste the new operation function plus its `*Send` and `*Deserialize` helpers, AND any new imports they require (e.g. `SessionLogEvent`, `sessionLogEventDeserializer`). **After pasting, re-apply Step 4 (a) below**: if the new method takes `foundryFeatures` as a positional parameter, refactor it to instantiate `foundryFeatures` locally instead.
+3. **Classic surface** (`src/classic/.../index.ts`): paste the new method onto the operations interface and the factory return object. Same `foundryFeatures` rule.
+4. **Beta union members** (e.g. a new `FabricIQPreviewTool` added to `ToolUnion`): also update the `*Serializer` / `*Deserializer` switch statements that dispatch on the union discriminator.
+
+**ApiError / ErrorModel compatibility**: preserve the public error shape from `@azure/ai-projects` 2.1.1. `ApiErrorResponse` and `ErrorModel` are public; a standalone `ApiError` model is not part of the public API surface. If the emitter adds `ApiError`, `apiErrorDeserializer`, or `apiErrorArrayDeserializer` under `generated/`, do **not** propagate those symbols into `src/` exports or API review output. Keep `ApiErrorResponse.error` and job/resource `error` properties typed as `ErrorModel`, and deserialize them with `errorDeserializer`. Do not edit `generated/` just to remove emitted `ApiError`; doing so creates churn for the next merge.
+
+If nothing is missing, this step is a no-op — confirm and move on.
+
+### Step 2a: Check additions and preserve the customized public surface
+
+Run the package-local parity guard after conflict cleanup and top-level propagation:
+
+```powershell
+node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs
+```
+
+The guard has intentionally narrow scope. For TypeScript files changed under `generated/` relative to `HEAD`, it checks:
+
+- direct members newly added to an existing interface;
+- properties newly returned by an existing serializer or deserializer function;
+- properties newly added to a request `body` object in an existing `*Send` function;
+- the hand-maintained `src/index.ts` import scaffold: `PageSettings` and
+  `PagedAsyncIterableIterator` remain type imports from `@azure/core-paging`,
+  `ContinuablePage` remains a type import from the local paging helper, and no
+  nonexistent `src/restorePollerHelpers.ts` export is introduced.
+
+It also compares the clean `HEAD` versions of `src/index.ts`, `src/models/index.ts`, and
+`src/models/models.ts` with the current customized source and fails if any previously exported
+symbol disappeared without belonging to a generated-backed model removal from Step 3. This
+preservation check runs even when none of those files changed under `generated/`. It catches the
+destructive failure mode where customization output is replaced wholesale with emitted output:
+member parity alone cannot detect that because the copied file contains every newly emitted member
+while silently deleting unrelated maintained API and import customizations.
+
+It compares those additions with the corresponding declaration in `src/` and accounts for the known customized agent declaration names such as `AgentsCreateAgentOptionalParams` → `AgentsCreateOptionalParams` and `_createAgentSend` → `_createSend`. It does not require broad generated/source equality and does not change either tree.
+
+If the guard reports a missing addition, inspect the generated declaration and copy the member or body mapping into the customized declaration, preserving its existing name, style, tracing, and behavior. If it reports missing previously exported symbols, stop: restore the affected additions-only/public-export file from clean `HEAD`, then repeat the three-way test in Step 2 and propagate only verified additions. If a declaration has a new customization rename, add that file-scoped symbol mapping to `symbolRenames` in the guard. Do not suppress a member or export merely because the custom side omitted it; require explicit upstream or compatibility evidence for any intentional omission.
+
+Rerun the guard until it passes. Validate the guard itself after editing it:
+
+```powershell
+node --test .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.test.mjs
+```
+
+#### Distinguish emitter additions from customization renames
+
+Do not classify additions from only the current `generated/` versus current `src/` comparison. Conflict cleanup can make `src/` temporarily incomplete, and the customization layer intentionally keeps many symbols under names that differ from generated output.
+
+Use this three-way test:
+
+1. **Current `generated/` versus `HEAD:generated/`** identifies what the emitter actually added or removed in this regeneration.
+2. **Current `generated/` versus `HEAD:src/`** identifies which emitted symbols were already represented by the committed customization layer.
+3. **Current `generated/` versus cleaned current `src/`** identifies what still needs propagation after conflict cleanup.
+
+A symbol is a genuine addition only when it is new relative to committed generated output, has no same-purpose symbol in committed customized source, and is still absent from cleaned current source. This prevents propagating known rename pairs and avoids copying `ApiError` merely because the generated name differs from the maintained `ErrorModel` surface.
+
+For files with severe conflict churn, restore these additions-only/public-export files before running the three-way test:
+
+```powershell
+git restore --source=HEAD -- src/models/models.ts src/models/index.ts src/index.ts
+```
+
+Restore only files proven clean before regeneration. Never use this recovery on a file that contained user changes at preflight.
+
+#### Step 2b: Detect and dedupe redeclared symbols
+
+When a model moves locations between regens, the customization layer can leave both copies in place. Before moving on, scan for duplicate top-level exports in `src/models/models.ts`:
+
+```powershell
+$dups = Select-String -Path src/models/models.ts -Pattern '^export (interface|type|function|const|class) (\w+)' |
+  ForEach-Object { $_.Matches[0].Groups[2].Value } |
+  Group-Object | Where-Object { $_.Count -gt 1 }
+$dups | ForEach-Object { Write-Host "DUP: $($_.Name) ($($_.Count) defs)" }
+```
+
+Known repeat offenders observed across regens: `MCPToolFilter`, `MCPToolRequireApproval`, `mcpToolFilterSerializer`, `mcpToolRequireApprovalSerializer` and their deserializers. When duplicated, **keep the earlier-defined block** and delete the later one (the later one is usually the spec-side that the customization apply failed to dedupe).
+
+Also look for duplicate **properties within a single interface** (not just duplicate top-level exports) — `dev-tool customization apply` does not dedupe property-level conflicts. Symptom: TS2300 `Duplicate identifier 'status'` and TS1117 `An object literal cannot have multiple properties with the same name` on adjacent lines. Manually delete the second occurrence in both the interface and its deserializer.
+
+### Step 3: Apply the additions-only default and validated model removals
+
+Review `git diff` for `src/models/models.ts` and `src/models/index.ts`. Additions-only remains the
+default: revert deletions or modifications to existing models unless the upstream evidence from
+Step -1 and the current `generated/` versus `HEAD:generated/` diff establish that the target spec
+intentionally removed them.
+
+Examples of commit-description-validated exceptions include a field explicitly removed upstream, a union member explicitly removed upstream, or response properties explicitly made required. When keeping one of these exceptions, make sure the API report reflects the same upstream intent.
+
+```powershell
+git diff HEAD -- src/models/models.ts src/models/index.ts
+```
+
+For validated top-level model declaration removals, do not copy any current `generated/` file over
+`src/`. Start from the clean customized source and run the AST-based synchronizer:
+
+```powershell
+# Dry run: reports whether generated removals still need to be synchronized.
+node .github/skills/apply-post-emitter-edits/scripts/sync-generated-model-removals.mjs
+
+# After reviewing the generated removal set against upstream intent:
+node .github/skills/apply-post-emitter-edits/scripts/sync-generated-model-removals.mjs --write
+
+# Both checks must now pass.
+node .github/skills/apply-post-emitter-edits/scripts/sync-generated-model-removals.mjs
+node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs
+```
+
+The synchronizer compares `HEAD:generated/models/models.ts` with the current emitted model file,
+removes the corresponding declarations plus customized aliases/helpers that depend on a removed
+declaration, and filters their re-exports from `src/models/index.ts` and `src/index.ts`. It never
+removes an independent support declaration merely because a removed declaration references it;
+review such now-unused support declarations manually. It does not replace either barrel, so
+hand-maintained imports, non-model exports, tracing exports, and poller customizations remain intact.
+Use `--base-ref <ref>` when the clean customization baseline is not `HEAD`, including a resumed
+session where emitter output was already committed.
+
+If upstream or review evidence requires removing a customized export that never existed in
+`generated/`, pass its exact declaration name to the parity guard after making the removal:
+
+```powershell
+node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs `
+  --allow-source-removal RemovedCustomizedType
+```
+
+Repeat the option for multiple declarations. Each allowance must match a baseline export that is
+actually absent from the current source; misspelled or stale allowances fail the guard. Never use
+this option for generated-backed removals, which the synchronizer derives automatically.
+
+If the remaining diff includes removals or renames that the synchronizer did not derive from the
+generated baseline, restore the affected file from `HEAD` and re-apply only verified additions and
+removals.
+
+### Step 4: Enforce per-rule reverts
+
+From [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md):
+
+- **Identity-bearing LROs must preserve the created resource id.** Re-apply the documented `JobPoller` customizations for beta job creation and the `RunPoller` customization for Agent Insights run creation. The generated terminal result payloads omit the ids needed by the paired get, cancel, and delete operations.
+- **`foundryFeatures` must NEVER be a positional method parameter** — but it IS allowed as a property on an `*Options` / `*OptionalParams` class (i.e. as a member of the options bag). Concretely:
+  - **Allowed** — `foundryFeatures?: "Foo=V1Preview"` declared as a field on `BetaSkillsListOptionalParams`, then accessed via `options?.foundryFeatures`. The emitter does this by default for many list operations and it is fine.
+  - **NOT allowed** — `foundryFeatures` appearing as a positional parameter on a method or `*Send` helper, e.g. `function _$deleteSend(context, name, foundryFeatures, options)` or `delete: (name, foundryFeatures, options) => ...`. If the emitter introduced this, revert to the prior signature and instantiate `foundryFeatures` as a local `const` inside the method body before sending it over the wire.
+
+  ```powershell
+  # Find positional-parameter cases (line ends in a comma after foundryFeatures, no `?:`):
+  git diff HEAD -- src | Select-String 'foundryFeatures,'
+  # Find local-const cases (allowed pattern, for reference):
+  git diff HEAD -- src | Select-String 'const foundryFeatures ='
+  ```
+
+- **`BetaEvaluatorsOperations.list` must keep its name.** If the emitter renamed it to `listLatestVersions`, revert the rename (method name, all call sites, and any related type names).
+  ```powershell
+  git diff HEAD -- src | Select-String 'listLatestVersions'
+  ```
+
+### Step 5: Resolve style/convention drift
+
+Walk the remaining diff and apply these conventions (the emitter routinely undoes them):
+
+- **`import type` for type-only imports.** If the emitter rewrote `import type { Foo }` to a plain `import { Foo }`, restore the `import type` form and add any newly imported types to it.
+- **`@azure/core-paging` for `PagedAsyncIterableIterator`.** If the emitter switched an import to `../static-helpers/pagingHelpers.js`, switch it back to `@azure/core-paging`.
+- **Hand-written TSDoc.** If the emitter replaced hand-written TSDoc with a generated `/** model interface ... */` placeholder, restore the hand-written version.
+
+General principle: when the emitted code disagrees with the prior `src/` style, prefer the prior `src/` convention.
+
+Run the package autofix before manually correcting import declarations:
+
+```powershell
+pnpm lint:fix
+```
+
+This fixes the routine `import` versus `import type` drift. Review the resulting diff, then
+correct any compiler-only cases where a runtime function was incorrectly emitted under
+`import type`; alias a runtime import when needed to avoid shadowing an existing parameter.
+
+### Step 5b: Sync renamed positional parameters in function bodies
+
+When the customization layer renames a positional parameter (e.g. spec `agentSessionId` → custom `sessionId`, or spec `name` → custom `toolboxName` for toolbox operations), the **signature** is updated by the customization but the **body** of the function and any helper invocations are not. You will see TS2304 `Cannot find name 'agentSessionId'` errors. Fix in lockstep with the signature.
+
+**Gotcha — never use a global string-replace.** A naive replace like `'name' -> 'toolboxName'` will turn existing `toolboxName` occurrences into `toolboxtoolboxName`. Always use a word-boundary regex and target specific lines:
+
+```powershell
+$lines = Get-Content -Path src/api/.../operations.ts
+foreach ($ln in $linesToFix) {  # 1-based line numbers
+  $i = $ln - 1
+  $lines[$i] = $lines[$i] -replace '(?<![\w.])agentSessionId(?![\w])', 'sessionId'
+}
+$lines | Set-Content -Path src/api/.../operations.ts
+```
+
+Known rename pairs to watch for (signature → body must follow) live in
+[references/parameter-renames.yml](./references/parameter-renames.yml). Edit
+that file when a new regen surfaces another rename pair; do not embed the
+table back into this SKILL. Each entry has `file`, `old`, and `new` keys —
+apply the word-boundary substitution from `old` to `new` in the function
+bodies of the listed file.
+
+Also watch for the broken-signature pattern where the customization apply leaves a stray identifier in a parameter list, e.g. `result: Foo & Bar, SessionLogEvent,` in `_downloadSessionFileDeserialize`. Manually trim the extra token.
+
+### Step 5c: Clean stray files
+
+Remove leftover artifacts from the regen / customization process before building:
+
+```powershell
+Remove-Item -ErrorAction SilentlyContinue `
+  src/restorePollerHelpers.ts, `
+  metadata.json, `
+  agent_version_lines.txt, `
+  review/ai-projects-browser.api.diff.md, `
+  review/ai-projects-react-native.api.diff.md, `
+  src/**/*.tmp, src/**/*.tmp2, src/**/*.bak
+```
+
+`src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
+
+Do not run `scripts/post-emitter.mjs` as a substitute for the per-rule checks without auditing its output. It currently also rewrites user-agent construction in protected client/context files. If it is run, immediately repeat Step 1 and revert unrelated emitter drift while preserving reviewed, necessary integration changes before building.
+
+### Step 6: Build and surface verification
+
+```powershell
+npx dev-tool run build-package
+```
+
+All four targets (browser, react-native, esm, commonjs) must succeed.
+
+If `dev-tool` or one of its workspace dependencies is missing because a prior install was interrupted, recover the package dependency closure rather than reinstalling all workspace projects mid-regen:
+
+```powershell
+pnpm install --filter @azure/ai-projects...
+```
+
+Then regenerate the API report and confirm the new public surface is present in it:
+
+```powershell
+npx dev-tool run extract-api
+git diff -- review/ai-projects-node.api.md | Select-String '^\+' | Select-Object -First 40
+```
+
+**Spot-check that newly added types from Step 2 appear in `review/ai-projects-node.api.md`.** If a type was added to `generated/` but is missing from the API report, Step 2 was incomplete — go back and propagate it.
+
+If `temp/typespec-commit-descriptions.md` exists, also spot-check that the API report changes line up with the upstream commit descriptions. For example, added operations/types should appear, hidden protocol methods should stay out of the public surface, and described removals or requiredness changes should be visible where applicable.
+
+Finally:
+
+```powershell
+pnpm lint
+npm run check-format
+```
+
+## Hand-off
+
+Once the build is green, hand off to the `author-samples` skill.
+
+## Anti-patterns
+
+- Do **not** accept broad emitter rewrites of protected files. Permit only narrowly scoped, necessary integration changes backed by upstream evidence, an intentional-delta audit, and focused validation.
+- Do **not** stage or commit before this skill completes; downstream skills (`author-samples`, `author-tests`, `update-changelog`, `open-regeneration-pr`) rely on the working-tree diff being intact.
+- Do **not** introduce an `incoming/` staging directory or `git merge-file` workflow — the emitter writes directly to `src/` and `generated/`, and the workflow operates on the resulting `git diff`.
+- Do **not** use unbounded `(Get-Content X) -replace 'old', 'new' | Set-Content X` for parameter renames — it silently corrupts substrings (`name` → `toolboxName` produced `toolboxtoolboxName`). Always use `(?<![\w.])old(?![\w])` word-boundary anchors and prefer per-line edits.
+- Do **not** delegate the entire build-fix loop to a single subagent prompt with seven independent tasks — observed failure mode is the subagent stopping after 3 of N. Either run fixes inline or split into ≤3 fixes per subagent invocation.
+- Do **not** trust `npx dev-tool run extract-api` after a single source edit — it may pick up stale `dist/` artifacts. Run `npm run build` (which cleans first) before re-extracting if the API report still shows old symbols.
+- Do **not** trust a zero-result protected-file audit unless Git paths were normalized with `--relative`; repository-relative paths silently fail the package-relative comparison.
+- Do **not** treat matching top-level export names as member-level parity. Run Step 2a after resolving conflicts; TypeScript compilation cannot detect an omitted optional member and its omitted request mapping.
+- Do **not** treat a passing addition-only member check as proof that customized files were preserved. The Step 2a guard must also report zero missing baseline exports; a wholesale generated-to-`src` copy otherwise looks complete while deleting existing public API.
+- Do **not** copy `generated/index.ts`, `generated/models/index.ts`, or
+  `generated/models/models.ts` over their `src/` counterparts to honor model removals. Generated
+  barrels can reference generated-only helpers and undo hand-maintained package imports. Restore the
+  customized baseline and use the Step 3 synchronizer instead.
+- Do **not** repair a conflict-corrupted model file one duplicate at a time when the diff shows broad existing-export removals. Restore the clean committed customization baseline and propagate only verified additions.

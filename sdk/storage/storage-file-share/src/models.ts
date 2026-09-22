@@ -7,6 +7,31 @@ import { logger } from "./log.js";
 import type { FilePermissionFormat, NfsFileType, ShareTokenIntent } from "./generatedModels.js";
 import type { StoragePipelineOptions } from "./Pipeline.js";
 import type { FileDownloadHeaders } from "./generatedModels.js";
+import type { NodeJSReadableStream } from "@azure/storage-common";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+
+const xMsMetaPrefix = "x-ms-meta-";
+
+export function rawHeadersToMetadata(rawHeaders: RawHttpHeaders): Metadata {
+  const metadata: Metadata = {};
+  for (const key of Object.keys(rawHeaders)) {
+    if (key.toLowerCase().startsWith(xMsMetaPrefix)) {
+      const metadataKey = key.substring(xMsMetaPrefix.length);
+      metadata[metadataKey] = rawHeaders[key] as string;
+    }
+  }
+  return metadata;
+}
+
+export function metadataToRawHeaders(metadata: Metadata | undefined): RawHttpHeaders {
+  const metadataHeaders: RawHttpHeaders = {};
+  if (metadata) {
+    for (const key of Object.keys(metadata)) {
+      metadataHeaders[`${xMsMetaPrefix}${key.toLowerCase()}`] = metadata[key];
+    }
+  }
+  return metadataHeaders;
+}
 
 export interface Metadata {
   [propertyName: string]: string;
@@ -134,7 +159,7 @@ export type FileDownloadResponse = FileDownloadHeaders & {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 };
 
 export interface FileHttpHeaders {
@@ -346,6 +371,11 @@ export interface ShareProtocols {
   nfsEnabled?: boolean;
 }
 
+/**
+ * To indicate check sum algorithm used in content validation.
+ */
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
 export interface ShareClientConfig {
   /**
    * The Files OAuth over REST feature requires special permissions to be included in the role definition to use
@@ -362,6 +392,14 @@ export interface ShareClientConfig {
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
   allowSourceTrailingDot?: boolean;
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 export type ShareClientOptions = StoragePipelineOptions & ShareClientConfig;

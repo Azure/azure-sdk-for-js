@@ -5,7 +5,9 @@
 ```ts
 
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -15,6 +17,8 @@ export interface GetSchemaOptions extends OperationOptions {
 // @public
 export interface GetSchemaPropertiesOptions extends OperationOptions {
 }
+
+export { isRestError }
 
 // @public
 export enum KnownSchemaFormats {
@@ -26,6 +30,8 @@ export enum KnownSchemaFormats {
 // @public
 export interface RegisterSchemaOptions extends OperationOptions {
 }
+
+export { RestError }
 
 // @public
 export interface Schema {

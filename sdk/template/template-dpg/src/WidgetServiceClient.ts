@@ -34,7 +34,7 @@ import {
 } from "./api/index.js";
 import type { WidgetServiceContext } from "./rest/clientDefinitions.js";
 
-export { WidgetServiceClientOptions } from "./api/WidgetServiceContext.js";
+export type { WidgetServiceClientOptions } from "./api/WidgetServiceContext.js";
 
 export class WidgetServiceClient {
   private _client: WidgetServiceContext;

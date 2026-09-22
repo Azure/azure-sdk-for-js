@@ -54,7 +54,9 @@ describe("Commerce test", () => {
   });
 
   it.skip("rateCard get test", async () => {
-    const res = await client.rateCard.get("OfferDurableId eq 'MS-AZR-0062P' and Currency eq 'USD' and Locale eq 'en-US' and RegionInfo eq 'US'");
+    const res = await client.rateCard.get(
+      "OfferDurableId eq 'MS-AZR-0062P' and Currency eq 'USD' and Locale eq 'en-US' and RegionInfo eq 'US'",
+    );
     assert.notEqual(res.meters?.length, 0);
   });
 });

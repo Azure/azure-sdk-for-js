@@ -6,9 +6,11 @@
 
 import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -70,9 +72,13 @@ export interface GetDynamicAlphaIdCountriesOptions extends AlphaIdsGetDynamicAlp
 export interface GetPreRegisteredAlphaIdCountriesOptions extends AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams {
 }
 
+export { isRestError }
+
 // @public
 export interface ListAlphaIdsOptions extends AlphaIdsGetAlphaIdsOptionalParams {
 }
+
+export { RestError }
 
 // @public
 export interface SupportedCountries {

@@ -3,9 +3,9 @@
 
 export { listByResourceGroup, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  SitesListByResourceGroupOptionalParams,
-  SitesDeleteOptionalParams,
-  SitesUpdateOptionalParams,
-  SitesCreateOrUpdateOptionalParams,
-  SitesGetOptionalParams,
+  type SitesListByResourceGroupOptionalParams,
+  type SitesDeleteOptionalParams,
+  type SitesUpdateOptionalParams,
+  type SitesCreateOrUpdateOptionalParams,
+  type SitesGetOptionalParams,
 } from "./options.js";

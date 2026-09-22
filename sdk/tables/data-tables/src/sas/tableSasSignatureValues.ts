@@ -15,7 +15,7 @@ import type { TableSasPermissions } from "./tableSasPermisions.js";
 import { tableSasPermissionsToString } from "./tableSasPermisions.js";
 import type { NamedKeyCredential } from "@azure/core-auth";
 import { SERVICE_VERSION } from "../utils/constants.js";
-import { computeHMACSHA256 } from "../utils/computeHMACSHA256.js";
+import { computeHMACSHA256 } from "#platform/utils/computeHMACSHA256";
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date.js";
 
 /**

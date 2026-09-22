@@ -7,19 +7,45 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -52,10 +52,9 @@
- import { StorageRetryOptions } from '@azure/storage-blob';
- import { StorageRetryPolicy } from '@azure/storage-blob';
- import { StorageRetryPolicyFactory } from '@azure/storage-blob';
- import { StorageRetryPolicyType } from '@azure/storage-blob';
--import { StorageSharedKeyCredential } from '@azure/storage-blob';
--import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
-+import type { StorageSharedKeyCredential as StorageSharedKeyCredential_2 } from '@azure/storage-blob';
- import type { TokenCredential } from '@azure/core-auth';
+@@ -16,24 +16,22 @@
+ import type { ContainerRenameResponse } from '@azure/storage-blob';
+ import type { ContainerUndeleteResponse } from '@azure/storage-blob';
+ import { Credential as Credential_2 } from '@azure/storage-common';
+ import { CredentialPolicy } from '@azure/storage-common';
+-import { CredentialPolicyCreator } from '@azure/storage-common';
+ import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
+ import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
+ import type { FullOperationResponse } from '@azure-rest/core-client';
+ import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+ import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+ import { isPipelineLike } from '@azure/storage-blob';
+-import { isRestError } from '@azure/core-rest-pipeline';
+ import type { KeepAliveOptions } from '@azure/core-http-compat';
+ import { Lease } from '@azure/storage-blob';
+ import { LeaseAccessConditions } from '@azure/storage-blob';
+ import { LeaseOperationOptions } from '@azure/storage-blob';
+ import { LeaseOperationResponse } from '@azure/storage-blob';
+ import type { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
+-import { NodeJSReadableStream } from '@azure/storage-blob';
++import type { NodeJSReadableStream } from '@azure/storage-blob';
+ import { NodeReadableStream } from '@azure/core-rest-pipeline';
+ import { OperationOptions } from '@azure-rest/core-client';
+ import type { OperationTracingOptions } from '@azure/core-tracing';
+ import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+@@ -58,10 +56,9 @@
+ import { StorageRetryOptions } from '@azure/storage-common';
+ import { StorageRetryPolicy } from '@azure/storage-common';
+ import { StorageRetryPolicyFactory } from '@azure/storage-common';
+ import { StorageRetryPolicyType } from '@azure/storage-common';
+-import { StorageSharedKeyCredential } from '@azure/storage-common';
+-import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
++import type { StorageSharedKeyCredential as StorageSharedKeyCredential_2 } from '@azure/storage-common';
+ import { Tags } from '@azure/storage-blob';
+ import { TokenCredential } from '@azure/core-auth';
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
- import { UserDelegationKeyModel } from '@azure/storage-blob';
-@@ -96,54 +95,8 @@
+@@ -104,54 +101,8 @@
      // (undocumented)
      startsOn?: Date;
  }
@@ -74,7 +100,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -249,9 +202,11 @@
+@@ -257,9 +208,11 @@
      contentType?: string;
      encryptionScope?: string;
      expiresOn?: Date;
@@ -83,20 +109,31 @@ For the complete API surface, see the corresponding -node.api.md file.
      ipRange?: SasIPRange;
 +    // Warning: (ae-forgotten-export) The symbol "SASProtocol" needs to be exported by the entry point index.d.ts
      protocol?: SASProtocol;
+     requestHeaders?: RequestHeaders;
+     requestQueryParameters?: RequestQueryParameters;
      startsOn?: Date;
-     version?: string;
- }
-@@ -298,8 +253,9 @@
+@@ -285,10 +238,8 @@
+ export { Credential_2 as Credential }
+ 
+ export { CredentialPolicy }
+ 
+-export { CredentialPolicyCreator }
+-
+ // @public
+ export class DataLakeAclChangeFailedError extends Error {
+     constructor(error: RestError | Error, continuationToken?: string);
+     continuationToken?: string;
+@@ -316,8 +267,9 @@
  }
  
  // @public
  export class DataLakeFileClient extends DataLakePathClient {
 +    // Warning: (ae-forgotten-export) The symbol "StorageSharedKeyCredential" needs to be exported by the entry point index.d.ts
-     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-     constructor(url: string, pipeline: Pipeline);
+     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeFileClientOptions);
+     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
      append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
-@@ -400,52 +356,13 @@
+@@ -437,56 +389,13 @@
  export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
  }
  
@@ -111,6 +148,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    move: boolean;
 -    static parse(permissions: string): DataLakeSASPermissions;
 -    read: boolean;
+-    tag: boolean;
 -    toString(): string;
 -    write: boolean;
 -}
@@ -124,6 +162,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    contentLanguage?: string;
 -    contentType?: string;
 -    correlationId?: string;
+-    delegatedUserObjectId?: string;
 -    directoryDepth?: number;
 -    encryptionScope?: string;
 -    expiresOn?: Date;
@@ -135,6 +174,8 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
 -    preauthorizedAgentObjectId?: string;
 -    protocol?: SASProtocol;
+-    requestHeaders?: RequestHeaders;
+-    requestQueryParameters?: RequestQueryParameters;
 -    snapshotTime?: string;
 -    startsOn?: Date;
 -    version?: string;
@@ -142,15 +183,15 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
  export class DataLakeServiceClient extends StorageClient {
-     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-     constructor(url: string, pipeline: Pipeline);
-     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
+     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeServiceClientOptions);
+     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
+     static fromConnectionString(connectionString: string, options?: DataLakeServiceClientOptions): DataLakeServiceClient;
 +    // Warning: (ae-forgotten-export) The symbol "AccountSASPermissions" needs to be exported by the entry point index.d.ts
      generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
-@@ -497,28 +414,13 @@
+@@ -542,28 +451,13 @@
  }
  
  // @public
@@ -180,7 +221,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export interface FileAppendOptions extends CommonOptions {
-@@ -582,8 +484,9 @@
+@@ -628,8 +522,9 @@
  export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
  // @public
@@ -190,7 +231,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -847,8 +750,9 @@
+@@ -898,8 +793,9 @@
  }
  
  // @public
@@ -200,7 +241,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
-@@ -995,24 +899,8 @@
+@@ -1046,25 +942,8 @@
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -217,6 +258,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    move: boolean;
 -    static parse(permissions: string): FileSystemSASPermissions;
 -    read: boolean;
+-    tag: boolean;
 -    toString(): string;
 -    write: boolean;
 -}
@@ -225,7 +267,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
-@@ -1083,17 +971,8 @@
+@@ -1135,17 +1014,8 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -243,7 +285,29 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1858,72 +1737,8 @@
+@@ -1154,10 +1024,8 @@
+ export { HttpRequestBody }
+ 
+ export { isPipelineLike }
+ 
+-export { isRestError }
+-
+ export { Lease }
+ 
+ export { LeaseAccessConditions }
+ 
+@@ -1256,10 +1124,8 @@
+ 
+ // @public
+ export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+ 
+-export { NodeJSReadableStream }
+-
+ // @public (undocumented)
+ export interface Path {
+     // (undocumented)
+     contentLength?: number;
+@@ -2011,78 +1877,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -262,7 +326,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
 -export class SASQueryParameters {
--    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string);
+-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
 -    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
 -    readonly agentObjectId?: string;
 -    readonly cacheControl?: string;
@@ -271,6 +335,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    readonly contentLanguage?: string;
 -    readonly contentType?: string;
 -    readonly correlationId?: string;
+-    readonly delegatedUserObjectId?: string;
 -    readonly directoryDepth?: number;
 -    readonly encryptionScope?: string;
 -    readonly expiresOn?: Date;
@@ -279,6 +344,8 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    readonly permissions?: string;
 -    readonly preauthorizedAgentObjectId?: string;
 -    readonly protocol?: SASProtocol;
+-    readonly requestHeaderKeys?: string;
+-    readonly requestQueryParameterKeys?: string;
 -    readonly resource?: string;
 -    readonly resourceTypes?: string;
 -    readonly services?: string;
@@ -297,6 +364,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    contentLanguage?: string;
 -    contentType?: string;
 -    correlationId?: string;
+-    delegatedUserObjectId?: string;
 -    directoryDepth?: number;
 -    encryptionScope?: string;
 -    expiresOn?: Date;
@@ -305,6 +373,8 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    permissions?: string;
 -    preauthorizedAgentObjectId?: string;
 -    protocol?: SASProtocol;
+-    requestHeaderKeys?: string;
+-    requestQueryParameterKeys?: string;
 -    resource?: string;
 -    resourceTypes?: string;
 -    services?: string;
@@ -316,7 +386,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2028,12 +1843,8 @@
+@@ -2190,12 +1986,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -325,9 +395,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -export { StorageSharedKeyCredentialPolicy }
 -
- // @public (undocumented)
- export const ToBlobEndpointHostMappings: string[][];
- 
- // @public (undocumented)
+ // @public
+ export interface TagConditions {
+     tagConditions?: string;
+ }
 
 ```

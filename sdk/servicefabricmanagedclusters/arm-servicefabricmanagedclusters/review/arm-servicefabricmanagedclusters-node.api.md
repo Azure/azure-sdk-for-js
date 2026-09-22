@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -33,6 +35,15 @@ export interface AddRemoveIncrementalNamedPartitionScalingMechanism extends Scal
 }
 
 // @public
+export interface ApplicationFetchHealthRequest {
+    deployedApplicationsHealthStateFilter?: HealthFilter;
+    eventsHealthStateFilter?: HealthFilter;
+    excludeHealthStatistics?: boolean;
+    servicesHealthStateFilter?: HealthFilter;
+    timeout?: number;
+}
+
+// @public
 export interface ApplicationHealthPolicy {
     considerWarningAsError: boolean;
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
@@ -44,8 +55,12 @@ export interface ApplicationHealthPolicy {
 export interface ApplicationResource extends ProxyResource {
     identity?: ManagedIdentity;
     location?: string;
-    properties?: ApplicationResourceProperties;
+    managedIdentities?: ApplicationUserAssignedIdentity[];
+    parameters?: Record<string, string>;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
+    upgradePolicy?: ApplicationUpgradePolicy;
+    version?: string;
 }
 
 // @public
@@ -68,6 +83,11 @@ export interface ApplicationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ApplicationsFetchHealthOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ApplicationsGetOptionalParams extends OperationOptions {
 }
 
@@ -79,17 +99,24 @@ export interface ApplicationsListOptionalParams extends OperationOptions {
 export interface ApplicationsOperations {
     createOrUpdate: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
     delete: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    fetchHealth: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationFetchHealthRequest, options?: ApplicationsFetchHealthOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams) => Promise<ApplicationResource>;
     list: (resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams) => PagedAsyncIterableIterator<ApplicationResource>;
     readUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
+    restartDeployedCodePackage: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RestartDeployedCodePackageRequest, options?: ApplicationsRestartDeployedCodePackageOptionalParams) => PollerLike<OperationState<void>, void>;
     resumeUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
     startRollback: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams) => Promise<ApplicationResource>;
+    update: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams) => PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
     updateUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeUpdateApplicationUpgradeParameters, options?: ApplicationsUpdateUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
 export interface ApplicationsReadUpgradeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApplicationsRestartDeployedCodePackageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -105,6 +132,7 @@ export interface ApplicationsStartRollbackOptionalParams extends OperationOption
 
 // @public
 export interface ApplicationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -115,7 +143,7 @@ export interface ApplicationsUpdateUpgradeOptionalParams extends OperationOption
 // @public
 export interface ApplicationTypeResource extends ProxyResource {
     location?: string;
-    properties?: ApplicationTypeResourceProperties;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
 }
 
@@ -161,8 +189,9 @@ export interface ApplicationTypeUpdateParameters {
 
 // @public
 export interface ApplicationTypeVersionResource extends ProxyResource {
+    appPackageUrl?: string;
     location?: string;
-    properties?: ApplicationTypeVersionResourceProperties;
+    readonly provisioningState?: string;
     tags?: Record<string, string>;
 }
 
@@ -215,7 +244,13 @@ export interface ApplicationTypeVersionUpdateParameters {
 
 // @public
 export interface ApplicationUpdateParameters {
+    properties?: ApplicationUpdateParametersProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationUpdateParametersProperties {
+    parameters?: Record<string, string>;
 }
 
 // @public
@@ -233,6 +268,13 @@ export interface ApplicationUpgradePolicy {
 export interface ApplicationUserAssignedIdentity {
     name: string;
     principalId: string;
+}
+
+// @public
+export interface ApplyMaintenanceWindowRequest {
+    duration?: string;
+    startDateTime?: string;
+    timeZone?: string;
 }
 
 // @public
@@ -439,6 +481,15 @@ export interface FrontendConfiguration {
 }
 
 // @public
+export type HealthFilter = string;
+
+// @public
+export interface HostEndpointSettings {
+    inVMAccessControlProfileReferenceId?: string;
+    mode?: string;
+}
+
+// @public
 export type IPAddressType = string;
 
 // @public
@@ -464,6 +515,8 @@ export interface IpTag {
     ipTagType: string;
     tag: string;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownAccess {
@@ -551,6 +604,16 @@ export enum KnownFaultSimulationStatus {
     Starting = "Starting",
     StopFailed = "StopFailed",
     Stopping = "Stopping"
+}
+
+// @public
+export enum KnownHealthFilter {
+    All = "All",
+    Default = "Default",
+    Error = "Error",
+    None = "None",
+    Ok = "Ok",
+    Warning = "Warning"
 }
 
 // @public
@@ -661,6 +724,11 @@ export enum KnownPublicIPAddressVersion {
 }
 
 // @public
+export enum KnownRestartKind {
+    Simultaneous = "Simultaneous"
+}
+
+// @public
 export enum KnownRollingUpgradeMode {
     Monitored = "Monitored",
     UnmonitoredAuto = "UnmonitoredAuto"
@@ -682,6 +750,13 @@ export enum KnownRuntimeRollingUpgradeMode {
 // @public
 export enum KnownRuntimeUpgradeKind {
     Rolling = "Rolling"
+}
+
+// @public
+export enum KnownScaleInPolicyMode {
+    Default = "Default",
+    NewestNodeFirst = "NewestNodeFirst",
+    OldestNodeFirst = "OldestNodeFirst"
 }
 
 // @public
@@ -770,7 +845,10 @@ export enum KnownUpdateType {
 export enum KnownVersions {
     V20241101Preview = "2024-11-01-preview",
     V20250301Preview = "2025-03-01-preview",
-    V20250601Preview = "2025-06-01-preview"
+    V20250601Preview = "2025-06-01-preview",
+    V20251001Preview = "2025-10-01-preview",
+    V20260201 = "2026-02-01",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -818,6 +896,7 @@ export interface ManagedApplyMaintenanceWindowOperations {
 
 // @public
 export interface ManagedApplyMaintenanceWindowPostOptionalParams extends OperationOptions {
+    body?: ApplyMaintenanceWindowRequest;
 }
 
 // @public
@@ -837,9 +916,52 @@ export interface ManagedAzResiliencyStatusOperations {
 
 // @public
 export interface ManagedCluster extends TrackedResource {
+    addonFeatures?: ManagedClusterAddOnFeature[];
+    adminPassword?: string;
+    adminUserName?: string;
+    allocatedOutboundPorts?: number;
+    allowRdpAccess?: boolean;
+    applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
+    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+    auxiliarySubnets?: Subnet[];
+    azureActiveDirectory?: AzureActiveDirectory;
+    clientConnectionPort?: number;
+    clients?: ClientCertificate[];
+    readonly clusterCertificateThumbprints?: string[];
+    clusterCodeVersion?: string;
+    readonly clusterId?: string;
+    readonly clusterState?: ClusterState;
+    clusterUpgradeCadence?: ClusterUpgradeCadence;
+    clusterUpgradeMode?: ClusterUpgradeMode;
+    ddosProtectionPlanId?: string;
+    dnsName?: string;
+    enableAutoOSUpgrade?: boolean;
+    enableHttpGatewayExclusiveAuthMode?: boolean;
+    enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
+    enableServicePublicIP?: boolean;
     readonly etag?: string;
-    properties?: ManagedClusterProperties;
+    fabricSettings?: SettingsSectionDescription[];
+    readonly fqdn?: string;
+    httpGatewayConnectionPort?: number;
+    httpGatewayTokenAuthConnectionPort?: number;
+    ipTags?: IpTag[];
+    readonly ipv4Address?: string;
+    readonly ipv6Address?: string;
+    loadBalancingRules?: LoadBalancingRule[];
+    networkSecurityRules?: NetworkSecurityRule[];
+    readonly provisioningState?: ManagedResourceProvisioningState;
+    publicIPPrefixId?: string;
+    publicIPv6PrefixId?: string;
+    serviceEndpoints?: ServiceEndpoint[];
+    skipManagedNsgAssignment?: boolean;
     sku: Sku;
+    subnetId?: string;
+    upgradeDescription?: ClusterUpgradePolicy;
+    useCustomVnet?: boolean;
+    vmImage?: string;
+    zonalResiliency?: boolean;
+    zonalUpdateMode?: ZonalUpdateMode;
 }
 
 // @public
@@ -847,9 +969,11 @@ export type ManagedClusterAddOnFeature = string;
 
 // @public
 export interface ManagedClusterCodeVersionResult {
+    clusterCodeVersion?: string;
     id?: string;
     name?: string;
-    properties?: ManagedClusterVersionDetails;
+    osType?: OsType;
+    supportExpiryUtc?: Date;
     type?: string;
 }
 
@@ -892,6 +1016,7 @@ export interface ManagedClusterProperties {
     publicIPPrefixId?: string;
     publicIPv6PrefixId?: string;
     serviceEndpoints?: ServiceEndpoint[];
+    skipManagedNsgAssignment?: boolean;
     subnetId?: string;
     upgradeDescription?: ClusterUpgradePolicy;
     useCustomVnet?: boolean;
@@ -941,7 +1066,7 @@ export interface ManagedClustersOperations {
     listFaultSimulation: (resourceGroupName: string, clusterName: string, options?: ManagedClustersListFaultSimulationOptionalParams) => PagedAsyncIterableIterator<FaultSimulation>;
     startFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentWrapper, options?: ManagedClustersStartFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
     stopFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-    update: (resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams) => Promise<ManagedCluster>;
+    update: (resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
 // @public
@@ -956,6 +1081,7 @@ export interface ManagedClustersStopFaultSimulationOptionalParams extends Operat
 
 // @public
 export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1082,9 +1208,64 @@ export interface NetworkSecurityRule {
 
 // @public
 export interface NodeType extends ProxyResource {
-    properties?: NodeTypeProperties;
+    additionalDataDisks?: VmssDataDisk[];
+    additionalNetworkInterfaceConfigurations?: AdditionalNetworkInterfaceConfiguration[];
+    applicationPorts?: EndpointRangeDescription;
+    capacities?: Record<string, string>;
+    computerNamePrefix?: string;
+    dataDiskLetter?: string;
+    dataDiskSizeGB?: number;
+    dataDiskType?: DiskType;
+    dscpConfigurationId?: string;
+    enableAcceleratedNetworking?: boolean;
+    enableEncryptionAtHost?: boolean;
+    enableNodePublicIP?: boolean;
+    enableNodePublicIPv6?: boolean;
+    enableOverProvisioning?: boolean;
+    enableResilientEphemeralOsDisk?: boolean;
+    ephemeralPorts?: EndpointRangeDescription;
+    evictionPolicy?: EvictionPolicyType;
+    frontendConfigurations?: FrontendConfiguration[];
+    hostGroupId?: string;
+    isOutboundOnly?: boolean;
+    isPrimary?: boolean;
+    isSpotVM?: boolean;
+    isStateless?: boolean;
+    multiplePlacementGroups?: boolean;
+    natConfigurations?: NodeTypeNatConfig[];
+    natGatewayId?: string;
+    networkSecurityRules?: NetworkSecurityRule[];
+    placementProperties?: Record<string, string>;
+    readonly provisioningState?: ManagedResourceProvisioningState;
+    proxyAgentSettings?: ProxyAgentSettings;
+    scaleInPolicy?: ScaleInPolicy;
+    secureBootEnabled?: boolean;
+    securityEncryptionType?: SecurityEncryptionType;
+    securityType?: SecurityType;
+    serviceArtifactReferenceId?: string;
     sku?: NodeTypeSku;
+    spotRestoreTimeout?: string;
+    subnetId?: string;
     tags?: Record<string, string>;
+    useDefaultPublicLoadBalancer?: boolean;
+    useEphemeralOSDisk?: boolean;
+    useTempDataDisk?: boolean;
+    vmApplications?: VmApplication[];
+    vmExtensions?: VmssExtension[];
+    vmImageOffer?: string;
+    vmImagePlan?: VmImagePlan;
+    vmImagePublisher?: string;
+    vmImageResourceId?: string;
+    vmImageSku?: string;
+    vmImageVersion?: string;
+    vmInstanceCount?: number;
+    vmManagedIdentity?: VmManagedIdentity;
+    vmSecrets?: VaultSecretGroup[];
+    vmSetupActions?: VmSetupAction[];
+    vmSharedGalleryImageId?: string;
+    vmSize?: string;
+    zoneBalance?: boolean;
+    zones?: string[];
 }
 
 // @public
@@ -1132,6 +1313,7 @@ export interface NodeTypeProperties {
     enableNodePublicIP?: boolean;
     enableNodePublicIPv6?: boolean;
     enableOverProvisioning?: boolean;
+    enableResilientEphemeralOsDisk?: boolean;
     ephemeralPorts?: EndpointRangeDescription;
     evictionPolicy?: EvictionPolicyType;
     frontendConfigurations?: FrontendConfiguration[];
@@ -1146,6 +1328,8 @@ export interface NodeTypeProperties {
     networkSecurityRules?: NetworkSecurityRule[];
     placementProperties?: Record<string, string>;
     readonly provisioningState?: ManagedResourceProvisioningState;
+    proxyAgentSettings?: ProxyAgentSettings;
+    scaleInPolicy?: ScaleInPolicy;
     secureBootEnabled?: boolean;
     securityEncryptionType?: SecurityEncryptionType;
     securityType?: SecurityType;
@@ -1392,6 +1576,15 @@ export type ProbeProtocol = string;
 export type Protocol = string;
 
 // @public
+export interface ProxyAgentSettings {
+    addProxyAgentExtension?: boolean;
+    enabled?: boolean;
+    imds?: HostEndpointSettings;
+    keyIncarnationId?: number;
+    wireServer?: HostEndpointSettings;
+}
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -1413,6 +1606,29 @@ export interface ResourceAzStatus {
     readonly resourceName?: string;
     readonly resourceType?: string;
 }
+
+// @public
+export interface RestartDeployedCodePackageRequest {
+    codePackageInstanceId: string;
+    codePackageName: string;
+    nodeName: string;
+    serviceManifestName: string;
+    servicePackageActivationId?: string;
+}
+
+// @public
+export type RestartKind = string;
+
+// @public
+export interface RestartReplicaRequest {
+    forceRestart?: boolean;
+    partitionId: string;
+    replicaIds: number[];
+    restartKind: RestartKind;
+    timeout?: number;
+}
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceFabricManagedClustersManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -1489,6 +1705,14 @@ export interface RuntimeUpdateApplicationUpgradeParameters {
 export type RuntimeUpgradeKind = string;
 
 // @public
+export interface ScaleInPolicy {
+    mode?: ScaleInPolicyMode;
+}
+
+// @public
+export type ScaleInPolicyMode = string;
+
+// @public
 export interface ScalingMechanism {
     // (undocumented)
     kind: ServiceScalingMechanismKind;
@@ -1536,6 +1760,7 @@ export interface ServiceEndpoint {
 
 // @public (undocumented)
 export class ServiceFabricManagedClustersManagementClient {
+    constructor(credential: TokenCredential, options?: ServiceFabricManagedClustersManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ServiceFabricManagedClustersManagementClientOptionalParams);
     readonly applications: ApplicationsOperations;
     readonly applicationTypes: ApplicationTypesOperations;
@@ -1681,7 +1906,13 @@ export interface ServicesOperations {
     delete: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesGetOptionalParams) => Promise<ServiceResource>;
     listByApplications: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListByApplicationsOptionalParams) => PagedAsyncIterableIterator<ServiceResource>;
+    restartReplica: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: RestartReplicaRequest, options?: ServicesRestartReplicaOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceUpdateParameters, options?: ServicesUpdateOptionalParams) => Promise<ServiceResource>;
+}
+
+// @public
+export interface ServicesRestartReplicaOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1848,8 +2079,18 @@ export interface VmssDataDisk {
 
 // @public
 export interface VmssExtension {
+    autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
+    forceUpdateTag?: string;
     name: string;
-    properties: VmssExtensionProperties;
+    protectedSettings?: any;
+    provisionAfterExtensions?: string[];
+    readonly provisioningState?: string;
+    publisher: string;
+    settings?: any;
+    setupOrder?: VmssExtensionSetupOrder[];
+    type: string;
+    typeHandlerVersion: string;
 }
 
 // @public

@@ -3,6 +3,6 @@
 
 export {
   createVectorDb,
-  VectorDbContext,
-  VectorDbClientOptionalParams,
+  type VectorDbContext,
+  type VectorDbClientOptionalParams,
 } from "./vectorDbContext.js";

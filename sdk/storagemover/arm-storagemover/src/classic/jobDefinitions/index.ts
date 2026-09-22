@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageMoverContext } from "../../api/storageMoverContext.js";
+import type { StorageMoverContext } from "../../api/storageMoverContext.js";
 import {
   stopJob,
   startJob,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/jobDefinitions/operations.js";
-import {
+import type {
   JobDefinitionsStopJobOptionalParams,
   JobDefinitionsStartJobOptionalParams,
   JobDefinitionsListOptionalParams,
@@ -20,13 +20,13 @@ import {
   JobDefinitionsCreateOrUpdateOptionalParams,
   JobDefinitionsGetOptionalParams,
 } from "../../api/jobDefinitions/options.js";
-import {
+import type {
   JobDefinition,
   JobDefinitionUpdateParameters,
   JobRunResourceId,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a JobDefinitions operations. */
 export interface JobDefinitionsOperations {

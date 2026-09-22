@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dell/arm-dell-storage)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-dell-storage)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-dell-storage?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-dell-storage)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dell/arm-dell-storage/samples)
 
 ## Getting started

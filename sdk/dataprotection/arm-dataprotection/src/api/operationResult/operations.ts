@@ -24,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       operationId: operationId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -32,21 +32,25 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<OperationJobExtendedInfo> {
+): Promise<OperationJobExtendedInfo | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return operationJobExtendedInfoDeserializer(result.body);
@@ -58,7 +62,7 @@ export async function get(
   operationId: string,
   location: string,
   options: OperationResultGetOptionalParams = { requestOptions: {} },
-): Promise<OperationJobExtendedInfo | null> {
+): Promise<OperationJobExtendedInfo | void> {
   const result = await _getSend(context, operationId, location, options);
   return _getDeserialize(result);
 }

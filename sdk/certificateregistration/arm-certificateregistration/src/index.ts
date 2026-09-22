@@ -1,0 +1,110 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export { CertificateRegistrationManagementClient } from "./certificateRegistrationManagementClient.js";
+export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export {
+  AppServiceCertificateOrder,
+  AppServiceCertificateOrderProperties,
+  AppServiceCertificate,
+  KeyVaultSecretStatus,
+  CertificateProductType,
+  ProvisioningState,
+  CertificateOrderStatus,
+  CertificateDetails,
+  KnownResourceNotRenewableReason,
+  ResourceNotRenewableReason,
+  CertificateOrderContact,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  DefaultErrorResponse,
+  DefaultErrorResponseError,
+  DefaultErrorResponseErrorDetailsItem,
+  AppServiceCertificateOrderPatchResource,
+  AppServiceCertificateOrderPatchResourceProperties,
+  ProxyOnlyResource,
+  ReissueCertificateOrderRequest,
+  ReissueCertificateOrderRequestProperties,
+  RenewCertificateOrderRequest,
+  RenewCertificateOrderRequestProperties,
+  NameIdentifier,
+  SiteSealRequest,
+  SiteSeal,
+  CertificateOrderAction,
+  CertificateOrderActionType,
+  CertificateEmail,
+  AppServiceCertificateResource,
+  AppServiceCertificatePatchResource,
+  DetectorResponse,
+  DetectorResponseProperties,
+  DetectorInfo,
+  SupportTopic,
+  DetectorType,
+  DiagnosticData,
+  DataTableResponseObject,
+  DataTableResponseColumn,
+  Rendering,
+  RenderingType,
+  Status,
+  InsightStatus,
+  DataProviderMetadata,
+  KeyValuePairStringObject,
+  QueryUtterancesResults,
+  QueryUtterancesResult,
+  SampleUtterance,
+  ProxyResource,
+  CsmOperationDescription,
+  CsmOperationDisplay,
+  CsmOperationDescriptionProperties,
+  ServiceSpecification,
+  MetricSpecification,
+  Dimension,
+  MetricAvailability,
+  LogSpecification,
+  KnownVersions,
+} from "./models/index.js";
+export { CertificateRegistrationManagementClientOptionalParams } from "./api/index.js";
+export {
+  AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams,
+  AppServiceCertificateOrdersListCertificatesOptionalParams,
+  AppServiceCertificateOrdersDeleteCertificateOptionalParams,
+  AppServiceCertificateOrdersUpdateCertificateOptionalParams,
+  AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams,
+  AppServiceCertificateOrdersGetCertificateOptionalParams,
+  AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams,
+  AppServiceCertificateOrdersRetrieveCertificateActionsOptionalParams,
+  AppServiceCertificateOrdersVerifyDomainOwnershipOptionalParams,
+  AppServiceCertificateOrdersRetrieveSiteSealOptionalParams,
+  AppServiceCertificateOrdersResendRequestEmailsOptionalParams,
+  AppServiceCertificateOrdersResendEmailOptionalParams,
+  AppServiceCertificateOrdersRenewOptionalParams,
+  AppServiceCertificateOrdersReissueOptionalParams,
+  AppServiceCertificateOrdersListOptionalParams,
+  AppServiceCertificateOrdersListByResourceGroupOptionalParams,
+  AppServiceCertificateOrdersDeleteOptionalParams,
+  AppServiceCertificateOrdersUpdateOptionalParams,
+  AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
+  AppServiceCertificateOrdersGetOptionalParams,
+} from "./api/appServiceCertificateOrders/index.js";
+export {
+  CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams,
+  CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams,
+} from "./api/certificateOrdersDiagnostics/index.js";
+export { CertificateRegistrationProviderListOperationsOptionalParams } from "./api/certificateRegistrationProvider/index.js";
+export {
+  AppServiceCertificateOrdersOperations,
+  CertificateOrdersDiagnosticsOperations,
+  CertificateRegistrationProviderOperations,
+} from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

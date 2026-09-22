@@ -3,7 +3,7 @@
 
 export { get, update, list } from "./operations.js";
 export {
-  GroupQuotaLimitsRequestGetOptionalParams,
-  GroupQuotaLimitsRequestUpdateOptionalParams,
-  GroupQuotaLimitsRequestListOptionalParams,
+  type GroupQuotaLimitsRequestGetOptionalParams,
+  type GroupQuotaLimitsRequestUpdateOptionalParams,
+  type GroupQuotaLimitsRequestListOptionalParams,
 } from "./options.js";

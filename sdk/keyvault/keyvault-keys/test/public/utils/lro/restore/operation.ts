@@ -47,8 +47,10 @@ export interface RestoreKeyBackupPollOperationState extends PollOperationState<K
 /**
  * An interface representing a restore key's poll operation
  */
-export interface RestoreKeyBackupPollOperation
-  extends PollOperation<RestoreKeyBackupPollOperationState, KeyVaultKey> {}
+export interface RestoreKeyBackupPollOperation extends PollOperation<
+  RestoreKeyBackupPollOperationState,
+  KeyVaultKey
+> {}
 
 /**
  * Reaches to the service and updates the restore key's poll operation.

@@ -17,13 +17,13 @@ import type {
 export interface IntegrationRuntimes {
   /**
    * List Integration Runtimes
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   list(options?: IntegrationRuntimesListOptionalParams): Promise<IntegrationRuntimesListResponse>;
   /**
    * Get Integration Runtime
-   * @param integrationRuntimeName - The Integration Runtime name
-   * @param options - The options parameters.
+   * @param integrationRuntimeName The Integration Runtime name
+   * @param options The options parameters.
    */
   get(
     integrationRuntimeName: string,

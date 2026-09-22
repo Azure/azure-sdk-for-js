@@ -1,23 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get role definition by ID (GUID).
- *
- * @summary Get role definition by ID (GUID).
- * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-05-01-preview/examples/GetRoleDefinitionById.json
- */
-
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get role definition by ID (GUID).
+ *
+ * @summary get role definition by ID (GUID).
+ * x-ms-original-file: 2022-05-01-preview/GetRoleDefinitionById.json
+ */
 async function getRoleDefinitionById(): Promise<void> {
-  const scope = "scope";
-  const roleDefinitionId = "roleDefinitionId";
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
-  const result = await client.roleDefinitions.get(scope, roleDefinitionId);
+  const result = await client.roleDefinitions.get("scope", "roleDefinitionId");
   console.log(result);
 }
 

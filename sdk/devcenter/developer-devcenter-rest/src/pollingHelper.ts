@@ -148,13 +148,11 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | CreateOrReplaceEnvironmentLogicalResponse
-    | CreateOrReplaceEnvironmentDefaultResponse,
+    CreateOrReplaceEnvironmentLogicalResponse | CreateOrReplaceEnvironmentDefaultResponse,
 >(
   client: Client,
   initialResponse:
-    | CreateOrReplaceEnvironment201Response
-    | CreateOrReplaceEnvironmentDefaultResponse,
+    CreateOrReplaceEnvironment201Response | CreateOrReplaceEnvironmentDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
@@ -162,9 +160,7 @@ export async function getLongRunningPoller<
 >(
   client: Client,
   initialResponse:
-    | DeleteEnvironment202Response
-    | DeleteEnvironment204Response
-    | DeleteEnvironmentDefaultResponse,
+    DeleteEnvironment202Response | DeleteEnvironment204Response | DeleteEnvironmentDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<TResult extends HttpResponse>(

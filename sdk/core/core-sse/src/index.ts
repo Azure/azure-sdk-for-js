@@ -3,9 +3,11 @@
 
 export { createSseStream } from "./sse.js";
 export { createReconnectingSseStream } from "./reconnectingSse.js";
-export {
+export { SseRetryError } from "./models.js";
+export type {
   EventMessage,
   EventMessageStream,
+  NodeIncomingMessage,
   NodeJSReadableStream,
   ReconnectingSseStreamOptions,
   SseConnect,
@@ -13,6 +15,5 @@ export {
   SseConnectResponse,
   SseResponseValidationResult,
   SseResponseValidator,
-  SseRetryError,
   SseStream,
 } from "./models.js";

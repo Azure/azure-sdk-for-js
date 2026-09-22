@@ -42,6 +42,12 @@ extends:
         - /sdk/identity/
       - name: azure-identity-broker
         safeName: azureidentitybroker
+        # identity-broker is the only package in the repo with native
+        # dependencies, so engineering-system changes (Node version handling,
+        # pnpm config, pipeline templates) need to exercise it.
+        triggeringPaths:
+        - /eng/
+        - /sdk/identity/
       - name: azure-identity-vscode
         safeName: azureidentityvscode
         skipPublishDocMs: true

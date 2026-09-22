@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  PublicCloudConnectorsTestPermissionsOptionalParams,
-  PublicCloudConnectorsListBySubscriptionOptionalParams,
-  PublicCloudConnectorsListByResourceGroupOptionalParams,
-  PublicCloudConnectorsDeleteOptionalParams,
-  PublicCloudConnectorsUpdateOptionalParams,
-  PublicCloudConnectorsCreateOrUpdateOptionalParams,
-  PublicCloudConnectorsGetOptionalParams,
+  type PublicCloudConnectorsTestPermissionsOptionalParams,
+  type PublicCloudConnectorsListBySubscriptionOptionalParams,
+  type PublicCloudConnectorsListByResourceGroupOptionalParams,
+  type PublicCloudConnectorsDeleteOptionalParams,
+  type PublicCloudConnectorsUpdateOptionalParams,
+  type PublicCloudConnectorsCreateOrUpdateOptionalParams,
+  type PublicCloudConnectorsGetOptionalParams,
 } from "./options.js";

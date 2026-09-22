@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get metadata information on all assessment types
- *
- * @summary Get metadata information on all assessment types
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/AssessmentsMetadata/ListAssessmentsMetadata_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get metadata information on all assessment types
+ *
+ * @summary get metadata information on all assessment types
+ * x-ms-original-file: 2025-05-04/AssessmentsMetadata/ListAssessmentsMetadata_example.json
+ */
 async function listSecurityAssessmentMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
@@ -19,6 +17,7 @@ async function listSecurityAssessmentMetadata(): Promise<void> {
   for await (const item of client.assessmentsMetadata.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

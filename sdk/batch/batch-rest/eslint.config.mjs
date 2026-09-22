@@ -10,5 +10,11 @@ export default azsdkEslint.config([
       "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
       "tsdoc/syntax": "warn",
     },
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+        project: "./config/tsconfig.lint.json",
+      },
+    },
   },
 ]);

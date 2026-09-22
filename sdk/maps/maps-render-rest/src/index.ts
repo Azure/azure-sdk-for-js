@@ -9,3 +9,4 @@ export * from "./createPinsQuery.js";
 export * from "./createPathQuery.js";
 
 export default MapsRender;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

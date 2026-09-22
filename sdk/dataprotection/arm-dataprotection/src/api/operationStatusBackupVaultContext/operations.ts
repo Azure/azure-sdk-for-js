@@ -14,9 +14,7 @@ export function _getSend(
   resourceGroupName: string,
   vaultName: string,
   operationId: string,
-  options: OperationStatusBackupVaultContextGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: OperationStatusBackupVaultContextGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/operationStatus/{operationId}{?api%2Dversion}",
@@ -25,7 +23,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -33,10 +31,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -44,7 +39,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Op
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -57,9 +55,7 @@ export async function get(
   resourceGroupName: string,
   vaultName: string,
   operationId: string,
-  options: OperationStatusBackupVaultContextGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: OperationStatusBackupVaultContextGetOptionalParams = { requestOptions: {} },
 ): Promise<OperationResource> {
   const result = await _getSend(context, resourceGroupName, vaultName, operationId, options);
   return _getDeserialize(result);

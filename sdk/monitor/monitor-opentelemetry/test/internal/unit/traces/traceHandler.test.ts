@@ -4,21 +4,45 @@
 import { TraceHandler } from "../../../../src/traces/index.js";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
+import { ApplicationInsightsSampler } from "../../../../src/traces/sampler.js";
 import {
   HttpInstrumentation,
   type HttpInstrumentationConfig,
 } from "@opentelemetry/instrumentation-http";
 import type { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { AlwaysOnSampler } from "@opentelemetry/sdk-trace-base";
 import type { Span } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import type { MockInstance } from "vitest";
-import { expect, afterEach, assert, beforeAll, describe, it, afterAll, vi } from "vitest";
+import {
+  expect,
+  afterEach,
+  assert,
+  beforeAll,
+  beforeEach,
+  describe,
+  it,
+  afterAll,
+  vi,
+} from "vitest";
 import type Http from "node:http";
 import { ExportResultCode } from "@opentelemetry/core";
 import type { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import type { Instrumentation } from "@opentelemetry/instrumentation";
+import { RateLimitedSampler } from "@azure/monitor-opentelemetry-exporter";
+import { createTracingClient } from "@azure/core-tracing";
+import {
+  ATTR_HTTP_REQUEST_METHOD,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_SERVER_ADDRESS,
+  ATTR_SERVER_PORT,
+  ATTR_URL_FULL,
+  ATTR_URL_PATH,
+} from "@opentelemetry/semantic-conventions";
 
 describe("Library/TraceHandler", () => {
+  const connectionString = "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   let http: typeof Http | null = null;
   /* eslint-disable-next-line no-underscore-dangle */
   let _config: InternalConfig;
@@ -28,14 +52,16 @@ describe("Library/TraceHandler", () => {
   const mockHttpServerPort = 8085;
   let tracerProvider: NodeTracerProvider;
   let exportSpy: MockInstance<AzureMonitorTraceExporter["export"]>;
+  let activeInstrumentations: Instrumentation[] = [];
+
+  beforeEach(() => {
+    _config = new InternalConfig();
+    _config.azureMonitorExporterOptions = {
+      connectionString,
+    };
+  });
 
   beforeAll(async () => {
-    _config = new InternalConfig();
-    if (_config.azureMonitorExporterOptions) {
-      _config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-    }
-
     await new Promise((resolve) => {
       if (!http) {
         // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
@@ -71,10 +97,120 @@ describe("Library/TraceHandler", () => {
   });
 
   afterEach(async () => {
-    await metricHandler.shutdown();
-    await handler.shutdown();
+    if (tracerProvider) {
+      await tracerProvider.shutdown();
+    }
+    trace.disable();
+    activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
+    activeInstrumentations = [];
+    if (metricHandler) {
+      await metricHandler.shutdown();
+    }
+    if (handler) {
+      await handler.shutdown();
+    }
     metrics.disable();
+    vi.unstubAllEnvs();
     vi.restoreAllMocks();
+  });
+
+  describe("sampler selection", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: false },
+        azureSdk: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
+    it("prefers sampler provided by env/config", () => {
+      const customSampler = new AlwaysOnSampler();
+      _config.sampler = customSampler;
+      _config.tracesPerSecond = 10;
+      _config.samplingRatio = 0.25;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBe(customSampler);
+    });
+
+    it("falls back to rate-limited sampler when tracesPerSecond is set", () => {
+      _config.tracesPerSecond = 7;
+      _config.samplingRatio = 0.5;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(RateLimitedSampler);
+    });
+
+    it("uses ApplicationInsightsSampler when tracesPerSecond is 0", () => {
+      _config.tracesPerSecond = 0;
+      _config.samplingRatio = 0.3;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
+      expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.3}");
+    });
+
+    it("uses ApplicationInsightsSampler with ratio 1 when tracesPerSecond is 0 and samplingRatio is default", () => {
+      _config.tracesPerSecond = 0;
+      // samplingRatio defaults to 1 from InternalConfig constructor
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
+      expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{1}");
+    });
+
+    it("uses RateLimitedSampler by default with tracesPerSecond=5", () => {
+      // Default config has tracesPerSecond=5
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(RateLimitedSampler);
+    });
+
+    it("uses ApplicationInsightsSampler when tracesPerSecond is explicitly undefined", () => {
+      _config.tracesPerSecond = undefined;
+      _config.samplingRatio = 0.2;
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
+      expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.2}");
+    });
+  });
+
+  describe("BatchSpanProcessor configuration", () => {
+    it("uses OpenTelemetry environment variables", () => {
+      vi.stubEnv("OTEL_BSP_MAX_QUEUE_SIZE", "4096");
+      vi.stubEnv("OTEL_BSP_MAX_EXPORT_BATCH_SIZE", "1024");
+      vi.stubEnv("OTEL_BSP_SCHEDULE_DELAY", "2500");
+      vi.stubEnv("OTEL_BSP_EXPORT_TIMEOUT", "15000");
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+      const processor = handler.getBatchSpanProcessor();
+
+      assert.strictEqual(process.env.OTEL_BSP_MAX_QUEUE_SIZE, "4096");
+      assert.strictEqual(process.env.OTEL_BSP_MAX_EXPORT_BATCH_SIZE, "1024");
+      assert.strictEqual(process.env.OTEL_BSP_SCHEDULE_DELAY, "2500");
+      assert.strictEqual(process.env.OTEL_BSP_EXPORT_TIMEOUT, "15000");
+      assert.propertyVal(processor, "_maxQueueSize", 4096);
+      assert.propertyVal(processor, "_maxExportBatchSize", 1024);
+      assert.propertyVal(processor, "_scheduledDelayMillis", 2500);
+      assert.propertyVal(processor, "_exportTimeoutMillis", 15000);
+    });
   });
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -82,6 +218,10 @@ describe("Library/TraceHandler", () => {
     _config.instrumentationOptions.http = httpConfig;
     metricHandler = new MetricHandler(_config);
     handler = new TraceHandler(_config, metricHandler);
+    handler.getInstrumentations().forEach((instrumentation) => {
+      instrumentation.enable();
+      activeInstrumentations.push(instrumentation);
+    });
 
     // Because the instrumentation is registered globally, its config is not updated
     // when the handler is created. We need to mock the getConfig method to return
@@ -148,6 +288,18 @@ describe("Library/TraceHandler", () => {
   };
 
   describe("#autoCollection of HTTP/HTTPS requests", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: true },
+        azureSdk: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
     it("http outgoing/incoming requests & custom span processor", async () => {
       createHandler({ enabled: true });
       tracerProvider = new NodeTracerProvider({
@@ -158,10 +310,20 @@ describe("Library/TraceHandler", () => {
         ],
       });
       trace.setGlobalTracerProvider(tracerProvider);
+      activeInstrumentations.forEach((instrumentation) => {
+        instrumentation.setTracerProvider(tracerProvider);
+      });
       await makeHttpRequest();
       await tracerProvider.forceFlush();
-      expect(exportSpy).toHaveBeenCalledOnce();
-      const spans = exportSpy.mock.calls[0][0];
+      expect(exportSpy).toHaveBeenCalled();
+      // Filter spans to only those from our test request (with custom attributes from our customSpanProcessor)
+      const allSpans = exportSpy.mock.calls.flatMap((call) => call[0]);
+      const spans = allSpans.filter(
+        (span: ReadableSpan) =>
+          span.attributes["startAttribute"] === "SomeValue" &&
+          (span.attributes[ATTR_URL_PATH] === "/test" ||
+            span.attributes[ATTR_URL_FULL] === `http://localhost:${mockHttpServerPort}/test`),
+      );
       expect(spans.length).toBe(2);
       assert.deepStrictEqual(spans.length, 2);
       // Incoming request
@@ -172,19 +334,13 @@ describe("Library/TraceHandler", () => {
       );
       assert.deepStrictEqual(spans[0].kind, 1, "Span Kind");
       assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
-      assert.ok(spans[0].startTime);
-      assert.ok(spans[0].endTime);
-      assert.deepStrictEqual(spans[0].attributes["http.host"], `localhost:${mockHttpServerPort}`);
-      assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
-      assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
-      assert.deepStrictEqual(spans[0].attributes["http.status_text"], "OK");
-      assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
-      assert.deepStrictEqual(
-        spans[0].attributes["http.url"],
-        `http://localhost:${mockHttpServerPort}/test`,
-      );
-      assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
-      assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
+      assert.isDefined(spans[0].startTime);
+      assert.isDefined(spans[0].endTime);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_SERVER_ADDRESS], "localhost");
+      assert.deepStrictEqual(spans[0].attributes[ATTR_SERVER_PORT], mockHttpServerPort);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_HTTP_REQUEST_METHOD], "GET");
+      assert.deepStrictEqual(spans[0].attributes[ATTR_HTTP_RESPONSE_STATUS_CODE], 200);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_URL_PATH], "/test");
       // Outgoing request
       assert.deepStrictEqual(spans[1].name, "GET");
       assert.deepStrictEqual(
@@ -193,18 +349,16 @@ describe("Library/TraceHandler", () => {
       );
       assert.deepStrictEqual(spans[1].kind, 2, "Span Kind");
       assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
-      assert.ok(spans[1].startTime);
-      assert.ok(spans[1].endTime);
-      assert.deepStrictEqual(spans[1].attributes["http.host"], `localhost:${mockHttpServerPort}`);
-      assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
-      assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
-      assert.deepStrictEqual(spans[1].attributes["http.status_text"], "OK");
-      assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
+      assert.isDefined(spans[1].startTime);
+      assert.isDefined(spans[1].endTime);
+      assert.deepStrictEqual(spans[1].attributes[ATTR_SERVER_ADDRESS], "localhost");
+      assert.deepStrictEqual(spans[1].attributes[ATTR_SERVER_PORT], mockHttpServerPort);
+      assert.deepStrictEqual(spans[1].attributes[ATTR_HTTP_REQUEST_METHOD], "GET");
+      assert.deepStrictEqual(spans[1].attributes[ATTR_HTTP_RESPONSE_STATUS_CODE], 200);
       assert.deepStrictEqual(
-        spans[1].attributes["http.url"],
+        spans[1].attributes[ATTR_URL_FULL],
         `http://localhost:${mockHttpServerPort}/test`,
       );
-      assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
       assert.notDeepEqual(spans[0].spanContext().spanId, spans[1].spanContext().spanId);
       // Incoming request
       assert.deepStrictEqual(spans[0].attributes["startAttribute"], "SomeValue");
@@ -239,8 +393,48 @@ describe("Library/TraceHandler", () => {
       };
       metricHandler = new MetricHandler(_config);
       handler = new TraceHandler(_config, metricHandler);
-      // No instrumentations should be created
-      expect(handler.getInstrumentations()).toHaveLength(0);
+      const instrumentations = handler.getInstrumentations();
+      expect(instrumentations).toHaveLength(0);
+      expect(instrumentations[0]).not.toBeInstanceOf(HttpInstrumentation);
+    });
+  });
+
+  describe("#autoCollection of Azure SDK spans", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: false },
+        azureSdk: { enabled: true },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
+    // Constructing the TraceHandler should wire the Azure SDK instrumenter into
+    // @azure/core-tracing directly, so Azure SDK spans are produced even when the
+    // OpenTelemetry require/import module hooks never fire (the ESM / Azure Functions
+    // scenario). With the instrumenter wired and a recording tracer provider registered,
+    // spans started through @azure/core-tracing must be recording.
+    it("wires the Azure SDK instrumenter so core-tracing produces recording spans", () => {
+      tracerProvider = new NodeTracerProvider({ sampler: new AlwaysOnSampler() });
+      trace.setGlobalTracerProvider(tracerProvider);
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+      handler.getInstrumentations().forEach((instrumentation) => {
+        activeInstrumentations.push(instrumentation);
+      });
+
+      const tracingClient = createTracingClient({
+        namespace: "Microsoft.Test",
+        packageName: "@azure/test",
+        packageVersion: "1.0.0",
+      });
+      const { span } = tracingClient.startSpan("TestClient.operation");
+      expect(span.isRecording()).toBe(true);
+      span.end();
     });
   });
 });

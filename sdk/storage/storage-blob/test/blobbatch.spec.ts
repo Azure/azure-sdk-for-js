@@ -1,25 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import {
   getGenericBSU,
   getGenericCredential,
   getTokenCredential,
   SimpleTokenCredential,
-  recorderEnvSetup,
   getTokenBSU,
   getUniqueName,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { BlobBatch } from "../src/index.js";
+import { AnonymousCredential, BlobBatch } from "../src/index.js";
 import type {
   ContainerClient,
   BlockBlobClient,
   BlobBatchClient,
-  StorageSharedKeyCredential,
+  BlobDeleteOptions,
 } from "../src/index.js";
 import { BlobServiceClient, newPipeline } from "../src/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;
@@ -35,9 +37,7 @@ describe("BlobBatch", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = await createAndStartRecorder(ctx);
 
     blobServiceClient = getGenericBSU(recorder, "");
     blobBatchClient = blobServiceClient.getBlobBatchClient();
@@ -90,8 +90,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 
@@ -126,8 +126,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 
@@ -299,13 +299,13 @@ describe("BlobBatch", () => {
     // First succeeded.
     assert.equal(resp.subResponses[0].errorCode, undefined);
     assert.equal(resp.subResponses[0].status, 202);
-    assert.ok(resp.subResponses[0].statusMessage !== "");
+    assert.notStrictEqual(resp.subResponses[0].statusMessage, "");
     assert.equal(resp.subResponses[0]._request.url, blockBlobClients[0].url);
 
     // Second failed.
-    assert.ok(resp.subResponses[1].errorCode !== undefined);
-    assert.ok(resp.subResponses[1].status === 412);
-    assert.ok(resp.subResponses[1].statusMessage !== "");
+    assert.isDefined(resp.subResponses[1].errorCode);
+    assert.strictEqual(resp.subResponses[1].status, 412);
+    assert.notStrictEqual(resp.subResponses[1].statusMessage, "");
     assert.equal(resp.subResponses[1]._request.url, blockBlobClients[1].url);
   });
 
@@ -333,8 +333,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
       // Check blob tier set properly.
@@ -362,8 +362,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
       // Check blob tier set properly.
@@ -384,7 +384,7 @@ describe("BlobBatch", () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 30;
     const leaseResp = await blockBlobClients[1].getBlobLeaseClient(guid).acquireLease(duration);
-    assert.ok(leaseResp.leaseId! !== "");
+    assert.notStrictEqual(leaseResp.leaseId!, "");
 
     // Assemble batch set tier request.
     const batchSetTierRequest = new BlobBatch();
@@ -402,8 +402,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < 2; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
       // Check blob tier set properly.
@@ -451,8 +451,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobClients.length; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithVersion[i].url);
 
       // Check blob tier set properly.
@@ -495,8 +495,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobClients.length; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithSnapshot[i].url);
 
       // Check blob tier set properly.
@@ -552,8 +552,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < 2; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
 
       // Check blob tier set properly.
       const resp2 = await blockBlobClients[i].getProperties();
@@ -587,7 +587,7 @@ describe("BlobBatch", () => {
       }
     }
 
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("submitBatch should report error when sub request with invalid url or invalid credential", async () => {
@@ -604,7 +604,7 @@ describe("BlobBatch", () => {
         exceptionCaught = true;
       }
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("submitBatch should report error with 0 sub request", async () => {
@@ -621,7 +621,7 @@ describe("BlobBatch", () => {
         exceptionCaught = true;
       }
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("submitBatch should report error with invalid credential for batch request", async (ctx) => {
@@ -652,7 +652,7 @@ describe("BlobBatch", () => {
       exceptionCaught = true;
     }
 
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("BlobBatch should report error when mixing different request types in one batch", async () => {
@@ -671,7 +671,7 @@ describe("BlobBatch", () => {
         exceptionCaught = true;
       }
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("Container scoped: submitBatch should work for batch delete", async (ctx) => {
@@ -698,8 +698,8 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 
@@ -730,8 +730,7 @@ describe("BlobBatch Token auth", () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
 
     // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
     try {
@@ -790,8 +789,8 @@ describe("BlobBatch Token auth", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
   });
@@ -820,9 +819,172 @@ describe("BlobBatch Token auth", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
+  });
+});
+
+// These assemble sub requests only. `batchRequestAssemblePolicy` short-circuits the pipeline
+// before any transport runs, so there is no service traffic and no recording to maintain.
+describe("BlobBatch header injection", () => {
+  const blobUrl = "https://fakeaccount.blob.core.windows.net/fakecontainer/fakeblob";
+  const credential = new AnonymousCredential();
+  const CRLF = "\r\n";
+
+  function subRequestHeaderLines(batch: BlobBatch): string[] {
+    return batch
+      .getHttpRequestBody()
+      .split(CRLF)
+      .filter((line) => /^[a-zA-Z0-9-]+: /.test(line));
+  }
+
+  it("assembles clean headers without rejecting them", async () => {
+    const batch = new BlobBatch();
+    await batch.deleteBlob(blobUrl, credential, {
+      conditions: {
+        tagConditions: "tag1 = 'val1'",
+        leaseId: "b1f1b1f1-0000-0000-0000-000000000000",
+      },
+      deleteSnapshots: "only",
+    });
+    await batch.deleteBlob(blobUrl, credential);
+
+    const boundary = batch.getMultiPartContentType().split("boundary=")[1];
+    const body = batch.getHttpRequestBody();
+    const parts = body.split(`--${boundary}`);
+
+    assert.lengthOf(parts, 4, "two sub request parts, plus a leading empty and a trailing closer");
+    assert.equal(parts[0], "");
+    assert.equal(parts[3], `--${CRLF}`, "batch must end with the closing delimiter");
+
+    parts.slice(1, 3).forEach((part, contentId) => {
+      const lines = part.split(CRLF);
+      assert.deepEqual(lines.slice(0, 6), [
+        "",
+        "Content-Type: application/http",
+        "Content-Transfer-Encoding: binary",
+        `Content-ID: ${contentId}`,
+        "",
+        "DELETE /fakecontainer/fakeblob HTTP/1.1",
+      ]);
+      assert.deepEqual(lines.slice(-2), ["", ""], "headers must end with a blank line");
+      assert.isNotEmpty(lines.slice(6, -2), "sub request must carry headers");
+    });
+
+    assert.include(body, `x-ms-if-tags: tag1 = 'val1'${CRLF}`);
+    assert.include(body, `x-ms-delete-snapshots: only${CRLF}`);
+    assert.equal(batch.getSubRequests().size, 2);
+  });
+
+  // Header values are scrubbed by `createHttpHeaders` upstream, so the guard never sees them.
+  // What matters is the invariant: no CR/LF in a condition can add a line to the payload.
+  it("does not let CRLF in tagConditions inject a sub request header", async () => {
+    const batch = new BlobBatch();
+    await batch.deleteBlob(blobUrl, credential, {
+      conditions: { tagConditions: `tag1 = 'val1'${CRLF}x-ms-delete-snapshots: include` },
+    });
+
+    const headerLines = subRequestHeaderLines(batch);
+    assert.isEmpty(headerLines.filter((l) => l.startsWith("x-ms-delete-snapshots:")));
+    assert.lengthOf(
+      headerLines.filter((l) => l.startsWith("x-ms-if-tags:")),
+      1,
+    );
+  });
+
+  it("rejects CR, LF and CRLF in a sub request header name", async () => {
+    for (const terminator of [CRLF, "\r", "\n"]) {
+      const batch = new BlobBatch();
+      await expect(
+        batch.deleteBlob(blobUrl, credential, {
+          requestOptions: {
+            headers: { [`x-custom${terminator}x-ms-delete-snapshots: include`]: "value" },
+          },
+        } as BlobDeleteOptions),
+      ).rejects.toThrow(/Invalid CR\/LF character in sub request header/);
+    }
+  });
+
+  // Header names are not scrubbed upstream, so a rejected sub request must not leave a fragment
+  // behind for the sub requests that already succeeded.
+  it("leaves the batch usable after rejecting a sub request", async () => {
+    const batch = new BlobBatch();
+    await batch.deleteBlob(blobUrl, credential);
+    const bodyBefore = batch.getHttpRequestBody();
+
+    await expect(
+      batch.deleteBlob(blobUrl, credential, {
+        requestOptions: { headers: { [`x-custom${CRLF}x-ms-delete-snapshots: include`]: "v" } },
+      } as BlobDeleteOptions),
+    ).rejects.toThrow(/Invalid CR\/LF character in sub request header/);
+
+    assert.equal(batch.getHttpRequestBody(), bodyBefore);
+    assert.equal(batch.getSubRequests().size, 1);
+
+    await batch.deleteBlob(blobUrl, credential);
+    assert.equal(batch.getSubRequests().size, 2);
+  });
+
+  it("keeps the batch open to the other operation type when the first sub request is rejected", async () => {
+    const batch = new BlobBatch();
+    await expect(
+      batch.deleteBlob(blobUrl, credential, {
+        requestOptions: { headers: { [`x-custom${CRLF}x-ms-delete-snapshots: include`]: "v" } },
+      } as BlobDeleteOptions),
+    ).rejects.toThrow(/Invalid CR\/LF character in sub request header/);
+
+    await batch.setBlobAccessTier(blobUrl, credential, "Cool");
+    assert.equal(batch.getSubRequests().size, 1);
+  });
+
+  it("still rejects mixing operation types after a sub request succeeds", async () => {
+    const batch = new BlobBatch();
+    await batch.deleteBlob(blobUrl, credential);
+
+    await expect(batch.setBlobAccessTier(blobUrl, credential, "Cool")).rejects.toThrow(
+      /only supports one operation type per batch/,
+    );
+  });
+
+  // Drives the serializer directly with a header collection that skips `createHttpHeaders`,
+  // proving the guard still holds if upstream value scrubbing ever regresses.
+  it("rejects CR/LF in a header value that bypassed header normalization", async () => {
+    const batch = new BlobBatch();
+    const innerBatchRequest = (batch as any).batchRequest;
+    const request = {
+      method: "DELETE",
+      url: blobUrl,
+      headers: {
+        *[Symbol.iterator](): IterableIterator<[string, string]> {
+          yield ["x-ms-if-tags", `tag1 = 'val1'${CRLF}x-ms-delete-snapshots: include`];
+        },
+      },
+    } as unknown as PipelineRequest;
+
+    assert.throws(() => innerBatchRequest.appendSubRequestToBody(request), RangeError);
+    assert.notInclude(batch.getHttpRequestBody(), "x-ms-delete-snapshots");
+  });
+
+  // The URL parser strips CR/LF from the path, but the method is interpolated into the same line
+  // without passing through it.
+  it("rejects CR/LF in the sub request line", async () => {
+    const batch = new BlobBatch();
+    const innerBatchRequest = (batch as any).batchRequest;
+    const request = {
+      method: `DELETE${CRLF}x-ms-delete-snapshots: include`,
+      url: blobUrl,
+      headers: {
+        *[Symbol.iterator](): IterableIterator<[string, string]> {},
+      },
+    } as unknown as PipelineRequest;
+
+    assert.throws(
+      () => innerBatchRequest.appendSubRequestToBody(request),
+      RangeError,
+      /Invalid CR\/LF character in sub request line/,
+    );
+    assert.notInclude(batch.getHttpRequestBody(), "x-ms-delete-snapshots");
   });
 });

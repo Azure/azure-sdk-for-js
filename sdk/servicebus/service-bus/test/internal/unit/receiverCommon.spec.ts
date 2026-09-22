@@ -456,7 +456,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
     }
     assert.fail("Should throw");
   } catch (err: any) {
-    assert.equal("We're okay to end it now", err.message);
+    assert.equal(err.message, "We're okay to end it now");
     assert.deepEqual(
       [
         {

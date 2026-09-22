@@ -1,61 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import {
-  WorkloadNetwork,
-  WorkloadNetworkDhcp,
-  WorkloadNetworkDnsService,
-  WorkloadNetworkDnsZone,
-  WorkloadNetworkGateway,
-  WorkloadNetworkPortMirroring,
-  WorkloadNetworkPublicIP,
-  WorkloadNetworkSegment,
-  WorkloadNetworkVirtualMachine,
-  WorkloadNetworkVMGroup,
-} from "../../models/models.js";
-import {
-  WorkloadNetworksDeleteVMGroupOptionalParams,
-  WorkloadNetworksUpdateVMGroupOptionalParams,
-  WorkloadNetworksCreateVMGroupOptionalParams,
-  WorkloadNetworksGetVMGroupOptionalParams,
-  WorkloadNetworksListVMGroupsOptionalParams,
-  WorkloadNetworksGetVirtualMachineOptionalParams,
-  WorkloadNetworksListVirtualMachinesOptionalParams,
-  WorkloadNetworksDeleteSegmentOptionalParams,
-  WorkloadNetworksUpdateSegmentsOptionalParams,
-  WorkloadNetworksCreateSegmentsOptionalParams,
-  WorkloadNetworksGetSegmentOptionalParams,
-  WorkloadNetworksListSegmentsOptionalParams,
-  WorkloadNetworksDeletePublicIPOptionalParams,
-  WorkloadNetworksCreatePublicIPOptionalParams,
-  WorkloadNetworksGetPublicIPOptionalParams,
-  WorkloadNetworksListPublicIPsOptionalParams,
-  WorkloadNetworksDeletePortMirroringOptionalParams,
-  WorkloadNetworksUpdatePortMirroringOptionalParams,
-  WorkloadNetworksCreatePortMirroringOptionalParams,
-  WorkloadNetworksGetPortMirroringOptionalParams,
-  WorkloadNetworksListPortMirroringOptionalParams,
-  WorkloadNetworksGetGatewayOptionalParams,
-  WorkloadNetworksListGatewaysOptionalParams,
-  WorkloadNetworksDeleteDnsZoneOptionalParams,
-  WorkloadNetworksUpdateDnsZoneOptionalParams,
-  WorkloadNetworksCreateDnsZoneOptionalParams,
-  WorkloadNetworksGetDnsZoneOptionalParams,
-  WorkloadNetworksListDnsZonesOptionalParams,
-  WorkloadNetworksDeleteDnsServiceOptionalParams,
-  WorkloadNetworksUpdateDnsServiceOptionalParams,
-  WorkloadNetworksCreateDnsServiceOptionalParams,
-  WorkloadNetworksGetDnsServiceOptionalParams,
-  WorkloadNetworksListDnsServicesOptionalParams,
-  WorkloadNetworksDeleteDhcpOptionalParams,
-  WorkloadNetworksUpdateDhcpOptionalParams,
-  WorkloadNetworksCreateDhcpOptionalParams,
-  WorkloadNetworksGetDhcpOptionalParams,
-  WorkloadNetworksListDhcpOptionalParams,
-  WorkloadNetworksGetOptionalParams,
-  WorkloadNetworksListOptionalParams,
-} from "../../api/workloadNetworks/options.js";
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   deleteVMGroup,
   updateVMGroup,
@@ -95,11 +41,65 @@ import {
   createDhcp,
   getDhcp,
   listDhcp,
-  get,
   list,
+  get,
 } from "../../api/workloadNetworks/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  WorkloadNetworksDeleteVMGroupOptionalParams,
+  WorkloadNetworksUpdateVMGroupOptionalParams,
+  WorkloadNetworksCreateVMGroupOptionalParams,
+  WorkloadNetworksGetVMGroupOptionalParams,
+  WorkloadNetworksListVMGroupsOptionalParams,
+  WorkloadNetworksGetVirtualMachineOptionalParams,
+  WorkloadNetworksListVirtualMachinesOptionalParams,
+  WorkloadNetworksDeleteSegmentOptionalParams,
+  WorkloadNetworksUpdateSegmentsOptionalParams,
+  WorkloadNetworksCreateSegmentsOptionalParams,
+  WorkloadNetworksGetSegmentOptionalParams,
+  WorkloadNetworksListSegmentsOptionalParams,
+  WorkloadNetworksDeletePublicIPOptionalParams,
+  WorkloadNetworksCreatePublicIPOptionalParams,
+  WorkloadNetworksGetPublicIPOptionalParams,
+  WorkloadNetworksListPublicIPsOptionalParams,
+  WorkloadNetworksDeletePortMirroringOptionalParams,
+  WorkloadNetworksUpdatePortMirroringOptionalParams,
+  WorkloadNetworksCreatePortMirroringOptionalParams,
+  WorkloadNetworksGetPortMirroringOptionalParams,
+  WorkloadNetworksListPortMirroringOptionalParams,
+  WorkloadNetworksGetGatewayOptionalParams,
+  WorkloadNetworksListGatewaysOptionalParams,
+  WorkloadNetworksDeleteDnsZoneOptionalParams,
+  WorkloadNetworksUpdateDnsZoneOptionalParams,
+  WorkloadNetworksCreateDnsZoneOptionalParams,
+  WorkloadNetworksGetDnsZoneOptionalParams,
+  WorkloadNetworksListDnsZonesOptionalParams,
+  WorkloadNetworksDeleteDnsServiceOptionalParams,
+  WorkloadNetworksUpdateDnsServiceOptionalParams,
+  WorkloadNetworksCreateDnsServiceOptionalParams,
+  WorkloadNetworksGetDnsServiceOptionalParams,
+  WorkloadNetworksListDnsServicesOptionalParams,
+  WorkloadNetworksDeleteDhcpOptionalParams,
+  WorkloadNetworksUpdateDhcpOptionalParams,
+  WorkloadNetworksCreateDhcpOptionalParams,
+  WorkloadNetworksGetDhcpOptionalParams,
+  WorkloadNetworksListDhcpOptionalParams,
+  WorkloadNetworksListOptionalParams,
+  WorkloadNetworksGetOptionalParams,
+} from "../../api/workloadNetworks/options.js";
+import type {
+  WorkloadNetwork,
+  WorkloadNetworkDhcp,
+  WorkloadNetworkDnsService,
+  WorkloadNetworkDnsZone,
+  WorkloadNetworkGateway,
+  WorkloadNetworkPortMirroring,
+  WorkloadNetworkPublicIP,
+  WorkloadNetworkSegment,
+  WorkloadNetworkVirtualMachine,
+  WorkloadNetworkVMGroup,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkloadNetworks operations. */
 export interface WorkloadNetworksOperations {
@@ -373,18 +373,18 @@ export interface WorkloadNetworksOperations {
     privateCloudName: string,
     options?: WorkloadNetworksListDhcpOptionalParams,
   ) => PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
-  /** Get a WorkloadNetwork */
-  get: (
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksGetOptionalParams,
-  ) => Promise<WorkloadNetwork>;
   /** List WorkloadNetwork resources by PrivateCloud */
   list: (
     resourceGroupName: string,
     privateCloudName: string,
     options?: WorkloadNetworksListOptionalParams,
   ) => PagedAsyncIterableIterator<WorkloadNetwork>;
+  /** Get a WorkloadNetwork */
+  get: (
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksGetOptionalParams,
+  ) => Promise<WorkloadNetwork>;
 }
 
 function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
@@ -726,16 +726,16 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       options?: WorkloadNetworksListDhcpOptionalParams,
     ) => listDhcp(context, resourceGroupName, privateCloudName, options),
-    get: (
-      resourceGroupName: string,
-      privateCloudName: string,
-      options?: WorkloadNetworksGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, options),
     list: (
       resourceGroupName: string,
       privateCloudName: string,
       options?: WorkloadNetworksListOptionalParams,
     ) => list(context, resourceGroupName, privateCloudName, options),
+    get: (
+      resourceGroupName: string,
+      privateCloudName: string,
+      options?: WorkloadNetworksGetOptionalParams,
+    ) => get(context, resourceGroupName, privateCloudName, options),
   };
 }
 

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Data Lake Storage client library samples for JavaScript",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -32,5 +32,8 @@
   "dependencies": {
     "@azure/storage-file-datalake": "latest",
     "dotenv": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

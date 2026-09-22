@@ -3,12 +3,7 @@
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
-import {
-  getDataLakeServiceClient,
-  getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
-} from "../utils/index.js";
+import { createAndStartRecorder, getDataLakeServiceClient, getUniqueName } from "../utils/index.js";
 import { getBrowserFile, arrayBufferEqual } from "../utils/index-browser.mjs";
 import { MB } from "../../src/utils/constants.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
@@ -25,9 +20,7 @@ describe("Highlevel browser only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -69,7 +62,7 @@ describe("Highlevel browser only", () => {
 
     const readBuf = await (await readResponse.contentAsBlob!).arrayBuffer();
     const localBuf = await tempFileLarge.arrayBuffer();
-    assert.ok(arrayBufferEqual(readBuf, localBuf));
+    assert.isTrue(arrayBufferEqual(readBuf, localBuf));
   });
 
   it("upload can abort", async function (ctx) {
@@ -100,7 +93,7 @@ describe("Highlevel browser only", () => {
         abortSignal: aborter.signal,
         maxConcurrency: 20,
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
         },
@@ -108,7 +101,7 @@ describe("Highlevel browser only", () => {
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("upload can update progress with parallel upload", async function (ctx) {
@@ -123,7 +116,7 @@ describe("Highlevel browser only", () => {
         abortSignal: aborter.signal,
         maxConcurrency: 20,
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
         },
@@ -132,7 +125,7 @@ describe("Highlevel browser only", () => {
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("upload empty data should succeed", async () => {
@@ -159,7 +152,7 @@ describe("Highlevel browser only", () => {
       const expectedValues = Array.from(expectedData.values());
 
       assert.deepStrictEqual(actualValues, expectedValues);
-      assert.ok(arrayBufferEqual(actualData.buffer, expectedData.buffer));
+      assert.isTrue(arrayBufferEqual(actualData.buffer, expectedData.buffer));
     }
 
     const byteLength = 10;
@@ -172,11 +165,11 @@ describe("Highlevel browser only", () => {
     const blob = new Blob([arrayBuf]);
     await fileClient.upload(blob);
     const downloadedBlob = await (await fileClient.read()).contentAsBlob!;
-    assert.ok(arrayBufferEqual(await downloadedBlob.arrayBuffer(), await blob.arrayBuffer()));
+    assert.isTrue(arrayBufferEqual(await downloadedBlob.arrayBuffer(), await blob.arrayBuffer()));
 
     await fileClient.upload(arrayBuf);
     const downloadedBlob1 = await (await fileClient.read()).contentAsBlob!;
-    assert.ok(arrayBufferEqual(await downloadedBlob1.arrayBuffer(), await blob.arrayBuffer()));
+    assert.isTrue(arrayBufferEqual(await downloadedBlob1.arrayBuffer(), await blob.arrayBuffer()));
 
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await fileClient.upload(uint8ArrayPartial);

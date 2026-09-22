@@ -29,7 +29,7 @@ describe("Transliterate tests", () => {
       toScript: "Latn",
     };
     const response = await client.path("/transliterate").post({
-      body: inputText,
+      body: { inputs: inputText },
       queryParameters: parameters,
     });
     assert.equal(response.status, "200");
@@ -38,9 +38,9 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
-    assert.isTrue(translations[0].script !== null);
-    assert.isTrue(translations[0].text !== null);
+    const transliterations = response.body.value;
+    assert.isTrue(transliterations[0].script !== null);
+    assert.isTrue(transliterations[0].text !== null);
   });
 
   it("multiple text array", async () => {
@@ -51,7 +51,7 @@ describe("Transliterate tests", () => {
       toScript: "Latn",
     };
     const response = await client.path("/transliterate").post({
-      body: inputText,
+      body: { inputs: inputText },
       queryParameters: parameters,
     });
     assert.equal(response.status, "200");
@@ -60,9 +60,9 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
-    assert.isTrue(translations[0].script !== null);
-    assert.isTrue(translations[0].text !== null);
+    const transliterations = response.body.value;
+    assert.isTrue(transliterations[0].script !== null);
+    assert.isTrue(transliterations[0].text !== null);
   });
 
   it("with edit distance", async () => {
@@ -73,7 +73,7 @@ describe("Transliterate tests", () => {
       toScript: "gujr",
     };
     const response = await client.path("/transliterate").post({
-      body: inputText,
+      body: { inputs: inputText },
       queryParameters: parameters,
     });
     assert.equal(response.status, "200");
@@ -82,16 +82,17 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
-    assert.isTrue(translations[0].text !== null);
-    assert.isTrue(translations[1].text !== null);
-    assert.isTrue(translations[2].text !== null);
+    const transliterations = response.body.value;
+    assert.isTrue(transliterations[0].text !== null);
+    assert.isTrue(transliterations[1].text !== null);
+    assert.isTrue(transliterations[2].text !== null);
 
     const expectedText = ["ગુજરાત", "હદમાં", "હુક્કાબાર"];
 
     let editDistanceValue = 0;
     for (let i = 0; i < expectedText.length; i++) {
-      editDistanceValue = editDistanceValue + editDistance(expectedText[i], translations[i].text);
+      editDistanceValue =
+        editDistanceValue + editDistance(expectedText[i], transliterations[i].text);
     }
     assert.isTrue(editDistanceValue < 6);
   });

@@ -84,7 +84,7 @@ async function main() {
     }
   }
 
-  cleanupSampleValues([originalSetting.key], client);
+  await cleanupSampleValues([originalSetting.key], client);
 }
 
 async function cleanupSampleValues(keys, client) {

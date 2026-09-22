@@ -1,11 +1,16 @@
 parameters:
   NodeVersion: $(NODE_VERSION_LTS_MAINTENANCE)
+  # Applied to the UseNode task only, so callers can skip the (relatively slow)
+  # tool install when the requested version is already active. The verification
+  # step below always runs, so the version is asserted either way.
+  InstallCondition: succeeded()
 
 steps:
-  - task: NodeTool@0
+  - task: UseNode@1
     inputs:
-      versionSpec: ${{ parameters.NodeVersion }}
+      version: ${{ parameters.NodeVersion }}
     displayName: "Use Node ${{ parameters.NodeVersion }}"
+    condition: ${{ parameters.InstallCondition }}
 
   - pwsh: |
       $expectedVersion = "${{ parameters.NodeVersion }}"

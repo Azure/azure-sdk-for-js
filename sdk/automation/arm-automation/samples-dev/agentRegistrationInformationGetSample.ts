@@ -1,27 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the automation agent registration information.
- *
- * @summary Retrieve the automation agent registration information.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getAgentRegistration.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the automation agent registration information.
+ *
+ * @summary retrieve the automation agent registration information.
+ * x-ms-original-file: 2024-10-23/getAgentRegistration.json
+ */
 async function getTheAgentRegistrationInformation(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "myAutomationAccount18";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.agentRegistrationInformation.get(
-    resourceGroupName,
-    automationAccountName,
-  );
+  const result = await client.agentRegistrationInformation.get("rg", "myAutomationAccount18");
   console.log(result);
 }
 

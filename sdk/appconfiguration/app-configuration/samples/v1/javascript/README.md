@@ -26,6 +26,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [listRevisions.js][listrevisions]                               | Demonstrates listing revisions for a configuration setting.                                                                                                                                                                                                                                                                                                                                                       |
 | [secretReference.js][secretreference]                           | SecretReference represents a configuration setting that references as KeyVault secret.                                                                                                                                                                                                                                                                                                                            |
 | [featureFlag.js][featureflag]                                   | Feature flags are settings that follow specific JSON schema for the value.                                                                                                                                                                                                                                                                                                                                        |
+| [testData.js][testdata]                                         | Serialized sample App Configuration KeyValueModified event payload.                                                                                                                                                                                                                                                                                                                                               |
 
 ## Prerequisites
 
@@ -57,10 +58,10 @@ npm install
 node helloworld.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node helloworld.js
+npx cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node helloworld.js
 ```
 
 ## Next Steps
@@ -79,6 +80,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/listRevisions.js
 [secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/secretReference.js
 [featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/featureFlag.js
+[testdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/testData.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfigurationaccount]: https://learn.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store

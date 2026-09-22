@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface UpdateRunsSkipOptionalParams extends OperationOptions {
@@ -28,7 +28,12 @@ export interface UpdateRunsStartOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface UpdateRunsListByFleetOptionalParams extends OperationOptions {}
+export interface UpdateRunsListByFleetOptionalParams extends OperationOptions {
+  /** The number of result items to return. */
+  top?: number;
+  /** The page-continuation token to use with a paged version of this API. */
+  skipToken?: string;
+}
 
 /** Optional parameters. */
 export interface UpdateRunsDeleteOptionalParams extends OperationOptions {

@@ -15,10 +15,15 @@ describe("Events tests", () => {
       data: {
         id: "id",
         vaultName: "vaultName",
+        objectType: "objectType",
+        objectName: "objectName",
+        version: "version",
+        nbf: 1650000000,
+        exp: 1660000000,
       },
     };
     const result = isSystemEvent("Microsoft.KeyVault.SecretNearExpiry", e);
     assert.isTrue(result);
-    expectTypeOf(e).toMatchTypeOf<KeyVaultSecretNearExpiryEventData>();
+    expectTypeOf(e.data).toMatchTypeOf<KeyVaultSecretNearExpiryEventData>();
   });
 });

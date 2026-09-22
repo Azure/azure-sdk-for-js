@@ -4,14 +4,14 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -115,6 +115,14 @@ export enum KnownFreeTrialState {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -138,8 +146,22 @@ export enum KnownQuotaName {
 
 // @public
 export enum KnownVersions {
-    V20250901 = "2025-09-01"
+    V20250701Preview = "2025-07-01-preview",
+    V20250901 = "2025-09-01",
+    V20260101Preview = "2026-01-01-preview",
+    V20260201Preview = "2026-02-01-preview"
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Operation {
@@ -225,6 +247,7 @@ export interface PlaywrightQuotasOperations {
 
 // @public
 export interface PlaywrightWorkspace extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     properties?: PlaywrightWorkspaceProperties;
 }
 
@@ -243,6 +266,8 @@ export interface PlaywrightWorkspaceProperties {
     localAuth?: EnablementStatus;
     readonly provisioningState?: ProvisioningState;
     regionalAffinity?: EnablementStatus;
+    reporting?: EnablementStatus;
+    storageUri?: string;
     readonly workspaceId?: string;
 }
 
@@ -314,6 +339,7 @@ export interface PlaywrightWorkspacesUpdateOptionalParams extends OperationOptio
 
 // @public
 export interface PlaywrightWorkspaceUpdate {
+    identity?: ManagedServiceIdentity;
     properties?: PlaywrightWorkspaceUpdateProperties;
     tags?: Record<string, string>;
 }
@@ -322,6 +348,8 @@ export interface PlaywrightWorkspaceUpdate {
 export interface PlaywrightWorkspaceUpdateProperties {
     localAuth?: EnablementStatus;
     regionalAffinity?: EnablementStatus;
+    reporting?: EnablementStatus;
+    storageUri?: string;
 }
 
 // @public
@@ -366,6 +394,12 @@ export interface SystemData {
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -16,8 +16,10 @@ import tsNamingDropNoun from "./ts-naming-drop-noun.js";
 import tsNamingOptions from "./ts-naming-options.js";
 import tsNamingSubclients from "./ts-naming-subclients.js";
 import tsNoConstEnums from "./ts-no-const-enums.js";
+import tsNoDirectChildProcess from "./ts-no-direct-child-process.js";
 import tsNoInvalidTestImports from "./ts-no-invalid-test-imports.js";
 import tsNoWindow from "./ts-no-window.js";
+import tsPackageJsonApprovedDependencies from "./ts-package-json-approved-dependencies.js";
 import tsPackageJsonAuthor from "./ts-package-json-author.js";
 import tsPackageJsonBugs from "./ts-package-json-bugs.js";
 import tsPackageJsonEngineIsPresent from "./ts-package-json-engine-is-present.js";
@@ -36,6 +38,7 @@ import tsPaginationList from "./ts-pagination-list.js";
 import tsUseInterfaceParameters from "./ts-use-interface-parameters.js";
 import tsUsePromises from "./ts-use-promises.js";
 import tsVersioningSemver from "./ts-versioning-semver.js";
+import tsConsistentTypeExports from "./ts-consistent-type-exports.js";
 import tsUseCjsPolyfill from "./ts-use-cjs-polyfill.js";
 
 /**
@@ -53,8 +56,10 @@ export default {
   "ts-naming-options": tsNamingOptions,
   "ts-naming-subclients": tsNamingSubclients,
   "ts-no-const-enums": tsNoConstEnums,
+  "ts-no-direct-child-process": tsNoDirectChildProcess,
   "ts-no-invalid-test-imports": tsNoInvalidTestImports,
   "ts-no-window": tsNoWindow,
+  "ts-package-json-approved-dependencies": tsPackageJsonApprovedDependencies,
   "ts-package-json-author": tsPackageJsonAuthor,
   "ts-package-json-bugs": tsPackageJsonBugs,
   "ts-package-json-engine-is-present": tsPackageJsonEngineIsPresent,
@@ -74,4 +79,5 @@ export default {
   "ts-use-promises": tsUsePromises,
   "ts-versioning-semver": tsVersioningSemver,
   "ts-use-cjs-polyfill": tsUseCjsPolyfill,
+  "ts-consistent-type-exports": tsConsistentTypeExports,
 };

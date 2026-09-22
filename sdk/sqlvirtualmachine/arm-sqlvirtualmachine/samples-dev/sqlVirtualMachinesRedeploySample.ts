@@ -1,33 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Uninstalls and reinstalls the SQL IaaS Extension.
- *
- * @summary Uninstalls and reinstalls the SQL IaaS Extension.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/RedeploySqlVirtualMachine.json
- */
-
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function uninstallsAndReinstallsTheSqlIaaSExtension(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineName = "testvm";
+/**
+ * This sample demonstrates how to uninstalls and reinstalls the SQL IaaS Extension.
+ *
+ * @summary uninstalls and reinstalls the SQL IaaS Extension.
+ * x-ms-original-file: 2023-10-01/RedeploySqlVirtualMachine.json
+ */
+async function uninstallsAndReinstallsTheSQLIaaSExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachines.beginRedeployAndWait(
-    resourceGroupName,
-    sqlVirtualMachineName,
-  );
-  console.log(result);
+  await client.sqlVirtualMachines.redeploy("testrg", "testvm");
 }
 
 async function main(): Promise<void> {
-  await uninstallsAndReinstallsTheSqlIaaSExtension();
+  await uninstallsAndReinstallsTheSQLIaaSExtension();
 }
 
 main().catch(console.error);

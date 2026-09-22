@@ -20,8 +20,7 @@ const {
 } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
   prefix;
@@ -50,7 +49,7 @@ class RequestIDPolicy extends BaseRequestPolicy {
     // Customize client request ID header
     request.headers.set(
       "x-ms-client-request-id",
-      `${this.prefix}_SOME_PATTERN_${new Date().getTime()}`
+      `${this.prefix}_SOME_PATTERN_${new Date().getTime()}`,
     );
 
     // response is HttpOperationResponse type
@@ -74,8 +73,8 @@ async function main() {
   pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net?${accountSas}`,
-    pipeline
+    `https://${account}.blob.core.windows.net${accountSas}`,
+    pipeline,
   );
 
   const result = await blobServiceClient.listContainers().byPage().next();

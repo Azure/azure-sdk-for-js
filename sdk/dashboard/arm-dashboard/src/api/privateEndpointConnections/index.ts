@@ -3,8 +3,8 @@
 
 export { list, $delete, approve, get } from "./operations.js";
 export {
-  PrivateEndpointConnectionsListOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsApproveOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
+  type PrivateEndpointConnectionsListOptionalParams,
+  type PrivateEndpointConnectionsDeleteOptionalParams,
+  type PrivateEndpointConnectionsApproveOptionalParams,
+  type PrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";

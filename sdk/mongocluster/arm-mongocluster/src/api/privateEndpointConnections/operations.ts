@@ -31,9 +31,7 @@ export function _$deleteSend(
   resourceGroupName: string,
   mongoClusterName: string,
   privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
@@ -42,7 +40,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,27 +53,22 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return;
 }
-
 /** Delete the private endpoint connection */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
   mongoClusterName: string,
   privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -89,6 +82,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -98,9 +92,7 @@ export function _createSend(
   mongoClusterName: string,
   privateEndpointConnectionName: string,
   resource: PrivateEndpointConnectionResource,
-  options: PrivateEndpointConnectionsCreateOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
@@ -109,7 +101,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,10 +110,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: privateEndpointConnectionResourceSerializer(resource),
   });
 }
@@ -132,13 +121,15 @@ export async function _createDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return privateEndpointConnectionResourceDeserializer(result.body);
 }
-
 /** Create a Private endpoint connection */
 export function create(
   context: Client,
@@ -146,9 +137,7 @@ export function create(
   mongoClusterName: string,
   privateEndpointConnectionName: string,
   resource: PrivateEndpointConnectionResource,
-  options: PrivateEndpointConnectionsCreateOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<
   OperationState<PrivateEndpointConnectionResource>,
   PrivateEndpointConnectionResource
@@ -166,6 +155,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
@@ -186,7 +176,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,10 +184,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -207,13 +194,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return privateEndpointConnectionResourceDeserializer(result.body);
 }
-
 /** Get a specific private connection */
 export async function get(
   context: Client,
@@ -236,9 +225,7 @@ export function _listByMongoClusterSend(
   context: Client,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections{?api%2Dversion}",
@@ -246,7 +233,7 @@ export function _listByMongoClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -254,10 +241,7 @@ export function _listByMongoClusterSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -267,27 +251,31 @@ export async function _listByMongoClusterDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _privateEndpointConnectionResourceListResultDeserializer(result.body);
 }
-
 /** List existing private connections */
 export function listByMongoCluster(
   context: Client,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateEndpointConnectionResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
     _listByMongoClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    },
   );
 }

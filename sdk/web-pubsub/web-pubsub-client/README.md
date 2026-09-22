@@ -91,6 +91,94 @@ await client.joinGroup(groupName);
 await client.sendToGroup(groupName, "hello world", "text");
 ```
 
+### 5. Invoke upstream events
+
+```ts snippet:ReadmeSampleInvokeEvent
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+await client.start();
+
+const result = await client.invokeEvent("processOrder", { orderId: 1 }, "json");
+console.log(`Invocation result: ${JSON.stringify(result.data)}`);
+```
+
+`invokeEvent` sends an `invoke` request to the service, awaits the correlated `invokeResponse`, and returns the payload. You can abort the invocation by passing `{ abortSignal }`.
+_Service-initiated invocations are not yet supported._
+
+### 6. Stream messages to a group (preview)
+
+You can send a large or continuous payload to a group as an ordered stream of fragments, and consume each inbound stream as a whole unit on the receiving side.
+
+```ts snippet:ReadmeSampleStreaming
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+
+// Receiving side: subscribe once, then consume each inbound stream with for-await.
+client.onGroupStream(
+  async (stream) => {
+    const parts: string[] = [];
+    try {
+      for await (const message of stream) {
+        parts.push(message.data as string);
+      }
+      console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`);
+    } catch (err) {
+      console.log(
+        `Stream ${stream.streamId} failed: ${
+          (
+            err as {
+              name?: string;
+            }
+          ).name
+        }`,
+      );
+    }
+  },
+  { handleFromStart: true },
+);
+
+await client.start();
+const groupName = "group1";
+await client.joinGroup(groupName);
+
+// Sending side: write a logical stream in ordered fragments, then end it.
+const stream = await client.openGroupStream(groupName);
+await stream.write("hello ", "text");
+await stream.write("world", "text");
+await stream.end();
+```
+
+`onGroupStream` returns a subscription with `close()` for unregistering the listener. Each callback receives a `GroupStream` that is async iterable over its fragments. `openGroupStream` returns a `GroupStreamWriter` you use to `write` fragments, `end` the stream successfully, or `abort` it with an error.
+
+### 6. Use group state
+
+```ts snippet:ReadmeSampleGroupState
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+await client.start();
+
+const groupName = "group1";
+await client.joinGroup(groupName);
+
+await client.setGroupState(groupName, { status: "typing" });
+const ownState = client.getGroupState(groupName);
+console.log(`Own status: ${ownState?.status}`);
+
+client.on("group-states-changed", (e) => {
+  if (e.group === groupName) {
+    const members = client.listGroupStates(groupName);
+    console.log(`Tracked state records: ${members.length}`);
+  }
+});
+
+await client.subscribeGroupStates(groupName);
+await client.clearGroupState(groupName);
+await client.unsubscribeGroupStates(groupName);
+```
+
 ---
 
 ## Examples
@@ -124,6 +212,37 @@ client.on("stopped", () => {
 
 ---
 
+### Observe reliable recovery
+
+With a reliable subprotocol, `recovering` is emitted once when the SDK enters recovery for an interrupted logical connection, before its first attempt. `recovered` is emitted when the active recovery socket opens for that same connection ID. Neither event is emitted for initial startup or a fresh reconnect, and retries within one recovery episode do not emit additional `recovering` events.
+
+```ts snippet:ReadmeSampleRecoveryEvents
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+// Disabling fresh reconnect does not disable reliable recovery.
+const client = new WebPubSubClient("<client-access-url>", { autoReconnect: false });
+
+// Register listeners before starting the client.
+client.on("recovering", (e) => {
+  console.log(`Recovering connection ${e.connectionId}.`);
+});
+client.on("recovered", (e) => {
+  console.log(`Connection ${e.connectionId} recovered; message replay may still be in progress.`);
+});
+
+await client.start();
+```
+
+A successful recovery has the sequence `connected(A) → recovering(A) → recovered(A)`, without another `connected` event. If recovery fails, the existing `disconnected` event and reconnect/stopped behavior still apply. When recovery is unavailable, neither recovery event is emitted. Setting `autoReconnect: false` disables fresh reconnection, not reliable recovery.
+
+Both events provide only `connectionId`, through the exported `OnRecoveringArgs` and `OnRecoveredArgs` types. Use `client.off("recovering", listener)` or `client.off("recovered", listener)` with the registered listener to unsubscribe.
+
+`recovered` describes socket recovery, not completed retained-message replay or application synchronization. Continue handling errors from normal client operations. Calling `stop()` during an episode suppresses its later `recovered` notification; these events do not change existing shutdown or recovery behavior.
+
+Synchronous exceptions from these two event notifications are logged without interrupting recovery. A throwing listener can prevent later listeners for that notification from running; rejected promises from async listeners are not handled by this mechanism.
+
+---
+
 ### Use a negotiation server to generate Client Access URL programatically
 
 In production, clients usually fetch the Client Access URL from an application server. The server holds the connection string to your Web PubSub resource and generates the Client Access URL with the help from the server library `@azure/web-pubsub`.
@@ -144,14 +263,22 @@ const hubName = "sample_chat";
 const serviceClient = new WebPubSubServiceClient("<web-pubsub-connectionstring>", hubName);
 
 // Note that the token allows the client to join and send messages to any groups. It is specified with the "roles" option.
-app.get("/negotiate", async (req, res) => {
-  const token = await serviceClient.getClientAccessToken({
-    roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
-  });
-  res.json({
-    url: token.url,
-  });
-});
+app.get(
+  "/negotiate",
+  async (
+    _req: unknown,
+    res: {
+      json: (body: { url: string }) => void;
+    },
+  ) => {
+    const token = await serviceClient.getClientAccessToken({
+      roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
+    });
+    res.json({
+      url: token.url,
+    });
+  },
+);
 
 app.listen(port, () =>
   console.log(`Application server listening at http://localhost:${port}/negotiate`),
@@ -168,7 +295,9 @@ import { WebPubSubClient } from "@azure/web-pubsub-client";
 const client = new WebPubSubClient({
   getClientAccessUrl: async () => {
     const negotiate = await fetch("/negotiate");
-    const { url } = await negotiate.json();
+    const { url } = (await negotiate.json()) as {
+      url: string;
+    };
     return url;
   },
 });
@@ -236,7 +365,7 @@ const groupName = "group1";
 try {
   await client.joinGroup(groupName);
 } catch (err) {
-  let id = null;
+  let id: number | undefined;
   if (err instanceof SendMessageError) {
     id = err.ackId;
   }
@@ -279,6 +408,8 @@ A connection, also known as a client or a client connection, represents an indiv
 ### Recovery
 
 If a client using reliable protocols disconnects, a new WebSocket tries to establish using the connection ID of the lost connection. If the new WebSocket connection is successfully connected, the connection is recovered. Throughout the time a client is disconnected, the service retains the client's context as well as all messages that the client was subscribed to, and when the client recovers, the service will send these messages to the client. If the service returns WebSocket error code `1008` or the recovery attempt lasts more than 30 seconds, the recovery fails.
+
+The `recovering` and `recovered` events let applications observe this same-connection recovery without treating it as a new connection. See [Observe reliable recovery](#observe-reliable-recovery) for their timing and limitations.
 
 ### Reconnect
 

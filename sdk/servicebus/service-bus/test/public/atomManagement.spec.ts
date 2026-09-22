@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNodeLike } from "@azure/core-util";
 import type { PageSettings } from "@azure/core-paging";
-import { DefaultAzureCredential } from "@azure/identity";
 import { parseServiceBusConnectionString } from "../../src/index.js";
 import type { CreateQueueOptions } from "../../src/index.js";
 import type { RuleProperties } from "../../src/index.js";
@@ -29,7 +27,11 @@ import {
 
 const connectionString = getConnectionString();
 
-describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (serviceVersion) => {
+// Every supported ATOM api-version, so the whole admin surface is asserted against the
+// version customers get by default as well as against the older ones.
+const serviceVersions = ["2024-05", "2021-05", "2017-04"] as const;
+
+describe.runIf(connectionString).each(serviceVersions)("Version [%s]", (serviceVersion) => {
   const endpointWithProtocol = parseServiceBusConnectionString(connectionString!).endpoint;
 
   enum EntityType {
@@ -54,6 +56,10 @@ describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (s
   type AccessRights = ("Manage" | "Send" | "Listen")[];
   const randomDate = new Date();
 
+  // The topic filter counts are served by the 2024-05 ATOM api-version. An older version omits
+  // the elements, so the properties come back undefined.
+  const expectedFilterCount = serviceVersion === "2024-05" ? 0 : undefined;
+
   let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 
   describe(`ATOM APIs`, () => {
@@ -61,72 +67,11 @@ describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (s
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
         getFullyQualifiedNamespace(),
         createTestCredential(),
-        { serviceVersion: serviceVersion as "2021-05" | "2017-04" },
+        { serviceVersion: serviceVersion as "2024-05" | "2021-05" | "2017-04" },
       );
     });
 
     describe("Atom management - Authentication", function (): void {
-      if (isNodeLike) {
-        it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-          const host = getFullyQualifiedNamespace();
-          const endpoint = `sb://${host}/`;
-          const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
-            host,
-            new DefaultAzureCredential({
-              // Work around Msi credential issue in live test pipeline by failing
-              // its token retrieval
-              managedIdentityClientId: "fakeMsiClientId",
-            }),
-          );
-
-          should.equal(
-            (await serviceBusAdministrationClient.createQueue(managementQueue1)).name,
-            managementQueue1,
-            "Unexpected queue name in the createQueue response",
-          );
-          const createQueue2Response = await serviceBusAdministrationClient.createQueue(
-            managementQueue2,
-            {
-              forwardTo: managementQueue1,
-            },
-          );
-          should.equal(
-            createQueue2Response.name,
-            managementQueue2,
-            "Unexpected queue name in the createQueue response",
-          );
-          should.equal(
-            createQueue2Response.forwardTo,
-            endpoint + managementQueue1,
-            "Unexpected name in the `forwardTo` field of createQueue response",
-          );
-          const getQueueResponse = await serviceBusAdministrationClient.getQueue(managementQueue1);
-          should.equal(
-            getQueueResponse.name,
-            managementQueue1,
-            "Unexpected queue name in the getQueue response",
-          );
-          should.equal(
-            (await serviceBusAdministrationClient.updateQueue(getQueueResponse)).name,
-            managementQueue1,
-            "Unexpected queue name in the updateQueue response",
-          );
-          should.equal(
-            (await serviceBusAdministrationClient.getQueueRuntimeProperties(managementQueue1)).name,
-            managementQueue1,
-            "Unexpected queue name in the getQueueRuntimeProperties response",
-          );
-          should.equal(
-            (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-            (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") ||
-              [])[1],
-            "Unexpected namespace name in the getNamespaceProperties response",
-          );
-          await serviceBusAdministrationClient.deleteQueue(managementQueue1);
-          await serviceBusAdministrationClient.deleteQueue(managementQueue2);
-        });
-      }
-
       it("AzureNamedKeyCredential from `@azure/core-auth`", async () => {
         const connectionStringProperties = parseServiceBusConnectionString(connectionString!);
         const host = connectionStringProperties.fullyQualifiedNamespace;
@@ -653,6 +598,8 @@ describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (s
         output: {
           sizeInBytes: 0,
           subscriptionCount: 0,
+          sqlFilterCount: expectedFilterCount,
+          correlationFilterCount: expectedFilterCount,
           scheduledMessageCount: 0,
           name: managementTopic1,
         },
@@ -766,6 +713,8 @@ describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (s
           output: {
             sizeInBytes: 0,
             subscriptionCount: 0,
+            sqlFilterCount: expectedFilterCount,
+            correlationFilterCount: expectedFilterCount,
             scheduledMessageCount: 0,
             name: managementTopic1,
           },
@@ -775,6 +724,8 @@ describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (s
           output: {
             sizeInBytes: 0,
             subscriptionCount: 0,
+            sqlFilterCount: expectedFilterCount,
+            correlationFilterCount: expectedFilterCount,
             scheduledMessageCount: 0,
             name: managementTopic2,
           },
@@ -3110,5 +3061,49 @@ describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (s
         });
       });
     });
+  });
+});
+
+// The topic-level sqlFilterCount / correlationFilterCount runtime properties are served by the
+// 2024-05 service API version. This suite builds its own client and manages its own entities, so
+// it sits beside the parameterized suite and runs once, independent of the version matrix.
+describe.runIf(connectionString)("Atom management - Topic filter counts", () => {
+  const topicName = EntityNames.MANAGEMENT_TOPIC_1;
+  const subscriptionName = EntityNames.MANAGEMENT_SUBSCRIPTION_1;
+
+  const filterCountsClient = (): ServiceBusAdministrationClient =>
+    new ServiceBusAdministrationClient(getFullyQualifiedNamespace(), createTestCredential(), {
+      serviceVersion: "2024-05",
+    });
+
+  beforeEach(async () => {
+    await recreateTopic(topicName);
+    await recreateSubscription(topicName, subscriptionName);
+  });
+
+  afterEach(async () => {
+    await filterCountsClient().deleteTopic(topicName);
+  });
+
+  it("Reports SQL and correlation filter counts on topic runtime properties", async () => {
+    const client = filterCountsClient();
+    // A new subscription carries a default $Default rule (a SQL TrueFilter). Add an
+    // explicit SQL rule and a correlation rule so the topic-level counts are non-zero.
+    await client.createRule(topicName, subscriptionName, "sqlRule", {
+      sqlExpression: "1=1",
+    });
+    await client.createRule(topicName, subscriptionName, "correlationRule", {
+      correlationId: "abc",
+    });
+
+    const runtimeProperties = await client.getTopicRuntimeProperties(topicName);
+
+    // $Default (TrueFilter) + sqlRule = 2 SQL filters; correlationRule = 1 correlation filter.
+    should.equal(runtimeProperties.sqlFilterCount, 2, "Unexpected SQL filter count");
+    should.equal(
+      runtimeProperties.correlationFilterCount,
+      1,
+      "Unexpected correlation filter count",
+    );
   });
 });

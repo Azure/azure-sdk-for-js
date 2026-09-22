@@ -135,18 +135,13 @@ export interface NodeTypesOperations {
     options?: NodeTypesListByManagedClustersOptionalParams,
   ) => PagedAsyncIterableIterator<NodeType>;
   /** Delete a Service Fabric node type of a given managed cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,
     nodeTypeName: string,
     options?: NodeTypesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update the configuration of a node type of a given managed cluster, only updating tags. */
+  /** Update the configuration of a node type of a given managed cluster, only updating tags or capacity. */
   update: (
     resourceGroupName: string,
     clusterName: string,

@@ -3,8 +3,8 @@
 
 export {
   createKeyVault,
-  KeyVaultContext,
-  KeyVaultClientOptionalParams,
+  type KeyVaultContext,
+  type KeyVaultClientOptionalParams,
 } from "./keyVaultContext.js";
 export {
   restoreSecret,
@@ -20,7 +20,7 @@ export {
   deleteSecret,
   setSecret,
 } from "./operations.js";
-export {
+export type {
   RestoreSecretOptionalParams,
   BackupSecretOptionalParams,
   RecoverDeletedSecretOptionalParams,

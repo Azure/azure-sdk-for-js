@@ -147,14 +147,12 @@ export type AnalyzeHealthcareEntitiesErrorResult = TextAnalyticsErrorResult;
  * The result of the healthcare operation on a single document.
  */
 export type AnalyzeHealthcareEntitiesResult =
-  | AnalyzeHealthcareEntitiesSuccessResult
-  | AnalyzeHealthcareEntitiesErrorResult;
+  AnalyzeHealthcareEntitiesSuccessResult | AnalyzeHealthcareEntitiesErrorResult;
 
 /**
  * Array of {@link AnalyzeHealthcareEntitiesResult}
  */
-export interface AnalyzeHealthcareEntitiesResultArray
-  extends Array<AnalyzeHealthcareEntitiesResult> {}
+export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealthcareEntitiesResult> {}
 
 /**
  * The results of a healthcare operation represented as a paged iterator that can
@@ -171,8 +169,7 @@ export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterab
  * either iterate over the results on a document-by-document basis or, by
  * byPage(), can iterate over pages of documents.
  */
-export interface PagedAnalyzeHealthcareEntitiesResult
-  extends PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
+export interface PagedAnalyzeHealthcareEntitiesResult extends PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -218,17 +215,15 @@ function makeHealthcareRelations(
   entities: HealthcareEntity[],
   relations: HealthcareRelation[],
 ): HealthcareEntityRelation[] {
-  return relations.map(
-    (relation: HealthcareRelation): HealthcareEntityRelation => ({
-      relationType: relation.relationType,
-      roles: relation.entities.map(
-        (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
-          entity: entities[parseHealthcareEntityIndex(role.ref)],
-          name: role.role,
-        }),
-      ),
-    }),
-  );
+  return relations.map((relation: HealthcareRelation): HealthcareEntityRelation => ({
+    relationType: relation.relationType,
+    roles: relation.entities.map(
+      (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
+        entity: entities[parseHealthcareEntityIndex(role.ref)],
+        name: role.role,
+      }),
+    ),
+  }));
 }
 
 /**

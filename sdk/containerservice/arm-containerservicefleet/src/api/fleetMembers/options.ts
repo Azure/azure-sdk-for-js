@@ -1,10 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface FleetMembersListByFleetOptionalParams extends OperationOptions {}
+export interface FleetMembersListByFleetOptionalParams extends OperationOptions {
+  /** The number of result items to return. */
+  top?: number;
+  /** The page-continuation token to use with a paged version of this API. */
+  skipToken?: string;
+  /** Filter the result list using the given expression. */
+  filter?: string;
+}
 
 /** Optional parameters. */
 export interface FleetMembersDeleteOptionalParams extends OperationOptions {

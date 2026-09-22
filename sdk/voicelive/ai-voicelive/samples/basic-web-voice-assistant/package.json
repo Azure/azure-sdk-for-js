@@ -1,0 +1,30 @@
+{
+  "name": "basic-web-voice-assistant",
+  "version": "1.0.0",
+  "description": "A simple web-based voice assistant demonstrating Azure Voice Live SDK real-time features",
+  "type": "module",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "dev-sdk": "vite --force",
+    "preview": "vite preview",
+    "serve": "python -m http.server 8080",
+    "type-check": "tsc --noEmit",
+    "reload": "curl -X POST http://localhost:3000/__vite_ping 2>/dev/null || echo 'Vite server not responding'"
+  },
+  "dependencies": {
+    "@azure/ai-voicelive": "file:../../azure-ai-voicelive-1.1.0.tgz",
+    "@azure/core-auth": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.4"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

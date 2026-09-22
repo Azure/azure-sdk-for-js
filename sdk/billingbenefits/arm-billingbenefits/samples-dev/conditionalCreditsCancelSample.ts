@@ -1,0 +1,28 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to cancel conditional credit. Stops applying the benefit.
+ *
+ * @summary cancel conditional credit. Stops applying the benefit.
+ * x-ms-original-file: 2025-12-01-preview/ConditionalCreditCancel.json
+ */
+async function conditionalCreditCancel(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "10000000-0000-0000-0000-000000000000";
+  const client = new BillingBenefitsRP(credential, subscriptionId);
+  const result = await client.conditionalCredits.cancel(
+    "resource_group_name_01",
+    "conditionalCredit_20250801",
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await conditionalCreditCancel();
+}
+
+main().catch(console.error);

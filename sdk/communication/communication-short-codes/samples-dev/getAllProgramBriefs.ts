@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
   const client = new ShortCodesClient(connectionString);
 
   // get all program briefs for a resource
-  const programBriefs = await client.listUSProgramBriefs({
+  const programBriefs = client.listUSProgramBriefs({
     onResponse:
       (response) =>
       (res = response) => {

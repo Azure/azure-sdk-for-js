@@ -3,8 +3,8 @@
 
 import { EOL } from "node:os";
 import ts from "typescript";
-import { createPrinter } from "../printer";
-import { format } from "../prettier";
+import { createPrinter } from "../printer.ts";
+import { format } from "../prettier.ts";
 
 const log = createPrinter("ts-to-js");
 

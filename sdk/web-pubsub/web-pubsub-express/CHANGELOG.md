@@ -1,5 +1,19 @@
 # Release History
 
+## 1.1.1 (Unreleased)
+
+### Other Changes
+
+- Clarified webhook authentication responsibilities and the `ce-signature` documentation.
+  [#39487](https://github.com/Azure/azure-sdk-for-js/pull/39487)
+
+## 1.1.0 (2026-07-14)
+
+### Features Added
+
+- Added support for group presence events with `onGroupJoined` and `onGroupLeft` handlers in `WebPubSubEventHandlerOptions`.
+- Added `GroupJoinedRequest` and `GroupLeftRequest` interfaces for group presence event data.
+
 ## 1.0.6 (2025-02-26)
 
 ### Features Added

@@ -1,60 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { CloudHealthClient } from "./cloudHealthClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   HealthModel,
   HealthModelProperties,
-  KnownHealthModelProvisioningState,
   HealthModelProvisioningState,
-  ModelDiscoverySettings,
-  KnownDiscoveryRuleRecommendedSignalsBehavior,
-  DiscoveryRuleRecommendedSignalsBehavior,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   HealthModelUpdate,
-  HealthModelUpdateProperties,
   SignalDefinition,
   SignalDefinitionProperties,
   SignalDefinitionPropertiesUnion,
-  KnownSignalKind,
   SignalKind,
-  KnownRefreshInterval,
   RefreshInterval,
   EvaluationRule,
-  DynamicDetectionRule,
-  KnownDynamicThresholdModel,
-  DynamicThresholdModel,
-  KnownDynamicThresholdDirection,
-  DynamicThresholdDirection,
-  ThresholdRule,
-  KnownSignalOperator,
+  ThresholdRuleV2,
   SignalOperator,
+  DynamicThresholdSensitivity,
   ResourceMetricSignalDefinitionProperties,
-  KnownMetricAggregationType,
   MetricAggregationType,
   LogAnalyticsQuerySignalDefinitionProperties,
   PrometheusMetricsSignalDefinitionProperties,
@@ -62,57 +48,122 @@ export {
   AuthenticationSetting,
   AuthenticationSettingProperties,
   AuthenticationSettingPropertiesUnion,
-  KnownAuthenticationKind,
   AuthenticationKind,
   ManagedIdentityAuthenticationSettingProperties,
   Entity,
   EntityProperties,
   EntityCoordinates,
   IconDefinition,
-  KnownEntityImpact,
   EntityImpact,
-  SignalGroup,
-  AzureResourceSignalGroup,
-  SignalAssignment,
-  LogAnalyticsSignalGroup,
-  AzureMonitorWorkspaceSignalGroup,
-  DependenciesSignalGroup,
-  KnownDependenciesAggregationType,
-  DependenciesAggregationType,
-  KnownHealthState,
+  SignalGroups,
+  AzureResourceSignals,
+  AzureResourceSignal,
+  AzureResourceHealthSignal,
+  ResourceHealthAvailabilityStateSignalBehavior,
+  AzureResourceHealthSignalStatus,
   HealthState,
+  ResourceHealthAvailabilityState,
+  ResourceHealthCategory,
+  ResourceHealthReasonType,
+  ResourceHealthReasonChronicity,
+  LogAnalyticsSignals,
+  LogAnalyticsSignal,
+  AzureMonitorWorkspaceSignals,
+  PrometheusMetricsSignal,
+  DependenciesSignalGroupV2,
+  AggregationType,
+  AggregationUnit,
+  ExternalSignalGroup,
+  ExternalSignal,
+  SignalAggregationGroup,
   EntityAlerts,
   AlertConfiguration,
-  KnownAlertSeverity,
   AlertSeverity,
+  SignalInstanceProperties,
+  SignalInstancePropertiesUnion,
+  SignalStatus,
+  EntityHistoryRequest,
+  EntityHistoryResponse,
+  HealthStateTransition,
+  SignalHistoryRequest,
+  SignalHistoryResponse,
+  SignalHistoryDataPoint,
+  HealthReportRequest,
+  HealthReportEvaluationRule,
+  AddDataAnnotationRequest,
+  DataAnnotation,
+  GetDataAnnotationsRequest,
+  GetDataAnnotationsResponse,
+  GetSignalRecommendationsResponse,
+  SignalConfiguration,
   Relationship,
   RelationshipProperties,
   DiscoveryRule,
   DiscoveryRuleProperties,
-  KnownDiscoveryRuleRelationshipDiscoveryBehavior,
   DiscoveryRuleRelationshipDiscoveryBehavior,
+  DiscoveryRuleRecommendedSignalsBehavior,
+  DiscoveryRuleSpecification,
+  DiscoveryRuleSpecificationUnion,
+  DiscoveryRuleKind,
+  ResourceGraphQuerySpecification,
+  ApplicationInsightsTopologySpecification,
+  DiscoveryError,
+  DiscoveryRuleResourceCreate,
+  DiscoveryRulePropertiesCreate,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownHealthModelProvisioningState,
+  KnownManagedServiceIdentityType,
+  KnownCreatedByType,
+  KnownSignalKind,
+  KnownRefreshInterval,
+  KnownSignalOperator,
+  KnownDynamicThresholdSensitivity,
+  KnownMetricAggregationType,
+  KnownAuthenticationKind,
+  KnownEntityImpact,
+  KnownResourceHealthAvailabilityStateSignalBehavior,
+  KnownHealthState,
+  KnownResourceHealthAvailabilityState,
+  KnownResourceHealthCategory,
+  KnownResourceHealthReasonType,
+  KnownResourceHealthReasonChronicity,
+  KnownAggregationType,
+  KnownAggregationUnit,
+  KnownAlertSeverity,
+  KnownDiscoveryRuleRelationshipDiscoveryBehavior,
+  KnownDiscoveryRuleRecommendedSignalsBehavior,
+  KnownDiscoveryRuleKind,
   KnownVersions,
 } from "./models/index.js";
-export { CloudHealthClientOptionalParams } from "./api/index.js";
-export {
+export type { CloudHealthClientOptionalParams } from "./api/index.js";
+export type {
   AuthenticationSettingsListByHealthModelOptionalParams,
   AuthenticationSettingsDeleteOptionalParams,
   AuthenticationSettingsCreateOrUpdateOptionalParams,
   AuthenticationSettingsGetOptionalParams,
 } from "./api/authenticationSettings/index.js";
-export {
+export type {
   DiscoveryRulesListByHealthModelOptionalParams,
   DiscoveryRulesDeleteOptionalParams,
   DiscoveryRulesCreateOrUpdateOptionalParams,
   DiscoveryRulesGetOptionalParams,
 } from "./api/discoveryRules/index.js";
-export {
+export type {
+  EntitiesGetSignalRecommendationsOptionalParams,
+  EntitiesGetDataAnnotationsOptionalParams,
+  EntitiesAddDataAnnotationOptionalParams,
+  EntitiesIngestHealthReportOptionalParams,
+  EntitiesGetSignalHistoryOptionalParams,
+  EntitiesGetHistoryOptionalParams,
   EntitiesListByHealthModelOptionalParams,
   EntitiesDeleteOptionalParams,
   EntitiesCreateOrUpdateOptionalParams,
   EntitiesGetOptionalParams,
 } from "./api/entities/index.js";
-export {
+export type {
   HealthModelsListBySubscriptionOptionalParams,
   HealthModelsListByResourceGroupOptionalParams,
   HealthModelsDeleteOptionalParams,
@@ -120,20 +171,20 @@ export {
   HealthModelsCreateOptionalParams,
   HealthModelsGetOptionalParams,
 } from "./api/healthModels/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   RelationshipsListByHealthModelOptionalParams,
   RelationshipsDeleteOptionalParams,
   RelationshipsCreateOrUpdateOptionalParams,
   RelationshipsGetOptionalParams,
 } from "./api/relationships/index.js";
-export {
+export type {
   SignalDefinitionsListByHealthModelOptionalParams,
   SignalDefinitionsDeleteOptionalParams,
   SignalDefinitionsCreateOrUpdateOptionalParams,
   SignalDefinitionsGetOptionalParams,
 } from "./api/signalDefinitions/index.js";
-export {
+export type {
   AuthenticationSettingsOperations,
   DiscoveryRulesOperations,
   EntitiesOperations,
@@ -142,4 +193,7 @@ export {
   RelationshipsOperations,
   SignalDefinitionsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

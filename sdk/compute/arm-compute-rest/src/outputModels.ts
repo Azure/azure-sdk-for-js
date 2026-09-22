@@ -2155,10 +2155,7 @@ export interface VirtualMachineSoftwarePatchPropertiesOutput {
   readonly classifications?: Array<string>;
   /** Describes the reboot requirements of the patch. */
   readonly rebootBehavior?:
-    | "Unknown"
-    | "NeverReboots"
-    | "AlwaysRequiresReboot"
-    | "CanRequestReboot";
+    "Unknown" | "NeverReboots" | "AlwaysRequiresReboot" | "CanRequestReboot";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
   readonly activityId?: string;
   /** The UTC timestamp when the repository published this patch. */
@@ -2211,12 +2208,7 @@ export interface PatchInstallationDetailOutput {
   readonly classifications?: Array<string>;
   /** The state of the patch after the installation operation completed. */
   readonly installationState?:
-    | "Unknown"
-    | "Installed"
-    | "Failed"
-    | "Excluded"
-    | "NotSelected"
-    | "Pending";
+    "Unknown" | "Installed" | "Failed" | "Excluded" | "NotSelected" | "Pending";
 }
 
 /** Describes a Virtual Machine Image. */
@@ -2792,8 +2784,7 @@ export interface CapacityReservationGroupInstanceViewOutput {
 }
 
 /** The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group. */
-export interface CapacityReservationInstanceViewWithNameOutput
-  extends CapacityReservationInstanceViewOutput {
+export interface CapacityReservationInstanceViewWithNameOutput extends CapacityReservationInstanceViewOutput {
   /** The name of the capacity reservation. */
   readonly name?: string;
 }
@@ -2971,13 +2962,7 @@ export interface VirtualMachineRunCommandScriptSourceOutput {
 export interface VirtualMachineRunCommandInstanceViewOutput {
   /** Script execution status. */
   executionState?:
-    | "Unknown"
-    | "Pending"
-    | "Running"
-    | "Failed"
-    | "Succeeded"
-    | "TimedOut"
-    | "Canceled";
+    "Unknown" | "Pending" | "Running" | "Failed" | "Succeeded" | "TimedOut" | "Canceled";
   /** Communicate script configuration errors or execution messages. */
   executionMessage?: string;
   /** Exit code returned from script execution. */
@@ -3710,12 +3695,7 @@ export interface GalleryPropertiesOutput {
   identifier?: GalleryIdentifierOutput;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+    "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfileOutput;
   /** Contains information about the soft deletion policy of the gallery. */
@@ -3822,12 +3802,7 @@ export interface GalleryImagePropertiesOutput {
   purchasePlan?: ImagePurchasePlanOutput;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+    "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** A list of gallery image features. */
   features?: Array<GalleryImageFeatureOutput>;
   /** The architecture of the image. Applicable to OS disks only. */
@@ -3896,12 +3871,7 @@ export interface GalleryImageVersionPropertiesOutput {
   publishingProfile?: GalleryImageVersionPublishingProfileOutput;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+    "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile: GalleryImageVersionStorageProfileOutput;
   /** This is the replication status of the gallery image version. */
@@ -3909,8 +3879,7 @@ export interface GalleryImageVersionPropertiesOutput {
 }
 
 /** The publishing profile of a gallery image Version. */
-export interface GalleryImageVersionPublishingProfileOutput
-  extends GalleryArtifactPublishingProfileBaseOutput {}
+export interface GalleryImageVersionPublishingProfileOutput extends GalleryArtifactPublishingProfileBaseOutput {}
 
 /** Describes the basic gallery artifact publishing profile. */
 export interface GalleryArtifactPublishingProfileBaseOutput {
@@ -3962,9 +3931,7 @@ export interface OSDiskImageEncryptionOutput extends DiskImageEncryptionOutput {
 export interface OSDiskImageSecurityProfileOutput {
   /** confidential VM encryption types */
   confidentialVMEncryptionType?:
-    | "EncryptedVMGuestStateOnlyWithPmk"
-    | "EncryptedWithPmk"
-    | "EncryptedWithCmk";
+    "EncryptedVMGuestStateOnlyWithPmk" | "EncryptedWithPmk" | "EncryptedWithCmk";
   /** secure VM disk encryption set id */
   secureVMDiskEncryptionSetId?: string;
 }
@@ -4092,19 +4059,13 @@ export interface GalleryApplicationVersionPropertiesOutput {
   publishingProfile: GalleryApplicationVersionPublishingProfileOutput;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+    "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** This is the replication status of the gallery image version. */
   readonly replicationStatus?: ReplicationStatusOutput;
 }
 
 /** The publishing profile of a gallery image version. */
-export interface GalleryApplicationVersionPublishingProfileOutput
-  extends GalleryArtifactPublishingProfileBaseOutput {
+export interface GalleryApplicationVersionPublishingProfileOutput extends GalleryArtifactPublishingProfileBaseOutput {
   /** The source image from which the Image Version is going to be created. */
   source: UserArtifactSourceOutput;
   manageActions?: UserArtifactManageOutput;

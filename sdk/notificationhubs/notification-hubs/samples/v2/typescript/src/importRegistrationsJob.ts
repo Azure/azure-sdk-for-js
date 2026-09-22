@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how the createNotificationJob() method can be used to import registrations
  * descriptions from an existing set of exports.
@@ -17,7 +18,7 @@ import {
   getNotificationHubJob,
   submitNotificationHubJob,
 } from "@azure/notification-hubs/api";
-import { NotificationHubJob } from "@azure/notification-hubs/models";
+import type { NotificationHubJob } from "@azure/notification-hubs/models";
 import { delay } from "@azure/core-util";
 
 // Define connection string and hub name

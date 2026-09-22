@@ -162,4 +162,69 @@ describe("EntraIdAccessToken", () => {
     const status = entraIdAccessToken.doesEntraIdAccessTokenNeedRotation();
     expect(status).toBeFalsy();
   });
+
+  describe("prefetchStorageAccessToken", () => {
+    it("should request a token using the storage scope to warm the MSAL cache", async () => {
+      const accessToken = {
+        token: "storage-token",
+        expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
+      };
+      const credential = {
+        getToken: vi.fn().mockResolvedValue(accessToken),
+      };
+      const entraIdAccessToken = new EntraIdAccessToken(credential);
+
+      await entraIdAccessToken.prefetchStorageAccessToken();
+
+      expect(credential.getToken).toHaveBeenCalledOnce();
+      expect(credential.getToken).toHaveBeenCalledWith(EntraIdAccessTokenConstants.STORAGE_SCOPE);
+    });
+
+    it("should not overwrite the management-scope token in the environment variable", async () => {
+      const managementToken = "management-token";
+      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = managementToken;
+      const credential = {
+        getToken: vi.fn().mockResolvedValue({
+          token: "storage-token",
+          expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
+        }),
+      };
+      const entraIdAccessToken = new EntraIdAccessToken(credential);
+
+      await entraIdAccessToken.prefetchStorageAccessToken();
+
+      expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN]).to.equal(
+        managementToken,
+      );
+      delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    });
+
+    it("should be a no-op when no credential was provided", async () => {
+      const entraIdAccessToken = new EntraIdAccessToken();
+
+      await expect(entraIdAccessToken.prefetchStorageAccessToken()).resolves.toBeUndefined();
+    });
+
+    it("should swallow errors from credential.getToken and not mark fatal setup error", async () => {
+      delete process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR];
+      const credential = {
+        getToken: vi.fn().mockRejectedValue(new Error("AADSTS700024")),
+      };
+      const entraIdAccessToken = new EntraIdAccessToken(credential);
+
+      await expect(entraIdAccessToken.prefetchStorageAccessToken()).resolves.toBeUndefined();
+      expect(credential.getToken).toHaveBeenCalledWith(EntraIdAccessTokenConstants.STORAGE_SCOPE);
+      expect(process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR]).toBeUndefined();
+    });
+
+    it("should return gracefully when credential.getToken resolves null", async () => {
+      const credential = {
+        getToken: vi.fn().mockResolvedValue(null),
+      };
+      const entraIdAccessToken = new EntraIdAccessToken(credential);
+
+      await expect(entraIdAccessToken.prefetchStorageAccessToken()).resolves.toBeUndefined();
+      expect(credential.getToken).toHaveBeenCalledOnce();
+    });
+  });
 });

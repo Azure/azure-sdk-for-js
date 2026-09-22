@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { BlobCheckpointStore } from "./blobCheckpointStore.js";
-export {
+export type {
   ContainerClientLike,
   BlobClientLike,
   BlockBlobClientLike,

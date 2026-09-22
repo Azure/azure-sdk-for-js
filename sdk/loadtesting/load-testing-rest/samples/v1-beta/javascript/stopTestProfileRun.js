@@ -14,7 +14,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function main() {
   /**
    * The dataplane endpoint for the Azure Load Testing resource.
-   * Refer to https://learn.microsoft.com/rest/api/loadtesting/data-plane-uri to understand how to obtain the data-plane endpoint.
+   * Refer to https://learn.microsoft.com/rest/api/apptesting/loadtest/data-plane-uri to understand how to obtain the data-plane endpoint.
    */
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
 

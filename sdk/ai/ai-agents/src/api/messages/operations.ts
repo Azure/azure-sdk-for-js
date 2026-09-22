@@ -1,38 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
-import {
-  agentV1ErrorDeserializer,
+import type { AgentsContext as Client } from "../index.js";
+import type {
   MessageRole,
   MessageInputContent,
-  messageInputContentSerializer,
-  messageAttachmentArraySerializer,
   ThreadMessage,
-  threadMessageDeserializer,
   _AgentsPagedResultThreadMessage,
-  _agentsPagedResultThreadMessageDeserializer,
   MessageDeletionStatus,
-  messageDeletionStatusDeserializer,
 } from "../../models/models.js";
 import {
+  agentV1ErrorDeserializer,
+  messageInputContentSerializer,
+  messageAttachmentArraySerializer,
+  threadMessageDeserializer,
+  _agentsPagedResultThreadMessageDeserializer,
+  messageDeletionStatusDeserializer,
+} from "../../models/models.js";
+import type {
   MessagesDeleteOptionalParams,
   MessagesUpdateMessageOptionalParams,
   MessagesGetMessageOptionalParams,
   MessagesListMessagesOptionalParams,
   MessagesCreateMessageOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,

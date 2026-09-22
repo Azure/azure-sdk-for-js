@@ -28,21 +28,14 @@ const paths = {
  */
 export class RecordingStateManager {
   public state:
-    | "started-recording"
-    | "stopped-recording"
-    | "started-playback"
-    | "stopped-playback"
-    | undefined;
+    "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback" | undefined;
 
   /**
    * validateState
    */
   public validateState(
     currentFlow:
-      | "starting-recording"
-      | "stopping-recording"
-      | "starting-playback"
-      | "stopping-playback",
+      "starting-recording" | "stopping-recording" | "starting-playback" | "stopping-playback",
   ): void {
     if (currentFlow === "starting-recording") {
       if (this.state === "started-recording") {

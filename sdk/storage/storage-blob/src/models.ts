@@ -13,11 +13,23 @@ import type {
   BlobDownloadResponseModel,
 } from "./generatedModels.js";
 import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
+import type { RawHttpHeaders } from "@azure/core-http-compat";
+import { StoragePipelineOptions } from "./Pipeline.js";
 
 /**
  * Blob tags.
  */
 export type Tags = Record<string, string>;
+
+/**
+ * Request headers used in generating a SAS token
+ */
+export type RequestHeaders = Record<string, string>;
+
+/**
+ * Request query parameters used in generating a SAS token
+ */
+export type RequestQueryParameters = Record<string, string>;
 
 /**
  * A map of name-value pairs to associate with the resource.
@@ -33,9 +45,7 @@ export interface Metadata {
  * standard HTTP conditional headers and tags condition.
  */
 export interface ModifiedAccessConditions
-  extends MatchConditions,
-    ModificationConditions,
-    TagConditions {}
+  extends MatchConditions, ModificationConditions, TagConditions {}
 
 /**
  * standard HTTP conditional headers, tags condition and lease condition
@@ -43,18 +53,31 @@ export interface ModifiedAccessConditions
 export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {}
 
 /**
+ * standard HTTP conditional headers, tags condition and lease condition
+ */
+export interface AccessTierModifiedConditions {
+  /**
+   * Specify this header value to operate only on a blob if the access-tier has been modified since the specified date/time.
+   * */
+  accessTierIfModifiedSince?: Date;
+
+  /**
+   * Specify this header value to operate only on a blob if the access-tier has not been modified since the specified date/time.
+   */
+  accessTierIfUnmodifiedSince?: Date;
+}
+
+/**
  * Conditions to add to the creation of this page blob.
  */
 export interface PageBlobRequestConditions
-  extends BlobRequestConditions,
-    SequenceNumberAccessConditions {}
+  extends BlobRequestConditions, SequenceNumberAccessConditions {}
 
 /**
  * Conditions to add to the creation of this append blob.
  */
 export interface AppendBlobRequestConditions
-  extends BlobRequestConditions,
-    AppendPositionAccessConditions {}
+  extends BlobRequestConditions, AppendPositionAccessConditions {}
 
 /**
  * Specifies HTTP options for conditional requests based on modification time.
@@ -187,6 +210,79 @@ export function toAccessTier(
   return tier as AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
 }
 
+export function toTspImmutabilityPolicyMode(
+  mode: BlobImmutabilityPolicyMode | string | undefined,
+): "mutable" | "unlocked" | "locked" | undefined {
+  if (mode === undefined) {
+    return undefined;
+  }
+  switch (mode) {
+    case "Mutable":
+      return "mutable";
+    case "Unlocked":
+      return "unlocked";
+    case "Locked":
+      return "locked";
+    default:
+      throw new RangeError(`Invalid BlobImmutabilityPolicyMode value: ${mode}`);
+  }
+}
+
+export function fromTspImmutabilityPolicyMode(
+  generatedMode: "mutable" | "unlocked" | "locked" | undefined,
+): BlobImmutabilityPolicyMode | undefined {
+  if (generatedMode === undefined) {
+    return undefined;
+  }
+  switch (generatedMode) {
+    case "mutable":
+      return "Mutable";
+    case "unlocked":
+      return "Unlocked";
+    case "locked":
+      return "Locked";
+    default:
+      throw new RangeError(`Invalid BlobImmutabilityPolicyMode value: ${generatedMode}`);
+  }
+}
+
+const xMsMetaPrefix = "x-ms-meta-";
+
+export function metadataToRawHeaders(metadata: Metadata | undefined): RawHttpHeaders {
+  const metadataHeaders: RawHttpHeaders = {};
+  if (metadata) {
+    for (const key of Object.keys(metadata)) {
+      metadataHeaders[`${xMsMetaPrefix}${key.toLowerCase()}`] = metadata[key];
+    }
+  }
+  return metadataHeaders;
+}
+
+export function rawHeadersToMetadata(rawHeaders: RawHttpHeaders): Metadata {
+  const metadata: Metadata = {};
+  for (const key of Object.keys(rawHeaders)) {
+    if (key.toLowerCase().startsWith(xMsMetaPrefix)) {
+      const metadataKey = key.substring(xMsMetaPrefix.length);
+      metadata[metadataKey] = rawHeaders[key] as string;
+    }
+  }
+  return metadata;
+}
+
+const xMsOrPrefix = "x-ms-or-";
+export function rawHeadersToObjectReplicationRules(
+  rawHeaders: RawHttpHeaders,
+): Record<string, string> {
+  const orRules: Record<string, string> = {};
+  for (const [k, v] of Object.entries(rawHeaders)) {
+    if (k.toLowerCase().startsWith(xMsOrPrefix)) {
+      const orKey = k.substring(xMsOrPrefix.length);
+      orRules[orKey] = v as string;
+    }
+  }
+  return orRules;
+}
+
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
   if (cpk && !isHttps) {
     throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
@@ -256,12 +352,7 @@ export interface BlobDownloadResponseParsed extends BlobDownloadResponseModel {
  * The type of a {@link BlobQueryArrowField}.
  */
 export type BlobQueryArrowFieldType =
-  | "int64"
-  | "bool"
-  | "timestamp[ms]"
-  | "string"
-  | "double"
-  | "decimal";
+  "int64" | "bool" | "timestamp[ms]" | "string" | "double" | "decimal";
 
 /**
  * Describe a field in {@link BlobQueryArrowConfiguration}.
@@ -395,3 +486,48 @@ export interface PollerLikeWithCancellation<TState extends PollOperationState<TR
    */
   toString(): string;
 }
+
+/**
+ * Indicates which checksum algorithm to be used in content validation.
+ */
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
+/**
+ * Config used in creating blob client instances.
+ */
+export interface BlobClientConfig {
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+/**
+ * Options for creating BlobClient instances
+ */
+export type BlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating BlockBlobClient instances
+ */
+export type BlockBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating PageBlobClient instances
+ */
+export type PageBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating AppendBlobClient instances
+ */
+export type AppendBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating ContainerClient instances
+ */
+export type ContainerClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating BlobServiceClient instances
+ */
+export type BlobServiceClientOptions = StoragePipelineOptions & BlobClientConfig;

@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists all views at the given scope.
- *
- * @summary Lists all views at the given scope.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ViewListByResourceGroup.json
- */
-
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists all views at the given scope.
+ *
+ * @summary lists all views at the given scope.
+ * x-ms-original-file: 2025-03-01/ViewListByResourceGroup.json
+ */
 async function resourceGroupViewList(): Promise<void> {
-  const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.views.listByScope(scope)) {
+  for await (const item of client.views.listByScope(
+    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG",
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

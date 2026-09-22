@@ -3,7 +3,7 @@
 
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import type { MSIConfiguration } from "./models.js";
-import { WorkloadIdentityCredential } from "../workloadIdentityCredential.js";
+import { WorkloadIdentityCredential } from "#platform/credentials/workloadIdentityCredential";
 import { credentialLogger } from "../../util/logging.js";
 import type { WorkloadIdentityCredentialOptions } from "../workloadIdentityCredentialOptions.js";
 
@@ -22,8 +22,8 @@ export const tokenExchangeMsi = {
     const env = process.env;
     const result = Boolean(
       (clientId || env.AZURE_CLIENT_ID) &&
-        env.AZURE_TENANT_ID &&
-        process.env.AZURE_FEDERATED_TOKEN_FILE,
+      env.AZURE_TENANT_ID &&
+      process.env.AZURE_FEDERATED_TOKEN_FILE,
     );
     if (!result) {
       logger.info(

@@ -78,8 +78,7 @@ export type KeyVaultBackupOperationState = KeyVaultAdminPollOperationState<KeyVa
 /**
  * An internal interface representing the state of a backup Key Vault's poll operation.
  */
-export interface KeyVaultBackupPollOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultBackupResult> {
+export interface KeyVaultBackupPollOperationState extends KeyVaultAdminPollOperationState<KeyVaultBackupResult> {
   /**
    * The URI of the blob storage account.
    */
@@ -93,15 +92,13 @@ export interface KeyVaultBackupPollOperationState
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface KeyVaultRestoreOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {}
+export interface KeyVaultRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
  * @internal
  */
-export interface KeyVaultRestorePollOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
+export interface KeyVaultRestorePollOperationState extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
   /**
    * The URI of the blob storage account.
    */
@@ -125,14 +122,12 @@ export interface KeyVaultRestorePollerOptions extends KeyVaultAdminPollerOptions
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface KeyVaultSelectiveKeyRestoreOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {}
+export interface KeyVaultSelectiveKeyRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
  */
-export interface KeyVaultSelectiveKeyRestorePollOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {
+export interface KeyVaultSelectiveKeyRestorePollOperationState extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {
   /**
    * The name of a Key Vault Key.
    */

@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -139,7 +141,31 @@ export interface AvailabilityProperties {
 export type AvailabilityStrategy = string;
 
 // @public
+export interface AvailableWindowForMaintenanceWhileRescheduleOperation extends RescheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "AvailableWindowForMaintenance";
+    readonly startsAt: Date;
+}
+
+// @public
+export interface AvailableWindowForMaintenanceWhileScheduleOperation extends ScheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "AvailableWindowForMaintenance";
+    readonly startsAt: Date;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export type AzureHybridBenefitType = string;
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public (undocumented)
 export class AzureVMwareSolutionAPI {
@@ -153,7 +179,9 @@ export class AzureVMwareSolutionAPI {
     readonly hcxEnterpriseSites: HcxEnterpriseSitesOperations;
     readonly hosts: HostsOperations;
     readonly iscsiPaths: IscsiPathsOperations;
+    readonly licenses: LicensesOperations;
     readonly locations: LocationsOperations;
+    readonly maintenances: MaintenancesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly placementPolicies: PlacementPoliciesOperations;
@@ -171,6 +199,31 @@ export class AzureVMwareSolutionAPI {
 // @public
 export interface AzureVMwareSolutionAPIOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export type BlockedDatesConstraintCategory = string;
+
+// @public
+export interface BlockedDatesConstraintTimeRange {
+    readonly endsAt: Date;
+    readonly reason?: string;
+    readonly startsAt: Date;
+}
+
+// @public
+export interface BlockedWhileRescheduleOperation extends RescheduleOperationConstraint {
+    readonly category: BlockedDatesConstraintCategory;
+    kind: "Blocked";
+    readonly timeRanges?: BlockedDatesConstraintTimeRange[];
+}
+
+// @public
+export interface BlockedWhileScheduleOperation extends ScheduleOperationConstraint {
+    readonly category: BlockedDatesConstraintCategory;
+    kind: "Blocked";
+    readonly timeRanges?: BlockedDatesConstraintTimeRange[];
 }
 
 // @public
@@ -559,6 +612,17 @@ export interface Host extends ProxyResource {
 export type HostKind = string;
 
 // @public
+export interface HostLicense {
+    kind: HostLicenseKind;
+}
+
+// @public
+export type HostLicenseKind = string;
+
+// @public
+export type HostLicenseUnion = WindowsServerLicense | HostLicense;
+
+// @public
 export type HostMaintenance = string;
 
 // @public
@@ -568,6 +632,7 @@ export interface HostProperties {
     readonly faultDomain?: string;
     readonly fqdn?: string;
     kind: HostKind;
+    licenses?: HostLicenseUnion[];
     maintenance?: HostMaintenance;
     readonly moRefId?: string;
     readonly provisioningState?: HostProvisioningState;
@@ -591,6 +656,21 @@ export interface HostsListOptionalParams extends OperationOptions {
 export interface HostsOperations {
     get: (resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams) => Promise<Host>;
     list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams) => PagedAsyncIterableIterator<Host>;
+    update: (resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, properties: HostUpdate, options?: HostsUpdateOptionalParams) => Promise<Host>;
+}
+
+// @public
+export interface HostsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HostUpdate {
+    properties?: HostUpdateProperties;
+}
+
+// @public
+export interface HostUpdateProperties {
+    licenses?: HostLicenseUnion[];
 }
 
 // @public
@@ -605,6 +685,21 @@ export interface IdentitySource {
     secondaryServer?: string;
     ssl?: SslEnum;
     username?: string;
+}
+
+// @public
+export interface ImpactedMaintenanceResource {
+    readonly errors?: ImpactedMaintenanceResourceError[];
+    readonly id?: string;
+}
+
+// @public
+export interface ImpactedMaintenanceResourceError {
+    readonly actionRequired?: boolean;
+    readonly details?: string;
+    readonly errorCode?: string;
+    readonly name?: string;
+    readonly resolutionSteps?: string[];
 }
 
 // @public
@@ -650,6 +745,8 @@ export interface IscsiPathsOperations {
     listByPrivateCloud: (resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams) => PagedAsyncIterableIterator<IscsiPath>;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -668,13 +765,9 @@ export enum KnownAddonProvisioningState {
 
 // @public
 export enum KnownAddonType {
-    // (undocumented)
     Arc = "Arc",
-    // (undocumented)
     HCX = "HCX",
-    // (undocumented)
     SRM = "SRM",
-    // (undocumented)
     VR = "VR"
 }
 
@@ -700,6 +793,14 @@ export enum KnownAvailabilityStrategy {
 export enum KnownAzureHybridBenefitType {
     None = "None",
     SqlHost = "SqlHost"
+}
+
+// @public
+export enum KnownBlockedDatesConstraintCategory {
+    HiPriorityEvent = "HiPriorityEvent",
+    Holiday = "Holiday",
+    OverlappingMaintenance = "OverlappingMaintenance",
+    QuotaExhausted = "QuotaExhausted"
 }
 
 // @public
@@ -761,9 +862,7 @@ export enum KnownDatastoreStatus {
 
 // @public
 export enum KnownDhcpTypeEnum {
-    // (undocumented)
     Relay = "RELAY",
-    // (undocumented)
     Server = "SERVER"
 }
 
@@ -846,10 +945,13 @@ export enum KnownHcxEnterpriseSiteStatus {
 
 // @public
 export enum KnownHostKind {
-    // (undocumented)
     General = "General",
-    // (undocumented)
     Specialized = "Specialized"
+}
+
+// @public
+export enum KnownHostLicenseKind {
+    WindowsServer = "WindowsServer"
 }
 
 // @public
@@ -880,6 +982,97 @@ export enum KnownIscsiPathProvisioningState {
     Pending = "Pending",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownLicenseKind {
+    VmwareFirewall = "VmwareFirewall"
+}
+
+// @public
+export enum KnownLicenseName {
+    VmwareFirewall = "VmwareFirewall"
+}
+
+// @public
+export enum KnownLicenseProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownMaintenanceActivityKind {
+    Backup = "Backup",
+    CertificateRotation = "CertificateRotation",
+    Downgrade = "Downgrade",
+    Upgrade = "Upgrade"
+}
+
+// @public
+export enum KnownMaintenanceCheckType {
+    Precheck = "Precheck",
+    Preflight = "Preflight"
+}
+
+// @public
+export enum KnownMaintenanceGroupKind {
+    Consolidation = "Consolidation",
+    Logical = "Logical"
+}
+
+// @public
+export enum KnownMaintenanceManagementOperationKind {
+    MaintenanceReadinessRefresh = "MaintenanceReadinessRefresh",
+    Reschedule = "Reschedule",
+    Schedule = "Schedule"
+}
+
+// @public
+export enum KnownMaintenanceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownMaintenanceReadinessRefreshOperationStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotApplicable = "NotApplicable",
+    NotStarted = "NotStarted"
+}
+
+// @public
+export enum KnownMaintenanceReadinessStatus {
+    DataNotAvailable = "DataNotAvailable",
+    NotApplicable = "NotApplicable",
+    NotReady = "NotReady",
+    Ready = "Ready"
+}
+
+// @public
+export enum KnownMaintenanceStateName {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotScheduled = "NotScheduled",
+    Scheduled = "Scheduled",
+    Success = "Success"
+}
+
+// @public
+export enum KnownMaintenanceStatusFilter {
+    Active = "Active",
+    Inactive = "Inactive"
+}
+
+// @public
+export enum KnownMaintenanceType {
+    Esxi = "ESXI",
+    Nsxt = "NSXT",
+    Vcsa = "VCSA"
 }
 
 // @public
@@ -925,9 +1118,7 @@ export enum KnownPlacementPolicyState {
 
 // @public
 export enum KnownPlacementPolicyType {
-    // (undocumented)
     VmHost = "VmHost",
-    // (undocumented)
     VmVm = "VmVm"
 }
 
@@ -990,6 +1181,14 @@ export enum KnownQuotaEnabled {
 }
 
 // @public
+export enum KnownRescheduleOperationConstraintKind {
+    AvailableWindowForMaintenanceWhileRescheduleOperation = "AvailableWindowForMaintenance",
+    BlockedWhileRescheduleOperation = "Blocked",
+    ReschedulingWindow = "ReschedulingWindow",
+    WeekendRescheduling = "WeekendRescheduling"
+}
+
+// @public
 export enum KnownResourceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned"
@@ -1014,6 +1213,14 @@ export enum KnownResourceSkuRestrictionsType {
 }
 
 // @public
+export enum KnownScheduleOperationConstraintKind {
+    AvailableWindowForMaintenanceWhileScheduleOperation = "AvailableWindowForMaintenance",
+    BlockedWhileScheduleOperation = "Blocked",
+    SchedulingWindow = "SchedulingWindow",
+    WeekendScheduling = "WeekendScheduling"
+}
+
+// @public
 export enum KnownScriptCmdletAudience {
     Any = "Any",
     Automation = "Automation"
@@ -1028,11 +1235,8 @@ export enum KnownScriptCmdletProvisioningState {
 
 // @public
 export enum KnownScriptExecutionParameterType {
-    // (undocumented)
     Credential = "Credential",
-    // (undocumented)
     SecureValue = "SecureValue",
-    // (undocumented)
     Value = "Value"
 }
 
@@ -1093,9 +1297,16 @@ export enum KnownTrialStatus {
 }
 
 // @public
+export enum KnownVcfLicenseKind {
+    Vcf5 = "vcf5"
+}
+
+// @public
 export enum KnownVersions {
     V20230901 = "2023-09-01",
-    V20240901 = "2024-09-01"
+    V20240901 = "2024-09-01",
+    V20250901 = "2025-09-01",
+    V20260301 = "2026-03-01"
 }
 
 // @public
@@ -1211,6 +1422,66 @@ export enum KnownWorkloadNetworkVMGroupProvisioningState {
 }
 
 // @public
+export interface Label {
+    key: string;
+    value: string;
+}
+
+// @public
+export interface License extends ProxyResource {
+    properties?: LicensePropertiesUnion;
+}
+
+// @public
+export type LicenseKind = string;
+
+// @public
+export type LicenseName = string;
+
+// @public
+export interface LicenseProperties {
+    kind: LicenseKind;
+    readonly provisioningState?: LicenseProvisioningState;
+}
+
+// @public
+export type LicensePropertiesUnion = VmwareFirewallLicenseProperties | LicenseProperties;
+
+// @public
+export type LicenseProvisioningState = string;
+
+// @public
+export interface LicensesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LicensesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LicensesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LicensesGetPropertiesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LicensesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LicensesOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, licenseName: LicenseName, resource: License, options?: LicensesCreateOrUpdateOptionalParams) => PollerLike<OperationState<License>, License>;
+    delete: (resourceGroupName: string, privateCloudName: string, licenseName: LicenseName, options?: LicensesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, licenseName: LicenseName, options?: LicensesGetOptionalParams) => Promise<License>;
+    getProperties: (resourceGroupName: string, privateCloudName: string, licenseName: LicenseName, options?: LicensesGetPropertiesOptionalParams) => Promise<LicensePropertiesUnion>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: LicensesListOptionalParams) => PagedAsyncIterableIterator<License>;
+}
+
+// @public
 export interface LocationsCheckQuotaAvailabilityOptionalParams extends OperationOptions {
 }
 
@@ -1223,6 +1494,179 @@ export interface LocationsCheckTrialAvailabilityOptionalParams extends Operation
 export interface LocationsOperations {
     checkQuotaAvailability: (location: string, options?: LocationsCheckQuotaAvailabilityOptionalParams) => Promise<Quota>;
     checkTrialAvailability: (location: string, options?: LocationsCheckTrialAvailabilityOptionalParams) => Promise<Trial>;
+}
+
+// @public
+export interface Maintenance extends ProxyResource {
+    properties?: MaintenanceProperties;
+}
+
+// @public
+export interface MaintenanceActivity {
+    readonly component: string;
+    readonly impact?: string;
+    readonly infoLink?: string;
+    readonly kind: MaintenanceActivityKind;
+    readonly version: string;
+}
+
+// @public
+export type MaintenanceActivityKind = string;
+
+// @public
+export type MaintenanceCheckType = string;
+
+// @public
+export interface MaintenanceFailedCheck {
+    readonly impactedResources?: ImpactedMaintenanceResource[];
+    readonly name?: string;
+}
+
+// @public
+export interface MaintenanceGroup {
+    readonly id: string;
+    readonly kind: MaintenanceGroupKind;
+    readonly name: string;
+}
+
+// @public
+export type MaintenanceGroupKind = string;
+
+// @public
+export interface MaintenanceManagementOperation {
+    readonly kind: MaintenanceManagementOperationKind;
+}
+
+// @public
+export type MaintenanceManagementOperationKind = string;
+
+// @public
+export type MaintenanceManagementOperationUnion = ScheduleOperation | RescheduleOperation | MaintenanceReadinessRefreshOperation | MaintenanceManagementOperation;
+
+// @public
+export interface MaintenanceProperties {
+    readonly activities?: MaintenanceActivity[];
+    readonly clusterId?: number;
+    readonly component?: MaintenanceType;
+    readonly displayName?: string;
+    readonly estimatedDurationInMinutes?: number;
+    readonly group?: MaintenanceGroup;
+    readonly impact?: string;
+    readonly infoLink?: string;
+    readonly maintenanceReadiness?: MaintenanceReadiness;
+    readonly operations?: MaintenanceManagementOperationUnion[];
+    readonly provisioningState?: MaintenanceProvisioningState;
+    readonly relationships?: MaintenanceRelationships;
+    readonly scheduledByMicrosoft?: boolean;
+    readonly scheduledStartTime?: Date;
+    readonly state?: MaintenanceState;
+}
+
+// @public
+export type MaintenanceProvisioningState = string;
+
+// @public
+export interface MaintenanceReadiness {
+    readonly failedChecks?: MaintenanceFailedCheck[];
+    readonly lastUpdated?: Date;
+    readonly message?: string;
+    readonly status: MaintenanceReadinessStatus;
+    readonly type: MaintenanceCheckType;
+}
+
+// @public
+export interface MaintenanceReadinessRefreshOperation extends MaintenanceManagementOperation {
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "MaintenanceReadinessRefresh";
+    readonly message?: string;
+    readonly refreshedByMicrosoft?: boolean;
+    readonly status?: MaintenanceReadinessRefreshOperationStatus;
+}
+
+// @public
+export type MaintenanceReadinessRefreshOperationStatus = string;
+
+// @public
+export type MaintenanceReadinessStatus = string;
+
+// @public
+export interface MaintenanceRecommendation {
+    readonly maintenanceWindows?: MaintenanceWindowRecommendation[];
+}
+
+// @public
+export interface MaintenanceRelationships {
+    readonly dependencies?: string[];
+    readonly prerequisites?: string[];
+}
+
+// @public
+export interface MaintenanceReschedule {
+    message?: string;
+    rescheduleTime?: Date;
+}
+
+// @public
+export interface MaintenanceSchedule {
+    message?: string;
+    scheduleTime?: Date;
+}
+
+// @public
+export interface MaintenancesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenancesInitiateChecksOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenancesListOptionalParams extends OperationOptions {
+    fromParam?: Date;
+    stateName?: MaintenanceStateName;
+    status?: MaintenanceStatusFilter;
+    to?: Date;
+}
+
+// @public
+export interface MaintenancesOperations {
+    get: (resourceGroupName: string, privateCloudName: string, maintenanceName: string, options?: MaintenancesGetOptionalParams) => Promise<Maintenance>;
+    initiateChecks: (resourceGroupName: string, privateCloudName: string, maintenanceName: string, options?: MaintenancesInitiateChecksOptionalParams) => Promise<Maintenance>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: MaintenancesListOptionalParams) => PagedAsyncIterableIterator<Maintenance>;
+    reschedule: (resourceGroupName: string, privateCloudName: string, maintenanceName: string, body: MaintenanceReschedule, options?: MaintenancesRescheduleOptionalParams) => Promise<Maintenance>;
+    schedule: (resourceGroupName: string, privateCloudName: string, maintenanceName: string, body: MaintenanceSchedule, options?: MaintenancesScheduleOptionalParams) => Promise<Maintenance>;
+}
+
+// @public
+export interface MaintenancesRescheduleOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenancesScheduleOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceState {
+    endedAt?: Date;
+    message?: string;
+    name?: MaintenanceStateName;
+    startedAt?: Date;
+}
+
+// @public
+export type MaintenanceStateName = string;
+
+// @public
+export type MaintenanceStatusFilter = string;
+
+// @public
+export type MaintenanceType = string;
+
+// @public
+export interface MaintenanceWindowRecommendation {
+    readonly reason?: string;
+    readonly startTime: Date;
 }
 
 // @public
@@ -1403,6 +1847,7 @@ export interface PrivateCloudProperties {
     secondaryCircuit?: Circuit;
     readonly vcenterCertificateThumbprint?: string;
     vcenterPassword?: string;
+    vcfLicense?: VcfLicenseUnion;
     virtualNetworkId?: string;
     readonly vmotionNetwork?: string;
 }
@@ -1425,6 +1870,10 @@ export interface PrivateCloudsGetOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface PrivateCloudsGetVcfLicenseOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface PrivateCloudsListAdminCredentialsOptionalParams extends OperationOptions {
 }
 
@@ -1441,6 +1890,7 @@ export interface PrivateCloudsOperations {
     createOrUpdate: (resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
     delete: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams) => Promise<PrivateCloud>;
+    getVcfLicense: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetVcfLicenseOptionalParams) => Promise<VcfLicenseUnion>;
     list: (resourceGroupName: string, options?: PrivateCloudsListOptionalParams) => PagedAsyncIterableIterator<PrivateCloud>;
     listAdminCredentials: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsListAdminCredentialsOptionalParams) => Promise<AdminCredentials>;
     listInSubscription: (options?: PrivateCloudsListInSubscriptionOptionalParams) => PagedAsyncIterableIterator<PrivateCloud>;
@@ -1583,6 +2033,34 @@ export interface Quota {
 export type QuotaEnabled = string;
 
 // @public
+export interface RescheduleOperation extends MaintenanceManagementOperation {
+    readonly constraints?: RescheduleOperationConstraintUnion[];
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "Reschedule";
+    readonly recommendation?: MaintenanceRecommendation;
+}
+
+// @public
+export interface RescheduleOperationConstraint {
+    readonly kind: RescheduleOperationConstraintKind;
+}
+
+// @public
+export type RescheduleOperationConstraintKind = string;
+
+// @public
+export type RescheduleOperationConstraintUnion = ReschedulingWindowConstraint | WeekendReschedulingConstraint | AvailableWindowForMaintenanceWhileRescheduleOperation | BlockedWhileRescheduleOperation | RescheduleOperationConstraint;
+
+// @public
+export interface ReschedulingWindowConstraint extends RescheduleOperationConstraint {
+    readonly endsAt: Date;
+    // (undocumented)
+    kind: "ReschedulingWindow";
+    readonly startsAt: Date;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -1648,6 +2126,8 @@ export interface ResourceSkuZoneDetails {
     name: string[];
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureVMwareSolutionAPI, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -1656,6 +2136,33 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduleOperation extends MaintenanceManagementOperation {
+    readonly constraints?: ScheduleOperationConstraintUnion[];
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "Schedule";
+    readonly recommendation?: MaintenanceRecommendation;
+}
+
+// @public
+export interface ScheduleOperationConstraint {
+    readonly kind: ScheduleOperationConstraintKind;
+}
+
+// @public
+export type ScheduleOperationConstraintKind = string;
+
+// @public
+export type ScheduleOperationConstraintUnion = SchedulingWindow | WeekendSchedulingConstraint | AvailableWindowForMaintenanceWhileScheduleOperation | BlockedWhileScheduleOperation | ScheduleOperationConstraint;
+
+// @public
+export interface SchedulingWindow extends ScheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "SchedulingWindow";
+    readonly startsAt: Date;
 }
 
 // @public
@@ -1879,6 +2386,29 @@ export interface Trial {
 export type TrialStatus = string;
 
 // @public
+export interface Vcf5License extends VcfLicense {
+    broadcomContractNumber?: string;
+    broadcomSiteId?: string;
+    cores: number;
+    endDate: Date;
+    kind: "vcf5";
+    labels?: Label[];
+    licenseKey?: string;
+}
+
+// @public
+export interface VcfLicense {
+    kind: VcfLicenseKind;
+    readonly provisioningState?: LicenseProvisioningState;
+}
+
+// @public
+export type VcfLicenseKind = string;
+
+// @public
+export type VcfLicenseUnion = Vcf5License | VcfLicense;
+
+// @public
 export interface VirtualMachine extends ProxyResource {
     properties?: VirtualMachineProperties;
 }
@@ -1948,6 +2478,38 @@ export interface VmPlacementPolicyProperties extends PlacementPolicyProperties {
 
 // @public
 export type VMTypeEnum = string;
+
+// @public
+export interface VmwareFirewallLicenseProperties extends LicenseProperties {
+    broadcomContractNumber?: string;
+    broadcomSiteId?: string;
+    cores: number;
+    endDate: Date;
+    kind: "VmwareFirewall";
+    labels?: Label[];
+    licenseKey?: string;
+}
+
+// @public
+export interface WeekendReschedulingConstraint extends RescheduleOperationConstraint {
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    // (undocumented)
+    kind: "WeekendRescheduling";
+}
+
+// @public
+export interface WeekendSchedulingConstraint extends ScheduleOperationConstraint {
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    // (undocumented)
+    kind: "WeekendScheduling";
+}
+
+// @public
+export interface WindowsServerLicense extends HostLicense {
+    kind: "WindowsServer";
+}
 
 // @public
 export interface WorkloadNetwork extends ProxyResource {

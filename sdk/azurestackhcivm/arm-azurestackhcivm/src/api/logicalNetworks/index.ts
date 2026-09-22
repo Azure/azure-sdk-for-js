@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  LogicalNetworksListAllOptionalParams,
-  LogicalNetworksListByResourceGroupOptionalParams,
-  LogicalNetworksDeleteOptionalParams,
-  LogicalNetworksUpdateOptionalParams,
-  LogicalNetworksCreateOrUpdateOptionalParams,
-  LogicalNetworksGetOptionalParams,
+  type LogicalNetworksListAllOptionalParams,
+  type LogicalNetworksListByResourceGroupOptionalParams,
+  type LogicalNetworksDeleteOptionalParams,
+  type LogicalNetworksUpdateOptionalParams,
+  type LogicalNetworksCreateOrUpdateOptionalParams,
+  type LogicalNetworksGetOptionalParams,
 } from "./options.js";

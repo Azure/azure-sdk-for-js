@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { GlobalReachConnection } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { $delete, createOrUpdate, get, list } from "../../api/globalReachConnections/operations.js";
+import type {
   GlobalReachConnectionsDeleteOptionalParams,
   GlobalReachConnectionsCreateOrUpdateOptionalParams,
   GlobalReachConnectionsGetOptionalParams,
   GlobalReachConnectionsListOptionalParams,
 } from "../../api/globalReachConnections/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/globalReachConnections/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GlobalReachConnection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GlobalReachConnections operations. */
 export interface GlobalReachConnectionsOperations {
   /** Delete a GlobalReachConnection */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

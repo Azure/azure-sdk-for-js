@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeAll } from "vitest";
-import { parseOptions } from "../src/framework/parseOptions";
-import { makeCommandInfo, subCommand, leafCommand } from "../src/framework/command";
-import { silenceLogger } from "./util";
+import { parseOptions } from "../src/framework/parseOptions.ts";
+import { makeCommandInfo, subCommand, leafCommand } from "../src/framework/command.ts";
+import { silenceLogger } from "./util.ts";
 
 const simpleCommandInfo = makeCommandInfo("simple", "a simple command", {
   simpleArg: {

@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "include": ["../test/**/*.spec.ts", "../src/events.d.ts"],
+  "compilerOptions": {
+    "paths": {
+      "@azure/search-documents": ["../src/index.ts"],
+      "@azure/search-documents/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

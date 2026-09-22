@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ApplicationInsightsManagementClient } from "../src/applicationInsightsManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -40,10 +36,14 @@ describe("ApplicationInsights test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ApplicationInsightsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ApplicationInsightsManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
   });
 
   afterEach(async () => {
@@ -52,10 +52,9 @@ describe("ApplicationInsights test", () => {
 
   it("components list test", async function () {
     const resArray = new Array();
-    for await (let item of client.components.list()) {
+    for await (const item of client.components.list()) {
       resArray.push(item);
     }
     assert.ok(resArray.length);
   });
-
-})
+});

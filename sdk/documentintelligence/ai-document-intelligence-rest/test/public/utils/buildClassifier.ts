@@ -11,6 +11,7 @@ import { getClassifierTrainingDataContainerSasUrl } from "../../utils/injectable
 import { assert } from "vitest";
 import { getRandomNumber } from "./utils.js";
 import type { Recorder } from "@azure-tools/test-recorder";
+import { testPollingOptions } from "./recorderUtils.js";
 
 function containerSasUrl(): string {
   return getClassifierTrainingDataContainerSasUrl();
@@ -50,7 +51,7 @@ export async function buildClassifier(
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
     }
-    const response = await getLongRunningPoller(client, initialResponse);
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     _classifier = response.body as DocumentClassifierDetailsOutput;
 
     assert.equal(_classifier.description, customClassifierDescription);

@@ -1,0 +1,9 @@
+{
+  "extends": "../../../../eng/tsconfigs/snippets.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/logger": ["../src/index.ts"],
+      "@azure/logger/*": ["../src/*"]
+    }
+  }
+}

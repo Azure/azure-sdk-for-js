@@ -1,7 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface DeleteEkmConnectionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface UpdateEkmConnectionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface CreateEkmConnectionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface CheckEkmConnectionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface GetEkmCertificateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface GetEkmConnectionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetSettingsOptionalParams extends OperationOptions {}

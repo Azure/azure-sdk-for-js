@@ -34,7 +34,10 @@ export interface ManagedClustersDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ManagedClustersUpdateOptionalParams extends OperationOptions {}
+export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface ManagedClustersCreateOrUpdateOptionalParams extends OperationOptions {

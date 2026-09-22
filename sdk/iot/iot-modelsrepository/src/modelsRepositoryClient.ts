@@ -12,8 +12,8 @@ import {
 import type { InternalClientPipelineOptions } from "@azure/core-client";
 import { createClientPipeline } from "@azure/core-client";
 import type { Fetcher } from "./fetcherAbstract.js";
-import { isLocalPath, normalize } from "./utils/path.js";
-import { FilesystemFetcher } from "./fetcherFilesystem.js";
+import { isLocalPath, normalize } from "#platform/utils/path";
+import { FilesystemFetcher } from "#platform/fetcherFilesystem";
 import type { dependencyResolutionType } from "./dependencyResolutionType.js";
 import { DtmiResolver } from "./dtmiResolver.js";
 import { PseudoParser } from "./psuedoParser.js";

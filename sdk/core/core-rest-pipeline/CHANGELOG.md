@@ -1,5 +1,33 @@
 # Release History
 
+## 1.25.0 (2026-07-13)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 1.24.0 (2026-06-05)
+
+### Features Added
+
+- Use and export type aliases on public API surface [PR #38205](https://github.com/Azure/azure-sdk-for-js/pull/38205)
+
+## 1.23.0 (2026-03-05)
+
+### Features Added
+
+- Added `allowCrossOriginRedirects` option to `RedirectPolicyOptions`. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+
+### Bugs Fixed
+
+- The redirect policy now only follows same-origin redirects by default. Set `allowCrossOriginRedirects` to `true` to restore the previous behavior. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+
+## 1.22.2 (2025-11-06)
+
+### Bugs Fixed
+
+- Fix invalid format of "User-Agent" header value [Issue #36383](https://github.com/Azure/azure-sdk-for-js/issues/36383)
+
 ## 1.22.1 (2025-09-11)
 
 ### Other Changes

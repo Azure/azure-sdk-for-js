@@ -9,5 +9,4 @@ import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCreden
  * Defines options for the EnvironmentCredential class.
  */
 export interface EnvironmentCredentialOptions
-  extends MultiTenantTokenCredentialOptions,
-    AuthorityValidationOptions {}
+  extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {}

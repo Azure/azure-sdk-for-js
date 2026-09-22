@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/snippets.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity": ["../src/index.ts"],
+      "@azure/identity/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

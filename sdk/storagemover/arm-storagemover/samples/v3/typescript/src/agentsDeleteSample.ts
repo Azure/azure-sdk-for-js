@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an Agent resource.
  *
  * @summary deletes an Agent resource.
- * x-ms-original-file: 2025-07-01/Agents_Delete.json
+ * x-ms-original-file: 2025-12-01/Agents_Delete.json
  */
 async function agentsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

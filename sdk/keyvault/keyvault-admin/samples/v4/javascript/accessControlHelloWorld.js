@@ -11,10 +11,9 @@ const {
   KnownKeyVaultRoleScope,
 } = require("@azure/keyvault-admin");
 const { DefaultAzureCredential } = require("@azure/identity");
-const uuid = require("uuid");
-
+const { randomUUID } = require("@azure/core-util");
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -32,7 +31,7 @@ async function main() {
   }
 
   const globalScope = KnownKeyVaultRoleScope.Global;
-  const roleDefinitionName = uuid.v4();
+  const roleDefinitionName = randomUUID();
   const permissions = [
     {
       dataActions: [
@@ -41,7 +40,7 @@ async function main() {
       ],
     },
   ];
-  let roleDefinition = await client.setRoleDefinition(globalScope, {
+  const roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
     permissions,
@@ -51,7 +50,7 @@ async function main() {
 
   // This sample uses a custom role but you may assign one of the many built-in roles.
   // Please refer to https://learn.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
-  const roleAssignmentName = uuid.v4();
+  const roleAssignmentName = randomUUID();
   const clientObjectId = process.env["CLIENT_OBJECT_ID"];
   if (!clientObjectId) {
     throw new Error("Missing environment variable CLIENT_OBJECT_ID.");
@@ -60,7 +59,7 @@ async function main() {
     globalScope,
     roleAssignmentName,
     roleDefinition.id,
-    clientObjectId
+    clientObjectId,
   );
   console.log(assignment);
 

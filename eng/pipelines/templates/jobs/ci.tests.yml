@@ -34,7 +34,8 @@ jobs:
       and(
         succeededOrFailed(),
         ne(variables['Skip.Test'], 'true'),
-        ne(${{ parameters.Matrix }}, '{}')
+        ne(${{ parameters.Matrix }}, '{}'),
+        ne(lower(dependencies.generate_job_matrix.outputs['scope.SkipTests']), 'true')
       )
 
     dependsOn:
@@ -56,6 +57,15 @@ jobs:
       ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
         # Add a default so the job doesn't fail when the matrix is empty
         container: $[ variables['Container'] ]
+
+    templateContext:
+      # See eng/common/pipelines/templates/steps/upload-llm-artifacts.yml for corresponding file copy step
+      outputs:
+        - output: pipelineArtifact
+          targetPath: '$(Build.ArtifactStagingDirectory)/llm-artifacts'
+          artifactName: "LLM Artifacts - $(System.JobName) - $(System.JobAttempt)"
+          condition: eq(variables['uploadLlmArtifacts'], 'true')
+          sbomEnabled: false
 
     variables:
       - template: ../variables/globals.yml

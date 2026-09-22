@@ -2,13 +2,16 @@
 // Licensed under the MIT License.
 
 import { isNodeLike, isBrowser } from "@azure/core-util";
-import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   FilePosixProperties,
+  FileListRangesSegmentResponse,
   FileStartCopyOptions,
   NfsFileMode,
   ShareClient,
   ShareDirectoryClient,
+  ShareFileRange,
   ShareServiceClient,
 } from "../src/index.js";
 import { ShareFileClient } from "../src/index.js";
@@ -29,8 +32,7 @@ import {
   getGenericBSU,
   getTokenBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -65,14 +67,12 @@ describe("FileClient", () => {
   fullFileAttributes.noScrubData = true;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -101,17 +101,40 @@ describe("FileClient", () => {
     const cResp = await fileClient.create(content.length);
     assert.equal(cResp.errorCode, undefined);
     assert.equal(cResp.fileAttributes!, "Archive");
-    assert.ok(cResp.fileChangeOn!);
-    assert.ok(cResp.fileCreatedOn!);
-    assert.ok(cResp.fileId!);
-    assert.ok(cResp.fileLastWriteOn!);
-    assert.ok(cResp.fileParentId!);
-    assert.ok(cResp.filePermissionKey!);
+    assert.isDefined(cResp.fileChangeOn!);
+    assert.isDefined(cResp.fileCreatedOn!);
+    assert.isDefined(cResp.fileId!);
+    assert.isDefined(cResp.fileLastWriteOn!);
+    assert.isDefined(cResp.fileParentId!);
+    assert.isDefined(cResp.filePermissionKey!);
 
     const result = await fileClient.download(0);
     assert.deepStrictEqual(
       await bodyToString(result, content.length),
       "\u0000".repeat(content.length),
+    );
+  });
+
+  it("create with content", async () => {
+    const cResp = await fileClient.create(content.length + 10, {
+      content: content,
+      contentLength: content.length,
+    });
+    assert.equal(cResp.errorCode, undefined);
+    assert.equal(cResp.fileAttributes!, "Archive");
+    assert.isDefined(cResp.fileChangeOn!);
+    assert.isDefined(cResp.fileCreatedOn!);
+    assert.isDefined(cResp.fileId!);
+    assert.isDefined(cResp.fileLastWriteOn!);
+    assert.isDefined(cResp.fileParentId!);
+    assert.isDefined(cResp.filePermissionKey!);
+
+    const properties = await fileClient.getProperties();
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(
+      await bodyToString(result, properties.contentLength),
+      content + "\u0000".repeat(10),
     );
   });
 
@@ -141,21 +164,21 @@ describe("FileClient", () => {
     const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
     const respFileAttributesFromDownload = FileSystemAttributes.parse(result.fileAttributes!);
-    assert.ok(respFileAttributesFromDownload.readonly);
-    assert.ok(respFileAttributesFromDownload.hidden);
-    assert.ok(respFileAttributesFromDownload.system);
-    assert.ok(respFileAttributesFromDownload.archive);
-    assert.ok(respFileAttributesFromDownload.offline);
-    assert.ok(respFileAttributesFromDownload.notContentIndexed);
-    assert.ok(respFileAttributesFromDownload.noScrubData);
-    assert.ok(respFileAttributesFromDownload.temporary);
+    assert.isDefined(respFileAttributesFromDownload.readonly);
+    assert.isDefined(respFileAttributesFromDownload.hidden);
+    assert.isDefined(respFileAttributesFromDownload.system);
+    assert.isDefined(respFileAttributesFromDownload.archive);
+    assert.isDefined(respFileAttributesFromDownload.offline);
+    assert.isDefined(respFileAttributesFromDownload.notContentIndexed);
+    assert.isDefined(respFileAttributesFromDownload.noScrubData);
+    assert.isDefined(respFileAttributesFromDownload.temporary);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
 
     const properties = await fileClient.getProperties();
     assert.equal(properties.cacheControl, options.fileHttpHeaders.fileCacheControl);
@@ -167,21 +190,21 @@ describe("FileClient", () => {
     assert.equal(properties.metadata!.key2, options.metadata.key2);
     assert.equal(properties.errorCode, undefined);
     const respFileAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
-    assert.ok(respFileAttributes.readonly);
-    assert.ok(respFileAttributes.hidden);
-    assert.ok(respFileAttributes.system);
-    assert.ok(respFileAttributes.archive);
-    assert.ok(respFileAttributes.offline);
-    assert.ok(respFileAttributes.notContentIndexed);
-    assert.ok(respFileAttributes.noScrubData);
-    assert.ok(respFileAttributes.temporary);
+    assert.isDefined(respFileAttributes.readonly);
+    assert.isDefined(respFileAttributes.hidden);
+    assert.isDefined(respFileAttributes.system);
+    assert.isDefined(respFileAttributes.archive);
+    assert.isDefined(respFileAttributes.offline);
+    assert.isDefined(respFileAttributes.notContentIndexed);
+    assert.isDefined(respFileAttributes.noScrubData);
+    assert.isDefined(respFileAttributes.temporary);
     assert.equal(truncatedISO8061Date(properties.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(properties.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(properties.fileChangeOn!);
-    assert.ok(properties.fileId!);
-    assert.ok(properties.fileParentId!);
+    assert.isDefined(properties.fileChangeOn!);
+    assert.isDefined(properties.fileId!);
+    assert.isDefined(properties.fileParentId!);
   });
 
   it("create with sddl permission format", async () => {
@@ -200,7 +223,7 @@ describe("FileClient", () => {
 
     const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
-    assert.ok(result.filePermissionKey!);
+    assert.isDefined(result.filePermissionKey!);
 
     const properties = await fileClient.getProperties();
     assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
@@ -222,7 +245,7 @@ describe("FileClient", () => {
 
     const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
-    assert.ok(result.filePermissionKey!);
+    assert.isDefined(result.filePermissionKey!);
 
     const properties = await fileClient.getProperties();
     assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
@@ -253,7 +276,7 @@ describe("FileClient", () => {
       }
     }
 
-    assert.ok(foundFile, "The file should have been created.");
+    assert.isTrue(foundFile, "The file should have been created.");
 
     await fileClientWithDirDots.delete();
 
@@ -272,7 +295,7 @@ describe("FileClient", () => {
       }
     }
 
-    assert.ok(foundFile, "The file should have been created.");
+    assert.isTrue(foundFile, "The file should have been created.");
 
     await fileClientShouldInRootDir.delete();
   });
@@ -290,7 +313,7 @@ describe("FileClient", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory should have been created.");
+    assert.isTrue(foundDir, "The directory should have been created.");
 
     await dirClientWithDirDots.delete();
 
@@ -309,7 +332,7 @@ describe("FileClient", () => {
       }
     }
 
-    assert.ok(foundDir, "The file should have been created.");
+    assert.isTrue(foundDir, "The file should have been created.");
 
     await dirClientShouldInRootDir.delete();
   });
@@ -321,20 +344,19 @@ describe("FileClient", () => {
     const result = await fileClient.getProperties();
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, "Archive");
-    assert.ok(result.fileCreatedOn!);
-    assert.ok(result.fileLastWriteOn!);
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
-    assert.ok(result.lastModified);
+    assert.isDefined(result.fileCreatedOn!);
+    assert.isDefined(result.fileLastWriteOn!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("setProperties with all parameters configured setting filePermission", async () => {
@@ -369,21 +391,21 @@ describe("FileClient", () => {
     const result = await fileClient.getProperties();
     assert.equal(result.errorCode, undefined);
     const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
-    assert.ok(respFileAttributes.readonly);
-    assert.ok(respFileAttributes.hidden);
-    assert.ok(respFileAttributes.system);
-    assert.ok(respFileAttributes.archive);
-    assert.ok(respFileAttributes.offline);
-    assert.ok(respFileAttributes.notContentIndexed);
-    assert.ok(respFileAttributes.noScrubData);
-    assert.ok(respFileAttributes.temporary);
+    assert.isDefined(respFileAttributes.readonly);
+    assert.isDefined(respFileAttributes.hidden);
+    assert.isDefined(respFileAttributes.system);
+    assert.isDefined(respFileAttributes.archive);
+    assert.isDefined(respFileAttributes.offline);
+    assert.isDefined(respFileAttributes.notContentIndexed);
+    assert.isDefined(respFileAttributes.noScrubData);
+    assert.isDefined(respFileAttributes.temporary);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -417,14 +439,13 @@ describe("FileClient", () => {
     await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
 
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("setHTTPHeaders with all parameters set", async () => {
@@ -439,7 +460,7 @@ describe("FileClient", () => {
     };
     await fileClient.setHttpHeaders(headers);
     const result = await fileClient.getProperties();
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.deepStrictEqual(result.cacheControl, headers.fileCacheControl);
     assert.deepStrictEqual(result.contentType, headers.fileContentType);
@@ -460,9 +481,9 @@ describe("FileClient", () => {
       },
     );
     const result = await fileClient.getProperties();
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(result.filePermissionKey);
+    assert.isDefined(result.filePermissionKey);
   });
 
   it("setHTTPHeaders with sddl permissions", async () => {
@@ -477,9 +498,9 @@ describe("FileClient", () => {
       },
     );
     const result = await fileClient.getProperties();
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(result.filePermissionKey);
+    assert.isDefined(result.filePermissionKey);
   });
 
   it("setHTTPHeaders with binary permissions", async () => {
@@ -492,9 +513,9 @@ describe("FileClient", () => {
       },
     );
     const result = await fileClient.getProperties();
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(result.filePermissionKey);
+    assert.isDefined(result.filePermissionKey);
   });
 
   it("startCopy - with sddl file permission", async () => {
@@ -509,11 +530,11 @@ describe("FileClient", () => {
         filePermissionCopyMode: "override",
       },
     });
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties = await newFileClient.getProperties();
-    assert.ok(properties.lastModified);
-    assert.ok(properties.filePermissionKey);
+    assert.isDefined(properties.lastModified);
+    assert.isDefined(properties.filePermissionKey);
   });
 
   it("startCopy - with binary file permission", async () => {
@@ -528,11 +549,11 @@ describe("FileClient", () => {
         filePermissionCopyMode: "override",
       },
     });
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties = await newFileClient.getProperties();
-    assert.ok(properties.lastModified);
-    assert.ok(properties.filePermissionKey);
+    assert.isDefined(properties.lastModified);
+    assert.isDefined(properties.filePermissionKey);
   });
 
   it("delete", async () => {
@@ -542,12 +563,12 @@ describe("FileClient", () => {
 
   it("deleteIfExists", async () => {
     const res = await fileClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ResourceNotFound");
 
     await fileClient.create(content.length);
     const res2 = await fileClient.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("deleteIfExists when parent not exists", async () => {
@@ -556,14 +577,14 @@ describe("FileClient", () => {
     );
     const newFileClient = newDirectoryClient.getFileClient(fileName);
     const res = await newFileClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ParentNotFound");
   });
 
   it("exists", async () => {
-    assert.ok(!(await fileClient.exists()));
+    assert.isFalse(await fileClient.exists());
     await fileClient.create(content.length);
-    assert.ok(await fileClient.exists());
+    assert.isTrue(await fileClient.exists());
   });
 
   it("startCopyFromURL", async (ctx) => {
@@ -575,7 +596,7 @@ describe("FileClient", () => {
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties1 = await fileClient.getProperties();
     const properties2 = await newFileClient.getProperties();
@@ -586,7 +607,7 @@ describe("FileClient", () => {
     if (isLiveMode()) {
       // A service feature is being rolling out which will sanitize the sig field
       // so we remove it before comparing urls.
-      assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+      assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
 
       const sanitizedActualUrl = new URL(properties2.copySource!);
       sanitizedActualUrl.searchParams.delete("sig");
@@ -622,7 +643,7 @@ describe("FileClient", () => {
     };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     const sourceProperties = await fileClient.getProperties();
     const targetProperties = await newFileClient.getProperties();
 
@@ -659,7 +680,7 @@ describe("FileClient", () => {
     };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     const sourceProperties = await fileClient.getProperties();
     const targetProperties = await newFileClient.getProperties();
 
@@ -699,7 +720,7 @@ describe("FileClient", () => {
     };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     const sourceProperties = await fileClient.getProperties();
     const targetProperties = await newFileClient.getProperties();
 
@@ -718,7 +739,7 @@ describe("FileClient", () => {
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     await delay(1 * 1000);
 
     try {
@@ -727,7 +748,7 @@ describe("FileClient", () => {
         "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
-      assert.ok(true);
+      // Expected - test passes if exception is thrown
     }
   });
 
@@ -761,14 +782,14 @@ describe("FileClient", () => {
     const updatedProperties = await fileClient.getProperties();
     assert.deepStrictEqual(updatedProperties.contentLength, 1);
     const respFileAttributes = FileSystemAttributes.parse(updatedProperties.fileAttributes!);
-    assert.ok(respFileAttributes.readonly);
-    assert.ok(respFileAttributes.hidden);
-    assert.ok(respFileAttributes.system);
-    assert.ok(respFileAttributes.archive);
-    assert.ok(respFileAttributes.offline);
-    assert.ok(respFileAttributes.notContentIndexed);
-    assert.ok(respFileAttributes.noScrubData);
-    assert.ok(respFileAttributes.temporary);
+    assert.isDefined(respFileAttributes.readonly);
+    assert.isDefined(respFileAttributes.hidden);
+    assert.isDefined(respFileAttributes.system);
+    assert.isDefined(respFileAttributes.archive);
+    assert.isDefined(respFileAttributes.offline);
+    assert.isDefined(respFileAttributes.notContentIndexed);
+    assert.isDefined(respFileAttributes.noScrubData);
+    assert.isDefined(respFileAttributes.temporary);
     assert.equal(
       truncatedISO8061Date(updatedProperties.fileCreatedOn!),
       truncatedISO8061Date(creationDate),
@@ -800,18 +821,18 @@ describe("FileClient", () => {
 
     await fileClient.uploadData(arrayBuf);
     const res = await fileClient.download();
-    assert.ok(compareBodyWithUint8Array(res, uint8Array));
+    assert.isTrue(await compareBodyWithUint8Array(res, uint8Array));
 
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await fileClient.uploadData(uint8ArrayPartial);
     const res1 = await fileClient.download();
-    assert.ok(compareBodyWithUint8Array(res1, uint8ArrayPartial));
+    assert.isTrue(await compareBodyWithUint8Array(res1, uint8ArrayPartial));
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await fileClient.uploadData(uint16Array);
     const res2 = await fileClient.download();
-    assert.ok(
-      compareBodyWithUint8Array(
+    assert.isTrue(
+      await compareBodyWithUint8Array(
         res2,
         new Uint8Array(arrayBuf, uint16Array.byteOffset, uint16Array.byteLength),
       ),
@@ -927,7 +948,7 @@ describe("FileClient", () => {
     await fileClient.clearRange(0, 513);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -947,17 +968,17 @@ describe("FileClient", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
     const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
@@ -971,24 +992,24 @@ describe("FileClient", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
 
     const snapshotRes2 = await shareClient.createSnapshot();
-    assert.ok(snapshotRes2.snapshot);
+    assert.isDefined(snapshotRes2.snapshot);
 
     await fileClient.uploadRange("Hello", 0, 5);
 
     const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
     const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
@@ -1002,7 +1023,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     const newFileName = recorder.variable("rename_file", getUniqueName("rename_file"));
     const renamedFileClient = (await fileClient.rename(newFileName)).destinationFileClient;
@@ -1021,11 +1042,11 @@ describe("FileClient", () => {
       includeRenames: true,
     });
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
@@ -1039,7 +1060,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
@@ -1048,7 +1069,7 @@ describe("FileClient", () => {
     const renamedFileClient = (await fileClient.rename(newFileName)).destinationFileClient;
 
     const snapshotRes2 = await shareClient.createSnapshot();
-    assert.ok(snapshotRes2.snapshot);
+    assert.isDefined(snapshotRes2.snapshot);
 
     await renamedFileClient.uploadRange("Hello", 0, 5);
 
@@ -1065,13 +1086,245 @@ describe("FileClient", () => {
       includeRenames: true,
     });
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("listRanges", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRanges()) {
+      ranges.push(range);
+    }
+    assert.deepStrictEqual(ranges.length, 1);
+    assert.deepStrictEqual(ranges[0], { start: 0, end: 9, isClear: false });
+  });
+
+  it("listRanges with share snapshot", async () => {
+    await fileClient.create(513); // 512-byte aligned
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(0, 513);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes.snapshot!);
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClientWithShareSnapShot.listRanges()) {
+      ranges.push(range);
+    }
+
+    assert.deepStrictEqual(ranges.length, 1);
+    assert.deepStrictEqual(ranges[0], { start: 512, end: 512, isClear: false });
+  });
+
+  it("listRanges by page", async () => {
+    // Write into non-adjacent 512-byte blocks (an empty block between each) so the service
+    // reports three distinct ranges instead of coalescing adjacent blocks into one.
+    await fileClient.create(512 * 5);
+    await fileClient.uploadRange("aaa", 0, 3);
+    await fileClient.uploadRange("bbb", 1024, 3);
+    await fileClient.uploadRange("ccc", 2048, 3);
+
+    const foundRanges: ShareFileRange[] = [];
+    let pageCount = 0;
+    for await (const page of fileClient.listRanges().byPage({ maxPageSize: 1 })) {
+      ++pageCount;
+      for (const range of page.ranges ?? []) {
+        foundRanges.push({ start: range.start, end: range.end, isClear: false });
+      }
+    }
+
+    assert.deepStrictEqual(foundRanges.length, 3);
+    assert.isAtLeast(pageCount, 1);
+  });
+
+  it("listRanges with continuation token", async () => {
+    // Write into non-adjacent 512-byte blocks (an empty block between each) so the service
+    // reports three distinct ranges, enabling real page-by-page continuation.
+    await fileClient.create(512 * 5);
+    await fileClient.uploadRange("aaa", 0, 3);
+    await fileClient.uploadRange("bbb", 1024, 3);
+    await fileClient.uploadRange("ccc", 2048, 3);
+
+    let iterator = fileClient.listRanges().byPage({ maxPageSize: 1 });
+    let response = (await iterator.next()).value;
+    assert.deepStrictEqual(response.ranges!.length, 1);
+
+    const marker = response.continuationToken;
+    assert.isDefined(marker);
+
+    iterator = fileClient.listRanges().byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iterator.next()).value;
+    assert.isAtLeast(response.ranges!.length, 1);
+  });
+
+  it("listRangesDiff", async () => {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRangesDiff(snapshotRes.snapshot!)) {
+      ranges.push(range);
+    }
+
+    // Invariants that hold regardless of how the service chunks the diff.
+    for (const range of ranges) {
+      assert.isBoolean(range.isClear);
+      assert.isAtMost(range.start, range.end);
+    }
+    for (let i = 1; i < ranges.length; i++) {
+      assert.isAtLeast(
+        ranges[i].start,
+        ranges[i - 1].start,
+        "ranges must be sorted by start position",
+      );
+    }
+
+    if (!isLiveMode()) {
+      // Exact byte offsets are only stable against recordings.
+      const clearedRanges = ranges.filter((r) => r.isClear);
+      const populatedRanges = ranges.filter((r) => !r.isClear);
+
+      assert.deepStrictEqual(clearedRanges.length, 1);
+      assert.deepStrictEqual(clearedRanges[0], { start: 0, end: 511, isClear: true });
+      assert.deepStrictEqual(populatedRanges.length, 1);
+      assert.deepStrictEqual(populatedRanges[0], { start: 512, end: 1535, isClear: false });
+    }
+  });
+
+  it("listRanges on an empty file yields no ranges", async () => {
+    await fileClient.create(1024);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRanges()) {
+      ranges.push(range);
+    }
+    assert.deepStrictEqual(ranges.length, 0);
+  });
+
+  it("listRangesDiff interleaves cleared and populated ranges in start order", async () => {
+    // Baseline: write data into segments [0,511] and [1024,1535] so they can be cleared later.
+    await fileClient.create(512 * 4);
+    await fileClient.uploadRange("a", 0, 1);
+    await fileClient.uploadRange("c", 1024, 1);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    // After the snapshot, alternate clears and writes to produce an interleaved diff.
+    await fileClient.clearRange(0, 512); // -> cleared [0, 511]
+    await fileClient.uploadRange("b", 512, 1); // -> populated [512, 1023]
+    await fileClient.clearRange(1024, 512); // -> cleared [1024, 1535]
+    await fileClient.uploadRange("d", 1536, 1); // -> populated [1536, 2047]
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRangesDiff(snapshotRes.snapshot!)) {
+      ranges.push(range);
+    }
+
+    // Invariants that hold regardless of how the service chunks the diff: the two-pointer merge in
+    // extractShareFileRangeItems must yield a single sequence sorted by start, interleaving cleared
+    // and populated ranges.
+    for (const range of ranges) {
+      assert.isBoolean(range.isClear);
+      assert.isAtMost(range.start, range.end);
+    }
+    for (let i = 1; i < ranges.length; i++) {
+      assert.isAtLeast(
+        ranges[i].start,
+        ranges[i - 1].start,
+        "ranges must be sorted by start position",
+      );
+    }
+
+    if (!isLiveMode()) {
+      // Exact byte offsets are only stable against recordings.
+      assert.deepStrictEqual(ranges, [
+        { start: 0, end: 511, isClear: true },
+        { start: 512, end: 1023, isClear: false },
+        { start: 1024, end: 1535, isClear: true },
+        { start: 1536, end: 2047, isClear: false },
+      ]);
+    }
+  });
+
+  it("listRangesDiff by page and continuation token", async () => {
+    // Baseline: write data into segments [0,511] and [1024,1535] so they can be cleared later.
+    await fileClient.create(512 * 4);
+    await fileClient.uploadRange("a", 0, 1);
+    await fileClient.uploadRange("c", 1024, 1);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    // After the snapshot, alternate clears and writes to produce an interleaved diff.
+    await fileClient.clearRange(0, 512); // -> cleared [0, 511]
+    await fileClient.uploadRange("b", 512, 1); // -> populated [512, 1023]
+    await fileClient.clearRange(1024, 512); // -> cleared [1024, 1535]
+    await fileClient.uploadRange("d", 1536, 1); // -> populated [1536, 2047]
+
+    const collect = (page: FileListRangesSegmentResponse): ShareFileRange[] => [
+      ...(page.ranges ?? []).map((r) => ({ start: r.start, end: r.end, isClear: false })),
+      ...(page.clearRanges ?? []).map((r) => ({ start: r.start, end: r.end, isClear: true })),
+    ];
+
+    // First page.
+    let iterator = fileClient.listRangesDiff(snapshotRes.snapshot!).byPage({ maxPageSize: 1 });
+    const response = (await iterator.next()).value;
+    const items: ShareFileRange[] = collect(response);
+
+    // A continuation token must be returned while more ranges remain.
+    const marker = response.continuationToken;
+    assert.isDefined(marker);
+
+    // Resume from the continuation token. prevShareSnapshot must be preserved on the resumed
+    // request, otherwise the service would reject it or return the wrong ranges.
+    iterator = fileClient
+      .listRangesDiff(snapshotRes.snapshot!)
+      .byPage({ continuationToken: marker });
+    for await (const page of iterator) {
+      items.push(...collect(page));
+    }
+
+    items.sort((x, y) => x.start - y.start);
+
+    if (!isLiveMode()) {
+      // Exact byte offsets are only stable against recordings.
+      assert.deepStrictEqual(items, [
+        { start: 0, end: 511, isClear: true },
+        { start: 512, end: 1023, isClear: false },
+        { start: 1024, end: 1535, isClear: true },
+        { start: 1536, end: 2047, isClear: false },
+      ]);
+    } else {
+      // Invariants that hold regardless of how the service chunks the diff.
+      for (const item of items) {
+        assert.isBoolean(item.isClear);
+        assert.isAtMost(item.start, item.end);
+      }
+      for (let i = 1; i < items.length; i++) {
+        assert.isAtLeast(items[i].start, items[i - 1].start);
+      }
+    }
   });
 
   it("download with with default parameters", async () => {
@@ -1157,7 +1410,7 @@ describe("FileClient", () => {
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("listHandles should work", async () => {
@@ -1251,8 +1504,9 @@ describe("FileClient", () => {
     await fileClient.create(1024);
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
     const result = await fileClient.rename(destFileName);
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -1262,7 +1516,7 @@ describe("FileClient", () => {
     try {
       await fileClient.getProperties();
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1277,8 +1531,9 @@ describe("FileClient", () => {
     const result = await fileClient.rename(destFileName, {
       metadata: metadata,
     });
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -1289,7 +1544,7 @@ describe("FileClient", () => {
     try {
       await fileClient.getProperties();
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1310,8 +1565,9 @@ describe("FileClient", () => {
     const destFilePath = destParentDirName + "/" + destFileName;
 
     const result = await sourceFile.rename(destFilePath);
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -1322,7 +1578,7 @@ describe("FileClient", () => {
       await sourceFile.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1338,8 +1594,9 @@ describe("FileClient", () => {
       replaceIfExists: true,
     });
 
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -1350,7 +1607,7 @@ describe("FileClient", () => {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1367,15 +1624,16 @@ describe("FileClient", () => {
       await sourceFileClient.rename(destFileName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
     } catch (err: any) {
-      assert.ok(
-        (err.statusCode as number) === 409,
+      assert.strictEqual(
+        err.statusCode as number,
+        409,
         "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
     await sourceFileClient.getProperties();
     const properties = await targetFileClient.getProperties();
-    assert.ok(properties.contentLength === 2048, "The origin file should still exist");
+    assert.strictEqual(properties.contentLength, 2048, "The origin file should still exist");
   });
 
   it("rename - ignoreReadOnly = true", async () => {
@@ -1401,7 +1659,11 @@ describe("FileClient", () => {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1423,15 +1685,16 @@ describe("FileClient", () => {
       });
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
     } catch (err: any) {
-      assert.ok(
-        (err.statusCode as number) === 409,
+      assert.strictEqual(
+        err.statusCode as number,
+        409,
         "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
     await sourceFileClient.getProperties();
     const properties = await targetFileClient.getProperties();
-    assert.ok(properties.contentLength === 2048, "The origin file should still exist");
+    assert.strictEqual(properties.contentLength, 2048, "The origin file should still exist");
   });
 
   it("rename - destination leased", async () => {
@@ -1461,7 +1724,11 @@ describe("FileClient", () => {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1485,15 +1752,16 @@ describe("FileClient", () => {
 
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
     } catch (err: any) {
-      assert.ok(
-        (err.statusCode as number) === 412,
+      assert.strictEqual(
+        err.statusCode as number,
+        412,
         "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
     await sourceFileClient.getProperties();
     const properties = await targetFileClient.getProperties();
-    assert.ok(properties.contentLength === 2048, "The origin file should still exist");
+    assert.strictEqual(properties.contentLength, 2048, "The origin file should still exist");
   });
 
   it("rename - source leased", async () => {
@@ -1532,7 +1800,7 @@ describe("FileClient", () => {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1558,8 +1826,9 @@ describe("FileClient", () => {
       await sourceFileClient.rename(destFileName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
     } catch (err: any) {
-      assert.ok(
-        (err.statusCode as number) === 412,
+      assert.strictEqual(
+        err.statusCode as number,
+        412,
         "Should got conflict error when trying to overwrite an exiting file",
       );
     }
@@ -1577,8 +1846,9 @@ describe("FileClient", () => {
     await sourceFileClient.create(2048);
 
     const result = await sourceFileClient.rename(destFileName);
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -1588,7 +1858,7 @@ describe("FileClient", () => {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1605,19 +1875,23 @@ describe("FileClient", () => {
       filePermission: filePermission,
     });
 
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
     const properties = await result.destinationFileClient.getProperties();
-    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+    assert.isDefined(
+      properties.filePermissionKey,
+      "File permission should have been set to destination",
+    );
 
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1633,19 +1907,23 @@ describe("FileClient", () => {
       filePermission: filePermissionInBinaryFormat,
     });
 
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
     const properties = await result.destinationFileClient.getProperties();
-    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+    assert.isDefined(
+      properties.filePermissionKey,
+      "File permission should have been set to destination",
+    );
 
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1679,27 +1957,34 @@ describe("FileClient", () => {
       copyFileSmbInfo: copyFileSMBInfo,
     });
 
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
     const properties = await result.destinationFileClient.getProperties();
-    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
-    assert.ok(
-      truncatedISO8061Date(properties.fileCreatedOn!) === truncatedISO8061Date(creationDate),
+    assert.isDefined(
+      properties.filePermissionKey,
+      "File permission should have been set to destination",
+    );
+    assert.strictEqual(
+      truncatedISO8061Date(properties.fileCreatedOn!),
+      truncatedISO8061Date(creationDate),
       "Creation time should be expected",
     );
-    assert.ok(
-      truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
+    assert.strictEqual(
+      truncatedISO8061Date(properties.fileLastWriteOn!),
+      truncatedISO8061Date(lastwriteTime),
       "Last write time should be expected",
     );
-    assert.ok(
-      truncatedISO8061Date(properties.fileChangeOn!) === truncatedISO8061Date(changeTime),
+    assert.strictEqual(
+      truncatedISO8061Date(properties.fileChangeOn!),
+      truncatedISO8061Date(changeTime),
       "File changed time should be expected",
     );
     const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
-    assert.ok(
+    assert.isTrue(
       fileSystemAttributes.readonly && fileSystemAttributes.hidden,
       "File attributes should be expected",
     );
@@ -1708,7 +1993,7 @@ describe("FileClient", () => {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -1724,8 +2009,9 @@ describe("FileClient", () => {
       contentType: contentType,
     });
 
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -1736,7 +2022,7 @@ describe("FileClient", () => {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 });
@@ -1831,14 +2117,12 @@ describe("FileClient - OAuth", () => {
   fullFileAttributes.noScrubData = true;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -1872,12 +2156,12 @@ describe("FileClient - OAuth", () => {
     const cResp = await fileClient.create(content.length);
     assert.equal(cResp.errorCode, undefined);
     assert.equal(cResp.fileAttributes!, "Archive");
-    assert.ok(cResp.fileChangeOn!);
-    assert.ok(cResp.fileCreatedOn!);
-    assert.ok(cResp.fileId!);
-    assert.ok(cResp.fileLastWriteOn!);
-    assert.ok(cResp.fileParentId!);
-    assert.ok(cResp.filePermissionKey!);
+    assert.isDefined(cResp.fileChangeOn!);
+    assert.isDefined(cResp.fileCreatedOn!);
+    assert.isDefined(cResp.fileId!);
+    assert.isDefined(cResp.fileLastWriteOn!);
+    assert.isDefined(cResp.fileParentId!);
+    assert.isDefined(cResp.filePermissionKey!);
 
     const result = await fileClient.download(0);
     assert.deepStrictEqual(
@@ -1893,20 +2177,19 @@ describe("FileClient - OAuth", () => {
     const result = await fileClient.getProperties();
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, "Archive");
-    assert.ok(result.fileCreatedOn!);
-    assert.ok(result.fileLastWriteOn!);
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
-    assert.ok(result.lastModified);
+    assert.isDefined(result.fileCreatedOn!);
+    assert.isDefined(result.fileLastWriteOn!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("setHTTPHeaders", async () => {
@@ -1914,14 +2197,13 @@ describe("FileClient - OAuth", () => {
     await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
 
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("delete", async () => {
@@ -1931,18 +2213,18 @@ describe("FileClient - OAuth", () => {
 
   it("deleteIfExists", async () => {
     const res = await fileClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ResourceNotFound");
 
     await fileClient.create(content.length);
     const res2 = await fileClient.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("exists", async () => {
-    assert.ok(!(await fileClient.exists()));
+    assert.isFalse(await fileClient.exists());
     await fileClient.create(content.length);
-    assert.ok(await fileClient.exists());
+    assert.isTrue(await fileClient.exists());
   });
 
   it("startCopyFromURL", async () => {
@@ -1951,7 +2233,7 @@ describe("FileClient - OAuth", () => {
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties1 = await fileClient.getProperties();
     const properties2 = await newFileClient.getProperties();
@@ -1961,7 +2243,7 @@ describe("FileClient - OAuth", () => {
     if (isLiveMode()) {
       // A service feature is being rolling out which will sanitize the sig field
       // so we remove it before comparing urls.
-      assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+      assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
 
       const sanitizedActualUrl = new URL(properties2.copySource!);
       sanitizedActualUrl.searchParams.set("sig", "");
@@ -1983,7 +2265,7 @@ describe("FileClient - OAuth", () => {
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     await delay(1 * 1000);
 
     try {
@@ -1992,7 +2274,7 @@ describe("FileClient - OAuth", () => {
         "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
-      assert.ok(true);
+      // Expected - test passes if exception is thrown
     }
   });
 
@@ -2047,24 +2329,24 @@ describe("FileClient - OAuth", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClientWithKeyCredential.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
 
     const snapshotRes2 = await shareClientWithKeyCredential.createSnapshot();
-    assert.ok(snapshotRes2.snapshot);
+    assert.isDefined(snapshotRes2.snapshot);
 
     await fileClient.uploadRange("Hello", 0, 5);
 
     const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
     const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
@@ -2119,8 +2401,9 @@ describe("FileClient - OAuth", () => {
     await fileClient.create(1024);
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
     const result = await fileClient.rename(destFileName);
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -2143,14 +2426,12 @@ describe("FileClient - AllowTrailingDots - True", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2188,7 +2469,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundFile, "The file with trailing dot should have been created.");
+    assert.isTrue(foundFile, "The file with trailing dot should have been created.");
   });
 
   it("setProperties with default parameters", async () => {
@@ -2198,20 +2479,19 @@ describe("FileClient - AllowTrailingDots - True", () => {
     const result = await fileClient.getProperties();
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, "Archive");
-    assert.ok(result.fileCreatedOn!);
-    assert.ok(result.fileLastWriteOn!);
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
-    assert.ok(result.lastModified);
+    assert.isDefined(result.fileCreatedOn!);
+    assert.isDefined(result.fileLastWriteOn!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -2230,14 +2510,13 @@ describe("FileClient - AllowTrailingDots - True", () => {
     await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
 
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("delete", async () => {
@@ -2247,18 +2526,18 @@ describe("FileClient - AllowTrailingDots - True", () => {
 
   it("deleteIfExists", async () => {
     const res = await fileClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ResourceNotFound");
 
     await fileClient.create(content.length);
     const res2 = await fileClient.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("exists", async () => {
-    assert.ok(!(await fileClient.exists()));
+    assert.isFalse(await fileClient.exists());
     await fileClient.create(content.length);
-    assert.ok(await fileClient.exists());
+    assert.isTrue(await fileClient.exists());
   });
 
   it("startCopyFromURL", async () => {
@@ -2267,7 +2546,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     const copiedFileNameWithTrailingDots = copiedFileName + "...";
     const newFileClient = dirClient.getFileClient(copiedFileNameWithTrailingDots);
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     let foundFile = false;
     for await (const item of dirClient.listFilesAndDirectories()) {
@@ -2277,14 +2556,14 @@ describe("FileClient - AllowTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundFile, "The copied file should exist.");
+    assert.isTrue(foundFile, "The copied file should exist.");
 
     const properties1 = await fileClient.getProperties();
     const properties2 = await newFileClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
 
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+    assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
   });
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
@@ -2293,7 +2572,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     const copiedFileNameWithTrailingDots = copiedFileName + "...";
     const newFileClient = dirClient.getFileClient(copiedFileNameWithTrailingDots);
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     await delay(1 * 1000);
 
     try {
@@ -2302,7 +2581,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
         "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
-      assert.ok(
+      assert.isTrue(
         err.statusCode === 409 && err.code === "NoPendingCopyOperation",
         "Should got expected error",
       );
@@ -2362,7 +2641,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     await fileClient.clearRange(0, 513);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2378,17 +2657,17 @@ describe("FileClient - AllowTrailingDots - True", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
     const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
@@ -2398,24 +2677,24 @@ describe("FileClient - AllowTrailingDots - True", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
 
     const snapshotRes2 = await shareClient.createSnapshot();
-    assert.ok(snapshotRes2.snapshot);
+    assert.isDefined(snapshotRes2.snapshot);
 
     await fileClient.uploadRange("Hello", 0, 5);
 
     const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
     const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
@@ -2466,8 +2745,9 @@ describe("FileClient - AllowTrailingDots - True", () => {
     await fileClient.create(1024);
     const destFileName = recorder.variable("destfile", getUniqueName("destfile")) + "....";
     const result = await fileClient.rename(destFileName);
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -2479,7 +2759,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundFile, "Destination should exist.");
+    assert.isTrue(foundFile, "Destination should exist.");
 
     // Validate destination existence.
     await result.destinationFileClient.getProperties();
@@ -2497,7 +2777,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundFile, "Destination should exist.");
+    assert.isTrue(foundFile, "Destination should exist.");
 
     // Validate destination existence.
     await anotherResult.destinationFileClient.getProperties();
@@ -2517,14 +2797,12 @@ describe("FileClient - AllowTrailingDots - False", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2562,7 +2840,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundFile, "The file with trailing dot should have been created.");
+    assert.isTrue(foundFile, "The file with trailing dot should have been created.");
   });
 
   it("setProperties with default parameters", async () => {
@@ -2572,20 +2850,19 @@ describe("FileClient - AllowTrailingDots - False", () => {
     const result = await fileClient.getProperties();
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, "Archive");
-    assert.ok(result.fileCreatedOn!);
-    assert.ok(result.fileLastWriteOn!);
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
-    assert.ok(result.lastModified);
+    assert.isDefined(result.fileCreatedOn!);
+    assert.isDefined(result.fileLastWriteOn!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -2604,14 +2881,13 @@ describe("FileClient - AllowTrailingDots - False", () => {
     await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
 
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
   });
 
   it("delete", async () => {
@@ -2621,18 +2897,18 @@ describe("FileClient - AllowTrailingDots - False", () => {
 
   it("deleteIfExists", async () => {
     const res = await fileClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ResourceNotFound");
 
     await fileClient.create(content.length);
     const res2 = await fileClient.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("exists", async () => {
-    assert.ok(!(await fileClient.exists()));
+    assert.isFalse(await fileClient.exists());
     await fileClient.create(content.length);
-    assert.ok(await fileClient.exists());
+    assert.isTrue(await fileClient.exists());
   });
 
   it("startCopyFromURL", async () => {
@@ -2641,7 +2917,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     const copiedFileNameWithTrailingDots = copiedFileName + "...";
     const newFileClient = dirClient.getFileClient(copiedFileNameWithTrailingDots);
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     let foundFile = false;
     for await (const item of dirClient.listFilesAndDirectories()) {
@@ -2651,14 +2927,14 @@ describe("FileClient - AllowTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundFile, "The copied file should exist.");
+    assert.isTrue(foundFile, "The copied file should exist.");
 
     const properties1 = await fileClient.getProperties();
     const properties2 = await newFileClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
 
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+    assert.isDefined(properties2.copySource, "Expecting valid 'properties2.copySource");
   });
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
@@ -2667,7 +2943,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     const copiedFileNameWithTrailingDots = copiedFileName + "...";
     const newFileClient = dirClient.getFileClient(copiedFileNameWithTrailingDots);
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
     await delay(1 * 1000);
 
     try {
@@ -2676,7 +2952,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
         "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
-      assert.ok(
+      assert.isTrue(
         err.statusCode === 409 && err.code === "NoPendingCopyOperation",
         "Should got expected error",
       );
@@ -2736,7 +3012,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     await fileClient.clearRange(0, 513);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -2752,17 +3028,17 @@ describe("FileClient - AllowTrailingDots - False", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
     const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
@@ -2772,24 +3048,24 @@ describe("FileClient - AllowTrailingDots - False", () => {
     await fileClient.uploadRange("Hello", 0, 5);
 
     const snapshotRes = await shareClient.createSnapshot();
-    assert.ok(snapshotRes.snapshot);
+    assert.isDefined(snapshotRes.snapshot);
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
 
     const snapshotRes2 = await shareClient.createSnapshot();
-    assert.ok(snapshotRes2.snapshot);
+    assert.isDefined(snapshotRes2.snapshot);
 
     await fileClient.uploadRange("Hello", 0, 5);
 
     const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
     const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
 
-    assert.ok(result.clearRanges);
+    assert.isDefined(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
     assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
 
-    assert.ok(result.ranges);
+    assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
@@ -2841,8 +3117,9 @@ describe("FileClient - AllowTrailingDots - False", () => {
     const destFileBaseName = recorder.variable("destfile", getUniqueName("destfile"));
     const destFileName = destFileBaseName + "....";
     const result = await fileClient.rename(destFileName);
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -2853,7 +3130,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
         foundFile = true;
       }
     }
-    assert.ok(foundFile, "Destination should exist.");
+    assert.isTrue(foundFile, "Destination should exist.");
 
     // Validate destination existence.
     await result.destinationFileClient.getProperties();
@@ -2863,8 +3140,9 @@ describe("FileClient - AllowTrailingDots - False", () => {
     const anotherDestFileBaseName = recorder.variable("destfile1", getUniqueName("destfile1"));
     const anotherDestFileName = anotherDestFileBaseName + ".....";
     const anotherResult = await firstDestClient.rename(anotherDestFileName);
-    assert.ok(
-      anotherResult.destinationFileClient.name === anotherDestFileName,
+    assert.strictEqual(
+      anotherResult.destinationFileClient.name,
+      anotherDestFileName,
       "Destination name should be expected",
     );
 
@@ -2875,7 +3153,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
         foundFile = true;
       }
     }
-    assert.ok(foundFile, "Destination should exist.");
+    assert.isTrue(foundFile, "Destination should exist.");
 
     // Validate destination existence.
     await anotherResult.destinationFileClient.getProperties();
@@ -2895,14 +3173,12 @@ describe("FileClient - AllowTrailingDots - Default", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2937,7 +3213,7 @@ describe("FileClient - AllowTrailingDots - Default", () => {
       }
     }
 
-    assert.ok(foundFile, "The file with trailing dots trimmed should have been created.");
+    assert.isTrue(foundFile, "The file with trailing dots trimmed should have been created.");
   });
 
   it("delete", async () => {
@@ -2958,9 +3234,7 @@ describe("FileClient - NFS", () => {
   const content = "Hello World";
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {
@@ -3007,11 +3281,11 @@ describe("FileClient - NFS", () => {
     assert.deepEqual(cResp.posixProperties?.group, posixProperties.group);
     assert.deepEqual(cResp.posixProperties?.fileMode, posixProperties.fileMode);
     assert.deepEqual(cResp.posixProperties?.fileType, posixProperties.fileType);
-    assert.ok(cResp.fileChangeOn!);
-    assert.ok(cResp.fileCreatedOn!);
-    assert.ok(cResp.fileId!);
-    assert.ok(cResp.fileLastWriteOn!);
-    assert.ok(cResp.fileParentId!);
+    assert.isDefined(cResp.fileChangeOn!);
+    assert.isDefined(cResp.fileCreatedOn!);
+    assert.isDefined(cResp.fileId!);
+    assert.isDefined(cResp.fileLastWriteOn!);
+    assert.isDefined(cResp.fileParentId!);
 
     const result = await fileClient.download(0);
     assert.deepStrictEqual(
@@ -3034,8 +3308,8 @@ describe("FileClient - NFS", () => {
     const cResp = await fileClient.create(content.length);
     assert.deepEqual(cResp.posixProperties?.owner, "0");
     assert.deepEqual(cResp.posixProperties?.group, "0");
-    assert.ok(cResp.posixProperties?.fileMode);
-    assert.ok(cResp.posixProperties?.fileType);
+    assert.isDefined(cResp.posixProperties?.fileMode);
+    assert.isDefined(cResp.posixProperties?.fileType);
 
     const setResp = await fileClient.setProperties({ posixProperties });
     assert.deepEqual(setResp.posixProperties?.owner, posixProperties.owner);
@@ -3065,8 +3339,8 @@ describe("FileClient - NFS", () => {
     const cResp = await fileClient.create(content.length);
     assert.deepEqual(cResp.posixProperties?.owner, "0");
     assert.deepEqual(cResp.posixProperties?.group, "0");
-    assert.ok(cResp.posixProperties?.fileMode);
-    assert.ok(cResp.posixProperties?.fileType);
+    assert.isDefined(cResp.posixProperties?.fileMode);
+    assert.isDefined(cResp.posixProperties?.fileType);
 
     const result = await fileClient.delete();
     assert.deepEqual(result.linkCount, 0);
@@ -3077,18 +3351,17 @@ describe("FileClient - NFS", () => {
     await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
 
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
-    assert.ok(!result.contentType);
-    assert.ok(!result.contentMD5);
-    assert.ok(!result.contentEncoding);
-    assert.ok(!result.contentLanguage);
-    assert.ok(!result.contentDisposition);
+    assert.isUndefined(result.contentType);
+    assert.isUndefined(result.contentMD5);
+    assert.isUndefined(result.contentEncoding);
+    assert.isUndefined(result.contentLanguage);
+    assert.isUndefined(result.contentDisposition);
     assert.deepEqual(result.posixProperties?.owner, "0");
     assert.deepEqual(result.posixProperties?.group, "0");
-    assert.ok(result.posixProperties?.fileMode);
-    assert.ok(result.posixProperties?.fileType);
+    assert.isDefined(result.posixProperties?.fileMode);
+    assert.isDefined(result.posixProperties?.fileType);
   });
 
   it("setHTTPHeaders with all parameters set", async () => {
@@ -3118,7 +3391,7 @@ describe("FileClient - NFS", () => {
     assert.deepEqual(setHeadersResult.posixProperties?.linkCount, 1);
 
     const result = await fileClient.getProperties();
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.deepStrictEqual(result.cacheControl, headers.fileCacheControl);
     assert.deepStrictEqual(result.contentType, headers.fileContentType);
@@ -3151,7 +3424,7 @@ describe("FileClient - NFS", () => {
     assert.deepEqual(resizeResult.posixProperties?.linkCount, 1);
 
     const result = await fileClient.getProperties();
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
     assert.deepEqual(result.posixProperties?.group, posixProperties.group);
     assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
@@ -3177,7 +3450,7 @@ describe("FileClient - NFS", () => {
       fileModeCopyMode: "override",
       fileOwnerCopyMode: "override",
     });
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties = await newFileClient.getProperties();
     assert.deepEqual(properties.posixProperties?.owner, posixProperties.owner);
@@ -3208,7 +3481,7 @@ describe("FileClient - NFS", () => {
     );
     const expectedDefaultFileMode = parseSymbolicFileMode("rw-rw-r--");
     const result = await newFileClient.startCopyFromURL(fileClient.url);
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties = await newFileClient.getProperties();
     assert.deepEqual(properties.posixProperties?.owner, "0");
@@ -3240,7 +3513,7 @@ describe("FileClient - NFS", () => {
       fileModeCopyMode: "source",
       fileOwnerCopyMode: "source",
     });
-    assert.ok(result.copyId);
+    assert.isDefined(result.copyId);
 
     const properties = await newFileClient.getProperties();
     assert.deepEqual(properties.posixProperties?.owner, posixProperties.owner);
@@ -3267,11 +3540,11 @@ describe("FileClient - NFS", () => {
     assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
     assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
     assert.deepEqual(getResp.posixProperties?.linkCount, 2);
-    assert.ok(getResp.fileCreationTime);
-    assert.ok(getResp.fileLastWriteTime);
-    assert.ok(getResp.fileChangeTime);
-    assert.ok(getResp.fileId);
-    assert.ok(getResp.fileParentId);
+    assert.isDefined(getResp.fileCreationTime);
+    assert.isDefined(getResp.fileLastWriteTime);
+    assert.isDefined(getResp.fileChangeTime);
+    assert.isDefined(getResp.fileId);
+    assert.isDefined(getResp.fileParentId);
   });
 
   it("createSymbolicLink & getSymbolicLink", async function () {
@@ -3283,11 +3556,11 @@ describe("FileClient - NFS", () => {
     assert.deepEqual(resp.posixProperties?.group, group);
     assert.deepEqual(resp.posixProperties?.fileMode, expectedFileMode);
     assert.deepEqual(resp.posixProperties?.fileType, "SymLink");
-    assert.ok(resp.fileCreationTime);
-    assert.ok(resp.fileLastWriteTime);
-    assert.ok(resp.fileChangeTime);
-    assert.ok(resp.fileId);
-    assert.ok(resp.fileParentId);
+    assert.isDefined(resp.fileCreationTime);
+    assert.isDefined(resp.fileLastWriteTime);
+    assert.isDefined(resp.fileChangeTime);
+    assert.isDefined(resp.fileId);
+    assert.isDefined(resp.fileParentId);
 
     const getResp = await fileClient.getSymbolicLink();
     assert.deepEqual(getResp.linkText, "APath");

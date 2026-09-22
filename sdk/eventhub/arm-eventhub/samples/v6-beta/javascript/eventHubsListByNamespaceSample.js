@@ -1,0 +1,32 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { EventHubManagementClient } = require("@azure/arm-eventhub");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets all the Event Hubs in a Namespace.
+ *
+ * @summary gets all the Event Hubs in a Namespace.
+ * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubListByNameSpace.json
+ */
+async function eventHubsListAll() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "e2f361f0-3b27-4503-a9cc-21cfba380093";
+  const client = new EventHubManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.eventHubs.listByNamespace(
+    "Default-NotificationHubs-AustraliaEast",
+    "sdk-Namespace-5357",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await eventHubsListAll();
+}
+
+main().catch(console.error);

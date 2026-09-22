@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { OccurrenceExtensionOperations } from "./occurrenceExtension/index.js";
-export { OccurrencesOperations } from "./occurrences/index.js";
-export { OperationsOperations } from "./operations/index.js";
-export { ScheduledActionExtensionOperations } from "./scheduledActionExtension/index.js";
-export { ScheduledActionsOperations } from "./scheduledActions/index.js";
+export type { OccurrenceExtensionOperations } from "./occurrenceExtension/index.js";
+export type { OccurrencesOperations } from "./occurrences/index.js";
+export type { OperationsOperations } from "./operations/index.js";
+export type { ScheduledActionExtensionOperations } from "./scheduledActionExtension/index.js";
+export type { ScheduledActionsOperations } from "./scheduledActions/index.js";

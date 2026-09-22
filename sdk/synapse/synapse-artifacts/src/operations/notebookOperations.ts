@@ -35,8 +35,480 @@ import type {
   NotebookGetNotebooksByWorkspaceNextResponse,
   NotebookGetNotebookSummaryByWorkSpaceNextResponse,
 } from "../models/index.js";
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
+/// <reference lib="esnext.asynciterable" />
+/** Class containing NotebookOperations operations. */
+export class NotebookOperationsImpl implements NotebookOperations {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class NotebookOperations class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Lists Notebooks.
+   * @param options The options parameters.
+   */
+  public listNotebooksByWorkspace(
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
+  ): PagedAsyncIterableIterator<NotebookResource> {
+    const iter = this.getNotebooksByWorkspacePagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getNotebooksByWorkspacePagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *getNotebooksByWorkspacePagingPage(
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<NotebookResource[]> {
+    let result: NotebookGetNotebooksByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getNotebooksByWorkspace(options);
+      const page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getNotebooksByWorkspaceNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      const page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getNotebooksByWorkspacePagingAll(
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
+  ): AsyncIterableIterator<NotebookResource> {
+    for await (const page of this.getNotebooksByWorkspacePagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists a summary of Notebooks.
+   * @param options The options parameters.
+   */
+  public listNotebookSummaryByWorkSpace(
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
+  ): PagedAsyncIterableIterator<NotebookResource> {
+    const iter = this.getNotebookSummaryByWorkSpacePagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getNotebookSummaryByWorkSpacePagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *getNotebookSummaryByWorkSpacePagingPage(
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<NotebookResource[]> {
+    let result: NotebookGetNotebookSummaryByWorkSpaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getNotebookSummaryByWorkSpace(options);
+      const page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getNotebookSummaryByWorkSpaceNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      const page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getNotebookSummaryByWorkSpacePagingAll(
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
+  ): AsyncIterableIterator<NotebookResource> {
+    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists Notebooks.
+   * @param options The options parameters.
+   */
+  private async _getNotebooksByWorkspace(
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
+  ): Promise<NotebookGetNotebooksByWorkspaceResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._getNotebooksByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getNotebooksByWorkspaceOperationSpec,
+        ) as Promise<NotebookGetNotebooksByWorkspaceResponse>;
+      },
+    );
+  }
+
+  /**
+   * Lists a summary of Notebooks.
+   * @param options The options parameters.
+   */
+  private async _getNotebookSummaryByWorkSpace(
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
+  ): Promise<NotebookGetNotebookSummaryByWorkSpaceResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._getNotebookSummaryByWorkSpace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getNotebookSummaryByWorkSpaceOperationSpec,
+        ) as Promise<NotebookGetNotebookSummaryByWorkSpaceResponse>;
+      },
+    );
+  }
+
+  /**
+   * Creates or updates a Note Book.
+   * @param notebookName The notebook name.
+   * @param notebook Note book resource definition.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateNotebook(
+    notebookName: string,
+    notebook: NotebookResource,
+    options?: NotebookCreateOrUpdateNotebookOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NotebookCreateOrUpdateNotebookResponse>,
+      NotebookCreateOrUpdateNotebookResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NotebookCreateOrUpdateNotebookResponse> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdateNotebook",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<NotebookCreateOrUpdateNotebookResponse>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { notebookName, notebook, options },
+      spec: createOrUpdateNotebookOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NotebookCreateOrUpdateNotebookResponse,
+      OperationState<NotebookCreateOrUpdateNotebookResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a Note Book.
+   * @param notebookName The notebook name.
+   * @param notebook Note book resource definition.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateNotebookAndWait(
+    notebookName: string,
+    notebook: NotebookResource,
+    options?: NotebookCreateOrUpdateNotebookOptionalParams,
+  ): Promise<NotebookCreateOrUpdateNotebookResponse> {
+    const poller = await this.beginCreateOrUpdateNotebook(notebookName, notebook, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a Note Book.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
+   */
+  async getNotebook(
+    notebookName: string,
+    options?: NotebookGetNotebookOptionalParams,
+  ): Promise<NotebookGetNotebookResponse> {
+    return tracingClient.withSpan("ArtifactsClient.getNotebook", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { notebookName, options },
+        getNotebookOperationSpec,
+      ) as Promise<NotebookGetNotebookResponse>;
+    });
+  }
+
+  /**
+   * Deletes a Note book.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
+   */
+  async beginDeleteNotebook(
+    notebookName: string,
+    options?: NotebookDeleteNotebookOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeleteNotebook",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { notebookName, options },
+      spec: deleteNotebookOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a Note book.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
+   */
+  async beginDeleteNotebookAndWait(
+    notebookName: string,
+    options?: NotebookDeleteNotebookOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeleteNotebook(notebookName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Renames a notebook.
+   * @param notebookName The notebook name.
+   * @param request proposed new name.
+   * @param options The options parameters.
+   */
+  async beginRenameNotebook(
+    notebookName: string,
+    request: ArtifactRenameRequest,
+    options?: NotebookRenameNotebookOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginRenameNotebook",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { notebookName, request, options },
+      spec: renameNotebookOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Renames a notebook.
+   * @param notebookName The notebook name.
+   * @param request proposed new name.
+   * @param options The options parameters.
+   */
+  async beginRenameNotebookAndWait(
+    notebookName: string,
+    request: ArtifactRenameRequest,
+    options?: NotebookRenameNotebookOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginRenameNotebook(notebookName, request, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * GetNotebooksByWorkspaceNext
+   * @param nextLink The nextLink from the previous successful call to the GetNotebooksByWorkspace
+   *                 method.
+   * @param options The options parameters.
+   */
+  private async _getNotebooksByWorkspaceNext(
+    nextLink: string,
+    options?: NotebookGetNotebooksByWorkspaceNextOptionalParams,
+  ): Promise<NotebookGetNotebooksByWorkspaceNextResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._getNotebooksByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getNotebooksByWorkspaceNextOperationSpec,
+        ) as Promise<NotebookGetNotebooksByWorkspaceNextResponse>;
+      },
+    );
+  }
+
+  /**
+   * GetNotebookSummaryByWorkSpaceNext
+   * @param nextLink The nextLink from the previous successful call to the GetNotebookSummaryByWorkSpace
+   *                 method.
+   * @param options The options parameters.
+   */
+  private async _getNotebookSummaryByWorkSpaceNext(
+    nextLink: string,
+    options?: NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams,
+  ): Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._getNotebookSummaryByWorkSpaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getNotebookSummaryByWorkSpaceNextOperationSpec,
+        ) as Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse>;
+      },
+    );
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -182,501 +654,3 @@ const getNotebookSummaryByWorkSpaceNextOperationSpec: coreClient.OperationSpec =
   headerParameters: [Parameters.accept],
   serializer,
 };
-
-/** Class containing NotebookOperations operations. */
-export class NotebookOperationsImpl implements NotebookOperations {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class NotebookOperations class.
-   * @param client - Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Lists Notebooks.
-   * @param options - The options parameters.
-   */
-  public listNotebooksByWorkspace(
-    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
-  ): PagedAsyncIterableIterator<NotebookResource> {
-    const iter = this.getNotebooksByWorkspacePagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getNotebooksByWorkspacePagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *getNotebooksByWorkspacePagingPage(
-    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<NotebookResource[]> {
-    let result: NotebookGetNotebooksByWorkspaceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getNotebooksByWorkspace(options);
-      const page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._getNotebooksByWorkspaceNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      const page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *getNotebooksByWorkspacePagingAll(
-    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
-  ): AsyncIterableIterator<NotebookResource> {
-    for await (const page of this.getNotebooksByWorkspacePagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists a summary of Notebooks.
-   * @param options - The options parameters.
-   */
-  public listNotebookSummaryByWorkSpace(
-    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
-  ): PagedAsyncIterableIterator<NotebookResource> {
-    const iter = this.getNotebookSummaryByWorkSpacePagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getNotebookSummaryByWorkSpacePagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *getNotebookSummaryByWorkSpacePagingPage(
-    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<NotebookResource[]> {
-    let result: NotebookGetNotebookSummaryByWorkSpaceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getNotebookSummaryByWorkSpace(options);
-      const page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._getNotebookSummaryByWorkSpaceNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      const page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *getNotebookSummaryByWorkSpacePagingAll(
-    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
-  ): AsyncIterableIterator<NotebookResource> {
-    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists Notebooks.
-   * @param options - The options parameters.
-   */
-  private async _getNotebooksByWorkspace(
-    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
-  ): Promise<NotebookGetNotebooksByWorkspaceResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getNotebooksByWorkspace",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { updatedOptions },
-          getNotebooksByWorkspaceOperationSpec,
-        ) as Promise<NotebookGetNotebooksByWorkspaceResponse>;
-      },
-    );
-  }
-
-  /**
-   * Lists a summary of Notebooks.
-   * @param options - The options parameters.
-   */
-  private async _getNotebookSummaryByWorkSpace(
-    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
-  ): Promise<NotebookGetNotebookSummaryByWorkSpaceResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getNotebookSummaryByWorkSpace",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { updatedOptions },
-          getNotebookSummaryByWorkSpaceOperationSpec,
-        ) as Promise<NotebookGetNotebookSummaryByWorkSpaceResponse>;
-      },
-    );
-  }
-
-  /**
-   * Creates or updates a Note Book.
-   * @param notebookName - - The notebook name.
-   * @param notebook - - Note book resource definition.
-   * @param options - The options parameters.
-   */
-  async beginCreateOrUpdateNotebook(
-    notebookName: string,
-    notebook: NotebookResource,
-    options?: NotebookCreateOrUpdateNotebookOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NotebookCreateOrUpdateNotebookResponse>,
-      NotebookCreateOrUpdateNotebookResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<NotebookCreateOrUpdateNotebookResponse> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginCreateOrUpdateNotebook",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(
-            args,
-            spec,
-          ) as Promise<NotebookCreateOrUpdateNotebookResponse>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: NotebookResource;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { notebookName, notebook, options },
-      spec: createOrUpdateNotebookOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      NotebookCreateOrUpdateNotebookResponse,
-      OperationState<NotebookCreateOrUpdateNotebookResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates a Note Book.
-   * @param notebookName - The notebook name.
-   * @param notebook - Note book resource definition.
-   * @param options - The options parameters.
-   */
-  async beginCreateOrUpdateNotebookAndWait(
-    notebookName: string,
-    notebook: NotebookResource,
-    options?: NotebookCreateOrUpdateNotebookOptionalParams,
-  ): Promise<NotebookCreateOrUpdateNotebookResponse> {
-    const poller = await this.beginCreateOrUpdateNotebook(notebookName, notebook, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets a Note Book.
-   * @param notebookName - The notebook name.
-   * @param options - The options parameters.
-   */
-  async getNotebook(
-    notebookName: string,
-    options?: NotebookGetNotebookOptionalParams,
-  ): Promise<NotebookGetNotebookResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getNotebook",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { notebookName, updatedOptions },
-          getNotebookOperationSpec,
-        ) as Promise<NotebookGetNotebookResponse>;
-      },
-    );
-  }
-
-  /**
-   * Deletes a Note book.
-   * @param notebookName - The notebook name.
-   * @param options - The options parameters.
-   */
-  async beginDeleteNotebook(
-    notebookName: string,
-    options?: NotebookDeleteNotebookOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginDeleteNotebook",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { notebookName, options },
-      spec: deleteNotebookOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a Note book.
-   * @param notebookName - The notebook name.
-   * @param options - The options parameters.
-   */
-  async beginDeleteNotebookAndWait(
-    notebookName: string,
-    options?: NotebookDeleteNotebookOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDeleteNotebook(notebookName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Renames a notebook.
-   * @param notebookName - The notebook name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
-   */
-  async beginRenameNotebook(
-    notebookName: string,
-    request: ArtifactRenameRequest,
-    options?: NotebookRenameNotebookOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginRenameNotebook",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { notebookName, request, options },
-      spec: renameNotebookOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Renames a notebook.
-   * @param notebookName - The notebook name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
-   */
-  async beginRenameNotebookAndWait(
-    notebookName: string,
-    request: ArtifactRenameRequest,
-    options?: NotebookRenameNotebookOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginRenameNotebook(notebookName, request, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * GetNotebooksByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetNotebooksByWorkspace
-   *                 method.
-   * @param options - The options parameters.
-   */
-  private async _getNotebooksByWorkspaceNext(
-    nextLink: string,
-    options?: NotebookGetNotebooksByWorkspaceNextOptionalParams,
-  ): Promise<NotebookGetNotebooksByWorkspaceNextResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getNotebooksByWorkspaceNext",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { nextLink, updatedOptions },
-          getNotebooksByWorkspaceNextOperationSpec,
-        ) as Promise<NotebookGetNotebooksByWorkspaceNextResponse>;
-      },
-    );
-  }
-
-  /**
-   * GetNotebookSummaryByWorkSpaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetNotebookSummaryByWorkSpace
-   *                 method.
-   * @param options - The options parameters.
-   */
-  private async _getNotebookSummaryByWorkSpaceNext(
-    nextLink: string,
-    options?: NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams,
-  ): Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getNotebookSummaryByWorkSpaceNext",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { nextLink, updatedOptions },
-          getNotebookSummaryByWorkSpaceNextOperationSpec,
-        ) as Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse>;
-      },
-    );
-  }
-}

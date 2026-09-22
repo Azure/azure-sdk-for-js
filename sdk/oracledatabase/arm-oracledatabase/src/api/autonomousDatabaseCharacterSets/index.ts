@@ -3,6 +3,6 @@
 
 export { listByLocation, get } from "./operations.js";
 export {
-  AutonomousDatabaseCharacterSetsListByLocationOptionalParams,
-  AutonomousDatabaseCharacterSetsGetOptionalParams,
+  type AutonomousDatabaseCharacterSetsListByLocationOptionalParams,
+  type AutonomousDatabaseCharacterSetsGetOptionalParams,
 } from "./options.js";

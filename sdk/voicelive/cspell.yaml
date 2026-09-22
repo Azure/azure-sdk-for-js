@@ -1,0 +1,31 @@
+# cspell configuration for this service. Words are case-insensitive and
+# kept sorted alphabetically. The import of the central config is required.
+import:
+  - ../../.vscode/cspell.json
+words:
+  - AAEC
+  - Aarti
+  - Alaw
+  - AQID
+  - AQIDBA
+  - azsdk
+  - azureaivoicelive
+  - conv
+  - Diya
+  - Dones
+  - logprobs
+  - Mbps
+  - Meera
+  - momento
+  - recvs
+  - Rpbw
+  - sess
+  - SSML
+  - Ulaw
+  - Viseme
+  - voicelive
+  - Webrtc
+  - xhigh
+  - Xiaoxiao
+  - Ximena
+  - Yunxi

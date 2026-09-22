@@ -17,7 +17,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { KubernetesRuntimeClientOptionalParams } from "./api/kubernetesRuntimeContext.js";
+export { type KubernetesRuntimeClientOptionalParams } from "./api/kubernetesRuntimeContext.js";
 
 export class KubernetesRuntimeClient {
   private _client: KubernetesRuntimeContext;

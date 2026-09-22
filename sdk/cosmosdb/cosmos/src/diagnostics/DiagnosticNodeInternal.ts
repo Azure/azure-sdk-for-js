@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext.js";
-import { ErrorResponse, RequestContext } from "../request/index.js";
-import {
+import type { RequestContext } from "../request/index.js";
+import { ErrorResponse } from "../request/index.js";
+import type {
   DiagnosticNode,
   EncryptionDiagnostics,
   MetadataLookUpType,
@@ -309,7 +310,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    */
   public endEncryptionDiagnostics(operation: string, propertiesCount?: number): void {
     const endTime = getCurrentTimestampInMs();
-    let processingDuration = 0;
+    let processingDuration: number;
     switch (operation) {
       case Constants.Encryption.DiagnosticsEncryptOperation:
         processingDuration =

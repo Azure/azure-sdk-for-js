@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { v4 as guid } from "uuid";
 import type { Container } from "../dist/esm/index.js";
 
 export class Worker {
@@ -16,7 +15,7 @@ export class Worker {
     let latency: number[] = [];
     while (iterationCount++ < itemsToInsert) {
       const start = Date.now();
-      await this.container.items.create({ id: guid() });
+      await this.container.items.create({ id: crypto.randomUUID() });
       const end = Date.now();
       latency.push(end - start);
     }

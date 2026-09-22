@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface GetKeyAttestationOptionalParams extends OperationOptions {}
@@ -38,6 +38,12 @@ export interface UnwrapKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WrapKeyOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface SecureWrapKeyOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface SecureUnwrapKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface VerifyOptionalParams extends OperationOptions {}

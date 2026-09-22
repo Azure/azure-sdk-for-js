@@ -23,6 +23,10 @@ const parseArgs = () => {
   return [baseDir, artifactName];
 };
 
+/**
+ * @param {string} cwd
+ * @param {...string} args
+ */
 const spawnNode = (cwd, ...args) => {
   console.log(`Executing: "dev-tool ${args.join(" ")}" in ${cwd}\n\n`);
   const proc = spawnSync("dev-tool", args, { cwd, shell: true, stdio: "inherit" });
@@ -46,11 +50,6 @@ async function main(repoRoot, artifactName) {
 
   if (!targetPackage) {
     console.log(`Package is not found in rush.json for artifact ${artifactName}`);
-    return;
-  }
-
-  if (targetPackage.versionPolicyName == "management") {
-    console.log(`Skipping update samples for management package ${artifactName}`);
     return;
   }
 

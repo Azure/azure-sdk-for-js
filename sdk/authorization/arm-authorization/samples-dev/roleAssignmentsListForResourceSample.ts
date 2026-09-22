@@ -1,35 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all role assignments that apply to a resource.
- *
- * @summary List all role assignments that apply to a resource.
- * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_ListForResource.json
- */
-
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list all role assignments that apply to a resource.
+ *
+ * @summary list all role assignments that apply to a resource.
+ * x-ms-original-file: 2022-04-01/RoleAssignments_ListForResource.json
+ */
 async function listRoleAssignmentsForAResource(): Promise<void> {
-  const subscriptionId =
-    process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "a925f2f7-5c63-4b7b-8799-25a5f97bc3b2";
-  const resourceGroupName = process.env["AUTHORIZATION_RESOURCE_GROUP"] || "testrg";
-  const resourceProviderNamespace = "Microsoft.DocumentDb";
-  const resourceType = "databaseAccounts";
-  const resourceName = "test-db-account";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "a925f2f7-5c63-4b7b-8799-25a5f97bc3b2";
   const client = new AuthorizationManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.roleAssignments.listForResource(
-    resourceGroupName,
-    resourceProviderNamespace,
-    resourceType,
-    resourceName,
+    "testrg",
+    "Microsoft.DocumentDb",
+    "databaseAccounts",
+    "test-db-account",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

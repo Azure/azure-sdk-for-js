@@ -6,7 +6,9 @@
 
 import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -62,6 +64,8 @@ export type AcsVerificationVerifyIdentityResponse = VerificationResponse;
 // @public (undocumented)
 export const ConstantsMapper: coreClient.CompositeMapper;
 
+export { isRestError }
+
 // @public
 export class RecipientVerificationClient {
     constructor(connectionString: string, options?: RecipientVerificationClientOptions);
@@ -77,6 +81,8 @@ export class RecipientVerificationClient {
 // @public
 export interface RecipientVerificationClientOptions extends CommonClientOptions {
 }
+
+export { RestError }
 
 // @public (undocumented)
 export const VerificationCodeRequestMapper: coreClient.CompositeMapper;

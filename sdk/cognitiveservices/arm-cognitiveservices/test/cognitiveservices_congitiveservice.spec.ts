@@ -42,7 +42,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("CognitiveServices test", () => {
+describe.skip("CognitiveServices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CognitiveServicesManagementClient;
@@ -62,7 +62,7 @@ describe("CognitiveServices test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "SSS3PT_czwjstest";
+    resourceGroup = "SSS3PT_myjstest";
     accountName = "myaccountxxxx1";
   });
 

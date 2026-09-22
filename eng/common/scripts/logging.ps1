@@ -38,7 +38,7 @@ function LogWarning {
     Write-Host ("::warning::$args" -replace "`n", "%0D%0A")
   }
   else {
-    Write-Warning "$args"
+    Write-Host "$args" -ForegroundColor Yellow
   }
 }
 
@@ -59,7 +59,7 @@ function LogErrorForFile($file, $errorString)
     Write-Host ("::error file=$file,line=1,col=1::$errorString" -replace "`n", "%0D%0A")
   }
   else {
-    Write-Error "[Error in file $file]$errorString"
+    Write-Host "[Error in file $file]$errorString" -ForegroundColor Red
   }
 }
 
@@ -71,7 +71,7 @@ function LogError {
     Write-Host ("::error::$args" -replace "`n", "%0D%0A")
   }
   else {
-    Write-Error "$args"
+    Write-Host "$args" -ForegroundColor Red
   }
 }
 
@@ -93,6 +93,9 @@ function LogGroupStart() {
   }
   elseif (Test-SupportsGitHubLogging) {
     Write-Host "::group::$args"
+  }
+  else {
+    Write-Host "> $args"
   }
 }
 
@@ -122,4 +125,21 @@ function ProcessMsBuildLogLine($line) {
     }
   }
   return $line
+}
+
+function ConvertTo-DevOpsLoggingValue($value) {
+  if ($null -eq $value) {
+    return ""
+  }
+
+  return "$value".Replace('%', '%25').Replace(';', '%3B').Replace(']', '%5D').Replace("`r", '%0D').Replace("`n", '%0A')
+}
+
+function Set-PipelineVariable($Name, $Value = "", [switch]$IsOutput, [switch]$IsSecret) {
+  $properties = "variable=$Name"
+  if ($IsSecret) { $properties += ";issecret=true" }
+  if ($IsOutput) { $properties += ";isOutput=true" }
+
+  $escapedValue = ConvertTo-DevOpsLoggingValue $Value
+  Write-Host "##vso[task.setvariable $properties]$escapedValue"
 }

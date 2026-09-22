@@ -3,7 +3,7 @@
 
 export { listBySubscription, listByResourceGroup, get } from "./operations.js";
 export {
-  SolutionTypesListBySubscriptionOptionalParams,
-  SolutionTypesListByResourceGroupOptionalParams,
-  SolutionTypesGetOptionalParams,
+  type SolutionTypesListBySubscriptionOptionalParams,
+  type SolutionTypesListByResourceGroupOptionalParams,
+  type SolutionTypesGetOptionalParams,
 } from "./options.js";

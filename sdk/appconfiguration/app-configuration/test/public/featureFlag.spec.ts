@@ -26,6 +26,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       baseSetting = {
         value: {
           conditions: {
+            requirementType: "Any",
             clientFilters: [
               {
                 name: "Microsoft.TimeWindow",
@@ -51,6 +52,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
               { name: "Microsoft.Percentage", parameters: { Value: 25 } },
             ],
           },
+          id: "name-1",
           enabled: false,
           description: "I'm a description",
           displayName: "for display",
@@ -202,7 +204,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
           `name-1${Math.floor(Math.random() * 1000)}`,
         )}`,
         isReadOnly: false,
-        value: { conditions: { clientFilters: [] }, enabled: true },
+        value: { conditions: { clientFilters: [] }, id: "name-1", enabled: true },
       };
     });
 

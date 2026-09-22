@@ -4,11 +4,17 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AaaaRecord {
@@ -19,6 +25,16 @@ export interface AaaaRecord {
 export interface ARecord {
     ipv4Address?: string;
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CloudError {
@@ -39,7 +55,22 @@ export interface CnameRecord {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
+
+export { isRestError }
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
 
 // @public
 export enum KnownProvisioningState {
@@ -58,6 +89,11 @@ export enum KnownResolutionPolicy {
 }
 
 // @public
+export enum KnownVersions {
+    V20240601 = "2024-06-01"
+}
+
+// @public
 export enum KnownVirtualNetworkLinkState {
     Completed = "Completed",
     InProgress = "InProgress"
@@ -69,33 +105,50 @@ export interface MxRecord {
     preference?: number;
 }
 
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
 // @public (undocumented)
-export class PrivateDnsManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PrivateDnsManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    privateZones: PrivateZones;
-    // (undocumented)
-    recordSets: RecordSets;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    virtualNetworkLinks: VirtualNetworkLinks;
+export class PrivateDnsManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: PrivateDnsManagementClientOptionalParams);
+    readonly pipeline: Pipeline;
+    readonly privateZones: PrivateZonesOperations;
+    readonly recordSets: RecordSetsOperations;
+    readonly virtualNetworkLinks: VirtualNetworkLinksOperations;
 }
 
 // @public
-export interface PrivateDnsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface PrivateDnsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface PrivateZone extends TrackedResource {
+export interface PrivateZone extends ProxyResource {
     etag?: string;
+    readonly internalId?: string;
+    location?: string;
+    readonly maxNumberOfRecordSets?: number;
+    readonly maxNumberOfVirtualNetworkLinks?: number;
+    readonly maxNumberOfVirtualNetworkLinksWithRegistration?: number;
+    readonly numberOfRecordSets?: number;
+    readonly numberOfVirtualNetworkLinks?: number;
+    readonly numberOfVirtualNetworkLinksWithRegistration?: number;
+    readonly provisioningState?: ProvisioningState;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PrivateZoneProperties {
     readonly internalId?: string;
     readonly maxNumberOfRecordSets?: number;
     readonly maxNumberOfVirtualNetworkLinks?: number;
@@ -107,88 +160,59 @@ export interface PrivateZone extends TrackedResource {
 }
 
 // @public
-export interface PrivateZoneListResult {
-    readonly nextLink?: string;
-    value?: PrivateZone[];
-}
-
-// @public
-export interface PrivateZones {
-    beginCreateOrUpdate(resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateZonesCreateOrUpdateResponse>, PrivateZonesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesCreateOrUpdateOptionalParams): Promise<PrivateZonesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateZoneName: string, options?: PrivateZonesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateZoneName: string, options?: PrivateZonesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateZonesUpdateResponse>, PrivateZonesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesUpdateOptionalParams): Promise<PrivateZonesUpdateResponse>;
-    get(resourceGroupName: string, privateZoneName: string, options?: PrivateZonesGetOptionalParams): Promise<PrivateZonesGetResponse>;
-    list(options?: PrivateZonesListOptionalParams): PagedAsyncIterableIterator<PrivateZone>;
-    listByResourceGroup(resourceGroupName: string, options?: PrivateZonesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PrivateZone>;
-}
-
-// @public
-export interface PrivateZonesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PrivateZonesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateZonesCreateOrUpdateResponse = PrivateZone;
-
-// @public
-export interface PrivateZonesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PrivateZonesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateZonesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateZonesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateZonesGetResponse = PrivateZone;
-
-// @public
-export interface PrivateZonesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateZonesListByResourceGroupNextResponse = PrivateZoneListResult;
-
-// @public
-export interface PrivateZonesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface PrivateZonesListByResourceGroupOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type PrivateZonesListByResourceGroupResponse = PrivateZoneListResult;
-
-// @public
-export interface PrivateZonesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateZonesListNextResponse = PrivateZoneListResult;
-
-// @public
-export interface PrivateZonesListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateZonesListOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type PrivateZonesListResponse = PrivateZoneListResult;
-
-// @public
-export interface PrivateZonesUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface PrivateZonesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateZone>, PrivateZone>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesCreateOrUpdateOptionalParams) => Promise<PrivateZone>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, privateZoneName: string, options?: PrivateZonesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, privateZoneName: string, options?: PrivateZonesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateZone>, PrivateZone>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesUpdateOptionalParams) => Promise<PrivateZone>;
+    createOrUpdate: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateZone>, PrivateZone>;
+    delete: (resourceGroupName: string, privateZoneName: string, options?: PrivateZonesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateZoneName: string, options?: PrivateZonesGetOptionalParams) => Promise<PrivateZone>;
+    list: (options?: PrivateZonesListOptionalParams) => PagedAsyncIterableIterator<PrivateZone>;
+    listByResourceGroup: (resourceGroupName: string, options?: PrivateZonesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PrivateZone>;
+    update: (resourceGroupName: string, privateZoneName: string, parameters: PrivateZone, options?: PrivateZonesUpdateOptionalParams) => PollerLike<OperationState<PrivateZone>, PrivateZone>;
 }
 
 // @public
-export type PrivateZonesUpdateResponse = PrivateZone;
+export interface PrivateZonesUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type ProvisioningState = string;
@@ -210,9 +234,7 @@ export interface RecordSet extends ProxyResource {
     etag?: string;
     readonly fqdn?: string;
     readonly isAutoRegistered?: boolean;
-    metadata?: {
-        [propertyName: string]: string;
-    };
+    metadata?: Record<string, string>;
     mxRecords?: MxRecord[];
     ptrRecords?: PtrRecord[];
     soaRecord?: SoaRecord;
@@ -222,81 +244,62 @@ export interface RecordSet extends ProxyResource {
 }
 
 // @public
-export interface RecordSetListResult {
-    readonly nextLink?: string;
-    value?: RecordSet[];
+export interface RecordSetProperties {
+    aaaaRecords?: AaaaRecord[];
+    aRecords?: ARecord[];
+    cnameRecord?: CnameRecord;
+    readonly fqdn?: string;
+    readonly isAutoRegistered?: boolean;
+    metadata?: Record<string, string>;
+    mxRecords?: MxRecord[];
+    ptrRecords?: PtrRecord[];
+    soaRecord?: SoaRecord;
+    srvRecords?: SrvRecord[];
+    ttl?: number;
+    txtRecords?: TxtRecord[];
 }
 
 // @public
-export interface RecordSets {
-    createOrUpdate(resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, parameters: RecordSet, options?: RecordSetsCreateOrUpdateOptionalParams): Promise<RecordSetsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, options?: RecordSetsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, options?: RecordSetsGetOptionalParams): Promise<RecordSetsGetResponse>;
-    list(resourceGroupName: string, privateZoneName: string, options?: RecordSetsListOptionalParams): PagedAsyncIterableIterator<RecordSet>;
-    listByType(resourceGroupName: string, privateZoneName: string, recordType: RecordType, options?: RecordSetsListByTypeOptionalParams): PagedAsyncIterableIterator<RecordSet>;
-    update(resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, parameters: RecordSet, options?: RecordSetsUpdateOptionalParams): Promise<RecordSetsUpdateResponse>;
-}
-
-// @public
-export interface RecordSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
 }
 
 // @public
-export type RecordSetsCreateOrUpdateResponse = RecordSet;
-
-// @public
-export interface RecordSetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export interface RecordSetsGetOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RecordSetsGetResponse = RecordSet;
-
-// @public
-export interface RecordSetsListByTypeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecordSetsListByTypeNextResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsListByTypeOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsListByTypeOptionalParams extends OperationOptions {
     recordsetnamesuffix?: string;
     top?: number;
 }
 
 // @public
-export type RecordSetsListByTypeResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecordSetsListNextResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsListOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsListOptionalParams extends OperationOptions {
     recordsetnamesuffix?: string;
     top?: number;
 }
 
 // @public
-export type RecordSetsListResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
+export interface RecordSetsOperations {
+    createOrUpdate: (resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, parameters: RecordSet, options?: RecordSetsCreateOrUpdateOptionalParams) => Promise<RecordSet>;
+    delete: (resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, options?: RecordSetsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, options?: RecordSetsGetOptionalParams) => Promise<RecordSet>;
+    list: (resourceGroupName: string, privateZoneName: string, options?: RecordSetsListOptionalParams) => PagedAsyncIterableIterator<RecordSet>;
+    listByType: (resourceGroupName: string, privateZoneName: string, recordType: RecordType, options?: RecordSetsListByTypeOptionalParams) => PagedAsyncIterableIterator<RecordSet>;
+    update: (resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, parameters: RecordSet, options?: RecordSetsUpdateOptionalParams) => Promise<RecordSet>;
 }
 
 // @public
-export type RecordSetsUpdateResponse = RecordSet;
+export interface RecordSetsUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+}
 
 // @public
 export type RecordType = "A" | "AAAA" | "CNAME" | "MX" | "PTR" | "SOA" | "SRV" | "TXT";
@@ -308,7 +311,42 @@ export type ResolutionPolicy = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PrivateDnsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -336,11 +374,13 @@ export interface SubResource {
 }
 
 // @public
-export interface TrackedResource extends Resource {
-    location?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -349,8 +389,19 @@ export interface TxtRecord {
 }
 
 // @public
-export interface VirtualNetworkLink extends TrackedResource {
+export interface VirtualNetworkLink extends ProxyResource {
     etag?: string;
+    location?: string;
+    readonly provisioningState?: ProvisioningState;
+    registrationEnabled?: boolean;
+    resolutionPolicy?: ResolutionPolicy;
+    tags?: Record<string, string>;
+    virtualNetwork?: SubResource;
+    readonly virtualNetworkLinkState?: VirtualNetworkLinkState;
+}
+
+// @public
+export interface VirtualNetworkLinkProperties {
     readonly provisioningState?: ProvisioningState;
     registrationEnabled?: boolean;
     resolutionPolicy?: ResolutionPolicy;
@@ -359,75 +410,56 @@ export interface VirtualNetworkLink extends TrackedResource {
 }
 
 // @public
-export interface VirtualNetworkLinkListResult {
-    readonly nextLink?: string;
-    value?: VirtualNetworkLink[];
-}
-
-// @public
-export interface VirtualNetworkLinks {
-    beginCreateOrUpdate(resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkLinksCreateOrUpdateResponse>, VirtualNetworkLinksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams): Promise<VirtualNetworkLinksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkLinksUpdateResponse>, VirtualNetworkLinksUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksUpdateOptionalParams): Promise<VirtualNetworkLinksUpdateResponse>;
-    get(resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksGetOptionalParams): Promise<VirtualNetworkLinksGetResponse>;
-    list(resourceGroupName: string, privateZoneName: string, options?: VirtualNetworkLinksListOptionalParams): PagedAsyncIterableIterator<VirtualNetworkLink>;
-}
-
-// @public
-export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualNetworkLinksCreateOrUpdateResponse = VirtualNetworkLink;
-
-// @public
-export interface VirtualNetworkLinksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkLinksDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface VirtualNetworkLinksGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkLinksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualNetworkLinksGetResponse = VirtualNetworkLink;
-
-// @public
-export interface VirtualNetworkLinksListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualNetworkLinksListNextResponse = VirtualNetworkLinkListResult;
-
-// @public
-export interface VirtualNetworkLinksListOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkLinksListOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult;
+export interface VirtualNetworkLinksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => Promise<VirtualNetworkLink>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksUpdateOptionalParams) => Promise<VirtualNetworkLink>;
+    createOrUpdate: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>;
+    delete: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksGetOptionalParams) => Promise<VirtualNetworkLink>;
+    list: (resourceGroupName: string, privateZoneName: string, options?: VirtualNetworkLinksListOptionalParams) => PagedAsyncIterableIterator<VirtualNetworkLink>;
+    update: (resourceGroupName: string, privateZoneName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>;
+}
 
 // @public
 export type VirtualNetworkLinkState = string;
 
 // @public
-export interface VirtualNetworkLinksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkLinksUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualNetworkLinksUpdateResponse = VirtualNetworkLink;
 
 // (No @packageDocumentation comment for this package)
 

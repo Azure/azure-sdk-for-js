@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
-  OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
-  OnlineExperimentationWorkspacesDeleteOptionalParams,
-  OnlineExperimentationWorkspacesUpdateOptionalParams,
-  OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
-  OnlineExperimentationWorkspacesGetOptionalParams,
+  type OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
+  type OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
+  type OnlineExperimentationWorkspacesDeleteOptionalParams,
+  type OnlineExperimentationWorkspacesUpdateOptionalParams,
+  type OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
+  type OnlineExperimentationWorkspacesGetOptionalParams,
 } from "./options.js";

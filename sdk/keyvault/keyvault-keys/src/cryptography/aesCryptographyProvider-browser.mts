@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CryptographyProvider} from "./models.js";
+import type { CryptographyProvider } from "./models.js";
 import { LocalCryptographyUnsupportedError } from "./models.js";
 
 /**
@@ -11,6 +11,10 @@ import { LocalCryptographyUnsupportedError } from "./models.js";
  * never be called.
  */
 export class AesCryptographyProvider implements CryptographyProvider {
+  constructor(key?: unknown) {
+    void key;
+  }
+
   encrypt(): never {
     throw new LocalCryptographyUnsupportedError(
       "AES Local cryptography is not supported in the browser.",

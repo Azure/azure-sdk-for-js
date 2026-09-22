@@ -7,12 +7,18 @@
 import type { CompatResponse } from '@azure/core-http-compat';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import { Readable } from 'node:stream';
+import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { RequestPolicy } from '@azure/core-http-compat';
 import type { RequestPolicyFactory } from '@azure/core-http-compat';
 import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
 import type { RestError } from '@azure/core-rest-pipeline';
 import type { WebResourceLike } from '@azure/core-http-compat';
+
+// @public
+export function allocBuffer(size: number): NodeBuffer;
 
 // @public
 export class AnonymousCredential extends Credential {
@@ -37,10 +43,16 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
 }
 
 // @public
+export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
+
+// @public
 export class BufferScheduler {
     constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
     do(): Promise<void>;
 }
+
+// @public
+export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
 
 // @public
 export abstract class Credential implements RequestPolicyFactory {
@@ -56,14 +68,27 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 // @public
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
 
+// @public
+export function getBufferLength(buffer: NodeBuffer): number;
+
 // @public (undocumented)
 export function getCachedDefaultHttpClient(): HttpClient;
+
+// @public
+export function isBuffer(value: unknown): value is NodeBuffer;
 
 // @public
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
 
 // @public
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+    destroy(error?: Error): this;
+}
+
+// @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
+
+export { Readable }
 
 // @public
 export class StorageBrowserPolicy extends BaseRequestPolicy {
@@ -89,10 +114,34 @@ export function storageCorrectContentLengthPolicy(): PipelinePolicy;
 export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
 
 // @public
+export class StorageCRC64Calculator {
+    constructor();
+    append(body: Uint8Array, length: number): void;
+    final(body: Uint8Array, length: number): Uint8Array;
+    static init(): Promise<void>;
+}
+
+// @public
+export function storageRedirectRangeHeaderPolicy(): PipelinePolicy;
+
+// @public
+export const storageRedirectRangeHeaderPolicyName = "storageRedirectRangeHeaderPolicy";
+
+// @public
 export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
 
 // @public
 export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
+
+// @public
+export const StorageResponseFormat: {
+    readonly Auto: "Auto";
+    readonly Xml: "Xml";
+    readonly Arrow: "Arrow";
+};
+
+// @public
+export type StorageResponseFormat = (typeof StorageResponseFormat)[keyof typeof StorageResponseFormat];
 
 // @public
 export interface StorageRetryOptions {
@@ -156,6 +205,48 @@ export interface StorageSharedKeyCredentialPolicyOptions {
     accountKey: Buffer;
     // (undocumented)
     accountName: string;
+}
+
+// @public
+export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
+
+// @public
+export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
+
+// @public
+export interface StructuredMessageDecodingStreamOptions {
+    highWaterMark?: number;
+}
+
+// @public
+export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
+    body: RequestBodyType;
+    encodedContentLength: number;
+}>;
+
+// @public
+export interface StructuredMessageEncodingStreamOptions {
+    highWaterMark?: number;
+}
+
+// @public
+export interface UserDelegationKey {
+    signedDelegatedUserTenantId?: string;
+    signedExpiresOn: Date;
+    signedObjectId: string;
+    signedService: string;
+    signedStartsOn: Date;
+    signedTenantId: string;
+    signedVersion: string;
+    value: string;
+}
+
+// @public
+export class UserDelegationKeyCredential {
+    constructor(accountName: string, userDelegationKey: UserDelegationKey);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    readonly userDelegationKey: UserDelegationKey;
 }
 
 // (No @packageDocumentation comment for this package)

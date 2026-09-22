@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  getCustomerInitiatedMigration,
+  revokeUserDelegationKeys,
+  restoreBlobRanges,
+  customerInitiatedMigration,
+  abortHierarchicalNamespaceMigration,
+  hierarchicalNamespaceMigration,
+  failover,
+  listServiceSAS,
+  listAccountSAS,
+  regenerateKey,
+  listKeys,
+  list,
+  listByResourceGroup,
+  $delete,
+  update,
+  create,
+  getProperties,
+  checkNameAvailability,
+} from "./operations.js";
+export type {
+  StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
+  StorageAccountsRevokeUserDelegationKeysOptionalParams,
+  StorageAccountsRestoreBlobRangesOptionalParams,
+  StorageAccountsCustomerInitiatedMigrationOptionalParams,
+  StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
+  StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
+  StorageAccountsFailoverOptionalParams,
+  StorageAccountsListServiceSASOptionalParams,
+  StorageAccountsListAccountSASOptionalParams,
+  StorageAccountsRegenerateKeyOptionalParams,
+  StorageAccountsListKeysOptionalParams,
+  StorageAccountsListOptionalParams,
+  StorageAccountsListByResourceGroupOptionalParams,
+  StorageAccountsDeleteOptionalParams,
+  StorageAccountsUpdateOptionalParams,
+  StorageAccountsCreateOptionalParams,
+  StorageAccountsGetPropertiesOptionalParams,
+  StorageAccountsCheckNameAvailabilityOptionalParams,
+} from "./options.js";

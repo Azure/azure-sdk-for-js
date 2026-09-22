@@ -4,68 +4,81 @@
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type {
-  AIProjectClient,
-  DeploymentsOperations,
-  ModelDeployment,
-} from "../../../src/index.js";
+import type { AIProjectClient } from "../../../src/index.js";
+import type { ModelDeployment, Deployment } from "../../../src/index.js";
 
-describe("deployments - basic", () => {
+describe("deployments - basic operations", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
-  let deployments: DeploymentsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    deployments = projectsClient.deployments;
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("client and connection operations are accessible", async function () {
-    assert.isNotNull(projectsClient);
-    assert.isNotNull(deployments);
+  it("should list all deployments", async function () {
+    const deployments: ModelDeployment[] = [];
+
+    for await (const deployment of projectsClient.deployments.list()) {
+      if (
+        deployment.type === "ModelDeployment" &&
+        "modelName" in deployment &&
+        "modelPublisher" in deployment &&
+        "modelVersion" in deployment
+      ) {
+        deployments.push(deployment);
+      }
+    }
+
+    assert.isArray(deployments);
+    console.log(`Retrieved ${deployments.length} model deployments`);
+    for (const deployment of deployments) {
+      console.log(
+        `  name: ${deployment.name}, publisher: ${deployment.modelPublisher}, model: ${deployment.modelName}`,
+      );
+    }
   });
 
-  it("should list deployments", async function () {
-    // List deployments
-    const deploymentsListIterator = deployments.list();
-    const deploymentNames: string[] = [];
-    for await (const deployment of deploymentsListIterator) {
-      deploymentNames.push(deployment.name);
+  it("should list deployments filtered by model publisher", async function () {
+    const modelPublisher = process.env["MODEL_PUBLISHER"] || "Microsoft";
+    const filteredDeployments: ModelDeployment[] = [];
+
+    for await (const deployment of projectsClient.deployments.list({ modelPublisher })) {
+      if (deployment.type === "ModelDeployment" && "modelPublisher" in deployment) {
+        filteredDeployments.push(deployment);
+      }
     }
 
-    assert.isNotNull(deploymentNames);
-
-    const deploymentName = deploymentNames[0];
-    const deployment = await deployments.get(deploymentName);
-    assert.isNotNull(deployment);
-    assert.equal(deployment.name, deploymentName);
+    assert.isArray(filteredDeployments);
+    console.log(
+      `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
+    );
   });
 
-  it("should retrieve a deployment with publisher", async function () {
-    // List deployments
-    const allAeploymentList: ModelDeployment[] = [];
-    const allDeploymentsListIterator = deployments.list();
-    for await (const deployment of allDeploymentsListIterator) {
-      allAeploymentList.push(deployment as ModelDeployment);
+  it("should get a single deployment by name", async function () {
+    const deployments: Deployment[] = [];
+
+    for await (const deployment of projectsClient.deployments.list()) {
+      if (deployment.type === "ModelDeployment") {
+        deployments.push(deployment);
+        if (deployments.length >= 1) break;
+      }
     }
 
-    assert.isNotNull(allAeploymentList);
-
-    const modelPublisher = allAeploymentList[0].modelPublisher;
-    // List deployments with a specific publisher
-    const deploymentsListIterator = deployments.list({
-      modelPublisher,
-    });
-    const deploymentsList: ModelDeployment[] = [];
-    for await (const deployment of deploymentsListIterator) {
-      deploymentsList.push(deployment as ModelDeployment);
+    if (deployments.length === 0) {
+      console.log("No deployments found, skipping get test");
+      return;
     }
 
-    assert.isNotNull(deploymentsList);
+    const deploymentName = deployments[0].name;
+    const singleDeployment = await projectsClient.deployments.get(deploymentName);
+
+    assert.isNotNull(singleDeployment);
+    assert.equal(singleDeployment.name, deploymentName);
+    console.log(`Retrieved deployment: ${JSON.stringify(singleDeployment)}`);
   });
 });

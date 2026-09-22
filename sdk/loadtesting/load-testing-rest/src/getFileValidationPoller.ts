@@ -3,7 +3,8 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
-import type { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
+import type { CancelOnProgress, OperationState } from "@azure/core-lro";
+import type { SimplePollerLike } from "./pollingHelper.js";
 import type { FileUploadAndValidatePoller, PolledOperationOptions } from "./models.js";
 import type { AzureLoadTestingClient } from "./clientDefinitions.js";
 import type {
@@ -49,7 +50,9 @@ export async function getFileValidationPoller(
     OperationState<LoadTestAdministrationGetTestFile200Response>,
     LoadTestAdministrationGetTestFile200Response
   > = {
-    async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
+    async poll(options?: {
+      abortSignal?: AbortSignalLike;
+    }): Promise<OperationState<LoadTestAdministrationGetTestFile200Response>> {
       if (options?.abortSignal?.aborted) {
         throw new AbortError("The polling was aborted.");
       }
@@ -61,7 +64,7 @@ export async function getFileValidationPoller(
         if (isUnexpected(fileValidationResponse)) {
           state.status = "failed";
           state.error = new Error(fileValidationResponse.body.error.message);
-          return;
+          return state;
         }
 
         switch (fileValidationResponse.body.validationStatus) {
@@ -88,6 +91,7 @@ export async function getFileValidationPoller(
 
         await processProgressCallbacks();
       }
+      return state;
     },
 
     pollUntilDone(pollOptions?: {
@@ -168,6 +172,12 @@ export async function getFileValidationPoller(
 
     toString() {
       return JSON.stringify({ state });
+    },
+    async serialize(): Promise<string> {
+      return JSON.stringify({ state });
+    },
+    async submitted(): Promise<void> {
+      // No-op: the file validation is a custom poller
     },
   };
 

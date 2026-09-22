@@ -1,44 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update a work item configuration for an Application Insights component.
- *
- * @summary Update a work item configuration for an Application Insights component.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WorkItemConfigUpdate.json
- */
-
-import {
-  WorkItemCreateConfiguration,
-  ApplicationInsightsManagementClient,
-} from "@azure/arm-appinsights";
+import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update a work item configuration for an Application Insights component.
+ *
+ * @summary update a work item configuration for an Application Insights component.
+ * x-ms-original-file: 2015-05-01/WorkItemConfigUpdate.json
+ */
 async function workItemConfigurationsCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
-  const resourceName = "my-component";
-  const workItemConfigId = "Visual Studio Team Services";
-  const workItemConfigurationProperties: WorkItemCreateConfiguration = {
-    connectorDataConfiguration:
-      '{"VSOAccountBaseUrl":"https://testtodelete.visualstudio.com","ProjectCollection":"DefaultCollection","Project":"todeletefirst","ResourceId":"d0662b05-439a-4a1b-840b-33a7f8b42ebf","Custom":"{\\"/fields/System.WorkItemType\\":\\"Bug\\",\\"/fields/System.AreaPath\\":\\"todeletefirst\\",\\"/fields/System.AssignedTo\\":\\"\\"}"}',
-    connectorId: "d334e2a4-6733-488e-8645-a9fdc1694f41",
-    validateOnly: true,
-    workItemProperties: { "0": "[object Object]", "1": "[object Object]" },
-  };
   const credential = new DefaultAzureCredential();
-  const client = new ApplicationInsightsManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "subid";
+  const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const result = await client.workItemConfigurations.updateItem(
-    resourceGroupName,
-    resourceName,
-    workItemConfigId,
-    workItemConfigurationProperties,
+    "my-resource-group",
+    "my-component",
+    "Visual Studio Team Services",
+    {
+      connectorDataConfiguration:
+        '{"VSOAccountBaseUrl":"https://testtodelete.visualstudio.com","ProjectCollection":"DefaultCollection","Project":"todeletefirst","ResourceId":"d0662b05-439a-4a1b-840b-33a7f8b42ebf","Custom":"{\\"/fields/System.WorkItemType\\":\\"Bug\\",\\"/fields/System.AreaPath\\":\\"todeletefirst\\",\\"/fields/System.AssignedTo\\":\\"\\"}"}',
+      connectorId: "d334e2a4-6733-488e-8645-a9fdc1694f41",
+      validateOnly: true,
+      workItemProperties: { name: "Title", value: "Validate Only Title" },
+    },
   );
   console.log(result);
 }

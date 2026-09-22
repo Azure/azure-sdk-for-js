@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IncomingMessage } from "node:http";
+import type { NodeIncomingMessage } from "#platform/types";
 import type {
   EventMessage,
   EventMessageStream,
   NodeJSReadableStream,
-  PartialSome,
   SseStream,
 } from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
+
+type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 enum ControlChars {
   NewLine = 10,
@@ -29,7 +30,7 @@ export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventM
  * @param chunkStream - A NodeJS HTTP response
  * @returns A stream of EventMessage objects
  */
-export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
+export function createSseStream(chunkStream: NodeIncomingMessage): EventMessageStream;
 /**
  * Processes a response stream into a stream of events.
  * @param chunkStream - A NodeJS Readable stream

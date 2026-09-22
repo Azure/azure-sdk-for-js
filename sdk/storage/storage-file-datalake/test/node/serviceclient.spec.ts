@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "../../src/index.js";
 import {
-  recorderEnvSetup,
+  createAndStartRecorder,
   getConnectionStringFromEnvironment,
   getDataLakeServiceClient,
   configureStorageClient,
@@ -17,12 +17,39 @@ describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it("IPv6 Test", async () => {
+    const accountName = "storageaccount";
+
+    let datalakeServiceURL = `https://${accountName}-ipv6.dfs.core.windows.net/`;
+    let datalakeServiceClient = new DataLakeServiceClient(datalakeServiceURL);
+    assert.deepEqual(datalakeServiceClient.accountName, accountName);
+
+    datalakeServiceURL = `https://${accountName}-secondary-ipv6.dfs.core.windows.net/`;
+    datalakeServiceClient = new DataLakeServiceClient(datalakeServiceURL);
+    assert.deepEqual(datalakeServiceClient.accountName, accountName);
+
+    datalakeServiceURL = `https://${accountName}-secondary-dualstack.dfs.core.windows.net/`;
+    datalakeServiceClient = new DataLakeServiceClient(datalakeServiceURL);
+    assert.deepEqual(datalakeServiceClient.accountName, accountName);
+
+    datalakeServiceURL = `https://${accountName}-dualstack.dfs.core.windows.net/`;
+    datalakeServiceClient = new DataLakeServiceClient(datalakeServiceURL);
+    assert.deepEqual(datalakeServiceClient.accountName, accountName);
+
+    datalakeServiceURL = `https://${accountName}-secondary.dfs.core.windows.net/`;
+    datalakeServiceClient = new DataLakeServiceClient(datalakeServiceURL);
+    assert.deepEqual(datalakeServiceClient.accountName, accountName);
+
+    datalakeServiceURL = `https://${accountName}-something.dfs.core.windows.net/`;
+    datalakeServiceClient = new DataLakeServiceClient(datalakeServiceURL);
+    assert.deepEqual(datalakeServiceClient.accountName, accountName + "-something");
   });
 
   it("DataLakeServiceClient default audience should work", async () => {
@@ -90,6 +117,6 @@ describe("DataLakeServiceClient", () => {
 
     const listIter = newClient.listFileSystems();
     await listIter.next();
-    assert.ok(newClient.url.includes("dfs"));
+    assert.include(newClient.url, "dfs");
   });
 });

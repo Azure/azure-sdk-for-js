@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-http-compat": ["../src/index.ts"],
+      "@azure/core-http-compat/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

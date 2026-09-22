@@ -22,11 +22,6 @@ export interface UsersOperations {
     options?: UsersListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<User>;
   /** Deletes a mongo cluster user. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -49,7 +44,6 @@ export interface UsersOperations {
     options?: UsersGetOptionalParams,
   ) => Promise<User>;
 }
-
 function _getUsers(context: MongoClusterManagementContext) {
   return {
     listByMongoCluster: (
@@ -78,7 +72,6 @@ function _getUsers(context: MongoClusterManagementContext) {
     ) => get(context, resourceGroupName, mongoClusterName, userName, options),
   };
 }
-
 export function _getUsersOperations(context: MongoClusterManagementContext): UsersOperations {
   return {
     ..._getUsers(context),

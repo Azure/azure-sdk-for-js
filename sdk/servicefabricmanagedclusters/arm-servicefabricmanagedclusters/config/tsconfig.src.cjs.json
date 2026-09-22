@@ -1,0 +1,26 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/operationStatus/index.ts",
+    "../src/api/operationResults/index.ts",
+    "../src/api/nodeTypeSkus/index.ts",
+    "../src/api/nodeTypes/index.ts",
+    "../src/api/managedMaintenanceWindowStatus/index.ts",
+    "../src/api/managedApplyMaintenanceWindow/index.ts",
+    "../src/api/managedAzResiliencyStatus/index.ts",
+    "../src/api/managedClusters/index.ts",
+    "../src/api/managedUnsupportedVMSizes/index.ts",
+    "../src/api/managedClusterVersion/index.ts",
+    "../src/api/services/index.ts",
+    "../src/api/applicationTypeVersions/index.ts",
+    "../src/api/applicationTypes/index.ts",
+    "../src/api/applications/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
+}

@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JSONTypes } from "../webPubSubClient.js";
+/**
+ * Types which can be serialized and sent as JSON.
+ */
+export type JSONTypes = string | number | boolean | object;
 
 /**
  * The web pubsub message
@@ -16,7 +19,22 @@ export type WebPubSubMessage =
   | SendToGroupMessage
   | SendEventMessage
   | SequenceAckMessage
-  | AckMessage;
+  | PingMessage
+  | AckMessage
+  | InvokeMessage
+  | InvokeResponseMessage
+  | CancelInvocationMessage
+  | PongMessage
+  | StreamDataMessage
+  | StreamEndMessage
+  | StreamAckMessage
+  | StreamNackMessage
+  | StreamClosedMessage
+  | SetGroupStateMessage
+  | SubscribeGroupStateMessage
+  | UnsubscribeGroupStateMessage
+  | GroupStateSnapshotMessage
+  | GroupStateUpdateMessage;
 
 /**
  * The common of web pubsub message
@@ -34,6 +52,10 @@ export type DownstreamMessageType =
    */
   | "ack"
   /**
+   * Type for PongMessage
+   */
+  | "pong"
+  /**
    * Type for ConnectedMessage
    */
   | "connected"
@@ -48,7 +70,31 @@ export type DownstreamMessageType =
   /**
    * Type for ServerDataMessage
    */
-  | "serverData";
+  | "serverData"
+  /**
+   * Type for InvokeResponseMessage
+   */
+  | "invokeResponse"
+  /**
+   * Type for StreamAckMessage
+   */
+  | "streamAck"
+  /**
+   * Type for StreamNackMessage
+   */
+  | "streamNack"
+  /**
+   * Type for StreamClosedMessage
+   */
+  | "streamClosed"
+  /**
+   * Type for GroupStateSnapshotMessage
+   */
+  | "groupStateSnapshot"
+  /**
+   * Type for GroupStateUpdateMessage
+   */
+  | "groupStateUpdate";
 
 /**
  * Types for upstream messages
@@ -73,7 +119,39 @@ export type UpstreamMessageType =
   /**
    * Type for SequenceAckMessage
    */
-  | "sequenceAck";
+  | "sequenceAck"
+  /**
+   * Type for PingMessage
+   */
+  | "ping"
+  /**
+   * Type for InvokeMessage
+   */
+  | "invoke"
+  /**
+   * Type for CancelInvocationMessage
+   */
+  | "cancelInvocation"
+  /**
+   * Type for StreamDataMessage
+   */
+  | "streamData"
+  /**
+   * Type for StreamEndMessage
+   */
+  | "streamEnd"
+  /**
+   * Type for SetGroupStateMessage
+   */
+  | "setGroupState"
+  /**
+   * Type for SubscribeGroupStateMessage
+   */
+  | "subscribeGroupState"
+  /**
+   * Type for UnsubscribeGroupStateMessage
+   */
+  | "unsubscribeGroupState";
 
 /**
  * The ack message
@@ -95,6 +173,16 @@ export interface AckMessage extends WebPubSubMessageBase {
    * The error detail. Only available when success is false
    */
   error?: AckMessageError;
+}
+
+/**
+ * The pong message
+ */
+export interface PongMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "pong";
 }
 
 /**
@@ -175,6 +263,10 @@ export interface GroupDataMessage extends WebPubSubMessageBase {
    * The user id of the sender
    */
   fromUserId: string;
+  /**
+   * Streaming metadata when the payload belongs to a stream.
+   */
+  stream?: StreamInfo;
 }
 
 /**
@@ -197,6 +289,75 @@ export interface ServerDataMessage extends WebPubSubMessageBase {
    * The sequence id of the data. Only available in reliable protocols
    */
   sequenceId?: number;
+}
+
+/**
+ * Stream metadata attached to a downstream data message.
+ */
+export interface StreamInfo {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Stream sequence identifier.
+   */
+  streamSequenceId: number;
+  /**
+   * Whether this message indicates the end of the stream.
+   */
+  endOfStream?: boolean;
+  /**
+   * Stream error detail when present.
+   */
+  error?: StreamDataError;
+}
+
+/**
+ * Stream error detail.
+ */
+export interface StreamDataError {
+  /**
+   * Error name.
+   */
+  name: string;
+  /**
+   * Optional error message.
+   */
+  message?: string;
+  /**
+   * Optional application-defined error code.
+   */
+  userErrorCode?: string;
+}
+
+/**
+ * Stream end error that an outbound stream can send to the service.
+ * The service decides the high-level error name classification.
+ */
+export interface StreamEndError {
+  /**
+   * Optional error message.
+   */
+  message?: string;
+  /**
+   * Optional application-defined error code.
+   */
+  userErrorCode?: string;
+}
+
+/**
+ * Stream descriptor attached to a sendToGroup control frame that opens a stream.
+ */
+export interface StartStreamOptions {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Optional stream idle timeout in milliseconds.
+   */
+  idleTimeoutInMs?: number;
 }
 
 /**
@@ -278,17 +439,21 @@ export interface SendToGroupMessage extends WebPubSubMessageBase {
    */
   ackId?: number;
   /**
-   * The data type
+   * The data type. Omit for a stream-start control frame.
    */
-  dataType: WebPubSubDataType;
+  dataType?: WebPubSubDataType;
   /**
-   * The data
+   * The data. Omit for a stream-start control frame.
    */
-  data: JSONTypes | ArrayBuffer;
+  data?: JSONTypes | ArrayBuffer;
   /**
    * Whether the message needs to echo to sender
    */
   noEcho: boolean;
+  /**
+   * Optional stream descriptor when this frame opens a stream.
+   */
+  stream?: StartStreamOptions;
 }
 
 /**
@@ -303,6 +468,326 @@ export interface SequenceAckMessage extends WebPubSubMessageBase {
    * The sequence id
    */
   sequenceId: number;
+}
+
+/**
+ * Invoke message
+ */
+export interface InvokeMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "invoke";
+  /**
+   * The invocation id
+   */
+  invocationId: string;
+  /**
+   * The invocation target type. Currently, only upstream events are supported.
+   */
+  target?: "event";
+  /**
+   * The event name when targeting upstream events.
+   */
+  event?: string;
+  /**
+   * Data type of the payload.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * Payload data.
+   */
+  data?: JSONTypes | ArrayBuffer;
+}
+
+/**
+ * Invoke response message
+ */
+export interface InvokeResponseMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "invokeResponse";
+  /**
+   * The invocation ID that this response is for.
+   */
+  invocationId: string;
+  /**
+   * Indicates whether the invocation was successful.
+   */
+  success?: boolean;
+  /**
+   * Data type of the payload.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * Payload data.
+   */
+  data?: JSONTypes | ArrayBuffer;
+  /**
+   * Error details if the invocation failed.
+   */
+  error?: InvokeResponseError;
+}
+
+/**
+ * Invoke response error details
+ */
+export interface InvokeResponseError {
+  /**
+   * The error name.
+   */
+  name: string;
+  /**
+   * The error message.
+   */
+  message: string;
+}
+
+/**
+ * Cancel invocation message
+ */
+export interface CancelInvocationMessage extends WebPubSubMessageBase {
+  /**
+   * The message kind.
+   */
+  readonly kind: "cancelInvocation";
+  /**
+   * The invocation ID to cancel.
+   */
+  invocationId: string;
+}
+
+/**
+ * Stream data message. A payload with only `streamId` represents a keepalive.
+ */
+export interface StreamDataMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamData";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Stream sequence identifier.
+   */
+  streamSequenceId?: number;
+  /**
+   * Payload type.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * Payload data.
+   */
+  data?: JSONTypes | ArrayBuffer;
+}
+
+/**
+ * Stream end message.
+ */
+export interface StreamEndMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamEnd";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Optional end error.
+   */
+  error?: StreamEndError;
+}
+
+/**
+ * Stream ack message.
+ */
+export interface StreamAckMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamAck";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Next expected stream sequence id.
+   */
+  expectedSequenceId: number;
+}
+
+/**
+ * Stream nack message.
+ */
+export interface StreamNackMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamNack";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Error name.
+   */
+  name: string;
+  /**
+   * Optional error message.
+   */
+  message?: string;
+  /**
+   * Next expected stream sequence id.
+   */
+  expectedSequenceId: number;
+}
+
+/**
+ * Stream closed message.
+ */
+export interface StreamClosedMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "streamClosed";
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Optional close error.
+   */
+  error?: { name: string; message?: string };
+}
+
+/**
+ * Ping message
+ */
+export interface PingMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "ping";
+}
+
+/**
+ * Set group state message
+ */
+export interface SetGroupStateMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "setGroupState";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * The state dictionary. Omit or pass undefined to clear the state.
+   */
+  state?: Record<string, string>;
+  /**
+   * Optional ack id. If specified, an AckMessage with success or not will be returned with the same ackId
+   */
+  ackId?: number;
+}
+
+/**
+ * Subscribe group state message
+ */
+export interface SubscribeGroupStateMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "subscribeGroupState";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * Optional ack id. If specified, an AckMessage with success or not will be returned with the same ackId
+   */
+  ackId?: number;
+}
+
+/**
+ * Unsubscribe group state message
+ */
+export interface UnsubscribeGroupStateMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "unsubscribeGroupState";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * Optional ack id. If specified, an AckMessage with success or not will be returned with the same ackId
+   */
+  ackId?: number;
+}
+
+/**
+ * A single connection's state entry within a group
+ */
+export interface GroupStateItem {
+  /**
+   * The connection id
+   */
+  connectionId: string;
+  /**
+   * The user id. Absent for anonymous connections.
+   */
+  userId?: string;
+  /**
+   * The state dictionary. Absent when the state has been cleared.
+   */
+  state?: Record<string, string>;
+  /**
+   * Server time, in Unix epoch milliseconds, when this state was last updated.
+   */
+  updatedAt: number;
+}
+
+/**
+ * Group state snapshot message, sent after a successful subscribeGroupState
+ */
+export interface GroupStateSnapshotMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "groupStateSnapshot";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * The current state items in the group
+   */
+  items: GroupStateItem[];
+}
+
+/**
+ * Group state update message, pushed when a connection's state changes
+ */
+export interface GroupStateUpdateMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "groupStateUpdate";
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * The updated state items
+   */
+  items: GroupStateItem[];
 }
 
 /**

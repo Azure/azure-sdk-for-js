@@ -151,9 +151,10 @@ export function createTestPoller(
     skipFinalGet = false,
     ...rest
   } = settings;
+  const getMethod: HttpMethods = "GET";
   const client = createClient({ routes: toLroProcessors(routes), throwOnNon2xxResponse });
   const { method: requestMethod, path = initialPath } = restoreFrom
-    ? { method: "GET" as HttpMethods, path: "FAKE" }
+    ? { method: getMethod, path: "FAKE" }
     : routes[0];
   const lro = createCoreRestPipelineLro({
     sendOperationFn: createSendOp({ client }),

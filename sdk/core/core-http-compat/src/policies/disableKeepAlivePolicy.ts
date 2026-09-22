@@ -14,7 +14,7 @@ export const disableKeepAlivePolicyName = "DisableKeepAlivePolicy";
 export function createDisableKeepAlivePolicy(): PipelinePolicy {
   return {
     name: disableKeepAlivePolicyName,
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+    sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       request.disableKeepAlive = true;
       return next(request);
     },

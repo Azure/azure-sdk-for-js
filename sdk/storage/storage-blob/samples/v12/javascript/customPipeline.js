@@ -12,7 +12,7 @@ const {
 } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -26,14 +26,14 @@ async function main() {
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    retryOptions: { maxTries: 4 },
+    retryOptions: { maxTries: 4 }, // Retry options
     userAgentOptions: { userAgentPrefix: "Sample V1.0.0" }, // Customized telemetry string
   });
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    pipeline
+    pipeline,
   );
 
   let i = 1;

@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export { QuotaOperationListOptionalParams } from "./options.js";
+export { type QuotaOperationListOptionalParams } from "./options.js";

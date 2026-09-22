@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { delay, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
 import type {
   DataLakeFileClient,
   DataLakeDirectoryClient,
   DataLakeFileSystemClient,
 } from "../src/index.js";
-import {
-  getDataLakeServiceClient,
-  getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
-} from "./utils/index.js";
+import { createAndStartRecorder, getDataLakeServiceClient, getUniqueName } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("LeaseClient from FileSystem", () => {
@@ -22,11 +18,9 @@ describe("LeaseClient from FileSystem", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
-        uriSanitizers,
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
       ["record", "playback"],
@@ -96,7 +90,7 @@ describe("LeaseClient from FileSystem", () => {
 
     await delay(16 * 1000);
     const result2 = await fileSystemClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     assert.equal(result2.leaseStatus, "unlocked");
 
@@ -141,14 +135,14 @@ describe("LeaseClient from FileSystem", () => {
     await leaseClient.breakLease(3);
 
     const result2 = await fileSystemClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(3 * 1000);
 
     const result3 = await fileSystemClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     assert.equal(result3.leaseStatus, "unlocked");
   });
@@ -162,9 +156,7 @@ describe("LeaseClient from File", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -221,7 +213,7 @@ describe("LeaseClient from File", () => {
     await delay(20 * 1000);
 
     const result2 = await fileClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     // assert.equal(result2.leaseStatus, "unlocked"); // TODO: Potential bug of server which returns "locked" for "expired" lease
 
@@ -266,14 +258,14 @@ describe("LeaseClient from File", () => {
     await leaseClient.breakLease(5);
 
     const result2 = await fileClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(5 * 1000);
 
     const result3 = await fileClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     // assert.equal(result3.leaseStatus, "unlocked"); // TODO: Potential bug of server which returns "locked" for "broken" lease
   });
@@ -287,9 +279,7 @@ describe("LeaseClient from Directory", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -346,7 +336,7 @@ describe("LeaseClient from Directory", () => {
     await delay(20 * 1000);
 
     const result2 = await directoryClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     // assert.equal(result2.leaseStatus, "unlocked"); // TODO: Potential bug of server which returns "locked" for "expired" lease
 
@@ -391,14 +381,14 @@ describe("LeaseClient from Directory", () => {
     await leaseClient.breakLease(15);
 
     const result2 = await directoryClient.getProperties();
-    assert.ok(!result2.leaseDuration);
+    assert.isUndefined(result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await delay(15 * 1000);
 
     const result3 = await directoryClient.getProperties();
-    assert.ok(!result3.leaseDuration);
+    assert.isUndefined(result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     // assert.equal(result3.leaseStatus, "unlocked"); // TODO: Potential bug of server which returns "locked" for "broken" lease
   });

@@ -11,7 +11,7 @@ import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
 import { TimeoutErrorCode } from "../request/TimeoutError.js";
 import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
+import type { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
 
 /**
  * This class TimeoutFailoverRetryPolicy handles retries for read operations
@@ -98,7 +98,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (
       !canUseMultipleWriteLocations &&
       !readRequest &&
-      !this.globalEndpointManager.enablePartitionLevelFailover
+      !this.globalPartitionEndpointManager?.isPartitionLevelAutomaticFailoverEnabled()
     ) {
       // Write requests on single master cannot be retried if partition level failover is disabled.
       // This means there are no other regions available to serve the writes.

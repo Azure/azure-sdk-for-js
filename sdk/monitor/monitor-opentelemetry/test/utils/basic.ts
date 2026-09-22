@@ -47,6 +47,7 @@ export class TraceBasicScenario implements Scenario {
         httpClient,
       },
       resource: resource,
+      tracesPerSecond: 0,
     });
     this._tracerProvider = (
       opentelemetry.trace.getTracerProvider() as opentelemetry.ProxyTracerProvider
@@ -118,7 +119,7 @@ export class TraceBasicScenario implements Scenario {
             "k8s.node.name": "testNodeName",
             "k8s.pod.name": "testPodName",
           },
-        } as any,
+        },
       },
       children: [],
     },
@@ -135,7 +136,7 @@ export class TraceBasicScenario implements Scenario {
           properties: {
             foo: "bar",
           },
-        } as any,
+        },
       },
       children: [
         {
@@ -151,7 +152,7 @@ export class TraceBasicScenario implements Scenario {
               properties: {
                 numbers: "123",
               },
-            } as any,
+            },
           },
           children: [
             {
@@ -165,7 +166,7 @@ export class TraceBasicScenario implements Scenario {
                   properties: {
                     SomeAttribute: "Test",
                   },
-                } as any,
+                },
               },
               children: [],
             },
@@ -186,7 +187,7 @@ export class TraceBasicScenario implements Scenario {
                   hasFullStack: true,
                 },
               ],
-            } as any,
+            },
           },
           children: [],
         },
@@ -279,7 +280,7 @@ export class MetricBasicScenario implements Scenario {
               dataPointType: "Aggregation",
             },
           ],
-        } as any,
+        },
       },
       children: [],
     },
@@ -299,7 +300,7 @@ export class MetricBasicScenario implements Scenario {
             },
           ],
           properties: { testAttribute: "testValue" },
-        } as any,
+        },
       },
       children: [],
     },
@@ -320,7 +321,7 @@ export class MetricBasicScenario implements Scenario {
               dataPointType: "Aggregation",
             },
           ],
-        } as any,
+        },
       },
       children: [],
     },
@@ -351,7 +352,7 @@ export class MetricBasicScenario implements Scenario {
             "dependency/resultCode": "400",
             "dependency/target": "http://www.test.com",
           },
-        } as any,
+        },
       },
       children: [],
     },
@@ -380,7 +381,7 @@ export class MetricBasicScenario implements Scenario {
             "cloud/roleName": "my-namespace.my-helloworld-service",
             "request/resultCode": "200",
           },
-        } as any,
+        },
       },
       children: [],
     },
@@ -443,7 +444,7 @@ export class LogBasicScenario implements Scenario {
           properties: {
             foo: "bar",
           },
-        } as any,
+        },
       },
       children: [],
     },
@@ -463,7 +464,7 @@ export class LogBasicScenario implements Scenario {
             },
           ],
           severityLevel: "Error",
-        } as any,
+        },
       },
       children: [],
     },

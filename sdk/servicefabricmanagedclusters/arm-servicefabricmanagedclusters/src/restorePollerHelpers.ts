@@ -19,9 +19,11 @@ import {
   _stopFaultSimulationDeserialize as _stopFaultSimulationDeserializeManagedClusters,
   _startFaultSimulationDeserialize as _startFaultSimulationDeserializeManagedClusters,
   _$deleteDeserialize as _$deleteDeserializeManagedClusters,
+  _updateDeserialize as _updateDeserializeManagedClusters,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedClusters,
 } from "./api/managedClusters/operations.js";
 import {
+  _restartReplicaDeserialize,
   _$deleteDeserialize as _$deleteDeserializeServices,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeServices,
 } from "./api/services/operations.js";
@@ -31,11 +33,14 @@ import {
 } from "./api/applicationTypeVersions/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeApplicationTypes } from "./api/applicationTypes/operations.js";
 import {
+  _restartDeployedCodePackageDeserialize,
+  _fetchHealthDeserialize,
   _updateUpgradeDeserialize,
   _startRollbackDeserialize,
   _resumeUpgradeDeserialize,
   _readUpgradeDeserialize,
   _$deleteDeserialize as _$deleteDeserializeApplications,
+  _updateDeserialize as _updateDeserializeApplications,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeApplications,
 } from "./api/applications/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
@@ -77,8 +82,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -87,6 +91,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -97,81 +102,64 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/stopFaultSimulation":
-    {
-      deserializer: _stopFaultSimulationDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _stopFaultSimulationDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/startFaultSimulation":
-    {
-      deserializer: _startFaultSimulationDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _startFaultSimulationDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/start":
-    { deserializer: _startDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/restart":
-    { deserializer: _restartDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _restartDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/reimage":
-    { deserializer: _reimageDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _reimageDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/redeploy":
-    { deserializer: _redeployDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _redeployDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/deleteNode":
-    { deserializer: _deleteNodeDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _deleteNodeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/deallocate":
-    { deserializer: _deallocateDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _deallocateDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}":
-    {
-      deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/stopFaultSimulation":
     {
       deserializer: _stopFaultSimulationDeserializeManagedClusters,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/startFaultSimulation":
     {
       deserializer: _startFaultSimulationDeserializeManagedClusters,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["202", "200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}":
-    {
-      deserializer: _$deleteDeserializeManagedClusters,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeManagedClusters, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}":
+    { deserializer: _updateDeserializeManagedClusters, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}":
     {
       deserializer: _createOrUpdateDeserializeManagedClusters,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}/restartReplica":
+    { deserializer: _restartReplicaDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}":
-    {
-      deserializer: _$deleteDeserializeServices,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeServices, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}":
-    {
-      deserializer: _createOrUpdateDeserializeServices,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _createOrUpdateDeserializeServices, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}":
     {
       deserializer: _$deleteDeserializeApplicationTypeVersions,
@@ -180,39 +168,33 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}":
     {
       deserializer: _createOrUpdateDeserializeApplicationTypeVersions,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}":
+    { deserializer: _$deleteDeserializeApplicationTypes, expectedStatuses: ["202", "204", "200"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/restartDeployedCodePackage":
     {
-      deserializer: _$deleteDeserializeApplicationTypes,
-      expectedStatuses: ["202", "204", "200"],
+      deserializer: _restartDeployedCodePackageDeserialize,
+      expectedStatuses: ["202", "200", "201"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/fetchHealth":
+    { deserializer: _fetchHealthDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/updateUpgrade":
-    {
-      deserializer: _updateUpgradeDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _updateUpgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/startRollback":
-    {
-      deserializer: _startRollbackDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _startRollbackDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/resumeUpgrade":
-    {
-      deserializer: _resumeUpgradeDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _resumeUpgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/fetchUpgradeStatus":
-    { deserializer: _readUpgradeDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _readUpgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}":
-    {
-      deserializer: _$deleteDeserializeApplications,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeApplications, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}":
+    { deserializer: _updateDeserializeApplications, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}":
     {
       deserializer: _createOrUpdateDeserializeApplications,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
 };
 
@@ -284,4 +266,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

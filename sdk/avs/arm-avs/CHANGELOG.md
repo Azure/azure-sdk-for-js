@@ -1,4 +1,128 @@
 # Release History
+
+## 7.2.0 (2026-09-03)
+
+### Features Added
+  - Added operation HostsOperations.update
+  - Added Interface HostLicense
+  - Added Interface HostsUpdateOptionalParams
+  - Added Interface HostUpdate
+  - Added Interface HostUpdateProperties
+  - Added Interface MaintenanceActivity
+  - Added Interface MaintenanceGroup
+  - Added Interface MaintenanceRecommendation
+  - Added Interface MaintenanceRelationships
+  - Added Interface MaintenanceWindowRecommendation
+  - Added Interface ReschedulingWindowConstraint
+  - Added Interface WeekendReschedulingConstraint
+  - Added Interface WeekendSchedulingConstraint
+  - Added Interface WindowsServerLicense
+  - Interface GeneralHostProperties has a new optional parameter licenses
+  - Interface HostProperties has a new optional parameter licenses
+  - Interface MaintenanceProperties has a new optional parameter activities
+  - Interface MaintenanceProperties has a new optional parameter group
+  - Interface MaintenanceProperties has a new optional parameter relationships
+  - Interface RescheduleOperation has a new optional parameter recommendation
+  - Interface ScheduleOperation has a new optional parameter recommendation
+  - Interface SpecializedHostProperties has a new optional parameter licenses
+  - Added Type Alias HostLicenseKind
+  - Added Type Alias HostLicenseUnion
+  - Added Type Alias MaintenanceActivityKind
+  - Added Type Alias MaintenanceGroupKind
+  - Added Enum KnownHostLicenseKind
+  - Added Enum KnownMaintenanceActivityKind
+  - Added Enum KnownMaintenanceGroupKind
+  - Enum KnownBlockedDatesConstraintCategory has a new value OverlappingMaintenance
+  - Enum KnownRescheduleOperationConstraintKind has a new value ReschedulingWindow
+  - Enum KnownRescheduleOperationConstraintKind has a new value WeekendRescheduling
+  - Enum KnownScheduleOperationConstraintKind has a new value WeekendScheduling
+  - Enum KnownVersions has a new value V20260301
+
+## 7.1.0 (2025-12-19)
+
+### Features Added
+  - Added operation group LicensesOperations
+  - Added operation group MaintenancesOperations
+  - Added operation PrivateCloudsOperations.getVcfLicense
+  - Added Interface AvailableWindowForMaintenanceWhileRescheduleOperation
+  - Added Interface AvailableWindowForMaintenanceWhileScheduleOperation
+  - Added Interface BlockedDatesConstraintTimeRange
+  - Added Interface BlockedWhileRescheduleOperation
+  - Added Interface BlockedWhileScheduleOperation
+  - Added Interface ImpactedMaintenanceResource
+  - Added Interface ImpactedMaintenanceResourceError
+  - Added Interface Label
+  - Added Interface License
+  - Added Interface LicenseProperties
+  - Added Interface LicensesCreateOrUpdateOptionalParams
+  - Added Interface LicensesDeleteOptionalParams
+  - Added Interface LicensesGetOptionalParams
+  - Added Interface LicensesGetPropertiesOptionalParams
+  - Added Interface LicensesListOptionalParams
+  - Added Interface Maintenance
+  - Added Interface MaintenanceFailedCheck
+  - Added Interface MaintenanceManagementOperation
+  - Added Interface MaintenanceProperties
+  - Added Interface MaintenanceReadiness
+  - Added Interface MaintenanceReadinessRefreshOperation
+  - Added Interface MaintenanceReschedule
+  - Added Interface MaintenanceSchedule
+  - Added Interface MaintenancesGetOptionalParams
+  - Added Interface MaintenancesInitiateChecksOptionalParams
+  - Added Interface MaintenancesListOptionalParams
+  - Added Interface MaintenancesRescheduleOptionalParams
+  - Added Interface MaintenancesScheduleOptionalParams
+  - Added Interface MaintenanceState
+  - Added Interface PrivateCloudsGetVcfLicenseOptionalParams
+  - Added Interface RescheduleOperation
+  - Added Interface RescheduleOperationConstraint
+  - Added Interface ScheduleOperation
+  - Added Interface ScheduleOperationConstraint
+  - Added Interface SchedulingWindow
+  - Added Interface Vcf5License
+  - Added Interface VcfLicense
+  - Added Interface VmwareFirewallLicenseProperties
+  - Interface AzureVMwareSolutionAPIOptionalParams has a new optional parameter cloudSetting
+  - Interface PrivateCloudProperties has a new optional parameter vcfLicense
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BlockedDatesConstraintCategory
+  - Added Type Alias LicenseKind
+  - Added Type Alias LicenseName
+  - Added Type Alias LicensePropertiesUnion
+  - Added Type Alias LicenseProvisioningState
+  - Added Type Alias MaintenanceCheckType
+  - Added Type Alias MaintenanceManagementOperationKind
+  - Added Type Alias MaintenanceManagementOperationUnion
+  - Added Type Alias MaintenanceProvisioningState
+  - Added Type Alias MaintenanceReadinessRefreshOperationStatus
+  - Added Type Alias MaintenanceReadinessStatus
+  - Added Type Alias MaintenanceStateName
+  - Added Type Alias MaintenanceStatusFilter
+  - Added Type Alias MaintenanceType
+  - Added Type Alias RescheduleOperationConstraintKind
+  - Added Type Alias RescheduleOperationConstraintUnion
+  - Added Type Alias ScheduleOperationConstraintKind
+  - Added Type Alias ScheduleOperationConstraintUnion
+  - Added Type Alias VcfLicenseKind
+  - Added Type Alias VcfLicenseUnion
+  - Added Enum AzureClouds
+  - Added Enum KnownBlockedDatesConstraintCategory
+  - Added Enum KnownLicenseKind
+  - Added Enum KnownLicenseName
+  - Added Enum KnownLicenseProvisioningState
+  - Added Enum KnownMaintenanceCheckType
+  - Added Enum KnownMaintenanceManagementOperationKind
+  - Added Enum KnownMaintenanceProvisioningState
+  - Added Enum KnownMaintenanceReadinessRefreshOperationStatus
+  - Added Enum KnownMaintenanceReadinessStatus
+  - Added Enum KnownMaintenanceStateName
+  - Added Enum KnownMaintenanceStatusFilter
+  - Added Enum KnownMaintenanceType
+  - Added Enum KnownRescheduleOperationConstraintKind
+  - Added Enum KnownScheduleOperationConstraintKind
+  - Added Enum KnownVcfLicenseKind
+  - Enum KnownVersions has a new value V20250901
+
     
 ## 7.0.0 (2025-06-05)
     

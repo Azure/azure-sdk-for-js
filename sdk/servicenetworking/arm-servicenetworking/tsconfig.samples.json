@@ -1,8 +1,0 @@
-{
-  "extends": "../../../tsconfig.samples.base.json",
-  "compilerOptions": {
-    "paths": {
-      "@azure/arm-servicenetworking": ["./dist/esm"]
-    }
-  }
-}

@@ -1,0 +1,45 @@
+{
+  "apiVersions": {
+    "Data.Tables": "2019-02-02"
+  },
+  "emitterVersion": "0.55.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Data.Tables",
+    "CrossLanguageDefinitionId": {
+      "@azure/data-tables!TableQueryResponse:interface": "Data.Tables.TableQueryResponse",
+      "@azure/data-tables!TableProperties:interface": "Data.Tables.TableProperties",
+      "@azure/data-tables!TablesError:interface": "Data.Tables.TablesError",
+      "@azure/data-tables!TableResponse:interface": "Data.Tables.TableResponse",
+      "@azure/data-tables!TableEntityQueryResponse:interface": "Data.Tables.TableEntityQueryResponse",
+      "@azure/data-tables!SignedIdentifiers:interface": "Data.Tables.SignedIdentifiers",
+      "@azure/data-tables!SignedIdentifier:interface": "Data.Tables.SignedIdentifier",
+      "@azure/data-tables!AccessPolicy:interface": "Data.Tables.AccessPolicy",
+      "@azure/data-tables!TableServiceError:interface": "Data.Tables.TablesServiceError",
+      "@azure/data-tables!TableServiceProperties:interface": "Data.Tables.TableServiceProperties",
+      "@azure/data-tables!Logging:interface": "Data.Tables.Logging",
+      "@azure/data-tables!RetentionPolicy:interface": "Data.Tables.RetentionPolicy",
+      "@azure/data-tables!Metrics:interface": "Data.Tables.Metrics",
+      "@azure/data-tables!CorsRule:interface": "Data.Tables.CorsRule",
+      "@azure/data-tables!TableServiceStats:interface": "Data.Tables.TableServiceStats",
+      "@azure/data-tables!GeoReplication:interface": "Data.Tables.GeoReplication",
+      "@azure/data-tables!KnownOdataMetadataFormat:enum": "Data.Tables.OdataMetadataFormat",
+      "@azure/data-tables!KnownResponseFormat:enum": "Data.Tables.ResponseFormat",
+      "@azure/data-tables!KnownGeoReplicationStatusType:enum": "Data.Tables.GeoReplicationStatusType",
+      "@azure/data-tables!KnownVersions:enum": "Data.Tables.Versions",
+      "@azure/data-tables!ServiceOperations#getStatistics:member": "Data.Tables.Service.getStatistics",
+      "@azure/data-tables!ServiceOperations#getProperties:member": "Data.Tables.Service.getProperties",
+      "@azure/data-tables!ServiceOperations#setProperties:member": "Data.Tables.Service.setProperties",
+      "@azure/data-tables!TableOperations#setAccessPolicy:member": "Data.Tables.Table.setAccessPolicy",
+      "@azure/data-tables!TableOperations#getAccessPolicy:member": "Data.Tables.Table.getAccessPolicy",
+      "@azure/data-tables!TableOperations#insertEntity:member": "Data.Tables.Table.insertEntity",
+      "@azure/data-tables!TableOperations#deleteEntity:member": "Data.Tables.Table.deleteEntity",
+      "@azure/data-tables!TableOperations#mergeEntity:member": "Data.Tables.Table.mergeEntity",
+      "@azure/data-tables!TableOperations#updateEntity:member": "Data.Tables.Table.updateEntity",
+      "@azure/data-tables!TableOperations#queryEntityWithPartitionAndRowKey:member": "Data.Tables.Table.queryEntityWithPartitionAndRowKey",
+      "@azure/data-tables!TableOperations#queryEntities:member": "Data.Tables.Table.queryEntities",
+      "@azure/data-tables!TableOperations#delete:member": "Data.Tables.Table.delete",
+      "@azure/data-tables!TableOperations#create:member": "Data.Tables.Table.create",
+      "@azure/data-tables!TableOperations#query:member": "Data.Tables.Table.query"
+    }
+  }
+}

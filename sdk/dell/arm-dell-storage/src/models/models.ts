@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -191,7 +197,9 @@ export function fileSystemResourceSerializer(item: FileSystemResource): any {
 
 export function fileSystemResourceDeserializer(item: any): FileSystemResource {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -484,10 +492,7 @@ export interface EncryptionIdentityProperties {
 }
 
 export function encryptionIdentityPropertiesSerializer(item: EncryptionIdentityProperties): any {
-  return {
-    identityType: item["identityType"],
-    identityResourceId: item["identityResourceId"],
-  };
+  return { identityType: item["identityType"], identityResourceId: item["identityResourceId"] };
 }
 
 export function encryptionIdentityPropertiesDeserializer(item: any): EncryptionIdentityProperties {
@@ -528,10 +533,7 @@ export interface ManagedServiceIdentity {
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -539,7 +541,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -606,7 +615,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -681,7 +692,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -722,10 +733,7 @@ export interface ManagedServiceIdentityUpdate {
 }
 
 export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 /** The updatable properties of the FileSystemResource. */
@@ -781,10 +789,7 @@ export interface EncryptionIdentityUpdateProperties {
 export function encryptionIdentityUpdatePropertiesSerializer(
   item: EncryptionIdentityUpdateProperties,
 ): any {
-  return {
-    identityType: item["identityType"],
-    identityResourceId: item["identityResourceId"],
-  };
+  return { identityType: item["identityType"], identityResourceId: item["identityResourceId"] };
 }
 
 /** The response of a FileSystemResource list operation. */
@@ -818,6 +823,6 @@ export function fileSystemResourceArrayDeserializer(result: Array<FileSystemReso
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-03-21-preview API version. */
-  V2Preview = "2025-03-21-preview",
+  /** The 2025-03-21 API version. */
+  V20250321 = "2025-03-21",
 }

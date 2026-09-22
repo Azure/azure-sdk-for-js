@@ -37,6 +37,25 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.co
  */
 export const DEFAULT_LIVEMETRICS_HOST = "rt.services.visualstudio.com";
 /**
+ * Allowed domain suffixes for redirect targets. A 30x `Location` header is followed only when the
+ * current ingestion host and the redirect target either match exactly or both live under trusted
+ * Azure Monitor / Application Insights suffixes in the same cloud. This prevents an
+ * attacker-controlled redirect from causing the bearer auth policy to attach a fresh AAD token (and
+ * the telemetry body) to an unrelated host or a different sovereign cloud.
+ * @internal
+ */
+export const ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS: readonly (readonly string[])[] = [
+  [
+    ".livediagnostics.monitor.azure.com",
+    ".monitor.azure.com",
+    ".services.visualstudio.com",
+    ".applicationinsights.azure.com",
+  ],
+  [".monitor.azure.us", ".applicationinsights.azure.us"],
+  [".monitor.azure.cn", ".applicationinsights.azure.cn"],
+];
+
+/**
  * Connection string environment variable name.
  * @internal
  */
@@ -85,13 +104,36 @@ export const ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED =
   "APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED";
 
 /**
+ * Checks if an environment variable is set to "true" (case-insensitive, trimmed).
+ * @internal
+ */
+export function isEnvVarTrue(envVarName: string): boolean {
+  return process.env[envVarName]?.trim().toLowerCase() === "true";
+}
+
+/**
  * REST error types for failed requests that can be retried.
  * @internal
  */
 export enum RetriableRestErrorTypes {
   REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR",
   DNS_LOOKUP_TIMEOUT = "EAI_AGAIN",
+  CONNECTION_TIMEOUT = "ETIMEDOUT",
+  SOCKET_TIMEOUT = "ESOCKETTIMEDOUT",
+  CONNECTION_REFUSED = "ECONNREFUSED",
+  CONNECTION_RESET = "ECONNRESET",
+  DNS_LOOKUP_FAILED = "ENOTFOUND",
+  FILE_NOT_FOUND = "ENOENT",
+  BROKEN_PIPE = "EPIPE",
 }
+
+/**
+ * The `name` an aborted/timed-out operation error carries. This value is fixed by the
+ * WHATWG `DOMException` contract and mirrored by `@azure/abort-controller` and the
+ * `@typespec/ts-http-runtime` transport (all set `error.name = "AbortError"`)
+ * @internal
+ */
+export const ABORT_ERROR_NAME = "AbortError";
 /**
  * Application Insights shim version.
  * @internal
@@ -107,13 +149,23 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
  * @internal
  */
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
-
 /**
- * Enables the preview version of customer-facing SDK Stats.
+ * Microsoft OpenTelemetry version.
  * @internal
  */
-export const ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
-  "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
+export const ENV_MICROSOFT_OPENTELEMETRY_VERSION = "MICROSOFT_OPENTELEMETRY_VERSION";
+
+/**
+ * Resource attribute used for Application Insights correlation when specified.
+ * @internal
+ */
+export const APPLICATION_ID_RESOURCE_KEY = "microsoft.applicationId";
+
+/**
+ * Disables customer-facing SDK Stats metrics.
+ * @internal
+ */
+export const ENV_DISABLE_SDKSTATS = "APPLICATIONINSIGHTS_SDKSTATS_DISABLED";
 
 /**
  * Sets the export interval for customer-facing SDK Stats in seconds.
@@ -121,6 +173,27 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
  */
 export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
   "APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL";
+
+/**
+ * Enable verbose statsbeat logging and surfacing failures.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
+
+/**
+ * Gen AI property keys that use a higher 256KB truncation limit for custom dimensions
+ * instead of the standard 64KB limit.
+ * @internal
+ */
+export const CUSTOM_DIMENSIONS_GENAI_KEYS: ReadonlySet<string> = new Set([
+  "gen_ai.input.messages",
+  "gen_ai.output.messages",
+  "gen_ai.system_instructions",
+  "gen_ai.tool.definitions",
+  "gen_ai.tool.call.arguments",
+  "gen_ai.tool.call.result",
+  "gen_ai.evaluation.explanation",
+]);
 
 /**
  * QuickPulse metric counter names.
@@ -194,13 +267,7 @@ export const PerformanceToQuickPulseCounter: { [key: string]: QuickPulseCounter 
  * @internal
  */
 export type QuickPulseDocumentType =
-  | "Event"
-  | "Exception"
-  | "Trace"
-  | "Metric"
-  | "Request"
-  | "RemoteDependency"
-  | "Availability";
+  "Event" | "Exception" | "Trace" | "Metric" | "Request" | "RemoteDependency" | "Availability";
 /**
  * QuickPulse telemetry types.
  * @internal
@@ -213,3 +280,64 @@ export type QuickPulseType =
   | "RequestTelemetryDocument"
   | "DependencyTelemetryDocument"
   | "AvailabilityTelemetryDocument";
+
+/**
+ * OneSettings control-plane hostname.
+ *
+ * OneSettings is the Azure Monitor control plane that lets the ingestion team dynamically toggle
+ * SDK features (e.g. SDK stats) and swap ingestion endpoints at runtime.
+ * @internal
+ */
+export const ONE_SETTINGS_CNAME = "https://settings.sdk.monitor.azure.com";
+/**
+ * OneSettings configuration (e1) endpoint — returns the full settings payload.
+ * @internal
+ */
+export const ONE_SETTINGS_CONFIG_URL = ONE_SETTINGS_CNAME + "/AzMonSDKDynamicConfiguration";
+/**
+ * OneSettings change-detection (e2) endpoint — cheap ETag poll used to detect changes.
+ * @internal
+ */
+export const ONE_SETTINGS_CHANGE_URL = ONE_SETTINGS_CNAME + "/AzMonSDKDynamicConfigurationChanges";
+/**
+ * Default refresh interval between OneSettings polls, in milliseconds (1 hour).
+ * Milliseconds are used because JS timers (`setTimeout`) are millisecond-based.
+ * @internal
+ */
+export const ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS = 3600 * 1000;
+/**
+ * Maximum refresh interval between OneSettings polls, in milliseconds (24 hours).
+ * @internal
+ */
+export const ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000;
+/**
+ * Base interval, in milliseconds, for exponential backoff after transient OneSettings errors.
+ * @internal
+ */
+export const ONE_SETTINGS_BACKOFF_BASE_MS = 3600 * 1000;
+/**
+ * OneSettings feature key that gates internal SDK stats.
+ * @internal
+ */
+export const ONE_SETTINGS_FEATURE_SDK_STATS = "FEATURE_SDK_STATS";
+/**
+ * Namespace targeting sent with OneSettings requests to select the Node.js configuration bucket.
+ * @internal
+ */
+export const ONE_SETTINGS_NODEJS_TARGETING: Readonly<Record<string, string>> = {
+  namespaces: "nodejs",
+};
+/**
+ * HTTP status codes for which a failed OneSettings request should be retried with backoff.
+ * @internal
+ */
+export const ONE_SETTINGS_RETRYABLE_STATUS_CODES: readonly number[] = [
+  401, // Unauthorized
+  403, // Forbidden
+  408, // Request Timeout
+  429, // Too Many Requests
+  500, // Internal Server Error
+  502, // Bad Gateway
+  503, // Service Unavailable
+  504, // Gateway Timeout
+];

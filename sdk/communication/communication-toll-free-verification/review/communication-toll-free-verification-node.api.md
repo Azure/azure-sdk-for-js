@@ -6,8 +6,10 @@
 
 import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -22,6 +24,9 @@ export interface Address {
 
 // @public
 export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther" | "optInDescription";
+
+// @public
+export type BusinessEntityType = "SOLE_PROPRIETOR" | "PRIVATE_PROFIT" | "PUBLIC_PROFIT" | "NON_PROFIT" | "GOVERNMENT";
 
 // @public (undocumented)
 export interface BusinessInformation {
@@ -47,6 +52,17 @@ export interface BusinessPointOfContact {
 // @public (undocumented)
 export const BusinessPointOfContactMapper: coreClient.CompositeMapper;
 
+// @public
+export interface BusinessRegistrationDetails {
+    businessEntityType?: BusinessEntityType;
+    businessRegistrationCountry?: string;
+    businessRegistrationNumber?: string;
+    businessRegistrationType?: BusinessRegistrationType;
+}
+
+// @public
+export type BusinessRegistrationType = "EIN" | "CBN" | "NEQ" | "PROVINCIAL_NUMBER" | "CRN" | "VAT" | "ACN" | "ABN" | "BRN" | "SIREN" | "SIRET" | "NZBN" | "UST_IDNR" | "CIF" | "NIF" | "CNPJ" | "UID" | "OTHER";
+
 // @public (undocumented)
 export interface CampaignBrief {
     additionalInformation?: string;
@@ -55,7 +71,9 @@ export interface CampaignBrief {
     businessInformation?: BusinessInformation;
     // (undocumented)
     businessPointOfContact?: BusinessPointOfContact;
+    businessRegistrationDetails?: BusinessRegistrationDetails;
     countryCode?: string;
+    dba?: string;
     estimatedMonthlyVolume?: EstimatedMonthlyVolume;
     id: string;
     // (undocumented)
@@ -63,10 +81,12 @@ export interface CampaignBrief {
     // (undocumented)
     optInDetails?: OptInDetails;
     phoneNumbers?: string[];
+    privacyPolicyUrl?: string;
     reviewNotes?: ReviewNote[];
     status?: CampaignBriefStatus;
     statusUpdatedDate?: Date;
     submissionDate?: Date;
+    termsAndConditionsUrl?: string;
     // (undocumented)
     useCaseInfo?: UseCaseInfo;
 }
@@ -127,6 +147,8 @@ export type EstimatedMonthlyVolume = "V10" | "V100" | "V1000" | "V10000" | "V100
 // @public
 export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 
+export { isRestError }
+
 // @public (undocumented)
 export interface OptInDetails {
     // (undocumented)
@@ -142,6 +164,8 @@ export interface Option {
     // (undocumented)
     type: Type;
 }
+
+export { RestError }
 
 // @public
 export interface ReviewNote {

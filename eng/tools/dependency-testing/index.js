@@ -11,10 +11,19 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import semver from "semver";
 import { getPackageSpec, readFileJson, writePackageJson } from "@azure-tools/eng-package-utils";
+import { getConfig } from "@pnpm/config";
+import { resolveFromCatalog } from "@pnpm/catalogs.resolver";
 
 // crossSpawn is used because of its ability to better handle corner cases that break when using spawn in Windows environments.
 // For more details see - https://www.npmjs.com/package/cross-spawn
 import crossSpawn from "cross-spawn";
+
+/**
+ * @typedef {Parameters<typeof resolveFromCatalog>[0]} Catalogs
+ * @typedef {{name: string, version: string, type?: string, dependencies: Record<string, string>, devDependencies: Record<string, string>, scripts: Record<string, string>}} DependencyTestPackage
+ * @typedef {{packageName: string, projectFolder: string, versionPolicyName: string}} WorkspacePackage
+ * @typedef {{projects: WorkspacePackage[]}} WorkspacePackages
+ */
 
 const argv = yargs(hideBin(process.argv))
   .options({
@@ -50,7 +59,8 @@ const argv = yargs(hideBin(process.argv))
       type: "boolean",
     },
   })
-  .help().argv;
+  .help()
+  .parseSync();
 
 /**
  * This function outputs the complete local path to the test or test/public folder for devops jobs
@@ -69,8 +79,8 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
  * the test:node command for the min-max tests.
  * This function basically does a string search for "timeout" / "test-timeout" / "hook-timeout" in the package's package.json
  * and replaces the command for timeout in new package.json in the test or test/public folder.
- * @param testPackageJson - the package.json that will be created in the test folder
- * @param packageJsonContents - the package's package.json contents
+ * @param {DependencyTestPackage} testPackageJson - the package.json that will be created in the test folder
+ * @param {DependencyTestPackage} packageJsonContents - the package's package.json contents
  */
 async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
   if (packageJsonContents.scripts["test:node"]) {
@@ -109,6 +119,7 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
  * @param {*} targetPackageName - name of the package for which the min/max testing is being run
  * @param {*} versionType - min or max or same
  * @param {*} testFolder - this is the test folder path from the package which is either test or test/public
+ * @param {Catalogs} catalogs - pnpm catalogs configuration
  * @returns
  */
 async function insertPackageJson(
@@ -118,9 +129,12 @@ async function insertPackageJson(
   targetPackageName,
   versionType,
   testFolder,
+  catalogs,
 ) {
   const testPath = path.join(targetPackagePath, testFolder);
-  const testPackageJson = await readFileJson("./templates/package.json");
+  const testPackageJson = /** @type {DependencyTestPackage} */ (
+    await readFileJson("./templates/package.json")
+  );
   if (packageJsonContents.name.startsWith("@azure/")) {
     testPackageJson.name = packageJsonContents.name.replace("@azure/", "azure-") + "-test";
   } else if (packageJsonContents.name.startsWith("@azure-rest/")) {
@@ -131,8 +145,10 @@ async function insertPackageJson(
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
 
   testPackageJson.devDependencies = {};
+  /** @type {Record<string, string>} */
   const depList = {};
-  let allowedVersionList = {};
+  /** @type {Record<string, string>} */
+  const allowedVersionList = {};
   depList[targetPackageName] = packageJsonContents.version; //works
   allowedVersionList[targetPackageName] = depList[targetPackageName];
   for (const pkg of Object.keys(packageJsonContents.dependencies)) {
@@ -142,6 +158,7 @@ async function insertPackageJson(
       packageJsonContents.dependencies[pkg],
       normalizedRoot,
       versionType,
+      catalogs,
     );
     if (packageJsonContents.dependencies[pkg] !== depList[pkg]) {
       console.log(pkg);
@@ -163,6 +180,7 @@ async function insertPackageJson(
         packageVersion,
         normalizedRoot,
         versionType,
+        catalogs,
       );
       console.log("packagejson version = " + packageJsonContents.devDependencies[pkg]);
       if (packageJsonContents.devDependencies[pkg] !== testPackageJson.devDependencies[pkg]) {
@@ -200,14 +218,42 @@ async function isPackageAUtility(pkg, normalizedRoot) {
  * @param {*} packageJsonDepVersion - the dependency version range of the {package} in the targetPackage's package.json
  * @param {*} normalizedRoot - root of the repository given as input
  * @param {*} versionType - min or max or same
+ * @param {Catalogs} catalogs - pnpm catalogs configuration
  * @returns
  */
-async function findAppropriateVersion(pkg, packageJsonDepVersion, normalizedRoot, versionType) {
+async function findAppropriateVersion(
+  pkg,
+  packageJsonDepVersion,
+  normalizedRoot,
+  versionType,
+  catalogs,
+) {
   console.log("checking " + pkg + " = " + packageJsonDepVersion);
   let isUtility = await isPackageAUtility(pkg, normalizedRoot);
   if (isUtility) {
     return packageJsonDepVersion;
   }
+
+  // Resolve catalog version specifiers to actual version ranges
+  let resolvedVersionRange = packageJsonDepVersion;
+  if (packageJsonDepVersion.startsWith("catalog:")) {
+    const resolvedVersion = resolveFromCatalog(catalogs, {
+      alias: pkg,
+      bareSpecifier: packageJsonDepVersion,
+    });
+    if (resolvedVersion.type === "found") {
+      resolvedVersionRange = resolvedVersion.resolution.specifier;
+      console.log(`resolved catalog version: ${packageJsonDepVersion} -> ${resolvedVersionRange}`);
+    } else {
+      console.warn(
+        `Failed to resolve catalog version for package ${pkg} with version ${packageJsonDepVersion}. Using local version.`,
+      );
+      let version = await getPackageVersion(normalizedRoot, pkg);
+      console.log(version);
+      return version;
+    }
+  }
+
   let allNPMVersionsString = await getVersions(pkg);
   if (allNPMVersionsString) {
     let allVersions = JSON.parse(allNPMVersionsString);
@@ -216,13 +262,13 @@ async function findAppropriateVersion(pkg, packageJsonDepVersion, normalizedRoot
     }
     console.log(versionType);
     if (versionType === "min") {
-      let minVersion = await semver.minSatisfying(allVersions, packageJsonDepVersion);
+      let minVersion = await semver.minSatisfying(allVersions, resolvedVersionRange);
       if (minVersion) {
         return minVersion;
       } else {
         //issue a warning
         console.warn(
-          `No matching semver min version found on npm for package ${pkg} with version ${packageJsonDepVersion}. Replacing with local version`,
+          `No matching semver min version found on npm for package ${pkg} with version ${resolvedVersionRange}. Replacing with local version`,
         );
         let version = await getPackageVersion(normalizedRoot, pkg);
         console.log(version);
@@ -230,24 +276,28 @@ async function findAppropriateVersion(pkg, packageJsonDepVersion, normalizedRoot
       }
     } else if (versionType === "max") {
       console.log("calling semver max satisfying");
-      let maxVersion = await semver.maxSatisfying(allVersions, packageJsonDepVersion);
+      let maxVersion = await semver.maxSatisfying(allVersions, resolvedVersionRange);
       if (maxVersion) {
         return maxVersion;
       } else {
         //issue a warning
         console.warn(
-          `No matching semver max version found on npm for package ${pkg} with version ${packageJsonDepVersion}. Replacing with local version`,
+          `No matching semver max version found on npm for package ${pkg} with version ${resolvedVersionRange}. Replacing with local version`,
         );
         let version = await getPackageVersion(normalizedRoot, pkg);
         console.log(version);
         return version;
       }
     } else if (versionType === "same") {
-      return packageJsonDepVersion;
+      return resolvedVersionRange;
     }
   }
 }
 
+/**
+ * @param {string} normalizedRoot
+ * @param {string} pkg
+ */
 async function getPackageVersion(normalizedRoot, pkg) {
   let thisPackage = await getPackageFromPnpm(normalizedRoot, pkg);
   if (!thisPackage) {
@@ -261,6 +311,12 @@ async function getPackageVersion(normalizedRoot, pkg) {
   return thisPackageJsonContents.version;
 }
 
+/**
+ * @param {string} startPath
+ * @param {string} filter
+ * @param {string[]} resList
+ * @returns {string[]}
+ */
 function fromDir(startPath, filter, resList) {
   if (!fs.existsSync(startPath)) {
     console.log("no dir ", startPath);
@@ -281,6 +337,13 @@ function fromDir(startPath, filter, resList) {
   return resList;
 }
 
+/**
+ * @param {string} normalizedRoot
+ * @param {string} relativePath
+ * @param {string} fileName
+ * @param {string} targetPackagePath
+ * @param {string} testFolder
+ */
 function copyRepoFile(normalizedRoot, relativePath, fileName, targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   const sourcePath = path.join(normalizedRoot, relativePath, fileName);
@@ -289,6 +352,10 @@ function copyRepoFile(normalizedRoot, relativePath, fileName, targetPackagePath,
   fs.copyFileSync(sourcePath, destPath);
 }
 
+/**
+ * @param {string} targetPackagePath
+ * @param {string} testFolder
+ */
 function copyVitestConfig(targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   let vitestConfig = fs.readFileSync("./templates/vitest.dependency-test.config.ts");
@@ -297,6 +364,10 @@ function copyVitestConfig(targetPackagePath, testFolder) {
   fs.writeFileSync(vitestConfigPath, vitestConfig);
 }
 
+/**
+ * @param {string} targetPackagePath
+ * @param {string} testFolder
+ */
 async function insertTsConfigJson(targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   let tsConfigJson = await readFileJson("./templates/tsconfig.json");
@@ -305,6 +376,10 @@ async function insertTsConfigJson(targetPackagePath, testFolder) {
   await writePackageJson(tsConfigPath, tsConfigJson);
 }
 
+/**
+ * @param {string} filePath
+ * @param {string} packageName
+ */
 async function readAndReplaceSourceReferences(filePath, packageName) {
   const fileContent = await readFile(filePath, { encoding: "utf8" });
   console.log("Reading filePath = " + filePath);
@@ -327,6 +402,11 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
   await writeFile(filePath, writeContent);
 }
 
+/**
+ * @param {string} targetPackagePath
+ * @param {string} packageName
+ * @param {string} testFolder
+ */
 async function replaceSourceReferences(targetPackagePath, packageName, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   const resList = fromDir(testPath, ".ts", []);
@@ -338,11 +418,18 @@ async function replaceSourceReferences(targetPackagePath, packageName, testFolde
   await Promise.all(resPromises);
 }
 
+/**
+ * @param {string} packageName
+ * @returns {Promise<string | false | undefined>}
+ */
 async function getVersions(packageName) {
+  /** @type {Promise<{code: number | null, stdOut: string, stdErr: string}>} */
   const promise = new Promise(async (res, rej) => {
-    const npmProcess = crossSpawn("npm", ["view", packageName, "versions", "--json"], {
-      stdout: "inherit",
-    });
+    const npmProcess = crossSpawn("npm", ["view", packageName, "versions", "--json"]);
+    if (!npmProcess.stdout || !npmProcess.stderr) {
+      rej(new Error("npm view did not create output streams"));
+      return;
+    }
     let stdOut = "";
     let stdErr = "";
     npmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
@@ -370,25 +457,31 @@ async function getVersions(packageName) {
   }
 }
 
-let results = undefined;
+/** @type {WorkspacePackages | undefined} */
+let results;
 
+/**
+ * @param {string} normalizedRoot
+ * @param {string} packageName
+ * @returns {Promise<WorkspacePackage | undefined>}
+ */
 async function getPackageFromPnpm(normalizedRoot, packageName) {
   if (results === undefined) {
+    /** @type {Promise<{code: number | null, stdOut: string, stdErr: string}>} */
     const listPackagesCommandExec = new Promise(async (res, rej) => {
-      const pnpmProcess = crossSpawn(
-        "pnpm",
-        ["list", "--recursive", "--json", "--depth=1", "--only-projects"],
-        {
-          stdout: "inherit",
-          cwd: normalizedRoot,
-        },
-      );
+      const pnpmProcess = crossSpawn("pnpm", ["list", "--recursive", "--json", "--depth=-1"], {
+        cwd: normalizedRoot,
+      });
+      if (!pnpmProcess.stdout || !pnpmProcess.stderr) {
+        rej(new Error("pnpm list did not create output streams"));
+        return;
+      }
       let stdOut = "";
       let stdErr = "";
       pnpmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
       pnpmProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
       pnpmProcess.on("close", (code) => {
-        console.log(`pnpm list --recursive --json --depth=1 process exit code: ${code}`);
+        console.log(`pnpm list --recursive --json --depth=-1 process exit code: ${code}`);
         if (code !== 0) {
           rej(`Process exits with code ${code}`);
           return;
@@ -398,7 +491,9 @@ async function getPackageFromPnpm(normalizedRoot, packageName) {
     });
 
     const listPackagesCommand = await listPackagesCommandExec;
+    /** @type {{path: string, name: string}[]} */
     const pnpmPackages = JSON.parse(listPackagesCommand.stdOut);
+    /** @type {WorkspacePackage[]} */
     const projects = [];
 
     for (const pkg of pnpmPackages) {
@@ -419,6 +514,9 @@ async function getPackageFromPnpm(normalizedRoot, packageName) {
   return results.projects.find((project) => project.packageName === packageName);
 }
 
+/**
+ * @param {typeof argv} argv
+ */
 async function main(argv) {
   const artifactName = argv["artifact-name"];
   const repoRoot = argv["repo-root"];
@@ -441,6 +539,19 @@ async function main(argv) {
     dryRun,
   });
 
+  // Load pnpm catalogs configuration
+  const { config } = await getConfig({
+    cliOptions: {},
+    packageManager: {
+      name: "pnpm",
+      version: "10.0.0",
+    },
+    workspaceDir: normalizedRoot,
+  });
+  if (!config.catalogs) {
+    throw new Error(`No pnpm catalogs found for workspace ${normalizedRoot}`);
+  }
+
   const targetPackage = await getPackageFromPnpm(normalizedRoot, packageName);
   if (!targetPackage) {
     throw new Error(`Package is not found in pnpm workspace for artifact ${artifactName}`);
@@ -449,7 +560,9 @@ async function main(argv) {
 
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await readFileJson(packageJsonLocation);
+  const packageJsonContents = /** @type {DependencyTestPackage} */ (
+    await readFileJson(packageJsonLocation)
+  );
   await insertPackageJson(
     repoRoot,
     packageJsonContents,
@@ -457,6 +570,7 @@ async function main(argv) {
     targetPackage.packageName,
     versionType,
     testFolder,
+    config.catalogs,
   );
   await insertTsConfigJson(targetPackagePath, testFolder);
   if (packageJsonContents.scripts["test:node"].includes("vitest")) {

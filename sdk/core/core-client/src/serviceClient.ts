@@ -120,7 +120,7 @@ export class ServiceClient {
   /**
    * Send the provided httpRequest.
    */
-  async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+  sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     return this.pipeline.sendRequest(this._httpClient, request);
   }
 
@@ -255,7 +255,7 @@ function getCredentialScopes(options: ServiceClientOptions): string | string[] |
     return `${options.baseUri}/.default`;
   }
 
-  if (options.credential && !options.credentialScopes) {
+  if (options.credential) {
     throw new Error(
       `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`,
     );

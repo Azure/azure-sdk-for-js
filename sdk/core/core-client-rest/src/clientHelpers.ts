@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 import {
   bearerTokenAuthenticationPolicy,
-  createDefaultHttpClient,
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -13,8 +12,6 @@ import { isTokenCredential } from "@azure/core-auth";
 import type { ClientOptions } from "./common.js";
 import { apiVersionPolicy } from "./apiVersionPolicy.js";
 import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
-
-let cachedHttpClient: HttpClient | undefined;
 
 /**
  * Optional parameters for adding a credential policy to the pipeline.
@@ -77,14 +74,11 @@ export function createDefaultPipeline(
   return pipeline;
 }
 
-function isKeyCredential(credential: any): credential is KeyCredential {
-  return (credential as KeyCredential).key !== undefined;
-}
-
-export function getCachedDefaultHttpsClient(): HttpClient {
-  if (!cachedHttpClient) {
-    cachedHttpClient = createDefaultHttpClient();
-  }
-
-  return cachedHttpClient;
+function isKeyCredential(credential: unknown): credential is KeyCredential {
+  return (
+    typeof credential === "object" &&
+    credential !== null &&
+    "key" in credential &&
+    typeof credential.key === "string"
+  );
 }

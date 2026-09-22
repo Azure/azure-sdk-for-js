@@ -1,0 +1,13 @@
+# Sample and test output files (any directory starting with these names)
+**/test_output*/
+**/sample_output*/
+**/sample-output*/
+
+# Node / JavaScript
+lib/
+build/
+.parcel-cache/
+pnpm-debug.log*
+
+# Local-only scripts/config
+.local_only/

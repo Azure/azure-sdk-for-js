@@ -120,12 +120,15 @@ export class CancellableAsyncLockImpl {
 
     // Handle timeouts by removing the task from the queue when hit.
     if (typeof timeoutInMs === "number") {
-      const tid = setTimeout(() => {
-        this._removeTaskDetails(key, taskDetails);
-        rejecter(
-          new OperationTimeoutError(`The task timed out waiting to acquire a lock for ${key}`),
-        );
-      }, timeoutInMs);
+      const tid = setTimeout(
+        () => {
+          this._removeTaskDetails(key, taskDetails);
+          rejecter(
+            new OperationTimeoutError(`The task timed out waiting to acquire a lock for ${key}`),
+          );
+        },
+        Math.max(timeoutInMs, 0),
+      );
       taskDetails.tid = tid;
     }
 

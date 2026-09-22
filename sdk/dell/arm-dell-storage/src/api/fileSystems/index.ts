@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  FileSystemsListBySubscriptionOptionalParams,
-  FileSystemsListByResourceGroupOptionalParams,
-  FileSystemsDeleteOptionalParams,
-  FileSystemsUpdateOptionalParams,
-  FileSystemsCreateOrUpdateOptionalParams,
-  FileSystemsGetOptionalParams,
+  type FileSystemsListBySubscriptionOptionalParams,
+  type FileSystemsListByResourceGroupOptionalParams,
+  type FileSystemsDeleteOptionalParams,
+  type FileSystemsUpdateOptionalParams,
+  type FileSystemsCreateOrUpdateOptionalParams,
+  type FileSystemsGetOptionalParams,
 } from "./options.js";

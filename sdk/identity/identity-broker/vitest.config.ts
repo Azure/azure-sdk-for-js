@@ -14,6 +14,11 @@ export default mergeConfig(
   defineConfig({
     test: {
       globalSetup: [path.resolve(__dirname, "test/utils/globalSetup.ts")],
+      exclude: [
+        // Manual tests require user interaction and native broker dependencies
+        // (keytar/libsecret) that are not available on all CI platforms.
+        "test/manual/**/*.spec.ts",
+      ],
     },
   })
 );

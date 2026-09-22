@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validates if backup can be performed for given server.
- *
- * @summary Validates if backup can be performed for given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2023-10-01-preview/examples/ValidateBackup.json
- */
-
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validates if backup can be performed for given server.
+ *
+ * @summary validates if backup can be performed for given server.
+ * x-ms-original-file: 2025-06-01-preview/ValidateBackup.json
+ */
 async function validateBackup(): Promise<void> {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
-  const serverName = "mysqltestserver";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.backupAndExport.validateBackup(resourceGroupName, serverName);
+  const result = await client.backupAndExport.validateBackup("TestGroup", "mysqltestserver");
   console.log(result);
 }
 

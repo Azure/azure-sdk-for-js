@@ -3,3 +3,4 @@
 
 export * from "./emailClient.js";
 export * from "./models.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -448,8 +448,7 @@ export interface ApplicationGatewaysListAvailableServerVariables200Response exte
 }
 
 /** Lists all available server variables. */
-export interface ApplicationGatewaysListAvailableServerVariablesDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewaysListAvailableServerVariablesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -461,8 +460,7 @@ export interface ApplicationGatewaysListAvailableRequestHeaders200Response exten
 }
 
 /** Lists all available request headers. */
-export interface ApplicationGatewaysListAvailableRequestHeadersDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewaysListAvailableRequestHeadersDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -474,8 +472,7 @@ export interface ApplicationGatewaysListAvailableResponseHeaders200Response exte
 }
 
 /** Lists all available response headers. */
-export interface ApplicationGatewaysListAvailableResponseHeadersDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewaysListAvailableResponseHeadersDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -505,15 +502,13 @@ export interface ApplicationGatewaysListAvailableSslOptionsDefaultResponse exten
 }
 
 /** Lists all SSL predefined policies for configuring Ssl policy. */
-export interface ApplicationGatewaysListAvailableSslPredefinedPolicies200Response
-  extends HttpResponse {
+export interface ApplicationGatewaysListAvailableSslPredefinedPolicies200Response extends HttpResponse {
   status: "200";
   body: ApplicationGatewayAvailableSslPredefinedPoliciesOutput;
 }
 
 /** Lists all SSL predefined policies for configuring Ssl policy. */
-export interface ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -543,46 +538,39 @@ export interface ApplicationGatewayPrivateLinkResourcesListDefaultResponse exten
 }
 
 /** Deletes the specified private endpoint connection on application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsDelete200Response
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsDelete200Response extends HttpResponse {
   status: "200";
 }
 
 /** Deletes the specified private endpoint connection on application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsDelete202Response
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsDelete202Response extends HttpResponse {
   status: "202";
 }
 
 /** Deletes the specified private endpoint connection on application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsDelete204Response
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsDelete204Response extends HttpResponse {
   status: "204";
 }
 
 /** Deletes the specified private endpoint connection on application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Updates the specified private endpoint connection on application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsUpdate200Response
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsUpdate200Response extends HttpResponse {
   status: "200";
   body: ApplicationGatewayPrivateEndpointConnectionOutput;
 }
 
 /** Updates the specified private endpoint connection on application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsUpdate202Response
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsUpdate202Response extends HttpResponse {
   status: "202";
 }
 
 /** Updates the specified private endpoint connection on application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -594,8 +582,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionsGet200Response exte
 }
 
 /** Gets the specified private endpoint connection on application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -607,8 +594,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionsList200Response ext
 }
 
 /** Lists all private endpoint connections on an application gateway. */
-export interface ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -620,8 +606,7 @@ export interface ApplicationGatewayWafDynamicManifestsDefaultGet200Response exte
 }
 
 /** Gets the regional application gateway waf manifest. */
-export interface ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse
-  extends HttpResponse {
+export interface ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1133,15 +1118,13 @@ export interface ListActiveSecurityAdminRulesDefaultResponse extends HttpRespons
 }
 
 /** List all effective connectivity configurations applied on a virtual network. */
-export interface ListNetworkManagerEffectiveConnectivityConfigurations200Response
-  extends HttpResponse {
+export interface ListNetworkManagerEffectiveConnectivityConfigurations200Response extends HttpResponse {
   status: "200";
   body: NetworkManagerEffectiveConnectivityConfigurationListResultOutput;
 }
 
 /** List all effective connectivity configurations applied on a virtual network. */
-export interface ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse
-  extends HttpResponse {
+export interface ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1171,49 +1154,42 @@ export interface SupportedSecurityProvidersDefaultResponse extends HttpResponse 
 }
 
 /** Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group. */
-export interface Generatevirtualwanvpnserverconfigurationvpnprofile200Response
-  extends HttpResponse {
+export interface Generatevirtualwanvpnserverconfigurationvpnprofile200Response extends HttpResponse {
   status: "200";
   body: VpnProfileResponseOutput;
 }
 
 /** Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group. */
-export interface Generatevirtualwanvpnserverconfigurationvpnprofile202Response
-  extends HttpResponse {
+export interface Generatevirtualwanvpnserverconfigurationvpnprofile202Response extends HttpResponse {
   status: "202";
 }
 
 /** Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group. */
-export interface GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse
-  extends HttpResponse {
+export interface GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets information about all network interfaces in a role instance in a cloud service. */
-export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response
-  extends HttpResponse {
+export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response extends HttpResponse {
   status: "200";
   body: NetworkInterfaceListResultOutput;
 }
 
 /** Gets information about all network interfaces in a role instance in a cloud service. */
-export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets all network interfaces in a cloud service. */
-export interface NetworkInterfacesListCloudServiceNetworkInterfaces200Response
-  extends HttpResponse {
+export interface NetworkInterfacesListCloudServiceNetworkInterfaces200Response extends HttpResponse {
   status: "200";
   body: NetworkInterfaceListResultOutput;
 }
 
 /** Gets all network interfaces in a cloud service. */
-export interface NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1225,8 +1201,7 @@ export interface NetworkInterfacesGetCloudServiceNetworkInterface200Response ext
 }
 
 /** Get the specified network interface in a cloud service. */
-export interface NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1336,119 +1311,102 @@ export interface NetworkInterfacesGetEffectiveRouteTableDefaultResponse extends 
 }
 
 /** Gets all network security groups applied to a network interface. */
-export interface NetworkInterfacesListEffectiveNetworkSecurityGroups200Response
-  extends HttpResponse {
+export interface NetworkInterfacesListEffectiveNetworkSecurityGroups200Response extends HttpResponse {
   status: "200";
   body: EffectiveNetworkSecurityGroupListResultOutput;
 }
 
 /** Gets all network security groups applied to a network interface. */
-export interface NetworkInterfacesListEffectiveNetworkSecurityGroups202Response
-  extends HttpResponse {
+export interface NetworkInterfacesListEffectiveNetworkSecurityGroups202Response extends HttpResponse {
   status: "202";
 }
 
 /** Gets all network security groups applied to a network interface. */
-export interface NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets information about all network interfaces in a virtual machine in a virtual machine scale set. */
-export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response
-  extends HttpResponse {
+export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response extends HttpResponse {
   status: "200";
   body: NetworkInterfaceListResultOutput;
 }
 
 /** Gets information about all network interfaces in a virtual machine in a virtual machine scale set. */
-export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets all network interfaces in a virtual machine scale set. */
-export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response
-  extends HttpResponse {
+export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response extends HttpResponse {
   status: "200";
   body: NetworkInterfaceListResultOutput;
 }
 
 /** Gets all network interfaces in a virtual machine scale set. */
-export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Get the specified network interface in a virtual machine scale set. */
-export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response
-  extends HttpResponse {
+export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response extends HttpResponse {
   status: "200";
   body: NetworkInterfaceOutput;
 }
 
 /** Get the specified network interface in a virtual machine scale set. */
-export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Get the specified network interface ip configuration in a virtual machine scale set. */
-export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response
-  extends HttpResponse {
+export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response extends HttpResponse {
   status: "200";
   body: NetworkInterfaceIPConfigurationListResultOutput;
 }
 
 /** Get the specified network interface ip configuration in a virtual machine scale set. */
-export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Get the specified network interface ip configuration in a virtual machine scale set. */
-export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response
-  extends HttpResponse {
+export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response extends HttpResponse {
   status: "200";
   body: NetworkInterfaceIPConfigurationOutput;
 }
 
 /** Get the specified network interface ip configuration in a virtual machine scale set. */
-export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets information about all public IP addresses on a cloud service level. */
-export interface PublicIPAddressesListCloudServicePublicIPAddresses200Response
-  extends HttpResponse {
+export interface PublicIPAddressesListCloudServicePublicIPAddresses200Response extends HttpResponse {
   status: "200";
   body: PublicIPAddressListResultOutput;
 }
 
 /** Gets information about all public IP addresses on a cloud service level. */
-export interface PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse
-  extends HttpResponse {
+export interface PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets information about all public IP addresses in a role instance IP configuration in a cloud service. */
-export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response
-  extends HttpResponse {
+export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response extends HttpResponse {
   status: "200";
   body: PublicIPAddressListResultOutput;
 }
 
 /** Gets information about all public IP addresses in a role instance IP configuration in a cloud service. */
-export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse
-  extends HttpResponse {
+export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1460,8 +1418,7 @@ export interface PublicIPAddressesGetCloudServicePublicIPAddress200Response exte
 }
 
 /** Get the specified public IP address in a cloud service. */
-export interface PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse
-  extends HttpResponse {
+export interface PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1571,43 +1528,37 @@ export interface PublicIPAddressesDdosProtectionStatusDefaultResponse extends Ht
 }
 
 /** Gets information about all public IP addresses on a virtual machine scale set level. */
-export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response
-  extends HttpResponse {
+export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response extends HttpResponse {
   status: "200";
   body: PublicIPAddressListResultOutput;
 }
 
 /** Gets information about all public IP addresses on a virtual machine scale set level. */
-export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse
-  extends HttpResponse {
+export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set. */
-export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response
-  extends HttpResponse {
+export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response extends HttpResponse {
   status: "200";
   body: PublicIPAddressListResultOutput;
 }
 
 /** Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set. */
-export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse
-  extends HttpResponse {
+export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Get the specified public IP address in a virtual machine scale set. */
-export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response
-  extends HttpResponse {
+export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response extends HttpResponse {
   status: "200";
   body: PublicIPAddressOutput;
 }
 
 /** Get the specified public IP address in a virtual machine scale set. */
-export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse
-  extends HttpResponse {
+export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1982,8 +1933,7 @@ export interface ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response exte
 }
 
 /** Creates or updates an authorization in the specified express route circuit. */
-export interface ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2343,8 +2293,7 @@ export interface ExpressRouteCrossConnectionsListByResourceGroup200Response exte
 }
 
 /** Retrieves all the ExpressRouteCrossConnections in a resource group. */
-export interface ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse
-  extends HttpResponse {
+export interface ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2403,21 +2352,18 @@ export interface ExpressRouteCrossConnectionsListArpTableDefaultResponse extends
 }
 
 /** Gets the route table summary associated with the express route cross connection in a resource group. */
-export interface ExpressRouteCrossConnectionsListRoutesTableSummary200Response
-  extends HttpResponse {
+export interface ExpressRouteCrossConnectionsListRoutesTableSummary200Response extends HttpResponse {
   status: "200";
   body: ExpressRouteCrossConnectionsRoutesTableSummaryListResultOutput;
 }
 
 /** Gets the route table summary associated with the express route cross connection in a resource group. */
-export interface ExpressRouteCrossConnectionsListRoutesTableSummary202Response
-  extends HttpResponse {
+export interface ExpressRouteCrossConnectionsListRoutesTableSummary202Response extends HttpResponse {
   status: "202";
 }
 
 /** Gets the route table summary associated with the express route cross connection in a resource group. */
-export interface ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse
-  extends HttpResponse {
+export interface ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2497,8 +2443,7 @@ export interface ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response ex
 }
 
 /** Creates or updates a peering in the specified ExpressRouteCrossConnection. */
-export interface ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -2858,8 +2803,7 @@ export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response ext
 }
 
 /** Creates or updates the specified FirewallPolicyRuleCollectionGroup. */
-export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3651,8 +3595,7 @@ export interface NetworkInterfaceTapConfigurationsCreateOrUpdate201Response exte
 }
 
 /** Creates or updates a Tap configuration in the specified NetworkInterface. */
-export interface NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3799,22 +3742,19 @@ export interface NetworkManagerDeploymentStatusListDefaultResponse extends HttpR
 }
 
 /** Create a network manager connection on this subscription. */
-export interface SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: NetworkManagerConnectionOutput;
 }
 
 /** Create a network manager connection on this subscription. */
-export interface SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: NetworkManagerConnectionOutput;
 }
 
 /** Create a network manager connection on this subscription. */
-export interface SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3860,22 +3800,19 @@ export interface SubscriptionNetworkManagerConnectionsListDefaultResponse extend
 }
 
 /** Create a network manager connection on this management group. */
-export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: NetworkManagerConnectionOutput;
 }
 
 /** Create a network manager connection on this management group. */
-export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: NetworkManagerConnectionOutput;
 }
 
 /** Create a network manager connection on this management group. */
-export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -3903,8 +3840,7 @@ export interface ManagementGroupNetworkManagerConnectionsDelete204Response exten
 }
 
 /** Delete specified pending connection created by this management group. */
-export interface ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse
-  extends HttpResponse {
+export interface ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -5134,8 +5070,7 @@ export interface NetworkWatchersGetNetworkConfigurationDiagnostic202Response ext
 }
 
 /** Gets Network Configuration Diagnostic data to help customers understand and debug network behavior. It provides detailed information on what security rules were applied to a specified traffic flow and the result of evaluating these rules. Customers must provide details of a flow like source, destination, protocol, etc. The API returns whether traffic was allowed or denied, the rules evaluated for the specified flow and the evaluation results. */
-export interface NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse
-  extends HttpResponse {
+export interface NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -5522,8 +5457,7 @@ export interface AvailablePrivateEndpointTypesListByResourceGroup200Response ext
 }
 
 /** Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region. */
-export interface AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse
-  extends HttpResponse {
+export interface AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -5673,47 +5607,40 @@ export interface PrivateLinkServicesGetPrivateEndpointConnection200Response exte
 }
 
 /** Get the specific private end point connection by specific private link service in the resource group. */
-export interface PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
 
 /** Approve or reject private end point connection for a private link service in a subscription. */
-export interface PrivateLinkServicesUpdatePrivateEndpointConnection200Response
-  extends HttpResponse {
+export interface PrivateLinkServicesUpdatePrivateEndpointConnection200Response extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionOutput;
 }
 
 /** Approve or reject private end point connection for a private link service in a subscription. */
-export interface PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
 
 /** Delete private end point connection for a private link service in a subscription. */
-export interface PrivateLinkServicesDeletePrivateEndpointConnection200Response
-  extends HttpResponse {
+export interface PrivateLinkServicesDeletePrivateEndpointConnection200Response extends HttpResponse {
   status: "200";
 }
 
 /** Delete private end point connection for a private link service in a subscription. */
-export interface PrivateLinkServicesDeletePrivateEndpointConnection202Response
-  extends HttpResponse {
+export interface PrivateLinkServicesDeletePrivateEndpointConnection202Response extends HttpResponse {
   status: "202";
 }
 
 /** Delete private end point connection for a private link service in a subscription. */
-export interface PrivateLinkServicesDeletePrivateEndpointConnection204Response
-  extends HttpResponse {
+export interface PrivateLinkServicesDeletePrivateEndpointConnection204Response extends HttpResponse {
   status: "204";
 }
 
 /** Delete private end point connection for a private link service in a subscription. */
-export interface PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -5725,76 +5652,65 @@ export interface PrivateLinkServicesListPrivateEndpointConnections200Response ex
 }
 
 /** Gets all private end point connections for a specific private link service. */
-export interface PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
 
 /** Checks whether the subscription is visible to private link service. */
-export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response
-  extends HttpResponse {
+export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response extends HttpResponse {
   status: "200";
   body: PrivateLinkServiceVisibilityOutput;
 }
 
 /** Checks whether the subscription is visible to private link service. */
-export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response
-  extends HttpResponse {
+export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response extends HttpResponse {
   status: "202";
 }
 
 /** Checks whether the subscription is visible to private link service. */
-export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Checks whether the subscription is visible to private link service in the specified resource group. */
-export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response
-  extends HttpResponse {
+export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response extends HttpResponse {
   status: "200";
   body: PrivateLinkServiceVisibilityOutput;
 }
 
 /** Checks whether the subscription is visible to private link service in the specified resource group. */
-export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response
-  extends HttpResponse {
+export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response extends HttpResponse {
   status: "202";
 }
 
 /** Checks whether the subscription is visible to private link service in the specified resource group. */
-export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region. */
-export interface PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response
-  extends HttpResponse {
+export interface PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response extends HttpResponse {
   status: "200";
   body: AutoApprovedPrivateLinkServicesResultOutput;
 }
 
 /** Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region. */
-export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region. */
-export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response
-  extends HttpResponse {
+export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response extends HttpResponse {
   status: "200";
   body: AutoApprovedPrivateLinkServicesResultOutput;
 }
 
 /** Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region. */
-export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -6418,22 +6334,19 @@ export interface ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response exten
 }
 
 /** Creates or updates a service endpoint policy definition in the specified service endpoint policy. */
-export interface ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets all service endpoint policy definitions in a service end point policy. */
-export interface ServiceEndpointPolicyDefinitionsListByResourceGroup200Response
-  extends HttpResponse {
+export interface ServiceEndpointPolicyDefinitionsListByResourceGroup200Response extends HttpResponse {
   status: "200";
   body: ServiceEndpointPolicyDefinitionListResultOutput;
 }
 
 /** Gets all service endpoint policy definitions in a service end point policy. */
-export interface ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse
-  extends HttpResponse {
+export interface ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -6921,8 +6834,7 @@ export interface VirtualNetworkGatewaysGeneratevpnclientpackage202Response exten
 }
 
 /** Generates VPN client package for P2S client of the virtual network gateway in the specified resource group. */
-export interface VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -7036,8 +6948,7 @@ export interface VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response ex
 }
 
 /** The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider. */
-export interface VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -7049,22 +6960,19 @@ export interface VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response ex
 }
 
 /** The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider. */
-export interface VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Gets a xml format representation for vpn device configuration script. */
-export interface VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response extends HttpResponse {
   status: "200";
   body: string;
 }
 
 /** Gets a xml format representation for vpn device configuration script. */
-export interface VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -7104,40 +7012,34 @@ export interface VirtualNetworkGatewaysStopPacketCaptureDefaultResponse extends 
 }
 
 /** Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group. */
-export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response extends HttpResponse {
   status: "200";
   body: VpnClientConnectionHealthDetailListResultOutput;
 }
 
 /** Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group. */
-export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response extends HttpResponse {
   status: "202";
 }
 
 /** Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group. */
-export interface VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Disconnect vpn connections of virtual network gateway in the specified resource group. */
-export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response extends HttpResponse {
   status: "200";
 }
 
 /** Disconnect vpn connections of virtual network gateway in the specified resource group. */
-export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response extends HttpResponse {
   status: "202";
 }
 
 /** Disconnect vpn connections of virtual network gateway in the specified resource group. */
-export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -7155,8 +7057,7 @@ export interface VirtualNetworkGatewayConnectionsCreateOrUpdate201Response exten
 }
 
 /** Creates or updates a virtual network gateway connection in the specified resource group. */
-export interface VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -7265,28 +7166,24 @@ export interface VirtualNetworkGatewayConnectionsResetSharedKey202Response exten
 }
 
 /** The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider. */
-export interface VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
 
 /** Starts packet capture on virtual network gateway connection in the specified resource group. */
-export interface VirtualNetworkGatewayConnectionsStartPacketCapture200Response
-  extends HttpResponse {
+export interface VirtualNetworkGatewayConnectionsStartPacketCapture200Response extends HttpResponse {
   status: "200";
   body: string;
 }
 
 /** Starts packet capture on virtual network gateway connection in the specified resource group. */
-export interface VirtualNetworkGatewayConnectionsStartPacketCapture202Response
-  extends HttpResponse {
+export interface VirtualNetworkGatewayConnectionsStartPacketCapture202Response extends HttpResponse {
   status: "202";
 }
 
 /** Starts packet capture on virtual network gateway connection in the specified resource group. */
-export interface VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -7303,8 +7200,7 @@ export interface VirtualNetworkGatewayConnectionsStopPacketCapture202Response ex
 }
 
 /** Stops packet capture on virtual network gateway connection in the specified resource group. */
-export interface VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -7332,8 +7228,7 @@ export interface VirtualNetworkGatewayConnectionsResetConnection202Response exte
 }
 
 /** Resets the virtual network gateway connection specified. */
-export interface VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -7465,15 +7360,13 @@ export interface VirtualNetworkGatewayNatRulesDeleteDefaultResponse extends Http
 }
 
 /** Retrieves all nat rules for a particular virtual network gateway. */
-export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response
-  extends HttpResponse {
+export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response extends HttpResponse {
   status: "200";
   body: ListVirtualNetworkGatewayNatRulesResultOutput;
 }
 
 /** Retrieves all nat rules for a particular virtual network gateway. */
-export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse
-  extends HttpResponse {
+export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -8056,15 +7949,13 @@ export interface ConfigurationPolicyGroupsGetDefaultResponse extends HttpRespons
 }
 
 /** Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration. */
-export interface ConfigurationPolicyGroupsListByVpnServerConfiguration200Response
-  extends HttpResponse {
+export interface ConfigurationPolicyGroupsListByVpnServerConfiguration200Response extends HttpResponse {
   status: "200";
   body: ListVpnServerConfigurationPolicyGroupsResultOutput;
 }
 
 /** Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration. */
-export interface ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse
-  extends HttpResponse {
+export interface ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -8840,8 +8731,7 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response exte
 }
 
 /** Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group. */
-export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse
-  extends HttpResponse {
+export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -8863,21 +8753,18 @@ export interface P2SVpnGatewaysDisconnectP2SVpnConnectionsDefaultResponse extend
 }
 
 /** Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group. */
-export interface VpnServerConfigurationsAssociatedWithVirtualWanList200Response
-  extends HttpResponse {
+export interface VpnServerConfigurationsAssociatedWithVirtualWanList200Response extends HttpResponse {
   status: "200";
   body: VpnServerConfigurationsResponseOutput;
 }
 
 /** Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group. */
-export interface VpnServerConfigurationsAssociatedWithVirtualWanList202Response
-  extends HttpResponse {
+export interface VpnServerConfigurationsAssociatedWithVirtualWanList202Response extends HttpResponse {
   status: "202";
 }
 
 /** Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group. */
-export interface VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse
-  extends HttpResponse {
+export interface VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }

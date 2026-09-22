@@ -66,5 +66,3 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
   process.exit(1);
 });
-
-module.exports = { main };

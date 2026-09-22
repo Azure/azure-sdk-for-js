@@ -3,12 +3,11 @@
 import {
   bodyToString,
   configureBlobStorageClient,
+  createAndStartRecorder,
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "./utils/index.js";
 import type { ContainerClient, BlobClient, BlobServiceClient } from "../src/index.js";
 import { PageBlobClient, PremiumPageBlobTier } from "../src/index.js";
@@ -27,9 +26,7 @@ describe("PageBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -92,17 +89,20 @@ describe("PageBlobClient", () => {
       const properties = await blobClient.getProperties();
       assert.equal(properties.accessTier, options.tier);
     } catch (err: any) {
-      assert.ok(err.message.startsWith("The access tier is not supported for this blob type."));
+      assert.equal(err.code, "AccessTierNotSupportedForBlobType");
+      assert.isTrue(
+        err.details.message.startsWith("The access tier is not supported for this blob type."),
+      );
     }
   });
 
   it("createIfNotExists", async () => {
     const res = await pageBlobClient.createIfNotExists(512);
-    assert.ok(res.succeeded);
-    assert.ok(res.etag);
+    assert.isTrue(res.succeeded);
+    assert.isDefined(res.etag);
 
     const res2 = await pageBlobClient.createIfNotExists(512);
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
@@ -185,7 +185,7 @@ describe("PageBlobClient", () => {
     await pageBlobClient.uploadPages("b".repeat(1024), 0, 1024);
 
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
     await pageBlobClient.clearPages(512, 512);
@@ -220,7 +220,7 @@ describe("PageBlobClient", () => {
     await mdPageBlobClient.uploadPages("b".repeat(1024), 0, 1024);
 
     const snapshotResult = await mdPageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     await mdPageBlobClient.uploadPages("a".repeat(512), 0, 512);
     await mdPageBlobClient.clearPages(512, 512);
@@ -344,7 +344,7 @@ describe("PageBlobClient", () => {
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
 
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -368,7 +368,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -384,9 +384,9 @@ describe("PageBlobClient", () => {
       assert.equal(pageRange.start, index * 512);
       assert.equal(pageRange.end, index * 512 + 511);
       if (index % 2 === 0) {
-        assert.ok(!pageRange.isClear);
+        assert.isFalse(pageRange.isClear);
       } else {
-        assert.ok(pageRange.isClear);
+        assert.isDefined(pageRange.isClear);
       }
       ++index;
     }
@@ -397,7 +397,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -418,7 +418,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -442,7 +442,7 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
     const snapshotResult = await pageBlobClient.createSnapshot();
-    assert.ok(snapshotResult.snapshot);
+    assert.isDefined(snapshotResult.snapshot);
 
     for (let i = 0; i < 4; ++i) {
       await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
@@ -475,10 +475,10 @@ describe("PageBlobClient", () => {
 
   it("updateSequenceNumber", async () => {
     await pageBlobClient.create(1024);
-    let propertiesResponse = await pageBlobClient.getProperties();
+    await pageBlobClient.getProperties();
 
     await pageBlobClient.updateSequenceNumber("increment");
-    propertiesResponse = await pageBlobClient.getProperties();
+    let propertiesResponse = await pageBlobClient.getProperties();
     assert.equal(propertiesResponse.blobSequenceNumber!, 1);
 
     await pageBlobClient.updateSequenceNumber("update", 10);
@@ -509,7 +509,7 @@ describe("PageBlobClient", () => {
       }
     }
 
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("can be created with a sas connection string", async () => {

@@ -4,11 +4,35 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface Display {
@@ -30,35 +54,34 @@ export interface ErrorResponseError {
     readonly message?: string;
 }
 
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
 // @public (undocumented)
-export class HanaManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HanaManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    providerInstances: ProviderInstances;
-    // (undocumented)
-    sapMonitors: SapMonitors;
-    // (undocumented)
-    subscriptionId: string;
+export class HanaManagementClient {
+    constructor(credential: TokenCredential, options?: HanaManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: HanaManagementClientOptionalParams);
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly providerInstances: ProviderInstancesOperations;
+    readonly sapMonitors: SapMonitorsOperations;
 }
 
 // @public
-export interface HanaManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface HanaManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export type HanaProvisioningStatesEnum = string;
+
+export { isRestError }
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
 
 // @public
 export enum KnownHanaProvisioningStatesEnum {
@@ -72,27 +95,36 @@ export enum KnownHanaProvisioningStatesEnum {
 }
 
 // @public
+export enum KnownVersions {
+    V20200207Preview = "2020-02-07-preview"
+}
+
+// @public
 export interface Operation {
     display?: Display;
     readonly name?: string;
 }
 
 // @public
-export interface OperationList {
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListResponse = OperationList;
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface ProviderInstance extends ProxyResource {
@@ -103,56 +135,46 @@ export interface ProviderInstance extends ProxyResource {
 }
 
 // @public
-export interface ProviderInstanceListResult {
-    nextLink?: string;
-    value?: ProviderInstance[];
+export interface ProviderInstanceProperties {
+    metadata?: string;
+    properties?: string;
+    readonly provisioningState?: HanaProvisioningStatesEnum;
+    type?: string;
 }
 
 // @public
-export interface ProviderInstances {
-    beginCreate(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<ProviderInstancesCreateResponse>, ProviderInstancesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<ProviderInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesGetOptionalParams): Promise<ProviderInstancesGetResponse>;
-    list(resourceGroupName: string, sapMonitorName: string, options?: ProviderInstancesListOptionalParams): PagedAsyncIterableIterator<ProviderInstance>;
-}
-
-// @public
-export interface ProviderInstancesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ProviderInstancesCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ProviderInstancesCreateResponse = ProviderInstance;
-
-// @public
-export interface ProviderInstancesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ProviderInstancesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ProviderInstancesGetOptionalParams extends coreClient.OperationOptions {
+export interface ProviderInstancesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProviderInstancesGetResponse = ProviderInstance;
-
-// @public
-export interface ProviderInstancesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ProviderInstancesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProviderInstancesListNextResponse = ProviderInstanceListResult;
-
-// @public
-export interface ProviderInstancesListOptionalParams extends coreClient.OperationOptions {
+export interface ProviderInstancesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ProviderInstance>, ProviderInstance>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams) => Promise<ProviderInstance>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams) => PollerLike<OperationState<ProviderInstance>, ProviderInstance>;
+    delete: (resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesGetOptionalParams) => Promise<ProviderInstance>;
+    list: (resourceGroupName: string, sapMonitorName: string, options?: ProviderInstancesListOptionalParams) => PagedAsyncIterableIterator<ProviderInstance>;
 }
-
-// @public
-export type ProviderInstancesListResponse = ProviderInstanceListResult;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -162,7 +184,20 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HanaManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -178,78 +213,97 @@ export interface SapMonitor extends TrackedResource {
 }
 
 // @public
-export interface SapMonitorListResult {
-    nextLink?: string;
-    value?: SapMonitor[];
+export interface SapMonitorProperties {
+    enableCustomerAnalytics?: boolean;
+    logAnalyticsWorkspaceArmId?: string;
+    logAnalyticsWorkspaceId?: string;
+    logAnalyticsWorkspaceSharedKey?: string;
+    readonly managedResourceGroupName?: string;
+    monitorSubnet?: string;
+    readonly provisioningState?: HanaProvisioningStatesEnum;
+    readonly sapMonitorCollectorVersion?: string;
 }
 
 // @public
-export interface SapMonitors {
-    beginCreate(resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: SapMonitor, options?: SapMonitorsCreateOptionalParams): Promise<PollerLike<PollOperationState<SapMonitorsCreateResponse>, SapMonitorsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: SapMonitor, options?: SapMonitorsCreateOptionalParams): Promise<SapMonitorsCreateResponse>;
-    beginDelete(resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsGetOptionalParams): Promise<SapMonitorsGetResponse>;
-    list(options?: SapMonitorsListOptionalParams): PagedAsyncIterableIterator<SapMonitor>;
-    update(resourceGroupName: string, sapMonitorName: string, tagsParameter: Tags, options?: SapMonitorsUpdateOptionalParams): Promise<SapMonitorsUpdateResponse>;
-}
-
-// @public
-export interface SapMonitorsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SapMonitorsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SapMonitorsCreateResponse = SapMonitor;
-
-// @public
-export interface SapMonitorsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SapMonitorsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SapMonitorsGetOptionalParams extends coreClient.OperationOptions {
+export interface SapMonitorsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SapMonitorsGetResponse = SapMonitor;
-
-// @public
-export interface SapMonitorsListNextOptionalParams extends coreClient.OperationOptions {
+export interface SapMonitorsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SapMonitorsListNextResponse = SapMonitorListResult;
-
-// @public
-export interface SapMonitorsListOptionalParams extends coreClient.OperationOptions {
+export interface SapMonitorsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: SapMonitor, options?: SapMonitorsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<SapMonitor>, SapMonitor>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: SapMonitor, options?: SapMonitorsCreateOptionalParams) => Promise<SapMonitor>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: SapMonitor, options?: SapMonitorsCreateOptionalParams) => PollerLike<OperationState<SapMonitor>, SapMonitor>;
+    delete: (resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsGetOptionalParams) => Promise<SapMonitor>;
+    list: (options?: SapMonitorsListOptionalParams) => PagedAsyncIterableIterator<SapMonitor>;
+    update: (resourceGroupName: string, sapMonitorName: string, tagsParameter: Tags, options?: SapMonitorsUpdateOptionalParams) => Promise<SapMonitor>;
 }
 
 // @public
-export type SapMonitorsListResponse = SapMonitorListResult;
-
-// @public
-export interface SapMonitorsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SapMonitorsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SapMonitorsUpdateResponse = SapMonitor;
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface Tags {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)

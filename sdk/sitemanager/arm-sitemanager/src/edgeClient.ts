@@ -14,7 +14,7 @@ import {
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { EdgeClientOptionalParams } from "./api/edgeContext.js";
+export { type EdgeClientOptionalParams } from "./api/edgeContext.js";
 
 export class EdgeClient {
   private _client: EdgeContext;

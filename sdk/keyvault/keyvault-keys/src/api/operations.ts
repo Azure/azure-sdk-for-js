@@ -1,52 +1,58 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "./index.js";
-import {
+import type { KeyVaultContext as Client } from "./index.js";
+import type {
   KeyCreateParameters,
-  keyCreateParametersSerializer,
   KeyBundle,
-  keyBundleDeserializer,
-  keyVaultErrorDeserializer,
   KeyImportParameters,
-  keyImportParametersSerializer,
   DeletedKeyBundle,
-  deletedKeyBundleDeserializer,
   KeyUpdateParameters,
-  keyUpdateParametersSerializer,
   _KeyListResult,
-  _keyListResultDeserializer,
   KeyItem,
   BackupKeyResult,
-  backupKeyResultDeserializer,
   KeyRestoreParameters,
-  keyRestoreParametersSerializer,
   KeyOperationsParameters,
-  keyOperationsParametersSerializer,
   KeyOperationResult,
-  keyOperationResultDeserializer,
+  SecureKeyWrapParameters,
+  SecureKeyUnwrapParameters,
   KeySignParameters,
-  keySignParametersSerializer,
   KeyVerifyParameters,
-  keyVerifyParametersSerializer,
   KeyVerifyResult,
-  keyVerifyResultDeserializer,
   KeyReleaseParameters,
-  keyReleaseParametersSerializer,
   KeyReleaseResult,
-  keyReleaseResultDeserializer,
   _DeletedKeyListResult,
-  _deletedKeyListResultDeserializer,
   DeletedKeyItem,
   KeyRotationPolicy,
-  keyRotationPolicySerializer,
-  keyRotationPolicyDeserializer,
   GetRandomBytesRequest,
-  getRandomBytesRequestSerializer,
   RandomBytes,
-  randomBytesDeserializer,
 } from "../models/models.js";
 import {
+  keyCreateParametersSerializer,
+  keyBundleDeserializer,
+  keyVaultErrorDeserializer,
+  keyImportParametersSerializer,
+  deletedKeyBundleDeserializer,
+  keyUpdateParametersSerializer,
+  _keyListResultDeserializer,
+  backupKeyResultDeserializer,
+  keyRestoreParametersSerializer,
+  keyOperationsParametersSerializer,
+  keyOperationResultDeserializer,
+  secureKeyWrapParametersSerializer,
+  secureKeyUnwrapParametersSerializer,
+  keySignParametersSerializer,
+  keyVerifyParametersSerializer,
+  keyVerifyResultDeserializer,
+  keyReleaseParametersSerializer,
+  keyReleaseResultDeserializer,
+  _deletedKeyListResultDeserializer,
+  keyRotationPolicySerializer,
+  keyRotationPolicyDeserializer,
+  getRandomBytesRequestSerializer,
+  randomBytesDeserializer,
+} from "../models/models.js";
+import type {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -58,6 +64,8 @@ import {
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
   WrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,
   DecryptOptionalParams,
@@ -73,26 +81,20 @@ import {
   RotateKeyOptionalParams,
   CreateKeyOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getKeyAttestationSend(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   options: GetKeyAttestationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/keys/{key-name}/{key-version}/attestation{?api%2Dversion}",
+    "/keys/{key-name}{/key-version}/attestation{?api%2Dversion}",
     {
       "key-name": keyName,
       "key-version": keyVersion,
@@ -128,7 +130,7 @@ export async function _getKeyAttestationDeserialize(
 export async function getKeyAttestation(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   options: GetKeyAttestationOptionalParams = { requestOptions: {} },
 ): Promise<KeyBundle> {
   const result = await _getKeyAttestationSend(context, keyName, keyVersion, options);
@@ -473,12 +475,12 @@ export function getDeletedKeys(
 export function _releaseSend(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   parameters: KeyReleaseParameters,
   options: ReleaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/keys/{key-name}/{key-version}/release{?api%2Dversion}",
+    "/keys/{key-name}{/key-version}/release{?api%2Dversion}",
     {
       "key-name": keyName,
       "key-version": keyVersion,
@@ -516,12 +518,120 @@ export async function _releaseDeserialize(
 export async function release(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   parameters: KeyReleaseParameters,
   options: ReleaseOptionalParams = { requestOptions: {} },
 ): Promise<KeyReleaseResult> {
   const result = await _releaseSend(context, keyName, keyVersion, parameters, options);
   return _releaseDeserialize(result);
+}
+
+export function _secureWrapKeySend(
+  context: Client,
+  keyName: string,
+  keyVersion: string | undefined,
+  parameters: SecureKeyWrapParameters,
+  options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}{/key-version}/securewrapkey{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: secureKeyWrapParametersSerializer(parameters),
+  });
+}
+
+export async function _secureWrapKeyDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KeyOperationResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return keyOperationResultDeserializer(result.body);
+}
+
+/** Securely wraps a 256-bit AES key generated within a trusted execution environment using the target key encryption key. This operation requires the keys/wrapKey permission. */
+export async function secureWrapKey(
+  context: Client,
+  keyName: string,
+  keyVersion: string | undefined,
+  parameters: SecureKeyWrapParameters,
+  options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+): Promise<KeyOperationResult> {
+  const result = await _secureWrapKeySend(context, keyName, keyVersion, parameters, options);
+  return _secureWrapKeyDeserialize(result);
+}
+
+export function _secureUnwrapKeySend(
+  context: Client,
+  keyName: string,
+  keyVersion: string | undefined,
+  parameters: SecureKeyUnwrapParameters,
+  options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}{/key-version}/secureunwrapkey{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: secureKeyUnwrapParametersSerializer(parameters),
+  });
+}
+
+export async function _secureUnwrapKeyDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KeyOperationResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return keyOperationResultDeserializer(result.body);
+}
+
+/** Securely unwraps a symmetric key previously wrapped via {@link secureWrapKey} after attestation by Microsoft Azure Attestation. This operation requires the keys/unwrapKey permission. */
+export async function secureUnwrapKey(
+  context: Client,
+  keyName: string,
+  keyVersion: string | undefined,
+  parameters: SecureKeyUnwrapParameters,
+  options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+): Promise<KeyOperationResult> {
+  const result = await _secureUnwrapKeySend(context, keyName, keyVersion, parameters, options);
+  return _secureUnwrapKeyDeserialize(result);
 }
 
 export function _unwrapKeySend(

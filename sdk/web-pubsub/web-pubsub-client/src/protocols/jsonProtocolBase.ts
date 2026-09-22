@@ -3,15 +3,24 @@
 
 import type {
   AckMessage,
+  CancelInvocationMessage,
+  JSONTypes,
+  StreamAckMessage,
+  StreamClosedMessage,
+  StreamInfo,
+  StreamNackMessage,
+  PongMessage,
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  GroupStateSnapshotMessage,
+  GroupStateUpdateMessage,
+  InvokeResponseMessage,
   ServerDataMessage,
   WebPubSubDataType,
   WebPubSubMessage,
 } from "../models/messages.js";
-import type { JSONTypes } from "../webPubSubClient.js";
-import { Buffer } from "buffer";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 export function parseMessages(input: string): WebPubSubMessage | null {
   // The interface does allow "ArrayBuffer" to be passed in, but this implementation does not. So let's throw a useful error.
@@ -38,19 +47,21 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     }
   } else if (typedMessage.type === "message") {
     if (typedMessage.from === "group") {
+      const stream = parseStreamInfo(parsedMessage.stream);
       const data = parsePayload(parsedMessage.data, parsedMessage.dataType as WebPubSubDataType);
       if (data === null) {
         return null;
       }
-      returnMessage = { ...parsedMessage, data: data, kind: "groupData" } as GroupDataMessage;
+      returnMessage = { ...parsedMessage, data, stream, kind: "groupData" } as GroupDataMessage;
     } else if (typedMessage.from === "server") {
       const data = parsePayload(parsedMessage.data, parsedMessage.dataType as WebPubSubDataType);
       if (data === null) {
         return null;
       }
+      const { stream: _stream, ...serverMessage } = parsedMessage;
       returnMessage = {
-        ...parsedMessage,
-        data: data,
+        ...serverMessage,
+        data,
         kind: "serverData",
       } as ServerDataMessage;
     } else {
@@ -59,6 +70,55 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     }
   } else if (typedMessage.type === "ack") {
     returnMessage = { ...parsedMessage, kind: "ack" } as AckMessage;
+  } else if (typedMessage.type === "invokeResponse") {
+    let data: JSONTypes | ArrayBuffer | undefined;
+    if (parsedMessage.dataType != null) {
+      const parsedData = parsePayload(parsedMessage.data, parsedMessage.dataType);
+      if (parsedData === null) {
+        return null;
+      }
+      data = parsedData;
+    }
+
+    returnMessage = {
+      kind: "invokeResponse",
+      invocationId: parsedMessage.invocationId,
+      success: parsedMessage.success,
+      dataType: parsedMessage.dataType,
+      data,
+      error: parsedMessage.error,
+    } as InvokeResponseMessage;
+  } else if (typedMessage.type === "cancelInvocation") {
+    returnMessage = {
+      ...parsedMessage,
+      kind: "cancelInvocation",
+    } as CancelInvocationMessage;
+  } else if (typedMessage.type === "pong") {
+    returnMessage = { ...parsedMessage, kind: "pong" } as PongMessage;
+  } else if (typedMessage.type === "streamAck") {
+    returnMessage = {
+      kind: "streamAck",
+      streamId: parsedMessage.streamId,
+      expectedSequenceId: parsedMessage.expectedSequenceId,
+    } as StreamAckMessage;
+  } else if (typedMessage.type === "streamNack") {
+    returnMessage = {
+      kind: "streamNack",
+      streamId: parsedMessage.streamId,
+      name: parsedMessage.name,
+      message: parsedMessage.message,
+      expectedSequenceId: parsedMessage.expectedSequenceId,
+    } as StreamNackMessage;
+  } else if (typedMessage.type === "streamClosed") {
+    returnMessage = {
+      kind: "streamClosed",
+      streamId: parsedMessage.streamId,
+      error: parsedMessage.error,
+    } as StreamClosedMessage;
+  } else if (typedMessage.type === "groupStateSnapshot") {
+    returnMessage = { ...parsedMessage, kind: "groupStateSnapshot" } as GroupStateSnapshotMessage;
+  } else if (typedMessage.type === "groupStateUpdate") {
+    returnMessage = { ...parsedMessage, kind: "groupStateUpdate" } as GroupStateUpdateMessage;
   } else {
     // Forward compatible
     return null;
@@ -88,18 +148,126 @@ export function writeMessage(message: WebPubSubMessage): string {
       break;
     }
     case "sendToGroup": {
-      data = {
+      const sendToGroupPayload: SendToGroupData = {
         type: "sendToGroup",
         group: message.group,
         ackId: message.ackId,
-        dataType: message.dataType,
-        data: getPayload(message.data, message.dataType),
         noEcho: message.noEcho,
-      } as SendToGroupData;
+      };
+      const hasPayload = message.dataType != null || message.data != null;
+      if (hasPayload) {
+        if (message.dataType == null || message.data == null) {
+          throw new TypeError("sendToGroup payload requires both dataType and data.");
+        }
+        sendToGroupPayload.dataType = message.dataType;
+        sendToGroupPayload.data = getPayload(message.data, message.dataType);
+      }
+      if (message.stream != null) {
+        sendToGroupPayload.stream = {
+          streamId: message.stream.streamId,
+          idleTimeoutMs: message.stream.idleTimeoutInMs,
+        };
+      }
+      data = sendToGroupPayload;
       break;
     }
     case "sequenceAck": {
       data = { type: "sequenceAck", sequenceId: message.sequenceId } as SequenceAckData;
+      break;
+    }
+    case "invoke": {
+      const invokePayload: InvokeData = {
+        type: "invoke",
+        invocationId: message.invocationId,
+        target: message.target,
+        event: message.event,
+      };
+
+      if (message.dataType != null && message.data != null) {
+        invokePayload.dataType = message.dataType;
+        invokePayload.data = getPayload(message.data, message.dataType);
+      }
+
+      data = invokePayload;
+      break;
+    }
+    case "invokeResponse": {
+      const invokeResponse: InvokeResponseData = {
+        type: "invokeResponse",
+        invocationId: message.invocationId,
+        success: message.success,
+        error: message.error,
+      };
+
+      if (message.dataType != null && message.data != null) {
+        invokeResponse.dataType = message.dataType;
+        invokeResponse.data = getPayload(message.data, message.dataType);
+      }
+
+      data = invokeResponse;
+      break;
+    }
+    case "cancelInvocation": {
+      data = {
+        type: "cancelInvocation",
+        invocationId: message.invocationId,
+      } as CancelInvocationData;
+      break;
+    }
+    case "ping": {
+      data = { type: "ping" } as PingData;
+      break;
+    }
+    case "streamData": {
+      const streamDataPayload: StreamDataData = {
+        type: "streamData",
+        streamId: message.streamId,
+      };
+      if (message.streamSequenceId != null && message.data != null && message.dataType != null) {
+        streamDataPayload.streamSequenceId = message.streamSequenceId;
+        streamDataPayload.dataType = message.dataType;
+        streamDataPayload.data = getPayload(message.data, message.dataType);
+      }
+      data = streamDataPayload;
+      break;
+    }
+    case "streamEnd": {
+      data = {
+        type: "streamEnd",
+        streamId: message.streamId,
+        error:
+          message.error == null
+            ? undefined
+            : { message: message.error.message, userErrorCode: message.error.userErrorCode },
+      } as StreamEndData;
+      break;
+    }
+    case "setGroupState": {
+      const setGroupStateData: SetGroupStateData = {
+        type: "setGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      };
+      if (message.state !== undefined) {
+        setGroupStateData.state = message.state;
+      }
+      data = setGroupStateData;
+      break;
+    }
+    case "subscribeGroupState": {
+      data = {
+        type: "subscribeGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      } as SubscribeGroupStateData;
+      break;
+    }
+    case "unsubscribeGroupState": {
+      data = {
+        type: "unsubscribeGroupState",
+        group: message.group,
+        ackId: message.ackId,
+      } as UnsubscribeGroupStateData;
       break;
     }
     default: {
@@ -126,9 +294,13 @@ interface SendToGroupData {
   readonly type: "sendToGroup";
   group: string;
   ackId?: number;
-  dataType: WebPubSubDataType;
-  data: any;
+  dataType?: WebPubSubDataType;
+  data?: any;
   noEcho: boolean;
+  stream?: {
+    streamId: string;
+    idleTimeoutMs?: number;
+  };
 }
 
 interface SendEventData {
@@ -142,6 +314,66 @@ interface SendEventData {
 interface SequenceAckData {
   readonly type: "sequenceAck";
   sequenceId: number;
+}
+
+interface InvokeData {
+  readonly type: "invoke";
+  invocationId: string;
+  target?: "event" | "group";
+  event?: string;
+  dataType?: WebPubSubDataType;
+  data?: any;
+}
+
+interface InvokeResponseData {
+  readonly type: "invokeResponse";
+  invocationId: string;
+  success?: boolean;
+  error?: { name: string; message: string };
+  dataType?: WebPubSubDataType;
+  data?: any;
+}
+
+interface CancelInvocationData {
+  readonly type: "cancelInvocation";
+  invocationId: string;
+}
+
+interface PingData {
+  readonly type: "ping";
+}
+
+interface StreamDataData {
+  readonly type: "streamData";
+  streamId: string;
+  streamSequenceId?: number;
+  dataType?: WebPubSubDataType;
+  data?: any;
+}
+
+interface StreamEndData {
+  readonly type: "streamEnd";
+  streamId: string;
+  error?: { message?: string; userErrorCode?: string };
+}
+
+interface SetGroupStateData {
+  readonly type: "setGroupState";
+  group: string;
+  ackId?: number;
+  state?: Record<string, string>;
+}
+
+interface SubscribeGroupStateData {
+  readonly type: "subscribeGroupState";
+  group: string;
+  ackId?: number;
+}
+
+interface UnsubscribeGroupStateData {
+  readonly type: "unsubscribeGroupState";
+  group: string;
+  ackId?: number;
 }
 
 function getPayload(data: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType): any {
@@ -158,7 +390,7 @@ function getPayload(data: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType):
     case "binary":
     case "protobuf": {
       if (data instanceof ArrayBuffer) {
-        return Buffer.from(data).toString("base64");
+        return uint8ArrayToString(new Uint8Array(data), "base64");
       }
       throw new TypeError("Message must be a ArrayBuffer");
     }
@@ -174,10 +406,27 @@ function parsePayload(data: any, dataType: string): JSONTypes | ArrayBuffer | nu
   } else if (dataType === "json") {
     return data as JSONTypes;
   } else if (dataType === "binary" || dataType === "protobuf") {
-    const buf = Buffer.from(data as string, "base64");
-    return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer;
+    const bytes = stringToUint8Array(data as string, "base64");
+    return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
   } else {
     // Forward compatible
     return null;
   }
+}
+
+function parseStreamInfo(stream: any): StreamInfo | undefined {
+  if (stream == null || typeof stream !== "object") {
+    return undefined;
+  }
+
+  if (typeof stream.streamId !== "string" || typeof stream.streamSequenceId !== "number") {
+    return undefined;
+  }
+
+  return {
+    streamId: stream.streamId,
+    streamSequenceId: stream.streamSequenceId,
+    endOfStream: stream.endOfStream,
+    error: stream.error,
+  };
 }

@@ -3,6 +3,6 @@
 
 export { listByLocation, get } from "./operations.js";
 export {
-  DbSystemShapesListByLocationOptionalParams,
-  DbSystemShapesGetOptionalParams,
+  type DbSystemShapesListByLocationOptionalParams,
+  type DbSystemShapesGetOptionalParams,
 } from "./options.js";

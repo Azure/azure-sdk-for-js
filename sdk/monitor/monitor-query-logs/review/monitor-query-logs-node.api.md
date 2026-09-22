@@ -5,8 +5,10 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -94,6 +96,8 @@ export interface ExecuteOptionalParams extends QueryLogsOptions {
 // @public
 export interface ExecuteWithResourceIdOptionalParams extends QueryLogsOptions {
 }
+
+export { isRestError }
 
 // @public
 export enum KnownMonitorLogsQueryAudience {
@@ -216,6 +220,8 @@ export type QueryTimeInterval = {
 } | {
     duration: string;
 };
+
+export { RestError }
 
 // @public
 export interface Table {

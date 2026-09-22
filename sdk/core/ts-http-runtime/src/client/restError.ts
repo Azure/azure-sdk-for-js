@@ -32,11 +32,12 @@ export function createRestError(
   });
 }
 
-function toPipelineResponse(response: PathUncheckedResponse): PipelineResponse {
+function toPipelineResponse(errorResponse: PathUncheckedResponse): PipelineResponse {
   return {
-    headers: createHttpHeaders(response.headers),
-    request: response.request,
-    status: statusCodeToNumber(response.status) ?? -1,
+    headers: createHttpHeaders(errorResponse.headers),
+    request: errorResponse.request,
+    status: statusCodeToNumber(errorResponse.status) ?? -1,
+    ...(typeof errorResponse.body === "string" ? { bodyAsText: errorResponse.body } : {}),
   };
 }
 

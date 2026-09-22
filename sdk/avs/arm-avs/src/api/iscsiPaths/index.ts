@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { $delete, createOrUpdate, get, listByPrivateCloud } from "./operations.js";
-export {
+export type {
   IscsiPathsDeleteOptionalParams,
   IscsiPathsCreateOrUpdateOptionalParams,
   IscsiPathsGetOptionalParams,

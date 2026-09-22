@@ -3,6 +3,6 @@
 
 export { get, listByParent } from "./operations.js";
 export {
-  GiMinorVersionsGetOptionalParams,
-  GiMinorVersionsListByParentOptionalParams,
+  type GiMinorVersionsGetOptionalParams,
+  type GiMinorVersionsListByParentOptionalParams,
 } from "./options.js";

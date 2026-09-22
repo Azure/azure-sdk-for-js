@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { leafCommand, makeCommandInfo } from "../../../framework/command";
+import { leafCommand, makeCommandInfo } from "../../../framework/command.ts";
 import path from "node:path";
-import { resolveRoot } from "../../../util/resolveProject";
+import { resolveRoot } from "../../../util/resolveProject.ts";
 import { readdir } from "node:fs/promises";
 
 export const commandInfo = makeCommandInfo("packages", "list service folders in the monorepo", {

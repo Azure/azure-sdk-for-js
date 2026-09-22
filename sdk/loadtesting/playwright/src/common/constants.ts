@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ProcessCommand } from "./types.js";
+
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
   SCOPE: "https://management.core.windows.net/.default",
+  STORAGE_SCOPE: "https://storage.azure.com/.default",
   ROTATION_INTERVAL_PERIOD_IN_MINUTES: 4,
 };
 
@@ -35,10 +38,10 @@ export const ServiceEnvironmentVariable = {
 };
 
 export const GitHubActionsConstants = {
-  GIT_VERSION_COMMAND: "git --version",
-  GIT_REV_PARSE: "git rev-parse --is-inside-work-tree",
-  GIT_COMMIT_MESSAGE_COMMAND: 'git log -1 --pretty=format:"%s"',
-};
+  GIT_VERSION_COMMAND: { command: "git", args: ["--version"] },
+  GIT_REV_PARSE: { command: "git", args: ["rev-parse", "--is-inside-work-tree"] },
+  GIT_COMMIT_MESSAGE_COMMAND: { command: "git", args: ["log", "-1", "--pretty=format:%s"] },
+} satisfies Record<string, ProcessCommand>;
 
 export const DefaultConnectOptionsConstants = {
   DEFAULT_TIMEOUT: 30000,
@@ -68,6 +71,23 @@ export const Constants = {
   HTTP_CALL_TIMEOUT: 10000,
 };
 
+export const UrlConstants = {
+  AzurePortalBaseUrl: "https://ms.portal.azure.com",
+  ReportingApiSubdomain: "reporting.api",
+  ApiSubdomain: "api",
+  PlaywrightWorkspacesPath: "playwrightworkspaces",
+  TestRunsPath: "test-runs",
+  LoadTestServiceProvider: "Microsoft.LoadTestService",
+  PlaywrightWorkspacesResourceType: "playwrightWorkspaces",
+  TestRunsRoute: "TestRuns",
+  ResourceGroupsPath: "resourcegroups",
+  ResourcePath: "/resource",
+  SubscriptionsPath: "/subscriptions",
+  ResourceGroupsUrlPath: "/resourceGroups",
+  ProvidersPath: "/providers",
+  TestReportViewPath: "#view/Microsoft_Azure_CloudNativeTesting/TestReport.ReactView",
+};
+
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
   MPT_SETUP_FATAL_ERROR: "_MPT_SETUP_FATAL_ERROR",
@@ -78,4 +98,33 @@ export const InternalEnvironmentVariables = {
   MPT_SERVICE_OS: "_MPT_SERVICE_OS",
   ONE_TIME_OPERATION_FLAG: "_ONE_TIME_OPERATION_FLAG",
   USING_SERVICE_CONFIG: "_USING_SERVICE_CONFIG",
+  TEST_RUN_CREATION_SUCCESS: "_MPT_TEST_RUN_CREATION_SUCCESS",
+};
+
+export const UploadConstants = {
+  SMALL_FILE_THRESHOLD: 1024 * 1024,
+  LARGE_FILE_THRESHOLD: 100 * 1024 * 1024,
+  BASE_CONCURRENCY: 20,
+  MAX_CONCURRENCY: 50,
+  PER_FILE_CONCURRENCY: 10,
+  LARGE_FILE_CONCURRENCY: 5,
+  BATCH_SIZE: 100,
+  OPTIMIZED_BLOCK_SIZE: 8 * 1024 * 1024,
+  STREAM_BUFFER_SIZE: 4 * 1024 * 1024,
+  MAX_RETRY_ATTEMPTS: 3,
+  RETRY_BASE_DELAY: 1000,
+};
+
+export const BrowserSessionSourceType = {
+  PLAYWRIGHT_WORKSPACES_TEST_RUN: "PlaywrightWorkspacesTestRun",
+  OTHERS: "Others",
+} as const;
+
+export const StorageUriValidationConstants = {
+  AllowedProtocol: "https:",
+  AllowedHostnameSuffixes: [
+    ".blob.core.windows.net",
+    ".blob.core.usgovcloudapi.net",
+    ".blob.core.chinacloudapi.cn",
+  ] as const,
 };

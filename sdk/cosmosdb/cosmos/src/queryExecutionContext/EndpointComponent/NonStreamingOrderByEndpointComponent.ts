@@ -8,6 +8,9 @@ import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult.js"
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue.js";
 import type { CosmosHeaders } from "../headerUtils.js";
 import { getInitialHeader } from "../headerUtils.js";
+import type { QueryRangeMapping } from "../queryRangeMapping.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
+import { createParallelQueryResult } from "../parallelQueryResult.js";
 
 /**
  * @hidden
@@ -50,7 +53,11 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
-    return this.priorityQueueBufferSize > 0 && this.executionContext.hasMoreResults();
+    return (
+      !this.isCompleted &&
+      this.priorityQueueBufferSize > 0 &&
+      this.executionContext.hasMoreResults()
+    );
   }
 
   /**
@@ -65,6 +72,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       };
     }
     let resHeaders = getInitialHeader();
+
     // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize <= 0) {
       return {
@@ -75,8 +83,8 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     // If there are more results in backend, keep filling pq.
     if (this.executionContext.hasMoreResults()) {
       const response = await this.executionContext.fetchMore(diagnosticNode);
-      resHeaders = response.headers;
-      if (response === undefined || response.result === undefined) {
+
+      if (!response) {
         this.isCompleted = true;
         if (!this.nonStreamingOrderByPQ.isEmpty()) {
           return this.buildFinalResultArray(resHeaders);
@@ -84,17 +92,43 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         return { result: undefined, headers: resHeaders };
       }
 
-      for (const item of response.result) {
-        if (item !== undefined) {
-          this.nonStreamingOrderByPQ.enqueue(item);
+      resHeaders = response.headers;
+      const pageIsEmpty =
+        response.result === undefined ||
+        !response.result.buffer ||
+        response.result.buffer.length === 0;
+
+      if (pageIsEmpty && !this.executionContext.hasMoreResults()) {
+        this.isCompleted = true;
+        if (!this.nonStreamingOrderByPQ.isEmpty()) {
+          return this.buildFinalResultArray(resHeaders);
+        }
+        return { result: undefined, headers: resHeaders };
+      }
+
+      if (!pageIsEmpty) {
+        const parallelResult = response.result as ParallelQueryResult;
+        const dataToProcess: NonStreamingOrderByResult[] =
+          parallelResult.buffer as NonStreamingOrderByResult[];
+
+        for (const item of dataToProcess) {
+          if (item !== undefined) {
+            this.nonStreamingOrderByPQ.enqueue(item);
+          }
         }
       }
     }
 
     // If the backend has more results to fetch, return [] to signal that there are more results to fetch.
     if (this.executionContext.hasMoreResults()) {
+      const result = createParallelQueryResult(
+        [], // empty buffer
+        new Map(),
+        {},
+      );
+
       return {
-        result: [],
+        result,
         headers: resHeaders,
       };
     }
@@ -102,17 +136,23 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     // If all results are fetched from backend, prepare final results
     if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
       this.isCompleted = true;
-      return this.buildFinalResultArray(resHeaders);
+      return this.buildFinalResultArray(resHeaders, new Map(), {});
     }
 
     // If pq is empty, return undefined to signal that there are no more results.
+    const result = createParallelQueryResult([], new Map(), {});
+
     return {
-      result: undefined,
+      result,
       headers: resHeaders,
     };
   }
 
-  private async buildFinalResultArray(resHeaders: CosmosHeaders): Promise<Response<any>> {
+  private async buildFinalResultArray(
+    resHeaders: CosmosHeaders,
+    partitionKeyRangeMap?: Map<string, QueryRangeMapping>,
+    updatedContinuationRanges?: Record<string, any>,
+  ): Promise<Response<any>> {
     // Set isCompleted to true.
     this.isCompleted = true;
     // Reverse the priority queue to get the results in the correct order
@@ -140,8 +180,15 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
           buffer.push(this.nonStreamingOrderByPQ.dequeue()?.payload);
         }
       }
+      const result = createParallelQueryResult(
+        buffer,
+        partitionKeyRangeMap || new Map(),
+        updatedContinuationRanges || {},
+        undefined,
+      );
+
       return {
-        result: buffer,
+        result,
         headers: resHeaders,
       };
     }

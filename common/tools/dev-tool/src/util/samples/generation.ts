@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
-import { stat as statFile } from "fs/promises";
+import { readFileSync } from "node:fs";
+import { stat as statFile } from "node:fs/promises";
 import path from "node:path";
 import semver from "semver";
-import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
-import { findMatchingFiles } from "../findMatchingFiles";
-import { createPrinter } from "../printer";
-import { ProjectInfo, bindRequireFunction, resolveRoot } from "../resolveProject";
-import {
-  getSampleConfiguration,
-  MIN_SUPPORTED_NODE_VERSION,
-  SampleConfiguration,
-} from "./configuration";
+import type { FileTreeFactory } from "../fileTree.ts";
+import { copy, dir, file, lazy, safeClean, temp } from "../fileTree.ts";
+import { findMatchingFiles } from "../findMatchingFiles.ts";
+import { createPrinter } from "../printer.ts";
+import type { ProjectInfo } from "../resolveProject.ts";
+import { bindRequireFunction, resolveRoot } from "../resolveProject.ts";
+import type { SampleConfiguration } from "./configuration.ts";
+import { getSampleConfiguration, MIN_SUPPORTED_NODE_VERSION } from "./configuration.ts";
+import type { SampleGenerationInfo } from "./info.ts";
 import {
   AZSDK_META_TAG_PREFIX,
   DEFAULT_TYPESCRIPT_CONFIG,
   DEV_SAMPLES_BASE,
   OutputKind,
-  SampleGenerationInfo,
-} from "./info";
-import { processSources } from "./processor";
-import devToolPackageJson from "../../../package.json";
-import instantiateSampleReadme from "../../templates/sampleReadme.md";
-import { resolveModule } from "./transforms";
-import { Config, resolveConfig } from "../resolveTsConfig";
-import { CompilerOptions } from "typescript";
-import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm";
+} from "./info.ts";
+import { processSources } from "./processor.ts";
+import devToolPackageJson from "../../../package.json" with { type: "json" };
+import instantiateSampleReadme from "../../templates/sampleReadme.md.ts";
+import { resolveModule } from "./transforms.ts";
+import type { Config } from "../resolveTsConfig.ts";
+import { resolveConfig } from "../resolveTsConfig.ts";
+import type { CompilerOptions } from "typescript";
+import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm.ts";
 
 const log = createPrinter("generator");
 
@@ -84,7 +84,9 @@ function isValidNpmVersionSpecifier(specifier: string) {
   return (
     semver.valid(
       specifier.startsWith("^") || specifier.startsWith("~") ? specifier.substring(1) : specifier,
-    ) || ["latest", "dev", "next"].includes(specifier)
+    ) ||
+    semver.validRange(specifier) ||
+    ["latest", "dev", "beta"].includes(specifier)
   );
 }
 
@@ -158,8 +160,8 @@ export async function makeSampleGenerationInfo(
   );
 
   const defaultDependencies: Record<string, string> = {
-    // If we are a beta package, use "next", otherwise we will use "latest"
-    [projectInfo.name]: projectInfo.version.includes("beta") ? "next" : "latest",
+    // If we are a beta package, use "beta", otherwise we will use "latest"
+    [projectInfo.name]: projectInfo.version.includes("beta") ? "beta" : "latest",
     // We use this universally
     dotenv: "latest",
   };
@@ -209,7 +211,7 @@ export async function makeSampleGenerationInfo(
         let contents;
 
         try {
-          contents = fs.readFileSync(path.resolve(projectInfo.path, file));
+          contents = readFileSync(path.resolve(projectInfo.path, file));
         } catch (ex: unknown) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
@@ -354,7 +356,9 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
       module?: string;
     };
   };
-  const tsconfig = (await resolveConfig(tsconfigFilePath)) as SerializableConfig;
+  const { config: tsconfig } = (await resolveConfig(tsconfigFilePath)) as {
+    config: SerializableConfig;
+  };
   delete tsconfig.compilerOptions.paths;
   delete tsconfig.exclude;
   delete tsconfig.compilerOptions.composite;
@@ -363,12 +367,14 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   delete tsconfig.compilerOptions.declarationMap;
   delete tsconfig.compilerOptions.inlineSources;
   delete tsconfig.compilerOptions.sourceMap;
+  delete tsconfig.compilerOptions.verbatimModuleSyntax;
   tsconfig.include = ["./src"];
   tsconfig.compilerOptions.outDir = "./dist";
+  tsconfig.compilerOptions.rootDir = "./src";
   tsconfig.compilerOptions.resolveJsonModule = true;
 
-  tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
-  tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
+  tsconfig.compilerOptions.moduleResolution = "nodenext"; // ts.ModuleResolutionKind.NodeNext
+  tsconfig.compilerOptions.module = "nodenext"; // ts.ModuleKind.NodeNext
   return jsonify(tsconfig);
 }
 
@@ -455,11 +461,9 @@ export async function makeSamplesFactory(
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
-                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath))),
+                  file(relativeSourcePath, () => postProcess(readFileSync(filePath))),
                 ),
-                ...dtsFiles.map(([relative, absolute]) =>
-                  file(relative, fs.readFileSync(absolute)),
-                ),
+                ...dtsFiles.map(([relative, absolute]) => file(relative, readFileSync(absolute))),
               ]),
             ]),
             dir("javascript", [

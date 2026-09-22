@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-datadog": ["../src/index.ts"],
+      "@azure/arm-datadog/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

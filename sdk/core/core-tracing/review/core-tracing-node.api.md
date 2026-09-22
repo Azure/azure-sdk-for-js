@@ -45,10 +45,8 @@ export type OptionsWithTracingContext<Options extends {
     };
 };
 
-// @public
-export type Resolved<T> = T extends {
-    then(onfulfilled: infer F): any;
-} ? F extends (value: infer V) => any ? Resolved<V> : never : T;
+// @public @deprecated
+export type Resolved<T> = Awaited<T>;
 
 // @public
 export type SpanStatus = SpanStatusSuccess | SpanStatusError;
@@ -77,7 +75,7 @@ export interface TracingClient {
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
     withSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
-    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, operationOptions: Options, callback: Callback, spanOptions?: TracingSpanOptions): Promise<Resolved<ReturnType<Callback>>>;
+    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, operationOptions: Options, callback: Callback, spanOptions?: TracingSpanOptions): Promise<Awaited<ReturnType<Callback>>>;
 }
 
 // @public

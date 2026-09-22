@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
-import { DeploymentUnion } from "../../models/models.js";
-import {
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import { list, get } from "../../api/deployments/operations.js";
+import type {
   DeploymentsListOptionalParams,
   DeploymentsGetOptionalParams,
 } from "../../api/deployments/options.js";
-import { list, get } from "../../api/deployments/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DeploymentUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Deployments operations. */
 export interface DeploymentsOperations {
-  /** List all deployed models in the project */
+  /** Returns the deployed models available in the current project, optionally filtered by publisher, model name, or deployment type. */
   list: (options?: DeploymentsListOptionalParams) => PagedAsyncIterableIterator<DeploymentUnion>;
   /** Get a deployed model. */
   get: (name: string, options?: DeploymentsGetOptionalParams) => Promise<DeploymentUnion>;

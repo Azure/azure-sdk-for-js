@@ -134,7 +134,8 @@ function appendPath(url: string, pathToAppend?: string): string {
     newPath = newPath + pathToAppend;
   }
 
-  parsedUrl.pathname = newPath;
+  // Use Object.assign to bypass react-native's incorrect readonly URL.pathname declaration
+  Object.assign(parsedUrl, { pathname: newPath });
 
   return parsedUrl.toString();
 }

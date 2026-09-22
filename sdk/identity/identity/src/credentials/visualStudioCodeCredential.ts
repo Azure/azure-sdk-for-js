@@ -10,12 +10,12 @@ import {
 import { CredentialUnavailableError } from "../errors.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
-import { createMsalClient, MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient, type MsalClient } from "../msal/nodeFlows/msalClient.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { hasVSCodePlugin, vsCodeAuthRecordPath } from "../msal/nodeFlows/msalPlugins.js";
 import { deserializeAuthenticationRecord } from "../msal/utils.js";
 import { readFile } from "node:fs/promises";
-import { AuthenticationRecord } from "../msal/types.js";
+import type { AuthenticationRecord } from "../msal/types.js";
 
 const CommonTenantId = "common";
 const VSCodeClientId = "aebc6443-996d-45c2-90f0-388ff96faa56";

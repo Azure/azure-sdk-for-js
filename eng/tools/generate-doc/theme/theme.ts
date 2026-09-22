@@ -7,6 +7,7 @@ import {
   PageEvent,
   Reflection,
 } from "typedoc";
+import type { Router } from "typedoc";
 import { toolbar } from "./toolbar.js";
 import { versionPicker, versionPickerScript } from "./versionPicker.js";
 import * as path from "path";
@@ -45,8 +46,8 @@ export function loadTheme(app: TypeDocApplication) {
  * in addition to some helper functions.
  */
 export class AzureSdkThemeContext extends DefaultThemeRenderContext {
-  constructor(theme: DefaultTheme, page: PageEvent<Reflection>, options: Options) {
-    super(theme, page, options);
+  constructor(router: Router, theme: DefaultTheme, page: PageEvent<Reflection>, options: Options) {
+    super(router, theme, page, options);
 
     this.toolbar = (props) => {
       return toolbar(this, props);
@@ -58,7 +59,12 @@ export class AzureSdkTheme extends DefaultTheme {
   private _contextCache?: AzureSdkThemeContext;
 
   override getRenderContext(pageEvent: PageEvent<Reflection>): AzureSdkThemeContext {
-    this._contextCache ||= new AzureSdkThemeContext(this, pageEvent, this.application.options);
+    this._contextCache ||= new AzureSdkThemeContext(
+      this.router,
+      this,
+      pageEvent,
+      this.application.options,
+    );
     return this._contextCache;
   }
 }

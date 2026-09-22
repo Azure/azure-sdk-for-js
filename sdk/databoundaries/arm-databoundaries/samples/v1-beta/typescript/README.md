@@ -1,12 +1,13 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-databoundaries client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-databoundaries in some common scenarios.
 
-| **File Name**                                                     | **Description**                                                                                                                                                             |
-| ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [dataBoundariesGetScopeSample.ts][databoundariesgetscopesample]   | Get data boundary at specified scope x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/GetScopedDataBoundary.json |
-| [dataBoundariesGetTenantSample.ts][databoundariesgettenantsample] | Get data boundary of tenant. x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/GetTenantDataBoundary.json         |
-| [dataBoundariesPutSample.ts][databoundariesputsample]             | Opt-in tenant to data boundary. x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/PutDataBoundary.json            |
+| **File Name**                                                     | **Description**                                                                                |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [dataBoundariesGetScopeSample.ts][databoundariesgetscopesample]   | get data boundary at specified scope x-ms-original-file: 2024-08-01/GetScopedDataBoundary.json |
+| [dataBoundariesGetTenantSample.ts][databoundariesgettenantsample] | get data boundary of tenant. x-ms-original-file: 2024-08-01/GetTenantDataBoundary.json         |
+| [dataBoundariesPutSample.ts][databoundariesputsample]             | opt-in tenant to data boundary. x-ms-original-file: 2024-08-01/PutDataBoundary.json            |
+| [operationsListSample.ts][operationslistsample]                   | list the operations for the provider x-ms-original-file: 2024-08-01/Operations_List.json       |
 
 ## Prerequisites
 
@@ -48,10 +49,10 @@ npm run build
 node dist/dataBoundariesGetScopeSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/dataBoundariesGetScopeSample.js
+node dist/dataBoundariesGetScopeSample.js
 ```
 
 ## Next Steps
@@ -61,6 +62,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [databoundariesgetscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoundaries/arm-databoundaries/samples/v1-beta/typescript/src/dataBoundariesGetScopeSample.ts
 [databoundariesgettenantsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoundaries/arm-databoundaries/samples/v1-beta/typescript/src/dataBoundariesGetTenantSample.ts
 [databoundariesputsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoundaries/arm-databoundaries/samples/v1-beta/typescript/src/dataBoundariesPutSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoundaries/arm-databoundaries/samples/v1-beta/typescript/src/operationsListSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databoundaries/arm-databoundaries/README.md

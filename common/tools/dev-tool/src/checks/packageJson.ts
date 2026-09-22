@@ -4,13 +4,13 @@ import {
   packageJsonCheck,
   enableForEsmPackage,
   enableForSdkType,
-} from "../framework/check";
-import { resolveRoot } from "../util/resolveProject";
+} from "../framework/check.ts";
+import { resolveRoot } from "../util/resolveProject.ts";
 
 /**
  * Expected value for engines field
  */
-const LTS_ENGINES = ">=20.0.0";
+const LTS_ENGINES = ">=22.0.0";
 
 export const license = packageJsonCheck({
   description: 'License field in package.json must be set to "MIT"',
@@ -110,11 +110,32 @@ export const name = packageJsonCheck({
 });
 
 export const repository = packageJsonCheck({
-  description: "package.json repository value must be 'github:Azure/azure-sdk-for-js'",
-  fix({ packageJson }) {
+  description:
+    "package.json repository must be an object with required type/url and a directory under sdk/",
+  check({ packageJson }) {
+    const repository = packageJson.repository as
+      { type?: string; url?: string; directory?: string } | undefined;
+    assert(typeof repository === "object" && repository !== null, "repository must be an object");
+    assert(repository.type === "git", "repository.type must be 'git'");
+    assert(
+      repository.url === "git+https://github.com/Azure/azure-sdk-for-js",
+      "repository.url must be 'git+https://github.com/Azure/azure-sdk-for-js'",
+    );
+    assert(
+      typeof repository.directory === "string" && repository.directory.startsWith("sdk/"),
+      "repository.directory must start with 'sdk/'",
+    );
+  },
+  async fix({ project, packageJson }) {
+    const root = await resolveRoot();
+    const libraryRelativePath = path.relative(root, project.path);
     return {
       ...packageJson,
-      repository: "github:Azure/azure-sdk-for-js",
+      repository: {
+        type: "git",
+        url: "git+https://github.com/Azure/azure-sdk-for-js",
+        directory: libraryRelativePath.startsWith("sdk/") ? libraryRelativePath : "sdk/",
+      } as unknown as string,
     };
   },
 });

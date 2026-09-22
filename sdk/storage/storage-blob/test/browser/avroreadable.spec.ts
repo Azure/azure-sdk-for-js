@@ -23,14 +23,14 @@ describe("AvroReadableFromBlob", () => {
       const buf = await rfs.read(length);
       assert.equal(rfs.position, offset + length);
       const expectedBuf = new Uint8Array(u8arr.buffer, offset, length);
-      assert.ok(arraysEqual(buf, expectedBuf));
+      assert.isTrue(arraysEqual(buf, expectedBuf));
       offset += length;
     }
 
     const lastChunk = await rfs.read(length);
     assert.equal(rfs.position, blob.size);
     const expectedBuf = new Uint8Array(u8arr.buffer, offset, rfs.position - offset);
-    assert.ok(arraysEqual(lastChunk, expectedBuf));
+    assert.isTrue(arraysEqual(lastChunk, expectedBuf));
 
     const beyondChunk = await rfs.read(length);
     assert.equal(beyondChunk.byteLength, 0);
@@ -50,7 +50,7 @@ describe("AvroReadableFromBlob", () => {
         const localOffset = offset;
         const buf = await rfs.read(length);
         const expectedBuf = new Uint8Array(u8arr.buffer, localOffset, length);
-        assert.ok(arraysEqual(buf, expectedBuf));
+        assert.isTrue(arraysEqual(buf, expectedBuf));
       };
 
       promiseArray.push(readPromise());

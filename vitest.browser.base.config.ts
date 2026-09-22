@@ -2,14 +2,20 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
-import { AzureSDKReporter, makeAliases } from "./vitest.shared.config.js";
+import {
+  AzureSDKReporter,
+  makeAliases,
+  fixCoreLroExternalization,
+} from "./vitest.shared.config.js";
 
 function makeBrowserAliases(rootDir: string) {
   return makeAliases(rootDir, { distDir: `./dist/browser`, indexFile: `index.js` });
 }
 
 export default defineConfig({
+  plugins: [fixCoreLroExternalization()],
   define: {
     "process.env": process.env,
   },
@@ -22,23 +28,26 @@ export default defineConfig({
     },
     include: ["dist-test/**/*.spec.js"],
     exclude: [
-      "test-dist/**/node/*.spec.js",
-      "test-dist/snippets.spec.js",
-      "test-dist/integration/**/*.spec.js",
-      "test-dist/stress/**/*.js",
+      "dist-test/**/node/*.spec.js",
+      "dist-test/**/react-native/**",
+      "dist-test/snippets.spec.js",
+      "dist-test/integration/**/*.spec.js",
+      "dist-test/stress/**/*.js",
     ],
     browser: {
+      api: 43315,
       instances: [
         {
           browser: "chromium",
-          launch: {
-            args: ["--disable-web-security"],
-          },
         },
       ],
       enabled: true,
       headless: true,
-      provider: "playwright",
+      provider: playwright({
+        launchOptions: {
+          args: ["--disable-web-security"],
+        },
+      }),
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],
@@ -53,7 +62,7 @@ export default defineConfig({
         "dist-test/browser/**/snippets.spec.js",
       ],
       provider: "istanbul",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "cobertura", "html"],
       reportsDirectory: "coverage-browser",
     },
   },

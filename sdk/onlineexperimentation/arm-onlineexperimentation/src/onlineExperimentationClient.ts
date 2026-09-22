@@ -14,7 +14,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { OnlineExperimentationClientOptionalParams } from "./api/onlineExperimentationContext.js";
+export { type OnlineExperimentationClientOptionalParams } from "./api/onlineExperimentationContext.js";
 
 export class OnlineExperimentationClient {
   private _client: OnlineExperimentationContext;

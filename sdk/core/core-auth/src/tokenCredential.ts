@@ -108,24 +108,6 @@ export interface AccessToken {
 }
 
 /**
- * @internal
- * @param accessToken - Access token
- * @returns Whether a token is bearer type or not
- */
-export function isBearerToken(accessToken: AccessToken): boolean {
-  return !accessToken.tokenType || accessToken.tokenType === "Bearer";
-}
-
-/**
- * @internal
- * @param accessToken - Access token
- * @returns Whether a token is Pop token or not
- */
-export function isPopToken(accessToken: AccessToken): boolean {
-  return accessToken.tokenType === "pop";
-}
-
-/**
  * Tests an object to determine whether it implements TokenCredential.
  *
  * @param credential - The assumed TokenCredential to be tested.

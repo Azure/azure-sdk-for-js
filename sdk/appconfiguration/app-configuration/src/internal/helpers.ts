@@ -15,6 +15,7 @@ import {
   type SnapshotResponse,
   type EtagEntity,
   type ListLabelsOptions,
+  type SnapshotInfo,
   KnownAppConfigAudience,
 } from "../models.js";
 import type { FeatureFlagValue } from "../featureFlag.js";
@@ -23,13 +24,22 @@ import type {
   GetKeyValuesOptionalParams,
   GetLabelsOptionalParams,
   GetSnapshotsOptionalParams,
+} from "../generated/api/options.js";
+import type {
   KeyValue,
-} from "../generated/src/models/index.js";
+  ConfigurationSnapshot as Snapshot,
+  KeyValueFields,
+  SnapshotFields,
+  CompositionType,
+  SnapshotStatus,
+} from "../generated/models/models.js";
 import type { SecretReferenceValue } from "../secretReference.js";
 import { SecretReferenceHelper, secretReferenceContentType } from "../secretReference.js";
+import type { SnapshotReferenceValue } from "../snapshotReference.js";
+import { SnapshotReferenceHelper, snapshotReferenceContentType } from "../snapshotReference.js";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger.js";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -37,9 +47,7 @@ import type { OperationOptions } from "@azure/core-client";
  * result.
  */
 export interface SendConfigurationSettingsOptions
-  extends OperationOptions,
-    ListSettingsOptions,
-    EtagEntity {
+  extends OperationOptions, ListSettingsOptions, EtagEntity {
   /**
    * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
    */
@@ -130,7 +138,8 @@ export function formatFiltersAndSelect(
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
-    tags: listConfigOptions.tagsFilter,
+    // Ensure the tags are URL-encoded when encoding
+    tags: listConfigOptions.tagsFilter?.map((t) => encodeURIComponent(t)),
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
@@ -170,8 +179,8 @@ export function formatSnapshotFiltersAndSelect(
 ): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
   return {
     name: listSnapshotOptions.nameFilter,
-    status: listSnapshotOptions.statusFilter,
-    select: listSnapshotOptions.fields,
+    status: listSnapshotOptions.statusFilter as SnapshotStatus[] | undefined,
+    select: listSnapshotOptions.fields as SnapshotFields[] | undefined,
   };
 }
 
@@ -254,6 +263,7 @@ export function makeConfigurationSettingEmpty(
 ): void {
   const names: Exclude<keyof ConfigurationSetting, "key">[] = [
     "contentType",
+    "description",
     "etag",
     "label",
     "lastModified",
@@ -271,10 +281,11 @@ export function makeConfigurationSettingEmpty(
  * @internal
  */
 export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSetting {
-  const setting: T & ConfigurationSetting & KeyValue = {
+  const setting = {
     value: undefined,
     ...kvp,
     isReadOnly: !!kvp.locked,
+    lastModified: kvp.lastModified ? new Date(kvp.lastModified) : undefined,
   };
   delete setting.locked;
   if (!setting.label) {
@@ -294,6 +305,19 @@ function isConfigSettingWithSecretReferenceValue(
 ): setting is ConfigurationSetting<SecretReferenceValue> {
   return (
     setting.contentType === secretReferenceContentType &&
+    isDefined(setting.value) &&
+    typeof setting.value !== "string"
+  );
+}
+
+/**
+ * @internal
+ */
+function isConfigSettingWithSnapshotReferenceValue(
+  setting: any,
+): setting is ConfigurationSetting<SnapshotReferenceValue> {
+  return (
+    setting.contentType === snapshotReferenceContentType &&
     isDefined(setting.value) &&
     typeof setting.value !== "string"
   );
@@ -326,7 +350,8 @@ export function serializeAsConfigurationSettingParam(
   setting:
     | ConfigurationSettingParam
     | ConfigurationSettingParam<FeatureFlagValue>
-    | ConfigurationSettingParam<SecretReferenceValue>,
+    | ConfigurationSettingParam<SecretReferenceValue>
+    | ConfigurationSettingParam<SnapshotReferenceValue>,
 ): ConfigurationSettingParam {
   if (isSimpleConfigSetting(setting)) {
     return setting as ConfigurationSettingParam;
@@ -337,6 +362,9 @@ export function serializeAsConfigurationSettingParam(
     }
     if (isConfigSettingWithSecretReferenceValue(setting)) {
       return SecretReferenceHelper.toConfigurationSettingParam(setting);
+    }
+    if (isConfigSettingWithSnapshotReferenceValue(setting)) {
+      return SnapshotReferenceHelper.toConfigurationSettingParam(setting);
     }
   } catch (error: any) {
     return setting as ConfigurationSettingParam;
@@ -351,18 +379,19 @@ export function serializeAsConfigurationSettingParam(
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
-  kvp: T,
+  kvp: T | undefined,
   status: number | undefined,
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
+  const source = (kvp ?? {}) as T;
   const response = {
-    ...transformKeyValue(kvp),
+    ...transformKeyValue(source),
     statusCode: status ?? -1,
   };
 
-  if (hasUnderscoreResponse(kvp)) {
+  if (hasUnderscoreResponse(source)) {
     Object.defineProperty(response, "_response", {
       enumerable: false,
-      value: kvp._response,
+      value: source._response,
     });
   }
   return response;
@@ -389,16 +418,31 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 /**
  * @internal
  */
-export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
-  snapshot: T,
-): SnapshotResponse {
+export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): SnapshotResponse {
+  const configSnapshot: ConfigurationSnapshot = {
+    ...snapshot,
+    createdOn: snapshot.createdOn ? new Date(snapshot.createdOn) : undefined,
+    expiresOn: snapshot.expiresOn ? new Date(snapshot.expiresOn) : undefined,
+    itemCount: snapshot.itemsCount,
+  };
   if (hasUnderscoreResponse(snapshot)) {
-    Object.defineProperty(snapshot, "_response", {
+    Object.defineProperty(configSnapshot, "_response", {
       enumerable: false,
-      value: snapshot._response,
+      value: (snapshot as any)._response,
     });
   }
-  return snapshot as any;
+  return configSnapshot as unknown as SnapshotResponse;
+}
+
+/**
+ * Converts a public-facing SnapshotInfo to the generated Snapshot type.
+ * @internal
+ */
+export function snapshotInfoToGenerated(snapshot: SnapshotInfo): Snapshot {
+  return {
+    ...snapshot,
+    compositionType: snapshot.compositionType as CompositionType,
+  };
 }
 
 /**
@@ -412,7 +456,7 @@ export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
  */
 export function formatFieldsForSelect(
   fieldNames: (keyof ConfigurationSetting)[] | undefined,
-): string[] | undefined {
+): KeyValueFields[] | undefined {
   if (fieldNames == null) {
     return undefined;
   }
@@ -430,7 +474,7 @@ export function formatFieldsForSelect(
     }
   });
 
-  return mappedFieldNames;
+  return mappedFieldNames as KeyValueFields[];
 }
 
 /**
@@ -464,24 +508,40 @@ export function hasUnderscoreResponse<T extends object>(
 /**
  * Get the scope for the App Configuration service based on the endpoint and audience.
  * If the audience is provided, it will be used as the scope.
- * If not, the scope is defaulted to Azure Public Cloud when not specified.
+ * If not, the scope is inferred from the endpoint.
  *
  * @internal
  */
 export function getScope(appConfigEndpoint: string, appConfigAudience?: string): string {
   if (appConfigAudience) {
     return `${appConfigAudience}/.default`;
-  } else if (
-    appConfigEndpoint.endsWith("azconfig.azure.us") ||
-    appConfigEndpoint.endsWith("appconfig.azure.us")
-  ) {
-    return `${KnownAppConfigAudience.AzureGovernment}/.default`;
-  } else if (
-    appConfigEndpoint.endsWith("azconfig.azure.cn") ||
-    appConfigEndpoint.endsWith("appconfig.azure.cn")
-  ) {
-    return `${KnownAppConfigAudience.AzureChina}/.default`;
-  } else {
-    return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
   }
+
+  const hostname = new URL(appConfigEndpoint).hostname;
+  const stagingDomain = "appconfig-staging.azure.com";
+  if (hostname.endsWith(`.${stagingDomain}`)) {
+    return `https://${stagingDomain}/.default`;
+  }
+
+  const labels = hostname.split(".");
+  for (let index = labels.length - 1; index >= 0; index--) {
+    const label = labels[index].toLowerCase();
+    if (label === "appconfig" || label === "azconfig") {
+      return `https://${labels.slice(index).join(".")}/.default`;
+    }
+  }
+
+  return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
+}
+
+/**
+ * Encodes a value for use as a URL path parameter according to RFC 3986.
+ *
+ * @internal
+ */
+export function encodePathParameter(str: string): string {
+  return encodeURIComponent(str).replace(
+    /[!'()*]/g,
+    (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
+  );
 }

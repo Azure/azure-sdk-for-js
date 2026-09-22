@@ -4,11 +4,15 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AcceptOwnership = string;
@@ -22,9 +26,7 @@ export interface AcceptOwnershipRequest {
 export interface AcceptOwnershipRequestProperties {
     displayName: string;
     managementGroupId?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -35,66 +37,63 @@ export interface AcceptOwnershipStatusResponse {
     readonly provisioningState?: Provisioning;
     readonly subscriptionId?: string;
     subscriptionTenantId?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface Alias {
-    beginCreate(aliasName: string, body: PutAliasRequest, options?: AliasCreateOptionalParams): Promise<PollerLike<PollOperationState<AliasCreateResponse>, AliasCreateResponse>>;
-    beginCreateAndWait(aliasName: string, body: PutAliasRequest, options?: AliasCreateOptionalParams): Promise<AliasCreateResponse>;
-    delete(aliasName: string, options?: AliasDeleteOptionalParams): Promise<void>;
-    get(aliasName: string, options?: AliasGetOptionalParams): Promise<AliasGetResponse>;
-    list(options?: AliasListOptionalParams): Promise<AliasListResponse>;
-}
+export type ActionType = string;
 
 // @public
-export interface AliasCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AliasCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AliasCreateResponse = SubscriptionAliasResponse;
-
-// @public
-export interface AliasDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AliasDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AliasGetOptionalParams extends coreClient.OperationOptions {
+export interface AliasGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AliasGetResponse = SubscriptionAliasResponse;
-
-// @public
-export interface AliasListOptionalParams extends coreClient.OperationOptions {
+export interface AliasListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AliasListResponse = SubscriptionAliasListResult;
-
-// @public
-export interface BillingAccount {
-    getPolicy(billingAccountId: string, options?: BillingAccountGetPolicyOptionalParams): Promise<BillingAccountGetPolicyResponse>;
+export interface AliasOperations {
+    // @deprecated (undocumented)
+    beginCreate: (aliasName: string, body: PutAliasRequest, options?: AliasCreateOptionalParams) => Promise<SimplePollerLike<OperationState<SubscriptionAliasResponse>, SubscriptionAliasResponse>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (aliasName: string, body: PutAliasRequest, options?: AliasCreateOptionalParams) => Promise<SubscriptionAliasResponse>;
+    create: (aliasName: string, body: PutAliasRequest, options?: AliasCreateOptionalParams) => PollerLike<OperationState<SubscriptionAliasResponse>, SubscriptionAliasResponse>;
+    delete: (aliasName: string, options?: AliasDeleteOptionalParams) => Promise<void>;
+    get: (aliasName: string, options?: AliasGetOptionalParams) => Promise<SubscriptionAliasResponse>;
+    list: (options?: AliasListOptionalParams) => PagedAsyncIterableIterator<SubscriptionAliasResponse>;
 }
 
 // @public
-export interface BillingAccountGetPolicyOptionalParams extends coreClient.OperationOptions {
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export type BillingAccountGetPolicyResponse = BillingAccountPoliciesResponse;
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
-export interface BillingAccountPoliciesResponse {
-    readonly id?: string;
-    readonly name?: string;
+export interface BillingAccountGetPolicyOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BillingAccountOperations {
+    getPolicy: (billingAccountId: string, options?: BillingAccountGetPolicyOptionalParams) => Promise<BillingAccountPoliciesResponse>;
+}
+
+// @public
+export interface BillingAccountPoliciesResponse extends ProxyResource {
     properties?: BillingAccountPoliciesResponseProperties;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
@@ -109,6 +108,14 @@ export interface CanceledSubscriptionId {
 }
 
 // @public
+export type ChangeDirectoryOperationStatus = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -117,34 +124,28 @@ export interface EnabledSubscriptionId {
 }
 
 // @public
-export interface ErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface ErrorResponseBody {
-    code?: string;
-    error?: ErrorResponse;
-    message?: string;
-}
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetTenantPolicyListResponse {
-    readonly nextLink?: string;
-    readonly value?: GetTenantPolicyResponse[];
-}
-
-// @public
-export interface GetTenantPolicyResponse {
-    readonly id?: string;
-    readonly name?: string;
-    properties?: TenantPolicy;
-    readonly systemData?: SystemData;
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
     readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface GetTenantPolicyResponse extends ProxyResource {
+    properties?: TenantPolicy;
 }
 
 // @public
@@ -155,11 +156,30 @@ export enum KnownAcceptOwnership {
 }
 
 // @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
+export enum KnownChangeDirectoryOperationStatus {
+    Completed = "Completed",
+    Initialized = "Initialized",
+    InProgress = "InProgress"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -177,71 +197,66 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownVersions {
+    V20251101Preview = "2025-11-01-preview"
+}
+
+// @public
 export enum KnownWorkload {
     DevTest = "DevTest",
     Production = "Production"
 }
 
 // @public
-export interface Location {
-    readonly displayName?: string;
-    readonly id?: string;
-    readonly latitude?: string;
-    readonly longitude?: string;
-    readonly name?: string;
-    readonly subscriptionId?: string;
-}
-
-// @public
-export interface LocationListResult {
-    value?: Location[];
-}
-
-// @public
 export interface Operation {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
-    isDataAction?: boolean;
-    name?: string;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Provisioning = string;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface PutAliasRequest {
@@ -253,9 +268,7 @@ export interface PutAliasRequestAdditionalProperties {
     managementGroupId?: string;
     subscriptionOwnerId?: string;
     subscriptionTenantId?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -281,63 +294,63 @@ export interface RenamedSubscriptionId {
 }
 
 // @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SubscriptionClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ServiceTenantResponse {
     tenantId?: string;
     tenantName?: string;
 }
 
 // @public
-export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
-
-// @public
-export interface Subscription {
-    authorizationSource?: string;
-    readonly displayName?: string;
-    readonly id?: string;
-    readonly state?: SubscriptionState;
-    readonly subscriptionId?: string;
-    subscriptionPolicies?: SubscriptionPolicies;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly tenantId?: string;
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
-export interface SubscriptionAcceptOwnershipHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SubscriptionAcceptOwnershipOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SubscriptionAcceptOwnershipOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SubscriptionAcceptOwnershipResponse = SubscriptionAcceptOwnershipHeaders;
-
-// @public
-export interface SubscriptionAcceptOwnershipStatusOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionAcceptOwnershipStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SubscriptionAcceptOwnershipStatusResponse = AcceptOwnershipStatusResponse;
-
-// @public
-export interface SubscriptionAliasListResult {
-    readonly nextLink?: string;
-    readonly value?: SubscriptionAliasResponse[];
-}
-
-// @public
-export interface SubscriptionAliasResponse {
-    readonly id?: string;
-    readonly name?: string;
+export interface SubscriptionAliasResponse extends ProxyResource {
     properties?: SubscriptionAliasResponseProperties;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
@@ -348,61 +361,44 @@ export interface SubscriptionAliasResponseProperties {
     createdTime?: string;
     displayName?: string;
     managementGroupId?: string;
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     resellerId?: string;
     readonly subscriptionId?: string;
     subscriptionOwnerId?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     workload?: Workload;
 }
 
 // @public
-export interface SubscriptionCancelOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionCancelOptionalParams extends OperationOptions {
 }
-
-// @public
-export type SubscriptionCancelResponse = CanceledSubscriptionId;
 
 // @public (undocumented)
-export class SubscriptionClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: SubscriptionClientOptionalParams);
-    // (undocumented)
-    alias: Alias;
-    // (undocumented)
-    billingAccount: BillingAccount;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionOperations: SubscriptionOperations;
-    // (undocumented)
-    subscriptionPolicy: SubscriptionPolicy;
-    // (undocumented)
-    subscriptions: Subscriptions;
-    // (undocumented)
-    tenants: Tenants;
+export class SubscriptionClient {
+    constructor(credential: TokenCredential, options?: SubscriptionClientOptionalParams);
+    readonly alias: AliasOperations;
+    readonly billingAccount: BillingAccountOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly subscription: SubscriptionOperations;
+    readonly subscriptionOperation: SubscriptionOperationOperations;
+    readonly subscriptionPolicy: SubscriptionPolicyOperations;
+    readonly subscriptions: SubscriptionsOperations;
 }
 
 // @public
-export interface SubscriptionClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    endpoint?: string;
+export interface SubscriptionClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface SubscriptionEnableOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionCreationResult {
+    subscriptionLink?: string;
 }
 
 // @public
-export type SubscriptionEnableResponse = EnabledSubscriptionId;
-
-// @public
-export interface SubscriptionListResult {
-    nextLink?: string;
-    value?: Subscription[];
+export interface SubscriptionEnableOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -411,101 +407,83 @@ export interface SubscriptionName {
 }
 
 // @public
+export interface SubscriptionOperationGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SubscriptionOperationOperations {
+    get: (operationId: string, options?: SubscriptionOperationGetOptionalParams) => Promise<SubscriptionCreationResult>;
+}
+
+// @public
 export interface SubscriptionOperations {
-    acceptOwnershipStatus(subscriptionId: string, options?: SubscriptionAcceptOwnershipStatusOptionalParams): Promise<SubscriptionAcceptOwnershipStatusResponse>;
-    beginAcceptOwnership(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionAcceptOwnershipResponse>, SubscriptionAcceptOwnershipResponse>>;
-    beginAcceptOwnershipAndWait(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<SubscriptionAcceptOwnershipResponse>;
-    cancel(subscriptionId: string, options?: SubscriptionCancelOptionalParams): Promise<SubscriptionCancelResponse>;
-    enable(subscriptionId: string, options?: SubscriptionEnableOptionalParams): Promise<SubscriptionEnableResponse>;
-    rename(subscriptionId: string, body: SubscriptionName, options?: SubscriptionRenameOptionalParams): Promise<SubscriptionRenameResponse>;
+    acceptOwnership: (subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams) => PollerLike<OperationState<void>, void>;
+    acceptOwnershipStatus: (subscriptionId: string, options?: SubscriptionAcceptOwnershipStatusOptionalParams) => Promise<AcceptOwnershipStatusResponse>;
+    // @deprecated (undocumented)
+    beginAcceptOwnership: (subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginAcceptOwnershipAndWait: (subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams) => Promise<void>;
+    cancel: (subscriptionId: string, options?: SubscriptionCancelOptionalParams) => Promise<CanceledSubscriptionId>;
+    enable: (subscriptionId: string, options?: SubscriptionEnableOptionalParams) => Promise<EnabledSubscriptionId>;
+    rename: (subscriptionId: string, body: SubscriptionName, options?: SubscriptionRenameOptionalParams) => Promise<RenamedSubscriptionId>;
 }
 
 // @public
-export interface SubscriptionPolicies {
-    readonly locationPlacementId?: string;
-    readonly quotaId?: string;
-    readonly spendingLimit?: SpendingLimit;
+export interface SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SubscriptionPolicy {
-    addUpdatePolicyForTenant(body: PutTenantPolicyRequestProperties, options?: SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams): Promise<SubscriptionPolicyAddUpdatePolicyForTenantResponse>;
-    getPolicyForTenant(options?: SubscriptionPolicyGetPolicyForTenantOptionalParams): Promise<SubscriptionPolicyGetPolicyForTenantResponse>;
-    listPolicyForTenant(options?: SubscriptionPolicyListPolicyForTenantOptionalParams): PagedAsyncIterableIterator<GetTenantPolicyResponse>;
+export interface SubscriptionPolicyGetPolicyForTenantOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionPolicyListPolicyForTenantOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SubscriptionPolicyAddUpdatePolicyForTenantResponse = GetTenantPolicyResponse;
-
-// @public
-export interface SubscriptionPolicyGetPolicyForTenantOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionPolicyOperations {
+    addUpdatePolicyForTenant: (body: PutTenantPolicyRequestProperties, options?: SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams) => Promise<GetTenantPolicyResponse>;
+    getPolicyForTenant: (options?: SubscriptionPolicyGetPolicyForTenantOptionalParams) => Promise<GetTenantPolicyResponse>;
+    listPolicyForTenant: (options?: SubscriptionPolicyListPolicyForTenantOptionalParams) => PagedAsyncIterableIterator<GetTenantPolicyResponse>;
 }
 
 // @public
-export type SubscriptionPolicyGetPolicyForTenantResponse = GetTenantPolicyResponse;
-
-// @public
-export interface SubscriptionPolicyListPolicyForTenantNextOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionRenameOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SubscriptionPolicyListPolicyForTenantNextResponse = GetTenantPolicyListResponse;
-
-// @public
-export interface SubscriptionPolicyListPolicyForTenantOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsAcceptTargetDirectoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SubscriptionPolicyListPolicyForTenantResponse = GetTenantPolicyListResponse;
-
-// @public
-export interface SubscriptionRenameOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsDeleteTargetDirectoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SubscriptionRenameResponse = RenamedSubscriptionId;
-
-// @public
-export interface Subscriptions {
-    get(subscriptionId: string, options?: SubscriptionsGetOptionalParams): Promise<SubscriptionsGetResponse>;
-    list(options?: SubscriptionsListOptionalParams): PagedAsyncIterableIterator<Subscription>;
-    listLocations(subscriptionId: string, options?: SubscriptionsListLocationsOptionalParams): PagedAsyncIterableIterator<Location>;
+export interface SubscriptionsGetTargetDirectoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsListTargetDirectoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SubscriptionsGetResponse = Subscription;
-
-// @public
-export interface SubscriptionsListLocationsOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsOperations {
+    acceptTargetDirectory: (subscriptionId: string, options?: SubscriptionsAcceptTargetDirectoryOptionalParams) => Promise<void>;
+    deleteTargetDirectory: (subscriptionId: string, options?: SubscriptionsDeleteTargetDirectoryOptionalParams) => Promise<void>;
+    getTargetDirectory: (subscriptionId: string, options?: SubscriptionsGetTargetDirectoryOptionalParams) => Promise<TargetDirectoryResult>;
+    listTargetDirectory: (subscriptionId: string, options?: SubscriptionsListTargetDirectoryOptionalParams) => PagedAsyncIterableIterator<TargetDirectoryResult>;
+    putTargetDirectory: (subscriptionId: string, body: TargetDirectoryRequest, options?: SubscriptionsPutTargetDirectoryOptionalParams) => Promise<TargetDirectoryResult>;
+    targetDirectoryStatus: (subscriptionId: string, options?: SubscriptionsTargetDirectoryStatusOptionalParams) => Promise<TargetDirectoryResultProperties>;
 }
 
 // @public
-export type SubscriptionsListLocationsResponse = LocationListResult;
-
-// @public
-export interface SubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsPutTargetDirectoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SubscriptionsListNextResponse = SubscriptionListResult;
-
-// @public
-export interface SubscriptionsListOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsTargetDirectoryStatusOptionalParams extends OperationOptions {
 }
-
-// @public
-export type SubscriptionsListResponse = SubscriptionListResult;
-
-// @public
-export type SubscriptionState = "Enabled" | "Warned" | "PastDue" | "Disabled" | "Deleted";
 
 // @public
 export interface SystemData {
@@ -518,22 +496,33 @@ export interface SystemData {
 }
 
 // @public
-export interface TenantIdDescription {
-    readonly country?: string;
-    readonly countryCode?: string;
-    readonly defaultDomain?: string;
-    readonly displayName?: string;
-    readonly domains?: string;
-    readonly id?: string;
-    readonly tenantCategory?: string;
-    readonly tenantId?: string;
-    readonly tenantType?: string;
+export interface TargetDirectoryRequest {
+    properties?: TargetDirectoryRequestProperties;
 }
 
 // @public
-export interface TenantListResult {
-    nextLink: string;
-    value?: TenantIdDescription[];
+export interface TargetDirectoryRequestProperties {
+    destinationOwnerId?: string;
+    destinationTenantId?: string;
+}
+
+// @public
+export interface TargetDirectoryResult extends ProxyResource {
+    properties?: TargetDirectoryResultProperties;
+}
+
+// @public
+export interface TargetDirectoryResultProperties {
+    readonly acceptedDate?: Date;
+    readonly createdDate?: Date;
+    readonly destinationOwnerId?: string;
+    readonly destinationTenantId?: string;
+    readonly expiresOn?: Date;
+    readonly sourceOwnerEmail?: string;
+    readonly sourceOwnerId?: string;
+    readonly sourceTenantId?: string;
+    readonly status?: ChangeDirectoryOperationStatus;
+    readonly subscriptionId?: string;
 }
 
 // @public
@@ -543,25 +532,6 @@ export interface TenantPolicy {
     exemptedPrincipals?: string[];
     readonly policyId?: string;
 }
-
-// @public
-export interface Tenants {
-    list(options?: TenantsListOptionalParams): PagedAsyncIterableIterator<TenantIdDescription>;
-}
-
-// @public
-export interface TenantsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TenantsListNextResponse = TenantListResult;
-
-// @public
-export interface TenantsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TenantsListResponse = TenantListResult;
 
 // @public
 export type Workload = string;

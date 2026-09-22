@@ -16,6 +16,7 @@ import type {
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { InternalClientOptions } from "@typespec/ts-http-runtime";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -27,9 +28,10 @@ export type RequestParameters = {
    */
   headers?: RawHttpHeadersInput;
   /**
-   * Sets the accept header to send to the service
-   * defaults to 'application/json'. If also a header "accept" is set
-   * this property will take precedence.
+   * Sets the accept header to send to the service.
+   * When omitted, defaults to 'application/json' unless the client was created
+   * with `internal.noDefaultAcceptHeader` enabled, in which case no default is
+   * applied. If an accept header is set in `headers`, this property will take precedence.
    */
   accept?: string;
   /**
@@ -217,17 +219,9 @@ export interface Client {
   pathUnchecked: PathUnchecked;
 }
 
-/**
- * A Node.js Readable stream that also has a `destroy` method.
- */
-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
-  /**
-   * Destroy the stream. Optionally emit an 'error' event, and emit a
-   * 'close' event (unless emitClose is set to false). After this call,
-   * internal resources will be released.
-   */
-  destroy(error?: Error): void;
-}
+import type { NodeJSReadableStream } from "#platform/types";
+import type { WebReadableStream } from "@typespec/ts-http-runtime";
+export type { NodeJSReadableStream } from "#platform/types";
 
 /**
  * Http Response which body is a NodeJS stream object
@@ -246,7 +240,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: ReadableStream<Uint8Array>;
+  body?: WebReadableStream<Uint8Array>;
 };
 
 /**
@@ -374,6 +368,18 @@ export type ClientOptions = PipelineOptions & {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
+
+  /**
+   * Pipeline to use for the client. If not provided, a default pipeline will be created using the options provided.
+   * Use with caution -- when setting this option, all client options that are used in the creation of the default pipeline
+   * will be ignored.
+   */
+  pipeline?: Pipeline;
+  /**
+   * Options that are intended for use by generated clients and are not meant to
+   * be set by end users directly.
+   */
+  internal?: InternalClientOptions;
 };
 
 /**

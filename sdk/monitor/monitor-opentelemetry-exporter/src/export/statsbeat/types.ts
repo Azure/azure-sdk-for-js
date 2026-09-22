@@ -64,14 +64,14 @@ export class NetworkStatsbeat {
 export class CustomerSDKStats {
   public totalItemSuccessCount: Map<TelemetryType, number>;
 
-  // telemetry_type -> drop.code -> drop.reason -> success -> count
+  // telemetryType -> dropCode -> dropReason -> success -> count
   // success can be true/false for request/dependency telemetry, or null for other types
   public totalItemDropCount: Map<
     TelemetryType,
     Map<DropCode | number, Map<string, Map<boolean | null, number>>>
   >;
 
-  // Nested Map structure: telemetry_type -> retry.code -> retry.reason -> count
+  // Nested Map structure: telemetryType -> retryCode -> retryReason -> count
   public totalItemRetryCount: Map<TelemetryType, Map<RetryCode | number, Map<string, number>>>;
 
   constructor() {
@@ -91,6 +91,7 @@ export class CustomerSDKStats {
 export const CustomerStatsbeat = CustomerSDKStats;
 
 export const STATSBEAT_LANGUAGE = "node";
+export const NETWORK_STATSBEAT_ENDPOINT = "breeze";
 
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
 
@@ -123,9 +124,9 @@ export enum StatsbeatCounter {
 }
 
 export enum CustomSDKStatsCounter {
-  ITEM_SUCCESS_COUNT = "preview.item.success.count",
-  ITEM_DROP_COUNT = "preview.item.dropped.count",
-  ITEM_RETRY_COUNT = "preview.item.retry.count",
+  ITEM_SUCCESS_COUNT = "Item_Success_Count",
+  ITEM_DROP_COUNT = "Item_Dropped_Count",
+  ITEM_RETRY_COUNT = "Item_Retry_Count",
 }
 
 // Legacy alias for backward compatibility
@@ -143,6 +144,7 @@ export const EU_ENDPOINTS = [
   "northeurope",
   "francecentral",
   "francesouth",
+  "germanynorth",
   "germanywestcentral",
   "norwayeast",
   "norwaywest",

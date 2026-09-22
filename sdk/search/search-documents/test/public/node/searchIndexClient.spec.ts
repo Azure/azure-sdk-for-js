@@ -5,9 +5,6 @@ import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
-  AzureOpenAIParameters,
-  AzureOpenAIVectorizer,
-  KnowledgeAgent,
   SearchIndex,
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
@@ -19,7 +16,7 @@ import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import {
   createRandomIndexName,
-  createSimpleIndex,
+  createIndex,
   createSynonymMaps,
   deleteSynonymMaps,
   WAIT_TIME,
@@ -64,46 +61,33 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
   });
 
-  describe("stable", { skip: true }, () => {
+  describe("CRUD operations", () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
-    let TEST_AGENT_NAME: string;
-    let azureOpenAIParameters: AzureOpenAIParameters;
-    let knowledgeAgent: KnowledgeAgent;
 
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
-      TEST_AGENT_NAME = createRandomIndexName();
-      ({
-        indexClient,
-        indexName: TEST_INDEX_NAME,
-        agentName: TEST_AGENT_NAME,
-        azureOpenAIParameters,
-      } = await createClients<Hotel>(
+      ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
         defaultServiceVersion,
         recorder,
         TEST_INDEX_NAME,
-        TEST_AGENT_NAME,
       ));
-      knowledgeAgent = {
-        name: "knowledge-agent",
-        models: [{ kind: "azureOpenAI", azureOpenAIParameters }],
-        targetIndexes: [{ indexName: TEST_INDEX_NAME }],
-      };
 
       await createSynonymMaps(indexClient);
-      await createSimpleIndex(indexClient, TEST_INDEX_NAME);
+      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
     });
 
     afterEach(async () => {
-      await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
-      await delay(WAIT_TIME);
-      await deleteSynonymMaps(indexClient);
-      await recorder?.stop();
+      try {
+        await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+        await delay(WAIT_TIME);
+        await deleteSynonymMaps(indexClient).catch(() => {});
+      } finally {
+        await recorder?.stop();
+      }
     });
 
     describe("#synonymmaps", () => {
@@ -206,7 +190,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       it("gets the correct index object", async () => {
         const index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.name, TEST_INDEX_NAME);
-        assert.equal(index.fields.length, 5);
+        assert.equal(index.fields.length, 15);
       });
 
       it("throws error for invalid index object", async () => {
@@ -278,60 +262,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         });
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(TEST_INDEX_NAME);
-        assert.equal(index.fields.length, 6);
-      });
-
-      it("gets index statistics summary", async () => {
-        let stats;
-        for await (const elem of indexClient.getIndexStatsSummary()) {
-          if (elem.name === TEST_INDEX_NAME) {
-            stats = elem;
-          }
-        }
-
-        assert.deepEqual(stats, {
-          name: TEST_INDEX_NAME,
-          documentCount: 0,
-          storageSize: 0,
-          vectorIndexSize: 0,
-        });
-      });
-    });
-
-    describe("#knowledgeAgent", async () => {
-      beforeEach(async () => {
-        await indexClient.createKnowledgeAgent(knowledgeAgent);
-      });
-      afterEach(async () => {
-        await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
-      });
-
-      it("creates knowledge agents", async () => {
-        const test = await indexClient.getKnowledgeAgent(knowledgeAgent.name);
-        assert.deepEqual(test.name, knowledgeAgent.name);
-      });
-      it("updates knowledge agents", async () => {
-        const test = await indexClient.createOrUpdateKnowledgeAgent(
-          knowledgeAgent.name,
-          knowledgeAgent,
-        );
-
-        assert.deepEqual(test.name, knowledgeAgent.name);
-      });
-      it("lists knowledge agents", async () => {
-        const test = [];
-        for await (const ka of indexClient.listKnowledgeAgents()) {
-          test.push(ka.name);
-        }
-        assert.deepEqual(test, [knowledgeAgent.name]);
-      });
-      it("deletes knowledge agents", async () => {
-        await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
-        const test = [];
-        for await (const ka of indexClient.listKnowledgeAgents()) {
-          test.push(ka.name);
-        }
-        assert.deepEqual(test, []);
+        assert.equal(index.fields.length, 16);
       });
     });
 
@@ -343,15 +274,9 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         kind: "hnsw",
         parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
       };
-      const vectorizer: AzureOpenAIVectorizer = {
-        kind: "azureOpenAI",
-        vectorizerName: "vectorizer",
-        parameters: azureOpenAIParameters,
-      };
       const profile: VectorSearchProfile = {
         name: "profile",
         algorithmConfigurationName: algorithm.name,
-        vectorizerName: vectorizer.vectorizerName,
       };
 
       let index: SearchIndex = {
@@ -372,7 +297,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         ],
         vectorSearch: {
           algorithms: [algorithm],
-          vectorizers: [vectorizer],
           profiles: [profile],
         },
       };
@@ -380,10 +304,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(indexName);
         assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
-        assert.deepEqual(
-          index.vectorSearch?.vectorizers?.[0].vectorizerName,
-          vectorizer.vectorizerName,
-        );
         assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
       } finally {
         await indexClient.deleteIndex(index);

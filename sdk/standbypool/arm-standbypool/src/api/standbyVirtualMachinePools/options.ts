@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinePoolsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface StandbyVirtualMachinePoolsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinePoolsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface StandbyVirtualMachinePoolsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StandbyVirtualMachinePoolsUpdateOptionalParams extends OperationOptions {}

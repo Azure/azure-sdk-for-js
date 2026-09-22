@@ -45,13 +45,12 @@ For example, in V2 of the library, here's how you'd authenticate to the service 
 ```js
 const { EventGridClient } = require("@azure/eventgrid");
 const { TopicCredentials } = require("@azure/ms-rest-js");
-const { v4: uuidv4 } = require("uuid");
 
 const client = new EventGridClient(new TopicCredentials("<your-topic-key>"));
 
 client.publishEvents("<your-topic-host-name-here>", [
   {
-    id: uuid(),
+    id: crypto.randomUUID(),
     subject: "TestSubject",
     dataVersion: "1.0",
     eventType: "Microsoft.MockPublisher.TestEvent",

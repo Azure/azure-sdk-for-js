@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { ScriptCmdlet } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { get, list } from "../../api/scriptCmdlets/operations.js";
+import type {
   ScriptCmdletsGetOptionalParams,
   ScriptCmdletsListOptionalParams,
 } from "../../api/scriptCmdlets/options.js";
-import { get, list } from "../../api/scriptCmdlets/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ScriptCmdlet } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScriptCmdlets operations. */
 export interface ScriptCmdletsOperations {

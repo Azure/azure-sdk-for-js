@@ -1,80 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { MongoClusterManagementClient } from "./mongoClusterManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   MongoCluster,
   MongoClusterProperties,
-  KnownCreateMode,
   CreateMode,
   MongoClusterRestoreParameters,
   MongoClusterReplicaParameters,
   AdministratorProperties,
-  KnownProvisioningState,
   ProvisioningState,
-  KnownMongoClusterStatus,
   MongoClusterStatus,
-  KnownPublicNetworkAccess,
   PublicNetworkAccess,
   HighAvailabilityProperties,
-  KnownHighAvailabilityMode,
   HighAvailabilityMode,
   StorageProperties,
-  KnownStorageType,
   StorageType,
   ShardingProperties,
   ComputeProperties,
   BackupProperties,
   DataApiProperties,
-  KnownDataApiMode,
   DataApiMode,
   PrivateEndpointConnection,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
   PrivateLinkServiceConnectionState,
-  KnownPrivateEndpointServiceConnectionStatus,
   PrivateEndpointServiceConnectionStatus,
-  KnownPrivateEndpointConnectionProvisioningState,
   PrivateEndpointConnectionProvisioningState,
-  KnownPreviewFeature,
   PreviewFeature,
   ReplicationProperties,
-  KnownReplicationRole,
   ReplicationRole,
-  KnownReplicationState,
   ReplicationState,
   AuthConfigProperties,
-  KnownAuthenticationMode,
   AuthenticationMode,
   EncryptionProperties,
   CustomerManagedKeyEncryptionProperties,
   KeyEncryptionKeyIdentity,
-  KnownKeyEncryptionKeyIdentityType,
   KeyEncryptionKeyIdentityType,
+  NetworkBypassMode,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   TrackedResource,
   MongoClusterUpdate,
@@ -83,12 +68,9 @@ export {
   ConnectionString,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
-  KnownCheckNameAvailabilityReason,
   CheckNameAvailabilityReason,
   PromoteReplicaRequest,
-  KnownPromoteOption,
   PromoteOption,
-  KnownPromoteMode,
   PromoteMode,
   FirewallRule,
   FirewallRuleProperties,
@@ -101,25 +83,49 @@ export {
   UserProperties,
   IdentityProvider,
   IdentityProviderUnion,
-  KnownIdentityProviderType,
   IdentityProviderType,
   EntraIdentityProvider,
   EntraIdentityProviderProperties,
-  KnownEntraPrincipalType,
   EntraPrincipalType,
   DatabaseRole,
-  KnownUserRole,
   UserRole,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownCreateMode,
+  KnownProvisioningState,
+  KnownMongoClusterStatus,
+  KnownPublicNetworkAccess,
+  KnownHighAvailabilityMode,
+  KnownStorageType,
+  KnownDataApiMode,
+  KnownPrivateEndpointServiceConnectionStatus,
+  KnownPrivateEndpointConnectionProvisioningState,
+  KnownPreviewFeature,
+  KnownReplicationRole,
+  KnownReplicationState,
+  KnownAuthenticationMode,
+  KnownKeyEncryptionKeyIdentityType,
+  KnownNetworkBypassMode,
+  KnownManagedServiceIdentityType,
+  KnownCreatedByType,
+  KnownCheckNameAvailabilityReason,
+  KnownPromoteOption,
+  KnownPromoteMode,
+  KnownIdentityProviderType,
+  KnownEntraPrincipalType,
+  KnownUserRole,
   KnownVersions,
 } from "./models/index.js";
-export { MongoClusterManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { MongoClusterManagementClientOptionalParams } from "./api/index.js";
+export type {
   FirewallRulesListByMongoClusterOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesGetOptionalParams,
 } from "./api/firewallRules/index.js";
-export {
+export type {
   MongoClustersPromoteOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
   MongoClustersListConnectionStringsOptionalParams,
@@ -130,22 +136,22 @@ export {
   MongoClustersCreateOrUpdateOptionalParams,
   MongoClustersGetOptionalParams,
 } from "./api/mongoClusters/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsListByMongoClusterOptionalParams,
 } from "./api/privateEndpointConnections/index.js";
-export { PrivateLinksListByMongoClusterOptionalParams } from "./api/privateLinks/index.js";
-export { ReplicasListByParentOptionalParams } from "./api/replicas/index.js";
-export {
+export type { PrivateLinksListByMongoClusterOptionalParams } from "./api/privateLinks/index.js";
+export type { ReplicasListByParentOptionalParams } from "./api/replicas/index.js";
+export type {
   UsersListByMongoClusterOptionalParams,
   UsersDeleteOptionalParams,
   UsersCreateOrUpdateOptionalParams,
   UsersGetOptionalParams,
 } from "./api/users/index.js";
-export {
+export type {
   FirewallRulesOperations,
   MongoClustersOperations,
   OperationsOperations,
@@ -154,5 +160,7 @@ export {
   ReplicasOperations,
   UsersOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

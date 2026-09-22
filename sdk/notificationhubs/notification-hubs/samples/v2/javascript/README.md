@@ -59,10 +59,10 @@ npm install
 node createInstallation.fcmLegacy.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env NOTIFICATIONHUBS_CONNECTION_STRING="<notificationhubs connection string>" NOTIFICATION_HUB_NAME="<notification hub name>" FCM_REGISTRATION_ID="<fcm registration id>" node createInstallation.fcmLegacy.js
+npx cross-env NOTIFICATIONHUBS_CONNECTION_STRING="<notificationhubs connection string>" NOTIFICATION_HUB_NAME="<notification hub name>" FCM_REGISTRATION_ID="<fcm registration id>" node createInstallation.fcmLegacy.js
 ```
 
 ## Next Steps

@@ -14,6 +14,35 @@ import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
 import type { NotebookOperationResultGetOptionalParams } from "../models/index.js";
 
+/** Class containing NotebookOperationResult operations. */
+export class NotebookOperationResultImpl implements NotebookOperationResult {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class NotebookOperationResult class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Get notebook operation result
+   * @param operationId Operation ID.
+   * @param options The options parameters.
+   */
+  async get(
+    operationId: string,
+    options?: NotebookOperationResultGetOptionalParams,
+  ): Promise<void> {
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { operationId, options },
+        getOperationSpec,
+      ) as Promise<void>;
+    });
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -34,33 +63,3 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-
-/** Class containing NotebookOperationResult operations. */
-export class NotebookOperationResultImpl implements NotebookOperationResult {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class NotebookOperationResult class.
-   * @param client - Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Get notebook operation result
-   * @param operationId - Operation ID.
-   * @param options - The options parameters.
-   */
-  async get(
-    operationId: string,
-    options?: NotebookOperationResultGetOptionalParams,
-  ): Promise<void> {
-    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (updatedOptions) => {
-      return this.client.sendOperationRequest(
-        { operationId, updatedOptions },
-        getOperationSpec,
-      ) as Promise<void>;
-    });
-  }
-}

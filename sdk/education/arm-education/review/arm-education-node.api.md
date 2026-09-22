@@ -4,9 +4,12 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -18,35 +21,40 @@ export interface Amount {
 }
 
 // @public
-export type CreatedByType = string;
-
-// @public (undocumented)
-export class EducationManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: EducationManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    grants: Grants;
-    // (undocumented)
-    joinRequests: JoinRequests;
-    // (undocumented)
-    labs: Labs;
-    // (undocumented)
-    operations: Operations;
-    redeemInvitationCode(parameters: RedeemRequest, options?: RedeemInvitationCodeOptionalParams): Promise<void>;
-    // (undocumented)
-    studentLabs: StudentLabs;
-    // (undocumented)
-    students: Students;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export interface EducationManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
+
+// @public (undocumented)
+export class EducationManagementClient {
+    constructor(credential: TokenCredential, options?: EducationManagementClientOptionalParams);
+    readonly grants: GrantsOperations;
+    readonly joinRequests: JoinRequestsOperations;
+    readonly labs: LabsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    redeemInvitationCode(parameters: RedeemRequest, options?: RedeemInvitationCodeOptionalParams): Promise<void>;
+    readonly studentLabs: StudentLabsOperations;
+    readonly students: StudentsOperations;
+}
+
+// @public
+export interface EducationManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -61,10 +69,7 @@ export interface ErrorResponseBody {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GrantDetails extends Resource {
+export interface GrantDetailProperties {
     readonly allocatedBudget?: Amount;
     readonly effectiveDate?: Date;
     readonly expirationDate?: Date;
@@ -74,55 +79,36 @@ export interface GrantDetails extends Resource {
 }
 
 // @public
-export interface GrantListResponse {
-    readonly nextLink?: string;
-    readonly value?: GrantDetails[];
+export interface GrantDetails extends ProxyResource {
+    readonly allocatedBudget?: Amount;
+    readonly effectiveDate?: Date;
+    readonly expirationDate?: Date;
+    readonly offerCap?: Amount;
+    readonly offerType?: GrantType;
+    readonly status?: GrantStatus;
 }
 
 // @public
-export interface Grants {
-    get(billingAccountName: string, billingProfileName: string, options?: GrantsGetOptionalParams): Promise<GrantsGetResponse>;
-    list(billingAccountName: string, billingProfileName: string, options?: GrantsListOptionalParams): PagedAsyncIterableIterator<GrantDetails>;
-    listAll(options?: GrantsListAllOptionalParams): PagedAsyncIterableIterator<GrantDetails>;
-}
-
-// @public
-export interface GrantsGetOptionalParams extends coreClient.OperationOptions {
+export interface GrantsGetOptionalParams extends OperationOptions {
     includeAllocatedBudget?: boolean;
 }
 
 // @public
-export type GrantsGetResponse = GrantDetails;
-
-// @public
-export interface GrantsListAllNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrantsListAllNextResponse = GrantListResponse;
-
-// @public
-export interface GrantsListAllOptionalParams extends coreClient.OperationOptions {
+export interface GrantsListAllOptionalParams extends OperationOptions {
     includeAllocatedBudget?: boolean;
 }
 
 // @public
-export type GrantsListAllResponse = GrantListResponse;
-
-// @public
-export interface GrantsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrantsListNextResponse = GrantListResponse;
-
-// @public
-export interface GrantsListOptionalParams extends coreClient.OperationOptions {
+export interface GrantsListOptionalParams extends OperationOptions {
     includeAllocatedBudget?: boolean;
 }
 
 // @public
-export type GrantsListResponse = GrantListResponse;
+export interface GrantsOperations {
+    get: (billingAccountName: string, billingProfileName: string, options?: GrantsGetOptionalParams) => Promise<GrantDetails>;
+    list: (billingAccountName: string, billingProfileName: string, options?: GrantsListOptionalParams) => PagedAsyncIterableIterator<GrantDetails>;
+    listAll: (options?: GrantsListAllOptionalParams) => PagedAsyncIterableIterator<GrantDetails>;
+}
 
 // @public
 export type GrantStatus = string;
@@ -135,8 +121,10 @@ export interface InviteCodeGenerateRequest {
     maxStudentCount?: number;
 }
 
+export { isRestError }
+
 // @public
-export interface JoinRequestDetails extends Resource {
+export interface JoinRequestDetails extends ProxyResource {
     email?: string;
     firstName?: string;
     lastName?: string;
@@ -144,48 +132,37 @@ export interface JoinRequestDetails extends Resource {
 }
 
 // @public
-export interface JoinRequestList {
-    readonly nextLink?: string;
-    readonly value?: JoinRequestDetails[];
+export interface JoinRequestProperties {
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    status?: JoinRequestStatus;
 }
 
 // @public
-export interface JoinRequests {
-    approve(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, joinRequestName: string, options?: JoinRequestsApproveOptionalParams): Promise<void>;
-    deny(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, joinRequestName: string, options?: JoinRequestsDenyOptionalParams): Promise<void>;
-    get(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, joinRequestName: string, options?: JoinRequestsGetOptionalParams): Promise<JoinRequestsGetResponse>;
-    list(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: JoinRequestsListOptionalParams): PagedAsyncIterableIterator<JoinRequestDetails>;
+export interface JoinRequestsApproveOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface JoinRequestsApproveOptionalParams extends coreClient.OperationOptions {
+export interface JoinRequestsDenyOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface JoinRequestsDenyOptionalParams extends coreClient.OperationOptions {
+export interface JoinRequestsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface JoinRequestsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JoinRequestsGetResponse = JoinRequestDetails;
-
-// @public
-export interface JoinRequestsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JoinRequestsListNextResponse = JoinRequestList;
-
-// @public
-export interface JoinRequestsListOptionalParams extends coreClient.OperationOptions {
+export interface JoinRequestsListOptionalParams extends OperationOptions {
     includeDenied?: boolean;
 }
 
 // @public
-export type JoinRequestsListResponse = JoinRequestList;
+export interface JoinRequestsOperations {
+    approve: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, joinRequestName: string, options?: JoinRequestsApproveOptionalParams) => Promise<void>;
+    deny: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, joinRequestName: string, options?: JoinRequestsDenyOptionalParams) => Promise<void>;
+    get: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, joinRequestName: string, options?: JoinRequestsGetOptionalParams) => Promise<JoinRequestDetails>;
+    list: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: JoinRequestsListOptionalParams) => PagedAsyncIterableIterator<JoinRequestDetails>;
+}
 
 // @public
 export type JoinRequestStatus = string;
@@ -251,10 +228,13 @@ export enum KnownStudentRole {
 }
 
 // @public
-export interface LabDetails extends Resource {
+export enum KnownVersions {
+    V20211201Preview = "2021-12-01-preview"
+}
+
+// @public
+export interface LabDetails extends ProxyResource {
     budgetPerStudent?: Amount;
-    currencyPropertiesTotalAllocatedBudgetCurrency?: string;
-    currencyPropertiesTotalBudgetCurrency?: string;
     description?: string;
     displayName?: string;
     readonly effectiveDate?: Date;
@@ -262,83 +242,64 @@ export interface LabDetails extends Resource {
     readonly invitationCode?: string;
     readonly maxStudentCount?: number;
     readonly status?: LabStatus;
-    valuePropertiesTotalAllocatedBudgetValue?: number;
-    valuePropertiesTotalBudgetValue?: number;
+    readonly totalAllocatedBudget?: Amount;
+    readonly totalBudget?: Amount;
 }
 
 // @public
-export interface LabListResult {
-    readonly nextLink?: string;
-    readonly value?: LabDetails[];
+export interface LabProperties {
+    budgetPerStudent: Amount;
+    currency?: string;
+    currencyTotalAllocatedBudgetCurrency?: string;
+    description: string;
+    displayName: string;
+    readonly effectiveDate?: Date;
+    expirationDate: Date;
+    readonly invitationCode?: string;
+    readonly maxStudentCount?: number;
+    readonly status?: LabStatus;
+    value?: number;
+    valueTotalAllocatedBudgetValue?: number;
 }
 
 // @public
-export interface Labs {
-    createOrUpdate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: LabDetails, options?: LabsCreateOrUpdateOptionalParams): Promise<LabsCreateOrUpdateResponse>;
-    delete(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: LabsDeleteOptionalParams): Promise<void>;
-    generateInviteCode(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: InviteCodeGenerateRequest, options?: LabsGenerateInviteCodeOptionalParams): Promise<LabsGenerateInviteCodeResponse>;
-    get(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: LabsGetOptionalParams): Promise<LabsGetResponse>;
-    list(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: LabsListOptionalParams): PagedAsyncIterableIterator<LabDetails>;
-    listAll(billingAccountName: string, billingProfileName: string, options?: LabsListAllOptionalParams): PagedAsyncIterableIterator<LabDetails>;
+export interface LabsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface LabsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface LabsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LabsCreateOrUpdateResponse = LabDetails;
-
-// @public
-export interface LabsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface LabsGenerateInviteCodeOptionalParams extends coreClient.OperationOptions {
+export interface LabsGenerateInviteCodeOptionalParams extends OperationOptions {
     onlyUpdateStudentCountParameter?: boolean;
 }
 
 // @public
-export type LabsGenerateInviteCodeResponse = LabDetails;
-
-// @public
-export interface LabsGetOptionalParams extends coreClient.OperationOptions {
+export interface LabsGetOptionalParams extends OperationOptions {
     includeBudget?: boolean;
 }
 
 // @public
-export type LabsGetResponse = LabDetails;
-
-// @public
-export interface LabsListAllNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LabsListAllNextResponse = LabListResult;
-
-// @public
-export interface LabsListAllOptionalParams extends coreClient.OperationOptions {
+export interface LabsListAllOptionalParams extends OperationOptions {
     includeBudget?: boolean;
     includeDeleted?: boolean;
 }
 
 // @public
-export type LabsListAllResponse = LabListResult;
-
-// @public
-export interface LabsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LabsListNextResponse = LabListResult;
-
-// @public
-export interface LabsListOptionalParams extends coreClient.OperationOptions {
+export interface LabsListOptionalParams extends OperationOptions {
     includeBudget?: boolean;
 }
 
 // @public
-export type LabsListResponse = LabListResult;
+export interface LabsOperations {
+    createOrUpdate: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: LabDetails, options?: LabsCreateOrUpdateOptionalParams) => Promise<LabDetails>;
+    delete: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: LabsDeleteOptionalParams) => Promise<void>;
+    generateInviteCode: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, parameters: InviteCodeGenerateRequest, options?: LabsGenerateInviteCodeOptionalParams) => Promise<LabDetails>;
+    get: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: LabsGetOptionalParams) => Promise<LabDetails>;
+    list: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: LabsListOptionalParams) => PagedAsyncIterableIterator<LabDetails>;
+    listAll: (billingAccountName: string, billingProfileName: string, options?: LabsListAllOptionalParams) => PagedAsyncIterableIterator<LabDetails>;
+}
 
 // @public
 export type LabStatus = string;
@@ -363,26 +324,39 @@ export interface OperationDisplay {
 // @public
 export interface OperationListResult {
     readonly nextLink?: string;
-    readonly value?: Operation[];
+    readonly value: Operation[];
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => Promise<OperationListResult>;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
 // @public
-export interface RedeemInvitationCodeOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface RedeemInvitationCodeOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -400,8 +374,10 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
-export interface StudentDetails extends Resource {
+export interface StudentDetails extends ProxyResource {
     budget?: Amount;
     readonly effectiveDate?: Date;
     email?: string;
@@ -416,7 +392,7 @@ export interface StudentDetails extends Resource {
 }
 
 // @public
-export interface StudentLabDetails extends Resource {
+export interface StudentLabDetails extends ProxyResource {
     readonly budget?: Amount;
     readonly description?: string;
     readonly displayName?: string;
@@ -429,90 +405,77 @@ export interface StudentLabDetails extends Resource {
 }
 
 // @public
-export interface StudentLabListResult {
-    readonly nextLink?: string;
-    readonly value?: StudentLabDetails[];
+export interface StudentLabProperties {
+    readonly budget?: Amount;
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly effectiveDate?: Date;
+    readonly expirationDate?: Date;
+    readonly labScope?: string;
+    readonly role?: StudentRole;
+    readonly status?: StudentLabStatus;
+    readonly subscriptionId?: string;
 }
 
 // @public
-export interface StudentLabs {
-    get(studentLabName: string, options?: StudentLabsGetOptionalParams): Promise<StudentLabsGetResponse>;
-    listAll(options?: StudentLabsListAllOptionalParams): PagedAsyncIterableIterator<StudentLabDetails>;
+export interface StudentLabsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StudentLabsGetOptionalParams extends coreClient.OperationOptions {
+export interface StudentLabsListAllOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StudentLabsGetResponse = StudentLabDetails;
-
-// @public
-export interface StudentLabsListAllNextOptionalParams extends coreClient.OperationOptions {
+export interface StudentLabsOperations {
+    get: (studentLabName: string, options?: StudentLabsGetOptionalParams) => Promise<StudentLabDetails>;
+    listAll: (options?: StudentLabsListAllOptionalParams) => PagedAsyncIterableIterator<StudentLabDetails>;
 }
-
-// @public
-export type StudentLabsListAllNextResponse = StudentLabListResult;
-
-// @public
-export interface StudentLabsListAllOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StudentLabsListAllResponse = StudentLabListResult;
 
 // @public
 export type StudentLabStatus = string;
 
 // @public
-export interface StudentListResult {
-    readonly nextLink?: string;
-    readonly value?: StudentDetails[];
+export interface StudentProperties {
+    budget: Amount;
+    readonly effectiveDate?: Date;
+    email: string;
+    expirationDate: Date;
+    firstName: string;
+    lastName: string;
+    role: StudentRole;
+    readonly status?: StudentLabStatus;
+    subscriptionAlias?: string;
+    readonly subscriptionId?: string;
+    subscriptionInviteLastSentDate?: Date;
 }
 
 // @public
 export type StudentRole = string;
 
 // @public
-export interface Students {
-    createOrUpdate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, studentAlias: string, parameters: StudentDetails, options?: StudentsCreateOrUpdateOptionalParams): Promise<StudentsCreateOrUpdateResponse>;
-    delete(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, studentAlias: string, options?: StudentsDeleteOptionalParams): Promise<void>;
-    get(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, studentAlias: string, options?: StudentsGetOptionalParams): Promise<StudentsGetResponse>;
-    list(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: StudentsListOptionalParams): PagedAsyncIterableIterator<StudentDetails>;
+export interface StudentsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StudentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface StudentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StudentsCreateOrUpdateResponse = StudentDetails;
-
-// @public
-export interface StudentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface StudentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StudentsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StudentsGetResponse = StudentDetails;
-
-// @public
-export interface StudentsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StudentsListNextResponse = StudentListResult;
-
-// @public
-export interface StudentsListOptionalParams extends coreClient.OperationOptions {
+export interface StudentsListOptionalParams extends OperationOptions {
     includeDeleted?: boolean;
 }
 
 // @public
-export type StudentsListResponse = StudentListResult;
+export interface StudentsOperations {
+    createOrUpdate: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, studentAlias: string, parameters: StudentDetails, options?: StudentsCreateOrUpdateOptionalParams) => Promise<StudentDetails>;
+    delete: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, studentAlias: string, options?: StudentsDeleteOptionalParams) => Promise<void>;
+    get: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, studentAlias: string, options?: StudentsGetOptionalParams) => Promise<StudentDetails>;
+    list: (billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: StudentsListOptionalParams) => PagedAsyncIterableIterator<StudentDetails>;
+}
 
 // @public
 export interface SystemData {

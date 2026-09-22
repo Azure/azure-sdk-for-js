@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { BlockClient } from "./blockClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
@@ -22,20 +23,16 @@ export {
   Reservation,
   ReservationPropertiesBaseResourceProperties,
   MarketplaceDetails,
-  KnownMarketplaceSubscriptionStatus,
   MarketplaceSubscriptionStatus,
   OfferDetails,
   UserDetails,
   CompanyDetails,
   Address,
-  KnownProvisioningState,
   ProvisioningState,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
-  KnownResourceProvisioningState,
   ResourceProvisioningState,
   ReservationUpdate,
   ReservationUpdateProperties,
@@ -48,14 +45,17 @@ export {
   ReservationBillingStatus,
   ReservationBillingUsageReport,
   BillingUsageProperty,
-  KnownUsageSeverity,
   UsageSeverity,
+  LinkSaaSRequest,
+  LatestLinkedSaaSResponse,
   StoragePool,
   StoragePoolProperties,
   VnetInjection,
   AzureVmwareService,
+  PlatformConsoleSettings,
+  PlatformConsoleAccessSettings,
+  PlatformConsoleSubnet,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   StoragePoolUpdate,
@@ -66,7 +66,6 @@ export {
   IopsUsage,
   Space,
   Alert,
-  KnownAlertLevel,
   AlertLevel,
   AvsConnection,
   ServiceInitializationHandle,
@@ -74,6 +73,15 @@ export {
   StoragePoolEnableAvsConnectionPost,
   StoragePoolFinalizeAvsConnectionPost,
   ServiceInitializationInfo,
+  PlatformConsoleActivationCode,
+  PlatformConsoleAuthConfig,
+  PlatformConsoleAuthConfigUnion,
+  PlatformConsoleAuthType,
+  SshPlatformConsoleAuthConfig,
+  PlatformConsoleRole,
+  PlatformConsoleAuthResult,
+  PlatformConsoleAuthResultUnion,
+  SshPlatformConsoleAuthResult,
   AvsStorageContainer,
   AvsStorageContainerProperties,
   ProxyResource,
@@ -82,49 +90,100 @@ export {
   SoftDeletion,
   AvsStorageContainerVolume,
   VolumeProperties,
-  KnownVolumeType,
   VolumeType,
   AvsDiskDetails,
   AvsVmUpdate,
   AvsVmUpdateProperties,
   AvsVm,
   AvsVmProperties,
-  KnownVolumeContainerType,
   VolumeContainerType,
   AvsVmDetails,
-  KnownVmType,
   VmType,
   AvsVmVolumeUpdate,
   AvsVmVolumeUpdateProperties,
   AvsVmVolume,
+  VolumeGroup,
+  VolumeGroupProperties,
+  VolumeGroupSourceType,
+  PerformanceParameters,
+  ProtectionParameters,
+  VolumeGroupUpdate,
+  VolumeGroupUpdateProperties,
+  ConnectionParametersResponse,
+  IscsiConnectionParameters,
+  IscsiEndpoint,
+  VolumeGroupStatus,
+  VolumeGroupOverwriteRequest,
+  Volume,
+  AzureVolumeProperties,
+  VolumeSourceType,
+  VolumeSnapshotSource,
+  DestroyedStateProperties,
+  VolumeUpdate,
+  VolumeUpdateProperties,
+  VolumeOverwriteRequest,
+  RecoverableVolumeGroup,
+  RecoverableVolumeGroupProperties,
+  ActivateSaaSRequest,
+  SaaSResourceDetailsResponse,
+  VolumeGroupSnapshot,
+  VolumeGroupSnapshotProperties,
+  VolumeSnapshotInfo,
+  VolumeGroupSnapshotListRequest,
+  VolumeGroupSnapshotPostListResult,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownMarketplaceSubscriptionStatus,
+  KnownProvisioningState,
+  KnownCreatedByType,
+  KnownResourceProvisioningState,
+  KnownUsageSeverity,
+  KnownManagedServiceIdentityType,
+  KnownAlertLevel,
+  KnownPlatformConsoleAuthType,
+  KnownPlatformConsoleRole,
+  KnownVolumeType,
+  KnownVolumeContainerType,
+  KnownVmType,
+  KnownVolumeGroupSourceType,
+  KnownVolumeSourceType,
   KnownVersions,
 } from "./models/index.js";
-export { BlockClientOptionalParams } from "./api/index.js";
-export {
+export type { BlockClientOptionalParams } from "./api/index.js";
+export type {
   AvsStorageContainersListByStoragePoolOptionalParams,
   AvsStorageContainersDeleteOptionalParams,
   AvsStorageContainersGetOptionalParams,
 } from "./api/avsStorageContainers/index.js";
-export {
+export type {
   AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
   AvsStorageContainerVolumesDeleteOptionalParams,
   AvsStorageContainerVolumesGetOptionalParams,
   AvsStorageContainerVolumesUpdateOptionalParams,
 } from "./api/avsStorageContainerVolumes/index.js";
-export {
+export type {
   AvsVmsListByStoragePoolOptionalParams,
   AvsVmsDeleteOptionalParams,
   AvsVmsGetOptionalParams,
   AvsVmsUpdateOptionalParams,
 } from "./api/avsVms/index.js";
-export {
+export type {
   AvsVmVolumesListByAvsVmOptionalParams,
   AvsVmVolumesDeleteOptionalParams,
   AvsVmVolumesGetOptionalParams,
   AvsVmVolumesUpdateOptionalParams,
 } from "./api/avsVmVolumes/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  RecoverableVolumeGroupsDeleteOptionalParams,
+  RecoverableVolumeGroupsListByStoragePoolOptionalParams,
+  RecoverableVolumeGroupsGetOptionalParams,
+} from "./api/recoverableVolumeGroups/index.js";
+export type {
+  ReservationsLatestLinkedSaaSOptionalParams,
+  ReservationsLinkSaaSOptionalParams,
   ReservationsGetBillingReportOptionalParams,
   ReservationsGetBillingStatusOptionalParams,
   ReservationsGetResourceLimitsOptionalParams,
@@ -135,7 +194,10 @@ export {
   ReservationsCreateOptionalParams,
   ReservationsGetOptionalParams,
 } from "./api/reservations/index.js";
-export {
+export type { SaaSOperationGroupActivateResourceOptionalParams } from "./api/saaSOperationGroup/index.js";
+export type {
+  StoragePoolsConfigurePlatformConsoleAuthOptionalParams,
+  StoragePoolsListPlatformConsoleActivationCodeOptionalParams,
   StoragePoolsRepairAvsConnectionOptionalParams,
   StoragePoolsFinalizeAvsConnectionOptionalParams,
   StoragePoolsDisableAvsConnectionOptionalParams,
@@ -150,13 +212,46 @@ export {
   StoragePoolsCreateOptionalParams,
   StoragePoolsGetOptionalParams,
 } from "./api/storagePools/index.js";
-export {
+export type {
+  VolumeGroupsOverwriteOptionalParams,
+  VolumeGroupsGetStatusOptionalParams,
+  VolumeGroupsListConnectionParametersOptionalParams,
+  VolumeGroupsListByStoragePoolOptionalParams,
+  VolumeGroupsDeleteOptionalParams,
+  VolumeGroupsUpdateOptionalParams,
+  VolumeGroupsCreateOptionalParams,
+  VolumeGroupsGetOptionalParams,
+} from "./api/volumeGroups/index.js";
+export type {
+  VolumeGroupSnapshotsListSnapshotsOptionalParams,
+  VolumeGroupSnapshotsListByVolumeGroupOptionalParams,
+  VolumeGroupSnapshotsDeleteOptionalParams,
+  VolumeGroupSnapshotsCreateOptionalParams,
+  VolumeGroupSnapshotsGetOptionalParams,
+} from "./api/volumeGroupSnapshots/index.js";
+export type {
+  VolumesOverwriteOptionalParams,
+  VolumesListByVolumeGroupOptionalParams,
+  VolumesDeleteOptionalParams,
+  VolumesUpdateOptionalParams,
+  VolumesCreateOptionalParams,
+  VolumesGetOptionalParams,
+} from "./api/volumes/index.js";
+export type {
   AvsStorageContainersOperations,
   AvsStorageContainerVolumesOperations,
   AvsVmsOperations,
   AvsVmVolumesOperations,
   OperationsOperations,
+  RecoverableVolumeGroupsOperations,
   ReservationsOperations,
+  SaaSOperationGroupOperations,
   StoragePoolsOperations,
+  VolumeGroupsOperations,
+  VolumeGroupSnapshotsOperations,
+  VolumesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -5,7 +5,6 @@ import type {
   AvailabilityData,
   TelemetryItem as Envelope,
   MessageData,
-  MonitorDomain,
   PageViewData,
   TelemetryEventData,
   TelemetryExceptionData,
@@ -13,10 +12,12 @@ import type {
 } from "../generated/index.js";
 import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
 import {
+  createCustomMeasurements,
   createTagsFromResource,
   hrTimeToDate,
   isSyntheticSource,
   serializeAttribute,
+  truncateCustomDimensions,
 } from "./common.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
@@ -30,10 +31,17 @@ import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "..
 import type { Attributes } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
 import {
+  ApplicationInsightsAvailabilityDuration,
+  ApplicationInsightsAvailabilityId,
   ApplicationInsightsAvailabilityBaseType,
+  ApplicationInsightsAvailabilityMessage,
   ApplicationInsightsAvailabilityName,
+  ApplicationInsightsAvailabilityNameAttribute,
+  ApplicationInsightsAvailabilityRunLocation,
+  ApplicationInsightsAvailabilitySuccess,
   ApplicationInsightsBaseType,
   ApplicationInsightsCustomEventName,
+  ApplicationInsightsCustomMeasurements,
   ApplicationInsightsEventBaseType,
   ApplicationInsightsEventName,
   ApplicationInsightsExceptionBaseType,
@@ -42,6 +50,7 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  DEFAULT_BREEZE_DATA_VERSION,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
 
@@ -58,11 +67,13 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
-  let baseData: MonitorDomain;
+  let baseData:
+    TelemetryEventData | TelemetryExceptionData | MessageData | AvailabilityData | PageViewData;
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
   const isExceptionType: boolean = !!(exceptionType && exceptionStacktrace) || false;
+  const availabilityData = getAvailabilityData(log);
   const isMessageType: boolean =
     !log.attributes[ApplicationInsightsBaseType] &&
     !log.attributes[ApplicationInsightsCustomEventName] &&
@@ -78,49 +89,64 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       stack: String(exceptionStacktrace),
     };
     const exceptionData: TelemetryExceptionData = {
+      kind: "ExceptionData",
       exceptions: [exceptionDetails],
-      severityLevel: String(getSeverity(log.severityNumber)),
-      version: 2,
+      severityLevel: getSeverity(log.severityNumber),
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = exceptionData;
   } else if (log.attributes[ApplicationInsightsCustomEventName]) {
     name = ApplicationInsightsEventName;
     baseType = ApplicationInsightsEventBaseType;
     const eventData: TelemetryEventData = {
+      kind: "EventData",
       name: String(log.attributes[ApplicationInsightsCustomEventName]),
-      version: 2,
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = eventData;
-    measurements = getLegacyApplicationInsightsMeasurements(log);
+    measurements = {
+      ...getLegacyApplicationInsightsMeasurements(log),
+      ...measurements,
+    };
+  } else if (availabilityData) {
+    name = ApplicationInsightsAvailabilityName;
+    baseType = ApplicationInsightsAvailabilityBaseType;
+    baseData = availabilityData;
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
     const messageData: MessageData = {
-      message: String(log.body),
-      severityLevel: String(getSeverity(log.severityNumber)),
-      version: 2,
+      kind: "MessageData",
+      message: serializeAttribute(log.body),
+      severityLevel: getSeverity(log.severityNumber),
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = messageData;
   } else {
     // If Legacy Application Insights Log
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
     name = getLegacyApplicationInsightsName(log);
-    baseData = getLegacyApplicationInsightsBaseData(log);
-    measurements = getLegacyApplicationInsightsMeasurements(log);
-    if (!baseData) {
+    const legacyBaseData = getLegacyApplicationInsightsBaseData(log);
+    if (!legacyBaseData) {
       // Failed to parse log
       return;
     }
+    const legacyMeasurements = getLegacyApplicationInsightsMeasurements(log);
+    measurements =
+      baseType === ApplicationInsightsExceptionBaseType ||
+      baseType === ApplicationInsightsMessageBaseType ||
+      baseType === ApplicationInsightsEventBaseType
+        ? { ...legacyMeasurements, ...measurements }
+        : legacyMeasurements;
+    baseData = legacyBaseData;
   }
   // Truncate properties
-  if (baseData.message) {
+  if (baseData && "message" in baseData && baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
-  if (properties) {
-    for (const key of Object.keys(properties)) {
-      properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
-    }
-  }
+  baseData.properties = truncateCustomDimensions(properties);
+  baseData.measurements = measurements;
+
   return {
     name,
     sampleRate,
@@ -130,13 +156,44 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     version: 1,
     data: {
       baseType,
-      baseData: {
-        ...baseData,
-        properties,
-        measurements,
-      },
+      baseData: baseData,
     },
   };
+}
+
+function getAvailabilityData(log: ReadableLogRecord): AvailabilityData | undefined {
+  if (
+    log.attributes[ApplicationInsightsBaseType] ||
+    log.attributes[ApplicationInsightsAvailabilityNameAttribute] === undefined
+  ) {
+    return;
+  }
+
+  const id = getAttributeString(log, ApplicationInsightsAvailabilityId);
+  const name = getAttributeString(log, ApplicationInsightsAvailabilityNameAttribute);
+  const duration = getAttributeString(log, ApplicationInsightsAvailabilityDuration);
+  const success = getAttributeString(log, ApplicationInsightsAvailabilitySuccess);
+  if (!id || !name || !duration || !success) {
+    return;
+  }
+
+  return {
+    kind: "AvailabilityData",
+    version: DEFAULT_BREEZE_DATA_VERSION,
+    id,
+    name,
+    duration,
+    success: success.toLowerCase() === "true",
+    runLocation: getAttributeString(log, ApplicationInsightsAvailabilityRunLocation),
+    message:
+      getAttributeString(log, ApplicationInsightsAvailabilityMessage) ??
+      (log.body === undefined ? undefined : serializeAttribute(log.body)),
+  };
+}
+
+function getAttributeString(log: ReadableLogRecord, attributeName: string): string | undefined {
+  const value = log.attributes[attributeName];
+  return value === undefined ? undefined : String(value);
 }
 
 function createTagsFromLog(log: ReadableLogRecord): Tags {
@@ -183,20 +240,19 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
 }
 
 function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measurements] {
-  const measurements: Measurements = {};
+  const measurements = createCustomMeasurements(log.attributes);
   const properties: { [propertyName: string]: string } = {};
   if (log.attributes) {
     for (const key of Object.keys(log.attributes)) {
       // Avoid duplication ignoring fields already mapped.
-      if (
-        !(
-          key.startsWith("_MS.") ||
-          key.startsWith("microsoft") ||
-          legacySemanticValues.includes(key) ||
-          httpSemanticValues.includes(key as any) ||
-          key === (KnownContextTagKeys.AiOperationName as string)
-        )
-      ) {
+      if (!(
+        key === ApplicationInsightsCustomMeasurements ||
+        key.startsWith("_MS.") ||
+        key.startsWith("microsoft") ||
+        legacySemanticValues.includes(key) ||
+        httpSemanticValues.includes(key as any) ||
+        key === (KnownContextTagKeys.AiOperationName as string)
+      )) {
         properties[key] = serializeAttribute(log.attributes[key]);
       }
     }
@@ -245,38 +301,80 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
 }
 
 function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
-  let measurements: Measurements = {};
-  if ((log.body as MonitorDomain)?.measurements) {
-    measurements = { ...(log.body as MonitorDomain).measurements };
+  const measurements: Measurements = {};
+  const body = log.body;
+  if (body && typeof body === "object" && !Array.isArray(body) && "measurements" in body) {
+    const bodyMeasurements = (body as Record<string, unknown>).measurements;
+    if (
+      bodyMeasurements &&
+      typeof bodyMeasurements === "object" &&
+      !Array.isArray(bodyMeasurements)
+    ) {
+      for (const [key, value] of Object.entries(bodyMeasurements as Record<string, unknown>)) {
+        if (typeof value === "number" && Number.isFinite(value)) {
+          measurements[key] = value;
+        }
+      }
+    }
   }
   return measurements;
 }
 
-function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDomain {
-  let baseData: MonitorDomain = {
-    version: 2,
-  };
+function getLegacyApplicationInsightsBaseData(
+  log: ReadableLogRecord,
+):
+  | AvailabilityData
+  | TelemetryExceptionData
+  | MessageData
+  | PageViewData
+  | TelemetryEventData
+  | undefined {
+  let baseData:
+    | AvailabilityData
+    | TelemetryExceptionData
+    | MessageData
+    | PageViewData
+    | TelemetryEventData
+    | undefined;
   if (log.body) {
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
         case ApplicationInsightsAvailabilityBaseType:
-          baseData = log.body as AvailabilityData;
+          baseData = {
+            ...(log.body as unknown as AvailabilityData),
+            kind: "AvailabilityData",
+          };
           break;
         case ApplicationInsightsExceptionBaseType:
-          baseData = log.body as TelemetryExceptionData;
+          baseData = {
+            ...(log.body as unknown as TelemetryExceptionData),
+            kind: "ExceptionData",
+          };
           break;
         case ApplicationInsightsMessageBaseType:
-          baseData = log.body as MessageData;
+          baseData = {
+            ...(log.body as unknown as MessageData),
+            kind: "MessageData",
+          };
+          if (typeof baseData.message === "object") {
+            baseData.message = serializeAttribute(baseData.message);
+          }
           break;
         case ApplicationInsightsPageViewBaseType:
-          baseData = log.body as PageViewData;
+          baseData = {
+            ...(log.body as unknown as PageViewData),
+            kind: "PageViewData",
+          };
           break;
         case ApplicationInsightsEventBaseType:
-          baseData = log.body as TelemetryEventData;
+          baseData = {
+            ...(log.body as unknown as TelemetryEventData),
+            kind: "EventData",
+          };
           break;
       }
-      if (typeof baseData?.message === "object") {
-        baseData.message = JSON.stringify(baseData.message);
+      if (baseData && baseData.version === undefined) {
+        baseData.version = DEFAULT_BREEZE_DATA_VERSION;
       }
     } catch (err) {
       diag.error("AzureMonitorLogExporter failed to parse Application Insights Telemetry");

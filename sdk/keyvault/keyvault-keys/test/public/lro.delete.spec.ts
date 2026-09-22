@@ -6,7 +6,7 @@ import type { DeletedKey, KeyClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 
 describe("Keys client - Long Running Operations - delete", () => {
   const keyPrefix = `lroDelete${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -35,14 +35,14 @@ describe("Keys client - Long Running Operations - delete", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
 
     // The pending deleted can be obtained this way:
     assert.equal(poller.getOperationState().result!.name, keyName);
 
     const deletedKey: DeletedKey = await poller.pollUntilDone();
     assert.equal(deletedKey.name, keyName);
-    assert.ok(poller.getOperationState().isCompleted);
+    assert.isTrue(poller.getOperationState().isCompleted);
 
     // The final key can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, keyName);
@@ -54,10 +54,10 @@ describe("Keys client - Long Running Operations - delete", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
-      assert.ok(e.name === "PollerStoppedError");
+      assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "This poller is already stopped");
     });
@@ -65,8 +65,8 @@ describe("Keys client - Long Running Operations - delete", () => {
     await poller.poll(); // Making sure it has some data
 
     poller.stopPolling();
-    assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().isCompleted);
+    assert.isTrue(poller.isStopped());
+    expect(poller.getOperationState().isCompleted).toBeFalsy();
 
     const serialized = poller.toString();
 
@@ -75,10 +75,10 @@ describe("Keys client - Long Running Operations - delete", () => {
       ...testPollerProperties,
     });
 
-    assert.ok(resumePoller.getOperationState().isStarted);
+    assert.isTrue(resumePoller.getOperationState().isStarted);
     const deletedKey: DeletedKey = await resumePoller.pollUntilDone();
     assert.equal(deletedKey.name, keyName);
-    assert.ok(resumePoller.getOperationState().isCompleted);
+    assert.isTrue(resumePoller.getOperationState().isCompleted);
 
     await testClient.purgeKey(keyName);
   });

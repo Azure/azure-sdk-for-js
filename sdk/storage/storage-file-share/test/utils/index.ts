@@ -54,6 +54,22 @@ export function getGenericBSU(
   return client;
 }
 
+export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
+
+  const accountName = env[accountNameEnvVar];
+  const accountKey = env[accountKeyEnvVar];
+
+  if (!accountName || !accountKey || accountName === "" || accountKey === "") {
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
+    );
+  }
+
+  return new StorageSharedKeyCredential(accountName, accountKey);
+}
+
 export function getBlobServiceClient(recorder: Recorder): BlobServiceClient {
   const client = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   configureStorageClient(recorder, client as unknown as StorageClient);
@@ -290,4 +306,14 @@ export async function compareBodyWithUint8Array(
 ): Promise<boolean> {
   const buf = await streamToBuffer(response.readableStreamBody!);
   return buf.equals(Buffer.from(uint8arry.buffer, uint8arry.byteOffset, uint8arry.byteLength));
+}
+
+export function getSignatureFromSasUrl(sasUrl: string): string {
+  const url = new URL(sasUrl);
+  const signature = url.searchParams.get("sig");
+  return signature!;
+}
+
+export function parseJwt(token: string): any {
+  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
 }

@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
-import { IndexUnion } from "../../models/models.js";
-import {
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import { createOrUpdate, $delete, get, list, listVersions } from "../../api/indexes/operations.js";
+import type {
   IndexesCreateOrUpdateOptionalParams,
   IndexesDeleteOptionalParams,
   IndexesGetOptionalParams,
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "../../api/indexes/options.js";
-import { createOrUpdate, $delete, get, list, listVersions } from "../../api/indexes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { IndexUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Indexes operations. */
 export interface IndexesOperations {
@@ -23,14 +22,9 @@ export interface IndexesOperations {
     index: IndexUnion,
     options?: IndexesCreateOrUpdateOptionalParams,
   ) => Promise<IndexUnion>;
-  /** Delete the specific version of the Index */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Delete the specific version of the Index. The service returns 204 No Content if the Index was deleted successfully or if the Index does not exist. */
   delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) => Promise<void>;
-  /** Get the specific version of the Index */
+  /** Get the specific version of the Index. The service returns 404 Not Found error if the Index does not exist. */
   get: (name: string, version: string, options?: IndexesGetOptionalParams) => Promise<IndexUnion>;
   /** List the latest version of each Index */
   list: (options?: IndexesListOptionalParams) => PagedAsyncIterableIterator<IndexUnion>;
@@ -48,7 +42,7 @@ function _getIndexes(context: AIProjectContext) {
       version: string,
       index: IndexUnion,
       options?: IndexesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, version, index, options),
+    ) => createOrUpdate(context, name, index, version, options),
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: IndexesGetOptionalParams) =>

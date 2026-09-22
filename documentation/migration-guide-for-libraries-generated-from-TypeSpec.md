@@ -30,7 +30,6 @@ If you’re updating an existing application from **libraries generated with Aut
 
 1. **Long-running operations (LROs)** – Updated method signatures and poller behavior
 2. **List operations (paging)** – Simplified continuation token handling
-3. **Model property flattening** – **Libraries generated from TypeSpec** no longer support client-side flattening. This decision was based on customer feedback to reduce confusion and maintenance overhead
 
 ### Long-running Operations (LROs)
 
@@ -173,81 +172,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 const firstPage = await iter.byPage().next();
 const continuationToken = firstPage.value.continuationToken;
 ```
-
-
-### Model Property Flattening
-
-Previously, **libraries generated with AutoRest** supported the `x-ms-client-flatten` extension, which allowed deeply nested payloads to be flattened into a top-level object structure. For example, a payload like this:
-
-```json
-{
-  "hcxEnterpriseSite": {
-    "name": "hcxEnterpriseSiteName",
-    "properties": {
-      "provisioningState": "succeed",
-      "activationKey": "value2",
-      "status": "ok"
-    },
-  },
-}
-```
-would generate a model where `activationKey` and other properties were surfaced at the top level:
-```ts
-/** An HCX Enterprise Site resource */
-export interface HcxEnterpriseSite extends ProxyResource {
-  /**
-   * The provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: HcxEnterpriseSiteProvisioningState;
-  /**
-   * The activation key
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly activationKey?: string;
-  /**
-   * The status of the HCX Enterprise Site
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: HcxEnterpriseSiteStatus;
-}
-```
-
-#### What changed?
-**Libraries generated from TypeSpec** no longer support client-side flattening. This decision was based on customer feedback to reduce confusion and maintenance overhead. Models now preserve the original structure, so properties are grouped under a `properties` object (as defined in TypeSpec):
-```ts
-/** An HCX Enterprise Site resource */
-export interface HcxEnterpriseSite extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: HcxEnterpriseSiteProperties;
-}
-
-/** The properties of an HCX Enterprise Site */
-export interface HcxEnterpriseSiteProperties {
-  /** The provisioning state of the resource. */
-  readonly provisioningState?: HcxEnterpriseSiteProvisioningState;
-  /** The activation key */
-  readonly activationKey?: string;
-  /** The status of the HCX Enterprise Site */
-  readonly status?: HcxEnterpriseSiteStatus;
-}
-```
-
-#### What does this mean for you?
-Update your code to access nested properties through `properties`. For example:
-
-```ts
-// Before (AutoRest-generated)
-const result = await client.hcxEnterpriseSites.get("resourceGroupName", "privateCloudName", "hcxEnterpriseSiteName");
-console.log(result.activationKey);
-
-// After (TypeSpec-generated)
-const result = await client.hcxEnterpriseSites.get("resourceGroupName", "privateCloudName", "hcxEnterpriseSiteName");
-console.log(result.properties?.activationKey);
-```
-
-> **Tip:** In most Azure resource models, flattening occurred under the `properties` bag, so expect to adjust references accordingly.
-
 
 ## Need help
 

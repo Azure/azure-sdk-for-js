@@ -8,7 +8,7 @@
 import {
   newPipeline,
   ShareServiceClient,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
 } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
@@ -27,13 +27,13 @@ export async function main(): Promise<void> {
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: { maxTries: 4 }, // Retry options
-    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" } // Customized telemetry string
+    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
   });
 
   // List shares
   const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
-    pipeline
+    pipeline,
   );
 
   console.log("Shares:");

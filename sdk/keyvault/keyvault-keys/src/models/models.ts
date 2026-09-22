@@ -132,6 +132,10 @@ export interface KeyAttributes {
   readonly hsmPlatform?: string;
   /** The key or key version attestation information. */
   readonly attestation?: KeyAttestation;
+  /** The external key information. */
+  externalKey?: ExternalKey;
+  /** The optional key size in bits for symmetric keys. For example: 128, 192, or 256 for AES keys. */
+  readonly keySize?: number;
 }
 
 export function keyAttributesSerializer(item: KeyAttributes): any {
@@ -140,6 +144,9 @@ export function keyAttributesSerializer(item: KeyAttributes): any {
     nbf: !item["notBefore"] ? item["notBefore"] : (item["notBefore"].getTime() / 1000) | 0,
     exp: !item["expires"] ? item["expires"] : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
+    external_key: !item["externalKey"]
+      ? item["externalKey"]
+      : externalKeySerializer(item["externalKey"]),
   };
 }
 
@@ -157,6 +164,26 @@ export function keyAttributesDeserializer(item: any): KeyAttributes {
     attestation: !item["attestation"]
       ? item["attestation"]
       : keyAttestationDeserializer(item["attestation"]),
+    externalKey: !item["external_key"]
+      ? item["external_key"]
+      : externalKeyDeserializer(item["external_key"]),
+    keySize: item["key_size"],
+  };
+}
+
+/** External Key parameters. */
+export interface ExternalKey {
+  /** The external key identifier. The valid id can only contain characters in the set [a-zA-Z0-9-]. Maximum length is 64 characters. */
+  id: string;
+}
+
+export function externalKeySerializer(item: ExternalKey): any {
+  return { id: item["id"] };
+}
+
+export function externalKeyDeserializer(item: any): ExternalKey {
+  return {
+    id: item["id"],
   };
 }
 
@@ -673,6 +700,36 @@ export function keyOperationsParametersSerializer(item: KeyOperationsParameters)
   };
 }
 
+/** The secure key wrap operation parameters. */
+export interface SecureKeyWrapParameters {
+  /** algorithm identifier */
+  algorithm: string;
+}
+
+export function secureKeyWrapParametersSerializer(item: SecureKeyWrapParameters): any {
+  return {
+    alg: item["algorithm"],
+  };
+}
+
+/** The secure key unwrap operation parameters. */
+export interface SecureKeyUnwrapParameters {
+  /** algorithm identifier */
+  algorithm: string;
+  /** The wrapped key to unwrap. */
+  value: Uint8Array;
+  /** The attestation assertion for the target of the key release. */
+  targetAttestationToken: string;
+}
+
+export function secureKeyUnwrapParametersSerializer(item: SecureKeyUnwrapParameters): any {
+  return {
+    alg: item["algorithm"],
+    value: uint8ArrayToString(item["value"], "base64url"),
+    target: item["targetAttestationToken"],
+  };
+}
+
 /** An algorithm used for encryption and decryption. */
 export enum KnownJsonWebKeyEncryptionAlgorithm {
   /** [Not recommended] RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in https://tools.ietf.org/html/rfc3447, with the default parameters specified by RFC 3447 in Section A.2.1. Those default parameters are using a hash function of SHA-1 and a mask generation function of MGF1 with SHA-1. Microsoft recommends using RSA_OAEP_256 or stronger algorithms for enhanced security. Microsoft does *not* recommend RSA_OAEP, which is included solely for backwards compatibility. RSA_OAEP utilizes SHA1, which has known collision problems. */
@@ -740,6 +797,11 @@ export type JsonWebKeyEncryptionAlgorithm = string;
 export interface KeyOperationResult {
   /** Key identifier */
   readonly kid?: string;
+  /**
+   * The algorithm used for the operation. Only populated by the secure wrap
+   * and unwrap operations, which echo the algorithm back in their response.
+   */
+  readonly algorithm?: string;
   /** The result of the operation. */
   readonly result?: Uint8Array;
   /** Cryptographically random, non-repeating initialization vector for symmetric algorithms. */
@@ -753,6 +815,7 @@ export interface KeyOperationResult {
 export function keyOperationResultDeserializer(item: any): KeyOperationResult {
   return {
     kid: item["kid"],
+    algorithm: item["alg"],
     result: !item["value"]
       ? item["value"]
       : typeof item["value"] === "string"
@@ -1146,4 +1209,10 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-06-01-preview API version. */
+  V20250601Preview = "2025-06-01-preview",
+  /** The 2025-07-01 API version. */
+  V20250701 = "2025-07-01",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
 }

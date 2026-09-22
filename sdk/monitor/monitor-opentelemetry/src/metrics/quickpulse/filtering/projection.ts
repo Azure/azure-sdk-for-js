@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { DerivedMetricInfo } from "../../../generated/index.js";
-import { KnownAggregationType } from "../../../generated/index.js";
 import type { TelemetryData } from "../types.js";
 import { isRequestData, isDependencyData } from "../utils.js";
 import { MetricFailureToCreateError } from "./quickpulseErrors.js";
@@ -20,16 +19,16 @@ export class Projection {
 
   // This method is intended to be called upon configuration change for every valid derivedMetricInfo.
   public initDerivedMetricProjection(derivedMetricInfo: DerivedMetricInfo): void {
-    if (derivedMetricInfo.aggregation === KnownAggregationType.Min.toString()) {
+    if (derivedMetricInfo.aggregation === "Min") {
       // set to max value so that the value from the first telemetry item will always be less than it
-      this.projectionMap.set(derivedMetricInfo.id, [Number.MAX_VALUE, KnownAggregationType.Min]);
-    } else if (derivedMetricInfo.aggregation === KnownAggregationType.Max.toString()) {
+      this.projectionMap.set(derivedMetricInfo.id, [Number.MAX_VALUE, "Min"]);
+    } else if (derivedMetricInfo.aggregation === "Max") {
       // set to min value so that the value from the first telemetry item will always be more than it
-      this.projectionMap.set(derivedMetricInfo.id, [Number.MIN_VALUE, KnownAggregationType.Max]);
-    } else if (derivedMetricInfo.aggregation === KnownAggregationType.Sum.toString()) {
-      this.projectionMap.set(derivedMetricInfo.id, [0, KnownAggregationType.Sum]);
+      this.projectionMap.set(derivedMetricInfo.id, [Number.MIN_VALUE, "Max"]);
+    } else if (derivedMetricInfo.aggregation === "Sum") {
+      this.projectionMap.set(derivedMetricInfo.id, [0, "Sum"]);
     } else {
-      this.projectionMap.set(derivedMetricInfo.id, [0, KnownAggregationType.Avg]);
+      this.projectionMap.set(derivedMetricInfo.id, [0, "Avg"]);
       this.avgMap.set(derivedMetricInfo.id, [0, 0]);
     }
   }
@@ -83,16 +82,16 @@ export class Projection {
     const result: Map<string, number> = new Map();
     for (const [key, value] of this.projectionMap.entries()) {
       let projection: number;
-      if (value[1] === KnownAggregationType.Min.toString()) {
+      if (value[1] === "Min") {
         projection = value[0] === Number.MAX_VALUE ? 0 : value[0];
         value[0] = Number.MAX_VALUE; // reset for next 1s interval
-      } else if (value[1] === KnownAggregationType.Max.toString()) {
+      } else if (value[1] === "Max") {
         projection = value[0] === Number.MIN_VALUE ? 0 : value[0];
         value[0] = Number.MIN_VALUE; // reset for next 1s interval
       } else {
         projection = value[0];
         value[0] = 0; // reset for next 1s interval
-        if (value[1] === KnownAggregationType.Avg.toString()) {
+        if (value[1] === "Avg") {
           this.avgMap.set(key, [0, 0]); // reset for next 1s interval
         }
       }
@@ -110,13 +109,13 @@ export class Projection {
   private calculateAggregation(aggregation: string, id: string, incrementBy: number): number {
     const prevValue: number = (this.projectionMap.get(id) as [number, string])[0];
     switch (aggregation) {
-      case KnownAggregationType.Sum.toString():
+      case "Sum":
         return prevValue + incrementBy;
-      case KnownAggregationType.Min.toString():
+      case "Min":
         return Math.min(prevValue, incrementBy);
-      case KnownAggregationType.Max.toString():
+      case "Max":
         return Math.max(prevValue, incrementBy);
-      case KnownAggregationType.Avg.toString(): {
+      case "Avg": {
         const [prevSum, prevCount] = this.avgMap.get(id) as [number, number];
         this.avgMap.set(id, [prevSum + incrementBy, prevCount + 1]);
         return (prevSum + incrementBy) / (prevCount + 1);

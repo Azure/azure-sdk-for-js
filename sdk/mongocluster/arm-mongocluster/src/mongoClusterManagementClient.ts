@@ -23,7 +23,7 @@ import { _getUsersOperations } from "./classic/users/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
+export type { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
 
 export class MongoClusterManagementClient {
   private _client: MongoClusterManagementContext;
@@ -36,14 +36,7 @@ export class MongoClusterManagementClient {
     subscriptionId: string,
     options: MongoClusterManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createMongoClusterManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createMongoClusterManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.users = _getUsersOperations(this._client);
     this.replicas = _getReplicasOperations(this._client);

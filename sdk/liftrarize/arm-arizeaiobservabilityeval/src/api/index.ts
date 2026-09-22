@@ -3,6 +3,6 @@
 
 export {
   createObservabilityEval,
-  ObservabilityEvalContext,
-  ObservabilityEvalClientOptionalParams,
+  type ObservabilityEvalContext,
+  type ObservabilityEvalClientOptionalParams,
 } from "./observabilityEvalContext.js";

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a StandbyVirtualMachinePoolResource
  *
  * @summary get a StandbyVirtualMachinePoolResource
- * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePools_Get.json
+ * x-ms-original-file: 2025-10-01/StandbyVirtualMachinePools_Get.json
  */
 async function standbyVirtualMachinePoolsGet() {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,33 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/vmSkus/index.ts",
+    "../src/api/containerService/index.ts",
+    "../src/api/trustedAccessRoles/index.ts",
+    "../src/api/resolvePrivateLinkServiceId/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/operationStatusResult/index.ts",
+    "../src/api/alertConfigurations/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/meshMemberships/index.ts",
+    "../src/api/jwtAuthenticators/index.ts",
+    "../src/api/identityBindings/index.ts",
+    "../src/api/loadBalancers/index.ts",
+    "../src/api/trustedAccessRoleBindings/index.ts",
+    "../src/api/managedClusterSnapshots/index.ts",
+    "../src/api/snapshots/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/machines/index.ts",
+    "../src/api/managedNamespaces/index.ts",
+    "../src/api/maintenanceWindows/index.ts",
+    "../src/api/maintenanceConfigurations/index.ts",
+    "../src/api/managedClusters/index.ts",
+    "../src/api/agentPools/index.ts",
+    "../src/models/index.ts"
+  ]
+}

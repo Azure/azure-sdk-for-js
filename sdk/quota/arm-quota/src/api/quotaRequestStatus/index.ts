@@ -3,6 +3,6 @@
 
 export { list, get } from "./operations.js";
 export {
-  QuotaRequestStatusListOptionalParams,
-  QuotaRequestStatusGetOptionalParams,
+  type QuotaRequestStatusListOptionalParams,
+  type QuotaRequestStatusGetOptionalParams,
 } from "./options.js";

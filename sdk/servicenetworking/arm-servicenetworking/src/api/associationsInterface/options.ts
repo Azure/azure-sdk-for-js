@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AssociationsInterfaceListByTrafficControllerOptionalParams
-  extends OperationOptions {}
+export interface AssociationsInterfaceListByTrafficControllerOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AssociationsInterfaceDeleteOptionalParams extends OperationOptions {

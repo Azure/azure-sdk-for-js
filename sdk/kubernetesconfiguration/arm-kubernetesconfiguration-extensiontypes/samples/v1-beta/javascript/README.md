@@ -1,17 +1,17 @@
-# client library samples for JavaScript (Beta)
+# @azure/arm-kubernetesconfiguration-extensiontypes client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for @azure/arm-kubernetesconfiguration-extensiontypes in some common scenarios.
 
-| **File Name**                                                                         | **Description**                                                                                                                                                                                                                                                                 |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [extensionTypesClusterGetVersionSample.js][extensiontypesclustergetversionsample]     | Get details of a version for an Extension Type installable to the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionTypeVersion.json         |
-| [extensionTypesClusterListVersionsSample.js][extensiontypesclusterlistversionssample] | List the version for an Extension Type installable to the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypeVersions.json               |
-| [extensionTypesGetSample.js][extensiontypesgetsample]                                 | Get an Extension Type installable to the cluster based region and type for the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionType.json   |
-| [extensionTypesGetVersionSample.js][extensiontypesgetversionsample]                   | Get details of a version for an extension type and location x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionTypeVersionByLocation.json              |
-| [extensionTypesListSample.js][extensiontypeslistsample]                               | List installable Extension Types for the cluster based region and type for the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypes.json |
-| [extensionTypesListVersionsSample.js][extensiontypeslistversionssample]               | List the versions for an extension type and location. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypeVersionsByLocation.json                  |
-| [extensionTypesLocationGetSample.js][extensiontypeslocationgetsample]                 | Get an extension type for the location. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionTypeByLocation.json                                         |
-| [extensionTypesLocationListSample.js][extensiontypeslocationlistsample]               | List all Extension Types for the location. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypesByLocation.json                                    |
+| **File Name**                                                                                 | **Description**                                                                                                                                        |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [extensionTypesClusterGetVersionSample.js][extensiontypesclustergetversionsample]             | get details of a version for an Extension Type installable to the cluster. x-ms-original-file: 2024-11-01-preview/GetExtensionTypeVersion.json         |
+| [extensionTypesGetSample.js][extensiontypesgetsample]                                         | get an Extension Type installable to the cluster based region and type for the cluster. x-ms-original-file: 2024-11-01-preview/GetExtensionType.json   |
+| [extensionTypesGetVersionSample.js][extensiontypesgetversionsample]                           | get details of a version for an extension type and location x-ms-original-file: 2024-11-01-preview/GetExtensionTypeVersionByLocation.json              |
+| [extensionTypesListClusterListVersionsSample.js][extensiontypeslistclusterlistversionssample] | list the version for an Extension Type installable to the cluster. x-ms-original-file: 2024-11-01-preview/ListExtensionTypeVersions.json               |
+| [extensionTypesListLocationListSample.js][extensiontypeslistlocationlistsample]               | list all Extension Types for the location. x-ms-original-file: 2024-11-01-preview/ListExtensionTypesByLocation.json                                    |
+| [extensionTypesListSample.js][extensiontypeslistsample]                                       | list installable Extension Types for the cluster based region and type for the cluster. x-ms-original-file: 2024-11-01-preview/ListExtensionTypes.json |
+| [extensionTypesListVersionsSample.js][extensiontypeslistversionssample]                       | list the versions for an extension type and location. x-ms-original-file: 2024-11-01-preview/ListExtensionTypeVersionsByLocation.json                  |
+| [extensionTypesLocationGetSample.js][extensiontypeslocationgetsample]                         | get an extension type for the location. x-ms-original-file: 2024-11-01-preview/GetExtensionTypeByLocation.json                                         |
 
 ## Prerequisites
 
@@ -41,10 +41,10 @@ npm install
 node extensionTypesClusterGetVersionSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KUBERNETESCONFIGURATION_SUBSCRIPTION_ID="<kubernetesconfiguration subscription id>" KUBERNETESCONFIGURATION_RESOURCE_GROUP="<kubernetesconfiguration resource group>" node extensionTypesClusterGetVersionSample.js
+node extensionTypesClusterGetVersionSample.js
 ```
 
 ## Next Steps
@@ -52,13 +52,13 @@ cross-env KUBERNETESCONFIGURATION_SUBSCRIPTION_ID="<kubernetesconfiguration subs
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [extensiontypesclustergetversionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesClusterGetVersionSample.js
-[extensiontypesclusterlistversionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesClusterListVersionsSample.js
 [extensiontypesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesGetSample.js
 [extensiontypesgetversionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesGetVersionSample.js
+[extensiontypeslistclusterlistversionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesListClusterListVersionsSample.js
+[extensiontypeslistlocationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesListLocationListSample.js
 [extensiontypeslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesListSample.js
 [extensiontypeslistversionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesListVersionsSample.js
 [extensiontypeslocationgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesLocationGetSample.js
-[extensiontypeslocationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/samples/v1-beta/javascript/extensionTypesLocationListSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensiontypes?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/README.md

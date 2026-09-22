@@ -509,15 +509,16 @@ export function buildReconnectingSseTests(
       }
     });
 
-    it("supports string chunks from Node-style readable streams", async () => {
+    it("supports UTF-8 string chunks from Node-style readable streams", async () => {
       if (runtimeName !== "Node") {
         return;
       }
+      const data = "string \u00e9 \u{1f680}";
       const stream = await createReconnectingSseStream(
-        async () => response(createBody({ chunks: ["data: string\n\n"], hang: true })),
+        async () => response(createBody({ chunks: [`data: ${data}\n\n`], hang: true })),
         acceptedOptions(),
       );
-      assert.equal((await readOne(stream)).data, "string");
+      assert.equal((await readOne(stream)).data, data);
     });
   });
 }

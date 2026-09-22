@@ -2,6 +2,11 @@
 // Licensed under the MIT License.
 
 export interface NonStreamingOrderByResult {
-  orderByItems: [];
+  orderByItems: any[];
+  payload: any;
+}
+
+export interface OrderByDocument {
+  orderByItems: any[];
   payload: any;
 }

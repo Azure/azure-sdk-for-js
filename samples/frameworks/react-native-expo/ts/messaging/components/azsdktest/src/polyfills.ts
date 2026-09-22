@@ -1,10 +1,21 @@
 import { Buffer } from "buffer";
+
 import * as crypto from "crypto";
 
-global.Buffer = Buffer;
+(async () => {
+  // Only needed for crypto.getRandomValues
+  // but only wait once, future calls are secure
+  await crypto.ensureSecure();
 
-// @ts-expect-error
-global.crypto = crypto;
+  Object.defineProperty(global, "crypto", {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    value: crypto,
+  });
+})();
+
+global.Buffer = Buffer;
 
 if (typeof process.nextTick == "undefined") {
   process.nextTick = setImmediate;

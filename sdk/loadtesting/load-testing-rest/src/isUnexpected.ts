@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import type {
+  OperationsGetStatus200Response,
+  OperationsGetStatusDefaultResponse,
   LoadTestAdministrationCreateOrUpdateTest200Response,
   LoadTestAdministrationCreateOrUpdateTest201Response,
   LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
@@ -11,6 +13,12 @@ import type {
   LoadTestAdministrationGetTestDefaultResponse,
   LoadTestAdministrationListTests200Response,
   LoadTestAdministrationListTestsDefaultResponse,
+  LoadTestAdministrationCloneTest202Response,
+  LoadTestAdministrationCloneTestLogicalResponse,
+  LoadTestAdministrationCloneTestDefaultResponse,
+  LoadTestAdministrationGenerateTestPlanRecommendations202Response,
+  LoadTestAdministrationGenerateTestPlanRecommendationsLogicalResponse,
+  LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse,
   LoadTestAdministrationUploadTestFile201Response,
   LoadTestAdministrationUploadTestFileDefaultResponse,
   LoadTestAdministrationGetTestFile200Response,
@@ -38,6 +46,24 @@ import type {
   TestProfileAdministrationGetTestProfileDefaultResponse,
   TestProfileAdministrationListTestProfiles200Response,
   TestProfileAdministrationListTestProfilesDefaultResponse,
+  TriggerAdministrationGetTrigger200Response,
+  TriggerAdministrationGetTriggerDefaultResponse,
+  TriggerAdministrationCreateOrUpdateTrigger200Response,
+  TriggerAdministrationCreateOrUpdateTrigger201Response,
+  TriggerAdministrationCreateOrUpdateTriggerDefaultResponse,
+  TriggerAdministrationDeleteTrigger204Response,
+  TriggerAdministrationDeleteTriggerDefaultResponse,
+  TriggerAdministrationListTrigger200Response,
+  TriggerAdministrationListTriggerDefaultResponse,
+  NotificationRuleAdministrationGetNotificationRule200Response,
+  NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationDeleteNotificationRule204Response,
+  NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationListNotificationRule200Response,
+  NotificationRuleAdministrationListNotificationRuleDefaultResponse,
   LoadTestRunGetTestRun200Response,
   LoadTestRunGetTestRunDefaultResponse,
   LoadTestRunCreateOrUpdateTestRun200Response,
@@ -51,6 +77,13 @@ import type {
   LoadTestRunGetTestRunFileDefaultResponse,
   LoadTestRunStop200Response,
   LoadTestRunStopDefaultResponse,
+  LoadTestRunGetLatestInsights200Response,
+  LoadTestRunGetLatestInsightsDefaultResponse,
+  LoadTestRunUpdateLatestInsights200Response,
+  LoadTestRunUpdateLatestInsightsDefaultResponse,
+  LoadTestRunGenerateInsights202Response,
+  LoadTestRunGenerateInsightsLogicalResponse,
+  LoadTestRunGenerateInsightsDefaultResponse,
   LoadTestRunListMetricNamespaces200Response,
   LoadTestRunListMetricNamespacesDefaultResponse,
   LoadTestRunListMetricDefinitions200Response,
@@ -80,31 +113,18 @@ import type {
   TestProfileRunAdministrationStopDefaultResponse,
   TestProfileRunAdministrationListTestProfileRuns200Response,
   TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
-  TriggerAdministrationGetTrigger200Response,
-  TriggerAdministrationGetTriggerDefaultResponse,
-  TriggerAdministrationCreateOrUpdateTrigger200Response,
-  TriggerAdministrationCreateOrUpdateTrigger201Response,
-  TriggerAdministrationCreateOrUpdateTriggerDefaultResponse,
-  TriggerAdministrationDeleteTrigger204Response,
-  TriggerAdministrationDeleteTriggerDefaultResponse,
-  TriggerAdministrationListTrigger200Response,
-  TriggerAdministrationListTriggerDefaultResponse,
-  NotificationRuleAdministrationGetNotificationRule200Response,
-  NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationDeleteNotificationRule204Response,
-  NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationListNotificationRule200Response,
-  NotificationRuleAdministrationListNotificationRuleDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
+  "GET /operations/{operationId}": ["200"],
   "PATCH /tests/{testId}": ["200", "201"],
   "DELETE /tests/{testId}": ["204"],
   "GET /tests/{testId}": ["200"],
   "GET /tests": ["200"],
+  "GET /tests/{testId}:clone": ["200", "202"],
+  "POST /tests/{testId}:clone": ["202"],
+  "GET /tests/{testId}:generateTestPlanRecommendations": ["200", "202"],
+  "POST /tests/{testId}:generateTestPlanRecommendations": ["202"],
   "PUT /tests/{testId}/files/{fileName}": ["201"],
   "GET /tests/{testId}/files/{fileName}": ["200"],
   "DELETE /tests/{testId}/files/{fileName}": ["204"],
@@ -117,12 +137,24 @@ const responseMap: Record<string, string[]> = {
   "DELETE /test-profiles/{testProfileId}": ["204"],
   "GET /test-profiles/{testProfileId}": ["200"],
   "GET /test-profiles": ["200"],
+  "GET /triggers/{triggerId}": ["200"],
+  "PATCH /triggers/{triggerId}": ["200", "201"],
+  "DELETE /triggers/{triggerId}": ["204"],
+  "GET /triggers": ["200"],
+  "GET /notification-rules/{notificationRuleId}": ["200"],
+  "PATCH /notification-rules/{notificationRuleId}": ["200", "201"],
+  "DELETE /notification-rules/{notificationRuleId}": ["204"],
+  "GET /notification-rules": ["200"],
   "GET /test-runs/{testRunId}": ["200"],
   "PATCH /test-runs/{testRunId}": ["200", "201"],
   "DELETE /test-runs/{testRunId}": ["204"],
   "GET /test-runs": ["200"],
   "GET /test-runs/{testRunId}/files/{fileName}": ["200"],
   "POST /test-runs/{testRunId}:stop": ["200"],
+  "GET /test-runs/{testRunId}/insights/latest": ["200"],
+  "PATCH /test-runs/{testRunId}/insights/latest": ["200"],
+  "GET /test-runs/{testRunId}/insights:generate": ["200", "202"],
+  "POST /test-runs/{testRunId}/insights:generate": ["202"],
   "GET /test-runs/{testRunId}/metric-namespaces": ["200"],
   "GET /test-runs/{testRunId}/metric-definitions": ["200"],
   "POST /test-runs/{testRunId}/metrics": ["200"],
@@ -136,16 +168,11 @@ const responseMap: Record<string, string[]> = {
   "DELETE /test-profile-runs/{testProfileRunId}": ["204"],
   "POST /test-profile-runs/{testProfileRunId}:stop": ["200"],
   "GET /test-profile-runs": ["200"],
-  "GET /triggers/{triggerId}": ["200"],
-  "PATCH /triggers/{triggerId}": ["200", "201"],
-  "DELETE /triggers/{triggerId}": ["204"],
-  "GET /triggers": ["200"],
-  "GET /notification-rules/{notificationRuleId}": ["200"],
-  "PATCH /notification-rules/{notificationRuleId}": ["200", "201"],
-  "DELETE /notification-rules/{notificationRuleId}": ["204"],
-  "GET /notification-rules": ["200"],
 };
 
+export function isUnexpected(
+  response: OperationsGetStatus200Response | OperationsGetStatusDefaultResponse,
+): response is OperationsGetStatusDefaultResponse;
 export function isUnexpected(
   response:
     | LoadTestAdministrationCreateOrUpdateTest200Response
@@ -154,17 +181,27 @@ export function isUnexpected(
 ): response is LoadTestAdministrationCreateOrUpdateTestDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestAdministrationDeleteTest204Response
-    | LoadTestAdministrationDeleteTestDefaultResponse,
+    LoadTestAdministrationDeleteTest204Response | LoadTestAdministrationDeleteTestDefaultResponse,
 ): response is LoadTestAdministrationDeleteTestDefaultResponse;
 export function isUnexpected(
   response: LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestDefaultResponse,
 ): response is LoadTestAdministrationGetTestDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestAdministrationListTests200Response
-    | LoadTestAdministrationListTestsDefaultResponse,
+    LoadTestAdministrationListTests200Response | LoadTestAdministrationListTestsDefaultResponse,
 ): response is LoadTestAdministrationListTestsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestAdministrationCloneTest202Response
+    | LoadTestAdministrationCloneTestLogicalResponse
+    | LoadTestAdministrationCloneTestDefaultResponse,
+): response is LoadTestAdministrationCloneTestDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestAdministrationGenerateTestPlanRecommendations202Response
+    | LoadTestAdministrationGenerateTestPlanRecommendationsLogicalResponse
+    | LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse,
+): response is LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse;
 export function isUnexpected(
   response:
     | LoadTestAdministrationUploadTestFile201Response
@@ -172,8 +209,7 @@ export function isUnexpected(
 ): response is LoadTestAdministrationUploadTestFileDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestAdministrationGetTestFile200Response
-    | LoadTestAdministrationGetTestFileDefaultResponse,
+    LoadTestAdministrationGetTestFile200Response | LoadTestAdministrationGetTestFileDefaultResponse,
 ): response is LoadTestAdministrationGetTestFileDefaultResponse;
 export function isUnexpected(
   response:
@@ -229,6 +265,46 @@ export function isUnexpected(
     | TestProfileAdministrationListTestProfilesDefaultResponse,
 ): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 export function isUnexpected(
+  response:
+    TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse,
+): response is TriggerAdministrationGetTriggerDefaultResponse;
+export function isUnexpected(
+  response:
+    | TriggerAdministrationCreateOrUpdateTrigger200Response
+    | TriggerAdministrationCreateOrUpdateTrigger201Response
+    | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse,
+): response is TriggerAdministrationCreateOrUpdateTriggerDefaultResponse;
+export function isUnexpected(
+  response:
+    | TriggerAdministrationDeleteTrigger204Response
+    | TriggerAdministrationDeleteTriggerDefaultResponse,
+): response is TriggerAdministrationDeleteTriggerDefaultResponse;
+export function isUnexpected(
+  response:
+    TriggerAdministrationListTrigger200Response | TriggerAdministrationListTriggerDefaultResponse,
+): response is TriggerAdministrationListTriggerDefaultResponse;
+export function isUnexpected(
+  response:
+    | NotificationRuleAdministrationGetNotificationRule200Response
+    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
+): response is NotificationRuleAdministrationGetNotificationRuleDefaultResponse;
+export function isUnexpected(
+  response:
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
+): response is NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse;
+export function isUnexpected(
+  response:
+    | NotificationRuleAdministrationDeleteNotificationRule204Response
+    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
+): response is NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse;
+export function isUnexpected(
+  response:
+    | NotificationRuleAdministrationListNotificationRule200Response
+    | NotificationRuleAdministrationListNotificationRuleDefaultResponse,
+): response is NotificationRuleAdministrationListNotificationRuleDefaultResponse;
+export function isUnexpected(
   response: LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse,
 ): response is LoadTestRunGetTestRunDefaultResponse;
 export function isUnexpected(
@@ -250,14 +326,25 @@ export function isUnexpected(
   response: LoadTestRunStop200Response | LoadTestRunStopDefaultResponse,
 ): response is LoadTestRunStopDefaultResponse;
 export function isUnexpected(
+  response: LoadTestRunGetLatestInsights200Response | LoadTestRunGetLatestInsightsDefaultResponse,
+): response is LoadTestRunGetLatestInsightsDefaultResponse;
+export function isUnexpected(
   response:
-    | LoadTestRunListMetricNamespaces200Response
-    | LoadTestRunListMetricNamespacesDefaultResponse,
+    LoadTestRunUpdateLatestInsights200Response | LoadTestRunUpdateLatestInsightsDefaultResponse,
+): response is LoadTestRunUpdateLatestInsightsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunGenerateInsights202Response
+    | LoadTestRunGenerateInsightsLogicalResponse
+    | LoadTestRunGenerateInsightsDefaultResponse,
+): response is LoadTestRunGenerateInsightsDefaultResponse;
+export function isUnexpected(
+  response:
+    LoadTestRunListMetricNamespaces200Response | LoadTestRunListMetricNamespacesDefaultResponse,
 ): response is LoadTestRunListMetricNamespacesDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestRunListMetricDefinitions200Response
-    | LoadTestRunListMetricDefinitionsDefaultResponse,
+    LoadTestRunListMetricDefinitions200Response | LoadTestRunListMetricDefinitionsDefaultResponse,
 ): response is LoadTestRunListMetricDefinitionsDefaultResponse;
 export function isUnexpected(
   response: LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse,
@@ -284,8 +371,7 @@ export function isUnexpected(
 ): response is LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestRunGetServerMetricsConfig200Response
-    | LoadTestRunGetServerMetricsConfigDefaultResponse,
+    LoadTestRunGetServerMetricsConfig200Response | LoadTestRunGetServerMetricsConfigDefaultResponse,
 ): response is LoadTestRunGetServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
@@ -305,8 +391,7 @@ export function isUnexpected(
 ): response is TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse;
 export function isUnexpected(
   response:
-    | TestProfileRunAdministrationStop200Response
-    | TestProfileRunAdministrationStopDefaultResponse,
+    TestProfileRunAdministrationStop200Response | TestProfileRunAdministrationStopDefaultResponse,
 ): response is TestProfileRunAdministrationStopDefaultResponse;
 export function isUnexpected(
   response:
@@ -315,48 +400,8 @@ export function isUnexpected(
 ): response is TestProfileRunAdministrationListTestProfileRunsDefaultResponse;
 export function isUnexpected(
   response:
-    | TriggerAdministrationGetTrigger200Response
-    | TriggerAdministrationGetTriggerDefaultResponse,
-): response is TriggerAdministrationGetTriggerDefaultResponse;
-export function isUnexpected(
-  response:
-    | TriggerAdministrationCreateOrUpdateTrigger200Response
-    | TriggerAdministrationCreateOrUpdateTrigger201Response
-    | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse,
-): response is TriggerAdministrationCreateOrUpdateTriggerDefaultResponse;
-export function isUnexpected(
-  response:
-    | TriggerAdministrationDeleteTrigger204Response
-    | TriggerAdministrationDeleteTriggerDefaultResponse,
-): response is TriggerAdministrationDeleteTriggerDefaultResponse;
-export function isUnexpected(
-  response:
-    | TriggerAdministrationListTrigger200Response
-    | TriggerAdministrationListTriggerDefaultResponse,
-): response is TriggerAdministrationListTriggerDefaultResponse;
-export function isUnexpected(
-  response:
-    | NotificationRuleAdministrationGetNotificationRule200Response
-    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
-): response is NotificationRuleAdministrationGetNotificationRuleDefaultResponse;
-export function isUnexpected(
-  response:
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
-): response is NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse;
-export function isUnexpected(
-  response:
-    | NotificationRuleAdministrationDeleteNotificationRule204Response
-    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
-): response is NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse;
-export function isUnexpected(
-  response:
-    | NotificationRuleAdministrationListNotificationRule200Response
-    | NotificationRuleAdministrationListNotificationRuleDefaultResponse,
-): response is NotificationRuleAdministrationListNotificationRuleDefaultResponse;
-export function isUnexpected(
-  response:
+    | OperationsGetStatus200Response
+    | OperationsGetStatusDefaultResponse
     | LoadTestAdministrationCreateOrUpdateTest200Response
     | LoadTestAdministrationCreateOrUpdateTest201Response
     | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
@@ -366,6 +411,12 @@ export function isUnexpected(
     | LoadTestAdministrationGetTestDefaultResponse
     | LoadTestAdministrationListTests200Response
     | LoadTestAdministrationListTestsDefaultResponse
+    | LoadTestAdministrationCloneTest202Response
+    | LoadTestAdministrationCloneTestLogicalResponse
+    | LoadTestAdministrationCloneTestDefaultResponse
+    | LoadTestAdministrationGenerateTestPlanRecommendations202Response
+    | LoadTestAdministrationGenerateTestPlanRecommendationsLogicalResponse
+    | LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse
     | LoadTestAdministrationUploadTestFile201Response
     | LoadTestAdministrationUploadTestFileDefaultResponse
     | LoadTestAdministrationGetTestFile200Response
@@ -393,6 +444,24 @@ export function isUnexpected(
     | TestProfileAdministrationGetTestProfileDefaultResponse
     | TestProfileAdministrationListTestProfiles200Response
     | TestProfileAdministrationListTestProfilesDefaultResponse
+    | TriggerAdministrationGetTrigger200Response
+    | TriggerAdministrationGetTriggerDefaultResponse
+    | TriggerAdministrationCreateOrUpdateTrigger200Response
+    | TriggerAdministrationCreateOrUpdateTrigger201Response
+    | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
+    | TriggerAdministrationDeleteTrigger204Response
+    | TriggerAdministrationDeleteTriggerDefaultResponse
+    | TriggerAdministrationListTrigger200Response
+    | TriggerAdministrationListTriggerDefaultResponse
+    | NotificationRuleAdministrationGetNotificationRule200Response
+    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationDeleteNotificationRule204Response
+    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationListNotificationRule200Response
+    | NotificationRuleAdministrationListNotificationRuleDefaultResponse
     | LoadTestRunGetTestRun200Response
     | LoadTestRunGetTestRunDefaultResponse
     | LoadTestRunCreateOrUpdateTestRun200Response
@@ -406,6 +475,13 @@ export function isUnexpected(
     | LoadTestRunGetTestRunFileDefaultResponse
     | LoadTestRunStop200Response
     | LoadTestRunStopDefaultResponse
+    | LoadTestRunGetLatestInsights200Response
+    | LoadTestRunGetLatestInsightsDefaultResponse
+    | LoadTestRunUpdateLatestInsights200Response
+    | LoadTestRunUpdateLatestInsightsDefaultResponse
+    | LoadTestRunGenerateInsights202Response
+    | LoadTestRunGenerateInsightsLogicalResponse
+    | LoadTestRunGenerateInsightsDefaultResponse
     | LoadTestRunListMetricNamespaces200Response
     | LoadTestRunListMetricNamespacesDefaultResponse
     | LoadTestRunListMetricDefinitions200Response
@@ -434,30 +510,15 @@ export function isUnexpected(
     | TestProfileRunAdministrationStop200Response
     | TestProfileRunAdministrationStopDefaultResponse
     | TestProfileRunAdministrationListTestProfileRuns200Response
-    | TestProfileRunAdministrationListTestProfileRunsDefaultResponse
-    | TriggerAdministrationGetTrigger200Response
-    | TriggerAdministrationGetTriggerDefaultResponse
-    | TriggerAdministrationCreateOrUpdateTrigger200Response
-    | TriggerAdministrationCreateOrUpdateTrigger201Response
-    | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
-    | TriggerAdministrationDeleteTrigger204Response
-    | TriggerAdministrationDeleteTriggerDefaultResponse
-    | TriggerAdministrationListTrigger200Response
-    | TriggerAdministrationListTriggerDefaultResponse
-    | NotificationRuleAdministrationGetNotificationRule200Response
-    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
-    | NotificationRuleAdministrationDeleteNotificationRule204Response
-    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
-    | NotificationRuleAdministrationListNotificationRule200Response
-    | NotificationRuleAdministrationListNotificationRuleDefaultResponse,
+    | TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
 ): response is
+  | OperationsGetStatusDefaultResponse
   | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
   | LoadTestAdministrationDeleteTestDefaultResponse
   | LoadTestAdministrationGetTestDefaultResponse
   | LoadTestAdministrationListTestsDefaultResponse
+  | LoadTestAdministrationCloneTestDefaultResponse
+  | LoadTestAdministrationGenerateTestPlanRecommendationsDefaultResponse
   | LoadTestAdministrationUploadTestFileDefaultResponse
   | LoadTestAdministrationGetTestFileDefaultResponse
   | LoadTestAdministrationDeleteTestFileDefaultResponse
@@ -470,12 +531,23 @@ export function isUnexpected(
   | TestProfileAdministrationDeleteTestProfileDefaultResponse
   | TestProfileAdministrationGetTestProfileDefaultResponse
   | TestProfileAdministrationListTestProfilesDefaultResponse
+  | TriggerAdministrationGetTriggerDefaultResponse
+  | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
+  | TriggerAdministrationDeleteTriggerDefaultResponse
+  | TriggerAdministrationListTriggerDefaultResponse
+  | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationListNotificationRuleDefaultResponse
   | LoadTestRunGetTestRunDefaultResponse
   | LoadTestRunCreateOrUpdateTestRunDefaultResponse
   | LoadTestRunDeleteTestRunDefaultResponse
   | LoadTestRunListTestRunsDefaultResponse
   | LoadTestRunGetTestRunFileDefaultResponse
   | LoadTestRunStopDefaultResponse
+  | LoadTestRunGetLatestInsightsDefaultResponse
+  | LoadTestRunUpdateLatestInsightsDefaultResponse
+  | LoadTestRunGenerateInsightsDefaultResponse
   | LoadTestRunListMetricNamespacesDefaultResponse
   | LoadTestRunListMetricDefinitionsDefaultResponse
   | LoadTestRunListMetricsDefaultResponse
@@ -488,15 +560,7 @@ export function isUnexpected(
   | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse
   | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse
   | TestProfileRunAdministrationStopDefaultResponse
-  | TestProfileRunAdministrationListTestProfileRunsDefaultResponse
-  | TriggerAdministrationGetTriggerDefaultResponse
-  | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
-  | TriggerAdministrationDeleteTriggerDefaultResponse
-  | TriggerAdministrationListTriggerDefaultResponse
-  | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
-  | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
-  | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
-  | NotificationRuleAdministrationListNotificationRuleDefaultResponse {
+  | TestProfileRunAdministrationListTestProfileRunsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

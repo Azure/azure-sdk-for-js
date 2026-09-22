@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams
-  extends OperationOptions {}
+export interface HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface HybridIdentityMetadataGetOptionalParams extends OperationOptions {}

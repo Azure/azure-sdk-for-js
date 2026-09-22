@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { IncomingMessage, RequestOptions } from "node:http";
-import https from "node:https";
+import * as https from "node:https";
 import http from "node:http";
 
 /**
@@ -78,15 +78,6 @@ export async function makeRequest(
 
     req.end();
   });
-}
-
-/**
- * Helper TypeGuard that checks if something is defined or not.
- * @param thing - Anything
- * @internal
- */
-export function isDefined<T>(thing: T | undefined | null): thing is T {
-  return typeof thing !== "undefined" && thing !== null;
 }
 
 /**

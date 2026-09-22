@@ -3,7 +3,7 @@
 
 import type { HttpClient } from "../interfaces.js";
 import type { Pipeline } from "../pipeline.js";
-import { createDefaultHttpClient } from "../defaultHttpClient.js";
+import { createDefaultHttpClient } from "#platform/httpClient";
 import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
 import type { ClientOptions } from "./common.js";
 import { apiVersionPolicy } from "./apiVersionPolicy.js";

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/samples.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-storsimple8000series": [
+        "../dist/esm"
+      ]
+    }
+  }
+}

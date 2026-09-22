@@ -1,0 +1,44 @@
+{
+  "apiVersions": {
+    "Microsoft.HanaOnAzure": "2020-02-07-preview"
+  },
+  "emitterVersion": "0.54.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.HanaOnAzure",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-hanaonazure!OperationList:interface": "Microsoft.HanaOnAzure.OperationList",
+      "@azure/arm-hanaonazure!Operation:interface": "Microsoft.HanaOnAzure.Operation",
+      "@azure/arm-hanaonazure!Display:interface": "Microsoft.HanaOnAzure.Display",
+      "@azure/arm-hanaonazure!ErrorResponse:interface": "Microsoft.HanaOnAzure.ErrorResponse",
+      "@azure/arm-hanaonazure!ErrorResponseError:interface": "Microsoft.HanaOnAzure.ErrorResponseError",
+      "@azure/arm-hanaonazure!SapMonitor:interface": "Microsoft.HanaOnAzure.SapMonitor",
+      "@azure/arm-hanaonazure!SapMonitorProperties:interface": "Microsoft.HanaOnAzure.SapMonitorProperties",
+      "@azure/arm-hanaonazure!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-hanaonazure!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-hanaonazure!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-hanaonazure!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-hanaonazure!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-hanaonazure!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-hanaonazure!Tags:interface": "Microsoft.HanaOnAzure.Tags",
+      "@azure/arm-hanaonazure!SapMonitorListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-hanaonazure!ProviderInstance:interface": "Microsoft.HanaOnAzure.ProviderInstance",
+      "@azure/arm-hanaonazure!ProviderInstanceProperties:interface": "Microsoft.HanaOnAzure.ProviderInstanceProperties",
+      "@azure/arm-hanaonazure!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-hanaonazure!ProviderInstanceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-hanaonazure!KnownHanaProvisioningStatesEnum:enum": "Microsoft.HanaOnAzure.HanaProvisioningStatesEnum",
+      "@azure/arm-hanaonazure!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-hanaonazure!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-hanaonazure!KnownVersions:enum": "Microsoft.HanaOnAzure.Versions",
+      "@azure/arm-hanaonazure!ProviderInstancesOperations#list:member": "Microsoft.HanaOnAzure.ProviderInstances.list",
+      "@azure/arm-hanaonazure!ProviderInstancesOperations#delete:member": "Microsoft.HanaOnAzure.ProviderInstances.delete",
+      "@azure/arm-hanaonazure!ProviderInstancesOperations#create:member": "Microsoft.HanaOnAzure.ProviderInstances.create",
+      "@azure/arm-hanaonazure!ProviderInstancesOperations#get:member": "Microsoft.HanaOnAzure.ProviderInstances.get",
+      "@azure/arm-hanaonazure!SapMonitorsOperations#list:member": "Microsoft.HanaOnAzure.SapMonitors.list",
+      "@azure/arm-hanaonazure!SapMonitorsOperations#delete:member": "Microsoft.HanaOnAzure.SapMonitors.delete",
+      "@azure/arm-hanaonazure!SapMonitorsOperations#update:member": "Microsoft.HanaOnAzure.SapMonitors.update",
+      "@azure/arm-hanaonazure!SapMonitorsOperations#create:member": "Microsoft.HanaOnAzure.SapMonitors.create",
+      "@azure/arm-hanaonazure!SapMonitorsOperations#get:member": "Microsoft.HanaOnAzure.SapMonitors.get",
+      "@azure/arm-hanaonazure!OperationsOperations#list:member": "Microsoft.HanaOnAzure.Operations.list"
+    }
+  }
+}

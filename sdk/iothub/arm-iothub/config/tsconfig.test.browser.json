@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-iothub": ["../src/index.ts"],
+      "@azure/arm-iothub/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

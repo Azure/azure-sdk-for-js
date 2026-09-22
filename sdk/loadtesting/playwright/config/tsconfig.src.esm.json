@@ -1,0 +1,14 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/reporter/index.ts",
+    "../src/core/global/playwright-service-global-setup.ts",
+    "../src/core/global/playwright-service-global-teardown.ts",
+    "../src/core/playwrightServiceUtils.ts",
+    "../src/utils/getPackageVersion.ts"
+  ]
+}

@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 import { QueueClient, QueueServiceClient } from "../../src/index.js";
 import {
+  createAndStartRecorder,
   getConnectionStringFromEnvironment,
   getQSU,
   getUniqueName,
-  recorderEnvSetup,
 } from "../utils/index.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -18,8 +18,7 @@ describe("Emulator Tests", () => {
   let queueClient: QueueClient;
   let recorder: Recorder;
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     if (!(env.STORAGE_CONNECTION_STRING ?? "").startsWith("UseDevelopmentStorage=true")) {
       ctx.skip();
     }
@@ -40,19 +39,19 @@ describe("Emulator Tests", () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
     const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.date);
+    assert.isDefined(eResult.expiresOn);
+    assert.isDefined(eResult.insertedOn);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
   });
 
   it("QueueClient can update message with 64B encoded characters", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
     const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
+    assert.isDefined(eResult.messageId);
+    assert.isDefined(eResult.popReceipt);
 
     const tempQueueClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
@@ -66,7 +65,7 @@ describe("Emulator Tests", () => {
       eResult.popReceipt,
       newMessage,
     );
-    assert.ok(uResult.popReceipt);
+    assert.isDefined(uResult.popReceipt);
 
     const pResult = await newClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
@@ -79,9 +78,9 @@ describe("Emulator Tests", () => {
     const result = await newClient.getProperties();
 
     assert.equal(newClient.name, queueName, "Queue name didn't match with the provided one.");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("QueueServiceClient can be created from a connection string", async () => {
@@ -89,7 +88,7 @@ describe("Emulator Tests", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 });

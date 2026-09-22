@@ -1,0 +1,48 @@
+{
+  "apiVersions": {
+    "WebPubSubService": "2024-12-01"
+  },
+  "emitterVersion": "0.52.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "WebPubSubService",
+    "CrossLanguageDefinitionId": {
+      "@azure/web-pubsub!ErrorDetail:interface": "WebPubSubService.ErrorDetail",
+      "@azure/web-pubsub!InnerError:interface": "WebPubSubService.InnerError",
+      "@azure/web-pubsub!AddToGroupsRequest:interface": "WebPubSubService.AddToGroupsRequest",
+      "@azure/web-pubsub!ClientTokenResponse:interface": "WebPubSubService.ClientTokenResponse",
+      "@azure/web-pubsub!RemoveFromGroupsRequest:interface": "WebPubSubService.RemoveFromGroupsRequest",
+      "@azure/web-pubsub!GroupMemberPagedValues:interface": "WebPubSubService.GroupMemberPagedValues",
+      "@azure/web-pubsub!GroupMember:interface": "WebPubSubService.GroupMember",
+      "@azure/web-pubsub!KnownWebPubSubClientType:enum": "WebPubSubService.WebPubSubClientType",
+      "@azure/web-pubsub!KnownResponseContentType:enum": "WebPubSubService.ResponseContentType",
+      "@azure/web-pubsub!KnownMessageContentType:enum": "WebPubSubService.MessageContentType",
+      "@azure/web-pubsub!KnownWebPubSubPermission:enum": "WebPubSubService.WebPubSubPermission",
+      "@azure/web-pubsub!KnownVersions:enum": "WebPubSubService.Versions",
+      "@azure/web-pubsub!WebPubSubServiceClient#addUserToGroup:member(1)": "WebPubSubService.addUserToGroup",
+      "@azure/web-pubsub!WebPubSubServiceClient#removeUserFromGroup:member(1)": "WebPubSubService.removeUserFromGroup",
+      "@azure/web-pubsub!WebPubSubServiceClient#removeUserFromAllGroups:member(1)": "WebPubSubService.removeUserFromAllGroups",
+      "@azure/web-pubsub!WebPubSubServiceClient#sendToUser:member(1)": "WebPubSubService.sendToUser",
+      "@azure/web-pubsub!WebPubSubServiceClient#closeUserConnections:member(1)": "WebPubSubService.closeUserConnections",
+      "@azure/web-pubsub!WebPubSubServiceClient#userExists:member(1)": "WebPubSubService.userExists",
+      "@azure/web-pubsub!WebPubSubServiceClient#grantPermission:member(1)": "WebPubSubService.grantPermission",
+      "@azure/web-pubsub!WebPubSubServiceClient#checkPermission:member(1)": "WebPubSubService.checkPermission",
+      "@azure/web-pubsub!WebPubSubServiceClient#revokePermission:member(1)": "WebPubSubService.revokePermission",
+      "@azure/web-pubsub!WebPubSubServiceClient#addConnectionToGroup:member(1)": "WebPubSubService.addConnectionToGroup",
+      "@azure/web-pubsub!WebPubSubServiceClient#removeConnectionFromGroup:member(1)": "WebPubSubService.removeConnectionFromGroup",
+      "@azure/web-pubsub!WebPubSubServiceClient#listConnectionsInGroup:member(1)": "WebPubSubService.listConnectionsInGroup",
+      "@azure/web-pubsub!WebPubSubServiceClient#sendToGroup:member(1)": "WebPubSubService.sendToGroup",
+      "@azure/web-pubsub!WebPubSubServiceClient#closeGroupConnections:member(1)": "WebPubSubService.closeGroupConnections",
+      "@azure/web-pubsub!WebPubSubServiceClient#groupExists:member(1)": "WebPubSubService.groupExists",
+      "@azure/web-pubsub!WebPubSubServiceClient#removeConnectionFromAllGroups:member(1)": "WebPubSubService.removeConnectionFromAllGroups",
+      "@azure/web-pubsub!WebPubSubServiceClient#sendToConnection:member(1)": "WebPubSubService.sendToConnection",
+      "@azure/web-pubsub!WebPubSubServiceClient#connectionExists:member(1)": "WebPubSubService.connectionExists",
+      "@azure/web-pubsub!WebPubSubServiceClient#closeConnection:member(1)": "WebPubSubService.closeConnection",
+      "@azure/web-pubsub!WebPubSubServiceClient#sendToAll:member(1)": "WebPubSubService.sendToAll",
+      "@azure/web-pubsub!WebPubSubServiceClient#removeConnectionsFromGroups:member(1)": "WebPubSubService.removeConnectionsFromGroups",
+      "@azure/web-pubsub!WebPubSubServiceClient#generateClientToken:member(1)": "WebPubSubService.generateClientToken",
+      "@azure/web-pubsub!WebPubSubServiceClient#closeAllConnections:member(1)": "WebPubSubService.closeAllConnections",
+      "@azure/web-pubsub!WebPubSubServiceClient#addConnectionsToGroups:member(1)": "WebPubSubService.addConnectionsToGroups",
+      "@azure/web-pubsub!WebPubSubServiceClient#getServiceStatus:member(1)": "WebPubSubService.getServiceStatus"
+    }
+  }
+}

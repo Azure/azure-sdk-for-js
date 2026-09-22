@@ -11,7 +11,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { WeightsAndBiasesClientOptionalParams } from "./api/weightsAndBiasesContext.js";
+export { type WeightsAndBiasesClientOptionalParams } from "./api/weightsAndBiasesContext.js";
 
 export class WeightsAndBiasesClient {
   private _client: WeightsAndBiasesContext;

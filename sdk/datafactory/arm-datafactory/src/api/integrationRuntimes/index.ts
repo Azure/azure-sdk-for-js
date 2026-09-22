@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  createLinkedIntegrationRuntime,
+  removeLinks,
+  upgrade,
+  getMonitoringData,
+  syncCredentials,
+  stop,
+  start,
+  listAuthKeys,
+  regenerateAuthKey,
+  getConnectionInfo,
+  listOutboundNetworkDependenciesEndpoints,
+  getStatus,
+  listByFactory,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams,
+  IntegrationRuntimesRemoveLinksOptionalParams,
+  IntegrationRuntimesUpgradeOptionalParams,
+  IntegrationRuntimesGetMonitoringDataOptionalParams,
+  IntegrationRuntimesSyncCredentialsOptionalParams,
+  IntegrationRuntimesStopOptionalParams,
+  IntegrationRuntimesStartOptionalParams,
+  IntegrationRuntimesListAuthKeysOptionalParams,
+  IntegrationRuntimesRegenerateAuthKeyOptionalParams,
+  IntegrationRuntimesGetConnectionInfoOptionalParams,
+  IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams,
+  IntegrationRuntimesGetStatusOptionalParams,
+  IntegrationRuntimesListByFactoryOptionalParams,
+  IntegrationRuntimesDeleteOptionalParams,
+  IntegrationRuntimesUpdateOptionalParams,
+  IntegrationRuntimesCreateOrUpdateOptionalParams,
+  IntegrationRuntimesGetOptionalParams,
+} from "./options.js";

@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  OrganizationsListBySubscriptionOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsGetOptionalParams,
+  type OrganizationsListBySubscriptionOptionalParams,
+  type OrganizationsListByResourceGroupOptionalParams,
+  type OrganizationsDeleteOptionalParams,
+  type OrganizationsUpdateOptionalParams,
+  type OrganizationsCreateOrUpdateOptionalParams,
+  type OrganizationsGetOptionalParams,
 } from "./options.js";

@@ -17,7 +17,7 @@ export type ModeMap<T> = { [k in (typeof printModes)[number]]: T };
 // module would create a difficult circular dependency.
 const DEV_TOOL_PATH = (() => {
   const directoryFragment = path.sep + "dev-tool" + path.sep;
-  const parts = __dirname.split(directoryFragment);
+  const parts = import.meta.dirname.split(directoryFragment);
   // There might be "/dev-tool/" somewhere higher in the path, so
   // we will slice the end off of this array and re-join with "/dev-tool/"
   // to get the full directory part

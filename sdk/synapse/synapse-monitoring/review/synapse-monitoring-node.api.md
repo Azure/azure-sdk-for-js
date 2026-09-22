@@ -6,6 +6,10 @@
 
 import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+
+export { isRestError }
 
 // @public
 export interface Monitoring {
@@ -51,6 +55,8 @@ export interface MonitoringGetSqlJobQueryStringOptionalParams extends coreClient
 
 // @public
 export type MonitoringGetSqlJobQueryStringResponse = SqlQueryStringDataModel;
+
+export { RestError }
 
 // @public (undocumented)
 export interface SparkJob {

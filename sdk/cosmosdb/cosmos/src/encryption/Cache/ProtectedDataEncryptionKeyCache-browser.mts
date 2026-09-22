@@ -1,10 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
+import type { ProtectedDataEncryptionKey } from "../EncryptionKey/index.js";
+
 // TODO: add support for browser environment in phase 2
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class ProtectedDataEncryptionKeyCache {
+  cacheRefresher!: NodeJS.Timeout;
+
   constructor(_cacheTimeToLive: number) {
+    throw new Error("Client-side Encryption not supported in browser environment");
+  }
+
+  public async getOrCreate(
+    _name: string,
+    _keyEncryptionKey: KeyEncryptionKey,
+    _encryptedValue?: Uint8Array,
+    _forceRefresh?: boolean,
+  ): Promise<ProtectedDataEncryptionKey> {
     throw new Error("Client-side Encryption not supported in browser environment");
   }
 }

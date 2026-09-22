@@ -1,29 +1,24 @@
 # Azure TextTranslation REST client library for JavaScript
 
-Text translation is a cloud-based REST API feature of the Translator service that uses neural
-machine translation technology to enable quick and accurate source-to-target text translation
-in real time across all supported languages.
+Azure text translation is a cloud-based REST API provided by the Azure Translator service. It utilizes neural machine translation technology to deliver precise, contextually relevant, and semantically accurate real-time text translations across all supported languages.
 
-The following methods are supported by the Text Translation feature:
+The client library offers several key functionalities:
 
-Languages. Returns a list of languages supported by Translate, Transliterate, and Dictionary Lookup operations.
+- Retrieve the list of languages supported for translation and transliteration operations, as well as LLM models available for translations.
 
-Translate. Renders single source-language text to multiple target-language texts with a single request.
+- Perform deterministic text translation from a specified source language to a target language, with configurable parameters to ensure precision and maintain contextual integrity.
 
-Transliterate. Converts characters or letters of a source language to the corresponding characters or letters of a target language.
+- Execute transliteration by converting text from the original script to an alternative script representation.
 
-Detect. Returns the source code language code and a boolean variable denoting whether the detected language is supported for text translation and transliteration.
-
-Dictionary lookup. Returns equivalent words for the source term in the target language.
-
-Dictionary example Returns grammatical structure and context examples for the source term and target term pair.
+- Use LLM models to produce translation output variants that are tone-specific and gender-aware.
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
 
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-translation-text)
-- [API reference documentation](https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference)
+- [API reference documentation](https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/rest-api-guide)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/samples)
 
 ## Getting started
@@ -31,15 +26,16 @@ Key links:
 ### Currently supported environments
 
 - LTS versions of Node.js
-- Latest versions of Edge, Chrome, Safar and Firefox
+- Latest versions of Edge, Chrome, Safari and Firefox
 
 ### Prerequisites
 
+- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 - An existing Translator service or Cognitive Services resource.
 
 ### Install the `@azure-rest/ai-translation-text` package
 
-Install the Azure Text Translation REST client library for JavaScript with `npm`:
+Install the Azure TextTranslation REST client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/ai-translation-text
@@ -47,7 +43,7 @@ npm install @azure-rest/ai-translation-text
 
 #### Create a Translator service resource
 
-You can create Translator resource following [Create a Translator resource][translator_resource_create].
+You can create a Translator resource following [Create a Translator resource][translator_resource_create].
 
 ### Browser support
 
@@ -68,6 +64,18 @@ Alternatively, use the [Azure CLI][azure_cli] snippet below to get the API key f
 ```PowerShell
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
+
+#### Create a `TextTranslationClient` using an Azure Active Directory credential
+
+To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
+provide an instance of the desired credential type obtained from the
+[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
+
+After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
+As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+can be used to authenticate the client.
 
 ### Create a `TextTranslationClient` using an API key and Region credential
 
@@ -135,12 +143,10 @@ if (languages.transliteration) {
   }
 }
 
-if (languages.dictionary) {
-  console.log("Dictionary languages:");
-  for (const [key, dictionaryLanguage] of Object.entries(languages.dictionary)) {
-    console.log(
-      `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
-    );
+if (languages.models) {
+  console.log("Available LLM Models:");
+  for (const model in languages.models) {
+    console.log(model);
   }
 }
 ```
@@ -166,24 +172,23 @@ const credential: TranslatorCredential = {
 };
 const translationClient = TextTranslationClient(endpoint, credential);
 
-const inputText = [{ text: "This is a test." }];
-const parameters = {
-  to: "cs",
-  from: "en",
+const input = {
+  text: "This is a test.",
+  targets: [{ language: "cs" }],
+  language: "en",
 };
 const translateResponse = await translationClient.path("/translate").post({
-  body: inputText,
-  queryParameters: parameters,
+  body: { inputs: [input] },
 });
 
 if (isUnexpected(translateResponse)) {
   throw translateResponse.body.error;
 }
 
-const translations = translateResponse.body;
+const translations = translateResponse.body.value;
 for (const translation of translations) {
   console.log(
-    `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+    `Text was translated to: '${translation?.translations[0]?.language}' and the result is: '${translation?.translations[0]?.text}'.`,
   );
 }
 ```
@@ -216,7 +221,7 @@ const parameters = {
   toScript: "Latn",
 };
 const transliterateResponse = await translationClient.path("/transliterate").post({
-  body: inputText,
+  body: { inputs: inputText },
   queryParameters: parameters,
 });
 
@@ -224,8 +229,8 @@ if (isUnexpected(transliterateResponse)) {
   throw transliterateResponse.body.error;
 }
 
-const translations = transliterateResponse.body;
-for (const transliteration of translations) {
+const transliterations = transliterateResponse.body.value;
+for (const transliteration of transliterations) {
   console.log(
     `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`,
   );
@@ -234,147 +239,13 @@ for (const transliteration of translations) {
 
 Please refer to the service documentation for a conceptual discussion of [transliterate][transliterate_doc].
 
-### Break Sentence
 
-Identifies the positioning of sentence boundaries in a piece of text.
-
-```ts snippet:ReadmeSampleBreakSentence
-import TextTranslationClient, {
-  TranslatorCredential,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-const endpoint = "https://api.cognitive.microsofttranslator.com";
-const key = "YOUR_SUBSCRIPTION_KEY";
-const region = "westus";
-const credential: TranslatorCredential = {
-  key,
-  region,
-};
-const translationClient = TextTranslationClient(endpoint, credential);
-
-const inputText = [{ text: "zhè shì gè cè shì。" }];
-const parameters = {
-  language: "zh-Hans",
-  script: "Latn",
-};
-const breakSentenceResponse = await translationClient.path("/breaksentence").post({
-  body: inputText,
-  queryParameters: parameters,
-});
-
-if (isUnexpected(breakSentenceResponse)) {
-  throw breakSentenceResponse.body.error;
-}
-
-const breakSentences = breakSentenceResponse.body;
-for (const breakSentence of breakSentences) {
-  console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
-}
-```
-
-Please refer to the service documentation for a conceptual discussion of [break sentence][breaksentence_doc].
-
-### Dictionary Lookup
-
-Returns equivalent words for the source term in the target language.
-
-```ts snippet:ReadmeSampleDictionaryLookup
-import TextTranslationClient, {
-  TranslatorCredential,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-const endpoint = "https://api.cognitive.microsofttranslator.com";
-const key = "YOUR_SUBSCRIPTION_KEY";
-const region = "westus";
-const credential: TranslatorCredential = {
-  key,
-  region,
-};
-const translationClient = TextTranslationClient(endpoint, credential);
-
-const inputText = [{ text: "fly" }];
-const parameters = {
-  to: "es",
-  from: "en",
-};
-const dictionaryResponse = await translationClient.path("/dictionary/lookup").post({
-  body: inputText,
-  queryParameters: parameters,
-});
-
-if (isUnexpected(dictionaryResponse)) {
-  throw dictionaryResponse.body.error;
-}
-
-const dictionaryEntries = dictionaryResponse.body;
-for (const dictionaryEntry of dictionaryEntries) {
-  console.log(
-    `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`,
-  );
-  console.log(
-    `First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`,
-  );
-}
-```
-
-Please refer to the service documentation for a conceptual discussion of [dictionary lookup][dictionarylookup_doc].
-
-### Dictionary Examples
-
-Returns grammatical structure and context examples for the source term and target term pair.
-
-```ts snippet:ReadmeSampleDictionaryExamples
-import TextTranslationClient, {
-  TranslatorCredential,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-const endpoint = "https://api.cognitive.microsofttranslator.com";
-const key = "YOUR_SUBSCRIPTION_KEY";
-const region = "westus";
-const credential: TranslatorCredential = {
-  key,
-  region,
-};
-const translationClient = TextTranslationClient(endpoint, credential);
-
-const inputText = [{ text: "fly", translation: "volar" }];
-const parameters = {
-  to: "es",
-  from: "en",
-};
-const dictionaryResponse = await translationClient.path("/dictionary/examples").post({
-  body: inputText,
-  queryParameters: parameters,
-});
-
-if (isUnexpected(dictionaryResponse)) {
-  throw dictionaryResponse.body.error;
-}
-
-const dictionaryExamples = dictionaryResponse.body;
-for (const dictionaryExample of dictionaryExamples) {
-  console.log(
-    `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`,
-  );
-  const firstExample = dictionaryExample?.examples[0];
-  console.log(
-    `Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`,
-  );
-}
-```
-
-Please refer to the service documentation for a conceptual discussion of [dictionary examples][dictionaryexamples_doc].
 
 ## Troubleshooting
 
 When you interact with the Translator Service using the TextTranslator client library, errors returned by the Translator service correspond to the same HTTP status codes returned for REST API requests.
 
 For example, if you submit a translation request without a target translate language, a `400` error is returned, indicating "Bad Request".
-
-You can find the different error codes returned by the service in the [Service Documentation][service_errors].
 
 ### Logging
 
@@ -390,13 +261,9 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com
-[translator_resource_create]: https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource
-[translator_auth]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#authentication
-[service_errors]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#errors
+[translator_resource_create]: https://learn.microsoft.com/azure/ai-services/translator/how-to/create-translator-resource?tabs=foundry
+[translator_auth]: https://learn.microsoft.com/azure/ai-services/translator/text-translation/reference/authentication
 [translator_client_class]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-translation-text/texttranslationclient
-[languages_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-languages
-[translate_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate
-[transliterate_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-transliterate
-[breaksentence_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-break-sentence
-[dictionarylookup_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-dictionary-lookup
-[dictionaryexamples_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-dictionary-examples
+[languages_doc]: https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/get-languages
+[translate_doc]: https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/translate-api
+[transliterate_doc]: https://learn.microsoft.com/azure/ai-services/translator/text-translation/preview/transliterate-api

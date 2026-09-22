@@ -1,0 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { HorizonDbClient } from "@azure/arm-horizondb";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets information about a HorizonDB cluster.
+ *
+ * @summary gets information about a HorizonDB cluster.
+ * x-ms-original-file: 2026-05-01-preview/Clusters_Get.json
+ */
+async function getAHorizonDBCluster(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new HorizonDbClient(credential, subscriptionId);
+  const result = await client.horizonDbClusters.get("exampleresourcegroup", "examplecluster");
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await getAHorizonDBCluster();
+}
+
+main().catch(console.error);

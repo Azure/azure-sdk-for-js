@@ -42,13 +42,24 @@ export async function main(): Promise<void> {
   });
 
   function createData(count: number): number[] {
+    console.log(`Creating ${count} events to send...`);
     return [...Array(count).keys()];
   }
 
   console.log("Enqueuing events...");
-
-  for (const item of createData(100)) {
-    await client.enqueueEvent({ body: item });
+  try {
+    for (const item of createData(10)) {
+      await client.enqueueEvent({ body: item });
+    }
+  } catch (e: any) {
+    console.log(e.message);
+    console.log(e.name);
+    if (e instanceof AggregateError) {
+      for (const error of e.errors) {
+        console.log(error.message);
+        console.log(error.name);
+      }
+    }
   }
 
   /**

@@ -61,6 +61,18 @@ describe("DataTransformer", () => {
       (decoded as number).should.equal(numberBody);
     });
 
+    it("should preserve JSON number semantics for non-finite numbers", async () => {
+      for (const body of [Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]) {
+        const encoded = transformer.encode(body, "data");
+        encoded.typecode.should.equal(117);
+        isBuffer(encoded.content).should.equal(true);
+
+        const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
+        should.equal(decodedType, bodyType);
+        should.equal(decoded, null);
+      }
+    });
+
     it("should correctly encode/decode a boolean message body", async () => {
       const encoded = transformer.encode(booleanBody, "data");
       encoded.typecode.should.equal(117);
@@ -405,6 +417,21 @@ describe("DataTransformer", () => {
       );
       should.equal(decodedType, "data");
       assert.deepStrictEqual(decoded, jsonStringBufferBody);
+    });
+
+    it("should correctly decode JSON literals with trailing whitespace", async () => {
+      const cases = [
+        { body: Buffer.from("true\n", "utf8"), expected: true },
+        { body: Buffer.from("false ", "utf8"), expected: false },
+        { body: Buffer.from("null\t", "utf8"), expected: null },
+        { body: Buffer.from(" 123 \n", "utf8"), expected: 123 },
+      ];
+
+      for (const { body, expected } of cases) {
+        const { body: decoded, bodyType: decodedType } = transformer.decode(body, false);
+        should.equal(decodedType, "data");
+        should.equal(decoded, expected);
+      }
     });
 
     it("should correctly decode a buffer message body and that body is a JSON string for a rhea AMQP section", async () => {

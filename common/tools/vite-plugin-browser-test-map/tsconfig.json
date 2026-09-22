@@ -1,11 +1,12 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "target": "es2022",
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
-    "declarationDir": "./types"
+    "rootDir": "./src",
+    "declarationDir": "./types",
+    "types": ["node"]
   },
   "include": ["src/**/*.ts"]
 }

@@ -40,8 +40,8 @@ export async function main() {
   console.log(`Use configuration provider to load and resolve secret reference`);
   const appConfigProvider = await load(endpoint, credential, {
     keyVaultOptions: {
-      credential: credential
-    }
+      credential: credential,
+    },
   });
 
   console.log(`Secret value: ${appConfigProvider.get(secretName)}`);

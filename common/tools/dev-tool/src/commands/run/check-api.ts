@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import tsMin from "@_ts/min";
 import tsMax from "@_ts/max";
-import { createPrinter } from "../../util/printer";
-import { resolveProject } from "../../util/resolveProject";
+import { createPrinter } from "../../util/printer.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
 import path from "node:path";
 import semver from "semver";
 

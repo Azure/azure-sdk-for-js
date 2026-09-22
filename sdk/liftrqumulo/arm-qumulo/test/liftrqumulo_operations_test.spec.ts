@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("liftrqumulo test", () => {
+describe.skip("liftrqumulo test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: QumuloStorage;

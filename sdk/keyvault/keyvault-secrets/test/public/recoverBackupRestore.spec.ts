@@ -84,8 +84,9 @@ describe("Secret client - restore secrets and recover backups", () => {
     } else {
       assert.equal(result!.constructor, Uint8Array, "Unexpected return value from backupKey()");
     }
-    assert.ok(
-      result!.length > 0,
+    assert.isAbove(
+      result!.length,
+      0,
       `Unexpected length (${result!.length}) of buffer from backupSecret()`,
     );
   });

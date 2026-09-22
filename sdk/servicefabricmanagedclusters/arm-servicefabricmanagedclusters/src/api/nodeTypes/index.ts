@@ -18,7 +18,7 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
   NodeTypesListFaultSimulationOptionalParams,
   NodeTypesGetFaultSimulationOptionalParams,
   NodeTypesStopFaultSimulationOptionalParams,

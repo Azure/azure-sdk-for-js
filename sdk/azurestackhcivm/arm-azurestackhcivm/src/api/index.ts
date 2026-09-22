@@ -3,6 +3,6 @@
 
 export {
   createAzureStackHCIVMManagement,
-  AzureStackHCIVMManagementContext,
-  AzureStackHCIVMManagementClientOptionalParams,
+  type AzureStackHCIVMManagementContext,
+  type AzureStackHCIVMManagementClientOptionalParams,
 } from "./azureStackHcivmManagementContext.js";

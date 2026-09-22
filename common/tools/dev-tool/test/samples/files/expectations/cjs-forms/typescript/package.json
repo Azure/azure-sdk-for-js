@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "CommonJS client library samples for TypeScript",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -28,12 +28,12 @@
     "cjs-forms": "latest",
     "dotenv": "latest",
     "@azure/test1": "latest",
-    "@azure-test2/test2": "next"
+    "@azure-test2/test2": "beta"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.0.0",
     "cross-env": "latest",
     "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.2"
   }
 }

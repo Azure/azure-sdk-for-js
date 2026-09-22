@@ -18,7 +18,7 @@ import {
   getNotificationHubJob,
   submitNotificationHubJob,
 } from "@azure/notification-hubs/api";
-import { NotificationHubJob } from "@azure/notification-hubs/models";
+import type { NotificationHubJob } from "@azure/notification-hubs/models";
 import { delay } from "@azure/core-util";
 
 // Define connection string and hub name

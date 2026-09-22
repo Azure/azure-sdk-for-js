@@ -116,8 +116,8 @@ describe("Library/AzureFunctionsHook", () => {
         metricHandler = new MetricHandler(config);
         handler = new TraceHandler(config, metricHandler);
         const azureFnHook = new AzureFunctionsHook();
-        assert.ok(preInvocationCalled, "preInvocationCalled");
-        assert.ok(azureFnHook, "azureFnHook");
+        assert.isDefined(preInvocationCalled, "preInvocationCalled");
+        assert.isDefined(azureFnHook, "azureFnHook");
 
         // Azure Functions should call preinvocation callback
         const preInvocationContext: PreInvocationContext = {
@@ -129,7 +129,7 @@ describe("Library/AzureFunctionsHook", () => {
               (span as any)["_spanContext"]["traceId"],
               "0af7651916cd43dd8448eb211c80319c",
             );
-            assert.ok((span as any)["_spanContext"]["spanId"]);
+            assert.isDefined((span as any)["_spanContext"]["spanId"]);
           },
           invocationContext: testInvocationContext,
         };

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { IncomingMessage } from "node:http";
+import type { NodeIncomingMessage, NodeJSReadableStream } from "#platform/types";
 
 /**
  * Represents a message sent in an event stream
@@ -29,7 +29,7 @@ export type EventMessageStream = ReadableStream<EventMessage> &
 /**
  * A stream containing the bytes of an SSE response body.
  */
-export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | IncomingMessage;
+export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | NodeIncomingMessage;
 
 /**
  * Context supplied when establishing an SSE connection.
@@ -116,20 +116,6 @@ export interface ReconnectingSseStreamOptions<TResponse extends SseConnectRespon
   maxRetries?: number;
 }
 
-export type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-
-/**
- * A Node.js Readable stream that also has a `destroy` method.
- */
-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
-  /**
-   * Destroy the stream. Optionally emit an 'error' event, and emit a
-   * 'close' event (unless emitClose is set to false). After this call,
-   * internal resources will be released.
-   */
-  destroy(error?: Error): void;
-}
-
 /**
  * An error thrown when an SSE stream reaches its configured reconnection limit.
  */
@@ -137,7 +123,7 @@ export class SseRetryError extends Error {
   /**
    * The last transport error, when reconnection followed a transport failure.
    */
-  readonly cause?: unknown;
+  override readonly cause?: unknown;
 
   /**
    * Creates an error indicating that an SSE stream exhausted its reconnection attempts.
@@ -149,3 +135,5 @@ export class SseRetryError extends Error {
     this.cause = cause;
   }
 }
+
+export type { NodeIncomingMessage, NodeJSReadableStream } from "#platform/types";

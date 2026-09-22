@@ -266,8 +266,7 @@ export function isUnexpected(
 ): response is IdentifyFromPersonDirectoryDefaultResponse;
 export function isUnexpected(
   response:
-    | IdentifyFromDynamicPersonGroup200Response
-    | IdentifyFromDynamicPersonGroupDefaultResponse,
+    IdentifyFromDynamicPersonGroup200Response | IdentifyFromDynamicPersonGroupDefaultResponse,
 ): response is IdentifyFromDynamicPersonGroupDefaultResponse;
 export function isUnexpected(
   response: VerifyFaceToFace200Response | VerifyFaceToFaceDefaultResponse,
@@ -325,8 +324,7 @@ export function isUnexpected(
 ): response is GetLargeFaceListsDefaultResponse;
 export function isUnexpected(
   response:
-    | GetLargeFaceListTrainingStatus200Response
-    | GetLargeFaceListTrainingStatusDefaultResponse,
+    GetLargeFaceListTrainingStatus200Response | GetLargeFaceListTrainingStatusDefaultResponse,
 ): response is GetLargeFaceListTrainingStatusDefaultResponse;
 export function isUnexpected(
   response:
@@ -372,9 +370,7 @@ export function isUnexpected(
 ): response is GetPersonGroupTrainingStatusDefaultResponse;
 export function isUnexpected(
   response:
-    | TrainPersonGroup202Response
-    | TrainPersonGroupLogicalResponse
-    | TrainPersonGroupDefaultResponse,
+    TrainPersonGroup202Response | TrainPersonGroupLogicalResponse | TrainPersonGroupDefaultResponse,
 ): response is TrainPersonGroupDefaultResponse;
 export function isUnexpected(
   response: CreatePersonGroupPerson200Response | CreatePersonGroupPersonDefaultResponse,
@@ -393,8 +389,7 @@ export function isUnexpected(
 ): response is UpdatePersonGroupPersonDefaultResponse;
 export function isUnexpected(
   response:
-    | AddPersonGroupPersonFaceFromUrl200Response
-    | AddPersonGroupPersonFaceFromUrlDefaultResponse,
+    AddPersonGroupPersonFaceFromUrl200Response | AddPersonGroupPersonFaceFromUrlDefaultResponse,
 ): response is AddPersonGroupPersonFaceFromUrlDefaultResponse;
 export function isUnexpected(
   response: AddPersonGroupPersonFace200Response | AddPersonGroupPersonFaceDefaultResponse,
@@ -425,8 +420,7 @@ export function isUnexpected(
 ): response is GetLargePersonGroupsDefaultResponse;
 export function isUnexpected(
   response:
-    | GetLargePersonGroupTrainingStatus200Response
-    | GetLargePersonGroupTrainingStatusDefaultResponse,
+    GetLargePersonGroupTrainingStatus200Response | GetLargePersonGroupTrainingStatusDefaultResponse,
 ): response is GetLargePersonGroupTrainingStatusDefaultResponse;
 export function isUnexpected(
   response:
@@ -459,16 +453,14 @@ export function isUnexpected(
 ): response is AddLargePersonGroupPersonFaceDefaultResponse;
 export function isUnexpected(
   response:
-    | DeleteLargePersonGroupPersonFace200Response
-    | DeleteLargePersonGroupPersonFaceDefaultResponse,
+    DeleteLargePersonGroupPersonFace200Response | DeleteLargePersonGroupPersonFaceDefaultResponse,
 ): response is DeleteLargePersonGroupPersonFaceDefaultResponse;
 export function isUnexpected(
   response: GetLargePersonGroupPersonFace200Response | GetLargePersonGroupPersonFaceDefaultResponse,
 ): response is GetLargePersonGroupPersonFaceDefaultResponse;
 export function isUnexpected(
   response:
-    | UpdateLargePersonGroupPersonFace200Response
-    | UpdateLargePersonGroupPersonFaceDefaultResponse,
+    UpdateLargePersonGroupPersonFace200Response | UpdateLargePersonGroupPersonFaceDefaultResponse,
 ): response is UpdateLargePersonGroupPersonFaceDefaultResponse;
 export function isUnexpected(
   response: CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse,
@@ -481,13 +473,11 @@ export function isUnexpected(
 ): response is GetLivenessSessionResultDefaultResponse;
 export function isUnexpected(
   response:
-    | CreateLivenessWithVerifySession200Response
-    | CreateLivenessWithVerifySessionDefaultResponse,
+    CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse,
 ): response is CreateLivenessWithVerifySessionDefaultResponse;
 export function isUnexpected(
   response:
-    | DeleteLivenessWithVerifySession204Response
-    | DeleteLivenessWithVerifySessionDefaultResponse,
+    DeleteLivenessWithVerifySession204Response | DeleteLivenessWithVerifySessionDefaultResponse,
 ): response is DeleteLivenessWithVerifySessionDefaultResponse;
 export function isUnexpected(
   response:

@@ -21,8 +21,7 @@ export interface PiiEntity extends Entity {}
  * The result of the recognize entities operation on a single document.
  */
 export type RecognizePiiEntitiesResult =
-  | RecognizePiiEntitiesSuccessResult
-  | RecognizePiiEntitiesErrorResult;
+  RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
 
 /**
  * The result of the recognize entities operation on a single document, containing the collection of

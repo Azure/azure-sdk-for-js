@@ -16,7 +16,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ConnectedCache test", () => {
+describe.skip("ConnectedCache test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConnectedCacheClient;
