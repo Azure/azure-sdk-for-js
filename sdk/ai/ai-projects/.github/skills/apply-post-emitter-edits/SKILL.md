@@ -5,7 +5,7 @@ description: "Apply language-specific post-emitter fixes to ai-projects after a 
 
 # Apply Post-Emitter Edits to ai-projects
 
-The TypeSpec emitter writes **directly into `src/` and `generated/`**. This skill reviews that working-tree diff, then handles the work in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory and no three-way merge.
+The TypeSpec emitter writes **directly into `src/` and `generated/`**. The `customize` hook reconciles emitted changes with the committed generated and customized trees using the package's guarded resolver. This skill audits that working-tree diff and handles unresolved changes in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory.
 
 When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file only to validate whether changed SDK source matches upstream TypeSpec intent. The standing workarounds still apply, but upstream commit descriptions can justify specific non-additive spec changes that should be preserved rather than reverted.
 
@@ -29,9 +29,13 @@ The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.m
 
 Run from `sdk/ai/ai-projects/`.
 
-`npm run customize` applies the customization layer and then runs formatting.
-Both local `npm run generate:client` and the SDK generation pipeline use this hook.
-The audits and per-rule edits below are still required.
+`npm run customize` applies the generic customization merge, runs
+`scripts/customize.mjs` to reconcile declarations and validate the proposed source,
+then formats and runs the guards again with `--check`. Both local
+`npm run generate:client` and the SDK generation pipeline use this hook.
+See [the resolver workflow](../../../scripts/customization/README.md) for supported
+changes and fixture tests. The audits and per-rule edits below are still required
+for unresolved changes; do not bypass a resolver diagnostic just to make generation pass.
 
 Use this phase order to avoid mixing unrelated decisions:
 
