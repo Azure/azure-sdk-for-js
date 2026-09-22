@@ -5,7 +5,6 @@ import { ConnectionStringParser } from "../../utils/connectionStringParser.js";
 import { EU_CONNECTION_STRING, EU_ENDPOINTS, NON_EU_CONNECTION_STRING } from "./types.js";
 
 const DEFAULT_STATS_CONNECTION_STRING = "DEFAULT_STATS_CONNECTION_STRING";
-const DEFAULT_SDK_STATS_ENDPOINT = "DEFAULT_SDK_STATS_ENDPOINT";
 const SUPPORTED_DATA_BOUNDARIES = "SUPPORTED_DATA_BOUNDARIES";
 
 export function getBuiltInStatsbeatConnectionString(endpointUrl: string): string {
@@ -21,7 +20,6 @@ export function resolveStatsbeatConnectionString(
   const defaultConnectionString = getValidConnectionString(
     settings[DEFAULT_STATS_CONNECTION_STRING],
   );
-  const defaultEndpoint = getValidEndpoint(settings[DEFAULT_SDK_STATS_ENDPOINT]);
   const region = getRegion(endpointUrl);
   const boundaries = parseStringArray(settings[SUPPORTED_DATA_BOUNDARIES]);
 
@@ -35,20 +33,12 @@ export function resolveStatsbeatConnectionString(
         const connectionString =
           getValidConnectionString(settings[`${boundary}_STATS_CONNECTION_STRING`]) ??
           defaultConnectionString;
-        if (!connectionString) {
-          return fallback;
-        }
-        const endpointSetting = settings[`${boundary}_SDK_STATS_ENDPOINT`];
-        const endpoint =
-          endpointSetting === undefined ? defaultEndpoint : getValidEndpoint(endpointSetting);
-        return applySdkStatsEndpoint(connectionString, endpoint);
+        return connectionString ?? fallback;
       }
     }
   }
 
-  return defaultConnectionString
-    ? applySdkStatsEndpoint(defaultConnectionString, defaultEndpoint)
-    : fallback;
+  return defaultConnectionString ?? fallback;
 }
 
 function getRegion(endpointUrl: string): string | undefined {
@@ -85,27 +75,4 @@ function getValidConnectionString(value: unknown): string | undefined {
   } catch {
     return undefined;
   }
-}
-
-function getValidEndpoint(value: unknown): string | undefined {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-  try {
-    const endpoint = new URL(value);
-    return endpoint.protocol === "https:" ? `${endpoint.origin}/` : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-function applySdkStatsEndpoint(connectionString: string, endpoint: string | undefined): string {
-  if (!endpoint) {
-    return connectionString;
-  }
-  const fields = connectionString
-    .split(";")
-    .filter((field) => !field.toLowerCase().startsWith("ingestionendpoint="));
-  fields.push(`IngestionEndpoint=${endpoint}`);
-  return fields.join(";");
 }

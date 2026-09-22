@@ -179,7 +179,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   /**
-   * Apply a OneSettings SDKStats destination without changing customer-endpoint dimensions.
+   * Apply a OneSettings SDKStats connection string without changing customer-endpoint dimensions.
    * @internal
    */
   public async updateConnectionString(connectionString: string): Promise<void> {

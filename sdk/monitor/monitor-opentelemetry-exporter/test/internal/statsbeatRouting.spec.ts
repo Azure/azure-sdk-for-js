@@ -21,33 +21,29 @@ const CUSTOMER_IKEY = "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
 const EU_ENDPOINT = /IngestionEndpoint=([^;]+)/.exec(EU_CONNECTION_STRING)![1];
 const EU_IKEY = /InstrumentationKey=([^;]+)/.exec(EU_CONNECTION_STRING)![1];
 
-describe("OneSettings Statsbeat endpoint routing", () => {
-  it("uses the boundary endpoint while preserving the boundary instrumentation key", () => {
+describe("OneSettings Statsbeat connection string routing", () => {
+  it("uses the boundary connection string", () => {
+    const connectionString =
+      "InstrumentationKey=11111111-1111-1111-1111-111111111111;IngestionEndpoint=https://eu.stats.example.com/";
     const result = resolveStatsbeatConnectionString(
       "https://westeurope-1.in.applicationinsights.azure.com/",
       {
         SUPPORTED_DATA_BOUNDARIES: '["EU"]',
         EU_REGIONS: '["westeurope"]',
-        EU_STATS_CONNECTION_STRING:
-          "InstrumentationKey=11111111-1111-1111-1111-111111111111;IngestionEndpoint=https://eu.stats.example.com/",
-        EU_SDK_STATS_ENDPOINT: "https://eu.collector.example.com/",
+        EU_STATS_CONNECTION_STRING: connectionString,
       },
     );
 
-    assert.equal(
-      result,
-      "InstrumentationKey=11111111-1111-1111-1111-111111111111;IngestionEndpoint=https://eu.collector.example.com/",
-    );
+    assert.equal(result, connectionString);
   });
 
-  it("preserves the connection string endpoint when the endpoint setting is invalid", () => {
+  it("uses the default connection string outside configured boundaries", () => {
     const connectionString =
       "InstrumentationKey=11111111-1111-1111-1111-111111111111;IngestionEndpoint=https://default.stats.example.com/";
 
     assert.equal(
       resolveStatsbeatConnectionString("https://westus-1.in.applicationinsights.azure.com/", {
         DEFAULT_STATS_CONNECTION_STRING: connectionString,
-        DEFAULT_SDK_STATS_ENDPOINT: "not-a-url",
       }),
       connectionString,
     );
