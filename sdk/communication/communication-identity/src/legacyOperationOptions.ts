@@ -37,6 +37,9 @@ export async function withLegacyOperationOptions<T>(
 
     const normalizedError = normalizeResponseError(error, response, responseError);
     const errorWithResponse = getErrorWithResponse(normalizedError);
+    if (response && errorWithResponse) {
+      errorWithResponse.response = response;
+    }
     const legacyResponse = response ?? errorWithResponse?.response;
     if (legacyResponse) {
       const flatResponse = response
@@ -80,7 +83,7 @@ function normalizeResponseError(
   response: FullOperationResponse | undefined,
   responseError: unknown,
 ): unknown {
-  if (!response || response.status < 400 || responseError !== undefined || isRestError(error)) {
+  if (!response || response.status < 300 || responseError !== undefined || isRestError(error)) {
     return error;
   }
 

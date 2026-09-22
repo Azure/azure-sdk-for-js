@@ -107,9 +107,9 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: GetTokenOptions = {},
   ): Promise<CommunicationAccessToken> {
-    const userId = getCommunicationUserId(user);
-    assertRequired(scopes, "scopes");
     return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
+      const userId = getCommunicationUserId(user);
+      assertRequired(scopes, "scopes");
       return withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
         this.client.identityOperations.issueAccessToken(
           userId,
@@ -130,11 +130,11 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     options: OperationOptions = {},
   ): Promise<void> {
-    const userId = getCommunicationUserId(user);
     return tracingClient.withSpan(
       "CommunicationIdentity-revokeTokens",
       options,
       async (updatedOptions) => {
+        const userId = getCommunicationUserId(user);
         await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
           this.client.identityOperations.revokeAccessTokens(userId, generatedOptions),
         );
@@ -175,11 +175,11 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: CreateUserAndTokenOptions = {},
   ): Promise<CommunicationUserToken> {
-    assertRequired(scopes, "scopes");
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
       options,
       async (updatedOptions) => {
+        assertRequired(scopes, "scopes");
         const { identity, accessToken } = await withLegacyOperationOptions(
           updatedOptions,
           (generatedOptions) =>
@@ -209,11 +209,11 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     options: OperationOptions = {},
   ): Promise<void> {
-    const userId = getCommunicationUserId(user);
     return tracingClient.withSpan(
       "CommunicationIdentity-deleteUser",
       options,
       async (updatedOptions) => {
+        const userId = getCommunicationUserId(user);
         await withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
           this.client.identityOperations.deleteIdentityOperation(userId, generatedOptions),
         );
@@ -229,14 +229,14 @@ export class CommunicationIdentityClient {
   public getTokenForTeamsUser(
     options: GetTokenForTeamsUserOptions,
   ): Promise<CommunicationAccessToken> {
-    assertRequired(options, "options");
-    assertRequired(options.teamsUserAadToken, "teamsUserAadToken");
-    assertRequired(options.clientId, "clientId");
-    assertRequired(options.userObjectId, "userObjectId");
     return tracingClient.withSpan(
       "CommunicationIdentity-getTokenForTeamsUser",
       options,
       (updatedOptions) => {
+        assertRequired(options, "options");
+        assertRequired(options.teamsUserAadToken, "teamsUserAadToken");
+        assertRequired(options.clientId, "clientId");
+        assertRequired(options.userObjectId, "userObjectId");
         const { teamsUserAadToken, clientId, userObjectId } = updatedOptions;
         return withLegacyOperationOptions(updatedOptions, (generatedOptions) =>
           this.client.teamsUserOperations.exchangeTeamsUserAccessToken(

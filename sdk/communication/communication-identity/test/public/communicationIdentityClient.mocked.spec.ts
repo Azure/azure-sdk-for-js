@@ -233,6 +233,12 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.equal(rawResponse.status, 400);
     assert.deepEqual(flatResponse, responseBody);
     assert.instanceOf(error, RestError);
+    assert.equal(error.response?.bodyAsText, JSON.stringify(responseBody));
+    assert.deepEqual(
+      (error.response as (typeof error.response & { parsedBody?: unknown }) | undefined)
+        ?.parsedBody,
+      responseBody,
+    );
   });
 
   it("preserves RestError metadata for non-envelope gateway errors", async () => {
@@ -264,46 +270,75 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     expect(sendRequest).toHaveBeenCalledOnce();
   });
 
-  it("validates required operation arguments before sending a request", () => {
+  it("preserves RestError metadata for unexpected redirects", async () => {
+    const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => ({
+      status: 304,
+      headers: createHttpHeaders({ "content-type": "text/plain" }),
+      request,
+      bodyAsText: "Not Modified",
+    }));
+    const client = new CommunicationIdentityClient(
+      "endpoint=https://contoso.spool.azure.local;accesskey=banana",
+      { httpClient: { sendRequest } } as CommunicationIdentityClientOptions,
+    );
+
+    await client.getToken(user, ["chat"]).then(
+      () => assert.fail("Expected the redirect response to reject"),
+      (error: unknown) => {
+        assert.instanceOf(error, RestError);
+        assert.equal(error.message, "Not Modified");
+        assert.equal(error.statusCode, 304);
+        assert.equal(error.response?.bodyAsText, "Not Modified");
+        assert.equal(error.details, "Not Modified");
+      },
+    );
+
+    expect(sendRequest).toHaveBeenCalledOnce();
+  });
+
+  it("validates required operation arguments through rejected promises", async () => {
     const sendRequest = vi.fn<HttpClient["sendRequest"]>();
     const client = new CommunicationIdentityClient(
       "endpoint=https://contoso.spool.azure.local;accesskey=banana",
       { httpClient: { sendRequest } } as CommunicationIdentityClientOptions,
     );
 
-    expect(() => client.getToken({} as CommunicationUserIdentifier, ["chat"])).toThrowError(
+    await expect(client.getToken({} as CommunicationUserIdentifier, ["chat"])).rejects.toThrowError(
       "id cannot be null or undefined.",
     );
-    expect(() => client.getToken(user, undefined as never)).toThrowError(
+    await expect(client.getToken(user, undefined as never)).rejects.toThrowError(
       "scopes cannot be null or undefined.",
     );
-    expect(() => client.revokeTokens({} as CommunicationUserIdentifier)).toThrowError(
+    await expect(client.revokeTokens({} as CommunicationUserIdentifier)).rejects.toThrowError(
       "id cannot be null or undefined.",
     );
-    expect(() => client.createUserAndToken(undefined as never)).toThrowError(
+    await expect(client.createUserAndToken(undefined as never)).rejects.toThrowError(
       "scopes cannot be null or undefined.",
     );
-    expect(() => client.deleteUser({} as CommunicationUserIdentifier)).toThrowError(
+    await expect(client.deleteUser({} as CommunicationUserIdentifier)).rejects.toThrowError(
       "id cannot be null or undefined.",
     );
-    expect(() =>
+    await expect(client.getTokenForTeamsUser(undefined as never)).rejects.toThrowError(
+      "options cannot be null or undefined.",
+    );
+    await expect(
       client.getTokenForTeamsUser({
         clientId: "clientId",
         userObjectId: "userObjectId",
       } as never),
-    ).toThrowError("teamsUserAadToken cannot be null or undefined.");
-    expect(() =>
+    ).rejects.toThrowError("teamsUserAadToken cannot be null or undefined.");
+    await expect(
       client.getTokenForTeamsUser({
         teamsUserAadToken: "token",
         userObjectId: "userObjectId",
       } as never),
-    ).toThrowError("clientId cannot be null or undefined.");
-    expect(() =>
+    ).rejects.toThrowError("clientId cannot be null or undefined.");
+    await expect(
       client.getTokenForTeamsUser({
         teamsUserAadToken: "token",
         clientId: "clientId",
       } as never),
-    ).toThrowError("userObjectId cannot be null or undefined.");
+    ).rejects.toThrowError("userObjectId cannot be null or undefined.");
     expect(sendRequest).not.toHaveBeenCalled();
   });
 
