@@ -519,7 +519,7 @@ export interface QuotaTransferProperties {
   /** Recipient tenant id, resolved by the service from the recipient subscription. */
   readonly destinationTenantId?: string;
   /** Billing account id both donor and recipient subscriptions must roll up to. */
-  billingAccountId: string;
+  readonly billingAccountId?: string;
   /**
    * The quota dimension being moved, scoped by the URI's target provider
    * (for example, `standardDv5Family` under Microsoft.Compute).
@@ -558,7 +558,6 @@ export function quotaTransferPropertiesSerializer(item: QuotaTransferProperties)
     displayName: item["displayName"],
     comment: item["comment"],
     destinationSubscriptionId: item["destinationSubscriptionId"],
-    billingAccountId: item["billingAccountId"],
     resourceName: item["resourceName"],
     amount: item["amount"],
     autoApprove: item["autoApprove"],

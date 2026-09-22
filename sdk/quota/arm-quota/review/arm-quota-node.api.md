@@ -777,7 +777,7 @@ export interface QuotaTransferProperties {
     amount: number;
     readonly approval?: ApprovalRecord;
     autoApprove?: boolean;
-    billingAccountId: string;
+    readonly billingAccountId?: string;
     readonly cancellation?: CancellationRecord;
     comment?: string;
     readonly createdAt?: Date;

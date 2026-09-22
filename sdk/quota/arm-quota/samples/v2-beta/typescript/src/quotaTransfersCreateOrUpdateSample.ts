@@ -27,7 +27,6 @@ async function quotaTransfersCreateOrUpdateDonorSubmit(): Promise<void> {
         displayName: "Move 50 Dv5 vCPU to recipient",
         comment: "Backfill for new prod fleet rollout.",
         destinationSubscriptionId: "aaaaaaaa-bbbb-cccc-dddd-000000000002",
-        billingAccountId: "1234567890",
         resourceName: "standardDv5Family",
         amount: 50,
         autoApprove: false,
@@ -59,7 +58,6 @@ async function quotaTransfersCreateOrUpdateAutoApproveSameTenant(): Promise<void
       properties: {
         displayName: "Move 25 Dv5 vCPU - auto approved",
         destinationSubscriptionId: "aaaaaaaa-bbbb-cccc-dddd-000000000002",
-        billingAccountId: "1234567890",
         resourceName: "standardDv5Family",
         amount: 25,
         autoApprove: true,
