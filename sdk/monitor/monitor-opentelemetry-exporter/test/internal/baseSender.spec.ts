@@ -17,7 +17,7 @@ import {
   RetryCode,
 } from "../../src/export/statsbeat/types.js";
 import type { SenderResult } from "../../src/types.js";
-import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
+import { CustomerSDKStatsManager } from "../../src/export/statsbeat/customerSDKStatsManager.js";
 import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Mock dependencies
@@ -163,13 +163,17 @@ export const mockCustomerSDKStatsMetrics: {
   shutdown: vi.fn(),
 };
 
-vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
+vi.mock("../../src/export/statsbeat/customerSDKStatsManager.js", () => {
+  const manager = {
+    initialize: vi.fn().mockResolvedValue(undefined),
+    shutdown: vi.fn().mockResolvedValue(undefined),
+    get customerSDKStatsMetrics() {
+      return mockCustomerSDKStatsMetrics;
+    },
+  };
   return {
-    CustomerSDKStatsMetrics: {
-      getInstance: vi.fn().mockImplementation(() => {
-        return Promise.resolve(mockCustomerSDKStatsMetrics);
-      }),
-      shutdown: vi.fn(),
+    CustomerSDKStatsManager: {
+      getInstance: vi.fn(() => manager),
     },
   };
 });
@@ -293,6 +297,8 @@ describe("BaseSender", () => {
   beforeEach(async () => {
     // Reset all mocks
     vi.clearAllMocks();
+    vi.mocked(CustomerSDKStatsManager.getInstance().initialize).mockResolvedValue(undefined);
+    vi.mocked(CustomerSDKStatsManager.getInstance().shutdown).mockResolvedValue(undefined);
     mockStatsbeatManager.shutdown.mockResolvedValue(undefined);
     mockStatsbeatManager.networkStatsbeatMetrics = mockNetworkStats;
     mockStatsbeatManager.updateEndpoint.mockClear();
@@ -1420,8 +1426,8 @@ describe("BaseSender", () => {
       // Wait for async initialization to complete
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Verify that CustomerSDKStatsMetrics.getInstance was called with the converted interval
-      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+      // Verify that the manager receives the converted interval.
+      expect(CustomerSDKStatsManager.getInstance().initialize).toHaveBeenCalledWith({
         instrumentationKey: "test-key",
         endpointUrl: "https://example.com",
         disableOfflineStorage: false,
@@ -1447,8 +1453,7 @@ describe("BaseSender", () => {
       // Wait for async initialization to complete
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
-      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+      expect(CustomerSDKStatsManager.getInstance().initialize).toHaveBeenCalledWith({
         instrumentationKey: "test-key",
         endpointUrl: "https://example.com",
         disableOfflineStorage: false,
@@ -1479,8 +1484,7 @@ describe("BaseSender", () => {
       // Wait for async initialization to complete
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
-      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+      expect(CustomerSDKStatsManager.getInstance().initialize).toHaveBeenCalledWith({
         instrumentationKey: "test-key",
         endpointUrl: "https://example.com",
         disableOfflineStorage: false,

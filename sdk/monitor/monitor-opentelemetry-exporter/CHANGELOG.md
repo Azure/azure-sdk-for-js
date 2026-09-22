@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added independent OneSettings control of customer-facing SDK Stats through `FEATURE_CUSTOMER_SDK_STATS`, preserving local opt-outs and the current state when the setting is missing or invalid. (https://github.com/Azure/azure-sdk-for-js/pull/39807).
+
 ### Breaking Changes
 
 ### Bugs Fixed
