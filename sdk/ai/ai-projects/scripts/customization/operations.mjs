@@ -142,22 +142,6 @@ export function normalizeOperationCode(text, file) {
         }
       }
     }
-    if (
-      ts.isBinaryExpression(node) &&
-      node.operatorToken.kind === ts.SyntaxKind.QuestionQuestionToken &&
-      ts.isPropertyAccessExpression(node.left) &&
-      node.left.name.text === "apiVersion" &&
-      ts.isIdentifier(node.left.expression) &&
-      node.left.expression.text === "context" &&
-      ts.isStringLiteral(node.right)
-    ) {
-      changes.push({
-        start: node.getStart(source),
-        end: node.end,
-        text: node.left.getText(source),
-      });
-      return;
-    }
     ts.forEachChild(node, visit);
   }
   visit(source);
@@ -209,8 +193,12 @@ export function indexOperations(files) {
 }
 
 function chooseOperation(candidates, operation, preferredFile = operation.file) {
+  const exact = candidates.filter(
     (item) =>
-      item.file === preferredFile && item.name === operation.name && item.identity === operation.identity,
+      item.file === preferredFile &&
+      item.name === operation.name &&
+      item.identity === operation.identity,
+  );
   if (exact.length === 1) return exact[0];
   const local = candidates.filter(
     (item) => item.file === preferredFile && item.identity === operation.identity,
