@@ -195,11 +195,6 @@ async function fetchBuildResult(
   };
   pipeline[buildKind] = pipelineResult;
 
-  if (result.result === "succeeded") {
-    recordAllPipeline(buildKind, pipeline, "succeeded");
-    return pipeline[buildKind]!;
-  }
-
   pipelineResult.result = result.result;
   let timelineResponse: Response;
   try {

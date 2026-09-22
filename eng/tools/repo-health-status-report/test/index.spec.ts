@@ -56,7 +56,7 @@ function createPipelines(
   };
 }
 
-function createBuildResponse(): Response {
+function createBuildResponse(result = "failed"): Response {
   return new Response(
     JSON.stringify({
       count: 1,
@@ -64,7 +64,7 @@ function createBuildResponse(): Response {
         {
           id: 456,
           buildNumber: "20260904.1",
-          result: "failed",
+          result,
           _links: { web: { href: "https://example.test/build/456" } },
         },
       ],
@@ -174,6 +174,32 @@ describe("getBuildResult", () => {
     await runBuild("tests", pipelines);
 
     expect(pipelines["@azure/example"].tests?.samples?.status).toBe("failed");
+  });
+
+  it("derives checks from the timeline when the build succeeds", async () => {
+    const pipelines = createPipelines("tests");
+    getBuildMock.mockResolvedValue(createBuildResponse("succeeded"));
+    getBuildTimelineMock.mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          records: [
+            { name: "Test libraries", result: "succeeded" },
+            {
+              name: "Execute Samples",
+              result: "skipped",
+              resultCode: "Skipping step due to condition evaluation.",
+            },
+          ],
+        }),
+      ),
+    );
+
+    await runBuild("tests", pipelines);
+
+    expect(getBuildTimelineMock).toHaveBeenCalledWith(456, "token");
+    expect(pipelines["@azure/example"].tests?.result).toBe("succeeded");
+    expect(pipelines["@azure/example"].tests?.tests?.status).toBe("succeeded");
+    expect(pipelines["@azure/example"].tests?.samples).toBeUndefined();
   });
 
   it("fetches a shared pipeline only once", async () => {
