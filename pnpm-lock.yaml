@@ -9352,6 +9352,12 @@ importers:
 
   sdk/core/core-sse:
     dependencies:
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../abort-controller
+      '@azure/core-util':
+        specifier: workspace:^
+        version: link:../core-util
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -9368,9 +9374,6 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: link:../core-rest-pipeline
         version: link:../core-rest-pipeline
-      '@azure/core-util':
-        specifier: workspace:^
-        version: link:../core-util
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
