@@ -17,7 +17,10 @@ const TYPESPEC_GENERATE_SCRIPT = path.join(
   SDK_ROOT,
   "eng/common/scripts/TypeSpec-Project-Generate.ps1",
 );
-const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
+const RELEASE_TOOLS_PACKAGE = "@azure-tools/js-sdk-release-tools";
+const PACKAGE_MANAGER = JSON.parse(
+  fs.readFileSync(path.join(SDK_ROOT, "package.json"), "utf8"),
+).packageManager;
 const DEV_VERSION_SENTINEL = "dev"; // Special --input value meaning "resolve the npm next tag" (dev emitter builds).
 const SPEC_REPO_URL = "https://github.com/Azure/azure-rest-api-specs.git";
 const SPEC_REPO_BRANCH = "main";
@@ -247,7 +250,7 @@ function runRegenerateEmitter() {
 }
 
 function installGlobalCliTools() {
-  runShell("npm install -g @azure-tools/typespec-client-generator-cli pnpm");
+  runShell(`npm install -g @azure-tools/typespec-client-generator-cli ${PACKAGE_MANAGER}`);
   // Dev emitter has peer-dep drift; tolerate it for every npm call on this agent.
   runShell("npm config set legacy-peer-deps true");
 }
@@ -284,8 +287,8 @@ function downloadEmitterPackageJsonFromNpm(emitterVersion) {
 }
 
 function preinstallReleaseTools() {
-  // Pre-install js-sdk-release-tools once so every shard's update-changelog reuses the same node_modules.
-  runShell(`npm --prefix ${RELEASE_TOOLS_DIR} ci`, SDK_ROOT);
+  // Install the root workspace once so every shard's update-changelog reuses the same node_modules.
+  runShell("pnpm install --frozen-lockfile", SDK_ROOT);
 }
 
 // Shallow-clone azure-rest-api-specs main once per shard. Each package syncs from
@@ -627,17 +630,16 @@ async function generateChangelogsForBuilt(successfullyRegenerated, builtSdkPaths
 }
 
 async function generateChangelogForOnePackage(pkg) {
-  // Invoke update-changelog bin directly (avoids backslash issues in the
+  // Invoke the built update-changelog CLI directly (avoids backslash issues in the
   // PowerShell wrapper script on Linux agents).
   const result = await runCommandCapturing(
-    "npm",
+    "pnpm",
     [
-      "--prefix",
-      RELEASE_TOOLS_DIR,
+      "--filter",
+      RELEASE_TOOLS_PACKAGE,
       "exec",
-      "--no",
-      "--",
-      "update-changelog",
+      "node",
+      "dist/generateChangelogCli.js",
       "--sdkRepoPath",
       SDK_ROOT,
       "--packagePath",

@@ -6,8 +6,13 @@ _Note: Currently, this tools only supports generating dataplane sdk, and only ca
 
 ## Install
 
+From the `azure-sdk-for-js` repository root:
+
 ```shell script
-npm install -g @azure-tools/js-sdk-release-tools
+package_manager=$(node -p "require('./package.json').packageManager")
+npm install -g "$package_manager"
+pnpm install --frozen-lockfile
+pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
 ```
 
 ## How to use
@@ -28,13 +33,13 @@ pnpm install
 ##### Step 1. Run command:
 
 ```
-rlc-code-gen --package-name=<your package name>
+pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/rlcCodegenCli.js --package-name=<your package name>
 ```
 
 _Note_:
 
-- _Please replace with your package name, for example: `rlc-code-gen --package-name=@azure-rest/purview-account`. If you don't provide it, the tool will ask you to input it interactively._
-- _You also can use command `rlc-code-gen --readme=<the path of swagger/README.md>` to generate codes if `swagger/README.md` exists. Then it will skip Step 2 and go to Step 3 directly._
+- _Please replace with your package name, for example: `pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/rlcCodegenCli.js --package-name=@azure-rest/purview-account`. If you don't provide it, the tool will ask you to input it interactively._
+- _You also can use command `pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/rlcCodegenCli.js --readme=<the path of swagger/README.md>` to generate codes if `swagger/README.md` exists. Then it will skip Step 2 and go to Step 3 directly._
 - _If you run command with `--interactive`, then the tool asks to re-check some values in `swagger/README.md` if it exists._
 
 ##### Step 2. Generate swagger/README.md
@@ -59,7 +64,7 @@ You need to provide following information. You can refer to `swagger/README.md` 
 | package-version   | The sdk version you want to generate.                                                                                                                                                                                                 |
 | credential-scopes | The credential scopes of your service.                                                                                                                                                                                                |
 
-You also can provide the information when running command `rlc-code-gen`, such as `rlc-code-gen --package-name=<your package name> --title=<your title> --description=<your description>`.
+You also can provide the information when running the command, such as `pnpm --filter @azure-tools/js-sdk-release-tools exec node dist/rlcCodegenCli.js --package-name=<your package name> --title=<your title> --description=<your description>`.
 
 ##### Step 3. The tool will generate codes and build generated codes automatically. Finally, you can get RLC codes.
 
