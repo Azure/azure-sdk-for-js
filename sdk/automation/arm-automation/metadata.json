@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Microsoft.Automation": "2024-10-23"
+    "Microsoft.Automation": "2025-10-23-preview"
   },
   "emitterVersion": "0.55.0",
   "crossLanguageDefinitions": {
