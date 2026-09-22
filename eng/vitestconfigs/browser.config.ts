@@ -22,12 +22,7 @@ export default mergeConfig(
   base,
   defineConfig({
     resolve: {
-      // Vite's dependency scanner fails to statically detect some of @opentelemetry/api's CJS
-      // named exports (e.g. SpanStatusCode, SpanKind) exported via Object.defineProperty
-      // getters, causing "does not provide an export named ..." errors for some importers.
-      // Preferring its ESM build ("module" condition) avoids CJS named-export detection
-      // entirely for this package.
-      conditions: ["browser", "module"],
+      conditions: ["browser"],
     },
     optimizeDeps: {
       include: ["@azure-tools/test-recorder"],
