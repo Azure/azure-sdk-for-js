@@ -387,9 +387,6 @@
 # PRLabel: %Mgmt
 /sdk/appservice/arm-appservice-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
-/sdk/astro/arm-astro/ @qiaozha @MaryGao @JialinHuang803
-
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/attestation/arm-attestation/ @qiaozha @MaryGao @JialinHuang803
 
