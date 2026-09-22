@@ -24,41 +24,36 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppLinks operations. */
 export interface AppLinksOperations {
-  /** List AppLink resources by subscription. */
+  /** List Azure Kubernetes Application Network resources by subscription. */
   listBySubscription: (
     options?: AppLinksListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<AppLink>;
-  /** List AppLink resources by resource group. */
+  /** List Azure Kubernetes Application Network resources by resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: AppLinksListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AppLink>;
-  /** Delete an AppLink. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Delete an Azure Kubernetes Application Network resource. */
   delete: (
     resourceGroupName: string,
     appLinkName: string,
     options?: AppLinksDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update an AppLink. */
+  /** Update an Azure Kubernetes Application Network resource. */
   update: (
     resourceGroupName: string,
     appLinkName: string,
     properties: AppLinkUpdate,
     options?: AppLinksUpdateOptionalParams,
   ) => PollerLike<OperationState<AppLink>, AppLink>;
-  /** Create an AppLink. */
+  /** Create an Azure Kubernetes Application Network resource. */
   createOrUpdate: (
     resourceGroupName: string,
     appLinkName: string,
     resource: AppLink,
     options?: AppLinksCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AppLink>, AppLink>;
-  /** Get an AppLink. */
+  /** Get the details of an Azure Kubernetes Application Network. */
   get: (
     resourceGroupName: string,
     appLinkName: string,

@@ -31,6 +31,7 @@ export type {
   SystemData,
   CreatedByType,
   AppLinkUpdate,
+  ManagedServiceIdentityUpdate,
   AppLinkMember,
   AppLinkMemberProperties,
   ClusterType,
@@ -48,6 +49,11 @@ export type {
   PrivateConnectProfile,
   AppLinkMemberUpdate,
   AppLinkMemberUpdateProperties,
+  UpgradeProfileUpdate,
+  FullyManagedUpgradeProfileUpdate,
+  SelfManagedUpgradeProfileUpdate,
+  ConnectivityProfileUpdate,
+  EastWestGatewayProfileUpdate,
   UpgradeHistory,
   UpgradeHistoryProperties,
   ProxyResource,
@@ -99,3 +105,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

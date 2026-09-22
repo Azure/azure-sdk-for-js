@@ -5,10 +5,10 @@ const { AppLinkClient } = require("@azure/arm-appnetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to create an AppLinkMember.
+ * This sample demonstrates how to create a member of an Azure Kubernetes Application Network resource.
  *
- * @summary create an AppLinkMember.
- * x-ms-original-file: 2025-08-01-preview/AppLinkMembers_CreateOrUpdate.json
+ * @summary create a member of an Azure Kubernetes Application Network resource.
+ * x-ms-original-file: 2026-08-01-preview/AppLinkMembers_CreateOrUpdate.json
  */
 async function appLinkMembersCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function appLinkMembersCreateOrUpdate() {
         clusterType: "AKS",
         metadata: {
           resourceId:
-            "/subscriptions/bc7e0da9-5e4c-4a91-9252-9658837006cf/resourcegroups/applink-rg/providers/Microsoft.ContainerService/managedClusters/applink-member1",
+            "/subscriptions/bc7e0da9-5e4c-4a91-9252-9658837006cf/resourceGroups/applink-rg/providers/Microsoft.ContainerService/managedClusters/applink-member1",
         },
         upgradeProfile: {
           mode: "FullyManaged",
@@ -35,6 +35,7 @@ async function appLinkMembersCreateOrUpdate() {
               "/subscriptions/bc7e0da9-5e4c-4a91-9252-9658837006cf/resourceGroups/applink-vnet-rg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
           },
           eastWestGateway: { visibility: "Internal" },
+          network: "network1",
         },
       },
       tags: { key2913: "test_tag" },
