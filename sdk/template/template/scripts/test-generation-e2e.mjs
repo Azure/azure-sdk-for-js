@@ -15,12 +15,7 @@ const workspaceRoot = path.resolve(sdkRepository, "..");
 const specRepository =
   process.env.AZURE_REST_API_SPECS ?? path.join(workspaceRoot, "azure-rest-api-specs");
 const specProject = path.join(specRepository, "specification/widget/data-plane/WidgetAnalytics");
-const facadeFiles = [
-  "src/index.ts",
-  "src/api/index.ts",
-  "src/api/widgets/index.ts",
-  "src/models/index.ts",
-];
+const facadeFiles = ["src/index.ts"];
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), "template-generation-e2e-"));
 const worktree = path.join(temporaryRoot, "azure-sdk-for-js");
 
@@ -71,6 +66,8 @@ try {
 
   await expectMissing(sentinel);
   await expectMissing(path.join(worktreePackageDirectory, "generated"));
+  await expectMissing(path.join(worktreePackageDirectory, "src/api"));
+  await expectMissing(path.join(worktreePackageDirectory, "src/models"));
   await expectFile(path.join(generatedDirectory, "index.ts"));
   await expectFile(path.join(generatedDirectory, "api/widgetAnalyticsContext.ts"));
 

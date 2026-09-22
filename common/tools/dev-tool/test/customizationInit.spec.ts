@@ -25,7 +25,7 @@ describe.sequential("customization init", () => {
     );
   });
 
-  it("moves a new generated source tree under src and creates stable entry points", async () => {
+  it("moves a new generated source tree under src and creates a stable root entry point", async () => {
     const packageDirectory = await createPackage({
       scripts: {
         "generate:client":
@@ -36,6 +36,15 @@ describe.sequential("customization init", () => {
         "#platform/*": {
           browser: "./src/*-browser.mts",
           default: "./src/*.ts",
+        },
+      },
+      exports: {
+        ".": {
+          import: "./dist/esm/index.js",
+        },
+        "./models": {
+          import: "./dist/esm/models/index.js",
+          require: "./dist/commonjs/models/index.js",
         },
       },
       "//metadata": {
@@ -62,7 +71,7 @@ describe.sequential("customization init", () => {
     );
     await expect(
       readFile(path.join(packageDirectory, "src/models/index.ts"), "utf-8"),
-    ).resolves.toContain('export * from "../generated/models/index.js";');
+    ).rejects.toThrow();
     const packageJson = JSON.parse(
       await readFile(path.join(packageDirectory, "package.json"), "utf-8"),
     );
@@ -72,7 +81,17 @@ describe.sequential("customization init", () => {
       browser: "./src/generated/*-browser.mts",
       default: "./src/generated/*.ts",
     });
+    expect(packageJson.exports["."]).toEqual({
+      import: "./dist/esm/index.js",
+    });
+    expect(packageJson.exports["./models"]).toEqual({
+      import: "./dist/esm/generated/models/index.js",
+      require: "./dist/commonjs/generated/models/index.js",
+    });
     expect(packageJson["//metadata"].constantPaths[0].path).toBe("src/generated/api/client.ts");
+    expect(await readFile(path.join(packageDirectory, "warp.config.yml"), "utf-8")).toContain(
+      "./src/generated/models/index.ts",
+    );
   });
 
   it("does not replace existing customization entry points", async () => {

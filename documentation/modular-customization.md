@@ -30,8 +30,8 @@ For an existing merge-based package, the command makes these changes:
 3. It removes `dev-tool customization apply` from package scripts.
 
 For a package without a root `generated/` baseline, the command moves `src/` to
-`src/generated/`. It creates facade files for the root entry point and the Warp export entry
-points. It also updates package import paths and version metadata paths.
+`src/generated/`. It creates a root entry point under `src/`. It updates Warp entry points,
+package subpath exports, package import paths, and version metadata paths.
 
 Review other package configuration files after the command completes. Update paths that still
 refer to generated files under `src/`.
@@ -46,10 +46,6 @@ my-sdk-package/
     generated/
       <emitter-owned source>
     index.ts
-    api/
-      index.ts
-    models/
-      index.ts
     <handwritten source>
   test/
   README.md
@@ -59,20 +55,20 @@ my-sdk-package/
 Do not edit files in `src/generated/`. The emitter deletes and replaces these files during each
 generation.
 
-The files outside `src/generated/` are the customization layer. These files can wrap, replace,
-or re-export generated APIs.
+The files outside `src/generated/` are the customization layer. Do not copy generated folders
+such as `api/` or `models/` into this layer.
 
 ## Customize the SDK
 
-Edit a facade file when you must change an exported API. The initial facade exports all items
-from its generated entry point:
+Edit `src/index.ts` when you must change a root export. The initial entry point exports all
+items from its generated entry point:
 
 ```ts
 export * from "./generated/index.js";
 ```
 
-Replace the wildcard export when you must hide or replace an item. Export the handwritten item
-from the same facade.
+An explicit export takes precedence over the same name from the wildcard export. Use explicit
+exports for customized clients or functions.
 
 Keep new helpers and wrappers outside `src/generated/`.
 

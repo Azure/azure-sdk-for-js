@@ -3,7 +3,7 @@
 
 import path from "node:path";
 import fs from "node:fs/promises";
-import { parse as parseYaml } from "yaml";
+import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { format } from "../../util/prettier.ts";
 import { createPrinter } from "../../util/printer.ts";
@@ -20,7 +20,7 @@ const FORMAT_COMMAND = /^(?:npm|pnpm)\s+run\s+format$/;
 
 export const commandInfo = makeCommandInfo(
   "init",
-  "moves generated source to src/generated and creates customization entry points",
+  "moves generated source to src/generated and creates a customization entry point",
   {},
 );
 
@@ -37,7 +37,6 @@ export default leafCommand(commandInfo, async () => {
     return false;
   }
 
-  const entryPoints = await getPublicEntryPoints(info.path);
   let movedSourceTree = false;
   if (!(await pathExists(generatedSourceDirectory))) {
     if (await pathExists(legacyGeneratedDirectory)) {
@@ -68,79 +67,38 @@ export default leafCommand(commandInfo, async () => {
     log("src/generated/ already exists. The generated-source layout is already set up.");
   }
 
-  await ensureEntryPointFacades(info.path, entryPoints);
+  await ensureRootEntryPointFacade(info.path);
   await updatePackageJson(info.path, movedSourceTree);
+  if (movedSourceTree) {
+    await updateWarpConfig(info.path);
+  }
 
   return true;
 });
 
-async function getPublicEntryPoints(packagePath: string): Promise<string[]> {
-  const entryPoints = new Set([ROOT_ENTRY_POINT]);
-  const warpConfigPath = path.join(packagePath, "warp.config.yml");
-
-  try {
-    const config = parseYaml(await fs.readFile(warpConfigPath, "utf-8")) as {
-      exports?: Record<string, unknown>;
-    };
-    for (const entryPoint of Object.values(config.exports ?? {})) {
-      if (
-        typeof entryPoint === "string" &&
-        entryPoint.startsWith("./src/") &&
-        /\.(?:c|m)?ts$/.test(entryPoint)
-      ) {
-        entryPoints.add(entryPoint.slice(2));
-      }
-    }
-  } catch {
-    // The root entry point is sufficient for packages without warp.config.yml.
+async function ensureRootEntryPointFacade(packagePath: string): Promise<void> {
+  const entryPoint = path.join(packagePath, ROOT_ENTRY_POINT);
+  if (await pathExists(entryPoint)) {
+    return;
   }
 
-  return [...entryPoints];
-}
-
-async function ensureEntryPointFacades(packagePath: string, entryPoints: string[]): Promise<void> {
-  for (const relativeEntryPoint of entryPoints) {
-    const entryPoint = path.join(packagePath, relativeEntryPoint);
-    if (await pathExists(entryPoint)) {
-      continue;
-    }
-
-    const relativeToSource = path.relative(path.join(packagePath, SOURCE_DIRECTORY), entryPoint);
-    const generatedEntryPoint = path.join(
-      packagePath,
-      GENERATED_SOURCE_DIRECTORY,
-      relativeToSource,
-    );
-    if (!(await pathExists(generatedEntryPoint))) {
-      log(`⚠️  Could not create '${relativeEntryPoint}' because its generated file was not found.`);
-      continue;
-    }
-
-    let moduleSpecifier = path
-      .relative(path.dirname(entryPoint), generatedEntryPoint)
-      .split(path.sep)
-      .join("/");
-    if (!moduleSpecifier.startsWith(".")) {
-      moduleSpecifier = `./${moduleSpecifier}`;
-    }
-    moduleSpecifier = moduleSpecifier
-      .replace(/\.ts$/, ".js")
-      .replace(/\.mts$/, ".mjs")
-      .replace(/\.cts$/, ".cjs");
-
-    await fs.mkdir(path.dirname(entryPoint), { recursive: true });
-    await fs.writeFile(
-      entryPoint,
-      [
-        "// Copyright (c) Microsoft Corporation.",
-        "// Licensed under the MIT License.",
-        "",
-        `export * from "${moduleSpecifier}";`,
-        "",
-      ].join("\n"),
-    );
-    log(`✅ Created customization entry point '${relativeEntryPoint}'.`);
+  const generatedEntryPoint = path.join(packagePath, GENERATED_SOURCE_DIRECTORY, "index.ts");
+  if (!(await pathExists(generatedEntryPoint))) {
+    log(`⚠️  Could not create '${ROOT_ENTRY_POINT}' because its generated file was not found.`);
+    return;
   }
+
+  await fs.writeFile(
+    entryPoint,
+    [
+      "// Copyright (c) Microsoft Corporation.",
+      "// Licensed under the MIT License.",
+      "",
+      'export * from "./generated/index.js";',
+      "",
+    ].join("\n"),
+  );
+  log(`✅ Created customization entry point '${ROOT_ENTRY_POINT}'.`);
 }
 
 async function updatePackageJson(
@@ -150,6 +108,7 @@ async function updatePackageJson(
   const packageJsonPath = path.join(packagePath, "package.json");
   let packageJson: {
     scripts?: Record<string, string>;
+    exports?: Record<string, unknown>;
     imports?: Record<string, unknown>;
     "//metadata"?: {
       constantPaths?: Array<{ path: string; prefix: string }>;
@@ -196,6 +155,24 @@ async function updatePackageJson(
     }
   }
 
+  if (updateGeneratedSourcePaths && packageJson.exports) {
+    let exportsChanged = false;
+    for (const [subpath, exportValue] of Object.entries(packageJson.exports)) {
+      if (subpath === "." || subpath === "./package.json") {
+        continue;
+      }
+      const result = updateDistPaths(exportValue);
+      if (result.changed) {
+        packageJson.exports[subpath] = result.value;
+        exportsChanged = true;
+      }
+    }
+    if (exportsChanged) {
+      changed = true;
+      log("✅ Updated package subpath exports to use generated output.");
+    }
+  }
+
   const constantPaths = updateGeneratedSourcePaths
     ? packageJson["//metadata"]?.constantPaths
     : undefined;
@@ -217,6 +194,30 @@ async function updatePackageJson(
     const content = await format(JSON.stringify(packageJson, null, 2), "json-stringify");
     await fs.writeFile(packageJsonPath, content);
   }
+}
+
+async function updateWarpConfig(packagePath: string): Promise<void> {
+  const warpConfigPath = path.join(packagePath, "warp.config.yml");
+  let config: { exports?: Record<string, unknown>; [key: string]: unknown };
+  try {
+    config = parseYaml(await fs.readFile(warpConfigPath, "utf-8"));
+  } catch {
+    return;
+  }
+
+  if (!config.exports) {
+    return;
+  }
+
+  const exports = updateSourcePaths(config.exports);
+  if (!exports.changed) {
+    return;
+  }
+
+  config.exports = exports.value as Record<string, unknown>;
+  const content = await format(stringifyYaml(config), "yaml");
+  await fs.writeFile(warpConfigPath, content);
+  log("✅ Updated Warp entry points to use src/generated/.");
 }
 
 function updateSourcePaths(value: unknown): { value: unknown; changed: boolean } {
@@ -245,6 +246,43 @@ function updateSourcePaths(value: unknown): { value: unknown; changed: boolean }
     const updated = Object.fromEntries(
       Object.entries(value).map(([key, item]) => {
         const result = updateSourcePaths(item);
+        changed ||= result.changed;
+        return [key, result.value];
+      }),
+    );
+    return { value: updated, changed };
+  }
+
+  return { value, changed: false };
+}
+
+function updateDistPaths(value: unknown): { value: unknown; changed: boolean } {
+  if (typeof value === "string") {
+    const match = value.match(/^\.\/dist\/([^/]+)\/(?!generated\/)(.+)$/);
+    if (match) {
+      return {
+        value: `./dist/${match[1]}/generated/${match[2]}`,
+        changed: true,
+      };
+    }
+    return { value, changed: false };
+  }
+
+  if (Array.isArray(value)) {
+    let changed = false;
+    const updated = value.map((item) => {
+      const result = updateDistPaths(item);
+      changed ||= result.changed;
+      return result.value;
+    });
+    return { value: updated, changed };
+  }
+
+  if (typeof value === "object" && value !== null) {
+    let changed = false;
+    const updated = Object.fromEntries(
+      Object.entries(value).map(([key, item]) => {
+        const result = updateDistPaths(item);
         changed ||= result.changed;
         return [key, result.value];
       }),
