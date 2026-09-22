@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list UsagePlan resources by subscription ID
  *
  * @summary list UsagePlan resources by subscription ID
- * x-ms-original-file: 2026-04-01-preview/UsagePlans_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/UsagePlans_ListBySubscription_MaximumSet_Gen.json
  */
 async function usagePlansListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a DrillResource
  *
  * @summary get a DrillResource
- * x-ms-original-file: 2026-04-01-preview/DrillResources_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/DrillResources_Get_MaximumSet_Gen.json
  */
 async function drillResourcesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
