@@ -97,3 +97,22 @@ Rules for the agent that maintains this file:
 
 If a fact would belong in two places, pick the more-specific one. Link
 from the less-specific to the more-specific, don't copy.
+
+
+<!-- github-knowledge-base-start -->
+## Knowledge Base
+
+### Purpose
+
+This repository uses the Knowledge Base at [https://github.com/Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) on branch `main`.
+
+### Required behavior
+
+1. Before changing code, read `docs/index.md` from that branch.
+2. Use the index to open only the knowledge files relevant to the task.
+3. If the index is unavailable, stop and report that the Knowledge Base could not be loaded.
+
+### Source of truth
+
+Generated knowledge tracks the code. When the knowledge and code disagree, trust the code.
+<!-- github-knowledge-base-end -->
