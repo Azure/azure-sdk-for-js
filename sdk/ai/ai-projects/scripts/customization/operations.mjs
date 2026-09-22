@@ -209,9 +209,8 @@ export function indexOperations(files) {
 }
 
 function chooseOperation(candidates, operation, preferredFile = operation.file) {
-  const exact = candidates.filter(
-    (item) => item.file === preferredFile && item.name === operation.name,
-  );
+    (item) =>
+      item.file === preferredFile && item.name === operation.name && item.identity === operation.identity,
   if (exact.length === 1) return exact[0];
   const local = candidates.filter(
     (item) => item.file === preferredFile && item.identity === operation.identity,
