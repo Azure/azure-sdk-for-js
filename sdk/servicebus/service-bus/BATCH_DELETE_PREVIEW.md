@@ -6,7 +6,7 @@ The implementation is tracked by [Azure/azure-sdk-for-js#39309](https://github.c
 
 ## Intended public API
 
-```ts
+```ts snippet:ignore
 interface DeleteMessagesOptions extends OperationOptionsBase {
   beforeEnqueueTime?: Date;
 }
