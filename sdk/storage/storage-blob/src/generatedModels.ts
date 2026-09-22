@@ -454,6 +454,7 @@ export type {
   ClearRange,
   CpkInfo,
   DeleteSnapshotsOptionType,
+  DownloadHint,
   EncryptionAlgorithmType,
   GeoReplication,
   GeoReplicationStatusType,

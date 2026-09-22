@@ -575,6 +575,7 @@ export interface BlobDownloadHeaders {
     copyStatusDescription?: string;
     createdOn?: Date;
     date?: Date;
+    downloadHint?: DownloadHint;
     encryptionKeySha256?: string;
     encryptionScope?: string;
     errorCode?: string;
@@ -628,6 +629,7 @@ export interface BlobDownloadOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
+    layoutEndpoint?: string;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeGetContentCrc64?: boolean;
@@ -658,6 +660,7 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
+    layoutAwareRouting?: LayoutAwareRouting;
     maxRetryRequestsPerBlock?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -2223,6 +2226,9 @@ export { CredentialPolicyCreator }
 export type DeleteSnapshotsOptionType = "include" | "only";
 
 // @public
+export type DownloadHint = "layout";
+
+// @public
 export type EncryptionAlgorithmType = string;
 
 // @public
@@ -2320,6 +2326,9 @@ export enum KnownEncryptionAlgorithmType {
     // (undocumented)
     AES256 = "AES256"
 }
+
+// @public
+export type LayoutAwareRouting = "auto" | "enabled" | "disabled";
 
 // @public
 export interface Lease {

@@ -41,7 +41,7 @@ export function _sealSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -196,7 +196,7 @@ export function _appendBlockFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -328,7 +328,7 @@ export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedRespo
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  xMsContentCrc64?: Uint8Array;
+  contentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
   isServerEncrypted?: boolean;
@@ -346,7 +346,7 @@ export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedRespo
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    xMsContentCrc64:
+    contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -426,7 +426,7 @@ export async function appendBlockFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    xMsContentCrc64?: Uint8Array;
+    contentCrc64?: Uint8Array;
     blobAppendOffset?: string;
     blobCommittedBlockCount?: number;
     isServerEncrypted?: boolean;
@@ -442,7 +442,7 @@ export async function appendBlockFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      xMsContentCrc64?: Uint8Array;
+      contentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -486,7 +486,7 @@ export function _appendBlockSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -579,7 +579,7 @@ export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  xMsContentCrc64?: Uint8Array;
+  contentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
   isServerEncrypted?: boolean;
@@ -598,7 +598,7 @@ export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    xMsContentCrc64:
+    contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -683,7 +683,7 @@ export async function appendBlock(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    xMsContentCrc64?: Uint8Array;
+    contentCrc64?: Uint8Array;
     blobAppendOffset?: string;
     blobCommittedBlockCount?: number;
     isServerEncrypted?: boolean;
@@ -700,7 +700,7 @@ export async function appendBlock(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      xMsContentCrc64?: Uint8Array;
+      contentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -742,7 +742,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),

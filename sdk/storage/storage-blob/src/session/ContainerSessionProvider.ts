@@ -9,7 +9,7 @@ import { logger } from "../log.js";
 import type { PipelineLike } from "../Pipeline.js";
 import { isIpEndpointStyle } from "../utils/utils.common.js";
 import { HeaderConstants } from "../utils/constants.js";
-import { AutoRefreshingCache } from "./AutoRefreshingCache.js";
+import { AutoRefreshingCache } from "../utils/AutoRefreshingCache.js";
 import { createContainerSession } from "./createSession.js";
 import type { SessionTokenInfo } from "./models.js";
 import { createBearerFallback, FALLBACK_COOLDOWN_MS } from "./models.js";
@@ -79,7 +79,7 @@ export function isSessionEligible(request: PipelineRequest): boolean {
  */
 export class ContainerSessionProvider {
   private readonly serviceEndpoint: string;
-  private readonly caches = new Map<string, AutoRefreshingCache>();
+  private readonly caches = new Map<string, AutoRefreshingCache<SessionTokenInfo>>();
   private serviceClient: BlobServiceClient | undefined;
 
   /** Epoch milliseconds until which the account is known to have sessions turned off. */
@@ -125,14 +125,19 @@ export class ContainerSessionProvider {
    * @internal
    */
   invalidateSession(request: PipelineRequest, used: SessionTokenInfo): void {
-    this.getCache(this.containerNameFor(request)).invalidateIfCurrent(used);
+    this.getCache(this.containerNameFor(request)).invalidateIf(
+      (current) =>
+        current.kind === "session" &&
+        used.kind === "session" &&
+        current.sessionToken === used.sessionToken,
+    );
   }
 
   private containerNameFor(request: PipelineRequest): string {
     return parseContainerAndBlob(new URL(request.url)).containerName.toLowerCase();
   }
 
-  private getCache(containerName: string): AutoRefreshingCache {
+  private getCache(containerName: string): AutoRefreshingCache<SessionTokenInfo> {
     const existing = this.caches.get(containerName);
     if (existing) {
       // Re-insert so Map iteration order tracks recency.

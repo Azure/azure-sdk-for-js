@@ -5,6 +5,9 @@
 ### Features Added
 
 - Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default and Node.js only.
+- Added data locality support to `downloadToBuffer`: when the service hints at it, blocks are read from the endpoints that hold them. Set `layoutAwareRouting` to opt out. Node.js only.
+- Added `layoutEndpoint` to `BlobDownloadOptions`, to route a single `download` call.
+- Added `downloadHint` to the blob download response.
 
 ### Breaking Changes
 
@@ -14,6 +17,7 @@
 
 ### Other Changes
 
+- `downloadToBuffer` no longer calls Get Blob Properties for the blob size; it reads it from the first block's `Content-Range`, saving a round trip.
 - Migrate to Typespec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
 
 ## 12.34.0-beta.1 (2026-08-03)

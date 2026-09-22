@@ -65,6 +65,10 @@ export function addStorageCompatResponse<TBody, THeaders = Record<string, unknow
   parsedBody: TBody,
   parsedHeaders: THeaders,
 ): StorageCompatResult<TBody, THeaders> {
+  // TEMPORARY HAND EDIT — remove once the emitter is fixed; regeneration will drop this.
+  // The copy is load-bearing: without it Object.assign below writes the headers into the
+  // caller's body, overwriting colliding fields and making _response.parsedBody point at the
+  // result itself, which makes the response circular and unserializable.
   const base =
     parsedBody !== undefined && parsedBody !== null
       ? Object.assign({}, parsedBody)

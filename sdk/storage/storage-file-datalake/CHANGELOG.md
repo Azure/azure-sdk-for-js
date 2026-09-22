@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added `sessionOptions`, forwarding the session token authentication added in `@azure/storage-blob`. Disabled by default, Node.js only, and limited to blob-endpoint requests, so in Data Lake only file reads are affected.
+- `readToBuffer` now uses the data locality routing added in `@azure/storage-blob`, reading chunks from the endpoints that hold them. Node.js only.
 
 ### Breaking Changes
 

@@ -16,8 +16,11 @@ import {
   ArchiveStatus,
   RehydratePriority,
   ImmutabilityPolicyMode,
+  BlobLayout,
+  blobLayoutXmlDeserializer,
   SkuName,
   AccountKind,
+  DownloadHint,
   BlobExpiryOptions,
   BlobDownloadResponse,
 } from "../../models/models.js";
@@ -28,6 +31,7 @@ import {
 } from "../../static-helpers/storageCompatResponse.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  BlobGetLayoutOptionalParams,
   BlobSetTagsOptionalParams,
   BlobGetTagsOptionalParams,
   BlobGetAccountInfoOptionalParams,
@@ -61,6 +65,495 @@ import {
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
+export function _getLayoutSend(
+  context: Client,
+  options: BlobGetLayoutOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "?comp=layout{?snapshot,versionid,marker,maxresults,timeout}",
+    {
+      snapshot: options?.snapshot,
+      versionid: options?.versionId,
+      marker: options?.marker,
+      maxresults: options?.maxPageSize,
+      timeout: options?.timeout,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "x-ms-version": context.version ?? "2027-03-07",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...(options?.range !== undefined ? { range: options?.range } : {}),
+        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        ...(options?.ifTags !== undefined ? { "x-ms-if-tags": options?.ifTags } : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.encryptionKey !== undefined
+          ? { "x-ms-encryption-key": options?.encryptionKey }
+          : {}),
+        ...(options?.encryptionKeySha256 !== undefined
+          ? { "x-ms-encryption-key-sha256": options?.encryptionKeySha256 }
+          : {}),
+        ...(options?.encryptionAlgorithm !== undefined
+          ? { "x-ms-encryption-algorithm": options?.encryptionAlgorithm }
+          : {}),
+        accept: "application/xml",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getLayoutDeserialize(
+  result: PathUncheckedResponse,
+): Promise<BlobLayout | void> {
+  const expectedStatuses = ["200", "204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
+    error.details = { ...(error.details as any), ..._getLayoutDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
+    throw error;
+  }
+
+  if (!result.body) {
+    return result.body as BlobLayout | void;
+  }
+
+  return blobLayoutXmlDeserializer(result.body);
+}
+
+export function _getLayoutDeserializeHeaders(result: PathUncheckedResponse): {
+  lastModified: Date;
+  blobContentLength?: number;
+  blobContentType?: string;
+  blobContentEncoding?: string;
+  blobContentMD5?: Uint8Array;
+  blobCreationTime?: Date;
+  createdOn: Date;
+  objectReplicationPolicyId?: string;
+  objectReplicationRules?: Record<string, string>;
+  blobType?: BlobType;
+  copyCompletionTime?: Date;
+  copyStatusDescription?: string;
+  copyId?: string;
+  copyProgress?: string;
+  copySource?: string;
+  copyStatus?: CopyStatus;
+  isIncrementalCopy?: boolean;
+  destinationSnapshot?: string;
+  leaseDuration?: LeaseDuration;
+  leaseState?: LeaseState;
+  leaseStatus?: LeaseStatus;
+  contentLength: number;
+  etag: string;
+  contentMD5: Uint8Array;
+  contentEncoding: string;
+  contentDisposition: string;
+  contentLanguage: string;
+  cacheControl: string;
+  blobSequenceNumber: number;
+  acceptRanges?: string;
+  blobCommittedBlockCount?: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  accessTier?: string;
+  accessTierInferred?: boolean;
+  smartAccessTier?: string;
+  archiveStatus?: ArchiveStatus;
+  accessTierChangeTime?: Date;
+  versionId: string;
+  isCurrentVersion?: boolean;
+  tagCount?: number;
+  expiresOn?: Date;
+  isSealed?: boolean;
+  rehydratePriority?: RehydratePriority;
+  lastAccessed?: Date;
+  immutabilityPolicyExpiresOn?: Date;
+  immutabilityPolicyMode: ImmutabilityPolicyMode;
+  legalHold?: boolean;
+  clientRequestId?: string;
+  requestId?: string;
+  version: string;
+  date: Date;
+  contentType: "application/xml";
+} {
+  return {
+    lastModified: new Date(result.headers["last-modified"]),
+    blobContentLength:
+      result.headers["x-ms-blob-content-length"] === undefined ||
+      result.headers["x-ms-blob-content-length"] === null
+        ? result.headers["x-ms-blob-content-length"]
+        : Number(result.headers["x-ms-blob-content-length"]),
+    blobContentType:
+      result.headers["x-ms-blob-content-type"] === undefined ||
+      result.headers["x-ms-blob-content-type"] === null
+        ? result.headers["x-ms-blob-content-type"]
+        : result.headers["x-ms-blob-content-type"],
+    blobContentEncoding:
+      result.headers["x-ms-blob-content-encoding"] === undefined ||
+      result.headers["x-ms-blob-content-encoding"] === null
+        ? result.headers["x-ms-blob-content-encoding"]
+        : result.headers["x-ms-blob-content-encoding"],
+    blobContentMD5:
+      result.headers["x-ms-blob-content-md5"] === undefined ||
+      result.headers["x-ms-blob-content-md5"] === null
+        ? result.headers["x-ms-blob-content-md5"]
+        : typeof result.headers["x-ms-blob-content-md5"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-blob-content-md5"], "base64")
+          : result.headers["x-ms-blob-content-md5"],
+    blobCreationTime:
+      result.headers["x-ms-blob-creation-time"] === undefined ||
+      result.headers["x-ms-blob-creation-time"] === null
+        ? result.headers["x-ms-blob-creation-time"]
+        : new Date(result.headers["x-ms-blob-creation-time"]),
+    createdOn: new Date(result.headers["x-ms-creation-time"]),
+    objectReplicationPolicyId:
+      result.headers["x-ms-or-policy-id"] === undefined ||
+      result.headers["x-ms-or-policy-id"] === null
+        ? result.headers["x-ms-or-policy-id"]
+        : result.headers["x-ms-or-policy-id"],
+    objectReplicationRules:
+      result.headers["x-ms-or"] === undefined || result.headers["x-ms-or"] === null
+        ? result.headers["x-ms-or"]
+        : Object.fromEntries(
+            Object.entries(result.headers["x-ms-or"]).map(([k, p]: [string, any]) => [k, p]),
+          ),
+    blobType: result.headers["x-ms-blob-type"] as any,
+    copyCompletionTime:
+      result.headers["x-ms-copy-completion-time"] === undefined ||
+      result.headers["x-ms-copy-completion-time"] === null
+        ? result.headers["x-ms-copy-completion-time"]
+        : new Date(result.headers["x-ms-copy-completion-time"]),
+    copyStatusDescription:
+      result.headers["x-ms-copy-status-description"] === undefined ||
+      result.headers["x-ms-copy-status-description"] === null
+        ? result.headers["x-ms-copy-status-description"]
+        : result.headers["x-ms-copy-status-description"],
+    copyId:
+      result.headers["x-ms-copy-id"] === undefined || result.headers["x-ms-copy-id"] === null
+        ? result.headers["x-ms-copy-id"]
+        : result.headers["x-ms-copy-id"],
+    copyProgress:
+      result.headers["x-ms-copy-progress"] === undefined ||
+      result.headers["x-ms-copy-progress"] === null
+        ? result.headers["x-ms-copy-progress"]
+        : result.headers["x-ms-copy-progress"],
+    copySource:
+      result.headers["x-ms-copy-source"] === undefined ||
+      result.headers["x-ms-copy-source"] === null
+        ? result.headers["x-ms-copy-source"]
+        : result.headers["x-ms-copy-source"],
+    copyStatus: result.headers["x-ms-copy-status"] as any,
+    isIncrementalCopy:
+      result.headers["x-ms-incremental-copy"] === undefined ||
+      result.headers["x-ms-incremental-copy"] === null
+        ? result.headers["x-ms-incremental-copy"]
+        : result.headers["x-ms-incremental-copy"].trim().toLowerCase() === "true",
+    destinationSnapshot:
+      result.headers["x-ms-copy-destination-snapshot"] === undefined ||
+      result.headers["x-ms-copy-destination-snapshot"] === null
+        ? result.headers["x-ms-copy-destination-snapshot"]
+        : result.headers["x-ms-copy-destination-snapshot"],
+    leaseDuration: result.headers["x-ms-lease-duration"] as any,
+    leaseState: result.headers["x-ms-lease-state"] as any,
+    leaseStatus: result.headers["x-ms-lease-status"] as any,
+    contentLength: Number(result.headers["content-length"]),
+    etag: result.headers["etag"],
+    contentMD5:
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
+    contentEncoding: result.headers["content-encoding"],
+    contentDisposition: result.headers["content-disposition"],
+    contentLanguage: result.headers["content-language"],
+    cacheControl: result.headers["cache-control"],
+    blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
+    acceptRanges:
+      result.headers["accept-ranges"] === undefined || result.headers["accept-ranges"] === null
+        ? result.headers["accept-ranges"]
+        : result.headers["accept-ranges"],
+    blobCommittedBlockCount:
+      result.headers["x-ms-blob-committed-block-count"] === undefined ||
+      result.headers["x-ms-blob-committed-block-count"] === null
+        ? result.headers["x-ms-blob-committed-block-count"]
+        : Number(result.headers["x-ms-blob-committed-block-count"]),
+    isServerEncrypted:
+      result.headers["x-ms-server-encrypted"] === undefined ||
+      result.headers["x-ms-server-encrypted"] === null
+        ? result.headers["x-ms-server-encrypted"]
+        : result.headers["x-ms-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    accessTier:
+      result.headers["x-ms-access-tier"] === undefined ||
+      result.headers["x-ms-access-tier"] === null
+        ? result.headers["x-ms-access-tier"]
+        : result.headers["x-ms-access-tier"],
+    accessTierInferred:
+      result.headers["x-ms-access-tier-inferred"] === undefined ||
+      result.headers["x-ms-access-tier-inferred"] === null
+        ? result.headers["x-ms-access-tier-inferred"]
+        : result.headers["x-ms-access-tier-inferred"].trim().toLowerCase() === "true",
+    smartAccessTier:
+      result.headers["x-ms-smart-access-tier"] === undefined ||
+      result.headers["x-ms-smart-access-tier"] === null
+        ? result.headers["x-ms-smart-access-tier"]
+        : result.headers["x-ms-smart-access-tier"],
+    archiveStatus: result.headers["x-ms-archive-status"] as any,
+    accessTierChangeTime:
+      result.headers["x-ms-access-tier-change-time"] === undefined ||
+      result.headers["x-ms-access-tier-change-time"] === null
+        ? result.headers["x-ms-access-tier-change-time"]
+        : new Date(result.headers["x-ms-access-tier-change-time"]),
+    versionId: result.headers["x-ms-version-id"],
+    isCurrentVersion:
+      result.headers["x-ms-is-current-version"] === undefined ||
+      result.headers["x-ms-is-current-version"] === null
+        ? result.headers["x-ms-is-current-version"]
+        : result.headers["x-ms-is-current-version"].trim().toLowerCase() === "true",
+    tagCount:
+      result.headers["x-ms-tag-count"] === undefined || result.headers["x-ms-tag-count"] === null
+        ? result.headers["x-ms-tag-count"]
+        : Number(result.headers["x-ms-tag-count"]),
+    expiresOn:
+      result.headers["x-ms-expiry-time"] === undefined ||
+      result.headers["x-ms-expiry-time"] === null
+        ? result.headers["x-ms-expiry-time"]
+        : new Date(result.headers["x-ms-expiry-time"]),
+    isSealed:
+      result.headers["x-ms-blob-sealed"] === undefined ||
+      result.headers["x-ms-blob-sealed"] === null
+        ? result.headers["x-ms-blob-sealed"]
+        : result.headers["x-ms-blob-sealed"].trim().toLowerCase() === "true",
+    rehydratePriority: result.headers["x-ms-rehydrate-priority"] as any,
+    lastAccessed:
+      result.headers["x-ms-last-access-time"] === undefined ||
+      result.headers["x-ms-last-access-time"] === null
+        ? result.headers["x-ms-last-access-time"]
+        : new Date(result.headers["x-ms-last-access-time"]),
+    immutabilityPolicyExpiresOn:
+      result.headers["x-ms-immutability-policy-until-date"] === undefined ||
+      result.headers["x-ms-immutability-policy-until-date"] === null
+        ? result.headers["x-ms-immutability-policy-until-date"]
+        : new Date(result.headers["x-ms-immutability-policy-until-date"]),
+    immutabilityPolicyMode: result.headers["x-ms-immutability-policy-mode"] as any,
+    legalHold:
+      result.headers["x-ms-legal-hold"] === undefined || result.headers["x-ms-legal-hold"] === null
+        ? result.headers["x-ms-legal-hold"]
+        : result.headers["x-ms-legal-hold"].trim().toLowerCase() === "true",
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    version: result.headers["x-ms-version"],
+    date: new Date(result.headers["date"]),
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _getLayoutDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
+  };
+}
+
+/** The Get Blob Layout operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob.  In addition, it may optionally return the layout of the blob. */
+export async function getLayout(
+  context: Client,
+  options: BlobGetLayoutOptionalParams = { requestOptions: {} },
+): Promise<
+  {
+    lastModified: Date;
+    blobContentLength?: number;
+    blobContentType?: string;
+    blobContentEncoding?: string;
+    blobContentMD5?: Uint8Array;
+    blobCreationTime?: Date;
+    createdOn: Date;
+    objectReplicationPolicyId?: string;
+    objectReplicationRules?: Record<string, string>;
+    blobType?: BlobType;
+    copyCompletionTime?: Date;
+    copyStatusDescription?: string;
+    copyId?: string;
+    copyProgress?: string;
+    copySource?: string;
+    copyStatus?: CopyStatus;
+    isIncrementalCopy?: boolean;
+    destinationSnapshot?: string;
+    leaseDuration?: LeaseDuration;
+    leaseState?: LeaseState;
+    leaseStatus?: LeaseStatus;
+    contentLength: number;
+    etag: string;
+    contentMD5: Uint8Array;
+    contentEncoding: string;
+    contentDisposition: string;
+    contentLanguage: string;
+    cacheControl: string;
+    blobSequenceNumber: number;
+    acceptRanges?: string;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    accessTier?: string;
+    accessTierInferred?: boolean;
+    smartAccessTier?: string;
+    archiveStatus?: ArchiveStatus;
+    accessTierChangeTime?: Date;
+    versionId: string;
+    isCurrentVersion?: boolean;
+    tagCount?: number;
+    expiresOn?: Date;
+    isSealed?: boolean;
+    rehydratePriority?: RehydratePriority;
+    lastAccessed?: Date;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode: ImmutabilityPolicyMode;
+    legalHold?: boolean;
+    clientRequestId?: string;
+    requestId?: string;
+    version: string;
+    date: Date;
+    contentType: "application/xml";
+  } & BlobLayout &
+    StorageCompatResponseInfo<
+      BlobLayout,
+      {
+        lastModified: Date;
+        blobContentLength?: number;
+        blobContentType?: string;
+        blobContentEncoding?: string;
+        blobContentMD5?: Uint8Array;
+        blobCreationTime?: Date;
+        createdOn: Date;
+        objectReplicationPolicyId?: string;
+        objectReplicationRules?: Record<string, string>;
+        blobType?: BlobType;
+        copyCompletionTime?: Date;
+        copyStatusDescription?: string;
+        copyId?: string;
+        copyProgress?: string;
+        copySource?: string;
+        copyStatus?: CopyStatus;
+        isIncrementalCopy?: boolean;
+        destinationSnapshot?: string;
+        leaseDuration?: LeaseDuration;
+        leaseState?: LeaseState;
+        leaseStatus?: LeaseStatus;
+        contentLength: number;
+        etag: string;
+        contentMD5: Uint8Array;
+        contentEncoding: string;
+        contentDisposition: string;
+        contentLanguage: string;
+        cacheControl: string;
+        blobSequenceNumber: number;
+        acceptRanges?: string;
+        blobCommittedBlockCount?: number;
+        isServerEncrypted?: boolean;
+        encryptionKeySha256?: string;
+        encryptionScope?: string;
+        accessTier?: string;
+        accessTierInferred?: boolean;
+        smartAccessTier?: string;
+        archiveStatus?: ArchiveStatus;
+        accessTierChangeTime?: Date;
+        versionId: string;
+        isCurrentVersion?: boolean;
+        tagCount?: number;
+        expiresOn?: Date;
+        isSealed?: boolean;
+        rehydratePriority?: RehydratePriority;
+        lastAccessed?: Date;
+        immutabilityPolicyExpiresOn?: Date;
+        immutabilityPolicyMode: ImmutabilityPolicyMode;
+        legalHold?: boolean;
+        clientRequestId?: string;
+        requestId?: string;
+        version: string;
+        date: Date;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _getLayoutSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _getLayoutDeserialize(result);
+  const parsedHeaders = _getLayoutDeserializeHeaders(result);
+  // TEMPORARY HAND EDIT — remove once the emitter is fixed; regeneration will drop this.
+  // getLayout accepts 204, so the deserializer is typed `BlobLayout | void`, but the operation's
+  // return type is `& BlobLayout`. The emitter reconciles the 204 in one place but not the other.
+  return addStorageCompatResponse(
+    _storageCompat.getRawResponse()!,
+    parsedBody as BlobLayout,
+    parsedHeaders,
+  );
+}
+
 export function _setTagsSend(
   context: Client,
   tags: BlobTags,
@@ -82,7 +575,7 @@ export function _setTagsSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -235,7 +728,7 @@ export function _getTagsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -378,7 +871,7 @@ export function _getAccountInfoSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -520,7 +1013,7 @@ export function _setTierSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -644,7 +1137,7 @@ export function _abortCopyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -766,7 +1259,7 @@ export function _copyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -876,7 +1369,7 @@ export function _copyFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   copyId?: string;
   copyStatus?: "success";
   contentMD5: Uint8Array;
-  xMsContentCrc64?: Uint8Array;
+  contentCrc64?: Uint8Array;
   encryptionScope?: string;
   date: Date;
   version: string;
@@ -896,7 +1389,7 @@ export function _copyFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    xMsContentCrc64:
+    contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -958,7 +1451,7 @@ export async function copyFromUrl(
     copyId?: string;
     copyStatus?: "success";
     contentMD5: Uint8Array;
-    xMsContentCrc64?: Uint8Array;
+    contentCrc64?: Uint8Array;
     encryptionScope?: string;
     date: Date;
     version: string;
@@ -973,7 +1466,7 @@ export async function copyFromUrl(
       copyId?: string;
       copyStatus?: "success";
       contentMD5: Uint8Array;
-      xMsContentCrc64?: Uint8Array;
+      contentCrc64?: Uint8Array;
       encryptionScope?: string;
       date: Date;
       version: string;
@@ -1011,7 +1504,7 @@ export function _startCopyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1217,7 +1710,7 @@ export function _createSnapshotSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1397,7 +1890,7 @@ export function _breakLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1558,7 +2051,7 @@ export function _changeLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1719,7 +2212,7 @@ export function _renewLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1878,7 +2371,7 @@ export function _releaseLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2030,7 +2523,7 @@ export function _acquireLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2191,7 +2684,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2383,7 +2876,7 @@ export function _setLegalHoldSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2514,7 +3007,7 @@ export function _deleteImmutabilityPolicySend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2634,7 +3127,7 @@ export function _setImmutabilityPolicySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2788,7 +3281,7 @@ export function _setPropertiesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2964,7 +3457,7 @@ export function _setExpirySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3101,7 +3594,7 @@ export function _undeleteSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3219,7 +3712,7 @@ export function _deleteBlobSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3374,7 +3867,7 @@ export function _getPropertiesSend(
     .head({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3466,7 +3959,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   accessTier?: string;
   accessTierInferred?: boolean;
   archiveStatus?: ArchiveStatus;
-  accessTierChangedOn?: Date;
+  accessTierChangeTime?: Date;
   smartAccessTier?: string;
   versionId: string;
   isCurrentVersion?: boolean;
@@ -3586,7 +4079,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
         ? result.headers["x-ms-access-tier-inferred"]
         : result.headers["x-ms-access-tier-inferred"].trim().toLowerCase() === "true",
     archiveStatus: result.headers["x-ms-archive-status"] as any,
-    accessTierChangedOn:
+    accessTierChangeTime:
       result.headers["x-ms-access-tier-change-time"] === undefined ||
       result.headers["x-ms-access-tier-change-time"] === null
         ? result.headers["x-ms-access-tier-change-time"]
@@ -3708,7 +4201,7 @@ export async function getProperties(
     accessTier?: string;
     accessTierInferred?: boolean;
     archiveStatus?: ArchiveStatus;
-    accessTierChangedOn?: Date;
+    accessTierChangeTime?: Date;
     smartAccessTier?: string;
     versionId: string;
     isCurrentVersion?: boolean;
@@ -3760,7 +4253,7 @@ export async function getProperties(
       accessTier?: string;
       accessTierInferred?: boolean;
       archiveStatus?: ArchiveStatus;
-      accessTierChangedOn?: Date;
+      accessTierChangeTime?: Date;
       smartAccessTier?: string;
       versionId: string;
       isCurrentVersion?: boolean;
@@ -3809,7 +4302,7 @@ export function _downloadSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-12-06",
+        "x-ms-version": context.version ?? "2027-03-07",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3923,8 +4416,9 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   structuredContentLength?: number;
   accessTier?: string;
   accessTierInferred?: boolean;
-  accessTierChangedOn?: Date;
+  accessTierChangeTime?: Date;
   smartAccessTier?: string;
+  downloadHint?: DownloadHint;
   version: string;
   contentType: "application/octet-stream";
 } {
@@ -4081,7 +4575,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-access-tier-inferred"] === null
         ? result.headers["x-ms-access-tier-inferred"]
         : result.headers["x-ms-access-tier-inferred"].trim().toLowerCase() === "true",
-    accessTierChangedOn:
+    accessTierChangeTime:
       result.headers["x-ms-access-tier-change-time"] === undefined ||
       result.headers["x-ms-access-tier-change-time"] === null
         ? result.headers["x-ms-access-tier-change-time"]
@@ -4091,6 +4585,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-smart-access-tier"] === null
         ? result.headers["x-ms-smart-access-tier"]
         : result.headers["x-ms-smart-access-tier"],
+    downloadHint: result.headers["x-ms-download-hint"] as any,
     version: result.headers["x-ms-version"],
     contentType: result.headers["content-type"] as any,
   };
@@ -4170,8 +4665,9 @@ export async function download(
     structuredContentLength?: number;
     accessTier?: string;
     accessTierInferred?: boolean;
-    accessTierChangedOn?: Date;
+    accessTierChangeTime?: Date;
     smartAccessTier?: string;
+    downloadHint?: DownloadHint;
     version: string;
     contentType: "application/octet-stream";
   } & BlobDownloadResponse &
@@ -4223,8 +4719,9 @@ export async function download(
         structuredContentLength?: number;
         accessTier?: string;
         accessTierInferred?: boolean;
-        accessTierChangedOn?: Date;
+        accessTierChangeTime?: Date;
         smartAccessTier?: string;
+        downloadHint?: DownloadHint;
         version: string;
         contentType: "application/octet-stream";
       }

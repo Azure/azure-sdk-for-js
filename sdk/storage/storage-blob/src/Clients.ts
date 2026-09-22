@@ -6,7 +6,8 @@ import type {
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
+import { getDefaultProxySettings, isRestError } from "@azure/core-rest-pipeline";
+ import { LAYOUT_ENDPOINT_HEADER } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { isNodeLike, stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
@@ -115,6 +116,7 @@ import type {
   BlobQueryResponseInternal,
   BlobQueryHeaders,
   BlockBlobGetBlockListHeaders,
+  DownloadHint,
   BlockBlobGetBlockListResponseInternal,
   PageBlobGetPageRangesResponseInternal,
   PageBlobGetPageRangesHeaders,
@@ -216,8 +218,16 @@ import {
   toBlobTags,
   toBlobTagsString,
   toQuerySerialization,
+  totalSizeFromContentRange,
   toTags,
 } from "./utils/utils.common.js";
+import { AutoRefreshingCache } from "./utils/AutoRefreshingCache.js";
+import type { BlobLayoutCacheValue } from "./utils/BlobLayoutSegment.js";
+import {
+  fetchLayout,
+  getLayoutEndpoint,
+  toBlobLayoutCacheValue,
+} from "./utils/BlobLayoutSegment.js";
 import {
   fsCreateReadStream,
   fsStat,
@@ -263,6 +273,15 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
  * Contains response data for the {@link BlobClient.beginCopyFromURL} operation.
  */
 export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
+
+/**
+ * Whether a download may route its range requests to the endpoints that physically hold them, as
+ * reported by Get Blob Layout.
+ *
+ * `auto` leaves the choice to the SDK, which today resolves to `enabled`. Prefer it unless you
+ * need routing pinned on or off regardless of what later versions decide.
+ */
+export type LayoutAwareRouting = "auto" | "enabled" | "disabled";
 
 /**
  * Options to configure the {@link BlobClient.download} operation.
@@ -321,6 +340,14 @@ export interface BlobDownloadOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * The endpoint to read this range from, as reported by Get Blob Layout. A one-shot download
+   * never fetches or caches a layout of its own, so supplying one here is the only way to route
+   * it. An endpoint that cannot be used is ignored and the account endpoint is read instead.
+   */
+  layoutEndpoint?: string;
 }
 
 /**
@@ -798,6 +825,14 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * Whether the blocks of this download may be read from the endpoints that physically hold
+   * them. Defaults to `auto`. Routing is only ever an optimization: the bytes returned are the
+   * same either way.
+   */
+  layoutAwareRouting?: LayoutAwareRouting;
 }
 
 /**
@@ -1311,6 +1346,10 @@ export class BlobClient extends StorageClient {
           ifTags: options.conditions?.tagConditions,
           requestOptions: {
             onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+            // Consumed and removed by storageDataLocalityPolicy; never reaches the wire.
+            headers: options.layoutEndpoint
+              ? { [LAYOUT_ENDPOINT_HEADER]: options.layoutEndpoint }
+              : undefined,
           },
           range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
           rangeGetContentMD5: options.rangeGetContentMD5,
@@ -2071,18 +2110,47 @@ export class BlobClient extends StorageClient {
       "BlobClient-downloadToBuffer",
       options,
       async (updatedOptions) => {
-        // Customer doesn't specify length, get it
+        const chunkOptions = {
+          abortSignal: options.abortSignal,
+          conditions: options.conditions,
+          maxRetryRequests: options.maxRetryRequestsPerBlock,
+          customerProvidedKey: options.customerProvidedKey,
+          contentChecksumAlgorithm: options.contentChecksumAlgorithm,
+          tracingOptions: updatedOptions.tracingOptions,
+        };
+
+        // Take the blob's size from the first chunk's Content-Range instead of a separate Get
+        // Blob Properties: the round trip is saved outright, and a blob that fits inside one
+        // block is fully downloaded by that same request.
+        let firstChunk: BlobDownloadResponseParsed | undefined;
         if (!count) {
-          const response = await this.getProperties({
-            ...options,
-            tracingOptions: updatedOptions.tracingOptions,
-          });
-          count = response.contentLength! - offset;
-          if (count < 0) {
-            throw new RangeError(
-              `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`,
+          let blobSize: number | undefined;
+          try {
+            firstChunk = await this.download(offset, blockSize, chunkOptions);
+            blobSize = totalSizeFromContentRange(firstChunk.contentRange);
+          } catch (error) {
+            // 416 means the offset is at or past the end of the blob, which an empty blob always
+            // is. The error still reports the size, which is all that is left to learn.
+            if (!isRestError(error) || error.statusCode !== 416) {
+              throw error;
+            }
+            blobSize = totalSizeFromContentRange(error.response?.headers.get("content-range"));
+            // A 416 that does not say how big the blob is leaves nothing to recover from, and the
+            // original error describes the failure better than anything synthesized here would.
+            if (blobSize === undefined) {
+              throw error;
+            }
+          }
+
+          if (blobSize === undefined) {
+            throw new Error(
+              "Unable to determine the blob size because the service returned no Content-Range header.",
             );
           }
+          if (offset > blobSize) {
+            throw new RangeError(`offset ${offset} shouldn't be larger than blob size ${blobSize}`);
+          }
+          count = blobSize - offset;
         }
 
         // Allocate the buffer of size = count if the buffer is not provided
@@ -2104,21 +2172,43 @@ export class BlobClient extends StorageClient {
         }
 
         let transferProgress: number = 0;
+        const firstChunkLength = firstChunk ? Math.min(blockSize, count) : 0;
+        if (firstChunk) {
+          await streamToBuffer(firstChunk.readableStreamBody!, buffer, 0, firstChunkLength);
+          transferProgress = firstChunkLength;
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
+          }
+        }
+
+        // The layout describes only what is left to read, and is pinned to the version the first
+        // chunk came from so the rest of the transfer cannot be stitched across a rewrite.
+        const remaining = count - firstChunkLength;
+        const layoutCache = this.createLayoutCache({
+          routing: options.layoutAwareRouting ?? "auto",
+          downloadHint: firstChunk?.downloadHint,
+          etag: firstChunk?.etag,
+          offset: offset + firstChunkLength,
+          count: remaining,
+          tracingOptions: updatedOptions.tracingOptions,
+        });
+        const chunkConditions = layoutCache
+          ? { ...options.conditions, ifMatch: options.conditions?.ifMatch ?? firstChunk?.etag }
+          : options.conditions;
+
         const batch = new Batch(options.concurrency);
-        for (let off = offset; off < offset + count; off = off + blockSize) {
+        for (let off = offset + firstChunkLength; off < offset + count; off = off + blockSize) {
           batch.addOperation(async () => {
             // Exclusive chunk end position
             let chunkEnd = offset + count!;
             if (off + blockSize < chunkEnd) {
               chunkEnd = off + blockSize;
             }
+            const layout = await layoutCache?.get(options.abortSignal);
             const response = await this.download(off, chunkEnd - off, {
-              abortSignal: options.abortSignal,
-              conditions: options.conditions,
-              maxRetryRequests: options.maxRetryRequestsPerBlock,
-              customerProvidedKey: options.customerProvidedKey,
-              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
-              tracingOptions: updatedOptions.tracingOptions,
+              ...chunkOptions,
+              conditions: chunkConditions,
+              layoutEndpoint: layout?.segments && getLayoutEndpoint(off, layout.segments),
             });
             const stream = response.readableStreamBody!;
             await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -2134,6 +2224,46 @@ export class BlobClient extends StorageClient {
         await batch.do();
         return buffer;
       },
+    );
+  }
+
+  /**
+   * Builds the layout cache for one download, or returns undefined when this download will not
+   * route its chunks.
+   *
+   * Routing is attempted only when the caller allows it, the service hinted that the blob is
+   * spread across endpoints, and there is more than the first chunk left to read. Node-only,
+   * because routing depends on setting the `Host` header, which browsers forbid.
+   */
+  private createLayoutCache(options: {
+    routing: LayoutAwareRouting;
+    downloadHint?: DownloadHint;
+    etag?: string;
+    offset: number;
+    count: number;
+    tracingOptions?: CommonOptions["tracingOptions"];
+  }): AutoRefreshingCache<BlobLayoutCacheValue> | undefined {
+    // `auto` resolves to enabled today; the third state exists so the default can move later
+    // without reinterpreting what an explicit choice meant.
+    if (
+      options.routing === "disabled" ||
+      options.downloadHint !== "layout" ||
+      options.count <= 0 ||
+      !isNodeLike
+    ) {
+      return undefined;
+    }
+
+    const range = rangeToString({ offset: options.offset, count: options.count });
+    return new AutoRefreshingCache<BlobLayoutCacheValue>(async (abortSignal) =>
+      toBlobLayoutCacheValue(
+        await fetchLayout(this.blobContext, {
+          abortSignal,
+          range,
+          ifMatch: options.etag,
+          tracingOptions: options.tracingOptions,
+        }),
+      ),
     );
   }
 

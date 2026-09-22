@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added `buildStorageSharedKeyStringToSign` and `prepareSharedKeyHeaders`, which expose the Shared Key request signing steps for use by other Azure Storage client libraries.
+- Added `storageDataLocalityPolicy`, which routes a request to a layout endpoint while preserving the original `Host` header.
 
 ### Breaking Changes
 

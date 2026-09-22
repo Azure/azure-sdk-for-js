@@ -3,6 +3,7 @@
 
 import { BlobContext } from "../../api/blobContext.js";
 import {
+  getLayout,
   setTags,
   getTags,
   getAccountInfo,
@@ -28,6 +29,7 @@ import {
   download,
 } from "../../api/blob/operations.js";
 import {
+  BlobGetLayoutOptionalParams,
   BlobSetTagsOptionalParams,
   BlobGetTagsOptionalParams,
   BlobGetAccountInfoOptionalParams,
@@ -63,8 +65,10 @@ import {
   ArchiveStatus,
   RehydratePriority,
   ImmutabilityPolicyMode,
+  BlobLayout,
   SkuName,
   AccountKind,
+  DownloadHint,
   BlobExpiryOptions,
   BlobDownloadResponse,
 } from "../../models/models.js";
@@ -72,6 +76,126 @@ import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatRes
 
 /** Interface representing a Blob operations. */
 export interface BlobOperations {
+  /** The Get Blob Layout operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob.  In addition, it may optionally return the layout of the blob. */
+  getLayout: (
+    options?: BlobGetLayoutOptionalParams,
+  ) => Promise<
+    {
+      lastModified: Date;
+      blobContentLength?: number;
+      blobContentType?: string;
+      blobContentEncoding?: string;
+      blobContentMD5?: Uint8Array;
+      blobCreationTime?: Date;
+      createdOn: Date;
+      objectReplicationPolicyId?: string;
+      objectReplicationRules?: Record<string, string>;
+      blobType?: BlobType;
+      copyCompletionTime?: Date;
+      copyStatusDescription?: string;
+      copyId?: string;
+      copyProgress?: string;
+      copySource?: string;
+      copyStatus?: CopyStatus;
+      isIncrementalCopy?: boolean;
+      destinationSnapshot?: string;
+      leaseDuration?: LeaseDuration;
+      leaseState?: LeaseState;
+      leaseStatus?: LeaseStatus;
+      contentLength: number;
+      etag: string;
+      contentMD5: Uint8Array;
+      contentEncoding: string;
+      contentDisposition: string;
+      contentLanguage: string;
+      cacheControl: string;
+      blobSequenceNumber: number;
+      acceptRanges?: string;
+      blobCommittedBlockCount?: number;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      accessTier?: string;
+      accessTierInferred?: boolean;
+      smartAccessTier?: string;
+      archiveStatus?: ArchiveStatus;
+      accessTierChangeTime?: Date;
+      versionId: string;
+      isCurrentVersion?: boolean;
+      tagCount?: number;
+      expiresOn?: Date;
+      isSealed?: boolean;
+      rehydratePriority?: RehydratePriority;
+      lastAccessed?: Date;
+      immutabilityPolicyExpiresOn?: Date;
+      immutabilityPolicyMode: ImmutabilityPolicyMode;
+      legalHold?: boolean;
+      clientRequestId?: string;
+      requestId?: string;
+      version: string;
+      date: Date;
+      contentType: "application/xml";
+    } & BlobLayout &
+      StorageCompatResponseInfo<
+        BlobLayout,
+        {
+          lastModified: Date;
+          blobContentLength?: number;
+          blobContentType?: string;
+          blobContentEncoding?: string;
+          blobContentMD5?: Uint8Array;
+          blobCreationTime?: Date;
+          createdOn: Date;
+          objectReplicationPolicyId?: string;
+          objectReplicationRules?: Record<string, string>;
+          blobType?: BlobType;
+          copyCompletionTime?: Date;
+          copyStatusDescription?: string;
+          copyId?: string;
+          copyProgress?: string;
+          copySource?: string;
+          copyStatus?: CopyStatus;
+          isIncrementalCopy?: boolean;
+          destinationSnapshot?: string;
+          leaseDuration?: LeaseDuration;
+          leaseState?: LeaseState;
+          leaseStatus?: LeaseStatus;
+          contentLength: number;
+          etag: string;
+          contentMD5: Uint8Array;
+          contentEncoding: string;
+          contentDisposition: string;
+          contentLanguage: string;
+          cacheControl: string;
+          blobSequenceNumber: number;
+          acceptRanges?: string;
+          blobCommittedBlockCount?: number;
+          isServerEncrypted?: boolean;
+          encryptionKeySha256?: string;
+          encryptionScope?: string;
+          accessTier?: string;
+          accessTierInferred?: boolean;
+          smartAccessTier?: string;
+          archiveStatus?: ArchiveStatus;
+          accessTierChangeTime?: Date;
+          versionId: string;
+          isCurrentVersion?: boolean;
+          tagCount?: number;
+          expiresOn?: Date;
+          isSealed?: boolean;
+          rehydratePriority?: RehydratePriority;
+          lastAccessed?: Date;
+          immutabilityPolicyExpiresOn?: Date;
+          immutabilityPolicyMode: ImmutabilityPolicyMode;
+          legalHold?: boolean;
+          clientRequestId?: string;
+          requestId?: string;
+          version: string;
+          date: Date;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Sets the tags of the specified blob. */
   setTags: (
     tags: BlobTags,
@@ -176,7 +300,7 @@ export interface BlobOperations {
       copyId?: string;
       copyStatus?: "success";
       contentMD5: Uint8Array;
-      xMsContentCrc64?: Uint8Array;
+      contentCrc64?: Uint8Array;
       encryptionScope?: string;
       date: Date;
       version: string;
@@ -191,7 +315,7 @@ export interface BlobOperations {
         copyId?: string;
         copyStatus?: "success";
         contentMD5: Uint8Array;
-        xMsContentCrc64?: Uint8Array;
+        contentCrc64?: Uint8Array;
         encryptionScope?: string;
         date: Date;
         version: string;
@@ -592,7 +716,7 @@ export interface BlobOperations {
       accessTier?: string;
       accessTierInferred?: boolean;
       archiveStatus?: ArchiveStatus;
-      accessTierChangedOn?: Date;
+      accessTierChangeTime?: Date;
       smartAccessTier?: string;
       versionId: string;
       isCurrentVersion?: boolean;
@@ -644,7 +768,7 @@ export interface BlobOperations {
         accessTier?: string;
         accessTierInferred?: boolean;
         archiveStatus?: ArchiveStatus;
-        accessTierChangedOn?: Date;
+        accessTierChangeTime?: Date;
         smartAccessTier?: string;
         versionId: string;
         isCurrentVersion?: boolean;
@@ -713,8 +837,9 @@ export interface BlobOperations {
       structuredContentLength?: number;
       accessTier?: string;
       accessTierInferred?: boolean;
-      accessTierChangedOn?: Date;
+      accessTierChangeTime?: Date;
       smartAccessTier?: string;
+      downloadHint?: DownloadHint;
       version: string;
       contentType: "application/octet-stream";
     } & BlobDownloadResponse &
@@ -766,8 +891,9 @@ export interface BlobOperations {
           structuredContentLength?: number;
           accessTier?: string;
           accessTierInferred?: boolean;
-          accessTierChangedOn?: Date;
+          accessTierChangeTime?: Date;
           smartAccessTier?: string;
+          downloadHint?: DownloadHint;
           version: string;
           contentType: "application/octet-stream";
         }
@@ -777,6 +903,7 @@ export interface BlobOperations {
 
 function _getBlob(context: BlobContext) {
   return {
+    getLayout: (options?: BlobGetLayoutOptionalParams) => getLayout(context, options),
     setTags: (tags: BlobTags, options?: BlobSetTagsOptionalParams) =>
       setTags(context, tags, options),
     getTags: (options?: BlobGetTagsOptionalParams) => getTags(context, options),

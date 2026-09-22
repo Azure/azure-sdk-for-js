@@ -52,6 +52,11 @@ export type {
   ListBlobsHierarchicalResponse,
   BlobHierarchyList,
   BlobPrefix,
+  BlobLayout,
+  BlobLayoutRanges,
+  BlobLayoutRange,
+  BlobLayoutEndpoints,
+  BlobLayoutEndpoint,
   BlockLookupList,
   BlockList,
   Block,
@@ -74,6 +79,7 @@ export type {
   FilterBlobsIncludeItem,
   ListBlobsIncludeItem,
   EncryptionAlgorithmType,
+  DownloadHint,
   DeleteSnapshotsOptionType,
   BlobDeleteType,
   BlobExpiryOptions,
@@ -96,6 +102,7 @@ export type {
   AppendBlobCreateOptionalParams,
 } from "./api/appendBlob/index.js";
 export type {
+  BlobGetLayoutOptionalParams,
   BlobSetTagsOptionalParams,
   BlobGetTagsOptionalParams,
   BlobGetAccountInfoOptionalParams,

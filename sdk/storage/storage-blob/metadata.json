@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Storage.Blob": "2026-12-06"
+    "Storage.Blob": "2027-03-07"
   },
   "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
@@ -40,6 +40,11 @@
       "@azure/storage-blob!ListBlobsHierarchicalResponse:interface": "Storage.Blob.ListBlobsHierarchicalResponse",
       "@azure/storage-blob!BlobHierarchyList:interface": "Storage.Blob.BlobHierarchyList",
       "@azure/storage-blob!BlobPrefix:interface": "Storage.Blob.BlobPrefix",
+      "@azure/storage-blob!BlobLayout:interface": "Storage.Blob.BlobLayout",
+      "@azure/storage-blob!BlobLayoutRanges:interface": "Storage.Blob.BlobLayoutRanges",
+      "@azure/storage-blob!BlobLayoutRange:interface": "Storage.Blob.BlobLayoutRange",
+      "@azure/storage-blob!BlobLayoutEndpoints:interface": "Storage.Blob.BlobLayoutEndpoints",
+      "@azure/storage-blob!BlobLayoutEndpoint:interface": "Storage.Blob.BlobLayoutEndpoint",
       "@azure/storage-blob!BlockLookupList:interface": "Storage.Blob.BlockLookupList",
       "@azure/storage-blob!BlockList:interface": "Storage.Blob.BlockList",
       "@azure/storage-blob!Block:interface": "Storage.Blob.Block",
@@ -75,6 +80,7 @@
       "@azure/storage-blob!KnownListBlobFlatSegmentApacheArrowResponseContentType:enum": "Storage.Blob.listBlobFlatSegmentApacheArrow.ResponseContentType.anonymous",
       "@azure/storage-blob!KnownListBlobHierarchySegmentApacheArrowResponseContentType:enum": "Storage.Blob.listBlobHierarchySegmentApacheArrow.ResponseContentType.anonymous",
       "@azure/storage-blob!KnownEncryptionAlgorithmType:enum": "Storage.Blob.EncryptionAlgorithmType",
+      "@azure/storage-blob!KnownDownloadHint:enum": "Storage.Blob.DownloadHint",
       "@azure/storage-blob!KnownDeleteSnapshotsOptionType:enum": "Storage.Blob.DeleteSnapshotsOptionType",
       "@azure/storage-blob!KnownBlobDeleteType:enum": "Storage.Blob.BlobDeleteType",
       "@azure/storage-blob!KnownBlobExpiryOptions:enum": "Storage.Blob.BlobExpiryOptions",
@@ -106,6 +112,7 @@
       "@azure/storage-blob!AppendBlobOperations#appendBlockFromUrl:member": "Storage.Blob.AppendBlob.appendBlockFromUrl",
       "@azure/storage-blob!AppendBlobOperations#appendBlock:member": "Storage.Blob.AppendBlob.appendBlock",
       "@azure/storage-blob!AppendBlobOperations#create:member": "Storage.Blob.AppendBlob.create",
+      "@azure/storage-blob!BlobOperations#getLayout:member": "Storage.Blob.Blob.getLayout",
       "@azure/storage-blob!BlobOperations#setTags:member": "Storage.Blob.Blob.setTags",
       "@azure/storage-blob!BlobOperations#getTags:member": "Storage.Blob.Blob.getTags",
       "@azure/storage-blob!BlobOperations#getAccountInfo:member": "Storage.Blob.Blob.getAccountInfo",

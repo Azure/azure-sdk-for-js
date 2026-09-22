@@ -5,7 +5,7 @@ import { describe, it, assert, beforeEach, afterEach, expect, vi } from "vitest"
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { HttpMethods, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { AutoRefreshingCache } from "../../src/session/AutoRefreshingCache.js";
+import { AutoRefreshingCache } from "../../src/utils/AutoRefreshingCache.js";
 import { isSessionEligible } from "../../src/session/ContainerSessionProvider.js";
 import type { ActiveSession, SessionTokenInfo } from "../../src/session/models.js";
 import { createBearerFallback, SESSION_REFRESH_BUFFER_MS } from "../../src/session/models.js";
@@ -35,6 +35,14 @@ function timeoutError(): Error {
   const error = new Error("The operation was aborted due to timeout");
   error.name = "TimeoutError";
   return error;
+}
+
+/** The identity check ContainerSessionProvider passes to the now service-agnostic cache. */
+function sameSession(expected: SessionTokenInfo): (current: SessionTokenInfo) => boolean {
+  return (current) =>
+    current.kind === "session" &&
+    expected.kind === "session" &&
+    current.sessionToken === expected.sessionToken;
 }
 
 describe("AutoRefreshingCache", () => {
@@ -150,7 +158,7 @@ describe("AutoRefreshingCache", () => {
     assert.strictEqual(acquire.mock.calls.length, 2, "the background refresh must have started");
 
     // A 401 arrives for the session being refreshed, so the next caller has nothing to serve.
-    cache.invalidateIfCurrent(first);
+    cache.invalidateIf(sameSession(first));
     const blocked = cache.get();
     await flushMicrotasks();
 
@@ -227,7 +235,7 @@ describe("AutoRefreshingCache", () => {
     const cache = new AutoRefreshingCache(acquire);
 
     const used = await cache.get();
-    cache.invalidateIfCurrent(used);
+    cache.invalidateIf(sameSession(used));
 
     const next = (await cache.get()) as ActiveSession;
     assert.strictEqual(next.sessionToken, "token-2");
@@ -244,7 +252,7 @@ describe("AutoRefreshingCache", () => {
     // Force a new session, then try to invalidate using the superseded one.
     vi.setSystemTime(stale.expiresOnTimestamp + 1);
     const current = await cache.get();
-    cache.invalidateIfCurrent(stale);
+    cache.invalidateIf(sameSession(stale));
 
     assert.strictEqual(await cache.get(), current, "the newer session must survive");
     assert.strictEqual(acquire.mock.calls.length, 2);

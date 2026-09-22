@@ -1128,6 +1128,8 @@ export interface BlobDownloadHeaders {
   errorCode?: string;
   /** If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request). */
   contentCrc64?: Uint8Array;
+  /** The service's recommendation for how to read the remainder of the blob. When set to `layout`, the blob is spread across multiple endpoints and Get Blob Layout can be used to read each range from the endpoint that serves it. Absent means a standard Get Blob is recommended. */
+  downloadHint?: DownloadHint;
 }
 
 /** Defines headers for Blob_download operation. */
@@ -2945,6 +2947,8 @@ export type ListBlobsIncludeItem =
   | "deletedwithversions";
 /** Defines values for BlobType. */
 export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
+/** Defines values for DownloadHint. */
+export type DownloadHint = "layout";
 /** Defines values for CopyStatusType. */
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 /** Defines values for AccessTier. */

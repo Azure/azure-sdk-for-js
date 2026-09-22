@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  getLayout,
   setTags,
   getTags,
   getAccountInfo,
@@ -27,6 +28,7 @@ export {
   download,
 } from "./operations.js";
 export type {
+  BlobGetLayoutOptionalParams,
   BlobSetTagsOptionalParams,
   BlobGetTagsOptionalParams,
   BlobGetAccountInfoOptionalParams,

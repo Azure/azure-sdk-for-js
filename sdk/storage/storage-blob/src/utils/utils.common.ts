@@ -613,6 +613,22 @@ export function iEqual(str1: string, str2: string): boolean {
 }
 
 /**
+ * Reads the total resource size from a Content-Range header, e.g. `bytes 0-1023/4096` or the
+ * `bytes * /0` form a 416 carries. Returns undefined when the header is absent or the size is
+ * unknown (`*`).
+ *
+ * @param contentRange - the raw Content-Range header value
+ */
+export function totalSizeFromContentRange(contentRange?: string): number | undefined {
+  const total = contentRange?.split("/")[1]?.trim();
+  if (!total || total === "*") {
+    return undefined;
+  }
+  const size = Number(total);
+  return Number.isInteger(size) && size >= 0 ? size : undefined;
+}
+
+/**
  * Extracts account name from the url
  * @param url - url to extract the account name from
  * @returns with the account name
