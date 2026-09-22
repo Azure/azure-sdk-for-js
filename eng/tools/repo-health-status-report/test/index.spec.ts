@@ -356,6 +356,29 @@ describe("report aggregation", () => {
     expect(packageDetails.status).toBe("BLOCKED");
   });
 
+  it("treats a failed overall CI build as failed CI", () => {
+    const packageDetails = createPackageStatus("example");
+    const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
+    const pipelines: Record<string, PipelineResults> = {
+      "@azure/example": {
+        ci: {
+          result: "failed",
+          build: { status: "succeeded" },
+          ci: { status: "succeeded" },
+          lint: { status: "succeeded" },
+        },
+        tests: {
+          tests: { status: "succeeded" },
+        },
+      },
+    };
+
+    reportStatus(dataplane, pipelines);
+
+    expect(packageDetails.ci.status).toBe("FAIL");
+    expect(packageDetails.status).toBe("BLOCKED");
+  });
+
   it("normalizes and reports failed sample tasks", async () => {
     const packageDetails = createPackageStatus("example");
     const dataplane: PackagesWithStatus = { "@azure/example": packageDetails };
@@ -418,6 +441,18 @@ describe("report aggregation", () => {
     expect(cells["SLA - Questions"]).toBe("");
     expect(cells["SLA - Bugs"]).toBe("");
     expect(cells["Total Customer-reported Issues"]).toBe("");
+  });
+
+  it("reports core-process as SDK-owned", async () => {
+    const dataplane: PackagesWithStatus = {
+      "@azure/core-process": createPackageStatus("core"),
+    };
+
+    writeFileMock.mockClear();
+    await writeToCsv(dataplane, {});
+
+    const cells = readCsvRow(writeFileMock.mock.calls[0][1] as string, "@azure/core-process");
+    expect(cells["Owned by SDK team"]).toBe("YES");
   });
 
   it("appends new check columns to preserve existing column order", async () => {

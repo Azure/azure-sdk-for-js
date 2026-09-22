@@ -47,6 +47,7 @@ const SDK_OWNED = [
   "@azure/core-http-compat",
   "@azure/core-lro",
   "@azure/core-paging",
+  "@azure/core-process",
   "@azure/core-rest-pipeline",
   "@azure/core-sse",
   "@azure/core-tracing",
@@ -349,7 +350,8 @@ function reportTestResult(
     return;
   }
   const testStatus =
-    testKind === "ci" && pipelineResult.build?.status === "failed"
+    testKind === "ci" &&
+    (pipelineResult.result === "failed" || pipelineResult.build?.status === "failed")
       ? "failed"
       : pipelineResult[testKind]?.status;
   const old = packageDetails[testKind];

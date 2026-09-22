@@ -66,7 +66,7 @@ describe("urlHelpers", () => {
       const label = "Cognitive - Form Recognizer";
       const kind = "bug";
       const created = "2023-01-01T00:00:00Z";
-      const expectedUrl = `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+-label%3Aissue-addressed+-label%3Aquestion+-label%3Aneeds-author-feedback+-label%3Afeature-request+label%3A%22Cognitive+-+Form+Recognizer%22+created%3A%3C${created}`;
+      const expectedUrl = `https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3Acustomer-reported+label%3AClient+label%3Abug+-label%3Aissue-addressed+-label%3Aquestion+-label%3Aneeds-author-feedback+-label%3Afeature-request+label%3A%22Cognitive+-+Form+Recognizer%22+created%3A%3C${created}`;
       assert.equal(githubIssueLinkUrl(label, kind, created), expectedUrl);
       console.log(githubIssueLinkUrl(label, kind, created));
     });
