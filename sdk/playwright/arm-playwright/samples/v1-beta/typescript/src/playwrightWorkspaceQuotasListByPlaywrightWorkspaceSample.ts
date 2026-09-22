@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists quota resources for a given Playwright workspace.
  *
  * @summary lists quota resources for a given Playwright workspace.
- * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaceQuotas_ListByPlaywrightWorkspace.json
+ * x-ms-original-file: 2026-08-01-preview/PlaywrightWorkspaceQuotas_ListByPlaywrightWorkspace.json
  */
 async function playwrightWorkspaceQuotasListByPlaywrightWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
