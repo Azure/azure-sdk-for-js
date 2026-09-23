@@ -6,6 +6,9 @@ import type {
   AgentSessionResource,
   ApiErrorResponse,
   BrowserAutomationPreviewTool,
+  BrowserAutomationTool,
+  BrowserAutomationToolboxTool,
+  ConnectionType,
   CreateTelephonyBindingRequest,
   CreateTelephonyBindingRequestUnion,
   CreateTelephonyCallJobRequest,
@@ -75,6 +78,33 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it("round-trips the GA browser automation tool through agent tool dispatch", () => {
+    const tool: BrowserAutomationTool = {
+      type: "browser_automation",
+      browser_automation: { connection: { project_connection_id: "browser-connection" } },
+    };
+    expect(toWire(toolUnionSerializer(tool))).toEqual(tool);
+    expect(toolUnionDeserializer(tool)).toEqual(tool);
+  });
+
+  it.each([undefined, "browser"])(
+    "round-trips a GA browser automation toolbox tool with name %s",
+    (name) => {
+      const tool: BrowserAutomationToolboxTool = {
+        type: "browser_automation",
+        name,
+        description: "Browse a website",
+        browser_automation: { connection: { project_connection_id: "browser-connection" } },
+      };
+      expect(toWire(toolboxToolUnionSerializer(tool))).toEqual(toWire(tool));
+      expect(toolboxToolUnionDeserializer(tool)).toMatchObject(tool);
+    },
+  );
+
+  it("accepts the new connection types without removing existing types", () => {
+    expectTypeOf<"OpenAPI" | "RemoteA2A" | "AzureOpenAI">().toExtend<ConnectionType>();
+  });
+
   it.each([undefined, null, 0, timestamp])(
     "deserializes optional stopped_at without dropping Unix timestamp %s",
     (stoppedAt) => {

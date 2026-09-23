@@ -1,5 +1,16 @@
 # Release History
 
+## 2.8.0 (Unreleased)
+
+### Features Added
+
+- Add `BrowserAutomationTool` and `BrowserAutomationToolboxTool` for configuring the `browser_automation` tool on agents and toolboxes, while retaining the existing preview tool contracts. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
+- Add `OpenAPI` and `RemoteA2A` connection types. [#40063](https://github.com/Azure/azure-sdk-for-js/issues/40063)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `404147453dd87cd0816988d86a93c8b6a1220e2f`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/404147453dd87cd0816988d86a93c8b6a1220e2f)
+
 ## 2.7.0 (2026-09-18)
 
 ### Breaking Changes
