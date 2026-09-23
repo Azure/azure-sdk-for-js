@@ -1,10 +1,6 @@
 # Release History
 
-## 1.12.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.13.0 (2026-09-23)
 
 ### Bugs Fixed
 
@@ -14,7 +10,7 @@
 
 ### Other Changes
 
-- Improved Microsoft Entra authentication in sovereign clouds when using a `TokenCredential`. When `audience` is not set, the client now infers it from the App Configuration endpoint. An explicitly configured audience continues to override the inferred value.
+- Improved Microsoft Entra authentication in sovereign clouds when using a `TokenCredential`. When `audience` is not set, the client now infers it from the App Configuration endpoint. An explicitly configured audience continues to override the inferred value. [#39775](https://github.com/Azure/azure-sdk-for-js/pull/39775)
 
 ## 1.12.1 (2026-06-22)
 
