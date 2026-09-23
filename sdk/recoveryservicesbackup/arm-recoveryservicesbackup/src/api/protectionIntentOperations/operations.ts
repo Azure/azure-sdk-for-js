@@ -35,7 +35,7 @@ export function _validateSend(
     {
       azureRegion: azureRegion,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,7 +97,7 @@ export function _$deleteSend(
       vaultName: vaultName,
       fabricName: fabricName,
       intentObjectName: intentObjectName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -157,7 +157,7 @@ export function _createOrUpdateSend(
       vaultName: vaultName,
       fabricName: fabricName,
       intentObjectName: intentObjectName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -225,7 +225,7 @@ export function _getSend(
       vaultName: vaultName,
       fabricName: fabricName,
       intentObjectName: intentObjectName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

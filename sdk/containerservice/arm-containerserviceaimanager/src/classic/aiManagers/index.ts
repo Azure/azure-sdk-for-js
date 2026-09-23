@@ -68,6 +68,7 @@ export interface AIManagersOperations {
     options?: AIManagersGetOptionalParams,
   ) => Promise<AIManager>;
 }
+
 function _getAIManagers(context: ContainerServiceContext) {
   return {
     listCredential: (
@@ -105,6 +106,7 @@ function _getAIManagers(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, aiManagerName, options),
   };
 }
+
 export function _getAIManagersOperations(context: ContainerServiceContext): AIManagersOperations {
   return {
     ..._getAIManagers(context),

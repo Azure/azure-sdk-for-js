@@ -62,6 +62,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
+  - [Voice Agent operations (preview)](#voice-agent-operations-preview)
   - [Using Agent tools](#using-agent-tools)
     - [Built-in Tools](#built-in-tools)
     - [Connection-Based Tools](#connection-based-tools)
@@ -144,7 +145,15 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+
+Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
+
+```ts snippet:agent-insight-monitors
+for await (const monitor of project.beta.agentInsightMonitors.list()) {
+  console.log(`${monitor.id}: ${monitor.agent_name}`);
+}
+```
 
 ## Examples
 
@@ -226,6 +235,66 @@ await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
 
+### Voice Agent operations (preview)
+
+Voice Agents use the unified `project.agents` management surface and a bidirectional WebSocket
+session exposed by `project.beta.voiceAgents.realtime`. The example below generates a Voice Agent, sends text, and
+streams its response:
+
+```ts snippet:voiceAgent
+const voiceAgentName = `voice-agent-${Date.now()}`;
+const voiceAgent = await project.beta.agents.createFromPrompt({
+  kind: "voice",
+  name: voiceAgentName,
+});
+try {
+  const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
+  try {
+    await connection.sendText("Hello. Please introduce yourself briefly.");
+    for await (const event of connection) {
+      // Voice agents speak their reply, so the text form of it streams as an audio transcript
+      // rather than as `response.output_text.delta`.
+      if (
+        event.type === "response.output_text.delta" ||
+        event.type === "response.output_audio_transcript.delta"
+      ) {
+        process.stdout.write(event.delta);
+      } else if (event.type === "unknown") {
+        // event.rawEvent preserves all wire fields; validate them before using them.
+        console.log(`Unrecognized server event: ${event.eventType}`);
+      } else if (event.type === "response.done") {
+        await connection.close();
+      }
+    }
+  } finally {
+    await connection.dispose();
+  }
+} finally {
+  await project.agents.delete(voiceAgent.name, {
+    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+  });
+}
+```
+
+The connection yields `VoiceAgentRealtimeEvent`: a known `VoiceAgentServerEvent` or a
+`VoiceAgentUnknownEvent` with `type: "unknown"`. For unknown events, `eventType` retains the
+original wire discriminator and `rawEvent` retains the complete parsed JSON payload, including
+its original `type`. No known-event field validation or normalization is applied to that payload;
+validate raw fields before using them and avoid logging sensitive payloads. Unknown events do not
+disconnect the session, so subsequent events and sends continue normally. Known `event.type`
+branches still narrow to their existing generated types. A handler accepting only
+`VoiceAgentServerEvent` can be called after excluding `event.type === "unknown"`.
+
+Malformed JSON, missing or invalid discriminators, and malformed known events still fail the
+iteration with `VoiceAgentProtocolError`. Service `error` events remain typed events for the
+caller to handle; this fallback does not change which outbound events `sendEvent()` supports.
+
+Use `project.beta.voiceAgents.conversations` to inspect conversations for Voice Agents configured
+with `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a
+single session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict`
+and `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local
+function tools, and PCM audio streaming.
+
 ### Using Agent tools
 
 Agents can be enhanced with specialized tools for various capabilities. Tools are organized by their connection requirements:
@@ -252,7 +321,7 @@ See the full sample code in [agentCodeInterpreter.ts](https://github.com/Azure/a
 
 **File Search**
 
-Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://platform.openai.com/docs/assistants/tools/file-search)
+Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://developers.openai.com/api/docs/guides/tools-file-search)
 
 ```ts snippet:agent-file-search
 const openAIClient = project.getOpenAIClient();
@@ -1007,6 +1076,11 @@ console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, nu
 
 The code below shows some Dataset operations. Full samples can be found under the "datasets"
 folder in the [package samples][samples].
+
+Local filesystem uploads (`project.datasets.uploadFile`, `project.datasets.uploadFolder`, and
+`project.beta.models.create`) are only supported in Node.js. Browser applications
+can import `AIProjectClient` and `VoiceAgentRealtimeClient` from `@azure/ai-projects` and use the
+dataset and model REST operations without Node.js filesystem polyfills.
 
 ```ts snippet:datasets
 import { DatasetVersionUnion } from "@azure/ai-projects";

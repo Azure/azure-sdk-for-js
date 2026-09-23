@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a SignalDefinition
  *
  * @summary create a SignalDefinition
- * x-ms-original-file: 2026-05-01-preview/SignalDefinitions_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01-preview/SignalDefinitions_CreateOrUpdate.json
  */
 async function signalDefinitionsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function signalDefinitionsCreateOrUpdate() {
         aggregationType: "Average",
         evaluationRules: {
           degradedRule: { operator: "GreaterThan", threshold: 70 },
-          unhealthyRule: { operator: "Dynamic", sensitivity: "Medium", lookBackWindow: "PT1H" },
+          unhealthyRule: { operator: "Dynamic", sensitivity: "Medium" },
         },
       },
     },

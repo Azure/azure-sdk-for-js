@@ -1,5 +1,155 @@
 # Release History
 
+## 39.0.0 (2026-09-15)
+
+### Features Added
+  - Added operation group AuthenticationPoliciesOperations
+  - Added operation BastionHostsOperations.beginUpdate
+  - Added operation BastionHostsOperations.beginUpdateAndWait
+  - Added operation BastionHostsOperations.update
+  - Added operation ExpressRouteCircuitAuthorizationsOperations.listKeys
+  - Added operation ExpressRouteCrossConnectionsOperations.beginCommitCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.beginCommitCircuitMigrationAndWait
+  - Added operation ExpressRouteCrossConnectionsOperations.beginGetCircuitMigrationInfo
+  - Added operation ExpressRouteCrossConnectionsOperations.beginGetCircuitMigrationInfoAndWait
+  - Added operation ExpressRouteCrossConnectionsOperations.beginMigrateCircuit
+  - Added operation ExpressRouteCrossConnectionsOperations.beginMigrateCircuitAndWait
+  - Added operation ExpressRouteCrossConnectionsOperations.beginPrepareCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.beginPrepareCircuitMigrationAndWait
+  - Added operation ExpressRouteCrossConnectionsOperations.beginRestoreBgpForCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.beginRestoreBgpForCircuitMigrationAndWait
+  - Added operation ExpressRouteCrossConnectionsOperations.beginRollbackCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.beginRollbackCircuitMigrationAndWait
+  - Added operation ExpressRouteCrossConnectionsOperations.beginShutDownBgpForCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.beginShutDownBgpForCircuitMigrationAndWait
+  - Added operation ExpressRouteCrossConnectionsOperations.beginValidateCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.beginValidateCircuitMigrationAndWait
+  - Added operation ExpressRouteCrossConnectionsOperations.commitCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.getCircuitMigrationInfo
+  - Added operation ExpressRouteCrossConnectionsOperations.migrateCircuit
+  - Added operation ExpressRouteCrossConnectionsOperations.prepareCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.restoreBgpForCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.rollbackCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.shutDownBgpForCircuitMigration
+  - Added operation ExpressRouteCrossConnectionsOperations.validateCircuitMigration
+  - Added operation ExpressRoutePortAuthorizationsOperations.listKeys
+  - Added Interface ApplicationGatewayAdvancedRoutingCondition
+  - Added Interface ApplicationGatewayAdvancedRoutingConditionSet
+  - Added Interface ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat
+  - Added Interface ApplicationGatewayAdvancedRoutingMap
+  - Added Interface ApplicationGatewayAdvancedRoutingMapPropertiesFormat
+  - Added Interface ApplicationGatewayAdvancedRoutingPropertyValueMatcher
+  - Added Interface ApplicationGatewayAdvancedRoutingRule
+  - Added Interface ApplicationGatewayAdvancedRoutingRulePropertiesFormat
+  - Added Interface ApplicationGatewayAuthConfig
+  - Added Interface ApprovalReference
+  - Added Interface AuthenticationPoliciesCreateOrUpdateOptionalParams
+  - Added Interface AuthenticationPoliciesDeleteOptionalParams
+  - Added Interface AuthenticationPoliciesGetOptionalParams
+  - Added Interface AuthenticationPoliciesListAllOptionalParams
+  - Added Interface AuthenticationPoliciesListOptionalParams
+  - Added Interface AuthenticationPoliciesUpdateOptionalParams
+  - Added Interface AuthenticationPolicy
+  - Added Interface AuthenticationPolicyPropertiesFormat
+  - Added Interface AuthenticationPolicyUpdateParameters
+  - Added Interface AuthenticationProviderProperties
+  - Added Interface BastionHostsUpdateOptionalParams
+  - Added Interface BastionHostUpdate
+  - Added Interface BastionSessionRecordingConfiguration
+  - Added Interface ExpressRouteAuthorizationKey
+  - Added Interface ExpressRouteCircuitAuthorizationsListKeysOptionalParams
+  - Added Interface ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams
+  - Added Interface ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams
+  - Added Interface ExpressRouteCrossConnectionsMigrateCircuitOptionalParams
+  - Added Interface ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams
+  - Added Interface ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams
+  - Added Interface ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams
+  - Added Interface ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams
+  - Added Interface ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams
+  - Added Interface ExpressRoutePortAuthorizationsListKeysOptionalParams
+  - Added Interface Metric
+  - Added Interface MigrateExpressRouteCircuitHealthCheckDetails
+  - Added Interface MigrateExpressRouteCircuitHealthCheckResponse
+  - Added Interface MigrateExpressRouteCircuitRequest
+  - Added Interface MigrateExpressRouteCircuitValidateAndHealthCheckRequest
+  - Added Interface MigrateExpressRouteCircuitValidateResponse
+  - Added Interface PeeringHealth
+  - Added Interface PeeringStats
+  - Added Interface PortMapping
+  - Added Interface PortMigrationInfo
+  - Added Interface SessionRecordingIdentity
+  - Added Interface SourcePortStats
+  - Interface ApplicationGateway has a new optional parameter advancedRoutingConditionSets
+  - Interface ApplicationGateway has a new optional parameter advancedRoutingMaps
+  - Interface ApplicationGateway has a new optional parameter reservedCapacity
+  - Interface ApplicationGatewayFirewallManifestRuleSet has a new optional parameter displayName
+  - Interface ApplicationGatewayFirewallRule has a new optional parameter paranoiaLevel
+  - Interface ApplicationGatewayFirewallRuleSet has a new optional parameter displayName
+  - Interface ApplicationGatewayFirewallRuleSetPropertiesFormat has a new optional parameter displayName
+  - Interface ApplicationGatewayPropertiesFormat has a new optional parameter advancedRoutingConditionSets
+  - Interface ApplicationGatewayPropertiesFormat has a new optional parameter advancedRoutingMaps
+  - Interface ApplicationGatewayPropertiesFormat has a new optional parameter reservedCapacity
+  - Interface ApplicationGatewayRequestRoutingRule has a new optional parameter advancedRoutingMap
+  - Interface ApplicationGatewayRequestRoutingRule has a new optional parameter authConfigs
+  - Interface ApplicationGatewayRequestRoutingRulePropertiesFormat has a new optional parameter advancedRoutingMap
+  - Interface ApplicationGatewayRequestRoutingRulePropertiesFormat has a new optional parameter authConfigs
+  - Interface ApplicationGatewayWafDynamicManifestPropertiesResult has a new optional parameter displayName
+  - Interface AzureFirewall has a new optional parameter aiSecurityAddOn
+  - Interface AzureFirewallPropertiesFormat has a new optional parameter aiSecurityAddOn
+  - Interface BastionHost has a new optional parameter identity
+  - Interface BastionHost has a new optional parameter sessionRecordingConfiguration
+  - Interface BastionHostPropertiesFormat has a new optional parameter sessionRecordingConfiguration
+  - Interface DefaultRuleSetPropertyFormat has a new optional parameter displayName
+  - Interface ExpressRouteCircuit has a new optional parameter expressRouteLag
+  - Interface ExpressRouteCircuitPropertiesFormat has a new optional parameter expressRouteLag
+  - Interface ExpressRouteLagPropertiesFormat has a new optional parameter circuits
+  - Interface HubVirtualNetworkConnection has a new optional parameter enableOnlyIPv6Peering
+  - Interface HubVirtualNetworkConnectionProperties has a new optional parameter enableOnlyIPv6Peering
+  - Interface IpamPoolProperties has a new optional parameter maxAllocationSize
+  - Interface IpamPoolProperties has a new optional parameter minAllocationSize
+  - Interface IpamPoolUpdateProperties has a new optional parameter maxAllocationSize
+  - Interface IpamPoolUpdateProperties has a new optional parameter minAllocationSize
+  - Interface NetworkRule has a new optional parameter destinationGeoLocations
+  - Interface NetworkRule has a new optional parameter sourceGeoLocations
+  - Interface PrivateLinkServiceConnection has a new optional parameter approvalReference
+  - Interface PrivateLinkServiceConnectionProperties has a new optional parameter approvalReference
+  - Interface WebApplicationFirewallPolicy has a new optional parameter tier
+  - Interface WebApplicationFirewallPolicyPropertiesFormat has a new optional parameter tier
+  - Added Type Alias ApplicationGatewayAdvancedRoutingConditionType
+  - Added Type Alias ApplicationGatewayWafRuleParanoiaLevel
+  - Added Type Alias OnUnauthenticatedRequest
+  - Added Type Alias SessionRecordingIdentityType
+  - Added Type Alias UserTrustProviderType
+  - Added Type Alias WebApplicationFirewallPolicyTier
+  - Added Enum KnownApplicationGatewayAdvancedRoutingConditionType
+  - Added Enum KnownApplicationGatewayWafRuleParanoiaLevel
+  - Added Enum KnownOnUnauthenticatedRequest
+  - Added Enum KnownSessionRecordingIdentityType
+  - Added Enum KnownUserTrustProviderType
+  - Added Enum KnownWebApplicationFirewallPolicyTier
+  - Enum KnownApplicationGatewayRequestRoutingRuleType has a new value AdvancedRouting
+  - Enum KnownApplicationGatewaySkuName has a new value BasicV2
+  - Enum KnownApplicationGatewaySkuName has a new value BasicWAFV2
+  - Enum KnownApplicationGatewayTier has a new value BasicV2
+  - Enum KnownApplicationGatewayTier has a new value BasicWAFV2
+  - Enum KnownVirtualNetworkGatewayMigrationType has a new value MigrateGatewayForPointToSiteProfile
+  - Enum KnownVirtualNetworkGatewayMigrationType has a new value UpgradeGatewayToDualStack
+
+### Breaking Changes
+  - Removed operation BastionHostsOperations.beginUpdateTags
+  - Removed operation BastionHostsOperations.beginUpdateTagsAndWait
+  - Removed operation BastionHostsOperations.updateTags
+  - Operation WebApplicationFirewallPoliciesOperations.createOrUpdate has a new signature
+  - Operation WebApplicationFirewallPoliciesOperations.get has a new signature
+  - Operation WebApplicationFirewallPoliciesOperations.list has a new signature
+  - Operation WebApplicationFirewallPoliciesOperations.listAll has a new signature
+  - Removed Interface BastionHostsUpdateTagsOptionalParams
+  - Type of parameter rules of interface ManagedRuleSetRuleGroup is changed from string[] to number[]
+  - Interface HubVirtualNetworkConnection no longer has parameter enableOnlyIpv6Peering
+  - Interface HubVirtualNetworkConnectionProperties no longer has parameter enableOnlyIpv6Peering
+  - Removed Type Alias EnableOnlyIpv6PeeringState
+  - Removed Enum KnownEnableOnlyIpv6PeeringState
+
 ## 38.0.0 (2026-08-14)
 
 ### Features Added

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a workspace manager member
  *
  * @summary deletes a workspace manager member
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerMembers/DeleteWorkspaceManagerMember.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerMembers/DeleteWorkspaceManagerMember.json
  */
 async function deleteAWorkspaceManagerMember(): Promise<void> {
   const credential = new DefaultAzureCredential();

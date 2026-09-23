@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list License resources by PrivateCloud
  *
  * @summary list License resources by PrivateCloud
- * x-ms-original-file: 2025-09-01/Licenses_List.json
+ * x-ms-original-file: 2026-03-01/Licenses_List.json
  */
 async function licensesList() {
   const credential = new DefaultAzureCredential();

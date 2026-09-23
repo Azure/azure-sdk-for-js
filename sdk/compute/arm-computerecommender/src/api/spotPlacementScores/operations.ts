@@ -32,7 +32,7 @@ export function _postSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-05-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,6 +61,7 @@ export async function _postDeserialize(
 
   return spotPlacementScoresResponseDeserializer(result.body);
 }
+
 /** Generates placement scores for Spot VM skus. */
 export async function post(
   context: Client,
@@ -82,7 +83,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-05-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,6 +110,7 @@ export async function _getDeserialize(
 
   return computeDiagnosticBaseDeserializer(result.body);
 }
+
 /** Gets Spot Placement Scores metadata. */
 export async function get(
   context: Client,

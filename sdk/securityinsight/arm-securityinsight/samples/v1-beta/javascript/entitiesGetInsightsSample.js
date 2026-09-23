@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to execute Insights for an entity.
  *
  * @summary execute Insights for an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/insights/PostGetInsights.json
+ * x-ms-original-file: 2025-10-01-preview/entities/insights/PostGetInsights.json
  */
 async function entityInsight() {
   const credential = new DefaultAzureCredential();

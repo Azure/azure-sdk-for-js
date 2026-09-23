@@ -8,6 +8,7 @@ import { generateRLCInPipeline } from "./llc/generateRLCInPipeline/generateRLCIn
 import { ModularClientPackageOptions, SDKType, RunMode } from "./common/types.js";
 import { generateAzureSDKPackage } from "./mlc/clientGenerator/modularClientPackageGenerator.js";
 import { parseInputJson } from "./utils/generateInputUtils.js";
+import { configureNpmFromRepo } from "./common/npmUtils.js";
 import shell from "shelljs";
 import fs from "fs";
 
@@ -38,6 +39,9 @@ async function automationGenerateInPipeline(
   // If --local parameter is used, local is true; otherwise, determine from runMode
   const local = localOverride || runMode === RunMode.Local;
   try {
+    if (local) {
+      configureNpmFromRepo(String(shell.pwd()));
+    }
     if (!local) {
       await backupNodeModules(String(shell.pwd()));
     }
