@@ -81,17 +81,9 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
       (ResourceGroupProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ) {
     super(context, {
+      ...props,
       type: ResourceGroup.resourceType,
       apiVersion: ResourceGroup.apiVersion,
-      name: props.name,
-      existing: props.existing,
-      ...(props.existing === true
-        ? (props as any)
-        : {
-            location: props.location,
-            managedBy: props.managedBy,
-            tags: props.tags,
-          }),
     });
 
     this._localDeploymentContext = {

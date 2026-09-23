@@ -435,12 +435,8 @@ export function json(value: ExpressionOrValue<string>): Expression<unknown> {
   return createFunctionCallExpression<unknown>("json", [value]);
 }
 
-export function keys(obj: ExpressionOrValue<object>): Expression<string[]> {
-  return createFunctionCallExpression<string[]>("keys", [obj]);
-}
-
-export function objectValues(obj: ExpressionOrValue<object>): Expression<unknown[]> {
-  return createFunctionCallExpression<unknown[]>("values", [obj]);
+export function objectKeys(obj: ExpressionOrValue<object>): Expression<string[]> {
+  return createFunctionCallExpression<string[]>("objectKeys", [obj]);
 }
 
 export function items(obj: ExpressionOrValue<object>): Expression<unknown[]> {

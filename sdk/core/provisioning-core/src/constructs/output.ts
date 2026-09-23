@@ -4,8 +4,9 @@
 import type { PrimitiveTypeMap, PrimitiveTypeName } from "../serialization/contract/index.js";
 import type { ExpressionOrValue, InputOf } from "../expression/expressions.js";
 import type { Resource } from "./resource/resource.js";
+import { isResource } from "./resource/resource-utils.js";
 import type { Stack } from "./stack.js";
-import { assertValueAssignableToType } from "../util.js";
+import { assertBicepIdentifier, assertValueAssignableToType } from "../util.js";
 
 /**
  * A value accepted as a deployment output's value: any JSON literal (scalar,
@@ -29,7 +30,7 @@ export type OutputType = PrimitiveTypeName;
 
 export type ScalarOutputType = "string" | "int" | "bool";
 export type OutputValueFor<T extends OutputType> = T extends ScalarOutputType
-  ? ExpressionOrValue<PrimitiveTypeMap[T]> | Resource
+  ? ExpressionOrValue<PrimitiveTypeMap[T]>
   : OutputValue;
 
 export type OutputOptions = {
@@ -70,8 +71,12 @@ export class OutputCollection {
     value: OutputValueFor<NoInfer<T>>,
     options?: OutputOptions,
   ): OutputMetadata {
+    assertBicepIdentifier(name, "Deployment output");
     if (this.has(name)) {
       throw new Error(`Duplicate deployment output name: ${name}`);
+    }
+    if ((type === "string" || type === "int" || type === "bool") && isResource(value)) {
+      throw new Error(`Deployment output "${name}" expected type "${type}" but got resource.`);
     }
     assertValueAssignableToType(value, type, `Deployment output "${name}"`);
     const metadata: OutputMetadata = { name, type, value, ...options };

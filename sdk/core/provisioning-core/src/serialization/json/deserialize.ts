@@ -9,7 +9,10 @@
 import { createOutput, type OutputValue } from "../../constructs/output.js";
 import { createParameter } from "../../constructs/parameter.js";
 import { createVariable, type VariableValue } from "../../constructs/variable.js";
-import { createIndexedResourceProxy } from "../../constructs/resource/resource-proxy.js";
+import {
+  createIndexedResourceProxy,
+  unwrapResourceHandle,
+} from "../../constructs/resource/resource-proxy.js";
 import { isLoopedResource } from "../../constructs/resource/resource-utils.js";
 import {
   createLoopedResource,
@@ -24,10 +27,7 @@ import { wrapExpression, isExpression, type Expression } from "../../expression/
 import { namingRequiredPolicy } from "../../naming/naming-policy.js";
 import { getShape } from "../../shape/shape-registry.js";
 import { symbolicValueExpressionNode } from "../../expression/ast-nodes.js";
-import {
-  resolveResource,
-  type ResolveOptions,
-} from "../../constructs/resource/resource-registry.js";
+import { resolveResource } from "../../constructs/resource/resource-registry.js";
 import { type ProvisioningComponent } from "../../constructs/provisioning-component.js";
 
 import {
@@ -55,16 +55,27 @@ import { collectDependenciesForDeclaration } from "../utils.js";
 /**
  * Options for {@link deserialize}.
  *
- * Currently forwards {@link ResolveOptions} to the resource registry,
- * controlling whether unmatched `(type, apiVersion)` pairs fall back
+ * Controls whether unmatched `(type, apiVersion)` pairs fall back
  * to the highest registered version for the type (`strict: false`,
  * the default) or return a base `Resource` (`strict: true`).
  */
-export interface DeserializeOptions extends ResolveOptions {}
+export interface DeserializeOptions {
+  readonly strict?: boolean;
+}
 
+/**
+ * Reconstructs authored stacks from a serialized provisioning document.
+ *
+ * The input must contain at least one infrastructure file. Unsupported module
+ * declarations are rejected rather than silently discarded. A successful
+ * deserialize/serialize cycle preserves deployment semantics and expressions.
+ */
 export function deserialize(raw: string, options?: DeserializeOptions): readonly Stack[] {
   const doc = JSON.parse(raw) as SerializationDocument;
   if (doc.infras.length === 0) throw new Error("Empty SerializationDocument");
+  if (doc.infras.some((infra) => Object.keys(infra.modules ?? {}).length > 0)) {
+    throw new Error("Module deserialization is not supported.");
+  }
 
   return constructStacks(doc.infras, options);
 }
@@ -129,13 +140,11 @@ function processParams(
 ): void {
   for (const [, p] of Object.entries(file.parameters ?? {})) {
     assertSymbolAvailable(symbols, p.bicepIdentifier);
-    const type =
-      p.valueType.kind === "primitive-type"
-        ? p.valueType.name === "any"
-          ? "string"
-          : p.valueType.name
-        : "string";
-    const sym = createParameter(stackHandle, p.bicepIdentifier, type as "string", {
+    if (p.valueType.kind !== "primitive-type" || !isPrimitiveTypeName(p.valueType.name)) {
+      throw new Error(`Parameter "${p.bicepIdentifier}" has an unsupported non-primitive type.`);
+    }
+    const type = p.valueType.name;
+    const sym = createParameter(stackHandle, p.bicepIdentifier, type, {
       ...(p.decorators?.description !== undefined ? { description: p.decorators.description } : {}),
       ...(p.decorators?.secure ? { secure: true } : {}),
       ...(p.defaultValue !== undefined
@@ -485,9 +494,16 @@ function buildResource(
 
   // Collect non-reserved properties
   const RESERVED = new Set(["name", "parent", "scope", "dependsOn"]);
-  const wireProps: Record<string, unknown> = {};
+  const wireProps: Record<string, unknown> = Object.create(null);
   for (const [key, valNode] of Object.entries(body)) {
-    if (!RESERVED.has(key)) wireProps[key] = deserializeExpression(valNode, symbols);
+    if (!RESERVED.has(key)) {
+      Object.defineProperty(wireProps, key, {
+        value: deserializeExpression(valNode, symbols),
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
+    }
   }
 
   // Raise wire-shape props into JS-shape when a descriptor is
@@ -579,6 +595,11 @@ function buildResource(
     handle = new Ctor(context, classProps, resourceOptions);
   }
 
+  if (authoring?.condition !== undefined) {
+    const state = unwrapResourceHandle(handle) as unknown as Record<string, unknown>;
+    state.condition = authoring.condition;
+  }
+
   return handle;
 }
 
@@ -594,7 +615,5 @@ function objBody(node: ExpressionNode): Record<string, ExpressionNode> | undefin
 }
 
 function stemName(fileName: string): string {
-  const withoutExt = fileName.replace(/\.bicep$/, "");
-  const parts = withoutExt.split("/");
-  return parts.length >= 2 ? parts[0]! : (parts[parts.length - 1] ?? withoutExt);
+  return fileName.replace(/\.bicep$/, "");
 }

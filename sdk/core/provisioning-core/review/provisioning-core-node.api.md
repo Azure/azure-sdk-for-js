@@ -21,12 +21,12 @@ export interface ArrayAccessExpressionNode<_TValue = unknown> {
     // (undocumented)
     readonly base: ExpressionNode;
     // (undocumented)
-    readonly fromEnd: false;
+    readonly fromEnd: boolean;
     readonly index: ArrayAccessIndex;
     // (undocumented)
     readonly kind: "array-access";
     // (undocumented)
-    readonly nullish: false;
+    readonly nullish: boolean;
 }
 
 // @public
@@ -416,8 +416,7 @@ declare namespace fn {
         skip,
         reverse,
         json,
-        keys,
-        objectValues,
+        objectKeys,
         items,
         subscription,
         resourceGroup,
@@ -532,9 +531,6 @@ function join(values: ExpressionOrValue<unknown[]>, delimiter: ExpressionOrValue
 
 // @public (undocumented)
 function json(value: ExpressionOrValue<string>): Expression<unknown>;
-
-// @public (undocumented)
-function keys(obj: ExpressionOrValue<object>): Expression<string[]>;
 
 // @public (undocumented)
 function last<T>(arr: ExpressionOrValue<T[]>): Expression<T>;
@@ -667,7 +663,7 @@ export interface NumericStringEncodingDescriptor {
 }
 
 // @public (undocumented)
-function objectValues(obj: ExpressionOrValue<object>): Expression<unknown[]>;
+function objectKeys(obj: ExpressionOrValue<object>): Expression<string[]>;
 
 // @public
 function or(...conditions: ExpressionOrValue<boolean>[]): Expression<boolean>;
@@ -718,7 +714,7 @@ export type OutputValue = string | number | boolean | null | readonly OutputValu
 } | InputOf<unknown> | Resource;
 
 // @public (undocumented)
-export type OutputValueFor<T extends OutputType> = T extends ScalarOutputType ? ExpressionOrValue<PrimitiveTypeMap[T]> | Resource : OutputValue;
+export type OutputValueFor<T extends OutputType> = T extends ScalarOutputType ? ExpressionOrValue<PrimitiveTypeMap[T]> : OutputValue;
 
 // @public (undocumented)
 export type Parameter<T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap, A extends readonly PrimitiveTypeMap[T][] | undefined = undefined> = Expression<InferParamType<T, A>>;
@@ -749,7 +745,7 @@ export interface ParameterMetadata extends ParameterOptions<keyof PrimitiveTypeM
 
 // @public (undocumented)
 export type ParameterOptions<T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap, A extends readonly PrimitiveTypeMap[T][] | undefined = undefined> = {
-    readonly defaultValue?: ParameterValue<T> | undefined;
+    readonly defaultValue?: ExpressionOrValue<InferParamType<T, A>> | undefined;
     readonly description?: string | undefined;
     readonly secure?: boolean | undefined;
     readonly minValue?: number | undefined;
@@ -800,13 +796,13 @@ export type PrimitiveTypeName = "any" | "array" | "bool" | "int" | "object" | "s
 
 // @public (undocumented)
 export interface PropertyAccessExpressionNode<_TValue = unknown> {
-    readonly armPath?: readonly string[];
+    readonly armPath?: readonly string[] | undefined;
     // (undocumented)
     readonly base: ExpressionNode;
     // (undocumented)
     readonly kind: "property-access";
     // (undocumented)
-    readonly nullish: false;
+    readonly nullish: boolean;
     // (undocumented)
     readonly property: string;
 }

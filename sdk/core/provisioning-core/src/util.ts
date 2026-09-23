@@ -4,6 +4,17 @@
 import { isExpression } from "./expression/expressions.js";
 import { isResource } from "./constructs/resource/resource-utils.js";
 
+const BICEP_IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_]*$/u;
+
+/** Reject declaration names that cannot be emitted as Bicep identifiers. */
+export function assertBicepIdentifier(name: string, kind: string): void {
+  if (!BICEP_IDENTIFIER.test(name)) {
+    throw new Error(
+      `${kind} name "${name}" must be a valid Bicep identifier (letters, digits, and underscores; not starting with a digit).`,
+    );
+  }
+}
+
 /**
  * Filters an object to only include properties with defined (non-undefined) values.
  * Useful for constructing objects with fixed types that use optional properties

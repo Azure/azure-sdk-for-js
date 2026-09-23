@@ -262,11 +262,34 @@ function requireNumericString(
   if (
     encoding.source === "integer"
       ? !inIntegerRange(BigInt(value), encoding.sourceScalar)
-      : !Number.isFinite(Number(value))
+      : !inNumericRange(value, encoding.sourceScalar)
   ) {
     fail(path, `Numeric string is outside '${encoding.sourceScalar}' range.`);
   }
   return value;
+}
+
+function inNumericRange(value: string, scalar: NumericScalarName): boolean {
+  if (scalar === "numeric" || scalar === "decimal") return true;
+  if (scalar === "decimal128") {
+    const match = /^(-?)(\d+)(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/.exec(value);
+    if (!match) return false;
+    const integer = match[2]!;
+    const fraction = match[3] ?? "";
+    const significant = `${integer}${fraction}`.replace(/^0+/u, "");
+    if (significant.length === 0) return true;
+    if (significant.length > 34) return false;
+    const exponent = Number(match[4] ?? 0);
+    const adjustedExponent = exponent + integer.length - 1;
+    return adjustedExponent >= -6176 && adjustedExponent <= 6144;
+  }
+
+  const number = Number(value);
+  if (!Number.isFinite(number)) return false;
+  if (scalar === "float32") {
+    return Math.abs(number) <= 3.4028234663852886e38;
+  }
+  return true;
 }
 
 const INTEGER_RANGES: Partial<Record<NumericScalarName, readonly [bigint, bigint]>> = {
@@ -348,12 +371,12 @@ function requireBase64(
 }
 
 function uint8ArrayToBase64(value: Uint8Array): string {
-  let binary = "";
+  const chunks: string[] = [];
   const chunkSize = 0x8000;
   for (let offset = 0; offset < value.length; offset += chunkSize) {
-    binary += String.fromCharCode(...value.subarray(offset, offset + chunkSize));
+    chunks.push(String.fromCharCode(...value.subarray(offset, offset + chunkSize)));
   }
-  return btoa(binary);
+  return btoa(chunks.join(""));
 }
 
 function base64ToUint8Array(value: string): Uint8Array {

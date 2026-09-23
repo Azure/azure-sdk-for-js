@@ -81,13 +81,6 @@ export interface ManagedHsmKeyProps {
   tags?: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined;
 }
 
-export interface KeyVaultManagedHsmKeyProps {
-  /**
-   * The name of the key to be created. The value you provide may be copied globally for the purpose of running the service. The value provided should not include personally identifiable or sensitive information.
-   */
-  name?: ExpressionOrValue<string> | undefined;
-}
-
 /**
  * The key resource.
  */
@@ -123,9 +116,8 @@ export class KeyVaultManagedHsmKey extends Resource<"Microsoft.KeyVault/managedH
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -133,14 +125,9 @@ export class KeyVaultManagedHsmKey extends Resource<"Microsoft.KeyVault/managedH
     props?: ExistingResourceProps & { existing: true },
   ): ResourceProps<"Microsoft.KeyVault/managedHSMs/keys/versions"> & Record<string, unknown> {
     return {
+      ...props,
       type: KeyVaultManagedHsmKey.resourceType,
       apiVersion: KeyVaultManagedHsmKey.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            name: props?.name,
-          }),
     };
   }
 
@@ -213,9 +200,8 @@ export class ManagedHsmKey extends Resource<"Microsoft.KeyVault/managedHSMs/keys
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -224,16 +210,9 @@ export class ManagedHsmKey extends Resource<"Microsoft.KeyVault/managedHSMs/keys
       (ManagedHsmKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/managedHSMs/keys"> & Record<string, unknown> {
     return {
+      ...props,
       type: ManagedHsmKey.resourceType,
       apiVersion: ManagedHsmKey.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            name: props?.name,
-            properties: props?.properties,
-            tags: props?.tags,
-          }),
     };
   }
 
@@ -351,9 +330,8 @@ export class ManagedHsmPrivateEndpointConnection extends Resource<"Microsoft.Key
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -364,20 +342,9 @@ export class ManagedHsmPrivateEndpointConnection extends Resource<"Microsoft.Key
   ): ResourceProps<"Microsoft.KeyVault/managedHSMs/privateEndpointConnections"> &
     Record<string, unknown> {
     return {
+      ...props,
       type: ManagedHsmPrivateEndpointConnection.resourceType,
       apiVersion: ManagedHsmPrivateEndpointConnection.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            etag: props?.etag,
-            identity: props?.identity,
-            location: props?.location,
-            name: props?.name,
-            properties: props?.properties,
-            sku: props?.sku,
-            tags: props?.tags,
-          }),
     };
   }
 
@@ -502,9 +469,8 @@ export class ManagedHsm extends Resource<"Microsoft.KeyVault/managedHSMs"> {
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -512,19 +478,9 @@ export class ManagedHsm extends Resource<"Microsoft.KeyVault/managedHSMs"> {
     props?: (ManagedHsmProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/managedHSMs"> & Record<string, unknown> {
     return {
+      ...props,
       type: ManagedHsm.resourceType,
       apiVersion: ManagedHsm.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            identity: props?.identity,
-            location: props?.location,
-            name: props?.name,
-            properties: props?.properties,
-            sku: props?.sku,
-            tags: props?.tags,
-          }),
     };
   }
 

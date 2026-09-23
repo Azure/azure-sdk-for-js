@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
          first,
          last,
          contains,
-@@ -542,9 +542,9 @@
+@@ -538,9 +538,9 @@
  // @public (undocumented)
  function lastIndexOf(value: ExpressionOrValue<string>, searchString: ExpressionOrValue<string>): Expression<number>;
  

@@ -20,13 +20,6 @@ import { type DeletedManagedHsmProperties, deletedManagedHsmPropertiesShape } fr
 
 const API_VERSION = "2026-02-01";
 
-export interface DeletedManagedHsmProps {
-  /**
-   * The name of the deleted managed HSM.
-   */
-  name?: ExpressionOrValue<string> | undefined;
-}
-
 /**
  * Concrete proxy resource types can be created by aliasing this type using a specific property type.
  */
@@ -61,9 +54,8 @@ export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/de
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -71,14 +63,9 @@ export class DeletedManagedHsm extends Resource<"Microsoft.KeyVault/locations/de
     props?: ExistingResourceProps & { existing: true },
   ): ResourceProps<"Microsoft.KeyVault/locations/deletedManagedHSMs"> & Record<string, unknown> {
     return {
+      ...props,
       type: DeletedManagedHsm.resourceType,
       apiVersion: DeletedManagedHsm.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            name: props?.name,
-          }),
     };
   }
 

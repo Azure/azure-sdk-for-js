@@ -618,9 +618,7 @@ function scoreShape(
 
   for (const [key, sub] of Object.entries(value)) {
     const prop = byKey.get(key);
-    if (!prop) {
-      continue;
-    }
+    if (!prop) continue;
     score += 1;
     score += scoreNested(sub, prop.value, valueKeyedBy, visiting);
   }

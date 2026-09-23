@@ -4,11 +4,13 @@
 
 ```ts
 
-// @public (undocumented)
+// @public
 export function deserialize(raw: string, options?: DeserializeOptions): readonly Stack[];
 
 // @public
-export interface DeserializeOptions extends ResolveOptions {
+export interface DeserializeOptions {
+    // (undocumented)
+    readonly strict?: boolean;
 }
 
 // @public
@@ -16,7 +18,7 @@ export interface SerializationDocument {
     readonly infras: readonly InfraNode[];
 }
 
-// @public (undocumented)
+// @public
 export function serialize(input: Stack | readonly Stack[]): SerializationDocument;
 
 // (No @packageDocumentation comment for this package)

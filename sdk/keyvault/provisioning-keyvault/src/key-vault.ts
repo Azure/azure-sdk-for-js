@@ -103,9 +103,8 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -114,15 +113,9 @@ export class AccessPolicy extends Resource<"Microsoft.KeyVault/vaults/accessPoli
       (AccessPolicyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/vaults/accessPolicies"> & Record<string, unknown> {
     return {
+      ...props,
       type: AccessPolicy.resourceType,
       apiVersion: AccessPolicy.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            name: props?.name,
-            properties: props?.properties,
-          }),
     };
   }
 
@@ -178,13 +171,6 @@ export interface VaultKeyProps {
   tags?: InputRecord<ExpressionOrValue<string>, Record<string, string>> | undefined;
 }
 
-export interface VersionProps {
-  /**
-   * The name of the key to be retrieved.
-   */
-  name?: ExpressionOrValue<string> | undefined;
-}
-
 /**
  * The key resource.
  */
@@ -221,9 +207,8 @@ export class Version extends Resource<"Microsoft.KeyVault/vaults/keys/versions">
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -231,14 +216,9 @@ export class Version extends Resource<"Microsoft.KeyVault/vaults/keys/versions">
     props?: ExistingResourceProps & { existing: true },
   ): ResourceProps<"Microsoft.KeyVault/vaults/keys/versions"> & Record<string, unknown> {
     return {
+      ...props,
       type: Version.resourceType,
       apiVersion: Version.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            name: props?.name,
-          }),
     };
   }
 
@@ -317,9 +297,8 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -327,16 +306,9 @@ export class VaultKey extends Resource<"Microsoft.KeyVault/vaults/keys"> {
     props?: (VaultKeyProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/vaults/keys"> & Record<string, unknown> {
     return {
+      ...props,
       type: VaultKey.resourceType,
       apiVersion: VaultKey.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            name: props?.name,
-            properties: props?.properties,
-            tags: props?.tags,
-          }),
     };
   }
 
@@ -437,9 +409,8 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -450,16 +421,9 @@ export class VaultPrivateEndpointConnection extends Resource<"Microsoft.KeyVault
   ): ResourceProps<"Microsoft.KeyVault/vaults/privateEndpointConnections"> &
     Record<string, unknown> {
     return {
+      ...props,
       type: VaultPrivateEndpointConnection.resourceType,
       apiVersion: VaultPrivateEndpointConnection.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            etag: props?.etag,
-            name: props?.name,
-            properties: props?.properties,
-          }),
     };
   }
 
@@ -568,9 +532,8 @@ export class Secret extends Resource<"Microsoft.KeyVault/vaults/secrets"> {
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -578,16 +541,9 @@ export class Secret extends Resource<"Microsoft.KeyVault/vaults/secrets"> {
     props?: (SecretProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/vaults/secrets"> & Record<string, unknown> {
     return {
+      ...props,
       type: Secret.resourceType,
       apiVersion: Secret.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            name: props?.name,
-            properties: props?.properties,
-            tags: props?.tags,
-          }),
     };
   }
 
@@ -672,9 +628,8 @@ export class KeyVault extends Resource<"Microsoft.KeyVault/vaults"> {
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -682,17 +637,9 @@ export class KeyVault extends Resource<"Microsoft.KeyVault/vaults"> {
     props?: (KeyVaultProps & { existing?: false }) | (ExistingResourceProps & { existing: true }),
   ): ResourceProps<"Microsoft.KeyVault/vaults"> & Record<string, unknown> {
     return {
+      ...props,
       type: KeyVault.resourceType,
       apiVersion: KeyVault.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            location: props?.location,
-            name: props?.name,
-            properties: props?.properties,
-            tags: props?.tags,
-          }),
     };
   }
 

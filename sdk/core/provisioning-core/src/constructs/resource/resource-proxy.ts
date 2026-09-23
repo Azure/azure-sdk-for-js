@@ -192,6 +192,9 @@ function getValueAtPath(root: Record<string, unknown>, path: readonly PropertySe
       return undefined;
     }
 
+    if (!Object.prototype.hasOwnProperty.call(current, String(segment))) {
+      return undefined;
+    }
     current = (current as Record<string, unknown>)[String(segment)];
   }
 
@@ -208,19 +211,34 @@ function setValueAtPath(
   for (let index = 0; index < path.length - 1; index += 1) {
     const segment = String(path[index]);
     const nextSegment = path[index + 1];
-    const existing = current[segment];
+    const existing = Object.prototype.hasOwnProperty.call(current, segment)
+      ? current[segment]
+      : undefined;
 
     if (typeof existing === "object" && existing !== null) {
       current = existing as Record<string, unknown>;
       continue;
     }
 
-    const container = (typeof nextSegment === "number" ? [] : {}) as Record<string, unknown>;
-    current[segment] = container;
+    const container = (typeof nextSegment === "number" ? [] : Object.create(null)) as Record<
+      string,
+      unknown
+    >;
+    Object.defineProperty(current, segment, {
+      value: container,
+      enumerable: true,
+      configurable: true,
+      writable: true,
+    });
     current = container;
   }
 
-  current[String(path[path.length - 1])] = value;
+  Object.defineProperty(current, String(path[path.length - 1]), {
+    value,
+    enumerable: true,
+    configurable: true,
+    writable: true,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -237,7 +255,7 @@ function createMemberAccessPathExpression(
     current = arrayAccessExpressionNode(current, index);
   }
   for (const { segment, armPath } of steps) {
-    current = accessExpressionNode(current, segment, armPath);
+    current = accessExpressionNode(current, segment, { armPath });
   }
   return current;
 }
@@ -284,7 +302,7 @@ function normalizeObjectValue(
   currentResource?: Resource,
 ): Record<string, unknown> {
   const entries = Object.entries(obj);
-  const result: Record<string, unknown> = {};
+  const result: Record<string, unknown> = Object.create(null);
 
   for (const [key, value] of entries) {
     if (isPropertyProxy(value)) {
@@ -306,8 +324,14 @@ function normalizeObjectValue(
 // Property proxy
 // ---------------------------------------------------------------------------
 
-function toPropertySegment(property: string): PropertySegment {
-  return /^\d+$/u.test(property) ? Number(property) : property;
+function toPropertySegment(
+  property: string,
+  nav: NavShape,
+  currentValue: unknown,
+): PropertySegment {
+  const isIndexedContainer =
+    nav?.kind === "array" || nav?.kind === "tuple" || Array.isArray(currentValue);
+  return isIndexedContainer && /^\d+$/u.test(property) ? Number(property) : property;
 }
 
 function getPropertyProxyTarget(state: PropertyProxyState): object {
@@ -378,14 +402,11 @@ function createPropertyProxy(state: PropertyProxyState): unknown {
         return undefined;
       }
 
-      const segment = toPropertySegment(property);
+      const currentValue = getValueAtPath(state.root, stepsToPath(state.steps));
+      const segment = toPropertySegment(property, state.nav, currentValue);
       // Pass the value at the current position so a discriminated nav
       // can select its variant (see `resolveModelShape`).
-      const step = navigateShape(
-        state.nav,
-        segment,
-        getValueAtPath(state.root, stepsToPath(state.steps)),
-      );
+      const step = navigateShape(state.nav, segment, currentValue);
       const nextArmPath = step.stamp?.armPath;
       const nextNav = step.next;
 
@@ -410,7 +431,14 @@ function createPropertyProxy(state: PropertyProxyState): unknown {
 
       setValueAtPath(
         state.root,
-        [...stepsToPath(state.steps), toPropertySegment(property)],
+        [
+          ...stepsToPath(state.steps),
+          toPropertySegment(
+            property,
+            state.nav,
+            getValueAtPath(state.root, stepsToPath(state.steps)),
+          ),
+        ],
         normalizeAssignedValue(value, state.resource),
       );
 
@@ -529,9 +557,9 @@ export function createResourceProxy<
         return Reflect.get(target, property, receiver);
       }
 
-      const segment = toPropertySegment(property);
       const rootState = unwrapResourceHandle(proxy) as Record<string, unknown>;
       const rootShape = getResourceShape(target);
+      const segment = toPropertySegment(property, rootShape, rootState);
       const step = navigateShape(rootShape, segment, rootState);
       const armPath = step.stamp?.armPath;
       const nav = step.next;
@@ -558,7 +586,7 @@ export function createResourceProxy<
 
       setValueAtPath(
         unwrapResourceHandle(proxy) as Record<string, unknown>,
-        [toPropertySegment(property)],
+        [toPropertySegment(property, getResourceShape(target), unwrapResourceHandle(proxy))],
         normalizeAssignedValue(value, proxy),
       );
       return true;

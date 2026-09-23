@@ -20,13 +20,6 @@ import { type DeletedVaultProperties, deletedVaultPropertiesShape } from "./type
 
 const API_VERSION = "2026-02-01";
 
-export interface DeletedVaultProps {
-  /**
-   * The name of the vault.
-   */
-  name?: ExpressionOrValue<string> | undefined;
-}
-
 /**
  * Deleted vault information with extended details.
  */
@@ -61,9 +54,8 @@ export class DeletedVault extends Resource<"Microsoft.KeyVault/locations/deleted
   }
 
   /**
-   * Assemble the base `Resource` constructor payload. Shared by ordinary construction and internal
-   * resource reconstruction so both paths apply identical prop shaping, including the fixed
-   * singleton `name`.
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
    *
    * @param props - Resource properties to normalize for the base constructor.
    */
@@ -71,14 +63,9 @@ export class DeletedVault extends Resource<"Microsoft.KeyVault/locations/deleted
     props?: ExistingResourceProps & { existing: true },
   ): ResourceProps<"Microsoft.KeyVault/locations/deletedVaults"> & Record<string, unknown> {
     return {
+      ...props,
       type: DeletedVault.resourceType,
       apiVersion: DeletedVault.apiVersion,
-      existing: props?.existing,
-      ...(props?.existing === true
-        ? (props as any)
-        : {
-            name: props?.name,
-          }),
     };
   }
 

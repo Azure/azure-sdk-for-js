@@ -62,7 +62,7 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "sideEffects": false,
+  "sideEffects": true,
   "author": "Microsoft Corporation",
   "license": "MIT",
   "repository": {

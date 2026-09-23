@@ -60,28 +60,31 @@ export function lowerState(
     throw new Error("Cycle detected while lowering ARM state.");
   }
   visited.add(state);
+  try {
+    const out: Record<string, unknown> = Object.create(null);
+    // Select the variant once, from the state we're about to lower —
+    // every key below is looked up against that one concrete shape.
+    const flat = resolveModelShape(shape, state, "js");
 
-  const out: Record<string, unknown> = {};
-  // Select the variant once, from the state we're about to lower —
-  // every key below is looked up against that one concrete shape.
-  const flat = resolveModelShape(shape, state, "js");
+    for (const [jsKey, rawValue] of Object.entries(state)) {
+      const propShape = flat?.byJsName[jsKey];
+      const path = propShape?.armPath.length ? propShape.armPath : [jsKey];
+      const loweredValue = lowerValue(rawValue, propShape?.value, visited, path);
 
-  for (const [jsKey, rawValue] of Object.entries(state)) {
-    const propShape = flat?.byJsName[jsKey];
-    const path = propShape?.armPath.length ? propShape.armPath : [jsKey];
-    const loweredValue = lowerValue(rawValue, propShape?.value, visited, path);
+      if (!propShape) {
+        // Passthrough: key not in shape (e.g. CDK-internal, or emitter
+        // didn't include it).
+        assignPath(out, [jsKey], loweredValue);
+        continue;
+      }
 
-    if (!propShape) {
-      // Passthrough: key not in shape (e.g. CDK-internal, or emitter
-      // didn't include it).
-      assignPath(out, [jsKey], loweredValue);
-      continue;
+      assignPath(out, path, loweredValue);
     }
 
-    assignPath(out, path, loweredValue);
+    return out;
+  } finally {
+    visited.delete(state);
   }
-
-  return out;
 }
 
 function lowerValue(
@@ -117,9 +120,9 @@ function lowerValue(
       );
     case "record": {
       if (!isPlainObject(value)) return value;
-      const out: Record<string, unknown> = {};
+      const out: Record<string, unknown> = Object.create(null);
       for (const [k, v] of Object.entries(value)) {
-        out[k] = lowerValue(v, shape.value, visited, [...path, k]);
+        defineOwn(out, k, lowerValue(v, shape.value, visited, [...path, k]));
       }
       return out;
     }
@@ -148,10 +151,10 @@ function assignPath(
   let cursor = target;
   for (let i = 0; i < path.length - 1; i++) {
     const seg = path[i]!;
-    const existing = cursor[seg];
+    const existing = Object.prototype.hasOwnProperty.call(cursor, seg) ? cursor[seg] : undefined;
     if (existing === undefined) {
-      const next: Record<string, unknown> = {};
-      cursor[seg] = next;
+      const next: Record<string, unknown> = Object.create(null);
+      defineOwn(cursor, seg, next);
       cursor = next;
     } else if (isPlainObject(existing)) {
       cursor = existing;
@@ -163,17 +166,19 @@ function assignPath(
   }
 
   const leafKey = path[path.length - 1]!;
-  const existingLeaf = cursor[leafKey];
+  const existingLeaf = Object.prototype.hasOwnProperty.call(cursor, leafKey)
+    ? cursor[leafKey]
+    : undefined;
   if (existingLeaf === undefined) {
-    cursor[leafKey] = value;
+    defineOwn(cursor, leafKey, value);
     return;
   }
 
   if (isPlainObject(existingLeaf) && isPlainObject(value)) {
-    cursor[leafKey] = deepMerge(
-      existingLeaf as Record<string, unknown>,
-      value as Record<string, unknown>,
-      path,
+    defineOwn(
+      cursor,
+      leafKey,
+      deepMerge(existingLeaf as Record<string, unknown>, value as Record<string, unknown>, path),
     );
     return;
   }
@@ -188,18 +193,23 @@ function deepMerge(
   b: Record<string, unknown>,
   prefix: readonly string[],
 ): Record<string, unknown> {
-  const out: Record<string, unknown> = { ...a };
+  const out: Record<string, unknown> = Object.create(null);
+  for (const [key, value] of Object.entries(a)) defineOwn(out, key, value);
   for (const [k, v] of Object.entries(b)) {
-    const existing = out[k];
+    const existing = Object.prototype.hasOwnProperty.call(out, k) ? out[k] : undefined;
     if (existing === undefined) {
-      out[k] = v;
+      defineOwn(out, k, v);
       continue;
     }
     if (isPlainObject(existing) && isPlainObject(v)) {
-      out[k] = deepMerge(existing as Record<string, unknown>, v as Record<string, unknown>, [
-        ...prefix,
+      defineOwn(
+        out,
         k,
-      ]);
+        deepMerge(existing as Record<string, unknown>, v as Record<string, unknown>, [
+          ...prefix,
+          k,
+        ]),
+      );
       continue;
     }
     throw new Error(
@@ -207,6 +217,15 @@ function deepMerge(
     );
   }
   return out;
+}
+
+function defineOwn(target: Record<string, unknown>, key: string, value: unknown): void {
+  Object.defineProperty(target, key, {
+    value,
+    enumerable: true,
+    configurable: true,
+    writable: true,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -239,44 +258,47 @@ export function raiseState(
     throw new Error("Cycle detected while raising ARM state.");
   }
   visited.add(state);
+  try {
+    // Wire-shaped input, so the variant is selected against ARM keys.
+    const flat = resolveModelShape(shape, state, "arm");
+    if (!flat) return structuredCloneLike(state, new WeakSet());
 
-  // Wire-shaped input, so the variant is selected against ARM keys.
-  const flat = resolveModelShape(shape, state, "arm");
-  if (!flat) return { ...state };
+    // Clone into a mutable working copy so we can prune consumed paths.
+    const working: Record<string, unknown> = structuredCloneLike(state, new WeakSet());
+    const out: Record<string, unknown> = Object.create(null);
+    const consumedTopLevel = new Set<string>();
 
-  // Clone into a mutable working copy so we can prune consumed paths.
-  const working: Record<string, unknown> = structuredCloneLike(state, new WeakSet());
-  const out: Record<string, unknown> = {};
-  const consumedTopLevel = new Set<string>();
+    for (const [jsName, propShape] of Object.entries(flat.byJsName)) {
+      const path = propShape.armPath.length > 0 ? propShape.armPath : [jsName];
+      const extracted = extractPath(working, path);
+      if (extracted === MISSING) continue;
 
-  for (const [jsName, propShape] of Object.entries(flat.byJsName)) {
-    const path = propShape.armPath.length > 0 ? propShape.armPath : [jsName];
-    const extracted = extractPath(working, path);
-    if (extracted === MISSING) continue;
+      const raised = raiseValue(extracted, propShape.value, visited, path);
+      defineOwn(out, jsName, raised);
 
-    const raised = raiseValue(extracted, propShape.value, visited, path);
-    out[jsName] = raised;
-
-    consumedTopLevel.add(path[0]!);
-  }
-
-  // Passthrough: anything left in `working` that wasn't consumed by a
-  // shape-driven extraction and doesn't collide with an already-
-  // placed jsName.
-  for (const [k, v] of Object.entries(working)) {
-    if (consumedTopLevel.has(k)) {
-      // Top-level segment was touched by at least one armPath. If
-      // residue remains (e.g. sibling properties the shape didn't
-      // cover), surface it under the original ARM key so it's not
-      // silently dropped.
-      if (isPlainObject(v) && Object.keys(v).length === 0) continue;
-      if (v === undefined) continue;
+      consumedTopLevel.add(path[0]!);
     }
-    if (k in out) continue;
-    out[k] = v;
-  }
 
-  return out;
+    // Passthrough: anything left in `working` that wasn't consumed by a
+    // shape-driven extraction and doesn't collide with an already-
+    // placed jsName.
+    for (const [k, v] of Object.entries(working)) {
+      if (consumedTopLevel.has(k)) {
+        // Top-level segment was touched by at least one armPath. If
+        // residue remains (e.g. sibling properties the shape didn't
+        // cover), surface it under the original ARM key so it's not
+        // silently dropped.
+        if (isPlainObject(v) && Object.keys(v).length === 0) continue;
+        if (v === undefined) continue;
+      }
+      if (Object.prototype.hasOwnProperty.call(out, k)) continue;
+      defineOwn(out, k, v);
+    }
+
+    return out;
+  } finally {
+    visited.delete(state);
+  }
 }
 
 function raiseValue(
@@ -308,9 +330,9 @@ function raiseValue(
       );
     case "record": {
       if (!isPlainObject(value)) return value;
-      const out: Record<string, unknown> = {};
+      const out: Record<string, unknown> = Object.create(null);
       for (const [k, v] of Object.entries(value)) {
-        out[k] = raiseValue(v, shape.value, visited, [...path, k]);
+        defineOwn(out, k, raiseValue(v, shape.value, visited, [...path, k]));
       }
       return out;
     }
@@ -337,13 +359,13 @@ function extractPath(obj: Record<string, unknown>, path: readonly string[]): unk
   let cursor: Record<string, unknown> = obj;
   for (let i = 0; i < path.length - 1; i++) {
     const seg = path[i]!;
-    const next = cursor[seg];
+    const next = Object.prototype.hasOwnProperty.call(cursor, seg) ? cursor[seg] : undefined;
     if (!isPlainObject(next)) return MISSING;
     cursor = next;
   }
 
   const leafKey = path[path.length - 1]!;
-  if (!(leafKey in cursor)) return MISSING;
+  if (!Object.prototype.hasOwnProperty.call(cursor, leafKey)) return MISSING;
   const value = cursor[leafKey];
   delete cursor[leafKey];
   return value;
@@ -363,14 +385,17 @@ function structuredCloneLike(
     return value;
   }
   seen.add(value);
-  const out: Record<string, unknown> = {};
+  const out: Record<string, unknown> = Object.create(null);
   for (const [k, v] of Object.entries(value)) {
-    out[k] =
+    defineOwn(
+      out,
+      k,
       isExpression(v) || isExpressionNode(v)
         ? v
         : isPlainObject(v)
           ? structuredCloneLike(v, seen)
-          : v;
+          : v,
+    );
   }
   return out;
 }

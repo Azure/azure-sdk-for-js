@@ -84,7 +84,10 @@ export function lowerArmPropertyAccessChain(node: CoreExpressionNode): CoreExpre
     const path = node.armPath.length > 0 ? node.armPath : [node.property];
     let current: CoreExpressionNode = loweredBase;
     for (const segment of path) {
-      current = accessExpressionNode(current, segment);
+      // A flattened optional property may be absent at any wire-path segment.
+      current = accessExpressionNode(current, segment, {
+        nullish: node.nullish,
+      });
     }
     return current;
   }
@@ -247,7 +250,7 @@ function serializeMemberAccessExpression(
       kind: "property-access",
       base,
       property: value.property,
-      nullish: false,
+      nullish: value.nullish,
     };
   }
 
@@ -259,18 +262,21 @@ function serializeMemberAccessExpression(
         kind: "integer",
         value: String(value.index),
       },
-      nullish: false,
-      fromEnd: false,
+      nullish: value.nullish,
+      fromEnd: value.fromEnd,
     };
   }
 
   if (typeof value.index === "string") {
+    if (value.fromEnd) {
+      throw new Error("Reverse indexing requires an integer index, not a string.");
+    }
     return isBicepIdentifierSegment(value.index)
       ? {
           kind: "property-access",
           base,
           property: value.index,
-          nullish: false,
+          nullish: value.nullish,
         }
       : {
           kind: "array-access",
@@ -279,8 +285,8 @@ function serializeMemberAccessExpression(
             kind: "string",
             value: value.index,
           },
-          nullish: false,
-          fromEnd: false,
+          nullish: value.nullish,
+          fromEnd: value.fromEnd,
         };
   }
 
@@ -291,8 +297,8 @@ function serializeMemberAccessExpression(
     kind: "array-access",
     base,
     index: serializeExpression(value.index as SerializableValue, symbolMap),
-    nullish: false,
-    fromEnd: false,
+    nullish: value.nullish,
+    fromEnd: value.fromEnd,
   };
 }
 
@@ -306,7 +312,7 @@ export function serializeExpression(
 
   // Lower the current property-access chain. Recursive serialization below
   // visits other child expressions, lowering their property chains in turn.
-  if (value !== null && typeof value === "object" && "kind" in (value as object)) {
+  if (value !== null && typeof value === "object" && isExpressionNode(value)) {
     const lowered = lowerArmPropertyAccessChain(value as CoreExpressionNode);
     if (lowered !== value) {
       return serializeExpression(lowered as SerializableValue, symbolMap);
@@ -525,7 +531,7 @@ export function deserializeExpression(
       const base = deserializeExpression(node.base, symbols);
       const baseNode = isExpression(base)
         ? unwrapExpression(base as Expression<unknown>)
-        : identifierExpressionNode(String(base));
+        : identifierExpressionNode(isResource(base) ? base : String(base));
       return wrapExpression(
         instanceFunctionCallExpressionNode(
           baseNode,
@@ -538,14 +544,27 @@ export function deserializeExpression(
     case "property-access": {
       const base = deserializeExpression(node.base, symbols);
       if (isResource(base)) {
+        if (node.nullish) {
+          return wrapExpression(
+            propertyAccessExpressionNode(identifierExpressionNode(base), node.property, {
+              nullish: node.nullish,
+            }),
+          );
+        }
         return (base as unknown as Record<string, unknown>)[node.property];
       }
       if (isExpression(base)) {
         const inner = unwrapExpression(base as Expression<unknown>);
-        return wrapExpression(propertyAccessExpressionNode(inner, node.property));
+        return wrapExpression(
+          propertyAccessExpressionNode(inner, node.property, {
+            nullish: node.nullish,
+          }),
+        );
       }
       return wrapExpression(
-        propertyAccessExpressionNode(identifierExpressionNode(String(base)), node.property),
+        propertyAccessExpressionNode(identifierExpressionNode(String(base)), node.property, {
+          nullish: node.nullish,
+        }),
       );
     }
 
@@ -566,6 +585,14 @@ export function deserializeExpression(
           : (deserializedIndex as ArrayAccessIndex);
       }
       if (isResource(base)) {
+        if (node.nullish || node.fromEnd) {
+          return wrapExpression(
+            arrayAccessExpressionNode(identifierExpressionNode(base), idx, {
+              nullish: node.nullish,
+              fromEnd: node.fromEnd,
+            }),
+          );
+        }
         return (base as unknown as Record<string, unknown>)[String(idx)];
       }
       if (isLoopedResource(base)) {
@@ -575,20 +602,38 @@ export function deserializeExpression(
         // symbol. The resulting expression proxy lets an outer `.prop` chain
         // (e.g. `looped.at(0).id`) render as `sym[idx].prop`.
         return wrapExpression(
-          arrayAccessExpressionNode(identifierExpressionNode(base as unknown as Resource), idx),
+          arrayAccessExpressionNode(identifierExpressionNode(base as unknown as Resource), idx, {
+            nullish: node.nullish,
+            fromEnd: node.fromEnd,
+          }),
         );
       }
       if (isExpression(base)) {
         const inner = unwrapExpression(base as Expression<unknown>);
-        return wrapExpression(arrayAccessExpressionNode(inner, idx));
+        return wrapExpression(
+          arrayAccessExpressionNode(inner, idx, {
+            nullish: node.nullish,
+            fromEnd: node.fromEnd,
+          }),
+        );
       }
-      return wrapExpression(arrayAccessExpressionNode(identifierExpressionNode(String(base)), idx));
+      return wrapExpression(
+        arrayAccessExpressionNode(identifierExpressionNode(String(base)), idx, {
+          nullish: node.nullish,
+          fromEnd: node.fromEnd,
+        }),
+      );
     }
 
     case "object": {
-      const obj: Record<string, unknown> = {};
+      const obj: Record<string, unknown> = Object.create(null);
       for (const [key, value] of Object.entries(node.value)) {
-        obj[key] = deserializeExpression(value, symbols);
+        Object.defineProperty(obj, key, {
+          value: deserializeExpression(value, symbols),
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
       }
       return obj;
     }

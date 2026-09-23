@@ -94,11 +94,6 @@ function createSymbolMap(
     return identifier;
   }
 
-  for (const resource of resources) {
-    const typeName = resource.type.split("/").at(-1) ?? "resource";
-    const stem = sanitizeIdentifier(pluralizeLib.singular(typeName));
-    symbolMap.set(resource, allocateName(stem));
-  }
   for (const parameter of stack.parameters.getAllMetadata()) {
     const identifier = allocateName(parameter.name);
     symbolMap.set(parameter, identifier);
@@ -108,6 +103,11 @@ function createSymbolMap(
     const identifier = allocateName(variable.name);
     symbolMap.set(variable, identifier);
     symbolMap.set(unwrapExpression(stack.variables.get(variable.name)!), identifier);
+  }
+  for (const resource of resources) {
+    const typeName = resource.type.split("/").at(-1) ?? "resource";
+    const stem = sanitizeIdentifier(pluralizeLib.singular(typeName));
+    symbolMap.set(resource, allocateName(stem));
   }
 
   // Outputs have a separate Bicep namespace and are not same-stack expression
@@ -281,8 +281,8 @@ function serializeResourceProperties(
 
   const loweredUserProps = descriptor ? lowerState(userProps, descriptor) : userProps;
 
-  for (const [key, value] of Object.entries(loweredUserProps)) {
-    properties[key] = serializeExpression(value as SerializableValue, symbolMap);
+  for (const key of Object.keys(loweredUserProps).sort()) {
+    properties[key] = serializeExpression(loweredUserProps[key] as SerializableValue, symbolMap);
   }
 
   return properties;
@@ -468,8 +468,18 @@ function serializeFile(
   };
 }
 
+/**
+ * Serializes one or more authored stacks into the provisioning document model.
+ *
+ * The document preserves deployment semantics, declaration references, and
+ * expression structure so it can be passed to {@link deserialize} or rendered
+ * by a provisioning backend. At least one stack is required.
+ */
 export function serialize(input: Stack | readonly Stack[]): SerializationDocument {
   const stacks = Array.isArray(input) ? input : [input];
+  if (stacks.length === 0) {
+    throw new Error("Cannot serialize an empty stack collection.");
+  }
 
   return {
     infras: stacks.map((stack) => {

@@ -4,9 +4,10 @@
 import type { PrimitiveTypeMap } from "../serialization/contract/index.js";
 import type { Expression, ExpressionOrValue } from "../expression/expressions.js";
 import { wrapExpression } from "../expression/expressions.js";
+import { isExpression } from "../expression/expressions.js";
 import { symbolicValueExpressionNode } from "../expression/ast-nodes.js";
 import type { Stack } from "./stack.js";
-import { assertValueAssignableToType } from "../util.js";
+import { assertBicepIdentifier, assertValueAssignableToType } from "../util.js";
 
 export type InferParamType<T extends keyof PrimitiveTypeMap, A> = A extends readonly (infer E)[]
   ? E
@@ -24,7 +25,7 @@ export type ParameterOptions<
   T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap,
   A extends readonly PrimitiveTypeMap[T][] | undefined = undefined,
 > = {
-  readonly defaultValue?: ParameterValue<T> | undefined;
+  readonly defaultValue?: ExpressionOrValue<InferParamType<T, A>> | undefined;
   readonly description?: string | undefined;
   readonly secure?: boolean | undefined;
   readonly minValue?: number | undefined;
@@ -78,10 +79,21 @@ export class ParameterCollection {
     T extends keyof PrimitiveTypeMap = keyof PrimitiveTypeMap,
     const A extends readonly PrimitiveTypeMap[T][] | undefined = undefined,
   >(name: string, type: T, options?: ParameterOptions<T, A>): Parameter<T, A> {
+    assertBicepIdentifier(name, "Deployment parameter");
     if (this.has(name)) {
       throw new Error(`Duplicate deployment parameter name: ${name}`);
     }
     assertValueAssignableToType(options?.defaultValue, type, `Deployment parameter "${name}"`);
+    if (
+      options?.defaultValue !== undefined &&
+      !isExpression(options.defaultValue) &&
+      options.allowed !== undefined &&
+      !options.allowed.includes(options.defaultValue as PrimitiveTypeMap[T])
+    ) {
+      throw new Error(
+        `Deployment parameter "${name}" default value must be one of its allowed values.`,
+      );
+    }
     const param = wrapExpression<InferParamType<T, A>>(
       symbolicValueExpressionNode<InferParamType<T, A>, string>(name),
     );

@@ -3,6 +3,7 @@
 
 import { ProvisioningComponent } from "../provisioning-component.js";
 import {
+  createBinaryExpression,
   unwrapExpression,
   wrapExpression,
   type Expression,
@@ -278,8 +279,11 @@ export abstract class ResourceDeclaration<
     const inheritedCondition = isResourceDeclaration(parent)
       ? (parent.self as unknown as { state: Record<string, unknown> }).state["condition"]
       : undefined;
+    const explicitCondition = options?.condition;
     const condition =
-      options?.condition ?? (inheritedCondition as ExpressionOrValue<boolean> | undefined);
+      explicitCondition !== undefined && inheritedCondition !== undefined
+        ? createBinaryExpression<boolean>("&&", inheritedCondition, explicitCondition)
+        : (explicitCondition ?? (inheritedCondition as ExpressionOrValue<boolean> | undefined));
     const dependsOn = options?.dependsOn;
 
     let data: ResourceState<TType> & Record<string, unknown>;
@@ -868,9 +872,9 @@ export class LoopedResource<T extends Resource = Resource> extends ResourceDecla
 }
 
 /** @internal */
-export function createLoopedResource<T extends Resource, C extends ProvisioningComponent, P>(
+export function createLoopedResource<T extends Resource, C extends ProvisioningComponent, P, Item>(
   wrappedCtor: new (context: C, props: P, options?: ResourceOptions) => T,
-  loop: Loop<unknown>,
+  loop: Loop<Item>,
   context: C,
   ...rest: undefined extends P
     ? [props?: P, options?: ResourceOptions]

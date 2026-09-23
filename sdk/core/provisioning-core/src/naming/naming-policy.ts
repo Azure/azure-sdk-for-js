@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ExpressionOrValue } from "../expression/expressions.js";
-import { concat, subscription, take, toLower, uniqueString } from "../fn.js";
+import { concat, subscription, toLower, uniqueString } from "../fn.js";
 import { MOST_RESTRICTIVE, type ResourceNamingRules } from "./naming-rules.js";
 
 export interface NamingContext {
@@ -56,34 +56,49 @@ export class DefaultNamingPolicy implements NamingPolicy {
     const rules = context.rules;
     const sep = rules.validCharacters.hyphens ? "-" : "";
 
+    const sanitize = (segment: string): string => {
+      let value = segment;
+      if (!rules.validCharacters.hyphens) value = value.replace(/-/gu, "");
+      if (!rules.validCharacters.underscores) value = value.replace(/_/gu, "");
+      if (!rules.validCharacters.periods) value = value.replace(/\./gu, "");
+      value = value.replace(/[^A-Za-z0-9._-]/gu, "");
+      return rules.validCharacters.uppercase ? value : value.toLowerCase();
+    };
+
     const segments: string[] = [];
     if (rules.abbreviation) {
-      segments.push(rules.abbreviation);
+      segments.push(sanitize(rules.abbreviation));
     }
-    segments.push(this.#options.workload);
+    segments.push(sanitize(this.#options.workload));
     if (this.#options.environment) {
-      segments.push(this.#options.environment);
+      segments.push(sanitize(this.#options.environment));
     }
     if (this.#options.region) {
-      segments.push(this.#options.region);
+      segments.push(sanitize(this.#options.region));
     }
     if (context.label) {
-      segments.push(context.label);
+      segments.push(sanitize(context.label));
     }
-    if (ordinal > 0) {
-      segments.push(String(ordinal + 1));
-    }
+    const ordinalSuffix = ordinal > 0 ? String(ordinal + 1) : "";
+    const base = segments.filter(Boolean).join(sep);
 
-    const base = segments.join(sep);
+    const truncateWithOrdinal = (available: number): string => {
+      const ordinalPrefix = ordinalSuffix ? sep : "";
+      const baseLimit = Math.max(0, available - ordinalPrefix.length - ordinalSuffix.length);
+      return `${base.slice(0, baseLimit)}${ordinalPrefix}${ordinalSuffix}`;
+    };
 
     if (rules.scope === "global") {
-      const full = concat(base + sep, uniqueString(subscription().subscriptionId));
-      const truncated = take(full, rules.maxLength);
-      return rules.validCharacters.uppercase ? truncated : toLower(truncated);
+      // Bicep uniqueString() always returns 13 characters. Reserve that suffix
+      // and the ordinal before truncating so repeated resources stay unique.
+      const uniqueSuffixLength = 13;
+      const prefix = truncateWithOrdinal(rules.maxLength - sep.length - uniqueSuffixLength);
+      const full = concat(prefix + sep, uniqueString(subscription().subscriptionId));
+      return rules.validCharacters.uppercase ? full : toLower(full);
     }
 
     // Non-global scope: no uniqueString needed, plain string is fine
-    const truncated = base.length > rules.maxLength ? base.slice(0, rules.maxLength) : base;
+    const truncated = truncateWithOrdinal(rules.maxLength);
     return rules.validCharacters.uppercase ? truncated : truncated.toLowerCase();
   }
 }

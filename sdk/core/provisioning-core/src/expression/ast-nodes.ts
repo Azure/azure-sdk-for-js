@@ -40,7 +40,7 @@ export interface PropertyAccessExpressionNode<_TValue = unknown> {
   readonly kind: "property-access";
   readonly base: ExpressionNode;
   readonly property: string;
-  readonly nullish: false;
+  readonly nullish: boolean;
   /**
    * Optional ARM wire-path segments. When present, the serialization
    * lowering pass rewrites this single access into a chain that walks
@@ -48,7 +48,7 @@ export interface PropertyAccessExpressionNode<_TValue = unknown> {
    * Untyped / hand-built expressions leave this `undefined` and pass
    * through unchanged.
    */
-  readonly armPath?: readonly string[];
+  readonly armPath?: readonly string[] | undefined;
 }
 
 export interface ArrayAccessExpressionNode<_TValue = unknown> {
@@ -66,8 +66,8 @@ export interface ArrayAccessExpressionNode<_TValue = unknown> {
    * nodes" invariant — so a proxy is never stored directly.
    */
   readonly index: ArrayAccessIndex;
-  readonly nullish: false;
-  readonly fromEnd: false;
+  readonly nullish: boolean;
+  readonly fromEnd: boolean;
 }
 
 export interface BinaryExpressionNode<_TValue = unknown> {
@@ -150,13 +150,15 @@ export function isExpressionNode(value: unknown): value is ExpressionNode {
   if (
     typeof value !== "object" ||
     value === null ||
-    !("kind" in value) ||
+    !Object.prototype.hasOwnProperty.call(value, "kind") ||
     typeof (value as { kind: unknown }).kind !== "string"
   ) {
     return false;
   }
   const node = value as Record<string, unknown>;
-  if (!((node.kind as string) in EXPRESSION_NODE_KINDS)) return false;
+  if (!Object.prototype.hasOwnProperty.call(EXPRESSION_NODE_KINDS, node.kind as string)) {
+    return false;
+  }
   switch (node.kind) {
     case "fn-call":
       return typeof node.operator === "string" && Array.isArray(node.args);
@@ -166,14 +168,16 @@ export function isExpressionNode(value: unknown): value is ExpressionNode {
       return typeof node.id === "string" || typeof node.id === "object";
     case "property-access":
       return (
-        isExpressionNode(node.base) && typeof node.property === "string" && node.nullish === false
+        isExpressionNode(node.base) &&
+        typeof node.property === "string" &&
+        typeof node.nullish === "boolean"
       );
     case "array-access":
       return (
         isExpressionNode(node.base) &&
         "index" in node &&
-        node.nullish === false &&
-        node.fromEnd === false
+        typeof node.nullish === "boolean" &&
+        typeof node.fromEnd === "boolean"
       );
     case "binary":
       return typeof node.operator === "string" && "left" in node && "right" in node;
@@ -218,34 +222,28 @@ export function identifierExpressionNode<TValue = unknown>(
 export function propertyAccessExpressionNode<TValue = unknown>(
   base: ExpressionNode,
   property: string,
-  armPath?: readonly string[],
+  options: Partial<Pick<PropertyAccessExpressionNode, "armPath" | "nullish">> = {},
 ): PropertyAccessExpressionNode<TValue> {
-  return armPath
-    ? {
-        kind: "property-access",
-        base,
-        property,
-        nullish: false,
-        armPath,
-      }
-    : {
-        kind: "property-access",
-        base,
-        property,
-        nullish: false,
-      };
+  return {
+    kind: "property-access",
+    base,
+    property,
+    nullish: options.nullish ?? false,
+    ...(options.armPath === undefined ? {} : { armPath: options.armPath }),
+  };
 }
 
 export function arrayAccessExpressionNode<TValue = unknown>(
   base: ExpressionNode,
   index: ArrayAccessIndex,
+  options: Partial<Pick<ArrayAccessExpressionNode, "nullish" | "fromEnd">> = {},
 ): ArrayAccessExpressionNode<TValue> {
   return {
     kind: "array-access",
     base,
     index,
-    nullish: false,
-    fromEnd: false,
+    nullish: options.nullish ?? false,
+    fromEnd: options.fromEnd ?? false,
   };
 }
 
@@ -307,9 +305,9 @@ function isIdentifierSegment(segment: string): boolean {
 export function accessExpressionNode(
   base: ExpressionNode,
   member: PropertySegment,
-  armPath?: readonly string[],
+  options: Partial<Pick<PropertyAccessExpressionNode, "armPath" | "nullish">> = {},
 ): PropertyAccessExpressionNode | ArrayAccessExpressionNode {
   return typeof member === "number" || !isIdentifierSegment(member)
-    ? arrayAccessExpressionNode(base, member)
-    : propertyAccessExpressionNode(base, member, armPath);
+    ? arrayAccessExpressionNode(base, member, options)
+    : propertyAccessExpressionNode(base, member, options);
 }

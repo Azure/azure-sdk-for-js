@@ -5,6 +5,7 @@ import type { Expression, InputOf } from "../expression/expressions.js";
 import { wrapExpression } from "../expression/expressions.js";
 import { symbolicValueExpressionNode } from "../expression/ast-nodes.js";
 import type { Stack } from "./stack.js";
+import { assertBicepIdentifier } from "../util.js";
 
 export type ExpressionValue<T> = T extends Expression<infer U> ? U : T;
 
@@ -62,6 +63,7 @@ export class VariableCollection {
     value: TValue,
     options?: VariableOptions,
   ): Variable<TValue> {
+    assertBicepIdentifier(name, "Deployment variable");
     if (this.has(name)) {
       throw new Error(`Duplicate deployment variable name: ${name}`);
     }

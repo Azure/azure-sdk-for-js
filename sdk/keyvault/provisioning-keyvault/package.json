@@ -55,7 +55,7 @@
     "keyvault",
     "provisioning"
   ],
-  "sideEffects": false,
+  "sideEffects": true,
   "author": "Microsoft Corporation",
   "license": "MIT",
   "repository": {

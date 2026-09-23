@@ -294,7 +294,9 @@ export function wrapExpression<T = unknown>(
       // (record/array) yield no stamp but still peel a layer.
       const step = navigateShape(nav, prop);
       return wrapExpression(
-        propertyAccessExpressionNode(expression as ExpressionNode, prop, step.stamp?.armPath),
+        propertyAccessExpressionNode(expression as ExpressionNode, prop, {
+          armPath: step.stamp?.armPath,
+        }),
         step.next,
       );
     },
