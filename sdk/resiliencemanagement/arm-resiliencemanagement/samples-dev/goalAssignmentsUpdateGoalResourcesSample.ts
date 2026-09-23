@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to action to exclude a resource from goal assignment.
  *
  * @summary action to exclude a resource from goal assignment.
- * x-ms-original-file: 2026-04-01-preview/GoalAssignments_UpdateGoalResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalAssignments_UpdateGoalResources_MaximumSet_Gen.json
  */
 async function goalAssignmentsUpdateGoalResourcesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

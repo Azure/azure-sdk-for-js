@@ -30,7 +30,7 @@ export function _listSend(
     "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/unifiedResilienceItems{?api%2Dversion,%24skipToken,%24top}",
     {
       serviceGroupName: serviceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
       "%24skipToken": options?.skipToken,
       "%24top": options?.top,
     },
@@ -74,7 +74,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
     },
   );
 }
@@ -90,7 +90,7 @@ export function _getSend(
     {
       serviceGroupName: serviceGroupName,
       unifiedResilienceItemName: unifiedResilienceItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get an Enrollment.
  *
  * @summary get an Enrollment.
- * x-ms-original-file: 2026-04-01-preview/Enrollments_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/Enrollments_Get_MaximumSet_Gen.json
  */
 async function enrollmentsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

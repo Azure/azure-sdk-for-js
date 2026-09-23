@@ -59,7 +59,7 @@ export function _testFailoverCleanupSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +115,7 @@ export function testFailoverCleanup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<RecoveryPlanActionBaseResponse>, RecoveryPlanActionBaseResponse>;
 }
 
@@ -132,7 +132,7 @@ export function _testFailoverSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,7 +181,7 @@ export function testFailover(
     getInitialResponse: () =>
       _testFailoverSend(context, serviceGroupName, operationId, recoveryPlanName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<RecoveryPlanActionBaseResponse>, RecoveryPlanActionBaseResponse>;
 }
 
@@ -197,7 +197,7 @@ export function _reprotectSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +245,7 @@ export function reprotect(
     getInitialResponse: () =>
       _reprotectSend(context, serviceGroupName, operationId, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<RecoveryPlanActionBaseResponse>, RecoveryPlanActionBaseResponse>;
 }
 
@@ -261,7 +261,7 @@ export function _failoverCommitSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,7 +307,7 @@ export function failoverCommit(
     getInitialResponse: () =>
       _failoverCommitSend(context, serviceGroupName, operationId, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<RecoveryPlanActionBaseResponse>, RecoveryPlanActionBaseResponse>;
 }
 
@@ -324,7 +324,7 @@ export function _failoverSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -373,7 +373,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, serviceGroupName, operationId, recoveryPlanName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<RecoveryPlanActionBaseResponse>, RecoveryPlanActionBaseResponse>;
 }
 
@@ -389,7 +389,7 @@ export function _checkReadinessSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +433,7 @@ export function checkReadiness(
     getInitialResponse: () =>
       _checkReadinessSend(context, serviceGroupName, operationId, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -449,7 +449,7 @@ export function _validateForReprotectSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -500,7 +500,7 @@ export function validateForReprotect(
     getInitialResponse: () =>
       _validateForReprotectSend(context, serviceGroupName, operationId, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<
     OperationState<ValidateForRecoveryOperationBaseResponse>,
     ValidateForRecoveryOperationBaseResponse
@@ -519,7 +519,7 @@ export function _validateForTestFailoverCleanupSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -578,7 +578,7 @@ export function validateForTestFailoverCleanup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
     },
   ) as PollerLike<
     OperationState<ValidateForRecoveryOperationBaseResponse>,
@@ -599,7 +599,7 @@ export function _validateForTestFailoverSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -658,7 +658,7 @@ export function validateForTestFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<
     OperationState<ValidateForRecoveryOperationBaseResponse>,
     ValidateForRecoveryOperationBaseResponse
@@ -677,7 +677,7 @@ export function _validateForFailoverCommitSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -736,7 +736,7 @@ export function validateForFailoverCommit(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
     },
   ) as PollerLike<
     OperationState<ValidateForRecoveryOperationBaseResponse>,
@@ -757,7 +757,7 @@ export function _validateForFailoverSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -816,7 +816,7 @@ export function validateForFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<
     OperationState<ValidateForRecoveryOperationBaseResponse>,
     ValidateForRecoveryOperationBaseResponse
@@ -836,7 +836,7 @@ export function _validateForOperationSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -894,7 +894,7 @@ export function validateForOperation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<ArmResponseErrorResponse>, ArmResponseErrorResponse>;
 }
 
@@ -911,7 +911,7 @@ export function _updateResourcesSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -960,7 +960,7 @@ export function updateResources(
     getInitialResponse: () =>
       _updateResourcesSend(context, serviceGroupName, operationId, recoveryPlanName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<
     OperationState<UpdateRecoveryResourcesResponse>,
     UpdateRecoveryResourcesResponse
@@ -979,7 +979,7 @@ export function _finalizeSend(
     {
       serviceGroupName: serviceGroupName,
       recoveryPlanName: recoveryPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1027,6 +1027,6 @@ export function finalize(
     getInitialResponse: () =>
       _finalizeSend(context, serviceGroupName, operationId, recoveryPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<ArmResponseErrorResponse>, ArmResponseErrorResponse>;
 }

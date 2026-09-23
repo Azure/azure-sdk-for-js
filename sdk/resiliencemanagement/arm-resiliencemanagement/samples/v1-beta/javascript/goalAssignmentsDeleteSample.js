@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a GoalAssignment
  *
  * @summary delete a GoalAssignment
- * x-ms-original-file: 2026-04-01-preview/GoalAssignments_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalAssignments_Delete_MaximumSet_Gen.json
  */
 async function goalAssignmentsDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();
