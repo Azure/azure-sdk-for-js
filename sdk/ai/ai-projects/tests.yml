@@ -1,0 +1,59 @@
+trigger: none
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+  parameters:
+    PackageName: "@azure/ai-projects"
+    ServiceDirectory: ai
+    TestResourceDirectories:
+      - ai/ai-projects/
+    MatrixFilters:
+      - TestType=^(?!sample).*
+      - DependencyVersion=^$
+    # Deploy-test-resources' cleanup step only submits an async resource-group deletion and
+    # reports success immediately, without waiting for it to finish - so the gpt-realtime model
+    # quota it frees up isn't necessarily available yet when a subsequent run starts deploying.
+    # Poll the actual ARM usage API before attempting a new deployment, instead of hitting an
+    # opaque "quota exceeded" preflight-validation failure partway through deployment.
+    PreSteps:
+      - task: AzurePowerShell@5
+        displayName: "Wait for gpt-realtime quota"
+        inputs:
+          azureSubscription: azure-sdk-tests-public
+          azurePowerShellVersion: LatestVersion
+          pwsh: true
+          ScriptType: InlineScript
+          Inline: |
+            eng/common/scripts/Import-AzModules.ps1
+
+            $location = "eastus2"
+            $usageName = "OpenAI.GlobalStandard.gpt-realtime"
+            $requiredCapacity = 1
+            $maxWaitMinutes = 15
+            $pollIntervalSeconds = 30
+
+            $subscriptionId = (Get-AzContext).Subscription.Id
+            $uri = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.CognitiveServices/locations/$location/usages?api-version=2025-09-01"
+            $deadline = (Get-Date).AddMinutes($maxWaitMinutes)
+
+            while ($true) {
+              $response = Invoke-AzRestMethod -Uri $uri -Method GET
+              $usage = ($response.Content | ConvertFrom-Json).value | Where-Object { $_.name.value -eq $usageName }
+              $available = $usage.limit - $usage.currentValue
+              Write-Host "gpt-realtime GlobalStandard quota in ${location}: used=$($usage.currentValue) limit=$($usage.limit) available=$available"
+
+              if ($available -ge $requiredCapacity) {
+                Write-Host "Sufficient quota available, proceeding with deployment."
+                break
+              }
+              if ((Get-Date) -ge $deadline) {
+                Write-Error "Timed out after $maxWaitMinutes minutes waiting for gpt-realtime quota to free up (still $($usage.currentValue)/$($usage.limit) used). A prior run's cleanup may not have finished releasing capacity yet."
+                exit 1
+              }
+              Write-Host "Insufficient quota (need $requiredCapacity, have $available available). Waiting $pollIntervalSeconds seconds before rechecking..."
+              Start-Sleep -Seconds $pollIntervalSeconds
+            }
+    EnvVars:
+      FOUNDRY_PROJECT_ENDPOINT: $(FOUNDRY_PROJECT_ENDPOINT)
+      FOUNDRY_VOICE_AGENT_MODEL: $(MODEL_DEPLOYMENT_NAME)
+      TEST_SCOPE: voiceAgents
