@@ -31,6 +31,15 @@ const ErrorMessages = {
     `${credentialName}: Authentication Failed. Failed to parse OIDC response. Response = ${text}. Error: ${errorMessage}`,
 };
 
+const audienceByAuthorityHost: Readonly<Record<string, string>> = {
+  "login.microsoftonline.com": "api://AzureADTokenExchange",
+  "login.chinacloudapi.cn": "api://AzureADTokenExchangeChina",
+  "login.microsoftonline.us": "api://AzureADTokenExchangeUSGov",
+  "login.sovcloud-identity.fr": "api://AzureADTokenExchangeFrance",
+  "login.sovcloud-identity.de": "api://AzureADTokenExchangeGermany",
+  "login.sovcloud-identity.sg": "api://AzureADTokenExchangeGovSG",
+};
+
 /**
  * Derives the OIDC audience from the authority host for sovereign cloud support.
  * @internal
@@ -43,22 +52,12 @@ export function deriveAudience(authorityHost: string): string {
     throw new CredentialUnavailableError(ErrorMessages.UNSUPPORTED_AUTHORITY_HOST(authorityHost));
   }
 
-  switch (hostname) {
-    case "login.microsoftonline.us":
-      return "api://AzureADTokenExchangeUSGov";
-    case "login.chinacloudapi.cn":
-      return "api://AzureADTokenExchangeChina";
-    case "login.sovcloud-identity.fr":
-      return "api://AzureADTokenExchangeFrance";
-    case "login.sovcloud-identity.de":
-      return "api://AzureADTokenExchangeGermany";
-    case "login.sovcloud-identity.sg":
-      return "api://AzureADTokenExchangeGovSG";
-    case "login.microsoftonline.com":
-      return "api://AzureADTokenExchange";
-    default:
-      throw new CredentialUnavailableError(ErrorMessages.UNSUPPORTED_AUTHORITY_HOST(authorityHost));
+  const audience = audienceByAuthorityHost[hostname];
+  if (!audience) {
+    throw new CredentialUnavailableError(ErrorMessages.UNSUPPORTED_AUTHORITY_HOST(authorityHost));
   }
+
+  return audience;
 }
 
 /**
