@@ -385,12 +385,8 @@ async function claimReview({ github, context, core }, pr, reviewer, eventId) {
         removal.actor.login === "github-actions[bot]";
       if (!removedByWorkflow || previous?.id !== eventId) {
         if (removedByWorkflow && previous?.event === "labeled" && previous.id !== eventId) {
-          const after = await getCurrentPullRequest(
-            { github, context, core },
-            pr.number,
-            pr.head.sha,
-            pr.head.repo.id,
-          );
+          // Restore pending work on the current PR; this does not authorize the stale review.
+          const after = await getCurrentPullRequest({ github, context, core }, pr.number);
           if (after && !hasLabel(after, reviewer.label)) {
             await github.rest.issues.addLabels({
               ...context.repo,

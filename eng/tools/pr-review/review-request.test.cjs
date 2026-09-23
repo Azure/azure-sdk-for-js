@@ -896,6 +896,74 @@ for (const automatic of [true, false]) {
     assert.equal(restored.actor.login, workflowBot.login);
   });
 
+  test(`${mode} review restores a consumed replacement even when the PR head advances`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    state.github.rest.issues.removeLabel = async (request) => {
+      if (request.name === label) {
+        changeLabel(state, label, "unlabeled", state.run.actor);
+        changeLabel(state, label, "labeled", state.run.actor);
+        state.pr.head.sha = updatedSha;
+      }
+      await removeLabel(request);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.equal(state.pr.head.sha, updatedSha);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    const restored = state.labelEvents.filter((event) => event.label.name === label).at(-1);
+    assert.equal(restored.event, "labeled");
+    assert.equal(restored.actor.login, workflowBot.login);
+  });
+
+  test(`${mode} rollback leaves a label already restored on the current head untouched`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    const getPR = state.github.rest.pulls.get;
+    state.github.rest.issues.removeLabel = async (request) => {
+      if (request.name === label) {
+        changeLabel(state, label, "unlabeled", state.run.actor);
+        changeLabel(state, label, "labeled", state.run.actor);
+        state.pr.head.sha = updatedSha;
+      }
+      await removeLabel(request);
+    };
+    state.github.rest.pulls.get = async (request) => {
+      if (state.calls.removals.some((removal) => removal.name === label)) {
+        changeLabel(state, label, "labeled", state.run.actor);
+      }
+      return getPR(request);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    assert.equal(
+      state.calls.additions.some((request) => request.labels.includes(label)),
+      false,
+    );
+    assert.equal(
+      state.labelEvents.filter((event) => event.label.name === label).at(-1).actor.id,
+      state.run.actor.id,
+    );
+  });
+
+  test(`${mode} rollback does not restore a request on a PR that closed during deletion`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    state.github.rest.issues.removeLabel = async (request) => {
+      if (request.name === label) {
+        changeLabel(state, label, "unlabeled", state.run.actor);
+        changeLabel(state, label, "labeled", state.run.actor);
+        state.pr.state = "closed";
+      }
+      await removeLabel(request);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.deepEqual(state.pr.labels, []);
+    assert.equal(
+      state.calls.additions.some((request) => request.labels.includes(label)),
+      false,
+    );
+  });
+
   test(`${mode} review preserves a new request added after the DELETE completes`, async () => {
     const state = dispatchFixture(automatic);
     const removeLabel = state.github.rest.issues.removeLabel;
