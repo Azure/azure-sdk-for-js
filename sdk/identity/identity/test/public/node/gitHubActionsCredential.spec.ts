@@ -70,6 +70,24 @@ describe("GitHubActionsCredential", function () {
     assert.isDefined(credential);
   });
 
+  it("throws CredentialUnavailableError for an unsupported authority host", function () {
+    vi.stubEnv("AZURE_TENANT_ID", "test-tenant-id");
+    vi.stubEnv("AZURE_CLIENT_ID", "test-client-id");
+    vi.stubEnv(
+      "ACTIONS_ID_TOKEN_REQUEST_URL",
+      "https://token.actions.githubusercontent.com/request?foo=bar",
+    );
+    vi.stubEnv("ACTIONS_ID_TOKEN_REQUEST_TOKEN", "test-request-token");
+
+    assert.throws(
+      () =>
+        new GitHubActionsCredential({
+          authorityHost: "https://custom.authority.example.com",
+        }),
+      /GitHubActionsCredential: is unavailable. The authority host "https:\/\/custom\.authority\.example\.com" is not supported/,
+    );
+  });
+
   it("reports both missing GitHub env vars", function () {
     vi.stubEnv("AZURE_TENANT_ID", "test-tenant-id");
     vi.stubEnv("AZURE_CLIENT_ID", "test-client-id");

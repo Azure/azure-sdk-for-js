@@ -105,15 +105,18 @@ describe("GitHubActionsCredential (internal)", function () {
       );
     });
 
-    it("returns public cloud audience for unknown hosts", function () {
-      assert.strictEqual(
-        deriveAudience("https://custom.authority.example.com"),
-        "api://AzureADTokenExchange",
+    it("throws for unknown hosts", function () {
+      assert.throws(
+        () => deriveAudience("https://custom.authority.example.com"),
+        /The authority host "https:\/\/custom\.authority\.example\.com" is not supported/,
       );
     });
 
-    it("returns public cloud audience for invalid URLs", function () {
-      assert.strictEqual(deriveAudience("not-a-url"), "api://AzureADTokenExchange");
+    it("throws for invalid URLs", function () {
+      assert.throws(
+        () => deriveAudience("not-a-url"),
+        /The authority host "not-a-url" is not supported/,
+      );
     });
   });
 });

@@ -23,6 +23,8 @@ const ErrorMessages = {
   GITHUB_ENV_VARS_REQUIRED: (missing: string) =>
     `${credentialName}: is unavailable. Ensure that you're running this task in a GitHub Actions workflow with 'permissions: id-token: write' so that the following missing system variable(s) can be defined: ${missing}. See the troubleshooting guide for more information: ${troubleshootingGuide}`,
   REQUIRED_CONFIGURATION: `${credentialName}: is unavailable. To use GitHub Actions OIDC federation, the following are required: AZURE_TENANT_ID, AZURE_CLIENT_ID, ACTIONS_ID_TOKEN_REQUEST_URL, ACTIONS_ID_TOKEN_REQUEST_TOKEN. See the troubleshooting guide for more information: ${troubleshootingGuide}`,
+  UNSUPPORTED_AUTHORITY_HOST: (authorityHost: string) =>
+    `${credentialName}: is unavailable. The authority host "${authorityHost}" is not supported.`,
   NULL_OIDC_TOKEN: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
   OIDC_VALUE_MISSING: `${credentialName}: Authentication Failed. "value" field not detected in the response.`,
   OIDC_RESPONSE_PARSE_FAILED: (text: string, errorMessage: string) =>
@@ -38,8 +40,7 @@ export function deriveAudience(authorityHost: string): string {
   try {
     hostname = new URL(authorityHost).hostname.toLowerCase();
   } catch {
-    // If it's not a valid URL, fall back to public cloud default
-    return "api://AzureADTokenExchange";
+    throw new CredentialUnavailableError(ErrorMessages.UNSUPPORTED_AUTHORITY_HOST(authorityHost));
   }
 
   switch (hostname) {
@@ -54,8 +55,9 @@ export function deriveAudience(authorityHost: string): string {
     case "login.sovcloud-identity.sg":
       return "api://AzureADTokenExchangeGovSG";
     case "login.microsoftonline.com":
-    default:
       return "api://AzureADTokenExchange";
+    default:
+      throw new CredentialUnavailableError(ErrorMessages.UNSUPPORTED_AUTHORITY_HOST(authorityHost));
   }
 }
 
