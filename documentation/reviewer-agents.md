@@ -87,6 +87,11 @@ and the same current label-event ID before claiming the request. Removing or
 reapplying a label invalidates an already dispatched request; a new label event
 requires its own validation. If the intake was delayed beyond the five-minute
 event window, reapply the label or use manual dispatch.
+Because GitHub does not support conditional label deletion, the worker rechecks
+the event immediately before removing the request label and verifies the recorded
+removal afterward. If it consumed a replacement request, it restores the label
+and fails without starting the review; the requester must reapply the label or
+dispatch manually, since the bot's restoration is not review authorization.
 When starting, it consumes its request label and replaces it with its in-progress
 label. For example, Archie replaces
 `architecture-review-needed` with `architecture-review-in-progress`. Runs for the

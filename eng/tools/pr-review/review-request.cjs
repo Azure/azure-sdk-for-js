@@ -185,15 +185,13 @@ async function getReviewTarget(github, context, run) {
   return candidates[0];
 }
 
-async function getLabelRequests({ github, context, core }, run, pr) {
-  const createdAt = timestamp(run.created_at, "intake creation time");
-  const actorId = positiveInteger(run.actor?.id, "intake actor ID");
+async function getLabelEvents(github, context, number) {
   const events = await github.paginate(github.rest.issues.listEvents, {
     ...context.repo,
-    issue_number: pr.number,
+    issue_number: number,
     per_page: 100,
   });
-  const latest = new Map();
+  const changes = [];
   for (const event of events) {
     if (
       !["labeled", "unlabeled"].includes(event.event) ||
@@ -201,36 +199,42 @@ async function getLabelRequests({ github, context, core }, run, pr) {
     ) {
       continue;
     }
-    const id = positiveInteger(event.id, "label event ID");
+    positiveInteger(event.id, "label event ID");
     const time = timestamp(event.created_at, "label event creation time");
-    const previous = latest.get(event.label.name);
-    if (!previous || time > previous.time || (time === previous.time && id > previous.event.id)) {
-      latest.set(event.label.name, { event, time });
-    }
+    changes.push({ event, time });
   }
+  changes.sort((a, b) => a.time - b.time || a.event.id - b.event.id);
+  return changes.map(({ event }) => event);
+}
+
+async function getLabelRequests({ github, context, core }, run, pr) {
+  const createdAt = timestamp(run.created_at, "intake creation time");
+  const actorId = positiveInteger(run.actor?.id, "intake actor ID");
+  const events = await getLabelEvents(github, context, pr.number);
+  const latest = new Map(events.map((event) => [event.label.name, event]));
 
   const requests = new Map();
   for (const [reviewerId, reviewer] of Object.entries(reviewers)) {
     if (!hasLabel(pr, reviewer.label)) continue;
-    const record = latest.get(reviewer.label);
+    const event = latest.get(reviewer.label);
     // The PR controls the intake YAML and its job results, not the issue-events API.
-    if (!record || record.event.event !== "labeled") {
+    if (!event || event.event !== "labeled") {
       core.info(`Skipping ${reviewerId}: no active GitHub label event authorizes this request.`);
       continue;
     }
-    if (record.event.actor?.id !== actorId) {
+    if (event.actor?.id !== actorId) {
       core.info(`Skipping ${reviewerId}: its label was added by a different requester.`);
       continue;
     }
     // Use original run creation, not a rerun or runner start time, to prevent replay.
-    const age = createdAt - record.time;
+    const age = createdAt - timestamp(event.created_at, "label event creation time");
     if (age < 0 || age > labelRequestWindowMs) {
       core.info(
         `Skipping ${reviewerId}: its label event is outside the intake's five-minute window.`,
       );
       continue;
     }
-    requests.set(reviewerId, record.event);
+    requests.set(reviewerId, event);
   }
   return requests;
 }
@@ -324,6 +328,101 @@ async function routeReviewRequest({ github, context, core }) {
   }
 }
 
+async function claimReview({ github, context, core }, pr, reviewer, eventId) {
+  const hadInProgressLabel = hasLabel(pr, reviewer.inProgressLabel);
+  let markedInProgress = false;
+  let claimed = false;
+  try {
+    // Preserve the request if adding the in-progress label fails.
+    await github.rest.issues.addLabels({
+      ...context.repo,
+      issue_number: pr.number,
+      labels: [reviewer.inProgressLabel],
+    });
+    markedInProgress = true;
+    const current = await getCurrentPullRequest(
+      { github, context, core },
+      pr.number,
+      pr.head.sha,
+      pr.head.repo.id,
+    );
+    if (!current) return false;
+    if (eventId !== undefined) {
+      const latest = (await getLabelEvents(github, context, pr.number))
+        .filter((event) => event.label.name === reviewer.label)
+        .at(-1);
+      if (
+        !hasLabel(current, reviewer.label) ||
+        latest?.id !== eventId ||
+        latest.event !== "labeled"
+      ) {
+        core.info(
+          `Skipping PR #${pr.number}: the label request changed before it could be claimed.`,
+        );
+        return false;
+      }
+      try {
+        await github.rest.issues.removeLabel({
+          ...context.repo,
+          issue_number: pr.number,
+          name: reviewer.label,
+        });
+      } catch (error) {
+        if (error.status !== 404) throw error;
+        core.info(`Skipping PR #${pr.number}: the label request was withdrawn during the claim.`);
+        return false;
+      }
+
+      // Label DELETE has no compare-and-swap. Verify which event it actually consumed.
+      const history = (await getLabelEvents(github, context, pr.number)).filter(
+        (event) => event.label.name === reviewer.label,
+      );
+      const removal = history.at(-1);
+      const previous = history.at(-2);
+      const removedByWorkflow =
+        removal?.event === "unlabeled" &&
+        removal.actor?.type === "Bot" &&
+        removal.actor.login === "github-actions[bot]";
+      if (!removedByWorkflow || previous?.id !== eventId) {
+        if (removedByWorkflow && previous?.event === "labeled" && previous.id !== eventId) {
+          const after = await getCurrentPullRequest(
+            { github, context, core },
+            pr.number,
+            pr.head.sha,
+            pr.head.repo.id,
+          );
+          if (after && !hasLabel(after, reviewer.label)) {
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: pr.number,
+              labels: [reviewer.label],
+            });
+          }
+        }
+        throw new Error(
+          "The review request changed while claiming its label; no review was started. " +
+            "Reapply the request label or use a manual dispatch. A restored bot label does not authorize a review.",
+        );
+      }
+    }
+    claimed = true;
+    return true;
+  } finally {
+    if (markedInProgress && !claimed && !hadInProgressLabel) {
+      try {
+        await github.rest.issues.removeLabel({
+          ...context.repo,
+          issue_number: pr.number,
+          name: reviewer.inProgressLabel,
+        });
+      } catch (error) {
+        if (error.status !== 404) throw error;
+        core.info(`PR #${pr.number}'s in-progress label was already removed.`);
+      }
+    }
+  }
+}
+
 async function prepareReview({ github, context, core }, reviewerId) {
   requireDefaultBranch(context);
   if (context.eventName !== "workflow_dispatch" || !Object.hasOwn(reviewers, reviewerId)) {
@@ -381,21 +480,19 @@ async function prepareReview({ github, context, core }, reviewerId) {
       return undefined;
     }
     await requireReviewerPermission(github, context, event.actor, reviewerId);
+  } else if (requested) {
+    const latest = (await getLabelEvents(github, context, number))
+      .filter((event) => event.label.name === reviewer.label)
+      .at(-1);
+    if (latest?.event !== "labeled") {
+      throw new Error(
+        "The existing review label has no current label event and cannot be claimed.",
+      );
+    }
+    eventId = latest.id;
   }
   headSha = pr.head.sha;
-  // Preserve the request if adding the in-progress label fails.
-  await github.rest.issues.addLabels({
-    ...context.repo,
-    issue_number: number,
-    labels: [reviewer.inProgressLabel],
-  });
-  if (requested) {
-    await github.rest.issues.removeLabel({
-      ...context.repo,
-      issue_number: number,
-      name: reviewer.label,
-    });
-  }
+  if (!(await claimReview({ github, context, core }, pr, reviewer, eventId))) return undefined;
   core.info(`Starting ${reviewerId} for PR #${number} at ${headSha}.`);
   return { number, headSha };
 }

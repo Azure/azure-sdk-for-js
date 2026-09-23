@@ -20,6 +20,7 @@ const reviewFlows = {
   tester: "test",
 };
 const automationBot = { id: 5, login: "azure-sdk-automation[bot]", type: "Bot" };
+const workflowBot = { id: 7, login: "github-actions[bot]", type: "Bot" };
 const allLabels = () =>
   Object.values(reviewFlows).map((prefix) => ({ name: `${prefix}-review-needed` }));
 const labelEventTime = "2026-09-23T21:00:00Z";
@@ -34,6 +35,23 @@ function recordedLabels(state, labels = state.pr.labels) {
     actor: state.run.actor,
     created_at: labelEventTime,
   }));
+}
+
+function changeLabel(state, name, event, actor = workflowBot) {
+  if (event === "labeled") {
+    if (!state.pr.labels.some((label) => label.name === name)) {
+      state.pr.labels.push({ name });
+    }
+  } else {
+    state.pr.labels = state.pr.labels.filter((label) => label.name !== name);
+  }
+  state.labelEvents.push({
+    id: Math.max(2000, ...state.labelEvents.map((entry) => entry.id)) + 1,
+    event,
+    label: { name },
+    actor,
+    created_at: intakeTime,
+  });
 }
 
 function fixture(reviewerId = "archie") {
@@ -115,7 +133,7 @@ function fixture(reviewerId = "archie") {
         },
         listPullRequestsAssociatedWithCommit: async ({ commit_sha }) => {
           assert.equal(commit_sha, state.run.head_sha);
-          return { data: state.associatedPRs };
+          return { data: structuredClone(state.associatedPRs) };
         },
       },
       pulls: {
@@ -125,22 +143,26 @@ function fixture(reviewerId = "archie") {
               ? state.pr
               : state.associatedPRs.find((candidate) => candidate.number === pull_number);
           assert.ok(pr, `No fixture PR #${pull_number}`);
-          return { data: pr };
+          return { data: structuredClone(pr) };
         },
       },
       issues: {
         listEvents: async ({ issue_number, per_page }) => {
           assert.equal(issue_number, 42);
           assert.equal(per_page, 100);
-          return { data: state.labelEvents };
+          return { data: structuredClone(state.labelEvents) };
         },
         addLabels: async (request) => {
           state.calls.additions.push(request);
-          state.pr.labels.push(...request.labels.map((name) => ({ name })));
+          for (const name of request.labels) {
+            if (!state.pr.labels.some((label) => label.name === name)) {
+              changeLabel(state, name, "labeled");
+            }
+          }
         },
         removeLabel: async (request) => {
           state.calls.removals.push(request);
-          state.pr.labels = state.pr.labels.filter((item) => item.name !== request.name);
+          changeLabel(state, request.name, "unlabeled");
         },
       },
     },
@@ -823,6 +845,182 @@ test("keeps the request label when starting the review fails", async () => {
   assert.deepEqual(state.pr.labels, [{ name: label }]);
 });
 
+for (const automatic of [true, false]) {
+  const mode = automatic ? "automatic" : "manual";
+
+  test(`${mode} review preserves a replacement request added while marking in-progress`, async () => {
+    const state = dispatchFixture(automatic);
+    const addLabels = state.github.rest.issues.addLabels;
+    state.github.rest.issues.addLabels = async (request) => {
+      await addLabels(request);
+      changeLabel(state, label, "unlabeled", state.run.actor);
+      changeLabel(state, label, "labeled", state.run.actor);
+    };
+    assert.equal(await prepareReview(state, "archie"), undefined);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    assert.equal(
+      state.calls.removals.some((request) => request.name === label),
+      false,
+    );
+  });
+
+  test(`${mode} review does not claim a request withdrawn while marking in-progress`, async () => {
+    const state = dispatchFixture(automatic);
+    const addLabels = state.github.rest.issues.addLabels;
+    state.github.rest.issues.addLabels = async (request) => {
+      await addLabels(request);
+      changeLabel(state, label, "unlabeled", state.run.actor);
+    };
+    assert.equal(await prepareReview(state, "archie"), undefined);
+    assert.deepEqual(state.pr.labels, []);
+    assert.equal(
+      state.calls.removals.some((request) => request.name === label),
+      false,
+    );
+  });
+
+  test(`${mode} review restores a replacement request consumed during the DELETE call`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    state.github.rest.issues.removeLabel = async (request) => {
+      if (request.name === label) {
+        changeLabel(state, label, "unlabeled", state.run.actor);
+        changeLabel(state, label, "labeled", state.run.actor);
+      }
+      await removeLabel(request);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    const restored = state.labelEvents.filter((event) => event.label.name === label).at(-1);
+    assert.equal(restored.event, "labeled");
+    assert.equal(restored.actor.login, workflowBot.login);
+  });
+
+  test(`${mode} review preserves a new request added after the DELETE completes`, async () => {
+    const state = dispatchFixture(automatic);
+    const removeLabel = state.github.rest.issues.removeLabel;
+    state.github.rest.issues.removeLabel = async (request) => {
+      await removeLabel(request);
+      if (request.name === label) changeLabel(state, label, "labeled", state.run.actor);
+    };
+    await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    assert.equal(
+      state.calls.additions.some((request) => request.labels.includes(label)),
+      false,
+    );
+    assert.equal(
+      state.labelEvents.filter((event) => event.label.name === label).at(-1).actor.id,
+      state.run.actor.id,
+    );
+  });
+}
+
+test("a changed head while marking in-progress prevents request consumption", async () => {
+  const state = dispatchFixture();
+  const addLabels = state.github.rest.issues.addLabels;
+  state.github.rest.issues.addLabels = async (request) => {
+    await addLabels(request);
+    state.pr.head.sha = updatedSha;
+  };
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.deepEqual(state.pr.labels, [{ name: label }]);
+  assert.equal(
+    state.calls.removals.some((request) => request.name === label),
+    false,
+  );
+});
+
+test("a pre-existing in-progress label is not removed when a claim is superseded", async () => {
+  const state = dispatchFixture();
+  state.pr.labels.push({ name: "architecture-review-in-progress" });
+  const addLabels = state.github.rest.issues.addLabels;
+  state.github.rest.issues.addLabels = async (request) => {
+    await addLabels(request);
+    changeLabel(state, label, "unlabeled", state.run.actor);
+    changeLabel(state, label, "labeled", state.run.actor);
+  };
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.equal(state.calls.removals.length, 0);
+  assert.ok(state.pr.labels.some((label) => label.name === "architecture-review-in-progress"));
+});
+
+test("a restored bot label cannot authorize the original automatic request", async () => {
+  const state = dispatchFixture();
+  const removeLabel = state.github.rest.issues.removeLabel;
+  state.github.rest.issues.removeLabel = async (request) => {
+    if (request.name === label) {
+      changeLabel(state, label, "unlabeled", state.run.actor);
+      changeLabel(state, label, "labeled", state.run.actor);
+    }
+    await removeLabel(request);
+  };
+  await assert.rejects(prepareReview(state, "archie"), /request changed while claiming/);
+  const additions = state.calls.additions.length;
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.equal(state.calls.additions.length, additions);
+  assert.deepEqual(state.pr.labels, [{ name: label }]);
+});
+
+test("a concurrent request removal returning 404 skips review and cleans up its marker", async () => {
+  const state = dispatchFixture();
+  const removeLabel = state.github.rest.issues.removeLabel;
+  state.github.rest.issues.removeLabel = async (request) => {
+    if (request.name === label) {
+      changeLabel(state, label, "unlabeled", state.run.actor);
+      throw Object.assign(new Error("Label no longer exists"), { status: 404 });
+    }
+    await removeLabel(request);
+  };
+  assert.equal(await prepareReview(state, "archie"), undefined);
+  assert.deepEqual(state.pr.labels, []);
+  assert.ok(state.calls.messages.some((message) => message.includes("withdrawn during the claim")));
+});
+
+test("a failed label deletion is not treated as a successful claim", async () => {
+  const state = dispatchFixture();
+  const removeLabel = state.github.rest.issues.removeLabel;
+  state.github.rest.issues.removeLabel = async (request) => {
+    if (request.name === label)
+      throw Object.assign(new Error("Permission denied"), { status: 403 });
+    await removeLabel(request);
+  };
+  await assert.rejects(prepareReview(state, "archie"), /Permission denied/);
+  assert.deepEqual(state.pr.labels, [{ name: label }]);
+});
+
+test("failure to verify the removal does not start a review", async () => {
+  const state = dispatchFixture();
+  const listEvents = state.github.rest.issues.listEvents;
+  state.github.rest.issues.listEvents = async (request) => {
+    if (state.calls.removals.some((removal) => removal.name === label)) {
+      throw new Error("Event verification unavailable");
+    }
+    return listEvents(request);
+  };
+  await assert.rejects(prepareReview(state, "archie"), /Event verification unavailable/);
+  assert.ok(!state.pr.labels.some((label) => label.name === "architecture-review-in-progress"));
+});
+
+test("failure to restore a consumed replacement is surfaced", async () => {
+  const state = dispatchFixture();
+  const removeLabel = state.github.rest.issues.removeLabel;
+  const addLabels = state.github.rest.issues.addLabels;
+  state.github.rest.issues.removeLabel = async (request) => {
+    if (request.name === label) {
+      changeLabel(state, label, "unlabeled", state.run.actor);
+      changeLabel(state, label, "labeled", state.run.actor);
+    }
+    await removeLabel(request);
+  };
+  state.github.rest.issues.addLabels = async (request) => {
+    if (request.labels.includes(label)) throw new Error("Restoring request label failed");
+    await addLabels(request);
+  };
+  await assert.rejects(prepareReview(state, "archie"), /Restoring request label failed/);
+  assert.ok(!state.pr.labels.some((label) => label.name === "architecture-review-in-progress"));
+});
+
 test("does not hide API failures while validating the PR", async () => {
   const state = dispatchFixture();
   state.github.rest.pulls.get = async () => {
@@ -835,6 +1033,13 @@ test("does not hide API failures while validating the PR", async () => {
 const repoRoot = path.resolve(__dirname, "..", "..", "..");
 const workflowText = (name) =>
   readFileSync(path.join(repoRoot, ".github", "workflows", name), "utf8").replace(/\r\n/g, "\n");
+
+function assertIssueEventReadPermission(job) {
+  const permissions = job.match(/^    permissions:\n((?:      [\w-]+: \w+\n)+)/m)?.[1];
+  // https://docs.github.com/en/rest/issues/events#list-issue-events accepts either scope.
+  assert.ok(permissions && /^      (issues|pull-requests): (read|write)$/m.test(permissions));
+}
+
 test("the shared intake and router preserve the trust boundary", () => {
   const intake = workflowText("pr-review-intake.yml");
   assert.match(intake, /permissions: \{\}/);
@@ -848,6 +1053,7 @@ test("the shared intake and router preserve the trust boundary", () => {
       .sort(),
   );
   const router = workflowText("pr-review-router.yml");
+  assertIssueEventReadPermission(router.split("\n  dispatch:\n")[1]);
   assert.match(router, /ref: \$\{\{ github\.sha \}\}/);
   assert.doesNotMatch(router, /ref:.*workflow_run\.head|download-artifact/);
 });
@@ -857,6 +1063,9 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
   const source = workflowText(`${reviewerId}.md`);
 
   test(`${reviewerId} uses validated dispatch inputs and independent worker concurrency`, () => {
+    assertIssueEventReadPermission(
+      source.split("\n  validate_request:\n")[1].split("\ncheckout:")[0],
+    );
     assert.doesNotMatch(source, /pull_request_target:|pull_request:|github\.event\.pull_request/);
     assert.match(source, /checkout: false/);
     assert.match(source, /request_event_id:\n\s+description: GitHub label-event ID/);
@@ -885,6 +1094,9 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
 
   test(`${reviewerId} compiles to commit-pinned reviews and scoped label writes`, () => {
     const compiled = workflowText(`${reviewerId}.lock.yml`);
+    assertIssueEventReadPermission(
+      compiled.split("\n  validate_request:\n")[1].split(/\n  [\w-]+:\n/)[0],
+    );
     assert.match(compiled, /request_event_id:\n\s+description: GitHub label-event ID/);
     assert.doesNotMatch(compiled, /^\s+pull_request_target:/m);
     assert.match(
