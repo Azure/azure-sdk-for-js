@@ -33,7 +33,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,11 +74,7 @@ export function listByLocation(
     () => _listByLocationSend(context, location, options),
     _listByLocationDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -94,7 +90,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       adbsncharsetname: adbsncharsetname,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

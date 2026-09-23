@@ -27,7 +27,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,11 +67,7 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, cloudexadatainfrastructurename, options),
     _listByParentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -89,7 +85,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
       dbserverocid: dbserverocid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

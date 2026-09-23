@@ -8,6 +8,8 @@ export type { AutonomousDatabasesOperations } from "./autonomousDatabases/index.
 export type { AutonomousDatabaseVersionsOperations } from "./autonomousDatabaseVersions/index.js";
 export type { CloudExadataInfrastructuresOperations } from "./cloudExadataInfrastructures/index.js";
 export type { CloudVmClustersOperations } from "./cloudVmClusters/index.js";
+export type { DatabaseEditionsOperations } from "./databaseEditions/index.js";
+export type { DatabaseSystemShapeResourcesOperations } from "./databaseSystemShapeResources/index.js";
 export type { DbNodesOperations } from "./dbNodes/index.js";
 export type { DbServersOperations } from "./dbServers/index.js";
 export type { DbSystemsOperations } from "./dbSystems/index.js";
@@ -21,6 +23,8 @@ export type { ExascaleDbStorageVaultsOperations } from "./exascaleDbStorageVault
 export type { FlexComponentsOperations } from "./flexComponents/index.js";
 export type { GiMinorVersionsOperations } from "./giMinorVersions/index.js";
 export type { GiVersionsOperations } from "./giVersions/index.js";
+export type { GoldenGateConnectionsOperations } from "./goldenGateConnections/index.js";
+export type { GoldenGateDeploymentsOperations } from "./goldenGateDeployments/index.js";
 export type { NetworkAnchorsOperations } from "./networkAnchors/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { OracleSubscriptionsOperations } from "./oracleSubscriptions/index.js";

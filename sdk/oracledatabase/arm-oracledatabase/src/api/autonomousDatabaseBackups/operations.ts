@@ -41,7 +41,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,11 +81,7 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, autonomousdatabasename, options),
     _listByParentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -104,7 +100,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
       adbbackupid: adbbackupid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -156,7 +152,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
 }
 
@@ -174,7 +170,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
       adbbackupid: adbbackupid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +207,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, autonomousdatabasename, adbbackupid, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -229,7 +225,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
       adbbackupid: adbbackupid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -290,7 +286,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
       adbbackupid: adbbackupid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -342,6 +338,6 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
 }

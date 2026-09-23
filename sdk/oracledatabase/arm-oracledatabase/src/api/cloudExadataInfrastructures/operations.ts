@@ -47,7 +47,7 @@ export function _configureExascaleSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,7 +97,7 @@ export function configureExascale(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
@@ -113,7 +113,7 @@ export function _addStorageCapacitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -154,7 +154,7 @@ export function addStorageCapacity(
     getInitialResponse: () =>
       _addStorageCapacitySend(context, resourceGroupName, cloudexadatainfrastructurename, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
@@ -168,7 +168,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -207,11 +207,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -227,7 +223,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +259,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, cloudexadatainfrastructurename, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -280,7 +276,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,7 +320,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, cloudexadatainfrastructurename, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
@@ -340,7 +336,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -397,7 +393,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -447,7 +443,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
@@ -459,7 +455,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/cloudExadataInfrastructures{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -497,10 +493,6 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

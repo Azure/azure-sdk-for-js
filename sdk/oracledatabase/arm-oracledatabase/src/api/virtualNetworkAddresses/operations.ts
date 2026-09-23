@@ -38,7 +38,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,11 +78,7 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, cloudvmclustername, options),
     _listByParentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -100,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       virtualnetworkaddressname: virtualnetworkaddressname,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,7 +139,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -161,7 +157,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       virtualnetworkaddressname: virtualnetworkaddressname,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -222,7 +218,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       virtualnetworkaddressname: virtualnetworkaddressname,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,6 +270,6 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<VirtualNetworkAddress>, VirtualNetworkAddress>;
 }

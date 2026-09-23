@@ -37,7 +37,7 @@ export function _actionSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       dbnodeocid: dbnodeocid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +80,7 @@ export function action(
     getInitialResponse: () =>
       _actionSend(context, resourceGroupName, cloudvmclustername, dbnodeocid, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<DbNode>, DbNode>;
 }
 
@@ -96,7 +96,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,11 +136,7 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, cloudvmclustername, options),
     _listByParentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -158,7 +154,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       dbnodeocid: dbnodeocid,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

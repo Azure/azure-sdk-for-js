@@ -46,6 +46,26 @@ export interface ApexDetailsType {
 }
 
 // @public
+export interface AssignedConnection extends ProxyResource {
+    properties?: DeploymentConnectionAssignmentProperties;
+}
+
+// @public
+export interface AssignedDeployment extends ProxyResource {
+    properties?: DeploymentConnectionAssignmentProperties;
+}
+
+// @public
+export interface AssignUnassignConnection {
+    connectionId: string;
+}
+
+// @public
+export interface AssignUnassignDeployment {
+    deploymentId: string;
+}
+
+// @public
 export interface AutonomousDatabase extends TrackedResource {
     properties?: AutonomousDatabaseBasePropertiesUnion;
 }
@@ -61,6 +81,7 @@ export type AutonomousDatabaseBackupLifecycleState = string;
 // @public
 export interface AutonomousDatabaseBackupProperties {
     readonly autonomousDatabaseOcid?: string;
+    readonly backupDestination?: BackupDestinationType;
     readonly backupType?: AutonomousDatabaseBackupType;
     readonly databaseSizeInTbs?: number;
     readonly dbVersion?: string;
@@ -132,6 +153,7 @@ export interface AutonomousDatabaseBaseProperties {
     autonomousDatabaseId?: string;
     autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
     readonly availableUpgradeVersions?: string[];
+    backupDestination?: BackupDestinationType;
     backupRetentionPeriodInDays?: number;
     characterSet?: string;
     computeCount?: number;
@@ -157,6 +179,7 @@ export interface AutonomousDatabaseBaseProperties {
     readonly isPreview?: boolean;
     isPreviewVersionWithServiceTermsAccepted?: boolean;
     readonly isRemoteDataGuardEnabled?: boolean;
+    isScheduleAzUpdateToEarliest?: boolean;
     licenseModel?: LicenseModel;
     readonly lifecycleDetails?: string;
     readonly lifecycleState?: AutonomousDatabaseLifecycleState;
@@ -166,6 +189,7 @@ export interface AutonomousDatabaseBaseProperties {
     longTermBackupSchedule?: LongTermBackUpScheduleDetails;
     readonly memoryPerOracleComputeUnitInGbs?: number;
     ncharacterSet?: string;
+    networkAnchorId?: string;
     readonly nextLongTermBackupTimeStamp?: Date;
     readonly ocid?: string;
     readonly ociUrl?: string;
@@ -180,6 +204,7 @@ export interface AutonomousDatabaseBaseProperties {
     readonly provisionableCpus?: number[];
     readonly provisioningState?: AzureResourceProvisioningState;
     readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
+    resourceAnchorId?: string;
     role?: RoleType;
     scheduledOperationsList?: ScheduledOperationsType[];
     readonly serviceConsoleUrl?: string;
@@ -198,10 +223,12 @@ export interface AutonomousDatabaseBaseProperties {
     readonly timeOfLastRefreshPoint?: string;
     readonly timeOfLastSwitchover?: string;
     readonly timeReclamationOfFreeAutonomousDatabase?: string;
+    timeScheduledAzUpdate?: string;
     readonly usedDataStorageSizeInGbs?: number;
     readonly usedDataStorageSizeInTbs?: number;
     vnetId?: string;
     whitelistedIps?: string[];
+    zone?: string;
 }
 
 // @public
@@ -481,7 +508,23 @@ export interface AzureSubscriptions {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export type BackupDestinationType = string;
+
+// @public
+export interface BackupScheduleType {
+    bucketName?: string;
+    compartmentId?: string;
+    frequencyBackupScheduled?: FrequencyType;
+    isMetadataOnly?: boolean;
+    namespaceName?: string;
+    timeBackupScheduled?: string;
+}
+
+// @public
 export type BaseDbSystemShapes = string;
+
+// @public
+export type CategoryType = string;
 
 // @public
 export type CloneType = string;
@@ -536,6 +579,8 @@ export interface CloudExadataInfrastructureProperties {
     readonly ocid?: string;
     readonly ociUrl?: string;
     readonly provisioningState?: AzureResourceProvisioningState;
+    proximityPlacementGroup?: ProximityPlacementGroup;
+    resourceAnchorId?: string;
     shape: string;
     storageCount?: number;
     storageServerType?: string;
@@ -637,8 +682,9 @@ export interface CloudVmClusterProperties {
     exascaleDbStorageVaultId?: string;
     fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
     giVersion: string;
-    hostname: string;
+    hostnameV2: string;
     readonly iormConfigCache?: ExadataIormConfig;
+    isAcceleratedNetworkEnabled?: boolean;
     isLocalBackupEnabled?: boolean;
     isSparseDiskgroupEnabled?: boolean;
     readonly lastUpdateHistoryEntryId?: string;
@@ -647,6 +693,7 @@ export interface CloudVmClusterProperties {
     readonly lifecycleState?: CloudVmClusterLifecycleState;
     readonly listenerPort?: number;
     memorySizeInGbs?: number;
+    networkAnchorId?: string;
     readonly nodeCount?: number;
     nsgCidrs?: NsgCidr[];
     readonly nsgUrl?: string;
@@ -654,12 +701,16 @@ export interface CloudVmClusterProperties {
     readonly ociUrl?: string;
     ocpuCount?: number;
     readonly provisioningState?: AzureResourceProvisioningState;
-    readonly scanDnsName?: string;
+    proximityPlacementGroup?: ProximityPlacementGroup;
+    recoStoragePercentage?: number;
+    resourceAnchorId?: string;
+    readonly scanDnsNameV2?: string;
     readonly scanDnsRecordId?: string;
     readonly scanIpIds?: string[];
     scanListenerPortTcp?: number;
     scanListenerPortTcpSsl?: number;
     readonly shape?: string;
+    sparseStoragePercentage?: number;
     sshPublicKeys: string[];
     readonly storageManagementType?: ExadataVmClusterStorageManagementType;
     storageSizeInGbs?: number;
@@ -742,6 +793,7 @@ export interface CloudVmClusterUpdateProperties {
     dbNodeStorageSizeInGbs?: number;
     displayName?: string;
     fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
+    isAcceleratedNetworkEnabled?: boolean;
     licenseModel?: LicenseModel;
     memorySizeInGbs?: number;
     ocpuCount?: number;
@@ -758,6 +810,31 @@ export interface ConfigureExascaleCloudExadataInfrastructureDetails {
 }
 
 // @public
+export interface ConnectionBaseProperties {
+    readonly compartmentId?: string;
+    connectionType: ConnectionType;
+    displayName: string;
+    doesUseSecretIds?: boolean;
+    keyId?: string;
+    readonly lifecycleDetails?: string;
+    readonly lifecycleState?: ConnectionLifecycleState;
+    networkAnchorId: string;
+    readonly ocid?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    resourceAnchorId: string;
+    routingMethod?: RoutingMethod;
+    readonly timeCreated?: string;
+    readonly timeUpdated?: string;
+    vaultId?: string;
+}
+
+// @public
+export type ConnectionBasePropertiesUnion = KafkaConnectionDetails | MicrosoftFabricConnectionDetails | OracleConnectionDetails | ConnectionBaseProperties;
+
+// @public
+export type ConnectionLifecycleState = string;
+
+// @public
 export interface ConnectionStringType {
     allConnectionStrings?: AllConnectionStringType;
     dedicated?: string;
@@ -766,6 +843,9 @@ export interface ConnectionStringType {
     medium?: string;
     profiles?: ProfileType[];
 }
+
+// @public
+export type ConnectionType = string;
 
 // @public
 export interface ConnectionUrlType {
@@ -790,12 +870,92 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export type CredentialType = string;
+
+// @public
 export interface CustomerContact {
     email: string;
 }
 
 // @public
+export interface DatabaseEdition extends ProxyResource {
+    properties?: DatabaseEditionProperties;
+}
+
+// @public
+export interface DatabaseEditionProperties {
+    databaseEdition: DbSystemDatabaseEditionType;
+}
+
+// @public
+export interface DatabaseEditionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatabaseEditionsListByLocationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatabaseEditionsOperations {
+    get: (location: string, databaseeditionname: string, options?: DatabaseEditionsGetOptionalParams) => Promise<DatabaseEdition>;
+    listByLocation: (location: string, options?: DatabaseEditionsListByLocationOptionalParams) => PagedAsyncIterableIterator<DatabaseEdition>;
+}
+
+// @public
 export type DatabaseEditionType = string;
+
+// @public
+export interface DatabaseSystemShape extends ProxyResource {
+    properties?: DatabaseSystemShapeProperties;
+}
+
+// @public
+export interface DatabaseSystemShapeProperties {
+    areServerTypesSupported?: boolean;
+    availableCoreCount: number;
+    availableCoreCountPerNode?: number;
+    availableDataStorageInTbs?: number;
+    availableDataStoragePerServerInTbs?: number;
+    availableDbNodePerNodeInGbs?: number;
+    availableDbNodeStorageInGbs?: number;
+    availableMemoryInGbs?: number;
+    availableMemoryPerNodeInGbs?: number;
+    computeModel?: ComputeModel;
+    coreCountIncrement?: number;
+    displayName?: string;
+    maximumNodeCount?: number;
+    maxStorageCount?: number;
+    minCoreCountPerNode?: number;
+    minDataStorageInTbs?: number;
+    minDbNodeStoragePerNodeInGbs?: number;
+    minimumCoreCount?: number;
+    minimumNodeCount?: number;
+    minMemoryPerNodeInGbs?: number;
+    minStorageCount?: number;
+    runtimeMinimumCoreCount?: number;
+    shapeAttributes?: string[];
+    shapeFamily?: string;
+    shapeName: string;
+}
+
+// @public
+export interface DatabaseSystemShapeResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatabaseSystemShapeResourcesListByLocationOptionalParams extends OperationOptions {
+    availabilityDomain?: string;
+    databaseEdition?: string;
+    databaseShapeFamily?: string;
+    shapeAttribute?: string;
+    zone?: string;
+}
+
+// @public
+export interface DatabaseSystemShapeResourcesOperations {
+    get: (location: string, databasesystemshapename: string, options?: DatabaseSystemShapeResourcesGetOptionalParams) => Promise<DatabaseSystemShape>;
+    listByLocation: (location: string, options?: DatabaseSystemShapeResourcesListByLocationOptionalParams) => PagedAsyncIterableIterator<DatabaseSystemShape>;
+}
 
 // @public
 export type DataBaseType = string;
@@ -972,6 +1132,7 @@ export interface DbSystem extends TrackedResource {
 
 // @public
 export interface DbSystemBaseProperties {
+    characterSet?: string;
     clusterName?: string;
     computeCount?: number;
     computeModel?: ComputeModel;
@@ -989,6 +1150,7 @@ export interface DbSystemBaseProperties {
     readonly lifecycleState?: DbSystemLifecycleState;
     readonly listenerPort?: number;
     readonly memorySizeInGbs?: number;
+    ncharacterSet?: string;
     networkAnchorId: string;
     nodeCount?: number;
     readonly ocid?: string;
@@ -1173,6 +1335,58 @@ export interface DefinedFileSystemConfiguration {
 }
 
 // @public
+export interface DeploymentConnectionAssignmentProperties {
+    readonly aliasName?: string;
+    readonly compartmentId?: string;
+    readonly connectionId: string;
+    readonly connectionName?: string;
+    readonly deploymentId: string;
+    readonly deploymentName?: string;
+    readonly lifecycleState?: GoldenGateConnectionAssignmentLifecycleState;
+    readonly ocid?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    readonly timeCreated?: string;
+    readonly timeUpdated?: string;
+}
+
+// @public
+export type DeploymentLifecycleState = string;
+
+// @public
+export interface DeploymentProperties {
+    backupSchedule?: BackupScheduleType;
+    category?: CategoryType;
+    readonly compartment?: string;
+    cpuCoreCount?: number;
+    deploymentType?: DeploymentType;
+    readonly deploymentUrl?: string;
+    displayName: string;
+    environmentType?: SetupType;
+    readonly ingressIps?: string[];
+    isAutoScalingEnabled?: boolean;
+    isPublic?: boolean;
+    licenseModel?: LicenseModel;
+    readonly lifecycleDetails?: string;
+    readonly lifecycleState?: DeploymentLifecycleState;
+    maintenanceConfiguration?: MaintenanceConfigurationType;
+    maintenanceWindow?: MaintenanceWindowType;
+    networkAnchorId: string;
+    readonly ocid?: string;
+    oggData?: OggDeploymentDetails;
+    readonly privateIpAddress?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    resourceAnchorId: string;
+    readonly storageUtilizationInBytes?: number;
+    readonly timeCreated?: string;
+    readonly timeUpdated?: string;
+    timeZone?: string;
+    version?: string;
+}
+
+// @public
+export type DeploymentType = string;
+
+// @public
 export interface DisasterRecoveryConfigurationDetails {
     disasterRecoveryType?: DisasterRecoveryType;
     isReplicateAutomaticBackups?: boolean;
@@ -1326,7 +1540,7 @@ export interface ExadbVmClusterProperties {
     readonly giVersion?: string;
     gridImageOcid?: string;
     readonly gridImageType?: GridImageType;
-    hostname: string;
+    hostnameV2: string;
     readonly iormConfigCache?: ExadataIormConfig;
     licenseModel?: LicenseModel;
     readonly lifecycleDetails?: string;
@@ -1340,7 +1554,7 @@ export interface ExadbVmClusterProperties {
     readonly ociUrl?: string;
     privateZoneOcid?: string;
     readonly provisioningState?: AzureResourceProvisioningState;
-    readonly scanDnsName?: string;
+    readonly scanDnsNameV2?: string;
     readonly scanDnsRecordId?: string;
     readonly scanIpIds?: string[];
     scanListenerPortTcp?: number;
@@ -1493,11 +1707,13 @@ export type ExascaleDbStorageVaultLifecycleState = string;
 export interface ExascaleDbStorageVaultProperties {
     additionalFlashCacheInPercent?: number;
     readonly attachedShapeAttributes?: ShapeAttribute[];
+    autoscaleLimitInGbs?: number;
     description?: string;
     displayName: string;
     exadataInfrastructureId?: string;
     readonly highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
     highCapacityDatabaseStorageInput: ExascaleDbStorageInputDetails;
+    isAutoscaleEnabled?: boolean;
     readonly lifecycleDetails?: string;
     readonly lifecycleState?: ExascaleDbStorageVaultLifecycleState;
     readonly ocid?: string;
@@ -1590,6 +1806,9 @@ export interface FlexComponentsOperations {
 }
 
 // @public
+export type FrequencyType = string;
+
+// @public
 export interface GenerateAutonomousDatabaseWalletDetails {
     generateType?: GenerateType;
     isRegional?: boolean;
@@ -1616,7 +1835,10 @@ export interface GiMinorVersionsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface GiMinorVersionsListByParentOptionalParams extends OperationOptions {
+    isGiVersionForProvisioning?: boolean;
+    shape?: string;
     shapeFamily?: ShapeFamily;
+    sortOrder?: GiMinorVersionSortOrder;
     zone?: string;
 }
 
@@ -1625,6 +1847,9 @@ export interface GiMinorVersionsOperations {
     get: (location: string, giversionname: string, giMinorVersionName: string, options?: GiMinorVersionsGetOptionalParams) => Promise<GiMinorVersion>;
     listByParent: (location: string, giversionname: string, options?: GiMinorVersionsListByParentOptionalParams) => PagedAsyncIterableIterator<GiMinorVersion>;
 }
+
+// @public
+export type GiMinorVersionSortOrder = string;
 
 // @public
 export interface GiVersion extends ProxyResource {
@@ -1654,7 +1879,183 @@ export interface GiVersionsOperations {
 }
 
 // @public
+export interface GoldenGateConnection extends TrackedResource {
+    properties?: ConnectionBasePropertiesUnion;
+    zones?: string[];
+}
+
+// @public
+export type GoldenGateConnectionAssignmentLifecycleState = string;
+
+// @public
+export interface GoldenGateConnectionsAssignDeploymentOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateConnectionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateConnectionsGetAssignedDeploymentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateConnectionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateConnectionsListAssignedDeploymentsByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateConnectionsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateConnectionsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateConnectionsOperations {
+    assignDeployment: (resourceGroupName: string, goldenGateConnectionName: string, body: AssignUnassignDeployment, options?: GoldenGateConnectionsAssignDeploymentOptionalParams) => PollerLike<OperationState<AssignedDeployment>, AssignedDeployment>;
+    createOrUpdate: (resourceGroupName: string, goldenGateConnectionName: string, resource: GoldenGateConnection, options?: GoldenGateConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GoldenGateConnection>, GoldenGateConnection>;
+    delete: (resourceGroupName: string, goldenGateConnectionName: string, options?: GoldenGateConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, goldenGateConnectionName: string, options?: GoldenGateConnectionsGetOptionalParams) => Promise<GoldenGateConnection>;
+    getAssignedDeployment: (resourceGroupName: string, goldenGateConnectionName: string, assignmentId: string, options?: GoldenGateConnectionsGetAssignedDeploymentOptionalParams) => Promise<AssignedDeployment>;
+    listAssignedDeploymentsByParent: (resourceGroupName: string, goldenGateConnectionName: string, options?: GoldenGateConnectionsListAssignedDeploymentsByParentOptionalParams) => PagedAsyncIterableIterator<AssignedDeployment>;
+    listByResourceGroup: (resourceGroupName: string, options?: GoldenGateConnectionsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<GoldenGateConnection>;
+    listBySubscription: (options?: GoldenGateConnectionsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<GoldenGateConnection>;
+    unassignDeployment: (resourceGroupName: string, goldenGateConnectionName: string, body: AssignUnassignDeployment, options?: GoldenGateConnectionsUnassignDeploymentOptionalParams) => PollerLike<OperationState<AssignedDeployment>, AssignedDeployment>;
+    update: (resourceGroupName: string, goldenGateConnectionName: string, properties: GoldenGateConnectionUpdate, options?: GoldenGateConnectionsUpdateOptionalParams) => PollerLike<OperationState<GoldenGateConnection>, GoldenGateConnection>;
+}
+
+// @public
+export interface GoldenGateConnectionsUnassignDeploymentOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateConnectionsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateConnectionUpdate {
+    properties?: GoldenGateConnectionUpdateProperties;
+    tags?: Record<string, string>;
+    zones?: string[];
+}
+
+// @public
+export interface GoldenGateConnectionUpdateProperties {
+    connectionType?: ConnectionType;
+    displayName?: string;
+    doesUseSecretIds?: boolean;
+    keyId?: string;
+    routingMethod?: RoutingMethod;
+    vaultId?: string;
+}
+
+// @public
+export interface GoldenGateDeployment extends TrackedResource {
+    properties?: DeploymentProperties;
+    zones?: string[];
+}
+
+// @public
+export interface GoldenGateDeploymentsAssignConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateDeploymentsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateDeploymentsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateDeploymentsGetAssignedConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateDeploymentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateDeploymentsListAssignedConnectionsByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateDeploymentsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateDeploymentsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GoldenGateDeploymentsOperations {
+    assignConnection: (resourceGroupName: string, goldenGateDeploymentName: string, body: AssignUnassignConnection, options?: GoldenGateDeploymentsAssignConnectionOptionalParams) => PollerLike<OperationState<AssignedConnection>, AssignedConnection>;
+    createOrUpdate: (resourceGroupName: string, goldenGateDeploymentName: string, resource: GoldenGateDeployment, options?: GoldenGateDeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GoldenGateDeployment>, GoldenGateDeployment>;
+    delete: (resourceGroupName: string, goldenGateDeploymentName: string, options?: GoldenGateDeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, goldenGateDeploymentName: string, options?: GoldenGateDeploymentsGetOptionalParams) => Promise<GoldenGateDeployment>;
+    getAssignedConnection: (resourceGroupName: string, goldenGateDeploymentName: string, assignmentId: string, options?: GoldenGateDeploymentsGetAssignedConnectionOptionalParams) => Promise<AssignedConnection>;
+    listAssignedConnectionsByParent: (resourceGroupName: string, goldenGateDeploymentName: string, options?: GoldenGateDeploymentsListAssignedConnectionsByParentOptionalParams) => PagedAsyncIterableIterator<AssignedConnection>;
+    listByResourceGroup: (resourceGroupName: string, options?: GoldenGateDeploymentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<GoldenGateDeployment>;
+    listBySubscription: (options?: GoldenGateDeploymentsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<GoldenGateDeployment>;
+    unassignConnection: (resourceGroupName: string, goldenGateDeploymentName: string, body: AssignUnassignConnection, options?: GoldenGateDeploymentsUnassignConnectionOptionalParams) => PollerLike<OperationState<AssignedConnection>, AssignedConnection>;
+    update: (resourceGroupName: string, goldenGateDeploymentName: string, properties: GoldenGateDeploymentUpdate, options?: GoldenGateDeploymentsUpdateOptionalParams) => PollerLike<OperationState<GoldenGateDeployment>, GoldenGateDeployment>;
+}
+
+// @public
+export interface GoldenGateDeploymentsUnassignConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateDeploymentsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GoldenGateDeploymentUpdate {
+    properties?: GoldenGateDeploymentUpdateProperties;
+    tags?: Record<string, string>;
+    zones?: string[];
+}
+
+// @public
+export interface GoldenGateDeploymentUpdateProperties {
+    backupSchedule?: BackupScheduleType;
+    cpuCoreCount?: number;
+    licenseModel?: LicenseModel;
+    maintenanceConfiguration?: MaintenanceConfigurationType;
+    maintenanceWindow?: MaintenanceWindowType;
+}
+
+// @public
 export type GridImageType = string;
+
+// @public
+export interface GroupToRolesMappingDetails {
+    administratorGroupId?: string;
+    identityDomainId?: string;
+    key?: string;
+    operatorGroupId?: string;
+    securityGroupId?: string;
+    userGroupId?: string;
+}
 
 // @public
 export type HardwareType = string;
@@ -1669,6 +2070,36 @@ export type Intent = string;
 export type IormLifecycleState = string;
 
 export { isRestError }
+
+// @public
+export interface KafkaBootstrapServer {
+    host: string;
+    port?: number;
+}
+
+// @public
+export interface KafkaConnectionDetails extends ConnectionBaseProperties {
+    bootstrapServers?: KafkaBootstrapServer[];
+    clusterId?: string;
+    // (undocumented)
+    connectionType: "KAFKA";
+    consumerProperties?: string;
+    keyStorePasswordSecretId?: string;
+    keyStoreSecretId?: string;
+    passwordSecretId?: string;
+    producerProperties?: string;
+    securityProtocol?: string;
+    shouldUseResourcePrincipal?: boolean;
+    sslKeyPasswordSecretId?: string;
+    streamPoolId?: string;
+    technologyType: KafkaConnectionTechnologyType;
+    trustStorePasswordSecretId?: string;
+    trustStoreSecretId?: string;
+    username?: string;
+}
+
+// @public
+export type KafkaConnectionTechnologyType = string;
 
 // @public
 export enum KnownActionType {
@@ -1745,8 +2176,22 @@ export enum KnownAzureResourceProvisioningState {
 }
 
 // @public
+export enum KnownBackupDestinationType {
+    Azure = "AZURE",
+    Oci = "OCI"
+}
+
+// @public
 export enum KnownBaseDbSystemShapes {
+    VMBaseDBX86 = "VM.BaseDB.x86",
     VMStandardX86 = "VM.Standard.x86"
+}
+
+// @public
+export enum KnownCategoryType {
+    DataReplication = "DataReplication",
+    DataTransforms = "DataTransforms",
+    StreamAnalytics = "StreamAnalytics"
 }
 
 // @public
@@ -1791,6 +2236,48 @@ export enum KnownComputeModel {
 }
 
 // @public
+export enum KnownConnectionLifecycleState {
+    Active = "ACTIVE",
+    Creating = "CREATING",
+    Deleted = "DELETED",
+    Deleting = "DELETING",
+    Failed = "FAILED",
+    Updating = "UPDATING"
+}
+
+// @public
+export enum KnownConnectionType {
+    AmazonKinesis = "AMAZON_KINESIS",
+    AmazonRedshift = "AMAZON_REDSHIFT",
+    AmazonS3 = "AMAZON_S3",
+    AzureDataLakeStorage = "AZURE_DATA_LAKE_STORAGE",
+    AzureSynapseAnalytics = "AZURE_SYNAPSE_ANALYTICS",
+    Databricks = "DATABRICKS",
+    Db2Connection = "DB2",
+    Elasticsearch = "ELASTICSEARCH",
+    Generic = "GENERIC",
+    GoldenGate = "GOLDENGATE",
+    GoogleBigQuery = "GOOGLE_BIGQUERY",
+    GoogleCloudStorage = "GOOGLE_CLOUD_STORAGE",
+    GooglePubSub = "GOOGLE_PUBSUB",
+    Hdfs = "HDFS",
+    Iceberg = "ICEBERG",
+    JavaMessageService = "JAVA_MESSAGE_SERVICE",
+    Kafka = "KAFKA",
+    KafkaSchemaRegistry = "KAFKA_SCHEMA_REGISTRY",
+    MicrosoftFabric = "MICROSOFT_FABRIC",
+    MicrosoftSqlServer = "MICROSOFT_SQLSERVER",
+    MongoDbConnection = "MONGODB",
+    MySQL = "MYSQL",
+    OciObjectStorage = "OCI_OBJECT_STORAGE",
+    Oracle = "ORACLE",
+    OracleNoSQL = "ORACLE_NOSQL",
+    PostgreSql = "POSTGRESQL",
+    Redis = "REDIS",
+    Snowflake = "SNOWFLAKE"
+}
+
+// @public
 export enum KnownConsumerGroup {
     High = "High",
     Low = "Low",
@@ -1805,6 +2292,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownCredentialType {
+    GoldenGate = "GoldenGate",
+    Iam = "IAM"
 }
 
 // @public
@@ -1914,6 +2407,37 @@ export enum KnownDbSystemSourceType {
 }
 
 // @public
+export enum KnownDeploymentLifecycleState {
+    Active = "Active",
+    Canceled = "Canceled",
+    Canceling = "Canceling",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InActive = "InActive",
+    InProgress = "In Progress",
+    NeedsAttention = "Needs Attention",
+    Succeeded = "Succeeded",
+    Updating = "Updating",
+    Waiting = "Waiting"
+}
+
+// @public
+export enum KnownDeploymentType {
+    BigData = "BigData",
+    DatabaseDB2I = "DATABASE_DB2I",
+    DatabaseDB2ZOS = "DatabaseDB2ZOS",
+    DatabaseMicrosoftSqlServer = "DatabaseMicrosoftSQLServer",
+    DatabaseMySql = "DatabaseMySQL",
+    DatabaseOracle = "DatabaseOracle",
+    DatabasePostGreSql = "DatabasePostGreSQL",
+    DataTransforms = "DataTransforms",
+    Ggsa = "GGSA",
+    Ogg = "Ogg"
+}
+
+// @public
 export enum KnownDisasterRecoveryType {
     Adg = "Adg",
     BackupBased = "BackupBased"
@@ -1976,9 +2500,32 @@ export enum KnownExascaleDbStorageVaultLifecycleState {
 }
 
 // @public
+export enum KnownFrequencyType {
+    Daily = "Daily",
+    Monthly = "Monthly",
+    Weekly = "Weekly"
+}
+
+// @public
 export enum KnownGenerateType {
     All = "All",
     Single = "Single"
+}
+
+// @public
+export enum KnownGiMinorVersionSortOrder {
+    Asc = "ASC",
+    Desc = "DESC"
+}
+
+// @public
+export enum KnownGoldenGateConnectionAssignmentLifecycleState {
+    Active = "ACTIVE",
+    Creating = "CREATING",
+    Deleted = "DELETED",
+    Deleting = "DELETING",
+    Failed = "FAILED",
+    Updating = "UPDATING"
 }
 
 // @public
@@ -2015,9 +2562,23 @@ export enum KnownIormLifecycleState {
 }
 
 // @public
+export enum KnownKafkaConnectionTechnologyType {
+    ApacheKafka = "APACHE_KAFKA",
+    AzureEventHubs = "AZURE_EVENT_HUBS",
+    ConfluentKafka = "CONFLUENT_KAFKA",
+    OciStreaming = "OCI_STREAMING"
+}
+
+// @public
 export enum KnownLicenseModel {
     BringYourOwnLicense = "BringYourOwnLicense",
     LicenseIncluded = "LicenseIncluded"
+}
+
+// @public
+export enum KnownMicrosoftFabricConnectionTechnologyType {
+    MicrosoftFabricLakehouse = "MICROSOFT_FABRIC_LAKEHOUSE",
+    MicrosoftFabricMirror = "MICROSOFT_FABRIC_MIRROR"
 }
 
 // @public
@@ -2062,6 +2623,20 @@ export enum KnownOperationsInsightsStatusType {
 }
 
 // @public
+export enum KnownOracleConnectionTechnologyType {
+    AmazonRdsOracle = "AMAZON_RDS_ORACLE",
+    OciAutonomousDatabase = "OCI_AUTONOMOUS_DATABASE",
+    OracleAutonomousDatabaseAtAws = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS",
+    OracleAutonomousDatabaseAtAzure = "ORACLE_AUTONOMOUS_DATABASE_AT_AZURE",
+    OracleAutonomousDatabaseAtGoogleCloud = "ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD",
+    OracleDatabase = "ORACLE_DATABASE",
+    OracleExadata = "ORACLE_EXADATA",
+    OracleExadataDatabaseAtAws = "ORACLE_EXADATA_DATABASE_AT_AWS",
+    OracleExadataDatabaseAtAzure = "ORACLE_EXADATA_DATABASE_AT_AZURE",
+    OracleExadataDatabaseAtGoogleCloud = "ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD"
+}
+
+// @public
 export enum KnownOracleSubscriptionProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -2097,6 +2672,12 @@ export enum KnownPreference {
 export enum KnownProtocolType {
     TCP = "TCP",
     Tcps = "TCPS"
+}
+
+// @public
+export enum KnownProximityPlacementGroupEntityType {
+    CloudExadataInfrastructure = "CloudExadataInfrastructure",
+    OtherProducts = "OtherProducts"
 }
 
 // @public
@@ -2136,9 +2717,28 @@ export enum KnownRoleType {
 }
 
 // @public
+export enum KnownRoutingMethod {
+    DedicatedEndpoint = "DEDICATED_ENDPOINT",
+    SharedDeploymentEndpoint = "SHARED_DEPLOYMENT_ENDPOINT",
+    SharedServiceEndpoint = "SHARED_SERVICE_ENDPOINT"
+}
+
+// @public
+export enum KnownSessionMode {
+    Direct = "DIRECT",
+    Redirect = "REDIRECT"
+}
+
+// @public
 export enum KnownSessionModeType {
     Direct = "Direct",
     Redirect = "Redirect"
+}
+
+// @public
+export enum KnownSetupType {
+    DevelopmentOrTesting = "DevelopmentOrTesting",
+    Production = "Production"
 }
 
 // @public
@@ -2193,6 +2793,7 @@ export enum KnownSyntaxFormatType {
 // @public
 export enum KnownSystemShapes {
     ExadataX11M = "Exadata.X11M",
+    ExadataX11MV = "Exadata.X11MV",
     ExadataX9M = "Exadata.X9M",
     ExaDbXs = "ExaDbXS"
 }
@@ -2207,19 +2808,9 @@ export enum KnownTlsAuthenticationType {
 export enum KnownVersions {
     V20230901 = "2023-09-01",
     V20240601 = "2024-06-01",
-    V20240601Preview = "2024-06-01-preview",
-    V20240801Preview = "2024-08-01-preview",
-    V20241001Preview = "2024-10-01-preview",
-    V20241201Preview = "2024-12-01-preview",
-    V20250101Preview = "2025-01-01-preview",
     V20250301 = "2025-03-01",
-    V20250401Preview = "2025-04-01-preview",
-    V20250601Preview = "2025-06-01-preview",
-    V20250701Preview = "2025-07-01-preview",
-    V20250801Preview = "2025-08-01-preview",
-    V20250815Preview = "2025-08-15-preview",
     V20250901 = "2025-09-01",
-    V20251101Preview = "2025-11-01-preview"
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -2236,6 +2827,7 @@ export enum KnownWorkloadType {
     AJD = "AJD",
     Apex = "APEX",
     DW = "DW",
+    LH = "LH",
     Oltp = "OLTP"
 }
 
@@ -2257,6 +2849,15 @@ export interface LongTermBackUpScheduleDetails {
 }
 
 // @public
+export interface MaintenanceConfigurationType {
+    bundleReleaseUpgradePeriodInDays?: number;
+    interimReleaseUpgradePeriodInDays?: number;
+    isInterimReleaseAutoUpgradeEnabled?: boolean;
+    majorReleaseUpgradePeriodInDays?: number;
+    securityPatchUpgradePeriodInDays?: number;
+}
+
+// @public
 export interface MaintenanceWindow {
     customActionTimeoutInMins?: number;
     daysOfWeek?: DayOfWeek[];
@@ -2269,6 +2870,26 @@ export interface MaintenanceWindow {
     preference?: Preference;
     weeksOfMonth?: number[];
 }
+
+// @public
+export interface MaintenanceWindowType {
+    day?: DayOfWeekName;
+    startHour?: number;
+}
+
+// @public
+export interface MicrosoftFabricConnectionDetails extends ConnectionBaseProperties {
+    clientId: string;
+    clientSecretSecretId?: string;
+    // (undocumented)
+    connectionType: "MICROSOFT_FABRIC";
+    endpoint?: string;
+    technologyType: MicrosoftFabricConnectionTechnologyType;
+    tenantId: string;
+}
+
+// @public
+export type MicrosoftFabricConnectionTechnologyType = string;
 
 // @public
 export interface Month {
@@ -2302,6 +2923,7 @@ export interface NetworkAnchorProperties {
     ociVcnDnsLabel?: string;
     readonly ociVcnId?: string;
     readonly provisioningState?: AzureResourceProvisioningState;
+    proximityPlacementGroup?: ProximityPlacementGroup;
     resourceAnchorId: string;
     subnetId: string;
     readonly vnetId?: string;
@@ -2369,6 +2991,18 @@ export interface NsgCidr {
 export type Objective = string;
 
 // @public
+export interface OggDeploymentDetails {
+    adminPassword?: string;
+    adminUsername?: string;
+    certificate?: string;
+    credentialStore?: CredentialType;
+    deploymentName: string;
+    groupToRolesMapping?: GroupToRolesMappingDetails;
+    oggVersion?: string;
+    passwordSecretId?: string;
+}
+
+// @public
 export type OpenModeType = string;
 
 // @public
@@ -2400,6 +3034,24 @@ export interface OperationsOperations {
     list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
+// @public
+export interface OracleConnectionDetails extends ConnectionBaseProperties {
+    authenticationMode?: string;
+    connectionString?: string;
+    // (undocumented)
+    connectionType: "ORACLE";
+    databaseId?: string;
+    passwordSecretId?: string;
+    privateIp?: string;
+    sessionMode?: SessionMode;
+    technologyType: OracleConnectionTechnologyType;
+    username: string;
+    walletSecretId?: string;
+}
+
+// @public
+export type OracleConnectionTechnologyType = string;
+
 // @public (undocumented)
 export class OracleDatabaseManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: OracleDatabaseManagementClientOptionalParams);
@@ -2410,6 +3062,8 @@ export class OracleDatabaseManagementClient {
     readonly autonomousDatabaseVersions: AutonomousDatabaseVersionsOperations;
     readonly cloudExadataInfrastructures: CloudExadataInfrastructuresOperations;
     readonly cloudVmClusters: CloudVmClustersOperations;
+    readonly databaseEditions: DatabaseEditionsOperations;
+    readonly databaseSystemShapeResources: DatabaseSystemShapeResourcesOperations;
     readonly dbNodes: DbNodesOperations;
     readonly dbServers: DbServersOperations;
     readonly dbSystems: DbSystemsOperations;
@@ -2423,6 +3077,8 @@ export class OracleDatabaseManagementClient {
     readonly flexComponents: FlexComponentsOperations;
     readonly giMinorVersions: GiMinorVersionsOperations;
     readonly giVersions: GiVersionsOperations;
+    readonly goldenGateConnections: GoldenGateConnectionsOperations;
+    readonly goldenGateDeployments: GoldenGateDeploymentsOperations;
     readonly networkAnchors: NetworkAnchorsOperations;
     readonly operations: OperationsOperations;
     readonly oracleSubscriptions: OracleSubscriptionsOperations;
@@ -2616,6 +3272,16 @@ export interface ProfileType {
 export type ProtocolType = string;
 
 // @public
+export interface ProximityPlacementGroup {
+    entityTypeIntendedToUse: ProximityPlacementGroupEntityType;
+    proximityAnchorId?: string;
+    proximityPlacementGroupId: string;
+}
+
+// @public
+export type ProximityPlacementGroupEntityType = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -2718,6 +3384,9 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 export type RoleType = string;
 
 // @public
+export type RoutingMethod = string;
+
+// @public
 export interface SaasSubscriptionDetails {
     readonly id?: string;
     readonly isAutoRenew?: boolean;
@@ -2748,7 +3417,13 @@ export interface ScheduledOperationsTypeUpdate {
 }
 
 // @public
+export type SessionMode = string;
+
+// @public
 export type SessionModeType = string;
+
+// @public
+export type SetupType = string;
 
 // @public
 export type ShapeAttribute = string;

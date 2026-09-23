@@ -62,7 +62,7 @@ export function _actionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +106,7 @@ export function action(
     getInitialResponse: () =>
       _actionSend(context, resourceGroupName, autonomousdatabasename, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
 
@@ -125,7 +125,7 @@ export function _changeDisasterRecoveryConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,7 +181,7 @@ export function changeDisasterRecoveryConfiguration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
@@ -198,7 +198,7 @@ export function _shrinkSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,7 +239,7 @@ export function shrink(
     getInitialResponse: () =>
       _shrinkSend(context, resourceGroupName, autonomousdatabasename, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
 
@@ -256,7 +256,7 @@ export function _restoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,7 +300,7 @@ export function restore(
     getInitialResponse: () =>
       _restoreSend(context, resourceGroupName, autonomousdatabasename, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
 
@@ -317,7 +317,7 @@ export function _generateWalletSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -378,7 +378,7 @@ export function _failoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -422,7 +422,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, resourceGroupName, autonomousdatabasename, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
 
@@ -439,7 +439,7 @@ export function _switchoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -483,7 +483,7 @@ export function switchover(
     getInitialResponse: () =>
       _switchoverSend(context, resourceGroupName, autonomousdatabasename, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
 
@@ -497,7 +497,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -536,11 +536,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -557,7 +553,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -601,7 +597,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, autonomousdatabasename, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
 
@@ -617,7 +613,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -653,7 +649,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, autonomousdatabasename, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -669,7 +665,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -719,7 +715,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -763,7 +759,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, autonomousdatabasename, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
 
@@ -775,7 +771,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/autonomousDatabases{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -813,10 +809,6 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

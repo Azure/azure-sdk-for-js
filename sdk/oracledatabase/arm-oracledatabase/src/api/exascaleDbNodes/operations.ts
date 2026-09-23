@@ -43,7 +43,7 @@ export function _actionSend(
       resourceGroupName: resourceGroupName,
       exadbVmClusterName: exadbVmClusterName,
       exascaleDbNodeName: exascaleDbNodeName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -93,7 +93,7 @@ export function action(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<DbActionResponse>, DbActionResponse>;
 }
 
@@ -109,7 +109,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       exadbVmClusterName: exadbVmClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,11 +149,7 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, exadbVmClusterName, options),
     _listByParentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -171,7 +167,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       exadbVmClusterName: exadbVmClusterName,
       exascaleDbNodeName: exascaleDbNodeName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

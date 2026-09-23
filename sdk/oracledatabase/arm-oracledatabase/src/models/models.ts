@@ -256,6 +256,8 @@ export interface CloudExadataInfrastructureProperties {
   readonly definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
   /** Exadata infra ocid */
   readonly ocid?: string;
+  /** Azure Resource Anchor ID */
+  resourceAnchorId?: string;
   /** The number of compute servers for the cloud Exadata infrastructure. */
   computeCount?: number;
   /** The number of storage servers for the cloud Exadata infrastructure. */
@@ -280,6 +282,8 @@ export interface CloudExadataInfrastructureProperties {
   readonly lifecycleState?: CloudExadataInfrastructureLifecycleState;
   /** The model name of the cloud Exadata infrastructure resource. */
   shape: string;
+  /** Proximity placement group settings */
+  proximityPlacementGroup?: ProximityPlacementGroup;
   /** HTTPS link to OCI resources exposed to Azure Customer via Azure Interface. */
   readonly ociUrl?: string;
   /** The total number of CPU cores allocated. */
@@ -330,6 +334,7 @@ export function cloudExadataInfrastructurePropertiesSerializer(
   item: CloudExadataInfrastructureProperties,
 ): any {
   return {
+    resourceAnchorId: item["resourceAnchorId"],
     computeCount: item["computeCount"],
     storageCount: item["storageCount"],
     maintenanceWindow: !item["maintenanceWindow"]
@@ -339,6 +344,9 @@ export function cloudExadataInfrastructurePropertiesSerializer(
       ? item["customerContacts"]
       : customerContactArraySerializer(item["customerContacts"]),
     shape: item["shape"],
+    proximityPlacementGroup: !item["proximityPlacementGroup"]
+      ? item["proximityPlacementGroup"]
+      : proximityPlacementGroupSerializer(item["proximityPlacementGroup"]),
     displayName: item["displayName"],
     databaseServerType: item["databaseServerType"],
     storageServerType: item["storageServerType"],
@@ -353,6 +361,7 @@ export function cloudExadataInfrastructurePropertiesDeserializer(
       ? item["definedFileSystemConfiguration"]
       : definedFileSystemConfigurationArrayDeserializer(item["definedFileSystemConfiguration"]),
     ocid: item["ocid"],
+    resourceAnchorId: item["resourceAnchorId"],
     computeCount: item["computeCount"],
     storageCount: item["storageCount"],
     totalStorageSizeInGbs: item["totalStorageSizeInGbs"],
@@ -371,6 +380,9 @@ export function cloudExadataInfrastructurePropertiesDeserializer(
     provisioningState: item["provisioningState"],
     lifecycleState: item["lifecycleState"],
     shape: item["shape"],
+    proximityPlacementGroup: !item["proximityPlacementGroup"]
+      ? item["proximityPlacementGroup"]
+      : proximityPlacementGroupDeserializer(item["proximityPlacementGroup"]),
     ociUrl: item["ociUrl"],
     cpuCount: item["cpuCount"],
     maxCpuCount: item["maxCpuCount"],
@@ -781,6 +793,50 @@ export enum KnownCloudExadataInfrastructureLifecycleState {
  * **Failed**: Indicates that resource in Failed state
  */
 export type CloudExadataInfrastructureLifecycleState = string;
+
+/** Proximity placement group properties */
+export interface ProximityPlacementGroup {
+  /** Proximity placement group ID */
+  proximityPlacementGroupId: string;
+  /** Proximity Anchor ID */
+  proximityAnchorId?: string;
+  /** Entity type intended to use the proximity placement group */
+  entityTypeIntendedToUse: ProximityPlacementGroupEntityType;
+}
+
+export function proximityPlacementGroupSerializer(item: ProximityPlacementGroup): any {
+  return {
+    proximityPlacementGroupId: item["proximityPlacementGroupId"],
+    proximityAnchorId: item["proximityAnchorId"],
+    entityTypeIntendedToUse: item["entityTypeIntendedToUse"],
+  };
+}
+
+export function proximityPlacementGroupDeserializer(item: any): ProximityPlacementGroup {
+  return {
+    proximityPlacementGroupId: item["proximityPlacementGroupId"],
+    proximityAnchorId: item["proximityAnchorId"],
+    entityTypeIntendedToUse: item["entityTypeIntendedToUse"],
+  };
+}
+
+/** Entity types for proximity placement group usage */
+export enum KnownProximityPlacementGroupEntityType {
+  /** Cloud Exadata Infrastructure */
+  CloudExadataInfrastructure = "CloudExadataInfrastructure",
+  /** Other products */
+  OtherProducts = "OtherProducts",
+}
+
+/**
+ * Entity types for proximity placement group usage \
+ * {@link KnownProximityPlacementGroupEntityType} can be used interchangeably with ProximityPlacementGroupEntityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CloudExadataInfrastructure**: Cloud Exadata Infrastructure \
+ * **OtherProducts**: Other products
+ */
+export type ProximityPlacementGroupEntityType = string;
 
 /** Compute model enum */
 export enum KnownComputeModel {
@@ -1304,6 +1360,10 @@ export function cloudVmClusterDeserializer(item: any): CloudVmCluster {
 export interface CloudVmClusterProperties {
   /** Cloud VM Cluster ocid */
   readonly ocid?: string;
+  /** Azure Resource Anchor ID */
+  resourceAnchorId?: string;
+  /** Azure Network Anchor ID */
+  networkAnchorId?: string;
   /** The port number configured for the listener on the cloud VM cluster. */
   readonly listenerPort?: number;
   /** The number of nodes in the cloud VM cluster. */
@@ -1326,8 +1386,8 @@ export interface CloudVmClusterProperties {
   timeZone?: string;
   /** The OCID of the zone the cloud VM cluster is associated with. */
   zoneId?: string;
-  /** The hostname for the cloud VM cluster. Hostname and domain combined length cannot exceed 112 characters. */
-  hostname: string;
+  /** The hostname for the cloud VM cluster. */
+  hostnameV2: string;
   /** The domain name for the cloud VM cluster. */
   domain?: string;
   /** The number of CPU cores enabled on the cloud VM cluster. */
@@ -1338,10 +1398,16 @@ export interface CloudVmClusterProperties {
   clusterName?: string;
   /** The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 35, 40, 60 and 80. The default is 80 percent assigned to DATA storage. See [Storage Configuration](/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. */
   dataStoragePercentage?: number;
+  /** The percentage assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). See [Storage Configuration](/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. */
+  recoStoragePercentage?: number;
+  /** The percentage assigned to SPARSE storage (Exadata snapshots). See [Storage Configuration](/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. */
+  sparseStoragePercentage?: number;
   /** If true, database backup on local Exadata storage is configured for the cloud VM cluster. If false, database backup on local Exadata storage is not available in the cloud VM cluster. */
   isLocalBackupEnabled?: boolean;
   /** Cloud Exadata Infrastructure ID */
   cloudExadataInfrastructureId: string;
+  /** Proximity placement group settings */
+  proximityPlacementGroup?: ProximityPlacementGroup;
   /** If true, sparse disk group is configured for the cloud VM cluster. If false, sparse disk group is not created. */
   isSparseDiskgroupEnabled?: boolean;
   /** Operating system version of the image. */
@@ -1357,7 +1423,7 @@ export interface CloudVmClusterProperties {
   /** The virtual IP (VIP) addresses associated with the cloud VM cluster. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster. **Note:** For a single-node DB system, this list is empty. */
   readonly vipIds?: string[];
   /** The FQDN of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster. */
-  readonly scanDnsName?: string;
+  readonly scanDnsNameV2?: string;
   /** The TCP Single Client Access Name (SCAN) port. The default port is 1521. */
   scanListenerPortTcp?: number;
   /** The TCPS Single Client Access Name (SCAN) port. The default port is 2484. */
@@ -1406,10 +1472,14 @@ export interface CloudVmClusterProperties {
   exascaleDbStorageVaultId?: string;
   /** Specifies whether the type of storage management for the VM cluster is ASM or Exascale. */
   readonly storageManagementType?: ExadataVmClusterStorageManagementType;
+  /** Indicates if the Accelerated Networking feature is enabled or disabled for provisioning an Exadata VM cluster. The default value is: false. */
+  isAcceleratedNetworkEnabled?: boolean;
 }
 
 export function cloudVmClusterPropertiesSerializer(item: CloudVmClusterProperties): any {
   return {
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
     storageSizeInGbs: item["storageSizeInGbs"],
     fileSystemConfigurationDetails: !item["fileSystemConfigurationDetails"]
       ? item["fileSystemConfigurationDetails"]
@@ -1419,14 +1489,19 @@ export function cloudVmClusterPropertiesSerializer(item: CloudVmClusterPropertie
     memorySizeInGbs: item["memorySizeInGbs"],
     timeZone: item["timeZone"],
     zoneId: item["zoneId"],
-    hostname: item["hostname"],
+    hostname: item["hostnameV2"],
     domain: item["domain"],
     cpuCoreCount: item["cpuCoreCount"],
     ocpuCount: item["ocpuCount"],
     clusterName: item["clusterName"],
     dataStoragePercentage: item["dataStoragePercentage"],
+    recoStoragePercentage: item["recoStoragePercentage"],
+    sparseStoragePercentage: item["sparseStoragePercentage"],
     isLocalBackupEnabled: item["isLocalBackupEnabled"],
     cloudExadataInfrastructureId: item["cloudExadataInfrastructureId"],
+    proximityPlacementGroup: !item["proximityPlacementGroup"]
+      ? item["proximityPlacementGroup"]
+      : proximityPlacementGroupSerializer(item["proximityPlacementGroup"]),
     isSparseDiskgroupEnabled: item["isSparseDiskgroupEnabled"],
     systemVersion: item["systemVersion"],
     sshPublicKeys: item["sshPublicKeys"].map((p: any) => {
@@ -1455,12 +1530,15 @@ export function cloudVmClusterPropertiesSerializer(item: CloudVmClusterPropertie
           return p;
         }),
     exascaleDbStorageVaultId: item["exascaleDbStorageVaultId"],
+    isAcceleratedNetworkEnabled: item["isAcceleratedNetworkEnabled"],
   };
 }
 
 export function cloudVmClusterPropertiesDeserializer(item: any): CloudVmClusterProperties {
   return {
     ocid: item["ocid"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
     listenerPort: item["listenerPort"],
     nodeCount: item["nodeCount"],
     storageSizeInGbs: item["storageSizeInGbs"],
@@ -1474,14 +1552,19 @@ export function cloudVmClusterPropertiesDeserializer(item: any): CloudVmClusterP
     lifecycleDetails: item["lifecycleDetails"],
     timeZone: item["timeZone"],
     zoneId: item["zoneId"],
-    hostname: item["hostname"],
+    hostnameV2: item["hostname"],
     domain: item["domain"],
     cpuCoreCount: item["cpuCoreCount"],
     ocpuCount: item["ocpuCount"],
     clusterName: item["clusterName"],
     dataStoragePercentage: item["dataStoragePercentage"],
+    recoStoragePercentage: item["recoStoragePercentage"],
+    sparseStoragePercentage: item["sparseStoragePercentage"],
     isLocalBackupEnabled: item["isLocalBackupEnabled"],
     cloudExadataInfrastructureId: item["cloudExadataInfrastructureId"],
+    proximityPlacementGroup: !item["proximityPlacementGroup"]
+      ? item["proximityPlacementGroup"]
+      : proximityPlacementGroupDeserializer(item["proximityPlacementGroup"]),
     isSparseDiskgroupEnabled: item["isSparseDiskgroupEnabled"],
     systemVersion: item["systemVersion"],
     sshPublicKeys: item["sshPublicKeys"].map((p: any) => {
@@ -1499,7 +1582,7 @@ export function cloudVmClusterPropertiesDeserializer(item: any): CloudVmClusterP
       : item["vipIds"].map((p: any) => {
           return p;
         }),
-    scanDnsName: item["scanDnsName"],
+    scanDnsNameV2: item["scanDnsName"],
     scanListenerPortTcp: item["scanListenerPortTcp"],
     scanListenerPortTcpSsl: item["scanListenerPortTcpSsl"],
     scanDnsRecordId: item["scanDnsRecordId"],
@@ -1536,6 +1619,7 @@ export function cloudVmClusterPropertiesDeserializer(item: any): CloudVmClusterP
     computeModel: item["computeModel"],
     exascaleDbStorageVaultId: item["exascaleDbStorageVaultId"],
     storageManagementType: item["storageManagementType"],
+    isAcceleratedNetworkEnabled: item["isAcceleratedNetworkEnabled"],
   };
 }
 
@@ -1890,6 +1974,8 @@ export interface CloudVmClusterUpdateProperties {
   displayName?: string;
   /** The list of compute servers to be added to the cloud VM cluster. */
   computeNodes?: string[];
+  /** Indicates if the Accelerated Networking feature is enabled or disabled for provisioning an Exadata VM cluster. The default value is: false. */
+  isAcceleratedNetworkEnabled?: boolean;
 }
 
 export function cloudVmClusterUpdatePropertiesSerializer(
@@ -1920,6 +2006,7 @@ export function cloudVmClusterUpdatePropertiesSerializer(
       : item["computeNodes"].map((p: any) => {
           return p;
         }),
+    isAcceleratedNetworkEnabled: item["isAcceleratedNetworkEnabled"],
   };
 }
 
@@ -3510,6 +3597,18 @@ export interface AutonomousDatabaseBaseProperties {
   backupRetentionPeriodInDays?: number;
   /** The client IP access control list (ACL). This is an array of CIDR notations and/or IP addresses. Values should be separate strings, separated by commas. Example: ['1.1.1.1','1.1.1.0/24','1.1.2.25'] */
   whitelistedIps?: string[];
+  /** Update AZ at the earliest available opportunity */
+  isScheduleAzUpdateToEarliest?: boolean;
+  /** The date and time when the Autonomous Database availability zone is to be updated. */
+  timeScheduledAzUpdate?: string;
+  /** The logical zone where the Autonomous Database is provisioned. */
+  zone?: string;
+  /** Backup destination for auto and long-term backups. Existing backups stay in their original destination when this value changes. */
+  backupDestination?: BackupDestinationType;
+  /** Azure Resource Anchor ID */
+  resourceAnchorId?: string;
+  /** Azure Network Anchor ID */
+  networkAnchorId?: string;
 }
 
 export function autonomousDatabaseBasePropertiesSerializer(
@@ -3561,6 +3660,12 @@ export function autonomousDatabaseBasePropertiesSerializer(
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
   };
 }
 
@@ -3691,6 +3796,12 @@ export function autonomousDatabaseBasePropertiesDeserializer(
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
   };
 }
 
@@ -3806,6 +3917,8 @@ export enum KnownWorkloadType {
   AJD = "AJD",
   /** APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type. */
   Apex = "APEX",
+  /** LH - indicates an Oracle Autonomous AI Lakehouse database */
+  LH = "LH",
 }
 
 /**
@@ -3816,7 +3929,8 @@ export enum KnownWorkloadType {
  * **OLTP**: OLTP - indicates an Autonomous Transaction Processing database \
  * **DW**: DW - indicates an Autonomous Data Warehouse database \
  * **AJD**: AJD - indicates an Autonomous JSON Database \
- * **APEX**: APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+ * **APEX**: APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type. \
+ * **LH**: LH - indicates an Oracle Autonomous AI Lakehouse database
  */
 export type WorkloadType = string;
 
@@ -4467,6 +4581,24 @@ export enum KnownRoleType {
  */
 export type RoleType = string;
 
+/** Backup destination type enum. */
+export enum KnownBackupDestinationType {
+  /** Store backups in OCI object storage. */
+  Oci = "OCI",
+  /** Store backups in Azure Blob Storage. */
+  Azure = "AZURE",
+}
+
+/**
+ * Backup destination type enum. \
+ * {@link KnownBackupDestinationType} can be used interchangeably with BackupDestinationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OCI**: Store backups in OCI object storage. \
+ * **AZURE**: Store backups in Azure Blob Storage.
+ */
+export type BackupDestinationType = string;
+
 /** Autonomous Database resource model. */
 export interface AutonomousDatabaseProperties extends AutonomousDatabaseBaseProperties {
   /** Database type to be created. */
@@ -4520,6 +4652,12 @@ export function autonomousDatabasePropertiesSerializer(item: AutonomousDatabaseP
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
   };
 }
 
@@ -4648,6 +4786,12 @@ export function autonomousDatabasePropertiesDeserializer(item: any): AutonomousD
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
   };
 }
 
@@ -4722,6 +4866,12 @@ export function autonomousDatabaseClonePropertiesSerializer(
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
     source: item["source"],
     sourceId: item["sourceId"],
     cloneType: item["cloneType"],
@@ -4857,6 +5007,12 @@ export function autonomousDatabaseClonePropertiesDeserializer(
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
     source: item["source"],
     sourceId: item["sourceId"],
     cloneType: item["cloneType"],
@@ -5022,6 +5178,12 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesSerialize
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
     source: item["source"],
     sourceId: item["sourceId"],
     sourceLocation: item["sourceLocation"],
@@ -5158,6 +5320,12 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
     source: item["source"],
     sourceId: item["sourceId"],
     sourceLocation: item["sourceLocation"],
@@ -5232,6 +5400,12 @@ export function autonomousDatabaseFromBackupTimestampPropertiesSerializer(
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
     source: item["source"],
     sourceId: item["sourceId"],
     cloneType: item["cloneType"],
@@ -5367,6 +5541,12 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
       : item["whitelistedIps"].map((p: any) => {
           return p;
         }),
+    isScheduleAzUpdateToEarliest: item["isScheduleAzUpdateToEarliest"],
+    timeScheduledAzUpdate: item["timeScheduledAzUpdate"],
+    zone: item["zone"],
+    backupDestination: item["backupDestination"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
     source: item["source"],
     sourceId: item["sourceId"],
     cloneType: item["cloneType"],
@@ -5695,6 +5875,8 @@ export interface AutonomousDatabaseBackupProperties {
   readonly backupType?: AutonomousDatabaseBackupType;
   /** Azure resource provisioning state. */
   readonly provisioningState?: AzureResourceProvisioningState;
+  /** The destination where this backup is stored. */
+  readonly backupDestination?: BackupDestinationType;
 }
 
 export function autonomousDatabaseBackupPropertiesSerializer(
@@ -5725,6 +5907,7 @@ export function autonomousDatabaseBackupPropertiesDeserializer(
     timeEnded: item["timeEnded"],
     backupType: item["backupType"],
     provisioningState: item["provisioningState"],
+    backupDestination: item["backupDestination"],
   };
 }
 
@@ -6139,7 +6322,7 @@ export interface ExadbVmClusterProperties {
   /** Oracle Grid Infrastructure (GI) software version */
   readonly giVersion?: string;
   /** The hostname for the  Exadata VM cluster on Exascale Infrastructure. */
-  hostname: string;
+  hostnameV2: string;
   /** The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is LICENSE_INCLUDED. */
   licenseModel?: LicenseModel;
   /** The memory that you want to be allocated in GBs. Memory is calculated based on 11 GB per VM core reserved. */
@@ -6173,7 +6356,7 @@ export interface ExadbVmClusterProperties {
   /** Additional information about the current lifecycle state. */
   readonly lifecycleDetails?: string;
   /** The FQDN of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure. */
-  readonly scanDnsName?: string;
+  readonly scanDnsNameV2?: string;
   /** The Single Client Access Name (SCAN) IP addresses associated with the Exadata VM cluster on Exascale Infrastructure. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster. **Note:** For a single-node DB system, this list is empty. */
   readonly scanIpIds?: string[];
   /** The OCID of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure. */
@@ -6210,7 +6393,7 @@ export function exadbVmClusterPropertiesSerializer(item: ExadbVmClusterPropertie
     enabledEcpuCount: item["enabledEcpuCount"],
     exascaleDbStorageVaultId: item["exascaleDbStorageVaultId"],
     gridImageOcid: item["gridImageOcid"],
-    hostname: item["hostname"],
+    hostname: item["hostnameV2"],
     licenseModel: item["licenseModel"],
     nodeCount: item["nodeCount"],
     nsgCidrs: !item["nsgCidrs"] ? item["nsgCidrs"] : nsgCidrArraySerializer(item["nsgCidrs"]),
@@ -6249,7 +6432,7 @@ export function exadbVmClusterPropertiesDeserializer(item: any): ExadbVmClusterP
     gridImageOcid: item["gridImageOcid"],
     gridImageType: item["gridImageType"],
     giVersion: item["giVersion"],
-    hostname: item["hostname"],
+    hostnameV2: item["hostname"],
     licenseModel: item["licenseModel"],
     memorySizeInGbs: item["memorySizeInGbs"],
     nodeCount: item["nodeCount"],
@@ -6268,7 +6451,7 @@ export function exadbVmClusterPropertiesDeserializer(item: any): ExadbVmClusterP
     totalEcpuCount: item["totalEcpuCount"],
     vmFileSystemStorage: exadbVmClusterStorageDetailsDeserializer(item["vmFileSystemStorage"]),
     lifecycleDetails: item["lifecycleDetails"],
-    scanDnsName: item["scanDnsName"],
+    scanDnsNameV2: item["scanDnsName"],
     scanIpIds: !item["scanIpIds"]
       ? item["scanIpIds"]
       : item["scanIpIds"].map((p: any) => {
@@ -6626,6 +6809,10 @@ export interface ExascaleDbStorageVaultProperties {
   exadataInfrastructureId?: string;
   /** The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault. */
   readonly attachedShapeAttributes?: ShapeAttribute[];
+  /** Indicates if autoscale feature is enabled for the Storage Vault. The default value is: false. */
+  isAutoscaleEnabled?: boolean;
+  /** Maximum limit storage size in gigabytes, that is applicable for the Database Storage Vault. */
+  autoscaleLimitInGbs?: number;
 }
 
 export function exascaleDbStorageVaultPropertiesSerializer(
@@ -6640,6 +6827,8 @@ export function exascaleDbStorageVaultPropertiesSerializer(
     ),
     timeZone: item["timeZone"],
     exadataInfrastructureId: item["exadataInfrastructureId"],
+    isAutoscaleEnabled: item["isAutoscaleEnabled"],
+    autoscaleLimitInGbs: item["autoscaleLimitInGbs"],
   };
 }
 
@@ -6669,6 +6858,8 @@ export function exascaleDbStorageVaultPropertiesDeserializer(
       : item["attachedShapeAttributes"].map((p: any) => {
           return p;
         }),
+    isAutoscaleEnabled: item["isAutoscaleEnabled"],
+    autoscaleLimitInGbs: item["autoscaleLimitInGbs"],
   };
 }
 
@@ -6893,6 +7084,8 @@ export interface NetworkAnchorProperties {
   readonly dnsListeningEndpointNsgRulesUrl?: string;
   /** Deep link to OCI console DNS Forwarding endpoint NSG rules */
   readonly dnsForwardingEndpointNsgRulesUrl?: string;
+  /** Proximity placement group settings */
+  proximityPlacementGroup?: ProximityPlacementGroup;
 }
 
 export function networkAnchorPropertiesSerializer(item: NetworkAnchorProperties): any {
@@ -6908,6 +7101,9 @@ export function networkAnchorPropertiesSerializer(item: NetworkAnchorProperties)
       ? item["dnsForwardingRules"]
       : dnsForwardingRuleArraySerializer(item["dnsForwardingRules"]),
     dnsListeningEndpointAllowedCidrs: item["dnsListeningEndpointAllowedCidrs"],
+    proximityPlacementGroup: !item["proximityPlacementGroup"]
+      ? item["proximityPlacementGroup"]
+      : proximityPlacementGroupSerializer(item["proximityPlacementGroup"]),
   };
 }
 
@@ -6934,6 +7130,9 @@ export function networkAnchorPropertiesDeserializer(item: any): NetworkAnchorPro
     dnsForwardingRulesUrl: item["dnsForwardingRulesUrl"],
     dnsListeningEndpointNsgRulesUrl: item["dnsListeningEndpointNsgRulesUrl"],
     dnsForwardingEndpointNsgRulesUrl: item["dnsForwardingEndpointNsgRulesUrl"],
+    proximityPlacementGroup: !item["proximityPlacementGroup"]
+      ? item["proximityPlacementGroup"]
+      : proximityPlacementGroupDeserializer(item["proximityPlacementGroup"]),
   };
 }
 
@@ -7217,6 +7416,8 @@ export function dbSystemPropertiesSerializer(item: DbSystemProperties): any {
     dataCollectionOptions: !item["dataCollectionOptions"]
       ? item["dataCollectionOptions"]
       : dataCollectionOptionsSerializer(item["dataCollectionOptions"]),
+    characterSet: item["characterSet"],
+    ncharacterSet: item["ncharacterSet"],
     databaseEdition: item["databaseEdition"],
     adminPassword: item["adminPassword"],
     dbVersion: item["dbVersion"],
@@ -7267,6 +7468,8 @@ export function dbSystemPropertiesDeserializer(item: any): DbSystemProperties {
     dataCollectionOptions: !item["dataCollectionOptions"]
       ? item["dataCollectionOptions"]
       : dataCollectionOptionsDeserializer(item["dataCollectionOptions"]),
+    characterSet: item["characterSet"],
+    ncharacterSet: item["ncharacterSet"],
     databaseEdition: item["databaseEdition"],
     adminPassword: item["adminPassword"],
     dbVersion: item["dbVersion"],
@@ -7366,6 +7569,10 @@ export interface DbSystemBaseProperties {
   computeCount?: number;
   /** Indicates user preferences for the various diagnostic collection options for the Base DB. */
   dataCollectionOptions?: DataCollectionOptions;
+  /** The character set for the DB system. The default is AL32UTF8 */
+  characterSet?: string;
+  /** The national character set for the DB system. The default is AL16UTF16 */
+  ncharacterSet?: string;
 }
 
 export function dbSystemBasePropertiesSerializer(item: DbSystemBaseProperties): any {
@@ -7395,6 +7602,8 @@ export function dbSystemBasePropertiesSerializer(item: DbSystemBaseProperties): 
     dataCollectionOptions: !item["dataCollectionOptions"]
       ? item["dataCollectionOptions"]
       : dataCollectionOptionsSerializer(item["dataCollectionOptions"]),
+    characterSet: item["characterSet"],
+    ncharacterSet: item["ncharacterSet"],
   };
 }
 
@@ -7441,6 +7650,8 @@ export function dbSystemBasePropertiesDeserializer(item: any): DbSystemBasePrope
     dataCollectionOptions: !item["dataCollectionOptions"]
       ? item["dataCollectionOptions"]
       : dataCollectionOptionsDeserializer(item["dataCollectionOptions"]),
+    characterSet: item["characterSet"],
+    ncharacterSet: item["ncharacterSet"],
   };
 }
 
@@ -7690,12 +7901,1743 @@ export function dbVersionArrayDeserializer(result: Array<DbVersion>): any[] {
   });
 }
 
+/** DatabaseEdition resource definition */
+export interface DatabaseEdition extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DatabaseEditionProperties;
+}
+
+export function databaseEditionDeserializer(item: any): DatabaseEdition {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : databaseEditionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** DatabaseEdition resource model */
+export interface DatabaseEditionProperties {
+  /** The Oracle database edition. */
+  databaseEdition: DbSystemDatabaseEditionType;
+}
+
+export function databaseEditionPropertiesDeserializer(item: any): DatabaseEditionProperties {
+  return {
+    databaseEdition: item["databaseEdition"],
+  };
+}
+
+/** The response of a DatabaseEdition list operation. */
+export interface _DatabaseEditionListResult {
+  /** The DatabaseEdition items on this page */
+  value: DatabaseEdition[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _databaseEditionListResultDeserializer(item: any): _DatabaseEditionListResult {
+  return {
+    value: databaseEditionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function databaseEditionArrayDeserializer(result: Array<DatabaseEdition>): any[] {
+  return result.map((item) => {
+    return databaseEditionDeserializer(item);
+  });
+}
+
+/** DatabaseSystemShape resource definition */
+export interface DatabaseSystemShape extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DatabaseSystemShapeProperties;
+}
+
+export function databaseSystemShapeDeserializer(item: any): DatabaseSystemShape {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : databaseSystemShapePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** DatabaseSystemShape resource model */
+export interface DatabaseSystemShapeProperties {
+  /** The family of the shape used for the DB system. */
+  shapeFamily?: string;
+  /** The shape used for the DB system. */
+  shapeName: string;
+  /** The maximum number of CPU cores that can be enabled on the DB system for this shape. */
+  availableCoreCount: number;
+  /** The minimum number of CPU cores that can be enabled on the DB system for this shape. */
+  minimumCoreCount?: number;
+  /** The runtime minimum number of CPU cores that can be enabled on the DB system for this shape. */
+  runtimeMinimumCoreCount?: number;
+  /** The discrete number by which the CPU core count for this shape can be increased or decreased. */
+  coreCountIncrement?: number;
+  /** The minimum number of Exadata storage servers available for the Exadata infrastructure. */
+  minStorageCount?: number;
+  /** The maximum number of Exadata storage servers available for the Exadata infrastructure. */
+  maxStorageCount?: number;
+  /** The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableDataStoragePerServerInTbs?: number;
+  /** The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableMemoryPerNodeInGbs?: number;
+  /** The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableDbNodePerNodeInGbs?: number;
+  /** The minimum number of CPU cores that can be enabled per node for this shape. */
+  minCoreCountPerNode?: number;
+  /** The maximum memory that can be enabled for this shape. */
+  availableMemoryInGbs?: number;
+  /** The minimum memory that need be allocated per node for this shape. */
+  minMemoryPerNodeInGbs?: number;
+  /** The maximum Db Node storage that can be enabled for this shape. */
+  availableDbNodeStorageInGbs?: number;
+  /** The minimum Db Node storage that need be allocated per node for this shape. */
+  minDbNodeStoragePerNodeInGbs?: number;
+  /** The maximum DATA storage that can be enabled for this shape. */
+  availableDataStorageInTbs?: number;
+  /** The minimum data storage that need be allocated for this shape. */
+  minDataStorageInTbs?: number;
+  /** The minimum number of database nodes available for this shape. */
+  minimumNodeCount?: number;
+  /** The maximum number of database nodes available for this shape. */
+  maximumNodeCount?: number;
+  /** The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes. */
+  availableCoreCountPerNode?: number;
+  /** The compute model of the DB system for this shape */
+  computeModel?: ComputeModel;
+  /** Indicates if the shape supports database and storage server types */
+  areServerTypesSupported?: boolean;
+  /** The display name of the shape used for the DB system */
+  displayName?: string;
+  /** The shapeAttributes of the DB system shape.. */
+  shapeAttributes?: string[];
+}
+
+export function databaseSystemShapePropertiesDeserializer(
+  item: any,
+): DatabaseSystemShapeProperties {
+  return {
+    shapeFamily: item["shapeFamily"],
+    shapeName: item["shapeName"],
+    availableCoreCount: item["availableCoreCount"],
+    minimumCoreCount: item["minimumCoreCount"],
+    runtimeMinimumCoreCount: item["runtimeMinimumCoreCount"],
+    coreCountIncrement: item["coreCountIncrement"],
+    minStorageCount: item["minStorageCount"],
+    maxStorageCount: item["maxStorageCount"],
+    availableDataStoragePerServerInTbs: item["availableDataStoragePerServerInTbs"],
+    availableMemoryPerNodeInGbs: item["availableMemoryPerNodeInGbs"],
+    availableDbNodePerNodeInGbs: item["availableDbNodePerNodeInGbs"],
+    minCoreCountPerNode: item["minCoreCountPerNode"],
+    availableMemoryInGbs: item["availableMemoryInGbs"],
+    minMemoryPerNodeInGbs: item["minMemoryPerNodeInGbs"],
+    availableDbNodeStorageInGbs: item["availableDbNodeStorageInGbs"],
+    minDbNodeStoragePerNodeInGbs: item["minDbNodeStoragePerNodeInGbs"],
+    availableDataStorageInTbs: item["availableDataStorageInTbs"],
+    minDataStorageInTbs: item["minDataStorageInTbs"],
+    minimumNodeCount: item["minimumNodeCount"],
+    maximumNodeCount: item["maximumNodeCount"],
+    availableCoreCountPerNode: item["availableCoreCountPerNode"],
+    computeModel: item["computeModel"],
+    areServerTypesSupported: item["areServerTypesSupported"],
+    displayName: item["displayName"],
+    shapeAttributes: !item["shapeAttributes"]
+      ? item["shapeAttributes"]
+      : item["shapeAttributes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The response of a DatabaseSystemShape list operation. */
+export interface _DatabaseSystemShapeListResult {
+  /** The DatabaseSystemShape items on this page */
+  value: DatabaseSystemShape[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _databaseSystemShapeListResultDeserializer(
+  item: any,
+): _DatabaseSystemShapeListResult {
+  return {
+    value: databaseSystemShapeArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function databaseSystemShapeArrayDeserializer(result: Array<DatabaseSystemShape>): any[] {
+  return result.map((item) => {
+    return databaseSystemShapeDeserializer(item);
+  });
+}
+
+/** The response of a GoldenGateConnection list operation. */
+export interface _GoldenGateConnectionListResult {
+  /** The GoldenGateConnection items on this page */
+  value: GoldenGateConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _goldenGateConnectionListResultDeserializer(
+  item: any,
+): _GoldenGateConnectionListResult {
+  return {
+    value: goldenGateConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function goldenGateConnectionArraySerializer(result: Array<GoldenGateConnection>): any[] {
+  return result.map((item) => {
+    return goldenGateConnectionSerializer(item);
+  });
+}
+
+export function goldenGateConnectionArrayDeserializer(result: Array<GoldenGateConnection>): any[] {
+  return result.map((item) => {
+    return goldenGateConnectionDeserializer(item);
+  });
+}
+
+/** GoldenGate Connection resource model. */
+export interface GoldenGateConnection extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ConnectionBasePropertiesUnion;
+  /** The availability zones. */
+  zones?: string[];
+}
+
+export function goldenGateConnectionSerializer(item: GoldenGateConnection): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : connectionBasePropertiesUnionSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function goldenGateConnectionDeserializer(item: any): GoldenGateConnection {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : connectionBasePropertiesUnionDeserializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** GoldenGate Connection base resource model. */
+export interface ConnectionBaseProperties {
+  /** The connection type to be created. */
+  /** The discriminator possible values: KAFKA, MICROSOFT_FABRIC, ORACLE */
+  connectionType: ConnectionType;
+  /** The connection display name. */
+  displayName: string;
+  /** The corresponding resource anchor Azure ID. */
+  resourceAnchorId: string;
+  /** The corresponding network anchor Azure ID. */
+  networkAnchorId: string;
+  /** The OCID of the compartment being referenced. */
+  readonly compartmentId?: string;
+  /** The OCID of the connection being referenced. */
+  readonly ocid?: string;
+  /** Controls the network traffic direction to the target. */
+  routingMethod?: RoutingMethod;
+  /** The customer's vault OCID. */
+  vaultId?: string;
+  /** The customer's master key OCID. */
+  keyId?: string;
+  /** Indicates whether secret OCIDs are used for credential fields. */
+  doesUseSecretIds?: boolean;
+  /** Connection provisioning state. */
+  readonly provisioningState?: AzureResourceProvisioningState;
+  /** The connection lifecycle state. */
+  readonly lifecycleState?: ConnectionLifecycleState;
+  /** The description of lifecycle state in detail. */
+  readonly lifecycleDetails?: string;
+  /** The date time the resource was created in OCI. */
+  readonly timeCreated?: string;
+  /** The date time the resource was last updated in OCI. */
+  readonly timeUpdated?: string;
+}
+
+export function connectionBasePropertiesSerializer(item: ConnectionBaseProperties): any {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+  };
+}
+
+export function connectionBasePropertiesDeserializer(item: any): ConnectionBaseProperties {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    compartmentId: item["compartmentId"],
+    ocid: item["ocid"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+    provisioningState: item["provisioningState"],
+    lifecycleState: item["lifecycleState"],
+    lifecycleDetails: item["lifecycleDetails"],
+    timeCreated: item["timeCreated"],
+    timeUpdated: item["timeUpdated"],
+  };
+}
+
+/** Alias for ConnectionBasePropertiesUnion */
+export type ConnectionBasePropertiesUnion =
+  | KafkaConnectionDetails
+  | MicrosoftFabricConnectionDetails
+  | OracleConnectionDetails
+  | ConnectionBaseProperties;
+
+export function connectionBasePropertiesUnionSerializer(item: ConnectionBasePropertiesUnion): any {
+  switch (item.connectionType) {
+    case "KAFKA":
+      return kafkaConnectionDetailsSerializer(item as KafkaConnectionDetails);
+
+    case "MICROSOFT_FABRIC":
+      return microsoftFabricConnectionDetailsSerializer(item as MicrosoftFabricConnectionDetails);
+
+    case "ORACLE":
+      return oracleConnectionDetailsSerializer(item as OracleConnectionDetails);
+
+    default:
+      return connectionBasePropertiesSerializer(item);
+  }
+}
+
+export function connectionBasePropertiesUnionDeserializer(
+  item: any,
+): ConnectionBasePropertiesUnion {
+  switch (item["connectionType"]) {
+    case "KAFKA":
+      return kafkaConnectionDetailsDeserializer(item as KafkaConnectionDetails);
+
+    case "MICROSOFT_FABRIC":
+      return microsoftFabricConnectionDetailsDeserializer(item as MicrosoftFabricConnectionDetails);
+
+    case "ORACLE":
+      return oracleConnectionDetailsDeserializer(item as OracleConnectionDetails);
+
+    default:
+      return connectionBasePropertiesDeserializer(item);
+  }
+}
+
+/** Known values for connection type. */
+export enum KnownConnectionType {
+  /** A GoldenGate Connection */
+  GoldenGate = "GOLDENGATE",
+  /** A Kafka Connection */
+  Kafka = "KAFKA",
+  /** A Kafka (e.g. Confluent) Schema Registry Connection */
+  KafkaSchemaRegistry = "KAFKA_SCHEMA_REGISTRY",
+  /** A MySQL Connection */
+  MySQL = "MYSQL",
+  /** A Java Message Service Connection */
+  JavaMessageService = "JAVA_MESSAGE_SERVICE",
+  /** A Microsoft SQL Server Connection */
+  MicrosoftSqlServer = "MICROSOFT_SQLSERVER",
+  /** An OCI Object Storage Connection */
+  OciObjectStorage = "OCI_OBJECT_STORAGE",
+  /** An Oracle Database Connection */
+  Oracle = "ORACLE",
+  /** An Azure Data Lake Storage Connection */
+  AzureDataLakeStorage = "AZURE_DATA_LAKE_STORAGE",
+  /** A PostgreSQL Database Connection */
+  PostgreSql = "POSTGRESQL",
+  /** An Azure Synapse Analytics Connection */
+  AzureSynapseAnalytics = "AZURE_SYNAPSE_ANALYTICS",
+  /** A Snowflake Connection */
+  Snowflake = "SNOWFLAKE",
+  /** An Amazon S3 Connection */
+  AmazonS3 = "AMAZON_S3",
+  /** A Hadoop Distributed File System Connection */
+  Hdfs = "HDFS",
+  /** An Oracle NoSQL Connection */
+  OracleNoSQL = "ORACLE_NOSQL",
+  /** A MongoDB Connection */
+  MongoDbConnection = "MONGODB",
+  /** An Amazon Kinesis Connection */
+  AmazonKinesis = "AMAZON_KINESIS",
+  /** An Amazon Redshift Connection */
+  AmazonRedshift = "AMAZON_REDSHIFT",
+  /** A DB2 Connection */
+  Db2Connection = "DB2",
+  /** A Redis Database Connection */
+  Redis = "REDIS",
+  /** An Elasticsearch Connection */
+  Elasticsearch = "ELASTICSEARCH",
+  /** A Generic Connection */
+  Generic = "GENERIC",
+  /** A Google Cloud Storage Connection */
+  GoogleCloudStorage = "GOOGLE_CLOUD_STORAGE",
+  /** A Google BigQuery Connection */
+  GoogleBigQuery = "GOOGLE_BIGQUERY",
+  /** A Databricks Connection */
+  Databricks = "DATABRICKS",
+  /** A Google PubSub Connection */
+  GooglePubSub = "GOOGLE_PUBSUB",
+  /** A Microsoft Fabric Connection */
+  MicrosoftFabric = "MICROSOFT_FABRIC",
+  /** An Iceberg Connection */
+  Iceberg = "ICEBERG",
+}
+
+/**
+ * Known values for connection type. \
+ * {@link KnownConnectionType} can be used interchangeably with ConnectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GOLDENGATE**: A GoldenGate Connection \
+ * **KAFKA**: A Kafka Connection \
+ * **KAFKA_SCHEMA_REGISTRY**: A Kafka (e.g. Confluent) Schema Registry Connection \
+ * **MYSQL**: A MySQL Connection \
+ * **JAVA_MESSAGE_SERVICE**: A Java Message Service Connection \
+ * **MICROSOFT_SQLSERVER**: A Microsoft SQL Server Connection \
+ * **OCI_OBJECT_STORAGE**: An OCI Object Storage Connection \
+ * **ORACLE**: An Oracle Database Connection \
+ * **AZURE_DATA_LAKE_STORAGE**: An Azure Data Lake Storage Connection \
+ * **POSTGRESQL**: A PostgreSQL Database Connection \
+ * **AZURE_SYNAPSE_ANALYTICS**: An Azure Synapse Analytics Connection \
+ * **SNOWFLAKE**: A Snowflake Connection \
+ * **AMAZON_S3**: An Amazon S3 Connection \
+ * **HDFS**: A Hadoop Distributed File System Connection \
+ * **ORACLE_NOSQL**: An Oracle NoSQL Connection \
+ * **MONGODB**: A MongoDB Connection \
+ * **AMAZON_KINESIS**: An Amazon Kinesis Connection \
+ * **AMAZON_REDSHIFT**: An Amazon Redshift Connection \
+ * **DB2**: A DB2 Connection \
+ * **REDIS**: A Redis Database Connection \
+ * **ELASTICSEARCH**: An Elasticsearch Connection \
+ * **GENERIC**: A Generic Connection \
+ * **GOOGLE_CLOUD_STORAGE**: A Google Cloud Storage Connection \
+ * **GOOGLE_BIGQUERY**: A Google BigQuery Connection \
+ * **DATABRICKS**: A Databricks Connection \
+ * **GOOGLE_PUBSUB**: A Google PubSub Connection \
+ * **MICROSOFT_FABRIC**: A Microsoft Fabric Connection \
+ * **ICEBERG**: An Iceberg Connection
+ */
+export type ConnectionType = string;
+
+/** Allowed network traffic routing method. */
+export enum KnownRoutingMethod {
+  /** Indicates that traffic flows through the GoldenGate service network to public hosts. */
+  SharedServiceEndpoint = "SHARED_SERVICE_ENDPOINT",
+  /** Indicates that traffic flows from the assigned deployment's private endpoint through the deployment's subnet. */
+  SharedDeploymentEndpoint = "SHARED_DEPLOYMENT_ENDPOINT",
+  /** Indicates that a dedicated private endpoint is created in the target VCN subnet for the connection. */
+  DedicatedEndpoint = "DEDICATED_ENDPOINT",
+}
+
+/**
+ * Allowed network traffic routing method. \
+ * {@link KnownRoutingMethod} can be used interchangeably with RoutingMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SHARED_SERVICE_ENDPOINT**: Indicates that traffic flows through the GoldenGate service network to public hosts. \
+ * **SHARED_DEPLOYMENT_ENDPOINT**: Indicates that traffic flows from the assigned deployment's private endpoint through the deployment's subnet. \
+ * **DEDICATED_ENDPOINT**: Indicates that a dedicated private endpoint is created in the target VCN subnet for the connection.
+ */
+export type RoutingMethod = string;
+
+/** Possible lifecycle states for connection. */
+export enum KnownConnectionLifecycleState {
+  /** Indicates that the resource is in creating state. */
+  Creating = "CREATING",
+  /** Indicates that the resource is in updating state. */
+  Updating = "UPDATING",
+  /** Indicates that the resource is in active state. */
+  Active = "ACTIVE",
+  /** Indicates that the resource is in deleting state. */
+  Deleting = "DELETING",
+  /** Indicates that the resource is in deleted state. */
+  Deleted = "DELETED",
+  /** Indicates that the resource is in failed state. */
+  Failed = "FAILED",
+}
+
+/**
+ * Possible lifecycle states for connection. \
+ * {@link KnownConnectionLifecycleState} can be used interchangeably with ConnectionLifecycleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CREATING**: Indicates that the resource is in creating state. \
+ * **UPDATING**: Indicates that the resource is in updating state. \
+ * **ACTIVE**: Indicates that the resource is in active state. \
+ * **DELETING**: Indicates that the resource is in deleting state. \
+ * **DELETED**: Indicates that the resource is in deleted state. \
+ * **FAILED**: Indicates that the resource is in failed state.
+ */
+export type ConnectionLifecycleState = string;
+
+/** The metadata of a Kafka Connection. */
+export interface KafkaConnectionDetails extends ConnectionBaseProperties {
+  connectionType: "KAFKA";
+  /** The Kafka technology type. */
+  technologyType: KafkaConnectionTechnologyType;
+  /** The list of KafkaBootstrapServer objects specified by host/port. */
+  bootstrapServers?: KafkaBootstrapServer[];
+  /** The Kafka security protocol used to connect to the broker. */
+  securityProtocol?: string;
+  /** The username used to authenticate to Kafka. */
+  username?: string;
+  /** The OCID of the Secret where the password is stored. */
+  passwordSecretId?: string;
+  /** The OCID of the Secret where the truststore is stored. */
+  trustStoreSecretId?: string;
+  /** The OCID of the Secret where the truststore password is stored. */
+  trustStorePasswordSecretId?: string;
+  /** The OCID of the Secret where the keystore is stored. */
+  keyStoreSecretId?: string;
+  /** The OCID of the Secret where the keystore password is stored. */
+  keyStorePasswordSecretId?: string;
+  /** The OCID of the Secret where the SSL key password is stored. */
+  sslKeyPasswordSecretId?: string;
+  /** The additional consumer properties in string format. */
+  consumerProperties?: string;
+  /** The additional producer properties in string format. */
+  producerProperties?: string;
+  /** The OCID of the stream pool being referenced. */
+  streamPoolId?: string;
+  /** The OCID of the Kafka cluster being referenced. */
+  clusterId?: string;
+  /** Indicates if resource principal should be used for authentication. */
+  shouldUseResourcePrincipal?: boolean;
+}
+
+export function kafkaConnectionDetailsSerializer(item: KafkaConnectionDetails): any {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+    technologyType: item["technologyType"],
+    bootstrapServers: !item["bootstrapServers"]
+      ? item["bootstrapServers"]
+      : kafkaBootstrapServerArraySerializer(item["bootstrapServers"]),
+    securityProtocol: item["securityProtocol"],
+    username: item["username"],
+    passwordSecretId: item["passwordSecretId"],
+    trustStoreSecretId: item["trustStoreSecretId"],
+    trustStorePasswordSecretId: item["trustStorePasswordSecretId"],
+    keyStoreSecretId: item["keyStoreSecretId"],
+    keyStorePasswordSecretId: item["keyStorePasswordSecretId"],
+    sslKeyPasswordSecretId: item["sslKeyPasswordSecretId"],
+    consumerProperties: item["consumerProperties"],
+    producerProperties: item["producerProperties"],
+    streamPoolId: item["streamPoolId"],
+    clusterId: item["clusterId"],
+    shouldUseResourcePrincipal: item["shouldUseResourcePrincipal"],
+  };
+}
+
+export function kafkaConnectionDetailsDeserializer(item: any): KafkaConnectionDetails {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    compartmentId: item["compartmentId"],
+    ocid: item["ocid"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+    provisioningState: item["provisioningState"],
+    lifecycleState: item["lifecycleState"],
+    lifecycleDetails: item["lifecycleDetails"],
+    timeCreated: item["timeCreated"],
+    timeUpdated: item["timeUpdated"],
+    technologyType: item["technologyType"],
+    bootstrapServers: !item["bootstrapServers"]
+      ? item["bootstrapServers"]
+      : kafkaBootstrapServerArrayDeserializer(item["bootstrapServers"]),
+    securityProtocol: item["securityProtocol"],
+    username: item["username"],
+    passwordSecretId: item["passwordSecretId"],
+    trustStoreSecretId: item["trustStoreSecretId"],
+    trustStorePasswordSecretId: item["trustStorePasswordSecretId"],
+    keyStoreSecretId: item["keyStoreSecretId"],
+    keyStorePasswordSecretId: item["keyStorePasswordSecretId"],
+    sslKeyPasswordSecretId: item["sslKeyPasswordSecretId"],
+    consumerProperties: item["consumerProperties"],
+    producerProperties: item["producerProperties"],
+    streamPoolId: item["streamPoolId"],
+    clusterId: item["clusterId"],
+    shouldUseResourcePrincipal: item["shouldUseResourcePrincipal"],
+  };
+}
+
+/** Allowed values for Kafka technology type. */
+export enum KnownKafkaConnectionTechnologyType {
+  /** The Apache Kafka type. */
+  ApacheKafka = "APACHE_KAFKA",
+  /** The Azure Event Hubs type. */
+  AzureEventHubs = "AZURE_EVENT_HUBS",
+  /** The Confluent Kafka type. */
+  ConfluentKafka = "CONFLUENT_KAFKA",
+  /** The OCI Streaming type. */
+  OciStreaming = "OCI_STREAMING",
+}
+
+/**
+ * Allowed values for Kafka technology type. \
+ * {@link KnownKafkaConnectionTechnologyType} can be used interchangeably with KafkaConnectionTechnologyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **APACHE_KAFKA**: The Apache Kafka type. \
+ * **AZURE_EVENT_HUBS**: The Azure Event Hubs type. \
+ * **CONFLUENT_KAFKA**: The Confluent Kafka type. \
+ * **OCI_STREAMING**: The OCI Streaming type.
+ */
+export type KafkaConnectionTechnologyType = string;
+
+export function kafkaBootstrapServerArraySerializer(result: Array<KafkaBootstrapServer>): any[] {
+  return result.map((item) => {
+    return kafkaBootstrapServerSerializer(item);
+  });
+}
+
+export function kafkaBootstrapServerArrayDeserializer(result: Array<KafkaBootstrapServer>): any[] {
+  return result.map((item) => {
+    return kafkaBootstrapServerDeserializer(item);
+  });
+}
+
+/** The Kafka bootstrap server with host name, and an optional port. */
+export interface KafkaBootstrapServer {
+  /** The name or address of a host. */
+  host: string;
+  /** The port of an endpoint usually specified for a connection. */
+  port?: number;
+}
+
+export function kafkaBootstrapServerSerializer(item: KafkaBootstrapServer): any {
+  return { host: item["host"], port: item["port"] };
+}
+
+export function kafkaBootstrapServerDeserializer(item: any): KafkaBootstrapServer {
+  return {
+    host: item["host"],
+    port: item["port"],
+  };
+}
+
+/** The metadata of a Microsoft Fabric Connection. */
+export interface MicrosoftFabricConnectionDetails extends ConnectionBaseProperties {
+  connectionType: "MICROSOFT_FABRIC";
+  /** The Microsoft Fabric technology type. */
+  technologyType: MicrosoftFabricConnectionTechnologyType;
+  /** Azure tenant ID of the application. */
+  tenantId: string;
+  /** Azure client ID of the application. */
+  clientId: string;
+  /** The OCID of the Secret where the client secret is stored. */
+  clientSecretSecretId?: string;
+  /** The Microsoft Fabric service endpoint. */
+  endpoint?: string;
+}
+
+export function microsoftFabricConnectionDetailsSerializer(
+  item: MicrosoftFabricConnectionDetails,
+): any {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+    technologyType: item["technologyType"],
+    tenantId: item["tenantId"],
+    clientId: item["clientId"],
+    clientSecretSecretId: item["clientSecretSecretId"],
+    endpoint: item["endpoint"],
+  };
+}
+
+export function microsoftFabricConnectionDetailsDeserializer(
+  item: any,
+): MicrosoftFabricConnectionDetails {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    compartmentId: item["compartmentId"],
+    ocid: item["ocid"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+    provisioningState: item["provisioningState"],
+    lifecycleState: item["lifecycleState"],
+    lifecycleDetails: item["lifecycleDetails"],
+    timeCreated: item["timeCreated"],
+    timeUpdated: item["timeUpdated"],
+    technologyType: item["technologyType"],
+    tenantId: item["tenantId"],
+    clientId: item["clientId"],
+    clientSecretSecretId: item["clientSecretSecretId"],
+    endpoint: item["endpoint"],
+  };
+}
+
+/** Allowed values for Microsoft Fabric technology type. */
+export enum KnownMicrosoftFabricConnectionTechnologyType {
+  /** The Microsoft Fabric Lakehouse type. */
+  MicrosoftFabricLakehouse = "MICROSOFT_FABRIC_LAKEHOUSE",
+  /** The Microsoft Fabric Mirror type. */
+  MicrosoftFabricMirror = "MICROSOFT_FABRIC_MIRROR",
+}
+
+/**
+ * Allowed values for Microsoft Fabric technology type. \
+ * {@link KnownMicrosoftFabricConnectionTechnologyType} can be used interchangeably with MicrosoftFabricConnectionTechnologyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MICROSOFT_FABRIC_LAKEHOUSE**: The Microsoft Fabric Lakehouse type. \
+ * **MICROSOFT_FABRIC_MIRROR**: The Microsoft Fabric Mirror type.
+ */
+export type MicrosoftFabricConnectionTechnologyType = string;
+
+/** The metadata of an Oracle Database Connection. */
+export interface OracleConnectionDetails extends ConnectionBaseProperties {
+  connectionType: "ORACLE";
+  /** The Oracle technology type. */
+  technologyType: OracleConnectionTechnologyType;
+  /** The mode of the database connection session to be established by the data client. */
+  sessionMode?: SessionMode;
+  /** The username that is used to connect the associated system of the given technology. */
+  username: string;
+  /** The connection string used to connect the associated database. */
+  connectionString?: string;
+  /** The authentication mode used to connect the associated database. */
+  authenticationMode?: string;
+  /** The OCID of the Secret where the password is stored. */
+  passwordSecretId?: string;
+  /** The OCID of the Secret where the wallet is stored. */
+  walletSecretId?: string;
+  /** The OCID of the associated database. */
+  databaseId?: string;
+  /** The private IP of the associated database endpoint. */
+  privateIp?: string;
+}
+
+export function oracleConnectionDetailsSerializer(item: OracleConnectionDetails): any {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+    technologyType: item["technologyType"],
+    sessionMode: item["sessionMode"],
+    username: item["username"],
+    connectionString: item["connectionString"],
+    authenticationMode: item["authenticationMode"],
+    passwordSecretId: item["passwordSecretId"],
+    walletSecretId: item["walletSecretId"],
+    databaseId: item["databaseId"],
+    privateIp: item["privateIp"],
+  };
+}
+
+export function oracleConnectionDetailsDeserializer(item: any): OracleConnectionDetails {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    compartmentId: item["compartmentId"],
+    ocid: item["ocid"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+    provisioningState: item["provisioningState"],
+    lifecycleState: item["lifecycleState"],
+    lifecycleDetails: item["lifecycleDetails"],
+    timeCreated: item["timeCreated"],
+    timeUpdated: item["timeUpdated"],
+    technologyType: item["technologyType"],
+    sessionMode: item["sessionMode"],
+    username: item["username"],
+    connectionString: item["connectionString"],
+    authenticationMode: item["authenticationMode"],
+    passwordSecretId: item["passwordSecretId"],
+    walletSecretId: item["walletSecretId"],
+    databaseId: item["databaseId"],
+    privateIp: item["privateIp"],
+  };
+}
+
+/** Allowed values for Oracle technology type. */
+export enum KnownOracleConnectionTechnologyType {
+  /** Oracle databases hosted on Amazon RDS. */
+  AmazonRdsOracle = "AMAZON_RDS_ORACLE",
+  /** OCI Autonomous Database. */
+  OciAutonomousDatabase = "OCI_AUTONOMOUS_DATABASE",
+  /** On-premise Oracle database. */
+  OracleDatabase = "ORACLE_DATABASE",
+  /** On-premise Exadata database. */
+  OracleExadata = "ORACLE_EXADATA",
+  /** Exadata database on Azure. */
+  OracleExadataDatabaseAtAzure = "ORACLE_EXADATA_DATABASE_AT_AZURE",
+  /** Exadata database on GCP. */
+  OracleExadataDatabaseAtGoogleCloud = "ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD",
+  /** Exadata database on AWS. */
+  OracleExadataDatabaseAtAws = "ORACLE_EXADATA_DATABASE_AT_AWS",
+  /** Autonomous database on Azure. */
+  OracleAutonomousDatabaseAtAzure = "ORACLE_AUTONOMOUS_DATABASE_AT_AZURE",
+  /** Autonomous database on GCP. */
+  OracleAutonomousDatabaseAtGoogleCloud = "ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD",
+  /** Autonomous database on AWS. */
+  OracleAutonomousDatabaseAtAws = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS",
+}
+
+/**
+ * Allowed values for Oracle technology type. \
+ * {@link KnownOracleConnectionTechnologyType} can be used interchangeably with OracleConnectionTechnologyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AMAZON_RDS_ORACLE**: Oracle databases hosted on Amazon RDS. \
+ * **OCI_AUTONOMOUS_DATABASE**: OCI Autonomous Database. \
+ * **ORACLE_DATABASE**: On-premise Oracle database. \
+ * **ORACLE_EXADATA**: On-premise Exadata database. \
+ * **ORACLE_EXADATA_DATABASE_AT_AZURE**: Exadata database on Azure. \
+ * **ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD**: Exadata database on GCP. \
+ * **ORACLE_EXADATA_DATABASE_AT_AWS**: Exadata database on AWS. \
+ * **ORACLE_AUTONOMOUS_DATABASE_AT_AZURE**: Autonomous database on Azure. \
+ * **ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD**: Autonomous database on GCP. \
+ * **ORACLE_AUTONOMOUS_DATABASE_AT_AWS**: Autonomous database on AWS.
+ */
+export type OracleConnectionTechnologyType = string;
+
+/** Allowed modes for database connection session. */
+export enum KnownSessionMode {
+  /** For a non-RAC database. */
+  Direct = "DIRECT",
+  /** For a RAC database. */
+  Redirect = "REDIRECT",
+}
+
+/**
+ * Allowed modes for database connection session. \
+ * {@link KnownSessionMode} can be used interchangeably with SessionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DIRECT**: For a non-RAC database. \
+ * **REDIRECT**: For a RAC database.
+ */
+export type SessionMode = string;
+
+/** The type used for update operations of the GoldenGateConnection. */
+export interface GoldenGateConnectionUpdate {
+  /** The availability zones. */
+  zones?: string[];
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: GoldenGateConnectionUpdateProperties;
+}
+
+export function goldenGateConnectionUpdateSerializer(item: GoldenGateConnectionUpdate): any {
+  return {
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : goldenGateConnectionUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the GoldenGateConnection. */
+export interface GoldenGateConnectionUpdateProperties {
+  /** The connection type to be created. */
+  connectionType?: ConnectionType;
+  /** The connection display name. */
+  displayName?: string;
+  /** Controls the network traffic direction to the target. */
+  routingMethod?: RoutingMethod;
+  /** The customer's vault OCID. */
+  vaultId?: string;
+  /** The customer's master key OCID. */
+  keyId?: string;
+  /** Indicates whether secret OCIDs are used for credential fields. */
+  doesUseSecretIds?: boolean;
+}
+
+export function goldenGateConnectionUpdatePropertiesSerializer(
+  item: GoldenGateConnectionUpdateProperties,
+): any {
+  return {
+    connectionType: item["connectionType"],
+    displayName: item["displayName"],
+    routingMethod: item["routingMethod"],
+    vaultId: item["vaultId"],
+    keyId: item["keyId"],
+    doesUseSecretIds: item["doesUseSecretIds"],
+  };
+}
+
+/** The payload for assigning or unassigning a deployment on a connection. */
+export interface AssignUnassignDeployment {
+  /** The Azure resource ID of the deployment to assign or unassign. */
+  deploymentId: string;
+}
+
+export function assignUnassignDeploymentSerializer(item: AssignUnassignDeployment): any {
+  return { deploymentId: item["deploymentId"] };
+}
+
+/** Assigned Deployment resource belonging to GoldenGate Connection. */
+export interface AssignedDeployment extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DeploymentConnectionAssignmentProperties;
+}
+
+export function assignedDeploymentDeserializer(item: any): AssignedDeployment {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : deploymentConnectionAssignmentPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Deployment-connection assignment properties. */
+export interface DeploymentConnectionAssignmentProperties {
+  /** The OCID of the connection being referenced. */
+  readonly connectionId: string;
+  /** The OCID of the deployment being referenced. */
+  readonly deploymentId: string;
+  /** The OCID of the compartment being referenced. */
+  readonly compartmentId?: string;
+  /** The deployment name. */
+  readonly deploymentName?: string;
+  /** The connection name. */
+  readonly connectionName?: string;
+  /** The OCID of the assignment being referenced. */
+  readonly ocid?: string;
+  /** The assignment lifecycle state. */
+  readonly lifecycleState?: GoldenGateConnectionAssignmentLifecycleState;
+  /** The time the assignment was created. */
+  readonly timeCreated?: string;
+  /** The time the assignment was last updated. */
+  readonly timeUpdated?: string;
+  /** The assignment alias name. */
+  readonly aliasName?: string;
+  /** Deployment-connection assignment provisioning state. */
+  readonly provisioningState?: AzureResourceProvisioningState;
+}
+
+export function deploymentConnectionAssignmentPropertiesDeserializer(
+  item: any,
+): DeploymentConnectionAssignmentProperties {
+  return {
+    connectionId: item["connectionId"],
+    deploymentId: item["deploymentId"],
+    compartmentId: item["compartmentId"],
+    deploymentName: item["deploymentName"],
+    connectionName: item["connectionName"],
+    ocid: item["ocid"],
+    lifecycleState: item["lifecycleState"],
+    timeCreated: item["timeCreated"],
+    timeUpdated: item["timeUpdated"],
+    aliasName: item["aliasName"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Possible lifecycle states for connection assignments */
+export enum KnownGoldenGateConnectionAssignmentLifecycleState {
+  /** Indicates that the resource is in creating state */
+  Creating = "CREATING",
+  /** Indicates that the resource is in active state */
+  Active = "ACTIVE",
+  /** Indicates that the resource is in failed state */
+  Failed = "FAILED",
+  /** Indicates that the resource is in updating state */
+  Updating = "UPDATING",
+  /** Indicates that the resource is in deleting state */
+  Deleting = "DELETING",
+  /** Indicates that the resource is in deleted state */
+  Deleted = "DELETED",
+}
+
+/**
+ * Possible lifecycle states for connection assignments \
+ * {@link KnownGoldenGateConnectionAssignmentLifecycleState} can be used interchangeably with GoldenGateConnectionAssignmentLifecycleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CREATING**: Indicates that the resource is in creating state \
+ * **ACTIVE**: Indicates that the resource is in active state \
+ * **FAILED**: Indicates that the resource is in failed state \
+ * **UPDATING**: Indicates that the resource is in updating state \
+ * **DELETING**: Indicates that the resource is in deleting state \
+ * **DELETED**: Indicates that the resource is in deleted state
+ */
+export type GoldenGateConnectionAssignmentLifecycleState = string;
+
+/** The response of a AssignedDeployment list operation. */
+export interface _AssignedDeploymentListResult {
+  /** The AssignedDeployment items on this page */
+  value: AssignedDeployment[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _assignedDeploymentListResultDeserializer(
+  item: any,
+): _AssignedDeploymentListResult {
+  return {
+    value: assignedDeploymentArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function assignedDeploymentArrayDeserializer(result: Array<AssignedDeployment>): any[] {
+  return result.map((item) => {
+    return assignedDeploymentDeserializer(item);
+  });
+}
+
+/** The response of a GoldenGateDeployment list operation. */
+export interface _GoldenGateDeploymentListResult {
+  /** The GoldenGateDeployment items on this page */
+  value: GoldenGateDeployment[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _goldenGateDeploymentListResultDeserializer(
+  item: any,
+): _GoldenGateDeploymentListResult {
+  return {
+    value: goldenGateDeploymentArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function goldenGateDeploymentArraySerializer(result: Array<GoldenGateDeployment>): any[] {
+  return result.map((item) => {
+    return goldenGateDeploymentSerializer(item);
+  });
+}
+
+export function goldenGateDeploymentArrayDeserializer(result: Array<GoldenGateDeployment>): any[] {
+  return result.map((item) => {
+    return goldenGateDeploymentDeserializer(item);
+  });
+}
+
+/** GoldenGate Deployment resource definition. */
+export interface GoldenGateDeployment extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DeploymentProperties;
+  /** The availability zones. */
+  zones?: string[];
+}
+
+export function goldenGateDeploymentSerializer(item: GoldenGateDeployment): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : deploymentPropertiesSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function goldenGateDeploymentDeserializer(item: any): GoldenGateDeployment {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : deploymentPropertiesDeserializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** GoldenGate Deployment resource model. */
+export interface DeploymentProperties {
+  /** Backup schedule. */
+  backupSchedule?: BackupScheduleType;
+  /** OCI compartment. */
+  readonly compartment?: string;
+  /** The OCID of the deployment being referenced. */
+  readonly ocid?: string;
+  /** The minimum number of OCPUs to be made available for this deployment. */
+  cpuCoreCount?: number;
+  /** Display name. */
+  displayName: string;
+  /** The deployment category. */
+  category?: CategoryType;
+  /** The type of deployment. */
+  deploymentType?: DeploymentType;
+  /** HTTPS link to OCI resource exposed to Azure Customer via Azure Interface. */
+  readonly deploymentUrl?: string;
+  /** Environment type. */
+  environmentType?: SetupType;
+  /** Indicates if auto scaling is enabled for the deployment's CPU core count. */
+  isAutoScalingEnabled?: boolean;
+  /** Connection IP address. */
+  readonly ingressIps?: string[];
+  /** True if this object is publicly available. */
+  isPublic?: boolean;
+  /** The Oracle license model that applies to a Deployment. */
+  licenseModel?: LicenseModel;
+  /** Describes the object's current state in detail. */
+  readonly lifecycleDetails?: string;
+  /** Possible lifecycle states. */
+  readonly lifecycleState?: DeploymentLifecycleState;
+  /** The date time the resource was created in OCI. */
+  readonly timeCreated?: string;
+  /** The date time the resource was last updated in OCI. */
+  readonly timeUpdated?: string;
+  /** Maintenance configuration. */
+  maintenanceConfiguration?: MaintenanceConfigurationType;
+  /** Maintenance window. */
+  maintenanceWindow?: MaintenanceWindowType;
+  /** Azure network anchor ID. */
+  networkAnchorId: string;
+  /** Deployment data for creating an OGG deployment. */
+  oggData?: OggDeploymentDetails;
+  /** The private IP address of VCN representing the access point for the associated endpoint service in the GoldenGate service VCN */
+  readonly privateIpAddress?: string;
+  /** Deployment provisioning state. */
+  readonly provisioningState?: AzureResourceProvisioningState;
+  /** Corresponding Azure resource anchor ID. */
+  resourceAnchorId: string;
+  /** Storage utilization in bytes. */
+  readonly storageUtilizationInBytes?: number;
+  /** The time zone of the deployment, for example, UTC. */
+  timeZone?: string;
+  /** The current version. */
+  version?: string;
+}
+
+export function deploymentPropertiesSerializer(item: DeploymentProperties): any {
+  return {
+    backupSchedule: !item["backupSchedule"]
+      ? item["backupSchedule"]
+      : backupScheduleTypeSerializer(item["backupSchedule"]),
+    cpuCoreCount: item["cpuCoreCount"],
+    displayName: item["displayName"],
+    category: item["category"],
+    deploymentType: item["deploymentType"],
+    environmentType: item["environmentType"],
+    isAutoScalingEnabled: item["isAutoScalingEnabled"],
+    isPublic: item["isPublic"],
+    licenseModel: item["licenseModel"],
+    maintenanceConfiguration: !item["maintenanceConfiguration"]
+      ? item["maintenanceConfiguration"]
+      : maintenanceConfigurationTypeSerializer(item["maintenanceConfiguration"]),
+    maintenanceWindow: !item["maintenanceWindow"]
+      ? item["maintenanceWindow"]
+      : maintenanceWindowTypeSerializer(item["maintenanceWindow"]),
+    networkAnchorId: item["networkAnchorId"],
+    oggData: !item["oggData"] ? item["oggData"] : oggDeploymentDetailsSerializer(item["oggData"]),
+    resourceAnchorId: item["resourceAnchorId"],
+    timeZone: item["timeZone"],
+    version: item["version"],
+  };
+}
+
+export function deploymentPropertiesDeserializer(item: any): DeploymentProperties {
+  return {
+    backupSchedule: !item["backupSchedule"]
+      ? item["backupSchedule"]
+      : backupScheduleTypeDeserializer(item["backupSchedule"]),
+    compartment: item["compartment"],
+    ocid: item["ocid"],
+    cpuCoreCount: item["cpuCoreCount"],
+    displayName: item["displayName"],
+    category: item["category"],
+    deploymentType: item["deploymentType"],
+    deploymentUrl: item["deploymentUrl"],
+    environmentType: item["environmentType"],
+    isAutoScalingEnabled: item["isAutoScalingEnabled"],
+    ingressIps: !item["ingressIps"]
+      ? item["ingressIps"]
+      : item["ingressIps"].map((p: any) => {
+          return p;
+        }),
+    isPublic: item["isPublic"],
+    licenseModel: item["licenseModel"],
+    lifecycleDetails: item["lifecycleDetails"],
+    lifecycleState: item["lifecycleState"],
+    timeCreated: item["timeCreated"],
+    timeUpdated: item["timeUpdated"],
+    maintenanceConfiguration: !item["maintenanceConfiguration"]
+      ? item["maintenanceConfiguration"]
+      : maintenanceConfigurationTypeDeserializer(item["maintenanceConfiguration"]),
+    maintenanceWindow: !item["maintenanceWindow"]
+      ? item["maintenanceWindow"]
+      : maintenanceWindowTypeDeserializer(item["maintenanceWindow"]),
+    networkAnchorId: item["networkAnchorId"],
+    oggData: !item["oggData"] ? item["oggData"] : oggDeploymentDetailsDeserializer(item["oggData"]),
+    privateIpAddress: item["privateIpAddress"],
+    provisioningState: item["provisioningState"],
+    resourceAnchorId: item["resourceAnchorId"],
+    storageUtilizationInBytes: item["storageUtilizationInBytes"],
+    timeZone: item["timeZone"],
+    version: item["version"],
+  };
+}
+
+/** Backup schedule type. */
+export interface BackupScheduleType {
+  /** Bucket name. */
+  bucketName?: string;
+  /** Compartment ID. */
+  compartmentId?: string;
+  /** Backup schedule frequency. */
+  frequencyBackupScheduled?: FrequencyType;
+  /** Indicates whether the backup contains metadata only. */
+  isMetadataOnly?: boolean;
+  /** Namespace. */
+  namespaceName?: string;
+  /** Scheduled backup time. */
+  timeBackupScheduled?: string;
+}
+
+export function backupScheduleTypeSerializer(item: BackupScheduleType): any {
+  return {
+    bucketName: item["bucketName"],
+    compartmentId: item["compartmentId"],
+    frequencyBackupScheduled: item["frequencyBackupScheduled"],
+    isMetadataOnly: item["isMetadataOnly"],
+    namespaceName: item["namespaceName"],
+    timeBackupScheduled: item["timeBackupScheduled"],
+  };
+}
+
+export function backupScheduleTypeDeserializer(item: any): BackupScheduleType {
+  return {
+    bucketName: item["bucketName"],
+    compartmentId: item["compartmentId"],
+    frequencyBackupScheduled: item["frequencyBackupScheduled"],
+    isMetadataOnly: item["isMetadataOnly"],
+    namespaceName: item["namespaceName"],
+    timeBackupScheduled: item["timeBackupScheduled"],
+  };
+}
+
+/** Frequency type enum. */
+export enum KnownFrequencyType {
+  /** The daily frequency. */
+  Daily = "Daily",
+  /** The weekly frequency. */
+  Weekly = "Weekly",
+  /** The monthly frequency. */
+  Monthly = "Monthly",
+}
+
+/**
+ * Frequency type enum. \
+ * {@link KnownFrequencyType} can be used interchangeably with FrequencyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Daily**: The daily frequency. \
+ * **Weekly**: The weekly frequency. \
+ * **Monthly**: The monthly frequency.
+ */
+export type FrequencyType = string;
+
+/** Category. */
+export enum KnownCategoryType {
+  /** Data replication. */
+  DataReplication = "DataReplication",
+  /** Stream analytics. */
+  StreamAnalytics = "StreamAnalytics",
+  /** Data transforms. */
+  DataTransforms = "DataTransforms",
+}
+
+/**
+ * Category. \
+ * {@link KnownCategoryType} can be used interchangeably with CategoryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DataReplication**: Data replication. \
+ * **StreamAnalytics**: Stream analytics. \
+ * **DataTransforms**: Data transforms.
+ */
+export type CategoryType = string;
+
+/** Deployment type enum. */
+export enum KnownDeploymentType {
+  /** The OGG deployment. */
+  Ogg = "Ogg",
+  /** The Oracle database deployment. */
+  DatabaseOracle = "DatabaseOracle",
+  /** The big data deployment. */
+  BigData = "BigData",
+  /** The Microsoft SQL Server database deployment. */
+  DatabaseMicrosoftSqlServer = "DatabaseMicrosoftSQLServer",
+  /** The MySQL database deployment. */
+  DatabaseMySql = "DatabaseMySQL",
+  /** The PostgreSQL database deployment. */
+  DatabasePostGreSql = "DatabasePostGreSQL",
+  /** The DB2 z/OS database deployment. */
+  DatabaseDB2ZOS = "DatabaseDB2ZOS",
+  /** The DB2 i database deployment. */
+  DatabaseDB2I = "DATABASE_DB2I",
+  /** The GGSA deployment. */
+  Ggsa = "GGSA",
+  /** The data transforms deployment. */
+  DataTransforms = "DataTransforms",
+}
+
+/**
+ * Deployment type enum. \
+ * {@link KnownDeploymentType} can be used interchangeably with DeploymentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ogg**: The OGG deployment. \
+ * **DatabaseOracle**: The Oracle database deployment. \
+ * **BigData**: The big data deployment. \
+ * **DatabaseMicrosoftSQLServer**: The Microsoft SQL Server database deployment. \
+ * **DatabaseMySQL**: The MySQL database deployment. \
+ * **DatabasePostGreSQL**: The PostgreSQL database deployment. \
+ * **DatabaseDB2ZOS**: The DB2 z\/OS database deployment. \
+ * **DATABASE_DB2I**: The DB2 i database deployment. \
+ * **GGSA**: The GGSA deployment. \
+ * **DataTransforms**: The data transforms deployment.
+ */
+export type DeploymentType = string;
+
+/** Setup type enum. */
+export enum KnownSetupType {
+  /** Production setup. */
+  Production = "Production",
+  /** Development or testing setup. */
+  DevelopmentOrTesting = "DevelopmentOrTesting",
+}
+
+/**
+ * Setup type enum. \
+ * {@link KnownSetupType} can be used interchangeably with SetupType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Production**: Production setup. \
+ * **DevelopmentOrTesting**: Development or testing setup.
+ */
+export type SetupType = string;
+
+/** Deployment lifecycle state enum. */
+export enum KnownDeploymentLifecycleState {
+  /** Indicates that the resource is in creating state. */
+  Creating = "Creating",
+  /** Indicates that the resource is in updating state. */
+  Updating = "Updating",
+  /** Indicates that the resource is in active state. */
+  Active = "Active",
+  /** Indicates that the resource is in inactive state. */
+  InActive = "InActive",
+  /** Indicates that the resource is in deleting state. */
+  Deleting = "Deleting",
+  /** Indicates that the resource is in deleted state. */
+  Deleted = "Deleted",
+  /** Indicates that the resource is in failed state. */
+  Failed = "Failed",
+  /** Indicates that the resource is in needs-attention state. */
+  NeedsAttention = "Needs Attention",
+  /** Indicates that the resource is in in-progress state. */
+  InProgress = "In Progress",
+  /** Indicates that the resource is in canceling state. */
+  Canceling = "Canceling",
+  /** Indicates that the resource is in canceled state. */
+  Canceled = "Canceled",
+  /** Indicates that the resource is in succeeded state. */
+  Succeeded = "Succeeded",
+  /** Indicates that the resource is in waiting state. */
+  Waiting = "Waiting",
+}
+
+/**
+ * Deployment lifecycle state enum. \
+ * {@link KnownDeploymentLifecycleState} can be used interchangeably with DeploymentLifecycleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating**: Indicates that the resource is in creating state. \
+ * **Updating**: Indicates that the resource is in updating state. \
+ * **Active**: Indicates that the resource is in active state. \
+ * **InActive**: Indicates that the resource is in inactive state. \
+ * **Deleting**: Indicates that the resource is in deleting state. \
+ * **Deleted**: Indicates that the resource is in deleted state. \
+ * **Failed**: Indicates that the resource is in failed state. \
+ * **Needs Attention**: Indicates that the resource is in needs-attention state. \
+ * **In Progress**: Indicates that the resource is in in-progress state. \
+ * **Canceling**: Indicates that the resource is in canceling state. \
+ * **Canceled**: Indicates that the resource is in canceled state. \
+ * **Succeeded**: Indicates that the resource is in succeeded state. \
+ * **Waiting**: Indicates that the resource is in waiting state.
+ */
+export type DeploymentLifecycleState = string;
+
+/** Maintenance configuration type. */
+export interface MaintenanceConfigurationType {
+  /** Bundle release period. */
+  bundleReleaseUpgradePeriodInDays?: number;
+  /** Interim release upgrade period in days. */
+  interimReleaseUpgradePeriodInDays?: number;
+  /** Indicates whether interim release auto-upgrade is enabled. */
+  isInterimReleaseAutoUpgradeEnabled?: boolean;
+  /** Major release upgrade period in days. */
+  majorReleaseUpgradePeriodInDays?: number;
+  /** Security patch upgrade period in days. */
+  securityPatchUpgradePeriodInDays?: number;
+}
+
+export function maintenanceConfigurationTypeSerializer(item: MaintenanceConfigurationType): any {
+  return {
+    bundleReleaseUpgradePeriodInDays: item["bundleReleaseUpgradePeriodInDays"],
+    interimReleaseUpgradePeriodInDays: item["interimReleaseUpgradePeriodInDays"],
+    isInterimReleaseAutoUpgradeEnabled: item["isInterimReleaseAutoUpgradeEnabled"],
+    majorReleaseUpgradePeriodInDays: item["majorReleaseUpgradePeriodInDays"],
+    securityPatchUpgradePeriodInDays: item["securityPatchUpgradePeriodInDays"],
+  };
+}
+
+export function maintenanceConfigurationTypeDeserializer(item: any): MaintenanceConfigurationType {
+  return {
+    bundleReleaseUpgradePeriodInDays: item["bundleReleaseUpgradePeriodInDays"],
+    interimReleaseUpgradePeriodInDays: item["interimReleaseUpgradePeriodInDays"],
+    isInterimReleaseAutoUpgradeEnabled: item["isInterimReleaseAutoUpgradeEnabled"],
+    majorReleaseUpgradePeriodInDays: item["majorReleaseUpgradePeriodInDays"],
+    securityPatchUpgradePeriodInDays: item["securityPatchUpgradePeriodInDays"],
+  };
+}
+
+/** Maintenance window. */
+export interface MaintenanceWindowType {
+  /** The day of week. */
+  day?: DayOfWeekName;
+  /** Start time in UTC. */
+  startHour?: number;
+}
+
+export function maintenanceWindowTypeSerializer(item: MaintenanceWindowType): any {
+  return { day: item["day"], startHour: item["startHour"] };
+}
+
+export function maintenanceWindowTypeDeserializer(item: any): MaintenanceWindowType {
+  return {
+    day: item["day"],
+    startHour: item["startHour"],
+  };
+}
+
+/** OGG deployment details. */
+export interface OggDeploymentDetails {
+  /** The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as '$', '^', or '?' are not allowed. */
+  adminPassword?: string;
+  /** The GoldenGate deployment console username. */
+  adminUsername?: string;
+  /** The base64 encoded content of the PEM file containing the SSL certificate. */
+  certificate?: string;
+  /** The type of credential store for OGG. */
+  credentialStore?: CredentialType;
+  /** The name given to the GoldenGate service deployment. */
+  deploymentName: string;
+  /** Defines the IDP Groups to GoldenGate roles mapping. */
+  groupToRolesMapping?: GroupToRolesMappingDetails;
+  /** OGG version. */
+  oggVersion?: string;
+  /** The OCID of the Secret where the deployment password is stored. */
+  passwordSecretId?: string;
+}
+
+export function oggDeploymentDetailsSerializer(item: OggDeploymentDetails): any {
+  return {
+    adminPassword: item["adminPassword"],
+    adminUsername: item["adminUsername"],
+    certificate: item["certificate"],
+    credentialStore: item["credentialStore"],
+    deploymentName: item["deploymentName"],
+    groupToRolesMapping: !item["groupToRolesMapping"]
+      ? item["groupToRolesMapping"]
+      : groupToRolesMappingDetailsSerializer(item["groupToRolesMapping"]),
+    oggVersion: item["oggVersion"],
+    passwordSecretId: item["passwordSecretId"],
+  };
+}
+
+export function oggDeploymentDetailsDeserializer(item: any): OggDeploymentDetails {
+  return {
+    adminPassword: item["adminPassword"],
+    adminUsername: item["adminUsername"],
+    certificate: item["certificate"],
+    credentialStore: item["credentialStore"],
+    deploymentName: item["deploymentName"],
+    groupToRolesMapping: !item["groupToRolesMapping"]
+      ? item["groupToRolesMapping"]
+      : groupToRolesMappingDetailsDeserializer(item["groupToRolesMapping"]),
+    oggVersion: item["oggVersion"],
+    passwordSecretId: item["passwordSecretId"],
+  };
+}
+
+/** Credential type. */
+export enum KnownCredentialType {
+  /** The GoldenGate credential. */
+  GoldenGate = "GoldenGate",
+  /** The IAM credential. */
+  Iam = "IAM",
+}
+
+/**
+ * Credential type. \
+ * {@link KnownCredentialType} can be used interchangeably with CredentialType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GoldenGate**: The GoldenGate credential. \
+ * **IAM**: The IAM credential.
+ */
+export type CredentialType = string;
+
+/** Group-to-roles mapping properties. */
+export interface GroupToRolesMappingDetails {
+  /** The OCID of the IDP group which will be mapped to goldengate role administratorGroup.It grants full access to the user, including the ability to alter general, non-security related operational parameters and profiles of the server. */
+  administratorGroupId?: string;
+  /** The OCID of the IDP group which will be mapped to goldengate role operatorGroup.It allows users to perform only operational actions, like starting and stopping resources. Operators cannot alter the operational parameters or profiles of the MA server. */
+  operatorGroupId?: string;
+  /** The OCID of the IDP group which will be mapped to goldengate role securityGroup.It grants administration of security related objects and invoke security related service requests. This role has full privileges. */
+  securityGroupId?: string;
+  /** The OCID of the IDP group which will be mapped to goldengate role userGroup. It allows information-only service requests, which do not alter or affect the operation of either the MA. Examples of query and read-only information include performance metric information and resource status and monitoring information */
+  userGroupId?: string;
+  /** The OCID of the Identity Domain when IAM credential store is used. */
+  identityDomainId?: string;
+  /** The base64 encoded content of the PEM file containing the private key. */
+  key?: string;
+}
+
+export function groupToRolesMappingDetailsSerializer(item: GroupToRolesMappingDetails): any {
+  return {
+    administratorGroupId: item["administratorGroupId"],
+    operatorGroupId: item["operatorGroupId"],
+    securityGroupId: item["securityGroupId"],
+    userGroupId: item["userGroupId"],
+    identityDomainId: item["identityDomainId"],
+    key: item["key"],
+  };
+}
+
+export function groupToRolesMappingDetailsDeserializer(item: any): GroupToRolesMappingDetails {
+  return {
+    administratorGroupId: item["administratorGroupId"],
+    operatorGroupId: item["operatorGroupId"],
+    securityGroupId: item["securityGroupId"],
+    userGroupId: item["userGroupId"],
+    identityDomainId: item["identityDomainId"],
+    key: item["key"],
+  };
+}
+
+/** The type used for update operations of the GoldenGateDeployment. */
+export interface GoldenGateDeploymentUpdate {
+  /** The availability zones. */
+  zones?: string[];
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: GoldenGateDeploymentUpdateProperties;
+}
+
+export function goldenGateDeploymentUpdateSerializer(item: GoldenGateDeploymentUpdate): any {
+  return {
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : goldenGateDeploymentUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the GoldenGateDeployment. */
+export interface GoldenGateDeploymentUpdateProperties {
+  /** Backup schedule. */
+  backupSchedule?: BackupScheduleType;
+  /** The minimum number of OCPUs to be made available for this deployment. */
+  cpuCoreCount?: number;
+  /** The Oracle license model that applies to a Deployment. */
+  licenseModel?: LicenseModel;
+  /** Maintenance configuration. */
+  maintenanceConfiguration?: MaintenanceConfigurationType;
+  /** Maintenance window. */
+  maintenanceWindow?: MaintenanceWindowType;
+}
+
+export function goldenGateDeploymentUpdatePropertiesSerializer(
+  item: GoldenGateDeploymentUpdateProperties,
+): any {
+  return {
+    backupSchedule: !item["backupSchedule"]
+      ? item["backupSchedule"]
+      : backupScheduleTypeSerializer(item["backupSchedule"]),
+    cpuCoreCount: item["cpuCoreCount"],
+    licenseModel: item["licenseModel"],
+    maintenanceConfiguration: !item["maintenanceConfiguration"]
+      ? item["maintenanceConfiguration"]
+      : maintenanceConfigurationTypeSerializer(item["maintenanceConfiguration"]),
+    maintenanceWindow: !item["maintenanceWindow"]
+      ? item["maintenanceWindow"]
+      : maintenanceWindowTypeSerializer(item["maintenanceWindow"]),
+  };
+}
+
+/** The payload for assigning or unassigning a connection on a deployment. */
+export interface AssignUnassignConnection {
+  /** The Azure resource ID of the connection to assign or unassign. */
+  connectionId: string;
+}
+
+export function assignUnassignConnectionSerializer(item: AssignUnassignConnection): any {
+  return { connectionId: item["connectionId"] };
+}
+
+/** Assigned Connection resource belonging to GoldenGate Deployment. */
+export interface AssignedConnection extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DeploymentConnectionAssignmentProperties;
+}
+
+export function assignedConnectionDeserializer(item: any): AssignedConnection {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : deploymentConnectionAssignmentPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The response of a AssignedConnection list operation. */
+export interface _AssignedConnectionListResult {
+  /** The AssignedConnection items on this page */
+  value: AssignedConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _assignedConnectionListResultDeserializer(
+  item: any,
+): _AssignedConnectionListResult {
+  return {
+    value: assignedConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function assignedConnectionArrayDeserializer(result: Array<AssignedConnection>): any[] {
+  return result.map((item) => {
+    return assignedConnectionDeserializer(item);
+  });
+}
+
 /** Allowed values for System Shapes */
 export enum KnownSystemShapes {
   /** Exadata X9M shape */
   ExadataX9M = "Exadata.X9M",
   /** Exadata X11M shape */
   ExadataX11M = "Exadata.X11M",
+  /** Exadata X11M shape */
+  ExadataX11MV = "Exadata.X11MV",
   /** Exadata DB on Exascale Infrastructure shape */
   ExaDbXs = "ExaDbXS",
 }
@@ -7707,6 +9649,7 @@ export enum KnownSystemShapes {
  * ### Known values supported by the service
  * **Exadata.X9M**: Exadata X9M shape \
  * **Exadata.X11M**: Exadata X11M shape \
+ * **Exadata.X11MV**: Exadata X11M shape \
  * **ExaDbXS**: Exadata DB on Exascale Infrastructure shape
  */
 export type SystemShapes = string;
@@ -7729,10 +9672,30 @@ export enum KnownShapeFamily {
  */
 export type ShapeFamily = string;
 
+/** Allowed values for GI minor version sort order. */
+export enum KnownGiMinorVersionSortOrder {
+  /** Ascending sort order. */
+  Asc = "ASC",
+  /** Descending sort order. */
+  Desc = "DESC",
+}
+
+/**
+ * Allowed values for GI minor version sort order. \
+ * {@link KnownGiMinorVersionSortOrder} can be used interchangeably with GiMinorVersionSortOrder,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ASC**: Ascending sort order. \
+ * **DESC**: Descending sort order.
+ */
+export type GiMinorVersionSortOrder = string;
+
 /** Allowed values for BaseDb System Shapes */
 export enum KnownBaseDbSystemShapes {
   /** Vm Standard X86 */
   VMStandardX86 = "VM.Standard.x86",
+  /** Vm Standard X86 */
+  VMBaseDBX86 = "VM.BaseDB.x86",
 }
 
 /**
@@ -7740,7 +9703,8 @@ export enum KnownBaseDbSystemShapes {
  * {@link KnownBaseDbSystemShapes} can be used interchangeably with BaseDbSystemShapes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **VM.Standard.x86**: Vm Standard X86
+ * **VM.Standard.x86**: Vm Standard X86 \
+ * **VM.BaseDB.x86**: Vm Standard X86
  */
 export type BaseDbSystemShapes = string;
 
@@ -7772,34 +9736,14 @@ export type ShapeFamilyType = string;
 export enum KnownVersions {
   /** 2023-09-01 */
   V20230901 = "2023-09-01",
-  /** 2024-06-01-preview */
-  V20240601Preview = "2024-06-01-preview",
   /** 2024-06-01 */
   V20240601 = "2024-06-01",
-  /** 2024-08-01-preview */
-  V20240801Preview = "2024-08-01-preview",
-  /** 2024-10-01-preview */
-  V20241001Preview = "2024-10-01-preview",
-  /** 2024-12-01-preview */
-  V20241201Preview = "2024-12-01-preview",
-  /** 2025-01-01-preview */
-  V20250101Preview = "2025-01-01-preview",
   /** 2025-03-01 */
   V20250301 = "2025-03-01",
-  /** 2025-04-01-preview */
-  V20250401Preview = "2025-04-01-preview",
-  /** 2025-06-01-preview */
-  V20250601Preview = "2025-06-01-preview",
-  /** 2025-07-01-preview */
-  V20250701Preview = "2025-07-01-preview",
-  /** 2025-08-01-preview */
-  V20250801Preview = "2025-08-01-preview",
-  /** 2025-08-15-preview */
-  V20250815Preview = "2025-08-15-preview",
   /** 2025-09-01 */
   V20250901 = "2025-09-01",
-  /** 2025-11-01-preview */
-  V20251101Preview = "2025-11-01-preview",
+  /** 2026-06-01 */
+  V20260601 = "2026-06-01",
 }
 
 export function privateIpAddressPropertiesArrayDeserializer(

@@ -50,7 +50,7 @@ export function _addAzureSubscriptionsSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/addAzureSubscriptions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -90,7 +90,7 @@ export function addAzureSubscriptions(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _addAzureSubscriptionsSend(context, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -102,7 +102,7 @@ export function _listActivationLinksSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listActivationLinks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +140,7 @@ export function listActivationLinks(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _listActivationLinksSend(context, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<ActivationLinks>, ActivationLinks>;
 }
 
@@ -152,7 +152,7 @@ export function _listSaasSubscriptionDetailsSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listSaasSubscriptionDetails{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +194,7 @@ export function listSaasSubscriptionDetails(
       abortSignal: options?.abortSignal,
       getInitialResponse: () => _listSaasSubscriptionDetailsSend(context, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<SaasSubscriptionDetails>, SaasSubscriptionDetails>;
 }
@@ -207,7 +207,7 @@ export function _listCloudAccountDetailsSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listCloudAccountDetails{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +245,7 @@ export function listCloudAccountDetails(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _listCloudAccountDetailsSend(context, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails>;
 }
 
@@ -257,7 +257,7 @@ export function _$deleteSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -290,7 +290,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -303,7 +303,7 @@ export function _updateSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -344,7 +344,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
 }
 
@@ -356,7 +356,7 @@ export function _getSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -400,7 +400,7 @@ export function _createOrUpdateSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -441,7 +441,7 @@ export function createOrUpdate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateSend(context, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
 }
 
@@ -453,7 +453,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -491,10 +491,6 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

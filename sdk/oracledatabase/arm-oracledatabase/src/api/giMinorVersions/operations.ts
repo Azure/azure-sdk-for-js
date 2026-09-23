@@ -32,7 +32,7 @@ export function _getSend(
       location: location,
       giversionname: giversionname,
       giMinorVersionName: giMinorVersionName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -77,14 +77,17 @@ export function _listByParentSend(
   options: GiMinorVersionsListByParentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions/{giversionname}/giMinorVersions{?api%2Dversion,shapeFamily,zone}",
+    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions/{giversionname}/giMinorVersions{?api%2Dversion,shapeFamily,zone,shape,isGiVersionForProvisioning,sortOrder}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
       giversionname: giversionname,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       shapeFamily: options?.shapeFamily,
       zone: options?.zone,
+      shape: options?.shape,
+      isGiVersionForProvisioning: options?.isGiVersionForProvisioning,
+      sortOrder: options?.sortOrder,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,10 +127,6 @@ export function listByParent(
     () => _listByParentSend(context, location, giversionname, options),
     _listByParentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

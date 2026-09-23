@@ -6,6 +6,10 @@
   "include": [
     "../src/index.ts",
     "../src/api/index.ts",
+    "../src/api/goldenGateDeployments/index.ts",
+    "../src/api/goldenGateConnections/index.ts",
+    "../src/api/databaseSystemShapeResources/index.ts",
+    "../src/api/databaseEditions/index.ts",
     "../src/api/dbVersions/index.ts",
     "../src/api/dbSystems/index.ts",
     "../src/api/resourceAnchors/index.ts",

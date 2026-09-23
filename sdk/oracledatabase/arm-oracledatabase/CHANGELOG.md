@@ -1,21 +1,177 @@
 # Release History
 
-## 3.1.0 (2026-08-27)
+## 4.0.0 (2026-09-23)
 
 ### Features Added
+  - Added operation group DatabaseEditionsOperations
+  - Added operation group DatabaseSystemShapeResourcesOperations
+  - Added operation group GoldenGateConnectionsOperations
+  - Added operation group GoldenGateDeploymentsOperations
+  - Added Interface AssignedConnection
+  - Added Interface AssignedDeployment
+  - Added Interface AssignUnassignConnection
+  - Added Interface AssignUnassignDeployment
+  - Added Interface BackupScheduleType
+  - Added Interface ConnectionBaseProperties
+  - Added Interface DatabaseEdition
+  - Added Interface DatabaseEditionProperties
+  - Added Interface DatabaseEditionsGetOptionalParams
+  - Added Interface DatabaseEditionsListByLocationOptionalParams
+  - Added Interface DatabaseSystemShape
+  - Added Interface DatabaseSystemShapeProperties
+  - Added Interface DatabaseSystemShapeResourcesGetOptionalParams
+  - Added Interface DatabaseSystemShapeResourcesListByLocationOptionalParams
+  - Added Interface DeploymentConnectionAssignmentProperties
+  - Added Interface DeploymentProperties
+  - Added Interface GoldenGateConnection
+  - Added Interface GoldenGateConnectionsAssignDeploymentOptionalParams
+  - Added Interface GoldenGateConnectionsCreateOrUpdateOptionalParams
+  - Added Interface GoldenGateConnectionsDeleteOptionalParams
+  - Added Interface GoldenGateConnectionsGetAssignedDeploymentOptionalParams
+  - Added Interface GoldenGateConnectionsGetOptionalParams
+  - Added Interface GoldenGateConnectionsListAssignedDeploymentsByParentOptionalParams
+  - Added Interface GoldenGateConnectionsListByResourceGroupOptionalParams
+  - Added Interface GoldenGateConnectionsListBySubscriptionOptionalParams
+  - Added Interface GoldenGateConnectionsUnassignDeploymentOptionalParams
+  - Added Interface GoldenGateConnectionsUpdateOptionalParams
+  - Added Interface GoldenGateConnectionUpdate
+  - Added Interface GoldenGateConnectionUpdateProperties
+  - Added Interface GoldenGateDeployment
+  - Added Interface GoldenGateDeploymentsAssignConnectionOptionalParams
+  - Added Interface GoldenGateDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface GoldenGateDeploymentsDeleteOptionalParams
+  - Added Interface GoldenGateDeploymentsGetAssignedConnectionOptionalParams
+  - Added Interface GoldenGateDeploymentsGetOptionalParams
+  - Added Interface GoldenGateDeploymentsListAssignedConnectionsByParentOptionalParams
+  - Added Interface GoldenGateDeploymentsListByResourceGroupOptionalParams
+  - Added Interface GoldenGateDeploymentsListBySubscriptionOptionalParams
+  - Added Interface GoldenGateDeploymentsUnassignConnectionOptionalParams
+  - Added Interface GoldenGateDeploymentsUpdateOptionalParams
+  - Added Interface GoldenGateDeploymentUpdate
+  - Added Interface GoldenGateDeploymentUpdateProperties
+  - Added Interface GroupToRolesMappingDetails
+  - Added Interface KafkaBootstrapServer
+  - Added Interface KafkaConnectionDetails
+  - Added Interface MaintenanceConfigurationType
+  - Added Interface MaintenanceWindowType
+  - Added Interface MicrosoftFabricConnectionDetails
+  - Added Interface OggDeploymentDetails
+  - Added Interface OracleConnectionDetails
+  - Added Interface ProximityPlacementGroup
+  - Interface AutonomousDatabaseBackupProperties has a new optional parameter backupDestination
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter backupDestination
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter isScheduleAzUpdateToEarliest
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter networkAnchorId
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter resourceAnchorId
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter timeScheduledAzUpdate
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter zone
+  - Interface AutonomousDatabaseCloneProperties has a new optional parameter backupDestination
+  - Interface AutonomousDatabaseCloneProperties has a new optional parameter isScheduleAzUpdateToEarliest
+  - Interface AutonomousDatabaseCloneProperties has a new optional parameter networkAnchorId
+  - Interface AutonomousDatabaseCloneProperties has a new optional parameter resourceAnchorId
+  - Interface AutonomousDatabaseCloneProperties has a new optional parameter timeScheduledAzUpdate
+  - Interface AutonomousDatabaseCloneProperties has a new optional parameter zone
+  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties has a new optional parameter backupDestination
+  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties has a new optional parameter isScheduleAzUpdateToEarliest
+  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties has a new optional parameter networkAnchorId
+  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties has a new optional parameter resourceAnchorId
+  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties has a new optional parameter timeScheduledAzUpdate
+  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties has a new optional parameter zone
+  - Interface AutonomousDatabaseFromBackupTimestampProperties has a new optional parameter backupDestination
+  - Interface AutonomousDatabaseFromBackupTimestampProperties has a new optional parameter isScheduleAzUpdateToEarliest
+  - Interface AutonomousDatabaseFromBackupTimestampProperties has a new optional parameter networkAnchorId
+  - Interface AutonomousDatabaseFromBackupTimestampProperties has a new optional parameter resourceAnchorId
+  - Interface AutonomousDatabaseFromBackupTimestampProperties has a new optional parameter timeScheduledAzUpdate
+  - Interface AutonomousDatabaseFromBackupTimestampProperties has a new optional parameter zone
+  - Interface AutonomousDatabaseProperties has a new optional parameter backupDestination
+  - Interface AutonomousDatabaseProperties has a new optional parameter isScheduleAzUpdateToEarliest
+  - Interface AutonomousDatabaseProperties has a new optional parameter networkAnchorId
+  - Interface AutonomousDatabaseProperties has a new optional parameter resourceAnchorId
+  - Interface AutonomousDatabaseProperties has a new optional parameter timeScheduledAzUpdate
+  - Interface AutonomousDatabaseProperties has a new optional parameter zone
+  - Interface CloudExadataInfrastructureProperties has a new optional parameter proximityPlacementGroup
+  - Interface CloudExadataInfrastructureProperties has a new optional parameter resourceAnchorId
+  - Interface CloudVmClusterProperties has a new optional parameter isAcceleratedNetworkEnabled
+  - Interface CloudVmClusterProperties has a new optional parameter networkAnchorId
+  - Interface CloudVmClusterProperties has a new optional parameter proximityPlacementGroup
+  - Interface CloudVmClusterProperties has a new optional parameter recoStoragePercentage
+  - Interface CloudVmClusterProperties has a new optional parameter resourceAnchorId
+  - Interface CloudVmClusterProperties has a new optional parameter scanDnsNameV2
+  - Interface CloudVmClusterProperties has a new optional parameter sparseStoragePercentage
+  - Interface CloudVmClusterUpdateProperties has a new optional parameter isAcceleratedNetworkEnabled
+  - Interface DbSystemBaseProperties has a new optional parameter characterSet
   - Interface DbSystemBaseProperties has a new optional parameter dataCollectionOptions
+  - Interface DbSystemBaseProperties has a new optional parameter ncharacterSet
+  - Interface DbSystemProperties has a new optional parameter characterSet
   - Interface DbSystemProperties has a new optional parameter dataCollectionOptions
-  - Enum KnownVersions has a new value V20240601Preview
-  - Enum KnownVersions has a new value V20240801Preview
-  - Enum KnownVersions has a new value V20241001Preview
-  - Enum KnownVersions has a new value V20241201Preview
-  - Enum KnownVersions has a new value V20250101Preview
-  - Enum KnownVersions has a new value V20250401Preview
-  - Enum KnownVersions has a new value V20250601Preview
-  - Enum KnownVersions has a new value V20250701Preview
-  - Enum KnownVersions has a new value V20250801Preview
-  - Enum KnownVersions has a new value V20250815Preview
-  - Enum KnownVersions has a new value V20251101Preview
+  - Interface DbSystemProperties has a new optional parameter ncharacterSet
+  - Interface ExadbVmClusterProperties has a new optional parameter scanDnsNameV2
+  - Interface ExascaleDbStorageVaultProperties has a new optional parameter autoscaleLimitInGbs
+  - Interface ExascaleDbStorageVaultProperties has a new optional parameter isAutoscaleEnabled
+  - Interface GiMinorVersionsListByParentOptionalParams has a new optional parameter isGiVersionForProvisioning
+  - Interface GiMinorVersionsListByParentOptionalParams has a new optional parameter shape
+  - Interface GiMinorVersionsListByParentOptionalParams has a new optional parameter sortOrder
+  - Interface NetworkAnchorProperties has a new optional parameter proximityPlacementGroup
+  - Added Type Alias BackupDestinationType
+  - Added Type Alias CategoryType
+  - Added Type Alias ConnectionBasePropertiesUnion
+  - Added Type Alias ConnectionLifecycleState
+  - Added Type Alias ConnectionType
+  - Added Type Alias CredentialType
+  - Added Type Alias DeploymentLifecycleState
+  - Added Type Alias DeploymentType
+  - Added Type Alias FrequencyType
+  - Added Type Alias GiMinorVersionSortOrder
+  - Added Type Alias GoldenGateConnectionAssignmentLifecycleState
+  - Added Type Alias KafkaConnectionTechnologyType
+  - Added Type Alias MicrosoftFabricConnectionTechnologyType
+  - Added Type Alias OracleConnectionTechnologyType
+  - Added Type Alias ProximityPlacementGroupEntityType
+  - Added Type Alias RoutingMethod
+  - Added Type Alias SessionMode
+  - Added Type Alias SetupType
+  - Added Enum KnownBackupDestinationType
+  - Added Enum KnownCategoryType
+  - Added Enum KnownConnectionLifecycleState
+  - Added Enum KnownConnectionType
+  - Added Enum KnownCredentialType
+  - Added Enum KnownDeploymentLifecycleState
+  - Added Enum KnownDeploymentType
+  - Added Enum KnownFrequencyType
+  - Added Enum KnownGiMinorVersionSortOrder
+  - Added Enum KnownGoldenGateConnectionAssignmentLifecycleState
+  - Added Enum KnownKafkaConnectionTechnologyType
+  - Added Enum KnownMicrosoftFabricConnectionTechnologyType
+  - Added Enum KnownOracleConnectionTechnologyType
+  - Added Enum KnownProximityPlacementGroupEntityType
+  - Added Enum KnownRoutingMethod
+  - Added Enum KnownSessionMode
+  - Added Enum KnownSetupType
+  - Enum KnownBaseDbSystemShapes has a new value VMBaseDBX86
+  - Enum KnownSystemShapes has a new value ExadataX11MV
+  - Enum KnownVersions has a new value V20260601
+  - Enum KnownWorkloadType has a new value LH
+
+### Breaking Changes
+  - Operation CloudVmClustersOperations.addVms has a new signature
+  - Operation CloudVmClustersOperations.createOrUpdate has a new signature
+  - Operation CloudVmClustersOperations.get has a new signature
+  - Operation CloudVmClustersOperations.listByResourceGroup has a new signature
+  - Operation CloudVmClustersOperations.listBySubscription has a new signature
+  - Operation CloudVmClustersOperations.removeVms has a new signature
+  - Operation CloudVmClustersOperations.update has a new signature
+  - Operation ExadbVmClustersOperations.createOrUpdate has a new signature
+  - Operation ExadbVmClustersOperations.get has a new signature
+  - Operation ExadbVmClustersOperations.listByResourceGroup has a new signature
+  - Operation ExadbVmClustersOperations.listBySubscription has a new signature
+  - Operation ExadbVmClustersOperations.removeVms has a new signature
+  - Operation ExadbVmClustersOperations.update has a new signature
+  - Interface CloudVmClusterProperties has a new required parameter hostnameV2
+  - Interface ExadbVmClusterProperties has a new required parameter hostnameV2
+  - Interface CloudVmClusterProperties no longer has parameter hostname
+  - Interface CloudVmClusterProperties no longer has parameter scanDnsName
+  - Interface ExadbVmClusterProperties no longer has parameter hostname
+  - Interface ExadbVmClusterProperties no longer has parameter scanDnsName
 
 ## 3.0.0 (2025-09-25)
 

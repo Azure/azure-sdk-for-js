@@ -3,9 +3,23 @@
 
 import type { OracleDatabaseManagementClient } from "./oracleDatabaseManagementClient.js";
 import {
+  _unassignConnectionDeserialize,
+  _assignConnectionDeserialize,
   _$deleteDeserialize,
   _updateDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/goldenGateDeployments/operations.js";
+import {
+  _unassignDeploymentDeserialize,
+  _assignDeploymentDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeGoldenGateConnections,
+  _updateDeserialize as _updateDeserializeGoldenGateConnections,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeGoldenGateConnections,
+} from "./api/goldenGateConnections/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeDbSystems,
+  _updateDeserialize as _updateDeserializeDbSystems,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeDbSystems,
 } from "./api/dbSystems/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeResourceAnchors,
@@ -143,12 +157,41 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateDeployments/{goldenGateDeploymentName}/unassignConnection":
+    { deserializer: _unassignConnectionDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateDeployments/{goldenGateDeploymentName}/assignConnection":
+    { deserializer: _assignConnectionDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateDeployments/{goldenGateDeploymentName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateDeployments/{goldenGateDeploymentName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateDeployments/{goldenGateDeploymentName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateConnections/{goldenGateConnectionName}/unassignDeployment":
+    { deserializer: _unassignDeploymentDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateConnections/{goldenGateConnectionName}/assignDeployment":
+    { deserializer: _assignDeploymentDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateConnections/{goldenGateConnectionName}":
+    {
+      deserializer: _$deleteDeserializeGoldenGateConnections,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateConnections/{goldenGateConnectionName}":
+    {
+      deserializer: _updateDeserializeGoldenGateConnections,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/goldenGateConnections/{goldenGateConnectionName}":
+    {
+      deserializer: _createOrUpdateDeserializeGoldenGateConnections,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
+    { deserializer: _$deleteDeserializeDbSystems, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
+    { deserializer: _updateDeserializeDbSystems, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/dbSystems/{dbSystemName}":
+    { deserializer: _createOrUpdateDeserializeDbSystems, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/resourceAnchors/{resourceAnchorName}":
     { deserializer: _$deleteDeserializeResourceAnchors, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/resourceAnchors/{resourceAnchorName}":
