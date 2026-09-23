@@ -97,7 +97,7 @@ async function requireReviewerPermission(github, context, actor, reviewerId) {
   }
 }
 
-async function getIntakeRun(github, context, runId) {
+async function getIntakeRun({ github, context, core }, runId) {
   const { data: run } = await github.rest.actions.getWorkflowRun({
     ...context.repo,
     run_id: positiveInteger(runId, "request_run_id"),
@@ -119,6 +119,24 @@ async function getIntakeRun(github, context, runId) {
   }
   commitSha(run.head_sha);
   positiveInteger(run.head_repository?.id, "head repository ID");
+  const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRunAttempt, {
+    ...context.repo,
+    run_id: run.id,
+    attempt_number: positiveInteger(run.run_attempt, "run attempt"),
+    per_page: 100,
+  });
+  const requestJobs = jobs.filter((job) => job.name === "request");
+  if (requestJobs.length !== 1 || requestJobs[0].status !== "completed") {
+    throw new Error("The intake request job must complete successfully before requesting reviews.");
+  }
+  // An unrelated label can skip the only job while the workflow still succeeds.
+  if (requestJobs[0].conclusion === "skipped") {
+    core.info(`Skipping intake run ${run.id}: its request job was skipped.`);
+    return undefined;
+  }
+  if (requestJobs[0].conclusion !== "success") {
+    throw new Error("The intake request job must complete successfully before requesting reviews.");
+  }
   return run;
 }
 
@@ -133,6 +151,29 @@ function matchesRun(pr, run, repositoryId) {
     pr.head.repo?.id === run.head_repository.id &&
     pr.head.sha === run.head_sha
   );
+}
+
+async function getReviewTarget(github, context, run) {
+  // Fork runs can have an empty pull_requests array. Resolve via the GitHub API.
+  const associatedPRs = await github.paginate(
+    github.rest.repos.listPullRequestsAssociatedWithCommit,
+    {
+      ...context.repo,
+      commit_sha: run.head_sha,
+      per_page: 100,
+    },
+  );
+  const candidates = associatedPRs.filter(
+    (pr) =>
+      matchesRun(pr, run, context.payload.repository.id) &&
+      Object.values(reviewers).some((reviewer) => hasLabel(pr, reviewer.label)),
+  );
+  if (candidates.length > 1) {
+    throw new Error(
+      "Multiple PRs match this commit and carry review labels; use a manual reviewer dispatch.",
+    );
+  }
+  return candidates[0];
 }
 
 async function getCurrentPullRequest({ github, context, core }, number, headSha, headRepositoryId) {
@@ -163,26 +204,19 @@ async function routeReviewRequest({ github, context, core }) {
   if (context.eventName !== "workflow_run") {
     throw new Error("The review router requires a workflow_run event.");
   }
-  const run = await getIntakeRun(github, context, context.payload.workflow_run.id);
+  const run = await getIntakeRun({ github, context, core }, context.payload.workflow_run.id);
+  if (!run) return;
   // A rerun must not promote an unauthorized original actor's request.
   const allowed = await getAuthorizedReviewers(github, context, run.actor);
-  // Fork runs can have an empty pull_requests array. Resolve via the GitHub API.
-  const associatedPRs = await github.paginate(
-    github.rest.repos.listPullRequestsAssociatedWithCommit,
-    {
-      ...context.repo,
-      commit_sha: run.head_sha,
-      per_page: 100,
-    },
-  );
-  const candidates = associatedPRs.filter((pr) =>
-    matchesRun(pr, run, context.payload.repository.id),
-  );
+  const target = await getReviewTarget(github, context, run);
+  if (!target) {
+    core.info("No current PR carries a review request for this commit; nothing to dispatch.");
+    return;
+  }
 
   const results = await Promise.allSettled(
     Object.entries(reviewers).map(async ([reviewerId, reviewer]) => {
-      const requested = candidates.filter((pr) => hasLabel(pr, reviewer.label));
-      if (requested.length === 0) {
+      if (!hasLabel(target, reviewer.label)) {
         core.info(`No current PR requests ${reviewer.label}; nothing to dispatch.`);
         return;
       }
@@ -192,14 +226,9 @@ async function routeReviewRequest({ github, context, core }) {
         );
         return;
       }
-      if (requested.length > 1) {
-        throw new Error(
-          `Multiple PRs match this commit and ${reviewer.label}; use a manual reviewer dispatch.`,
-        );
-      }
       const pr = await getCurrentPullRequest(
         { github, context, core },
-        requested[0].number,
+        target.number,
         run.head_sha,
         run.head_repository.id,
       );
@@ -247,7 +276,8 @@ async function prepareReview({ github, context, core }, reviewerId) {
     );
   }
   if (inputs.request_run_id) {
-    run = await getIntakeRun(github, context, inputs.request_run_id);
+    run = await getIntakeRun({ github, context, core }, inputs.request_run_id);
+    if (!run) return undefined;
     await requireReviewerPermission(github, context, run.actor, reviewerId);
     if (headSha !== run.head_sha) {
       throw new Error("The dispatched head SHA does not match the intake run.");
@@ -266,6 +296,12 @@ async function prepareReview({ github, context, core }, reviewerId) {
   if (run && !requested) {
     core.info(`Skipping PR #${number}: ${reviewer.label} was removed or already consumed.`);
     return undefined;
+  }
+  if (run) {
+    const target = await getReviewTarget(github, context, run);
+    if (!target || target.number !== number) {
+      throw new Error("The dispatched PR does not match the intake's uniquely resolved target.");
+    }
   }
   headSha = pr.head.sha;
   // Preserve the request if adding the in-progress label fails.

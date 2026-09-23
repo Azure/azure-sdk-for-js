@@ -64,13 +64,18 @@ The router resolves the PR using GitHub's run metadata and commit-to-PR API,
 including for fork PRs whose run metadata has an empty `pull_requests` array.
 It does not download artifacts or execute PR code. It verifies the originating
 workflow, repository, requester, current head SHA, and requested labels before
-dispatching the matching reviewer workflows on the default branch. Labels are
+dispatching the matching reviewer workflows on the default branch. The intake's
+`request` job must succeed in the current run attempt; a successful workflow
+conclusion with a skipped request job does not activate reviews. If multiple
+current PRs share the commit and carry review labels, routing stops before any
+dispatch and requires an explicit manual review instead. Labels are
 mapped to fixed workflow names in `eng/tools/pr-review/review-request.cjs`, not
 to workflow names supplied by the PR. A failed dispatch is reported without
 preventing dispatch of the other requested reviewers.
 
-Each reviewer revalidates the request and consumes its request label when
-starting, replacing it with its in-progress label. For example, Archie replaces
+Each reviewer revalidates automatic requests against the same unique PR target.
+When starting, it consumes its request label and replaces it with its in-progress
+label. For example, Archie replaces
 `architecture-review-needed` with `architecture-review-in-progress`. Runs for the
 same reviewer and PR are serialized, while different reviewers run independently.
 Duplicate automatic requests skip once their label has been consumed. Review

@@ -37,6 +37,7 @@ function fixture(reviewerId = "archie") {
     },
     run: {
       id: 100,
+      run_attempt: 1,
       workflow_id: 10,
       event: "pull_request",
       status: "completed",
@@ -48,6 +49,9 @@ function fixture(reviewerId = "archie") {
       triggering_actor: { login: "maintainer", type: "User" },
       pull_requests: [],
     },
+    jobsByAttempt: {
+      1: [{ name: "request", status: "completed", conclusion: "success" }],
+    },
     pr: {
       number: 42,
       state: "open",
@@ -56,7 +60,15 @@ function fixture(reviewerId = "archie") {
       labels: [{ name: `${reviewFlows[reviewerId]}-review-needed` }],
     },
     roles: { maintainer: "write", outsider: "read" },
-    calls: { dispatches: [], additions: [], removals: [], actors: [], messages: [], errors: [] },
+    calls: {
+      dispatches: [],
+      additions: [],
+      removals: [],
+      actors: [],
+      jobAttempts: [],
+      messages: [],
+      errors: [],
+    },
   };
   state.associatedPRs = [structuredClone(state.pr)];
   state.core = {
@@ -74,6 +86,11 @@ function fixture(reviewerId = "archie") {
           assert.equal(workflow_id, "pr-review-intake.yml");
           return { data: { id: 10 } };
         },
+        listJobsForWorkflowRunAttempt: async ({ run_id, attempt_number }) => {
+          assert.equal(run_id, 100);
+          state.calls.jobAttempts.push(attempt_number);
+          return { data: { jobs: state.jobsByAttempt[attempt_number] ?? [] } };
+        },
         createWorkflowDispatch: async (request) => state.calls.dispatches.push(request),
       },
       repos: {
@@ -88,8 +105,12 @@ function fixture(reviewerId = "archie") {
       },
       pulls: {
         get: async ({ pull_number }) => {
-          assert.equal(pull_number, 42);
-          return { data: state.pr };
+          const pr =
+            pull_number === state.pr.number
+              ? state.pr
+              : state.associatedPRs.find((candidate) => candidate.number === pull_number);
+          assert.ok(pr, `No fixture PR #${pull_number}`);
+          return { data: pr };
         },
       },
       issues: {
@@ -103,7 +124,10 @@ function fixture(reviewerId = "archie") {
         },
       },
     },
-    paginate: async (method, parameters) => (await method(parameters)).data,
+    paginate: async (method, parameters) => {
+      const { data } = await method(parameters);
+      return Array.isArray(data) ? data : data.jobs;
+    },
   };
   return state;
 }
@@ -161,6 +185,73 @@ for (const [name, change] of [
     change(state);
     await assert.rejects(routeReviewRequest(state), /successful PR Review Intake run/);
     assert.equal(state.calls.dispatches.length, 0);
+  });
+}
+
+for (const entryPoint of ["router", "reviewer"]) {
+  const makeFixture = () => (entryPoint === "router" ? fixture() : dispatchFixture());
+  const run = (state) =>
+    entryPoint === "router" ? routeReviewRequest(state) : prepareReview(state, "archie");
+
+  test(`${entryPoint} ignores a skipped intake job despite a successful workflow conclusion`, async () => {
+    const state = makeFixture();
+    state.jobsByAttempt[1][0].conclusion = "skipped";
+    assert.equal(await run(state), undefined);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+    assert.deepEqual(state.pr.labels, [{ name: label }]);
+    assert.ok(state.calls.messages.some((message) => message.includes("request job was skipped")));
+  });
+
+  for (const [name, jobs] of [
+    ["a missing request job", []],
+    [
+      "only an unrelated successful job",
+      [{ name: "other", status: "completed", conclusion: "success" }],
+    ],
+    ["a failed request job", [{ name: "request", status: "completed", conclusion: "failure" }]],
+    ["an unfinished request job", [{ name: "request", status: "in_progress", conclusion: null }]],
+    [
+      "duplicate request jobs",
+      [
+        { name: "request", status: "completed", conclusion: "success" },
+        { name: "request", status: "completed", conclusion: "skipped" },
+      ],
+    ],
+  ]) {
+    test(`${entryPoint} rejects ${name}`, async () => {
+      const state = makeFixture();
+      state.jobsByAttempt[1] = jobs;
+      await assert.rejects(run(state), /intake request job must complete successfully/);
+      assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+    });
+  }
+
+  test(`${entryPoint} checks the current run attempt instead of reusing an earlier success`, async () => {
+    const state = makeFixture();
+    state.run.run_attempt = 2;
+    state.jobsByAttempt[2] = [{ name: "request", status: "completed", conclusion: "skipped" }];
+    assert.equal(await run(state), undefined);
+    assert.deepEqual(state.calls.jobAttempts, [2]);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
+  });
+
+  test(`${entryPoint} accepts a successful current attempt after an earlier skipped attempt`, async () => {
+    const state = makeFixture();
+    state.run.run_attempt = 2;
+    state.jobsByAttempt[1][0].conclusion = "skipped";
+    state.jobsByAttempt[2] = [{ name: "request", status: "completed", conclusion: "success" }];
+    await run(state);
+    assert.deepEqual(state.calls.jobAttempts, [2]);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 1);
+  });
+
+  test(`${entryPoint} surfaces failures to read the intake job status`, async () => {
+    const state = makeFixture();
+    state.github.rest.actions.listJobsForWorkflowRunAttempt = async () => {
+      throw new Error("Jobs API unavailable");
+    };
+    await assert.rejects(run(state), /Jobs API unavailable/);
+    assert.equal(state.calls.dispatches.length + state.calls.additions.length, 0);
   });
 }
 
@@ -345,6 +436,67 @@ test("refuses to choose between multiple labeled PRs for the same head", async (
   state.associatedPRs.push(secondPR);
   await assert.rejects(routeReviewRequest(state), /Multiple PRs match/);
   assert.equal(state.calls.dispatches.length, 0);
+});
+
+test("rejects different reviewer labels on different PRs before dispatching any reviewer", async () => {
+  const state = fixture();
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: "test-review-needed" }];
+  state.associatedPRs.push(secondPR);
+  await assert.rejects(routeReviewRequest(state), /Multiple PRs match/);
+  assert.equal(state.calls.dispatches.length, 0);
+});
+
+test("does not resolve PR ambiguity by filtering to the requester's allowed reviewers", async () => {
+  const state = fixture("mgmt-review");
+  state.run.actor = automationBot;
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: label }];
+  state.associatedPRs.push(secondPR);
+  await assert.rejects(routeReviewRequest(state), /Multiple PRs match/);
+  assert.equal(state.calls.dispatches.length, 0);
+});
+
+test("ignores unlabeled commit associations when resolving a unique review target", async () => {
+  const state = fixture();
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: "customer-reported" }];
+  state.associatedPRs.push(secondPR);
+  await routeReviewRequest(state);
+  assert.equal(state.calls.dispatches.length, 1);
+  assert.equal(state.calls.dispatches[0].inputs.item_number, "42");
+});
+
+test("the reviewer independently rejects cross-PR ambiguity before claiming a label", async () => {
+  const state = dispatchFixture();
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: "test-review-needed" }];
+  state.associatedPRs.push(secondPR);
+  await assert.rejects(prepareReview(state, "archie"), /Multiple PRs match/);
+  assert.equal(state.calls.additions.length + state.calls.removals.length, 0);
+});
+
+test("an automatic dispatch cannot choose a PR other than the resolved intake target", async () => {
+  const state = dispatchFixture();
+  state.associatedPRs[0].number = 43;
+  await assert.rejects(
+    prepareReview(state, "archie"),
+    /does not match the intake's uniquely resolved target/,
+  );
+  assert.equal(state.calls.additions.length + state.calls.removals.length, 0);
+});
+
+test("manual dispatch can explicitly select a PR when commit associations are ambiguous", async () => {
+  const state = dispatchFixture(false);
+  const secondPR = structuredClone(state.pr);
+  secondPR.number = 43;
+  secondPR.labels = [{ name: "test-review-needed" }];
+  state.associatedPRs.push(secondPR);
+  assert.deepEqual(await prepareReview(state, "archie"), { number: 42, headSha });
 });
 
 for (const [name, change] of [
